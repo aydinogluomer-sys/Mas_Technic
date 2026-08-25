@@ -1,0 +1,1 @@
+src/pages/MalzemeKategori.tsx:17:export const MalzemeKategori = () => {

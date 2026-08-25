@@ -1,0 +1,121 @@
+{
+  "$schema": "Mas Technic Motion Tokens — GSAP + Framer Motion + Lenis değerleri",
+  "$updated": "2026-05-12",
+
+  "duration": {
+    "instant": "0s",
+    "fast":    "0.2s",
+    "base":    "0.6s",
+    "slow":    "1.0s",
+    "slower":  "1.4s",
+    "cinematic": "2.0s",
+    "note": "fast=micro-interaction, base=standard reveal, slower=Lenis lerp target"
+  },
+
+  "easing": {
+    "industrial":  "cubic-bezier(0.76, 0, 0.24, 1)",
+    "smooth":      "cubic-bezier(0.43, 0.13, 0.23, 0.96)",
+    "snappy":      "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+    "expo-out":    "cubic-bezier(0.19, 1, 0.22, 1)",
+    "spring":      { "stiffness": 120, "damping": 18, "note": "Framer Motion spring config" },
+    "spring-card": { "stiffness": 300, "damping": 30, "note": "IndustryStackCard tilt" },
+    "lenis-expo":  "(t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))",
+    "note": "industrial = default GSAP ease, smooth = page transitions, lenis-expo = Phase 2 tuning"
+  },
+
+  "stagger": {
+    "char":    "0.035s",
+    "word":    "0.08s",
+    "element": "0.12s",
+    "section": "0.2s",
+    "grid":    "0.05s",
+    "note": "char/word = HeadlineStagger, element = card reveals, grid = sequence reveals"
+  },
+
+  "lenis": {
+    "current": {
+      "lerp":            0.08,
+      "duration":        1.4,
+      "smoothWheel":     true,
+      "wheelMultiplier": 0.8,
+      "touchMultiplier": 1.5
+    },
+    "phase2-target": {
+      "lerp":            0.065,
+      "duration":        1.4,
+      "smoothWheel":     true,
+      "wheelMultiplier": 0.75,
+      "easing":          "lenis-expo (exponential ease)",
+      "note": "Phase 2'de uygulanacak — biraz daha snappy awwwards feel"
+    },
+    "mobile": "disabled (<768px) — native scroll + snap"
+  },
+
+  "scroll": {
+    "scrub": {
+      "smooth": 1,
+      "snap":   true,
+      "note": "scrub:1 = smooth tie, scrub:true = frame-perfect snap"
+    },
+    "hero-phases": {
+      "phase1": "0-45% — MAS mask grow, content fade",
+      "phase2": "45-60% — PAUSE, section locked fullscreen",
+      "phase3": "60-88% — horizontal slide reveal",
+      "phase4": "88-100% — lava pour + heat distortion"
+    },
+    "velocity-cursor-scale": {
+      "slow":   1.0,
+      "normal": 1.2,
+      "fast":   1.5,
+      "note": "Phase 4 — cursor scale reactive to scroll velocity"
+    }
+  },
+
+  "reveal": {
+    "clip-path": {
+      "from": "inset(0 100% 0 0)",
+      "to":   "inset(0)",
+      "duration": "0.9s",
+      "easing":   "cubic-bezier(0.76, 0, 0.24, 1)",
+      "note": "useClipReveal hook"
+    },
+    "fade-up": {
+      "y":       "24px → 0",
+      "opacity": "0 → 1",
+      "duration": "0.6s"
+    },
+    "scale-in": {
+      "scale":   "0.92 → 1",
+      "opacity": "0 → 1",
+      "duration": "0.5s"
+    }
+  },
+
+  "pageTransition": {
+    "current": {
+      "exit-duration":  "0.6s",
+      "enter-duration": "0.6s",
+      "type":           "clip-path polygon"
+    },
+    "phase4-target": {
+      "exit-duration":  "0.4s",
+      "enter-duration": "0.6s",
+      "standard-color": "forge-teal",
+      "cta-color":      "forge-molten"
+    }
+  },
+
+  "css-animations": {
+    "aurora":           { "duration": "60s", "timing": "linear", "iteration": "infinite" },
+    "marquee-scroll":   { "duration": "28s", "note": "MarqueeBand forward" },
+    "marquee-reverse":  { "duration": "22s", "note": "MarqueeBand reverse" },
+    "fireText":         { "duration": "2s",  "note": "Molten → amber color cycle" },
+    "rotate-text":      { "duration": "∞",   "note": "Character cycling" }
+  },
+
+  "reduced-motion": {
+    "rule": "prefers-reduced-motion: reduce → instant state, no animation",
+    "hook": "src/hooks/use-reduced-motion.ts — usePrefersReducedMotion()",
+    "gsap": "if (prefersReduced) return; — her GSAP useEffect'in başında"
+  }
+}

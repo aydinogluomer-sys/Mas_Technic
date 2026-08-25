@@ -1,0 +1,4 @@
+interface:
+  display_name: "Menu Release Jury"
+  short_description: "Score and gate fullscreen menu releases"
+  default_prompt: "Use $judge-menu-release to judge this menu release."

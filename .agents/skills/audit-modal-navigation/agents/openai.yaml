@@ -1,0 +1,4 @@
+interface:
+  display_name: "Modal Navigation Audit"
+  short_description: "Audit accessible fullscreen navigation"
+  default_prompt: "Use $audit-modal-navigation to audit this fullscreen navigation."

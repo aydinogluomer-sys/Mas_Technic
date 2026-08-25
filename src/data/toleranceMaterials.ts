@@ -1,0 +1,8 @@
+export const toleranceMaterials = [
+  { code: "AL·2024·T3", name: "Alüminyum 2024-T3", subtitle: "Havacılık · yüksek yorulma dayanımı", target: "± 0.005 mm", left: 47, width: 6, caption: "Ölçülen: 0.0048 mm · 2026·Q1 · n=312", specs: [["Yoğunluk", "2.78 g/cm³"], ["Akma", "324 MPa"], ["Ra hedef", "0.8 µm"], ["Sertleşme", "— yok"]] },
+  { code: "SS·316L·ANN", name: "Paslanmaz 316L", subtitle: "Medikal · kimyasal dayanım", target: "± 0.010 mm", left: 44, width: 12, caption: "Ölçülen: 0.0094 mm · 2026·Q1 · n=184", specs: [["Yoğunluk", "7.99 g/cm³"], ["Akma", "205 MPa"], ["Ra hedef", "0.4 µm"], ["Mn", "< 2.0%"]] },
+  { code: "TI·GR5·AMS", name: "Titanyum Grade 5", subtitle: "Havacılık / medikal implant", target: "± 0.015 mm", left: 41, width: 18, caption: "Ölçülen: 0.0138 mm · 2026·Q1 · n=96", specs: [["Yoğunluk", "4.43 g/cm³"], ["Akma", "828 MPa"], ["Ra hedef", "0.8 µm"], ["Sertifika", "AMS 4928"]] },
+  { code: "STL·4140·QT", name: "Çelik 4140 QT", subtitle: "Otomotiv · şanzıman parçaları", target: "± 0.008 mm", left: 45, width: 10, caption: "Ölçülen: 0.0074 mm · 2026·Q1 · n=220", specs: [["Yoğunluk", "7.85 g/cm³"], ["Akma", "655 MPa"], ["Ra hedef", "1.6 µm"], ["HRC hedef", "28–32"]] },
+  { code: "BRS·CW614N", name: "Pirinç CW614N", subtitle: "Hidrolik · elektrik bağlantı", target: "± 0.012 mm", left: 43, width: 14, caption: "Ölçülen: 0.0116 mm · 2026·Q1 · n=148", specs: [["Yoğunluk", "8.45 g/cm³"], ["Akma", "200 MPa"], ["Ra hedef", "0.8 µm"], ["Pb", "3.0%"]] },
+  { code: "PEEK·CF30", name: "PEEK + CF30", subtitle: "Medikal · yüksek sıcaklık", target: "± 0.020 mm", left: 38, width: 24, caption: "Ölçülen: 0.0192 mm · 2026·Q1 · n=42", specs: [["Yoğunluk", "1.41 g/cm³"], ["Akma", "152 MPa"], ["Ra hedef", "1.6 µm"], ["T cam.", "143 °C"]] },
+] as const;

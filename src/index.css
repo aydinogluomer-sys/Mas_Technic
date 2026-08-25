@@ -1,0 +1,1437 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Space Grotesk loaded via index.html <link> for non-blocking render */
+
+/* ============================================================
+   MAS TECHNIC — UNIFIED COLOR SYSTEM v2.0
+   Three axes: Heat · Precision · Material
+   NO hardcoded colors outside this file.
+   ============================================================ */
+
+@layer base {
+  :root {
+    /* ── shadcn base tokens (HSL — keep existing) ── */
+    --background: 0 0% 100%;
+    --foreground: 240 28% 14%;
+    --card: 38 25% 97%;
+    --card-foreground: 240 28% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 28% 14%;
+    --primary: 186 87% 29%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 14% 92%;
+    --secondary-foreground: 240 28% 14%;
+    --muted: 36 22% 94%;
+    --muted-foreground: 212 22% 40%;
+    --accent: 212 22% 29%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 58% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 14% 87%;
+    --input: 210 14% 87%;
+    --ring: 186 87% 29%;
+    --radius: 0rem;
+    --shell-safe-top: env(safe-area-inset-top, 0px);
+    --shell-safe-right: env(safe-area-inset-right, 0px);
+    --shell-safe-bottom: env(safe-area-inset-bottom, 0px);
+    --shell-safe-left: env(safe-area-inset-left, 0px);
+
+    /* ── Legacy forge HSL tokens (still used by shadcn wrappers) ── */
+    --forge-obsidian: 215 10% 24%;
+    --forge-gunmetal: 220 12% 30%;
+    --forge-iron: 215 18% 27%;
+    --forge-molten: 23 92% 47%;
+    --forge-amber: 37 88% 44%;
+    --forge-ember: 0 58% 45%;
+    /* Durum renkleri — tamamlanan işlem geri bildirimi (ExportProgress vb.) */
+    --status-success: 142 71% 45%;
+    --status-success-bright: 142 71% 55%;
+    --forge-teal: 186 87% 29%;
+    --forge-silver: 210 14% 70%;
+    --forge-steel: 212 22% 29%;
+    --forge-concrete: 36 22% 89%;
+    --forge-workshop: 38 25% 92%;
+    --forge-mist: 207 20% 89%;
+    --forge-lava: 24 100% 50%;
+    --forge-magma: 14 73% 52%;
+    --forge-coal: 14 53% 41%;
+    --forge-blue: 213 69% 33%;
+    --forge-indigo: 225 68% 22%;
+    --forge-navy: 221 67% 12%;
+    --forge-violet: 236 51% 36%;
+    --forge-ash: 0 0% 65%;
+    --forge-cloud: 0 0% 79%;
+    --forge-fog: 0 0% 92%;
+
+    /* ──────────────────────────────────────────────
+       HEAT SYSTEM (Forge Orange)
+       Role: lava flows, CTAs, energy peak moments
+    ────────────────────────────────────────────── */
+    --heat-molten:        #e8610a;
+    --heat-amber:         #d4820a;
+    --heat-ember:         #ff6a00;
+    --heat-char:          #b8451a;
+    --heat-lava-start:    #ff6a00;
+    --heat-lava-mid:      #d45c1a;
+    --heat-lava-end:      #e25822;
+    --heat-peak:          #e25822;
+
+    /* Heat opacity tokens */
+    --heat-glow-strong:   rgba(232, 97, 10, 0.40);
+    --heat-glow-mid:      rgba(232, 97, 10, 0.20);
+    --heat-glow-subtle:   rgba(232, 97, 10, 0.08);
+    --heat-radial-peak:   rgba(255, 106, 0, 0.40);
+    --heat-radial-base:   rgba(255, 106, 0, 0.15);
+
+    /* Heat RGB triplets — for alpha compositing via rgb(var(--x) / a) */
+    --heat-molten-rgb:    232 97 10;
+    --heat-ember-rgb:     255 106 0;
+    --heat-amber-rgb:     212 130 10;
+    --heat-peak-rgb:      226 88 34;
+
+    /* ──────────────────────────────────────────────
+       PRECISION SYSTEM (Industrial Steel Blue)
+       Role: CNC scenes, scanlines, dashboards, data viz
+    ────────────────────────────────────────────── */
+    --precision-blue:     #1a4d8f;
+    --precision-indigo:   #112a5c;
+    --precision-navy:     #0a1a32;
+    --precision-violet:   #2e3a8c;
+    --precision-ice:      #e8ecf0;
+    --precision-steel:    #007190;
+
+    /* Precision opacity tokens */
+    --precision-scanline:     rgba(10, 26, 50, 0.06);
+    --precision-grid:         rgba(26, 77, 143, 0.30);
+    --precision-glow-strong:  rgba(26, 77, 143, 0.25);
+    --precision-glow-mid:     rgba(26, 77, 143, 0.15);
+    --precision-glow-subtle:  rgba(26, 77, 143, 0.06);
+    --precision-hover-border: rgba(26, 77, 143, 0.35);
+    --precision-hover-shadow: rgba(26, 77, 143, 0.18);
+    --precision-focus-ring:   rgba(46, 58, 140, 0.50);
+
+    /* Precision RGB triplets */
+    --precision-blue-rgb:   26 77 143;
+    --precision-indigo-rgb: 17 42 92;
+    --precision-navy-rgb:   10 26 50;
+    --precision-violet-rgb: 46 58 140;
+    --precision-ice-rgb:    6 136 173;
+    --precision-steel-rgb:  0 113 144;
+
+    /* ──────────────────────────────────────────────
+       TEAL ACCENT (demoted — utility only)
+    ────────────────────────────────────────────── */
+    --accent-teal:        #0a7e8c;
+    --accent-teal-muted:  rgba(10, 126, 140, 0.15);
+    --accent-teal-rgb:    10 126 140;
+
+    /* ──────────────────────────────────────────────
+       MATERIAL SYSTEM (Neutrals)
+    ────────────────────────────────────────────── */
+    --mat-ash:            #A6A6A6;
+    --mat-cloud:          #CACACA;
+    --mat-fog:            #EAEAEA;
+    --mat-silver:         #C0C0C0;
+    --mat-steel-blue:     #3a4a5c;
+    --material-chrome:    #b8bcc2;
+
+    /* ──────────────────────────────────────────────
+       BACKGROUND TOKENS
+    ────────────────────────────────────────────── */
+    --bg-cinematic-deep:  #0d0d10;
+    --bg-cinematic-mid:   #111520;
+    --bg-precision-deep:  #090b14;
+    --bg-precision-mid:   #0e1428;
+    --bg-dark-gunmetal:   #1a1d26;
+    --bg-dark-obsidian:   #0c0d12;
+    --bg-light-workshop:  #f0ede8;
+    --bg-light-concrete:  #e8e4de;
+    --bg-light-mist:      #dde3e8;
+    --bg-light-testimonial: #ebe7e1;
+    --section-hero:          #090d14;
+    --section-services:      #eee9e1;
+    --section-industries:    #e5eaed;
+    --section-materials:     #181d26;
+    --section-proof:         #252c37;
+    --section-capabilities:  #eef1f2;
+    --section-testimonials:  #ebe6de;
+    --section-knowledge:     #dce5e9;
+    --section-conversion:    #07111f;
+    --footer-deep-steel:     #141b22;
+
+    /* Background RGB triplets */
+    --bg-cinematic-deep-rgb: 13 13 16;
+    --bg-dark-gunmetal-rgb:  26 29 38;
+    --bg-dark-obsidian-rgb:  12 13 18;
+    --bg-light-workshop-rgb: 240 237 232;
+    --surface-base-rgb:      10 10 10;
+    --surface-raised-rgb:    20 20 20;
+
+    /* Text RGB triplets */
+    --text-primary-rgb:   240 239 237;
+    --text-inverse-rgb:   26 24 20;
+    --material-chrome-rgb: 184 188 194;
+
+    /* ──────────────────────────────────────────────
+       TEXT TOKENS
+    ────────────────────────────────────────────── */
+    --text-primary:       #f0efed;
+    --text-secondary:     rgba(240, 239, 237, 0.70);
+    --text-muted:         rgba(240, 239, 237, 0.40);
+    --text-hint:          rgba(240, 239, 237, 0.20);
+    --text-technical:     rgba(240, 239, 237, 0.50);
+    --text-vignette:      rgba(240, 239, 237, 0.15);
+
+    --text-inverse:       #1a1814;
+    --text-inverse-secondary: rgba(26, 24, 20, 0.65);
+    --text-inverse-muted: rgba(26, 24, 20, 0.40);
+
+    --text-accent-heat:       var(--heat-molten);
+    --text-accent-precision:  var(--precision-blue);
+
+    /* ──────────────────────────────────────────────
+       OVERLAY TOKENS
+    ────────────────────────────────────────────── */
+    --overlay-vignette-light: rgba(13, 13, 16, 0.25);
+    --overlay-dark-low:       rgba(13, 13, 16, 0.28);
+    --overlay-vignette-heavy: rgba(13, 13, 16, 0.75);
+    --overlay-dark-mid:       rgba(13, 13, 16, 0.50);
+    --overlay-dark-heavy:     rgba(13, 13, 16, 0.60);
+    --overlay-dark:           rgba(0, 0, 0, 0.80);
+
+    /* ──────────────────────────────────────────────
+       SURFACE TOKENS
+    ────────────────────────────────────────────── */
+    --surface-glass:          rgba(255, 255, 255, 0.03);
+    --surface-base:           #0a0a0a;
+    --surface-raised:         #141414;
+    --surface-glass-hover:    rgba(255, 255, 255, 0.06);
+    --surface-border:         rgba(255, 255, 255, 0.08);
+    --surface-border-hover:   rgba(255, 255, 255, 0.14);
+    --surface-scanline:       rgba(255, 255, 255, 0.04);
+    --surface-border-light:   rgba(26, 24, 20, 0.10);
+    --surface-hover-light:    rgba(26, 24, 20, 0.06);
+    --surface-border-hover-light: rgba(26, 24, 20, 0.18);
+
+    /* ──────────────────────────────────────────────
+       GRADIENT SYSTEMS
+    ────────────────────────────────────────────── */
+    --gradient-heat-lava:   linear-gradient(135deg, var(--heat-lava-start), var(--heat-lava-mid), var(--heat-lava-end));
+    --gradient-heat-cool:   linear-gradient(180deg, var(--heat-molten), var(--heat-char));
+    --gradient-precision:   linear-gradient(135deg, var(--precision-navy), var(--precision-violet));
+    --gradient-sweep:       linear-gradient(90deg, var(--mat-steel-blue), var(--bg-cinematic-deep));
+    --gradient-heat-word:   linear-gradient(90deg, var(--heat-molten), var(--heat-amber));
+
+    /* Lava scene props */
+    --lava-current-color: #ff6a00;
+    --lava-fill: 0%;
+
+    /* ── Sidebar ── */
+    --sidebar-background: 38 20% 98%;
+    --sidebar-foreground: 240 28% 14%;
+    --sidebar-primary: 186 87% 29%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 14% 93%;
+    --sidebar-accent-foreground: 240 28% 14%;
+    --sidebar-border: 210 14% 87%;
+    --sidebar-ring: 186 87% 29%;
+
+    /* ── Semantic interaction layer ── */
+    --action-primary: var(--heat-molten);
+    --action-primary-hover: var(--heat-ember);
+    --action-primary-ink: #ffffff;
+    --action-secondary-border: var(--surface-border-hover);
+    --data-accent: var(--precision-blue);
+    --data-accent-soft: rgba(26, 77, 143, 0.22);
+    --status-active: var(--heat-molten);
+    --status-nominal: #58b85b;
+    --status-warn: #d4820a;
+    --status-fail: #c23838;
+    --surface-interactive: rgba(255, 255, 255, 0.04);
+    --surface-interactive-hover: rgba(255, 255, 255, 0.07);
+    --focus-ring: rgba(232, 97, 10, 0.55);
+    --rule: rgba(255, 255, 255, 0.12);
+    --rule-strong: rgba(255, 255, 255, 0.28);
+    --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-exit: cubic-bezier(0.64, 0, 0.78, 0);
+    --ease-emphasis: cubic-bezier(0.76, 0, 0.24, 1);
+    --dur-fast: 140ms;
+    --dur-mid: 260ms;
+    --dur-slow: 520ms;
+  }
+}
+
+/* Editorial fullscreen machining menu */
+.menu-overlay {
+  --menu-ink: #f3f0e8;
+  --menu-muted: #a7b5bd;
+  --menu-rule: rgba(173, 204, 218, .16);
+  position: fixed;
+  inset: 0;
+  z-index: 10010;
+  height: 100dvh;
+  color: var(--menu-ink);
+  overflow: hidden;
+  background: #06111f;
+}
+.shared-public-header {
+  padding-top:var(--shell-safe-top);
+}
+/* Safe-area boşluğu şeridin kendisine değil içeriğine uygulanır; aksi halde
+   header arka planı kenarlardan 16px içeride kalıp sert köşeli, yapıştırılmış
+   bir dikdörtgen gibi görünüyordu. */
+.shared-public-header > div {
+  padding-left:max(0.75rem,var(--shell-safe-left));
+  padding-right:max(0.75rem,var(--shell-safe-right));
+}
+@media (min-width:768px) {
+  .shared-public-header > div {
+    padding-left:max(1.25rem,var(--shell-safe-left));
+    padding-right:max(1.25rem,var(--shell-safe-right));
+  }
+}
+
+/* Landing bölümleri koyu/açık arasında geçtiği için header kontrastını
+   altındaki yüzeye göre çeviriyoruz. Sabit bir açık şerit, koyu sahnelerin
+   üzerinde yapıştırılmış gibi durup sinematik akışı kesiyordu. */
+.header-skin-dark {
+  border-color: rgba(242, 238, 230, .14);
+  background: rgba(10, 16, 22, .68);
+  color: #f2eee6;
+}
+.header-skin-light {
+  border-color: rgba(10, 16, 22, .12);
+  background: rgba(235, 231, 222, .84);
+  color: #0a1016;
+}
+
+/* Başa dön kontrolü: yuvarlak beyaz FAB, brutalist/endüstriyel dile aykırıydı
+   ve tema token'ları landing'in sabit paletiyle uyuşmuyordu. Keskin köşeli
+   grafit cam, her iki yüzeyde de "kontrol" olarak okunur. */
+.floating-scroll-top {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid rgba(242, 238, 230, .22);
+  background: rgba(10, 16, 22, .74);
+  color: #f2eee6;
+  backdrop-filter: blur(10px);
+  transition: border-color .18s ease, background-color .18s ease, transform .18s ease;
+}
+.floating-scroll-top:is(:hover, :focus-visible) {
+  border-color: #c97345;
+  background: rgba(10, 16, 22, .92);
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .floating-scroll-top { transition-duration: .01ms; }
+  .floating-scroll-top:is(:hover, :focus-visible) { transform: none; }
+}
+/* Mobilde kart metnini örtüyordu; sabit header ve logo zaten aynı erişimi
+   verdiği için küçük ekranlarda gösterilmiyor. */
+@media (max-width: 767px) {
+  .floating-scroll-top { display: none; }
+}
+.shared-skip-link {
+  top:calc(1rem + var(--shell-safe-top));
+  left:calc(1rem + var(--shell-safe-left));
+}
+.menu-panels, .menu-grid { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.menu-panels { display: grid; grid-template-columns: repeat(3, 1fr); }
+.menu-panels i { background: linear-gradient(115deg, #06111f, #0a1827 48%, #071523 52%); border-right: 1px solid var(--menu-rule); }
+.menu-grid { opacity: .45; background-image: linear-gradient(90deg, transparent calc(100% - 1px), rgba(173,204,218,.1) 0), linear-gradient(rgba(173,204,218,.045) 1px, transparent 1px); background-size: calc(100% / 12) 100%, 100% 52px; }
+.menu-trigger-dock { top: calc(.5rem + var(--shell-safe-top)); }
+.menu-shell {
+  position: relative; height: 100%; max-width: 1600px; margin: 0 auto;
+  display: grid; grid-template-rows: calc(68px + var(--shell-safe-top)) 56px minmax(0, 1fr) 68px;
+  padding-inline: max(40px, var(--shell-safe-left)); padding-right: max(40px, var(--shell-safe-right));
+}
+.menu-top, .menu-conversion { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--menu-rule); }
+.menu-top > span { font: 600 11px/1 "IBM Plex Mono", monospace; letter-spacing: .14em; color: var(--menu-muted); }
+.menu-main { min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: grid; grid-template-columns: repeat(12, minmax(0,1fr)); gap: clamp(16px,1.65vw,24px); padding-block: 24px; scroll-padding-bottom: 24px; }
+.menu-left { grid-column: span 3; min-width: 0; }
+.menu-family-rail { display: grid; }
+.menu-family { position: relative; min-height: 76px; display: grid; grid-template-columns: 30px 1fr auto; align-items: center; gap: 10px; border-bottom: 1px solid var(--menu-rule); color: rgba(243,240,232,.68); text-align: left; }
+.menu-family-index, .menu-category-number { font: 600 11px/1 "IBM Plex Mono", monospace; letter-spacing: .08em; color: #38b9c5; font-variant-numeric: tabular-nums; }
+.menu-family-label { font-size: clamp(26px,2.7vw,44px); font-weight: 650; line-height: .94; letter-spacing: -.045em; transform: translateX(0); transition: transform 180ms; }
+.menu-family-datum { position: absolute; left: 30px; right: 0; bottom: -1px; height: 1px; transform-origin: left; transform: scaleX(.18); background: linear-gradient(90deg,#38b9c5,#d9e3e5); transition: transform 220ms; }
+.menu-family-datum i { position: absolute; right: 0; top: -2px; width: 5px; height: 5px; background: #d9e3e5; }
+.menu-family-arrow { width: 17px; opacity: 0; transform: translate(-7px,7px); transition: opacity 180ms, transform 180ms; }
+.menu-family:is(:hover,:focus-visible), .menu-family.is-active { color: var(--menu-ink); background: rgba(255,255,255,.035); }
+.menu-family:is(:hover,:focus-visible) .menu-family-label, .menu-family.is-active .menu-family-label { transform: translateX(6px); letter-spacing: -.035em; }
+.menu-family:is(:hover,:focus-visible) .menu-family-datum, .menu-family.is-active .menu-family-datum { transform: scaleX(1); }
+.menu-family:is(:hover,:focus-visible) .menu-family-arrow, .menu-family.is-active .menu-family-arrow { opacity: 1; transform: translate(0,0); }
+.menu-categories { grid-column: span 6; min-width: 0; border-top: 1px solid var(--menu-rule); }
+.menu-category { border-bottom: 1px solid var(--menu-rule); }
+.menu-category-toggle { width: 100%; min-height: 58px; display: grid; grid-template-columns: 30px 30px 1fr auto; align-items: center; gap: 8px; text-align: left; font-size: clamp(16px,1.4vw,20px); font-weight: 600; letter-spacing: -.015em; color: rgba(243,240,232,.76); }
+.menu-category-toggle:is(:hover,:focus-visible), .menu-category.is-open .menu-category-toggle { color: var(--menu-ink); background: rgba(255,255,255,.03); }
+.menu-category-icon { color: #38b9c5; display: grid; place-items: center; }
+.menu-category-chevron { width: 17px; transition: transform 180ms; }
+.menu-category.is-open .menu-category-chevron { transform: rotate(180deg); }
+.menu-category-details { padding: 0 8px 18px 68px; }
+.menu-category-landing { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 12px; font: 600 11px/1 "IBM Plex Mono",monospace; letter-spacing: .1em; color: #5ed0d8; }
+.menu-category-details ul { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px 20px; }
+.menu-category-details li a { display: flex; align-items: center; min-height: 30px; gap: 8px; color: rgba(243,240,232,.72); font-size: 14px; line-height: 1.4; transition: transform 160ms; }
+.menu-category-details li a span { width: 12px; height: 1px; background: #38b9c5; transform:scaleX(0); transform-origin:left; transition: transform 160ms; }
+.menu-category-details li a:is(:hover,:focus-visible) { color: var(--menu-ink); transform: translateX(4px); }
+.menu-category-details li a:is(:hover,:focus-visible) span { transform:scaleX(1); }
+.menu-conversion { border-top: 1px solid var(--menu-rule); border-bottom: 0; padding-bottom: var(--shell-safe-bottom); gap: 24px; }
+.menu-conversion p { margin-right:auto; font:600 10px/1.3 "IBM Plex Mono",monospace; letter-spacing:.1em; color:var(--menu-muted); }
+.menu-conversion > a:not(.menu-conversion-cta) { font-size:14px; color:var(--menu-muted); }
+.menu-conversion-cta { min-height:48px; display:inline-flex; align-items:center; justify-content:center; gap:12px; padding:0 24px; background:#f26b25; color:#09131d; font-weight:750; transition:transform 160ms; }
+.menu-conversion-cta:is(:hover,:focus-visible) { transform:translateY(-2px); }
+
+@media (max-width: 1023px) {
+  .menu-shell { padding-inline:max(24px,var(--shell-safe-left)); padding-right:max(24px,var(--shell-safe-right)); }
+  .menu-main { grid-template-columns:repeat(8,minmax(0,1fr)); gap:16px; }
+  .menu-left { grid-column:span 2; }
+  .menu-categories { grid-column:span 4; }
+  .menu-family { min-height:64px; }
+  .menu-family-label { font-size:clamp(20px,3vw,28px); }
+  .menu-category-details { padding-left:38px; }
+  .menu-category-details ul { grid-template-columns:1fr; }
+}
+@media (max-width: 767px) {
+  .menu-shell { grid-template-rows:calc(64px + var(--shell-safe-top)) 48px minmax(0,1fr) calc(64px + var(--shell-safe-bottom)); padding-inline:max(16px,var(--shell-safe-left)); padding-right:max(16px,var(--shell-safe-right)); }
+  .menu-top > span { display:none; }
+  .menu-main { display:block; padding:0; }
+  .menu-left { position:sticky; top:0; z-index:2; background:#071421; }
+  .menu-family-rail { grid-template-columns:repeat(3,1fr); }
+  .menu-family { min-height:48px; display:grid; grid-template-columns:auto 1fr; gap:5px; padding:0 7px; }
+  .menu-family-label { font:600 12px/1 "IBM Plex Mono",monospace; letter-spacing:0; transform:none!important; }
+  .menu-family-datum { left:7px; }
+  .menu-family-arrow { display:none; }
+  .menu-categories { margin-top:8px; }
+  .menu-category-toggle { min-height:52px; grid-template-columns:26px 26px 1fr auto; font-size:17px; }
+  .menu-category-details { padding:0 4px 16px 52px; }
+  .menu-conversion { margin-inline:-16px; padding-inline:16px; background:#071421; }
+  .menu-conversion p,.menu-conversion > a:not(.menu-conversion-cta) { display:none; }
+  .menu-conversion-cta { width:100%; min-height:52px; }
+}
+@media (max-width:340px) {
+  .menu-family { grid-template-columns:1fr; justify-items:center; padding:0; }
+  .menu-family-label,.menu-family-arrow { display:none; }
+  .menu-family-datum { left:10px; right:10px; }
+}
+@media (max-width: 340px), (max-height: 680px) {
+  .menu-shell { grid-template-rows:calc(58px + var(--shell-safe-top)) 44px minmax(0,1fr) calc(58px + var(--shell-safe-bottom)); }
+  .menu-top b { font-size:13px; }
+  .menu-category-toggle { min-height:48px; }
+}
+@media (min-width:768px) and (max-width:1023px) and (max-height:500px) {
+  .menu-top > span { display:none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-family-label,.menu-family-datum,.menu-family-arrow { transform:none!important; transition-duration:60ms!important; }
+}
+
+/* Calm editorial reset — one navigation hierarchy, one accent, generous rhythm */
+.menu-overlay {
+  --menu-ink:#f2eee6;
+  --menu-muted:#a8a49d;
+  --menu-rule:rgba(242,238,230,.13);
+  --menu-accent:#c97345;
+  background:transparent;
+}
+.menu-grid { display:none; }
+.menu-panels i {
+  position:relative;
+  overflow:hidden;
+  will-change:transform;
+  background:
+    linear-gradient(110deg,rgba(255,255,255,.018),transparent 32%),
+    #0a1016;
+  border-color:rgba(242,238,230,.055);
+}
+.menu-panels i:nth-child(2) {
+  background:
+    linear-gradient(110deg,transparent 45%,rgba(201,115,69,.035) 50%,transparent 56%),
+    #0a1016;
+}
+.menu-panels i:nth-child(3) {
+  background:
+    linear-gradient(110deg,rgba(255,255,255,.012),transparent 38%),
+    #0a1016;
+}
+.menu-shell {
+  max-width:1440px;
+  grid-template-rows:88px minmax(0,1fr) 72px;
+  padding-inline:max(56px,var(--shell-safe-left));
+  padding-right:max(56px,var(--shell-safe-right));
+}
+.menu-top { border-color:var(--menu-rule); }
+.menu-top > a { min-height:44px; display:flex; align-items:center; }
+.menu-top b { font-size:14px; letter-spacing:-.015em; }
+.menu-overlay .menu-trigger-dock {
+  top:calc(20px + var(--shell-safe-top));
+  right:max(56px,var(--shell-safe-right));
+}
+.menu-overlay [data-menu-trigger] { min-width:48px; padding:0; }
+.menu-overlay [data-menu-trigger] > span:first-child { display:none; }
+.menu-main {
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  align-content:center;
+  gap:32px;
+  padding-block:clamp(36px,6vh,72px);
+}
+.menu-left {
+  grid-column:1 / span 5;
+  align-self:start;
+  padding-right:clamp(20px,2vw,36px);
+}
+.menu-family { 
+  min-width:0;
+  min-height:clamp(108px,13vh,138px);
+  grid-template-columns:40px minmax(0,1fr);
+  border-color:var(--menu-rule);
+  color:rgba(242,238,230,.58);
+  background:transparent!important;
+}
+.menu-family-index { color:var(--menu-muted); font-size:10px; }
+.menu-family-label {
+  font-size:clamp(56px,6vw,104px);
+  font-weight:680;
+  line-height:.84;
+  letter-spacing:-.075em!important;
+}
+.menu-family-datum {
+  left:40px;
+  background:var(--menu-accent);
+  transform:scaleX(0);
+  height:2px;
+}
+.menu-family-datum i,.menu-family-arrow { display:none; }
+.menu-family:is(:hover,:focus-visible),.menu-family.is-active { color:var(--menu-ink); }
+.menu-family:is(:hover,:focus-visible) .menu-family-label,.menu-family.is-active .menu-family-label { transform:none; }
+.menu-categories {
+  grid-column:6 / span 7;
+  align-self:start;
+  border-color:var(--menu-rule);
+}
+.menu-category { border-color:var(--menu-rule); }
+.menu-category-toggle {
+  min-height:68px;
+  grid-template-columns:34px minmax(0,1fr) 44px;
+  gap:14px;
+  padding:0 0 0 4px;
+  font-size:clamp(20px,1.8vw,28px);
+  color:rgba(242,238,230,.62);
+  background:transparent!important;
+}
+.menu-category-number { color:var(--menu-muted); }
+.menu-category-icon { display:none; }
+.menu-category-chevron { justify-self:center; color:var(--menu-muted); }
+.menu-category-toggle:is(:hover,:focus-visible),.menu-category.is-open .menu-category-toggle { color:var(--menu-ink); }
+.menu-category.is-open .menu-category-toggle { border-left:2px solid var(--menu-accent); padding-left:14px; }
+.menu-category-details { padding:4px 44px 24px 52px; }
+.menu-category-landing { min-height:44px; align-items:center; margin-bottom:12px; color:var(--menu-accent); letter-spacing:.06em; }
+.menu-category-details ul { gap:4px 24px; }
+.menu-category-details li a {
+  min-height:44px;
+  color:rgba(242,238,230,.68);
+  font-size:15px;
+}
+.menu-category-details li a span { background:var(--menu-accent); }
+.menu-conversion {
+  gap:24px;
+  border-color:var(--menu-rule);
+}
+.menu-conversion-reveal {
+  min-width:0;
+}
+.menu-conversion-reveal .menu-conversion {
+  height:100%;
+}
+.menu-conversion nav { display:flex; align-items:center; gap:24px; margin-right:auto; }
+.menu-conversion nav a,.menu-conversion > a:not(.menu-conversion-cta) {
+  color:var(--menu-muted);
+  font:500 12px/1 "IBM Plex Mono",monospace;
+  letter-spacing:.03em;
+}
+.menu-conversion nav a { min-width:44px; min-height:44px; display:flex; align-items:center; justify-content:center; }
+.menu-conversion > a:not(.menu-conversion-cta) { min-height:44px; display:flex; align-items:center; }
+.menu-conversion-cta {
+  min-width:168px;
+  min-height:48px;
+  padding:0 22px;
+  background:var(--menu-ink);
+  color:#0a1016;
+  font-size:14px;
+}
+.menu-conversion-cta svg { color:var(--menu-accent); }
+
+@media (max-width:1279px) and (min-width:768px) {
+  .menu-shell {
+    padding-inline:max(32px,var(--shell-safe-left));
+    padding-right:max(32px,var(--shell-safe-right));
+    grid-template-rows:76px minmax(0,1fr) 68px;
+  }
+  .menu-overlay .menu-trigger-dock { top:calc(14px + var(--shell-safe-top)); right:max(32px,var(--shell-safe-right)); }
+  .menu-main { grid-template-columns:repeat(12,minmax(0,1fr)); align-content:start; gap:24px; padding-top:clamp(72px,11vh,112px); padding-bottom:32px; }
+  .menu-left { grid-column:1 / span 4; padding-right:16px; }
+  .menu-categories { grid-column:5 / span 8; }
+  .menu-family { min-height:76px; }
+  .menu-family-label { font-size:clamp(28px,4vw,40px); }
+  .menu-category-toggle { min-height:62px; font-size:clamp(18px,2.4vw,24px); }
+  .menu-conversion nav { gap:14px; }
+  .menu-conversion nav a { font-size:10px; }
+}
+
+@media (max-width:767px) {
+  .menu-shell {
+    grid-template-rows:calc(64px + var(--shell-safe-top)) minmax(0,1fr) calc(104px + var(--shell-safe-bottom));
+    padding-inline:max(16px,var(--shell-safe-left));
+    padding-right:max(16px,var(--shell-safe-right));
+  }
+  .menu-overlay .menu-trigger-dock { top:calc(8px + var(--shell-safe-top)); right:max(16px,var(--shell-safe-right)); }
+  .menu-main { display:block; padding:0 0 24px; }
+  .menu-left { position:sticky; top:0; z-index:3; padding:0; background:#0a1016; border-bottom:1px solid var(--menu-rule); }
+  .menu-family-rail { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .menu-family {
+    min-height:52px;
+    display:flex;
+    justify-content:center;
+    padding:0 5px;
+    border:0;
+  }
+  .menu-family-index { display:none; }
+  .menu-family-label {
+    display:block!important;
+    font:650 clamp(11px,3.2vw,13px)/1 "Space Grotesk",sans-serif;
+    letter-spacing:-.015em!important;
+    transform:none!important;
+    white-space:nowrap;
+  }
+  .menu-family.is-active { background:rgba(242,238,230,.06)!important; }
+  .menu-family-datum { left:10px; right:10px; bottom:0; }
+  .menu-categories { margin-top:16px; border-top:0; }
+  .menu-category-toggle {
+    min-height:58px;
+    grid-template-columns:28px minmax(0,1fr) 44px;
+    gap:8px;
+    padding-left:0;
+    font-size:19px;
+  }
+  .menu-category.is-open .menu-category-toggle { padding-left:8px; }
+  .menu-category-details { padding:0 4px 20px 36px; }
+  .menu-category-details ul { grid-template-columns:1fr; gap:0; }
+  .menu-category-details li a { min-height:46px; font-size:15px; }
+  .menu-category-landing { min-height:44px; align-items:center; margin:0; }
+  .menu-conversion {
+    display:grid;
+    grid-template-columns:1fr;
+    grid-template-rows:44px 52px;
+    gap:0;
+    margin-inline:-16px;
+    padding:0 16px var(--shell-safe-bottom);
+    background:#0a1016;
+  }
+  .menu-conversion nav {
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:8px;
+    width:100%;
+  }
+  .menu-conversion nav a {
+    min-height:44px;
+    justify-content:center;
+    font-size:9px;
+    white-space:nowrap;
+  }
+  .menu-conversion > a:not(.menu-conversion-cta) { display:none; }
+  .menu-conversion-cta { width:100%; min-height:48px; }
+}
+
+@media (max-height:680px) and (min-width:768px) {
+  .menu-shell { grid-template-rows:64px minmax(0,1fr) 52px; }
+  .menu-main { align-content:start; padding-block:16px; }
+  .menu-family { min-height:66px; }
+  .menu-family-label { font-size:32px; }
+  .menu-category-toggle { min-height:52px; font-size:20px; }
+  .menu-category-details { padding-bottom:12px; }
+  .menu-category-details li a { min-height:32px; font-size:14px; }
+  .menu-conversion { gap:14px; }
+  .menu-conversion nav { gap:12px; }
+  .menu-category-details li a { min-height:44px; }
+  .menu-conversion nav a { min-height:44px; font-size:9px; }
+  .menu-conversion-cta { min-height:44px; }
+}
+
+@layer base {
+  .dark {
+    --background: 240 30% 8%;
+    --foreground: 36 22% 96%;
+    --card: 240 28% 11%;
+    --card-foreground: 36 22% 96%;
+    --popover: 240 28% 11%;
+    --popover-foreground: 36 22% 96%;
+    --primary: 186 80% 35%;
+    --primary-foreground: 240 28% 8%;
+    --secondary: 212 14% 18%;
+    --secondary-foreground: 36 22% 96%;
+    --muted: 240 20% 18%;
+    --muted-foreground: 36 15% 60%;
+    --accent: 212 18% 35%;
+    --accent-foreground: 240 28% 8%;
+    --destructive: 0 55% 48%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 18% 20%;
+    --input: 240 18% 20%;
+    --ring: 186 80% 35%;
+    --forge-obsidian: 0 0% 4%;
+    --forge-gunmetal: 240 25% 10%;
+    --forge-iron: 220 40% 12%;
+    --forge-molten: 23 85% 42%;
+    --forge-amber: 37 80% 38%;
+    --forge-ember: 0 50% 40%;
+    --forge-teal: 186 75% 25%;
+    --forge-silver: 210 12% 62%;
+    --forge-steel: 212 18% 24%;
+    --forge-concrete: 36 12% 12%;
+    --forge-workshop: 38 12% 10%;
+    --forge-mist: 207 10% 12%;
+    --forge-blue: 213 60% 28%;
+    --forge-indigo: 225 58% 18%;
+    --forge-navy: 221 58% 10%;
+    --forge-violet: 236 42% 30%;
+    --forge-ash: 0 0% 45%;
+    --forge-cloud: 0 0% 32%;
+    --forge-fog: 0 0% 18%;
+
+    /* Dark mode overrides for v2 tokens */
+    --bg-light-workshop:   #1a1814;
+    --bg-light-concrete:   #171614;
+    --bg-light-mist:       #141618;
+    --bg-light-testimonial:#161412;
+    --section-services:      #17191d;
+    --section-industries:    #151b20;
+    --section-materials:     #111720;
+    --section-proof:         #1c232d;
+    --section-capabilities:  #171c22;
+    --section-testimonials:  #1b1917;
+    --section-knowledge:     #151b20;
+    --text-inverse:        #f0efed;
+    --text-inverse-secondary: rgba(240, 239, 237, 0.65);
+    --text-inverse-muted:  rgba(240, 239, 237, 0.40);
+    --surface-border-light: rgba(240, 239, 237, 0.10);
+    --surface-hover-light:  rgba(240, 239, 237, 0.06);
+    --surface-border-hover-light: rgba(240, 239, 237, 0.18);
+
+    --sidebar-background: 240 28% 10%;
+    --sidebar-foreground: 36 22% 96%;
+    --sidebar-primary: 186 80% 35%;
+    --sidebar-primary-foreground: 240 28% 8%;
+    --sidebar-accent: 240 18% 15%;
+    --sidebar-accent-foreground: 36 22% 96%;
+    --sidebar-border: 240 18% 20%;
+    --sidebar-ring: 186 80% 35%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    overflow-x: clip;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    overflow-x: clip;
+    /* scroll-behavior removed — Lenis handles smooth scroll */
+  }
+
+  a,
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+
+  /* Focus visible — accessibility */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  .text-rendering-fix {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+@layer components {
+  .btn-industrial-primary {
+    @apply bg-primary text-primary-foreground font-semibold px-8 py-4 uppercase tracking-wider text-sm border-2 border-primary transition-all duration-200;
+  }
+
+  .btn-industrial-primary:hover {
+    @apply bg-accent;
+  }
+
+  .btn-industrial-secondary {
+    @apply bg-transparent text-foreground font-semibold px-8 py-4 uppercase tracking-wider text-sm border-2 border-foreground transition-all duration-200;
+  }
+
+  .btn-industrial-secondary:hover {
+    @apply bg-foreground text-background;
+  }
+
+  .card-industrial {
+    @apply bg-card border border-border p-6;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .card-industrial:hover {
+    border-color: var(--heat-molten);
+    transform: translateY(-4px);
+    box-shadow:
+      0 12px 40px var(--overlay-vignette-light),
+      0 0 0 1px var(--heat-glow-subtle);
+  }
+
+  .dark .card-industrial:hover {
+    box-shadow:
+      0 12px 40px var(--overlay-dark-mid),
+      0 0 20px var(--heat-glow-subtle);
+  }
+
+  .card-industrial:hover .card-icon {
+    transform: scale(1.1) rotate(5deg);
+    transition: transform 0.3s ease-out;
+  }
+
+  .section-industrial {
+    @apply py-24 md:py-32 lg:py-40;
+  }
+
+  .container-industrial {
+    @apply max-w-7xl mx-auto px-6 lg:px-8;
+  }
+
+  .footer-industrial .container-industrial {
+    padding-right:max(1.5rem,var(--shell-safe-right));
+    padding-bottom:max(2.5rem,var(--shell-safe-bottom));
+    padding-left:max(1.5rem,var(--shell-safe-left));
+  }
+
+  .footer-industrial :is(a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])) {
+    scroll-margin-block:calc(5rem + var(--shell-safe-top));
+  }
+
+  /* A fixed support launcher must not cover the footer control currently
+     receiving keyboard focus. Opacity preserves its sequential focus stop;
+     it returns as soon as focus advances to the launcher itself. */
+  body:has(.footer-industrial:focus-within) [data-chat-launcher] {
+    opacity:0;
+    pointer-events:none;
+  }
+
+  .heading-industrial {
+    @apply font-bold tracking-tight text-foreground;
+  }
+
+  .subheading-industrial {
+    @apply text-foreground/70 font-normal;
+  }
+
+  /* Typography hierarchy */
+  .typo-h1 {
+    @apply font-bold text-6xl md:text-8xl tracking-tighter;
+    line-height: 0.9;
+  }
+
+  .typo-h2 {
+    @apply font-bold text-3xl md:text-5xl tracking-tight;
+    line-height: 1.1;
+  }
+
+  .typo-h3 {
+    @apply font-semibold text-xl md:text-2xl tracking-tight;
+  }
+
+  .typo-body {
+    @apply text-base leading-relaxed;
+  }
+
+  .typo-technical {
+    @apply font-mono text-sm tracking-wide;
+  }
+
+  .typo-tag {
+    @apply font-mono font-medium uppercase;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+  }
+
+  .grid-lines {
+    background-image:
+      linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .accent-line {
+    @apply w-16 h-1 bg-primary;
+  }
+
+  .text-technical {
+    font-family: "IBM Plex Mono", monospace;
+    @apply text-sm tracking-wide;
+  }
+}
+
+@layer utilities {
+  .shadow-industrial {
+    box-shadow: 8px 8px 0 0 hsl(var(--border));
+  }
+
+  .shadow-industrial-primary {
+    box-shadow: 8px 8px 0 0 hsl(var(--primary) / 0.2);
+  }
+
+  @keyframes rotate-text {
+    0%,
+    20% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    25%,
+    45% {
+      opacity: 0;
+      transform: translateY(-100%);
+    }
+    50%,
+    70% {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    75%,
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes count-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-count {
+    animation: count-up 0.6s ease-out forwards;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out forwards;
+  }
+
+  .delay-100 {
+    animation-delay: 100ms;
+  }
+  .delay-200 {
+    animation-delay: 200ms;
+  }
+  .delay-300 {
+    animation-delay: 300ms;
+  }
+  .delay-400 {
+    animation-delay: 400ms;
+  }
+
+  @keyframes fireText {
+    0% {
+      color: var(--heat-molten);
+      text-shadow:
+        0 0 4px var(--heat-molten),
+        0 -5px 10px var(--heat-glow-mid);
+    }
+    25% {
+      color: var(--heat-amber);
+      text-shadow:
+        0 0 4px var(--heat-amber),
+        0 -5px 12px var(--heat-glow-mid);
+    }
+    50% {
+      color: var(--heat-molten);
+      text-shadow:
+        0 0 6px var(--heat-molten),
+        0 -8px 15px var(--heat-glow-mid);
+    }
+    75% {
+      color: var(--heat-amber);
+      text-shadow:
+        0 0 4px var(--heat-amber),
+        0 -5px 12px var(--heat-glow-mid);
+    }
+    100% {
+      color: var(--heat-molten);
+      text-shadow:
+        0 0 4px var(--heat-molten),
+        0 -5px 10px var(--heat-glow-mid);
+    }
+  }
+
+  .animate-fire-text {
+    animation: fireText 2s linear infinite;
+  }
+}
+
+/* ── Industrial Skeleton Shimmer ── */
+@keyframes industrial-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.industrial-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--forge-gunmetal) / 0.3) 0%,
+    hsl(var(--forge-steel) / 0.3) 50%,
+    hsl(var(--forge-gunmetal) / 0.3) 100%
+  );
+  background-size: 200% 100%;
+  animation: industrial-shimmer 1.5s ease infinite;
+}
+
+.dark .industrial-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--forge-gunmetal)) 0%,
+    hsl(var(--forge-steel) / 0.4) 50%,
+    hsl(var(--forge-gunmetal)) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* ── Industrial Cursor Styles ── */
+.cursor-none-active,
+.cursor-none-active * {
+  cursor: none !important;
+}
+
+.cursor-dot {
+  background-color: var(--heat-molten);
+  transition: background-color 0.3s ease;
+}
+
+.cursor-dot[data-hover="true"] {
+  background-color: var(--accent-teal);
+}
+
+.cursor-ring {
+  border: 1.5px solid var(--heat-glow-mid);
+  background: transparent;
+  transition: border-color 0.3s ease;
+}
+
+.cursor-ring[data-hover="true"] {
+  border-color: var(--accent-teal-muted);
+}
+
+/* ── Focus Visible — Global a11y ── */
+:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── Reduced Motion: disable all non-essential animations ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .flip-card-inner {
+    transition: none !important;
+  }
+
+  .flip-card:hover .flip-card-inner {
+    transform: none !important;
+  }
+
+  video[autoplay] {
+    animation: none !important;
+  }
+}
+
+/* Custom cursor — hide default on desktop */
+@media (min-width: 901px) and (pointer: fine) {
+  html,
+  body,
+  a,
+  button,
+  [role="button"] {
+    cursor: none !important;
+  }
+}
+
+/* ── Grain Noise Overlay ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  will-change: auto;
+  contain: strict;
+}
+
+/* ── Stat numbers: tabular-nums + IBM Plex Mono ── */
+.stat-number,
+.why-st-v,
+[data-stat-value] {
+  font-variant-numeric: tabular-nums;
+  font-family: "IBM Plex Mono", monospace !important;
+}
+
+/* ── Selection color ── */
+::selection {
+  background: var(--heat-molten);
+  color: var(--text-primary);
+}
+
+/* ── Scrollbar hidden globally (Lenis handles scroll) ── */
+html {
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Marquee ticker animations ── */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes marquee-scroll-reverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+.marquee-inner {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 28s linear infinite;
+  will-change: transform;
+}
+.marquee-reverse {
+  animation: marquee-scroll-reverse 22s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-inner, .marquee-reverse { animation: none; }
+}
+
+/* ── Nav link animated underline ── */
+.nav-link-animated {
+  position: relative;
+  display: inline-block;
+}
+.nav-link-animated::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link-animated:hover::after {
+  transform: scaleX(1);
+}
+
+/* ── CTA arrow slide ── */
+.cta-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.cta-arrow .arrow-icon {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-block;
+}
+
+/* ═══ Mobile Scroll Snap ═══ */
+@media (max-width: 768px) {
+  .snap-section {
+    scroll-snap-align: start;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+}
+
+/* Machining narrative — section-scoped semantic color roles */
+@layer components {
+  .section-tone-hero {
+    --background: 216 38% 6%;
+    --foreground: 36 18% 94%;
+    --primary: 188 90% 40%;
+    --primary-foreground: 216 38% 6%;
+    --text-muted: rgba(240, 239, 237, 0.68);
+    --text-technical: rgba(240, 239, 237, 0.72);
+    --action-primary: #b94708;
+    background-color: var(--section-hero);
+    color: hsl(var(--foreground));
+  }
+
+  .section-tone-services {
+    --background: 36 28% 91%;
+    --foreground: 220 22% 13%;
+    --card: 38 30% 95%;
+    --card-foreground: 220 22% 13%;
+    --muted: 34 18% 86%;
+    --muted-foreground: 215 18% 31%;
+    --border: 215 13% 75%;
+    --primary: 22 91% 34%;
+    --primary-foreground: 0 0% 100%;
+    --text-inverse: #1b2028;
+    --text-inverse-secondary: rgba(27, 32, 40, 0.76);
+    --text-inverse-muted: rgba(27, 32, 40, 0.66);
+    --action-primary: #a63e00;
+    --action-primary-hover: #8f3500;
+    background-color: var(--section-services);
+    color: hsl(var(--foreground));
+  }
+
+  .section-tone-industries {
+    --background: 204 18% 91%;
+    --foreground: 216 23% 14%;
+    --card: 204 22% 96%;
+    --card-foreground: 216 23% 14%;
+    --muted: 204 15% 84%;
+    --muted-foreground: 213 18% 31%;
+    --border: 207 14% 74%;
+    --primary: 188 88% 25%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 212 38% 30%;
+    background-color: var(--section-industries);
+    color: hsl(var(--foreground));
+  }
+
+  .section-tone-materials {
+    --background: 220 22% 12%;
+    --foreground: 36 16% 94%;
+    --card: 220 18% 16%;
+    --card-foreground: 36 16% 94%;
+    --muted: 220 14% 20%;
+    --muted-foreground: 210 14% 72%;
+    --border: 215 15% 29%;
+    --primary: 187 82% 44%;
+    --primary-foreground: 220 22% 8%;
+    background-color: var(--section-materials);
+    color: hsl(var(--foreground));
+  }
+
+  .section-tone-proof {
+    --background: 216 20% 18%;
+    --foreground: 36 18% 95%;
+    --card: 216 18% 21%;
+    --card-foreground: 36 18% 95%;
+    --muted-foreground: 210 14% 74%;
+    --border: 213 14% 33%;
+    --primary: 24 94% 57%;
+    --primary-foreground: 216 24% 9%;
+    --forge-molten: 24 94% 57%;
+    background-color: var(--section-proof);
+    color: hsl(var(--foreground));
+  }
+
+  .section-tone-capabilities {
+    --background: 200 12% 94%;
+    --foreground: 217 24% 13%;
+    --card: 0 0% 98%;
+    --card-foreground: 217 24% 13%;
+    --muted: 204 12% 87%;
+    --muted-foreground: 213 18% 32%;
+    --border: 207 13% 76%;
+    --primary: 213 69% 31%;
+    --primary-foreground: 0 0% 100%;
+    --forge-molten: 20 88% 34%;
+    background-color: var(--section-capabilities);
+    color: hsl(var(--foreground));
+  }
+
+  .section-tone-testimonials {
+    --background: 36 22% 90%;
+    --foreground: 220 20% 13%;
+    --card: 38 25% 95%;
+    --card-foreground: 220 20% 13%;
+    --muted-foreground: 214 17% 32%;
+    --border: 212 12% 75%;
+    --primary: 187 82% 25%;
+    --primary-foreground: 0 0% 100%;
+    --accent-teal: #086674;
+    --text-inverse: #1b2028;
+    --text-inverse-secondary: rgba(27, 32, 40, 0.76);
+    --text-inverse-muted: rgba(27, 32, 40, 0.64);
+    background-color: var(--section-testimonials);
+    color: hsl(var(--foreground));
+  }
+
+  .section-tone-knowledge {
+    --background: 198 21% 89%;
+    --foreground: 216 23% 13%;
+    --card: 198 24% 96%;
+    --card-foreground: 216 23% 13%;
+    --muted: 200 16% 84%;
+    --muted-foreground: 214 18% 31%;
+    --border: 204 14% 73%;
+    --primary: 211 66% 32%;
+    --primary-foreground: 0 0% 100%;
+    background-color: var(--section-knowledge);
+    color: hsl(var(--foreground));
+  }
+
+  .section-tone-conversion {
+    --background: 212 63% 7%;
+    --foreground: 36 18% 96%;
+    --card: 214 45% 11%;
+    --card-foreground: 36 18% 96%;
+    --muted-foreground: 210 17% 72%;
+    --border: 210 25% 26%;
+    --primary: 24 95% 58%;
+    --primary-foreground: 214 55% 7%;
+    background-color: var(--section-conversion);
+    color: hsl(var(--foreground));
+  }
+
+  .dark .section-tone-services,
+  .dark .section-tone-industries,
+  .dark .section-tone-capabilities,
+  .dark .section-tone-testimonials,
+  .dark .section-tone-knowledge {
+    --foreground: 36 18% 94%;
+    --card: 216 18% 15%;
+    --card-foreground: 36 18% 94%;
+    --muted: 216 14% 20%;
+    --muted-foreground: 210 14% 72%;
+    --border: 213 14% 30%;
+    --text-inverse: #f0efed;
+    --text-inverse-secondary: rgba(240, 239, 237, 0.76);
+    --text-inverse-muted: rgba(240, 239, 237, 0.66);
+  }
+  .dark .section-tone-services { background-color: #17191d; }
+  .dark .section-tone-services {
+    --primary: 25 100% 65%;
+    --primary-foreground: 216 30% 8%;
+    --action-primary: #ff8a3d;
+    --action-primary-ink: #101820;
+  }
+  .dark .section-tone-industries {
+    --primary: 184 65% 55%;
+    --primary-foreground: 216 30% 8%;
+    background-color: #151b20;
+  }
+  .dark .section-tone-capabilities {
+    --primary: 215 100% 72%;
+    --primary-foreground: 216 30% 8%;
+    --forge-molten: 25 100% 67%;
+    background-color: #171c22;
+  }
+  .dark .section-tone-testimonials {
+    --primary: 182 56% 56%;
+    --primary-foreground: 216 30% 8%;
+    --accent-teal: #4bc5ca;
+    background-color: #1b1917;
+  }
+  .dark .section-tone-knowledge {
+    --primary: 211 100% 74%;
+    --primary-foreground: 216 30% 8%;
+    background-color: #151b20;
+  }
+
+  /* Footer paleti ana sayfa (teknik pafta) footer'ıyla aynı: düz koyu zemin,
+     krem metin kademeleri, teal yerine nötr ızgara. Yalnızca bu kapsamda geçerli;
+     global tokenlere dokunulmaz. */
+  .footer-industrial {
+    background: #070b0d;
+    --precision-steel-rgb: 238 233 222;
+    --text-vignette: rgba(238, 233, 222, 0.10);
+    --text-primary: #f3f0e8;
+    --text-secondary: #c3c8c5;
+    --text-technical: #c5cac7;
+    --text-hint: #a4aba8;
+    --surface-border: rgba(227, 231, 225, 0.28);
+    --surface-border-hover: rgba(227, 231, 225, 0.42);
+    /* Aksan teal degil krem: ana sayfa footer'inin vurgu rengi.
+       --primary/--primary-foreground cifti birlikte degistigi icin
+       dolgu butonlarin kontrasti korunur (16.3:1 / 14.6:1). */
+    --primary: 41 32% 90%;
+    --primary-foreground: 197 16% 8%;
+  }
+}
+
+/* ── Rota perdesi ──
+   Bilerek CSS animasyonu: framer-motion ile sürüldüğünde perde ANA THREAD'de
+   çalışıyordu ve rota değişiminde lazy chunk ayrıştırılırken thread dolduğu için
+   kapanma anı güvenilmez oluyordu (ölçüldü: aynı kodla 3 koşunun 2'si perdeyi
+   hiç yakalayamadı). CSS transform animasyonu compositor'da koşar, thread
+   açlığından etkilenmez ve kare başına JS maliyeti yoktur.
+
+   scaleY: 0 → 1 (kapan) → 1 (bekle) → 0 (açıl)
+   Kapanış üstten, açılış alttan olsun diye origin tam kapalı anda değişir;
+   scaleY o anda 1 olduğu için geçiş görünmez. */
+@keyframes route-curtain {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  31%  { transform: scaleY(1); transform-origin: top; }
+  32%  { transform: scaleY(1); transform-origin: bottom; }
+  56%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+.route-curtain-panel {
+  transform: scaleY(0);
+  transform-origin: top;
+  will-change: transform;
+  animation: route-curtain var(--curtain-duration, .96s) cubic-bezier(.76, 0, .24, 1) forwards;
+  animation-delay: calc(var(--curtain-index, 0) * var(--curtain-stagger, .03s));
+}
+@media (prefers-reduced-motion: reduce) {
+  .route-curtain-panel { animation: none; transform: scaleY(0); }
+}

@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "space grotesk",
+        "createdAt": "2026-08-18T10:05:58.503Z",
+        "reason": "Pre-existing project design-system face, not chosen in this change: declared in tailwind.config.ts (sans stack), loaded in index.html, used across src/index.css, and already the .tl-root font before the technical-landing rewrite. Not user confirmed."
+      }
+    ]
+  }
+}

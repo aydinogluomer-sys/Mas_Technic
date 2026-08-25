@@ -1,0 +1,1 @@
+ALTER TABLE public.rfqs ADD COLUMN IF NOT EXISTS rejection_reason text;

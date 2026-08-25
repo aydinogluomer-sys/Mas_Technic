@@ -1,0 +1,4 @@
+interface:
+  display_name: "Menu Motion Choreography"
+  short_description: "Design deterministic menu motion timelines"
+  default_prompt: "Use $choreograph-menu-motion to choreograph this fullscreen menu."

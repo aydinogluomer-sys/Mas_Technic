@@ -1,0 +1,16 @@
+project_id = "zdqiujpeewtyhtcqhdcj"
+
+[functions.ocr-invoice]
+verify_jwt = false
+
+[functions.parasut-sync]
+verify_jwt = false
+
+[functions.finance-ai]
+verify_jwt = false
+
+[functions.chat]
+verify_jwt = false
+
+[functions.rfq-rate-limit]
+verify_jwt = false

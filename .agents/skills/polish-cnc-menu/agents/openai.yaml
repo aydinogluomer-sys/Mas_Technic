@@ -1,0 +1,4 @@
+interface:
+  display_name: "CNC Menu Polish"
+  short_description: "Polish editorial CNC navigation systems"
+  default_prompt: "Use $polish-cnc-menu to refine this fullscreen CNC menu."

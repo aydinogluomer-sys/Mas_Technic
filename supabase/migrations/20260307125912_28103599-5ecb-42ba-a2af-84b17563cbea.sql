@@ -1,0 +1,6 @@
+ALTER TABLE public.orders
+  ADD COLUMN IF NOT EXISTS completed_qty integer NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS qc_passed_qty integer NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS packed_qty integer NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS machine text,
+  ADD COLUMN IF NOT EXISTS notes text;

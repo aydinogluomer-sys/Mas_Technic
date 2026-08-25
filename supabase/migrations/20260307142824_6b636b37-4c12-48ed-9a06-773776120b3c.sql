@@ -1,0 +1,1 @@
+ALTER TABLE public.wbs ADD COLUMN IF NOT EXISTS order_id text
