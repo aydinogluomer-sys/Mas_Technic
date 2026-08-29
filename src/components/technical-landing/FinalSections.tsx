@@ -24,15 +24,58 @@ const sectors = [
 
 const DRAFT_RFQ_ID = "RFQ-DRAFT-LANDING";
 
+/** Referansta her sertifikanın imzası farklı; tek bir çizim tekrar etmiyor. */
+const SIGNATURE_PATHS = [
+  "M4 22c10-4 13-18 18-17s2 19 8 20 9-15 14-14 3 13 8 13 8-8 12-10 14-2 18-1",
+  "M3 19c6 4 9-15 14-14s2 18 8 19 10-14 15-13 5 12 11 11 12-6 17-8",
+  "M5 23c4-10 10-17 14-16s1 17 7 18 8-13 13-12 5 11 11 10 12-5 17-7",
+] as const;
+
 /** Islak imza izlenimi veren dekoratif çizgi. */
-function Signature() {
+function Signature({ variant = 0 }: { variant?: number }) {
   return (
     <svg className="tl-signature" viewBox="0 0 120 28" aria-hidden="true">
-      <path d="M4 22c10-4 13-18 18-17s2 19 8 20 9-15 14-14 3 13 8 13 8-8 12-10 14-2 18-1" />
+      <path d={SIGNATURE_PATHS[variant % SIGNATURE_PATHS.length]} />
       <path className="tl-signature-rule" d="M0 27h120" />
     </svg>
   );
 }
+
+/** Kabartma noter mührü — referansta yalnızca ilk sertifikada var. */
+function EmbossSeal() {
+  return (
+    <svg className="tl-emboss" viewBox="0 0 48 48" aria-hidden="true">
+      <circle cx="24" cy="24" r="22" />
+      <circle className="tl-emboss-teeth" cx="24" cy="24" r="19.4" strokeDasharray="1.5 3.6" />
+      <circle cx="24" cy="24" r="16" />
+      <circle cx="24" cy="24" r="7" />
+      <path d="M24 8v8M24 32v8M8 24h8M32 24h8M12.9 12.9l5.7 5.7M29.4 29.4l5.7 5.7M35.1 12.9l-5.7 5.7M18.6 29.4l-5.7 5.7" />
+    </svg>
+  );
+}
+
+/**
+ * Dekoratif QR dokusu. Modül dizilimi sabit tohumlu LCG ile üretilir; Math.random
+ * kullanılmaz ki her render ve her test koşusu aynı deseni versin.
+ */
+const QR_SIZE = 29;
+const QR_FINDERS = [[0, 0], [QR_SIZE - 7, 0], [0, QR_SIZE - 7]]
+  .map(([x, y]) => `M${x} ${y}h7v7h-7zM${x + 1} ${y + 1}v5h5v-5zM${x + 2} ${y + 2}h3v3h-3z`)
+  .join("");
+const QR_MODULES = (() => {
+  const cells: string[] = [];
+  const inFinder = (x: number, y: number) =>
+    (x < 8 && y < 8) || (x > QR_SIZE - 9 && y < 8) || (x < 8 && y > QR_SIZE - 9);
+  let seed = 0x2f6e2b1;
+  for (let y = 0; y < QR_SIZE; y += 1) {
+    for (let x = 0; x < QR_SIZE; x += 1) {
+      seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+      if (inFinder(x, y) || ((seed >>> 15) & 1) === 0) continue;
+      cells.push(`M${x} ${y}h1v1h-1z`);
+    }
+  }
+  return cells.join("");
+})();
 
 /** 08 — Hizmet verilen sektörler. */
 export function TechnicalSectors() {
@@ -74,18 +117,17 @@ export function QualityFile() {
       <div className="tl-quality-body">
         <h2 id="tl-quality-title" className="tl-visually-hidden">Kalite dosyası</h2>
         <div className="tl-quality-strip">
-          {qualityCertificates.map(({ code, name }) => (
+          {qualityCertificates.map(({ code, name }, index) => (
             <article className="tl-cert" key={code}>
-              <svg className="tl-cert-seal" viewBox="0 0 48 48" aria-hidden="true">
-                <circle cx="24" cy="24" r="22" />
-                <circle className="tl-cert-teeth" cx="24" cy="24" r="19.4" strokeDasharray="1.5 3.6" />
-                <circle cx="24" cy="24" r="16" />
-                <circle cx="24" cy="24" r="7" />
-                <path d="M24 8v8M24 32v8M8 24h8M32 24h8M12.9 12.9l5.7 5.7M29.4 29.4l5.7 5.7M35.1 12.9l-5.7 5.7M18.6 29.4l-5.7 5.7" />
-              </svg>
               <h3>{code}</h3>
               <p>{name}</p>
-              <Signature />
+              <div className="tl-cert-sign">
+                <span>
+                  <Signature variant={index} />
+                  <small>YETKİLİ İMZA</small>
+                </span>
+                {index === 0 ? <EmbossSeal /> : null}
+              </div>
             </article>
           ))}
 
@@ -95,25 +137,31 @@ export function QualityFile() {
             <div className="tl-mini-doc" aria-hidden="true">
               <img src={reportPart} alt="" loading="lazy" />
               <div>
-                {Array.from({ length: 5 }, (_, row) => (
+                {Array.from({ length: 6 }, (_, row) => (
                   <span key={row}><i /><i /></span>
                 ))}
               </div>
             </div>
+            <div className="tl-doc-foot" aria-hidden="true"><i /><i /></div>
           </article>
 
           <article className="tl-cert tl-cert-material">
             <h3>MALZEME SERTİFİKASI</h3>
             <p>EN 10204 3.1</p>
-            <b className="tl-grade-badge" aria-hidden="true">3.1</b>
-            <Signature />
+            <div className="tl-cert-table" aria-hidden="true">
+              {Array.from({ length: 7 }, (_, row) => (
+                <span key={row}><i /><i /><i /><i /></span>
+              ))}
+              <b className="tl-grade-badge">3.1</b>
+            </div>
+            <Signature variant={2} />
           </article>
 
           <article className="tl-cert tl-cert-verify">
             <h3>RAPORU DOĞRULA</h3>
-            <svg className="tl-qr" viewBox="0 0 29 29" aria-hidden="true" shapeRendering="crispEdges">
-              <path d="M0 0h7v7H0zM2 2h3v3H2zM22 0h7v7h-7zM24 2h3v3h-3zM0 22h7v7H0zM2 24h3v3H2z" />
-              <path d="M9 0h2v2H9zM13 0h2v4h-2zM17 2h2v2h-2zM9 4h4v2H9zM19 5h3v2h-3zM0 9h2v2H0zM4 9h3v2H4zM9 9h2v3H9zM13 10h4v2h-4zM19 9h2v2h-2zM23 10h4v2h-4zM2 13h5v2H2zM11 13h2v4h-2zM15 14h3v2h-3zM20 13h2v3h-2zM25 14h2v2h-2zM0 17h3v2H0zM5 18h4v2H5zM13 17h2v2h-2zM17 18h3v2h-3zM22 17h2v2h-2zM26 18h3v2h-3zM9 21h2v2H9zM13 21h4v2h-4zM19 22h2v2h-2zM24 21h2v2h-2zM9 25h4v2H9zM15 24h2v3h-2zM19 26h4v2h-4zM26 25h3v2h-3z" />
+            <svg className="tl-qr" viewBox={`0 0 ${QR_SIZE} ${QR_SIZE}`} aria-hidden="true" shapeRendering="crispEdges">
+              <path fillRule="evenodd" d={QR_FINDERS} />
+              <path d={QR_MODULES} />
             </svg>
             <p>QR kodu okutunuz</p>
             <small>DOĞRULAMA SERVİSİ HAZIRLANIYOR</small>
@@ -121,9 +169,20 @@ export function QualityFile() {
 
           <div className="tl-stamp" aria-hidden="true">
             <svg viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="56" /><circle cx="60" cy="60" r="46" />
+              <defs>
+                {/* Üst yay soldan sağa (sweep=1) üstten geçer, alt yay soldan sağa (sweep=0)
+                    alttan geçer; ikisi de bu yönde okunaklı çıkıyor. Yön çevrilirse harf sırası ters döner. */}
+                <path id="tl-stamp-arc-top" d="M26 60a34 34 0 0 1 68 0" />
+                <path id="tl-stamp-arc-bottom" d="M21 60a39 39 0 0 0 78 0" />
+              </defs>
+              <circle cx="60" cy="60" r="56" />
+              <circle cx="60" cy="60" r="52" strokeDasharray="1.6 3.2" />
+              <circle cx="60" cy="60" r="42" />
+              <text className="tl-stamp-arc"><textPath href="#tl-stamp-arc-top" startOffset="50%">MAS TECHNIC</textPath></text>
+              <text className="tl-stamp-arc"><textPath href="#tl-stamp-arc-bottom" startOffset="50%">ASSURED</textPath></text>
+              <path d="M17 57v8M13.5 59l7 4M20.5 59l-7 4M103 57v8M99.5 59l7 4M106.5 59l-7 4" />
             </svg>
-            <span>MAS TECHNIC<b>QUALITY<br />ASSURED</b></span>
+            <span>QUALITY<br />ASSURED</span>
           </div>
         </div>
       </div>
@@ -239,9 +298,9 @@ export function DrawingFooter() {
         <div className="tl-footer-brand">
           <h2>HASSAS ÜRETİM.<br />KANITLANMIŞ TESLİM.</h2>
           <address>
-            <p><MapPin aria-hidden="true" /><span>NOSAB Minareliçavuş Mah.<br />103. Cadde, Sk. No:12<br />Nilüfer / BURSA</span></p>
-            <p><Phone aria-hidden="true" /><a href="tel:+902244824090">+90 224 482 40 90</a></p>
-            <p><Mail aria-hidden="true" /><a href="mailto:info@mastechnic.com.tr">info@mastechnic.com.tr</a></p>
+            <p><MapPin aria-hidden="true" /><span>Ataşehir Mah., 8287. Sok.<br />No: 4, 35620<br />Çiğli / İZMİR</span></p>
+            <p><Phone aria-hidden="true" /><a href="tel:+905365645194">+90 (536) 564 51 94</a></p>
+            <p><Mail aria-hidden="true" /><a href="mailto:sales@mastechnic.com">sales@mastechnic.com</a></p>
           </address>
         </div>
         <nav aria-label="Altbilgi navigasyonu">

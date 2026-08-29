@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/integrations/supabase/env";
 
 export const CAD_ACCEPTED_EXTENSIONS = ["step", "stp", "stl", "obj", "iges", "igs", "3mf"] as const;
 export const CAD_MAX_FILE_SIZE = 50 * 1024 * 1024;
@@ -46,10 +47,8 @@ export const uploadCadFile = async (
   const validationError = validateCadFile(file);
   if (validationError) throw new Error(validationError);
 
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL ?? "https://zdqiujpeewtyhtcqhdcj.supabase.co";
-  const publishableKey =
-    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? import.meta.env.VITE_SUPABASE_ANON_KEY ??
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkcWl1anBlZXd0eWh0Y3FoZGNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTY0ODAsImV4cCI6MjA4NjIzMjQ4MH0.njAezeA6ikarsELTNRsDHdUefPWhyxQ0kGNPuFk8zrE";
+  const supabaseUrl = SUPABASE_URL;
+  const publishableKey = SUPABASE_PUBLISHABLE_KEY;
   const { data } = await supabase.auth.getSession();
   const token = data.session?.access_token ?? publishableKey;
 

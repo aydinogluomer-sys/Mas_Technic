@@ -5,8 +5,8 @@ import { TextHighlight } from "@/components/ui/TextHighlight";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
-import cncWorkshop from "@/assets/cnc-workshop.jpg";
-import qualityControl from "@/assets/quality-control.jpg";
+import cncWorkshop from "@/assets/cnc-workshop.webp";
+import qualityControl from "@/assets/quality-control.webp";
 import { BlurImage } from "./BlurImage";
 
 const advantages = [

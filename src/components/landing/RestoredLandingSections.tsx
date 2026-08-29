@@ -7,9 +7,9 @@ import { EditorialKnowledgePreview } from "./EditorialKnowledgePreview";
 import { DecisionPixelCard, type DecisionItem } from "./DecisionPixelCard";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 
-import blogMachining from "@/assets/blog-5eksen.jpg";
-import blogMaterial from "@/assets/blog-malzeme.jpg";
-import blogDfm from "@/assets/blog-dfm.jpg";
+import blogMachining from "@/assets/blog-5eksen.webp";
+import blogMaterial from "@/assets/blog-malzeme.webp";
+import blogDfm from "@/assets/blog-dfm.webp";
 
 const proofItems = [
   {

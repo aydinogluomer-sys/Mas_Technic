@@ -18,9 +18,13 @@ if (!["localhost", "127.0.0.1", "[::1]"].includes(baseUrlHost)
 const REUSE_EXISTING_SERVER = process.env.PLAYWRIGHT_REUSE_SERVER
   ? process.env.PLAYWRIGHT_REUSE_SERVER === "1"
   : !process.env.CI;
+// Yerelde tek worker. Playwright'in varsayilani cekirdek sayisinin yarisidir
+// (bu makinede 4) ve her worker kendi Chromium'unu acar; bellek yetmedigi icin
+// testler kod hatasi olmadan timeout'a dusuyordu. Gecici olarak artirmak icin:
+// PLAYWRIGHT_WORKERS=4 npx playwright test
 const WORKERS = process.env.PLAYWRIGHT_WORKERS
   ? Number(process.env.PLAYWRIGHT_WORKERS)
-  : process.env.CI ? 2 : undefined;
+  : process.env.CI ? 2 : 1;
 const RETRIES = process.env.PLAYWRIGHT_RETRIES
   ? Number(process.env.PLAYWRIGHT_RETRIES)
   : process.env.CI ? 2 : 0;

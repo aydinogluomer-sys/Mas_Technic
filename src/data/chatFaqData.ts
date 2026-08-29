@@ -10,12 +10,12 @@ export interface FaqEntry {
 const staticEntries: FaqEntry[] = [
   {
     question: "Teklif nasıl alabilirim?",
-    answer: "Teklif almak için [Teklif Al](/teklif-al) sayfamızı ziyaret edebilirsiniz. CAD dosyanızı yükleyerek hızlı teklif alabilirsiniz. Alternatif olarak info@mastechnic.com adresine mail atabilirsiniz.",
+    answer: "Teklif almak için [Teklif Al](/teklif-al) sayfamızı ziyaret edebilirsiniz. CAD dosyanızı yükleyerek hızlı teklif alabilirsiniz. Alternatif olarak sales@mastechnic.com adresine mail atabilirsiniz.",
     keywords: ["teklif", "fiyat", "maliyet", "ücret", "para", "ne kadar", "kaç tl", "bütçe", "hesap"],
   },
   {
     question: "İletişim bilgileriniz nelerdir?",
-    answer: "📞 Telefon: +90 (212) 555 0000\n📧 E-posta: info@mastechnic.com\n📍 Adres: İstanbul, Türkiye\n\nDetaylı bilgi için [İletişim](/iletisim) sayfamızı ziyaret edin.",
+    answer: "📞 Telefon: +90 (536) 564 51 94\n📧 E-posta: sales@mastechnic.com\n📍 Adres: Ataşehir Mah., 8287. Sok. No: 4, 35620 Çiğli/İzmir\n\nDetaylı bilgi için [İletişim](/iletisim) sayfamızı ziyaret edin.",
     keywords: ["iletişim", "telefon", "adres", "email", "mail", "nerede", "konum", "ulaşım", "numara"],
   },
   {

@@ -4,7 +4,7 @@
 
 **Şirket:** Mas Technic  
 **Sektör:** CNC Hassas İmalat, Yüzey İşlemleri, Endüstriyel Üretim  
-**Konum:** İstanbul, Türkiye  
+**Konum:** Çiğli / İzmir, Türkiye  
 **Ölçek:** Orta ölçekli B2B imalat, üst segment müşteri profili  
 **Dil:** Türkçe (tüm UI ve içerik)
 

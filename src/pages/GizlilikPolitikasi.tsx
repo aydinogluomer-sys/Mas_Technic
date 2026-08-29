@@ -15,7 +15,7 @@ export const GizlilikPolitikasi = () => (
             <section><h2 className="text-lg font-semibold text-foreground mb-3">2. Toplanan Veriler</h2><p>Ad-soyad, e-posta, telefon numarası, şirket bilgileri ve teknik çizim dosyaları gibi veriler toplanabilir.</p></section>
             <section><h2 className="text-lg font-semibold text-foreground mb-3">3. Verilerin Kullanımı</h2><p>Toplanan veriler yalnızca teklif hazırlama, üretim süreçleri ve müşteri iletişimi amacıyla kullanılır.</p></section>
             <section><h2 className="text-lg font-semibold text-foreground mb-3">4. Veri Güvenliği</h2><p>Tüm veriler şifreli ortamlarda saklanır ve yetkisiz erişime karşı korunur.</p></section>
-            <section><h2 className="text-lg font-semibold text-foreground mb-3">5. İletişim</h2><p>Gizlilik politikamız hakkında sorularınız için info@mastechnic.com adresinden bize ulaşabilirsiniz.</p></section>
+            <section><h2 className="text-lg font-semibold text-foreground mb-3">5. İletişim</h2><p>Gizlilik politikamız hakkında sorularınız için sales@mastechnic.com adresinden bize ulaşabilirsiniz.</p></section>
           </div>
         </div>
       </div>

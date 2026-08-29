@@ -37,7 +37,7 @@ export const nexusPanels = ["ÖZET", "SİPARİŞLER", "TAKİP", "RAPORLAR", "KAL
 
 export const nexusKpis = [
   { value: "12", label: "AKTİF SİPARİŞ", icon: "box" },
-  { value: "7", label: "ÜRETİMDE", icon: "flow" },
+  { value: "7", label: "ÜRETİMDE", icon: "flow", tone: "green" },
   { value: "126", label: "TOPLAM PARÇA", icon: "stack" },
   { value: "%98.7", label: "BAŞARI", icon: "chart" },
 ] as const;

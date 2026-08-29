@@ -6,7 +6,7 @@
 
 ## Proje Özeti
 
-**Mas Technic** — B2B CNC hassas imalat şirketi, İstanbul.  
+**Mas Technic** — B2B CNC hassas imalat şirketi, İzmir.  
 Site hem landing page hem müşteri portalı hem yönetim paneli içeriyor.  
 Supabase backend üzerinde çalışıyor; 23 tablo, RLS, Edge Functions.  
 **Dil:** Türkçe (içerik + UI). **Platform:** Claude Code (Lovable terk edildi).

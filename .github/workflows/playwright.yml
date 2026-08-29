@@ -38,9 +38,14 @@ jobs:
         if: steps.pw-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
 
+      # The Supabase values are publishable (anon key, guarded by RLS) but are
+      # no longer inlined in source, so the production build the e2e suite
+      # serves needs them from the environment.
       - name: Run Playwright tests
         env:
           CI: "true"
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
         run: npm run test:e2e
 
       - name: Upload HTML report

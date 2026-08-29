@@ -5,7 +5,7 @@
 import { Suspense, useState, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { LiquidImage } from "./LiquidImage";
-import heroBg from "@/assets/hero-cnc.jpg";
+import heroBg from "@/assets/hero-cnc.webp";
 
 export const HeroCanvas = () => {
   const [visible, setVisible] = useState(false);
