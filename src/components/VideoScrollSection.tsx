@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import cncVideo from "@/assets/cnc-sequence-scroll.mp4";
-import cncPoster from "@/assets/cnc-start-frame.jpg";
+import cncPoster from "@/assets/cnc-start-frame.webp";
 import { Settings, Target, Layers, Zap } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { TextScramble } from "@/components/ui/TextScramble";

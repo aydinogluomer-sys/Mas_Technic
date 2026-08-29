@@ -12,17 +12,17 @@ import { useStaggeredReveal } from "@/hooks/useStaggeredReveal";
 
 import imgAerospace from "@/assets/industry-aerospace.webp";
 import imgDefense from "@/assets/industry-defense.webp";
-import imgRobotics from "@/assets/industry-robotics.jpg";
-import imgAutomotive from "@/assets/industry-automotive.jpg";
+import imgRobotics from "@/assets/industry-robotics.webp";
+import imgAutomotive from "@/assets/industry-automotive.webp";
 import imgMedical from "@/assets/industry-medical.webp";
-import imgMarine from "@/assets/industry-marine.jpg";
+import imgMarine from "@/assets/industry-marine.webp";
 import imgHydraulic from "@/assets/industry-hydraulic.webp";
-import imgPiping from "@/assets/industry-piping.jpg";
-import imgHvac from "@/assets/industry-hvac.jpg";
-import imgRenewable from "@/assets/industry-renewable.jpg";
-import imgOilgas from "@/assets/industry-oilgas.jpg";
-import imgPower from "@/assets/industry-power.jpg";
-import imgMining from "@/assets/industry-mining.jpg";
+import imgPiping from "@/assets/industry-piping.webp";
+import imgHvac from "@/assets/industry-hvac.webp";
+import imgRenewable from "@/assets/industry-renewable.webp";
+import imgOilgas from "@/assets/industry-oilgas.webp";
+import imgPower from "@/assets/industry-power.webp";
+import imgMining from "@/assets/industry-mining.webp";
 
 interface Industry {
   name: string;

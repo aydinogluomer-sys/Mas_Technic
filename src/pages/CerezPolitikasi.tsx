@@ -14,7 +14,7 @@ export const CerezPolitikasi = () => (
             <section><h2 className="text-lg font-semibold text-foreground mb-3">1. Çerez Nedir?</h2><p>Çerezler, web sitemizi ziyaret ettiğinizde tarayıcınız aracılığıyla cihazınıza yerleştirilen küçük metin dosyalarıdır.</p></section>
             <section><h2 className="text-lg font-semibold text-foreground mb-3">2. Kullanılan Çerez Türleri</h2><p>Zorunlu çerezler, performans çerezleri ve analitik çerezler kullanmaktayız.</p></section>
             <section><h2 className="text-lg font-semibold text-foreground mb-3">3. Çerez Yönetimi</h2><p>Tarayıcı ayarlarınızdan çerezleri devre dışı bırakabilirsiniz. Ancak bu durumda web sitemizin bazı işlevleri düzgün çalışmayabilir.</p></section>
-            <section><h2 className="text-lg font-semibold text-foreground mb-3">4. İletişim</h2><p>Çerez politikamız hakkında sorularınız için info@mastechnic.com adresinden bize ulaşabilirsiniz.</p></section>
+            <section><h2 className="text-lg font-semibold text-foreground mb-3">4. İletişim</h2><p>Çerez politikamız hakkında sorularınız için sales@mastechnic.com adresinden bize ulaşabilirsiniz.</p></section>
           </div>
         </div>
       </div>

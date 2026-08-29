@@ -52,7 +52,7 @@ export function NexusEvidence() {
             {nexusKpis.map((kpi) => {
               const Icon = kpiIcons[kpi.icon];
               return (
-                <div key={kpi.label}>
+                <div key={kpi.label} data-tone={"tone" in kpi ? kpi.tone : undefined}>
                   <Icon aria-hidden="true" />
                   <strong>{kpi.value}</strong>
                   <span>{kpi.label}</span>
@@ -62,7 +62,7 @@ export function NexusEvidence() {
           </div>
         </header>
         <div className="tl-nexus-app">
-          <div className="tl-nexus-rail" aria-label="NEXUS panel önizlemesi" role="group">
+          <div className="tl-nexus-rail" aria-label="NEXUS panel önizlemesi" role="group" tabIndex={0}>
             <ul>
               {nexusPanels.map((panel, index) => {
                 const Icon = panelIcons[index];
@@ -108,10 +108,9 @@ export function MeasuredProjects() {
   return (
     <TechnicalSectionFrame id="projeler" no="07" label="SEÇİLMİŞ PROJELER" className="tl-projects" labelledBy="tl-projects-title" status="sample">
       <div className="tl-projects-body">
-        <header>
-          <h2 id="tl-projects-title">SEÇİLMİŞ PROJELER</h2>
-          <p>ÖLÇÜM DEĞERLERİ TEMSİLÎDİR · GERÇEK RAPOR DEĞİLDİR</p>
-        </header>
+        {/* Referansta bant başlığı yok; bandı sol raydaki "07 / SEÇİLMİŞ PROJELER"
+            etiketi adlandırıyor, başlık yalnızca erişilebilirlik için duruyor. */}
+        <h2 id="tl-projects-title" className="tl-visually-hidden">SEÇİLMİŞ PROJELER</h2>
         <div className="tl-project-grid">
           {measuredProjects.map((project, index) => (
             <article className={index === 0 ? "tl-project-featured" : ""} key={project.title}>
@@ -133,6 +132,7 @@ export function MeasuredProjects() {
             </article>
           ))}
         </div>
+        <p className="tl-project-note">ÖLÇÜM DEĞERLERİ TEMSİLÎDİR · GERÇEK RAPOR DEĞİLDİR</p>
       </div>
     </TechnicalSectionFrame>
   );

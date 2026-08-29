@@ -7,7 +7,7 @@
 
 ## Proje Kimliği
 
-**Şirket:** Mas Technic — CNC Hassas İmalat, İstanbul  
+**Şirket:** Mas Technic — CNC Hassas İmalat, İzmir  
 **Repo:** precision-dynamics-hub  
 **Platform:** Claude Code (primary, 2026-05-12'den itibaren — Lovable terk edildi)  
 **Branch kuralı:** Her feature için `claude/[kısa-açıklama]` branch'i aç  

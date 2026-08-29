@@ -120,7 +120,7 @@ export const Iletisim = () => {
           <motion.div {...fadeUp(0.1)} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
             {[
               { icon: Phone, label: "Telefon", value: "+90 (536) 564 51 94", href: "tel:+905365645194" },
-              { icon: Mail, label: "E-posta", value: "info@mastechnic.com", href: "mailto:info@mastechnic.com" },
+              { icon: Mail, label: "E-posta", value: "sales@mastechnic.com", href: "mailto:sales@mastechnic.com" },
               { icon: MapPin, label: "Adres", value: "İzmir, Türkiye", href: "#" },
               { icon: Clock, label: "Çalışma Saatleri", value: "Pzt-Cum: 08:00-18:00", href: "#" },
             ].map((item) => (

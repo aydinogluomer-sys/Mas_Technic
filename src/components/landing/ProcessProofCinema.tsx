@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import { useProcessProofCinema } from "@/hooks/useProcessProofCinema";
 import { SparkParticles } from "@/components/ui/SparkParticles";
 
-import dfmImage from "@/assets/hero-dfm-tasarim.jpg";
-import materialImage from "@/assets/hero-malzeme-kutuphanesi.jpg";
+import dfmImage from "@/assets/hero-dfm-tasarim.webp";
+import materialImage from "@/assets/hero-malzeme-kutuphanesi.webp";
 import machiningImage from "@/assets/hero-cnc-frezeleme.webp";
-import surfaceImage from "@/assets/hero-anodizasyon.jpg";
-import inspectionImage from "@/assets/hero-kalite-kontrol.jpg";
+import surfaceImage from "@/assets/hero-anodizasyon.webp";
+import inspectionImage from "@/assets/hero-kalite-kontrol.webp";
 
 export interface ProcessProofStage {
   id: string;

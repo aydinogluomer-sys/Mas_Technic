@@ -20,16 +20,16 @@ const IN_VIEW_EFFECTS: readonly InViewClassTarget[] = [
   { selector: "[data-lf-cuttext]", className: "is-cuttext", armClassName: "is-cuttext-armed" },
 ];
 
-import cncImage from "@/assets/hero-cnc.jpg";
-import mouldImage from "@/assets/hero-enjeksiyon-kalibi.jpg";
-import surfaceImage from "@/assets/hero-anodizasyon.jpg";
-import markingImage from "@/assets/hero-lazer-kazima.jpg";
-import assemblyImage from "@/assets/hero-mekanik-montaj.jpg";
+import cncImage from "@/assets/hero-cnc.webp";
+import mouldImage from "@/assets/hero-enjeksiyon-kalibi.webp";
+import surfaceImage from "@/assets/hero-anodizasyon.webp";
+import markingImage from "@/assets/hero-lazer-kazima.webp";
+import assemblyImage from "@/assets/hero-mekanik-montaj.webp";
 import aerospaceImage from "@/assets/industry-aerospace.webp";
 import defenseImage from "@/assets/industry-defense.webp";
-import automotiveImage from "@/assets/industry-automotive.jpg";
+import automotiveImage from "@/assets/industry-automotive.webp";
 import medicalImage from "@/assets/industry-medical.webp";
-import roboticsImage from "@/assets/industry-robotics.jpg";
+import roboticsImage from "@/assets/industry-robotics.webp";
 
 const serviceImages = [cncImage, mouldImage, surfaceImage, markingImage, assemblyImage];
 const serviceGroup = navigationItems.find((item) => item.label === "Hizmetler");

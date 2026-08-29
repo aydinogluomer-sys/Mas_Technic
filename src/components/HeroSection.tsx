@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { useRenderProfile } from "@/hooks/useRenderProfile";
 import { useSoundEngine } from "@/hooks/use-sound";
-import heroBg from "@/assets/hero-cnc.jpg";
+import heroBg from "@/assets/hero-cnc.webp";
 import cncVideo from "@/assets/cnc-factory-zoom.mp4";
 import { LiveLedgerCard } from "./LiveLedgerCard";
 import { HeroCadDropzone } from "./HeroCadDropzone";

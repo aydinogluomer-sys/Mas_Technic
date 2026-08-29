@@ -15,7 +15,7 @@ export const KVKK = () => (
             <section><h2 className="text-lg font-semibold text-foreground mb-3">2. Kişisel Verilerin İşlenme Amacı</h2><p>Kişisel verileriniz; teklif hazırlama, sipariş yönetimi, üretim takibi, fatura düzenleme ve yasal yükümlülüklerin yerine getirilmesi amacıyla işlenmektedir.</p></section>
             <section><h2 className="text-lg font-semibold text-foreground mb-3">3. Kişisel Verilerin Aktarılması</h2><p>Kişisel verileriniz, yasal zorunluluklar ve iş ortaklıkları kapsamında üçüncü kişilere aktarılabilir.</p></section>
             <section><h2 className="text-lg font-semibold text-foreground mb-3">4. Haklarınız</h2><p>KVKK'nın 11. maddesi gereğince; kişisel verilerinizin işlenip işlenmediğini öğrenme, düzeltme ve silinmesini talep etme hakkına sahipsiniz.</p></section>
-            <section><h2 className="text-lg font-semibold text-foreground mb-3">5. İletişim</h2><p>Başvurularınız için: info@mastechnic.com</p></section>
+            <section><h2 className="text-lg font-semibold text-foreground mb-3">5. İletişim</h2><p>Başvurularınız için: sales@mastechnic.com</p></section>
           </div>
         </div>
       </div>
