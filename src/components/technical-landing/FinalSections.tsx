@@ -298,9 +298,13 @@ export function DrawingFooter() {
         <div className="tl-footer-brand">
           <h2>HASSAS ÜRETİM.<br />KANITLANMIŞ TESLİM.</h2>
           <address>
-            <p><MapPin aria-hidden="true" /><span>Ataşehir Mah., 8287. Sok.<br />No: 4, 35620<br />Çiğli / İZMİR</span></p>
-            <p><Phone aria-hidden="true" /><a href="tel:+905365645194">+90 (536) 564 51 94</a></p>
-            <p><Mail aria-hidden="true" /><a href="mailto:sales@mastechnic.com">sales@mastechnic.com</a></p>
+            {/* DOM sırası adres–adres–telefon–mail: ekran okuyucu adresi bütün
+                okur. Satır eşleşmesi (adres 1 ↔ telefon, adres 2 ↔ mail) CSS'te
+                açık yerleşimle kuruluyor, okuma sırası bozulmadan. */}
+            <p><MapPin aria-hidden="true" /><span>Ataşehir Mah., 8287. Sok.</span></p>
+            <p className="tl-addr-cont"><span>No: 4, 35620 Çiğli / İZMİR</span></p>
+            <p className="tl-tel"><Phone aria-hidden="true" /><a href="tel:+905365645194">+90 (536) 564 51 94</a></p>
+            <p className="tl-mail"><Mail aria-hidden="true" /><a href="mailto:sales@mastechnic.com">sales@mastechnic.com</a></p>
           </address>
         </div>
         <nav aria-label="Altbilgi navigasyonu">

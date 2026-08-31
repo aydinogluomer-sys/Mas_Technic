@@ -301,13 +301,21 @@
 .tl-rfq-body>ol li:last-child::after{display:none}
 
 /* 14 — footer */
-.tl-footer{--wm-size:clamp(52px,7.7vw,110px);--wm-right:8.4%;--wm-bottom:-11px;--wm-ton:rgba(238,233,222,.12)}
+.tl-footer{--wm-size:clamp(62px,9.12vw,130px);--wm-shift:163px;--wm-bottom:calc(26px - .48 * var(--wm-size));--wm-ton:rgba(238,233,222,.22)}
 .tl-footer-body{position:relative;display:grid;grid-template-columns:minmax(0,43fr) minmax(0,77fr);grid-template-rows:auto auto;overflow:hidden}
 .tl-footer-brand{padding:var(--tl-s4) var(--tl-s6) var(--tl-s5)}
 .tl-footer h2{font-size:clamp(26px,2.6vw,38px);font-weight:700;line-height:.95;letter-spacing:-.025em}
 .tl-footer address{display:grid;grid-template-columns:auto auto;justify-content:start;gap:var(--tl-s2) var(--tl-s7);margin-top:var(--tl-s2);font-style:normal}
 .tl-footer address p{display:flex;align-items:start;gap:var(--tl-s2);color:#c3c8c5;font:500 10px/1.5 "IBM Plex Mono",monospace}
-.tl-footer address p:first-child{grid-row:1/span 2}
+/* Adres iki satir; saginda telefon ve mail AYNI satirlara hizalanir.
+   Acik yerlesim kullaniliyor cunku DOM sirasi (adres-adres-telefon-mail)
+   okuma icin dogru, gorsel sira ise satir satir olmali. */
+.tl-footer address .tl-tel{grid-column:2;grid-row:1}
+.tl-footer address .tl-mail{grid-column:2;grid-row:2}
+/* Ikinci adres satiri ikon genisligi kadar iceriden baslar. Girinti <p>'ye
+   degil ic <span>'e veriliyor: <p>'nin sol kenari degismeyince adres hala
+   iki sutun olarak olculuyor (footer sozlesmesi bunu kilitliyor). */
+.tl-footer address .tl-addr-cont span{margin-left:calc(14px + var(--tl-s2))}
 .tl-footer address svg{width:14px;flex:none;margin-top:2px;stroke-width:1.4}
 .tl-footer address a{color:inherit;text-decoration:none}.tl-footer address a:hover{text-decoration:underline;text-underline-offset:3px}
 .tl-footer nav{display:grid;grid-template-columns:repeat(4,1fr);align-content:start;padding:var(--tl-s4) var(--tl-s4) var(--tl-s5)}
@@ -315,9 +323,15 @@
 .tl-footer nav h3{margin-bottom:var(--tl-s3);font:600 9px/1 "IBM Plex Mono",monospace;letter-spacing:.1em}
 .tl-footer nav a{display:block;margin-top:6px;color:#c5cac7;font-size:11px;text-decoration:none;transition:color .25s ease}
 .tl-footer nav a:hover{color:var(--tl-white)}
-.tl-footer-body::before,.tl-title-block::before{content:"MAS TECHNIC";position:absolute;right:var(--wm-right);bottom:var(--wm-bottom);z-index:0;color:var(--wm-ton);font-size:var(--wm-size);font-weight:700;letter-spacing:-.03em;line-height:.8;white-space:nowrap;pointer-events:none;user-select:none}
+/* Filigran, antet satirindaki "TARIH" ile sagdaki hukuki metin arasindaki
+   araligin ortasina hizalanir. O aralik merkezi, govde merkezinin HER
+   genislikte tam 163px sagindadir (1280/1336/1440/1600'de olculdu): TARIH
+   sola sabit, hukuki link saga sabit, yani aralik merkezi bandin yarisi
+   hizinda kayar. Bu yuzden saga yaslamak yerine merkeze yaslanip sabit
+   kaydiriliyor; saga yasli surumde 1600px'de 79px kayma olusuyordu. */
+.tl-footer-body::before,.tl-title-block::before{content:"MAS TECHNIC";position:absolute;left:50%;transform:translateX(calc(-50% + var(--wm-shift)));bottom:var(--wm-bottom);z-index:0;color:var(--wm-ton);font-size:var(--wm-size);font-weight:700;letter-spacing:-.03em;line-height:.8;white-space:nowrap;pointer-events:none;user-select:none}
 /* Çizginin altında kalan kısım buğulu: antet bloğuna hizalı bulanık kopya. */
-.tl-title-block::before{color:rgba(238,233,222,.062);filter:blur(3.5px)}
+.tl-title-block::before{color:rgba(238,233,222,.154);filter:blur(1.6px);-webkit-mask-image:linear-gradient(180deg,#000 0,#000 58%,transparent 94%);mask-image:linear-gradient(180deg,#000 0,#000 58%,transparent 94%)}
 .tl-title-block{position:relative;z-index:1;grid-column:1/-1;overflow:hidden;background:var(--tl-black);display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;border-top:1px solid var(--tl-rule)}
 .tl-title-block>*{position:relative;z-index:1}
 .tl-social{display:flex;height:100%;align-items:center;gap:var(--tl-s4);border-right:1px solid var(--tl-rule);padding-inline:var(--tl-s4)}
@@ -356,7 +370,7 @@
   .tl-rfq-body{grid-template-columns:1fr;gap:var(--tl-s5)}
   .tl-footer-body{grid-template-columns:1fr;grid-template-rows:none}.tl-footer-brand{order:1}.tl-footer nav{order:2}
   .tl-title-block::before{display:none}
-  .tl-footer-body::before{position:static;order:3;inset:auto;padding-inline:var(--tl-s4);font-size:clamp(40px,11vw,92px);line-height:.85;text-align:right;overflow:hidden}
+  .tl-footer-body::before{position:static;order:3;inset:auto;transform:none;padding-inline:var(--tl-s4);font-size:clamp(40px,11vw,92px);line-height:.85;text-align:right;overflow:hidden}
   .tl-title-block{order:4}.tl-footer nav{border-top:1px solid var(--tl-rule);grid-template-columns:repeat(2,1fr);gap:var(--tl-s5)}
 }
 @media (max-width:900px){.tl-header{grid-template-columns:210px 1fr auto}.tl-nav,.tl-quote-button{display:none}.tl-menu-trigger{display:grid}}
@@ -388,7 +402,7 @@
   .tl-faq-body{padding:var(--tl-s5) var(--tl-s3);gap:var(--tl-s6)}.tl-faq details p{padding:0 0 var(--tl-s4) 36px}
   .tl-rfq-body{padding:var(--tl-s5) var(--tl-s3)}.tl-rfq-body>ol{grid-template-columns:1fr;gap:var(--tl-s5)}.tl-rfq-body>ol li{padding:0}.tl-rfq-body>ol li::after{content:"⌄";top:auto;right:auto;bottom:calc(var(--tl-s5) * -0.8);left:0;transform:none}
   .tl-footer-brand{padding:var(--tl-s5) var(--tl-s4)}.tl-footer nav{padding:var(--tl-s5) var(--tl-s3)}
-  .tl-footer address{grid-template-columns:1fr;gap:var(--tl-s3)}.tl-footer address p:first-child{grid-row:auto}
+  .tl-footer address{grid-template-columns:1fr;gap:var(--tl-s3)}.tl-footer address :is(.tl-tel,.tl-mail){grid-column:auto;grid-row:auto}
   .tl-title-block{grid-template-columns:1fr}.tl-social{border-right:0;border-bottom:1px solid var(--tl-rule);padding-block:var(--tl-s3)}
   .tl-meta-run{gap:var(--tl-s3);padding-block:var(--tl-s3)}
   .tl-legal{border-top:1px solid var(--tl-rule);border-left:0;padding-block:var(--tl-s3)}
