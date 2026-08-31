@@ -6,7 +6,12 @@
 - QA WORKTREE: `C:\Users\Trade Bilisim\pdh-wt\qa-p02` on `wt/qa-p02`
 - QA_COMMIT: see `git log` on `wt/qa-p02` (report committed incrementally)
 - **STATUS: FAIL**
-- TESTS_PASSED: 68 · TESTS_FAILED: 1 · TESTS_SKIPPED: 3 · NEW_TESTS_ADDED: 0
+- TESTS_PASSED: 67 · TESTS_FAILED: 1 · TESTS_SKIPPED: 3 · NEW_TESTS_ADDED: 0
+
+> Tally: critical gate 63 passed / 3 skipped; visual gate 3 passed;
+> `mobile-320` lane 1 passed + **1 failed** (F2). The two probe negative controls
+> and the visual negative control are *deliberate* control failures and are
+> excluded from the tally — they are evidence that the gates work, not defects.
 - PORTS USED: Playwright `PLAYWRIGHT_PORT=4419`; probe `4199`; negative-control preview `4299` / `4399`; clean preview `4499`; dev server `5299`
 
 > Written and committed incrementally. Nothing below is transcribed from the
