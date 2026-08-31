@@ -41,8 +41,19 @@ test.describe("technical editorial landing phase 1", () => {
     });
     expect(new Set(contract.bandLefts).size).toBe(1);
     expect(new Set(contract.railRights).size).toBe(1);
-    expect(["56px", "64px"]).toContain(contract.rail);
+    // Phase 02: mobilde ray artık 42px. Eski liste yalnızca 56/64 kabul
+    // ediyordu ve bu, DÜZELTİLEN KUSURU kodluyordu: mobil medya sorgusu
+    // `--tl-cols`'u sıfırlarken `--tl-rail`'i hiç sıfırlamıyor, dolayısıyla
+    // tablet değeri olan 56px'i miras alıyordu — 375px'te ekranın %14.9'u,
+    // 320px'te %17.5'i. Değer listesi genişletildi ve iddia ZAYIFLATILMADI:
+    // aşağıya raysın gerçek sözleşmesi (görüntü alanının %15'inin altında,
+    // mas-grid-system) ölçülen bir kontrol olarak eklendi.
+    expect(["42px", "56px", "64px"]).toContain(contract.rail);
     expect(["4", "6", "12"]).toContain(contract.columns);
+    const viewportWidth = page.viewportSize()?.width ?? 0;
+    expect(Number.parseFloat(contract.rail) / viewportWidth,
+      `rail must not consume an excessive share of a ${viewportWidth}px viewport`)
+      .toBeLessThan(0.15);
 
     // Ray etiketleri her genişlikte soldan sağa okunur ve raydan taşmaz.
     const etiketler = await page.locator(".tl-band-index small").evaluateAll((els) =>
@@ -208,15 +219,30 @@ test.describe("technical editorial landing phase 1", () => {
     expect(footer.navAyirac).not.toBe("0px");
     expect(footer.adresSutun).toBe(2);
     expect(footer.bantOrani).toBeLessThan(0.17);
-    // Nav sütunu referanstaki gibi ~%41'de başlamalı (marka sütunu genişlerse kayar).
+    // Nav sütunu marka sütunu genişlerse kaymamalı.
+    //
+    // Phase 02: beklenen aralık ~%41'den ~%37'ye taşındı çünkü ALTINDAKİ
+    // GEOMETRİ kasıtlı olarak değişti. Antet gövdesi `minmax(0,43fr)
+    // minmax(0,77fr)` kullanıyordu — 120 birimlik, 12'lik master ızgaraya
+    // çözülmeyen özel bir bölme; sınırı hiçbir master hatta düşmüyordu
+    // (1600'de C4'ün 38.36px sağında ölçüldü) ve `IMPLEMENTATION.md` §7
+    // PHASE 02 bunun kaldırılmasını açıkça istiyor. Artık master 4 / 8.
+    // Nav sütunu master hat 4'te başlıyor: içerik alanının tam üçte biri,
+    // artı sütunun kendi 16px dolgusu. 1280/1440/1600'de sırasıyla %38.0 /
+    // %37.4 / %37.0 ölçüldü.
+    //
+    // İDDİA ZAYIFLATILMADI: aralık hâlâ ±%1.5 genişliğinde ve marka sütunu
+    // bir master sütun kadar (≥%7) genişlerse test yine kırmızıya düşer.
+    // Kenarın master hatta oturduğu ayrıca
+    // `e2e/landing/landing-grid-axes.spec.ts` içinde ölçülüyor.
     const navBaslangic = await page.evaluate(() => {
       const el = document.querySelector(".tl-footer nav h3");
       const r = document.createRange();
       r.selectNodeContents(el);
       return (r.getBoundingClientRect().left / window.innerWidth) * 100;
     });
-    expect(navBaslangic).toBeGreaterThan(39);
-    expect(navBaslangic).toBeLessThan(44);
+    expect(navBaslangic).toBeGreaterThan(36.5);
+    expect(navBaslangic).toBeLessThan(39.5);
 
     // Filigran: çizginin üstü net, altı bulanık kopya. İki kopya aynı ölçüyü
     // paylaşmalı (ayrı ayrı ayarlanırsa hizaları kayar) ve nav linklerine değmemeli.
