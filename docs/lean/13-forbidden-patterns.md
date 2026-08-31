@@ -32,12 +32,18 @@ master hatlarda bölünür. Kendi içinde kapalı bir bileşen olan bloklar (öl
 aleti, bitiş şeridi, veri plakası) içeride içeriğe göre bölünebilir — ama dış
 kenarları yine master eksendedir ve `scripts/grid-axis-probe.mjs` ile ölçülür.
 
-İzin, listenin kendisidir. Şu an belgeli beş iç bölünme var:
-`.tl-header`, `.tl-nexus-kpis`, `.tl-rfq-body > ol`, `.tl-title-block` ve
-tablet `.tl-part-passport`. Gerekçeleri ve ölçülen dış kenarları
+İzin, listenin kendisidir. Şu an belgeli DÖRT iç bölünme var:
+`.tl-nexus-kpis`, `.tl-rfq-body > ol`, `.tl-title-block` ve tablet
+`.tl-part-passport`. Gerekçeleri ve ölçülen dış kenarları
 `docs/lean/06-design-system.md` → *Documented content-measured interiors*
 tablosunda. **Listede olmayan içerik ölçülü bir iç bölünme kusurdur**; yeni bir
 giriş eklemek, bloğun dış kenarlarını da probe'a eklemeyi gerektirir.
+
+`.tl-header` bu listeden ÇIKARILDI (Faz 03). İstisna yeniden adlandırılmadı,
+ortadan kaldırıldı: bandı içerik ölçülü olmaya zorlayan atıl TR/EN anahtarı
+kaldırıldı, eylem kümesi üç master sütuna sığdı ve bant `subgrid` oldu. İç
+bloklar (`.tl-brand`, `.tl-header-context`, `.tl-header-actions`) artık probe
+hedefidir; ölçülen sapmalar 0.00–0.13px.
 
 ### ❌ Bant medya sorgusunda ızgara token'ı ezmek
 ```css

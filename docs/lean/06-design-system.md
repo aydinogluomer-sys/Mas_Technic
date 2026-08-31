@@ -99,26 +99,25 @@ master gap it is geometrically identical.
 
 #### Documented content-measured interiors
 
-These five blocks divide internally on content, deliberately. In every case the
+These FOUR blocks divide internally on content, deliberately. In every case the
 block's own outer edges are on master axes and are measured by
 `scripts/grid-axis-probe.mjs` at 375/768/1280/1440/1600.
 
 | Block | Outer edges | Internal division | Why it is not master-divisible |
 |---|---|---|---|
-| `.tl-header` | master 0 → last column, at every width | `210px 1fr auto` (`1fr auto` ≤767) | The brand plate is a fixed lockup and the actions cluster is text-measured; the nav field takes the remainder. Measured outer deltas: 0.00–0.13px across all five probe widths. |
 | `.tl-nexus-kpis` | master 3 → 12 (desktop); full field on tablet/mobile | `repeat(4,1fr)` | Four KPI cells across nine master columns have no common master line. The KPI strip is one bordered instrument, not four page columns. |
 | `.tl-rfq-body > ol` | master 7 → 12 (desktop); full field below | `repeat(4,1fr)` | Four RFQ steps across five master columns have no common master line. The step list is a self-contained sequence inside the RFQ panel. |
 | `.tl-title-block` | full content field | `auto minmax(0,1fr) auto` | The social block and the legal block are text-measured end caps; the middle track is whatever remains. Forcing master tracks would either clip the text or strand it. |
 | `.tl-part-passport` (tablet only) | full content field, master 0 → 6 at 768 | `1fr 3fr 1fr`, with `dl` at `repeat(5,1fr)` | On tablet the passport becomes a horizontal data plate: title, spec table, drawing. Its three zones are proportioned to their content, not to the six master columns it spans. Desktop (`display:flex`, master 10 → 12) and mobile (`display:block`) have no such internal grid. |
 
-Adding a sixth entry is a design decision, not a formatting one: it must be
+Adding a fifth entry is a design decision, not a formatting one: it must be
 justified here, and the block's outer edges must be added to the probe.
 
 ### Band composition
 
 | Band | Composition |
 |---|---|
-| 01 Header | edges on master 0/12; internal split is content-driven (see note) |
+| 01 Header | 3 / 6 / 3 — brand, context readout, actions (fixed global bar) |
 | 02 Hero | 4 / 6 / 2 |
 | 03 Proof | 6 cells × `span 2` |
 | 04 Marquee | 12 |
@@ -137,18 +136,32 @@ Because spans are expressed in master columns, most bands reflow on their own:
 `span 2` cells go 6-per-row → 3-per-row → 2-per-row and `span 3` cells go
 4-per-row → 2-per-row as `--tl-cols` steps 12 → 6 → 4.
 
-**Documented exception — band 01.** The header's internal split
-(`210px 1fr auto`) is content-measured, not master-measured: the quote button
-plus the language switch do not fit two master columns (202px at 1280) and
-overflowed. It is entry one of the *Documented content-measured interiors*
-table above, and the rule that licenses it is the same one: the interior may be
-content-measured because the block's outer edges are not. Those edges are now
-measured rather than promised — `.tl-header` is a probe target, and its outer
-deltas are 0.00–0.13px at 375 / 768 / 1280 / 1440 / 1600 (master 0 → last
-column at every width). Before Phase 02 correction #1 the header was excluded
-from the probe, so this exception was documented but unenforced. Global
-navigation is Phase 03's subject and the split is expected to be revisited
-there.
+**Band 01 is no longer an exception — the break was removed, not renamed.**
+The header used to divide internally on `210px 1fr auto` because the quote
+button plus the TR/EN language switch did not fit two master columns (202px at
+1280) and overflowed. Phase 03 rebuilt band 01 as the fixed global navigation
+and removed the language switch, which was inert anyway (`USER_INPUTS.md` §B —
+`ENGLISH_LIVE_NOW: NO`). With the switch gone the actions cluster fits three
+master columns with room to spare, so `.tl-header` is a `subgrid` like every
+other band body and its interior lands on master axes.
+
+Measured with `scripts/grid-axis-probe.mjs`, which probes the interior as well
+as the outer edges now that there is no exception to protect:
+
+| Width | Cols | Header outer | Brand | Context | Actions |
+|---|---|---|---|---|---|
+| 375 | 4 | C0 → C4, Δ 0.00 / 0.00 | C0 → C3, Δ 0.00 | *(hidden)* | C3 → C4, Δ 0.00 |
+| 768 | 6 | C0 → C6, Δ 0.00 / 0.02 | C0 → C2, Δ 0.00 | C2 → C3, Δ 0.00 | C3 → C6, Δ 0.02 |
+| 1280 | 12 | C0 → C12, Δ 0.00 / 0.13 | C0 → C3, Δ 0.03 | C3 → C9, Δ 0.10 | C9 → C12, Δ 0.13 |
+| 1440 | 12 | C0 → C12, Δ 0.00 / 0.00 | C0 → C3, Δ 0.00 | C3 → C9, Δ 0.00 | C9 → C12, Δ 0.00 |
+| 1600 | 12 | C0 → C12, Δ 0.00 / 0.06 | C0 → C3, Δ 0.02 | C3 → C9, Δ 0.05 | C9 → C12, Δ 0.06 |
+
+The bar is `position: fixed` and renders through the `#shared-header-host`
+portal, so it is out of `.tl-sheet`'s flow and the sheet reserves exactly
+`--gnav-h` at the top instead. It still declares the same
+`--tl-rail + repeat(--tl-cols, 1fr)` tracks at the same `--tl-sheet-max` width,
+which is why its axes coincide with the sheet's rather than merely resembling
+them.
 
 ### Verification
 
