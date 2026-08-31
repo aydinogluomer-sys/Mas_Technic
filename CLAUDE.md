@@ -151,6 +151,48 @@ if (prefersReduced) { /* skip veya instant state */ }
 
 ---
 
+<!-- BEGIN: AUTONOMOUS_AWWWARDS_RUN EXCEPTION (Phase 00) -->
+
+## Otonom Koşu İstisnası — AUTONOMOUS_AWWWARDS_RUN
+
+> **Kural:** `IMPLEMENTATION.md` aktifken ve `PROGRESS.md` modu `AUTONOMOUS_AWWWARDS_RUN`
+> olarak işaretlediğinde, ajan faz onayı için duraklamaz. Bunun yerine
+> `IMPLEMENTATION.md` içindeki durma (stop) kurallarını uygular.
+>
+> *(EN: When `IMPLEMENTATION.md` is active and `PROGRESS.md` marks mode as
+> `AUTONOMOUS_AWWWARDS_RUN`, the agent must not pause for phase approval. It
+> follows the stop rules in `IMPLEMENTATION.md` instead.)*
+
+**Kapsam ve sınırlar:**
+
+- Bu istisna **yalnızca bu otonom koşuya** özgüdür. Koşu bittiğinde yukarıdaki
+  "Session Protokolü" maddesi 2'deki normal onay bekleme davranışı geri geçerlidir.
+- İstisna **sadece faz onayı duraklamasını** kaldırır. Yukarıdaki
+  **Forbidden Actions**, **Animation Kuralları**, **Context Yükleme Protokolü**,
+  **Todo Oluşturma Kuralı** ve diğer tüm güvenlik kuralları aynen yürürlüktedir;
+  hiçbiri zayıflatılmaz, gevşetilmez veya atlanmaz.
+- Yıkıcı/geri alınamaz işlemler (production deploy, production DB/şema mutasyonu,
+  paylaşılan geçmişe force-push, kimlik bilgisi rotasyonu, DNS değişikliği,
+  korumalı `main`'e merge) hâlâ **durma** koşuludur — `IMPLEMENTATION.md` §1.4.
+- Başarısız bir test durma koşulu **değildir**; düzeltme döngüsünü tetikler.
+
+**Öncelik sırası (`IMPLEMENTATION.md` §1.1 — bu koşu süresince geçerlidir):**
+
+1. `IMPLEMENTATION.md`
+2. `USER_INPUTS.md`
+3. Mevcut production kodu ve depo testleri
+4. `MASTER_CONTEXT.md`
+5. `CLAUDE.md`  ← bu dosya
+6. Diğer dokümanlar / eski planlar / tarihsel referanslar
+
+Yani bu koşu süresince `IMPLEMENTATION.md` bu dosyayla çelişirse `IMPLEMENTATION.md`
+kazanır. `USER_INPUTS.md` içinde bir bilginin **doğru** olması onun **yayımlanabilir**
+olduğu anlamına gelmez; yayın izni ayrı bir karardır.
+
+<!-- END: AUTONOMOUS_AWWWARDS_RUN EXCEPTION (Phase 00) -->
+
+---
+
 *Detay için:* `docs/lean/` klasörüne bak  
 *Güncel task için:* `ACTIVE_TASK.md` oku  
 *Tam bağlam için:* `MASTER_CONTEXT.md` oku
