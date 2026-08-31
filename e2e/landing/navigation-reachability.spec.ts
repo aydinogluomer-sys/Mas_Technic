@@ -134,6 +134,47 @@ test.describe("public navigation reachability", () => {
     expect(leaked, "dev routes must not appear in production navigation").toEqual([]);
   });
 
+  test("keeps deep links and history navigation correct", async ({ page }) => {
+    // 1) A typed/shared deep link must land on its band, not at the top.
+    await gotoAndSettle(page, "/#sektorler");
+    await landingReady(page);
+    const headerHeight = await page.locator("[data-fullscreen-header]")
+      .evaluate((element) => element.getBoundingClientRect().height);
+    await expect.poll(async () => {
+      const top = await page.locator("#sektorler").evaluate((element) => element.getBoundingClientRect().top);
+      return top >= headerHeight - 4 && top <= headerHeight + 32;
+    }, { timeout: 15_000, intervals: [200, 400, 800] }).toBe(true);
+
+    // 2) Navigating from the menu pushes history; Back returns to the landing.
+    await page.locator("[data-menu-trigger]").click();
+    await page.locator("[data-fullscreen-menu]").getByRole("link", { name: "Hakkımızda" }).click();
+    await expect(page).toHaveURL(/\/hakkimizda$/);
+    await page.goBack();
+    await expect(page).toHaveURL(/\/#sektorler$/);
+    await expect(page.getByTestId("technical-landing-root")).toBeVisible();
+    // Every page module renders its own <Header/> into one shared host, so a
+    // route change can have two mounted at once while the curtain runs. It did:
+    // `[data-menu-trigger]` resolved to 2 elements right after this goBack.
+    await expect(page.locator("[data-fullscreen-header]")).toHaveCount(1);
+    await expect(page.locator("[data-menu-trigger]")).toHaveCount(1);
+    await expect(page.getByRole("banner")).toHaveCount(1);
+
+    // 3) A history move with the menu open closes it instead of stranding a
+    //    modal over a page the user did not open it from.
+    //    `landingReady` first: the landing remounts on Back and re-runs its
+    //    deep-link scroll ladder, and clicking into that transition made the
+    //    step flaky (1 failure in 2 repeats) for reasons that had nothing to do
+    //    with the behaviour under test.
+    await landingReady(page);
+    await page.locator("[data-menu-trigger]").click();
+    await expect(page.locator("[data-fullscreen-menu]")).toBeVisible();
+    await page.goForward();
+    await expect(page).toHaveURL(/\/hakkimizda$/);
+    await expect(page.locator("[data-fullscreen-menu]")).toHaveCount(0);
+    await expect(page.locator("html")).not.toHaveCSS("overflow", "hidden");
+    await expect(page.locator("#root")).not.toHaveAttribute("inert", "");
+  });
+
   test("every route the menu links to resolves without a redirect or a not-found shell", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "critical-1280", "one canonical resolution lane");
     test.setTimeout(600_000);

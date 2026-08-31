@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useReducer, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { prefetchMenuRoutes } from "@/utils/routePrefetch";
+import { HERO_SHELL_TEARDOWN_FALLBACK_MS, INTRO_DONE_EVENT, isHeroIntroActive } from "@/lib/hero-shell";
 import { landingSections, navigationItems, rfqLink } from "./navigation/ia";
 import { NavCategoryPanel } from "./navigation/NavCategoryPanel";
 import { NavConversion } from "./navigation/NavConversion";
@@ -59,6 +60,50 @@ interface HeaderProps {
   isFirstVisit?: boolean;
 }
 
+/* ── One instance, even mid-transition ───────────────────────────────────────
+   Every page module renders `<Header />` itself and each instance portals into
+   the single `#shared-header-host`. During a route change `PageTransition`
+   keeps the outgoing page mounted while the incoming one mounts, so for the
+   length of the curtain the host held TWO headers — two `banner` landmarks,
+   two menu triggers, two brand links.
+
+   MEASURED: `page.goBack()` from `/hakkimizda` to `/` resolved
+   `[data-menu-trigger]` to 2 elements, one reading "PAFTA 01/14" (landing) and
+   one reading "MAS TECHNIC" (the page being left).
+
+   The page must keep deciding WHETHER a header exists — `/giris`,
+   `/reset-password` and the 404 deliberately have none, and that contract is
+   asserted in `e2e/shared-shell-accessibility.spec.ts`. So ownership is
+   arbitrated here instead: the most recently mounted instance renders, every
+   other one renders nothing. Newest rather than oldest, so the incoming page's
+   header is the one on screen during the transition.
+   -------------------------------------------------------------------------- */
+let headerSequence = 0;
+const mountedHeaders = new Set<number>();
+const ownershipListeners = new Set<() => void>();
+const currentOwner = () => (mountedHeaders.size ? Math.max(...mountedHeaders) : 0);
+
+function useHeaderOwnership() {
+  const idRef = useRef(0);
+  if (idRef.current === 0) idRef.current = ++headerSequence;
+  const [, bump] = useReducer((value: number) => value + 1, 0);
+
+  useEffect(() => {
+    const id = idRef.current;
+    mountedHeaders.add(id);
+    ownershipListeners.add(bump);
+    ownershipListeners.forEach((listener) => listener());
+    return () => {
+      mountedHeaders.delete(id);
+      ownershipListeners.delete(bump);
+      ownershipListeners.forEach((listener) => listener());
+    };
+  }, []);
+
+  const owner = currentOwner();
+  return owner === 0 || owner === idRef.current;
+}
+
 type MenuPhase = "closed" | "opening" | "open" | "closing";
 
 const groups = navigationItems.filter((item) => item.children?.length);
@@ -67,6 +112,7 @@ const shouldCollapseCategories = () =>
   typeof window !== "undefined" && (window.innerWidth < 768 || window.innerHeight <= 680);
 
 export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => {
+  const owns = useHeaderOwnership();
   const [phase, setPhase] = useState<MenuPhase>("closed");
   const [activeGroup, setActiveGroup] = useState(0);
   const [activeCategory, setActiveCategory] = useState(() => (shouldCollapseCategories() ? -1 : 0));
@@ -193,13 +239,48 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
     return () => window.cancelAnimationFrame(frame);
   }, [phase, scrollToSection]);
 
-  /* Deep link and back/forward: a `/#surec` URL must still land on the band. */
+  /* Deep link and back/forward: a `/#surec` URL must still land on the band.
+     MEASURED: a single rAF is not enough. On a cold load `index.html`'s
+     "Precision Born" intro owns the viewport for up to 7s, `ScrollToTop`
+     resets to 0 on mount, and the sheet keeps growing while fonts, images and
+     ScrollTrigger settle — the one attempt landed on a stale offset every
+     time. So: wait for the intro to hand off, then re-issue on a short ladder,
+     and give up the moment the reader takes over with a wheel, a touch or a
+     key. Deep links win over the initial scroll, never over the user. */
   useEffect(() => {
     if (!onLanding || !location.hash) return;
     const id = location.hash.slice(1);
     if (!SECTION_IDS.includes(id)) return;
-    const frame = window.requestAnimationFrame(() => scrollToSection(id));
-    return () => window.cancelAnimationFrame(frame);
+
+    let cancelled = false;
+    let started = false;
+    const timers: number[] = [];
+    const abort = () => { cancelled = true; };
+    const run = () => { if (!cancelled) scrollToSection(id); };
+    const start = () => {
+      if (cancelled || started) return;
+      started = true;
+      for (const delay of [0, 120, 400, 900]) timers.push(window.setTimeout(run, delay));
+    };
+
+    window.addEventListener("wheel", abort, { passive: true, once: true });
+    window.addEventListener("touchstart", abort, { passive: true, once: true });
+    window.addEventListener("keydown", abort, { once: true });
+    if (isHeroIntroActive()) {
+      document.addEventListener(INTRO_DONE_EVENT, start, { once: true });
+      timers.push(window.setTimeout(start, HERO_SHELL_TEARDOWN_FALLBACK_MS + 200));
+    } else {
+      start();
+    }
+
+    return () => {
+      cancelled = true;
+      timers.forEach((timer) => window.clearTimeout(timer));
+      document.removeEventListener(INTRO_DONE_EVENT, start);
+      window.removeEventListener("wheel", abort);
+      window.removeEventListener("touchstart", abort);
+      window.removeEventListener("keydown", abort);
+    };
   }, [onLanding, location.hash, location.key, scrollToSection]);
 
   /* A history move while the menu is open must close it, rather than leave a
@@ -320,7 +401,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
 
   return (
     <>
-      {headerHost && createPortal(
+      {owns && headerHost && createPortal(
         <>
         <header
           ref={headerRef}
@@ -360,6 +441,10 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
 
       {createPortal(
         <AnimatePresence onExitComplete={finishExit}>
+          {/* A non-owning instance never opens: `isVisible` can only become
+              true through this instance's own trigger, which it does not
+              render. Keeping the portal mounted regardless preserves the exit
+              animation if ownership changes while the menu is closing. */}
           {isVisible && (
             <motion.div
               ref={panelRef}
