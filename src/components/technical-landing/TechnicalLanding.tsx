@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { Suspense, lazy, useRef } from "react";
 import { TechnicalHeader } from "./TechnicalHeader";
 import { TechnicalHero } from "./TechnicalHero";
 import { ProofStrip } from "./ProofStrip";
@@ -7,6 +7,18 @@ import { DrawingFooter, FaqSection, MeasurementManifesto, QualityFile, Reference
 import { MarqueeBand } from "./MarqueeBand";
 import "@/styles/technical-landing.css";
 import { useTechnicalLandingMotion } from "@/hooks/useTechnicalLandingMotion";
+
+/**
+ * Geliştirme-yalnız master ızgara bindirmesi.
+ *
+ * `import.meta.env.DEV` üretimde derleme zamanı sabiti `false` olduğu için bu
+ * üçlü ifade ölü bir dal bırakır: Rollup ne dinamik import'u ne de bindirme
+ * bileşenini/CSS'ini `dist/` içine alır. `src/routes/DevRoutes.tsx` ile aynı
+ * desen. Aç/kapa: CTRL+ALT+G.
+ */
+const MasterGridOverlay = import.meta.env.DEV
+  ? lazy(() => import("@/components/dev/MasterGridOverlay").then((m) => ({ default: m.MasterGridOverlay })))
+  : null;
 
 export function TechnicalLanding() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -34,6 +46,11 @@ export function TechnicalLanding() {
         </main>
         <DrawingFooter />
       </div>
+      {MasterGridOverlay && (
+        <Suspense fallback={null}>
+          <MasterGridOverlay />
+        </Suspense>
+      )}
     </div>
   );
 }

@@ -1,0 +1,153 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   MAS TECHNIC — PUBLIC DESIGN TOKENS
+   Single source of truth for the technical-editorial system that the public
+   site (landing today, inner pages from Phase 03 on) derives from.
+
+   WHY TOKENS LIVE HERE AND NOT IN `.tl-root`
+   ------------------------------------------
+   They used to be declared on `.tl-root`, which made them invisible to any
+   surface that is not the landing shell. Declaring them on `:root` keeps them
+   available to every public surface without leaking: every name is `--tl-`
+   prefixed, so nothing collides with the shadcn / forge tokens in
+   `src/index.css`.
+
+   RESPONSIVE TOKENS
+   -----------------
+   Only the master grid tokens change per breakpoint, and they change HERE —
+   not inside a band's media query. A band must never be able to redefine the
+   master grid locally; that is exactly how the landing acquired `23.8%`,
+   `19.2%`, `4.6%`, `35%/65%`, `48%/52%`, a fixed `132px` seventh track,
+   `4fr/5fr/5fr` and `43fr/77fr`.
+
+   Documentation: `docs/lean/06-design-system.md`.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── MASTER SHEET AND GRID ──────────────────────────────────────────────
+     The whole public geometry is: a centred sheet, a continuous technical
+     rail, and N equal master columns. Nothing else defines a horizontal axis.
+     ---------------------------------------------------------------------- */
+  --tl-sheet-max: 1600px;
+  --tl-rail: 64px;
+  --tl-cols: 12;
+  /* Zero by contract. A non-zero master gap would put every band boundary on
+     a different axis from the hairline rules that draw the sheet. Breathing
+     room is child padding, never a change to the master boundaries. */
+  --tl-gap: 0px;
+  --tl-rule-size: 1px;
+
+  /* ── TYPOGRAPHY ROLES ───────────────────────────────────────────────────
+     Three faces, three jobs. A face is chosen by ROLE, never by variety.
+       sans  — interface, body copy, editorial display headings
+       serif — controlled editorial contrast on band headlines only
+       mono  — technical data: labels, measurements, codes, tables, units,
+               indexes, metadata. Never body copy.
+     ---------------------------------------------------------------------- */
+  --tl-font-sans: "Space Grotesk", system-ui, sans-serif;
+  --tl-font-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --tl-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* ── SURFACES ───────────────────────────────────────────────────────────
+     Graphite/charcoal field, warm technical-paper evidence bands.
+     ---------------------------------------------------------------------- */
+  --tl-void: #030506;
+  --tl-black: #070b0d;
+  --tl-panel: #0c1114;
+  --tl-panel-soft: rgba(10, 15, 18, .9);
+  --tl-header-surface: rgba(7, 11, 13, .98);
+  --tl-label-surface: rgba(6, 9, 11, .92);
+  --tl-paper: #eee9de;
+  --tl-paper-raised: #f6f2e8;
+  --tl-paper-sunken: #fbf8f1;
+
+  /* ── INK LADDERS ────────────────────────────────────────────────────────
+     Two ladders because the sheet has two grounds. Each step is a deliberate
+     level of the reading hierarchy, not a shade someone happened to pick.
+     ---------------------------------------------------------------------- */
+  --tl-white: #f3f0e8;
+  --tl-muted: #b6bbb8;
+  --tl-on-dark-body: #c1c5c2;
+  --tl-on-dark-soft: #aeb4b1;
+  --tl-on-dark-meta: #a4aba8;
+  --tl-on-dark-faint: #868e8b;
+  --tl-ink: #121719;
+  --tl-ink-muted: #3b423f;
+  --tl-ink-faint: #4e5552;
+  --tl-ink-soft: #5c6360;
+
+  /* ── RULES ──────────────────────────────────────────────────────────────
+     Hairlines carry the engineering-sheet language. One weight, four tones.
+     ---------------------------------------------------------------------- */
+  --tl-rule: rgba(227, 231, 225, .28);
+  --tl-rule-soft: rgba(227, 231, 225, .16);
+  --tl-label-rule: rgba(226, 230, 225, .42);
+  --tl-paper-rule: rgba(18, 23, 25, .3);
+  --tl-paper-rule-strong: rgba(18, 23, 25, .42);
+  --tl-paper-rule-soft: rgba(18, 23, 25, .2);
+
+  /* ── TINTS (state, not palette) ─────────────────────────────────────────*/
+  --tl-tint-faint: rgba(255, 255, 255, .02);
+  --tl-tint-hover: rgba(255, 255, 255, .035);
+  --tl-tint-raise: rgba(255, 255, 255, .07);
+  --tl-ink-tint: rgba(18, 23, 25, .04);
+
+  /* ── ACCENTS (restrained by rule) ───────────────────────────────────────
+     Bronze is the only editorial accent; green is semantic status only;
+     stamp red belongs to the quality seal and nothing else.
+     ---------------------------------------------------------------------- */
+  --tl-bronze: #8a7359;
+  --tl-bronze-light: #c9b699;
+  --tl-green: #72e291;
+  --tl-green-ink: #8ea56a;
+  --tl-stamp: #8a4030;
+
+  /* ── SPACING (4px base) ─────────────────────────────────────────────────*/
+  --tl-s1: 4px;
+  --tl-s2: 8px;
+  --tl-s3: 12px;
+  --tl-s4: 16px;
+  --tl-s5: 24px;
+  --tl-s6: 32px;
+  --tl-s7: 48px;
+  --tl-s8: 64px;
+  --tl-list-row: 34px;
+
+  /* ── RADIUS POLICY ──────────────────────────────────────────────────────
+     Corner radius is ZERO across the public system — the same decision
+     `--radius: 0rem` already encodes in `src/index.css`. `--tl-radius-round`
+     exists only for elements that ARE a circle by drawing convention (a
+     seal, a grade badge, an avatar disc); it is not a "rounded corner".
+     ---------------------------------------------------------------------- */
+  --tl-radius: 0;
+  --tl-radius-round: 50%;
+
+  /* ── MOTION ─────────────────────────────────────────────────────────────
+     One easing curve for the whole system. Motion never changes geometry.
+     ---------------------------------------------------------------------- */
+  --tl-ease-out: cubic-bezier(.16, 1, .3, 1);
+  --tl-dur-micro: .22s;
+  --tl-dur-short: .35s;
+  --tl-in: .62s;
+  --tl-step: 65ms;
+}
+
+/* Tablet — six master columns. The rail narrows but stays continuous. */
+@media (max-width: 1180px) {
+  :root {
+    --tl-rail: 56px;
+    --tl-cols: 6;
+  }
+}
+
+/* Mobile — four master columns.
+   MEASURED DEFECT THIS FIXES: the mobile block previously reset `--tl-cols`
+   but never `--tl-rail`, so the rail inherited the tablet value of 56px. That
+   is 14.9% of a 375px viewport and 17.5% of a 320px one — the rail was eating
+   a sixth of the screen. 42px is 11.2% at 375 and 13.1% at 320, and still
+   clears the 24px index numeral plus its 4px gutters. */
+@media (max-width: 767px) {
+  :root {
+    --tl-rail: 42px;
+    --tl-cols: 4;
+  }
+}
