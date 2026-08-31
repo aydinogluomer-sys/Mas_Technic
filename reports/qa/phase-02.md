@@ -766,3 +766,290 @@ git status --porcelain
 - **SCOPE_INTEGRITY: PASS** — for both the Coder's commits (16 files, all within
   the phase's surface, no `package.json` / build-config / route / schema change)
   and for QA's own writes.
+
+---
+
+# 21 — RE-VERIFICATION after correction packets #1 and #2
+
+> This section is **appended**. Nothing in §0–§20 above has been edited: the
+> original FAIL verdict and its three findings stand as the record of what was
+> wrong. What follows is the independent evidence that they are now right.
+
+- RE-VERIFICATION RUN: 2026-08-31
+- CODE COMMITS UNDER TEST: `43d8adb`, `c269c3d`, `b0110fc` (packet #1, C1/C2/C3)
+  and `45f3577` (packet #2, connector gate). Integration head `45f3577` on
+  `claude/awwwards-90-overhaul`.
+- QA WORKTREE: `C:\Users\Trade Bilisim\pdh-wt\qa-p02b` on `wt/qa-p02b`
+- PORTS USED: clean preview **4519**; connector negative control **4529**;
+  56px-rail negative control **4539**; 45px-rail isolation control **4549**.
+  (4173 was occupied by another process — `netstat` PID 6052 — and was avoided.)
+- SCOPE: targeted re-verification. §2–§20 PASS findings were not re-derived.
+
+## 21.0 — Re-verification verdict
+
+| Ref | Subject | Result |
+|---|---|---|
+| **R1** | C1 · mobile 02→03 connector | **PASS** — rendered output at 320/375 shows ↓ after 01, 02, 03 and none after 04; tablet still suppresses after 02; the false "ölçüldü, 375px" comment is gone and its replacement is now itself corroborated by my negative control. |
+| **R2** | C2 · rail bound `< 0.14` | **PASS** — `mobile-320` genuinely green; bound matches `09-responsive-rules.md`; **proven not toothless** by an isolation control that trips it with 0.000625 of margin. |
+| **R3** | C3 · docs + `.tl-header` probe | **PASS** — the restated rule is satisfied by shipped code, all five content-measured interiors are enumerated *and* are probe targets, `.tl-header` is now measured at five widths (Δ 0.00–0.13px) and the probe still reports 0 off-grid over 330 rows. |
+| **R4** | packet #2 · the connector gate | **PASS** — the gate **can fail**: reproducing the original defect byte-level in a scratch `dist/` turns it red, 6 failed / 2 passed, with messages naming the step and the width. Its expectation table is independently correct at all ten widths. |
+
+## 21.1 — R1 · The mobile 02→03 connector
+
+**Static.** `src/styles/technical-landing.css:494-517`: the suppression now lives
+in its own `@media (min-width:768px) and (max-width:1180px)` block, and the old
+site inside `@media (max-width:1180px)` carries only a pointer comment
+(`technical-landing.css:472-473`). The two ranges are disjoint against the mobile
+block's `@media (max-width:767px)`, so cascade specificity no longer decides the
+outcome. The mobile `::after` override at `:549` no longer needs to restate
+`display:grid`; it inherits it from the unscoped base rule at `:177`.
+
+**Runtime — my own measurement, not the spec's.**
+`reports/qa/tools/connector-probe.mjs` (QA-owned, imports nothing from `e2e/`)
+reads `getComputedStyle(li, "::after")` for all four steps at ten widths against
+the clean preview on 4519. Raw output: `reports/qa/tools/connector-head.json`.
+
+```
+  320  count=4  rail=42px  01:grid/↓  02:grid/↓  03:grid/↓  04:none/↓
+  375  count=4  rail=42px  01:grid/↓  02:grid/↓  03:grid/↓  04:none/↓
+  390  count=4  rail=42px  01:grid/↓  02:grid/↓  03:grid/↓  04:none/↓
+  767  count=4  rail=42px  01:grid/↓  02:grid/↓  03:grid/↓  04:none/↓
+  768  count=4  rail=56px  01:grid/→  02:none/→  03:grid/→  04:none/→
+  900  count=4  rail=56px  01:grid/→  02:none/→  03:grid/→  04:none/→
+ 1180  count=4  rail=56px  01:grid/→  02:none/→  03:grid/→  04:none/→
+ 1181  count=4  rail=64px  01:grid/→  02:grid/→  03:grid/→  04:none/→
+ 1280  count=4  rail=64px  01:grid/→  02:grid/→  03:grid/→  04:none/→
+ 1440  count=4  rail=64px  01:grid/→  02:grid/→  03:grid/→  04:none/→
+```
+
+**Rendered output, not computed style alone.** Screenshots of the real `<ol>`:
+
+- `reports/qa/tools/shots-r/process-ol-320.png` — ↓ between 01/02, 02/03, 03/04;
+  nothing after 04. Visually inspected.
+- `reports/qa/tools/shots-r/process-ol-375.png` — identical pattern.
+- `reports/qa/tools/shots-r/process-ol-768.png` — → after 01 and after 03 only.
+  Nothing after 02 or 04.
+- `reports/qa/tools/shots-r/process-ol-1280.png` — single row, → after 01/02/03.
+
+**Tablet suppression is still required and still correct.** Measured step boxes
+at 768 (`connector-head.json`): 01 `left=57`, 02 `left=412`, both `top=-358.81`;
+03 `left=57`, 04 `left=412`, both `top=-221.02`. Step 02's right edge is the
+sheet edge at 767, i.e. it is genuinely the row-end cell of a 2×2 layout, so
+removing its right-facing arrow is the correct behaviour, not a workaround. At
+1280 all four share `top=312.98` on one row, so all three interior connectors are
+required — which is exactly what is measured.
+
+**The false comment is gone.** `git diff 68518cc..45f3577 -- src/styles/technical-landing.css`
+deletes the block containing `(ölçüldü, 375px)`. The replacement comment claims a
+*pre-fix* measurement of `grid / none / grid / none` at 320 and 375. That claim is
+not taken on trust: my negative control in §21.4 reproduces exactly that reading,
+so the comment is now corroborated rather than asserted.
+
+## 21.2 — R2 · The rail bound, and whether it stayed sharp
+
+**The `mobile-320` lane genuinely passes.**
+
+```
+PLAYWRIGHT_BASE_URL=http://localhost:4519 npx playwright test \
+  --project=mobile-320 --project=mobile-375 --project=mobile-390 \
+  e2e/landing/landing-grid-axes.spec.ts
+→ 6 passed (28.8s)
+```
+
+Both tests in all three mobile lanes are green, including
+`the mobile rail does not consume an excessive share of the viewport` at 320,
+which was F2.
+
+**Consistent with the docs.** `docs/lean/09-responsive-rules.md:25-32` now states
+`Mobil ray payı sınırı: < %14` with the same derivation, and
+`docs/lean/06-design-system.md:53-61` states the same in English and points at the
+same spec and the `mobile-320` lane. The previously contradicted number (13.1% at
+320 vs. a `< 0.13` bound) is now internally consistent: 13.1% < 14%.
+
+**Is 0.14 toothless? No — and here is the proof.** Two controls, both byte-level
+edits of the built stylesheet in a *scratch copy* of `dist/`
+(`reports/qa/tools/make-dist-variant.mjs`; the real `dist/` and `src/` are never
+written).
+
+*Control A — the actual regression.* `--tl-rail: 42px` → `56px` at mobile, i.e.
+mobile inheriting the tablet rail, which is the defect the bound guards.
+Served on 4539:
+
+```
+→ 4 failed  (critical-375, mobile-320, mobile-375, mobile-390)
+   Expected: <= 46   Received: 56      (landing-grid-axes.spec.ts:141)
+```
+
+So the regression is caught in every mobile lane. Note *which* assertion fires:
+the absolute `rail <= 46` bound at line 141 short-circuits before the share bound
+at line 161 is ever evaluated. That is a real defence, but on its own it does not
+demonstrate that the loosened share bound still has teeth.
+
+*Control B — isolating the share bound.* `--tl-rail: 42px` → `45px`. 45 satisfies
+`38 <= rail <= 46`, so lines 140–141 pass and execution reaches line 161. Served
+on 4549:
+
+```
+  ✘  [mobile-320]  Error: rail share of a 320px viewport
+                   Expected: < 0.14   Received: 0.140625   (line 161)
+  ✓  [mobile-375]  (45/375 = 0.12)
+```
+
+The share bound therefore fires on its own, at the narrowest supported width,
+against a rail only **3px** larger than shipped, with **0.000625** of margin. The
+headroom the loosening bought is 0.87 percentage points at 320 (13.125% shipped
+vs. a 14% ceiling); the defect it guards sits 3.5 pp above the ceiling at 320 and
+0.93 pp above it at 375. The bound was widened by one percentage point and
+remains strictly tighter than the 15% ceiling `mas-grid-system` implies. **Not
+toothless.**
+
+## 21.3 — R3 · Docs and `.tl-header` probe coverage
+
+**The restated rule is one the code satisfies.** `06-design-system.md` rule 2 no
+longer claims that every nested dividing block is a subgrid. It now says outer
+edges must be on master axes, interiors may be content-measured, and every such
+interior must be named — "the enumeration is the permission".
+`13-forbidden-patterns.md:27-41` states the same rule in Turkish and names the
+same five blocks. `09-responsive-rules.md` carries the rail bound.
+
+**The five are enumerated and each is a probe target.** Cross-checked
+`06-design-system.md` "Documented content-measured interiors" against
+`scripts/grid-axis-probe.mjs` `PROBE_TARGETS`:
+
+| Enumerated block | Probe target |
+|---|---|
+| `.tl-header` | `Header · header` → `.tl-header` (added by this correction) |
+| `.tl-nexus-kpis` | `Nexus · kpis` |
+| `.tl-rfq-body > ol` | `RFQ · steps` |
+| `.tl-title-block` | `Footer · title block` |
+| `.tl-part-passport` (tablet) | `Hero · part passport` |
+
+These five are exactly `.tl-header` plus the four off-master interiors I found in
+F3/S6. I re-enumerated every live `grid-template-columns` in
+`technical-landing.css` looking for a sixth *structural* block that divides
+content off-master and is not listed: the remaining declarations
+(`.tl-mobile-menu nav a`, `.tl-nexus-kpis div`, `.tl-mini-doc`,
+`.tl-mini-doc span`, `.tl-cert-table span`, `.tl-faq summary`,
+`.tl-footer address`, `.tl-part-passport dl`) are all *inside* a leaf component or
+inside an already-enumerated block — none of them is a band-level block that
+publishes page tracks. The enumeration is complete as far as this file goes.
+
+**`.tl-header` is now measured, and the documented deltas are true.**
+`PROBE_BASE_URL=http://localhost:4519 node scripts/grid-axis-probe.mjs` →
+exit 0, full output in `reports/qa/tools/r-probe.txt`:
+
+```
+375   Header  header  42.00  C0  0.00   375.00  C4   0.00  4col  OK
+768   Header  header  57.00  C0  0.00   767.00  C6   0.03  6col  OK
+1280  Header  header  65.00  C0  0.00  1279.00  C12  0.13  12col OK
+1440  Header  header  65.00  C0  0.00  1439.00  C12  0.00  12col OK
+1600  Header  header  65.00  C0  0.00  1599.00  C12  0.06  12col OK
+
+GRID AXIS PROBE: PASS — every measured edge sits on a master axis (tolerance 1px).
+```
+
+Deltas 0.00–0.13px, master 0 → last column at every width — exactly what
+`06-design-system.md` now claims. **330 OK rows, 0 OFF_GRID** (was 325 before the
+five new header rows). The probe still reports 0 off-grid overall.
+
+## 21.4 — R4 · Can the connector gate fail? (the load-bearing check)
+
+**The expectation table is independently correct.** I did not read the spec's
+table and agree with it; I measured the same ten widths with my own instrument
+(§21.1) and then compared. Every cell matches, including the point that matters:
+
+| Band | Spec `EXPECTATIONS` | QA measurement |
+|---|---|---|
+| mobile 320/375/390/767 | `grid grid grid none`, `↓` | identical |
+| tablet 768/900/1180 | `grid none grid none`, `→` | identical |
+| desktop 1181/1280/1440 | `grid grid grid none`, `→` | identical |
+
+Desktop and tablet **genuinely differ** at step 02 — `grid` vs `none` — and the
+difference is justified by geometry I measured rather than by the CSS text: at
+768 step 02 is the row-end cell of a 2×2 block (`left=412`, right edge 767, and
+03/04 start a new row 137.8px lower), whereas at 1280 all four steps share
+`top=312.98` on one row. So the table does not lock in a bug; it encodes the
+layout that is actually shipped.
+
+The table is also reachable in both critical projects, because the `sweep` test
+resizes one page across all ten widths regardless of project viewport, and the
+`native` test re-checks without a resize. `expectationFor()` falls back by
+breakpoint rather than skipping for viewports outside the measured set
+(`landscape-844`), so no lane silently opts out. `count === 4` is asserted before
+the per-step comparison, so an empty `.tl-process li` list cannot vacuously pass.
+
+**NEGATIVE CONTROL — the gate goes red.** I reproduced the original defect the
+faithful way, not by injecting an extra late `<style>` (which would also change
+source order and so prove less). `reports/qa/tools/make-dist-variant.mjs` copies
+`dist/` to a scratch directory and rewrites **one** string *in place* in the built
+stylesheet, refusing to run if the match count is not exactly 1:
+
+```
+@media (min-width:768px) and (max-width:1180px){.tl-process li:nth-child(2):after{display:none}
+                              ↓
+@media (max-width:1180px){.tl-process li:nth-child(2):after{display:none}
+```
+
+That is literally "move the tablet suppression back into an overlapping
+`@media (max-width:1180px)`", at the same cascade position and the same
+specificity the defect originally had. Served on 4529, my own probe reads:
+
+```
+  320  01:grid/↓  02:none/↓  03:grid/↓  04:none/↓     ← the F1 defect, reproduced
+  375  01:grid/↓  02:none/↓  03:grid/↓  04:none/↓
+  390  01:grid/↓  02:none/↓  03:grid/↓  04:none/↓
+  767  01:grid/↓  02:none/↓  03:grid/↓  04:none/↓
+  768+ unchanged
+```
+
+This is the same `grid / none / grid / none` the new CSS comment claims was
+measured before the fix, which independently corroborates that comment.
+
+Running the shipped gate against that build:
+
+```
+PLAYWRIGHT_BASE_URL=http://localhost:4529 npx playwright test \
+  --project=critical-375 --project=critical-1280 --project=mobile-320 \
+  --project=tablet-768 e2e/landing/landing-process-flow.spec.ts
+→ 6 failed, 2 passed (54.2s)
+```
+
+with messages that name the step and the width, e.g.
+
+```
+"320px (mobile) · step 02 connector · display expected \"grid\", measured \"none\"
+ — the vertical list connects every consecutive pair; only step 04 ends the flow"
+"375px (mobile) · step 02 connector · display expected \"grid\", measured \"none\" …"
+"390px (mobile) · …"   "767px (mobile) · …"
+```
+
+The two tests that still pass are the `native` checks in `critical-1280` and
+`tablet-768` — correct, because the reproduced defect is mobile-only. The gate is
+therefore specific, not a blanket tripwire. **The gate can fail, it fails on
+exactly the defect it was written for, and it says where.**
+
+**The real tree is byte-clean.** Both controls wrote only to the scratchpad.
+After all experiments, `dist/assets/Index-D_aQBHA0.css` still contains exactly one
+`@media (min-width:768px) and (max-width:1180px)` and one `--tl-rail: 42px`, and
+`git status --porcelain` lists nothing outside `reports/qa/`.
+
+## 21.5 — Assertion integrity of the `e2e/` diff vs `68518cc`
+
+```
+git diff --stat 68518cc..45f3577 -- e2e/
+ e2e/landing/landing-grid-axes.spec.ts    |  21 ++-      (1 deletion)
+ e2e/landing/landing-process-flow.spec.ts | 212 +++++++   (new file)
+ 2 files changed, 232 insertions(+), 1 deletion(-)
+
+git diff --stat 68518cc..45f3577 -- e2e/__golden__/     → empty
+```
+
+- The single deletion is the `0.13` bound, replaced by `0.14` — the only
+  loosening in the diff, and §21.2 proves it retained its teeth.
+- No test was deleted, renamed away, `.only`'d or newly skipped. Every
+  `test.skip` in the tree is a pre-existing lane selector; none was added or
+  broadened by these commits (the grid-axes file's `test.skip(width >= 768)`
+  predates the correction and is untouched).
+- No golden image byte changed.
+- Net coverage change: **+2 tests** in every project that runs
+  `landing/**/*.spec.ts`.
