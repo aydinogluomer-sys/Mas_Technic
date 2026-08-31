@@ -2,15 +2,16 @@ import { expect, test } from "@playwright/test";
 import {
   gotoAndSettle,
   hydrateLanding,
-  LANDING_SCENE_IDS,
+  LEGACY_LANDING_SCENE_IDS,
   usesNaturalLandingFlow,
-} from "./helpers";
+  LEGACY_LANDING_PATH,
+} from "./legacy-helpers";
 
 const currentPhysicalSectionSelector = "main#main-content > .lf-root > section";
 
 test.describe("Landing page section integrity", () => {
   test.beforeEach(async ({ page }) => {
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, LEGACY_LANDING_PATH);
     await hydrateLanding(page);
   });
 
@@ -48,9 +49,9 @@ test.describe("Landing page section integrity", () => {
         count: matches.length,
         top: element ? rect!.top + window.scrollY : null,
       };
-    }), LANDING_SCENE_IDS);
+    }), LEGACY_LANDING_SCENE_IDS);
 
-    expect(anchors.map(({ count }) => count)).toEqual(LANDING_SCENE_IDS.map(() => 1));
+    expect(anchors.map(({ count }) => count)).toEqual(LEGACY_LANDING_SCENE_IDS.map(() => 1));
     const actualDomOrder = await page.evaluate((ids) => {
       const accepted = new Set(ids);
       const root = document.querySelector("main#main-content > .lf-root");
@@ -59,8 +60,8 @@ test.describe("Landing page section integrity", () => {
           .map((element) => element.id)
           .filter((id) => accepted.has(id as typeof ids[number]))
         : [];
-    }, LANDING_SCENE_IDS);
-    expect(actualDomOrder).toEqual([...LANDING_SCENE_IDS]);
+    }, LEGACY_LANDING_SCENE_IDS);
+    expect(actualDomOrder).toEqual([...LEGACY_LANDING_SCENE_IDS]);
     const tops = anchors.map(({ top }) => top as number);
     for (let index = 1; index < tops.length; index += 1) {
       expect(tops[index]).toBeGreaterThan(tops[index - 1]);

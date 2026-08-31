@@ -3,9 +3,19 @@ import AxeBuilder from "@axe-core/playwright";
 import { gotoAndSettle, isReducedMotionAuditViewport } from "./helpers";
 import { navigationItems } from "../src/components/navigation-data";
 
+/**
+ * Tam ekran menü sözleşmesi, paylaşılan kabuğu basan gerçek bir üretim
+ * rotasında sınanır. Bu paket eskiden `gotoAndSettle(page, "/")` çağırıyor ve
+ * `helpers.ts` tarafından sessizce dev-only `/legacy-landing`'e yönlendiriliyordu
+ * (`reports/baseline/known-blockers.md` B02). Yönlendirme kaldırıldı; `/`
+ * rotası bugün `HeaderFullscreen`'i hiç mount etmiyor (B14, sahibi Faz 03),
+ * bu yüzden sözleşme kabuğu gerçekten yayınlayan `/sss` üzerinde koşar.
+ */
+const MENU_HOST_ROUTE = "/sss";
+
 test.describe("Fullscreen machining navigation", () => {
   test("uses one three-line trigger and a viewport-bound takeover", async ({ page }) => {
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, MENU_HOST_ROUTE);
     const trigger = page.locator("[data-menu-trigger]");
     await expect(trigger).toBeVisible();
     await expect(trigger.locator("span[aria-hidden] > span")).toHaveCount(3);
@@ -28,7 +38,7 @@ test.describe("Fullscreen machining navigation", () => {
 
   test("places the primary menu trigger before main-page controls", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical keyboard baseline");
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, MENU_HOST_ROUTE);
     const trigger = page.locator("[data-menu-trigger]");
     await expect(trigger).toBeVisible();
     await page.evaluate(() => {
@@ -62,7 +72,7 @@ test.describe("Fullscreen machining navigation", () => {
   });
 
   test("exposes all three families and five categories per family", async ({ page }) => {
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, MENU_HOST_ROUTE);
     await page.locator("[data-menu-trigger]").click();
     const menu = page.locator("[data-fullscreen-menu]");
     const families = menu.locator("button[aria-pressed]");
@@ -76,7 +86,7 @@ test.describe("Fullscreen machining navigation", () => {
   });
 
   test("traps focus, closes on Escape, and restores trigger focus", async ({ page }) => {
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, MENU_HOST_ROUTE);
     const trigger = page.locator("[data-menu-trigger]");
     await trigger.focus();
     await page.keyboard.press("Enter");
@@ -104,7 +114,7 @@ test.describe("Fullscreen machining navigation", () => {
   });
 
   test("closes before internal navigation and releases scroll lock", async ({ page }) => {
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, MENU_HOST_ROUTE);
     await page.locator("[data-menu-trigger]").click();
     await page.locator("[data-fullscreen-menu]").getByRole("link", { name: "Hakkımızda" }).click();
     await expect(page).toHaveURL(/\/hakkimizda$/);
@@ -114,7 +124,7 @@ test.describe("Fullscreen machining navigation", () => {
 
   test("preserves a pre-existing stopped Lenis state after closing", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical Lenis ownership lane");
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, MENU_HOST_ROUTE);
     await expect.poll(() => page.evaluate(() => Boolean((window as Window & {
       __lenis?: { isStopped: boolean };
     }).__lenis)), { timeout: 15_000 }).toBe(true);
@@ -135,7 +145,7 @@ test.describe("Fullscreen machining navigation", () => {
   test("reduced motion opens without a delayed hidden state", async ({ page }) => {
     test.skip(!isReducedMotionAuditViewport(page), "V2/V8 reduced-motion audit lanes only");
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, MENU_HOST_ROUTE);
     await page.locator("[data-menu-trigger]").click();
     await expect(page.locator("[data-menu-group]")).toBeVisible();
   });
@@ -153,7 +163,7 @@ test.describe("Fullscreen machining navigation", () => {
   test("keyboard-only reaches all 48 detail links without hover or programmatic focus", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "mobile-320", "one canonical compact traversal lane");
     test.setTimeout(120_000);
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, MENU_HOST_ROUTE);
     const trigger = page.locator("[data-menu-trigger]");
     for (let tabIndex = 0; tabIndex < 10 && !await trigger.evaluate((element) =>
       element === document.activeElement); tabIndex += 1) {
@@ -239,14 +249,14 @@ test.describe("Fullscreen machining navigation", () => {
     expect(visitedCategories.size).toBe(15);
     expect(visitedCategoryRoutes.size).toBe(15);
     expect(visitedDetailRoutes.size).toBe(48);
-    expect(page.url()).toMatch(/\/$/);
+    expect(new URL(page.url()).pathname).toBe(MENU_HOST_ROUTE);
     await page.keyboard.press("Escape");
     await expect(menu).toHaveCount(0);
     await expect(trigger).toBeFocused();
   });
 
   test("supports roving keys and valid single-open accordion IDREFs", async ({ page }) => {
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, MENU_HOST_ROUTE);
     await page.locator("[data-menu-trigger]").click();
     const menu = page.locator("[data-fullscreen-menu]");
     const families = menu.locator("button[aria-pressed]");
@@ -276,14 +286,14 @@ test.describe("Fullscreen machining navigation", () => {
 
   test("has no axe violations inside the open dialog", async ({ page }) => {
     test.setTimeout(120_000);
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, MENU_HOST_ROUTE);
     await page.locator("[data-menu-trigger]").click();
     const results = await new AxeBuilder({ page }).include("[data-fullscreen-menu]").analyze();
     expect(results.violations).toEqual([]);
   });
 
   test("remains deterministic through repeated toggle input", async ({ page }) => {
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, MENU_HOST_ROUTE);
     const trigger = page.locator("[data-menu-trigger]");
     await trigger.click();
     const menu = page.locator("[data-fullscreen-menu]");

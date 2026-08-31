@@ -3,9 +3,10 @@ import {
   gotoAndSettle,
   hydrateLanding,
   isReducedMotionAuditViewport,
-  LANDING_SCENE_IDS,
+  LEGACY_LANDING_SCENE_IDS,
   usesNaturalLandingFlow,
-} from "./helpers";
+  LEGACY_LANDING_PATH,
+} from "./legacy-helpers";
 
 const cinemaSelector = "[data-process-cinema]";
 const stageSelector = "[data-process-stage]";
@@ -14,7 +15,7 @@ const proofSelector = "[data-process-proof]";
 const mediaSelector = "[data-process-media]";
 
 async function openLanding(page: Page) {
-  await gotoAndSettle(page, "/");
+  await gotoAndSettle(page, LEGACY_LANDING_PATH);
   await hydrateLanding(page);
   await page.evaluate(() => window.scrollTo(0, 0));
 }
@@ -68,7 +69,7 @@ test.describe("Process proof cinema", () => {
   });
 
   test("preserves the nine-anchor process and proof contract", async ({ page }) => {
-    for (const id of LANDING_SCENE_IDS) await expect(page.locator(`#${id}`)).toHaveCount(1);
+    for (const id of LEGACY_LANDING_SCENE_IDS) await expect(page.locator(`#${id}`)).toHaveCount(1);
 
     await expect(page.locator(cinemaSelector)).toHaveCount(1);
     await expect(page.locator(stageSelector)).toHaveCount(5);

@@ -8,10 +8,9 @@ import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvide
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { useSoundEngine } from "@/hooks/use-sound";
 import { useAmbientGlow } from "@/hooks/useAmbientGlow";
+import { isHeroIntroActive } from "@/lib/hero-shell";
 
 const Index = lazy(() => import("./pages/Index").then((m) => ({ default: m.Index })));
-const TechnicalPreview = lazy(() => import("./pages/TechnicalPreview"));
-const LegacyLanding = lazy(() => import("./pages/LegacyLanding"));
 const NotFound = lazy(() => import("./pages/NotFound").then((m) => ({ default: m.NotFound })));
 const SSS = lazy(() => import("./pages/SSS").then((m) => ({ default: m.SSS })));
 const GizlilikPolitikasi = lazy(() =>
@@ -34,7 +33,19 @@ const MalzemeKategori = lazy(() => import("./pages/MalzemeKategori").then((m) =>
 const TeklifAl = lazy(() => import("./pages/TeklifAl").then((m) => ({ default: m.TeklifAl })));
 const MusteriPaneli = lazy(() => import("./pages/MusteriPaneli").then((m) => ({ default: m.MusteriPaneli })));
 const CategoryPage = lazy(() => import("./pages/CategoryPage").then((m) => ({ default: m.CategoryPage })));
-const TestHowWeWork = lazy(() => import("./pages/TestHowWeWork").then((m) => ({ default: m.TestHowWeWork })));
+
+/**
+ * Geliştirme-yalnız yüzeyler (`/technical-preview`, `/legacy-landing`, `/test`).
+ *
+ * `import.meta.env.DEV` üretimde sabit `false` olduğu için bu üçlü ifade ölü
+ * dala düşer ve Rollup dinamik import'u tamamen atar: `dist/` içinde ne
+ * `DevRoutes` chunk'ı ne de oradan ulaşılan `LandingFlow` / `TestHowWeWork` /
+ * `TechnicalPreview` ağacı kalır. Sayfalar diskte durur, `npm run dev`'de
+ * erişilebilir olmayı sürdürür.
+ */
+const DevRoute = import.meta.env.DEV
+  ? lazy(() => import("./routes/DevRoutes"))
+  : null;
 
 const ProtectedRoute = lazy(() =>
   import("./components/ProtectedRoute").then((m) => ({ default: m.ProtectedRoute })),
@@ -64,16 +75,18 @@ const PageLoader = () => (
  * Landing için Suspense fallback'i.
  *
  * `index.html`'deki app-shell (`#hero-shell`) hero'yu ilk baytta boyuyor ve
- * giriş sekansı (Precision Born) da onun içinde yaşıyor. Üstelik `main.tsx`
- * shell'i landing DİŞINDAKİ rotalarda React render'dan önce siliyor.
+ * giriş sekansı (Precision Born) da onun içinde yaşıyor. Opak `PageLoader`
+ * buraya konduğu sürece landing'de sekansın ve hero'nun üstünü kapatıp ekranı
+ * boş bir spinner'a düşürüyordu (ölçüldü: sekansın ortasında ekran tamamen
+ * boşalıyordu). Sekans sürerken zaten gösterilecek bir hero var — fallback
+ * hiçbir şey boyamamalı.
  *
- * Opak `PageLoader` buraya konduğu sürece landing'de sekansın ve hero'nun
- * üstünü kapatıp ekranı boş bir spinner'a düşürüyordu (ölçüldü: sekansın
- * ortasında ekran tamamen boşaltıyordu). Shell duruyorsa zaten gösterilecek
- * bir hero var — fallback hiçbir şey boyamamalı.
+ * Bastırma koşulu elemanın VARLIĞINA değil, sekansın GERÇEKTEN çalışmasına
+ * bağlı: eski hâlinde `#hero-shell` `/` rotasında hiç kaldırılmadığı için
+ * Suspense fallback'i o rotada kalıcı olarak devre dışıydı.
  */
 const PublicRouteLoader = () => {
-  if (typeof document !== "undefined" && document.getElementById("hero-shell")) return null;
+  if (isHeroIntroActive()) return null;
   return <PageLoader />;
 };
 
@@ -118,9 +131,13 @@ const AnimatedRoutes = () => {
       <Suspense fallback={<PublicRouteLoader />}>
         <Routes location={location}>
           <Route path="/" element={<Index />} />
-          <Route path="/technical-preview" element={<TechnicalPreview />} />
-          <Route path="/legacy-landing" element={<LegacyLanding />} />
-          <Route path="/test" element={<TestHowWeWork />} />
+          {/* DEV_ONLY_ROUTES:START — üretim derlemesinde `DevRoute` null olur,
+              üç <Route> de hiç oluşturulmaz ve istekler `*` üzerinden 404'e
+              düşer. Sözleşme e2e/shared-shell-accessibility.spec.ts'te. */}
+          {DevRoute && <Route path="/technical-preview" element={<DevRoute view="technical-preview" />} />}
+          {DevRoute && <Route path="/legacy-landing" element={<DevRoute view="legacy-landing" />} />}
+          {DevRoute && <Route path="/test" element={<DevRoute view="test" />} />}
+          {/* DEV_ONLY_ROUTES:END */}
           <Route path="/sss" element={<SSS />} />
           <Route path="/gizlilik-politikasi" element={<GizlilikPolitikasi />} />
           <Route path="/kvkk" element={<KVKK />} />

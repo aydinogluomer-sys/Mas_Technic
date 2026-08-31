@@ -3,14 +3,15 @@ import {
   gotoAndSettle,
   hydrateLanding,
   isReducedMotionAuditViewport,
-  LANDING_SCENE_IDS,
+  LEGACY_LANDING_SCENE_IDS,
   settleRendering,
   usesNaturalLandingFlow,
-} from "./helpers";
+  LEGACY_LANDING_PATH,
+} from "./legacy-helpers";
 
 test.describe("Awwwards motion architecture", () => {
   test("public route navigation uses a full viewport precision curtain", async ({ page }) => {
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, LEGACY_LANDING_PATH);
     await page.evaluate(() => {
       document.documentElement.dataset.spaSession = "preserved";
     });
@@ -87,7 +88,7 @@ test.describe("Awwwards motion architecture", () => {
       }
     });
 
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, LEGACY_LANDING_PATH);
     await page.evaluate(() => {
       document.documentElement.dataset.motionJourney = "active";
     });
@@ -114,10 +115,10 @@ test.describe("Awwwards motion architecture", () => {
   });
 
   test("landing preserves nine anchors and its pin budget", async ({ page }) => {
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, LEGACY_LANDING_PATH);
     await hydrateLanding(page);
 
-    for (const id of LANDING_SCENE_IDS) {
+    for (const id of LEGACY_LANDING_SCENE_IDS) {
       await expect(page.locator(`#${id}`)).toHaveCount(1);
     }
     await expect(page.locator("[data-section-transition]")).toHaveCount(0);
@@ -151,7 +152,7 @@ test.describe("Awwwards motion architecture", () => {
   test("reduced motion removes route and section movement without hiding content", async ({ page }) => {
     test.skip(!isReducedMotionAuditViewport(page), "V2/V8 reduced-motion audit lanes only");
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, LEGACY_LANDING_PATH);
     await hydrateLanding(page);
 
     await expect(page.locator("[data-route-curtain-panel]")).toHaveCount(0);

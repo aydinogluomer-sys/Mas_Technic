@@ -4,7 +4,8 @@ import {
   hydrateLanding,
   isReducedMotionAuditViewport,
   usesNaturalLandingFlow,
-} from "./helpers";
+  LEGACY_LANDING_PATH,
+} from "./legacy-helpers";
 
 const visualSurfaces = [
   ["hero", "#top"],
@@ -20,7 +21,7 @@ const visualSurfaces = [
 
 test.describe("Editorial landing color system", () => {
   test.beforeEach(async ({ page }) => {
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, LEGACY_LANDING_PATH);
     await hydrateLanding(page);
   });
 

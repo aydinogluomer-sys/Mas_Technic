@@ -5,10 +5,11 @@ import {
   gotoAndSettle,
   hydrateLanding,
   isReducedMotionAuditViewport,
-  LANDING_SCENE_IDS,
+  LEGACY_LANDING_SCENE_IDS,
   expectsNaturalLandingFlow,
   usesNaturalLandingFlow,
-} from "./helpers";
+  LEGACY_LANDING_PATH,
+} from "./legacy-helpers";
 
 const KNOWN_V1_SEMANTIC_VIOLATIONS = [
   "root:test-id", "root:version", "root:order",
@@ -35,7 +36,7 @@ const KNOWN_MOBILE_CONTRAST_TARGETS = [
 
 test.describe("Editorial landing flow", () => {
   test.beforeEach(async ({ page }) => {
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, LEGACY_LANDING_PATH);
     await hydrateLanding(page);
     await page.evaluate(() => window.scrollTo(0, 0));
   });
@@ -43,7 +44,7 @@ test.describe("Editorial landing flow", () => {
   test("records nine physical sections as a known production blocker", async ({ page }) => {
     const root = page.locator("main#main-content > :first-child");
     await expect(root).toHaveCount(1);
-    for (const id of LANDING_SCENE_IDS) await expect(page.locator(`#${id}`)).toHaveCount(1);
+    for (const id of LEGACY_LANDING_SCENE_IDS) await expect(page.locator(`#${id}`)).toHaveCount(1);
 
     const physicalSectionCount = await root.locator(":scope > section").count();
     test.fail(physicalSectionCount === 8, "Current landing has exactly eight physical sections; production repair is outside Slice 0.");
@@ -51,7 +52,7 @@ test.describe("Editorial landing flow", () => {
   });
 
   test("records the future section semantics as a known production blocker", async ({ page }) => {
-    for (const id of LANDING_SCENE_IDS) await expect(page.locator(`#${id}`)).toHaveCount(1);
+    for (const id of LEGACY_LANDING_SCENE_IDS) await expect(page.locator(`#${id}`)).toHaveCount(1);
 
     const violations = await page.evaluate((ids) => {
       const root = document.querySelector<HTMLElement>("main#main-content > :first-child");
@@ -86,7 +87,7 @@ test.describe("Editorial landing flow", () => {
         return failures.filter((failure): failure is string => failure !== null);
       });
       return [...rootFailures, ...sceneFailures];
-    }, LANDING_SCENE_IDS);
+    }, LEGACY_LANDING_SCENE_IDS);
 
     test.fail(
       JSON.stringify(violations) === JSON.stringify(KNOWN_V1_SEMANTIC_VIOLATIONS),
@@ -104,7 +105,7 @@ test.describe("Editorial landing flow", () => {
         count: nodes.length,
         top: element ? element.getBoundingClientRect().top + window.scrollY : null,
       };
-    }), LANDING_SCENE_IDS);
+    }), LEGACY_LANDING_SCENE_IDS);
     expect(anchors.every(({ count }) => count === 1)).toBe(true);
     const tops = anchors.map(({ top }) => top as number);
     for (let index = 1; index < tops.length; index += 1) {
@@ -255,7 +256,7 @@ test.describe("Editorial landing flow", () => {
 test("reduced motion removes pins, marquee, pixels and hidden reveal states", async ({ page }) => {
   test.skip(!isReducedMotionAuditViewport(page), "V2/V8 reduced-motion audit lanes only");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await gotoAndSettle(page, "/");
+  await gotoAndSettle(page, LEGACY_LANDING_PATH);
   await hydrateLanding(page);
   await expect(page.locator(".pin-spacer")).toHaveCount(0);
   await expect(page.locator(".lf-marquee > div")).toHaveCSS("animation-name", "none");
@@ -271,7 +272,7 @@ test("reduced motion removes pins, marquee, pixels and hidden reveal states", as
 test("cold navigation exposes the hero and primary action without a page lock", async ({ page }) => {
   const runtimeErrors: string[] = [];
   page.on("pageerror", (error) => runtimeErrors.push(error.message));
-  await gotoAndSettle(page, "/");
+  await gotoAndSettle(page, LEGACY_LANDING_PATH);
   await expect(page.getByRole("heading", { level: 1, name: /MAS Technic/i })).toBeVisible();
   await expect(page.locator("#top").getByRole("link", { name: /CAD dosyanı yükle/i })).toBeVisible();
   await expect(page.locator("html")).not.toHaveCSS("overflow", "hidden");

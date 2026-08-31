@@ -3,22 +3,23 @@ import {
   expectLocatorUnobscured,
   fullScrollToBottom,
   gotoAndSettle,
-  hydrateLanding,
-  usesNaturalLandingFlow,
 } from "./helpers";
 
 /**
- * On compact/native-flow profiles, an End-key journey must not trap the
- * user before the footer. No scrollIntoView workaround is allowed.
+ * An End-key journey must not trap the user before the footer. No
+ * scrollIntoView workaround is allowed.
+ *
+ * `/` bu listede DEĞİL: üretim landing'i paylaşılan footer'ı değil kendi
+ * `.tl-footer` bandını basar ve orada `© YYYY MAS TECHNIC` satırı yoktur.
+ * Landing'in End-tuşu yolculuğu `e2e/landing/landing-structure.spec.ts`
+ * içinde kendi sözleşmesiyle sınanır.
  */
-const MOBILE_ROUTES = ["/", "/sss", "/iletisim"] as const;
+const MOBILE_ROUTES = ["/sss", "/iletisim"] as const;
 
 test.describe("FinalCTA → footer bottom-bar reachability (mobile)", () => {
   for (const route of MOBILE_ROUTES) {
     test(`mobile reaches footer bottom-bar on ${route}`, async ({ page }, testInfo) => {
       await gotoAndSettle(page, route);
-      test.skip(!(await usesNaturalLandingFlow(page)), "natural-flow profile only");
-      if (route === "/") await hydrateLanding(page);
       await fullScrollToBottom(page);
 
       const footer = page.getByRole("contentinfo");

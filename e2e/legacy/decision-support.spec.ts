@@ -5,11 +5,12 @@ import {
   hydrateLanding,
   isReducedMotionAuditViewport,
   usesNaturalLandingFlow,
-} from "./helpers";
+  LEGACY_LANDING_PATH,
+} from "./legacy-helpers";
 
 test.describe("CNC decision support matrix", () => {
   test.beforeEach(async ({ page }) => {
-    await gotoAndSettle(page, "/");
+    await gotoAndSettle(page, LEGACY_LANDING_PATH);
     await hydrateLanding(page);
     await page.locator("#sss").scrollIntoViewIfNeeded();
     await expect(page.locator(".lf-decision-card")).toHaveCount(4);
@@ -90,7 +91,7 @@ test.describe("CNC decision support matrix", () => {
 test("reduced motion renders no pixel grid", async ({ page }) => {
   test.skip(!isReducedMotionAuditViewport(page), "V2/V8 reduced-motion audit lanes only");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await gotoAndSettle(page, "/");
+  await gotoAndSettle(page, LEGACY_LANDING_PATH);
   await hydrateLanding(page);
   await page.locator("#sss").scrollIntoViewIfNeeded();
   await expect(page.locator(".lf-decision-pixels")).toHaveCount(0);

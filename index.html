@@ -46,9 +46,15 @@
       content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f18b2857-1ebe-4c0c-bfb7-8fd05557b921/id-preview-64739496--e3e5d4c7-7bc0-463c-b68d-d1aa3bbf65ff.lovable.app-1771685445710.png"
     />
 
-    <!-- Hero görseli LCP alanını kaplıyor ama React render edene kadar
-         keşfedilmiyordu; erken indirmeye başlatmak için preload. -->
-    <link rel="preload" as="image" href="/src/assets/hero-cnc.jpg" fetchpriority="high" />
+    <!-- LCP hero görseli için preload BURADA STATİK OLARAK YAZILAMAZ: Vite
+         `src/assets/technical-landing/hero-manifold-v1.webp` dosyasını içerik
+         hash'iyle yayınlıyor, dolayısıyla nihai URL derleme zamanında belli
+         oluyor. `vite.config.ts` içindeki `mas-hero-preload` eklentisi doğru
+         URL ile tek bir image preload bağlantısı enjekte eder.
+         Buradaki eski satır `/src/assets/hero-cnc.jpg` adresini gösteriyordu:
+         var olmayan bir dosya, SPA fallback'i üzerinden `text/html` dönüyor
+         ve tarayıcı bir HTML belgesini yüksek öncelikli görsel olarak
+         indiriyordu. -->
 
 
     <!-- App-shell hero: React (~4 s, yavaş mobil CPU) çalışana kadar hero DOM'da

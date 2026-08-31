@@ -6,15 +6,16 @@ import {
   fullScrollToBottom,
   gotoAndSettle,
   hydrateLanding,
-} from "./helpers";
+  LEGACY_LANDING_PATH,
+} from "./legacy-helpers";
 
-const LANDING_ROUTES: readonly string[] = ["/"];
+const LANDING_ROUTES: readonly string[] = [LEGACY_LANDING_PATH];
 
 test.describe("Deterministic full-page evidence capture", () => {
   for (const route of LANDING_ROUTES) {
     test(`captures ${route} and verifies interactive footer hit targets`, async ({ page }, testInfo) => {
       await gotoAndSettle(page, route);
-      if (route === "/") await hydrateLanding(page);
+      if (route === LEGACY_LANDING_PATH) await hydrateLanding(page);
       await fullScrollToBottom(page);
       await assertLovableAuthWasNotCaptured(page);
 

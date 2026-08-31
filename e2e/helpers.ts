@@ -1,6 +1,26 @@
 import { expect, type Locator, type Page } from "@playwright/test";
 
+/**
+ * Üretim landing'inin (`/` → `TechnicalLanding`) gerçekten yayınladığı çapalar.
+ * `TechnicalHeader` bu altısına link verir; `sss` ayrıca footer'dan hedeflenir.
+ * Doğrulama: `e2e/landing/landing-anchors.spec.ts` bu listeyi DOM'a karşı ve
+ * header linklerine karşı çift yönlü sınar.
+ */
 export const LANDING_SCENE_IDS = [
+  "surec",
+  "nexus",
+  "projeler",
+  "sektorler",
+  "kalite",
+  "sss",
+  "iletisim",
+] as const;
+
+/**
+ * Dev-only `/legacy-landing` sahnelerinin çapaları. Yalnız `e2e/legacy/**`
+ * kullanır; üretim `/` rotasında bu id'lerin hiçbiri yoktur.
+ */
+export const LEGACY_LANDING_SCENE_IDS = [
   "top",
   "hizmetler",
   "endustriler",
@@ -59,12 +79,14 @@ export async function revealFooterCopyright(page: Page) {
   return copyright;
 }
 
+/**
+ * `path` neyse ona gider. Burada bir zamanlar `path === "/" ? "/legacy-landing"`
+ * yeniden yazımı vardı; bütün landing regresyonunu sessizce dev-only bir rotaya
+ * yönlendiriyor ve gerçek ana sayfa hakkında hiçbir şey söylemiyordu
+ * (`reports/baseline/known-blockers.md` B02). `/` artık `/` demektir.
+ */
 export async function gotoAndSettle(page: Page, path: string) {
-  // Legacy landing-specific suites remain valuable during the V4 cutover and
-  // intentionally exercise the preserved comparison route. The new root route
-  // has its own technical-landing contract suite.
-  const resolvedPath = path === "/" ? "/legacy-landing" : path;
-  await page.goto(resolvedPath, { waitUntil: "domcontentloaded" });
+  await page.goto(path, { waitUntil: "domcontentloaded" });
   await expect(page.locator("#root")).toBeVisible();
   await page.locator("body").waitFor({ state: "visible" });
   // Persistent analytics/realtime connections make networkidle nondeterministic.
@@ -72,35 +94,33 @@ export async function gotoAndSettle(page: Page, path: string) {
   await settleRendering(page);
 }
 
-/** Hydrates the intent-deferred landing scenes and waits for layout readiness. */
-export async function hydrateLanding(page: Page) {
-  const versionRoot = page.getByTestId("landing-version-root");
-  await expect(versionRoot).toBeVisible({ timeout: 20_000 });
-  const version = await versionRoot.getAttribute("data-landing-version");
+/** Üretim landing'inin (`/`) yerleşim hazırlığı. */
+export async function landingReady(page: Page) {
+  await expect(page.getByTestId("technical-landing-root")).toBeVisible({ timeout: 20_000 });
   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
-  await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
-  if (version === "legacy") {
-    await page.mouse.wheel(0, 1);
-    await expect(page.locator('main#main-content > .lf-root[data-motion-ready="true"]'))
-      .toHaveCount(1, { timeout: 20_000 });
-  } else {
-    await expect(versionRoot).toHaveAttribute("data-landing-state", "static");
-  }
+  await expect(page.getByTestId("technical-hero-title")).toBeVisible({ timeout: 20_000 });
   for (const id of LANDING_SCENE_IDS) {
     await expect(page.locator(`#${id}`), `${id} anchor must exist exactly once`).toHaveCount(1);
   }
+  await waitForHeroShellTeardown(page);
   await settleRendering(page);
 }
 
-export async function usesNaturalLandingFlow(page: Page) {
-  return (await page.locator('#hizmetler article[aria-hidden="true"]').count()) === 0;
-}
-
-/** Approved compact-profile contract, intentionally independent of current CSS/runtime behavior. */
-export async function expectsNaturalLandingFlow(page: Page) {
-  return page.evaluate(() => window.matchMedia(
-    "(max-width: 1023px), (max-height: 699px), (pointer: coarse), (prefers-reduced-motion: reduce)",
-  ).matches);
+/**
+ * `index.html` giriş sekansının devir sözleşmesi: sekans bitince `#hero-shell`
+ * DOM'dan kalkar ve `<html data-intro-active>` geride kalmaz. Tavan süre
+ * `src/lib/hero-shell.ts` içindeki 7000 ms güvenlik ağıdır.
+ */
+export async function waitForHeroShellTeardown(page: Page) {
+  await expect
+    .poll(
+      () => page.evaluate(() => ({
+        shell: document.getElementById("hero-shell") !== null,
+        introActive: document.documentElement.hasAttribute("data-intro-active"),
+      })),
+      { timeout: 12_000, intervals: [100, 250, 500] },
+    )
+    .toEqual({ shell: false, introActive: false });
 }
 
 export function isReducedMotionAuditViewport(page: Page) {
@@ -156,6 +176,21 @@ export async function expectLocatorUnobscured(locator: Locator, label: string) {
   expect(hitTest.unobscured, `${label} is obscured by ${hitTest.blockers?.join(", ") ?? "an unknown layer"}`).toBe(true);
 }
 
+/**
+ * Altın görüntü için belirlenimli sayfa durumu.
+ *
+ * ÖLÇÜLEN KUSUR: `loading="lazy"` görsellerin yükleme durumu koşudan koşuya
+ * değişiyordu. Aynı önizleme sunucusuna karşı arka arkaya iki yüklemede beş
+ * sektör/kalite görselinden bazıları `complete: true`, bazıları `complete:
+ * false` ölçüldü. `img.loading = "eager"` + `decode()` bunu kapatmıyor:
+ * `decode()` henüz `currentSrc` almamış bir görselde hemen döner. Sonuç,
+ * `toHaveScreenshot` içinde gerçek bir yapısal fark olmadan kırmızıya düşen
+ * kararsız bir altın karşılaştırmaydı.
+ *
+ * Çözüm tolerans gevşetmek DEĞİL, yakalamayı belirlenimli kılmaktır:
+ * belge bir kez baştan sona gezilir (lazy yükleme tetiklenir), başa dönülür,
+ * ardından HER görselin gerçekten tamamlanması beklenir.
+ */
 export async function freezeVisualState(page: Page) {
   await page.addStyleTag({
     content: `
@@ -167,22 +202,41 @@ export async function freezeVisualState(page: Page) {
       }
     `,
   });
+
+  // 1) Gerçek bir gezinme lazy yüklemeyi tetikler; sonra başa dönülür.
   await page.evaluate(async () => {
-    const images = [...document.images];
-    images.forEach((img) => { img.loading = "eager"; });
-    await Promise.all(images.map((img) => img.decode().catch(() => undefined)));
+    document.querySelectorAll("img").forEach((img) => { img.loading = "eager"; });
+    const step = Math.max(200, window.innerHeight);
+    for (let y = 0; y < document.documentElement.scrollHeight; y += step) {
+      window.scrollTo(0, y);
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    }
     window.scrollTo(0, 0);
-    document.querySelectorAll("video").forEach((video) => video.pause());
+  });
+
+  // 2) Her görsel gerçekten tamamlanmalı. Beklenti burada patlarsa bu bir
+  //    varlık hatasıdır ve öyle raporlanmalıdır — sessizce yutulmaz.
+  await page.waitForFunction(
+    () => [...document.images].every((img) => img.complete && img.naturalWidth > 0),
+    undefined,
+    { timeout: 30_000 },
+  );
+
+  // 3) Kod çözme, medya duraklatma ve yazı tipi hazırlığı.
+  await page.evaluate(async () => {
+    await Promise.all([...document.images].map((img) => img.decode().catch(() => undefined)));
+    document.querySelectorAll("video").forEach((video) => { video.pause(); video.currentTime = 0; });
+    window.scrollTo(0, 0);
     await document.fonts?.ready;
     await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
   });
 }
 
-export async function assertLovableAuthWasNotCaptured(page: Page) {
-  const loginSignature = page.getByRole("heading", { name: /^Log in$/i });
-  const googleButton = page.getByRole("button", { name: /Continue with Google/i });
-  const githubButton = page.getByRole("button", { name: /Continue with GitHub/i });
-  await expect(loginSignature).toHaveCount(0);
-  await expect(googleButton).toHaveCount(0);
-  await expect(githubButton).toHaveCount(0);
+/**
+ * Yatay taşma ölçümü. Ölçüm belge düzeyindedir: bir bant kendi içinde kaydırma
+ * yapabilir, ama belgenin kendisi yatayda büyümemelidir.
+ */
+export async function measureHorizontalOverflow(page: Page) {
+  return page.evaluate(() =>
+    document.documentElement.scrollWidth - document.documentElement.clientWidth);
 }

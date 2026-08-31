@@ -4,10 +4,11 @@ import {
   hydrateLanding,
   isReducedMotionAuditViewport,
   usesNaturalLandingFlow,
-} from "./helpers";
+  LEGACY_LANDING_PATH,
+} from "./legacy-helpers";
 
 test.beforeEach(async ({ page }) => {
-  await gotoAndSettle(page, "/");
+  await gotoAndSettle(page, LEGACY_LANDING_PATH);
   await hydrateLanding(page);
 });
 

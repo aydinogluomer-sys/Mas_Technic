@@ -23,9 +23,21 @@ const SHELL_MATRIX = new Set([
   "desktop-1440",
 ]);
 
+/**
+ * Paylaşılan kabuğu (`[data-fullscreen-header]` + paylaşılan `Footer`) basan
+ * rotalar.
+ *
+ * `/` bu listede DEĞİL. Üretim ana sayfası `TechnicalLanding`'dir ve kendi
+ * `.tl-header` / `.tl-footer` bantlarını basar; paylaşılan kabuğu hiç mount
+ * etmez. Bu liste bugüne kadar `/` içeriyordu ve yalnızca `helpers.ts`
+ * içindeki `/` → `/legacy-landing` yeniden yazımı sayesinde yeşildi
+ * (`reports/baseline/known-blockers.md` B02). Yeniden yazım kaldırıldı; `/`
+ * artık aşağıdaki `OWN_SHELL_ROUTES` sözleşmesiyle, gerçekte ne yayınlıyorsa
+ * ona karşı sınanıyor. Landing'i global IA'ya bağlamak Faz 03'ün işidir (B14).
+ *
+ * `/test` de listede değil: dev-only rotalar üretim derlemesinde yayınlanmaz.
+ */
 const STATIC_FULL_SHELL_ROUTES = [
-  "/",
-  "/test",
   "/sss",
   "/gizlilik-politikasi",
   "/kvkk",
@@ -36,23 +48,35 @@ const STATIC_FULL_SHELL_ROUTES = [
   "/blog",
 ] as const;
 
+/** Landing kendi kabuğunu basar: paylaşılan header yok, kendi footer'ı var. */
+const OWN_SHELL_ROUTES = ["/"] as const;
+
 const APP_SOURCE = readFileSync(resolve(process.cwd(), "src/App.tsx"), "utf8");
 const PANEL_ROUTES_SOURCE = APP_SOURCE.slice(
   APP_SOURCE.indexOf("const panelRoutes ="),
   APP_SOURCE.indexOf("const publicRoutes ="),
 );
-const PUBLIC_ROUTES_SOURCE = APP_SOURCE.slice(
+const RAW_PUBLIC_ROUTES_SOURCE = APP_SOURCE.slice(
   APP_SOURCE.indexOf("const publicRoutes ="),
   APP_SOURCE.indexOf("return isPanel ? panelRoutes : publicRoutes;"),
 );
+// Dev-only blok üretim rota sayımından ayrı tutulur: `import.meta.env.DEV`
+// yanlışken `DevRoute` null olur ve bu üç <Route> hiç oluşturulmaz.
+const DEV_ROUTES_SOURCE = RAW_PUBLIC_ROUTES_SOURCE.slice(
+  RAW_PUBLIC_ROUTES_SOURCE.indexOf("DEV_ONLY_ROUTES:START"),
+  RAW_PUBLIC_ROUTES_SOURCE.indexOf("DEV_ONLY_ROUTES:END"),
+);
+const PUBLIC_ROUTES_SOURCE = RAW_PUBLIC_ROUTES_SOURCE.replace(DEV_ROUTES_SOURCE, "");
 const APP_PANEL_ROUTE_PATTERNS = [...PANEL_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)]
   .map((match) => match[1]);
 const APP_PUBLIC_ROUTE_PATTERNS = [...PUBLIC_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)]
   .map((match) => match[1]);
+const APP_DEV_ROUTE_PATTERNS = [...DEV_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)]
+  .map((match) => match[1]);
+const EXPECTED_DEV_ROUTE_PATTERNS = ["/technical-preview", "/legacy-landing", "/test"] as const;
 const EXPECTED_PANEL_ROUTE_PATTERNS = ["/admin/login", "/admin", "/musteri-paneli", "*"] as const;
 const EXPECTED_PUBLIC_ROUTE_PATTERNS = [
   "/",
-  "/test",
   "/sss",
   "/gizlilik-politikasi",
   "/kvkk",
@@ -215,7 +239,7 @@ test.describe("Shared public shell accessibility", () => {
     expect(layers.skip).toBeGreaterThan(layers.header);
   });
 
-  test("derives an exhaustive 95-path public route and shell ownership contract", async ({ browserName }, testInfo) => {
+  test("derives an exhaustive 94-path public route and shell ownership contract", async ({ browserName }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical route-inventory lane");
     expect(browserName).toBe("chromium");
     expect(categoryPages).toHaveLength(15);
@@ -224,19 +248,32 @@ test.describe("Shared public shell accessibility", () => {
     expect(BLOG_SLUGS).toHaveLength(6);
     expect([...APP_PANEL_ROUTE_PATTERNS].sort()).toEqual([...EXPECTED_PANEL_ROUTE_PATTERNS].sort());
     expect([...APP_PUBLIC_ROUTE_PATTERNS].sort()).toEqual([...EXPECTED_PUBLIC_ROUTE_PATTERNS].sort());
+    // Üç dev rotası yalnız dev bloğunda yaşar ve orada `DevRoute &&` koruması
+    // altındadır; üretim rota tablosunda hiç görünmez.
+    expect([...APP_DEV_ROUTE_PATTERNS].sort()).toEqual([...EXPECTED_DEV_ROUTE_PATTERNS].sort());
+    for (const pattern of EXPECTED_DEV_ROUTE_PATTERNS) {
+      expect(
+        DEV_ROUTES_SOURCE,
+        `${pattern} must stay behind the import.meta.env.DEV guard`,
+      ).toContain(`{DevRoute && <Route path="${pattern}"`);
+    }
+    expect(APP_SOURCE).toMatch(
+      /import\.meta\.env\.DEV\s*\?\s*lazy\(\(\)\s*=>\s*import\("\.\/routes\/DevRoutes"\)\)\s*:\s*null;/,
+    );
     expect(new Set([...CATEGORY_ROUTES, ...SERVICE_ROUTES, ...MATERIAL_ROUTES, ...BLOG_ROUTES]).size).toBe(80);
-    expect(new Set(FULL_SHELL_ROUTES).size).toBe(90);
+    expect(new Set(FULL_SHELL_ROUTES).size).toBe(88);
     expect(new Set([
       ...FULL_SHELL_ROUTES,
+      ...OWN_SHELL_ROUTES,
       "/teklif-al",
       "/giris",
       "/sifremi-unuttum",
       "/reset-password",
       "/cad-dashboard",
-    ]).size).toBe(95);
+    ]).size).toBe(94);
   });
 
-  test("keeps all 90 canonical full-shell routes on one header/footer contract", async ({ page }, testInfo) => {
+  test("keeps all 88 canonical full-shell routes on one header/footer contract", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical all-route shell lane");
     test.setTimeout(600_000);
     const runtimeErrors: string[] = [];
@@ -315,6 +352,15 @@ test.describe("Shared public shell accessibility", () => {
   test("keeps declared public and panel shell exceptions explicit", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical shell-exception lane");
     const exceptions = [
+      // Üretim landing'i paylaşılan kabuğu mount etmez; kendi antet-bloğu
+      // footer'ını basar. Global IA'ya bağlanması Faz 03'ün işidir (B14) ve
+      // o iş yapıldığında bu satır kırmızıya döner — bilerek böyle.
+      { route: "/", finalPaths: ["/"], header: 0, footer: 1 },
+      // Dev-only rotalar üretim derlemesinde hiç oluşturulmaz: istek `*`
+      // üzerinden 404 kabuksuz sayfaya düşer.
+      { route: "/technical-preview", finalPaths: ["/technical-preview"], header: 0, footer: 0 },
+      { route: "/legacy-landing", finalPaths: ["/legacy-landing"], header: 0, footer: 0 },
+      { route: "/test", finalPaths: ["/test"], header: 0, footer: 0 },
       { route: "/teklif-al", finalPaths: ["/teklif-al"], header: 1, footer: 0 },
       { route: "/cad-dashboard", finalPaths: ["/teklif-al"], header: 1, footer: 0 },
       { route: "/giris", finalPaths: ["/giris"], header: 0, footer: 0 },

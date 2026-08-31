@@ -2,20 +2,20 @@ import { test, expect } from "@playwright/test";
 import {
   expectLocatorUnobscured,
   gotoAndSettle,
-  hydrateLanding,
   revealFooterCopyright,
 } from "./helpers";
 
-const ROUTES = ["/", "/sss", "/iletisim", "/malzemeler"] as const;
+/**
+ * Paylaşılan `Footer` sözleşmesi. `/` bu listede DEĞİL: üretim landing'i
+ * kendi antet-bloğu footer'ını (`.tl-footer`) basar ve paylaşılan footer'ı
+ * kullanmaz. Landing footer'ının ulaşılabilirliği
+ * `e2e/landing/landing-structure.spec.ts` içinde ayrı olarak sınanır.
+ */
+const ROUTES = ["/sss", "/iletisim", "/malzemeler"] as const;
 
 for (const route of ROUTES) {
   test(`complete footer is reachable on ${route}`, async ({ page }, testInfo) => {
     await gotoAndSettle(page, route);
-    if (route === "/") {
-      const landing = page.getByTestId("landing-version-root");
-      await expect(landing).toBeVisible({ timeout: 20_000 });
-      if (await landing.getAttribute("data-landing-version") === "legacy") await hydrateLanding(page);
-    }
 
     const footer = page.getByRole("contentinfo");
     await expect(footer).toBeAttached({ timeout: 20_000 });
@@ -84,13 +84,10 @@ for (const route of ROUTES) {
   });
 }
 
-test("complete landing footer is reachable in a short desktop viewport", async ({ page }) => {
+test("complete shared footer is reachable in a short desktop viewport", async ({ page }) => {
   const viewport = page.viewportSize();
   test.skip(viewport?.width !== 1440 || viewport.height !== 650, "canonical V7 lane");
-  await gotoAndSettle(page, "/");
-  const landing = page.getByTestId("landing-version-root");
-  await expect(landing).toBeVisible({ timeout: 20_000 });
-  if (await landing.getAttribute("data-landing-version") === "legacy") await hydrateLanding(page);
+  await gotoAndSettle(page, "/sss");
 
   const footer = page.getByRole("contentinfo");
   await expect(footer).toBeAttached({ timeout: 20_000 });
