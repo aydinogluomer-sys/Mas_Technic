@@ -60,6 +60,15 @@ const VIEWPORT_HEIGHT = 900;
  * expectations that could each be wrong.
  */
 const PROBE_TARGETS = [
+  /* `.tl-header` is a DOCUMENTED exception: it is the one structural block
+     whose interior is not a subgrid (`210px 1fr auto` — brand plate, nav
+     field, actions). The exception is only legitimate if its OUTER edges still
+     sit on the master grid, so the promise is measured here rather than
+     asserted in prose. Until Phase 02 correction #1 the header was never
+     probed and the documented exception was therefore untested. */
+  { band: "Header", root: ".tl-header-band", blocks: [
+    ["header", ".tl-header"],
+  ] },
   { band: "Hero", root: ".tl-hero", blocks: [
     ["copy", ".tl-hero-copy"],
     ["part stage", ".tl-part-stage"],

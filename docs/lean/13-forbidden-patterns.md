@@ -24,6 +24,21 @@ kalırken dış kenarlar master ızgaradan çıkar. `padding-inline: 0` sözleş
 `4fr 5fr 5fr` (14 birim), `43fr 77fr` — hiçbiri hiçbir genişlikte bir master
 hatta çözülmüyordu. Yerleşim `span N` ile yazılır.
 
+**Kuralın tam ifadesi.** Yasak, bir bloğun DIŞ kenarlarına ilişkindir:
+*her yapısal bloğun dış kenarları master eksenlere oturur; bir bloğun İÇ
+bölünmesi içerik ölçülü olabilir ve nerede olduğu ADIYLA yazılmak zorundadır.*
+Sayfa ritmini aşağı doğru taşımaya devam eden iç bloklar `.tl-subgrid`'dir ve
+master hatlarda bölünür. Kendi içinde kapalı bir bileşen olan bloklar (ölçüm
+aleti, bitiş şeridi, veri plakası) içeride içeriğe göre bölünebilir — ama dış
+kenarları yine master eksendedir ve `scripts/grid-axis-probe.mjs` ile ölçülür.
+
+İzin, listenin kendisidir. Şu an belgeli beş iç bölünme var:
+`.tl-header`, `.tl-nexus-kpis`, `.tl-rfq-body > ol`, `.tl-title-block` ve
+tablet `.tl-part-passport`. Gerekçeleri ve ölçülen dış kenarları
+`docs/lean/06-design-system.md` → *Documented content-measured interiors*
+tablosunda. **Listede olmayan içerik ölçülü bir iç bölünme kusurdur**; yeni bir
+giriş eklemek, bloğun dış kenarlarını da probe'a eklemeyi gerektirir.
+
 ### ❌ Bant medya sorgusunda ızgara token'ı ezmek
 ```css
 /* YANLIŞ */ @media (max-width:767px){.tl-root{--tl-cols:4}}

@@ -80,13 +80,39 @@ Two rules keep this honest:
    Per CSS Grid Level 2 those shorten the first and last subgrid track, so the
    outer edges leave the master grid even while the interior lines stay put.
    Breathing room belongs to the children.
-2. **Nested blocks that still divide content are themselves subgrids.** A card
-   spanning 6 columns divides on master lines 2 and 4 of those 6, not on a
-   fresh percentage.
+2. **The outer edges of every structural block land on master axes. Internal
+   subdivision within a block may be content-measured, and must be named where
+   it occurs.** A nested block that keeps *publishing* master tracks downward —
+   a card spanning 6 columns that divides on master lines 2 and 4 of those 6 —
+   is a `.tl-subgrid` and does so on master lines, never on a fresh percentage.
+   A block whose interior is a self-contained composition rather than a
+   continuation of the page rhythm may divide on content, provided its own left
+   and right edges stay on master axes. That is not a loophole: it is the
+   boundary between page structure, which the grid owns, and component
+   internals, which it does not. Every such block is enumerated below, and the
+   enumeration is the permission — an unnamed content-measured division is a
+   defect.
 
 Fallback (`@supports not (grid-template-columns: subgrid)`) derives tracks from
 the same tokens. For a full-width body with no horizontal padding and a zero
 master gap it is geometrically identical.
+
+#### Documented content-measured interiors
+
+These five blocks divide internally on content, deliberately. In every case the
+block's own outer edges are on master axes and are measured by
+`scripts/grid-axis-probe.mjs` at 375/768/1280/1440/1600.
+
+| Block | Outer edges | Internal division | Why it is not master-divisible |
+|---|---|---|---|
+| `.tl-header` | master 0 → last column, at every width | `210px 1fr auto` (`1fr auto` ≤767) | The brand plate is a fixed lockup and the actions cluster is text-measured; the nav field takes the remainder. Measured outer deltas: 0.00–0.13px across all five probe widths. |
+| `.tl-nexus-kpis` | master 3 → 12 (desktop); full field on tablet/mobile | `repeat(4,1fr)` | Four KPI cells across nine master columns have no common master line. The KPI strip is one bordered instrument, not four page columns. |
+| `.tl-rfq-body > ol` | master 7 → 12 (desktop); full field below | `repeat(4,1fr)` | Four RFQ steps across five master columns have no common master line. The step list is a self-contained sequence inside the RFQ panel. |
+| `.tl-title-block` | full content field | `auto minmax(0,1fr) auto` | The social block and the legal block are text-measured end caps; the middle track is whatever remains. Forcing master tracks would either clip the text or strand it. |
+| `.tl-part-passport` (tablet only) | full content field, master 0 → 6 at 768 | `1fr 3fr 1fr`, with `dl` at `repeat(5,1fr)` | On tablet the passport becomes a horizontal data plate: title, spec table, drawing. Its three zones are proportioned to their content, not to the six master columns it spans. Desktop (`display:flex`, master 10 → 12) and mobile (`display:block`) have no such internal grid. |
+
+Adding a sixth entry is a design decision, not a formatting one: it must be
+justified here, and the block's outer edges must be added to the probe.
 
 ### Band composition
 
@@ -114,8 +140,15 @@ Because spans are expressed in master columns, most bands reflow on their own:
 **Documented exception — band 01.** The header's internal split
 (`210px 1fr auto`) is content-measured, not master-measured: the quote button
 plus the language switch do not fit two master columns (202px at 1280) and
-overflowed. The band's outer edges are on master 0/12. Global navigation is
-Phase 03's subject and this split is expected to be revisited there.
+overflowed. It is entry one of the *Documented content-measured interiors*
+table above, and the rule that licenses it is the same one: the interior may be
+content-measured because the block's outer edges are not. Those edges are now
+measured rather than promised — `.tl-header` is a probe target, and its outer
+deltas are 0.00–0.13px at 375 / 768 / 1280 / 1440 / 1600 (master 0 → last
+column at every width). Before Phase 02 correction #1 the header was excluded
+from the probe, so this exception was documented but unenforced. Global
+navigation is Phase 03's subject and the split is expected to be revisited
+there.
 
 ### Verification
 
