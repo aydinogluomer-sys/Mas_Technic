@@ -22,8 +22,17 @@
   kendine akar: `span 2` hücreler 6→3→2/satır, `span 3` hücreler 4→2/satır.
 - Mobilde teknik açıklama yoğunluğu bilinçli düşer: ray bant NUMARASINI
   taşır, bant ADINI taşımaz; hero ölçümlendirmesi beş etiketten üçe iner.
+- **Mobil ray payı sınırı: `< %14`.** Sayı türetilmiştir, seçilmemiştir:
+  `mas-grid-system` rayın ekranın "~%15–18"ini yemesini yasaklar, yani örtük
+  tavan %15'tir; yayınlanan 42px ray en dar desteklenen genişlikte (%13.1 @320)
+  bunun altındadır; kaldırılan kusur olan 56px ise %14.9 @375 ve %17.5 @320
+  ile sınırın üstünde kalır. Bu yüzden %14 hem yayınlanan geometriyi geçirir
+  hem de tam olarak yazıldığı regresyonu yakalar.
+  Uygulayan iddia: `e2e/landing/landing-grid-axes.spec.ts` →
+  "the mobile rail does not consume an excessive share of the viewport".
 - Doğrulama: `node scripts/grid-axis-probe.mjs` (375/768/1280/1440/1600) ve
-  `e2e/landing/landing-grid-axes.spec.ts`.
+  `e2e/landing/landing-grid-axes.spec.ts`. Ray payı iddiası her mobil
+  `playwright.config.ts` görünüm penceresinde çalışır — `mobile-320` dahil.
 
 Ayrıntı: `docs/lean/06-design-system.md`.
 

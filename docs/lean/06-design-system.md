@@ -50,6 +50,16 @@ At 1600px the content field is ~1534px and one master column is ~127.8px.
 
 Rail share of viewport: 4.0% at 1600, 7.3% at 768, 11.2% at 375, 13.1% at 320.
 
+**Enforced bound: the mobile rail share stays below 14%.** The number is
+derived, not chosen. `mas-grid-system` forbids the rail "consuming ~15–18% of
+viewport", so the implied ceiling is 15%; the shipped 42px rail is under it even
+at the narrowest supported width (13.1% at 320); the removed defect — mobile
+inheriting the 56px tablet rail — is above it (14.9% at 375, 17.5% at 320). A
+14% bound therefore passes the shipped geometry and fails precisely the
+regression it exists for. Asserted in `e2e/landing/landing-grid-axes.spec.ts`,
+which runs at every mobile viewport in `playwright.config.ts`, `mobile-320`
+included.
+
 **The grid tokens are responsive in `design-tokens.css` only.** A band must
 never redefine `--tl-rail` or `--tl-cols` inside its own media query. That is
 how the landing previously acquired `23.8%`, `19.2%`, `4.6%`, `35%/65%`,

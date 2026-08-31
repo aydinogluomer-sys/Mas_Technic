@@ -139,6 +139,25 @@ test.describe("master grid axis contract", () => {
     // viewport as it did while the mobile media query silently inherited 56px.
     expect(rail).toBeGreaterThanOrEqual(38);
     expect(rail).toBeLessThanOrEqual(46);
-    expect(rail / width, `rail share of a ${width}px viewport`).toBeLessThan(0.13);
+
+    // The share bound is 0.14, and that number is derived rather than picked:
+    //
+    //   shipped rail   42px  →  11.2% at 375  ·  13.1% at 320
+    //   the defect     56px  →  14.9% at 375  ·  17.5% at 320  (the tablet
+    //                            value silently inherited by mobile)
+    //   mas-grid-system forbids the rail "consuming ~15–18% of viewport", so
+    //   the ceiling that rule implies is 15%.
+    //
+    // 0.14 sits above the documented 13.1% at the narrowest supported width and
+    // below both the 15% skill ceiling and the 14.9% defect, so it still fails
+    // on exactly the regression it was written for, at every mobile viewport in
+    // `playwright.config.ts` — 320, 375 and 390 included.
+    //
+    // It was previously 0.13, which 42/320 = 0.13125 cannot satisfy. That bound
+    // contradicted `docs/lean/06-design-system.md` and
+    // `docs/lean/09-responsive-rules.md`, which both document 13.1% at 320, and
+    // it went unnoticed because 320 is not a critical-gate viewport. The rail
+    // geometry is correct; the bound was mis-set.
+    expect(rail / width, `rail share of a ${width}px viewport`).toBeLessThan(0.14);
   });
 });
