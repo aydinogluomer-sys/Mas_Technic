@@ -26,7 +26,7 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | Phase | Status | Coder commit(s) | QA commit | Tests | Timestamp |
 |---|---|---|---|---|---|
 | 00 | PASS | fb128e9, 9228086 | b845ff1 | 14 AC/SC checks passed, 0 failed; 4 verification scripts added | 2026-08-31T05:55Z |
-| 01 | IN_PROGRESS | — | — | — | 2026-08-31T05:55Z |
+| 01 | IN_PROGRESS | 4a76b43 (WIP checkpoint, unverified) | — | not yet run | 2026-08-31T11:05Z |
 | 02 | NOT_STARTED | — | — | — | — |
 | 03 | NOT_STARTED | — | — | — | — |
 | 04 | NOT_STARTED | — | — | — | — |
@@ -51,6 +51,11 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | A02 | 00 | `implementation.md` was renamed to `IMPLEMENTATION.md` (case-only, content unchanged). | Plan §0 requires the file at repo root as `IMPLEMENTATION.md`; Windows had it tracked lowercase, which would break on case-sensitive CI. Not a content edit, so §3.3 immutability holds. |
 | A03 | 00 | `MASTER_CONTEXT.md`'s "forge" palette (molten orange / teal) is treated as historical, superseded by the graphite-charcoal + warm-paper `TechnicalLanding` system. | IMPLEMENTATION.md §1.1 precedence + §1.3 aesthetic tie-break + USER_INPUTS.md `KEEP_CURRENT_TECHNICAL_LANDING_ART_DIRECTION: YES`. |
 | A04 | 00 | Worktrees reuse the primary checkout's `node_modules` via a Windows directory junction instead of running `npm ci` per worktree. | Avoids multi-GB duplication; dependency tree is identical since worktrees share `package-lock.json` at the same commit. Baseline `npm ci` is still measured once. |
+| A05 | 01 | Three consecutive `mas-coder` background agents were killed by Claude Code process exits before committing or reporting. The Orchestrator committed their surviving on-disk work as a WIP checkpoint `4a76b43` on `wt/coder-p01` rather than letting a fourth interruption lose it. | IMPLEMENTATION.md §3.4 forbids discarding work; committing is non-destructive. The checkpoint is explicitly **preservation, not acceptance** — no build/test/QA has validated it, and the successor Coder was instructed to audit it per-task and treat it as suspect. |
+| A06 | 01 | Three stale `.claude/worktrees/agent-*` worktrees left locked by dead PIDs were unlocked, removed and pruned, and their throwaway branches deleted. | They blocked all further agent spawning ("isolation refused"). Each was verified clean (`git status --porcelain` empty) and each sat at a pre-run snapshot whose HEAD would have deleted the entire Phase 00 baseline and QA evidence. Never merged; integration branch was untouched throughout. |
+| A07 | 01 | The harness rewrote `.claude/` on disk (adds `name:` keys to ten skill frontmatters; flips `mas-coder` `permissionMode` from `auto` to `bypassPermissions`). The Orchestrator's attempt to commit this was **blocked by the auto-mode permission classifier** and was deliberately left uncommitted. | Committing an agent-permission escalation is a decision for the user, not the agent. The on-disk state already governs subagent behaviour, so the run is unaffected; this is tree hygiene only. Flagged to the user rather than worked around. |
+| A08 | 01 | Phase 01 explicitly grants `mas-coder` ownership of `e2e/**`, `playwright.config.ts`, `package.json` scripts and `.github/workflows/**`, which §3.3 otherwise assigns to QA. | IMPLEMENTATION.md §3.3 permits this ("unless phase task explicitly gives Coder ownership"). Phase 01's mandatory tasks require route removal and test repointing as one atomic change; splitting them across two agents would guarantee a broken intermediate state. `mas-qa` still verifies independently and may add its own specs. |
+| A09 | 01 | Legacy landing specs are relocated to `e2e/legacy/` and excluded via `testIgnore` rather than deleted, and the legacy tolerance allow-lists (37-entry `KNOWN_V1_SEMANTIC_VIOLATIONS`, 7-selector `KNOWN_MOBILE_CONTRAST_TARGETS` tolerating *serious* axe contrast failures) stay with them. | Valid only because those specs test `/legacy-landing`, which this phase makes dev-only. This is **not** permitted as a way to hide failures: no tolerance allow-list may enter the production suite, and real violations the honest new suite exposes on `/` must be reported, not allow-listed. Phase 13 owns fixing them. |
 
 ## Phase notes
 
@@ -106,3 +111,34 @@ initial landing JS 777.8 kB across 36 chunks · lint 0 errors / 1 warning ·
 784 e2e tests = 16 specs × 8 projects, of which **504 (64%) assert against `/legacy-landing`** ·
 npm audit 18 vulns (0 critical / 15 high / 3 moderate) · 24 distinct public URL surfaces,
 3 of them preview/dev · 41 `UNVERIFIED_MUST_REMOVE` + 8 `DEMO_PLACEHOLDER` public claims.
+
+---
+
+### Phase 01 — REPOSITORY TRUTH, CI RECOVERY, LEGACY LANDING CLEANUP — IN_PROGRESS
+
+**Scope:** requirement IDs 111–162, 424–430. Owns baseline blockers B02, B03, B04, B05, B07, B09, B15,
+plus a bounded slice of B01 (root ErrorBoundary only) and B06 (LCP preload correction).
+
+**Run-integrity events (recorded because they materially shaped how this phase executed):**
+
+| # | Event | Resolution |
+|---|---|---|
+| 1 | Coder agent #1 killed by process exit mid-phase; no commit, no report. | Work survived uncommitted in the assigned fixed worktree. Resume via SendMessage failed — harness worktree unverifiable. |
+| 2 | Coder agent #2 killed the same way; advanced the work but still never committed. | Orchestrator committed everything as WIP checkpoint `4a76b43` (assumption A05). |
+| 3 | Coder agent #3 spawn **refused** — three stale locked `.claude/worktrees/agent-*` blocked isolation. | Unlocked, removed, pruned; throwaway branches deleted (assumption A06). |
+| 4 | Coder agent #4 launched with a mandatory anti-interruption protocol: commit after each of seven named verified milestones instead of once at the end. | Running. |
+
+**Checkpoint `4a76b43` contents (36 files, +1400/-293 vs `076c16a`) — UNVERIFIED:**
+`src/routes/DevRoutes.tsx`, `src/lib/hero-shell.ts`, `src/components/ErrorBoundary.tsx` (extended),
+restructured `playwright.config.ts` + `.github/workflows/playwright.yml`, `index.html` preload change,
+`vite.config.ts` change, `package.json` scripts, `vitest.config.ts` deleted, nine specs relocated to
+`e2e/legacy/`, new `e2e/landing/` (5 specs), `e2e/smoke/`, `e2e/visual/`, and win32 goldens at
+375/1280/1440.
+
+**Outstanding at time of writing:** verification. Nothing in `4a76b43` has been built, type-checked,
+linted or tested. The open questions are whether the dev routes genuinely vanish from `dist/`, whether
+`#hero-shell` is actually removed on `/`, whether the corrected preload resolves `200` + `image/*`,
+and whether the rebuilt critical suite passes against the real landing.
+
+**Not yet decided:** phase outcome. This section will be rewritten with the acceptance decision once
+the Coder returns and `mas-qa` has verified independently.
