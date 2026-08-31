@@ -6,7 +6,7 @@ RUN_BASE_COMMIT: 366f321 (pre-run working tree preserved + plan path normalized)
 INTEGRATION_BRANCH: claude/awwwards-90-overhaul
 USER_BRANCH_PRESERVED: claude/motion-layer-and-asset-pipeline @ b6f2552 (untouched)
 STARTED_AT: 2026-08-31T01:51:28Z
-CURRENT_PHASE: 02
+CURRENT_PHASE: 03
 
 ## Authority
 
@@ -27,8 +27,8 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 |---|---|---|---|---|---|
 | 00 | PASS | fb128e9, 9228086 | b845ff1 | 14 AC/SC checks passed, 0 failed; 4 verification scripts added | 2026-08-31T05:55Z |
 | 01 | PASS | 038af33, 9392efb | afe1204, 3f2a2a9 | 77 passed / 0 failed / 2 skipped; coverage 177→205 blocks, 562→629 assertions | 2026-08-31T12:20Z |
-| 02 | IN_PROGRESS | — | — | — | 2026-08-31T12:20Z |
-| 03 | NOT_STARTED | — | — | — | — |
+| 02 | PASS | 28a4cfe, 39bf6d9, 5b82164, cfe5ad0, 603965e, 8c27d71, 8d395a7, b0110fc, 45f3577 | 68518cc, 26980b5, 67267cc | 76 passed / 1 pre-existing fail / 3 skipped | 2026-08-31T16:40Z |
+| 03 | IN_PROGRESS | — | — | — | 2026-08-31T16:40Z |
 | 04 | NOT_STARTED | — | — | — | — |
 | 05 | NOT_STARTED | — | — | — | — |
 | 06 | NOT_STARTED | — | — | — | — |
@@ -220,3 +220,106 @@ and whether the rebuilt critical suite passes against the real landing.
 violations at 375 and 1280, one `<h1>`, no skipped heading levels, and a working skip-link target. The
 36-entry allow-list was masking legacy-landing debt, not homepage debt.
 
+---
+
+### Phase 02 — MASTER DESIGN SYSTEM + 12-COLUMN GRID RECONSTRUCTION — PASS (after 2 correction loops)
+
+**Coder:** `28a4cfe`, `39bf6d9`, `5b82164`, `cfe5ad0`, `603965e` (initial); `8c27d71`, `8d395a7`, `b0110fc`
+(correction #1); `45f3577` (correction #2). **QA:** `539ab6d`-`68518cc` (FAIL), `26980b5`, `67267cc` (PASS).
+
+**Outcome:** the landing grid is now *structural*, not merely drawn. Every band derives from one master
+12-column system; **0 off-grid edges** across 330 measured block edges at 375/768/1280/1440/1600
+(Orchestrator re-ran the probe independently and reproduced PASS).
+
+**Arbitrary values eliminated** (all verified absent as live declarations; they survive only inside
+"BEFORE:" comments): `23.8%`, `19.2%`, `4.6%` (Nexus) -> 3/9; `35%/65%`, `48%/52%` (Projects) -> 6/6 and
+master spans; fixed `132px` seventh track (Quality) -> six 2-col cards, stamp evicted to an 11-12 span;
+`4fr/5fr/5fr` = **14 units** (RFQ) -> 3/4/5 = 12; `43fr/77fr` (Footer) -> 4/8; FAQ 7/5 now on master
+boundaries with the column-gap moved into child padding; Process no longer re-declares `repeat(12,1fr)`
+inside a padded body. Hero enforces real 4/6/2 with the 42px/59px compensating passport margins removed.
+Tablet Process empty sixth column fixed (intro C0->C3, figure C3->C6). Mobile rail set explicitly to 42px
+(was silently inheriting the 56px tablet value: 14.9% of a 375px viewport, 17.5% at 320).
+
+**QA FAIL #1 -> 3 defects, all fixed:**
+
+- **C1 (serious).** Mobile 02->03 process connector missing at 320 and 375. Root cause was **specificity,
+  not source order**: `.tl-process li:nth-child(2)::after` (0,2,2) inside `@media (max-width:1180px)` --
+  which also matches every mobile width -- beat the mobile rule (0,1,2). Fixed **structurally** by moving
+  the tablet exception into `@media (min-width:768px) and (max-width:1180px)`; the intervals are now
+  disjoint, so no future specificity change can make it leak. The rule was preserved verbatim, not deleted.
+  Aggravating factor: a code comment claimed the fix was measured at 375px when it never had been. That
+  comment is gone, and truthful comments were made an explicit acceptance criterion.
+- **C2.** `landing-grid-axes.spec.ts` asserted `rail/width < 0.13` while the same authored docs stated
+  13.1% at 320; 42/320 = 0.13125, so the `mobile-320` lane -- never run -- was red. Fixed by correcting the
+  *assertion*, not the rail: 42px is inside the skill 40-44px range, so shrinking it would have changed
+  correct geometry to satisfy a wrong number.
+- **C3.** Docs stated grid rules as absolutes that four blocks legitimately violate internally. Rewritten
+  to the real rule -- outer edges of every structural block land on master axes; internal subdivision may
+  be content-measured **and must be named** -- with five interiors enumerated. `.tl-header` added to the
+  probe, so the one documented exception is now *enforced* rather than asserted (delta 0.00-0.13px).
+
+**Correction #2 -- the gap the Coder flagged against its own interest.** Nothing automated protected the
+connector: the Playwright per-pixel colour threshold let an **80,602-pixel** byte-level golden delta still
+compare as a match. New `e2e/landing/landing-process-flow.spec.ts` asserts computed `::after` display *and*
+arrow glyph per step, from a table **measured at ten widths** including the breakpoint edges 767/768 and
+1180/1181. It found desktop genuinely differs from tablet (`grid/grid/grid/none` vs `grid/none/grid/none`);
+assuming uniformity would have locked in a bug.
+
+**Negative controls -- the evidence that matters most (all QA-run, none taken on trust):**
+
+- **The probe is not self-confirming.** Restoring pre-Phase-02 declarations over a copy of `dist/` gave
+  **173 OFF_GRID**; an invisible 3px nudge gave **20 OFF_GRID**.
+- **The connector gate can fail.** Reinstating the original leak in a scratch `dist/` (same cascade
+  position, same specificity) gave **6 failed / 2 passed**, e.g. `320px (mobile) - step 02 connector -
+  display expected "grid", measured "none"`. The 2 passes are the 1280/768 native lanes -- correct, the
+  defect is mobile-only.
+- **The golden gate is blind to this defect.** `visual-375` **passed** against the defect build, proving
+  the new spec is not redundant and that goldens alone would never have caught it.
+- **The C2 bound is not toothless.** The real 56px regression short-circuits on the earlier
+  `rail <= 46` assertion, so QA built a second 45px control that reaches the share bound and fails at
+  `0.140625` vs `< 0.14` -- a margin of 0.000625.
+
+**Goldens deliberately left byte-unmodified.** The connector fix causes **zero layout shift** (40/40 step
+boxes identical in top/left/width/height between fixed and defect builds), and a forced regeneration
+showed an 80,602-pixel delta that was unrelated rasterisation drift. Committing it would have imported
+noise, so the committed goldens were restored bit-for-bit. QA confirmed `git diff -- e2e/__golden__/` empty.
+
+**Orchestrator independent verification:** ran the grid-axis probe (PASS, 0 off-grid); opened
+`process-375.png` and saw the missing 02->03 arrow directly; confirmed the disjoint media-query fix in the
+CSS; ran the new connector spec (4/4 green in both critical projects); confirmed `src/index.css` is
+byte-identical to base for R5; confirmed all banned values survive only in comments.
+
+**ORCHESTRATOR-ACCEPTED SCOPE DEVIATION.** The Coder edited `e2e/technical-landing.spec.ts`, outside its
+WRITE_ALLOWLIST. **Accepted -- this was a defect in my contract, not misconduct.** The file was not in
+DO_NOT_TOUCH, and my own packet instructed updating stale expectations rather than deleting assertions;
+my allowlist simply failed to enumerate it. Both edits are *strengthenings*: the old
+`expect(["56px","64px"]).toContain(rail)` **literally asserted the defect** and was widened to include
+42px **plus a new measured `rail/viewportWidth < 0.15` bound that did not exist before**; the footer nav
+range narrowed from 5% wide to 3% wide. Nothing deleted, skipped or loosened. The Coder disclosed it
+prominently rather than burying it.
+
+**NOT QA-VERIFIED -- do not cite.** The Coder claim of "184 off-grid edges at base" and its
+"73,024-pixel golden negative control" were **not** reproduced. QA measured **173** off-grid with its own
+instrument (a lower bound, since its override restores only band-body geometry) and designed its own pixel
+controls. The `0` at HEAD is QA-verified; `184` and `73,024` are Coder-reported only.
+
+**NEW BLOCKER -- B23, owner Phase 03.** `e2e/shared-shell-accessibility.spec.ts:595` fails reproducibly in
+the `mobile-320` lane. **Proven PRE-EXISTING**, not a Phase 02 regression: QA built base commit `9133415`
+from `git archive` in scratch and reproduced the failure there, with every replayed measurement
+byte-identical at both commits. Root cause is **not** the Coder hypothesis -- the button *is* in the DOM
+(`ariaLabelSelectorCount 1`) but `src/index.css:335` deliberately sets `.floating-scroll-top{display:none}`
+below 768px (with a comment explaining the fixed header provides the same access), while the spec is pinned
+by `test.skip(... !== "mobile-320")` to assert it **visible** at 320. A product decision and a test assert
+opposite things, and have done since before this run. A second pre-existing fault in the same spec races
+the header entrance transform (12.89/15.36 at head, 19.64 at base; exactly 23 on both after a 2s settle).
+Needs a product decision plus a test-side settle fix.
+
+**Carried forward, unchanged:** VISUAL-BASELINE-GAP-LINUX (win32 goldens only; golden diffing still has
+zero CI coverage); B08-class local engine drift; content defects on the Quality/Nexus/Projects bands
+(fabricated CMM report number, `status="demo"/"sample"` data, decorative verification QR) -> Phase 06;
+768px hero photo clipping and the void under the CTA -> Phase 10; >500 kB chunks -> Phase 12.
+
+**Documented intentional grid break (one only):** band 01 header keeps an internal `210px 1fr auto`
+because two master columns are 202px at 1280 and the quote button plus language switch overflow that. Its
+**outer** edges sit on master C0/C12 at every width (QA-measured, delta 0.00-0.13px). Phase 03 owns global
+navigation and should revisit it.
