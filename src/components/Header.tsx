@@ -79,6 +79,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
   const familyRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const pendingHref = useRef<string | null>(null);
   const pendingSection = useRef<string | null>(null);
+  const pendingSectionScroll = useRef<string | null>(null);
   const restoreFocus = useRef(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -179,6 +180,19 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
     requestClose(false);
   };
 
+  /* The section scroll, ordered after the modal effect's cleanup. React runs
+     every cleanup in a commit before every effect in it, so by the time this
+     runs the overlay is gone, the scroll lock is released and Lenis has been
+     restarted — a scroll issued here is the last word. */
+  useEffect(() => {
+    if (phase !== "closed") return;
+    const id = pendingSectionScroll.current;
+    if (!id) return;
+    pendingSectionScroll.current = null;
+    const frame = window.requestAnimationFrame(() => scrollToSection(id));
+    return () => window.cancelAnimationFrame(frame);
+  }, [phase, scrollToSection]);
+
   /* Deep link and back/forward: a `/#surec` URL must still land on the band. */
   useEffect(() => {
     if (!onLanding || !location.hash) return;
@@ -271,7 +285,13 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
     pendingSection.current = null;
     if (href) { navigate(href); return; }
     if (section) {
-      if (onLanding) window.requestAnimationFrame(() => scrollToSection(section));
+      // NOT scrolled here. `finishExit` runs inside Framer's exit callback, and
+      // the modal effect's cleanup — which restores the scroll position the
+      // menu was opened at — is committed by React AFTER it. Scrolling from
+      // here was measured to be undone every time: the band moved to 2835 and
+      // the cleanup put it straight back to 0. The scroll is handed to the
+      // effect below, which React guarantees runs after that cleanup.
+      if (onLanding) pendingSectionScroll.current = section;
       else navigate(`/#${section}`);
       return;
     }

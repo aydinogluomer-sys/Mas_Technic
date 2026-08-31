@@ -136,7 +136,11 @@ export const navigationItems: NavigationItem[] = [
         path: "/kabiliyetler/kategori/uretim-altyapisi",
         links: [
           { label: "Makine Parkuru", path: "/kabiliyetler/makine-parkuru" },
-          { label: "Malzeme Kütüphanesi", path: "/malzemeler" },
+          // The capability page for the material library, not the public
+          // catalogue index. Both exist; linking only /malzemeler left
+          // /kabiliyetler/malzeme-kutuphanesi orphaned, which the reachability
+          // gate caught. The catalogue is reached from RESOURCES below.
+          { label: "Malzeme Kütüphanesi", path: "/kabiliyetler/malzeme-kutuphanesi" },
         ],
       },
       {
@@ -249,7 +253,7 @@ export const landingSections: SectionAnchor[] = [
 
 /* ── RESOURCES — technical reference surfaces ─────────────────────────────*/
 export const resourceLinks: NavigationLink[] = [
-  { label: "Malzeme Kütüphanesi", path: "/malzemeler" },
+  { label: "CNC İşleme Malzemeleri", path: "/malzemeler" },
   { label: "Teknik Günlük", path: "/blog" },
   { label: "Sık Sorulanlar", path: "/sss" },
 ];
