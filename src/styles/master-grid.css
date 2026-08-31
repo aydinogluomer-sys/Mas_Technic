@@ -37,12 +37,21 @@
 .tl-sheet {
   width: min(100%, var(--tl-sheet-max));
   margin-inline: auto;
+  /* Band 01 is the fixed global header (`src/styles/navigation.css`), so the
+     sheet reserves exactly its height. `--gnav-h` is the header's own token,
+     not a guess: if the bar changes height, this offset changes with it. The
+     fallback keeps the sheet usable if the navigation stylesheet is not the
+     one that loads first. */
+  padding-top: var(--gnav-h, 72px);
   border-inline: var(--tl-rule-size) solid var(--tl-rule);
   background: var(--tl-black);
 }
 
-.tl-band,
-.tl-header-band {
+/* `.tl-header-band` used to be listed here as a second band root. It is no
+   longer part of the sheet's flow — it is the fixed global header and declares
+   the identical `--tl-rail + repeat(--tl-cols,1fr)` tracks in
+   `src/styles/navigation.css`, which every public route loads. */
+.tl-band {
   position: relative;
   display: grid;
   grid-template-columns: var(--tl-rail) repeat(var(--tl-cols), minmax(0, 1fr));

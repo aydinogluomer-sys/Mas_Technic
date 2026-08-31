@@ -20,27 +20,13 @@
 .tl-process-intro h2 em,.tl-faq-title em,.tl-rfq h2 em{font-style:italic;color:var(--tl-bronze)}
 .tl-nexus-body h2 em{font-style:italic;color:var(--tl-bronze-light)}
 
-/* 01 — header */
-/* Bant 01'in İÇ bölümü (marka / gezinme / eylemler) bilinçli olarak master
-   ızgaraya değil içeriğine göre ölçülüyor: "TEKLİF AL" düğmesi + dil anahtarı
-   ölçülen genişlikte iki master sütuna (1280'de 202px) sığmıyor ve taşıyordu.
-   Bandın DIŞ kenarları master hatlarda (2/-1); iç bölüm Phase 03'ün global
-   navigasyon yeniden kurgusuna bırakıldı. */
-.tl-header{grid-column:2/-1;min-height:72px;display:grid;grid-template-columns:210px 1fr auto;align-items:stretch;background:var(--tl-header-surface)}
-.tl-brand{display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--tl-rule);padding-inline:var(--tl-s5);color:inherit;text-decoration:none}
-.tl-brand strong{font-size:24px;line-height:.9;letter-spacing:.02em}.tl-brand strong em{font-style:normal;font-weight:400}
-.tl-brand span{margin-top:5px;color:var(--tl-muted);font:600 7px/1 var(--tl-font-mono);letter-spacing:.34em}
-.tl-nav{display:flex;align-items:center;justify-content:center;gap:clamp(16px,2.4vw,40px)}
-.tl-nav a,.tl-language{color:inherit;font:600 9px/1 var(--tl-font-mono);letter-spacing:.08em;text-decoration:none}
-.tl-nav a{position:relative;padding-block:31px}.tl-nav a::after{content:"";position:absolute;right:100%;bottom:20px;left:0;height:1px;background:currentColor;transition:right var(--tl-dur-short) var(--tl-ease-out)}.tl-nav a:hover::after{right:0}
-.tl-header-actions{display:flex;align-items:center;gap:var(--tl-s5);padding:var(--tl-s2) var(--tl-s4)}
-.tl-language{display:flex;align-items:center;gap:6px}.tl-language i{color:var(--tl-on-dark-faint);font-style:normal}.tl-language-off{color:var(--tl-on-dark-faint)}
-.tl-quote-button{min-height:42px;display:flex;align-items:center;justify-content:center;padding-inline:var(--tl-s6);color:var(--tl-ink);background:var(--tl-paper);font:700 10px/1 var(--tl-font-mono);text-decoration:none}.tl-quote-button svg{width:15px}
-.tl-menu-trigger{display:none;width:44px;height:44px;place-items:center;border:1px solid var(--tl-rule);color:inherit;background:transparent}.tl-menu-trigger svg{width:18px}
-.tl-mobile-menu{position:fixed;z-index:10020;inset:0;display:flex;flex-direction:column;padding:var(--tl-s5);background:var(--tl-black)}
-.tl-mobile-menu>button{align-self:flex-end;width:48px;height:48px;display:grid;place-items:center;border:1px solid var(--tl-rule);color:inherit;background:transparent}.tl-mobile-menu nav{margin-block:auto}
-.tl-mobile-menu nav a{display:grid;grid-template-columns:42px 1fr;border-bottom:1px solid var(--tl-rule);padding:var(--tl-s4) 0;color:inherit;font-size:clamp(26px,9vw,48px);font-weight:650;text-decoration:none}.tl-mobile-menu nav small{padding-top:var(--tl-s2);font:600 9px/1 var(--tl-font-mono)}
-.tl-mobile-menu>a{display:flex;min-height:56px;align-items:center;justify-content:space-between;padding-inline:var(--tl-s4);color:var(--tl-black);background:var(--tl-paper);font-weight:700;text-decoration:none}
+/* 01 — header: MOVED.
+   Band 01 is the GLOBAL navigation now and ships on every public route, so it
+   cannot live in a stylesheet that only `/` loads. Its rules are in
+   `src/styles/navigation.css`, which carries the same token contract. The old
+   block also defined `.tl-nav`, `.tl-language`, `.tl-mobile-menu` and a
+   content-measured `210px 1fr auto` interior; none of those exist any more.
+   See `src/components/Header.tsx`. */
 
 /* 02 — hero: gerçek 4 / 6 / 2.
    ÖNCESİ: kopya `2/span 5` (master 0–5), sahne `5/span 7` (master 4–10),
@@ -444,9 +430,9 @@
 .tl-crosshair{width:16px;fill:none;stroke:#5f6764;stroke-width:1}
 
 /* Motion never changes geometry. */
-.tl-root[data-motion="ready"] .tl-header>*{animation:tl-header-assemble .72s cubic-bezier(.16,1,.3,1) both}.tl-root[data-motion="ready"] .tl-header>*:nth-child(2){animation-delay:.08s}.tl-root[data-motion="ready"] .tl-header>*:nth-child(3){animation-delay:.16s}.tl-root[data-motion="ready"] .tl-dimension-lines{stroke-dashoffset:900;animation:tl-draw-measure 1.65s .35s cubic-bezier(.16,1,.3,1) forwards}.tl-root[data-motion="ready"] .tl-measure,.tl-root[data-motion="ready"] .tl-fcf,.tl-root[data-motion="ready"] .tl-datum{animation:tl-label-lock .6s 1.1s cubic-bezier(.16,1,.3,1) both}.tl-root[data-motion="ready"] .tl-part-stage img{animation:tl-part-expose 1.4s cubic-bezier(.16,1,.3,1) both}.tl-root[data-motion="ready"] .tl-band:not(.tl-hero)>.tl-band-index span{transition:color .5s ease,background .5s ease}.tl-root[data-motion="ready"] .tl-band.tl-inview>.tl-band-index span{color:var(--tl-black);background:var(--tl-paper)}
+.tl-root[data-motion="ready"] .tl-dimension-lines{stroke-dashoffset:900;animation:tl-draw-measure 1.65s .35s cubic-bezier(.16,1,.3,1) forwards}.tl-root[data-motion="ready"] .tl-measure,.tl-root[data-motion="ready"] .tl-fcf,.tl-root[data-motion="ready"] .tl-datum{animation:tl-label-lock .6s 1.1s cubic-bezier(.16,1,.3,1) both}.tl-root[data-motion="ready"] .tl-part-stage img{animation:tl-part-expose 1.4s cubic-bezier(.16,1,.3,1) both}.tl-root[data-motion="ready"] .tl-band:not(.tl-hero)>.tl-band-index span{transition:color .5s ease,background .5s ease}.tl-root[data-motion="ready"] .tl-band.tl-inview>.tl-band-index span{color:var(--tl-black);background:var(--tl-paper)}
 .tl-root[data-motion="ready"] .tl-process.tl-inview .tl-band-index span,.tl-root[data-motion="ready"] .tl-projects.tl-inview .tl-band-index span,.tl-root[data-motion="ready"] .tl-quality.tl-inview .tl-band-index span,.tl-root[data-motion="ready"] .tl-faq-band.tl-inview .tl-band-index span,.tl-root[data-motion="ready"] .tl-rfq.tl-inview .tl-band-index span{color:var(--tl-paper);background:var(--tl-ink)}
-@keyframes tl-header-assemble{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0)}}@keyframes tl-draw-measure{to{stroke-dashoffset:0}}@keyframes tl-label-lock{from{opacity:0}to{opacity:1}}@keyframes tl-part-expose{from{filter:contrast(1.06) saturate(.72) brightness(.25)}to{filter:contrast(1.06) saturate(.72) brightness(1)}}
+@keyframes tl-draw-measure{to{stroke-dashoffset:0}}@keyframes tl-label-lock{from{opacity:0}to{opacity:1}}@keyframes tl-part-expose{from{filter:contrast(1.06) saturate(.72) brightness(.25)}to{filter:contrast(1.06) saturate(.72) brightness(1)}}
 
 /* ══ TABLET — six master columns ═════════════════════════════════════════
    `--tl-rail` / `--tl-cols` are NOT set here: master grid tokens live in
@@ -456,7 +442,7 @@
    `span 3` cells go 4-per-row → 2-per-row with no extra rule.
    ═══════════════════════════════════════════════════════════════════════ */
 @media (max-width:1180px){
-  .tl-band-index small{font-size:7px;letter-spacing:.02em}.tl-nav{gap:var(--tl-s3)}.tl-nav a{font-size:8px}.tl-language{display:none}
+  .tl-band-index small{font-size:7px;letter-spacing:.02em}
   .tl-hero{grid-template-rows:minmax(520px,1fr) auto}.tl-hero-copy{grid-column:2/span 3;grid-row:1;padding:var(--tl-s6) var(--tl-s4)}.tl-hero-copy h1{font-size:clamp(32px,4.4vw,52px)}.tl-hero-copy>p{font-size:15px}.tl-part-stage{grid-column:5/span 3;grid-row:1}
   /* Etiket konumları yüzde olduğu için çizgilerle kayıtlı kalır; yalnız
      kutuların sabit px ölçüsü dar sahnede küçültülüyor. */
@@ -515,7 +501,7 @@
 @media (min-width:768px) and (max-width:1180px){
   .tl-process li:nth-child(2)::after{display:none}.tl-process li:nth-child(2){border-right:0}
 }
-@media (max-width:900px){.tl-header{grid-template-columns:210px 1fr auto}.tl-nav,.tl-quote-button{display:none}.tl-menu-trigger{display:grid}}
+
 
 /* ══ MOBILE — four master columns, 42px rail ═════════════════════════════
    `--tl-rail` / `--tl-cols` live in `design-tokens.css`.
@@ -528,7 +514,7 @@
    ═══════════════════════════════════════════════════════════════════════ */
 @media (max-width:767px){
   .tl-sheet{border-inline:0}.tl-band-index{padding-top:var(--tl-s2);gap:var(--tl-s1)}.tl-band-index span{width:24px;height:24px;font-size:8px}.tl-band-index small{display:none}
-  .tl-header{min-height:64px;grid-template-columns:1fr auto}.tl-brand{border-right:0;padding-left:var(--tl-s4)}.tl-brand strong{font-size:21px}.tl-brand span{font-size:6px;letter-spacing:.26em}.tl-header-actions{padding-right:var(--tl-s2)}
+  
   .tl-status-badge{top:var(--tl-s2);right:var(--tl-s2);font-size:7px}
   .tl-hero{grid-template-rows:auto 280px auto}.tl-hero-copy{grid-column:2/-1;grid-row:1;padding:var(--tl-s7) var(--tl-s4) var(--tl-s5)}.tl-hero-copy h1{font-size:clamp(28px,9vw,48px)}.tl-hero-copy>p{font-size:13px}.tl-part-stage{grid-column:2/-1;grid-row:2;height:280px;border-top:1px solid var(--tl-rule)}.tl-part-stage::after{background:linear-gradient(180deg,var(--tl-black),transparent 18%,transparent 76%,var(--tl-black))}.tl-part-frame{height:100%;aspect-ratio:auto}.tl-part-stage img{object-position:62% center;transform:none}
   /* Mobilde ölçümlendirme üç yüksek değerli işarete iner (implementation.md

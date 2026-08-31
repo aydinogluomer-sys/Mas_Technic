@@ -112,14 +112,26 @@ export const rfqSteps = [
   { no: "04", title: "ÜRETİM", line: "Kalite ve teslim süreci başlar" },
 ] as const;
 
+/**
+ * The drawing footer's four columns.
+ *
+ * TWO MIS-TARGETED ENTRIES WERE CORRECTED HERE (Phase 03, task 9 / B14).
+ * `["Vizyon & Misyon", "/hakkimizda"]` and `["Kariyer", "/iletisim"]` both
+ * promised a page the site does not have and silently delivered a different
+ * one. There is no vision/mission page and no careers page, and inventing
+ * either would be a fabrication, so the two slots now carry destinations that
+ * exist and are labelled as what they are: the technical journal and the FAQ.
+ * Every remaining target is either a real route or one of the seven real
+ * landing anchors in `src/components/navigation/ia.ts`.
+ */
 export const footerColumns = [
   {
     title: "ŞİRKET",
     links: [
       ["Hakkımızda", "/hakkimizda"],
-      ["Vizyon & Misyon", "/hakkimizda"],
+      ["Teknik Günlük", "/blog"],
       ["Sertifikalar", "#kalite"],
-      ["Kariyer", "/iletisim"],
+      ["Sık Sorulanlar", "/sss"],
     ],
   },
   {

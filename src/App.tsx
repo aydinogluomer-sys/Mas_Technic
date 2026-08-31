@@ -6,7 +6,11 @@ import { PageTransition } from "@/components/PageTransition";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
-import { useSoundEngine } from "@/hooks/use-sound";
+// `useSoundEngine` was imported here and never called. The sound and theme
+// toggles that used to sit in the public header are gone with Phase 03 — a CNC
+// manufacturer's navigation has no product or brand reason to carry them — so
+// this dead import goes with them. The hook itself stays: `CustomCursor`,
+// `MagneticButton`, `BracketButton` and `HeroSection` still call it.
 import { useAmbientGlow } from "@/hooks/useAmbientGlow";
 import { isHeroIntroActive } from "@/lib/hero-shell";
 

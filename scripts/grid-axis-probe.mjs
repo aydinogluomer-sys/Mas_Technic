@@ -60,14 +60,24 @@ const VIEWPORT_HEIGHT = 900;
  * expectations that could each be wrong.
  */
 const PROBE_TARGETS = [
-  /* `.tl-header` is a DOCUMENTED exception: it is the one structural block
-     whose interior is not a subgrid (`210px 1fr auto` — brand plate, nav
-     field, actions). The exception is only legitimate if its OUTER edges still
-     sit on the master grid, so the promise is measured here rather than
-     asserted in prose. Until Phase 02 correction #1 the header was never
-     probed and the documented exception was therefore untested. */
+  /* `.tl-header` WAS a documented content-measured exception: its interior was
+     `210px 1fr auto` because the quote button plus the inert TR/EN switch did
+     not fit two master columns (202px at 1280). Phase 03 removed the switch
+     (`USER_INPUTS.md` §B — `ENGLISH_LIVE_NOW: NO`) and rebuilt the bar as the
+     global navigation, whose interior is a `subgrid`. The exception is gone
+     from `docs/lean/06-design-system.md`, so the INTERIOR is probed here too —
+     brand, context readout and actions must each land on master axes, not just
+     the block's outer edges.
+
+     The band is fixed and portalled into `#shared-header-host`, so it is still
+     in the document and still declares the same
+     `--tl-rail + repeat(--tl-cols,1fr)` tracks at the same `--tl-sheet-max`
+     width as every other band. */
   { band: "Header", root: ".tl-header-band", blocks: [
     ["header", ".tl-header"],
+    ["brand", ".tl-brand"],
+    ["context", ".tl-header-context"],
+    ["actions", ".tl-header-actions"],
   ] },
   { band: "Hero", root: ".tl-hero", blocks: [
     ["copy", ".tl-hero-copy"],

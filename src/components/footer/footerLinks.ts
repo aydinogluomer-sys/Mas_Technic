@@ -1,55 +1,49 @@
+import { companyLinks, homeLink, navigationItems, resourceLinks } from "@/components/navigation/ia";
+
+/**
+ * The inner-page footer's link groups — DERIVED, no longer maintained by hand.
+ *
+ * This file used to be a third link taxonomy, drifting from both the menu
+ * (`navigation-data`) and the landing footer (`footerColumns`). Three of its
+ * entries had already rotted:
+ *
+ *   `/endustriyel/kategori/seri-uretim`  — not a route the app serves. The
+ *       real slug in `src/data/categoryPages.ts` is `seri-uretim-endustriyel`,
+ *       so this footer link resolved to the category not-found shell.
+ *   `/#hizmetler` and `/#kabiliyetler` — two anchors that do not exist on the
+ *       production landing; the real seven are in `navigation/ia.ts`
+ *       (`reports/baseline/known-blockers.md` B03).
+ *
+ * Deriving the groups from `src/components/navigation/ia.ts` makes that class
+ * of drift impossible: a renamed slug can no longer be right in the menu and
+ * wrong in the footer.
+ */
 export type FooterLinkGroup = {
   title: string;
   titleHref: string | null;
   items: { label: string; href: string }[];
 };
 
+const family = (label: string): FooterLinkGroup => {
+  const group = navigationItems.find((item) => item.label === label);
+  return {
+    title: label,
+    titleHref: null,
+    items: (group?.children ?? []).map((category) => ({ label: category.label, href: category.path })),
+  };
+};
+
 export const footerLinks: FooterLinkGroup[] = [
-  {
-    title: "Endüstriyel",
-    titleHref: null,
-    items: [
-      { label: "Yüksek Teknoloji", href: "/endustriyel/kategori/yuksek-teknoloji" },
-      { label: "Seri Üretim", href: "/endustriyel/kategori/seri-uretim" },
-      { label: "Endüstriyel Sistemler", href: "/endustriyel/kategori/endustriyel-sistemler" },
-      { label: "Üretim Çözümleri", href: "/endustriyel/kategori/uretim-cozumleri" },
-      { label: "Enerji & Altyapı", href: "/endustriyel/kategori/enerji-altyapi" },
-    ],
-  },
-  {
-    title: "Kabiliyetler",
-    titleHref: null,
-    items: [
-      { label: "Üretim Altyapısı", href: "/kabiliyetler/kategori/uretim-altyapisi" },
-      { label: "Kalite & Standartlar", href: "/kabiliyetler/kategori/kalite-standartlar" },
-      { label: "Mühendislik Desteği", href: "/kabiliyetler/kategori/muhendislik-destegi" },
-      { label: "Prototipten Seri Üretime", href: "/kabiliyetler/kategori/prototipten-seri-uretime" },
-      { label: "Süreç & Operasyon", href: "/kabiliyetler/kategori/surec-operasyon" },
-    ],
-  },
-  {
-    title: "Hizmetler",
-    titleHref: null,
-    items: [
-      { label: "Talaşlı İmalat", href: "/hizmetler/kategori/talasli-imalat" },
-      { label: "Ön Üretim", href: "/hizmetler/kategori/on-uretim" },
-      { label: "Yüzey İşlemleri", href: "/hizmetler/kategori/yuzey-islemleri" },
-      { label: "İşaretleme & Tanımlama", href: "/hizmetler/kategori/isaretleme-tanimlama" },
-      { label: "Montaj & Birleştirme", href: "/hizmetler/kategori/montaj-birlestirme" },
-    ],
-  },
+  family("Endüstriyel"),
+  family("Kabiliyetler"),
+  family("Hizmetler"),
   {
     title: "Kurumsal & Destek",
     titleHref: null,
     items: [
-      { label: "Ana Sayfa", href: "/" },
-      { label: "Hakkımızda", href: "/hakkimizda" },
-      { label: "Teklif & Üretim Süreci", href: "/#hizmetler" },
-      { label: "Teknik Kapsam", href: "/#kabiliyetler" },
-      { label: "Tedarik Zinciri", href: "/kabiliyetler/tedarik-zinciri" },
-      { label: "Kalite Kontrol", href: "/kabiliyetler/kalite-kontrol" },
-      { label: "SSS", href: "/sss" },
-      { label: "İletişim", href: "/iletisim" },
+      { label: homeLink.label, href: homeLink.path },
+      ...companyLinks.map((link) => ({ label: link.label, href: link.path })),
+      ...resourceLinks.map((link) => ({ label: link.label, href: link.path })),
     ],
   },
 ];
