@@ -27,17 +27,22 @@ const SHELL_MATRIX = new Set([
  * Paylaşılan kabuğu (`[data-fullscreen-header]` + paylaşılan `Footer`) basan
  * rotalar.
  *
- * `/` bu listede DEĞİL. Üretim ana sayfası `TechnicalLanding`'dir ve kendi
- * `.tl-header` / `.tl-footer` bantlarını basar; paylaşılan kabuğu hiç mount
- * etmez. Bu liste bugüne kadar `/` içeriyordu ve yalnızca `helpers.ts`
- * içindeki `/` → `/legacy-landing` yeniden yazımı sayesinde yeşildi
- * (`reports/baseline/known-blockers.md` B02). Yeniden yazım kaldırıldı; `/`
- * artık aşağıdaki `OWN_SHELL_ROUTES` sözleşmesiyle, gerçekte ne yayınlıyorsa
- * ona karşı sınanıyor. Landing'i global IA'ya bağlamak Faz 03'ün işidir (B14).
+ * `/` ARTIK BU LİSTEDE. Faz 01 bu satırı bilerek `OWN_SHELL_ROUTES` istisnası
+ * olarak yazmıştı: üretim ana sayfası paylaşılan header'ı hiç mount etmiyordu,
+ * bu yüzden `/`'ın header sayısı 0'dı ve istisna "Faz 03 bunu düzelttiğinde
+ * kırmızıya dönsün" diye konmuştu (`reports/baseline/known-blockers.md` B14).
+ * Faz 03 tek bir global navigasyon kurdu ve `/` de onu basıyor, dolayısıyla
+ * istisna amacına ulaşıp kalktı.
  *
- * `/test` de listede değil: dev-only rotalar üretim derlemesinde yayınlanmaz.
+ * SAYIM DEĞİŞİMİ — kaydedilmiştir: tam kabuk 88 → 89 (yalnız `/` eklendi),
+ * toplam halka açık yüzey 94 → 94 (`/` istisna kümesinden tam kabuk kümesine
+ * TAŞINDI, yeni bir rota eklenmedi). Landing'in footer'ı hâlâ kendi antet
+ * bloğudur; sözleşme header sahipliğini ölçer, footer tasarımını değil.
+ *
+ * `/test` listede değil: dev-only rotalar üretim derlemesinde yayınlanmaz.
  */
 const STATIC_FULL_SHELL_ROUTES = [
+  "/",
   "/sss",
   "/gizlilik-politikasi",
   "/kvkk",
@@ -48,8 +53,18 @@ const STATIC_FULL_SHELL_ROUTES = [
   "/blog",
 ] as const;
 
-/** Landing kendi kabuğunu basar: paylaşılan header yok, kendi footer'ı var. */
-const OWN_SHELL_ROUTES = ["/"] as const;
+/**
+ * Paylaşılan header'ı basmayan halka açık yüzeyler. `/` buradan çıktı (Faz 03);
+ * geriye yalnızca dönüşüm, kimlik ve hata yüzeyleri kaldı. Bu küme yalnızca
+ * TOPLAM sayımın 94'te kalmasını kanıtlamak için var.
+ */
+const NON_SHELL_PUBLIC_ROUTES = [
+  "/teklif-al",
+  "/giris",
+  "/sifremi-unuttum",
+  "/reset-password",
+  "/cad-dashboard",
+] as const;
 
 const APP_SOURCE = readFileSync(resolve(process.cwd(), "src/App.tsx"), "utf8");
 const PANEL_ROUTES_SOURCE = APP_SOURCE.slice(
@@ -261,19 +276,14 @@ test.describe("Shared public shell accessibility", () => {
       /import\.meta\.env\.DEV\s*\?\s*lazy\(\(\)\s*=>\s*import\("\.\/routes\/DevRoutes"\)\)\s*:\s*null;/,
     );
     expect(new Set([...CATEGORY_ROUTES, ...SERVICE_ROUTES, ...MATERIAL_ROUTES, ...BLOG_ROUTES]).size).toBe(80);
-    expect(new Set(FULL_SHELL_ROUTES).size).toBe(88);
-    expect(new Set([
-      ...FULL_SHELL_ROUTES,
-      ...OWN_SHELL_ROUTES,
-      "/teklif-al",
-      "/giris",
-      "/sifremi-unuttum",
-      "/reset-password",
-      "/cad-dashboard",
-    ]).size).toBe(94);
+    // 88 → 89: `/` paylaşılan kabuğa katıldı (Faz 03 / B14).
+    expect(new Set(FULL_SHELL_ROUTES).size).toBe(89);
+    expect(FULL_SHELL_ROUTES).toContain("/");
+    // Toplam DEĞİŞMEDİ: `/` istisna kümesinden tam kabuk kümesine taşındı.
+    expect(new Set([...FULL_SHELL_ROUTES, ...NON_SHELL_PUBLIC_ROUTES]).size).toBe(94);
   });
 
-  test("keeps all 88 canonical full-shell routes on one header/footer contract", async ({ page }, testInfo) => {
+  test("keeps all 89 canonical full-shell routes on one header/footer contract", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical all-route shell lane");
     test.setTimeout(600_000);
     const runtimeErrors: string[] = [];
@@ -352,10 +362,10 @@ test.describe("Shared public shell accessibility", () => {
   test("keeps declared public and panel shell exceptions explicit", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical shell-exception lane");
     const exceptions = [
-      // Üretim landing'i paylaşılan kabuğu mount etmez; kendi antet-bloğu
-      // footer'ını basar. Global IA'ya bağlanması Faz 03'ün işidir (B14) ve
-      // o iş yapıldığında bu satır kırmızıya döner — bilerek böyle.
-      { route: "/", finalPaths: ["/"], header: 0, footer: 1 },
+      // `/` ARTIK BİR İSTİSNA DEĞİL — global navigasyonu basıyor ve yukarıdaki
+      // 89 rotalık tam kabuk sözleşmesinde ölçülüyor (B14 kapandı). Faz 01'in
+      // `{ route: "/", header: 0, footer: 1 }` satırı tam da bu an için
+      // yazılmıştı; amacına ulaştığı için kaldırıldı, gevşetilmedi.
       // Dev-only rotalar üretim derlemesinde hiç oluşturulmaz: istek `*`
       // üzerinden 404 kabuksuz sayfaya düşer.
       { route: "/technical-preview", finalPaths: ["/technical-preview"], header: 0, footer: 0 },
@@ -607,6 +617,17 @@ test.describe("Shared public shell accessibility", () => {
     const header = page.locator("[data-fullscreen-header]");
     const logo = header.getByRole("link", { name: "MAS Technic ana sayfa" });
     const trigger = page.locator("[data-menu-trigger]");
+    // The safe-area properties are applied by the test itself, so the header's
+    // padding changes AFTER the assertion's first paint. The old code measured
+    // immediately and raced whatever transition was still in flight: the logo's
+    // x was recorded at 12.89 / 15.36 / 19.64 in different runs and settled at
+    // exactly 23 in all of them ~2s later (`reports/qa/phase-02.md` §21.8).
+    // This waits for the animation to be over rather than sleeping for a
+    // guessed duration — if a future header animates its padding again, the
+    // wait still holds and the measurement is still honest.
+    await expect.poll(() => header.evaluate((element) =>
+      element.getAnimations({ subtree: true }).filter((animation) =>
+        animation.playState === "running").length)).toBe(0);
     const closed = await Promise.all([logo, trigger].map((locator) => locator.boundingBox()));
     expect(closed[0]!.x).toBeGreaterThanOrEqual(insets.left);
     expect(closed[0]!.y).toBeGreaterThanOrEqual(insets.top);
@@ -646,19 +667,46 @@ test.describe("Shared public shell accessibility", () => {
     expect(legalBounds!.x + legalBounds!.width).toBeLessThanOrEqual(320 - insets.right + 1);
     expect(legalBounds!.y + legalBounds!.height).toBeLessThanOrEqual(568 - insets.bottom + 1);
 
+    /* ── B23 — the floating scroll-top control below 768px ────────────────
+       This block used to assert that `.floating-scroll-top` is VISIBLE at 320
+       with safe-area offsets, while `src/index.css` deliberately sets
+       `display:none` on it below 768px. Product decision and test have been
+       asserting opposite things since before this run: QA reproduced the same
+       failure at base commit `9133415` with both files byte-identical
+       (`reports/qa/phase-02.md` §21.8).
+
+       DECISION (Phase 03): (a) — the control genuinely should not exist below
+       768px, so the SPEC was wrong.
+         · The global header is fixed at the top of every viewport at every
+           width, and its brand link ("MAS Technic ana sayfa" → `/`) is always
+           on screen. A second, floating "back to top" affordance duplicates a
+           control the user can already reach without scrolling.
+         · At 320 a 44px floating button overlays footer card text — the
+           measured reason the rule was written in the first place.
+         · The landing has no such control at all, so hiding it on small
+           screens is also what keeps the two shells consistent.
+
+       The assertion is not deleted, and it is not weakened into a no-op: it
+       now pins the decision from both sides — the control must be absent from
+       the accessibility tree, and the named CSS rule must be the reason. If
+       someone re-exposes it at 320 without also updating the rule and the
+       comment, this fails. */
     await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight * 0.4));
-    const scrollTop = page.getByRole("button", { name: "Yukarı çık" });
-    await expect(scrollTop).toBeVisible();
-    const floatingBounds = await scrollTop.evaluate((element) => {
-      const rect = element.getBoundingClientRect();
-      return { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
-    });
-    expect(floatingBounds!.x).toBeGreaterThanOrEqual(insets.left + 23);
-    expect(568 - (floatingBounds!.y + floatingBounds!.height)).toBeGreaterThanOrEqual(insets.bottom + 23);
+    await expect(page.getByRole("button", { name: "Yukarı çık" })).toHaveCount(0);
+    expect(await page.locator(".floating-scroll-top").evaluateAll((elements) =>
+      elements.map((element) => getComputedStyle(element).display)))
+      .toEqual(["none"]);
   });
 
   test("renders footer content immediately and uses non-smooth scroll under reduced motion", async ({ page }) => {
     test.skip(!isReducedMotionAuditViewport(page), "canonical reduced-motion lanes");
+    // Same B23 decision as the 320 lane. This test runs at 375 AND 1440, and
+    // at 375 it asserted the scroll-top control was visible — the same
+    // contradiction with `src/index.css`'s `@media (max-width:767px)` rule, at
+    // a second width, and equally pre-existing. Below 768 the control does not
+    // exist by product decision; above it, the reduced-motion contract is
+    // unchanged and still asserts a non-smooth `window.scrollTo`.
+    const desktopWidth = (page.viewportSize()?.width ?? 0) >= 768;
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.addInitScript(() => {
       const original = window.scrollTo.bind(window);
@@ -690,10 +738,17 @@ test.describe("Shared public shell accessibility", () => {
       if (calls) calls.length = 0;
     });
     const scrollTop = page.getByRole("button", { name: "Yukarı çık" });
-    await expect(scrollTop).toBeVisible();
-    await scrollTop.click();
-    await expect.poll(() => page.evaluate(() =>
-      (window as Window & { __shellScrollBehaviors?: string[] }).__shellScrollBehaviors ?? [])).toContain("auto");
+    if (desktopWidth) {
+      await expect(scrollTop).toBeVisible();
+      await scrollTop.click();
+      await expect.poll(() => page.evaluate(() =>
+        (window as Window & { __shellScrollBehaviors?: string[] }).__shellScrollBehaviors ?? [])).toContain("auto");
+    } else {
+      await expect(scrollTop).toHaveCount(0);
+      expect(await page.locator(".floating-scroll-top").evaluateAll((elements) =>
+        elements.map((element) => getComputedStyle(element).display)))
+        .toEqual(["none"]);
+    }
 
     const footerText = await page.getByRole("contentinfo").innerText();
     expect(footerText).toContain("sales@mastechnic.com");

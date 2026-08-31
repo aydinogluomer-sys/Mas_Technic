@@ -330,8 +330,26 @@
   .floating-scroll-top { transition-duration: .01ms; }
   .floating-scroll-top:is(:hover, :focus-visible) { transform: none; }
 }
-/* Mobilde kart metnini örtüyordu; sabit header ve logo zaten aynı erişimi
-   verdiği için küçük ekranlarda gösterilmiyor. */
+/* ── B23 — ÜRÜN KARARI, ARTIK TESTLE AYNI ŞEYİ SÖYLÜYOR ────────────────────
+   Kayan "başa dön" kontrolü 768px altında GÖSTERİLMEZ.
+
+   Gerekçe (Faz 03'te yeniden değerlendirildi ve korundu):
+     1. Mobilde kart metnini örtüyordu — özgün, ölçülmüş gerekçe.
+     2. Global navigasyon (`src/styles/navigation.css`) her genişlikte üstte
+        SABİT duruyor ve marka bağlantısı ("MAS Technic ana sayfa" → `/`)
+        kaydırmadan her an erişilebilir. Kayan kontrol, zaten ekranda olan bir
+        kontrolü tekrar ediyor.
+     3. Landing'de böyle bir kontrol hiç yok; gizlemek iki kabuğu aynı hizada
+        tutuyor.
+
+   `e2e/shared-shell-accessibility.spec.ts` bu kuralın TAM TERSİNİ iddia
+   ediyordu (320'de "görünür olmalı"). Çelişki bu koşudan ÖNCE de vardı ve
+   temel commit `9133415`'te birebir yeniden üretildi
+   (`reports/qa/phase-02.md` §21.8). Karar (a) yönünde verildi: kontrol mobilde
+   olmamalı, dolayısıyla yanlış olan testti. Test silinmedi — hem rol
+   ağacından yokluğunu hem de sebebin BU kural olduğunu iki genişlikte
+   (320 ve 375) doğrulayacak biçimde düzeltildi.
+   ------------------------------------------------------------------------ */
 @media (max-width: 767px) {
   .floating-scroll-top { display: none; }
 }

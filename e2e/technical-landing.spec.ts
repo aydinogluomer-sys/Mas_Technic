@@ -297,14 +297,44 @@ test.describe("technical editorial landing phase 1", () => {
     expect(blocking).toEqual([]);
   });
 
-  test("mobile menu traps focus and closes with Escape", async ({ page, isMobile }) => {
-    test.skip(!isMobile, "mobile navigation contract");
+  /**
+   * The landing used to have its OWN mobile dialog ("Mobil navigasyon") with a
+   * hand-rolled focus trap, separate from the inner pages' overlay. There is
+   * one menu now ("Ana menü") and it is the same object at every width, so the
+   * contract is asserted at every width rather than only on mobile — a strictly
+   * wider assertion than the one it replaces.
+   */
+  test("the one global menu traps focus, locks scroll and restores the trigger", async ({ page }) => {
     const trigger = page.getByRole("button", { name: "Menüyü aç" });
     await trigger.click();
-    await expect(page.getByRole("dialog", { name: "Mobil navigasyon" })).toBeVisible();
+    const menu = page.getByRole("dialog", { name: "Ana menü" });
+    await expect(menu).toBeVisible();
+    await expect(menu).toHaveAttribute("aria-modal", "true");
+    await expect(page.locator("#root")).toHaveAttribute("inert", "");
+    await expect(page.locator("html")).toHaveCSS("overflow", "hidden");
+    const focusable = menu.locator('a[href]:visible, button:not([disabled]):visible');
+    await focusable.last().focus();
+    await page.keyboard.press("Tab");
+    await expect(focusable.first()).toBeFocused();
     await page.keyboard.press("Escape");
-    await expect(page.getByRole("dialog", { name: "Mobil navigasyon" })).toBeHidden();
+    await expect(menu).toHaveCount(0);
     await expect(trigger).toBeFocused();
+    await expect(page.locator("html")).not.toHaveCSS("overflow", "hidden");
+    await expect(page.locator("#root")).not.toHaveAttribute("inert", "");
+  });
+
+  test("keeps the global header free of serious accessibility violations", async ({ page }) => {
+    // `.tl-root` axe coverage above cannot see the header any more: it renders
+    // through the `#shared-header-host` portal, outside the landing subtree.
+    const closed = await new AxeBuilder({ page }).include("[data-fullscreen-header]").analyze();
+    expect(closed.violations.filter((item) =>
+      item.impact === "serious" || item.impact === "critical")).toEqual([]);
+    await page.getByRole("button", { name: "Menüyü aç" }).click();
+    await expect(page.locator("[data-fullscreen-menu]")).toBeVisible();
+    const open = await new AxeBuilder({ page }).include("[data-fullscreen-menu]").analyze();
+    expect(open.violations.filter((item) =>
+      item.impact === "serious" || item.impact === "critical")).toEqual([]);
+    await page.keyboard.press("Escape");
   });
 
   test("reduced motion keeps the complete page visible without active animation", async ({ page }) => {

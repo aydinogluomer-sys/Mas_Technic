@@ -17,16 +17,44 @@ test.describe("production landing anchors", () => {
     await landingReady(page);
   });
 
-  test("every header hash link targets a real section anchor", async ({ page }) => {
-    const hrefs = await page.locator(".tl-header .tl-nav a[href^='#']").evaluateAll((links) =>
-      links.map((link) => link.getAttribute("href")!.slice(1)));
-    expect(hrefs.length).toBeGreaterThan(0);
+  test("every navigation hash link targets a real section anchor", async ({ page }) => {
+    // The six hash items used to live in the landing-only `.tl-header .tl-nav`
+    // strip, which was ALL the navigation `/` had (B14). They are now the
+    // section block of the one global menu, addressed as `/#id` so the same
+    // control works from an inner page. The contract is unchanged and one
+    // anchor wider: every hash a user can click must land on a real band.
+    await page.locator("[data-menu-trigger]").click();
+    const menu = page.locator("[data-fullscreen-menu]");
+    await expect(menu).toBeVisible();
+    const hrefs = await menu.locator("[data-nav-sections] a[href*='#']").evaluateAll((links) =>
+      links.map((link) => link.getAttribute("href")!.split("#")[1]));
+    expect(hrefs).toHaveLength(LANDING_SCENE_IDS.length);
 
     for (const id of hrefs) {
       expect(LANDING_SCENE_IDS as readonly string[], `#${id} must be a declared landing anchor`)
         .toContain(id);
       await expect(page.locator(`#${id}`), `#${id} must exist exactly once`).toHaveCount(1);
     }
+    await page.keyboard.press("Escape");
+    await expect(menu).toHaveCount(0);
+  });
+
+  test("a section link scrolls its band clear of the fixed header", async ({ page }) => {
+    // Anchor navigation and route navigation are two different objects in one
+    // menu. This proves the anchor half actually moves the page AND that the
+    // fixed bar does not cover the band it just navigated to.
+    await page.locator("[data-menu-trigger]").click();
+    const menu = page.locator("[data-fullscreen-menu]");
+    await expect(menu).toBeVisible();
+    await menu.locator('[data-nav-sections] a[href$="#kalite"]').click();
+    await expect(menu).toHaveCount(0);
+    const headerHeight = await page.locator("[data-fullscreen-header]")
+      .evaluate((element) => element.getBoundingClientRect().height);
+    await expect.poll(async () => {
+      await settleRendering(page);
+      const top = await page.locator("#kalite").evaluate((element) => element.getBoundingClientRect().top);
+      return top >= headerHeight - 4 && top <= headerHeight + 32;
+    }, { timeout: 15_000, intervals: [200, 400, 800] }).toBe(true);
   });
 
   test("anchor navigation actually reaches every declared section", async ({ page }) => {

@@ -1,17 +1,26 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { gotoAndSettle, isReducedMotionAuditViewport } from "./helpers";
-import { navigationItems } from "../src/components/navigation-data";
+import { navigationItems } from "../src/components/navigation/ia";
 
 /**
- * Tam ekran menü sözleşmesi, paylaşılan kabuğu basan gerçek bir üretim
- * rotasında sınanır. Bu paket eskiden `gotoAndSettle(page, "/")` çağırıyor ve
- * `helpers.ts` tarafından sessizce dev-only `/legacy-landing`'e yönlendiriliyordu
- * (`reports/baseline/known-blockers.md` B02). Yönlendirme kaldırıldı; `/`
- * rotası bugün `HeaderFullscreen`'i hiç mount etmiyor (B14, sahibi Faz 03),
- * bu yüzden sözleşme kabuğu gerçekten yayınlayan `/sss` üzerinde koşar.
+ * Tam ekran menü sözleşmesi ÜRETİM ANA SAYFASINDA koşar.
+ *
+ * Tarihçe: bu paket bir zamanlar `gotoAndSettle(page, "/")` çağırıyor ve
+ * `helpers.ts` tarafından sessizce dev-only `/legacy-landing`'e
+ * yönlendiriliyordu (`reports/baseline/known-blockers.md` B02). Faz 01
+ * yönlendirmeyi kaldırınca `/` rotasının menüyü hiç mount etmediği açığa çıktı
+ * (B14) ve paket geçici olarak `/sss`'e taşındı. Faz 03 tek global
+ * navigasyonu kurdu; `/` artık aynı tetikleyiciyi basıyor, paket asıl evine
+ * döndü.
+ *
+ * Aynı sözleşmenin iç sayfalarda da geçerli olduğunu
+ * `e2e/shared-shell-accessibility.spec.ts` (89 rotanın tamamı) ve
+ * `e2e/landing/navigation-reachability.spec.ts` ölçer.
  */
-const MENU_HOST_ROUTE = "/sss";
+const MENU_HOST_ROUTE = "/";
+/** İç sayfa karşılığı: aynı menü, farklı kabuk. */
+const INNER_HOST_ROUTE = "/sss";
 
 test.describe("Fullscreen machining navigation", () => {
   test("uses one three-line trigger and a viewport-bound takeover", async ({ page }) => {
@@ -195,7 +204,7 @@ test.describe("Fullscreen machining navigation", () => {
 
       const group = menu.locator("[data-menu-group]");
       await expect(group).toHaveAttribute("data-menu-group", family.label);
-      const categories = group.locator(".menu-category-toggle");
+      const categories = group.locator("[data-nav-category]");
       await expect(categories).toHaveCount(family.children!.length);
       await page.keyboard.press("Tab");
 
@@ -209,8 +218,8 @@ test.describe("Fullscreen machining navigation", () => {
         const panelId = await categoryToggle.getAttribute("aria-controls");
         expect(panelId).toBeTruthy();
         const panel = group.locator(`#${panelId}`);
-        const categoryLanding = panel.locator(".menu-category-landing");
-        const details = panel.locator(".menu-category-details ul a[href]");
+        const categoryLanding = panel.locator("[data-nav-category-landing]");
+        const details = panel.locator("[data-nav-detail-list] a[href]");
         await expect(details).toHaveCount(category.links.length);
 
         await page.keyboard.press("Tab");
@@ -275,7 +284,7 @@ test.describe("Fullscreen machining navigation", () => {
     await expect(families.last()).toHaveAttribute("aria-pressed", "true");
     await page.keyboard.press("Home");
     await expect(families.first()).toBeFocused();
-    const categories = menu.locator(".menu-category-toggle");
+    const categories = menu.locator("[data-nav-category]");
     await categories.nth(2).click();
     expect((await categories.evaluateAll((nodes) => nodes.map((node) => node.getAttribute("aria-expanded")))).filter((value) => value === "true")).toHaveLength(1);
     for (const category of await categories.all()) {
@@ -290,6 +299,37 @@ test.describe("Fullscreen machining navigation", () => {
     await page.locator("[data-menu-trigger]").click();
     const results = await new AxeBuilder({ page }).include("[data-fullscreen-menu]").analyze();
     expect(results.violations).toEqual([]);
+  });
+
+  test("publishes the identical menu on an inner page shell", async ({ page }, testInfo) => {
+    test.skip(!["desktop-1280", "mobile-320"].includes(testInfo.project.name), "one wide and one narrow inner-page lane");
+    // The point of Phase 03 is that `/` and an inner page get the SAME
+    // navigation, not two that merely look alike. This measures the structure
+    // on both and compares — a divergence in families, categories, detail
+    // routes or the conversion set fails here rather than in a screenshot.
+    const read = async (route: string) => {
+      await gotoAndSettle(page, route);
+      await page.locator("[data-menu-trigger]").click();
+      const menu = page.locator("[data-fullscreen-menu]");
+      await expect(menu).toBeVisible();
+      const shape = await menu.evaluate((element) => ({
+        families: [...element.querySelectorAll("button[aria-pressed]")].map((node) => node.getAttribute("aria-label")),
+        categories: [...element.querySelectorAll("[data-nav-category]")].map((node) => node.getAttribute("data-nav-category")),
+        sections: [...element.querySelectorAll("[data-nav-sections] a[href]")].map((node) => node.getAttribute("href")),
+        directory: [...element.querySelectorAll("nav[aria-labelledby] a[href]")].map((node) => node.getAttribute("href")),
+        cta: element.querySelector(".tl-menu-cta")?.getAttribute("href") ?? null,
+      }));
+      await page.keyboard.press("Escape");
+      await expect(menu).toHaveCount(0);
+      return shape;
+    };
+    const landing = await read(MENU_HOST_ROUTE);
+    const inner = await read(INNER_HOST_ROUTE);
+    expect(landing.families).toHaveLength(3);
+    expect(landing.categories).toHaveLength(5);
+    expect(landing.sections).toHaveLength(7);
+    expect(landing.cta).toBe("/teklif-al");
+    expect(inner).toEqual(landing);
   });
 
   test("remains deterministic through repeated toggle input", async ({ page }) => {
