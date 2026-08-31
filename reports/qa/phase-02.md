@@ -18,6 +18,14 @@
 > Coder's summary; every row names the command, file, measurement or image that
 > produced it.
 
+> **SUPERSEDED BY §21 — RE-VERIFICATION (2026-08-31).** The FAIL verdict and
+> findings F1 / F2 / F3 above are the record of the **first** pass against
+> `603965e`, and are deliberately left intact. Correction packets #1
+> (`43d8adb`, `c269c3d`, `b0110fc`) and #2 (`45f3577`) were re-verified
+> independently in `C:\Users\Trade Bilisim\pdh-wt\qa-p02b` on `wt/qa-p02b`; the
+> re-verification verdict is **PASS** and its evidence is in **§21** at the end
+> of this file. Read §0–§20 as history, §21 as the current state.
+
 ---
 
 ## 0 — Verdict at a glance
@@ -1053,3 +1061,199 @@ git diff --stat 68518cc..45f3577 -- e2e/__golden__/     → empty
 - No golden image byte changed.
 - Net coverage change: **+2 tests** in every project that runs
   `landing/**/*.spec.ts`.
+
+## 21.6 — Gates re-run at `45f3577`
+
+| Gate | Command | Result |
+|---|---|---|
+| typecheck | `npm run typecheck` | **PASS**, exit 0 (all three tsconfigs) |
+| lint | `npm run lint` | **PASS**, `0 errors, 1 warning` — the same pre-existing `TechnicalHeader.tsx:43` ref-cleanup warning recorded in §8 |
+| build | `npm run build` | **PASS**, `built in 1m 03s` |
+| critical | `PLAYWRIGHT_BASE_URL=http://localhost:4519 npm run test:e2e:critical` | **PASS** — `67 passed, 3 skipped (6.0m)`. Was 63+3; the +4 is the new connector spec's two tests × two critical projects. |
+| visual | `PLAYWRIGHT_BASE_URL=http://localhost:4519 npm run test:e2e:visual` | **PASS** — `3 passed (30.0s)` |
+| grid probe | `PROBE_BASE_URL=http://localhost:4519 node scripts/grid-axis-probe.mjs` | **PASS** — 330 rows, 0 off-grid |
+| mobile lanes | `--project=mobile-320/375/390 e2e/landing/landing-grid-axes.spec.ts` | **PASS** — 6 passed |
+
+## 21.7 — Goldens: unmodified, and why that is the right call
+
+- `git diff --stat 68518cc..45f3577 -- e2e/__golden__/` → **empty**. The last
+  commit to touch any golden is `cfe5ad0`, inside the original Phase 02 range;
+  neither correction packet changed a byte. After running the visual gate,
+  `git status` still reports `e2e/` clean and the golden file's mtime is
+  unchanged.
+- **The connector fix causes no layout shift, measured.** I compared all four
+  step boxes at all ten widths between the fixed build (4519) and the
+  reproduced-defect build (4529), with both runs at identical scroll state:
+  **40 cells compared, 0 differing** — `top`, `left`, `width` and `height` are
+  identical everywhere (mobile steps 146.8px tall in both, tablet/desktop
+  137.8px in both). That is expected and now proven rather than assumed:
+  `.tl-process li::after` is `position:absolute`, so toggling it cannot move
+  anything. The Coder's reading of the 80,602-pixel delta as rasterisation drift
+  unrelated to the arrow is therefore consistent with the geometry, and
+  restoring the goldens bit-for-bit was the correct action, not a cover-up.
+- **The golden gate genuinely cannot see this defect — I verified that too.**
+  Running `--project=visual-375` against the *reproduced-defect* build on 4529:
+  `1 passed (7.8s)`. So the same golden matches both with and without the
+  02→03 arrow, at `maxDiffPixels: 200`. The new
+  `landing-process-flow.spec.ts` is not redundant with the visual gate; it
+  covers a hole the visual gate provably has.
+
+## 21.8 — R5 · Does the `mobile-320` `/sss` failure pre-date Phase 02?
+
+### VERDICT: **PRE-EXISTING**
+
+`e2e/shared-shell-accessibility.spec.ts:595` fails in `mobile-320` at the base
+commit `9133415` as well as at `45f3577`. Phase 02 did not cause it.
+
+**Method.** `git archive 9133415` into a scratch directory outside the repo, a
+directory *junction* to the shared `node_modules` (nothing installed, nothing
+pruned, `dist/` of the real tree untouched), `.env` copied in, `npm run build`
+(`built in 2m 19s`), `vite preview --port 4559`. The spec was then run **from the
+base tree**, using the base tree's own `e2e/` and `playwright.config.ts`, so
+nothing from the corrected branch could leak in.
+
+**Result at base:**
+
+```
+[mobile-320] › shared-shell-accessibility.spec.ts:595 › honors four-edge safe-area tokens …
+  1 failed
+```
+
+**Two independent reasons the file is byte-identical at both commits.**
+`git diff 9133415..45f3577 -- e2e/shared-shell-accessibility.spec.ts e2e/helpers.ts`
+is empty, and so is `git diff 9133415..45f3577 -- src/index.css`. The Phase 02
+production diff touches only `src/components/dev/*` (dev-only),
+`TechnicalLanding.tsx`, `design-tokens.css`, `master-grid.css` and
+`technical-landing.css` — and `technical-landing.css` (which `@import`s the other
+two) is imported **only** by `TechnicalLanding.tsx`, so its built stylesheet
+(`dist/assets/Index-*.css`) is not loaded on `/sss` at all.
+
+**Byte-identical runtime behaviour at both commits.** I replayed the spec's own
+sequence with `reports/qa/tools/r5-safearea-diag.mjs` at 320×568 against both
+builds. Every number matches exactly:
+
+| Measurement | base `9133415` | head `45f3577` |
+|---|---|---|
+| header logo box after settling | `x 23, y 38.5, w 146.28, h 36` | identical |
+| menu trigger box | `x 243, y 32.5, 48×48` | identical |
+| footer container padding | `left 24, right 29, bottom 40` | identical |
+| legal link box | `x 89.09, y 443.75, 136.81×24` | identical |
+| document `scrollHeight` | `20189` | identical |
+| footer top / height at 40% | `10199.75 / 1913` | identical |
+| Footer gate `scrolled > max*0.3 && footerIsBelowViewport` | **true** | **true** |
+| `getByRole("button", {name:"Yukarı çık"})` | **count 0** | **count 0** |
+
+### Root cause — and it is in production CSS, not in the gating logic
+
+The Coder's hypothesis (that `fullScrollToBottom` leaves the page in a state
+where the gate is false) is **wrong**, and so is its counter-observation that the
+button appears under a plain 40% scroll. Both are explained by the same fact:
+
+`reports/qa/tools/r5-root-cause.mjs` shows that at 40% scroll the gate is `true`
+and the element **is** in the DOM — `document.querySelectorAll(".floating-scroll-top").length === 1` —
+in every stage (programmatic scroll, synthetic scroll event, real wheel gesture,
+and End-then-40%). React state and `createPortal` are working correctly. What
+fails is the *query*: `getByRole` returns 0 while `[aria-label="Yukarı çık"]`
+returns 1.
+
+`reports/qa/tools/r5-button-visibility.mjs` names why:
+
+```
+element: button.floating-scroll-top   aria-label "Yukarı çık"
+computed display : "none"
+rect             : 0×0 at (0,0)
+ancestors        : no aria-hidden, no inert, all visible
+roleCount 0 · ariaLabelSelectorCount 1 · cssClassCount 1
+```
+
+and the rule is `src/index.css:333-337`, unchanged since before the base commit:
+
+```css
+/* Mobilde kart metnini örtüyordu; sabit header ve logo zaten aynı erişimi
+   verdiği için küçük ekranlarda gösterilmiyor. */
+@media (max-width: 767px) {
+  .floating-scroll-top { display: none; }
+}
+```
+
+So the product **deliberately hides** the scroll-top control below 768px, while
+`shared-shell-accessibility.spec.ts:595` is pinned by
+`test.skip(testInfo.project.name !== "mobile-320")` to run **only** at 320px and
+asserts that same control is visible with safe-area offsets. The spec asserts a
+contract the product intentionally does not implement at that width. It has been
+mutually contradictory since before Phase 02, and it is `display:none` at
+`9133415` exactly as it is at `45f3577` (verified separately on both builds).
+
+**A second, independent defect in the same test.** In my runs the assertion that
+actually fires first is `:611` (`closed[0].x >= 23`), with the received value
+drifting run to run — `12.890625`, `15.359375` at head and `19.640625` at base.
+The spec sets the four safe-area custom properties and measures the header
+immediately; the header has an entrance transform still in flight. After a 2s
+settle the logo measures exactly `x = 23` on **both** builds, i.e. the layout is
+correct and the assertion is racing an animation. This too is present at
+`9133415`. It is why the first-failing line differs between my runs and the
+Coder's — the test has two pre-existing faults and either can surface first.
+
+### Recommended owner
+
+Not Phase 02. Two separable items, both about the shared shell:
+
+1. **Decide the contract for the mobile scroll-top control** — either drop the
+   `mobile-320` lane from that assertion block, or remove the `max-width:767px`
+   suppression in `src/index.css:335`. This is a navigation/shell decision, and
+   `docs/lean/06-design-system.md` already assigns global navigation to
+   **Phase 03**; the accessibility framing belongs with `mas-accessibility-qa`.
+2. **Make the safe-area header measurement deterministic** — the spec must settle
+   the header entrance transform before reading `boundingBox()`. Test-side fix,
+   same owner.
+
+Until then this single test is a known red in a non-gating regression lane. It is
+**not** in `npm run test:e2e:critical`, which is green.
+
+## 21.9 — Scope integrity of the re-verification
+
+- **Production files modified by QA: NONE.** `git status --porcelain` lists only
+  paths under `reports/qa/`. `src/**`, `public/**`, `index.html`, all config,
+  `e2e/**`, `e2e/__golden__/**`, `scripts/**`, `docs/**`, `PROGRESS.md`,
+  `IMPLEMENTATION.md`, `USER_INPUTS.md` untouched.
+- **`dist/` never perturbed.** All four experiment builds
+  (`dist-neg-connector`, `dist-neg-rail56`, `dist-neg-rail45`, `base9133415`)
+  live in the session scratchpad. Post-experiment,
+  `dist/assets/Index-D_aQBHA0.css` still holds exactly one
+  `@media (min-width:768px) and (max-width:1180px)` and one `--tl-rail: 42px`.
+- **`node_modules` was never installed, pruned or replaced.** The base-commit
+  tree reaches it through a read-only directory junction.
+- **`.env` was copied into the scratch base tree only**, never committed, never
+  printed.
+- New QA-owned files, all inside `QA_WRITE_ALLOWLIST`:
+  `reports/qa/tools/connector-probe.mjs`, `make-dist-variant.mjs`,
+  `r5-safearea-diag.mjs`, `r5-root-cause.mjs`, `r5-button-visibility.mjs`,
+  their `.json` outputs, `r-probe.txt`, and `shots-r/*.png`.
+- **NEW_TESTS_ADDED by QA: 0.** As in the first pass, no QA-authored assertion
+  was put into the production gate; all evidence comes from the shipped suite,
+  the shipped probe and read-only QA instruments.
+- **SCOPE_INTEGRITY: PASS.**
+
+## 21.10 — Re-verification tally and verdict
+
+```
+TESTS_PASSED   : 76   critical gate 67 + visual gate 3 + mobile grid-axes
+                      lanes 6 (mobile-320/375/390 x 2 tests)
+TESTS_FAILED   : 1    shared-shell-accessibility.spec.ts:595 @ mobile-320 —
+                      PROVEN PRE-EXISTING at 9133415, not Phase 02's
+TESTS_SKIPPED  : 3    the critical gate's three viewport-scoped skips
+NEW_TESTS_ADDED: 0    by QA. The phase itself added 2 tests, which is why the
+                      critical gate went from 63 passed to 67.
+```
+
+Negative-control failures are deliberate and excluded from the tally, as in the
+first pass: connector control 6 failed / 2 passed, rail-56 control 4 failed,
+rail-45 isolation control 1 failed / 1 passed, visual-vs-defect control 1 passed
+(which is itself the finding). They are evidence the gates work.
+
+**STATUS: PASS.** All three original findings are corrected and the corrections
+are evidenced by my own measurements, not by the Coder's account. The new
+connector gate is real: it can fail, it fails on exactly the reproduced defect,
+and it names the step and width. The loosened rail bound retains its teeth with
+0.000625 of margin against a 3px perturbation. The one remaining red test is
+proven pre-existing and belongs to a later phase.

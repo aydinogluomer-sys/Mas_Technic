@@ -1,0 +1,56 @@
+{
+  "label": "HEAD-45f3577",
+  "base": "http://localhost:4519",
+  "steps": {
+    "header": {
+      "logo": {
+        "x": 23,
+        "y": 38.5,
+        "width": 146.28125,
+        "height": 36
+      },
+      "trigger": {
+        "x": 243,
+        "y": 32.5,
+        "width": 48,
+        "height": 48
+      }
+    },
+    "headerSecondReading": {
+      "logo": {
+        "x": 23,
+        "y": 38.5,
+        "width": 146.28125,
+        "height": 36
+      }
+    },
+    "footerPadding": {
+      "left": 24,
+      "right": 29,
+      "bottom": 40
+    },
+    "legal": {
+      "x": 89.09375,
+      "y": 443.75,
+      "width": 136.8125,
+      "height": 24
+    },
+    "scrollTopGate": {
+      "scrollHeight": 20189,
+      "innerHeight": 568,
+      "scrollY": 8076,
+      "max": 19621,
+      "threshold": 5886.3,
+      "scrolledPastThreshold": true,
+      "footerTop": 10199.75,
+      "footerIsBelowViewport": true,
+      "footerHeight": 1913,
+      "gateShouldShow": true
+    },
+    "scrollTopButton": {
+      "count": 0,
+      "visible": false,
+      "box": null
+    }
+  }
+}
