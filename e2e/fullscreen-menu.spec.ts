@@ -332,6 +332,20 @@ test.describe("Fullscreen machining navigation", () => {
     expect(inner).toEqual(landing);
   });
 
+  test("has no serious or critical axe violations with the menu open on an inner page", async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== "desktop-1280", "one canonical inner-page dialog axe lane");
+    test.setTimeout(120_000);
+    await gotoAndSettle(page, INNER_HOST_ROUTE);
+    await page.locator("[data-menu-trigger]").click();
+    await expect(page.locator("[data-fullscreen-menu]")).toBeVisible();
+    const results = await new AxeBuilder({ page }).analyze();
+    // Whole page, not just the dialog: with the overlay open the rest of the
+    // document is `inert` + `aria-hidden`, so this also proves the isolation is
+    // real rather than visual.
+    expect(results.violations.filter((violation) =>
+      violation.impact === "serious" || violation.impact === "critical")).toEqual([]);
+  });
+
   test("remains deterministic through repeated toggle input", async ({ page }) => {
     await gotoAndSettle(page, MENU_HOST_ROUTE);
     const trigger = page.locator("[data-menu-trigger]");

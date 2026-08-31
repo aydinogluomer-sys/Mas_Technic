@@ -321,6 +321,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
   return (
     <>
       {headerHost && createPortal(
+        <>
         <header
           ref={headerRef}
           id="main-header"
@@ -343,7 +344,17 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
               </Link>
             </div>
           </div>
-        </header>,
+        </header>
+        {/* The bar is fixed, so its host has no height and page content would
+            start underneath it. MEASURED: at 375 the ServiceDetail breadcrumb
+            sat at y = -8 and its H1 at y = 56, both behind a 64px bar. The old
+            header hid the same defect by being transparent at scroll 0.
+            This spacer lives in `#shared-header-host`, so exactly the routes
+            that mount the navigation reserve exactly its height — no per-page
+            padding, and nothing added to `/giris` or the 404, which mount no
+            header at all. */}
+        <div className="tl-header-spacer" aria-hidden="true" />
+        </>,
         headerHost,
       )}
 

@@ -68,6 +68,14 @@
    the element the trigger's focus is restored to. */
 .tl-header-band.is-behind-modal { opacity: 0; pointer-events: none; }
 
+/* In-flow reservation for the fixed bar. It sits in `#shared-header-host`, so
+   only routes that actually mount the navigation get the offset — see
+   `src/components/Header.tsx` for the measurement that made it necessary. */
+.tl-header-spacer {
+  height: calc(var(--gnav-h) + var(--shell-safe-top, 0px));
+  background: var(--tl-header-surface);
+}
+
 .tl-header-band > .tl-band-index {
   grid-column: 1;
   display: flex;

@@ -37,12 +37,11 @@
 .tl-sheet {
   width: min(100%, var(--tl-sheet-max));
   margin-inline: auto;
-  /* Band 01 is the fixed global header (`src/styles/navigation.css`), so the
-     sheet reserves exactly its height. `--gnav-h` is the header's own token,
-     not a guess: if the bar changes height, this offset changes with it. The
-     fallback keeps the sheet usable if the navigation stylesheet is not the
-     one that loads first. */
-  padding-top: var(--gnav-h, 72px);
+  /* Band 01 is the fixed global header (`src/styles/navigation.css`). The
+     sheet does NOT reserve its height here: the reservation belongs to
+     `.tl-header-spacer` inside `#shared-header-host`, which gives every route
+     that mounts the navigation the same offset — including the inner pages,
+     which have no `.tl-sheet` at all. */
   border-inline: var(--tl-rule-size) solid var(--tl-rule);
   background: var(--tl-black);
 }
