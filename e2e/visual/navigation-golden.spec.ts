@@ -39,8 +39,13 @@ test.describe("global navigation golden screenshots", () => {
     await page.locator("[data-menu-trigger]").click();
     const menu = page.locator("[data-fullscreen-menu]");
     await expect(menu).toBeVisible();
-    // Under reduced motion the sheet has no wipe, but the browser still needs a
-    // paint before the first category's details are laid out.
+    // Below 768 (and on short viewports) the accordion opens closed by design,
+    // so the capture would otherwise never contain a detail list on mobile.
+    // Open the first category explicitly and assert the same expanded state at
+    // every width — the golden then compares like with like.
+    const firstCategory = menu.locator("[data-nav-category]").first();
+    if (await firstCategory.getAttribute("aria-expanded") === "false") await firstCategory.click();
+    await expect(firstCategory).toHaveAttribute("aria-expanded", "true");
     await expect(menu.locator("[data-nav-detail-list] a[href]").first()).toBeVisible();
     await expect(menu).toHaveScreenshot("navigation-open.png", {
       animations: "disabled",
