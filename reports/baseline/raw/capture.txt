@@ -1,0 +1,20 @@
+VITE_SUPABASE_URL_PRESENT=yes
+VITE_SUPABASE_PUBLISHABLE_KEY_PRESENT=yes
+[capture] --skip-build: reusing existing dist/
+[capture] starting preview on http://localhost:4173
+(node:19364) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[capture] chromium executable: C:\Program Files\Google\Chrome\Application\chrome.exe
+[capture] landing-375 -> landing-375.png
+[capture] landing-768 -> landing-768.png
+[capture] landing-1280 -> landing-1280.png
+[capture] landing-1440 -> landing-1440.png
+[capture] landing-1600 -> landing-1600.png
+[capture] hakkimizda-1440 -> hakkimizda-1440.png
+[capture] iletisim-1440 -> iletisim-1440.png
+[capture] teklif-al-1440 -> teklif-al-1440.png
+[capture] blog-1440 -> blog-1440.png
+[capture] sss-1440 -> sss-1440.png
+[capture] notfound-1440 -> notfound-1440.png
+[capture] stopping preview server
+[capture] done. 11/11 captured, 12.4 MB total

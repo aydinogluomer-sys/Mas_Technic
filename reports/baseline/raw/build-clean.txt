@@ -1,0 +1,200 @@
+
+> vite_react_shadcn_ts@0.0.0 build
+> vite build
+
+vite v5.4.19 building for production...
+transforming...
+Browserslist: browsers data (caniuse-lite) is 14 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[plugin:vite:resolve] [plugin vite:resolve] Module "path" has been externalized for browser compatibility, imported by "C:/Users/Trade Bilisim/precision-dynamics-hub-main/node_modules/occt-import-js/dist/occt-import-js.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin:vite:resolve] [plugin vite:resolve] Module "crypto" has been externalized for browser compatibility, imported by "C:/Users/Trade Bilisim/precision-dynamics-hub-main/node_modules/occt-import-js/dist/occt-import-js.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+✓ 4768 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                                   16.71 kB │ gzip:   5.99 kB
+dist/assets/service-cnc-freze-DgVC5PxZ.webp                       26.82 kB
+dist/assets/quality-control-C8RRRd9J.webp                         39.93 kB
+dist/assets/hero-cnc-tornalama-DxFnZHUM.webp                      40.04 kB
+dist/assets/hero-havacilik-L9vASlRo.webp                          41.61 kB
+dist/assets/industry-aerospace-CN-v49lX.webp                      44.48 kB
+dist/assets/industry-medical-BIVAP-Gq.webp                        45.43 kB
+dist/assets/hero-kalite-kontrol-C3ie_Uuh.webp                     45.46 kB
+dist/assets/hero-seri-uretim-BfX-civG.webp                        50.78 kB
+dist/assets/hero-kaynakli-imalat-DAdnNgf1.webp                    53.10 kB
+dist/assets/industry-hydraulic-Ci5Dwazq.webp                      53.64 kB
+dist/assets/hero-tavlama-ChY0ee-N.webp                            57.26 kB
+dist/assets/hero-operasyonel-verimlilik-DWH5Tqti.webp             58.34 kB
+dist/assets/industry-robotics-Dr0SCf2A.webp                       60.22 kB
+dist/assets/hero-manifold-v1-DjyYu6ON.webp                        64.07 kB
+dist/assets/hero-fikstur-aparat-xVjWw0mi.webp                     66.79 kB
+dist/assets/hero-dfm-tasarim-HIb-Snug.webp                        68.31 kB
+dist/assets/hero-silikon-kaliplama-AKU6eea7.webp                  68.45 kB
+dist/assets/blog-5eksen-BwSIm3tw.webp                             69.13 kB
+dist/assets/hero-lazer-kazima-DXf4SvZB.webp                       69.32 kB
+dist/assets/hero-boya-kaplama-jhE1pteY.webp                       70.41 kB
+dist/assets/hero-mekanik-montaj-Bd2L7nSC.webp                     77.11 kB
+dist/assets/hero-cnc-C3xv7FyD.webp                                79.92 kB
+dist/assets/industry-defense-CeliYO2F.webp                        80.87 kB
+dist/assets/hero-mikro-isleme-BSrAZFIP.webp                       81.51 kB
+dist/assets/hero-insert-uygulama-6qvO51FQ.webp                    82.44 kB
+dist/assets/blog-dfm-Cz4yiXpK.webp                                83.74 kB
+dist/assets/cnc-workshop-DiGzZXEr.webp                            86.53 kB
+dist/assets/hero-proje-yonetimi-CbaOjvpX.webp                     90.33 kB
+dist/assets/hero-makine-parkuru-B9NUllKX.webp                     92.95 kB
+dist/assets/hero-enjeksiyon-kalibi-CQ_Cg_WM.webp                  94.43 kB
+dist/assets/hero-malzeme-kutuphanesi-PgL8HJsP.webp                98.00 kB
+dist/assets/hero-cnc-frezeleme-HroBrnyJ.webp                      98.77 kB
+dist/assets/hero-mekanik-yuzey-CUPVfxai.webp                     101.47 kB
+dist/assets/hero-tedarik-zinciri-BqQmcwwO.webp                   107.99 kB
+dist/assets/hero-logo-markalama-Dy2xgzKr.webp                    112.31 kB
+dist/assets/hero-derin-delik-CyN-1yCZ.webp                       114.68 kB
+dist/assets/hero-yuzey-islemleri-C65G5lOH.webp                   125.93 kB
+dist/assets/hero-qr-datamatrix-9VxRDIuG.webp                     135.09 kB
+dist/assets/hero-anodizasyon-DUx4NaUB.webp                       142.38 kB
+dist/assets/hero-kitting-paketleme-5S20It4j.webp                 151.35 kB
+dist/assets/hero-basinçli-dokum-BZCCkd3Z.webp                    157.32 kB
+dist/assets/industry-automotive-C-3PtV05.webp                    159.03 kB
+dist/assets/blog-malzeme-BIQkYg9Q.webp                           162.56 kB
+dist/assets/hero-tolerans-hassasiyet-Wc62OP5H.webp               179.95 kB
+dist/assets/hero-kimyasal-islemler-D6mkrfLz.webp                 237.33 kB
+dist/assets/LegacyLanding-BQihR7XS.css                            42.30 kB │ gzip:   8.63 kB
+dist/assets/TechnicalLanding-D94oHkdf.css                         52.92 kB │ gzip:  10.08 kB
+dist/assets/index-Dra3Z5KO.css                                   171.66 kB │ gzip:  31.12 kB
+dist/assets/hero-cnc-frezeleme-CBBuI0NN.js                         0.07 kB │ gzip:   0.09 kB
+dist/assets/quality-control-LC3YxHfn.js                            0.11 kB │ gzip:   0.12 kB
+dist/assets/use-gsap-BrHoFLjz.js                                   0.11 kB │ gzip:   0.12 kB
+dist/assets/hero-tolerans-hassasiyet-6LgpzCEI.js                   0.12 kB │ gzip:   0.12 kB
+dist/assets/cssVar-eBBEs8KB.js                                     0.14 kB │ gzip:   0.14 kB
+dist/assets/blog-dfm-CND7gz6e.js                                   0.15 kB │ gzip:   0.13 kB
+dist/assets/index-w6qnzFeY.js                                      0.15 kB │ gzip:   0.14 kB
+dist/assets/industry-aerospace-C_jWehyC.js                         0.16 kB │ gzip:   0.14 kB
+dist/assets/___vite-browser-external_commonjs-proxy-HB5n90Iz.js    0.18 kB │ gzip:   0.18 kB
+dist/assets/Index-DzolxisY.js                                      0.25 kB │ gzip:   0.21 kB
+dist/assets/index-BoHQkGOP.js                                      0.26 kB │ gzip:   0.23 kB
+dist/assets/TechnicalPreview-DReuXR1n.js                           0.26 kB │ gzip:   0.22 kB
+dist/assets/check-DTGbtHNa.js                                      0.30 kB │ gzip:   0.25 kB
+dist/assets/chevron-left-B2lMElHB.js                               0.31 kB │ gzip:   0.25 kB
+dist/assets/chevron-right-B2vwNMLN.js                              0.31 kB │ gzip:   0.25 kB
+dist/assets/loader-circle-CeeKMWHK.js                              0.32 kB │ gzip:   0.26 kB
+dist/assets/message-circle-DpKn9ENc.js                             0.33 kB │ gzip:   0.26 kB
+dist/assets/use-mobile-D9Z4W3EL.js                                 0.33 kB │ gzip:   0.25 kB
+dist/assets/plus-AiP9cuy8.js                                       0.33 kB │ gzip:   0.26 kB
+dist/assets/x-AIUSnFd-.js                                          0.33 kB │ gzip:   0.26 kB
+dist/assets/arrow-right-C0qaPfwu.js                                0.34 kB │ gzip:   0.27 kB
+dist/assets/arrow-left-aoI1kQ7A.js                                 0.34 kB │ gzip:   0.27 kB
+dist/assets/search-B0ZSvVFK.js                                     0.35 kB │ gzip:   0.27 kB
+dist/assets/circle-check-Cr1Fpesq.js                               0.35 kB │ gzip:   0.28 kB
+dist/assets/gauge-COHb8QFF.js                                      0.36 kB │ gzip:   0.28 kB
+dist/assets/clock-CQ45DePt.js                                      0.36 kB │ gzip:   0.28 kB
+dist/assets/message-square-Dtr3pBzD.js                             0.36 kB │ gzip:   0.27 kB
+dist/assets/at-sign-4jp5JVQj.js                                    0.37 kB │ gzip:   0.29 kB
+dist/assets/user-4yrv_rbM.js                                       0.38 kB │ gzip:   0.29 kB
+dist/assets/trending-up-BTYyGtCU.js                                0.38 kB │ gzip:   0.29 kB
+dist/assets/hero-mekanik-montaj-Bq8rIyyS.js                        0.39 kB │ gzip:   0.25 kB
+dist/assets/lock-CrU6nnQR.js                                       0.39 kB │ gzip:   0.30 kB
+dist/assets/index-erIdKV-H.js                                      0.39 kB │ gzip:   0.30 kB
+dist/assets/mail-Bvc916Vr.js                                       0.40 kB │ gzip:   0.31 kB
+dist/assets/circle-help-ChHDSrJ7.js                                0.41 kB │ gzip:   0.31 kB
+dist/assets/menu-CHmpoAGx.js                                       0.42 kB │ gzip:   0.29 kB
+dist/assets/arrow-up-down-DiceAebk.js                              0.42 kB │ gzip:   0.30 kB
+dist/assets/eye-BooH7FVZ.js                                        0.43 kB │ gzip:   0.31 kB
+dist/assets/upload-B3S046mx.js                                     0.44 kB │ gzip:   0.33 kB
+dist/assets/calendar-uY69ZBTH.js                                   0.44 kB │ gzip:   0.31 kB
+dist/assets/shield-BRJ39yBQ.js                                     0.45 kB │ gzip:   0.33 kB
+dist/assets/house-Dm9ukobB.js                                      0.47 kB │ gzip:   0.32 kB
+dist/assets/send-qMEXZ-aL.js                                       0.47 kB │ gzip:   0.34 kB
+dist/assets/linkedin-D7wqbCzC.js                                   0.47 kB │ gzip:   0.34 kB
+dist/assets/hash-CKvOSR0m.js                                       0.48 kB │ gzip:   0.30 kB
+dist/assets/file-up-C-FYocgO.js                                    0.48 kB │ gzip:   0.32 kB
+dist/assets/users-DXzdROME.js                                      0.48 kB │ gzip:   0.33 kB
+dist/assets/factory-BWUPe43x.js                                    0.48 kB │ gzip:   0.31 kB
+dist/assets/scissors-D3fsh2Gq.js                                   0.49 kB │ gzip:   0.32 kB
+dist/assets/box-DV-BvF2d.js                                        0.49 kB │ gzip:   0.33 kB
+dist/assets/shield-check-BEGdYtUb.js                               0.50 kB │ gzip:   0.36 kB
+dist/assets/bot-DbVs57qx.js                                        0.51 kB │ gzip:   0.33 kB
+dist/assets/use-theme-cKI5cNJS.js                                  0.51 kB │ gzip:   0.32 kB
+dist/assets/layout-grid-B3OFVJ9K.js                                0.53 kB │ gzip:   0.30 kB
+dist/assets/ruler-D0qyUnPs.js                                      0.58 kB │ gzip:   0.36 kB
+dist/assets/truck-A9BZ7K2R.js                                      0.58 kB │ gzip:   0.37 kB
+dist/assets/clipboard-list-CzihBzuu.js                             0.59 kB │ gzip:   0.37 kB
+dist/assets/eye-off-Cx8YCgKj.js                                    0.61 kB │ gzip:   0.38 kB
+dist/assets/building-2-bpiQScz4.js                                 0.62 kB │ gzip:   0.35 kB
+dist/assets/input-Dv19aBdY.js                                      0.62 kB │ gzip:   0.38 kB
+dist/assets/filter-B_VFmVDQ.js                                     0.71 kB │ gzip:   0.36 kB
+dist/assets/sliders-horizontal-Cdu_L43m.js                         0.76 kB │ gzip:   0.38 kB
+dist/assets/use-page-meta-CJHq0fjS.js                              0.77 kB │ gzip:   0.39 kB
+dist/assets/scan-line-BCgbCTBh.js                                  0.79 kB │ gzip:   0.38 kB
+dist/assets/CustomerProtectedRoute-CF0Fqk_I.js                     0.79 kB │ gzip:   0.48 kB
+dist/assets/settings-DdxRGyKd.js                                   0.91 kB │ gzip:   0.45 kB
+dist/assets/ProtectedRoute-CSdtpe4k.js                             0.95 kB │ gzip:   0.55 kB
+dist/assets/phone-CFTZ2kn5.js                                      0.95 kB │ gzip:   0.48 kB
+dist/assets/vendor-runtime-D7HrI6pR.js                             1.02 kB │ gzip:   0.62 kB
+dist/assets/index-BNBSPmuV.js                                      1.06 kB │ gzip:   0.59 kB
+dist/assets/tslib.es6-CmEaCU22.js                                  1.08 kB │ gzip:   0.54 kB
+dist/assets/index-CMt5TGng.js                                      1.21 kB │ gzip:   0.61 kB
+dist/assets/button-BnsZRbAO.js                                     1.31 kB │ gzip:   0.64 kB
+dist/assets/cadUpload-BouIB9me.js                                  1.49 kB │ gzip:   0.93 kB
+dist/assets/ScrollDebugPanel-pPPrI7gw.js                           1.55 kB │ gzip:   0.78 kB
+dist/assets/createLucideIcon-4fYnmMOI.js                           1.58 kB │ gzip:   0.66 kB
+dist/assets/CerezPolitikasi-BIDeXXiR.js                            1.88 kB │ gzip:   0.82 kB
+dist/assets/table-Ctwuq1qc.js                                      2.00 kB │ gzip:   0.83 kB
+dist/assets/zap-9M9GIX95.js                                        2.05 kB │ gzip:   0.67 kB
+dist/assets/GizlilikPolitikasi-BHR3cpOT.js                         2.12 kB │ gzip:   0.90 kB
+dist/assets/KVKK-CHWGhOdB.js                                       2.20 kB │ gzip:   0.90 kB
+dist/assets/wrench-Dc3Yntdc.js                                     2.53 kB │ gzip:   0.83 kB
+dist/assets/AdminLogin-CQPYPGNB.js                                 2.57 kB │ gzip:   1.04 kB
+dist/assets/JsonLdSchema-C1p3F2N5.js                               2.84 kB │ gzip:   1.14 kB
+dist/assets/ForgotPassword-BapYUnqZ.js                             3.08 kB │ gzip:   1.39 kB
+dist/assets/Hakkimizda-WZVgaqnB.js                                 3.16 kB │ gzip:   1.54 kB
+dist/assets/LoginLeftPanel-xUqyRGjS.js                             3.47 kB │ gzip:   1.60 kB
+dist/assets/switch-C7OtDWOh.js                                     3.82 kB │ gzip:   1.78 kB
+dist/assets/ResetPassword-mskvV8AV.js                              4.13 kB │ gzip:   1.67 kB
+dist/assets/CustomCursor-C6AmquW3.js                               4.44 kB │ gzip:   1.74 kB
+dist/assets/tabs-B7umwc5n.js                                       7.17 kB │ gzip:   2.92 kB
+dist/assets/NotFound-D27Ru2TE.js                                   7.18 kB │ gzip:   2.72 kB
+dist/assets/MaterialMorphScroll-5Q6NrcNF.js                        7.54 kB │ gzip:   2.83 kB
+dist/assets/MalzemeKategori-Cs6qbQKR.js                            8.54 kB │ gzip:   2.37 kB
+dist/assets/BlogDetail-1KNCHmRW.js                                 9.01 kB │ gzip:   2.84 kB
+dist/assets/blogData-Bh5hW6Za.js                                   9.63 kB │ gzip:   4.31 kB
+dist/assets/index-BRII8R4t.js                                     10.23 kB │ gzip:   3.35 kB
+dist/assets/Blog-DQPJ-LoK.js                                      10.85 kB │ gzip:   3.21 kB
+dist/assets/CustomerCadPreview-Cj9LAY_g.js                        11.14 kB │ gzip:   4.22 kB
+dist/assets/TestHowWeWork-Dl4ECqPe.js                             11.53 kB │ gzip:   4.23 kB
+dist/assets/CategoryPage-BJ0kP-XR.js                              11.94 kB │ gzip:   4.08 kB
+dist/assets/Footer-CqEqXiiu.js                                    14.73 kB │ gzip:   4.58 kB
+dist/assets/RFQCadPreview-XZmxfwJ1.js                             15.47 kB │ gzip:   5.77 kB
+dist/assets/GlobalToasts-C_E07K21.js                              16.05 kB │ gzip:   5.76 kB
+dist/assets/SSS-Cj-JKyw9.js                                       18.23 kB │ gzip:   5.59 kB
+dist/assets/lenis-faqbxiYg.js                                     18.45 kB │ gzip:   5.23 kB
+dist/assets/vendor-utils-CfDMlrKu.js                              21.03 kB │ gzip:   7.14 kB
+dist/assets/Malzemeler-BM6Du446.js                                23.15 kB │ gzip:   6.62 kB
+dist/assets/dialog-D3HMp2yl.js                                    23.26 kB │ gzip:   8.48 kB
+dist/assets/HeaderFullscreen-B_Mmo5xY.js                          26.43 kB │ gzip:   9.30 kB
+dist/assets/ServiceDetail-B3R5IVSL.js                             27.17 kB │ gzip:   7.57 kB
+dist/assets/Login-BP0NpIkk.js                                     28.22 kB │ gzip:  10.35 kB
+dist/assets/index-BC8Yv_zY.js                                     32.88 kB │ gzip:   9.42 kB
+dist/assets/TechnicalLanding-Jz2ify37.js                          34.97 kB │ gzip:  11.88 kB
+dist/assets/TeklifAl-CrMCfODJ.js                                  41.71 kB │ gzip:  11.54 kB
+dist/assets/LegacyLanding-BFafmixI.js                             51.28 kB │ gzip:  16.70 kB
+dist/assets/Iletisim-CyDguKby.js                                  65.47 kB │ gzip:  15.81 kB
+dist/assets/materialsData-B2KuSS02.js                             69.79 kB │ gzip:  17.10 kB
+dist/assets/occt-import-js-BPAm4Cra.js                           111.49 kB │ gzip:  28.33 kB
+dist/assets/index-C0dUV9Rh.js                                    112.77 kB │ gzip:  38.70 kB
+dist/assets/vendor-gsap-0lJgtTtq.js                              114.38 kB │ gzip:  45.33 kB
+dist/assets/vendor-framer-BpLP2dYa.js                            133.71 kB │ gzip:  44.57 kB
+dist/assets/ChatBot-Bb0LWlMj.js                                  135.08 kB │ gzip:  43.18 kB
+dist/assets/MusteriPaneli-BRmpNd-h.js                            136.06 kB │ gzip:  38.38 kB
+dist/assets/vendor-react-BzjJi5l0.js                             151.19 kB │ gzip:  47.53 kB
+dist/assets/client-Bp4YQLUG.js                                   172.78 kB │ gzip:  45.60 kB
+dist/assets/servicePages-CuTr9cj0.js                             175.27 kB │ gzip:  54.50 kB
+dist/assets/xlsx.min-f-rKPqe7.js                                 627.32 kB │ gzip: 322.94 kB
+dist/assets/AdminDashboard-B_o7QpTo.js                           775.14 kB │ gzip: 190.09 kB
+dist/assets/OBJLoader-DgHxtQC6.js                                858.06 kB │ gzip: 232.24 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4m 5s
+EXIT=0
