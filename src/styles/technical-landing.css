@@ -469,7 +469,8 @@
   /* DÜZELTİLEN KUSUR: tablette süreç girişi 3, fotoğraf 2 track kaplıyordu —
      altı sütunun beşi. Altıncı sütun bilerek değil kazara boştu. 3/3. */
   .tl-process-intro{grid-column:1/span 3}.tl-process figure{grid-column:4/-1}
-  .tl-process li:nth-child(2)::after{display:none}.tl-process li:nth-child(2){border-right:0}
+  /* 02 adımının satır-sonu istisnası burada DEĞİL: aşağıdaki tablet-only
+     medya sorgusunda. Gerekçesi orada yazılı. */
   .tl-nexus-body>header>h2{grid-column:1/-1;padding-right:0}.tl-nexus-kpis{grid-column:1/-1;margin-top:var(--tl-s3);grid-template-columns:repeat(4,1fr)}.tl-nexus-kpis div{grid-template-columns:36px minmax(0,1fr);padding:var(--tl-s2) var(--tl-s3)}.tl-nexus-kpis svg{width:26px}
   /* Ray burada yatay sekme cubugu; ul'e display:flex verilmezse ogeler dikey yigiliyordu
      (flex:none ul'u flex ITEM yapar, CONTAINER yapmaz). */
@@ -492,6 +493,27 @@
   /* Dolgu gezinme kutusuna DEĞİL sütunlarına veriliyor: subgrid'e yatay dolgu
      ilk ve son track'i kısaltır, sütun sınırları master hattan çıkardı. */
   .tl-title-block{order:4}.tl-footer nav{border-top:1px solid var(--tl-rule);row-gap:var(--tl-s5)}.tl-footer nav div{grid-column:span 3}.tl-footer nav div:nth-child(2n){padding-right:var(--tl-s4)}
+}
+
+/* ══ TABLET-ONLY — 02 adımı satır sonundadır ═════════════════════════════
+   Tablette süreç adımları `span 3` ile altı master sütuna 2×2 dizilir, yani
+   02 birinci satırın SON hücresidir: sağ kenarlığı ve sağa bakan "→" akış oku
+   kaldırılmalıdır. Kural burada, KENDİ medya aralığında duruyor.
+
+   NEDEN ayrı bir medya sorgusu (ölçülen kusur):
+   `@media (max-width:1180px)` mobil genişlikleri de kapsar. Orada yazıldığında
+   `.tl-process li:nth-child(2)::after` (özgüllük 0,2,2) mobil bloktaki
+   `.tl-process li::after` (0,1,2) kuralını KAYNAK SIRASINDAN BAĞIMSIZ yener;
+   mobil dikey listede 02→03 aşağı oku hiç çizilmiyordu. Bu oturumda ölçüldü:
+   düzeltmeden önce 320px ve 375px'te `::after` hesaplanan değeri adım 1 "grid",
+   adım 2 "none", adım 3 "grid", adım 4 "none" idi.
+
+   `min-width:768px` alt sınırı ile aralık, mobil bloğun `max-width:767px`
+   aralığıyla KESİŞMEZ. Koruma artık özgüllük aritmetiğinde değil, çakışmayan
+   medya aralıklarında: kural mobil kırılıma tekrar sızamaz.
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (min-width:768px) and (max-width:1180px){
+  .tl-process li:nth-child(2)::after{display:none}.tl-process li:nth-child(2){border-right:0}
 }
 @media (max-width:900px){.tl-header{grid-template-columns:210px 1fr auto}.tl-nav,.tl-quote-button{display:none}.tl-menu-trigger{display:grid}}
 
@@ -517,10 +539,14 @@
   .tl-part-passport{grid-column:2/-1;grid-row:3;display:block;margin:0;border-width:1px 0 0;padding:var(--tl-s4)}.tl-part-passport dl{grid-template-columns:1fr 1fr;margin-top:var(--tl-s4)}
   .tl-proof article{min-height:120px;border-bottom:1px solid var(--tl-rule)}.tl-proof article:nth-child(2n){border-right:0}.tl-proof article:nth-last-child(-n+2){border-bottom:0}.tl-proof-note{grid-column:2/-1;text-align:left}
   .tl-marquee-viewport{min-height:46px}.tl-marquee-track li{gap:var(--tl-s5);padding-left:var(--tl-s5);font-size:9px}
-  .tl-process-body{padding-block:var(--tl-s4) var(--tl-s5)}.tl-process-intro{grid-column:1/-1;padding:var(--tl-s3) var(--tl-s3) var(--tl-s5)}.tl-process figure{grid-column:1/-1;height:216px}.tl-process ol{grid-column:1/-1;display:block;margin-top:var(--tl-s5)}.tl-process li{min-height:0;border-right:0;border-bottom:1px solid var(--tl-paper-rule);padding:var(--tl-s4) var(--tl-s3)}/* `display:grid` şart: tablet kuralı `li:nth-child(2)::after{display:none}`
-     iki sütunlu tablet düzeni içindi ama mobile de sızıyordu — 02 ile 03
-     arasındaki akış oku dikey listede kayboluyordu (ölçüldü, 375px). */
-  .tl-process li::after{content:"↓";display:grid;top:auto;right:auto;bottom:-10px;left:var(--tl-s5)}.tl-process li:last-child::after{display:none}
+  .tl-process-body{padding-block:var(--tl-s4) var(--tl-s5)}.tl-process-intro{grid-column:1/-1;padding:var(--tl-s3) var(--tl-s3) var(--tl-s5)}.tl-process figure{grid-column:1/-1;height:216px}.tl-process ol{grid-column:1/-1;display:block;margin-top:var(--tl-s5)}.tl-process li{min-height:0;border-right:0;border-bottom:1px solid var(--tl-paper-rule);padding:var(--tl-s4) var(--tl-s3)}
+  /* Dikey listede akış oku aşağı bakar ve her ardışık adım çifti arasında
+     çizilir. Adım 02'nin satır-sonu istisnası artık yalnızca tablet aralığına
+     bağlı (bkz. `@media (min-width:768px) and (max-width:1180px)`), bu yüzden
+     buraya sızmıyor. Bu oturumda ölçüldü — 320px ve 375px'te dört adımın
+     `::after` hesaplanan `display` değeri sırasıyla grid / grid / grid / none,
+     yani 01→02, 02→03, 03→04 okları var, 04'ten sonra ok yok. */
+  .tl-process li::after{content:"↓";top:auto;right:auto;bottom:-10px;left:var(--tl-s5)}.tl-process li:last-child::after{display:none}
   .tl-nexus-body,.tl-projects-body,.tl-quality-body{padding-block:var(--tl-s5)}
   .tl-quality-body{padding-top:var(--tl-s7)}
   .tl-nexus-body>header>h2{padding-right:80px}.tl-nexus-kpis{grid-template-columns:1fr 1fr;margin-top:var(--tl-s4)}.tl-nexus-kpis div{display:flex;min-height:78px;flex-wrap:wrap}.tl-nexus-kpis span{width:100%;margin:var(--tl-s2) 0 0}
