@@ -6,7 +6,7 @@ RUN_BASE_COMMIT: 366f321 (pre-run working tree preserved + plan path normalized)
 INTEGRATION_BRANCH: claude/awwwards-90-overhaul
 USER_BRANCH_PRESERVED: claude/motion-layer-and-asset-pipeline @ b6f2552 (untouched)
 STARTED_AT: 2026-08-31T01:51:28Z
-CURRENT_PHASE: 01
+CURRENT_PHASE: 02
 
 ## Authority
 
@@ -26,8 +26,8 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | Phase | Status | Coder commit(s) | QA commit | Tests | Timestamp |
 |---|---|---|---|---|---|
 | 00 | PASS | fb128e9, 9228086 | b845ff1 | 14 AC/SC checks passed, 0 failed; 4 verification scripts added | 2026-08-31T05:55Z |
-| 01 | IN_PROGRESS | 4a76b43 (WIP checkpoint, unverified) | — | not yet run | 2026-08-31T11:05Z |
-| 02 | NOT_STARTED | — | — | — | — |
+| 01 | PASS | 038af33, 9392efb | afe1204, 3f2a2a9 | 77 passed / 0 failed / 2 skipped; coverage 177→205 blocks, 562→629 assertions | 2026-08-31T12:20Z |
+| 02 | IN_PROGRESS | — | — | — | 2026-08-31T12:20Z |
 | 03 | NOT_STARTED | — | — | — | — |
 | 04 | NOT_STARTED | — | — | — | — |
 | 05 | NOT_STARTED | — | — | — | — |
@@ -140,5 +140,83 @@ linted or tested. The open questions are whether the dev routes genuinely vanish
 `#hero-shell` is actually removed on `/`, whether the corrected preload resolves `200` + `image/*`,
 and whether the rebuilt critical suite passes against the real landing.
 
-**Not yet decided:** phase outcome. This section will be rewritten with the acceptance decision once
-the Coder returns and `mas-qa` has verified independently.
+**OUTCOME: PASS.** Coder commits `038af33` + `9392efb`; QA commits `afe1204` + `3f2a2a9`
+(`reports/qa/phase-01.md` + 4 probe tools). Zero correction loops.
+
+**What Phase 01 actually changed:**
+- `/technical-preview`, `/legacy-landing`, `/test` dev-gated behind `import.meta.env.DEV` via
+  `src/routes/DevRoutes.tsx`. Verified both directions: `dist/` contains no chunk referencing them and
+  all three 404 in preview, yet all three still render under `npm run dev`.
+- `#hero-shell` teardown moved to `src/lib/hero-shell.ts`, owned by the app entry rather than by
+  `TechnicalLanding` — because `index.html` emits the shell on *every* route, so a landing-scoped owner
+  would leave it orphaned on `/sss`, `/teklif-al` etc. Three guaranteed paths: never-installed →
+  immediate; `mas:intro-done` → removal; 7000 ms fallback net; plus a race guard.
+- `PublicRouteLoader` now keys off `isHeroIntroActive()` (element present AND `data-intro` AND
+  `<html data-intro-active>`) instead of mere element existence, which had permanently disabled the
+  Suspense fallback on `/`.
+- The phantom LCP preload replaced by a `transformIndexHtml` Vite plugin reading the emitted hashed
+  filename from the bundle. It **throws the build** if the asset is absent rather than emitting a wrong
+  preload, so the original failure mode cannot silently return.
+- `e2e/helpers.ts` no longer rewrites `/` → `/legacy-landing`. `LANDING_SCENE_IDS` corrected to the
+  seven anchors the landing really exposes. Nine legacy specs relocated to `e2e/legacy/` behind
+  `PLAYWRIGHT_LEGACY=1`; five new production specs added under `e2e/landing/`, plus `e2e/smoke/` and
+  `e2e/visual/`.
+- `npm run typecheck` added and proven meaningful: 267 app + 25 e2e files, versus **0** for bare
+  `tsc --noEmit` (B09 confirmed real, then fixed).
+- CI restructured from one unfinishable 784-combination job into `quality` → `build` → `e2e-critical`
+  (62) + `e2e-smoke` (12), with `visual` (3) and a dispatch-only `e2e-regression` (536). 62+12+3+536 =
+  613 = measured `--list` total.
+- `vitest.config.ts` deleted (referenced a nonexistent setup file; `vitest` was never a dependency).
+- Root `ErrorBoundary` mounted so a missing `VITE_SUPABASE_URL` degrades to a branded fallback.
+
+**Orchestrator independent verification (not from subagent summaries):**
+- Full `git diff --name-status` reviewed for both agents: every path inside its allowlist; no `src/pages/**`,
+  `supabase/**`, admin or customer-panel change.
+- Read `src/lib/hero-shell.ts` and the `vite.config.ts` preload plugin line by line.
+- Re-ran `reports/qa/tools/phase-01-coverage-diff.mjs`: reproduced 177→205 test blocks, 562→629
+  assertions, 57→56 skips exactly. Coverage increased; it was not traded for green.
+- Confirmed the tolerance allow-lists exist only in `e2e/legacy/landing-flow.spec.ts`; the sole mention
+  under `e2e/landing/` is a docblock stating none is inherited.
+- Confirmed both surviving `.lf-*` references in the active suite are `toHaveCount(0)` negative assertions.
+
+**QA-proven items the Coder had left unproven:**
+- Hero-shell fallback timeout genuinely fires: QA patched `dispatchEvent` to swallow `mas:intro-done`
+  and measured teardown at **7040 ms** against the declared 7000 ms constant.
+- Golden diffs genuinely compare: QA copied `dist/`, injected a red background into the **copy** only,
+  and ran the unmodified spec against committed baselines — 13,015 px (375) and 27,758 px (1280) of
+  diff, both FAILED against a 200-px budget. A pass is therefore not a silent re-capture.
+- ErrorBoundary upgraded UNPROVEN → PASS: a scratch build with an empty `VITE_SUPABASE_URL` (real
+  `.env` untouched) renders the branded fallback on 4/4 routes with a working recovery link.
+
+**Discrepancies QA found (all recorded, none blocking):**
+- The legacy allow-list has **36** entries, not the 37 stated in the baseline, in the Coder's report and
+  in a code comment at `e2e/landing/landing-accessibility.spec.ts:9`. Documentation-only; the list is
+  byte-identical across the move and is legacy-only. To be corrected when that file is next touched.
+- Warm build measured 44.52 s vs the Coder's claimed 1 m 13 s (faster; no criterion depends on it).
+- The Coder's "73,024-pixel" negative control was **not reproduced**; QA designed its own and reached
+  the same conclusion. That specific number must not be cited as evidence.
+
+**Deferred, with owners — carried forward as live assertions, not TODOs:**
+- **B14 → Phase 03.** The production landing mounts no global shell: **no `[data-menu-trigger]` and no
+  fullscreen navigation at all**. The whole `fullscreen-menu` suite had to be rehosted on `/sss`, and `/`
+  moved out of the 90-route full-shell contract into an explicit exception `{ header: 0, footer: 1 }`
+  (contract 90→88 full-shell, 95→94 total). That exception is a real assertion that **turns red when
+  Phase 03 connects the landing to the global IA** — intentional.
+- `/` prints its own `.tl-footer` with no `© YYYY MAS TECHNIC` bottom bar, so it sits outside the shared
+  `footer-reveal` and `scroll-snap-regression` contracts; its End-key journey is covered separately.
+- **VISUAL-BASELINE-GAP-LINUX.** Only win32 goldens exist, so the CI visual job's guard always trips and
+  golden diffing has **zero CI coverage** today. Deliberate — auto-creating a linux baseline would be a
+  false green — and surfaced as a `::warning` plus job summary. Golden coverage is local-only until a
+  linux baseline is captured.
+- **B08-class local engine drift.** Chromium falls back to local Chrome; Firefox/WebKit fall back to
+  newer installed revisions than Playwright 1.59 pins. The fallback is CI-excluded, so CI determinism is
+  unaffected, but local smoke results come from non-pinned engines.
+- `e2e/legacy/**` runs only under `PLAYWRIGHT_LEGACY=1` and is attached to no gate — correct for a
+  dev-only route, but unguarded drift surface that will silently rot.
+- `decision-support.spec.ts` retired **without** replacement: the component exists only on the legacy
+  landing. Verified as genuinely legacy-only, not production coverage parked out of the way.
+
+**Notable finding:** with every tolerance list removed, `/` returns **zero** serious/critical axe
+violations at 375 and 1280, one `<h1>`, no skipped heading levels, and a working skip-link target. The
+36-entry allow-list was masking legacy-landing debt, not homepage debt.
+
