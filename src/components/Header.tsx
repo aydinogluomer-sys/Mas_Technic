@@ -93,32 +93,41 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
   }, []);
 
   /* ── Active landing section ────────────────────────────────────────────
-     Only on `/`, and only one observer for the seven real anchors. The
-     previous header ran a scroll listener that sampled `[data-surface]` zones
-     to invert its own contrast; the bar is opaque graphite now, so that whole
-     sampler is gone with it. */
+     Only on `/`, and only for the seven real anchors.
+
+     The rule is "which band is under the header line", not "which band is most
+     visible". Ratio-based selection was measured to be wrong at the top of the
+     page: at scroll 0 on a 1440x900 viewport band 05 already pokes into the
+     last 130px of the viewport, so it won the ratio contest while the reader
+     was still looking at the hero.
+
+     One rAF-throttled passive scroll listener, seven rects per frame at most,
+     mounted only on the landing. It replaces the previous header's scroll
+     sampler, which read every `[data-surface]` zone on the page in order to
+     invert its own contrast — the bar is opaque graphite now, so that whole
+     mechanism is gone. */
   useEffect(() => {
-    if (!onLanding || typeof IntersectionObserver === "undefined") {
-      setActiveSection(null);
-      return;
-    }
-    const nodes = SECTION_IDS
-      .map((id) => document.getElementById(id))
-      .filter((node): node is HTMLElement => !!node);
-    if (!nodes.length) return;
-    const visible = new Map<string, number>();
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) visible.set(entry.target.id, entry.intersectionRatio);
-        else visible.delete(entry.target.id);
-      });
-      let best: string | null = null;
-      let bestRatio = 0;
-      visible.forEach((ratio, id) => { if (ratio > bestRatio) { bestRatio = ratio; best = id; } });
-      setActiveSection(best);
-    }, { threshold: [0.15, 0.4, 0.75], rootMargin: "-72px 0px 0px 0px" });
-    nodes.forEach((node) => observer.observe(node));
-    return () => observer.disconnect();
+    if (!onLanding) { setActiveSection(null); return; }
+    let frame = 0;
+    const pick = () => {
+      frame = 0;
+      const line = (headerRef.current?.getBoundingClientRect().height ?? 0) + 8;
+      let current: string | null = null;
+      for (const id of SECTION_IDS) {
+        const node = document.getElementById(id);
+        if (node && node.getBoundingClientRect().top <= line) current = id;
+      }
+      setActiveSection((previous) => (previous === current ? previous : current));
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(pick); };
+    pick();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, [onLanding, location.key]);
 
   /* ── Which family owns the current route ──────────────────────────────── */

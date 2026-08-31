@@ -432,6 +432,11 @@
   letter-spacing: .2em;
 }
 .tl-menu-dir-col ul { margin: 0; padding: 0; list-style: none; }
+/* Seven sections in one stack was the tallest object in the menu and pushed the
+   directory below the fold at 1440x900 (measured: 808px of content into a 692px
+   scroll field). Two sub-columns bring it to four rows without shrinking a
+   single 44px target. */
+[data-nav-sections] ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--tl-s4); }
 .tl-menu-dir-col li a {
   display: flex;
   min-width: 44px;
@@ -525,7 +530,10 @@
    320 and 375. */
 
 @media (max-width: 767px) {
-  .tl-header-band { min-height: var(--gnav-h); }
+  /* The sheet drops its side rules below 767 (`technical-landing.css`), so the
+     bar drops its own with it — otherwise the header sat 1px inside the page
+     it belongs to. Measured with `scripts/grid-axis-probe.mjs` at 375. */
+  .tl-header-band { min-height: var(--gnav-h); border-inline: 0; }
   .tl-header-band > .tl-band-index small { display: none; }
   .tl-brand { grid-column: span 3; padding-inline: var(--tl-s4); border-right: 0; }
   .tl-brand strong { font-size: 18px; }
@@ -549,10 +557,32 @@
   .tl-menu-category-details { padding-left: 28px; }
   .tl-menu-category-details ul { grid-template-columns: minmax(0, 1fr); }
   .tl-menu-directory { grid-template-columns: minmax(0, 1fr); gap: var(--tl-s4); }
-  .tl-menu-conversion { flex-wrap: wrap; padding: var(--tl-s2) var(--tl-s4); }
-  .tl-menu-legal { order: 2; }
-  .tl-menu-account { order: 3; }
-  .tl-menu-cta { order: 1; width: 100%; min-height: 52px; }
+  [data-nav-sections] ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* The conversion block is the floor of the sheet and it must not eat the
+     scroll field. Measured at 320x568: a single wrapping row of 44px legal
+     links plus a full-width account row left only ~250px for the menu body.
+     Three equal cells (two rows) plus a centred account line gives back ~90px
+     and keeps every target at 44px. */
+  .tl-menu-conversion { flex-wrap: wrap; align-items: center; gap: var(--tl-s2); padding: var(--tl-s2) var(--tl-s4); }
+  .tl-menu-cta { order: 1; flex: 1 1 100%; min-height: 52px; }
+  .tl-menu-legal {
+    order: 2;
+    flex: 1 1 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    margin-right: 0;
+  }
+  .tl-menu-legal a {
+    min-width: 0;
+    padding-inline: 2px;
+    font-size: 9px;
+    letter-spacing: .04em;
+    line-height: 1.25;
+    text-align: center;
+  }
+  .tl-menu-account { order: 3; margin-inline: auto; }
 }
 
 @media (max-width: 359px) {
