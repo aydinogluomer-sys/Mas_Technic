@@ -1,6 +1,7 @@
 {
   "$schema": "Mas Technic Design Tokens — kaynak: src/index.css + tailwind.config.ts + src/styles/z-index.ts",
   "$updated": "2026-05-12",
+  "$scope": "LEGACY_FORGE_ONLY — bu dosya shadcn sarmalayicilarinin, admin panelinin ve musteri panelinin kullandigi forge sistemini tarif eder. Yayinlanan public sistem (--tl-*) src/styles/design-tokens.css icinde tanimli ve docs/lean/06-design-system.md'de belgelenmistir. Public bir yuzeyde forge token'i kullanilmaz.",
 
   "color": {
     "forge": {

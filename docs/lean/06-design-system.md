@@ -1,160 +1,255 @@
 # 06 · Design System — Mas Technic
 
-## Temel İlke
-
-**Premium Industrial:** Keskin kenarlar, güçlü tipografi, metalik derinlik.  
-Brutalist editorial dilini endüstriyel hassasiyetle birleştir.
-
----
-
-## Renk Sistemi
-
-### Roller (Katı Kurallar)
-
-| Renk | Hex | Rol |
-|------|-----|-----|
-| `forge-teal` | #0a7e8c | **Primary / Interactive** — linkler, hover state, fokus ring |
-| `forge-molten` | #e8610a | **CTA / Birincil vurgu** — ana button, önemli aksiyon |
-| `forge-amber` | #d4850e | **İkincil vurgu** — hover state alternatifi |
-| `forge-obsidian` | #353c46 | **Dark background** — dark mode bg, section dark |
-| `forge-concrete` | #e8e4de | **Light background** — light mode bg |
-| `forge-silver` | #a8b2bc | **Muted / Secondary text** |
-| `forge-steel` | #3a4a5c | **Accent** — brushed steel feel |
-
-### Kullanım Kuralları
-- **Hardcoded hex yasak.** Her renk CSS custom property üzerinden: `hsl(var(--forge-teal))`
-- `forge-molten` sadece CTA ve önemli vurgu için — aşırı kullanım mesajı zayıflatır
-- `forge-teal` interactive state için rezerve — dekoratif amaçla kullanılmaz
-- Dark mode: `.dark` class selector ile otomatik override
+> **Scope.** This file documents the **public** design system: the one the
+> landing ships and that every public route inherits. It is written from the
+> code, not from intent. Source files:
+>
+> - `src/styles/design-tokens.css` — the token contract
+> - `src/styles/master-grid.css` — the sheet / band / subgrid primitive
+> - `src/styles/technical-landing.css` — band composition
+>
+> The legacy **forge** palette (`--forge-teal`, `--forge-molten`, …) still
+> exists in `src/index.css` because the shadcn wrappers, the admin dashboard
+> and the customer panel consume it. It is **not** the public language and
+> must not be used on a public surface. The two systems are deliberately
+> separate; do not merge them and do not re-skin the public site with forge
+> tokens.
+>
+> *(Bu dosya bilinçli olarak İngilizce: içeriği doğrudan CSS'teki token
+> adlarına ve seçicilere referans veriyor.)*
 
 ---
 
-## Tipografi Hiyerarşisi
+## Principle
+
+**Technical-editorial, not SaaS.** A graphite/charcoal field, warm technical
+paper for evidence, hairline rules, engineering-sheet precision, restrained
+bronze as the only editorial accent. Proof over claims, measurement over
+adjectives.
+
+Explicitly avoided: rounded card grids, glow/neon, glassmorphism, decorative
+gradients, pill clusters, random icon-card grids, stock-corporate composition.
+
+---
+
+## Master grid — the one contract
+
+```text
+SHEET_MAX  1600px, centred, 1px side rules
+BAND       --tl-rail  +  --tl-cols equal master columns
+GAP        0 by contract
+```
+
+At 1600px the content field is ~1534px and one master column is ~127.8px.
+
+| Token | Desktop | Tablet ≤1180 | Mobile ≤767 |
+|---|---|---|---|
+| `--tl-rail` | 64px | 56px | **42px** |
+| `--tl-cols` | 12 | 6 | 4 |
+| `--tl-gap` | 0 | 0 | 0 |
+
+Rail share of viewport: 4.0% at 1600, 7.3% at 768, 11.2% at 375, 13.1% at 320.
+
+**The grid tokens are responsive in `design-tokens.css` only.** A band must
+never redefine `--tl-rail` or `--tl-cols` inside its own media query. That is
+how the landing previously acquired `23.8%`, `19.2%`, `4.6%`, `35%/65%`,
+`48%/52%`, a fixed `132px` seventh track, `4fr/5fr/5fr` (fourteen units for a
+twelve-unit grid) and `43fr/77fr`, none of which resolved to a master boundary
+at any width.
+
+### How a band consumes the grid
 
 ```css
-/* Display — Landing hero */
-.text-display-mega → clamp(6rem, 18vw, 22rem), lh:0.82, ls:-0.06em, fw:700
-
-/* Başlıklar */
-.typo-h1 → clamp(3.5rem, 8vw, 9rem), lh:0.92, ls:-0.04em
-.typo-h2 → clamp(2.5rem, 5.5vw, 6rem), lh:1.0, ls:-0.03em
-.typo-h3 → clamp(1.75rem, 3vw, 3rem), lh:1.05, ls:-0.02em
-
-/* Teknik */
-.typo-technical → IBM Plex Mono, uppercase, tracking-widest
-.typo-tag       → IBM Plex Mono, 0.75rem, uppercase
+/* band body — inherits the band's REAL tracks */
+.tl-something-body { grid-column: 2 / -1; display: grid; grid-template-columns: subgrid; }
 ```
 
-### Kurallar
-- **Space Grotesk** — display ve body metin
-- **IBM Plex Mono** — teknik etiket, index numarası, spec değeri, kod
-- Başlıklar `text-balance` veya `text-pretty` ile wrap edilir
-- Editorial heading: büyük point size + tight letter-spacing + düşük line-height
+Two rules keep this honest:
+
+1. **A subgridded element carries no horizontal padding, border or margin.**
+   Per CSS Grid Level 2 those shorten the first and last subgrid track, so the
+   outer edges leave the master grid even while the interior lines stay put.
+   Breathing room belongs to the children.
+2. **Nested blocks that still divide content are themselves subgrids.** A card
+   spanning 6 columns divides on master lines 2 and 4 of those 6, not on a
+   fresh percentage.
+
+Fallback (`@supports not (grid-template-columns: subgrid)`) derives tracks from
+the same tokens. For a full-width body with no horizontal padding and a zero
+master gap it is geometrically identical.
+
+### Band composition
+
+| Band | Composition |
+|---|---|
+| 01 Header | edges on master 0/12; internal split is content-driven (see note) |
+| 02 Hero | 4 / 6 / 2 |
+| 03 Proof | 6 cells × `span 2` |
+| 04 Marquee | 12 |
+| 05 Process | 4 / 8, then 4 steps × `span 3` |
+| 06 Nexus | 3 / 9 (header title 3, KPIs 9; app rail 3, table 9) |
+| 07 Projects | featured 6 / 6; secondaries `span 6`, each divided 2 / 4 |
+| 08 Sectors | 4 cards × `span 3` |
+| 09 Manifesto | 12; copy on a deliberate 7-column measure |
+| 10 Quality | 6 evidence cards × `span 2`; stamp on a real 11–12 span |
+| 11 References | 6 cells × `span 2` |
+| 12 FAQ | 7 / 5 on master lines; gutter is child padding |
+| 13 RFQ | 3 / 4 / 5 |
+| 14 Footer | 4 / 8; nav columns 4 × `span 2` |
+
+Because spans are expressed in master columns, most bands reflow on their own:
+`span 2` cells go 6-per-row → 3-per-row → 2-per-row and `span 3` cells go
+4-per-row → 2-per-row as `--tl-cols` steps 12 → 6 → 4.
+
+**Documented exception — band 01.** The header's internal split
+(`210px 1fr auto`) is content-measured, not master-measured: the quote button
+plus the language switch do not fit two master columns (202px at 1280) and
+overflowed. The band's outer edges are on master 0/12. Global navigation is
+Phase 03's subject and this split is expected to be revisited there.
+
+### Verification
+
+- `node scripts/grid-axis-probe.mjs` — measures every band's real edges at
+  375 / 768 / 1280 / 1440 / 1600 against boundaries derived from the tokens in
+  use, and prints band → edge → nearest axis → delta.
+- `e2e/landing/landing-grid-axes.spec.ts` — the same assertion inside the
+  critical gate. Tolerance 1px.
+- **Dev grid overlay:** `CTRL+ALT+G` on `/` under `npm run dev`. It draws the
+  rail and the live master columns using the same declaration as `.tl-band`,
+  so it cannot drift from what it measures. It is reached only through an
+  `import.meta.env.DEV` branch and is absent from `dist/`.
 
 ---
 
-## Spacing Sistemi
+## Colour
 
-```
-Tailwind 8-point grid:
-  p-2 = 8px, p-4 = 16px, p-6 = 24px, p-8 = 32px
-  p-12 = 48px, p-16 = 64px, p-24 = 96px
+Every public colour is a `--tl-*` token in `src/styles/design-tokens.css`.
+A hardcoded hex/rgb in a public stylesheet is a defect.
 
-Section padding:
-  py-24 md:py-32 lg:py-40  ← .section-industrial utility
-```
+### Surfaces
+
+| Token | Value | Role |
+|---|---|---|
+| `--tl-void` | `#030506` | page behind the sheet |
+| `--tl-black` | `#070b0d` | dark band field |
+| `--tl-panel` | `#0c1114` | marquee / recessed panel |
+| `--tl-panel-soft` | `rgba(10,15,18,.9)` | hero passport panel |
+| `--tl-header-surface` | `rgba(7,11,13,.98)` | header bar |
+| `--tl-label-surface` | `rgba(6,9,11,.92)` | measurement label / FCF chip |
+| `--tl-paper` | `#eee9de` | warm evidence band |
+| `--tl-paper-raised` | `#f6f2e8` | certificate card |
+| `--tl-paper-sunken` | `#fbf8f1` | document inset inside a card |
+
+### Ink — two ladders, one per ground
+
+On dark: `--tl-white` `#f3f0e8` → `--tl-muted` `#b6bbb8` →
+`--tl-on-dark-body` `#c1c5c2` → `--tl-on-dark-soft` `#aeb4b1` →
+`--tl-on-dark-meta` `#a4aba8` → `--tl-on-dark-faint` `#868e8b`.
+
+On paper: `--tl-ink` `#121719` → `--tl-ink-muted` `#3b423f` →
+`--tl-ink-faint` `#4e5552` → `--tl-ink-soft` `#5c6360`.
+
+### Rules
+
+`--tl-rule` `rgba(227,231,225,.28)` · `--tl-rule-soft` `rgba(227,231,225,.16)` ·
+`--tl-label-rule` `rgba(226,230,225,.42)` · `--tl-paper-rule`
+`rgba(18,23,25,.3)` · `--tl-paper-rule-strong` · `--tl-paper-rule-soft`.
+One weight (`--tl-rule-size: 1px`), four tones.
+
+### Accents — restrained by rule
+
+- `--tl-bronze` `#8a7359` (with `--tl-bronze-light` `#c9b699`) is the **only**
+  editorial accent. It marks the italic serif clause in a band headline.
+- `--tl-green` / `--tl-green-ink` is **semantic status only**.
+- `--tl-stamp` `#8a4030` belongs to the quality seal and nothing else.
+
+### Tints (state, not palette)
+
+`--tl-tint-faint` · `--tl-tint-hover` · `--tl-tint-raise` · `--tl-ink-tint`.
 
 ---
 
-## Border Radius
+## Typography — three faces, three jobs
 
-```
---radius: 0rem — Sharp industrial, istisnasız
-```
-Hiçbir UI element'e border-radius eklenmez. Yuvarlak köşe = forbidden.
+| Token | Face | Job |
+|---|---|---|
+| `--tl-font-sans` | Space Grotesk | interface, body copy, display headings |
+| `--tl-font-serif` | Newsreader | controlled editorial contrast on band headlines |
+| `--tl-font-mono` | IBM Plex Mono | technical data only |
+
+"Technical data only" means labels, measurements, codes, tables, units, part
+numbers, indexes, metadata and rail annotation. **Never body copy.**
+
+The serif appears in exactly one shape: a grotesk first line followed by an
+italic serif clause in `--tl-bronze` (`.tl-process-intro h2`,
+`.tl-nexus-body h2`, `.tl-faq-title`, `.tl-rfq h2`). It is not a general
+heading face.
+
+A face is selected through its token. A raw `font-family: "IBM Plex Mono",
+monospace` in a public stylesheet is font-rule drift and is treated as a
+defect.
 
 ---
 
-## Shadow Sistemi
+## Spacing
+
+4px base: `--tl-s1` 4 · `--tl-s2` 8 · `--tl-s3` 12 · `--tl-s4` 16 ·
+`--tl-s5` 24 · `--tl-s6` 32 · `--tl-s7` 48 · `--tl-s8` 64.
+`--tl-list-row` 34px is the shared FAQ/resource row rhythm.
+
+Horizontal spacing inside a band is **child padding**. It is never a master
+gap and never a margin on a grid item — both move a real axis.
+
+---
+
+## Border radius
+
+```
+--tl-radius: 0            corner radius, everywhere, no exception
+--tl-radius-round: 50%    only where the element IS a circle
+```
+
+Corner radius is zero across the public system, matching `--radius: 0rem` in
+`src/index.css`. `--tl-radius-round` is a **shape**, not a rounded corner, and
+is limited to elements that are a disc by drawing convention: the notary seal,
+the EN 10204 grade badge, the avatar disc.
+
+Removed in Phase 02: the arbitrary 3px on the hero measurement labels,
+tolerance frames and datum symbol.
+
+---
+
+## Motion
+
+One easing curve for the whole system:
+
+```
+--tl-ease-out: cubic-bezier(.16, 1, .3, 1)
+--tl-dur-micro .22s   --tl-dur-short .35s   --tl-in .62s   --tl-step 65ms
+```
+
+**Motion never changes geometry.** Only `transform`, `opacity`, `clip-path`
+and `filter` are animated. No rule in the motion layer touches width, height,
+padding, border or grid, so the grid is identical during and after animation.
+Any element whose position is *compared* with another element's animates by
+opacity alone — a translate would make an alignment contract time-dependent.
+
+`prefers-reduced-motion: reduce` disables animation and transition inside
+`.tl-root` entirely, and the page is complete without JavaScript.
+
+---
+
+## Focus and selection
 
 ```css
-.shadow-industrial         → 8px 8px 0px hsl(var(--forge-obsidian))
-.shadow-industrial-primary → 8px 8px 0px hsl(var(--forge-teal) / 0.4)
-.shadow-1 → subtle (0 2px 8px rgba(0,0,0,0.08))
-.shadow-2 → medium (0 4px 16px rgba(0,0,0,0.12))
-.shadow-3 → deep   (0 8px 32px rgba(0,0,0,0.18))
+:focus-visible → 2px solid currentColor, 4px offset
+::selection    → --tl-paper background, --tl-black text
 ```
 
 ---
 
-## Grid Sistemi
+## Depth
 
-- **Kolon:** 8-column grid
-- **Gap:** 2rem (32px)
-- **Max-width container:** 1400px (`2xl` breakpoint)
-- **Container padding:** 2rem her yanda
-
----
-
-## Derinlik Sistemi (Depth)
-
-```
-Katmanlar (altan üste):
-  1. Background (video, grain, gradient)
-  2. Section content
-  3. Ambient glow overlay
-  4. Grain overlay (z:5)
-  5. Header (z:50)
-  6. Cursor (z:90)
-  7. Page transition (z:95)
-  8. Preloader (z:100)
-
-Phase 3'te eklenecek:
-  .depth-layer-1: translateZ(-50px)
-  .depth-layer-2: translateZ(-150px)
-  .depth-layer-3: translateZ(-300px)
-  (perspective container ile birlikte)
-```
-
----
-
-## Cursor Sistemi
-
-```css
-/* Desktop only (>901px, pointer:fine) */
-cursor: none !important — custom cursor aktif
-
-/* Cursor anatomisi */
-.cursor-dot  → forge-molten dolu nokta (hover'da forge-teal)
-.cursor-ring → forge-molten / 0.5 border (hover'da forge-teal / 0.6)
-
-/* Phase 4 eklentisi */
-mix-blend-mode: difference → dot'a
-velocity reactive scale: 1.0 → 1.5 (hızlı scroll'da)
-```
-
----
-
-## Film Grain
-
-```css
-.brutalist-grain → SVG turbulence overlay, opacity: 0.035, position:fixed, z:5
-.brutalist-scanline → CRT scanline efekt (isteğe bağlı kullanım)
-```
-
----
-
-## Selection Rengi
-
-```css
-::selection → forge-molten background
-```
-
----
-
-## Focus States
-
-```css
-focus-visible → 2px outline, forge-teal renk, 2px ring offset
-```
-Klavye navigasyonu her element'te görünür olmalı.
+The public sheet has no z-stack of its own beyond the hero's local layering
+(image → blend → ground → dimension lines → labels → copy → passport). Global
+layers live in `src/styles/z-index.ts`; do not introduce a z-index outside it.

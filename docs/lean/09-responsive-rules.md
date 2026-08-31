@@ -1,5 +1,34 @@
 # 09 · Responsive Rules — Mas Technic
 
+## 0 · Public sheet breakpoints (bağlayıcı)
+
+> Aşağıdaki "Breakpoint Sistemi" bölümü ve devamı **eski landing / iç yüzey**
+> davranışını (Lenis, custom cursor, 8 sütunluk ızgara, 1400px container)
+> anlatır ve tarihsel referans olarak korunur. **Yayınlanan public sayfa**
+> (`/` → `TechnicalLanding`) farklı bir sözleşme kullanır; çelişki hâlinde bu
+> bölüm kazanır. Kaynak: `src/styles/design-tokens.css`.
+
+| Kırılım | Medya sorgusu | `--tl-rail` | `--tl-cols` | Rayın ekran payı |
+|---|---|---|---|---|
+| Masaüstü | varsayılan | 64px | 12 | %4.0 @1600 · %5.0 @1280 |
+| Tablet | `max-width: 1180px` | 56px | 6 | %7.3 @768 |
+| Mobil | `max-width: 767px` | 42px | 4 | %11.2 @375 · %13.1 @320 |
+
+- Sayfa tabakası her genişlikte `min(100%, 1600px)`, ortalanmış, 1px yan kural.
+- Master boşluk her kırılımda `0`. Nefes payı çocuk dolgusundan gelir.
+- Bu üç token **yalnızca** `design-tokens.css` içinde kırılıma göre değişir;
+  bir bant kendi medya sorgusunda ızgarayı yeniden tanımlayamaz.
+- Sütun aralıkları master sütun cinsinden yazıldığı için çoğu bant kendi
+  kendine akar: `span 2` hücreler 6→3→2/satır, `span 3` hücreler 4→2/satır.
+- Mobilde teknik açıklama yoğunluğu bilinçli düşer: ray bant NUMARASINI
+  taşır, bant ADINI taşımaz; hero ölçümlendirmesi beş etiketten üçe iner.
+- Doğrulama: `node scripts/grid-axis-probe.mjs` (375/768/1280/1440/1600) ve
+  `e2e/landing/landing-grid-axes.spec.ts`.
+
+Ayrıntı: `docs/lean/06-design-system.md`.
+
+---
+
 ## Breakpoint Sistemi
 
 ```
