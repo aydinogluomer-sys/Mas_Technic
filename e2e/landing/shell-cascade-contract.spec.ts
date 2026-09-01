@@ -42,29 +42,40 @@ const SHEET_ROUTES = [
 
 test.describe("shell sheet — one cascade across chunks", () => {
   test("every route resolves the same sheet side rules at this width", async ({ page }, testInfo) => {
-    const width = page.viewportSize()?.width ?? 0;
-    /* The contract, not a copy of the implementation: below the mobile
-       breakpoint the sheet is edge-to-edge and drops its rules; above it the
-       rules are exactly `--tl-rule-size`. */
-    const expected = width <= 767 ? "0px" : "1px";
-
-    const measured: { path: string; left: string; right: string }[] = [];
+    const measured: { path: string; left: string; right: string; mobile: boolean; cssWidth: number }[] = [];
     for (const route of SHEET_ROUTES) {
       await gotoAndSettle(page, route.path);
       const sheet = page.locator(".tl-sheet").first();
       await expect(sheet, `${route.name}: the sheet must exist`).toBeVisible({ timeout: 20_000 });
       const border = await sheet.evaluate((element) => {
         const style = getComputedStyle(element);
-        return { left: style.borderLeftWidth, right: style.borderRightWidth };
+        return {
+          left: style.borderLeftWidth,
+          right: style.borderRightWidth,
+          /* Read from the CSS viewport, not from Playwright's viewport option:
+             a classic scrollbar can put the two on opposite sides of the
+             breakpoint and the media query follows the CSS one. */
+          mobile: window.matchMedia("(max-width: 767px)").matches,
+          cssWidth: window.innerWidth,
+        };
       });
       measured.push({ path: route.path, ...border });
     }
     testInfo.attach("sheet-border-inline", { body: JSON.stringify(measured, null, 2), contentType: "application/json" });
 
     for (const row of measured) {
-      expect(row.left, `${row.path} at ${width}px: border-left`).toBe(expected);
-      expect(row.right, `${row.path} at ${width}px: border-right`).toBe(expected);
+      /* The contract, not a copy of the implementation: below the mobile
+         breakpoint the sheet is edge-to-edge and drops its rules; above it the
+         rules are exactly `--tl-rule-size`. */
+      const expected = row.mobile ? "0px" : "1px";
+      expect(row.left, `${row.path} at ${row.cssWidth}px CSS: border-left`).toBe(expected);
+      expect(row.right, `${row.path} at ${row.cssWidth}px CSS: border-right`).toBe(expected);
     }
+
+    /* And whatever the value is, no route may disagree with another — that is
+       the invariant the chunk split actually broke. */
+    const distinct = [...new Set(measured.map((row) => `${row.left}/${row.right}`))];
+    expect(distinct, `routes disagree: ${JSON.stringify(measured)}`).toHaveLength(1);
   });
 
   test("no shipped stylesheet declares the sheet's side rules without its override", async ({ page }) => {

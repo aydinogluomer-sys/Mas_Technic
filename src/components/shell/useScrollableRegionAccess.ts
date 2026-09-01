@@ -66,16 +66,25 @@ function isScrollable(element: Element): boolean {
   return scrollsX || scrollsY;
 }
 
+const FOCUS_STOP = "a[href], button:not([disabled]), input:not([disabled]),"
+  + " select:not([disabled]), textarea:not([disabled]), summary,"
+  + " [contenteditable=''], [contenteditable='true'], [tabindex]:not([tabindex^='-'])";
+
 /**
  * A region that already contains a focus stop is reachable, and axe passes it.
  * Adding a second stop there would only lengthen the tab sequence.
  */
 function containsFocusStop(element: Element): boolean {
-  return !!element.querySelector(
-    "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]),"
-    + " textarea:not([disabled]), summary, [contenteditable=''], [contenteditable='true'],"
-    + " [tabindex]:not([tabindex^='-'])",
-  );
+  return !!element.querySelector(FOCUS_STOP);
+}
+
+/**
+ * A region the author already made focusable — `.tl-nexus-table-wrap` on the
+ * landing is one, with its own `role`, `aria-label` and `tabindex`. The shell
+ * has nothing to add there and must not so much as mark it.
+ */
+function isAlreadyFocusable(element: Element): boolean {
+  return element.matches(FOCUS_STOP);
 }
 
 /**
@@ -147,7 +156,8 @@ function sweep(root: HTMLElement) {
        actually overflow are worth a style read. */
     if (element.scrollWidth <= element.clientWidth + 1
       && element.scrollHeight <= element.clientHeight + 1) continue;
-    if (!isScrollable(element) || containsFocusStop(element)) continue;
+    if (isAlreadyFocusable(element) || containsFocusStop(element)) continue;
+    if (!isScrollable(element)) continue;
     grant(element);
   }
 }
