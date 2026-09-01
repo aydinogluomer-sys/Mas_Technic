@@ -920,3 +920,84 @@ satisfy while leaving the loop trivially true. The guard would be tighter as
 "at least one entry has `base > 0`". Empirically it bites on 2 of 2 chunks
 today, so the gate is armed; the caveat is only that its *self-check* is looser
 than the property it protects.
+
+### R2 — the gate reproduced RED against a pre-fix build
+
+A scratch tree was built from `4dc80d4` source (`git archive 4dc80d4 | tar -x`)
+at `C:\Users\Trade Bilisim\pdh-wt\p04c-prefix`, `node_modules` junctioned
+read-only to the shared primary, HEAD's spec file overlaid, `.env` copied in
+(Vite inlines env at build time — the first attempt without it produced a tree
+where `.tl-sheet` never mounted at all, an artefact of the scratch tree, not of
+the pre-fix code; that run was discarded), then `npm run build`, served on
+**port 4300**.
+
+Faithfulness of the reproduction, `probe-sheet-border.mjs` against port 4300:
+
+```text
+===== 375px =====
+  /                        borderInline=1px/1px    <-- the defect
+  /sss                     borderInline=0px/0px
+  /hakkimizda              borderInline=0px/0px
+  /teklif-al               borderInline=0px/0px
+  /blog                    borderInline=0px/0px
+  /hizmetler/cnc-frezeleme borderInline=0px/0px
+  /yok-boyle-bir-sayfa     borderInline=0px/0px
+```
+
+That is the original FAIL signature exactly. Running the new spec against it:
+
+```text
+  ✓  1 [critical-1280] every route resolves the same sheet side rules
+  ✘  2 [critical-1280] no shipped stylesheet declares the base without its override
+  ✘  3 [critical-1280] axe finds no unreachable scrollable region
+  ✘  4 [critical-1280] each scrollable region has a real focus stop and a name
+  ✘  5 [critical-1280] grants a focus stop to a new scrollable region and takes it back
+  ✘  6 [critical-375]  every route resolves the same sheet side rules
+  ✘  7 [critical-375]  no shipped stylesheet declares the base without its override
+  ✓  8 [critical-375]  axe finds no unreachable scrollable region
+  ✓  9 [critical-375]  each scrollable region has a real focus stop and a name
+  ✘ 10 [critical-375]  grants a focus stop to a new scrollable region and takes it back
+
+  7 failed
+  3 passed (47.5s)
+```
+
+**7 failed / 3 passed — the Coder's claim reproduces exactly**, and the three
+passes are exactly the three it named: the 1280 sheet measurement (#1) and the
+two 375 scroll checks (#8, #9). Those three legitimately should pass: at 1280
+the resolved `border-inline` is `1px` on every route, so the split is invisible
+to a resolved-value check; and at 375 the narrow field does not push the service
+table into overflow, so there is no unreachable region to find.
+
+**The second assertion earns its place.** At `critical-1280`, #1 passes and #2
+fails, on the same page, in the same run:
+
+```text
+Error: Index-Q-yQMtXW.css declares .tl-sheet border-inline 1x but ships 0
+mobile override(s). A stylesheet that carries the base must carry its override,
+or chunk order decides the result. See the OWNERSHIP RULE in
+src/styles/master-grid.css.
+  Expected: >= 1
+  Received:    0
+```
+
+That is the CAUSE check catching the defect at a width where the RESULT check
+is blind — precisely the design intent stated in the spec's header comment, now
+demonstrated rather than asserted. Not vacuous, not a restatement.
+
+**Negative control for my own R3 tool.** `p04c-cascade-split-precise.mjs` run
+against the pre-fix `dist/assets`:
+
+```text
+  D0-SPLIT  .tl-sheet { border-inline }  under  @media (max-width: 767px)
+      base declared in : Index-Q-yQMtXW.css , PageShell-CyeJBQRf.css
+      override in      : PageShell-CyeJBQRf.css
+      override MISSING : Index-Q-yQMtXW.css
+D0-SHAPED SPLITS: 1
+```
+
+1 on the broken build, 0 on the fixed build, over the same 83-pair surface. The
+R3 "zero other splits" result is therefore a measurement from an instrument
+proven to detect this exact defect class, not a blind pass.
+
+**R2: PASS. R3: PASS.**
