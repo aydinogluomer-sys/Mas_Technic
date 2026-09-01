@@ -6,7 +6,7 @@ RUN_BASE_COMMIT: 366f321 (pre-run working tree preserved + plan path normalized)
 INTEGRATION_BRANCH: claude/awwwards-90-overhaul
 USER_BRANCH_PRESERVED: claude/motion-layer-and-asset-pipeline @ b6f2552 (untouched)
 STARTED_AT: 2026-08-31T01:51:28Z
-CURRENT_PHASE: 03
+CURRENT_PHASE: 04
 
 ## Authority
 
@@ -28,8 +28,8 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | 00 | PASS | fb128e9, 9228086 | b845ff1 | 14 AC/SC checks passed, 0 failed; 4 verification scripts added | 2026-08-31T05:55Z |
 | 01 | PASS | 038af33, 9392efb | afe1204, 3f2a2a9 | 77 passed / 0 failed / 2 skipped; coverage 177→205 blocks, 562→629 assertions | 2026-08-31T12:20Z |
 | 02 | PASS | 28a4cfe, 39bf6d9, 5b82164, cfe5ad0, 603965e, 8c27d71, 8d395a7, b0110fc, 45f3577 | 68518cc, 26980b5, 67267cc | 76 passed / 1 pre-existing fail / 3 skipped | 2026-08-31T16:40Z |
-| 03 | IN_PROGRESS | — | — | — | 2026-08-31T16:40Z |
-| 04 | NOT_STARTED | — | — | — | — |
+| 03 | PASS | 4937757..1d5ea91 (9), c72fd99, 4066b41, d3822b8 | 1c7e5df, ab8c585, 46d64a8, 02ab2c2 | 220 passed / 4 pre-existing page-debt fails / 3 skipped | 2026-09-01T06:10Z |
+| 04 | IN_PROGRESS | — | — | — | 2026-09-01T06:10Z |
 | 05 | NOT_STARTED | — | — | — | — |
 | 06 | NOT_STARTED | — | — | — | — |
 | 07 | NOT_STARTED | — | — | — | — |
@@ -323,3 +323,130 @@ zero CI coverage); B08-class local engine drift; content defects on the Quality/
 because two master columns are 202px at 1280 and the quote button plus language switch overflow that. Its
 **outer** edges sit on master C0/C12 at every width (QA-measured, delta 0.00-0.13px). Phase 03 owns global
 navigation and should revisit it.
+
+---
+
+### Phase 03 — GLOBAL AWWWARDS NAVIGATION + INFORMATION ARCHITECTURE — PASS (after 1 correction loop)
+
+**Coder:** `4937757`, `e58a088`, `c3183d1`, `4c6ac37`, `8c2549c`, `9a1fcc3`, `e9b1c6e`, `b6ab1d3`, `7b99416`
+(initial, 42 files +2550/-1006); `c72fd99`, `4066b41`, `d3822b8` (correction #1).
+**QA:** `1c7e5df`, `ab8c585` (FAIL); `46d64a8`, `02ab2c2` (PASS).
+
+**Outcome.** Three parallel public headers are now one. `HeaderFullscreen.tsx`, `TechnicalHeader.tsx` and
+all of `src/components/menu/**` (including the competing `menu-tokens.ts` motion vocabulary) are
+**deleted**; `src/components/Header.tsx` is the real component rather than a one-line alias. A single
+typed IA (`src/components/navigation/ia.ts`) feeds the menu, the inner footer and the landing footer,
+replacing three parallel link taxonomies. B14 is closed: the landing is reachable from, and reaches, the
+whole site.
+
+**IA coverage (QA independently re-derived: 26 public routes, 74 targets, 0 orphans, 0 dev leaks):**
+3 families x 5 categories = 15 categories over 48 unique detail routes; the 7 real landing anchors
+addressed as `/#id` so they work from any page; resources, company, legal, account groups; RFQ as one CTA
+never duplicated as a plain link. Deliberate exclusions each carry a recorded reason
+(`/sifremi-unuttum`, `/reset-password`, `/cad-dashboard`, `*`, and the three dev-only routes).
+
+**Two real orphans found and fixed, not papered over:** `/kabiliyetler/malzeme-kutuphanesi` (a real
+capability page nothing linked to) and `/endustriyel/kategori/seri-uretim` in the inner footer (a slug the
+app never serves; correct slug is `seri-uretim-endustriyel`). Two further footer links pointed at
+`/#hizmetler` and `/#kabiliyetler`, anchors that do not exist; deriving the footer from the IA removed
+them. The two mis-targeted entries the Phase 00 baseline flagged are relabelled
+(`Vizyon & Misyon -> Teknik Gunluk`, `Kariyer -> Sik Sorulanlar`).
+
+**Shell contract:** full-shell routes 88 -> **89** (`/` added), total public surfaces 94 -> 94 (`/` moved
+from the exception set into the full-shell set). Asserted by an explicit `toContain("/")` alongside the
+count. The Phase 01 `{ route: "/", header: 0, footer: 1 }` exception is removed **because it reached the
+purpose Phase 01 wrote it for** — this is the one intended expectation change in the run so far.
+`e2e/fullscreen-menu.spec.ts` moved back to `/` and gained a lane requiring the menu structure on `/` and
+`/sss` to be `toEqual`.
+
+**B23 resolved as a product decision — option (a).** The floating scroll-top control genuinely should not
+exist below 768px: the global header is now fixed at every width with a brand link reachable without
+scrolling, so the floating control duplicated an always-visible one; at 320 it overlaid footer card text
+(the original measured reason); and the landing never had one. `src/index.css` is **comment-only** changed
+— the `display:none` rule is untouched — and the spec was corrected at **both** affected widths (320 and
+375; the 375 reduced-motion lane carried the identical contradiction and was also failing). Nothing was
+deleted: each width now asserts absence from the role tree **and** that `.floating-scroll-top` computes
+`display:none`, so re-exposing it without updating the rule still fails.
+
+**Band-01 grid break retired.** With the inert TR/EN switch removed the actions cluster fits three master
+columns, so `.tl-header` is now a `subgrid` landing on master axes and the probe measures its **interior**
+as well. The documented content-measured interiors table drops 5 -> 4 entries. Probe: 0 off-grid.
+
+**Two defects the new contracts exposed, both fixed:** (1) landing anchor navigation did nothing —
+`finishExit` ran inside the Framer exit callback and React committed the modal cleanup, which restores the
+opening scroll position, *after* it, so every click moved the band and was snapped back to 0; (2) two
+header instances existed during every route transition, so `[data-menu-trigger]` resolved to 2 elements on
+Back. Ownership is now arbitrated in the component, so `/giris`, `/reset-password` and the 404 still have
+no header.
+
+**QA FAIL -> C1: a WCAG 2.1 SC 2.1.2 keyboard trap.** Under `prefers-reduced-motion: reduce`, opening the
+menu **sealed the user inside it**: ESC, the close button and menu links all inert; scroll locked; `#root`
+`inert` + `aria-hidden`; only a reload recovered. Measured at 320/375/1280 on `/` and `/hakkimizda`.
+Root cause: `animate="visible"` with `exit={reducedMotion ? "visible" : "exit"}` made the exit target
+identical to the animate target, so Framer scheduled no exit animation, `onExitComplete` never fired, and
+`finishExit` — the only caller of `setPhase("closed")` and `navigate(pendingHref)` — never ran. A genuine
+regression: the deleted `HeaderFullscreen` used `exit={{opacity:0}}`, a real 1->0 change even at duration 0.
+
+**Why every gate stayed green** — the finding that mattered most. `fullscreen-menu.spec.ts` held both
+halves but never together: one test opened and ESC-closed *without* reduced motion; another opened *under*
+reduced motion and never closed. The visual spec opened under reduced motion but only screenshotted.
+
+**The fix removes the fragility, not the symptom.** `AnimatePresence` is gone from `Header.tsx`; the sheet
+is conditionally rendered and `settleClose` is scheduled by an effect on `phase === "closing"` with a timer
+(0 ms reduced motion, 900 ms otherwise). `onAnimationComplete` is now only an accelerator. Idempotency via
+`phaseRef`, set *before* `setPhase` to close the race window. The Coder explicitly declined the shortcut of
+giving the reduced-motion variant a token opacity change to coax the callback into firing.
+
+**QA verification of the fix (all its own instruments):** 36/36 teardown cells across
+{320,375,1280} x {`/`,`/hakkimizda`} x {reduce,no-preference} x {Escape, close button, link}, each
+asserting overflow restored to its exact pre-open value, `inert`/`aria-hidden` cleared, focus back on the
+trigger, and a real wheel gesture moving `scrollY`. Seven adversarial attacks x two motion modes could not
+re-latch it; re-opening 200 ms into a close leaves it open and past both timers, then closes cleanly; never
+a `historyDelta` of 2. **R4 red-then-green reproduced independently**: pre-fix `Header.tsx` built in a
+scratch tree gives 6 failed / 6 passed, the six failures exactly the reduced-motion cases. **R5**: renaming
+a slice marker now turns both static reachability tests red instead of passing vacuously. **R6**: measured
+settle 662 ms full motion / 46 ms reduced against a 900 ms net, so the net never fires in practice.
+
+**TWO CODER CLAIMS QA OVERTURNED — do not carry these forward as written:**
+1. **The `"opening" -> "open"` phase did NOT have "the identical hole."** At `d01851e` its only readers
+   were `isVisible = phase === "opening" || phase === "open"` and the self-transition, so a stuck
+   `"opening"` was inert. The added net is sound hardening, **not** a second trap discovered. (The
+   Orchestrator had relayed the Coder's stronger claim to the user and corrected it on QA's evidence.)
+2. **R7 is not deterministic.** The Coder reported the reachability history test failing deterministically
+   under `PLAYWRIGHT_ARTIFACTS=0`; QA measured 1 of 4 invocations passing there and 1 of 5 *canonical*
+   runs failing. It is **flaky**, not deterministic, and not canonically green either.
+
+**Golden regeneration audited and accepted.** The Coder's "0.03-0.04 of pixels" was **not reproducible**;
+the real figures are 11.83/12.84/13.22 % of pixels non-identical at any amplitude and
+**0.100/0.136/0.119 %** at amplitude >= 16/255, with a **-1 px** height change (not +1). Meaningful change
+is confined to three regions, all intended: the header band, the two footer relabels, and a 46-pixel
+Phase-02 process-arrow fix the goldens had never absorbed. Everything else peaks at amplitude 2-3/255
+(webp re-rasterisation). No unrelated region changed. The nine goldens are byte-unchanged across the
+correction packet.
+
+**Accessibility:** zero serious/critical axe violations on the navigation itself, closed and open, at 1280
+and 375, including under reduced motion. Every visible menu control >= 44px at all 8 viewports; safe-area
+tokens honoured on all four edges at 320; keyboard-only traversal of 3 families -> 15 categories -> 48
+detail links verified at mobile-320 with no hover and no programmatic focus.
+
+**NEW CARRY-FORWARDS:**
+- **B24 -> Phase 07 + Phase 13.** `src/pages/ServiceDetail.tsx` carries **28 serious `color-contrast`
+  violations plus 1 `scrollable-region-focusable`** on `/hizmetler/cnc-frezeleme`, failing 4 lanes. Page
+  debt in a file Phase 03 never touched; also present on `Blog` and `Malzemeler`.
+- **B25 -> owner of `src/components/PageTransition.tsx` (Phase 04).** `navigation-reachability.spec.ts`
+  "keeps deep links and history navigation correct" is **flaky**: after `page.goForward()` with the menu
+  open the incoming page never mounts, so the `location.key` effect is never told the route changed.
+  `--repeat-each=8` gives 8/8 failures on the unmodified pre-fix header vs 7/8 at `ec7da26`. **PRE-EXISTING
+  and a test-harness artefact** — driven as a user would (17 attempts), the menu cleared in 520-641 ms
+  every time with 0 latches.
+- **B26 -> minor.** Nothing enforces `MENU_SETTLE_FALLBACK_MS (900) > NAV_MOTION.open (620)`. Safe today
+  with 280 ms headroom and documented on the line above the constant; a one-line assertion would close it.
+- **B27 -> Phase 07.** The Coder reported a breadcrumb clipped by 8px on `/hizmetler/:slug` and
+  `/endustriyel/:slug` at <=767. QA **could not reproduce it**: all 11 routes x 3 widths measure
+  `clippedBy = 0`. Recorded as over-reported, not as a defect.
+- Unchanged: `TeklifAl.tsx` imports `Footer` and never renders it (Phase 04); ~130 lines of dead
+  `.menu-*` / `.shared-public-header` CSS still ship on every route (Phase 04/12); `design-tokens.css` is
+  inlined into two CSS chunks (Phase 12); `SoundToggle.tsx` / `ThemeToggle.tsx` are now unreferenced files;
+  inner-page vertical rhythm shifted 64-72px now the fixed bar is reserved in flow (Phase 04/07);
+  `navigation-data.tsx` survives as a documented compatibility re-export because dev-only `LandingFlow.tsx`
+  imports `navigationItems`; win32-only golden gap.
