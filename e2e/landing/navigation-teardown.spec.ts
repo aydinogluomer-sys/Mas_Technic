@@ -111,9 +111,18 @@ async function expectFullyReleased(page: Page, before: Latches) {
 
   // Released `overflow` is a claim about styles. This is the reader's own
   // input actually moving the page again.
-  const scrollable = await page.evaluate(() =>
-    document.documentElement.scrollHeight > window.innerHeight + 8);
-  expect(scrollable, "the route under test must be tall enough to prove scrolling").toBe(true);
+  //
+  // Polled, not sampled: on the navigation paths the destination is a lazily
+  // loaded route chunk, so the document is briefly shorter than the viewport
+  // while it mounts. MEASURED — under reduced motion the whole close settles
+  // in one task, so a single sample here read `scrollHeight <= innerHeight`
+  // and failed on a page that is in fact 4x the viewport a moment later.
+  await expect.poll(() => page.evaluate(() =>
+    document.documentElement.scrollHeight > window.innerHeight + 8), {
+    timeout: 15_000,
+    intervals: [100, 250, 500],
+    message: "the route under test must become tall enough to prove scrolling",
+  }).toBe(true);
   await expect.poll(async () => {
     await page.mouse.wheel(0, 600);
     return page.evaluate(() => Math.round(window.scrollY));

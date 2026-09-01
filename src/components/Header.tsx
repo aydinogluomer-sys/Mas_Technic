@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useReducer, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { prefetchMenuRoutes } from "@/utils/routePrefetch";
@@ -104,7 +104,45 @@ function useHeaderOwnership() {
   return owner === 0 || owner === idRef.current;
 }
 
+/* ── The menu lifecycle, and why no step of it waits for an animation ────────
+   `closed → opening → open → closing → closed`. The two transitional phases
+   exist so the sheet can wipe in and out; the two settled phases are the only
+   ones the rest of the component reasons about.
+
+   MEASURED DEFECT (the reason this is written out rather than delegated to
+   `AnimatePresence`): the sheet used to unmount through `AnimatePresence` and
+   run its whole teardown — releasing the scroll lock, `inert` and
+   `aria-hidden`, restoring focus, performing the pending navigation — inside
+   `onExitComplete`. Under `prefers-reduced-motion: reduce` the exit target was
+   deliberately identical to the animate target (nothing may move), so Framer
+   scheduled no exit animation, `onExitComplete` never fired, and the teardown
+   never ran. At 320, 375 and 1280, on `/` and on `/hakkimizda`, the menu then
+   could not be closed by Escape (pressed twice, polled 12s), by the close
+   button, or by activating a link: `body`/`html` stayed `overflow:hidden`,
+   `#root` stayed `inert` + `aria-hidden`, a 1200px wheel was absorbed, and
+   only a reload recovered. A permanent modal trap — WCAG 2.1 SC 2.1.2 — on the
+   site's only navigation, aimed squarely at the readers the reduced-motion
+   path exists to serve.
+
+   The rule that follows, and the same one `src/lib/hero-shell.ts` learned in
+   Phase 01: A CLEANUP THAT ONLY RUNS WHEN AN EVENT FIRES WILL EVENTUALLY NOT
+   RUN. So correctness never rides on a callback here.
+
+     - The sheet is rendered by `phase`, plain conditional rendering. No
+       presence library gets to decide whether it unmounts.
+     - `settleClose` is driven by an effect on `phase === "closing"` with a
+       timer, so it is scheduled the moment the close is requested and cannot
+       be skipped by any motion mode, interrupted transition or dropped frame.
+     - `onAnimationComplete` may only make that happen EARLIER. It is an
+       accelerator, never the mechanism.
+     - `settleClose` is idempotent — it reads `phaseRef`, so the accelerator
+       and the net can both fire and the pending navigation still happens once.
+
+   The net is generous on purpose: it is not the schedule, it is the floor. */
 type MenuPhase = "closed" | "opening" | "open" | "closing";
+
+/** Longest sheet transition is `NAV_MOTION.open`'s 620ms; this is that + 45%. */
+const MENU_SETTLE_FALLBACK_MS = 900;
 
 const groups = navigationItems.filter((item) => item.children?.length);
 const SECTION_IDS: string[] = landingSections.map((section) => section.id);
@@ -114,6 +152,11 @@ const shouldCollapseCategories = () =>
 export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => {
   const owns = useHeaderOwnership();
   const [phase, setPhase] = useState<MenuPhase>("closed");
+  /* The committed phase, readable from a timer or an animation callback that
+     fires long after the render that scheduled it. Synced first, so every
+     effect and callback declared below reads the value React just committed. */
+  const phaseRef = useRef<MenuPhase>("closed");
+  useEffect(() => { phaseRef.current = phase; }, [phase]);
   const [activeGroup, setActiveGroup] = useState(0);
   const [activeCategory, setActiveCategory] = useState(() => (shouldCollapseCategories() ? -1 : 0));
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -130,7 +173,9 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
   const location = useLocation();
   const navigate = useNavigate();
   const reducedMotion = usePrefersReducedMotion();
-  const isVisible = phase === "opening" || phase === "open";
+  /* The sheet is mounted for every phase but "closed" — including "closing",
+     which is what keeps the exit animation on screen without handing the
+     unmount decision to a presence library. */
   const modalActive = phase !== "closed";
   const active = groups[activeGroup];
   const onLanding = location.pathname === "/";
@@ -358,7 +403,15 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
     };
   }, [modalActive, requestClose]);
 
-  const finishExit = () => {
+  /* ── The one teardown, and the only way out of "closing" ────────────────
+     Idempotent by the `phaseRef` guard: the timer net below and the animation
+     accelerator may both call it, and a re-open mid-close disarms it, because
+     only the committed phase decides whether there is still a close to settle.
+     Setting `phaseRef` before `setPhase` closes the window between two
+     synchronous calls in the same tick. */
+  const settleClose = useCallback(() => {
+    if (phaseRef.current !== "closing") return;
+    phaseRef.current = "closed";
     setPhase("closed");
     const href = pendingHref.current;
     const section = pendingSection.current;
@@ -366,17 +419,20 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
     pendingSection.current = null;
     if (href) { navigate(href); return; }
     if (section) {
-      // NOT scrolled here. `finishExit` runs inside Framer's exit callback, and
-      // the modal effect's cleanup — which restores the scroll position the
-      // menu was opened at — is committed by React AFTER it. Scrolling from
-      // here was measured to be undone every time: the band moved to 2835 and
-      // the cleanup put it straight back to 0. The scroll is handed to the
-      // effect below, which React guarantees runs after that cleanup.
+      // NOT scrolled here. `setPhase("closed")` is what triggers the modal
+      // effect's cleanup — which restores the scroll position the menu was
+      // opened at — and React commits that cleanup AFTER this function
+      // returns. Scrolling from here was measured to be undone every time: the
+      // band moved to 2835 and the cleanup put it straight back to 0. The
+      // scroll is handed to the effect above, which React guarantees runs
+      // after that cleanup.
       if (onLanding) pendingSectionScroll.current = section;
       else navigate(`/#${section}`);
       return;
     }
     if (!restoreFocus.current) return;
+    // The trigger is only rendered once `modalActive` is false, so the first
+    // attempt can land before it exists. Retry briefly rather than assume.
     let attempts = 0;
     const focusTrigger = () => {
       const trigger = triggerRef.current;
@@ -388,6 +444,25 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
       if (attempts < 6) window.setTimeout(focusTrigger, 40);
     };
     window.setTimeout(focusTrigger, 0);
+  }, [navigate, onLanding]);
+
+  /* ── The net: both transitions settle on state, not on an event ──────────
+     Under reduced motion there is no animation to wait for at all, so the
+     settle is scheduled for the next task. Otherwise the sheet is given its
+     full transition plus margin, and `onAnimationComplete` normally gets there
+     first — which is the only thing that callback is allowed to affect. */
+  useEffect(() => {
+    if (phase !== "opening" && phase !== "closing") return;
+    const settle = phase === "closing"
+      ? settleClose
+      : () => setPhase((current) => (current === "opening" ? "open" : current));
+    const timer = window.setTimeout(settle, reducedMotion ? 0 : MENU_SETTLE_FALLBACK_MS);
+    return () => window.clearTimeout(timer);
+  }, [phase, reducedMotion, settleClose]);
+
+  const handleSheetAnimationComplete = () => {
+    if (phaseRef.current === "closing") { settleClose(); return; }
+    if (phaseRef.current === "opening") setPhase("open");
   };
 
   const activeSectionEntry = landingSections.find((section) => section.id === activeSection);
@@ -440,12 +515,18 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
       )}
 
       {createPortal(
-        <AnimatePresence onExitComplete={finishExit}>
-          {/* A non-owning instance never opens: `isVisible` can only become
+        <>
+          {/* Mounted by `phase`, not by a presence library. `AnimatePresence`
+              used to own this unmount, and with it the whole teardown; see the
+              MenuPhase note above for what that cost under reduced motion. The
+              sheet now stays mounted through "closing" because THIS component
+              says so, and leaves when `settleClose` says so.
+
+              A non-owning instance never opens: `modalActive` can only become
               true through this instance's own trigger, which it does not
-              render. Keeping the portal mounted regardless preserves the exit
-              animation if ownership changes while the menu is closing. */}
-          {isVisible && (
+              render. Keeping the portal itself mounted regardless preserves an
+              in-flight close if ownership changes mid-transition. */}
+          {modalActive && (
             <motion.div
               ref={panelRef}
               id="fullscreen-navigation"
@@ -456,10 +537,13 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
               className="tl-menu"
               variants={navSheetVariants}
               initial={reducedMotion ? "visible" : "hidden"}
-              animate="visible"
-              exit={reducedMotion ? "visible" : "exit"}
+              // Reduced motion holds "visible" through the close too: the sheet
+              // must not move, it simply stops being rendered. That is what
+              // made the old `exit` a no-op, and it is exactly why the teardown
+              // no longer depends on an exit animation existing.
+              animate={phase === "closing" && !reducedMotion ? "exit" : "visible"}
               transition={reducedMotion ? NAV_MOTION.reduced : NAV_MOTION.open}
-              onAnimationComplete={() => phase === "opening" && setPhase("open")}
+              onAnimationComplete={handleSheetAnimationComplete}
             >
               <div className="tl-menu-sheet">
                 <div className="tl-menu-rail" aria-hidden="true"><span>00</span><small>MENÜ</small></div>
@@ -529,7 +613,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
               </div>
             </motion.div>
           )}
-        </AnimatePresence>,
+        </>,
         document.body,
       )}
     </>
