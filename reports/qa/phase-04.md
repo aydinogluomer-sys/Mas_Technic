@@ -273,7 +273,114 @@ minified output, so a Turkish-literal grep would have produced a false
 "absent". `src/components/technical-landing/MarqueeBand.tsx` is a **different,
 live** component and is correctly present.
 
-### Block 6+ — see below
+### Block 6 — AC3, AC6, AC7, AC8, S4, S5, AC10 (critical), AC11
+
+**`test:e2e:critical`** (`--project=critical-1280 --project=critical-375`,
+`PLAYWRIGHT_BASE_URL=http://localhost:4200`, preview on port **4200** because
+4173 and 4199 were occupied):
+
+```
+1 failed
+  [critical-1280] › landing-process-flow.spec.ts:163 › the connector matrix holds at every measured width
+3 skipped
+136 passed (25.5m)
+```
+
+The single failure is **`Tearing down "context" exceeded the test timeout of
+60000ms`** — a teardown timeout, not an assertion. The same test passed at
+`critical-375` in 8.7 s inside the same run. Re-run in isolation with nothing
+else on the machine:
+
+```
+✓ 1 [critical-1280] › ...the connector matrix holds at every measured width (8.7s)
+✓ 2 [critical-1280] › ...the connector matrix holds at this project's own viewport (4.2s)
+2 passed (15.5s)   EXIT=0
+```
+
+Classified **environmental** (CPU contention with my concurrent probes), not a
+Phase 04 defect. `reports/qa/tools/p04-e2e-processflow-isolated.log`.
+
+**Adversarial probe** (`reports/qa/tools/probe-transition.mjs`, written
+independently of the Coder's spec, entirely user-driven — real clicks, real
+Back/Forward, real key presses):
+
+*AC3 — PASS.* Direct load mounts exactly one curtain; the panel carries a real
+CSS keyframe animation (`animation-name: route-curtain`, `1.06 s`) so the
+transition still animates. Client navigation, Back and Forward each land on the
+right URL with exactly **1** `[data-route-transition]`, **1** header and **1**
+`<main>`, and no stranded lock. Direct load of a deep route is a single subtree.
+
+*S4 — PASS, and the fix is structural.* `src/components/PageTransition.tsx`
+contains no `AnimatePresence`, no `setTimeout`, and no route-change listener;
+`[data-route-curtain]` is keyed on `location.pathname` and sits **outside** the
+routed subtree, and `{children}` is a single unkeyed node. The curtain is driven
+by CSS keyframes ending at `scaleY(0)`. Measured: `transitionWrappers`,
+`headers` and `mains` were 1/1/1 at every observation point across ~40
+navigations, including mid-flight. No papering-over mechanism was added.
+
+*AC7 — PASS, two independent ways.*
+- The Coder's own gate, `--repeat-each=8`: **8 passed (2.0m), EXIT=0**
+  (`reports/qa/tools/p04-b25-repeat8.log`).
+- My own user-driven probe (build the `/#sektorler` → `/hakkimizda` history,
+  Back, open the menu, press Forward, poll 4 s for release, then verify the
+  trigger still works): **8/8 OK**, every round `menu=false inert=false
+  htmlOverflow=clip visible triggers=1 headers=1 mains=1 wrappers=1
+  landingRoots=0 triggerWorks=true`. B25's three symptoms — stranded lock,
+  doubled trigger, dead trigger — all absent.
+
+*AC8 — PASS.* Attack 1: six iterations of click-link → click again 80 ms into
+the curtain → Back → Forward. Attack 2: twelve route swaps at 90 ms intervals,
+faster than the 1.06 s curtain. After both: exactly one wrapper/header/main, no
+`inert`, no `overflow:hidden`, and **no curtain panel captures pointer events**
+(all six `pointer-events: none`). No stuck-transition state was reachable.
+
+One probe assertion initially reported red — *"the site is still fully navigable
+after the hammering"*. Diagnosed and dismissed as **my own selector bug**: the
+menu publishes **two links whose accessible name is exactly `İletişim`**,
+`/#iletisim` (the landing section) and `/iletisim` (the route). `.first()`
+matched the anchor, the page scrolled correctly, and `waitForURL("**/iletisim")`
+timed out on a navigation that never should have happened. Re-verified with an
+unambiguous selector: `/sss`, `/blog` and every direct route load navigate fine.
+
+*A separate, genuine observation surfaced while chasing that* — see
+"Discrepancies found" item D2 (heavy-route mount race on `/malzemeler`).
+
+*S5 — PASS.* All three auth routes measured live:
+
+| route | headers | footers | mains | `main` id | skip href | target exists |
+|---|---|---|---|---|---|---|
+| `/giris` | 0 | 0 | 1 | `main-content` | `#main-content` | yes |
+| `/sifremi-unuttum` | 0 | 0 | 1 | `main-content` | `#main-content` | yes |
+| `/reset-password` | 0 | 0 | 1 | `main-content` | `#main-content` | yes |
+
+Header/footer counts unchanged (still zero — `navigation={false} footer={false}`),
+and each now has the `<main id="main-content">` the skip link previously had no
+target for.
+
+*AC6 — PASS.* `/teklif-al` renders `footer.tl-footer` (298 px, 53 links). Its
+legal run and the result of actually clicking each link:
+
+```
+KVKK               -> /kvkk                  h1="KVKK Aydınlatma Metni"   404=false
+Gizlilik Politikası-> /gizlilik-politikasi    h1="Gizlilik Politikası"     404=false
+Çerez Politikası   -> /cerez-politikasi       h1="Çerez Politikası"        404=false
+```
+
+The `src/pages/TeklifAl.tsx:54` "imports `Footer`, never renders it" defect is
+closed.
+
+**AC11 — PASS.** `PROBE_BASE_URL=http://localhost:4200 node scripts/grid-axis-probe.mjs`:
+
+```
+GRID AXIS PROBE: PASS — every measured edge sits on a master axis (tolerance 1px).
+GRID_EXIT=0
+```
+
+339 measured edges, **0 off-grid** (`grep -c "OFF" = 0`). The new
+`Footer body / brand / nav / nav columns #1–#4 / title block` rows are all `OK`
+on C0/C4/C6/C8/C10/C12 — the consolidated footer stayed on the master grid.
+
+### Block 7+ — see below
 
 ---
 
