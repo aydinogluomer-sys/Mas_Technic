@@ -731,3 +731,91 @@ npm run typecheck
 
 - Production files modified by QA: NONE
 - Test/report files modified by QA: `reports/qa/phase-04.md`, `reports/qa/tools/**`
+
+---
+---
+
+# RE-VERIFICATION — correction packet #1
+
+Original FAIL findings above are retained verbatim. This section verifies only
+what was sent back: D0, D1, the new gate's teeth, the "no other split" claim,
+the B24 contradiction and the axe-node-count drop.
+
+- Code under test: `9809889`, `829cadf`, `94f87c3`, `fe42ce8`; integration HEAD `97e134b`
+- Prior QA FAIL commit: `4dc80d4`
+- Worktree: `C:\Users\Trade Bilisim\pdh-wt\qa-p04c` on `wt/qa-p04c`
+- Machine note: ~0.5 GB free of 7.85 GB. All suites run serially against one
+  prebuilt `dist/`. Any `ERR_INSUFFICIENT_RESOURCES` is recorded as
+  environmental, not as a code defect.
+
+## Scope integrity
+
+`git diff --name-status 4dc80d4 97e134b` — 7 files, all allowlisted for the Coder:
+
+```text
+M  e2e/__golden__/win32/visual-375/landing-fullpage.png
+M  e2e/__golden__/win32/visual-375/shell-footer-home.png
+A  e2e/landing/shell-cascade-contract.spec.ts
+M  src/components/shell/PageShell.tsx
+A  src/components/shell/useScrollableRegionAccess.ts
+M  src/styles/master-grid.css
+M  src/styles/shell.css
+```
+
+No existing spec file was modified, so no assertion could have been weakened,
+skipped or deleted in place. The only `e2e/` change is one added spec plus two
+regenerated 375 goldens. 1280 and 1440 goldens untouched. SCOPE INTEGRITY: PASS.
+
+## Static gates
+
+| Gate | Result |
+|---|---|
+| `npm run typecheck` (3 projects) | PASS, exit 0 |
+| `npm run lint` (`eslint .`) | PASS, no output |
+| `npm run build` | PASS, built in 57.04s |
+
+## R1 (structure) — D0 fix is in the right file at the right specificity
+
+`src/styles/master-grid.css`: base `.tl-sheet { border-inline: var(--tl-rule-size) solid var(--tl-rule) }`
+at line 75; override `@media (max-width: 767px) { .tl-sheet { border-inline: 0 } }`
+at line 85, in the same file, ten lines below its base. No `!important`, no
+specificity bump — confirmed by `grep -rn "border-inline" src/`. `shell.css:87`
+now carries only a comment where the override used to be. The override is
+therefore inlined into exactly the chunks its base is.
+
+## R3 — the "no other split" claim, verified independently
+
+Two tools were written for this, both parsing the emitted CSS with **postcss**
+rather than regex, and both covering **all three** emitted chunks — not just the
+two the Coder diffed (`index-BibnsWyF.css`, the entry chunk, was outside the
+Coder's stated diff).
+
+- `reports/qa/tools/p04c-chunk-split-audit.mjs` — selector-level first pass.
+- `reports/qa/tools/p04c-cascade-split-precise.mjs` — the precise D0 shape:
+
+> carriers(S,P) = chunks declaring (S,P) at base context.
+> For every override context C where SOME carrier declares (C,S,P):
+> if not ALL carriers declare it, that is a D0-shaped split.
+
+Result on the fixed build:
+
+```text
+Index-C3pIdRxX.css:     388 selectors
+PageShell-Nrxx0bdD.css: 260 selectors
+index-BibnsWyF.css:    1786 selectors
+
+(selector,property) pairs with a DUPLICATED base across chunks: 83
+D0-SHAPED SPLITS: 0
+```
+
+The 83 duplicated-base pairs are a **larger** duplication surface than the
+Coder's report of "5 shared selectors, 10 identical rules": `.tl-band` x5,
+`.tl-grid` x8, `.tl-sheet` x4, `.tl-subgrid` x7 and 59 `:root` custom
+properties are all inlined into both chunks. The Coder undercounted its own
+exposure, but its conclusion is correct: **zero** of those 83 has an override
+that ships in one carrier and not the other.
+
+The selector-level pass additionally reports 0 value conflicts and 0 splits for
+`.tl-sheet` / `.tl-band` / `.tl-grid` / `.tl-subgrid`. Its only other hits were
+on a bogus selector token `:focus-visible)` produced by naive comma-splitting
+inside `:is(...)`; the precise tool splits parens-aware and those disappear.
