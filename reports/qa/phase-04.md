@@ -5,7 +5,12 @@
 - BASE FOR DIFF: `77f9f7c`
 - WORKTREE: `C:\Users\Trade Bilisim\pdh-wt\qa-p04b` (branch `wt/qa-p04b`)
 - QA_COMMIT: (see git log of this file)
-- STATUS: IN PROGRESS
+- STATUS: **FAIL**
+- TESTS_PASSED: 185
+- TESTS_FAILED: 1 (environmental teardown timeout; green in isolation)
+- TESTS_SKIPPED: 3
+- NEW_TESTS_ADDED: 0 (19 QA-owned probe tools under reports/qa/tools/**)
+- S1_INTENT_VERDICT: **REGRESSION**
 
 > Note on commit SHAs: the task packet listed `7d01465 d2c7dc1 6a3bc84 f3cd3f5 a059aef`.
 > The commits actually present on this worktree between `77f9f7c` and `a695c0a` are
@@ -380,7 +385,322 @@ GRID_EXIT=0
 `Footer body / brand / nav / nav columns #1–#4 / title block` rows are all `OK`
 on C0/C4/C6/C8/C10/C12 — the consolidated footer stayed on the master grid.
 
-### Block 7+ — see below
+### Block 7 — AC1, AC2, AC9, AC10, AC12
+
+**AC9 — PASS.** `npm run typecheck` `TYPECHECK_EXIT=0`; `npm run lint`
+`LINT_EXIT=0`; `npm run build` `BUILD_EXIT=0`, `✓ built in 1m 24s`.
+
+**AC10 — PASS.**
+
+| suite | result |
+|---|---|
+| `test:e2e:critical` | 136 passed, 3 skipped, 1 failed (teardown timeout, green in isolation) |
+| `test:e2e:visual` | **27 passed**, `VISUAL_EXIT=0` |
+| `test:e2e:smoke` | **12 passed**, `SMOKE_EXIT=0` (WebKit + Firefox, 390 and 1440) |
+| B25 `--repeat-each=8` | **8 passed**, `EXIT=0` |
+| process-flow isolated | 2 passed, `EXIT=0` |
+
+Phase 03 navigation guarantees re-verified inside this run: the teardown matrix
+(`navigation-teardown.spec.ts`, including the reduced-motion Escape and
+close-button lanes) and the reachability set
+(`navigation-reachability.spec.ts`, all 5 tests at both critical widths) are
+green.
+
+**AC1 — PASS.** `probe-ac2-contract.mjs`, 20 routes × 3 widths (1280/768/375),
+fully settled: `shellRoots=1`, `mains=1`, `main.classList` contains
+`shell-main` on every public route; `headers=1 footers=1` on all 17 non-auth
+routes; `headers=0 footers=0` on the 3 auth routes by design. The families
+covered are landing, company, contact, FAQ, journal index, journal article,
+material index, material category, RFQ, three legal pages, service detail,
+service category, capability detail, industry detail, 404 and the auth trio.
+
+One route initially read `shellRoots=0` at 768 (`/hizmetler/cnc-frezeleme`).
+Chased with `probe-768-servicedetail.mjs`: **5/5 rounds** and **6 neighbouring
+widths (744/767/768/769/800/1024)** all report `shellRoots=1 headers=1
+footers=1 mains=1 h1="CNC Frezeleme"`, with **no console or page errors**. The
+first reading was my probe's own 700 ms settle being shorter than that lazy
+chunk's mount. **Not a defect.**
+
+**AC2 — PASS.** The rail/grid/rule/typography contract resolves on every inner
+page, read from the browser rather than the stylesheet:
+
+- `--tl-rail` resolves and the rail element *renders at that exact width* at
+  every breakpoint: **64 px @1280, 56 px @768, 42 px @375**.
+- `--tl-cols` resolves to **12 / 6 / 4**, and the footer band's
+  `grid-template-columns` resolves to **13 / 7 / 5** tracks — rail + cols — on
+  every non-auth route.
+- `--tl-font-mono`, `--tl-font-serif`, `--tl-rule`, `--tl-rule-size`,
+  `--tl-sheet-max` (`1600px`) and `--tl-gap` all resolve on every route.
+- On the pages that already use the field, the first body child lands exactly
+  on the rail axis (`content=65/65` at 1280, `57/57` at 768, `42/42` at 375).
+
+Where inner-page bodies do *not* sit on the field (`/hakkimizda` 192,
+`/iletisim` 304, `/blog/:slug` 528 at 1280) the cause is the body's own
+shadcn container, not the shell — and the criterion is that the contract be
+**available**, which it is. Inner-page bodies are the listed Phase 07/08
+carry-forward.
+
+**AC12 — FAIL (1 new serious node), with a second finding the Orchestrator
+must rule on.**
+
+*The shell itself is clean.* `probe-axe-attribution.mjs`, 13 routes × 2 widths,
+axe with `wcag2a/2aa/21a/21aa`, scoping the header and the footer directly and
+then attributing every whole-page node:
+
+```
+scopedHeader = 0 on all 10 routes that mount it, at both widths
+scopedFooter = 0 on all 10 routes that mount it, at both widths
+TOTAL serious/critical nodes attributable to the SHELL (or outside <main>): 0
+```
+
+`/`, `/hakkimizda`, `/kvkk`, `/gizlilik-politikasi`, `/cerez-politikasi` and the
+404 are entirely clean at 1280 and 375. That is a real achievement of this
+phase and it is what the re-aimed assertion in
+`shared-shell-accessibility.spec.ts` was reaching for.
+
+*But there is a new violation, and it is caused by the shell.* Re-running the
+**identical Phase 03 QA tool** (`p03-axe-audit.mjs`, same tags, copied to
+`p04-axe-same-tool.mjs`) against the Phase 04 build and diffing against the
+committed `p03-axe-results.json` baseline:
+
+| lane | Phase 03 baseline | Phase 04 | delta |
+|---|---|---|---|
+| 1280 `/` closed / open | 0 / 0 | 0 / 0 | — |
+| 375 `/` closed / open | 0 / 0 | 0 / 0 | — |
+| 1280 `/hizmetler/cnc-frezeleme` closed | `color-contrast` ×28, `scrollable-region-focusable` ×1 | `scrollable-region-focusable` **×2** | **+1 node** |
+| 375 `/hizmetler/cnc-frezeleme` closed | `color-contrast` ×28 | none reported | see below |
+
+**D1 — NEW serious node: `scrollable-region-focusable` 1 → 2 at 1280.**
+Causally attributed, not guessed (`probe-b24-delta.mjs`):
+
+```
+horizontally scrollable regions at 1344px (= 1280 + the 64px rail): 1
+horizontally scrollable regions at 1280px:                          2
+```
+
+Both regions are `div.relative.w-full.overflow-auto` inside `<main>`, with
+`scrollWidth` 776 and 840 against `clientWidth` **743**; neither has a
+`tabindex` nor contains a focusable descendant. Measured geometry on that page
+at 1280: `sheet w=1280`, `main w=1278`, `rail w=64`, content field
+`left=65 w=1214`. The shell's 64 px rail narrowed the inner-page content field,
+and a table that previously fitted now overflows. This is a **WCAG 2.1.1
+keyboard-access defect**: a keyboard-only reader cannot scroll that table to
+the columns that are cut off. It is inside the page body, so the Coder's
+re-aimed assertion ("no blocking node outside `main#main-content`") passes over
+it.
+
+**D3 — B24 was WORSENED, and axe's silence is not a fix.** The packet asked me
+to confirm B24 was neither fixed nor worsened. It was worsened, and the 28
+`color-contrast` violations did not disappear because they were repaired — they
+moved into axe's `incomplete` bucket (`probe-b24-incomplete.mjs`):
+
+```
+1280px: violations = scrollable-region-focusable x2
+        INCOMPLETE = serious color-contrast x13
+          "Element's background color could not be determined because it is
+           overlapped by another element"
+375px:  violations = (none)
+        INCOMPLETE = serious color-contrast x11
+          "Element's background color could not be determined due to a
+           background gradient"
+```
+
+The flagged elements are still rendered and still low contrast — measured
+directly on the page: 6 chips, `color: rgb(10,125,138)`, own background
+`rgba(10,125,138,0.1)`, first opaque ancestor `rgb(249,248,245)`, `12px/700`
+(small text, 4.5:1 required). Composited and recomputed:
+
+| ground | composited chip background | contrast |
+|---|---|---|
+| Phase 03, `#ffffff` | `rgb(231,242,243)` | **4.261 : 1** |
+| Phase 04, measured `#f9f8f5` | `rgb(225,236,234)` | **4.025 : 1** |
+
+The same effect on `/sss`, which axe *does* still report: `#94a0ab` on the new
+`#fbf8f1` ground reads **2.51 : 1**, against **2.67 : 1** on pure white. The
+paper surface moved already-failing inner-page text further from the floor.
+That is the explicitly listed *"inner-page bodies on the shadcn light theme
+(Phases 07/08)"* carry-forward, so it is not scored as a Phase 04 failure —
+but the Coder's comment in `shared-shell-accessibility.spec.ts` describing
+these nodes as *"already failing"* understates it: they are failing **more**,
+and the phase's own change made them so.
+
+*Full sweep, for the correction packet* (`probe-axe.mjs`, 16 routes × 2 widths,
+97 serious + 16 critical nodes total, **all in page bodies**):
+
+| route | 1280 | 375 |
+|---|---|---|
+| `/`, `/hakkimizda`, `/kvkk`, `/gizlilik-politikasi`, `/cerez-politikasi`, 404 | clean | clean |
+| `/hizmetler/cnc-frezeleme` | `scrollable-region-focusable` ×2 | clean |
+| `/sss` | `color-contrast` ×34 | ×34 |
+| `/blog` | `color-contrast` ×8, `select-name` ×1 | same |
+| `/iletisim` | `color-contrast` ×1, `label` ×1, `select-name` ×2 | ×3 |
+| `/malzemeler` | `select-name` ×2 | ×2 |
+| `/teklif-al` | clean | **`button-name` ×4 (critical)** |
+| `/giris` | `color-contrast` ×3 | ×3 |
+| `/sifremi-unuttum`, `/reset-password` | `color-contrast` ×1 each | ×1 each |
+
+**D4 (unproven whether new).** `/teklif-al` at **375** carries 4 **critical**
+`button-name` nodes ("Element does not have inner text that is visible to
+screen readers") on the RFQ stepper — the primary conversion page, at mobile.
+At 1280 the same page is clean. I cannot call this new: the Phase 03 same-tool
+baseline covers only `/` and `/hizmetler/cnc-frezeleme`, and Phase 03's prose
+"`/teklif-al` clean" does not state a width. Recorded so it is not lost.
+
+### Block 8 — the assertion changes, judged
+
+| change | verdict |
+|---|---|
+| `footer.bantOrani < 0.17` → `< 0.26` | **re-aim, not a weakening** — empirically breached by all three named degradations at the gate's own width (Block 4) |
+| `malzemeler-sticky`: `"KVKK Aydınlatma Metni"` → `"KVKK"` | **rename** — verified: `legalLinks` in `ia.ts` publishes the label `KVKK` and the destination `/kvkk` is unchanged and reachable |
+| `footer-reveal` ROUTES 3 → 5, `scroll-snap-regression` 2 → 3 | **broadening** — strictly more coverage |
+| `shared-shell-accessibility`: `/teklif-al` moved into the full-shell set; 89 → 90 routes; 404 exception `header:0 footer:0` → `1/1` | **strengthening** — the shell's presence is now required where its absence used to be tolerated |
+| `technical-landing`: wait for menu animations to settle before the axe scan | **legitimate** — measures the settled colour instead of a mid-fade composite; scope unchanged; bounded by a 10 s poll |
+| `shared-shell-accessibility`: `every node.html.includes("text-primary/30")` → `no blocking node outside main#main-content` | **mixed.** Stricter about the shell (any shell node now fails, whatever its class) and demonstrably satisfied — the shell scores 0. But it no longer bounds the *quantity or identity* of body debt, so a newly-introduced body violation passes it. D1 is exactly such a violation. Not scored as a §12 violation, but the gap is real and should be closed by pinning a node-count inventory per route. |
+| `[data-footer-information-band]` → `getByRole("contentinfo")` for the reduced-motion animation check | **broadening** — one band → the whole footer |
+| `footer .container-industrial` → `footer` for safe-area padding | **equivalent** — the deleted mega footer put the inset on the Tailwind container; the surviving band puts it on itself. Verified: the assertion still measures that no content escapes the safe area on any of four edges |
+
+No skips, xfails or deleted coverage were introduced. Golden regeneration is
+the one §12 concern, and it is D0 below.
+
+### Block 9 — final verdict
+
+**STATUS: FAIL.**
+
+Phase 04 is, in most respects, a strong and well-evidenced piece of work: one
+shell on 20 routes across 3 widths, one footer, one route subtree, B25 closed
+structurally and reproducibly (8/8 twice, by two independent methods), the 404
+WCAG 2.2.1 hijack removed, `/teklif-al` given a working footer, the grid held
+at 339 measured edges, and **zero** serious/critical axe nodes anywhere in the
+shell itself. It fails on two specific, fixable items.
+
+## Acceptance criteria matrix
+
+| Criterion | Result | Evidence |
+|---|---|---|
+| AC1 all public families in one shell | **PASS** | `probe-ac2-contract.mjs` 20 routes × 3 widths, `shellRoots=1 mains=1 mainIsShell=true` everywhere; 768 anomaly disproved by `probe-768-servicedetail.mjs` (5/5 rounds, 6 widths) |
+| AC2 rail/grid/rule/type contract available to inner pages | **PASS** | rail renders 64/56/42 px = token; footer tracks 13/7/5 = cols+1; all six `--tl-*` tokens resolve on every route |
+| AC3 transition on direct load / client nav / Back / Forward | **PASS** | `probe-transition.mjs`: 1 curtain, `animation-name: route-curtain 1.06s`, 1/1/1 wrapper/header/main at every step |
+| AC4 `Footer.tsx`, `footer/**`, `ScrollProgress.tsx` gone, nothing imports them | **PASS** | files absent from disk; `grep` over `src e2e scripts index.html` finds only prose comments plus unrelated `heroScrollProgress` and a local `footerLinks` variable |
+| AC5 36 shell goldens across 6 surfaces | **PASS** | `git diff --name-status` → 36 added `shell-*` PNGs (6 surfaces × 2 captures × 3 widths); visual suite 27 passed |
+| AC6 `/teklif-al` footer with working legal links | **PASS** | footer present (298 px, 53 links); all three legal links clicked and landed on `/kvkk`, `/gizlilik-politikasi`, `/cerez-politikasi` with correct `h1` and no 404 shell |
+| AC7 B25 does not reproduce | **PASS** | Coder gate `--repeat-each=8` → 8 passed; independent user-driven probe → 8/8 clean |
+| AC8 no stuck transition from rapid clicks | **PASS** | two attacks; 1/1/1 after each, no `inert`, no `overflow:hidden`, all 6 curtain panels `pointer-events:none` |
+| AC9 typecheck / lint / build | **PASS** | exits 0, 0, 0 |
+| AC10 critical / smoke / visual + Phase 03 guarantees | **PASS** | 136 + 12 + 27 passed; the single red is a teardown timeout that passes in 8.7 s isolated; teardown matrix and reachability specs green |
+| AC11 grid probe 0 off-grid | **PASS** | `GRID AXIS PROBE: PASS`, 339 edges, `grep -c OFF = 0` |
+| AC12 no new serious/critical axe | **FAIL** | `scrollable-region-focusable` 1 → 2 on `/hizmetler/cnc-frezeleme` @1280, caused by the shell rail (2 regions at 1280, 1 at 1344) |
+
+## Scrutiny points
+
+| Point | Result | Evidence |
+|---|---|---|
+| S1 375 golden body change | **REGRESSION** | `.tl-sheet` keeps `border-inline:1px` at ≤767 on `/` only, because `technical-landing.css` re-imports `master-grid.css` into a later chunk; 1 px shift + a wrapped spec value + 15 px cascade; confirmed a third time by `shell-footer-home.png` being 373 px vs 375 px |
+| S2 `bantOrani` 0.17 → 0.26 | **PASS** | every Coder number verified to ≤1 px; all three named degradations empirically breach 0.26 at 1280 |
+| S3 footer link parity | **PASS** | all 4 detail pages and both anchors traced to `navigationItems` / `landingSections`; reachability gate green |
+| S4 B25 root cause structural | **PASS** | no `AnimatePresence`, no `setTimeout`, no new listener; curtain outside the routed subtree; transition still animates |
+| S5 auth routes in `PageShell` | **PASS** | 0 headers, 0 footers, 1 `<main id="main-content">`, skip-link target present on all three |
+| S6 pruned CSS rule | **PASS** | rule present in `dist/assets/PageShell-*.css`; it is the only `[data-chat-launcher]` rule in `dist/` |
+| S7 contrast fix | **PASS** | recomputed: new tokens 10.007:1 and 6.077:1; Coder's figures off by ≤0.12 but every conclusion holds |
+| S8 404 auto-redirect removed | **PASS** | no `window.location` outside a comment; page renders, is reachable, offers 4 recovery links + header + footer |
+| S9 unreferenced leftovers | **PASS** | none of the three reaches `dist/` (ASCII fingerprints used) |
+
+## Discrepancies found
+
+**D0 — the 375 landing golden pins a layout regression (BLOCKING).**
+`e2e/__golden__/win32/visual-375/landing-fullpage.png` was regenerated on the
+stated premise "footer growth and nothing else". That premise is true at 1280
+and 1440 and false at 375, where the whole body moved 1 px right and 15 px down
+and `120.00 × 72.00 × 68.00 mm` wraps onto two lines. Root cause:
+`src/styles/technical-landing.css:4` still `@import`s `master-grid.css`, so the
+landing chunk re-emits the base `.tl-sheet` rule after `shell.css` and defeats
+the `@media (max-width:767px){.tl-sheet{border-inline:0}}` override that Phase
+04 moved into `src/styles/shell.css:87`. Fix belongs in production code (make
+the override survive the cascade — e.g. keep it in the same stylesheet as the
+base rule, or raise its specificity), then regenerate the 375 golden.
+Independently visible in the Coder's own `shell-footer-home.png` (373 px vs
+375 px on every other surface).
+
+**D1 — new serious axe node (BLOCKING for AC12).**
+`scrollable-region-focusable` went 1 → 2 nodes on `/hizmetler/cnc-frezeleme` at
+1280. The shell's 64 px rail narrows the inner-page content field from 1278 to
+1214, pushing a 776 px table past its 743 px container. Neither region is
+keyboard-reachable. WCAG 2.1.1.
+
+**D2 — heavy-route mount race (non-blocking, record for Phase 09/13).**
+A menu-trigger click landing in the same frame as a heavy lazy route's mount
+opens nothing: `/malzemeler` **2/10** with motion on, **3/10** under reduced
+motion, `/kvkk` **0/10**. It is **not** the curtain (it reproduces identically
+with reduced motion, where no curtain is rendered) and it is **not** a stuck
+state — **0/10 unrecoverable**, versus B25's 8/8. State after a miss is fully
+clean (1 trigger, 1 header, 1 main, `aria-expanded=false`, no lock).
+
+**D3 — B24 worsened and is now masked.** See AC12 above: 4.261 → 4.025 on the
+measured chip, and axe reclassified 13 nodes (1280) / 11 nodes (375) from
+`violation` to `incomplete`. A future report reading only violation counts will
+believe B24 was fixed. It was not.
+
+**D4 — `/teklif-al` at 375 has 4 critical `button-name` nodes** on the RFQ
+stepper. Unproven whether new (no same-tool baseline at that route/width).
+
+**D5 — commit SHAs in the task packet do not match the worktree.** Packet
+listed `7d01465 d2c7dc1 6a3bc84 f3cd3f5 a059aef`; the worktree contains
+`9c66c47 7fee96e ce5303e 56c8831 a695c0a`. Same count, same integration HEAD
+`a695c0a`, so the audit target is unambiguous.
+
+**D6 — two menu links share the accessible name `İletişim`** (`/#iletisim` and
+`/iletisim`). Pre-existing (`ia.ts`, Phase 03) and it cost me a false probe
+failure. Worth a distinguishing label; owner is the navigation phase.
+
+**D7 — `technicalLandingData.footerColumns` is now dead data**, referenced only
+from comments. Cleanup for a later phase.
+
+## Commands run
+
+```text
+git diff --name-status 77f9f7c..a695c0a
+npm run typecheck                                   # exit 0
+npm run lint                                        # exit 0
+npm run build                                       # exit 0, 1m24s
+npm run preview -- --port 4200 --strictPort         # 4173 and 4199 occupied
+PLAYWRIGHT_BASE_URL=http://localhost:4200 npx playwright test \
+  --project=critical-1280 --project=critical-375    # 136 passed / 1 env-failed / 3 skipped
+  ... e2e/landing/landing-process-flow.spec.ts      # isolated re-run: 2 passed
+  ... -g "B25" --repeat-each=8                      # 8 passed
+  --project=visual-375 --project=visual-1280 --project=visual-1440   # 27 passed
+  --project=smoke-webkit-1440 --project=smoke-webkit-390 \
+  --project=smoke-firefox-1440 --project=smoke-firefox-390           # 12 passed
+PROBE_BASE_URL=http://localhost:4200 node scripts/grid-axis-probe.mjs # PASS, 339 edges
+PROBE_BASE_URL=http://localhost:4200 node reports/qa/tools/p04-axe-same-tool.mjs
+node reports/qa/tools/{golden-diff,golden-xshift,golden-rowprofile,golden-crop}.mjs
+node reports/qa/tools/{contrast,probe-s1-cause,probe-sheet-border}.mjs
+node reports/qa/tools/{probe-s2-footer-bound,probe-transition,probe-ac8-diagnose}.mjs
+node reports/qa/tools/{probe-trigger-clickability,probe-malzemeler-race}.mjs
+node reports/qa/tools/{probe-axe,probe-axe-attribution,probe-ac2-contract}.mjs
+node reports/qa/tools/{probe-b24-delta,probe-b24-incomplete,probe-768-servicedetail}.mjs
+```
+
+## Scope integrity — PASS
+
+- Production files modified by QA: **NONE**. No file under `src/**`,
+  `public/**`, `e2e/**`, `e2e/__golden__/**`, `scripts/**`, `docs/**`,
+  `index.html`, any config, `PROGRESS.md`, `IMPLEMENTATION.md` or
+  `USER_INPUTS.md` was written.
+- Test/report files modified by QA: `reports/qa/phase-04.md` and 19 read-only
+  probe tools under `reports/qa/tools/**` — both inside `QA_WRITE_ALLOWLIST`.
+- The S2 fifth-column breach was produced by **runtime DOM injection in a
+  throwaway browser context**; no `dist/` file and no source file was altered.
+- No credential was printed. `.env` untouched.
+- No repo test was added, weakened, skipped or deleted; no golden regenerated.
+
+## Notes
+
+- Preview ran on **port 4200** (4173 and 4199 were occupied), passed to
+  Playwright via `PLAYWRIGHT_BASE_URL` so the config's managed web server was
+  bypassed and `dist/` was reused.
+- `node_modules` (a Windows junction) was never reinstalled, pruned or removed.
+- Carry-forwards acknowledged and re-confirmed unchanged in kind: inner-page
+  bodies on the shadcn light theme (Phases 07/08), support-launcher FAB styling
+  (Phases 09/13), win32-only golden coverage, content wording (Phase 06).
 
 ---
 
