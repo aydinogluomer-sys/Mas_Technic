@@ -9,12 +9,16 @@ import {
  * An End-key journey must not trap the user before the footer. No
  * scrollIntoView workaround is allowed.
  *
- * `/` bu listede DEĞİL: üretim landing'i paylaşılan footer'ı değil kendi
- * `.tl-footer` bandını basar ve orada `© YYYY MAS TECHNIC` satırı yoktur.
- * Landing'in End-tuşu yolculuğu `e2e/landing/landing-structure.spec.ts`
- * içinde kendi sözleşmesiyle sınanır.
+ * FAZ 04 — `/` ARTIK BU LİSTEDE.
+ *
+ * Eski gerekçe iki ayrı footer'a dayanıyordu: "üretim landing'i paylaşılan
+ * footer'ı değil kendi `.tl-footer` bandını basar ve orada `© YYYY MAS
+ * TECHNIC` satırı yoktur". Faz 04 tek footer'a indirdi; hayatta kalan antet
+ * bloğu oldu ve mega footer'ın alt barından telif satırını da devraldı — bir
+ * site footer'ında onun bulunmaması eksiklikti. Yani gerekçenin iki dayanağı
+ * da ortadan kalktı ve kapsam üç rotaya çıktı.
  */
-const MOBILE_ROUTES = ["/sss", "/iletisim"] as const;
+const MOBILE_ROUTES = ["/", "/sss", "/iletisim"] as const;
 
 test.describe("FinalCTA → footer bottom-bar reachability (mobile)", () => {
   for (const route of MOBILE_ROUTES) {

@@ -30,8 +30,14 @@ test.describe("/malzemeler footer release contract", () => {
       footer.getByRole("link", { name: "Gizlilik Politikası" }),
       "materials footer privacy link",
     );
+    /* "KVKK Aydınlatma Metni" → "KVKK": a RENAME, not a relaxation. The long
+       label belonged to the deleted mega footer's bottom bar. The site's one
+       footer takes its legal run from `src/components/navigation/ia.ts`, where
+       the label is "KVKK" — the same label the landing footer and the menu
+       have always used, and the one `e2e/landing/landing-structure.spec.ts`
+       pins with `/^KVKK$/`. Same destination, same assertion. */
     await expectLocatorUnobscured(
-      footer.getByRole("link", { name: "KVKK Aydınlatma Metni" }),
+      footer.getByRole("link", { name: "KVKK" }),
       "materials footer KVKK link",
     );
 
