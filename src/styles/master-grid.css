@@ -32,6 +32,32 @@
    is a contract, not a default.
 
    Verified by `scripts/grid-axis-probe.mjs` and `e2e/landing/landing-grid-axes.spec.ts`.
+
+   OWNERSHIP RULE — WHERE A RESPONSIVE OVERRIDE OF THESE PRIMITIVES LIVES
+   ---------------------------------------------------------------------
+   This file is `@import`ed by BOTH `technical-landing.css` and `shell.css`, so
+   Rollup inlines every rule below into BOTH emitted chunk stylesheets
+   (`dist/assets/Index-*.css` and `dist/assets/PageShell-*.css`). On `/` the
+   browser loads both, and the landing chunk is injected LAST, so at equal
+   specificity the landing copy of a base rule wins.
+
+   MEASURED DEFECT THIS ENCODES: Phase 04 moved
+   `@media (max-width:767px){ .tl-sheet{ border-inline:0 } }` into `shell.css`
+   while the base `.tl-sheet` declaration stayed here. The base rule therefore
+   shipped in two chunks and its override in one, so the landing chunk's copy
+   of the base re-asserted the hairline. Measured at 375px: `/` reported
+   `border-inline 1px/1px` while `/sss`, `/hakkimizda`, `/teklif-al` and
+   `/blog` all reported `0px/0px`. The 2px narrower field wrapped one hero
+   dimension string and pushed ~8100 rows of the mobile landing down ~15px, and
+   put the whole mobile body 1px to the right.
+
+   THE RULE: a responsive override of a primitive declared in this file must be
+   declared in THIS file, immediately under the primitive it overrides. Then it
+   is inlined into exactly the same chunks as its base and travels with it, and
+   chunk order cannot separate them. Raising specificity or `!important` would
+   only paper over the split — the base would still be duplicated with its
+   override missing from one copy. Gated by
+   `e2e/landing/shell-cascade-contract.spec.ts`.
    ══════════════════════════════════════════════════════════════════════════ */
 
 .tl-sheet {
@@ -44,6 +70,15 @@
      which have no `.tl-sheet` at all. */
   border-inline: var(--tl-rule-size) solid var(--tl-rule);
   background: var(--tl-black);
+}
+
+/* Mobile drops the sheet's side rules: at 375px two hairlines cost 2px of a
+   375px field, which is a whole master column's worth of wrap pressure, and
+   the sheet is edge-to-edge there so the rules frame nothing. See the
+   OWNERSHIP RULE in this file's header for why it is declared HERE and not in
+   `shell.css`. */
+@media (max-width: 767px) {
+  .tl-sheet { border-inline: 0; }
 }
 
 /* `.tl-header-band` used to be listed here as a second band root. It is no

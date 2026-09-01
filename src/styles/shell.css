@@ -84,7 +84,14 @@
 /* At 42px a 7px mono caption such as "SEÇİLMİŞ PROJELER" wrapped into five
    stacked fragments. The numeral is the index; the name is desktop detail. */
 @media (max-width: 767px) {
-  .tl-sheet { border-inline: 0; }
+  /* `.tl-sheet { border-inline: 0 }`: MOVED to `src/styles/master-grid.css`,
+     directly under the `.tl-sheet` declaration it overrides. That file is
+     `@import`ed by this one AND by `technical-landing.css`, so its rules are
+     inlined into two chunk stylesheets; an override that lived only here
+     shipped in one of them, and the landing chunk — injected last on `/` —
+     re-asserted the base hairline. See the OWNERSHIP RULE in `master-grid.css`.
+     `.tl-band-index` and `.tl-status-badge` are declared in THIS file, so their
+     overrides correctly stay here. */
   .tl-band-index { padding-top: var(--tl-s2); gap: var(--tl-s1); }
   .tl-band-index span { width: 24px; height: 24px; font-size: 8px; }
   .tl-band-index small { display: none; }

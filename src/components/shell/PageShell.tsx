@@ -1,6 +1,7 @@
-import type { ReactNode, RefObject } from "react";
+import { useRef, type ReactNode, type RefObject } from "react";
 import { Header } from "@/components/Header";
 import { SiteFooter } from "./SiteFooter";
+import { useScrollableRegionAccess } from "./useScrollableRegionAccess";
 import "@/styles/shell.css";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -83,6 +84,13 @@ export function PageShell({
   testId,
   mainData,
 }: PageShellProps) {
+  /* The shell spends a rail column, so the field it hands a page body is
+     narrower than the body was written against and boxes that used to fit can
+     overflow. Every scrollable region inside the sheet therefore gets a focus
+     stop and a name — see `useScrollableRegionAccess.ts`. */
+  const sheetRef = useRef<HTMLDivElement>(null);
+  useScrollableRegionAccess(sheetRef);
+
   return (
     <div
       ref={rootRef}
@@ -91,7 +99,7 @@ export function PageShell({
       data-testid={testId}
     >
       {navigation && <Header />}
-      <div className="tl-sheet shell-sheet">
+      <div ref={sheetRef} className="tl-sheet shell-sheet">
         <main id="main-content" className="shell-main" data-shell-layout={layout} {...mainData}>
           {layout === "band" && (
             <div className="shell-rail" aria-hidden="true">
