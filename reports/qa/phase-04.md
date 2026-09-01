@@ -819,3 +819,104 @@ The selector-level pass additionally reports 0 value conflicts and 0 splits for
 `.tl-sheet` / `.tl-band` / `.tl-grid` / `.tl-subgrid`. Its only other hits were
 on a bogus selector token `:focus-visible)` produced by naive comma-splitting
 inside `:is(...)`; the precise tool splits parens-aware and those disappear.
+
+## R1 (runtime + artefacts) — D0 is genuinely fixed
+
+Preview served from the one prebuilt `dist/` on **port 4200** (4173 was already
+occupied by PID 6052). Playwright attached with `PLAYWRIGHT_BASE_URL`, so no
+suite rebuilt.
+
+`reports/qa/tools/probe-sheet-border.mjs` — the same probe that found the defect:
+
+```text
+===== 375px =====
+  /                        borderInline=0px/0px   css=index-*.css PageShell-*.css Index-*.css
+  /sss                     borderInline=0px/0px   css=index-*.css PageShell-*.css
+  /hakkimizda              borderInline=0px/0px
+  /teklif-al               borderInline=0px/0px
+  /blog                    borderInline=0px/0px
+  /hizmetler/cnc-frezeleme borderInline=0px/0px
+  /yok-boyle-bir-sayfa     borderInline=0px/0px
+
+===== 1280px =====
+  all seven routes         borderInline=1px/1px
+```
+
+`/` was `1px/1px` at 375 in the FAIL run and is now `0px/0px`, agreeing with
+every other route. At 1280 all routes keep `1px/1px`. The probe also confirms
+`/` is the **only** route that loads the landing chunk `Index-*.css`, which is
+why it is the only page where the split was observable — and why the spec picks
+`/` for its CSSOM audit.
+
+### Horizontal shift — `reports/qa/tools/golden-xshift.mjs`
+
+Old side = the last pre-Phase-04 375 golden, extracted from `77f9f7c` (the same
+source the FAIL run used).
+
+| rows | FAIL run (`4dc80d4`) | now (`97e134b`) |
+|---|---|---|
+| 100–760 (my original band) | min at **+1 px**, 3.419 % residual | min at **0 px**, **0.135 %** residual |
+| 400–900 (the Coder's band) | — | min at **0 px**, **0.178 %** residual |
+
+The minimum is at 0 px in both bands. Stronger than "re-centred": the residual
+at the minimum collapses from 3.419 % to 0.135 %, i.e. the mobile landing body
+is now essentially pixel-identical to the pre-Phase-04 baseline in that band.
+The Coder's reported figure (0 px / 0.178 %) reproduces exactly on its band.
+
+### Golden artefacts — `reports/qa/tools/p04c-png-dims.mjs` (IHDR, no decoder)
+
+| golden | `4dc80d4` | `97e134b` |
+|---|---|---|
+| `visual-375/shell-footer-home.png` | **373** x 741 | **375** x 741 |
+| `visual-375/landing-fullpage.png` | 375 x **8969** | 375 x **8962** |
+
+The footer golden recovers the 2 px the two hairlines were stealing. The
+fullpage golden is 7 px shorter, which is the hero dimension string
+un-wrapping. A height change of this kind cannot be produced by re-encoding an
+existing image, so the golden was regenerated from a build whose layout
+differs — and `test:e2e:visual` below re-confirms it matches the fixed build.
+1280 and 1440 goldens are byte-unchanged (not in the diff at all).
+
+**R1: PASS.**
+
+## R2 — does the new gate have teeth?
+
+`e2e/landing/shell-cascade-contract.spec.ts`, 5 tests x 2 projects.
+
+Against the fixed build, `critical-1280` + `critical-375`: **10 passed (25.0s)**,
+matching the Coder's claim.
+
+### Is the second assertion (`override >= base > 0 ? 1 : 0`) vacuous?
+
+`reports/qa/tools/p04c-cssom-audit-dump.mjs` reimplements the spec's
+classification and prints the raw counts it asserts on:
+
+```text
+===== / at 375px (CSS width 375, mobile=true) =====
+  PageShell-Nrxx0bdD.css: base=1 override=1  required>=1  ok
+  Index-C3pIdRxX.css:     base=1 override=1  required>=1  ok
+  -> stylesheets where the assertion actually bites (base>0): 2
+  -> VERDICT: NON-VACUOUS at this width
+
+===== / at 1280px (CSS width 1280, mobile=false) =====
+  ...identical numbers...
+  -> stylesheets where the assertion actually bites (base>0): 2
+  -> VERDICT: NON-VACUOUS at this width
+```
+
+Two findings:
+
+1. **Not vacuous.** Both shipped chunks carry `base=1`, so the `base > 0` branch
+   is the live one for both, on every run.
+2. **Genuinely width-independent, as claimed.** The counts are byte-identical at
+   375 and at 1280, because the CSSOM enumerates every rule irrespective of the
+   viewport. So this assertion would catch the split at 1280 — a width where the
+   *resolved* `border-inline` values agree and the first assertion is blind.
+   That is a real second line of defence, not a restatement of the first.
+
+One design caveat, recorded but not a failure: the non-vacuity guard on line 138
+is `results.length > 0`, which a stylesheet with `base=0, override=1` would
+satisfy while leaving the loop trivially true. The guard would be tighter as
+"at least one entry has `base > 0`". Empirically it bites on 2 of 2 chunks
+today, so the gate is armed; the caveat is only that its *self-check* is looser
+than the property it protects.
