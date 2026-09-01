@@ -1,10 +1,8 @@
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { PageShell } from "@/components/shell/PageShell";
 
+/* Shell only (Phase 04). See `KVKK.tsx` for the note; the body is untouched. */
 export const CerezPolitikasi = () => (
-  <div className="min-h-screen bg-background">
-    <Header />
-    <main className="pt-24 pb-16">
+  <PageShell rail={{ no: "L3", label: "ÇEREZ" }}>
       <div className="container-industrial">
         <div className="max-w-3xl mx-auto">
           <span className="text-xs font-semibold uppercase tracking-[0.4em] mb-3 block text-primary">Yasal</span>
@@ -18,7 +16,5 @@ export const CerezPolitikasi = () => (
           </div>
         </div>
       </div>
-    </main>
-    <Footer />
-  </div>
+  </PageShell>
 );

@@ -6,6 +6,7 @@ import { Loader2, AtSign, ChevronLeft, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PageShell } from "@/components/shell/PageShell";
 import { LoginLeftPanel } from "@/components/auth/LoginLeftPanel";
 
 export const ForgotPassword = () => {
@@ -28,7 +29,10 @@ export const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex">
+    /* Shell only (Phase 04) — see `Login.tsx` for the navigation/footer
+       decision. Body untouched. */
+    <PageShell navigation={false} footer={false} layout="bands" className="shell-auth">
+      <div className="min-h-screen w-full flex">
       <LoginLeftPanel isLogin={true} />
 
       <div className="w-full lg:w-[55%] flex items-center justify-center bg-background px-6 py-12">
@@ -95,6 +99,7 @@ export const ForgotPassword = () => {
           )}
         </motion.div>
       </div>
-    </div>
+      </div>
+    </PageShell>
   );
 };

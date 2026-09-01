@@ -1,6 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { PageShell } from "@/components/shell/PageShell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { ArrowLeft, Clock, Tag, Eye, Share2, Facebook, Twitter, Linkedin, Link2, MessageSquare, Send } from "lucide-react";
 import { motion } from "framer-motion";
@@ -17,16 +16,12 @@ export const BlogDetail = () => {
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <main className="pt-24 pb-16">
-          <div className="container-industrial text-center py-20">
-            <h1 className="heading-industrial text-3xl mb-4">Yazı Bulunamadı</h1>
-            <Link to="/blog" className="btn-industrial-primary">Blog'a Dön</Link>
-          </div>
-        </main>
-        <Footer />
-      </div>
+      <PageShell rail={{ no: "R2", label: "GÜNLÜK" }}>
+        <div className="container-industrial text-center py-20">
+          <h1 className="heading-industrial text-3xl mb-4">Yazı Bulunamadı</h1>
+          <Link to="/blog" className="btn-industrial-primary">Blog'a Dön</Link>
+        </div>
+      </PageShell>
     );
   }
 
@@ -52,10 +47,9 @@ export const BlogDetail = () => {
   const related = blogPosts.filter((p) => p.slug !== post.slug && p.category === post.category).slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    /* Shell only (Phase 04) — see `KVKK.tsx`. Body untouched. */
+    <PageShell rail={{ no: "R2", label: "İÇGÖRÜ" }}>
       <JsonLdSchema type="article" name={post.title} description={post.excerpt} datePublished={post.date} category={post.category} />
-      <main className="pt-24 pb-16">
         <article className="container-industrial max-w-4xl">
           {/* Back */}
           <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-6">
@@ -236,8 +230,6 @@ export const BlogDetail = () => {
             </motion.div>
           )}
         </article>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 };

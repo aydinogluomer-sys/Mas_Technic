@@ -1,5 +1,4 @@
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { PageShell } from "@/components/shell/PageShell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { Target, Users, Award, Globe } from "lucide-react";
 import { usePageMeta } from "@/hooks/use-page-meta";
@@ -7,10 +6,10 @@ import { usePageMeta } from "@/hooks/use-page-meta";
 export const Hakkimizda = () => {
   usePageMeta({ title: "Hakkımızda", description: "Mas Technic — hassas CNC işleme, talaşlı imalat ve mühendislik çözümleri sunan güvenilir üretim partneri." });
   return (
-  <div className="min-h-screen bg-background">
-    <Header />
-    <JsonLdSchema type="about" />
-    <main className="pt-24 pb-16">
+  /* Shell only (Phase 04). See `KVKK.tsx`; the body is untouched — Phase 07
+     owns this page's composition, and Phase 06 its claims. */
+  <PageShell rail={{ no: "C1", label: "KURUMSAL" }}>
+      <JsonLdSchema type="about" />
       <div className="container-industrial">
         <div className="max-w-4xl mx-auto">
           <span className="text-xs font-semibold uppercase tracking-[0.4em] mb-3 block text-primary">Kurumsal</span>
@@ -38,8 +37,6 @@ export const Hakkimizda = () => {
           </div>
         </div>
       </div>
-    </main>
-    <Footer />
-  </div>
+  </PageShell>
   );
 };

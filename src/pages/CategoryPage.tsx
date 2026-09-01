@@ -1,6 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { PageShell } from "@/components/shell/PageShell";
 import { categoryPages } from "@/data/categoryPages";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
@@ -15,16 +14,12 @@ export const CategoryPage = () => {
 
   if (!category) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <main className="pt-24 pb-16">
-          <div className="container-industrial text-center">
-            <h1 className="text-3xl font-bold mb-4">Sayfa Bulunamadı</h1>
-            <Link to="/" className="text-primary hover:underline">Ana Sayfaya Dön</Link>
-          </div>
-        </main>
-        <Footer />
-      </div>
+      <PageShell rail={{ no: "02", label: "KATEGORİ" }}>
+        <div className="container-industrial text-center">
+          <h1 className="text-3xl font-bold mb-4">Sayfa Bulunamadı</h1>
+          <Link to="/" className="text-primary hover:underline">Ana Sayfaya Dön</Link>
+        </div>
+      </PageShell>
     );
   }
 
@@ -36,9 +31,9 @@ export const CategoryPage = () => {
       : "Endüstriyel";
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <main className="pt-24 pb-16">
+    /* Shell only (Phase 04) — see `KVKK.tsx`. Body untouched; Phase 07 owns
+       the category page's composition. */
+    <PageShell rail={{ no: "02", label: "KATEGORİ" }}>
         <div className="container-industrial">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-xs text-muted-foreground mb-8">
@@ -109,8 +104,6 @@ export const CategoryPage = () => {
             </motion.div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 };

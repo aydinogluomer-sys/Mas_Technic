@@ -1,50 +1,12 @@
-import type { ElementType, ReactNode } from "react";
+/* The landing's band primitive is the SITE's band primitive now.
 
-export type TechnicalContentStatus = "demo" | "sample" | "verified";
-
-const statusLabels: Record<TechnicalContentStatus, string> = {
-  demo: "DEMO İÇERİK",
-  sample: "ÖRNEK İÇERİK",
-  verified: "DOĞRULANMIŞ",
-};
-
-type TechnicalSectionFrameProps = {
-  as?: ElementType;
-  no: string;
-  label: string;
-  className?: string;
-  id?: string;
-  labelledBy?: string;
-  ariaLabel?: string;
-  status?: TechnicalContentStatus;
-  children: ReactNode;
-};
-
-export function TechnicalSectionFrame({
-  as: Component = "section",
-  no,
-  label,
-  className = "",
-  id,
-  labelledBy,
-  ariaLabel,
-  status,
-  children,
-}: TechnicalSectionFrameProps) {
-  return (
-    <Component
-      id={id}
-      className={`tl-band ${className}`.trim()}
-      aria-labelledby={labelledBy}
-      aria-label={ariaLabel}
-      data-content-status={status}
-    >
-      <div className="tl-band-index" aria-hidden="true">
-        <span>{no}</span>
-        <small>{label}</small>
-      </div>
-      {status && <span className="tl-status-badge">{statusLabels[status]}</span>}
-      {children}
-    </Component>
-  );
-}
+   It moved to `src/components/shell/ShellBand.tsx` in Phase 04 so inner pages
+   can use the same rail, the same master columns and the same index; this file
+   stays as the landing's original import path. Nothing about the rendered
+   output changed — `ShellBand` only adds an optional `tone` attribute, which
+   the landing does not pass. */
+export {
+  ShellBand as TechnicalSectionFrame,
+  type ShellContentStatus as TechnicalContentStatus,
+  type ShellBandProps as TechnicalSectionFrameProps,
+} from "@/components/shell/ShellBand";

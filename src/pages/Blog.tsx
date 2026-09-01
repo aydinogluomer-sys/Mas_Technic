@@ -1,5 +1,4 @@
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { PageShell } from "@/components/shell/PageShell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { Link } from "react-router-dom";
 import { ArrowRight, Clock, Tag, Eye, Search, TrendingUp, SlidersHorizontal, BookOpen, Hash } from "lucide-react";
@@ -51,10 +50,10 @@ export const Blog = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    /* Shell only (Phase 04) — see `KVKK.tsx`. Body untouched; Phase 08 owns
+       the journal's composition. */
+    <PageShell rail={{ no: "R2", label: "GÜNLÜK" }}>
       <JsonLdSchema type="blog" name="Mas Technic Blog" description="CNC işleme, talaşlı imalat, malzeme bilimi ve endüstriyel üretim hakkında teknik makaleler." />
-      <main className="pt-24 pb-16">
         {/* Hero */}
         <section className="container-industrial py-12 md:py-16">
           <div className="flex items-center gap-4 mb-4">
@@ -285,8 +284,6 @@ export const Blog = () => {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 };

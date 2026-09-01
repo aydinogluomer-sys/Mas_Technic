@@ -50,8 +50,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { PageShell } from "@/components/shell/PageShell";
 import { materialsData, materialCategories } from "@/data/materialsData";
 
 // ── 3D Model Components ──
@@ -1392,10 +1391,18 @@ export const TeklifAl = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Header />
+    /* THE FOOTER DEFECT, FIXED (Phase 04).
 
-      <div className="container-industrial pt-24 pb-16">
+       This file imported `Footer` at line 54 and never rendered it — measured
+       and photographed in `reports/baseline/visual/teklif-al-1440.png`. The
+       site's primary conversion page therefore had no legal links, no
+       secondary navigation and no exit path at all: once a visitor reached
+       the RFQ form, the only ways out were the header menu and the browser's
+       Back button. Mounting `PageShell` gives it the same footer as every
+       other route, legal run included. The form body is untouched — Phase 09
+       owns the RFQ. */
+    <PageShell rail={{ no: "13", label: "TEKLİF" }}>
+      <div className="container-industrial pb-16">
         {/* Başlık + Adım rozeti */}
         <div className="flex items-start justify-between mb-6">
           <div>
@@ -1521,6 +1528,6 @@ export const TeklifAl = () => {
           <div className="space-y-6">{renderRightPanel()}</div>
         </div>
       </div>
-    </div>
+    </PageShell>
   );
 };

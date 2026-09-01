@@ -1,10 +1,11 @@
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { PageShell } from "@/components/shell/PageShell";
 
+/* Shell only (Phase 04): no `min-h-screen bg-background` wrapper, no
+   `<Header/>`, no `<main class="pt-24 pb-16">` — that 96px was a second
+   reservation on top of `.tl-header-spacer` — and no `<Footer/>`. The body is
+   untouched; Phase 08 owns the legal pages' composition and copy. */
 export const GizlilikPolitikasi = () => (
-  <div className="min-h-screen bg-background">
-    <Header />
-    <main className="pt-24 pb-16">
+  <PageShell rail={{ no: "L2", label: "GİZLİLİK" }}>
       <div className="container-industrial">
         <div className="max-w-3xl mx-auto prose prose-sm">
           <span className="text-xs font-semibold uppercase tracking-[0.4em] mb-3 block text-primary">Yasal</span>
@@ -19,7 +20,5 @@ export const GizlilikPolitikasi = () => (
           </div>
         </div>
       </div>
-    </main>
-    <Footer />
-  </div>
+  </PageShell>
 );

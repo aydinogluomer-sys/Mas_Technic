@@ -1,5 +1,4 @@
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { PageShell } from "@/components/shell/PageShell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { Phone, Mail, MapPin, Clock, Calendar, Video, ArrowRight, Send, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
@@ -99,10 +98,10 @@ export const Iletisim = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    /* Shell only (Phase 04) — see `KVKK.tsx`. Body untouched; Phase 07 owns
+       the contact page's composition. */
+    <PageShell rail={{ no: "C2", label: "İLETİŞİM" }}>
       <JsonLdSchema type="contact" />
-      <main className="pt-24 pb-16">
         {/* Hero */}
         <section className="container-industrial py-12 md:py-16">
           <div className="flex items-center gap-4 mb-4">
@@ -343,8 +342,6 @@ export const Iletisim = () => {
             </motion.div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 };

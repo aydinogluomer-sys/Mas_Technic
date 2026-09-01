@@ -20,6 +20,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+import { PageShell } from "@/components/shell/PageShell";
 import { LoginLeftPanel } from "@/components/auth/LoginLeftPanel";
 import { SocialButtons } from "@/components/auth/SocialButtons";
 import { AuthSeparator } from "@/components/auth/AuthSeparator";
@@ -107,7 +108,17 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex">
+    /* Shell only (Phase 04). The auth family renders inside the SAME shell as
+       every other public route — root, sheet, tokens, focus ring and
+       `<main id="main-content">`, which this page did not have, so the global
+       skip link had no target here — but with `navigation={false}` and
+       `footer={false}`: a credential step must not offer a menu and a run of
+       exits mid-task, and the header/footer counts for `/giris`,
+       `/sifremi-unuttum` and `/reset-password` are contracts in
+       `e2e/shared-shell-accessibility.spec.ts`. The panel layout below is
+       untouched. */
+    <PageShell navigation={false} footer={false} layout="bands" className="shell-auth">
+      <div className="min-h-screen w-full flex">
       <LoginLeftPanel isLogin={isLogin} />
 
       <div className="w-full lg:w-[55%] flex items-center justify-center bg-background px-6 py-12">
@@ -255,6 +266,7 @@ export const Login = () => {
           </p>
         </motion.div>
       </div>
-    </div>
+      </div>
+    </PageShell>
   );
 };

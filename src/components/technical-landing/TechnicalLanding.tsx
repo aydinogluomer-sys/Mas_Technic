@@ -1,9 +1,9 @@
 import { Suspense, lazy, useRef } from "react";
-import { Header } from "@/components/Header";
+import { PageShell } from "@/components/shell/PageShell";
 import { TechnicalHero } from "./TechnicalHero";
 import { ProofStrip } from "./ProofStrip";
 import { MeasuredProjects, NexusEvidence, TechnicalProcess } from "./ProcessNexusProjects";
-import { DrawingFooter, FaqSection, MeasurementManifesto, QualityFile, ReferenceBand, RfqSection, TechnicalSectors } from "./FinalSections";
+import { FaqSection, MeasurementManifesto, QualityFile, ReferenceBand, RfqSection, TechnicalSectors } from "./FinalSections";
 import { MarqueeBand } from "./MarqueeBand";
 import "@/styles/technical-landing.css";
 import { useTechnicalLandingMotion } from "@/hooks/useTechnicalLandingMotion";
@@ -20,42 +20,49 @@ const MasterGridOverlay = import.meta.env.DEV
   ? lazy(() => import("@/components/dev/MasterGridOverlay").then((m) => ({ default: m.MasterGridOverlay })))
   : null;
 
+/**
+ * The landing is now a PAGE INSIDE THE SHELL, not its own shell.
+ *
+ * It used to own the sheet, the `<main>`, the navigation mount and its own
+ * footer, which is exactly why `/` and every inner page ended up in different
+ * visual worlds (`reports/baseline/shell-inventory.md` §5). `PageShell` owns
+ * all four now; this file composes bands 02–13 and nothing else.
+ *
+ * `layout="bands"` keeps `<main>` a plain block: every child here is already a
+ * band with its own rail and master columns, so the shell must not add a
+ * second grid on top. `className="tl-root"` and `rootRef` keep the landing's
+ * motion layer attached to the same element it always was — every
+ * `.tl-root[data-motion="ready"]` rule still applies, including the footer's,
+ * because the footer is still a descendant of this root.
+ */
 export function TechnicalLanding() {
   const rootRef = useRef<HTMLDivElement>(null);
   useTechnicalLandingMotion(rootRef);
   return (
-    <div ref={rootRef} className="tl-root" data-testid="technical-landing-root">
-      {/* Band 01 is the GLOBAL header now. It renders through the
-          `#shared-header-host` portal in `src/App.tsx` so the landing and every
-          inner page mount the same navigation, and it keeps the sheet's own
-          geometry (`--tl-sheet-max`, `--tl-rail + repeat(--tl-cols,1fr)`) and
-          its `01 HEADER` rail index. `.tl-sheet` reserves `--gnav-h` at the top
-          so the fixed bar covers nothing. Before Phase 03 this band held a
-          landing-only header whose six hash anchors were the only navigation on
-          `/` (`reports/baseline/known-blockers.md` B14). */}
-      <Header />
-      <div className="tl-sheet">
-        <main id="main-content">
-          <TechnicalHero />
-          <ProofStrip />
-          <MarqueeBand />
-          <TechnicalProcess />
-          <NexusEvidence />
-          <MeasuredProjects />
-          <TechnicalSectors />
-          <MeasurementManifesto />
-          <QualityFile />
-          <ReferenceBand />
-          <FaqSection />
-          <RfqSection />
-        </main>
-        <DrawingFooter />
-      </div>
+    <PageShell
+      surface="graphite"
+      layout="bands"
+      className="tl-root"
+      rootRef={rootRef}
+      testId="technical-landing-root"
+    >
+      <TechnicalHero />
+      <ProofStrip />
+      <MarqueeBand />
+      <TechnicalProcess />
+      <NexusEvidence />
+      <MeasuredProjects />
+      <TechnicalSectors />
+      <MeasurementManifesto />
+      <QualityFile />
+      <ReferenceBand />
+      <FaqSection />
+      <RfqSection />
       {MasterGridOverlay && (
         <Suspense fallback={null}>
           <MasterGridOverlay />
         </Suspense>
       )}
-    </div>
+    </PageShell>
   );
 }

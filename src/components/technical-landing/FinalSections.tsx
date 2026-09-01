@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowDown, Instagram, Linkedin, Loader2, Mail, MapPin, Phone, UploadCloud, Youtube } from "lucide-react";
+import { ArrowDown, Loader2, UploadCloud } from "lucide-react";
 import aerospace from "@/assets/industry-aerospace.webp";
 import defense from "@/assets/industry-defense.webp";
 import medical from "@/assets/industry-medical.webp";
@@ -8,7 +8,7 @@ import hydraulic from "@/assets/industry-hydraulic.webp";
 import manifesto from "@/assets/hero-tolerans-hassasiyet.webp";
 import reportPart from "@/assets/technical-landing/hero-manifold-v1.webp";
 import {
-  footerColumns, qualityCertificates, referenceLogos,
+  qualityCertificates, referenceLogos,
   rfqSteps, technicalFaqs, technicalResources,
 } from "@/data/technicalLandingData";
 import { ReverseScrollSection } from "@/components/ReverseScrollSection";
@@ -290,51 +290,13 @@ export function RfqSection() {
   );
 }
 
-/** 14 — Antet bloğu biçiminde footer. */
-export function DrawingFooter() {
-  return (
-    <TechnicalSectionFrame as="footer" no="14" label="FOOTER" className="tl-footer" ariaLabel="Site altbilgisi">
-      <div className="tl-footer-body">
-        <div className="tl-footer-brand">
-          <h2>HASSAS ÜRETİM.<br />KANITLANMIŞ TESLİM.</h2>
-          <address>
-            {/* DOM sırası adres–adres–telefon–mail: ekran okuyucu adresi bütün
-                okur. Satır eşleşmesi (adres 1 ↔ telefon, adres 2 ↔ mail) CSS'te
-                açık yerleşimle kuruluyor, okuma sırası bozulmadan. */}
-            <p><MapPin aria-hidden="true" /><span>Ataşehir Mah., 8287. Sok.</span></p>
-            <p className="tl-addr-cont"><span>No: 4, 35620 Çiğli / İZMİR</span></p>
-            <p className="tl-tel"><Phone aria-hidden="true" /><a href="tel:+905365645194">+90 (536) 564 51 94</a></p>
-            <p className="tl-mail"><Mail aria-hidden="true" /><a href="mailto:sales@mastechnic.com">sales@mastechnic.com</a></p>
-          </address>
-        </div>
-        <nav aria-label="Altbilgi navigasyonu">
-          {footerColumns.map((column) => (
-            <div key={column.title}>
-              <h3>{column.title}</h3>
-              {column.links.map(([label, href]) => (
-                href.startsWith("#")
-                  ? <a key={label} href={href}>{label}</a>
-                  : <Link key={label} to={href}>{label}</Link>
-              ))}
-            </div>
-          ))}
-        </nav>
-        <div className="tl-title-block">
-          <div className="tl-social">
-            <a href="https://www.linkedin.com/company/mas-technic" target="_blank" rel="noreferrer noopener" aria-label="LinkedIn"><Linkedin aria-hidden="true" /></a>
-            <a href="https://www.instagram.com/mastechnic" target="_blank" rel="noreferrer noopener" aria-label="Instagram"><Instagram aria-hidden="true" /></a>
-            <a href="https://www.youtube.com/@mastechnic" target="_blank" rel="noreferrer noopener" aria-label="YouTube"><Youtube aria-hidden="true" /></a>
-          </div>
-          <p className="tl-meta-run">
-            <span>ÇİZEN: MAS TECHNIC</span><span>ÖLÇEK: 1:1</span><span>TARİH: 17.05.2024</span><span>REVİZYON: B</span><span>PAFTA: 01/12</span>
-          </p>
-          <p className="tl-legal">
-            <Link to="/kvkk">KVKK</Link>
-            <Link to="/gizlilik-politikasi">Gizlilik Politikası</Link>
-            <svg className="tl-crosshair" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7" /><path d="M12 0v24M0 12h24" /></svg>
-          </p>
-        </div>
-      </div>
-    </TechnicalSectionFrame>
-  );
-}
+/* 14 — the drawing title block MOVED to `src/components/shell/SiteFooter.tsx`.
+
+   It was the landing's footer and only the landing's. Phase 04 made it the
+   site's one footer, so it is mounted by `PageShell` on every public route —
+   including `/teklif-al`, which imported the old mega footer and never
+   rendered it. Its four link columns are derived from
+   `src/components/navigation/ia.ts` now instead of from
+   `technicalLandingData.footerColumns`, so the footer cannot drift from the
+   menu again; see `src/components/shell/footer-groups.ts` for what happened
+   to each of `footerColumns`' entries. */

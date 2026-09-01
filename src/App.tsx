@@ -5,7 +5,20 @@ import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-route
 import { PageTransition } from "@/components/PageTransition";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { ShellLoading, ShellRouteBoundary } from "@/components/shell/ShellStates";
+/* `ScrollProgress` WAS imported here and rendered on every public route EXCEPT
+   `/` — one of the three undocumented per-route chrome differences Phase 04
+   was sent to resolve (`reports/baseline/shell-inventory.md` §3 S4). It is
+   gone, everywhere, deliberately:
+
+     · The landing is the design source of truth and never had it.
+     · Its bar is a `linear-gradient(90deg, forge-molten, forge-amber)` — an
+       orange that exists in no other public surface and in none of the
+       `--tl-*` tokens the rest of the shell is built from.
+     · It duplicates the scrollbar, and re-renders on every scroll frame
+       through a spring plus a velocity sampler.
+
+   The divergence is resolved by removing the outlier, not by spreading it. */
 // `useSoundEngine` was imported here and never called. The sound and theme
 // toggles that used to sit in the public header are gone with Phase 03 — a CNC
 // manufacturer's navigation has no product or brand reason to carry them — so
@@ -69,9 +82,16 @@ const ScrollDebugPanel = lazy(() =>
   import("@/components/ScrollDebugPanel").then((m) => ({ default: m.ScrollDebugPanel })),
 );
 
+/* The route loader is a SHELL STATE now, not a library default. It used to be
+   a bare `w-8 h-8 border-2 border-primary animate-spin` square — a spinner
+   that belonged to no part of the design language and said nothing. The
+   replacement is the shell's datum sweep with a mono status line; under
+   `prefers-reduced-motion` the sweep stops and the status line carries the
+   whole message. `.shell-boot` is used because this renders BEFORE any
+   `PageShell` exists, so it has to bring its own ground. */
 const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center bg-background">
-    <div className="w-8 h-8 border-2 border-primary border-t-transparent animate-spin" />
+  <div className="shell-boot">
+    <ShellLoading label="YÜKLENİYOR" detail="Sayfa hazırlanıyor." fullHeight={false} />
   </div>
 );
 
@@ -130,8 +150,15 @@ const AnimatedRoutes = () => {
     </Suspense>
   );
 
+  /* `ShellRouteBoundary` is INSIDE the transition and OUTSIDE `<Routes>`: a
+     page that throws while rendering loses its own body and keeps the header,
+     the footer and the navigation, and leaving the route clears the error
+     because the boundary resets on `resetKey`. Before Phase 04 a route crash
+     took the whole document down to the app-level `ErrorBoundary` card in
+     `src/main.tsx`, with no way back except a reload. */
   const publicRoutes = (
     <PageTransition>
+      <ShellRouteBoundary resetKey={location.pathname}>
       <Suspense fallback={<PublicRouteLoader />}>
         <Routes location={location}>
           <Route path="/" element={<Index />} />
@@ -166,6 +193,7 @@ const AnimatedRoutes = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
+      </ShellRouteBoundary>
     </PageTransition>
   );
 
@@ -215,11 +243,30 @@ const AppContent = () => {
       <div id="shared-header-host" />
       <ScrollToTop />
       <AnimatedRoutes />
-      {location.pathname !== "/" && (
-        <Suspense fallback={null}>
-          <GlobalToasts />
-        </Suspense>
-      )}
+      {/* ── PER-ROUTE CHROME, DECIDED (Phase 04) ─────────────────────────
+          Three global layers used to differ per route with no stated reason
+          (`reports/baseline/shell-inventory.md` §4). Each is now settled:
+
+          GlobalToasts — EVERY public route, `/` included. It was suppressed
+            only on the landing, which meant a toast fired from the landing's
+            band 13 RFQ hand-off had no surface to render into and was lost
+            silently. The component paints nothing until something calls it,
+            so there is no cost to mounting it everywhere and a real defect in
+            not doing so.
+
+          ChatBot — every public route EXCEPT `/`, and this difference is
+            deliberate rather than inherited. The landing already answers the
+            same need in its own language and in its own bands: `12 SSS`
+            carries the FAQ the bot searches, and `13 RFQ` carries the CAD
+            hand-off. A floating launcher on top of the landing's pinned
+            choreography would cover it, and the launcher's own visual
+            language is owned by Phases 09/13, not by this shell phase. It
+            stays where it earns its place: the long reference pages.
+
+          ScrollProgress — removed from every route. See the import block. */}
+      <Suspense fallback={null}>
+        <GlobalToasts />
+      </Suspense>
       {location.pathname !== "/" && (
         <Suspense fallback={null}>
           <ChatBot />
@@ -241,7 +288,6 @@ export const App = () => (
     <TooltipProvider>
       <BrowserRouter>
         <PointerCursor />
-        <ScrollProgress />
         <AppContent />
       </BrowserRouter>
     </TooltipProvider>

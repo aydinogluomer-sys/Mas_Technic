@@ -1,5 +1,4 @@
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { PageShell } from "@/components/shell/PageShell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { ChevronDown, Search, MessageCircleQuestion, Hash, BarChart3, ArrowRight, HelpCircle, Layers, Filter, TrendingUp, Flame } from "lucide-react";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
@@ -218,11 +217,10 @@ export const SSS = () => {
   const jsonLdFaqs = useMemo(() => filtered.map((f) => ({ question: f.question, answer: f.answer })), [filtered]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    /* Shell only (Phase 04) — see `KVKK.tsx`. Body untouched; Phase 08 owns
+       the FAQ page's composition. */
+    <PageShell rail={{ no: "R3", label: "SSS" }}>
       <JsonLdSchema type="faqPage" faq={jsonLdFaqs} />
-
-      <main className="pt-24 pb-16">
         {/* ═══ HERO ═══ */}
         <section className="container-industrial py-12 md:py-16">
           <motion.div
@@ -570,8 +568,6 @@ export const SSS = () => {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 };

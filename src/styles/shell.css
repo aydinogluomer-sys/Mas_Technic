@@ -1,0 +1,855 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   MAS TECHNIC — GLOBAL PUBLIC SHELL
+
+   The frame every public route renders inside. It consumes the same tokens
+   and the same master grid as the landing; it does not define a second
+   geometry, a second type scale or a second colour system.
+
+       design-tokens.css   the tokens
+       master-grid.css     sheet / band / subgrid
+       navigation.css      band 01, the fixed bar and its in-flow spacer
+       shell.css           this file: sheet surface, rail, page rhythm,
+                           inner-page primitives, footer additions, states
+
+   THE ONE RULE THAT KEEPS THE GRID HONEST (master-grid.css, restated)
+   -------------------------------------------------------------------
+   A subgridded element must carry no horizontal padding, border or margin.
+   Breathing room lives on children. Every `subgrid` below obeys it.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+@import "./design-tokens.css";
+@import "./master-grid.css";
+
+:root {
+  /* The shell's ONE editorial space above the first band. The fixed bar is
+     reserved separately and exactly once by `.tl-header-spacer`; this value
+     is rhythm, not clearance.
+
+     MEASURED DEFECT THIS REPLACES: every inner page carried
+     `<main class="pt-24 pb-16">` — 96px — from before Phase 03 put the bar in
+     flow. After the spacer landed, those pages had 96px of clearance for a bar
+     that was already accounted for, and the landing had none, so inner-page
+     vertical rhythm sat 64–72px below the landing's. */
+  --shell-page-top: 56px;
+  --shell-page-bottom: 96px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --shell-page-top: 32px;
+    --shell-page-bottom: 64px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   BAND PRIMITIVE — moved here from `technical-landing.css` in Phase 04
+
+   `.tl-band` itself lives in `master-grid.css`. The rail mark and the content
+   stamp used to live in the landing's stylesheet, which only `/` loads. Every
+   public route mounts bands now (the footer is one; `ShellBand` is what
+   Phases 07–08 compose with), so they belong to the shell.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Rail işareti referansta çerçevesiz: yalnız numara ve altında bant adı. */
+.tl-band-index {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  border-right: var(--tl-rule-size) solid var(--tl-rule);
+  padding: var(--tl-s5) 4px 0;
+  font-family: var(--tl-font-mono);
+}
+.tl-band-index span { font-size: 15px; line-height: 1; letter-spacing: .02em; }
+.tl-band-index small { font-size: 8px; line-height: 1.35; letter-spacing: .06em; text-align: center; text-wrap: balance; }
+
+.tl-status-badge {
+  position: absolute;
+  z-index: 8;
+  top: var(--tl-s3);
+  right: var(--tl-s4);
+  border: 1px solid currentColor;
+  padding: 5px 7px;
+  font: 700 8px/1 var(--tl-font-mono);
+  letter-spacing: .08em;
+}
+
+@media (max-width: 1180px) {
+  .tl-band-index small { font-size: 7px; letter-spacing: .02em; }
+}
+
+/* At 42px a 7px mono caption such as "SEÇİLMİŞ PROJELER" wrapped into five
+   stacked fragments. The numeral is the index; the name is desktop detail. */
+@media (max-width: 767px) {
+  .tl-sheet { border-inline: 0; }
+  .tl-band-index { padding-top: var(--tl-s2); gap: var(--tl-s1); }
+  .tl-band-index span { width: 24px; height: 24px; font-size: 8px; }
+  .tl-band-index small { display: none; }
+  .tl-status-badge { top: var(--tl-s2); right: var(--tl-s2); font-size: 7px; }
+}
+
+/* ── Root and sheet ───────────────────────────────────────────────────────*/
+
+.shell-root {
+  min-height: 100vh;
+  overflow-x: clip;
+  font-family: var(--tl-font-sans);
+}
+
+.shell-root[data-shell-surface="graphite"] {
+  color: var(--tl-white);
+  background: var(--tl-void);
+}
+
+/* Paper is the evidence ground. It is deliberately the LIGHTEST paper step:
+   inner-page bodies still resolve their text from the shadcn light theme, and
+   a darker ground would move dozens of body pairs toward their contrast floor
+   in bodies this phase does not own. */
+.shell-root[data-shell-surface="paper"] {
+  color: var(--tl-ink);
+  background: var(--tl-paper-sunken);
+}
+
+.shell-root[data-shell-surface="paper"] .shell-sheet {
+  border-inline-color: var(--tl-paper-rule);
+  background: var(--tl-paper-sunken);
+}
+
+.shell-root ::selection { color: var(--tl-black); background: var(--tl-paper); }
+
+/* Focus is visible on both grounds: `currentColor` inverts with the surface,
+   so one rule covers graphite and paper without a second token. */
+.shell-root a:focus-visible,
+.shell-root button:focus-visible,
+.shell-root summary:focus-visible,
+.shell-root [tabindex]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+.shell-sheet {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.shell-main { flex: 1 1 auto; }
+
+/* ── `layout="band"` — the master grid for a page that does not know it ───
+   A body written as plain blocks lands on the master content field, and the
+   rail is a real grid column rather than a painted margin. */
+.shell-main[data-shell-layout="band"] {
+  display: grid;
+  grid-template-columns: var(--tl-rail) repeat(var(--tl-cols), minmax(0, 1fr));
+  gap: var(--tl-gap);
+  align-content: start;
+  padding-block: var(--shell-page-top) var(--shell-page-bottom);
+}
+
+.shell-main[data-shell-layout="band"] > * { grid-column: 2 / -1; min-width: 0; }
+
+/* Anything that already declares itself a band keeps its own rail. */
+.shell-main[data-shell-layout="band"] > .tl-band { grid-column: 1 / -1; }
+
+.shell-rail {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  border-right: var(--tl-rule-size) solid var(--tl-rule);
+  padding: 0 4px;
+  color: var(--tl-on-dark-meta);
+  font-family: var(--tl-font-mono);
+}
+
+.shell-main[data-shell-layout="band"] > .shell-rail { grid-column: 1; }
+
+.shell-rail span { font-size: 15px; line-height: 1; letter-spacing: .02em; }
+.shell-rail small { font-size: 8px; line-height: 1.35; letter-spacing: .06em; text-align: center; }
+
+.shell-root[data-shell-surface="paper"] .shell-rail {
+  border-right-color: var(--tl-paper-rule);
+  color: var(--tl-ink-soft);
+}
+
+/* `layout="bands"` — the landing. `<main>` stays a plain block because every
+   child is already a band with its own rail. */
+.shell-main[data-shell-layout="bands"] { display: block; }
+
+/* The auth family: the shell without navigation or footer. Its split panel is
+   a full-bleed composition, so the sheet's side rules and centring would draw
+   a frame around a page that is deliberately edge-to-edge. */
+.shell-auth .shell-sheet { width: 100%; max-width: none; border-inline: 0; }
+
+/* ── Band tone ────────────────────────────────────────────────────────────*/
+
+.tl-band[data-band-tone="paper"] {
+  color: var(--tl-ink);
+  background: var(--tl-paper);
+  border-bottom-color: var(--tl-paper-rule);
+}
+.tl-band[data-band-tone="paper"] > .tl-band-index {
+  border-right-color: var(--tl-paper-rule);
+  color: var(--tl-ink-soft);
+}
+
+/* ── Inner-page hero ──────────────────────────────────────────────────────
+   One master row. Related to the landing hero — same band, same rail, same
+   eyebrow, same hairline — and deliberately much quieter: no reserved
+   viewport height, no image stage, no dimension overlay, no scroll effect. */
+.shell-hero { border-bottom: var(--tl-rule-size) solid var(--tl-rule); }
+.shell-root[data-shell-surface="paper"] .shell-hero { border-bottom-color: var(--tl-paper-rule); }
+
+.shell-hero-body { align-items: end; padding-block: var(--tl-s7) var(--tl-s6); }
+.shell-hero-copy { grid-column: 1 / span 7; padding-right: var(--tl-s6); }
+
+.shell-eyebrow {
+  margin: 0 0 var(--tl-s3);
+  color: var(--tl-bronze);
+  font: 600 10px/1 var(--tl-font-mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.shell-root[data-shell-surface="paper"] .shell-eyebrow { color: var(--tl-bronze); }
+
+.shell-hero-copy h1 {
+  margin: 0;
+  font-size: clamp(30px, 3.4vw, 52px);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+
+.shell-lede {
+  max-width: 46ch;
+  margin: var(--tl-s5) 0 0;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.shell-root[data-shell-surface="paper"] .shell-lede { color: var(--tl-ink-muted); }
+.shell-root[data-shell-surface="graphite"] .shell-lede { color: var(--tl-on-dark-body); }
+
+.shell-hero-actions { display: flex; flex-wrap: wrap; gap: var(--tl-s4); margin-top: var(--tl-s6); }
+.shell-hero-meta { grid-column: 8 / -1; }
+
+@media (max-width: 1180px) {
+  .shell-hero-copy { grid-column: 1 / -1; padding-right: 0; }
+  .shell-hero-meta { grid-column: 1 / -1; margin-top: var(--tl-s5); }
+}
+
+/* ── Technical metadata row ───────────────────────────────────────────────*/
+
+.shell-meta-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  margin: 0;
+  border-top: var(--tl-rule-size) solid var(--tl-rule);
+}
+.shell-root[data-shell-surface="paper"] .shell-meta-row { border-top-color: var(--tl-paper-rule); }
+
+.shell-meta-row > div {
+  padding: var(--tl-s3) var(--tl-s4) var(--tl-s3) 0;
+  border-bottom: var(--tl-rule-size) solid var(--tl-rule-soft);
+}
+.shell-root[data-shell-surface="paper"] .shell-meta-row > div { border-bottom-color: var(--tl-paper-rule-soft); }
+
+.shell-meta-row dt {
+  font: 500 9px/1.2 var(--tl-font-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.shell-root[data-shell-surface="paper"] .shell-meta-row dt { color: var(--tl-ink-faint); }
+.shell-root[data-shell-surface="graphite"] .shell-meta-row dt { color: var(--tl-on-dark-faint); }
+
+.shell-meta-row dd {
+  margin: 5px 0 0;
+  font: 500 13px/1.3 var(--tl-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Editorial title block ────────────────────────────────────────────────*/
+
+.shell-title-block { position: relative; padding-block: var(--tl-s6) var(--tl-s5); }
+.shell-title-index {
+  display: block;
+  margin-bottom: var(--tl-s3);
+  font: 500 10px/1 var(--tl-font-mono);
+  letter-spacing: .12em;
+}
+.shell-root[data-shell-surface="paper"] .shell-title-index { color: var(--tl-ink-faint); }
+.shell-root[data-shell-surface="graphite"] .shell-title-index { color: var(--tl-on-dark-faint); }
+
+.shell-title-block h2 {
+  margin: 0;
+  font-family: var(--tl-font-serif);
+  font-size: clamp(24px, 2.4vw, 36px);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.shell-title-block h2 em { font-style: italic; color: var(--tl-bronze); }
+
+.shell-title-block > p {
+  max-width: 54ch;
+  margin: var(--tl-s4) 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.shell-root[data-shell-surface="paper"] .shell-title-block > p { color: var(--tl-ink-muted); }
+.shell-root[data-shell-surface="graphite"] .shell-title-block > p { color: var(--tl-on-dark-body); }
+
+/* ── Evidence block ───────────────────────────────────────────────────────
+   A framed reading with a mandatory source line. No card, no shadow: three
+   hairlines and a bronze kind-stamp. */
+.shell-evidence {
+  position: relative;
+  margin: 0;
+  border: var(--tl-rule-size) solid var(--tl-rule);
+  padding: var(--tl-s5) var(--tl-s5) var(--tl-s4);
+}
+.shell-root[data-shell-surface="paper"] .shell-evidence { border-color: var(--tl-paper-rule); background: var(--tl-paper-raised); }
+
+.shell-evidence-kind {
+  position: absolute;
+  top: calc(-1 * var(--tl-s2));
+  left: var(--tl-s4);
+  padding-inline: var(--tl-s2);
+  color: var(--tl-bronze);
+  font: 600 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .14em;
+}
+.shell-root[data-shell-surface="graphite"] .shell-evidence-kind { background: var(--tl-black); }
+.shell-root[data-shell-surface="paper"] .shell-evidence-kind { background: var(--tl-paper-raised); }
+
+.shell-evidence-body { font-size: 15px; line-height: 1.6; }
+
+.shell-evidence-source {
+  margin-top: var(--tl-s4);
+  padding-top: var(--tl-s3);
+  border-top: var(--tl-rule-size) solid var(--tl-rule-soft);
+  font: 500 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .1em;
+}
+.shell-root[data-shell-surface="paper"] .shell-evidence-source { border-top-color: var(--tl-paper-rule-soft); color: var(--tl-ink-faint); }
+.shell-root[data-shell-surface="graphite"] .shell-evidence-source { color: var(--tl-on-dark-faint); }
+
+/* ── Measured divider ─────────────────────────────────────────────────────*/
+
+.shell-divider {
+  position: relative;
+  height: var(--tl-s6);
+  border-top: var(--tl-rule-size) solid var(--tl-rule);
+}
+.shell-root[data-shell-surface="paper"] .shell-divider { border-top-color: var(--tl-paper-rule); }
+
+.shell-divider-tick {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--tl-rule-size);
+  height: 9px;
+  background: var(--tl-bronze);
+}
+
+.shell-divider-reading {
+  position: absolute;
+  top: var(--tl-s2);
+  left: var(--tl-s3);
+  font: 500 9px/1 var(--tl-font-mono);
+  letter-spacing: .12em;
+}
+.shell-root[data-shell-surface="paper"] .shell-divider-reading { color: var(--tl-ink-faint); }
+.shell-root[data-shell-surface="graphite"] .shell-divider-reading { color: var(--tl-on-dark-faint); }
+
+/* ── Surface band body ────────────────────────────────────────────────────*/
+
+.shell-surface-body { padding-block: var(--tl-s7); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   FOOTER — the drawing title block, moved here from `technical-landing.css`
+
+   Everything from `/* 14 — footer *\/` down to `.tl-crosshair` came across
+   unchanged: the same 4/8 master split, the same two-column address, the same
+   watermark geometry (centred and shifted a measured 163px, so the mask lands
+   between the meta run and the legal run at every width), the same hairlines.
+   The only additions are the conversion rule and the mobile disclosures,
+   further down, and they sit BETWEEN the nav and the title block so the
+   watermark's relationship to the block edge is untouched.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* The footer body is a subgrid of the band, and its nav republishes those
+   tracks — the two declarations that used to sit in `technical-landing.css`'s
+   subgrid lists. */
+.tl-footer-body {
+  grid-column: 2 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  column-gap: var(--tl-gap);
+  padding-inline: 0;
+  border-inline-width: 0;
+  margin-inline: 0;
+}
+.tl-footer-body > nav {
+  display: grid;
+  grid-template-columns: subgrid;
+  column-gap: var(--tl-gap);
+  padding-inline: 0;
+  border-inline-width: 0;
+  margin-inline: 0;
+}
+
+@supports not (grid-template-columns: subgrid) {
+  .tl-footer-body { grid-template-columns: repeat(var(--tl-cols), minmax(0, 1fr)); }
+  .tl-footer-body > nav { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+}
+
+.tl-footer { --wm-size: clamp(62px, 9.12vw, 130px); --wm-shift: 163px; --wm-bottom: calc(26px - .48 * var(--wm-size)); --wm-ton: rgba(238, 233, 222, .22); }
+
+/* Rows are implicit: brand+nav, then (mobile only) the disclosures, then the
+   conversion rule, then the title block. */
+.tl-footer-body { position: relative; overflow: hidden; }
+.tl-footer-brand { grid-column: 1 / span 4; padding: var(--tl-s4) var(--tl-s6) var(--tl-s5) var(--tl-s4); }
+.tl-footer h2 { font-size: clamp(26px, 2.6vw, 38px); font-weight: 700; line-height: .95; letter-spacing: -.025em; }
+.tl-footer address { display: grid; grid-template-columns: auto auto; justify-content: start; gap: var(--tl-s2) var(--tl-s7); margin-top: var(--tl-s2); font-style: normal; }
+.tl-footer address p { display: flex; align-items: start; gap: var(--tl-s2); color: #c3c8c5; font: 500 10px/1.5 var(--tl-font-mono); }
+/* Address is two lines; phone and mail align to the SAME two lines on the
+   right. Explicit placement, because DOM order (address–address–phone–mail)
+   is the correct reading order and the visual order is line by line. */
+.tl-footer address .tl-tel { grid-column: 2; grid-row: 1; }
+.tl-footer address .tl-mail { grid-column: 2; grid-row: 2; }
+/* The indent goes on the inner span, not the `<p>`: the paragraph's left edge
+   must not move, or the address stops measuring as two columns. */
+.tl-footer address .tl-addr-cont span { margin-left: calc(14px + var(--tl-s2)); }
+.tl-footer address svg { width: 14px; flex: none; margin-top: 2px; stroke-width: 1.4; }
+.tl-footer address a { color: inherit; text-decoration: none; }
+.tl-footer address a:hover { text-decoration: underline; text-underline-offset: 3px; }
+/* Four link columns, two master columns each, over master columns 5–12. */
+.tl-footer nav { grid-column: 5 / -1; align-content: start; padding-block: var(--tl-s4) var(--tl-s5); }
+.tl-footer nav div { grid-column: span 2; min-width: 0; border-left: 1px solid var(--tl-rule); padding-left: var(--tl-s4); }
+.tl-footer nav div:last-child { padding-right: var(--tl-s4); }
+.tl-footer nav h3 { margin-bottom: var(--tl-s3); font: 600 9px/1 var(--tl-font-mono); letter-spacing: .1em; }
+.tl-footer nav a { display: block; margin-top: 6px; color: #c5cac7; font-size: 11px; text-decoration: none; transition: color .25s ease; }
+.tl-footer nav a:hover { color: var(--tl-white); }
+/* The watermark is centred on the gap between "TARİH" in the meta run and the
+   legal run on the right. That gap's centre is exactly 163px right of the
+   body's centre at every width (measured at 1280/1336/1440/1600), because the
+   date is left-locked and the legal link right-locked, so the gap centre moves
+   at half the band's rate. Right-aligning it instead drifted 79px at 1600. */
+.tl-footer-body::before,
+.tl-title-block::before {
+  content: "MAS TECHNIC";
+  position: absolute;
+  left: 50%;
+  transform: translateX(calc(-50% + var(--wm-shift)));
+  bottom: var(--wm-bottom);
+  z-index: 0;
+  color: var(--wm-ton);
+  font-size: var(--wm-size);
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: .8;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+/* Below the rule the same word is a blurred copy, aligned to the title block. */
+.tl-title-block::before {
+  color: rgba(238, 233, 222, .154);
+  filter: blur(1.6px);
+  -webkit-mask-image: linear-gradient(180deg, #000 0, #000 58%, transparent 94%);
+  mask-image: linear-gradient(180deg, #000 0, #000 58%, transparent 94%);
+}
+.tl-title-block {
+  position: relative;
+  z-index: 1;
+  grid-column: 1 / -1;
+  overflow: hidden;
+  background: var(--tl-black);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  border-top: 1px solid var(--tl-rule);
+}
+.tl-title-block > * { position: relative; z-index: 1; }
+.tl-social { display: flex; height: 100%; align-items: center; gap: var(--tl-s4); border-right: 1px solid var(--tl-rule); padding-inline: var(--tl-s4); }
+.tl-social a { display: grid; width: 26px; height: 26px; place-items: center; border: 1px solid var(--tl-rule); color: #b9bfbc; transition: color .25s ease, border-color .25s ease; }
+.tl-social a:hover { border-color: var(--tl-white); color: var(--tl-white); }
+.tl-social svg { width: 15px; stroke-width: 1.5; }
+.tl-meta-run { display: flex; flex-wrap: wrap; align-items: center; gap: var(--tl-s5); min-height: 32px; padding-inline: var(--tl-s4); }
+.tl-meta-run span { color: var(--tl-on-dark-meta); font: 500 9px/1 var(--tl-font-mono); letter-spacing: .06em; }
+.tl-legal { display: flex; height: 100%; align-items: center; gap: var(--tl-s4); border-left: 1px solid var(--tl-rule); padding-inline: var(--tl-s4); }
+.tl-legal a { color: var(--tl-on-dark-meta); font: 500 9px/1 var(--tl-font-mono); letter-spacing: .06em; text-decoration: none; }
+.tl-legal a:hover { color: var(--tl-white); }
+.tl-crosshair { width: 16px; fill: none; stroke: #5f6764; stroke-width: 1; }
+
+/* The footer keeps the graphite ground on every route, including the paper
+   inner pages: it is the drawing's title block, and a title block is not on
+   the same sheet surface as the drawing body. */
+.shell-root[data-shell-surface="paper"] .tl-footer {
+  color: var(--tl-white);
+  background: var(--tl-black);
+  border-top: var(--tl-rule-size) solid var(--tl-paper-rule-strong);
+}
+.shell-root[data-shell-surface="paper"] .tl-footer > .tl-band-index {
+  border-right-color: var(--tl-rule);
+  color: var(--tl-on-dark-meta);
+}
+
+/* Four-edge safe area. The mega footer did this through
+   `.footer-industrial .container-industrial`; the title block does it on the
+   band itself, so the hairline side rules stay on the sheet edge and only the
+   CONTENT is inset. */
+.tl-footer {
+  padding-left: var(--shell-safe-left, 0px);
+  padding-right: var(--shell-safe-right, 0px);
+  padding-bottom: var(--shell-safe-bottom, 0px);
+}
+
+.tl-footer :is(a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])) {
+  scroll-margin-block: calc(5rem + var(--shell-safe-top));
+}
+
+@media (max-width: 1180px) {
+  .tl-footer-brand { grid-column: 1 / -1; order: 1; }
+  .tl-footer nav { grid-column: 1 / -1; order: 2; border-top: 1px solid var(--tl-rule); row-gap: var(--tl-s5); }
+  .tl-footer nav div { grid-column: span 3; }
+  .tl-footer nav div:nth-child(2n) { padding-right: var(--tl-s4); }
+  .tl-title-block::before { display: none; }
+  /* order 4, not 3: the conversion rule takes 3 so it stays attached to the
+     link columns instead of being split from them by the static watermark. */
+  .tl-footer-body::before {
+    position: static;
+    order: 4;
+    grid-column: 1 / -1;
+    inset: auto;
+    transform: none;
+    padding-inline: var(--tl-s4);
+    font-size: clamp(40px, 11vw, 92px);
+    line-height: .85;
+    text-align: right;
+    overflow: hidden;
+  }
+  .tl-title-block { order: 5; }
+}
+
+@media (max-width: 767px) {
+  .tl-footer-brand { padding: var(--tl-s5) var(--tl-s4); }
+  .tl-footer nav { padding-block: var(--tl-s5); }
+  .tl-footer nav div { grid-column: span 2; }
+  .tl-footer nav div:nth-child(2n) { padding-right: var(--tl-s3); }
+  .tl-footer address { grid-template-columns: 1fr; gap: var(--tl-s3); }
+  .tl-footer address :is(.tl-tel, .tl-mail) { grid-column: auto; grid-row: auto; }
+  .tl-title-block { grid-template-columns: 1fr; }
+  .tl-social { border-right: 0; border-bottom: 1px solid var(--tl-rule); padding-block: var(--tl-s3); }
+  .tl-meta-run { gap: var(--tl-s3); padding-block: var(--tl-s3); }
+  .tl-legal { border-top: 1px solid var(--tl-rule); border-left: 0; padding-block: var(--tl-s3); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   FOOTER — the parts the title block gained when it became the site's footer
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* The conversion rule. One row, two cells on master lines, hairlines only:
+   the two `rounded-2xl` glass slabs it replaces are gone. */
+.shell-footer-conversion {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  column-gap: var(--tl-gap);
+  padding-inline: 0;
+  border-inline-width: 0;
+  margin-inline: 0;
+  border-top: var(--tl-rule-size) solid var(--tl-rule);
+}
+
+@supports not (grid-template-columns: subgrid) {
+  .shell-footer-conversion { grid-template-columns: repeat(var(--tl-cols), minmax(0, 1fr)); }
+}
+
+.shell-footer-journal {
+  grid-column: 1 / span 6;
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--tl-s2) var(--tl-s5);
+  padding: var(--tl-s4);
+}
+
+.shell-footer-journal .shell-eyebrow { margin: 0; }
+
+.shell-footer-journal a {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  gap: var(--tl-s2);
+  color: var(--tl-on-dark-body);
+  font-size: 12px;
+  text-decoration: none;
+}
+.shell-footer-journal a svg { width: 14px; height: 14px; stroke-width: 1.5; }
+.shell-footer-journal a:hover { color: var(--tl-white); }
+
+.shell-footer-actions {
+  grid-column: 7 / -1;
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--tl-s4);
+  border-left: var(--tl-rule-size) solid var(--tl-rule);
+  padding: var(--tl-s4);
+}
+
+.shell-footer-primary,
+.shell-footer-secondary {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: var(--tl-s3);
+  padding-inline: var(--tl-s5);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.shell-footer-primary { color: var(--tl-ink); background: var(--tl-paper); }
+.shell-footer-primary svg { width: 16px; height: 16px; stroke-width: 1.6; }
+.shell-footer-primary:hover { background: var(--tl-paper-raised); }
+
+.shell-footer-secondary {
+  border: var(--tl-rule-size) solid var(--tl-rule);
+  color: var(--tl-white);
+  font-weight: 600;
+}
+.shell-footer-secondary:hover { border-color: var(--tl-white); }
+
+/* Mobile disclosures. Hidden above 767px; the four nav columns are hidden
+   below it. Two renderings of one derived list — see `footer-groups.ts`. */
+.shell-footer-disclosures { display: none; }
+
+@media (max-width: 767px) {
+  .shell-footer-disclosures {
+    display: block;
+    grid-column: 1 / -1;
+    order: 2;
+    border-top: var(--tl-rule-size) solid var(--tl-rule);
+  }
+  /* Two class levels so this beats `.tl-footer nav` in
+     `technical-landing.css` regardless of which stylesheet the bundler emits
+     first — the two files are imported from different entry points. */
+  .shell-footer .tl-footer-body > nav { display: none; }
+  .shell-footer-conversion { order: 3; grid-template-columns: 1fr; }
+  .shell-footer-journal,
+  .shell-footer-actions { grid-column: 1 / -1; }
+  .shell-footer-actions { justify-content: flex-start; border-left: 0; border-top: var(--tl-rule-size) solid var(--tl-rule); }
+  .shell-footer-primary,
+  .shell-footer-secondary { flex: 1 1 auto; justify-content: center; min-height: 44px; }
+}
+
+.shell-footer-disclosure { border-bottom: var(--tl-rule-size) solid var(--tl-rule); }
+.shell-footer-disclosure h2 { margin: 0; }
+.shell-footer-disclosure > h2 > button {
+  display: flex;
+  width: 100%;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tl-s3);
+  padding-inline: var(--tl-s4);
+  color: var(--tl-white);
+  font: 600 10px/1 var(--tl-font-mono);
+  letter-spacing: .12em;
+  text-align: left;
+}
+.shell-footer-disclosure > h2 > button svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: var(--tl-on-dark-meta);
+  transition: transform var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-footer-disclosure > h2 > button svg[data-open] { transform: rotate(180deg); }
+.shell-footer-disclosure ul { margin: 0; padding: 0 var(--tl-s4) var(--tl-s4); list-style: none; }
+.shell-footer-disclosure li a {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  color: var(--tl-on-dark-body);
+  font-size: 13px;
+  text-decoration: none;
+}
+.shell-footer-disclosure li a:hover { color: var(--tl-white); }
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-footer-disclosure > h2 > button svg { transition-duration: .01ms; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   SHELL STATES
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.shell-state {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: var(--tl-s3);
+  padding: var(--tl-s7) 0;
+}
+.shell-state[data-full] { min-height: 60vh; padding-inline: var(--tl-s6); }
+
+.shell-state-label {
+  margin: 0;
+  color: var(--tl-bronze);
+  font: 600 10px/1 var(--tl-font-mono);
+  letter-spacing: .2em;
+}
+
+.shell-state-title { margin: 0; font-size: clamp(20px, 2vw, 28px); font-weight: 700; letter-spacing: -.015em; }
+
+.shell-state-detail { max-width: 46ch; margin: 0; font-size: 14px; line-height: 1.6; }
+.shell-root[data-shell-surface="paper"] .shell-state-detail { color: var(--tl-ink-muted); }
+.shell-root[data-shell-surface="graphite"] .shell-state-detail { color: var(--tl-on-dark-body); }
+
+/* The datum sweep: a rule with a bronze index travelling along it. Geometry
+   never changes — only `transform` on the index. */
+.shell-state-scan {
+  position: relative;
+  display: block;
+  width: min(320px, 100%);
+  height: var(--tl-rule-size);
+  overflow: hidden;
+  background: var(--tl-rule);
+}
+.shell-root[data-shell-surface="paper"] .shell-state-scan { background: var(--tl-paper-rule); }
+
+.shell-state-scan i {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 28%;
+  background: var(--tl-bronze);
+  animation: shell-datum-sweep 1.4s var(--tl-ease-out) infinite;
+}
+
+@keyframes shell-datum-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(357%); }
+}
+
+.shell-state-actions { display: flex; flex-wrap: wrap; gap: var(--tl-s3); }
+
+.shell-state-action {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  padding-inline: var(--tl-s5);
+  border: var(--tl-rule-size) solid currentColor;
+  font: 600 12px/1 var(--tl-font-mono);
+  letter-spacing: .1em;
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-state-scan i { animation: none; width: 100%; opacity: .55; }
+}
+
+/* ── 404 ──────────────────────────────────────────────────────────────────
+   The route-error state as a page. Same eyebrow, same lede, same metadata
+   row and the same measured rules as every other shell surface; the numeral
+   is the only large gesture, and it is an outline the way a sheet number is. */
+.shell-notfound { padding-block: var(--tl-s7) var(--tl-s8); }
+
+.shell-notfound-code {
+  margin: var(--tl-s4) 0 0;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--tl-paper-rule-strong);
+  font-family: var(--tl-font-mono);
+  font-size: clamp(6rem, 16vw, 13rem);
+  font-weight: 500;
+  line-height: .85;
+  letter-spacing: -.05em;
+}
+.shell-root[data-shell-surface="graphite"] .shell-notfound-code { -webkit-text-stroke-color: var(--tl-rule); }
+
+.shell-notfound-title {
+  max-width: 20ch;
+  margin: var(--tl-s5) 0 0;
+  font-family: var(--tl-font-serif);
+  font-size: clamp(26px, 3.2vw, 44px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -.01em;
+}
+.shell-notfound-title em { font-style: italic; color: var(--tl-bronze); }
+
+.shell-notfound-meta { max-width: 640px; margin-top: var(--tl-s7); }
+
+.shell-notfound-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  max-width: 720px;
+  margin-top: var(--tl-s6);
+  border-top: var(--tl-rule-size) solid var(--tl-paper-rule);
+  border-left: var(--tl-rule-size) solid var(--tl-paper-rule);
+}
+.shell-root[data-shell-surface="graphite"] .shell-notfound-links {
+  border-top-color: var(--tl-rule);
+  border-left-color: var(--tl-rule);
+}
+
+.shell-notfound-links a {
+  display: flex;
+  min-height: 56px;
+  align-items: center;
+  gap: var(--tl-s3);
+  border-right: var(--tl-rule-size) solid var(--tl-paper-rule);
+  border-bottom: var(--tl-rule-size) solid var(--tl-paper-rule);
+  padding: var(--tl-s4);
+  color: var(--tl-ink-muted);
+  font: 600 11px/1 var(--tl-font-mono);
+  letter-spacing: .1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color var(--tl-dur-micro) var(--tl-ease-out), background var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-notfound-links a:is(:hover, :focus-visible) { color: var(--tl-ink); background: var(--tl-ink-tint); }
+
+.shell-root[data-shell-surface="graphite"] .shell-notfound-links a {
+  border-right-color: var(--tl-rule);
+  border-bottom-color: var(--tl-rule);
+  color: var(--tl-on-dark-body);
+}
+.shell-root[data-shell-surface="graphite"] .shell-notfound-links a:is(:hover, :focus-visible) {
+  color: var(--tl-white);
+  background: var(--tl-tint-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-notfound-links a { transition-duration: .01ms; }
+}
+
+/* The pre-route loader lives outside any shell (it renders while the route
+   module is still resolving), so it carries its own ground. */
+.shell-boot {
+  display: grid;
+  min-height: 100vh;
+  align-content: center;
+  justify-items: start;
+  gap: var(--tl-s3);
+  padding-inline: clamp(24px, 6vw, 96px);
+  color: var(--tl-white);
+  background: var(--tl-void);
+  font-family: var(--tl-font-sans);
+}

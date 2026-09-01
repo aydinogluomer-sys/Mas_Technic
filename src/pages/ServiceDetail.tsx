@@ -1,6 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { PageShell } from "@/components/shell/PageShell";
 import { getPageBySlug, getPagesByCategory } from "@/data/servicePages";
 import { ArrowRight, ChevronRight, CheckCircle2, Gauge, ArrowUpRight, Cpu, FlaskConical, Calendar, Sparkles, Layers, Zap } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -131,17 +130,13 @@ export const ServiceDetail = () => {
 
   if (!page) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <main className="pt-24 pb-16">
-          <div className="container-industrial text-center py-20">
-            <h1 className="heading-industrial text-3xl mb-4">Sayfa Bulunamadı</h1>
-            <p className="text-muted-foreground mb-8">Aradığınız sayfa mevcut değil.</p>
-            <Link to="/" className="btn-industrial-primary">Ana Sayfaya Dön</Link>
-          </div>
-        </main>
-        <Footer />
-      </div>
+      <PageShell rail={{ no: "03", label: "HİZMET" }}>
+        <div className="container-industrial text-center py-20">
+          <h1 className="heading-industrial text-3xl mb-4">Sayfa Bulunamadı</h1>
+          <p className="text-muted-foreground mb-8">Aradığınız sayfa mevcut değil.</p>
+          <Link to="/" className="btn-industrial-primary">Ana Sayfaya Dön</Link>
+        </div>
+      </PageShell>
     );
   }
 
@@ -152,8 +147,12 @@ export const ServiceDetail = () => {
     : page.category === "kabiliyetler" ? qualityControl : cncWorkshop;
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    /* Shell only (Phase 04). The page's `<main>` (which carried no id, so the
+       skip link had no target here) and its `pt-24` hero clearance are gone:
+       the shell supplies `<main id="main-content">` and the fixed bar is
+       reserved once by `.tl-header-spacer`. Body untouched — Phase 07 owns
+       this page, including blocker B24's 28 `color-contrast` violations. */
+    <PageShell rail={{ no: "03", label: "HİZMET" }}>
       <JsonLdSchema
         type="service"
         name={page.title}
@@ -161,9 +160,8 @@ export const ServiceDetail = () => {
         category={page.categoryLabel}
         faq={page.faq}
       />
-      <main>
         {/* ═══ HERO with parallax ═══ */}
-        <section ref={heroRef} className="relative pt-24 pb-0">
+        <section ref={heroRef} className="relative pb-0">
           <div className="relative h-[320px] md:h-[440px] overflow-hidden">
             <motion.img
               src={heroImage}
@@ -576,8 +574,6 @@ export const ServiceDetail = () => {
             </motion.div>
           )}
         </div>
-      </main>
-      <Footer />
-    </div>
+    </PageShell>
   );
 };

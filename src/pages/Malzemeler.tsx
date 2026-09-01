@@ -6,8 +6,7 @@ import {
   Search, X, ChevronLeft, ChevronRight, ArrowUpDown, LayoutGrid, Rows3,
   Check, FlaskConical, Gem, Wrench, Thermometer, Scale, Shield, Zap, ArrowRight, SlidersHorizontal,
 } from "lucide-react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { PageShell } from "@/components/shell/PageShell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { materialsData, materialCategories, type Material } from "@/data/materialsData";
 import { Button } from "@/components/ui/button";
@@ -93,12 +92,15 @@ export const Malzemeler = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    /* Shell only (Phase 04). This page had NO `<main>`, so `#main-content` did
+       not exist on it; the shell supplies one. `pt-28` was the page's own
+       clearance for the fixed bar and is now `py-16` — the bar is reserved
+       once, by `.tl-header-spacer`. */
+    <PageShell rail={{ no: "R1", label: "MALZEME" }}>
       <JsonLdSchema type="productCatalog" name="Malzeme Kütüphanesi" description="CNC işleme için alüminyum, çelik, titanyum, pirinç, bakır ve mühendislik plastikleri. Teknik özellikler ve karşılaştırma." />
 
       {/* Hero */}
-      <section className="relative pt-28 pb-16 overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.95) 0%, hsl(var(--forge-navy)) 100%)" }}>
+      <section className="relative py-16 overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.95) 0%, hsl(var(--forge-navy)) 100%)" }}>
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(to right, rgb(var(--text-primary-rgb) / 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgb(var(--text-primary-rgb) / 0.03) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
         {/* Ghost machine-loop video */}
         <video
@@ -344,8 +346,6 @@ export const Malzemeler = () => {
           <Link to="/iletisim" className="btn-industrial-primary inline-block px-8 py-3">Uzmanlarımızla Görüşün</Link>
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 };

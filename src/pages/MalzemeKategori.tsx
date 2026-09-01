@@ -1,8 +1,7 @@
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Check, ChevronRight } from "lucide-react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { PageShell } from "@/components/shell/PageShell";
 import { materialsData, materialCategories, findMaterialCategory } from "@/data/materialsData";
 import { usePageMeta } from "@/hooks/use-page-meta";
 
@@ -30,11 +29,13 @@ export const MalzemeKategori = () => {
   const relatedCategories = materialCategories.filter(c => category.relatedCategories.includes(c.slug));
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-
+    /* Shell only (Phase 04). This page had NO `<main>` at all, so the skip
+       link's `#main-content` target did not exist on it; the shell supplies
+       one. `pt-28` on the hero was the page's own clearance for the fixed bar
+       and is now `py-16`: the bar is reserved once, by `.tl-header-spacer`. */
+    <PageShell rail={{ no: "R1", label: "MALZEME" }}>
       {/* Hero */}
-      <section className="relative pt-28 pb-16 overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.95) 0%, var(--surface-base) 100%)" }}>
+      <section className="relative py-16 overflow-hidden" style={{ background: "linear-gradient(135deg, hsl(var(--primary) / 0.95) 0%, var(--surface-base) 100%)" }}>
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "linear-gradient(to right, rgb(var(--text-primary-rgb) / 0.03) 1px, transparent 1px), linear-gradient(to bottom, rgb(var(--text-primary-rgb) / 0.03) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
         <div className="container-industrial relative z-10">
           {/* Breadcrumb */}
@@ -162,8 +163,6 @@ export const MalzemeKategori = () => {
           <Link to="/iletisim" className="btn-industrial-primary inline-block px-8 py-3">Teklif Al <ArrowRight className="w-4 h-4 inline ml-1" /></Link>
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 };
