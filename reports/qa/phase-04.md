@@ -1216,3 +1216,131 @@ behind a scroll-triggered reveal at rest on the fixed build. A reduced-motion
 user arguably ought to receive content in its final state immediately. This is
 pre-existing (Phase 03 does the same, 194/333) and outside this correction
 packet's scope, but it is worth a look when the motion system is next opened.
+
+## Required suites and regression checks
+
+All run against the single prebuilt `dist/` on **port 4200** via
+`PLAYWRIGHT_BASE_URL`, so no suite rebuilt. Serial, one worker.
+
+| Check | Coder's claim | Measured | Result |
+|---|---|---|---|
+| `npm run typecheck` | pass | exit 0 | PASS |
+| `npm run lint` | pass | no output | PASS |
+| `npm run build` | pass | built in 57.04s | PASS |
+| `npm run test:e2e:critical` | 147 passed / 3 skipped | **147 passed, 3 skipped** (6.9m) | PASS |
+| `npm run test:e2e:smoke` | 12 | **12 passed** (1.1m) | PASS |
+| `npm run test:e2e:visual` | 27 | **27 passed** (1.2m) | PASS |
+| `node scripts/grid-axis-probe.mjs` | 0 off-grid | **PASS — 339 edges, every one on a master axis (1px tolerance)** | PASS |
+| B25, `--repeat-each=8` x 2 projects | 16/16 | **16 passed** (2.4m) | PASS |
+
+Every claimed figure reproduced exactly.
+
+Notes:
+
+- `scripts/grid-axis-probe.mjs` defaults to port 4199, which was occupied on
+  this machine; it was pointed at the existing preview with `PROBE_BASE_URL`.
+- The B25 `--repeat-each=8` run completed cleanly here — **no
+  `ERR_INSUFFICIENT_RESOURCES`**. The Coder's failure on that sweep was
+  environmental and is not reproducible under this run's serial regime.
+- `test:e2e:visual` passing at `visual-375` is independent confirmation that the
+  two regenerated 375 goldens were captured from the **fixed** build: a stale
+  golden from the pre-fix build would fail against this `dist/`.
+
+## No assertion weakened, skipped or deleted
+
+```text
+git diff --name-status 4dc80d4 97e134b -- e2e/ ':!e2e/__golden__'
+A  e2e/landing/shell-cascade-contract.spec.ts
+```
+
+The only spec-level change in `e2e/` is one **added** file. No existing spec was
+edited, so nothing could be loosened in place.
+
+- New spec searched for `.only`, `.skip`, `.fixme`, `test.slow`, `toPass(`,
+  `maxDiffPixel`, `threshold` — **none present**.
+- Goldens: 45 PNGs present, unchanged in count; exactly the 2 expected
+  `visual-375` files modified; **0** files changed under `visual-1280` or
+  `visual-1440`; no golden deleted.
+- The 3 skipped tests in `test:e2e:critical` are pre-existing and unchanged.
+
+## Verdict
+
+| Item | Verdict |
+|---|---|
+| R1 — D0 genuinely fixed | **PASS** |
+| R2 — the D0 gate has teeth (7 failed / 3 passed reproduced) | **PASS** |
+| R3 — no other chunk split (0 of 83 duplicated-base pairs) | **PASS** |
+| R4 — D1 `scrollable-region-focusable` 2 -> 0 | **PASS** |
+| R5 — B24 contradiction | **CODER_CORRECT** — QA was wrong, finding withdrawn |
+| R6 — axe node-count drop | **SAMPLING_ARTEFACT** — nothing hidden from AT |
+| Scope integrity | **PASS** |
+
+All three sent-back defects are genuinely fixed, the new gate is proven capable
+of failing, the fix is a class fix rather than an instance fix, and the two
+contested measurements resolve in the Coder's favour on re-measurement with a
+single instrument applied to both builds.
+
+**PHASE 04 RE-VERIFICATION: PASS.**
+
+Carry-forwards (unchanged, not Phase 04 failures): B24 chip contrast at
+4.025 : 1 (Phases 07/13); inner-page bodies on the shadcn light theme (Phases
+07/08); support-launcher FAB styling (Phases 09/13); win32-only golden gap;
+content wording (Phase 06); `shell-header-about.png` antialiasing flake. New
+observation for the motion phase: under `prefers-reduced-motion: reduce`,
+content remains gated behind scroll-triggered reveals on both Phase 03 and
+Phase 04 (pre-existing, in the a11y tree throughout, so not a defect here).
+
+## QA artefacts added this round
+
+Production code and production assets: **untouched**. QA wrote only inside the
+allowlist.
+
+```text
+reports/qa/phase-04.md                          (this re-verification section appended;
+                                                 original FAIL findings retained verbatim)
+reports/qa/tools/p04c-chunk-split-audit.mjs     R3 selector-level chunk audit
+reports/qa/tools/p04c-cascade-split-precise.mjs R3 precise D0-shape audit (postcss)
+reports/qa/tools/p04c-png-dims.mjs              R1 golden dimensions from IHDR
+reports/qa/tools/p04c-cssom-audit-dump.mjs      R2 gate vacuity analysis
+reports/qa/tools/p04c-d1-scroll-region.mjs      R4 scroll regions, naming, churn, cost
+reports/qa/tools/p04c-r5-chip-contrast.mjs      R5 ancestor-composite contrast
+reports/qa/tools/p04c-r6-reveal-vs-hiding.mjs   R6 a11y-tree vs opacity census
+```
+
+Scratch build trees used for the negative controls, outside the repo and with
+their `node_modules` junctions removed afterwards (shared install verified
+intact, 393 entries):
+`C:\Users\Trade Bilisim\pdh-wt\p04c-prefix` (`4dc80d4`),
+`C:\Users\Trade Bilisim\pdh-wt\p04c-p03` (`076c16a`).
+
+## Commands run (re-verification)
+
+```text
+git diff --name-status 4dc80d4 97e134b
+npm run typecheck
+npm run lint
+npm run build
+node reports/qa/tools/p04c-chunk-split-audit.mjs dist/assets
+node reports/qa/tools/p04c-cascade-split-precise.mjs dist/assets
+node reports/qa/tools/p04c-png-dims.mjs <the two 375 goldens>
+npx vite preview --port 4200 --strictPort --host 127.0.0.1
+QA_BASE=http://127.0.0.1:4200 node reports/qa/tools/probe-sheet-border.mjs
+node reports/qa/tools/golden-xshift.mjs <77f9f7c golden> <HEAD golden> 100 760
+node reports/qa/tools/golden-xshift.mjs <77f9f7c golden> <HEAD golden> 400 900
+QA_BASE=http://127.0.0.1:4200 node reports/qa/tools/p04c-cssom-audit-dump.mjs
+git archive 4dc80d4 | tar -x -C <scratch>     # + .env, junctioned node_modules, npm run build
+node reports/qa/tools/p04c-cascade-split-precise.mjs <prefix dist/assets>
+npx playwright test e2e/landing/shell-cascade-contract.spec.ts --project=critical-1280 --project=critical-375
+QA_BASE=http://127.0.0.1:4300 node reports/qa/tools/p04c-d1-scroll-region.mjs
+QA_BASE=http://127.0.0.1:4200 node reports/qa/tools/p04c-d1-scroll-region.mjs
+MSYS_NO_PATHCONV=1 QA_ROUTE=/ ... p04c-d1-scroll-region.mjs
+git archive 076c16a | tar -x -C <scratch>     # + .env, junction, npm run build
+QA_BASE=http://127.0.0.1:4300 node reports/qa/tools/p04c-r5-chip-contrast.mjs
+QA_BASE=http://127.0.0.1:4200 node reports/qa/tools/p04c-r5-chip-contrast.mjs
+[QA_REDUCED=1] QA_BASE=... node reports/qa/tools/p04c-r6-reveal-vs-hiding.mjs   # 4 runs
+PROBE_BASE_URL=http://127.0.0.1:4200 node scripts/grid-axis-probe.mjs
+PLAYWRIGHT_BASE_URL=http://127.0.0.1:4200 npm run test:e2e:critical
+PLAYWRIGHT_BASE_URL=http://127.0.0.1:4200 npm run test:e2e:visual
+PLAYWRIGHT_BASE_URL=http://127.0.0.1:4200 npm run test:e2e:smoke
+npx playwright test ... -g "B25" --repeat-each=8
+```
