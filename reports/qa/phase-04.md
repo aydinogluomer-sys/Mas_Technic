@@ -1001,3 +1001,72 @@ R3 "zero other splits" result is therefore a measurement from an instrument
 proven to detect this exact defect class, not a blind pass.
 
 **R2: PASS. R3: PASS.**
+
+## R4 — D1, `scrollable-region-focusable` 2 -> 0
+
+Instrument: `reports/qa/tools/p04c-d1-scroll-region.mjs`, run against the
+**same** two live servers (pre-fix 4300, fixed 4200), same browser, same waits.
+
+### `/hizmetler/cnc-frezeleme` @ 1280
+
+| | pre-fix `4dc80d4` | fixed `97e134b` |
+|---|---|---|
+| axe `scrollable-region-focusable` | **2 nodes** | **0 nodes** |
+| overflowing regions found | 2 | 2 (unchanged — the boxes still scroll) |
+| region 1 | 776px in 743px, `tabindex=null role=null aria-label=null` | 776px in 743px, `tabindex=0 role=group` |
+| region 1 name | — | `"CNC Frezeleme Eksen Karşılaştırması — kaydırılabilir tablo"` |
+| region 2 | 840px in 743px, `tabindex=null role=null aria-label=null` | 840px in 743px, `tabindex=0 role=group` |
+| region 2 name | — | `"İşleme Stratejileri ve Yüzey Kalitesi — kaydırılabilir tablo"` |
+| regions that actually take focus | 0/0 | **2/2 FOCUSED** |
+| page height | 5244px | **5244px** (identical) |
+
+Both regions are keyboard-reachable *and* carry distinct, content-derived names
+— not a generic placeholder. `data-shell-scroll-region="tabindex role aria-label"`
+records that the hook claimed all three attributes, so `revoke` will remove
+exactly those three and nothing else.
+
+The identical 5244px page height across the two builds confirms the hook's
+"no layout property is read or written" claim: it cannot move a golden.
+
+**On 0 versus 1.** The two containers are byte-identical in structure —
+`div.relative.w-full.overflow-auto`, the shadcn table wrapper, differing only in
+content width (776 vs 840). There is no property by which one deserves the
+affordance and the other does not, so a fix that reached only one would have
+been arbitrary. The Orchestrator's acceptance of 0 holds. Note also that the
+shell fixed both **without touching either page file or `ui/table`** — confirmed
+by the scope diff, which contains no page and no `ui/` file.
+
+### The hook stands down where the author already provided a focus stop
+
+`/` @ 375 has two genuinely overflowing regions, both author-owned:
+
+```text
+<div class="tl-nexus-rail">        675px in 331px
+   tabindex=0 role=group   aria-label="NEXUS panel önizlemesi"
+   hook-owned=null  authorFocusable=true
+<div class="tl-nexus-table-wrap">  680px in 331px
+   tabindex=0 role=region  aria-label="NEXUS örnek iş emirleri"
+   hook-owned=null  authorFocusable=true
+```
+
+`hook-owned=null` on both: the hook did not mark, re-role or rename them. It
+notably left `role="region"` intact rather than overwriting it with its own
+`role="group"`, and left the author's Turkish names alone. axe: 0 nodes.
+
+### It does not fire per frame
+
+| measurement | `/hizmetler/cnc-frezeleme` @1280 | @375 | `/` @1280 |
+|---|---|---|---|
+| childList mutation batches inside the sheet, 3s at rest | **0** | **0** | **0** |
+| childList batches during a full scroll pass (to 5244 / 8641 / 4064 px) | **0** | **0** | **0** |
+| marker-attribute mutations, rest and scroll | **0** | **0** | **0** |
+| replica sweep, median of 7 over 757–882 elements | 3.00 ms | 3.00 ms | 2.30 ms |
+
+Zero childList batches at rest and across a full scroll pass, on both builds —
+so the `MutationObserver` never re-arms the rAF, and the sweep runs once at
+mount plus on genuine resize. The Coder's 2.9–4.0 ms figure reproduces
+(2.30–3.00 ms median here). The decision to observe `childList` only, rather
+than attributes, is what keeps the motion layer's per-frame class churn from
+driving it.
+
+**R4: PASS.**
