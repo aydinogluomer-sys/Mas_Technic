@@ -1070,3 +1070,72 @@ than attributes, is what keeps the motion layer's per-frame class churn from
 driving it.
 
 **R4: PASS.**
+
+## R5 — the B24 contradiction, settled
+
+### R5_VERDICT: CODER_CORRECT
+
+A third build was made from `076c16a` (Phase 03 close) — `git archive`, junctioned
+`node_modules`, `.env` copied, `npm run build` — and served on **port 4300**.
+One instrument, `reports/qa/tools/p04c-r5-chip-contrast.mjs`, was then run
+against **both** servers. It does not assume any ground: it walks the chip's
+ancestor chain upward recording every background it meets, stops at the first
+**fully opaque** one, composites back down, and prints the whole chain so the
+arithmetic is auditable. WCAG relative luminance is computed in Node, not read
+off a library.
+
+`/hizmetler/cnc-frezeleme` @1280, all 6 chips, both builds:
+
+```text
+--- Phase 03 (076c16a, port 4300) ---
+   color=rgb(10, 125, 138)  ownBg=rgba(10, 125, 138, 0.1)  12px/700
+      <span class="... w-7 h-7">              bg=rgba(10,125,138,0.1)  alpha=0.1
+      <div class="group ... bg-card border">  bg=rgb(249, 248, 245)    alpha=1   <-- STOPS HERE
+   first OPAQUE ancestor : rgb(249,248,245)
+   COMPOSITE GROUND      : rgb(225,236,234)
+   contrast = 4.025 : 1
+
+--- Phase 04 fixed (97e134b, port 4200) ---
+   ...identical chain, identical stop...
+   first OPAQUE ancestor : rgb(249,248,245)
+   COMPOSITE GROUND      : rgb(225,236,234)
+   contrast = 4.025 : 1
+```
+
+All 6 chips, both builds: **4.025 : 1. Delta 0.000.**
+
+**I was wrong and the Coder is right.** My FAIL report's table read:
+
+| ground | composited chip background | contrast |
+|---|---|---|
+| Phase 03, `#ffffff` | `rgb(231,242,243)` | 4.261 : 1 |
+| Phase 04, measured `#f9f8f5` | `rgb(225,236,234)` | 4.025 : 1 |
+
+The Phase-03 row was **computed against an assumed `#ffffff`**, not measured
+against the Phase-03 build. The measurement above shows the chip's first opaque
+ancestor is `div.group.…bg-card` at `rgb(249,248,245)` in **both** builds. The
+walk terminates there, so `div.min-h-screen.bg-background` — the surface Phase
+04 actually changed — is never reached and never contributes. The `4.261`
+figure describes a composite that does not exist on either build. It was a
+QA arithmetic error, and the "worsened" verdict that followed from it was wrong.
+
+This also matches the Orchestrator's independent check: `rgb(10,125,138)` on
+`rgb(225,236,234)` is 4.03 : 1.
+
+Two things follow:
+
+1. **D3/B24 "worsened" is WITHDRAWN.** Phase 04 did not move this chip's
+   contrast. B24 remains open and unchanged at 4.025 : 1 against a 4.5 : 1
+   requirement for 12px/700 text — a real defect, but a **carry-forward** to
+   Phases 07/13, not a Phase 04 regression.
+2. **The Coder's refusal was correct behaviour.** It rebuilt the baseline,
+   measured, found no delta, and declined to manufacture a change to reach my
+   number. That is exactly what should happen when QA is wrong, and the record
+   should say so.
+
+What survives from my original D3 finding, unchanged: the 28 `color-contrast`
+violations did not disappear because they were repaired — they moved into axe's
+`incomplete` bucket ("background could not be determined because it is
+overlapped by another element"). The elements are still rendered and still
+below 4.5 : 1. Axe's silence is still not a fix. That part stands; only the
+*direction of change* attributed to Phase 04 was wrong.
