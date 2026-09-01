@@ -31,14 +31,34 @@ import { gotoAndSettle, landingReady, LANDING_SCENE_IDS } from "../helpers";
  *      without landing on a not-found shell.
  */
 
+/**
+ * The route inventory is read out of `src/App.tsx` by slicing between two
+ * string literals. That is deliberate — the router IS the inventory, and a
+ * second hand-maintained list would drift — but it has a failure mode worth
+ * naming: if either literal is renamed, `indexOf` returns -1, the slice
+ * silently yields an empty or nonsense string, `ROUTE_PATTERNS` becomes `[]`,
+ * `orphans` stays empty because there is nothing to iterate, and the static
+ * half of this spec PASSES VACUOUSLY while asserting nothing about anything.
+ * The dev-route markers and the data files behind `CONCRETE` have the same
+ * shape of hole.
+ *
+ * The markers are therefore named here and verified in the first test below
+ * BEFORE any orphan comparison runs. An empty extraction is a failure, not a
+ * pass.
+ */
+const PUBLIC_ROUTES_START_MARKER = "const publicRoutes =";
+const PUBLIC_ROUTES_END_MARKER = "return isPanel ? panelRoutes : publicRoutes;";
+const DEV_ROUTES_START_MARKER = "DEV_ONLY_ROUTES:START";
+const DEV_ROUTES_END_MARKER = "DEV_ONLY_ROUTES:END";
+
 const APP_SOURCE = readFileSync(resolve(process.cwd(), "src/App.tsx"), "utf8");
 const PUBLIC_ROUTES_SOURCE = APP_SOURCE.slice(
-  APP_SOURCE.indexOf("const publicRoutes ="),
-  APP_SOURCE.indexOf("return isPanel ? panelRoutes : publicRoutes;"),
+  APP_SOURCE.indexOf(PUBLIC_ROUTES_START_MARKER),
+  APP_SOURCE.indexOf(PUBLIC_ROUTES_END_MARKER),
 );
 const DEV_ROUTES_SOURCE = PUBLIC_ROUTES_SOURCE.slice(
-  PUBLIC_ROUTES_SOURCE.indexOf("DEV_ONLY_ROUTES:START"),
-  PUBLIC_ROUTES_SOURCE.indexOf("DEV_ONLY_ROUTES:END"),
+  PUBLIC_ROUTES_SOURCE.indexOf(DEV_ROUTES_START_MARKER),
+  PUBLIC_ROUTES_SOURCE.indexOf(DEV_ROUTES_END_MARKER),
 );
 const ROUTE_PATTERNS = [...PUBLIC_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)].map((m) => m[1]);
 const DEV_ROUTE_PATTERNS = [...DEV_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)].map((m) => m[1]);
@@ -62,9 +82,51 @@ const EXCLUDED = new Set(EXCLUDED_FROM_PRIMARY_NAV.map((entry) => entry.path));
 const INDEX_COVERED = new Set(INDEX_ROUTES.map((entry) => entry.covers));
 
 test.describe("public navigation reachability", () => {
+  /* Nothing below this point means anything if the extraction came back empty,
+     so the extraction is the first thing measured. Every one of these guards
+     is a way this spec could otherwise report "0 orphans" about 0 routes. */
+  test("extracts a real route inventory before it claims anything about it", () => {
+    expect(APP_SOURCE.indexOf(PUBLIC_ROUTES_START_MARKER),
+      `"${PUBLIC_ROUTES_START_MARKER}" no longer exists in src/App.tsx — this spec is slicing nothing`)
+      .toBeGreaterThanOrEqual(0);
+    expect(APP_SOURCE.indexOf(PUBLIC_ROUTES_END_MARKER),
+      `"${PUBLIC_ROUTES_END_MARKER}" no longer exists in src/App.tsx — this spec is slicing nothing`)
+      .toBeGreaterThan(APP_SOURCE.indexOf(PUBLIC_ROUTES_START_MARKER));
+    expect(PUBLIC_ROUTES_SOURCE.indexOf(DEV_ROUTES_START_MARKER),
+      `"${DEV_ROUTES_START_MARKER}" is not inside the public route block any more`)
+      .toBeGreaterThanOrEqual(0);
+    expect(PUBLIC_ROUTES_SOURCE.indexOf(DEV_ROUTES_END_MARKER),
+      `"${DEV_ROUTES_END_MARKER}" is not inside the public route block any more`)
+      .toBeGreaterThan(PUBLIC_ROUTES_SOURCE.indexOf(DEV_ROUTES_START_MARKER));
+
+    expect(ROUTE_PATTERNS.length, "no <Route path> was extracted from src/App.tsx").toBeGreaterThan(0);
+    expect(DEV_ROUTE_PATTERNS.length, "no dev-only <Route path> was extracted").toBeGreaterThan(0);
+    expect(ROUTE_PATTERNS.length,
+      "the dev-only block cannot be the whole public route inventory")
+      .toBeGreaterThan(DEV_ROUTE_PATTERNS.length);
+    expect(new Set(ROUTE_PATTERNS).size, "duplicate <Route path> in the inventory")
+      .toBe(ROUTE_PATTERNS.length);
+
+    // `CONCRETE` expands the parametrised patterns. An empty expansion would
+    // check zero URLs for that whole family and still report no orphans.
+    expect(BLOG_SLUGS.length, "no blog slug was extracted from src/data/blogData.ts").toBeGreaterThan(0);
+    for (const [pattern, urls] of Object.entries(CONCRETE)) {
+      expect(ROUTE_PATTERNS, `${pattern} is expanded here but is not a route any more`).toContain(pattern);
+      expect(urls.length, `${pattern} expanded to zero concrete URLs`).toBeGreaterThan(0);
+    }
+    // Every parametrised route must be expanded, excluded, or index-covered —
+    // otherwise it is compared as the literal ":slug" string and always "found".
+    const unexpanded = ROUTE_PATTERNS.filter((pattern) => pattern.includes(":"))
+      .filter((pattern) => !CONCRETE[pattern] && !EXCLUDED.has(pattern) && !INDEX_COVERED.has(pattern));
+    expect(unexpanded, "a parametrised route with no concrete expansion is untested, not covered").toEqual([]);
+  });
+
   test("covers every public route surface by navigation, index page or a recorded exclusion", () => {
     const targets = new Set(navigationTargets());
     const orphans: string[] = [];
+
+    expect(ROUTE_PATTERNS.length, "no <Route path> was extracted from src/App.tsx").toBeGreaterThan(0);
+    expect(DEV_ROUTE_PATTERNS.length, "no dev-only <Route path> was extracted").toBeGreaterThan(0);
 
     for (const pattern of ROUTE_PATTERNS) {
       if (EXCLUDED.has(pattern)) continue;

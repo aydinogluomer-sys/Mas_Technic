@@ -151,12 +151,33 @@ test.describe("Fullscreen machining navigation", () => {
     }).__lenis?.isStopped)).toBe(true);
   });
 
-  test("reduced motion opens without a delayed hidden state", async ({ page }) => {
+  /**
+   * This test used to stop at "opens". That one word was the whole gap: the
+   * file held an open-AND-close test (full motion) and an open-ONLY test
+   * (reduced motion), so the reduced-motion CLOSE path — where the menu was in
+   * fact a permanent modal trap, WCAG 2.1 SC 2.1.2 — was never exercised by
+   * any spec in the suite. Opening is half a contract; a menu you cannot leave
+   * is worse than no menu.
+   *
+   * The exhaustive matrix (three close mechanisms x two shells x every project
+   * viewport) lives in `e2e/landing/navigation-teardown.spec.ts`. This keeps
+   * the two halves joined here, where they were split.
+   */
+  test("reduced motion opens without a delayed hidden state, and still closes", async ({ page }) => {
     test.skip(!isReducedMotionAuditViewport(page), "V2/V8 reduced-motion audit lanes only");
     await page.emulateMedia({ reducedMotion: "reduce" });
     await gotoAndSettle(page, MENU_HOST_ROUTE);
-    await page.locator("[data-menu-trigger]").click();
+    const trigger = page.locator("[data-menu-trigger]");
+    await trigger.click();
     await expect(page.locator("[data-menu-group]")).toBeVisible();
+    await expect(page.locator("html")).toHaveCSS("overflow", "hidden");
+
+    await page.keyboard.press("Escape");
+    await expect(page.locator("[data-fullscreen-menu]")).toHaveCount(0);
+    await expect(page.locator("html")).not.toHaveCSS("overflow", "hidden");
+    await expect(page.locator("#root")).not.toHaveAttribute("inert", "");
+    await expect(page.locator("#root")).not.toHaveAttribute("aria-hidden", "true");
+    await expect(trigger).toBeFocused();
   });
 
   test("preserves 3 families, 15 categories and 48 unique detail routes", async () => {
