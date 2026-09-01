@@ -1,0 +1,84 @@
+[
+  {
+    "label": "RM 1280px / closed",
+    "serious": [],
+    "allImpacts": []
+  },
+  {
+    "label": "RM 1280px / open",
+    "serious": [],
+    "allImpacts": []
+  },
+  {
+    "label": "RM 1280px / reopened-after-close",
+    "serious": [],
+    "allImpacts": []
+  },
+  {
+    "label": "RM 1280px /hizmetler/cnc-frezeleme closed",
+    "serious": [
+      {
+        "id": "scrollable-region-focusable",
+        "impact": "serious",
+        "nodes": 1,
+        "target": [
+          "div:nth-child(3) > .border.overflow-hidden.border-border > .overflow-x-auto > .overflow-auto.w-full.relative"
+        ]
+      }
+    ],
+    "allImpacts": [
+      "serious:scrollable-region-focusable(1)"
+    ]
+  },
+  {
+    "label": "RM 1280px /hizmetler/cnc-frezeleme open",
+    "serious": [],
+    "allImpacts": []
+  },
+  {
+    "label": "RM 1280px /hizmetler/cnc-frezeleme reopened-after-close",
+    "serious": [
+      {
+        "id": "scrollable-region-focusable",
+        "impact": "serious",
+        "nodes": 1,
+        "target": [
+          "div:nth-child(3) > .border.overflow-hidden.border-border > .overflow-x-auto > .overflow-auto.w-full.relative"
+        ]
+      }
+    ],
+    "allImpacts": [
+      "serious:scrollable-region-focusable(1)"
+    ]
+  },
+  {
+    "label": "RM 375px / closed",
+    "serious": [],
+    "allImpacts": []
+  },
+  {
+    "label": "RM 375px / open",
+    "serious": [],
+    "allImpacts": []
+  },
+  {
+    "label": "RM 375px / reopened-after-close",
+    "serious": [],
+    "allImpacts": []
+  },
+  {
+    "label": "RM 375px /hizmetler/cnc-frezeleme closed",
+    "serious": [],
+    "allImpacts": []
+  },
+  {
+    "label": "RM 375px /hizmetler/cnc-frezeleme open",
+    "serious": [],
+    "allImpacts": []
+  },
+  {
+    "label": "RM 375px /hizmetler/cnc-frezeleme reopened-after-close",
+    "serious": [],
+    "allImpacts": []
+  }
+]

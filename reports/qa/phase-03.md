@@ -6,6 +6,10 @@
 - BASE FOR DIFF: `e8b7b97`
 - QA_COMMIT: `1c7e5df` (part 1) + this commit
 - **STATUS: FAIL**
+  > This verdict is the record for `1d5ea91` and is left exactly as written.
+  > Correction packet #1 was re-verified separately at `ec7da26` and **passed**
+  > — see "RE-VERIFICATION — correction packet #1" at the end of this file.
+  > Everything above that heading is history, not current state.
 - TESTS_PASSED: 138 (107 repository Playwright tests + 31 QA-authored checks)
 - TESTS_FAILED: 7 (5 = the reduced-motion modal trap, R1; 2 = pre-existing
   non-navigation axe debt, carry-forward)
@@ -501,3 +505,217 @@ git status --porcelain
 - Old goldens extracted for comparison live at
   `reports/qa/tools/golden-old/` on disk but are deliberately **not committed**
   (4.5 MB of blobs already recoverable via `git show e8b7b97:…`).
+
+---
+
+# RE-VERIFICATION — correction packet #1
+
+> The FAIL findings above are the record of what was measured on `1d5ea91` and
+> they stand unedited. This section is appended, not substituted. R1 was a real
+> defect; it is now fixed. Nothing above has been softened to make that read
+> better.
+
+- RE-VERIFIED COMMITS: `c72fd99`, `4066b41`, `d3822b8` — integration HEAD
+  **`ec7da26`** (`b9c57b1` test-first → `93c3c12` fix → `ec7da26` test join)
+- BASE FOR DIFF: `d01851e` (the commit this agent failed)
+- **STATUS: PASS**
+- Worktree: `C:\Users\Trade Bilisim\pdh-wt\qa-p03b`, branch `wt/qa-p03b`
+- **Port `4271`** — the fixed `dist/` preview. **Port `4272`** — a scratch
+  preview of the PRE-FIX code, for negative controls. (`4173` was occupied, as
+  expected.) `node_modules` is the shared Windows junction; never installed,
+  pruned or modified.
+
+## Headline
+
+**The trap is gone, and it is gone for the right reason.** The teardown no
+longer rides on an animation callback: it is scheduled by an effect the moment
+a close is requested, and `onAnimationComplete` can now only make it happen
+earlier. 36 of 36 cells of the full product (3 viewports × 2 shells × 2 motion
+modes × 3 close mechanisms) release every latch and leave a page the reader can
+actually scroll. Seven interruption attacks failed to leave the modal latched.
+
+Two things in the Coder's own report do **not** survive checking, and the
+Orchestrator should not carry them forward as written:
+
+1. **R7 is mischaracterised.** It is not deterministic under
+   `PLAYWRIGHT_ARTIFACTS=0`, and it does **not** pass in the canonical
+   configuration — it failed 1 of 5 canonical runs here. It is a genuinely
+   flaky test. It is still **PRE-EXISTING** (8 of 8 failures on the unmodified
+   pre-fix `Header.tsx`), so it does not fail this phase, but the disclosure
+   understates it.
+2. **The `"opening" → "open"` phase did not have "the identical hole".** The
+   structural gap was real, but in the pre-fix code nothing branched on `open`
+   versus `opening` (`isVisible` treated them as one), so being stuck mid-open
+   had **no user-visible consequence**. The new net is sound defensive
+   hardening. It is not a second trap that was found and fixed.
+
+---
+
+## Re-verification matrix
+
+| # | Check | Result | Evidence |
+|---|---|---|---|
+| R1 | The reduced-motion trap is gone | **PASS** | `reports/qa/tools/p03b-teardown-matrix.mjs`, 36 cells: {320, 375, 1280} × {`/`, `/hakkimizda`} × {`reduce`, `no-preference`} × {Escape, close button, menu link}. **36 PASS / 0 FAIL.** Every cell asserts, after the close: sheet out of the DOM; `body`/`html` `overflow` back to the *exact* pre-open value; `#root` free of `inert` and `aria-hidden`; the header bar likewise; and a real `mouse.wheel(0,700)` moving `scrollY` above 0 (polled, not sampled). Dismissal cells additionally assert focus is back on `[data-menu-trigger]` and the path is unchanged; link cells assert arrival at `/sss`. My original instrument agrees: `p03-reduced-motion-trap.mjs` against `4271` now reports `after ESC #1 : menuPresent:false, bodyOverflow:"clip visible", rootInert:false, rootAriaHidden:null` at both 375 and 1280 — the exact snapshot that read `menuPresent:true … rootInert:true` when this phase failed. |
+| R2 | No regression to the full-motion path | **PASS** | 18 of the 36 cells above are `no-preference`; all 18 pass. Motion still runs and is not merely skipped: `p03b-settle-timing.mjs` measures Escape → unmount at **[663, 652, 676, 653, 667] ms, avg 662** under full motion versus **[48, 54, 38, 36, 52] ms, avg 46** under reduced motion. 662 ms is `NAV_MOTION.open`'s 620 ms plus round-trip — the sheet is animating its full exit, not being cut. The three `visual-*` goldens for `navigation-open` / `navigation-closed` still match byte-for-byte. |
+| R3 | The mechanism cannot be skipped | **PASS** | `reports/qa/tools/p03b-teardown-adversarial.mjs`, 7 attacks × 2 motion modes at 1280. **A1** Escape ×8 at 5 ms intervals → released, `historyDelta=0`. **A3** re-open 200 ms into a close → the menu comes back, is still open and still latched 2200 ms later (past both the 900 ms net and the 620 ms transition), and then closes cleanly — the interrupted close neither strands nor half-tears-down. **A4** `history.back()` with a close in flight → released. **A5** double-click the same menu link → `/sss`, **`historyDelta=1`**. **A6** trigger thrash ×4 → released. **A7** menu held open 3 s untouched → still exactly 1 sheet, `inert` and `aria-hidden` still on, then closes. 12 of 14 met their assertion as written; the 2 that did not are **A2**, resolved below and not a defect. **`settleClose` is idempotent as claimed** — `phaseRef` is assigned before `setPhase`, so the timer and the accelerator cannot both complete a teardown, and no probe ever produced `historyDelta=2`. |
+| R3b | A2 — the pending navigation "went missing" | **PASS (deliberate, pre-existing)** | A2 clicks a menu link then spams Escape; the navigation did not happen (`path=/`, `historyDelta=0`). `reports/qa/tools/p03b-a2-causation.mjs` isolates the cause across 8 cells: with **no** follow-up, with a **400 ms delay**, and with an **unrelated key**, the navigation always happens (`path=/sss`, `historyDelta=1`) in both motion modes. Only Escape suppresses it, and only inside the close window. The cause is the modal keydown handler, which explicitly nulls `pendingHref`/`pendingSection` before requesting the close — i.e. Escape means *cancel*, by design. That block is **byte-identical at `d01851e`**, so this packet neither introduced nor changed it. No latch: released and scrollable in every A2 cell. |
+| R3c | The `"opening" → "open"` net | **PASS, with a correction** | The net exists and is correct: `useEffect` on `phase === "opening"` or `"closing"` arms `setTimeout(settle, reducedMotion ? 0 : 900)`, and the `"opening"` branch uses a functional update guarded on `current === "opening"`. A7 confirms the open state is stable and closeable in both motion modes. **But the pre-fix code's only readers of the distinction were `isVisible = phase === "opening" || phase === "open"` and the self-transition itself** (verified against `d01851e`), so a stuck `"opening"` was inert. Defensive hardening, not a second defect. |
+| R4 | Red-then-green is real | **PASS** | Reproduced independently, never taking the Coder's word. The pre-fix `Header.tsx` was extracted from `d01851e` into a **scratch tree** (`scratchpad/prefix-build`, `node_modules` junctioned, real worktree never modified), `vite build`, served on **4272**. `npx playwright test --project=critical-1280 e2e/landing/navigation-teardown.spec.ts` against it → **6 failed / 6 passed (8.0 m)**. The six failures are exactly the six `reduced motion` cases (Escape, close button and link, on both landing and inner page); the six `full motion` cases pass. The new gate genuinely discriminates. |
+| R5 | The vacuous-pass guard | **PASS** | Scratch copy `scratchpad/r5-marker` (fixed sources). Baseline: the two static tests **pass** (`2 passed, 1.6s`). Then `const publicRoutes =` → `const publicRouteTree =` (both the declaration and its use, so the app still compiles). Re-run: **2 failed**, with `Error: no <Route path> was extracted from src/App.tsx` — `Expected: > 0, Received: 0` at `navigation-reachability.spec.ts:128`. The renamed marker can no longer buy a silent green. |
+| R6 | `MENU_SETTLE_FALLBACK_MS` vs `NAV_MOTION.open` | **PASS** | `src/components/navigation/motion.ts` → `open: { duration: 0.62 }` = 620 ms, and the sheet's `transition` is `NAV_MOTION.open` in both directions when motion is on. `Header.tsx:144-145` documents the coupling **on the line above the constant** — "Longest sheet transition is `NAV_MOTION.open`'s 620ms; this is that + 45%" — and 900 > 620 with 280 ms of headroom. Measured, the net is never what fires: full-motion closes settle at avg **662 ms**, ~240 ms before the floor. The floor is a floor. |
+| R7 | The disclosed pre-existing failure | **PRE-EXISTING** | Detailed below. |
+| G1 | `typecheck` / `lint` / `build` | **PASS** | `npm run typecheck` (3 tsconfigs) exit 0; `npm run lint` (`eslint .`) exit 0, no output; `npm run build` exit 0, built in 40.68 s. |
+| G2 | `test:e2e:critical` | **PASS** | `--project=critical-1280 --project=critical-375` against the 4271 preview: **105 passed, 3 skipped, 0 failed (8.4 m)**, exit 0. Matches the Coder's figure. The 3 skips are the same lane guards as part 1 (`navigation-reachability:240`, `technical-landing:147`, `landing-grid-axes:128`), each of which runs and passes in its own lane. All 24 `navigation-teardown` tests passed in both projects. `navigation-reachability:199` — the R7 test — **passed in both projects in this run**. |
+| G3 | `test:e2e:visual` + goldens byte-unchanged | **PASS** | **9 passed (43.3 s)**. The golden diff against `d01851e` is **empty**, and `git status --porcelain -- e2e/` after the visual run is **empty** — the run did not rewrite a single baseline. All 9 goldens are the `win32` set at `visual-375/1280/1440`. |
+| G4 | `grid-axis-probe.mjs` | **PASS** | `GRID AXIS PROBE: PASS — every measured edge sits on a master axis (tolerance 1px)`, **0 off-grid** across 375/768/1280/1440/1600. |
+| G5 | Axe, navigation closed + open, incl. reduced motion | **PASS for the navigation** | `p03-axe-audit.mjs` re-run (full motion, 8 lanes): `/` closed **0**, `/` open **0**, inner page open **0**. New `reports/qa/tools/p03b-axe-reduced.mjs` (14 lanes under `prefers-reduced-motion: reduce`, at 1280 and 375, on `/` and `/hizmetler/cnc-frezeleme`, in **three** states — closed, open, and *reopened-after-close*): the navigation scores **0 serious/critical in every lane**. The `reopened-after-close` state is deliberate: the teardown restores `inert`/`aria-hidden` from saved values, and a restore that puts back the wrong value only shows on the second cycle. It does not. The 4 findings that remain are the same pre-existing `src/pages/ServiceDetail.tsx` debt already recorded under AC11 (`color-contrast` ×28, `scrollable-region-focusable` ×1) — not the navigation, not in this diff. |
+| G6 | No assertion weakened, skipped, `.only`'d or deleted | **PASS** | The `e2e/` diff against `d01851e` is **+35 `expect(` calls, −0**. `grep -rn "test.only\|describe.only\|\.only(\|test.fixme\|xit(\|xdescribe(" e2e/` → **no matches anywhere in the suite**. No `test.skip` added by the diff. All 6 deleted lines are accounted for: 2 are the `fullscreen-menu.spec.ts` test being **renamed and extended** ("opens without a delayed hidden state" → "…, and still closes", plus 6 new assertions), 4 are the marker string literals being **hoisted into named constants** used identically. Nothing was removed. |
+| G7 | Scope integrity | **PASS** | The three fix commits touch exactly **4 files**: `src/components/Header.tsx`, `e2e/fullscreen-menu.spec.ts`, `e2e/landing/navigation-reachability.spec.ts`, `e2e/landing/navigation-teardown.spec.ts` (new). No `supabase/`, no `package*.json`, no `vite.config.ts`, no `tsconfig*`, no `playwright.config.ts`, no `.github/`, no `index.html`, no `public/`, no `PROGRESS.md` / `IMPLEMENTATION.md` / `USER_INPUTS.md`. `AnimatePresence` is gone from `Header.tsx`'s import and survives at lines 113 and 519 **as comment text only**. QA modified **zero** production files. |
+
+---
+
+## R7 — the disclosed pre-existing failure
+
+`e2e/landing/navigation-reachability.spec.ts:199` › "keeps deep links and
+history navigation correct". The failing assertion is line 235: after
+`page.goForward()` with the menu open, `[data-fullscreen-menu]` is still
+mounted after 5 s.
+
+**R7_VERDICT: PRE-EXISTING — not a regression from this packet.**
+
+Measured, five ways:
+
+| Configuration | Code | Result |
+|---|---|---|
+| `PLAYWRIGHT_ARTIFACTS=0`, 4 separate invocations | `ec7da26` | 1 passed / 3 failed |
+| `PLAYWRIGHT_ARTIFACTS=0`, `--repeat-each=8` | `ec7da26` | **1 passed / 7 failed** |
+| `PLAYWRIGHT_ARTIFACTS=0`, `--repeat-each=8` | **`d01851e` pre-fix `Header.tsx`** | **0 passed / 8 failed** |
+| Canonical (artifacts on), 5 separate invocations | `ec7da26` | 4 passed / **1 failed** |
+| Canonical, inside the full `test:e2e:critical` gate | `ec7da26` | passed in both projects |
+
+So: it **does** fail at `ec7da26`; it **also** fails at `d01851e`, at an
+equal-or-higher rate (8/8 vs 7/8) on the unmodified pre-fix header; and it does
+**not** pass reliably in the canonical configuration either. The packet did not
+introduce it and did not worsen it.
+
+Two corrections to the disclosure. It is **not deterministic** under
+`PLAYWRIGHT_ARTIFACTS=0` (1 of 4 single invocations passed), and it is **not
+green in the canonical configuration** (1 of 5 canonical runs failed). The env
+var is not the variable; the test is simply flaky, and more so when repeats run
+back-to-back in one worker — which points at accumulated cross-test state, not
+at the motion mode or the artifact setting.
+
+**Can a real user hit it? Not reproducibly — no.** The failure state is real
+inside the runner: the error-context page snapshot shows a live
+`dialog "Ana menü"` with an `[active]` close button sitting over a fully
+mounted `/hakkimizda`. But the same user-order sequence driven directly
+(`/#sektorler` → menu → "Hakkımızda" → Back → menu → Forward) never reproduced
+it in **17 independent attempts**:
+
+- `reports/qa/tools/p03b-history-forward-probe.mjs`, 8 runs, 30 s polls each:
+  **8/8 cleared**, in [609, 542, 596, 538, 614, 530, 527, 520] ms — max 614 ms,
+  i.e. one ordinary 620 ms close animation. 0 latched, 0 unrecoverable.
+- `reports/qa/tools/p03b-history-forward-sweep.mjs`, sweeping the two delays
+  the spec and the probe differ on (`settleAfterBack` ∈ {200, 600, 1500} ms ×
+  `openToForward` ∈ {80, 300, 1000} ms): **9/9 cleared**, 538–641 ms.
+
+Step 3 in isolation does not fail; step 3 after the spec's steps 1–2 inside the
+runner does. On the evidence I have, this is a **test-harness artefact** with a
+real-close time of ~0.6 s — but I did not root-cause it, and I am not willing
+to call it harmless with more confidence than 17 samples buy. The suspected
+owner (`src/components/PageTransition.tsx`, DO_NOT_TOUCH) is plausible: a
+frozen `displayLocation` would keep the outgoing Header's `location.key` effect
+from ever learning the route changed.
+
+**Carry-forward, not a Phase 03 failure.** It should be booked as a
+gate-reliability defect against whichever phase owns `PageTransition.tsx`,
+with the flake rate stated honestly — a test that fails ~12 % cold and ~88 %
+under `--repeat-each` will produce spurious CI reds and will train people to
+re-run gates until they go green.
+
+---
+
+## Findings that are not failures
+
+1. **Escape cancels a menu-link navigation already in flight.** Deliberate
+   (the keydown handler nulls the pending target), byte-identical at
+   `d01851e`, and never leaves a latch. Under full motion the cancel window is
+   the 620 ms exit; under reduced motion it is a sub-frame race, so the same
+   input can navigate or not. Worth a decision at some point — "Escape means
+   cancel" is defensible, non-determinism is less so — but it is not this
+   phase's defect.
+2. **Nothing enforces `MENU_SETTLE_FALLBACK_MS > NAV_MOTION.open`.** The
+   coupling is documented on the line above the constant and the current values
+   are safe with 280 ms of headroom, but no test would catch someone raising
+   the transition past 900 ms, which would unmount the sheet mid-animation.
+   A one-line unit assertion would close it.
+3. **`src/components/navigation/NavCategoryPanel.tsx` still uses
+   `AnimatePresence`, and that is fine.** Checked because it is inside the
+   sheet: it has **no `onExitComplete`**, so no teardown rides on a callback,
+   and its reduced-motion `exit` is `{ opacity: 0 }` against an `animate` of
+   opacity 1 — a real animation exists, which is precisely the condition that
+   was missing in `Header.tsx`. It does not have the same hole.
+4. Carry-forwards unchanged from part 1: `ServiceDetail.tsx` axe debt,
+   `TeklifAl.tsx` importing `Footer` without rendering it, dead `.menu-*` CSS,
+   duplicated `design-tokens.css`, unreferenced `SoundToggle`/`ThemeToggle`,
+   win32-only golden gap.
+
+---
+
+## Commands run (re-verification)
+
+```bash
+npm run typecheck                                            # exit 0
+npm run lint                                                 # exit 0
+npm run build                                                # exit 0, 40.68s
+npx vite preview --port 4271 --strictPort                    # fixed dist
+
+PLAYWRIGHT_BASE_URL=http://localhost:4271 npx playwright test \
+  --project=critical-1280 --project=critical-375             # 105 passed, 3 skipped
+PLAYWRIGHT_BASE_URL=http://localhost:4271 npx playwright test \
+  --project=visual-375 --project=visual-1280 --project=visual-1440   # 9 passed
+PROBE_BASE_URL=http://localhost:4271 node scripts/grid-axis-probe.mjs  # PASS, 0 off-grid
+
+node reports/qa/tools/p03b-teardown-matrix.mjs               # 36/36
+node reports/qa/tools/p03b-teardown-adversarial.mjs          # 7 attacks x 2 modes
+node reports/qa/tools/p03b-a2-causation.mjs                  # 8 cells
+node reports/qa/tools/p03b-settle-timing.mjs                 # 10 samples
+node reports/qa/tools/p03b-history-forward-probe.mjs         # 8 runs
+node reports/qa/tools/p03b-history-forward-sweep.mjs         # 9 cells
+node reports/qa/tools/p03b-axe-reduced.mjs                   # 14 reduced-motion lanes
+node reports/qa/tools/p03-axe-audit.mjs                      # 8 full-motion lanes
+node reports/qa/tools/p03-reduced-motion-trap.mjs            # original instrument, re-run
+
+# negative controls, in scratch trees only — the real worktree was never modified
+# pre-fix Header.tsx extracted from d01851e into scratchpad/prefix-build, built,
+# served on 4272:
+PLAYWRIGHT_BASE_URL=http://localhost:4272 npx playwright test \
+  --project=critical-1280 e2e/landing/navigation-teardown.spec.ts   # 6 failed / 6 passed
+# R5: rename `const publicRoutes =` in scratchpad/r5-marker          # 2 passed -> 2 failed
+```
+
+## Scope integrity (re-verification)
+
+- **Production files modified by QA: NONE.** Working tree clean outside
+  `reports/qa/**`.
+- QA wrote only: `reports/qa/phase-03.md` (this appended section) and
+  `reports/qa/tools/p03b-*.mjs` + `p03b-axe-reduced-results.json`. Both inside
+  `QA_WRITE_ALLOWLIST`.
+- Negative controls were built in `scratchpad/prefix-build` and
+  `scratchpad/r5-marker`, filesystem copies with `node_modules` junctioned. No
+  `git worktree`, no branch, no checkout into the real tree. The `.env` files
+  robocopy carried into those scratch trees were deleted afterwards; no
+  credential value was printed at any point.
+- `SCOPE_INTEGRITY: PASS`
+
+## Tally (re-verification)
+
+- Repository Playwright: **114 passed** (105 critical + 9 visual), **3 skipped**
+  (lane guards), **0 failed**.
+- QA-owned checks: **106 passed**, **4 failed** — all four are the pre-existing
+  non-navigation `ServiceDetail.tsx` axe debt already booked in part 1, none is
+  a Phase 03 acceptance failure.
+- New repository tests added by QA: **0** — `QA_WRITE_ALLOWLIST` excludes
+  `e2e/**`. The 13 new repository tests (12 in `navigation-teardown.spec.ts`,
+  1 route-inventory guard) are the Coder's, and were verified rather than
+  written here. QA added 6 verification tools under `reports/qa/tools/`.
