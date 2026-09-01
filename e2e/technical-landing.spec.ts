@@ -218,7 +218,26 @@ test.describe("technical editorial landing phase 1", () => {
     expect(footer.kontur).toBe(0);
     expect(footer.navAyirac).not.toBe("0px");
     expect(footer.adresSutun).toBe(2);
-    expect(footer.bantOrani).toBeLessThan(0.17);
+    // 0.17 → 0.26, and the reason is a change of JOB, not a relaxation.
+    //
+    // Until Phase 04 this band was the LANDING's footer and nothing else. It
+    // carried four hand-picked columns of 15 links, no conversion path and two
+    // of the three legal links; every inner page ended instead in a separate
+    // 1398px mega footer (measured at 1280 on `/sss`). Phase 04 deleted that
+    // second footer and gave this one the whole site's footer job: the
+    // complete category-level map derived from `navigation/ia.ts` (21 links),
+    // the conversion pair `/teklif-al` + `/iletisim`, the journal link and the
+    // third legal link. Measured at 1280 after the consolidation: 298px,
+    // ratio 0.2328 (was 213px / 0.1666). At 1440 it is the same 298px.
+    //
+    // THE ASSERTION IS NOT WEAKENED, it is re-aimed at the same failure it
+    // always guarded against — a footer that stops being a title block:
+    //   · the mega footer this replaced would read 1.09 here;
+    //   · a fifth nav column, or a link column growing past ~9 rows, or the
+    //     conversion rule wrapping to two rows at desktop, each pushes past
+    //     0.26 (headroom over the measured value is 11%, tighter than the
+    //     0.17 bound's own 2% headroom over 0.1666 was).
+    expect(footer.bantOrani).toBeLessThan(0.26);
     // Nav sütunu marka sütunu genişlerse kaymamalı.
     //
     // Phase 02: beklenen aralık ~%41'den ~%37'ye taşındı çünkü ALTINDAKİ
@@ -330,7 +349,21 @@ test.describe("technical editorial landing phase 1", () => {
     expect(closed.violations.filter((item) =>
       item.impact === "serious" || item.impact === "critical")).toEqual([]);
     await page.getByRole("button", { name: "Menüyü aç" }).click();
-    await expect(page.locator("[data-fullscreen-menu]")).toBeVisible();
+    const menu = page.locator("[data-fullscreen-menu]");
+    await expect(menu).toBeVisible();
+    /* `toBeVisible()` resolves the moment the sheet is in the DOM with a
+       non-zero box — i.e. at the START of its 620ms opening. Scanning there
+       measures colours mid-fade and reports contrast against a partially
+       transparent foreground: axe read `#585e5d` for `.tl-menu-family-index`,
+       which is `--tl-on-dark-faint` (#868e8b) composited at ~64% opacity, and
+       called it 2.98:1. The settled colour is the token's own 6.0:1.
+
+       This is a measurement race in the TEST, not a defect in the menu, and
+       waiting for it does not weaken anything: the scan still covers the whole
+       open sheet, and it now reports the colours a reader actually sees. */
+    await expect.poll(() => menu.evaluate((element) =>
+      element.getAnimations({ subtree: true }).filter((animation) =>
+        animation.playState === "running").length), { timeout: 10_000 }).toBe(0);
     const open = await new AxeBuilder({ page }).include("[data-fullscreen-menu]").analyze();
     expect(open.violations.filter((item) =>
       item.impact === "serious" || item.impact === "critical")).toEqual([]);

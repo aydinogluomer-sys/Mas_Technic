@@ -223,11 +223,15 @@ export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label
                 </a>
               ))}
             </div>
+            {/* The copyright line comes across from the mega footer's bottom
+                bar: the title block never had one, and a site footer without
+                it is an omission rather than a style choice. Its live `IST
+                hh:mm:ss` clock did NOT come across — a readout that states
+                nothing about the company. */}
             <p className="tl-meta-run">
+              <span>© {new Date().getFullYear()} MAS TECHNIC</span>
               <span>ÇİZEN: MAS TECHNIC</span>
               <span>ÖLÇEK: 1:1</span>
-              <span>TARİH: 17.05.2024</span>
-              <span>REVİZYON: B</span>
               <span>PAFTA: 01/14</span>
             </p>
             <p className="tl-legal">

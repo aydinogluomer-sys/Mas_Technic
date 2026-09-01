@@ -52,7 +52,7 @@ export const NotFound = () => {
   return (
     <PageShell rail={{ no: "404", label: "HATA" }}>
       <div className="shell-notfound">
-        <p className="shell-eyebrow">ERR :: PAGE_NOT_FOUND</p>
+        <p className="shell-eyebrow">ERR::PAGE_NOT_FOUND</p>
         <p className="shell-notfound-code" aria-hidden="true">404</p>
         <h1 className="shell-notfound-title">
           Aradığınız sayfa <em>bulunamadı</em>

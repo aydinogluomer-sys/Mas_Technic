@@ -209,14 +209,19 @@
 .shell-hero-body { align-items: end; padding-block: var(--tl-s7) var(--tl-s6); }
 .shell-hero-copy { grid-column: 1 / span 7; padding-right: var(--tl-s6); }
 
+/* Small mono accent labels take the bronze step their ground can carry —
+   `--tl-bronze` itself measures 4.32:1 at this size and axe flags it. */
 .shell-eyebrow {
   margin: 0 0 var(--tl-s3);
-  color: var(--tl-bronze);
+  color: var(--tl-bronze-light);
   font: 600 10px/1 var(--tl-font-mono);
   letter-spacing: .18em;
   text-transform: uppercase;
 }
-.shell-root[data-shell-surface="paper"] .shell-eyebrow { color: var(--tl-bronze); }
+.shell-root[data-shell-surface="paper"] .shell-eyebrow { color: var(--tl-bronze-ink); }
+/* The footer keeps the graphite ground on paper pages, so its labels keep the
+   graphite step too. */
+.shell-root[data-shell-surface="paper"] .tl-footer .shell-eyebrow { color: var(--tl-bronze-light); }
 
 .shell-hero-copy h1 {
   margin: 0;
@@ -322,10 +327,11 @@
   top: calc(-1 * var(--tl-s2));
   left: var(--tl-s4);
   padding-inline: var(--tl-s2);
-  color: var(--tl-bronze);
+  color: var(--tl-bronze-light);
   font: 600 9px/1.4 var(--tl-font-mono);
   letter-spacing: .14em;
 }
+.shell-root[data-shell-surface="paper"] .shell-evidence-kind { color: var(--tl-bronze-ink); }
 .shell-root[data-shell-surface="graphite"] .shell-evidence-kind { background: var(--tl-black); }
 .shell-root[data-shell-surface="paper"] .shell-evidence-kind { background: var(--tl-paper-raised); }
 
@@ -635,6 +641,14 @@
 }
 .shell-footer-secondary:hover { border-color: var(--tl-white); }
 
+/* Tablet has six master columns, so `1/span 6` + `7/-1` cannot both fit and
+   the actions cell wrapped to a second row (measured: the conversion rule was
+   193px tall at 768). Halves of the six-column field instead. */
+@media (max-width: 1180px) {
+  .shell-footer-journal { grid-column: 1 / span 3; }
+  .shell-footer-actions { grid-column: 4 / -1; }
+}
+
 /* Mobile disclosures. Hidden above 767px; the four nav columns are hidden
    below it. Two renderings of one derived list — see `footer-groups.ts`. */
 .shell-footer-disclosures { display: none; }
@@ -652,10 +666,19 @@
   .shell-footer .tl-footer-body > nav { display: none; }
   .shell-footer-conversion { order: 3; grid-template-columns: 1fr; }
   .shell-footer-journal,
-  .shell-footer-actions { grid-column: 1 / -1; }
-  .shell-footer-actions { justify-content: flex-start; border-left: 0; border-top: var(--tl-rule-size) solid var(--tl-rule); }
+  .shell-footer-actions { grid-column: 1 / -1; padding: var(--tl-s3) var(--tl-s4); }
+  .shell-footer-journal { justify-content: space-between; gap: var(--tl-s3); }
+  .shell-footer-actions {
+    flex-wrap: nowrap;
+    justify-content: stretch;
+    gap: var(--tl-s3);
+    border-left: 0;
+    border-top: var(--tl-rule-size) solid var(--tl-rule);
+  }
+  /* Two buttons on ONE row: stacked they cost a second 44px target plus a gap
+     for no reading benefit (measured: the rule was 202px tall at 375). */
   .shell-footer-primary,
-  .shell-footer-secondary { flex: 1 1 auto; justify-content: center; min-height: 44px; }
+  .shell-footer-secondary { flex: 1 1 0; justify-content: center; min-height: 44px; padding-inline: var(--tl-s3); }
 }
 
 .shell-footer-disclosure { border-bottom: var(--tl-rule-size) solid var(--tl-rule); }
@@ -711,10 +734,11 @@
 
 .shell-state-label {
   margin: 0;
-  color: var(--tl-bronze);
+  color: var(--tl-bronze-light);
   font: 600 10px/1 var(--tl-font-mono);
   letter-spacing: .2em;
 }
+.shell-root[data-shell-surface="paper"] .shell-state-label { color: var(--tl-bronze-ink); }
 
 .shell-state-title { margin: 0; font-size: clamp(20px, 2vw, 28px); font-weight: 700; letter-spacing: -.015em; }
 

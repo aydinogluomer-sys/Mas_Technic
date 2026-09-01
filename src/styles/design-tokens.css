@@ -95,8 +95,17 @@
      Bronze is the only editorial accent; green is semantic status only;
      stamp red belongs to the quality seal and nothing else.
      ---------------------------------------------------------------------- */
+  /* Three steps of ONE accent, chosen by ground rather than by taste.
+     `--tl-bronze` is the mid step: it clears 3:1 and is right for large
+     editorial type on either ground, but at 9–11px mono it measures 4.32:1 on
+     graphite and 4.31:1 on paper — both under the 4.5:1 floor for small text,
+     and axe flagged exactly that on `.shell-eyebrow` in Phase 04. So small
+     mono labels take the step that suits their ground:
+       graphite → `--tl-bronze-light`  9.9:1 on `--tl-black`
+       paper    → `--tl-bronze-ink`    6.2:1 on `--tl-paper-sunken` */
   --tl-bronze: #8a7359;
   --tl-bronze-light: #c9b699;
+  --tl-bronze-ink: #6f5b45;
   --tl-green: #72e291;
   --tl-green-ink: #8ea56a;
   --tl-stamp: #8a4030;

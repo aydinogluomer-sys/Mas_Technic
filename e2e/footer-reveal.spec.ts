@@ -6,12 +6,24 @@ import {
 } from "./helpers";
 
 /**
- * Paylaşılan `Footer` sözleşmesi. `/` bu listede DEĞİL: üretim landing'i
- * kendi antet-bloğu footer'ını (`.tl-footer`) basar ve paylaşılan footer'ı
- * kullanmaz. Landing footer'ının ulaşılabilirliği
- * `e2e/landing/landing-structure.spec.ts` içinde ayrı olarak sınanır.
+ * Paylaşılan footer sözleşmesi.
+ *
+ * FAZ 04 — `/` VE `/teklif-al` ARTIK BU LİSTEDE.
+ *
+ * Eski not "`/` bu listede DEĞİL: üretim landing'i kendi antet-bloğu
+ * footer'ını basar ve paylaşılan footer'ı kullanmaz" diyordu. O ayrım, sitenin
+ * ÜÇ ayrı footer diliyle yaşamasının sonucuydu
+ * (`reports/baseline/shell-inventory.md` §2). Faz 04 tek footer'a indirdi ve
+ * hayatta kalan, antet bloğunun kendisi oldu — yani `/` artık paylaşılan
+ * footer'ı basıyor ve aynı sözleşmeyi vermek zorunda.
+ *
+ * `/teklif-al` de listede: `Footer`'ı import edip HİÇ render etmiyordu
+ * (`src/pages/TeklifAl.tsx:54`), yani sitenin birincil dönüşüm sayfasının hiç
+ * footer'ı, hiç yasal bağlantısı ve hiç çıkış yolu yoktu.
+ *
+ * Kapsam GENİŞLEDİ, gevşemedi: aynı iddialar üç yerine beş rotada koşuyor.
  */
-const ROUTES = ["/sss", "/iletisim", "/malzemeler"] as const;
+const ROUTES = ["/", "/sss", "/iletisim", "/malzemeler", "/teklif-al"] as const;
 
 for (const route of ROUTES) {
   test(`complete footer is reachable on ${route}`, async ({ page }, testInfo) => {

@@ -51,15 +51,27 @@ const STATIC_FULL_SHELL_ROUTES = [
   "/iletisim",
   "/malzemeler",
   "/blog",
+  /* FAZ 04 — `/teklif-al` TAM KABUĞA KATILDI.
+     `src/pages/TeklifAl.tsx:54` `Footer`'ı import ediyor ama HİÇBİR yerde
+     render etmiyordu; sitenin birincil dönüşüm sayfasının footer'ı, yasal
+     bağlantısı ve ikincil navigasyonu yoktu — görsel olarak da doğrulanmıştı
+     (`reports/baseline/visual/teklif-al-1440.png`). `PageShell` ile artık her
+     rota gibi tek kabuğu basıyor, dolayısıyla istisna değil sözleşme. */
+  "/teklif-al",
 ] as const;
 
 /**
- * Paylaşılan header'ı basmayan halka açık yüzeyler. `/` buradan çıktı (Faz 03);
- * geriye yalnızca dönüşüm, kimlik ve hata yüzeyleri kaldı. Bu küme yalnızca
- * TOPLAM sayımın 94'te kalmasını kanıtlamak için var.
+ * Paylaşılan header'ı VE footer'ı basmayan halka açık yüzeyler.
+ *
+ * `/` Faz 03'te, `/teklif-al` Faz 04'te bu kümeden çıktı. Geriye yalnızca
+ * kimlik akışı ve onun yönlendirme takma adı kaldı. Onlar da Faz 04'te
+ * `PageShell` İÇİNDE render ediliyor — kök, sayfa tabakası, token'lar, odak
+ * halkası ve `<main id="main-content">` (ki hiçbirinde yoktu, bu yüzden global
+ * atlama bağlantısının hedefi de yoktu) — fakat `navigation={false}
+ * footer={false}` ile: bir kimlik doğrulama adımı görevin ortasında menü ve
+ * çıkış listesi sunmamalı. Bu küme TOPLAM sayımın 94'te kalmasını kanıtlar.
  */
 const NON_SHELL_PUBLIC_ROUTES = [
-  "/teklif-al",
   "/giris",
   "/sifremi-unuttum",
   "/reset-password",
@@ -276,14 +288,16 @@ test.describe("Shared public shell accessibility", () => {
       /import\.meta\.env\.DEV\s*\?\s*lazy\(\(\)\s*=>\s*import\("\.\/routes\/DevRoutes"\)\)\s*:\s*null;/,
     );
     expect(new Set([...CATEGORY_ROUTES, ...SERVICE_ROUTES, ...MATERIAL_ROUTES, ...BLOG_ROUTES]).size).toBe(80);
-    // 88 → 89: `/` paylaşılan kabuğa katıldı (Faz 03 / B14).
-    expect(new Set(FULL_SHELL_ROUTES).size).toBe(89);
+    // 88 → 89 → 90: `/` Faz 03'te (B14), `/teklif-al` Faz 04'te katıldı.
+    expect(new Set(FULL_SHELL_ROUTES).size).toBe(90);
     expect(FULL_SHELL_ROUTES).toContain("/");
-    // Toplam DEĞİŞMEDİ: `/` istisna kümesinden tam kabuk kümesine taşındı.
+    expect(FULL_SHELL_ROUTES).toContain("/teklif-al");
+    // Toplam DEĞİŞMEDİ: her iki rota da istisna kümesinden tam kabuk kümesine
+    // TAŞINDI; yeni rota eklenmedi, hiçbiri kaldırılmadı.
     expect(new Set([...FULL_SHELL_ROUTES, ...NON_SHELL_PUBLIC_ROUTES]).size).toBe(94);
   });
 
-  test("keeps all 89 canonical full-shell routes on one header/footer contract", async ({ page }, testInfo) => {
+  test("keeps all 90 canonical full-shell routes on one header/footer contract", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical all-route shell lane");
     test.setTimeout(600_000);
     const runtimeErrors: string[] = [];
@@ -363,20 +377,31 @@ test.describe("Shared public shell accessibility", () => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical shell-exception lane");
     const exceptions = [
       // `/` ARTIK BİR İSTİSNA DEĞİL — global navigasyonu basıyor ve yukarıdaki
-      // 89 rotalık tam kabuk sözleşmesinde ölçülüyor (B14 kapandı). Faz 01'in
+      // tam kabuk sözleşmesinde ölçülüyor (B14 kapandı). Faz 01'in
       // `{ route: "/", header: 0, footer: 1 }` satırı tam da bu an için
       // yazılmıştı; amacına ulaştığı için kaldırıldı, gevşetilmedi.
+      // `/teklif-al` de FAZ 04'te bu tablodan çıktı: artık header VE footer
+      // basıyor, dolayısıyla 90 rotalık sözleşmede ölçülüyor.
       // Dev-only rotalar üretim derlemesinde hiç oluşturulmaz: istek `*`
-      // üzerinden 404 kabuksuz sayfaya düşer.
-      { route: "/technical-preview", finalPaths: ["/technical-preview"], header: 0, footer: 0 },
-      { route: "/legacy-landing", finalPaths: ["/legacy-landing"], header: 0, footer: 0 },
-      { route: "/test", finalPaths: ["/test"], header: 0, footer: 0 },
-      { route: "/teklif-al", finalPaths: ["/teklif-al"], header: 1, footer: 0 },
-      { route: "/cad-dashboard", finalPaths: ["/teklif-al"], header: 1, footer: 0 },
+      // üzerinden 404 sayfasına düşer.
+      { route: "/technical-preview", finalPaths: ["/technical-preview"], header: 1, footer: 1 },
+      { route: "/legacy-landing", finalPaths: ["/legacy-landing"], header: 1, footer: 1 },
+      { route: "/test", finalPaths: ["/test"], header: 1, footer: 1 },
+      { route: "/cad-dashboard", finalPaths: ["/teklif-al"], header: 1, footer: 1 },
       { route: "/giris", finalPaths: ["/giris"], header: 0, footer: 0 },
       { route: "/sifremi-unuttum", finalPaths: ["/sifremi-unuttum"], header: 0, footer: 0 },
       { route: "/reset-password", finalPaths: ["/reset-password"], header: 0, footer: 0 },
-      { route: "/__shell-404__", finalPaths: ["/__shell-404__"], header: 0, footer: 0 },
+      /* FAZ 04 — 404 ARTIK KABUKSUZ DEĞİL.
+         `header: 0, footer: 0` eski hâli tarif ediyordu: 404, kendi
+         açık/teal tuval estetiğiyle, ne header ne footer içeren, dört elle
+         seçilmiş bağlantıdan başka çıkışı olmayan bir çıkmazdı
+         (`reports/baseline/shell-inventory.md` §4 madde 2) — ve 15 saniye
+         sonra `window.location`'ı ana sayfaya yazan bir sayaç barındırıyordu.
+         Faz 04 kabuk sözleşmesi (kabul ölçütü 4: hiçbir halka açık sayfa eski
+         kabuğa ihtiyaç duymamalı) onu `PageShell` içine aldı; içerik ve
+         kompozisyon hâlâ Faz 08'in (ID 680–687). Beklenti gevşetilmedi,
+         karşı yöne çevrildi: kabuğun VARLIĞI artık zorunlu. */
+      { route: "/__shell-404__", finalPaths: ["/__shell-404__"], header: 1, footer: 1 },
       { route: "/admin/login", finalPaths: ["/admin/login"], header: 0, footer: 0 },
       { route: "/admin", finalPaths: ["/admin", "/admin/login"], header: 0, footer: 0 },
       { route: "/musteri-paneli", finalPaths: ["/musteri-paneli", "/giris"], header: 0, footer: 0 },
@@ -650,7 +675,15 @@ test.describe("Shared public shell accessibility", () => {
 
     await fullScrollToBottom(page);
     const footer = page.getByRole("contentinfo");
-    const containerPadding = await footer.locator(".container-industrial").evaluate((element) => {
+    /* FAZ 04 — SEÇİCİ DEĞİŞTİ, İDDİA DEĞİŞMEDİ.
+       Ölçüm `footer .container-industrial` üzerindeydi, çünkü mega footer
+       safe-area boşluğunu o Tailwind kabına veriyordu
+       (`.footer-industrial .container-industrial`, `src/index.css`). Faz 04 o
+       footer'ı sildi; hayatta kalan antet bloğu boşluğu BANDIN KENDİSİNE
+       veriyor (`src/styles/shell.css`), böylece sayfanın kılcal yan çizgileri
+       tabaka kenarında kalıp yalnızca İÇERİK içeri çekiliyor. Ölçülen şey
+       aynı: dört kenarın hiçbirinde içerik güvenli alanın dışına taşmıyor. */
+    const containerPadding = await footer.evaluate((element) => {
       const style = getComputedStyle(element);
       return {
         left: Number.parseFloat(style.paddingLeft),
@@ -728,7 +761,14 @@ test.describe("Shared public shell accessibility", () => {
       expect(state.opacity).toBe("1");
       expect(state.transform).toBe("none");
     }
-    expect(await page.locator("[data-footer-information-band]").evaluate((element) =>
+    /* FAZ 04 — DAHA DAR DEĞİL, DAHA GENİŞ.
+       Bu satır tek bir elemanı ölçüyordu: `[data-footer-information-band]`,
+       yani mega footer'ın kayan marka şeridi (`src/components/MarqueeBand.tsx`).
+       O şerit silindi — landing zaten 03 bandında bir marquee basıyor ve aynı
+       sayfada iki tanesi gürültü. Ölçülen GARANTİ ("azaltılmış hareket altında
+       footer'da hiçbir şey oynamaz") korunuyor, ama artık tek bir banda değil
+       BÜTÜN footer'a uygulanıyor; yani bu iddia eskisinin üst kümesi. */
+    expect(await page.getByRole("contentinfo").evaluate((element) =>
       element.getAnimations({ subtree: true }).filter((animation) => animation.playState === "running").length)).toBe(0);
 
     await page.evaluate(() => {
