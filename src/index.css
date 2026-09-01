@@ -490,23 +490,20 @@
     @apply max-w-7xl mx-auto px-6 lg:px-8;
   }
 
-  .footer-industrial .container-industrial {
-    padding-right:max(1.5rem,var(--shell-safe-right));
-    padding-bottom:max(2.5rem,var(--shell-safe-bottom));
-    padding-left:max(1.5rem,var(--shell-safe-left));
-  }
+  /* The three `.footer-industrial` rules that stood here — the safe-area
+     container padding, the `scroll-margin` for footer controls, and the
+     support-launcher fade — MOVED to `src/styles/shell.css` in Phase 04, onto
+     `.tl-footer`.
 
-  .footer-industrial :is(a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])) {
-    scroll-margin-block:calc(5rem + var(--shell-safe-top));
-  }
-
-  /* A fixed support launcher must not cover the footer control currently
-     receiving keyboard focus. Opacity preserves its sequential focus stop;
-     it returns as soon as focus advances to the launcher itself. */
-  body:has(.footer-industrial:focus-within) [data-chat-launcher] {
-    opacity:0;
-    pointer-events:none;
-  }
+     They could not simply be re-pointed and left here. Tailwind prunes
+     `@layer components` rules whose class candidates are absent from the
+     scanned content, and `footer-industrial` only ever existed in the deleted
+     `src/components/Footer.tsx`. Verified in the build output: after that file
+     went, `dist/assets/index-*.css` contained no `[data-chat-launcher]` rule
+     at all, so the launcher stopped yielding to a focused footer control —
+     a silent regression that nothing in the source would have shown.
+     `shell.css` declares them outside any Tailwind layer, where they cannot
+     be pruned. */
 
   .heading-industrial {
     @apply font-bold tracking-tight text-foreground;
@@ -1060,25 +1057,14 @@ html::-webkit-scrollbar {
     background-color: #151b20;
   }
 
-  /* Footer paleti ana sayfa (teknik pafta) footer'ıyla aynı: düz koyu zemin,
-     krem metin kademeleri, teal yerine nötr ızgara. Yalnızca bu kapsamda geçerli;
-     global tokenlere dokunulmaz. */
-  .footer-industrial {
-    background: #070b0d;
-    --precision-steel-rgb: 238 233 222;
-    --text-vignette: rgba(238, 233, 222, 0.10);
-    --text-primary: #f3f0e8;
-    --text-secondary: #c3c8c5;
-    --text-technical: #c5cac7;
-    --text-hint: #a4aba8;
-    --surface-border: rgba(227, 231, 225, 0.28);
-    --surface-border-hover: rgba(227, 231, 225, 0.42);
-    /* Aksan teal degil krem: ana sayfa footer'inin vurgu rengi.
-       --primary/--primary-foreground cifti birlikte degistigi icin
-       dolgu butonlarin kontrasti korunur (16.3:1 / 14.6:1). */
-    --primary: 41 32% 90%;
-    --primary-foreground: 197 16% 8%;
-  }
+  /* `.footer-industrial` KALDIRILDI (Faz 04).
+
+     Bu blok mega footer'ın içinde tema token'larını yeniden tanımlayıp ana
+     sayfa footer'ının paletini TAKLİT etmesini sağlıyordu — iki ayrı footer'ı
+     birbirine benzetmek için yazılmış bir yamaydı. İki footer yok artık:
+     `src/components/shell/SiteFooter.tsx` doğrudan `--tl-*` token'larıyla
+     çizilen antet bloğunu her rotada basıyor, dolayısıyla taklit edilecek bir
+     palet de kalmadı. */
 }
 
 /* ── Rota perdesi ──

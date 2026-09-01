@@ -42,15 +42,22 @@ const SUGGESTED = [
   { label: "SSS", to: "/sss", icon: HelpCircle },
 ];
 
-export const NotFound = () => {
+/**
+ * `shell={false}` is for the PANEL branch only (`src/App.tsx` `panelRoutes`).
+ * `/admin*` and `/musteri-paneli` are out of this run's scope per
+ * `USER_INPUTS.md` §N and carry their own chrome; dropping the public
+ * navigation and the site footer onto an admin 404 would be this phase
+ * reaching into that shell. The body is identical either way, so both error
+ * pages still say the same thing in the same language.
+ */
+export const NotFound = ({ shell = true }: { shell?: boolean }) => {
   const location = useLocation();
 
   useEffect(() => {
     console.error("404 Error:", location.pathname);
   }, [location.pathname]);
 
-  return (
-    <PageShell rail={{ no: "404", label: "HATA" }}>
+  const body = (
       <div className="shell-notfound">
         <p className="shell-eyebrow">ERR::PAGE_NOT_FOUND</p>
         <p className="shell-notfound-code" aria-hidden="true">404</p>
@@ -77,6 +84,8 @@ export const NotFound = () => {
           ))}
         </nav>
       </div>
-    </PageShell>
   );
+
+  if (!shell) return <div className="shell-root shell-notfound-bare" data-shell-surface="paper">{body}</div>;
+  return <PageShell rail={{ no: "404", label: "HATA" }}>{body}</PageShell>;
 };

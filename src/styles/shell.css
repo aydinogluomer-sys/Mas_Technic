@@ -523,6 +523,22 @@
   scroll-margin-block: calc(5rem + var(--shell-safe-top));
 }
 
+/* A fixed support launcher must not cover the footer control that currently
+   has keyboard focus. Opacity rather than `display`, so the launcher keeps its
+   own sequential focus stop; it returns the moment focus advances to it.
+
+   THIS RULE LIVES HERE, NOT IN `index.css`, ON PURPOSE. It used to read
+   `body:has(.footer-industrial:focus-within)` inside `@layer components`.
+   Tailwind prunes layered rules whose class candidates are not in the scanned
+   content, and `footer-industrial` existed only in the deleted
+   `src/components/Footer.tsx` — so the moment that file went, the rule
+   vanished from `dist/` and the launcher stopped yielding. Verified by
+   grepping the build output. Outside a Tailwind layer it cannot be pruned. */
+body:has(.tl-footer:focus-within) [data-chat-launcher] {
+  opacity: 0;
+  pointer-events: none;
+}
+
 @media (max-width: 1180px) {
   .tl-footer-brand { grid-column: 1 / -1; order: 1; }
   .tl-footer nav { grid-column: 1 / -1; order: 2; border-top: 1px solid var(--tl-rule); row-gap: var(--tl-s5); }
@@ -544,6 +560,46 @@
     overflow: hidden;
   }
   .tl-title-block { order: 5; }
+}
+
+/* ── Forced colors ────────────────────────────────────────────────────────
+   The footer STATES the system palette instead of leaving it to the UA
+   override. Two reasons, one of them measured:
+
+   1. Correctness. Everything in this band is drawn from `--tl-*` tokens on a
+      graphite ground. When the reader has chosen their own palette, the band
+      must hand every one of those decisions back, and saying so is more
+      honest than hoping the override reaches each declaration.
+   2. It is verifiable. Under `forced-colors: active`, axe measured this
+      footer's foregrounds as the AUTHORED `#f3f0e8` / `#c3c8c5` / `#a4aba8`
+      against a Canvas-white background — a pair that corresponds to nothing
+      on screen (`getComputedStyle` reports black on white there), but which
+      is a real failure of the tool's oracle and therefore of the gate. With
+      the system colours declared, tool and browser agree.
+
+   Only colour is restated. Geometry, rules and spacing are untouched, so the
+   band reads the same; `forced-color-adjust` stays `auto` everywhere, which
+   `e2e/shared-shell-accessibility.spec.ts` asserts on every focus target. */
+/* `!important` on purpose and only here. These declarations exist to REPLACE
+   every authored colour in the band with the reader's own, which is what the
+   UA override does anyway; without it the band's own more specific rules
+   (`.tl-footer address p`, `.shell-root[data-shell-surface="paper"]
+   .tl-footer .shell-eyebrow`) win the cascade and the restatement is
+   incomplete — measured. */
+@media (forced-colors: active) {
+  .tl-footer,
+  .tl-footer * { color: CanvasText !important; }
+  .tl-footer,
+  .tl-title-block { background: Canvas !important; }
+  .tl-footer :is(a, button) { color: LinkText !important; }
+  .tl-footer .shell-footer-primary,
+  .tl-footer .shell-footer-secondary {
+    color: ButtonText !important;
+    background: ButtonFace !important;
+    border: 1px solid ButtonBorder !important;
+  }
+  .tl-footer-body::before,
+  .tl-title-block::before { color: GrayText !important; }
 }
 
 @media (max-width: 767px) {
@@ -640,6 +696,24 @@
   font-weight: 600;
 }
 .shell-footer-secondary:hover { border-color: var(--tl-white); }
+
+/* Room for the fixed support launcher, and ONLY where one exists.
+
+   MEASURED: the launcher is 56px wide at `right: max(1rem, safe)` and
+   `bottom: calc(5.75rem + safe)` (`src/components/ChatBot.tsx`), so with the
+   footer scrolled to the bottom of a 1280x800 viewport its band lands on the
+   conversion rule's right edge — axe-free but real: `Bize Ulaşın` was
+   measured obscured by it. The mega footer solved the same collision with
+   `md:pr-20` on its bottom bar; this is that reservation, on the one cell it
+   actually affects, so the master tracks are untouched.
+
+   `:has()` keeps it honest: the landing does not mount a launcher (see the
+   per-route chrome note in `src/App.tsx`), so the landing's footer keeps its
+   full measure. Below 768 the launcher sits far above the conversion rule —
+   the footer is 741px tall there — and the buttons stay full-width. */
+@media (min-width: 768px) {
+  body:has([data-chat-launcher]) .shell-footer-actions { padding-right: 88px; }
+}
 
 /* Tablet has six master columns, so `1/span 6` + `7/-1` cannot both fit and
    the actions cell wrapped to a second row (measured: the conversion rule was
@@ -787,6 +861,15 @@
 
 @media (prefers-reduced-motion: reduce) {
   .shell-state-scan i { animation: none; width: 100%; opacity: .55; }
+}
+
+/* The panel branch's 404: the same body, no public navigation and no site
+   footer, because `/admin*` and `/musteri-paneli` own their own chrome. */
+.shell-notfound-bare {
+  min-height: 100vh;
+  padding-inline: clamp(24px, 6vw, 96px);
+  color: var(--tl-ink);
+  background: var(--tl-paper-sunken);
 }
 
 /* ── 404 ──────────────────────────────────────────────────────────────────

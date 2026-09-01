@@ -145,7 +145,10 @@ const AnimatedRoutes = () => {
             </CustomerProtectedRoute>
           }
         />
-        <Route path="*" element={<NotFound />} />
+        {/* `shell={false}`: the panel branch keeps its own chrome. Giving an
+            admin 404 the public navigation and the site footer would be this
+            phase reaching into a shell `USER_INPUTS.md` §N puts out of scope. */}
+        <Route path="*" element={<NotFound shell={false} />} />
       </Routes>
     </Suspense>
   );
