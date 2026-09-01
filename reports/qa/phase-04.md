@@ -1139,3 +1139,80 @@ violations did not disappear because they were repaired — they moved into axe'
 overlapped by another element"). The elements are still rendered and still
 below 4.5 : 1. Axe's silence is still not a fix. That part stands; only the
 *direction of change* attributed to Phase 04 was wrong.
+
+## R6 — the axe node-count drop
+
+### R6_VERDICT: SAMPLING_ARTEFACT
+
+Instrument: `reports/qa/tools/p04c-r6-reveal-vs-hiding.mjs`, same tool against
+both live servers. It separates the two possibilities explicitly, because they
+are not the same thing:
+
+- `opacity: 0` — element is **still in the accessibility tree**, still announced
+  by a screen reader, still focusable. axe cannot run a *colour* check on it
+  because it cannot sample a ground. **Sampling artefact.**
+- `display:none` / `visibility:hidden` / `aria-hidden="true"` / `inert` —
+  element is **removed from the accessibility tree**. **Real defect.**
+
+`/hizmetler/cnc-frezeleme` @1280, text-bearing elements inside `<main>`:
+
+| | Phase 03 `076c16a` | Phase 04 fixed `97e134b` |
+|---|---|---|
+| **normal motion, at rest** | | |
+| axe violation nodes | 33 | 2 |
+| hidden **from assistive tech** | **75** (40 `aria-hidden`, 35 `display:none`) | **2** (`aria-hidden`) |
+| `opacity:0` only, still in a11y tree | 0 | 198 |
+| **normal motion, after full scroll** | | |
+| axe violation nodes | 33 | 30 |
+| hidden **from assistive tech** | **75** | **2** |
+| `opacity:0` only | 0 | 0 |
+| **reduced motion, at rest** | | |
+| axe violation nodes | **5** | **2** |
+| hidden from assistive tech | 68 | 2 |
+| `opacity:0` only, still in a11y tree | **194** | **198** |
+| **reduced motion, after full scroll** | | |
+| axe violation nodes | **33** | **30** |
+| `opacity:0` only | 3 | 0 |
+
+Three findings, each decisive:
+
+1. **Nothing is hidden from assistive technology.** The count of elements
+   genuinely removed from the a11y tree is **2 before the scroll and 2 after**
+   on the fixed build — it does not change with the reveal. The 198 elements
+   sitting at `opacity:0` at rest are all still in the a11y tree; they are
+   readable by a screen reader at that moment and they all reach `opacity:1`
+   after a scroll pass. This is axe declining to colour-sample a transparent
+   element, not content being withheld.
+
+2. **Phase 04 hides fewer things, not more.** 2 elements hidden from AT versus
+   Phase 03's 75. The Phase-03 figure is dominated by 35 `display:none`
+   mobile-menu links (`md:hidden` at 1280) and 40 `aria-hidden` decorations that
+   the shell consolidation removed from `<main>`. The direction of travel is
+   the opposite of a hiding regression.
+
+3. **The reveal gating is PRE-EXISTING, not introduced by Phase 04.** Under
+   `prefers-reduced-motion: reduce` the **Phase 03** build shows the same
+   behaviour: 194 of 333 text elements at `opacity:0` at rest, and axe reporting
+   **5** nodes at rest that settle back to **33** after a scroll pass. So both
+   builds under-report at rest and both recover on scroll. The Coder's claim
+   that "both builds behave the same" is confirmed in mechanism. Its exact
+   figures (73/77 at rest, ~14 after) differ from mine because it counted over a
+   different scan scope; the mechanism and the conclusion are identical.
+
+**Corroboration of R5.** After a full scroll pass **both** builds report exactly
+`color-contrast x28`. Identical rule, identical node count, both builds — which
+is independently consistent with the R5 measurement of delta 0.000 and with
+B24 being unchanged by Phase 04.
+
+**What still stands from my original D3.** The 28 `color-contrast` violations
+never went away. At rest they are merely unsampleable; after a scroll pass they
+return in full on the Phase 04 build. Axe's silence at rest is still not a fix,
+and B24 is still a real open defect at 4.025 : 1 against a 4.5 : 1 requirement —
+carried forward to Phases 07/13.
+
+**Observation for the motion phase (not a Phase 04 failure).** Under
+`prefers-reduced-motion: reduce`, 198 of 214 text elements are still gated
+behind a scroll-triggered reveal at rest on the fixed build. A reduced-motion
+user arguably ought to receive content in its final state immediately. This is
+pre-existing (Phase 03 does the same, 194/333) and outside this correction
+packet's scope, but it is worth a look when the motion system is next opened.
