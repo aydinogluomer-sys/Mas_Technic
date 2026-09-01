@@ -91,6 +91,14 @@ test.describe("shell sheet — one cascade across chunks", () => {
       const isSheetSelector = (selectorText: string) =>
         selectorText.split(",").some((part) => part.trim() === ".tl-sheet");
 
+      /* Classify by what the condition MEANS, never by whether it matches the
+         viewport this project happens to run at: the CSSOM lists every rule at
+         every width, and the split is a shipping defect, not a runtime one. */
+      const isMobileCondition = (conditionText: string) => {
+        const match = /max-width:\s*(\d+(?:\.\d+)?)px/.exec(conditionText);
+        return !!match && Number(match[1]) <= 767;
+      };
+
       for (const styleSheet of [...document.styleSheets]) {
         let topLevel: CSSRule[];
         try {
@@ -103,9 +111,7 @@ test.describe("shell sheet — one cascade across chunks", () => {
         const walk = (rules: CSSRule[], mobileCondition: boolean) => {
           for (const rule of rules) {
             if (rule instanceof CSSMediaRule) {
-              /* Any condition that is satisfied at or below the mobile
-                 breakpoint counts as the mobile override's home. */
-              walk([...rule.cssRules], mobileCondition || window.matchMedia(rule.conditionText).matches);
+              walk([...rule.cssRules], mobileCondition || isMobileCondition(rule.conditionText));
               continue;
             }
             if (rule instanceof CSSSupportsRule || rule instanceof CSSLayerBlockRule) {

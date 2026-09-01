@@ -47,9 +47,13 @@
    shipped in two chunks and its override in one, so the landing chunk's copy
    of the base re-asserted the hairline. Measured at 375px: `/` reported
    `border-inline 1px/1px` while `/sss`, `/hakkimizda`, `/teklif-al` and
-   `/blog` all reported `0px/0px`. The 2px narrower field wrapped one hero
-   dimension string and pushed ~8100 rows of the mobile landing down ~15px, and
-   put the whole mobile body 1px to the right.
+   `/blog` all reported `0px/0px`. The 2px narrower field wrapped the hero's
+   `120.00 x 72.00 x 68.00 mm` dimension string onto a second line — the
+   375px landing golden re-captured from the fixed build is 8962px tall against
+   8969px before — and put the whole mobile body one pixel to the right
+   (`reports/qa/tools/golden-xshift.mjs` over rows 400-900 against the last
+   pre-Phase-04 golden: minimum at +1px before the fix, at 0px with 0.178%
+   residual after).
 
    THE RULE: a responsive override of a primitive declared in this file must be
    declared in THIS file, immediately under the primitive it overrides. Then it
