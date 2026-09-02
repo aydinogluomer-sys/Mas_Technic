@@ -147,4 +147,121 @@ packet's write allowlist. Agreed — these are follow-ups, not 05a failures.
 
 ---
 
-*(Blocks 2+ appended below as they complete.)*
+## BLOCK 2 — runtime measurement (R1, R2, R6-runtime)
+
+All runs: preview on **:4188** from the single `5ac4135` build.
+
+### R1 — B28 at rest under `prefers-reduced-motion: reduce`, no scrolling → FIXED
+
+Metric used: **effective opacity multiplied down the full ancestor chain**
+(`display:none`/`visibility:hidden` excluded), over **all laid-out elements**
+(`getBoundingClientRect()` width or height > 0). `hiddenText` counts only
+elements carrying **their own** text node and not inside `[aria-hidden=true]`.
+This is the "effective opacity over laid-out elements" metric — the same one
+the Coder quoted, **not** the earlier QA "computed opacity over a sampled set"
+metric that produced 194/333.
+
+`node scripts/motion-audit.mjs --mode=rest`
+
+| Viewport | Route | elements | hidden | **hiddenText** |
+|---|---|---|---|---|
+| 1280 | `/` | 829 | 0 | **0** |
+| 1280 | `/hizmetler/cnc-frezeleme` | 711 | 14 | **0** |
+| 1280 | `/iletisim` | 271 | 0 | **0** |
+| 1280 | `/malzemeler/aluminyum` | 497 | 0 | **0** |
+| 1280 | `/hakkimizda` | 171 | 0 | **0** |
+| 375 | `/` | 787 | 0 | **0** |
+| 375 | `/hizmetler/cnc-frezeleme` | 697 | 14 | **0** |
+| 375 | `/iletisim` | 258 | 0 | **0** |
+| 375 | `/malzemeler/aluminyum` | 484 | 0 | **0** |
+| 375 | `/hakkimizda` | 158 | 0 | **0** |
+
+Result: `PASS — no route hides text-bearing content at rest under reduced motion.`
+Coverage exceeds the packet's requirement (landing + 4 inner routes including
+all three the Coder named, at both 1280 and 375).
+
+The 14 residual hidden elements on `/hizmetler/cnc-frezeleme` are **not** a
+defect: all 14 are `<div class="absolute inset-0 bg-gradient-to-r|br
+from-primary/5 to-transparent">` — empty hover-state decorative gradient
+overlays with no text and no descendants. I read the printed sample rather than
+accepting the subtraction.
+
+### Independent confirmation of the BEFORE state (no rebuild required)
+
+I did not take the Coder's before-figures on trust. `--mode=enabled` measures
+the same census with motion **allowed** and no scrolling — exactly the state
+every user was left in before the fix:
+
+| Viewport | Route | elements | armed | **armedText** | afterScroll | afterScrollText |
+|---|---|---|---|---|---|---|
+| 1280 | `/` | 861 | 516 | **205** | 5 | 0 |
+| 1280 | `/hizmetler/cnc-frezeleme` | 732 | 524 | **186** | 19 | 0 |
+| 1280 | `/iletisim` | 292 | 5 | **0** | 5 | 0 |
+| 1280 | `/malzemeler/aluminyum` | 518 | 24 | **14** | 5 | 0 |
+| 1280 | `/hakkimizda` | 192 | 5 | **0** | 5 | 0 |
+| 375 | `/` | 819 | 564 | **214** | 5 | 0 |
+| 375 | `/hizmetler/cnc-frezeleme` | 718 | 544 | **195** | 22 | **2** |
+| 375 | `/iletisim` | 279 | 102 | **24** | 5 | 0 |
+| 375 | `/malzemeler/aluminyum` | 505 | 51 | **21** | 5 | 0 |
+| 375 | `/hakkimizda` | 179 | 5 | **0** | 5 | 0 |
+
+The reference route at 1280 reproduces **524 of 732 armed, 186 text-bearing** —
+matching the Coder's quoted before-figure of 519/709 with 186 text-bearing, to
+within the handful of nodes the new cursor adds to the DOM. **The before-state
+is therefore independently confirmed, and the 186 -> 0 delta is real.**
+
+**B28 per-route before -> after (text-bearing elements hidden at rest):**
+
+| Route | 1280 before -> after | 375 before -> after |
+|---|---|---|
+| `/hizmetler/cnc-frezeleme` | **186 -> 0** | **195 -> 0** |
+| `/` (landing) | 205 -> 0 | 214 -> 0 |
+| `/malzemeler/aluminyum` | 14 -> 0 | 21 -> 0 |
+| `/iletisim` | 0 -> 0 | 24 -> 0 |
+| `/hakkimizda` | 0 -> 0 | 0 -> 0 |
+
+### R2 — the non-reduced path still animates → PASS
+
+The same `--mode=enabled` table read the other way: with **no motion preference
+set**, 516 elements on the landing and 524 on the service detail are still
+*armed* (staged hidden, waiting on their IntersectionObserver) before any
+scroll, and resolve to `afterScrollText=0` once scrolled. The choreography is
+fully intact — the fix did **not** become "reveals are off for everyone".
+Corroborated at code level: `resolveAtRest` is never invoked on the
+no-preference path (props passed through by identity).
+
+### R6 runtime — `--mode=cursor` → PASS
+
+| reducedMotion | body | link | button | replacementNodes |
+|---|---|---|---|---|
+| no-preference | none | none | none | **2** |
+| reduce | none | none | none | **2** |
+
+The documented before-state under `reduce` was `replacementNodes=0` — a hidden
+native cursor with nothing replacing it. Now 2 (dot + ring) in both modes, and
+under `reduce` the ring is written directly to the pointer with no tween.
+
+### Observation (pre-existing, NOT a 05a regression)
+
+375 / `/hizmetler/cnc-frezeleme` shows `afterScrollText=2` on the
+**motion-enabled** path: the eyebrow "Talaşlı İmalat" and the `<h1>` "CNC
+Frezeleme" read effective opacity 0 after the scripted scroll — a `whileInView`
+element re-hiding once scrolled off-screen. It lives entirely on the
+verbatim-forwarded path, so 05a neither caused nor changed it. Logged for
+Packet 2 / Phase 06.
+
+## BLOCK 3 — e2e suites (R7), part 1
+
+`PLAYWRIGHT_PREVIEW_ONLY=1 PLAYWRIGHT_PORT=4321 PLAYWRIGHT_ARTIFACTS=0`
+(4173 and 5199 are held by stale processes).
+
+### `test:e2e:critical` (critical-1280 + critical-375) → **147 passed, 3 skipped, 0 failed** (7.0m)
+
+Re-confirms green after the 49-file migration: 14 bands numbered in order,
+anchors, no document-level horizontal overflow, the shell cascade contract, the
+full menu teardown matrix **including the reduced-motion close path**,
+`scrollable-region-focusable` reachability, route-transition / back-forward /
+B25 modal-lock, the 404 shell state, and "reduced motion keeps the complete
+page visible without active animation".
+
+*(Blocks 4+ appended below as they complete.)*
