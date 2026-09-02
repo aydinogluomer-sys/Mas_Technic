@@ -6,7 +6,7 @@ RUN_BASE_COMMIT: 366f321 (pre-run working tree preserved + plan path normalized)
 INTEGRATION_BRANCH: claude/awwwards-90-overhaul
 USER_BRANCH_PRESERVED: claude/motion-layer-and-asset-pipeline @ b6f2552 (untouched)
 STARTED_AT: 2026-08-31T01:51:28Z
-CURRENT_PHASE: 05
+CURRENT_PHASE: 06
 
 ## Authority
 
@@ -30,8 +30,8 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | 02 | PASS | 28a4cfe, 39bf6d9, 5b82164, cfe5ad0, 603965e, 8c27d71, 8d395a7, b0110fc, 45f3577 | 68518cc, 26980b5, 67267cc | 76 passed / 1 pre-existing fail / 3 skipped | 2026-08-31T16:40Z |
 | 03 | PASS | 4937757..1d5ea91 (9), c72fd99, 4066b41, d3822b8 | 1c7e5df, ab8c585, 46d64a8, 02ab2c2 | 220 passed / 4 pre-existing page-debt fails / 3 skipped | 2026-09-01T06:10Z |
 | 04 | PASS | 7d01465, d2c7dc1, 6a3bc84, f3cd3f5, a059aef, 9809889, 829cadf, 94f87c3, fe42ce8 | 141fc06..9ad97de (5), 3586e43..3350203 (7) | 202 passed / 0 failed / 3 skipped | 2026-09-02T04:20Z |
-| 05 | IN_PROGRESS | — | — | — | 2026-09-02T04:20Z |
-| 06 | NOT_STARTED | — | — | — | — |
+| 05 | PASS | 05a: 46ae7f4..e1bc431 (6); 05b: a133728..3f45fd5 (6), 5ff0cae, c3797e5, 7cefcf0 | 05a: 5313739..ca797a5 (4); 05b: e4e626d..5d58889 (5), 3b6cf36..2d7adcd (5) | 198 passed / 0 failed / 3 skipped | 2026-09-02T17:05Z |
+| 06 | IN_PROGRESS | — | — | — | 2026-09-02T17:05Z |
 | 07 | NOT_STARTED | — | — | — | — |
 | 08 | NOT_STARTED | — | — | — | — |
 | 09 | NOT_STARTED | — | — | — | — |
@@ -571,3 +571,125 @@ plan requires the reduced-motion path to be *complete, not visually broken*.
 the support launcher's rounded teal FAB (Phases 09/13); `LiveClock.tsx`, `MarqueeBand.tsx`,
 `CADDashboard.tsx` now unreferenced but present on disk (Rollup drops them from `dist/`);
 win32-only golden gap; `shell-header-about.png` antialiasing flake.
+
+---
+
+### Phase 05 — LANDING CREATIVE INTERACTION + MOTION DRAMATURGY — PASS (split into 05a + 05b; 1 correction loop on 05b)
+
+**Split rationale.** Six agents were lost on this phase (two watchdog stalls at 600 s, one API error, one
+process exit, plus two more) on a machine measured at 0.39-1.2 GB free of 7.85 GB. Per IMPLEMENTATION.md
+§10 ("if the same root cause fails three loops, change strategy: isolate, reduce scope"), Phase 05 was
+split into 05a (motion-system foundation) and 05b (creative choreography). Every lost agent had committed
+incrementally, so each lost only its final step.
+
+**05a — foundation.** Coder `46ae7f4`, `d51adad`, `ca40ef0`, `e54f9f8`, `4d9bb28`, `e1bc431`;
+QA `5313739`, `eb902d6`, `1d8782b`, `ca797a5`. PASS, no correction loop.
+
+**05b — choreography.** Coder `a133728`, `cf45ac3`, `3ce84ad`, `27d3dd4`, `82c4736`, `3f45fd5`, then
+`5ff0cae`, `c3797e5`, `7cefcf0`; QA `e4e626d`..`5d58889` (FAIL), `3b6cf36`..`2d7adcd` (PASS).
+
+**B28 CLOSED — the phase's most valuable asset.** Root cause was **not** the landing (whose hook was
+already correct) but **Framer Motion `whileInView` with `initial={{opacity:0}}` and no reduced-motion
+guard** across 12+ files: Framer still waits for intersection under `prefers-reduced-motion`, so content
+stayed invisible until scrolled to. Fixed **at the factory**: `src/components/shell/motion.tsx` proxies
+framer-motion's `motion` export and, only under reduced motion, renders the finished state. 49 files
+repointed — **import line only**, QA verified zero JSX/copy/class/layout lines changed. Measured
+text-bearing elements hidden at rest: `/hizmetler/cnc-frezeleme` **186 -> 0** (1280) and **195 -> 0**
+(375); `/` **205 -> 0** and **214 -> 0**. Verified again after 05b by a second QA instrument that also
+checks `visibility:hidden` and fully-clipping `clip-path`: **0 on all ten route/viewport pairs**.
+
+**A guard that cannot be routed around.** `motion-audit --mode=guard` fails, non-zero, on any direct
+`motion` import from framer-motion. Orchestrator negative-controlled it. QA then found it could be
+silenced by a mention **inside a comment**; that was fixed to parse code rather than raw text, with a
+three-way control (defect FAILS, fixed shape passes, comment-only mention FAILS).
+
+**Six motion grammars replacing one generic reveal** (eight bands previously shared `opacity`+`translateY`):
+G1 DRAW->LOCK technical linework; G2 PRINT paper evidence; G3 EXPOSE->CALIBRATE dark instrument panel;
+G4 RESOLVE->VERIFY data tables; G5 REVEAL imagery; G6 SETTLE quiet default. **Three climaxes** (02 hero
+measurement lock, 09 manifesto letter-spacing close, 13 RFQ gate), paid for by quietening bands 03, 04,
+11 and 12. Mobile density is **structurally** lower (G2-G5 gated behind `min-width:768px`, the animated
+unit changing from card/cell/row to container): transitioned 132 vs 58, animated 9 vs 5, transformed
+23 vs 15 - a 2.3x gap, up from 1.3x.
+
+**QA FAIL -> C1: the flagship interaction did the opposite of its documentation.** Both
+`docs/lean/07-motion-system.md` and a CSS comment stated as fact that hovering a measurement lights its
+guide line *and its passport counterpart*. Measured: hovering `O 28.000` put `.tl-pp-bore` at **0.34** -
+dimmed, in with the elements meant to recede - and the six measurement boxes never moved at all.
+**Same failure shape as the Phase 02 comment asserting a measurement nobody took.** Two causes, both
+verified by the Orchestrator in source:
+(a) `animation: tl-label-lock-* ... both` left `opacity:1` applied, and animated values outrank normal
+declarations, so both hover rules were dead on the six labels;
+(b) `:is()` takes its **most specific argument**, so the isolation list's `.tl-dim-line path` made it
+(0,4,1) against the correlation's (0,4,0). QA's proof was by observation rather than arithmetic: the
+isolation rule appears *earlier*, so at equal specificity the correlation would have won on source order.
+**Fixed structurally, no `!important`:** the keyframes now animate **only `clip-path`** (the wipe already
+hides the box, so the opening picture is unchanged and `opacity` returns to the cascade), and guide lines
+are selected by the `tl-dim--*` classes they already carry, leaving both lists class-only. Specificity
+parity is now a written contract in the docblock.
+**A latent bug fell out of fixing it properly:** `.tl-pp-body` was in the transition list and in two
+correlations but **never in the dim list**, so the passport body could never recede in any state. Neither
+QA nor the Orchestrator had spotted it. It now recedes under four hovers.
+QA re-verification: all six hovers measured at 1440 with every `:has()` confirmed matching first; all
+**thirteen** uncorrelated elements recede (stronger than the six required); rest = 1.00. Both causes
+negative-controlled **in place on the live CSSOM at the rule's own index**, so source order never moves;
+parity proved by the falsifying observation that reversing the two rules flips the winner.
+
+**A CORRECTION TO THE RECORD — the Orchestrator relayed a wrong finding to the user.** QA's first report
+said the Coder's CLS figures "do not reproduce" (claimed 1280 = 0.0115; QA measured 0.0201/0.0202/0.0209
+with +/-0.0004 spread, concluding host noise did not explain it). On re-verification **QA retired its own
+finding as an instrument artefact**: one run measured raw 1280 CLS at exactly **0.01150**, and over three
+runs of a single unchanged build the raw total moved 0.0115 -> 0.0209. The Coder's original number was
+**right**; the "stable, not noisy" characterisation was wrong. QA also adjudicated *partly against the
+Coder's framing*: its original A/B was **not** a raw-total comparison - it already split at a fixed
+2000 ms cutoff, and the reduced-path inversion was a prior finding, not a miss. It nonetheless accepted
+the correction as the better instrument, because a `performance.now()` scroll mark cannot drift the way a
+hardcoded cutoff can. Final: `scrollCost` 0.00000 at 1280 across three runs, `manifestoEntries` 0 in all
+six passes; `--mode=cls` now prints the A/B so the number is reproducible by instrument rather than by
+note, and the docs state plainly that the raw total is not evidence.
+
+**Frame pacing - a fabricated win the Coder refused to report.** It wrote: *"I nearly reported a
+fabricated win here."* Four consecutive passes on one **unchanged** build gave `over32ms` = 16/19/34/34,
+so host noise exceeded any code delta. It rebuilt the probe to run three passes, label the entrance pass
+separately from steady state, attribute slow frames to a band, and **went back and stripped every CSS
+comment citing a frame delta it could not defend**. Median 16.7 ms at both viewports.
+
+**I4 half-fixed, and the half that is not was correctly refused.** The Coder corrected QA's diagnosis
+(every `whileInView` on that route already had `once:true`; the real cause was a scroll-linked
+`heroOpacity`, now removed). A **second, pre-existing** defect remains at 375: the hero is 320px while
+its `absolute bottom-0` child is 424px, so the eyebrow and the entire `<h1>` are clipped by
+`overflow:hidden` - and being clipped they never intersect, so their reveal never fires either. It
+**deliberately declined** to force the reveal, because `opacity:1` would clear the metric over text the
+reader still cannot see. Verified pre-existing on base `a2b4c20`; `I4_REMAINING_DEFECT:
+CONFIRMED_PRE_EXISTING`. **Phase 07 owns it.**
+
+**Also delivered:** I1 (decorative chroma no longer animates under reduced motion) plus a new guard rule
+for that defect class; I2 (`restingOpacity()` rests at max not last keyframe - constraint documented and
+a DEV warning added when max != last); I3 (unscoped `cursor:none` replaced - negative-controlled: with
+the replacement mounted `body=none`, without it `body=auto link=pointer button=pointer`; `Z.cursor`
+90 -> 101, agreeing with the value CustomCursor had derived locally). Nothing animates off screen; clips
+wrapping focusable elements end at `inset(-8px)` so the `:focus-visible` ring at `outline-offset:4px`
+is not cut. **45 goldens byte-identical, none regenerated** - correct, because the motion layer lives
+under `[data-motion="ready"]` while goldens capture the reduced-motion path, so any change would have
+signalled leakage into resting styles.
+
+**NEW CARRY-FORWARDS:**
+- **B29 -> Phase 13 (accessibility).** The hero isolation dims non-hovered measurement **text** to 0.34.
+  QA measured from rendered pixels (the boxes sit on a photograph): at rest 12.2-16.0:1, but while one is
+  hovered the other five fall to **2.65-4.07:1 - three below the 3:1 floor**, not merely below 4.5:1.
+  `.tl-measure-left` (`72.000 +/-0.010`, real text, not `aria-hidden`) sits at **2.72:1**, and
+  `aria-hidden` does not exempt the FCF glyphs from SC 1.4.3. Unlike an animation it **persists while the
+  pointer rests**. Mitigations verified: pointer-only, hero `innerText` identical in both states, full
+  reversal on pointer-out, hovered box at 15.87:1. Fix by raising `.34` or adding a `prefers-contrast:
+  more` branch - **none exists anywhere in `src/`**.
+- **B30 -> tooling hygiene.** A narrower guard hole remains and it **fails open**: the Coder argued its
+  `codeOf` limitations can only strip too little (loud false breach), which holds for the presence-based
+  import rule but **inverts** for the absence-based `usePrefersReducedMotion` rule. Two fixtures pass that
+  should fail - a regex literal `/['"]/g` whose quote characters unbalance the scanner so a following
+  comment survives verbatim, and a URL string containing the identifier. Reachability scan of all 269
+  files under `src/`: **no live false pass**. Latent, not active.
+- **B31 -> dead-code hygiene (Phase 12/15).** `src/components/ProjectShowcase.tsx` is imported by **no
+  route**, so I1's fix there has no live surface to demonstrate on.
+
+**Carried forward unchanged:** B24 `ServiceDetail` 28 serious `color-contrast` (Phases 07/13); I5
+`/iletisim` 4 always-visible serious nodes, present in both motion modes so not motion-related
+(Phase 13); win32-only golden gap; content wording (Phase 06).
