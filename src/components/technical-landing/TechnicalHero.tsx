@@ -65,39 +65,49 @@ export function TechnicalHero() {
             {/* Koordinatlar fotoğraftaki parçanın ölçülmüş siluetine bağlı:
                 üst yüzey y≈124, alt oturma y≈496, sol kenar x≈465,
                 sağ kenar x≈810, yükseltilmiş göbek x≈655. */}
+            {/* Her kılavuz çizgisi ÖLÇTÜĞÜ etiketle aynı `tl-dim--*` adını
+                taşır. Ad, `technical-landing.css` içindeki bağıntı kuralının
+                dayanağı: bir ölçüye gelindiğinde o ölçünün çizgisi, kutusu ve
+                pasaporttaki karşılığı birlikte aydınlanır, geri kalanı geri
+                çekilir. Çizim okumanın kendisi budur — hangi sayı hangi
+                yüzeyi anlatıyor. */}
             <g className="tl-dim-line">
               {/* Ø 28.000 — kutu altından iner, üst yüzeyde ok ile biter */}
-              <path d="M580 82V120" markerEnd="url(#tl-arrow)" />
+              <path className="tl-dim--bore" d="M580 82V120" markerEnd="url(#tl-arrow)" />
 
               {/* Ø 0.005 — tolerans çerçevesinden çıkıp delik yüzeyine iner */}
-              <path d="M786 82L742 146" markerEnd="url(#tl-arrow)" />
+              <path className="tl-dim--tol" d="M786 82L742 146" markerEnd="url(#tl-arrow)" />
 
               {/* 72.000 — gerçek ölçü çizgisi: uzatma çizgileri + çift ok */}
-              <path className="tl-ext" d="M285 124H480M285 496H500" />
-              <path d="M325 130V490" markerStart="url(#tl-arrow)" markerEnd="url(#tl-arrow)" />
+              <path className="tl-ext tl-dim--height" d="M285 124H480M285 496H500" />
+              <path className="tl-dim--height" d="M325 130V490" markerStart="url(#tl-arrow)" markerEnd="url(#tl-arrow)" />
 
               {/* ⊥ 0.010 A — kutudan dirsekle parçanın alt oturma yüzeyine.
                   Yol, 72.000 ölçü çizgisinin alt okunun altından geçer. */}
-              <path d="M243 516H330L486 498" markerEnd="url(#tl-dot)" />
+              <path className="tl-dim--perp" d="M243 516H330L486 498" markerEnd="url(#tl-dot)" />
 
               {/* Ra 0.4 µm — parçanın daraldığı alt hizada, kutudan sola nokta */}
-              <path d="M764 501L716 478" markerEnd="url(#tl-dot)" />
+              <path className="tl-dim--finish" d="M764 501L716 478" markerEnd="url(#tl-dot)" />
 
               {/* A datumu — kutudan yukarı, datum yüzeyinde ok ile biter */}
-              <path d="M571 495V466" markerEnd="url(#tl-arrow)" />
+              <path className="tl-dim--datum" d="M571 495V466" markerEnd="url(#tl-arrow)" />
             </g>
           </svg>
 
-          <span className="tl-measure tl-measure-top">Ø 28.000 ±0.005</span>
-          <span className="tl-measure tl-measure-left"><b>72.000</b><b>±0.010</b></span>
-          <span className="tl-measure tl-measure-finish">Ra 0.4 µm</span>
+          {/* `data-dim` yalnızca bağıntının anahtarıdır; hiçbir içeriği
+              gizlemez ve yeni bir sekme durağı açmaz. Bağıntı, zaten görünen
+              bilgileri BİRBİRİNE bağlayan bir zenginleştirmedir — işaretçisi
+              olmayan kullanıcı hiçbir şey kaybetmez. */}
+          <span className="tl-measure tl-measure-top" data-dim="bore">Ø 28.000 ±0.005</span>
+          <span className="tl-measure tl-measure-left" data-dim="height"><b>72.000</b><b>±0.010</b></span>
+          <span className="tl-measure tl-measure-finish" data-dim="finish">Ra 0.4 µm</span>
 
           {/* Tolerans çerçeveleri: referansta hücrelere bölünmüş kutular */}
           {/* U+2300 ⌀ IBM Plex Mono'da yok ve minik bir yedeğe düşüyordu;
               U+00D8 Ø hem grotesk hem yedek yüzlerde tam cap yüksekliğinde. */}
-          <span className="tl-fcf tl-fcf-top" aria-hidden="true"><i>Ø</i><b>0.005</b></span>
-          <span className="tl-fcf tl-fcf-bottom" aria-hidden="true"><i>⊥</i><b>0.010</b><b>A</b></span>
-          <span className="tl-datum" aria-hidden="true">A</span>
+          <span className="tl-fcf tl-fcf-top" data-dim="tol" aria-hidden="true"><i>Ø</i><b>0.005</b></span>
+          <span className="tl-fcf tl-fcf-bottom" data-dim="perp" aria-hidden="true"><i>⊥</i><b>0.010</b><b>A</b></span>
+          <span className="tl-datum" data-dim="datum" aria-hidden="true">A</span>
         </div>
       </div>
 
