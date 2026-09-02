@@ -3,10 +3,15 @@
 - PHASE: 05b
 - CODE_COMMITS: `7085559`, `495d1d7`, `b3d66f6`, `d9a1b45`, `33ddcf8`, `1ee1361` (integration HEAD `1ee1361`)
 - BASE FOR DIFF: `a2b4c20`
-- QA_COMMIT: TBD
-- STATUS: IN PROGRESS
-- B28_REGRESSION: NONE
-- I4_REMAINING_DEFECT: TBD
+- QA_COMMIT: see final commit on `wt/qa-p05b`
+- STATUS: **FAIL** (one item — R2, the hero measurement correlation)
+- TESTS_PASSED: 196
+- TESTS_FAILED: 0
+- TESTS_SKIPPED: 3
+- NEW_TESTS_ADDED: 0 (QA may not write `e2e/**` under this packet; 7 QA probe tools added under `reports/qa/tools/`)
+- SCOPE_INTEGRITY: PASS
+- B28_REGRESSION: **NONE**
+- I4_REMAINING_DEFECT: **CONFIRMED_PRE_EXISTING**
 
 Preview served from `dist/` on **port 4211** (4173/4199/5199 held by other
 agents). One build, reused for every block.
@@ -477,3 +482,199 @@ tells the reader how to read the three passes and repeats the noise band. This
 is the correct handling of a measurement the host cannot resolve.
 
 ---
+
+## Block 6 — R8 offscreen work and focus rings, R9 suites and gates, R10 axe
+
+### R8 — PASS on both halves.
+
+**Nothing animates off screen.** `reports/qa/tools/p05b-r2-grammar.mjs`, at both
+widths:
+
+| | `.tl-marquee-track` `animation-play-state` | classes on `.tl-marquee` |
+|---|---|---|
+| scrolled into view, 1280 | **running** | `tl-band tl-marquee tl-inview tl-onscreen` |
+| scrolled to page bottom, 1280 | **paused** | `tl-band tl-marquee tl-inview` |
+| scrolled into view, 375 | **running** | `… tl-onscreen tl-inview` |
+| scrolled to page bottom, 375 | **paused** | `tl-band tl-marquee tl-inview` |
+
+The two-way `.tl-onscreen` is removed on exit while the one-way `.tl-inview`
+correctly stays. The infinite `tl-marquee` therefore stops compositing when it
+cannot be seen, and no entrance can re-arm on scroll-back.
+
+**Focus rings survive every clip.** `reports/qa/tools/p05b-r8-focus-clip.mjs`
+drives every band through its entrance first, then reads the *resting* clip —
+the state a keyboard user actually focuses in:
+
+| element | resting clip | focusables inside |
+|---|---|---|
+| `A.tl-sector-card` | **`inset(-8px)`** | 1 |
+| `BUTTON.tl-cad-drop` | **`inset(-8px)`** | 1 |
+| `SPAN.` (status cell), `TD.` | `inset(0px)` | **0** |
+| `.tl-measure-*` / `.tl-fcf-*` / `.tl-datum` | `inset(0/0%…)` | **0** |
+| `INPUT.tl-visually-hidden` | `inset(50%)` | 1 — the standard visually-hidden idiom, pre-existing, not motion |
+
+`clips that would slice a focus ring: 0`. The `inset(0)` endings are confirmed
+*empirically* to wrap nothing focusable, rather than merely asserted in a
+comment.
+
+And the `-8px` is correctly *sized*, not just negative — focusing each element
+for real:
+
+```text
+.tl-sector-card  {"clip":"inset(-8px)","outlineWidth":"2px","outlineOffset":"4px","outlineStyle":"solid","focused":true}
+.tl-cad-drop     {"clip":"inset(-8px)","outlineWidth":"2px","outlineOffset":"4px","outlineStyle":"solid","focused":true}
+```
+
+The ring extends 4 + 2 = 6px beyond the border box; the clip extends 8px. 2px of
+margin. ✔
+
+### R9 — suites and gates. All green.
+
+Run against the already-serving preview via `PLAYWRIGHT_BASE_URL=http://localhost:4211`
+(so no second server and no rebuild), `PLAYWRIGHT_ARTIFACTS=0`.
+
+| gate | result |
+|---|---|
+| `npm run typecheck` (3 projects) | **exit 0** |
+| `node scripts/grid-axis-probe.mjs` | **PASS** — every measured edge on a master axis, 1px tolerance |
+| `node scripts/motion-audit.mjs --mode=guard` | **PASS**, exit 0 |
+| `test:e2e:critical` (critical-1280 + critical-375) | **157 passed, 3 skipped, 0 failed** (8.8m) |
+| `test:e2e:smoke` (webkit ×2, firefox ×2) | **12 passed, 0 failed** (1.5m) |
+| `test:e2e:visual` (375 / 1280 / 1440) | **27 passed, 0 failed** (2.1m) |
+
+**No flakes.** Every suite passed on its first attempt; the instability the
+packet warned about appeared only in my own single-browser probe scripts (see
+Block 1), never in a Playwright run.
+
+157 = 05a's 147 + **exactly the 10 new grammar tests** (5 × 2 projects), and the
+3 skips are the same 3 that 05a recorded — so none of the new tests' internal
+`test.skip(…)` guards fired and silently removed coverage. All Phase 01–04
+guarantees re-confirmed in the run: 14 bands numbered in order, anchors, no
+document-level horizontal overflow, shell cascade contract across chunks, the
+full menu teardown matrix **including the reduced-motion close path**,
+`scrollable-region-focusable` reachability, route transition / back-forward /
+B25 modal lock, the 404 shell state, and "reduced motion keeps the complete page
+visible without active animation".
+
+**Goldens: none changed, and the argument for that is sound — verified
+structurally, not just by the tests passing.** `git diff --stat a2b4c20 HEAD --
+e2e/__golden__` is empty. The Coder argues a golden change would have signalled
+leakage into resting styles. Assessing it: the visual projects run with
+`reducedMotion: "reduce"`, under which `useTechnicalLandingMotion` writes
+`data-motion="reduced"` (never `"ready"`) and marks every band arrived, so every
+`[data-motion="ready"]` selector fails to match and the curtain pseudo-elements
+are never even generated. Independently, `git diff -U0` shows the **first**
+changed line in `technical-landing.css` is old line 387, which is the
+`/* Motion never changes geometry. */` marker — the entire layout, grid and
+typography layer above it is byte-identical. So a golden move was structurally
+impossible, and 27 passing baselines confirm it. The argument is correct.
+
+### R10 — axe. Unchanged in both directions. PASS.
+
+```text
+MOTION_AUDIT_BASE_URL=http://localhost:4211 node scripts/motion-audit.mjs --mode=axe
+```
+
+| route | `reduce` | `no-preference` |
+|---|---|---|
+| `/` | **0** | **0** |
+| `/hizmetler/cnc-frezeleme` | 28 — `color-contrast:28` | **0** |
+| `/iletisim` | 4 — `color-contrast:1 label:1 select-name:2` | **4 — identical** |
+| `/malzemeler/aluminyum` | 0 | 0 |
+| `/hakkimizda` | 0 | 0 |
+
+Matches the claim and 05a's recorded figures exactly. The service route's 28 are
+newly *visible* pre-existing contrast debt, not new defects — they appear only
+under `reduce`, where content that is still armed under `no-preference` becomes
+measurable (B24, Phase 07). `/iletisim`'s 4 are identical in **both** modes and
+therefore provably not motion-related (I5, Phase 13). Neither fixed nor
+worsened by this packet.
+
+---
+
+## Acceptance criteria matrix
+
+| Criterion (IMPLEMENTATION.md §PHASE 05) | Result | Evidence |
+|---|---|---|
+| Motion has documented semantic roles | **PASS** | 6 grammars in `docs/lean/07-motion-system.md` + CSS; 11 distinct band signatures at 1280 measured live (Block 3) |
+| 2–3 memorable moments, not every section competing | **PARTIAL → FAIL** | Climax 2 (manifesto) and 3 (RFQ gate) verified; climax 1's entrance verified but its **interaction is inverted** (Block 3) |
+| No major animation causes layout shift | **PASS** | 0 shift entries after 2000ms at 1280, 0.00105 at 375; 0 manifesto entries in 4 runs (Block 5) |
+| Reduced-motion path passes | **PASS** | `--mode=rest` hiddenText 0/10; independent probe 0/10 incl. `visibility` and `clip-path` (Block 1) |
+| Mobile does not inherit desktop-heavy motion | **PASS** | 132→58 transitioned, 9→5 animated, 23→15 transformed; no `clip-path` curtain exists below 768 (Blocks 3, 5) |
+| Frame pacing shows no repeated jank in core scroll | **PASS** | entrance 14/499 slow at 1280, steady state 0 and 0; median 16.7 invariant (Block 5) |
+| Landing reads clearly with motion disabled | **PASS** | 27 golden baselines unchanged and passing; `--mode=rest` clean (Blocks 1, 6) |
+| B28 must not regress | **PASS** | Two independent instruments, 0/10 (Block 1) |
+| Cursor/scroll-progress audited, `cursor:none` safe | **PASS** | `--mode=cursor` negative control returns the native pointer (Block 4) |
+| Nothing animates off screen | **PASS** | marquee `running` → `paused` at both widths (Block 6) |
+| Geometry-safe motion, focus rings intact | **PASS** | 0 clips slice a ring; `-8px` clip vs 6px ring (Block 6) |
+
+## Failed checks
+
+| Check | Observation | Root cause | Production fix required? |
+|---|---|---|---|
+| R2 — climax 1 hero measurement correlation | Hovering a measure **dims** its passport counterpart to `0.34` instead of lighting it; the six measurement boxes never recede or advance in `opacity` at all. The behaviour is the inverse of what `src/styles/technical-landing.css:~977` and `docs/lean/07-motion-system.md` both state as fact. | (a) `.tl-measure`/`.tl-fcf`/`.tl-datum` carry `animation: tl-label-lock-* … both` (CSS lines 405–407) whose `to` frame is `opacity: 1`; a fill-forwards animation outranks normal declarations, so both hover rules are dead on them. (b) The dim rule (line 1004) out-specifies the highlight rule (lines 1006–1011) because `:is()` takes its **most specific** argument — `.tl-dim-line path` (0,1,1) vs `.tl-measure-top` (0,1,0). Proven empirically: the dim rule wins despite appearing **earlier** in the file, so source order cannot explain it. | **Yes.** Either raise the highlight rules' specificity above the dim rule (e.g. give the dim `:is()` no element-containing argument, or add a matching qualifier to the highlight rules), and drive the labels' isolation with a property the fill-forwards animation does not own — or, if the correlation is not worth repairing now, delete the claim from the CSS comment and from `docs/lean/07-motion-system.md`, since a documented interaction that does the opposite is worse than none. |
+| R6 — reported CLS figures | Claimed 1280 **0.0115** and 375 **0.00432**; measured **0.0201 / 0.0202 / 0.0209** and **0.0126 / 0.0118 / 0.0121** over three runs. The 1280 figure is above even the claimed *pre-change* value (0.01708), and the spread is ±0.0004, so host noise does not explain it. | Not established. A different cache/font state at measurement time would account for it; I make **no** claim of fabrication. | **No code fix.** The acceptance criterion passes by a stronger causal test (Block 5). The written figures should be corrected or dropped rather than carried forward as fact. |
+
+## Carry-forwards (not failures)
+
+- **B24** — 28 `color-contrast` nodes on the service route under `reduce`. Phases 07/13.
+- **I5** — `/iletisim` 4 axe nodes, identical in both motion modes, so not motion-related. Phase 13.
+- **I4 remaining layout clip** — 375 service hero, `CONFIRMED_PRE_EXISTING`. Phase 07.
+- **`ProjectShowcase.tsx` is imported by no route** — the only surviving reference is a comment in `src/components/shell/motion.tsx:95`. Its I1 fix has no live surface. Dead-code hygiene.
+- **`CustomCursor.tsx:78`** — comment still says "`Z.cursor` is 90", stale after the 90 → 101 change. File outside the allowlist.
+- **Guard hardening** — `!/usePrefersReducedMotion/` is a raw substring test over the whole file; a mention in a comment satisfies it (this defeated my own first negative control). Suggest a call-shaped match.
+- **11 references band** — `docs/lean/07-motion-system.md` describes "six delays reduced to a single block transition"; at ≥768 the container transition is switched off entirely, so on desktop there is *no* transition. Documentation nit only.
+- **win32-only golden gap**; **content wording** (Phase 06).
+
+## Commands run
+
+```text
+npm run build                                            # once; dist/ reused for every block
+npx vite preview --port 4211 --strictPort                # 4173/4199/5199 held by other agents
+npm run typecheck
+node scripts/motion-audit.mjs --mode=rest      | --mode=enabled | --mode=density
+node scripts/motion-audit.mjs --mode=cls  (x3) | --mode=frames  | --mode=cursor | --mode=axe
+node scripts/motion-audit.mjs --mode=guard                       # real tree, and in a scratch
+                                                                 # dir holding 3 synthetic controls
+node scripts/grid-axis-probe.mjs
+npx playwright test --project=critical-1280 --project=critical-375
+npx playwright test --project=smoke-webkit-1440 --project=smoke-webkit-390 \
+                    --project=smoke-firefox-1440 --project=smoke-firefox-390
+npx playwright test --project=visual-375 --project=visual-1280 --project=visual-1440
+node reports/qa/tools/p05b-r1-independent-rest.mjs        # QA_VP=1280 and QA_VP=375
+node reports/qa/tools/p05b-r3-i4-geometry.mjs             # QA_VP=1280 and QA_VP=375
+node reports/qa/tools/p05b-r2-grammar.mjs                 # QA_VP=1280 and QA_VP=375
+node reports/qa/tools/p05b-r2-hero-correlation.mjs
+node reports/qa/tools/p05b-r4-i2-warning.mjs              # against `vite --port 5311` (DEV)
+node reports/qa/tools/p05b-r6-cls-causation.mjs           # QA_VP=1280 and QA_VP=375
+node reports/qa/tools/p05b-r8-focus-clip.mjs
+```
+
+## Scope integrity — PASS
+
+- Production files modified by QA: **NONE**.
+- Files changed by the packet: 11, matching the packet's list; `git diff --stat a2b4c20 HEAD` shows nothing outside it.
+- `e2e/__golden__` — **no golden added, changed or deleted**, and structurally could not have moved (Block 6).
+- QA wrote only: `reports/qa/phase-05b.md`, `reports/qa/tools/p05b-*.mjs`, `reports/qa/tools/shots/p05b-*.png`. All inside `QA_WRITE_ALLOWLIST`.
+- The guard negative control ran in a scratch directory outside the repo; no synthetic file ever entered `src/`.
+
+## Verdict
+
+**STATUS: FAIL** — on one specific, reproducible item: **climax 1's measurement
+correlation does the opposite of what the CSS and the lean doc both state**, for
+the passport correspondence, and does nothing at all for the six labels. Under
+the packet's rule ("fail only if … a grammar/climax claim is not real"), that is
+a failing condition. The fix is small and local, and the report above gives both
+root causes with line numbers.
+
+Everything else in the packet holds. **B28 has not regressed** — the phase's
+most valuable asset is intact, confirmed by two instruments, the second stricter
+than the first. **The I4 reasoning is sound**: the half that was fixed is
+verified material, the half that was not is verified real and verified
+pre-existing, and the refusal to force a green metric over clipped text was the
+right call. The guard is discriminating under negative control, density and
+frame pacing reproduce, no golden moved and no golden should have, and 196 tests
+passed with zero failures across three suites on first run.
+
+- **B28_REGRESSION: NONE**
+- **I4_REMAINING_DEFECT: CONFIRMED_PRE_EXISTING**
