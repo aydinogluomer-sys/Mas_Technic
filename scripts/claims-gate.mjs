@@ -311,6 +311,20 @@ const ALLOWED_STANDARDS = [
 ];
 
 /**
+ * Designations that name a CLASS the part is made to, not an audit the company
+ * passed — used only by the `metaTitle` pass, where a badge list gives a rule no
+ * sentence to read.
+ *
+ * `MIL-A-8625` names the Type I/II/III anodising class and `ISO 2768` names the
+ * general tolerance class; both were adjudicated as correct engineering
+ * vocabulary in the Phase 06 re-verification, and removing them would be
+ * over-removal, which §0 PUBLIC_POSITIONING_PRIORITY makes a real failure. This
+ * is an ALLOW-LIST like §C, not a deny-list with holes: a designation nobody has
+ * invented yet is not on it, so it still fires in a title.
+ */
+const REFERENCE_CLASS_STANDARDS = [/^MIL-A-8625/i, /^ISO\s*2768/i];
+
+/**
  * A standard-shaped token, matched GENERICALLY. The point is that a standard
  * nobody has invented yet still matches: `ISO 99999`, `EN 4711`, `MAS 1000`.
  */
@@ -416,6 +430,8 @@ const BODY_CONFORMITY_PREDICATE = trPattern(
      (`CONFORMITY_BY_NATURE` — management systems and qualification schemes).
      Parking `AS9100D` in a `Standart` column therefore still fires.           */
 const TABLE_BLOCK = /headers:\s*\[([^\]]*)\]\s*,\s*rows:\s*\[([\s\S]*?)\n\s*\],/g;
+/** A route/page title: a badge list, so no conformity predicate can ever appear in it. */
+const META_TITLE = /\bmetaTitle\s*:\s*["'`]([^"'`]*)["'`]/g;
 const DOCUMENT_COLUMN = trPattern(/sertifika|belge|akredit|uygunluk|onay|rapor/i);
 const SPECIFICATION_COLUMN = trPattern(/standar[dt]|norm/i);
 /** Cell words that assert an attestation with no designation of any kind. */
@@ -666,8 +682,13 @@ const RULES = [
         String.raw`\b\d[\d.,]*\s?\+\s*(?:parça|malzeme|proje|çeşit)`,
         // Stock tonnage is order-volume disclosure: it tells a reader what the
         // company buys and turns over. §D REVENUE_OR_ORDER_VOLUME.
-        String.raw`(?:stok|stokta|depo)\w*[^.\n]{0,60}?\b\d[\d.,]*\s?(?:kg|ton)\b`,
-        String.raw`\b\d[\d.,]*\s?(?:kg|ton)\b[^.\n]{0,60}?(?:stok|depo)`,
+        // The window may NOT cross a string-literal boundary. Stock tonnage is
+        // one statement — "stokta 50 ton alüminyum". Two adjacent table cells,
+        // `"Stokta", "Aynı gün", "Talebe bağlı", "1 kg"`, are a delivery status
+        // and a minimum order quantity in different columns, and reading them
+        // as one claim is the mirror image of the table blind spot below.
+        String.raw`(?:stok|stokta|depo)\w*[^.\n"'\x60]{0,60}?\b\d[\d.,]*\s?(?:kg|ton)\b`,
+        String.raw`\b\d[\d.,]*\s?(?:kg|ton)\b[^.\n"'\x60]{0,60}?(?:stok|depo)`,
         String.raw`\b\d[\d.,]*['’´]?(?:d[ae]n|t[ae]n)?\s*(?:fazla|üzerinde|aşkın)\s+(?:farklı\s+)?(?:malzeme|tezgah|tezgâh|makine|mühendis|teknisyen|personel|çalışan|müşteri|proje|parça)`,
         String.raw`\b24\s?\/\s?7|\b7\s?\/\s?24`,
       ].join("|"),
@@ -899,6 +920,26 @@ const RULES = [
       while ((m = BODY_FAMILY_REFERENCE.exec(text)) !== null) {
         if (BODY_CONFORMITY_PREDICATE.test(sentenceAt(text, m.index))) {
           yield { index: m.index, match: m[0] };
+        }
+      }
+
+      // A `metaTitle` is a pipe-separated badge list with no verbs in it, so
+      // the sentence-scoped path above can never find a conformity predicate
+      // there and every designation parked in one is invisible. Three sector
+      // pages carried `IEC 61400`, `API 6A`, `NACE MR0175` and `IEC 62271` in
+      // their titles after the same standards had been removed from the
+      // description, the advantages, the features and the spec rows of those
+      // very pages. `metaTitle` has no consumer today; the moment route
+      // metadata is wired it becomes a SERP claim with no room for context, so
+      // the allow-list applies to it unconditionally.
+      META_TITLE.lastIndex = 0;
+      while ((m = META_TITLE.exec(text)) !== null) {
+        STANDARD_TOKEN.lastIndex = 0;
+        for (const raw of m[1].match(STANDARD_TOKEN) ?? []) {
+          const token = raw.replace(/\s+/g, " ").trim();
+          if (ALLOWED_STANDARDS.some((re) => re.test(token))) continue;
+          if (REFERENCE_CLASS_STANDARDS.some((re) => re.test(token))) continue;
+          yield { index: m.index, match: token };
         }
       }
     },

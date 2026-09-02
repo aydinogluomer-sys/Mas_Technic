@@ -82,8 +82,15 @@ const staticEntries: FaqEntry[] = [
   // ── İade ──
   // "Garanti veriyor musunuz?" girdisi kaldırıldı: koşulsuz bir uygunluk
   // garantisi ve ücretsiz yeniden üretim taahhüdü veriyordu; USER_INPUTS.md'de
-  // bunu yetkilendiren bir alan yok. Sorunun kendisi gerçek, bu yüzden
-  // anahtar kelimeler mevcut ve doğru olan iade yanıtına yönlendiriliyor.
+  // bunu yetkilendiren bir alan yok. Bu kaldırma doğru ve kalıcıdır.
+  //
+  // Ancak yalnızca yanıtı kaldırmak yetmedi: "garanti veriyor musunuz" sorusu
+  // varsayılan yanıta düşmüyor, 0.67 skorla DFM tasarım-desteği yanıtına
+  // yanlış yönleniyordu. Sitenin ticari olarak en yüklü sorusuna kendinden
+  // emin ve yanlış bir cevap, cevapsızlıktan kötüdür. `garanti`/`güvence`
+  // artık burada ANAHTAR KELİME olarak duruyor: anahtar kelime dizisi
+  // eşleştirici girdisidir, yayımlanan metin değil — hiçbir bileşen render
+  // etmez. Yanıtın kendisi değişmedi; yürürlükteki iade/değişim koşuludur.
   {
     question: "İade veya değişim yapılabiliyor mu?",
     answer: "Teknik şartnameye uymayan ürünlerde ücretsiz iade/değişim yapılmaktadır. Teslimat sonrası 7 iş günü içinde kalite kontrol raporuyla birlikte bildirim yapmanız yeterlidir.",
@@ -97,6 +104,8 @@ const staticEntries: FaqEntry[] = [
       "return",
       "warranty",
       "sorumluluk",
+      "garanti",
+      "güvence",
     ],
   },
   // ── Ödeme ──
@@ -192,13 +201,32 @@ export const allFaqEntries: FaqEntry[] = [
   ...collectServiceFaqs(),
 ];
 
+/**
+ * Soru kalıbı kelimeleri: hemen her SSS sorusunda geçen, konu taşımayan
+ * yardımcı fiiller ve soru edatları.
+ *
+ * Bunlar skora girdiğinde eşleştirici konuyu değil kalıbı eşliyor:
+ * "garanti veriyor musunuz" sorusu `veriyor` + `musunuz` üzerinden
+ * "Tasarım desteği veriyor musunuz?" yanıtını 0.67 ile kazanıyordu. İki
+ * tarafta da elenirler; hepsi elenirse ham kelimelere geri düşülür, böylece
+ * tek başına "nerede" gibi bir girdi sessizleşmez.
+ */
+const QUESTION_FORM_WORDS = new Set([
+  // soru eki
+  "musunuz", "misiniz", "mısınız", "müsünüz", "mudur", "mıdır", "midir", "müdür",
+  // "…yapıyor musunuz / veriyor musunuz / var mı" kalıbı
+  "veriyor", "veriyorsunuz", "yapıyor", "yapıyorsunuz", "var", "yok",
+]);
+
 // ── Basit TF-IDF benzeri skor hesaplama ──
 function normalize(text: string): string[] {
-  return text
+  const words = text
     .toLowerCase()
     .replace(/[^\wğüşöçıİĞÜŞÖÇ]/g, " ")
     .split(/\s+/)
     .filter((w) => w.length > 2);
+  const topical = words.filter((w) => !QUESTION_FORM_WORDS.has(w));
+  return topical.length > 0 ? topical : words;
 }
 
 export interface MatchResult {

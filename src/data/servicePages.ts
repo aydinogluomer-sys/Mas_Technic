@@ -292,12 +292,18 @@ export const servicePages: ServicePageData[] = [
       },
       {
         title: "Sektörel Mikro İşleme Gereksinimleri",
-        headers: ["Sektör", "Tipik Parça", "Tolerans Beklentisi", "Yüzey Beklentisi", "Sertifika"],
+        /* Same shape as the material certificate matrix: the column heading is
+           the predicate, so `IPC-A-610` and `ISO 1413` published under
+           "Sertifika" read as documents MAS supplies. Three of the five cells
+           already described the expectation rather than naming a designation;
+           the other two now do the same. The heading stays a document column on
+           purpose, so the gate keeps watching this column. */
+        headers: ["Sektör", "Tipik Parça", "Tolerans Beklentisi", "Yüzey Beklentisi", "Belge Beklentisi"],
         rows: [
-          ["Medikal", "İmplant, cerrahi alet", "Şartnameye göre", "Ra 0.1-0.4µm", "Biyouyumlu malzeme"],
-          ["Havacılık", "Yakıt enjektör, sensör", "Şartnameye göre", "Ra 0.2-0.8µm", "İzlenebilir malzeme"],
-          ["Elektronik", "Konektör pin, PCB", "±3-5µm", "Ra 0.2-0.4µm", "IPC-A-610"],
-          ["Saat & Optik", "Mekanizma, lens tutucu", "±1-3µm", "Ra 0.05-0.1µm", "ISO 1413"],
+          ["Medikal", "İmplant, cerrahi alet", "Şartnameye göre", "Ra 0.1-0.4µm", "Biyouyumlu malzeme kaydı"],
+          ["Havacılık", "Yakıt enjektör, sensör", "Şartnameye göre", "Ra 0.2-0.8µm", "İzlenebilir malzeme kaydı"],
+          ["Elektronik", "Konektör pin, PCB", "±3-5µm", "Ra 0.2-0.4µm", "Görsel kabul kriteri"],
+          ["Saat & Optik", "Mekanizma, lens tutucu", "±1-3µm", "Ra 0.05-0.1µm", "Ölçüm kaydı"],
           ["Otomotiv", "Enjektör nozul, sensör", "Şartnameye göre", "Ra 0.4-0.8µm", "Parti izlenebilirliği"],
         ],
       },
@@ -885,7 +891,12 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "500+ saat tuz testi dayanımı",
-      "ASTM standartlarına tam uyum",
+      /* Was "ASTM standartlarına tam uyum". Claiming full conformity to an
+         entire standards body is broader than claiming it against one numbered
+         spec — and the numbered version of this same sentence was removed from
+         this page two commits ago. The page's own content line already names
+         what actually happens: the two test methods. */
+      "Tuz spreyi ve pasivasyon test yöntemleriyle doğrulama",
       "Ultrasonik temizlik kapasitesi",
       "Sonraki işlemlere hazır yüzey",
     ],
@@ -1110,12 +1121,20 @@ export const servicePages: ServicePageData[] = [
       "Veri Girişi & Format",
       "Lazer İşaretleme",
       "Okuma Doğrulama",
-      "ISO Uyum Raporu",
+      /* Was "ISO Uyum Raporu" — a conformity report against a standards body
+         with no designation, which is the same claim as the bullet below and
+         was invisible to the gate for the same reason. What the step produces
+         is a read-quality record. */
+      "Okuma Kalitesi Raporu",
     ],
     advantages: [
       "Küçük alanda yüksek veri kapasitesi",
       "%99.9+ okuma oranı",
-      "ISO/IEC standartlarına tam uyum",
+      /* Was "ISO/IEC standartlarına tam uyum" — see the ASTM bullet on the
+         chemical-processing page. The numbered version of this sentence
+         (ISO/IEC 16022, ISO 15415) was already rewritten to read-verification;
+         the unbounded version survived on the same page. */
+      "Lazer işaretleme sonrası okuma doğrulaması",
       "Savunma sanayi IUID desteği",
     ],
     comparisonTables: [
@@ -1591,16 +1610,24 @@ export const servicePages: ServicePageData[] = [
           ["POM (Delrin)", "85 (Shore D)", "70 MPa", "★★★★★", "$", "Stokta"],
         ],
       },
+      /* The `Sertifika` column used to publish `EN 10204 3.1` x3, `3.2` x2 and
+         `CoC` x1, unconditionally per material group — sixty lines below
+         `{ label: "Sertifika", value: "Talebe bağlı" }` on the same page. One
+         page answered the buyer's question two ways and the surviving answer
+         was the stronger one. EN 10204 names a certificate CLASS a buyer's own
+         file depends on; §C supplies three certificates and none of them is it.
+         The column now says what the spec row, the feature bullet and the FAQ
+         on this page already say. */
       {
         title: "Tedarik Süresi ve Sertifika Matrisi",
         headers: ["Malzeme Grubu", "Standart Tedarik", "Acil Tedarik", "Sertifika", "Min. Sipariş"],
         rows: [
-          ["Alüminyum (6061, 7075)", "Stokta", "Aynı gün", "EN 10204 3.1", "1 kg"],
-          ["Paslanmaz Çelik (304, 316)", "Stokta", "Aynı gün", "EN 10204 3.1", "5 kg"],
-          ["Karbon Çelik (1045, 4140)", "1-2 hafta", "3 iş günü", "EN 10204 3.1", "10 kg"],
-          ["Titanyum (Gr2, Gr5)", "4-6 hafta", "2 hafta", "EN 10204 3.2", "5 kg"],
-          ["Inconel / Hastelloy", "6-8 hafta", "4 hafta", "EN 10204 3.2", "10 kg"],
-          ["PEEK / Yüksek Perf. Plastik", "2-4 hafta", "1 hafta", "CoC", "1 kg"],
+          ["Alüminyum (6061, 7075)", "Stokta", "Aynı gün", "Talebe bağlı", "1 kg"],
+          ["Paslanmaz Çelik (304, 316)", "Stokta", "Aynı gün", "Talebe bağlı", "5 kg"],
+          ["Karbon Çelik (1045, 4140)", "1-2 hafta", "3 iş günü", "Talebe bağlı", "10 kg"],
+          ["Titanyum (Gr2, Gr5)", "4-6 hafta", "2 hafta", "Talebe bağlı", "5 kg"],
+          ["Inconel / Hastelloy", "6-8 hafta", "4 hafta", "Talebe bağlı", "10 kg"],
+          ["PEEK / Yüksek Perf. Plastik", "2-4 hafta", "1 hafta", "Talebe bağlı", "1 kg"],
         ],
       },
     ],
@@ -3034,7 +3061,7 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Enerji & Altyapı",
     title: "Yenilenebilir Enerji",
-    metaTitle: "Yenilenebilir Enerji Parça Üretimi | Rüzgar & Güneş | IEC 61400 | Mas Technic",
+    metaTitle: "Yenilenebilir Enerji Parça Üretimi | Rüzgar & Güneş | Mas Technic",
     metaDescription: "Rüzgar türbini ve güneş enerjisi sistemi bileşenleri. Hot-dip galvaniz korozyon koruması, ağır yük parçaları. Hub, pitch sistemi, montaj aparatı üretimi.",
     description: "Rüzgar türbini, güneş enerjisi ve enerji depolama sistemleri için dış ortam koşullarına göre malzeme ve kaplama seçilerek üretilen bileşenler.",
     content: [
@@ -3076,7 +3103,7 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Enerji & Altyapı",
     title: "Petrol & Gaz",
-    metaTitle: "Petrol & Gaz Parça Üretimi | API 6A | 15000 PSI | NACE MR0175 | Mas Technic",
+    metaTitle: "Petrol & Gaz Parça Üretimi | 15000 PSI | Mas Technic",
     metaDescription: "Petrol ve gaz sektörü bileşenleri. 15.000 PSI basınç, -46°C/+343°C sıcaklık. Inconel, Duplex ve Super Duplex çelik işleme.",
     description: "Petrol ve gaz sektörü bileşenleri. 15.000 PSI basınç, -46°C/+343°C sıcaklık aralığında çalışan kritik parçalar.",
     content: [
@@ -3118,7 +3145,7 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Enerji & Altyapı",
     title: "Güç Dağıtım Sistemleri",
-    metaTitle: "Güç Dağıtım Parça Üretimi | IEC 62271 | 36kV | IACS %99+ | Mas Technic",
+    metaTitle: "Güç Dağıtım Parça Üretimi | 36kV | IACS %99+ | Mas Technic",
     metaDescription: "Elektrik dağıtım ve güç sistemi bileşenleri. 36kV'a kadar, IACS %99+ iletkenlik. Bakır ve alüminyum bara, kontak parçası, izolator.",
     description: "Elektrik dağıtım panoları, transformatör bileşenleri ve güç dağıtım sistemi parçaları. 36kV gerilim seviyesine kadar.",
     content: [
