@@ -6,7 +6,7 @@ RUN_BASE_COMMIT: 366f321 (pre-run working tree preserved + plan path normalized)
 INTEGRATION_BRANCH: claude/awwwards-90-overhaul
 USER_BRANCH_PRESERVED: claude/motion-layer-and-asset-pipeline @ b6f2552 (untouched)
 STARTED_AT: 2026-08-31T01:51:28Z
-CURRENT_PHASE: 04
+CURRENT_PHASE: 05
 
 ## Authority
 
@@ -29,8 +29,8 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | 01 | PASS | 038af33, 9392efb | afe1204, 3f2a2a9 | 77 passed / 0 failed / 2 skipped; coverage 177→205 blocks, 562→629 assertions | 2026-08-31T12:20Z |
 | 02 | PASS | 28a4cfe, 39bf6d9, 5b82164, cfe5ad0, 603965e, 8c27d71, 8d395a7, b0110fc, 45f3577 | 68518cc, 26980b5, 67267cc | 76 passed / 1 pre-existing fail / 3 skipped | 2026-08-31T16:40Z |
 | 03 | PASS | 4937757..1d5ea91 (9), c72fd99, 4066b41, d3822b8 | 1c7e5df, ab8c585, 46d64a8, 02ab2c2 | 220 passed / 4 pre-existing page-debt fails / 3 skipped | 2026-09-01T06:10Z |
-| 04 | IN_PROGRESS | — | — | — | 2026-09-01T06:10Z |
-| 05 | NOT_STARTED | — | — | — | — |
+| 04 | PASS | 7d01465, d2c7dc1, 6a3bc84, f3cd3f5, a059aef, 9809889, 829cadf, 94f87c3, fe42ce8 | 141fc06..9ad97de (5), 3586e43..3350203 (7) | 202 passed / 0 failed / 3 skipped | 2026-09-02T04:20Z |
+| 05 | IN_PROGRESS | — | — | — | 2026-09-02T04:20Z |
 | 06 | NOT_STARTED | — | — | — | — |
 | 07 | NOT_STARTED | — | — | — | — |
 | 08 | NOT_STARTED | — | — | — | — |
@@ -450,3 +450,124 @@ detail links verified at mobile-320 with no hover and no programmatic focus.
   inner-page vertical rhythm shifted 64-72px now the fixed bar is reserved in flow (Phase 04/07);
   `navigation-data.tsx` survives as a documented compatibility re-export because dev-only `LandingFlow.tsx`
   imports `navigationItems`; win32-only golden gap.
+
+---
+
+### Phase 04 — GLOBAL PUBLIC PAGE SHELL + ROUTE TRANSITIONS — PASS (after 1 correction loop)
+
+**Coder:** `7d01465`, `d2c7dc1`, `6a3bc84`, `f3cd3f5`, `a059aef` (initial, 90 files +3002/-1726);
+`9809889`, `829cadf`, `94f87c3`, `fe42ce8` (correction #1).
+**QA:** `141fc06`-`9ad97de` (FAIL, 5 commits); `3586e43`-`3350203` (PASS, 7 commits).
+One earlier QA run was lost entirely to an API error with zero commits — the incremental-commit
+protocol was tightened as a result.
+
+**Outcome.** One `PageShell` owns frame, grid, rail, navigation mount, footer and transition contract
+across 20 route families at 3 widths. `Footer.tsx`, all of `src/components/footer/**` and
+`ScrollProgress.tsx` are **deleted**; the landing drawing title block survived as the single
+`SiteFooter`. 19 pages migrated. Every inner page lost ~1,100px of mega footer; `/teklif-al` has a
+footer for the first time (it imported `Footer` at line 54 and never rendered it).
+
+**Primitives exposed for Phases 07/08:** `ShellBand`, `ShellPageHero`, `ShellSurfaceBand`,
+`ShellTitleBlock`, `ShellMetaRow`, `ShellEvidence` (its `source` prop is **type-required**, so an
+evidence block cannot render without saying where the figure came from), `ShellDivider`, and
+`ShellLoading` / `ShellEmpty` / `ShellRouteError` / `ShellRouteBoundary`. Top rhythm settled in one
+place (`--shell-page-top`), removing the per-page `pt-24`/`pt-28` drift.
+
+**B25 closed structurally.** Root cause: `PageTransition` kept the outgoing page mounted through an
+`AnimatePresence` exit, so two route subtrees and two `<Header/>` instances lived ~480ms per
+navigation, while the open menu released its scroll lock / `inert` / `aria-hidden` from an effect
+cleanup owned by a component *inside* the routed subtree. Fix: exactly one route subtree mounted at
+any time, so React's own unmount cleanup releases the lock — no listener, no timeout. Verified 8/8 by
+two independent methods and 16/16 under `--repeat-each=8`; the curtain still animates (1.06s).
+
+**QA FAIL -> 3 defects, all fixed:**
+
+- **D0 (serious): a regenerated golden enshrined a live regression.** `master-grid.css:45` declares the
+  base `.tl-sheet{border-inline:...}`; both `technical-landing.css:4` and `shell.css:21` `@import` it,
+  so Rollup emitted the base into **both** chunk stylesheets while the `<=767px` override lived in only
+  one. On `/` the landing chunk loads last and re-declared the base at equal specificity. Measured: `/`
+  was `1px/1px` at 375 while every other route was `0px/0px`. The 2px narrower field wrapped the hero
+  dimension string, cascading ~15px over ~8100 rows, and shifted the whole mobile body **1px right**.
+  A third, independent confirmation came from the Coder's own artefacts: `shell-footer-home.png` was
+  **373px** wide against 375px on every other shell-footer golden — the snapshots made to prove "one
+  shell" recorded the landing being off-contract, and nobody looked.
+  **Fixed by ownership, not by force:** the override now sits in `master-grid.css` directly beneath the
+  declaration it overrides, so it is inlined into exactly the chunks its base is. No `!important`, no
+  specificity bump. The two 375 goldens were regenerated **from the fixed build**
+  (`shell-footer-home` 373->375px; `landing-fullpage` 8969->8962px); 1280 and 1440 byte-unchanged.
+- **D1: the shell introduced a new serious axe node.** `scrollable-region-focusable` went 1 -> 2 at 1280
+  on `/hizmetler/cnc-frezeleme` because `PageShell`'s 64px rail narrowed the inner-page field
+  1278 -> 1214px, pushing a 776px table past its 743px container. (At 1344 = 1280 + rail there was only
+  1 region, confirming causation.) Fixed **in the shell, not the page body**: `useScrollableRegionAccess`
+  gives genuinely overflowing regions `tabindex="0"`, `role="group"` and a caption-derived name, and
+  revokes them when overflow stops. Result **2 -> 0** nodes; it stands down on author-owned regions;
+  0 childList mutation batches at rest and across a full scroll pass; sweep median 2.3-3.0ms.
+  Landed at 0 rather than the 1 the packet allowed — accepted, because the two containers are
+  structurally identical and a fix aimed at only one would have been arbitrary.
+- **D2: withdrawn — see below.**
+
+**A GATE THAT WAS PROVEN TO FAIL.** New `e2e/landing/shell-cascade-contract.spec.ts` asserts both the
+*result* (every route resolves the same side rules) and the *cause* (no shipped stylesheet may declare
+the base without its override — width-independent, so it catches the split even where both values
+agree). QA rebuilt `4dc80d4` from source and reproduced **7 failed / 3 passed**, with the three passes
+being exactly the ones that should pass. The decisive line, at `critical-1280`, has the RESULT check
+passing while the CAUSE check fails in the same run:
+`Index-Q-yQMtXW.css declares .tl-sheet border-inline 1x but ships 0 mobile override(s)`.
+*Caveat recorded:* the non-vacuity guard at `:138` is `results.length > 0`, which a
+`base=0, override=1` stylesheet would satisfy while leaving the loop trivially true. Tighter as
+"at least one entry has `base > 0`". Not a failure; worth hardening when next touched.
+
+**CLASS FIX, VERIFIED BY A BETTER AUDIT THAN THE CODER'S.** The Coder diffed two chunks and reported
+5 shared selectors / 10 identical rules / 1 split. QA wrote a postcss audit over **all three** emitted
+chunks and found **83** `(selector, property)` pairs carrying a duplicated base — a larger exposure
+than reported — and **0** D0-shaped splits. Validated as a negative control: **1** split on the
+pre-fix build, **0** on the fixed build.
+
+**TWO CONTESTED MEASUREMENTS, BOTH RESOLVED AGAINST QA's ORIGINAL REPORT:**
+
+1. **R5 -> `CODER_CORRECT`. QA withdrew its own "B24 worsened" finding.** It had measured
+   4.261 -> 4.025. The Coder rebuilt `076c16a` from `git archive` and measured **4.025 on both builds,
+   delta 0.000**, explicitly refusing to manufacture a change to reach the quoted number. The
+   Orchestrator computed the arithmetic independently — `rgb(10,125,138)` on the composited ground
+   `rgb(225,236,234)` is **4.03:1** — supporting the Coder. QA then confirmed with one instrument across
+   both builds: the chip's first opaque ancestor is already `bg-card` `rgb(249,248,245)`, not white;
+   all 6 chips, both builds, delta 0.000. **The 4.261 was computed against an assumed `#ffffff` that
+   exists on neither build.** What survives: the 28 `color-contrast` violations moved into axe's
+   `incomplete` bucket rather than being repaired, and B24 remains open at 4.025:1 for Phases 07/13.
+2. **R6 -> `SAMPLING_ARTEFACT`, and Phase 04 in fact improved it.** The axe node count on
+   `/hizmetler/cnc-frezeleme` dropped 270 -> 67 because more of the body sits at `opacity:0` when
+   scanned without scrolling. Elements genuinely removed from the accessibility tree are **2 before and
+   2 after** the scroll — and **Phase 03 hid 75 text elements from AT versus Phase 04's 2**. The reveal
+   gating is pre-existing: under `prefers-reduced-motion: reduce`, Phase 03 also shows 194/333 at
+   `opacity:0`. Both builds settle to exactly `color-contrast x28`, independently corroborating R5.
+
+**Content edits made under a shell packet — ORCHESTRATOR-ACCEPTED DEVIATION.** My packet said content
+is Phase 06's. The Coder nonetheless removed the fabricated `TARIH: 17.05.2024` and `REVIZYON: B` from
+the drawing meta run and corrected `PAFTA: 01/12` -> `01/14` to match the observable band count, adding
+`(c) {year} MAS TECHNIC`. Verified: removals only, nothing invented. Accepted because §13 mandates
+removing unverifiable claims and the consolidation would otherwise have multiplied fabricated drawing
+data across 90 routes. **Flagged for Phase 06 confirmation.** The 404's 15-second `window.location`
+auto-redirect was also removed as route behaviour (WCAG 2.2.1).
+
+**An invisible-breakage class worth carrying to Phase 12.** `body:has(.footer-industrial:focus-within)
+[data-chat-launcher]` lived in `@layer components`; Tailwind drops layered rules whose class candidates
+leave the scanned content, so deleting `Footer.tsx` silently deleted that rule from `dist/`. Moved
+outside the layer. Other `@layer components` rules may be keyed on now-absent classes.
+
+**ENVIRONMENTAL CONSTRAINT — affects run reliability.** The machine has **7.85 GB total and was
+measured at 0.42 GB free**. This produced `net::ERR_INSUFFICIENT_RESOURCES` on a 40-route sweep and is
+the likely cause of several agent deaths earlier in the run. The Coder A/B-tested it (pre-fix 4/4,
+fixed 3/4 with the same resource error, fixed build *faster*), confirming it is not a code defect.
+Five stale agent worktrees and two QA scratch build trees (which held copied `.env` files) were deleted
+by the Orchestrator to reclaim space.
+
+**NEW CARRY-FORWARD — B28 -> Phase 05.** Under `prefers-reduced-motion: reduce`, content on **both**
+Phase 03 and Phase 04 builds remains gated behind scroll-triggered reveals (194/333 elements at
+`opacity:0` at rest). Pre-existing and not a Phase 04 defect, but directly in Phase 05's remit: the
+plan requires the reduced-motion path to be *complete, not visually broken*.
+
+**Carried forward unchanged:** B24 `ServiceDetail` contrast + `incomplete`-bucket reclassification
+(Phases 07/13); inner-page bodies still resolving text from the shadcn light theme (Phases 07/08);
+the support launcher's rounded teal FAB (Phases 09/13); `LiveClock.tsx`, `MarqueeBand.tsx`,
+`CADDashboard.tsx` now unreferenced but present on disk (Rollup drops them from `dist/`);
+win32-only golden gap; `shell-header-about.png` antialiasing flake.
