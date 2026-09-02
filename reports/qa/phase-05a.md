@@ -3,7 +3,8 @@
 - PHASE: 05a
 - CODE_COMMITS: 5ac4135 (integration HEAD), preceded by 46ae7f4, d51adad, ca40ef0, e54f9f8, 4d9bb28, e1bc431
 - BASE FOR DIFF: 62a57cd
-- QA_COMMIT: TBD
+- QA_COMMIT: 5313739 (block 1), eb902d6 (blocks 2-3), 1d8782b (block 4), + this finalisation commit
+- QA branch: `wt/qa-p05a`
 - STATUS: PASS
 - TESTS_PASSED: 186
 - TESTS_FAILED: 0
@@ -474,3 +475,12 @@ a build failure, the non-reduced choreography is provably untouched, and the
 rise in axe nodes is verified to be pre-existing debt becoming visible.
 
 **STATUS: PASS.**
+
+## Note on the 3 skipped tests
+
+All 3 are pre-existing conditional `test.skip(...)` "canonical lane" guards
+(e.g. `e2e/landing/navigation-reachability.spec.ts:241` — *"one canonical
+resolution lane"*), which deliberately run an assertion in exactly one project
+rather than duplicating it across both. They are not suppressed coverage, and
+**no skip could have been added by this packet**: `git diff --name-only
+62a57cd..5ac4135 -- e2e` is empty, so not one spec file changed.
