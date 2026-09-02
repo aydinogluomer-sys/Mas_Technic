@@ -370,3 +370,110 @@ call-shaped match (`usePrefersReducedMotion\s*\(`) outside comments. Not a
 phase failure.
 
 ---
+
+## Block 5 — R7 density, R6 CLS, R5 frame pacing
+
+### R7 — mobile density. PASS, and it is structural.
+
+```text
+MOTION_AUDIT_BASE_URL=http://localhost:4211 node scripts/motion-audit.mjs --mode=density
+```
+
+| | elements | transitioned | animated | delayed | transformed |
+|---|---|---|---|---|---|
+| 1280 | 799 | **132** | **9** | 9 | **23** |
+| 375 | 764 | **58** | **5** | 4 | **15** |
+
+All three claimed figures reproduce exactly (132/58, 9/5, 23/15 — a 2.28× gap).
+The mechanism is confirmed structural, not cosmetic, by the independent
+grammar probe in Block 3: below 768 **no `clip-path` curtain exists at all**
+(`rfqGateClip = none`, `manifestoRuleBefore/After = none`, `.tl-cert::after` and
+`.tl-nexus-app::after` absent), and `refGridTransition` moves from `none` at
+1280 to `opacity` at 375 — the animated unit changing from child to container,
+exactly as claimed. Distinct band signatures drop 11 → 8.
+
+### R6 — CLS. Criterion PASS; the reported FIGURES do not reproduce.
+
+Three consecutive `--mode=cls` runs on my build of `1ee1361`:
+
+| run | 1280 | 375 |
+|---|---|---|
+| 1 | 0.02013 | 0.01256 |
+| 2 | 0.02018 | 0.01179 |
+| 3 | 0.02088 | 0.01209 |
+
+Spread ±0.0004 at 1280 — this measurement is **stable, not noisy**, so the
+gap cannot be waved away as host variance the way the frame counts can. The
+Coder reports **0.0115** at 1280 and **0.00432** at 375. My 1280 figure is not
+merely different, it is higher than the value the Coder gives for the
+*pre-change* state (0.01708). **I could not reproduce either number.** I make no
+claim of fabrication — a different cache/font state at measurement time would
+explain it — but the figures as written are not reproducible here and should
+not be carried forward as fact.
+
+**The acceptance criterion itself passes, and by a stronger test than the one
+used.** `reports/qa/tools/p05b-r6-cls-causation.mjs` runs the identical scripted
+scroll twice on the same build, once with the motion layer live and once under
+`prefers-reduced-motion: reduce` where the layer is entirely off:
+
+| | CLS | entries **after 2000ms** (the window in which entrances run) | manifesto entries |
+|---|---|---|---|
+| 1280, motion on | 0.01952 | **0**, sum 0.00000 | **0** |
+| 1280, reduced | 0.06446 | 0, sum 0.00000 | 0 |
+| 375, motion on | 0.01268 | 3, sum **0.00105** | **0** |
+| 375, reduced | 0.01070 | 0, sum 0.00000 | 0 |
+
+Every material shift lands at 633–906 ms and names `div.tl-hero-copy`,
+`div.tl-part-stage`, `aside.tl-part-passport`, the header `div.flex`,
+`a.tl-quote-button`, `button.tl-menu-trigger` — load-time font/image reflow,
+present with motion off as well, and at 1280 *larger* with motion off
+(0.06446 > 0.01952). The motion layer contributes 0.00000 at 1280 and 0.00105
+at 375. So "no major animation causes layout shift" is satisfied.
+
+**The manifesto `letter-spacing` close specifically: 0 layout-shift entries in
+all four runs.** The Coder's argument — safe because `strong` is the only box on
+its line — holds under measurement. The exception is documented as
+non-extensible in both the CSS and `docs/lean/07-motion-system.md`, which is the
+right way to leave it.
+
+All values are far inside the 0.1 budget.
+
+### R5 — frame pacing, and the honesty around it. PASS.
+
+```text
+MOTION_AUDIT_BASE_URL=http://localhost:4211 node scripts/motion-audit.mjs --mode=frames
+```
+
+| viewport | pass | frames | median | p95 | over32ms | over50ms | longest run | attribution |
+|---|---|---|---|---|---|---|---|---|
+| 1280 | 1 (entrance) | 499 | 16.7 | 17.1 | **14** | 6 | 5 | `tl-process:6 tl-projects:2 tl-hero:1 tl-proof:1 tl-nexus:1 tl-sectors:1 tl-quality:1 tl-faq-band:1` |
+| 1280 | 2 | 538 | 16.7 | 17.1 | **0** | 0 | 0 | – |
+| 1280 | 3 | 538 | 16.7 | 17.1 | **0** | 0 | 0 | – |
+| 375 | 1 (entrance) | 537 | 16.7 | 17.1 | **2** | 0 | 1 | `tl-process:1 tl-sectors:1` |
+| 375 | 2–3 | 538 | 16.7 | 17.2 | **0** | 0 | 0 | – |
+
+The claimed shape reproduces: pass 1 costs something (14 slow frames of 499
+here, 12 of 489 as reported — inside the declared ±18 band), passes 2–3 cost
+nothing, and `median = 16.7` is invariant across every pass at both widths,
+exactly as the docblock says it has been for every version measured. Slow frames
+are confined to the entrance; the steady-state scroll is clean, so nothing is
+doing permanent work.
+
+**The instrument does report its own limits.** It labels pass 1 as entrance and
+separates it from steady state; the summary row prints
+`settledOver32ms=0..0` as a range rather than a point, and carries
+`note=compare pass-1 to pass-1 only; host noise on this machine is +-18`; and it
+attributes each slow frame to a band, which is what turns "the path janks" into
+"go and look at `tl-process`".
+
+**No surviving comment or doc claims a frame win the data cannot support.** A
+scan of the changed production files for quantified frame/ms claims returns
+none. The two places that could have made one instead say the opposite —
+`src/styles/technical-landing.css:762–767` records the 16/19/34/34 spread and
+states outright that writing "this saved N frames" here *would be fabrication*,
+and that the decision was taken on principle (repaint is dearer than composite);
+`:872` repeats the same reasoning for the manifesto curtain. `docs/lean/07-motion-system.md`
+tells the reader how to read the three passes and repeats the noise band. This
+is the correct handling of a measurement the host cannot resolve.
+
+---
