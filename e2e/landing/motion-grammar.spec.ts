@@ -182,42 +182,72 @@ test.describe("motion grammar", () => {
   });
 
   test("content types do not share one generic reveal", async ({ page }) => {
-    await page.setViewportSize({ width: 1280, height: 900 });
+    /* Read at the PROJECT's own viewport rather than resizing to 1280.
+       The first version resized, and it passed in isolation and failed inside
+       the full suite: a resize plus a reload is two more things that have to
+       settle, and under load they did not. The claim is width-dependent by
+       design — the rich grammars live in `min-width: 768px` — so each width
+       asserts its own half instead of one of them faking the other's. */
     await gotoAndSettle(page, "/");
     await landingReady(page);
     await settleRendering(page);
 
-    const grammars = await page.evaluate(() => {
+    // Every element read below must exist before anything is concluded from
+    // it, so a missing node fails loudly instead of reading as "no transition".
+    for (const selector of [".tl-proof-grid article", ".tl-cert", ".tl-nexus-app", ".tl-sector-card"]) {
+      await expect(page.locator(selector).first(), `${selector} should be in the DOM`).toBeAttached();
+    }
+
+    const { width, grammars } = await page.evaluate(() => {
       /* What each band's entrance actually MOVES, read off the resting
-         declarations rather than off the stylesheet source. A band whose
-         signature is `transform` alone is using the quiet default; a curtain
-         shows up as a transform on a pseudo-element. */
+         declarations rather than off the stylesheet source. A curtain shows up
+         as a transform on a pseudo-element. */
       const read = (selector: string, pseudo?: string) => {
         const el = document.querySelector(selector);
         if (!el) return "missing";
         const style = getComputedStyle(el, pseudo);
-        const props = style.transitionProperty.split(",").map((p) => p.trim());
-        return props.filter((p) => p !== "none" && p !== "all").sort().join("+") || "-";
+        return style.transitionProperty
+          .split(",")
+          .map((p) => p.trim())
+          .filter((p) => p !== "none" && p !== "all")
+          .sort()
+          .join("+") || "-";
       };
       return {
-        proof: read(".tl-proof-grid article"),
-        paperCurtain: read(".tl-cert", "::after"),
-        panelCurtain: read(".tl-nexus-app", "::after"),
-        tableVerify: read(".tl-nexus td span[data-status]"),
-        imagery: read(".tl-sector-card"),
+        width: window.innerWidth,
+        grammars: {
+          proof: read(".tl-proof-grid article"),
+          paperCurtain: read(".tl-cert", "::after"),
+          panelCurtain: read(".tl-nexus-app", "::after"),
+          tableVerify: read(".tl-nexus td span[data-status]"),
+          imagery: read(".tl-sector-card"),
+          paperContainer: read(".tl-quality-strip"),
+          panelContainer: read(".tl-nexus-app"),
+        },
       };
     });
 
-    test.skip(grammars.proof === "missing" || grammars.proof === "-", "motion layer is off — nothing to compare");
+    test.skip(grammars.proof === "-", "motion layer is off (reduced motion) — nothing to compare");
+    const seen = JSON.stringify(grammars);
 
-    // The quiet default is opacity. The others must not all be that.
-    expect(grammars.proof).toBe("opacity");
-    expect(grammars.paperCurtain, "paper evidence prints — a curtain transform").toContain("transform");
-    expect(grammars.panelCurtain, "the dark panel exposes — a curtain transform").toContain("transform");
-    expect(grammars.tableVerify, "a status cell is written into — clip-path").toContain("clip-path");
-    expect(grammars.imagery, "imagery is revealed — clip-path curtain").toContain("clip-path");
+    if (width >= 768) {
+      // The quiet default is opacity; the other content types must not be it.
+      expect(grammars.proof, seen).toBe("opacity");
+      expect(grammars.paperCurtain, `paper evidence prints — a curtain transform · ${seen}`).toContain("transform");
+      expect(grammars.panelCurtain, `the dark panel exposes — a curtain transform · ${seen}`).toContain("transform");
+      expect(grammars.tableVerify, `a status cell is written into — clip-path · ${seen}`).toContain("clip-path");
+      expect(grammars.imagery, `imagery is revealed — clip-path curtain · ${seen}`).toContain("clip-path");
+      expect(new Set(Object.values(grammars)).size, `every band moved the same way · ${seen}`).toBeGreaterThan(2);
+      return;
+    }
 
-    const distinct = new Set(Object.values(grammars));
-    expect(distinct.size, `every band moved the same way: ${JSON.stringify(grammars)}`).toBeGreaterThan(2);
+    /* Below 768 the animated UNIT is the container, not its children — the
+       concrete form of "mobile is not the desktop layer scaled down". The
+       curtains must be absent, and the containers must carry the transition
+       the children no longer have. */
+    expect(grammars.paperCurtain, `no paper curtain below 768 · ${seen}`).toBe("-");
+    expect(grammars.panelCurtain, `no panel curtain below 768 · ${seen}`).toBe("-");
+    expect(grammars.paperContainer, `the container carries it instead · ${seen}`).toBe("opacity");
+    expect(grammars.panelContainer, `the container carries it instead · ${seen}`).toBe("opacity");
   });
 });
