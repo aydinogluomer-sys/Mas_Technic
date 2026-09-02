@@ -24,8 +24,11 @@
  *                    how much is still armed before scrolling and how much is
  *                    left hidden after. Fixing `rest` must not turn the
  *                    choreography off for everyone.
- *   --mode=cls       motion ENABLED, scripted scroll of `/`: layout-shift
- *                    entries reported by the browser itself.
+ *   --mode=cls       scripted scroll of `/`, TWICE per viewport: motion
+ *                    enabled, then `prefers-reduced-motion: reduce`. The
+ *                    difference (`motionCost`) is what the motion layer
+ *                    itself adds; the raw total is not, and does not
+ *                    reproduce run to run.
  *   --mode=frames    motion ENABLED, scripted scroll of `/`: rAF pacing.
  *   --mode=density   how many elements the motion layer touches at 375 vs 1280.
  *   --mode=guard     SOURCE check, no browser: nobody re-imported `motion`
@@ -301,14 +304,33 @@ async function runEnabled(browser, baseURL) {
   return results;
 }
 
-async function runCls(browser, baseURL) {
-  const results = [];
-  for (const viewport of VIEWPORTS) {
+/**
+ * WHY THIS IS AN A/B AND NOT A SINGLE NUMBER
+ * ------------------------------------------
+ * The claim under test is CAUSAL — "the motion layer causes no layout shift"
+ * — and a single CLS total cannot support it. The landing shifts a little for
+ * reasons that have nothing to do with motion (a late webfont, an image
+ * arriving, the shell handing over), so a lone total mixes the thing being
+ * asserted with the things that are not. It is also the least reproducible
+ * number this instrument produces: measured on this build at 1280, three
+ * consecutive runs of the same page gave 0.0201 / 0.0202 / 0.0209.
+ *
+ * So each viewport is scrolled twice over the same build: once with motion
+ * allowed and once under `prefers-reduced-motion: reduce`, where the whole
+ * landing motion layer is off by contract. `motionCost` is the difference,
+ * and IT is the number the claim rests on. `manifestoEntries` counts shift
+ * entries the browser attributes to the one deliberate layout animation on
+ * the page (09's `letter-spacing` close), because that is the exception the
+ * stylesheet documents and the one most likely to break the rule.
+ */
+async function clsPass(browser, viewport, baseURL, reducedMotion) {
+  {
     const context = await browser.newContext({
       viewport: { width: viewport.width, height: viewport.height },
       isMobile: viewport.mobile,
       hasTouch: viewport.mobile,
       deviceScaleFactor: 1,
+      reducedMotion,
       baseURL,
     });
     const page = await context.newPage();
@@ -325,6 +347,7 @@ async function runCls(browser, baseURL) {
               if (!node || !node.tagName) return "?";
               return `${node.tagName.toLowerCase()}.${(node.getAttribute?.("class") ?? "").split(" ")[0]}`;
             }),
+            manifesto: (entry.sources ?? []).some((s) => !!s.node?.closest?.(".tl-manifesto")),
           });
         }
       }).observe({ type: "layout-shift", buffered: true });
@@ -335,6 +358,11 @@ async function runCls(browser, baseURL) {
 
     // Scripted scroll through the whole landing, one viewport-height step at a
     // time, pausing long enough for each band's entrance to run to completion.
+    // The mark splits the run in two: everything before it is page LOAD (the
+    // entrance shell handing over, a late font, an image arriving), everything
+    // after it is the band choreography playing as the reader scrolls. Only
+    // the second half is this phase's motion layer.
+    const scrollStart = await page.evaluate(() => performance.now());
     const height = await page.evaluate(() => document.body.scrollHeight);
     const step = Math.round(viewport.height * 0.75);
     for (let y = 0; y < height; y += step) {
@@ -345,9 +373,46 @@ async function runCls(browser, baseURL) {
 
     const shifts = await page.evaluate(() => window.__shifts);
     const total = shifts.reduce((sum, s) => sum + s.value, 0);
+    const scrolling = shifts.filter((s) => s.time >= scrollStart);
     const worst = [...shifts].sort((a, b) => b.value - a.value).slice(0, 5);
-    results.push({ viewport: viewport.name, cls: Number(total.toFixed(5)), entries: shifts.length, worst });
     await context.close();
+    return {
+      cls: Number(total.toFixed(5)),
+      entries: shifts.length,
+      clsWhileScrolling: Number(scrolling.reduce((sum, s) => sum + s.value, 0).toFixed(5)),
+      entriesWhileScrolling: scrolling.length,
+      manifestoEntries: shifts.filter((s) => s.manifesto).length,
+      worst,
+    };
+  }
+}
+
+async function runCls(browser, baseURL) {
+  const results = [];
+  for (const viewport of VIEWPORTS) {
+    const motion = await clsPass(browser, viewport, baseURL, "no-preference");
+    const still = await clsPass(browser, viewport, baseURL, "reduce");
+    results.push({
+      viewport: viewport.name,
+      cls: motion.cls,
+      entries: motion.entries,
+      clsReducedMotion: still.cls,
+      entriesReducedMotion: still.entries,
+      // The causal numbers. `scrollCost` is the one the claim rests on: what
+      // the band choreography adds while it is actually playing. `loadCost`
+      // is kept beside it because it is NOT attributable to this layer — the
+      // two paths hand over from the entrance shell differently — and hiding
+      // it inside one total is how the unreproducible figure happened.
+      clsWhileScrolling: motion.clsWhileScrolling,
+      clsWhileScrollingReducedMotion: still.clsWhileScrolling,
+      scrollCost: Number((motion.clsWhileScrolling - still.clsWhileScrolling).toFixed(5)),
+      loadCost: Number(((motion.cls - motion.clsWhileScrolling) - (still.cls - still.clsWhileScrolling)).toFixed(5)),
+      manifestoEntries: motion.manifestoEntries,
+      worst: [
+        ...motion.worst.map((s) => ({ ...s, sources: ["motion   ", ...s.sources] })),
+        ...still.worst.map((s) => ({ ...s, sources: ["reduced  ", ...s.sources] })),
+      ],
+    });
   }
   return results;
 }
@@ -661,7 +726,71 @@ async function runCursor(browser, baseURL) {
    viewport callback must also consult `usePrefersReducedMotion`. That is a
    heuristic rather than a proof, but it is a precise one — the callback and
    the check are the two halves of the same decision, and a file with one and
-   not the other is the exact shape of the defect. */
+   not the other is the exact shape of the defect.
+
+   WHY THE RULE READS CODE AND NOT FILE TEXT
+   -----------------------------------------
+   The first version of that rule was `/usePrefersReducedMotion/.test(source)`
+   over the raw file. A guard that reads raw text cannot tell a call from a
+   MENTION, so writing the name in a comment satisfied it — measured: a file
+   with `onViewportEnter` and nothing but `// usePrefersReducedMotion` passed.
+   A rule a comment can switch off is not a rule. Every check below therefore
+   reads `codeOf(source)`, which drops comments, and the reduced-motion check
+   now demands a CALL, `usePrefersReducedMotion(`, not the bare identifier.
+
+   `codeOf` is string-aware because it has to be — `//` inside a string
+   literal is not a comment — and it KEEPS string bodies, because the import
+   check needs the module specifier. It does not understand regex literals or
+   a template nested inside an interpolation; either can only make it drop too
+   little, which surfaces as a LOUD false breach rather than a quiet false
+   pass. Negative-controlled three ways: the defect shape fails, the fixed
+   shape passes, and a comment-only mention fails. */
+
+/**
+ * Source with comments removed and string literals kept verbatim.
+ * Deliberately not a parser: a parser is a dependency and a second thing to
+ * keep in step with the TypeScript the tree actually uses.
+ */
+function codeOf(source) {
+  let out = "";
+  let i = 0;
+  const n = source.length;
+  while (i < n) {
+    const ch = source[i];
+    const next = source[i + 1];
+    if (ch === "/" && next === "/") {
+      const nl = source.indexOf("\n", i);
+      i = nl === -1 ? n : nl;
+      continue;
+    }
+    if (ch === "/" && next === "*") {
+      const end = source.indexOf("*/", i + 2);
+      i = end === -1 ? n : end + 2;
+      out += " ";
+      continue;
+    }
+    if (ch === '"' || ch === "'" || ch === "`") {
+      out += ch;
+      i += 1;
+      while (i < n) {
+        if (source[i] === "\\") {
+          out += source.slice(i, i + 2);
+          i += 2;
+          continue;
+        }
+        const closes = source[i] === ch;
+        out += source[i];
+        i += 1;
+        if (closes) break;
+      }
+      continue;
+    }
+    out += ch;
+    i += 1;
+  }
+  return out;
+}
+
 const GUARD_PRIMITIVE = "src/components/shell/motion.tsx";
 const GUARD_EXEMPT = new Set([
   "src/components/Header.tsx",
@@ -685,7 +814,7 @@ function runGuard() {
   for (const file of sourceFiles("src")) {
     const rel = file.split(/[\\/]/).join("/");
     if (rel === GUARD_PRIMITIVE) continue; // the primitive is the one legal importer
-    const source = readFileSync(file, "utf8");
+    const source = codeOf(readFileSync(file, "utf8"));
     const imports = source.match(/import\s*(?:type\s*)?\{[^}]*\}\s*from\s*["']framer-motion["']/g) ?? [];
     const importsMotion = imports.some((line) =>
       line
@@ -704,10 +833,10 @@ function runGuard() {
     if (importsMotion) {
       breaches.push({ file: rel, why: 'imports `motion` from "framer-motion" instead of "@/components/shell/motion"' });
     }
-    if (/onViewportEnter|onViewportLeave/.test(source) && !/usePrefersReducedMotion/.test(source)) {
+    if (/onViewportEnter|onViewportLeave/.test(source) && !/\busePrefersReducedMotion\s*\(/.test(source)) {
       breaches.push({
         file: rel,
-        why: "uses a viewport callback the primitive cannot settle, without consulting usePrefersReducedMotion",
+        why: "uses a viewport callback the primitive cannot settle, without CALLING usePrefersReducedMotion",
       });
     }
   }
