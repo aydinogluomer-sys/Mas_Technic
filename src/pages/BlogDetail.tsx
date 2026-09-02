@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { PageShell } from "@/components/shell/PageShell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
-import { ArrowLeft, Clock, Tag, Eye, Share2, Facebook, Twitter, Linkedin, Link2, MessageSquare, Send } from "lucide-react";
+import { ArrowLeft, Clock, Tag, Share2, Facebook, Twitter, Linkedin, Link2, MessageSquare, Send } from "lucide-react";
 import { motion } from "@/components/shell/motion";
 import { useState } from "react";
 import { blogPosts } from "@/data/blogData";
@@ -75,8 +75,10 @@ export const BlogDetail = () => {
           >
             <span className="text-xs font-semibold text-primary flex items-center gap-1"><Tag size={12} />{post.category}</span>
             <span className="text-xs text-muted-foreground flex items-center gap-1"><Clock size={12} />{post.readTime}</span>
+            {/* A read counter used to follow the date. §K ANALYTICS_PROVIDER:
+                NONE — the number was hardcoded in `blogData.ts` and rendered
+                behind an eye icon as though something had counted it. */}
             <span className="text-xs text-muted-foreground">{post.date}</span>
-            <span className="text-xs text-muted-foreground flex items-center gap-1"><Eye size={12} />{post.views.toLocaleString()} okuma</span>
           </motion.div>
 
           {/* Title */}

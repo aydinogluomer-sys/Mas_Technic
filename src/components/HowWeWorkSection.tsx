@@ -60,7 +60,7 @@ const steps = [
       { title: "Yüzey İşleme", desc: "Ra 0.4μm yüzey kalitesi" },
       { title: "Proses Kontrolü", desc: "SPC ile süreç yönetimi" },
     ],
-    stat: { value: "±0.005", label: "mm Tolerans" },
+    stat: { value: "±0.01", label: "mm Tolerans" },
     accent: "hsl(var(--forge-amber))",
   },
   {

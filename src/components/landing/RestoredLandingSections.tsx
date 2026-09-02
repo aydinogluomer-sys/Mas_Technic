@@ -25,7 +25,7 @@ const proofItems = [
   {
     icon: Gauge,
     title: "Üretime geçiş paketi",
-    text: "Proje gereksinimine göre FAIR ve PPAP hazırlığına uygun teknik kayıt.",
+    text: "Proje gereksinimine göre ilk parça kontrolü ve seri üretim kontrol planı için teknik kayıt.",
   },
 ] as const;
 
@@ -112,7 +112,7 @@ export function TrustProof() {
         ))}
       </div>
       <div className="lf-cert-rail" aria-label="Desteklenen kalite dokümantasyonu" data-lf-reveal>
-        {["EN 10204 3.1", "CMM RAPORU", "FAIR HAZIRLIĞI", "PPAP HAZIRLIĞI"].map((item) => <span key={item}><Check />{item}</span>)}
+        {["KONTROL PLANI", "ÖLÇÜM KAYDI", "İLK PARÇA KONTROLÜ", "MALZEME İZLENEBİLİRLİĞİ"].map((item) => <span key={item}><Check />{item}</span>)}
       </div>
     </section>
   );

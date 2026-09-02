@@ -14,7 +14,6 @@ export interface BlogPost {
   category: string;
   image: string;
   featured: boolean;
-  views: number;
   fullContent: string[];
 }
 
@@ -29,13 +28,12 @@ export const blogPosts: BlogPost[] = [
     category: "Teknik",
     image: blog5eksen,
     featured: true,
-    views: 3420,
     fullContent: [
       "5 eksenli CNC işleme, geleneksel 3 eksenli işlemeye kıyasla önemli avantajlar sunar. X, Y, Z doğrusal eksenlerin yanı sıra A ve B (veya C) döner eksenler sayesinde karmaşık geometrilere sahip parçalar tek kurulumda tamamlanabilir.",
       "Setup süresinin azalması, 5 eksenli işlemenin en önemli avantajlarından biridir. Geleneksel yöntemlerde bir parçanın farklı yüzeylerini işlemek için birden fazla kurulum gerekir. 5 eksenli tezgahlarda ise parça tek seferde bağlanır ve tüm yüzeyler erişilebilir hale gelir. Bu durum setup süresini %60-80 oranında azaltabilir.",
       "Yüzey kalitesi açısından da 5 eksenli işleme büyük avantaj sağlar. Takım, parça yüzeyine her zaman optimum açıyla yaklaşabildiği için daha düzgün ve kaliteli yüzeyler elde edilir. Özellikle havacılık ve medikal sektörlerinde gereken Ra 0.4µm altı yüzey pürüzlülüğü değerlerine kolayca ulaşılır.",
       "Takım ömrü de 5 eksenli işlemede artış gösterir. Takımın parçaya doğru açıyla temas etmesi, kesme kuvvetlerinin dengelenmesi ve titreşimin azalması sayesinde takım aşınması %30-40 oranında düşer. Bu hem maliyet tasarrufu hem de daha tutarlı kalite anlamına gelir.",
-      "DMG MORI DMU 65 monoBLOCK gibi modern 5 eksenli tezgahlar, 18.000 RPM mil hızı ve 60 adet takım kapasitesiyle kesintisiz üretim imkânı sunar. Otomatik palet değiştirme sistemleri ile 24 saat insansız çalışma mümkündür.",
+      "Modern 5 eksenli işleme merkezleri yüksek mil devirleri ve otomatik takım değiştirme ile uzun kesme sürelerini tek kurulumda toplar. Palet değiştirme sistemleri, kurulumu üretimden ayırarak tezgâhın bekleme süresini azaltır.",
       "Sonuç olarak, 5 eksenli CNC işleme; daha kısa setup süreleri, daha yüksek yüzey kalitesi, daha uzun takım ömrü ve karmaşık geometrilerin tek seferde işlenebilmesi gibi avantajlarıyla modern üretimin vazgeçilmez teknolojisidir.",
     ],
   },
@@ -49,7 +47,6 @@ export const blogPosts: BlogPost[] = [
     category: "Malzeme",
     image: blogMalzeme,
     featured: true,
-    views: 2890,
     fullContent: [
       "Havacılık sektöründe malzeme seçimi, parçanın performansını doğrudan etkileyen kritik bir karardır. En yaygın kullanılan iki malzeme olan Alüminyum 7075-T6 ve Titanyum Ti6Al4V (Grade 5) arasında doğru seçim yapmak, ağırlık, mukavemet ve maliyet dengesi açısından büyük önem taşır.",
       "Alüminyum 7075-T6, 572 MPa çekme mukavemeti ve 2.81 g/cm³ yoğunluğu ile havacılıkta en çok tercih edilen alüminyum alaşımıdır. Mükemmel işlenebilirliği sayesinde CNC işleme maliyetleri düşüktür. Gövde panelleri, kanat nervürleri ve iç yapısal elemanlarda yaygın olarak kullanılır.",
@@ -68,7 +65,6 @@ export const blogPosts: BlogPost[] = [
     category: "Mühendislik",
     image: blogDfm,
     featured: false,
-    views: 1560,
     fullContent: [
       "Design for Manufacturing (DFM), ürün tasarımının üretim süreciyle uyumlu hale getirilmesi prensiplerini kapsar. Doğru uygulandığında üretim maliyetlerini %20-50 oranında düşürebilir.",
       "DFM'in temel prensipleri arasında gereksiz karmaşıklıktan kaçınma, standart toleransların kullanımı, malzeme seçiminin optimize edilmesi ve montaj kolaylığı yer alır. Örneğin, ±0.01mm tolerans yerine ±0.05mm yeterli ise bu tercih işleme süresini ve maliyetini önemli ölçüde azaltır.",
@@ -87,7 +83,6 @@ export const blogPosts: BlogPost[] = [
     category: "Teknik",
     image: serviceCncFreze,
     featured: false,
-    views: 2100,
     fullContent: [
       "CNC torna ve CNC freze, talaşlı imalatın iki temel işleme yöntemidir. Her birinin avantajları ve ideal kullanım alanları farklıdır.",
       "CNC tornalama, silindirik ve döner simetrik parçalar için idealdir. Mil, somun, burç, piston ve gövde gibi parçalar tornada çok daha verimli ve hassas şekilde işlenir. İş parçası dönerken sabit takım malzeme kaldırır.",
@@ -106,13 +101,12 @@ export const blogPosts: BlogPost[] = [
     category: "Kalite",
     image: qualityControl,
     featured: false,
-    views: 1870,
     fullContent: [
       "Koordinat Ölçüm Makineleri (CMM), CNC işlenmiş parçaların boyutsal doğruluğunu mikron seviyesinde kontrol eden hassas ölçüm cihazlarıdır. Modern üretimde kalite güvencesinin temelini oluşturur.",
       "CMM ölçüm süreci, parçanın 3D koordinat sisteminde konumlandırılmasıyla başlar. Dokunmatik prob veya optik tarama ile yüzeyler taranarak gerçek boyutlar belirlenir. Bu veriler CAD modeli ile karşılaştırılarak sapma raporları oluşturulur.",
       "FAIR (First Article Inspection Report), yeni bir parçanın ilk üretiminde tüm kritik boyutların doğrulanmasını sağlar. AS9102 standardına uygun FAIR raporu, havacılık ve savunma sektörlerinde zorunludur.",
-      "SPC (Statistical Process Control) uygulamaları ile seri üretim sürecinde istatistiksel kontrol sağlanır. Cp ve Cpk değerleri hesaplanarak proses yeterliliği izlenir. Cp>1.33 ve Cpk>1.33 değerleri, prosesin yeterli olduğunu gösterir.",
-      "Mas Technic olarak Zeiss CONTURA G2 CMM cihazımız ile 0.001mm hassasiyetinde ölçüm yapıyor, her parça için detaylı ölçüm raporu sunuyoruz.",
+      "İstatistiksel proses kontrolü (SPC) uygulamaları, seri üretimde ölçüm sonuçlarının dağılımını izler. Proses yeterlilik indeksleri, ölçülen dağılımın tolerans aralığına ne kadar sığdığını gösterir; hedeflenen değer parça ve müşteri şartnamesine göre belirlenir.",
+      "Mas Technic olarak her iş için bir kontrol planı hazırlar, ölçüm sonuçlarını kayıt altına alırız. Akredite üçüncü taraf CMM ölçümü talebe bağlı olarak sağlanır.",
     ],
   },
   {
@@ -125,7 +119,6 @@ export const blogPosts: BlogPost[] = [
     category: "Rehber",
     image: cncWorkshop,
     featured: false,
-    views: 2340,
     fullContent: [
       "Yüzey işlemleri, CNC işlenmiş parçaların korozyon direncini, aşınma dayanımını ve estetik görünümünü iyileştiren kritik proseslerdir. Doğru yüzey işlemi seçimi, parçanın ömrünü ve performansını doğrudan etkiler.",
       "Anodizasyon, alüminyum parçalar için en yaygın yüzey işlemidir. Elektrokimyasal süreçle oluşturulan alüminyum oksit tabakası, hem korozyon koruması hem de dekoratif renklendirme imkânı sunar. Tip II (10-25µm) genel amaçlı, Tip III sert anodizasyon (25-100µm) yüksek aşınma direnci gereken uygulamalar için tercih edilir.",

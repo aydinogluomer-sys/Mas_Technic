@@ -51,7 +51,7 @@ const stories: FeaturedStory[] = (serviceGroup?.children ?? []).map((category, i
 }));
 
 const industries = [
-  { index: "01", title: "Havacılık & Uzay", path: "/endustriyel/havacilik-uzay", image: aerospaceImage, meta: "±0.005 mm tolerans" },
+  { index: "01", title: "Havacılık & Uzay", path: "/endustriyel/havacilik-uzay", image: aerospaceImage, meta: "Ölçüm kayıtlı üretim" },
   { index: "02", title: "Savunma Sanayi", path: "/endustriyel/savunma-sanayi", image: defenseImage, meta: "Kritik parça üretimi" },
   { index: "03", title: "Otomotiv", path: "/endustriyel/otomotiv", image: automotiveImage, meta: "Prototipten seriye" },
   { index: "04", title: "Medikal", path: "/endustriyel/medikal", image: medicalImage, meta: "İzlenebilir proses" },

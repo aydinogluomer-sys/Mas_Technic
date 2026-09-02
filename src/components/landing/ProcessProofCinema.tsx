@@ -359,7 +359,7 @@ export function ProcessProofCinema({
           <p>Ölçülebilir proses</p>
           <ul>
             <li><strong>5</strong><span>kontrollü aşama</span></li>
-            <li><strong>±0.005 mm</strong><span>hedef hassasiyet</span></li>
+            <li><strong>±0.01 mm</strong><span>standart tolerans</span></li>
             <li><strong>01</strong><span>izlenebilir akış</span></li>
           </ul>
         </div>

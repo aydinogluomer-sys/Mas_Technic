@@ -1,13 +1,17 @@
 import { PageShell } from "@/components/shell/PageShell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { Link } from "react-router-dom";
-import { ArrowRight, Clock, Tag, Eye, Search, TrendingUp, SlidersHorizontal, BookOpen, Hash } from "lucide-react";
+import { ArrowRight, Clock, Tag, Star, Search, TrendingUp, SlidersHorizontal, BookOpen, Hash } from "lucide-react";
 import { motion } from "@/components/shell/motion";
 import { useState, useMemo } from "react";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { blogPosts, blogCategories } from "@/data/blogData";
 
-type SortOption = "newest" | "oldest" | "popular";
+/* The third option used to be "popular", sorting by a hardcoded per-post view
+   count. §K ANALYTICS_PROVIDER: NONE — nothing measures reads here, so nothing
+   can rank them. Editorial prominence is a real property an editor sets;
+   reach is not. */
+type SortOption = "newest" | "oldest" | "featured";
 
 export const Blog = () => {
   usePageMeta({ title: "Blog", description: "CNC işleme, talaşlı imalat ve mühendislik konularında teknik makaleler ve sektör haberleri." });
@@ -29,16 +33,24 @@ export const Blog = () => {
           p.category.toLowerCase().includes(q)
       );
     }
-    if (sortBy === "popular") {
-      posts.sort((a, b) => b.views - a.views);
+    if (sortBy === "featured") {
+      posts.sort((a, b) => Number(b.featured) - Number(a.featured));
     } else if (sortBy === "oldest") {
       posts.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
     }
     return posts;
   }, [activeCategory, searchQuery, sortBy]);
 
-  const popularPosts = useMemo(() => [...blogPosts].sort((a, b) => b.views - a.views).slice(0, 3), []);
-  const totalViews = useMemo(() => blogPosts.reduce((sum, p) => sum + p.views, 0), []);
+  const featuredPosts = useMemo(
+    () => [...blogPosts].sort((a, b) => Number(b.featured) - Number(a.featured)).slice(0, 3),
+    [],
+  );
+  /* Derived from the articles themselves rather than from a metric nobody
+     collects: the sum of the editorial reading estimates. */
+  const totalReadMinutes = useMemo(
+    () => blogPosts.reduce((sum, p) => sum + (parseInt(p.readTime, 10) || 0), 0),
+    [],
+  );
 
   // Tag cloud from categories (excluding Tümü)
   const categoryStats = useMemo(() => {
@@ -91,7 +103,7 @@ export const Blog = () => {
                   >
                     <option value="newest">En Yeni</option>
                     <option value="oldest">En Eski</option>
-                    <option value="popular">En Popüler</option>
+                    <option value="featured">Öne Çıkanlar</option>
                   </select>
                 </div>
               </div>
@@ -165,7 +177,7 @@ export const Blog = () => {
                               Devamını Oku <ArrowRight size={12} />
                             </span>
                             <span className="text-xs text-muted-foreground flex items-center gap-1">
-                              <Eye size={12} /> {post.views.toLocaleString()}
+                              <Tag size={12} /> {post.category}
                             </span>
                           </div>
                         </div>
@@ -182,10 +194,10 @@ export const Blog = () => {
               <div className="border border-border bg-card">
                 <div className="bg-primary p-4 flex items-center gap-2">
                   <TrendingUp size={18} className="text-primary-foreground" />
-                  <h3 className="font-bold text-primary-foreground text-sm uppercase tracking-wider">En Popüler Yazılar</h3>
+                  <h3 className="font-bold text-primary-foreground text-sm uppercase tracking-wider">Öne Çıkan Yazılar</h3>
                 </div>
                 <div className="divide-y divide-border">
-                  {popularPosts.map((post, i) => (
+                  {featuredPosts.map((post, i) => (
                     <Link
                       key={post.slug}
                       to={`/blog/${post.slug}`}
@@ -196,7 +208,7 @@ export const Blog = () => {
                         <h4 className="text-xs font-bold line-clamp-2 group-hover:text-primary transition-colors">{post.title}</h4>
                         <div className="flex items-center gap-2 mt-1">
                           <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-                            <Eye size={10} /> {post.views.toLocaleString()}
+                            <Star size={10} /> {post.category}
                           </span>
                           <span className="text-[10px] text-muted-foreground">{post.readTime}</span>
                         </div>
@@ -209,7 +221,7 @@ export const Blog = () => {
               {/* Blog Stats */}
               <div className="border border-border bg-card p-5">
                 <h3 className="font-bold text-sm uppercase tracking-wider mb-4 flex items-center gap-2">
-                  <BookOpen size={16} className="text-primary" /> Blog İstatistikleri
+                  <BookOpen size={16} className="text-primary" /> Teknik Günlük
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="text-center p-3 bg-muted/50">
@@ -217,8 +229,8 @@ export const Blog = () => {
                     <p className="text-[10px] text-muted-foreground uppercase tracking-wider mt-1">Toplam Yazı</p>
                   </div>
                   <div className="text-center p-3 bg-muted/50">
-                    <span className="text-technical text-2xl font-bold text-primary">{(totalViews / 1000).toFixed(1)}K</span>
-                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider mt-1">Toplam Okuma</p>
+                    <span className="text-technical text-2xl font-bold text-primary">{totalReadMinutes}</span>
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider mt-1">Dakika İçerik</p>
                   </div>
                   <div className="text-center p-3 bg-muted/50">
                     <span className="text-technical text-2xl font-bold text-primary">{blogCategories.length - 1}</span>

@@ -14,9 +14,9 @@ export const categoryPages: CategoryPageData[] = [
     title: "Talaşlı İmalat",
     description: "CNC frezeleme, tornalama ve hassas mikro işleme ile yüksek toleranslı üretim çözümleri.",
     links: [
-      { label: "CNC Frezeleme", path: "/hizmetler/cnc-frezeleme", description: "3, 4 ve 5 eksenli CNC frezeleme ile ±0.005mm hassasiyette üretim." },
+      { label: "CNC Frezeleme", path: "/hizmetler/cnc-frezeleme", description: "3, 4 ve 5 eksenli CNC frezeleme ile ±0.01 mm standart tolerans aralığında üretim." },
       { label: "CNC Tornalama", path: "/hizmetler/cnc-tornalama", description: "Çok eksenli torna merkezleri ile mil, somun ve karmaşık döner parçalar." },
-      { label: "Hassas Mikro İşleme", path: "/hizmetler/hassas-mikro-isleme", description: "±0.002mm tolerans, Ø0.1mm takımlarla mikro frezeleme ve tornalama." },
+      { label: "Hassas Mikro İşleme", path: "/hizmetler/hassas-mikro-isleme", description: "Küçük çaplı takımlarla mikro frezeleme ve tornalama." },
       { label: "Derin Delik & Raybalama", path: "/hizmetler/derin-delik-raybalama", description: "Derin delik delme ve raybalama ile hassas delik geometrileri." },
     ],
   },
@@ -75,18 +75,18 @@ export const categoryPages: CategoryPageData[] = [
     title: "Üretim Altyapısı",
     description: "Son teknoloji CNC tezgahları, ölçüm cihazları ve geniş malzeme kütüphanesi.",
     links: [
-      { label: "Makine Parkuru", path: "/kabiliyetler/makine-parkuru", description: "DMG MORI, Mazak, Haas CNC tezgah filosu." },
-      { label: "Malzeme Kütüphanesi", path: "/malzemeler", description: "50+ malzeme ve alaşım seçeneği ile kapsamlı kütüphane." },
+      { label: "Makine Parkuru", path: "/kabiliyetler/makine-parkuru", description: "3, 4 ve 5 eksen işleme merkezleri ile CNC torna kabiliyetleri." },
+      { label: "Malzeme Kütüphanesi", path: "/malzemeler", description: "Alüminyum, çelik, paslanmaz, titanyum, bakır alaşımları ve mühendislik plastikleri." },
     ],
   },
   {
     slug: "kalite-standartlar",
     prefix: "kabiliyetler",
     title: "Kalite & Standartlar",
-    description: "ISO 9001, AS9100D sertifikalı kalite kontrol süreçleri ve hassas ölçüm sistemleri.",
+    description: "ISO 9001:2015 kapsamında tanımlı kalite kontrol süreçleri ve ölçüm kayıtları.",
     links: [
       { label: "Kalite Kontrol", path: "/kabiliyetler/kalite-kontrol", description: "CMM, optik ve yüzey ölçüm sistemleri." },
-      { label: "Tolerans & Hassasiyet", path: "/kabiliyetler/tolerans-hassasiyet", description: "±0.005mm hassasiyette üretim ve ölçüm." },
+      { label: "Tolerans & Hassasiyet", path: "/kabiliyetler/tolerans-hassasiyet", description: "±0.01 mm standart tolerans aralığında üretim ve kontrol." },
     ],
   },
   {
@@ -106,14 +106,14 @@ export const categoryPages: CategoryPageData[] = [
     description: "Tek parçadan binlerce adede kadar esnek üretim kapasitesi.",
     links: [
       { label: "Düşük Hacimli Üretim", path: "/kabiliyetler/dusuk-hacimli-uretim", description: "1-100 adet prototip ve küçük seri üretim." },
-      { label: "Seri İmalat", path: "/kabiliyetler/seri-imalat", description: "1000+ adet seri üretim kapasitesi." },
+      { label: "Seri İmalat", path: "/kabiliyetler/seri-imalat", description: "Tekrarlanabilir kurulum ve kontrol planı ile seri imalat." },
     ],
   },
   {
     slug: "surec-operasyon",
     prefix: "kabiliyetler",
     title: "Süreç & Operasyon",
-    description: "Proje yönetimi, tedarik zinciri ve operasyonel verimlilik ile kusursuz üretim süreci.",
+    description: "Proje yönetimi, tedarik zinciri ve operasyon planlaması ile öngörülebilir üretim süreci.",
     links: [
       { label: "Proje Yönetimi", path: "/kabiliyetler/proje-yonetimi", description: "Uçtan uca proje koordinasyonu ve raporlama." },
       { label: "Tedarik Zinciri", path: "/kabiliyetler/tedarik-zinciri", description: "Sertifikalı tedarikçi ağı ve malzeme yönetimi." },
@@ -127,7 +127,7 @@ export const categoryPages: CategoryPageData[] = [
     title: "Yüksek Teknoloji",
     description: "Havacılık, savunma ve robotik gibi kritik sektörlere yönelik yüksek hassasiyetli üretim.",
     links: [
-      { label: "Havacılık & Uzay", path: "/endustriyel/havacilik-uzay", description: "AS9100D sertifikalı havacılık parça üretimi." },
+      { label: "Havacılık & Uzay", path: "/endustriyel/havacilik-uzay", description: "Havacılık ve uzay uygulamaları için hassas parça üretimi." },
       { label: "Savunma Sanayi", path: "/endustriyel/savunma-sanayi", description: "Askeri standartlarda hassas üretim." },
       { label: "Robotik", path: "/endustriyel/robotik", description: "Robot bileşenleri ve otomasyon parçaları." },
     ],
@@ -138,8 +138,8 @@ export const categoryPages: CategoryPageData[] = [
     title: "Seri Üretim",
     description: "Otomotiv, medikal ve denizcilik sektörlerine yönelik yüksek hacimli üretim çözümleri.",
     links: [
-      { label: "Otomotiv", path: "/endustriyel/otomotiv", description: "IATF 16949 sertifikalı otomotiv parça üretimi." },
-      { label: "Medikal", path: "/endustriyel/medikal", description: "ISO 13485 uyumlu medikal cihaz ve implant üretimi." },
+      { label: "Otomotiv", path: "/endustriyel/otomotiv", description: "Otomotiv uygulamaları için tekrarlanabilir parça üretimi." },
+      { label: "Medikal", path: "/endustriyel/medikal", description: "Medikal cihaz ve implant parçalarında hassas işleme." },
       { label: "Yelken & Yat Sistemleri", path: "/endustriyel/yelken-yat-sistemleri", description: "Denizcilik sektörüne özel korozyona dayanıklı parçalar." },
     ],
   },
@@ -162,7 +162,7 @@ export const categoryPages: CategoryPageData[] = [
     links: [
       { label: "Prototip Üretim", path: "/endustriyel/prototip-uretim", description: "Hızlı prototipleme ile ürün doğrulama." },
       { label: "Küçük Seri", path: "/endustriyel/kucuk-seri", description: "10-100 adet küçük parti üretim." },
-      { label: "Seri Üretim", path: "/endustriyel/seri-uretim", description: "1000+ adet yüksek hacimli üretim." },
+      { label: "Seri Üretim", path: "/endustriyel/seri-uretim", description: "Kontrol planına bağlı, tekrarlanabilir seri üretim." },
       { label: "Özel Projeler", path: "/endustriyel/ozel-projeler", description: "Müşteriye özel mühendislik çözümleri." },
     ],
   },

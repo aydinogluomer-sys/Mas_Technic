@@ -51,6 +51,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { PageShell } from "@/components/shell/PageShell";
+import { CMM_COVERAGE, QUOTE_RESPONSE_TIME, QUOTE_RESPONSE_TIME_DISPLAY } from "@/content/claims";
 import { materialsData, materialCategories } from "@/data/materialsData";
 
 // ── 3D Model Components ──
@@ -545,7 +546,7 @@ export const TeklifAl = () => {
         setIsSubmitting(false);
         return;
       }
-      toast.success("Teklif talebiniz başarıyla gönderildi! 48 saat içinde dönüş yapacağız.", {
+      toast.success(`Teklif talebiniz başarıyla gönderildi! ${QUOTE_RESPONSE_TIME} içinde dönüş yapacağız.`, {
         duration: 8000,
         action: user
           ? {
@@ -1014,7 +1015,7 @@ export const TeklifAl = () => {
               onChange={(e) => setSelectedTolerance(e.target.value)}
               className="w-full border border-border bg-background px-3 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring"
             >
-              {["±0.005 mm", "±0.010 mm", "±0.020 mm", "Teknik resme göre"].map((option) => (
+              {["±0.010 mm", "±0.020 mm", "±0.050 mm", "Teknik resme göre"].map((option) => (
                 <option key={option} value={option}>{option}</option>
               ))}
             </select>
@@ -1344,8 +1345,8 @@ export const TeklifAl = () => {
           <div className="space-y-3">
             {[
               { icon: Shield, title: "ISO 9001:2015", desc: "Sertifikalı kalite yönetim sistemi" },
-              { icon: Gauge, title: "CMM Ölçüm", desc: "±0.005 mm hassasiyetinde 3D koordinat ölçümü" },
-              { icon: FileCheck, title: "Malzeme Sertifikası", desc: "Her sipariş için malzeme test raporu" },
+              { icon: Gauge, title: "CMM Ölçüm", desc: CMM_COVERAGE },
+              { icon: FileCheck, title: "Malzeme İzlenebilirliği", desc: "Parti ve döküm kaydı; malzeme sertifikası talebe bağlı" },
             ].map((item) => (
               <div key={item.title} className="flex items-start gap-3">
                 <div className="w-8 h-8 flex items-center justify-center bg-primary/10 shrink-0">
@@ -1362,25 +1363,30 @@ export const TeklifAl = () => {
 
         {/* Teslimat */}
         <div className="card-industrial p-5">
-          <h3 className="text-[10px] font-bold tracking-[0.2em] mb-4 text-muted-foreground">TESLİMAT BİLGİSİ</h3>
+          {/* This block published three production lead-time bands and a
+              "%50'ye kadar" express saving. `USER_INPUTS.md` supplies a quote
+              SLA (§D / §J: 1-3 days) and no production lead time at all, so
+              the panel states the two things that are true — when you hear
+              back, and how the date is set. */}
+          <h3 className="text-[10px] font-bold tracking-[0.2em] mb-4 text-muted-foreground">TEKLİF VE TERMİN</h3>
           <div className="space-y-2.5 text-xs">
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Prototip (1-10 adet)</span>
-              <span className="font-bold">5-7 İş Günü</span>
+              <span className="text-muted-foreground">Teklif dönüşü</span>
+              <span className="font-bold">{QUOTE_RESPONSE_TIME_DISPLAY}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Küçük Seri (10-100 adet)</span>
-              <span className="font-bold">10-14 İş Günü</span>
+              <span className="text-muted-foreground">Termin</span>
+              <span className="font-bold">Teklifle birlikte</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Seri Üretim (100+ adet)</span>
-              <span className="font-bold">14-21 İş Günü</span>
+              <span className="text-muted-foreground">Ölçüm kaydı</span>
+              <span className="font-bold">Teslimat dosyasında</span>
             </div>
             <div className="border-t border-border pt-2.5 mt-2.5">
               <div className="flex items-center gap-1.5">
                 <Zap size={12} className="text-destructive" />
                 <span className="text-[10px] font-semibold text-destructive">
-                  Ekspres üretim ile süreleri %50'ye kadar kısaltın
+                  Acil işler için önceliklendirme talebinizi belirtin
                 </span>
               </div>
             </div>

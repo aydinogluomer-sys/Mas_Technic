@@ -59,7 +59,9 @@ const RULES = [
   },
   {
     id: "tolerance-beyond-verified",
-    pattern: /±\s?0[.,]00\d|\b0[.,]00[1-9]\b/,
+    // A bare `0.003` is an animation speed as often as a tolerance, so the
+    // rule needs either the ± sign or a length unit before it fires.
+    pattern: /±\s?0[.,]00\d|\b0[.,]00\d+\s?(mm|µm|μm|um)\b|\bRa\s?0[.,]00\d/,
     authority: "§D MINIMUM_TOLERANCE_INTERNAL: ±0.01 mm",
     remedy: "Import MINIMUM_TOLERANCE from src/content/claims.ts. ±0.005 claimed twice the verified capability.",
   },
@@ -71,8 +73,10 @@ const RULES = [
   },
   {
     id: "delivery-or-quality-rate",
+    // A bare "teslimat" after a percentage is excluded: "%50 teslimatta ödenir"
+    // is a payment term, not a performance rate.
     pattern:
-      /%\s?\d{1,3}([.,]\d+)?\s*(zamanında|teslimat|başarı|kalite oranı|verimlilik|doğruluk|ilk seferde)|(zamanında teslimat|teslimat oranı|başarı oranı|kalite oranı)[^.\n]{0,25}%\s?\d/i,
+      /%\s?\d{1,3}([.,]\d+)?\s*(zamanında|teslimat oranı|başarı|kalite oranı|verimlilik|doğruluk|ilk seferde)|(zamanında teslimat|teslimat oranı|başarı oranı|kalite oranı)[^.\n]{0,25}%\s?\d/i,
     authority: "§D ON_TIME_DELIVERY_INTERNAL: 95% (PUBLIC_IF_VERIFIED_AND_STRATEGIC — condition not met)",
     remedy: "No self-graded performance percentage is published. See ON_TIME_DELIVERY in src/content/claims.ts.",
   },
@@ -170,8 +174,11 @@ const RULES = [
   },
   {
     id: "marketing-filler",
+    // A bare `en iyi` is excluded: in `materialsData.ts` it states published
+    // machinability rankings ("en iyi işlenebilir paslanmaz"), which is a
+    // metallurgical fact, not a boast. Only the company-directed forms fire.
     pattern:
-      /yüksek kalite|üstün kalite|ileri teknoloji|en iyi\b|Türkiye'?nin en\b|dünyanın en\b|sektör(ün)?\s+lider|dünya standartlarında|kusursuz/i,
+      /yüksek kalite|üstün kalite|ileri teknoloji|en iyi (fiyat|kalite|hizmet|çözüm)|Türkiye'?nin en\b|dünyanın en\b|sektör(ün)?\s+lider|dünya standartlarında|kusursuz/i,
     authority: "§0 PUBLIC_POSITIONING_PRIORITY: PRECISION_ENGINEERING, MEASUREMENT, TRACEABILITY, PROCESS_DISCIPLINE",
     remedy: "Superlatives with no proof behind them. Replace with the specific technical fact, or delete.",
   },
@@ -205,11 +212,12 @@ function walk(path) {
   // A removed claim must stay DISCUSSABLE — the whole point of the ledger is
   // that it explains what went and why. So comments are skipped, including
   // block comments whose continuation lines carry no `*` gutter.
+  const html = abs.endsWith(".html");
   let inBlockComment = false;
   lines.forEach((line, index) => {
     const trimmed = line.trim();
-    const opens = line.lastIndexOf("/*");
-    const closes = line.lastIndexOf("*/");
+    const opens = line.lastIndexOf(html ? "<!--" : "/*");
+    const closes = line.lastIndexOf(html ? "-->" : "*/");
     const wasInBlock = inBlockComment;
     if (inBlockComment) {
       if (closes > -1) inBlockComment = false;
@@ -222,7 +230,8 @@ function walk(path) {
       trimmed.startsWith("//") ||
       trimmed.startsWith("*") ||
       trimmed.startsWith("/*") ||
-      trimmed.startsWith("{/*")
+      trimmed.startsWith("{/*") ||
+      trimmed.startsWith("<!--")
     ) {
       return;
     }

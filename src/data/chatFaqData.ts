@@ -40,22 +40,22 @@ const staticEntries: FaqEntry[] = [
   },
   {
     question: "Hangi malzemelerle çalışıyorsunuz?",
-    answer: "Alüminyum (6061, 7075), paslanmaz çelik (304, 316), karbon çelik, titanyum, pirinç, bakır, PEEK, POM/Delrin ve daha 50+ malzeme ile çalışıyoruz. [Malzeme Kütüphanesi](/malzemeler) sayfamızda detayları bulabilirsiniz.",
+    answer: "Alüminyum (6061, 7075), paslanmaz çelik (304, 316), karbon çelik, titanyum, pirinç, bakır, PEEK ve POM/Delrin gibi mühendislik malzemeleriyle çalışıyoruz. [Malzeme Kütüphanesi](/malzemeler) sayfamızda detayları bulabilirsiniz.",
     keywords: ["malzeme", "metal", "alüminyum", "çelik", "titanyum", "plastik", "pirinç", "bakır", "paslanmaz"],
   },
   {
     question: "Minimum sipariş adedi var mı?",
-    answer: "Minimum sipariş adedi 1 (tek parça) olarak belirlenmiştir. Prototipten seri üretime (1000+ adet) kadar esnek üretim kapasitemiz mevcuttur.",
+    answer: "Minimum sipariş adedi 1 (tek parça) olarak belirlenmiştir. Prototipten seri üretime kadar esnek üretim planlaması yapıyoruz.",
     keywords: ["minimum", "adet", "sipariş", "kaç adet", "en az", "miktar"],
   },
   {
     question: "Kalite sertifikalarınız nelerdir?",
-    answer: "ISO 9001:2015, AS9100D (havacılık), ISO 13485 (medikal) sertifikalarına sahibiz. CMM ölçüm raporları ve EN 10204 3.1 malzeme sertifikaları sunuyoruz.",
-    keywords: ["kalite", "sertifika", "iso", "as9100", "standart", "belge", "rapor"],
+    answer: "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Her iş için kontrol planı oluşturulur; ölçüm kaydı teslimat dosyasına eklenir, akredite üçüncü taraf CMM ölçümü talebe bağlı olarak sağlanır.",
+    keywords: ["kalite", "sertifika", "iso", "standart", "belge", "rapor"],
   },
   {
     question: "Tolerans değerleriniz nedir?",
-    answer: "Standart ±0.01mm, hassas işlemede ±0.005mm, mikro işlemede ±0.001mm tolerans değerlerine ulaşabiliyoruz. Detaylar için [Tolerans & Hassasiyet](/kabiliyetler/tolerans-hassasiyet) sayfamızı inceleyin.",
+    answer: "Standart çalışma aralığımız ±0.01mm olup ulaşılabilir tolerans; geometri, malzeme ve ölçü zincirine göre teknik incelemede belirlenir. Detaylar için [Tolerans & Hassasiyet](/kabiliyetler/tolerans-hassasiyet) sayfamızı inceleyin.",
     keywords: ["tolerans", "hassasiyet", "doğruluk", "precision", "accuracy"],
   },
   // ── Kargo & Teslimat ──
@@ -112,7 +112,7 @@ const staticEntries: FaqEntry[] = [
   // ── Seri Üretim ──
   {
     question: "Seri üretim yapıyor musunuz?",
-    answer: "Evet, 10 adetten 100.000+ adete kadar seri üretim kapasitemiz mevcuttur. Seri üretimde birim maliyet avantajı ve tutarlı kalite sağlıyoruz. [Seri Üretim](/kabiliyetler/seri-uretim) sayfamızı inceleyin.",
+    answer: "Evet, tek parçadan seri üretime kadar çalışıyoruz. Seri üretimde birim maliyet avantajı ve tutarlı kalite sağlıyoruz. [Seri Üretim](/kabiliyetler/seri-uretim) sayfamızı inceleyin.",
     keywords: ["seri", "seri üretim", "toplu", "adet", "büyük sipariş", "volume", "mass production"],
   },
   // ── Teknik Destek ──

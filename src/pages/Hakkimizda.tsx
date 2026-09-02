@@ -1,7 +1,8 @@
 import { PageShell } from "@/components/shell/PageShell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
-import { Target, Users, Award, Globe } from "lucide-react";
+import { Target, ClipboardCheck, Award, Globe } from "lucide-react";
 import { usePageMeta } from "@/hooks/use-page-meta";
+import { CERTIFICATION_SENTENCE_LIST, CMM_COVERAGE, MINIMUM_TOLERANCE } from "@/content/claims";
 
 export const Hakkimizda = () => {
   usePageMeta({ title: "Hakkımızda", description: "Mas Technic — hassas CNC işleme, talaşlı imalat ve mühendislik çözümleri sunan güvenilir üretim partneri." });
@@ -18,15 +19,21 @@ export const Hakkimizda = () => {
 
           <div className="space-y-8 text-muted-foreground text-sm leading-relaxed mb-16">
             <p>Mas Technic, CNC freze, torna ve talaşlı imalat alanında yüksek hassasiyetli üretim çözümleri sunan bir mühendislik firmasıdır. Havacılık, otomotiv, medikal ve robotik gibi kritik sektörlere hizmet vermekteyiz.</p>
-            <p>ISO 9001:2015, AS9100D ve IATF 16949 sertifikalarına sahip üretim tesisimizde, en son teknoloji CNC tezgahları ve CMM ölçüm sistemleri ile ±0.005mm hassasiyette üretim gerçekleştiriyoruz.</p>
+            <p>{CERTIFICATION_SENTENCE_LIST} yönetim sistemleriyle çalışıyoruz. Standart tolerans aralığımız {MINIMUM_TOLERANCE}; her iş için kontrol planı oluşturulur ve ölçüm kayıtları teslimat dosyasına eklenir. {CMM_COVERAGE} olarak sağlanır.</p>
           </div>
 
+          {/* The four cards used to publish a team size (§D
+              TEAM_SIZE_VISIBILITY: PRIVATE_DO_NOT_DISCLOSE), a mission written
+              as "en yüksek kalitede", and a vision about being one of Europe's
+              leading centres. §0 sets DO_NOT_EMPHASIZE_COMPANY_SCALE and
+              PUBLIC_POSITIONING_PRIORITY: precision, measurement, traceability,
+              process discipline. The cards say those four things now. */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: Target, title: "Misyon", desc: "Müşterilerimize en yüksek kalitede hassas üretim çözümleri sunmak" },
-              { icon: Globe, title: "Vizyon", desc: "Avrupa'nın önde gelen hassas işleme merkezlerinden biri olmak" },
-              { icon: Users, title: "Ekip", desc: "50+ deneyimli mühendis ve teknisyenden oluşan uzman kadro" },
-              { icon: Award, title: "Kalite", desc: "Uluslararası standartlarda sertifikalı üretim süreçleri" },
+              { icon: Target, title: "Misyon", desc: "Teknik resimdeki her koteyi ölçülebilir ve tekrarlanabilir biçimde üretmek" },
+              { icon: Globe, title: "Yaklaşım", desc: "Hassasiyeti iddia etmek yerine ölçüm kaydıyla teslim etmek" },
+              { icon: ClipboardCheck, title: "Süreç", desc: "DFM analizinden son kontrole kadar tanımlı bir kontrol planı" },
+              { icon: Award, title: "Kalite", desc: "İzlenebilir malzeme kaydı ve belgelendirilmiş yönetim sistemleri" },
             ].map((item) => (
               <div key={item.title} className="border border-border bg-card p-6">
                 <item.icon className="w-8 h-8 text-primary mb-4" />
