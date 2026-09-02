@@ -79,16 +79,25 @@ const staticEntries: FaqEntry[] = [
     answer: "Evet, dünya genelinde ihracat yapıyoruz. Avrupa, Orta Doğu, ABD ve Asya'ya düzenli sevkiyatlarımız bulunmaktadır. İhracat belgeleri ve gümrük işlemlerinde destek sağlıyoruz.",
     keywords: ["yurt dışı", "ihracat", "export", "uluslararası", "avrupa", "amerika", "gümrük"],
   },
-  // ── Garanti & İade ──
-  {
-    question: "Garanti veriyor musunuz?",
-    answer: "Evet, tüm ürünlerimiz teknik şartnameye uygunluk garantisi ile teslim edilir. Ölçüsel uyumsuzluk veya malzeme hatası durumunda ücretsiz yeniden üretim veya düzeltme yapıyoruz.",
-    keywords: ["garanti", "garantili", "güvence", "warranty", "sorumluluk"],
-  },
+  // ── İade ──
+  // "Garanti veriyor musunuz?" girdisi kaldırıldı: koşulsuz bir uygunluk
+  // garantisi ve ücretsiz yeniden üretim taahhüdü veriyordu; USER_INPUTS.md'de
+  // bunu yetkilendiren bir alan yok. Sorunun kendisi gerçek, bu yüzden
+  // anahtar kelimeler mevcut ve doğru olan iade yanıtına yönlendiriliyor.
   {
     question: "İade veya değişim yapılabiliyor mu?",
     answer: "Teknik şartnameye uymayan ürünlerde ücretsiz iade/değişim yapılmaktadır. Teslimat sonrası 7 iş günü içinde kalite kontrol raporuyla birlikte bildirim yapmanız yeterlidir.",
-    keywords: ["iade", "değişim", "geri gönderme", "uyumsuz", "hatalı", "kusurlu", "return"],
+    keywords: [
+      "iade",
+      "değişim",
+      "geri gönderme",
+      "uyumsuz",
+      "hatalı",
+      "kusurlu",
+      "return",
+      "warranty",
+      "sorumluluk",
+    ],
   },
   // ── Ödeme ──
   {

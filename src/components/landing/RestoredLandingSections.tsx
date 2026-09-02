@@ -15,7 +15,11 @@ const proofItems = [
   {
     icon: ShieldCheck,
     title: "Malzeme izlenebilirliği",
-    text: "Talebe göre EN 10204 3.1 sertifika zinciri ve lot bazlı kayıt.",
+    // §C yalnızca ISO 9001, ISO 14001 ve OHSAS 18001 veriyor. `EN 10204 3.1`
+    // bir belge sınıfını adlandırır ve alıcının kendi dosyası buna dayanır;
+    // beyan edilmemiş bir standardı yayımlamak yerine uygulamanın kendisi
+    // yazılıyor. İçerik aynı: talebe bağlı malzeme belgesi + lot kaydı.
+    text: "Talebe göre malzeme sertifikası ve lot bazlı kayıt zinciri.",
   },
   {
     icon: ScanLine,

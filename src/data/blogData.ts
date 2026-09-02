@@ -122,7 +122,7 @@ export const blogPosts: BlogPost[] = [
     fullContent: [
       "Yüzey işlemleri, CNC işlenmiş parçaların korozyon direncini, aşınma dayanımını ve estetik görünümünü iyileştiren kritik proseslerdir. Doğru yüzey işlemi seçimi, parçanın ömrünü ve performansını doğrudan etkiler.",
       "Anodizasyon, alüminyum parçalar için en yaygın yüzey işlemidir. Elektrokimyasal süreçle oluşturulan alüminyum oksit tabakası, hem korozyon koruması hem de dekoratif renklendirme imkânı sunar. Tip II (10-25µm) genel amaçlı, Tip III sert anodizasyon (25-100µm) yüksek aşınma direnci gereken uygulamalar için tercih edilir.",
-      "Pasivasyon, paslanmaz çelik parçalar için uygulanan kimyasal işlemdir. Nitrik asit veya sitrik asit banyosunda yüzeydeki serbest demir giderilir ve krom oksit tabakası güçlendirilir. ASTM A967 standardına uygun pasivasyon, korozyon direncini önemli ölçüde artırır.",
+      "Pasivasyon, paslanmaz çelik parçalar için uygulanan kimyasal işlemdir. Nitrik asit veya sitrik asit banyosunda yüzeydeki serbest demir giderilir ve krom oksit tabakası güçlendirilir. ASTM A967 pasivasyon yöntemi, korozyon direncini önemli ölçüde artırır.",
       "Toz boya, geniş renk yelpazesi ve dayanıklılık sunan çevre dostu bir kaplama yöntemidir. 60-120µm kalınlıkta uygulanan toz boya, 1000+ saat tuz testi dayanımı sağlar. RAL kataloğundaki tüm renkler mevcuttur.",
       "Elektropolish, paslanmaz çelik yüzeylerin kimyasal olarak parlatılmasıdır. Ra 0.2µm altı yüzey pürüzlülüğü elde edilebilir. Medikal ve gıda sektörlerinde hijyenik yüzey gereksinimleri için idealdir.",
       "Mas Technic olarak tüm yüzey işlemlerini tek çatı altında sunuyor, projenize en uygun çözümü mühendislik ekibimizle belirliyoruz.",

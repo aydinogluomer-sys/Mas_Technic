@@ -743,15 +743,15 @@ export const servicePages: ServicePageData[] = [
     categoryLabel: "Yüzey İşlemleri",
     title: "Anodizasyon",
     metaTitle: "Anodizasyon Hizmeti | Tip I-II-III Sert Anodizasyon | MIL-A-8625 | Mas Technic",
-    metaDescription: "MIL-A-8625 uyumlu Tip I, II, III anodizasyon. 5-100µm kaplama, 60-70 HRC sertlik, 500+ saat tuz testi. 20+ renk seçeneği, havacılık ve medikal sınıf kaplama.",
+    metaDescription: "Tip I, II ve III anodizasyon. 5-100µm kaplama, 60-70 HRC sertlik, ASTM B117 tuz spreyi testi ile korozyon direnci doğrulaması. 20+ renk seçeneği, havacılık ve medikal uygulamalar.",
     description:
-      "Tip I kromik asit, Tip II sülfürik asit ve Tip III sert anodizasyon ile korozyon direnci, aşınma dayanımı, elektriksel yalıtım ve dekoratif kaplama. MIL-A-8625 standardına tam uyum.",
+      "Tip I kromik asit, Tip II sülfürik asit ve Tip III sert anodizasyon ile korozyon direnci, aşınma dayanımı, elektriksel yalıtım ve dekoratif kaplama.",
     heroImage: "hero-anodizasyon",
     content: [
-      "Anodizasyon, alüminyum yüzeyinde elektrokimyasal yöntemle oluşturulan alüminyum oksit (Al₂O₃) tabakasıdır. Bu tabaka, parçanın korozyon direncini, aşınma dayanımını ve estetik görünümünü önemli ölçüde artırır. Mas Technic olarak MIL-A-8625 standardına tam uyumlu, havacılık ve medikal sınıf anodizasyon hizmeti sunuyoruz.",
+      "Anodizasyon, alüminyum yüzeyinde elektrokimyasal yöntemle oluşturulan alüminyum oksit (Al₂O₃) tabakasıdır. Bu tabaka, parçanın korozyon direncini, aşınma dayanımını ve estetik görünümünü önemli ölçüde artırır. Mas Technic olarak havacılık ve medikal uygulamalar için Tip I, Tip II ve Tip III anodizasyon hizmeti sunuyoruz.",
       "Tip I (Kromik Asit) anodizasyon 5-15µm kalınlıkta ince bir oksit tabakası oluşturur; havacılık yapısal parçaları ve boya tutunma alt katmanı olarak tercih edilir. Tip II (Sülfürik Asit) anodizasyon 10-25µm kalınlıkta olup en yaygın kullanılan türdür; korozyon koruması, renkli kaplama ve genel mühendislik uygulamalarında idealdir. Tip III (Sert Anodizasyon) 25-100µm kalınlıkta, 60-70 HRC sertliğe ulaşarak aşınma direnci, elektriksel yalıtım ve yüksek performans gerektiren uygulamalarda kullanılır.",
       "Renklendirme sürecimizde organik ve inorganik boyalar kullanarak siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) dahil 20+ renk seçeneği sunuyoruz. Renk homojenliği ΔE ≤ 2.0 toleransında kontrol edilmektedir. Sealing (sızdırmazlık) işlemi ile oksit tabakasının gözenekleri kapatılarak uzun ömürlü koruma sağlanır.",
-      "Kalite kontrol sürecimiz: Eddy current veya mikrometre ile kaplama kalınlığı ölçümü (MIL-A-8625 uyumlu), ASTM B117 tuz spreyi testi ile 500+ saat korozyon direnci doğrulaması, Vickers mikrosertlik testi ile sertlik kontrolü ve renk ölçüm cihazı ile ΔE renk homojenliği kontrolü. Her parti için kalite sertifikası düzenlenmektedir.",
+      "Kalite kontrol sürecimiz: Eddy current veya mikrometre ile kaplama kalınlığı ölçümü, ASTM B117 tuz spreyi testi ile korozyon direnci doğrulaması, Vickers mikrosertlik testi ile sertlik kontrolü ve renk ölçüm cihazı ile ΔE renk homojenliği kontrolü. Her parti için ölçüm kaydı tutulur.",
       "2000×1000×800mm tank boyutlarımız ile büyük parçalarda da anodizasyon uygulayabiliyoruz. 50 kg/parça maksimum ağırlık kapasitesi, 24-72 saat standart teslimat süresi ve havacılık, otomotiv, medikal, elektronik ve savunma sanayi sektörlerine hizmet veriyoruz.",
     ],
     features: [
@@ -759,8 +759,8 @@ export const servicePages: ServicePageData[] = [
       "Tip II (Sülfürik Asit) — 10-25µm, korozyon koruması, renkli kaplama",
       "Tip III (Sert Anodizasyon) — 25-100µm, 60-70 HRC sertlik, aşınma direnci",
       "20+ Renk Seçeneği — Organik ve inorganik boyalar, ΔE ≤ 2.0 homojenlik",
-      "MIL-A-8625 Tam Uyum — Havacılık ve savunma sertifikalı kaplama",
-      "ASTM B117 Tuz Testi — 500+ saat kanıtlanmış korozyon direnci",
+      "Tip I / II / III — MIL-A-8625 kaplama sınıfları",
+      "ASTM B117 Tuz Testi — Korozyon direnci doğrulaması",
     ],
     technicalSpecs: [
       { label: "Kaplama Kalınlığı", value: "5-100µm" },
@@ -780,12 +780,12 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "4 farklı anodizasyon tipi (Tip I, II, III ve dekoratif)",
-      "MIL-A-8625 havacılık standardına tam uyum",
-      "500+ saat ASTM B117 tuz testi ile kanıtlanmış korozyon direnci",
+      "Tip I, Tip II ve Tip III kaplama sınıfları",
+      "ASTM B117 tuz testi ile korozyon direnci doğrulaması",
       "20+ renk seçeneği ile dekoratif ve fonksiyonel kaplama",
       "2000×1000×800mm tank boyutu ile büyük parça kapasitesi",
       "24-72 saat standart teslimat süresi",
-      "Kaplama kalınlığı ve sertlik ölçümü ile %100 kalite kontrolü",
+      "Kaplama kalınlığı ve sertlik ölçümü ile kalite kontrolü",
       "Havacılık, otomotiv, medikal ve savunma sektörü deneyimi",
     ],
     materials: [
@@ -801,7 +801,7 @@ export const servicePages: ServicePageData[] = [
       { question: "Sert anodizasyon (Tip III) ile normal (Tip II) farkı nedir?", answer: "Tip III sert anodizasyon 25-100µm kalınlıkta olup 60-70 HRC sertlik sağlar, aşınma direnci ve elektriksel yalıtım gerektiğinde tercih edilir. Tip II 10-25µm olup genel korozyon koruması ve dekoratif kaplama için uygundur." },
       { question: "Anodizasyon boyut değişikliğine neden olur mu?", answer: "Evet, oksit tabakasının yaklaşık %50'si malzemeye nüfuz eder, %50'si yüzeyden dışarı büyür. Örneğin 25µm Tip II kaplama ~12.5µm boyut artışı yapar. Bu değer işleme toleranslarında dikkate alınmalıdır." },
       { question: "Hangi renklerde anodizasyon yapabiliyorsunuz?", answer: "Siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel dahil 20+ renk seçeneği sunuyoruz. Özel RAL ve Pantone renk eşleştirmesi de yapabiliyoruz." },
-      { question: "Kaplama ne kadar dayanıklıdır?", answer: "MIL-A-8625 standardına uygun kaplamalarımız ASTM B117 tuz testi ile 500+ saat korozyon direnci sağlar. Sert anodizasyon ile çelik sertliğine yakın aşınma direnci elde edilir." },
+      { question: "Kaplama ne kadar dayanıklıdır?", answer: "Kaplamalarımızın korozyon direnci ASTM B117 tuz spreyi testi ile doğrulanır. Sert anodizasyon ile çelik sertliğine yakın aşınma direnci elde edilir." },
       { question: "Anodizasyon teslimat süreniz ne kadar?", answer: "Standart siparişlerde 24-72 saat, büyük partilerde 3-5 iş günü teslimat süremiz bulunmaktadır. Ekspres hizmet ile aynı gün teslimat da mümkündür." },
     ],
     comparisonTables: [
@@ -856,12 +856,12 @@ export const servicePages: ServicePageData[] = [
     title: "Kimyasal İşlemler",
     heroImage: "hero-kimyasal-islemler",
     metaTitle: "Kimyasal Yüzey İşlemleri | Pasivasyon & Fosfatlama | Mas Technic",
-    metaDescription: "Endüstriyel yağ giderme, pasivasyon, fosfatlama ve elektropolish. ASTM B117 ve A967 standartlarında 500+ saat korozyon direnci.",
+    metaDescription: "Endüstriyel yağ giderme, pasivasyon, fosfatlama ve elektropolish. ASTM B117 tuz spreyi ve ASTM A967 pasivasyon test yöntemleri ile doğrulama.",
     description:
       "Yağ giderme, pasivasyon, fosfatlama ve elektropolish ile yüzey temizliği ve sonraki işlemlere hazırlık.",
     content: [
       "Kimyasal yüzey işlemleri ile parçalarınızın korozyon direncini artırıyoruz. Endüstriyel yıkama ve ultrasonik yağ giderme, paslanmaz çelik korozyon koruması için pasivasyon, boya tutunması için fosfatlama yüzey hazırlığı, paslanmaz çelik parlatma için elektropolish ve köşeli kısımları yumuşatma için deburring işlemleri gerçekleştiriyoruz.",
-      "ASTM B117 tuz testi standardına uygun 500+ saat korozyon direnci, 1-25µm kaplama kalınlığı ve ASTM A967 pasivasyon standardına tam uyum sağlıyoruz.",
+      "ASTM B117 tuz spreyi ve ASTM A967 pasivasyon test yöntemleri ile doğrulama yapıyoruz; kaplama kalınlığı 1-25µm aralığındadır.",
     ],
     features: [
       "Yağ Giderme — Endüstriyel yıkama, ultrasonik",
@@ -1088,16 +1088,16 @@ export const servicePages: ServicePageData[] = [
     title: "QR & DataMatrix Kodları",
     heroImage: "hero-qr-datamatrix",
     description:
-      "ISO/IEC 16022 ve ISO/IEC 18004 standartlarına uygun DataMatrix ve QR kod işaretleme. Küçük alanda yüksek veri kapasitesi.",
+      "DataMatrix ve QR kod işaretleme. Küçük alanda yüksek veri kapasitesi ile kalıcı parça izlenebilirliği.",
     content: [
       "DataMatrix (2.5×2.5mm alanda 50 karakter), QR Code (5×5mm alanda 500 karakter) ve GS1-128 barkod formatlarında endüstriyel izlenebilirlik için kalıcı kod işaretleme hizmeti sunuyoruz.",
-      "UID (Unique Identifier), GS1-128 Barkod, HIBC (Health Industry Bar Code) ve DoD IUID (Item Unique Identification) kodlama seçenekleri ile parça takibi, kalite kontrol ve envanter yönetimi çözümleri sağlıyoruz. ISO/IEC 16022 ve ISO 15415 doğrulama standartlarına tam uyum garanti ediyoruz.",
+      "UID (Unique Identifier), GS1-128 Barkod, HIBC (Health Industry Bar Code) ve DoD IUID (Item Unique Identification) kodlama seçenekleri ile parça takibi, kalite kontrol ve envanter yönetimi çözümleri sağlıyoruz. İşaretlenen kodların okunabilirliği, teslimattan önce okuma doğrulamasıyla kontrol edilir.",
     ],
     features: [
       "DataMatrix — 2.5×2.5mm'de 50 karakter",
       "QR Code — 5×5mm'de 500 karakter",
       "GS1-128 Barkod — Standart barkod",
-      "IUID Uyumu — Savunma sanayi izlenebilirlik",
+      "IUID Kodlama — Savunma sanayi izlenebilirlik",
     ],
     technicalSpecs: [
       { label: "Min. Modül Boyutu", value: "0.1mm" },
@@ -1350,20 +1350,20 @@ export const servicePages: ServicePageData[] = [
     title: "Kaynaklı İmalat",
     heroImage: "hero-kaynakli-imalat",
     description:
-      "TIG, MIG/MAG ve direnç kaynağı ile metal parçaların birleştirilmesi. Sertifikalı kaynakçılar ve kalite kontrol.",
+      "TIG, MIG/MAG ve direnç kaynağı ile metal parçaların birleştirilmesi. Yazılı kaynak prosedürü ve tahribatsız muayene ile kalite kontrol.",
     content: [
       "TIG kaynak (Al, çelik, Ti; 0.5-10mm; hassas uygulamalar), MIG/MAG kaynak (çelik, Al; 1-20mm; hızlı üretim) ve direnç kaynağı (çelik; 0.2-3mm; nokta kaynak) yöntemleri ile metal parçaların birleştirilmesini gerçekleştiriyoruz.",
-      "ISO 9606-1 (çelik kaynağı), ISO 9606-2 (alüminyum kaynağı), ISO 15614-1 (kaynak prosedürü) ve AWS D1.1 (yapısal çelik) sertifikalı kaynakçılarımız ile EN ISO 3834-2 standardında üretim yapıyoruz. RT, UT, PT ve MT tahribatsız muayene yöntemleri ile kaynak kalitesini garanti ediyoruz.",
+      "Kaynak işlemleri yazılı kaynak prosedürü (WPS) ile yürütülür; kullanılan parametreler ve sarf malzemeleri iş bazında kayıt altına alınır. RT, UT, PT ve MT tahribatsız muayene yöntemleri ile kaynak dikişleri kontrol edilir ve sonuçlar teslimat dosyasına eklenir.",
     ],
     features: [
       "TIG Kaynak — Al, çelik, Ti; 0.5-10mm; hassas",
       "MIG/MAG Kaynak — Çelik, Al; 1-20mm; hızlı üretim",
       "Direnç Kaynağı — Çelik; 0.2-3mm; nokta kaynak",
-      "Sertifikalı Kaynakçılar — ISO 9606 ve AWS D1.1",
+      "Yazılı Kaynak Prosedürü — WPS ile yürütülen kaynak",
     ],
     technicalSpecs: [
-      { label: "Standart", value: "EN ISO 3834-2" },
-      { label: "Sertifika", value: "EN 1090" },
+      { label: "Prosedür", value: "WPS ile kaynak" },
+      { label: "Kalınlık", value: "0.2-20 mm" },
       { label: "NDT", value: "RT, UT, PT, MT" },
       { label: "Malzemeler", value: "Al, SS, Ti, Ni" },
     ],
@@ -1375,9 +1375,9 @@ export const servicePages: ServicePageData[] = [
       "Kalite Raporu",
     ],
     advantages: [
-      "ISO 9606 sertifikalı kaynakçılar",
+      "Yazılı kaynak prosedürü (WPS) ile üretim",
       "4 farklı NDT muayene yöntemi",
-      "EN ISO 3834-2 kalite standardı",
+      "Kaynak dikişlerinde muayene ve ölçüm kaydı",
       "TIG, MIG/MAG ve direnç kaynağı kapasitesi",
     ],
     comparisonTables: [

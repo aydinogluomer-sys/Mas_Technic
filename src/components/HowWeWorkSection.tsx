@@ -74,7 +74,9 @@ const steps = [
       { title: "Sertifikasyon", desc: "Malzeme ve test sertifikaları" },
       { title: "Paketleme", desc: "Özel koruyucu ambalaj" },
     ],
-    stat: { value: "%100", label: "Kalite Kontrol" },
+    // §D CMM_COVERAGE_INTERNAL: THIRD_PARTY_ACCREDITED_ON_DEMAND. `%100` iddia
+    // edilen kapsam mevcut değil; slot ölçülebilir bir yeteneği taşıyor.
+    stat: { value: "CMM", label: "Boyutsal Doğrulama" },
     accent: "hsl(var(--primary))",
   },
 ];

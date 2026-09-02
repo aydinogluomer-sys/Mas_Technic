@@ -277,8 +277,37 @@ const STANDARD_TOKEN =
  * ISO 2768-m", "flanş ölçüleri EN 1092-1"), which is engineering vocabulary and
  * asserts no audit.
  */
-const CONFORMITY_CONTEXT =
-  /sertifika|belgeli|belgemiz|belgesi|belgelendir|akredit|onaylı|onayl[ıi]y|tescil|denetim|denetlen|uygunluk|uygun olarak|uyumlu|tam uyum|standard[ıi]nda|standard[ıi]na göre|standard[ıi]na uygun|kalifiye|yetkin|yeterlilik|sahibiz|sahiptir|nitelikli kaynakç|kapsam[ıi]nda üretim/i;
+// Turkish suffixes are agglutinative and `\w` is ASCII-only, so a naive
+// `standard[ıi]na` misses `standartlarına` — the plural the copy actually uses.
+// `standart` also softens to `standard` before a vowel. Both stems, any number
+// of suffix letters, then the conformity verb.
+const TRW = "[A-Za-z0-9_çğıîöşüâÇĞİÖŞÜÂÎ]";
+const CONFORMITY_CONTEXT = new RegExp(
+  [
+    // an attestation is claimed to exist
+    "sertifika",
+    "belgeli",
+    "belgemiz",
+    "belgesi",
+    "belgelendir",
+    "akredit",
+    "onayl",
+    "tescil",
+    "denetim",
+    "denetlen",
+    "kalifiye",
+    "yeterlilik",
+    "nitelikli kaynakç",
+    // conformity is asserted
+    "uygunluk",
+    "uyumlu",
+    "tam uyum",
+    "uygun olarak",
+    `standar[dt]${TRW}{0,12}\\s*(?:uygun|göre|üret|imal|uyum|çal[ıi]ş)`,
+    `standar[dt]${TRW}{0,4}nda\\b`,
+  ].join("|"),
+  "i",
+);
 
 /**
  * Standards that assert an audit merely by being named — management systems and
@@ -504,8 +533,14 @@ const RULES = [
       [
         String.raw`(?:%\s?100|yüzde\s+100|100\s?%)[^.\n]{0,40}?(?:kontrol|muayene|ölçüm|ölçül|denetim|test|izlenebilir|NDT|boyutsal|lot|rapor|sertifika|uygunluk|kalite)`,
         String.raw`(?:kontrol|muayene|ölçüm|denetim|test|izlenebilirlik|rapor|sertifika)[^.\n]{0,25}?(?:%\s?100|yüzde\s+100)`,
-        String.raw`\b(?:her|tüm|bütün|hepsi|istisnasız|tamam[ıi])\s+(?:bir\s+)?(?:parça|sipariş|ürün|üretim|sevkiyat|lot|part)\w*` +
-          String.raw`(?![^.\n]{0,20}için[^.\n]{0,40}belirlen)[^.\n]{0,60}?` +
+        String.raw`\b(?:her|tüm|bütün|hepsi|istisnasız|tamam[ıi])\s+(?:bir\s+)?(?:parça|sipariş|ürün|üretim|sevkiyat|lot|parti)\w*` +
+          // Phase 06's CONDITIONING clauses are the opposite of a universal
+          // promise and must not fire: "her parça için teknik incelemede
+          // belirlenir" scopes the claim to a review, and "her partide, kontrol
+          // planında tanımlanan koteler ölçülür" scopes it to the control plan.
+          String.raw`(?![^.\n]{0,20}için[^.\n]{0,40}belirlen)` +
+          String.raw`(?![^.\n]{0,40}kontrol plan[ıi]nda tan[ıi]mlan)` +
+          String.raw`[^.\n]{0,60}?` +
           String.raw`(?:ölçül|muayene|kontrol ed|test ed|testinden|raporu|sertifika|denetlen|izlenebil)`,
       ].join("|"),
       "gi",
