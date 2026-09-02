@@ -1611,3 +1611,506 @@ Both survivors sit inches from copy this packet corrected, and one of them
 contradicts its own page. That is a narrower failure than the first one — two
 strings instead of thirty — but it is the same failure, and the fix that
 matters is the two gate rules, not the two strings.
+
+---
+---
+
+# QA Report — Phase 06 RE-VERIFICATION #2 (after correction packet #2)
+
+- PHASE: 06 — CONTENT TRUTH, EVIDENCE MODEL AND CASE-STUDY DATA
+- STATUS: **PASS**
+- CODE_COMMITS: `45b9eae`, `35ef1ec`, `2c4b124` (integration HEAD `2c4b124`)
+- PRIOR QA: `6f60a3a`/`853b09f` FAIL, `3747db5` FAIL
+- QA_COMMIT: `2b904c1`, `9940e9f`, `1e5d746`, and this report
+- SCOPE_INTEGRITY: PASS
+- FABRICATION_REMAINING: **NONE**
+- GATE_DEFEATABLE: **NO** (no demonstrated evasion is reachable in this tree; four hardening notes recorded)
+- TABLE_RULE_LINE: **CORRECT**
+- COVERAGE_REGRESSION: **NONE**
+- CHATBOT_REGRESSION: **FIXED**
+
+## Headline
+
+Both blind spots are closed at the level they were opened, the two claims are
+gone from source, from `dist/` and from the rendered DOM, and the two things I
+was most likely to be wrong about — the table rule and the coverage diff — I
+was wrong about one of them. The Coder declined my proposed table rule and gave
+a reason; the reason is right, and the eleven cells my own scanner still reports
+are the eleven I would have destroyed.
+
+Three numbers carry this verdict:
+
+| | |
+|---|---|
+| gate on this tree | **PASS — 0 across 26 rules**, 207 files, 26,068 non-comment lines |
+| my 58 evasion probes, harness **unmodified** since `3747db5` | **58/58**, including **18/18** attacks (was 9/18) and **12/12** false-positive controls silent |
+| previous gate vs corrected gate over the whole pre-Phase-06 red tree, diffed by violation SET | 767 → 788, **1 line lost**, and it is the documented one |
+
+## Re-verification matrix
+
+| Req | What I had to establish | Verdict | Evidence |
+|---|---|---|---|
+| R1 | G1, G2 and the shipped `EN 10204` path are gone from `src/**` and `dist/**` | **PASS** | grep + fresh build + rendered DOM; 16 document cells walked |
+| R2 | 18/18 on my unmodified harness, then attack again | **PASS** | 58/58; 8 new evasions found, **none reachable in this tree** |
+| R3 | Adjudicate the table-rule disagreement | **CORRECT — the Coder's line, not mine** | the 11 cells are method standards; my own E3/E4 controls demand they stay |
+| R4 | No rule silently lost coverage, rule by rule, whole red tree | **PASS — NONE** | set diff, not count diff; 26 of 27 rules identical line for line |
+| R5 | The chatbot fix, and the disclosed stopword shrink | **FIXED** | A/B over 165 queries; sensitivity ladder reproduces the discarded failure |
+| R6 | G3 fixed and gated; an uninvented designation still fires in a title | **PASS** | `metaTitle` pass fires on `ISO 41822-7`; `ISO 2768-m` and `ISO 9001` silent |
+| R7 | Suites, goldens, Phase 01–05 guarantees | **PASS** | critical 163/3/0, smoke **12/12**, visual 27/27, zero goldens changed |
+
+---
+
+## R1 — the two claims are gone, in all three places a claim can live
+
+### Source
+
+Every surviving occurrence in `src/**` is inside a `/* … */` ledger comment
+recording why the string went. There is no live occurrence of any of them:
+
+```text
+EN 10204 / EN10204        src: 3 hits, all in comments (RestoredLandingSections.tsx:18,
+                               servicePages.ts:1613, :1617)
+tam uyum                  src: 2 hits, both in comments (servicePages.ts:894, :1133)
+IPC-A-610 / ISO 1413      src: 1 hit,  in a comment (servicePages.ts:296)
+ISO Uyum Raporu           src: 1 hit,  in a comment (servicePages.ts:1124)
+```
+
+### `dist/`, from a build I made myself
+
+`npm run build` on the clean tree, then a byte sweep of `dist/`:
+
+```text
+EN 10204   0    IEC 61400    0    AS9100       0
+EN10204    0    IEC 62271    0    IATF 16949   0
+tam uyum   0    NACE MR0175  0    ISO 13485    0
+IPC-A-610  0    ISO Uyum     0
+ISO 1413   0    API 6A       1  <- adjudicated below
+```
+
+`API 6A` survives once, in `servicePages.ts:3110`:
+`"boru bağlantı parçaları (API 6A flanş, hub)"`. That names the flange's
+dimensional family the way `ANSI, DIN ve JIS standartlarında boru bağlantı
+parçaları` does — the exact locative construction I told the Coder to keep, and
+the same class as `ASTM B117` and `MIL-A-8625` in R4b. There is no conformity
+predicate anywhere in the sentence. **Correctly kept.** It is also gone from the
+`metaTitle` of that page, which is what G3 was about.
+
+### The rendered page — `reports/qa/tools/p06c-matrix-runtime.mjs`
+
+A grep over `dist/` proves bytes. A table proves the claim. This walks every
+rendered `<table>` on the six touched routes, finds each DOCUMENT column by its
+heading and prints **every** cell under it, so a partial fix cannot pass as a
+whole one:
+
+```text
+/hizmetler/malzeme-kutuphanesi
+  ["Malzeme Grubu","Standart Tedarik","Acil Tedarik","Sertifika","Min. Sipariş"]
+    Alüminyum (6061, 7075)      -> "Talebe bağlı"
+    Paslanmaz Çelik (304, 316)  -> "Talebe bağlı"
+    Karbon Çelik (1045, 4140)   -> "Talebe bağlı"
+    Titanyum (Gr2, Gr5)         -> "Talebe bağlı"
+    Inconel / Hastelloy         -> "Talebe bağlı"
+    PEEK / Yüksek Perf. Plastik -> "Talebe bağlı"
+
+/hizmetler/hassas-mikro-isleme
+  ["Sektör","Tipik Parça","Tolerans Beklentisi","Yüzey Beklentisi","Belge Beklentisi"]
+    Medikal     -> "Biyouyumlu malzeme kaydı"    Havacılık    -> "İzlenebilir malzeme kaydı"
+    Elektronik  -> "Görsel kabul kriteri"        Saat & Optik -> "Ölçüm kaydı"
+    Otomotiv    -> "Parti izlenebilirliği"
+
+/hizmetler/kalite-kontrol
+  ["Özellik","Tipik Yöntem","Ne Zaman Akredite CMM Gerekir"]   5 cells, all conditions
+
+document-column cells checked: 16, violating: 0
+withdrawn strings found in rendered text: 0
+```
+
+**One story, verified rather than asserted.** On
+`/hizmetler/malzeme-kutuphanesi` the six matrix cells, the spec row
+`{ label: "Sertifika", value: "Talebe bağlı" }` (`:1559`), the page description
+(`:1546`) and the page FAQ (`:1592`) now give a buyer the same answer. That was
+the whole of G1: the page previously answered its own question two ways and the
+surviving answer was the stronger one.
+
+The G2 pair is absent from the DOM of both pages (`p06b-runtime-claims.mjs`,
+unmodified), replaced by what those pages' own content lines already said
+happens — the two test methods, and the read verification after laser marking.
+
+**Sweep, not spot-fix.** The Coder found the same shape a second time without
+being told: `"Sektörel Mikro İşleme Gereksinimleri"` published `IPC-A-610` and
+`ISO 1413` under a `Sertifika` heading whose other three cells already
+described the expectation. The heading is now `Belge Beklentisi` and it is
+**deliberately still a document column**, so the gate keeps watching it — which
+is why my runtime tool finds it and checks all five cells.
+
+---
+
+## R2 — 18/18, then eight new evasions, none of them reachable
+
+### The unmodified harness
+
+`git diff 3747db5 HEAD -- reports/qa/tools/p06b-gate-evasion.mjs` is empty.
+Run against the corrected gate:
+
+```text
+prior-evasion     12/12    invented-standard  7/7
+positive-control   9/9     new-attack        18/18   <- was 9/18
+false-positive    12/12
+PROBE PASS — every probe behaved as specified.
+```
+
+The twelve false-positive controls staying silent matters as much as the
+eighteen catches. `ISO 2768-m`, `ASME B16.5`, `ASTM B117`, `MIL-A-8625`, the
+§D-authorised third-party CMM sentence, the conditioning clause and `%100 IACS`
+are all still silent. The teeth were not bought with over-removal.
+
+### Attack 19 — `reports/qa/tools/p06c-attack19.mjs`, 31 new probes
+
+A harness that scores 58/58 no longer discriminates, so I wrote a second one.
+It takes **multi-line** probes, so a `headers`/`rows` block can be attacked as
+the structure it is rather than as a line.
+
+Eight probes found gate holes:
+
+| # | Shape | Why the gate is silent |
+|---|---|---|
+| F1 | `"AS9100D belgemiz vardır."` | the normaliser decodes HTML entities, zero-widths, concatenation and interpolation — not **JS string escapes** |
+| F2 | `"A\x539100D sertifikamız…"` | same |
+| F3 | `ⅠATF 16949` (U+2160 ROMAN NUMERAL ONE) | the homoglyph fold covers Cyrillic and Greek only |
+| F4 | `AᏚ9100D` (U+13DA CHEROKEE LETTER S) | same |
+| G1 | document column headed `Kalite Kaydı`, cell `CoC` | `DOCUMENT_COLUMN` is a fixed six-noun list; a synonym heading escapes it |
+| G3 | column headed `Sertifika`, cell `Havacılık onaylı` | `CELL_ATTESTATION` has `sertifikal\|belgeli\|akredite\|CoC` but not `onaylı` |
+| H1 | `"Uluslararası havacılık standartlarına göre üretim yapıyoruz."` | `BODY_FAMILY_REFERENCE` needs a named body; "international aviation standards" names none |
+| H2 | `"Kalite yönetim sistemimiz üçüncü taraf denetiminden başarıyla geçmiştir."` | an audit asserted with no certificate and no body |
+
+**Are any of them live? No.** This is the test I set for myself in the last
+report — `GATE_DEFEATABLE: YES` was a finding then *because G2 was live in the
+tree* — and I have to apply the same bar now.
+`reports/qa/tools/p06c-homoglyph-sweep.mjs` reports every Latin-confusable
+**letter** and every `\uXXXX`/`\xXX` escape across the gate's own 207 files:
+
+```text
+U+0430 'а' x2   useProcessProofCinema.ts:20,44  — "talаş", the disclosed typo,
+                                                  in a comment, and now folded
+U+03BC 'μ' x2   TeklifAl.tsx:253, HowWeWorkSection.tsx:60 — the micron unit,
+                                                  deliberately NOT folded
+U+0394 'Δ' x3   servicePages.ts — "ΔE <= 2.0", colour difference
+escapes    x2   SectionHeader.tsx:17 — a slug regex character class
+```
+
+Not one is a claim carrier. For G1/G3/H1/H2 I swept the same way: every
+`onaylı` / `belgeli` / `akredite` / `CoC` occurrence in `src/**` is either a
+materials fact (`FDA onaylı` plastic grades), a customer approval (`Onaylı
+tasarımlar`), the §D-authorised `akredite üçüncü taraf … talebe bağlı` form, or
+the §C-held `ISO 9001:2015 · Sertifikalı kalite yönetim sistemi`. The only
+`standartlarında` in the tree is the ANSI/DIN/JIS locative I adjudicated to
+keep. There is no `üçüncü taraf denetim` claim anywhere.
+
+So: **GATE_DEFEATABLE: NO.** These eight are hardening notes for whoever
+touches the gate next, not defeats. Ranked by how cheaply a real edit could
+walk into one: G3 (`onaylı` in a cell) and G1 (a synonym heading) are ordinary
+Turkish a copywriter would reach for without meaning anything by it; F1–F4 need
+deliberate obfuscation.
+
+---
+
+## R3 — the disagreement, adjudicated against myself
+
+**The Coder is right and I was wrong.** My proposed rule — §C applies to every
+cell under any `Sertifika`/`Standart` column — would have deleted real
+engineering content, and §0 `PUBLIC_POSITIONING_PRIORITY: PRECISION_ENGINEERING`
+makes that a failure, not a conservative choice.
+
+`p06b-table-body-scan.mjs` (my tool, unmodified) reports **11** where it
+reported 18. I ran it against the verbatim `servicePages.ts` from `3747db5` to
+enumerate the difference rather than assume it: 18 = 11 + 6 (`EN 10204 3.1` x3,
+`3.2` x2, `CoC` x1) + 1 (`ISO 1413`). The seventh removal, `IPC-A-610`, my own
+`STANDARD_TOKEN` never matched — `IPC` is not in its body list — so my scanner
+under-counted the very shape it exists to find. The Coder removed it anyway.
+
+All 11 survivors are in a `Standart` column, in two tables, and both are
+**method comparison tables**:
+
+```text
+"Kimyasal Yüzey İşlem Yöntemleri"   headers: [..., "Standart", "Uygulama"]
+  Pasivasyon (Nitrik)  -> ASTM A967       Fosfatlama (Çinko)  -> MIL-DTL-16232
+  Pasivasyon (Sitrik)  -> ASTM A967       Fosfatlama (Mangan) -> MIL-DTL-16232
+  Elektropolish        -> ASTM B912       Alodine (Chromate)  -> MIL-DTL-5541
+
+"NDT (Tahribatsız Muayene) Yöntemleri"   headers: ["Yöntem","Kısaltma",...,"Standart"]
+  Radyografik Test RT -> EN ISO 17636     Ultrasonik Test   UT -> EN ISO 17640
+  Penetrant Test   PT -> EN ISO 3452      Manyetik Parçacık MT -> EN ISO 17638
+  Görsel Muayene   VT -> EN ISO 17637
+```
+
+The row's subject is **the method, not MAS**. `EN ISO 17636` *is* the
+radiography standard; `ASTM A967` *is* the nitric passivation standard. Naming
+it states a fact about the method and asserts no audit — there is no conformity
+predicate anywhere in either table. That is precisely the class I adjudicated
+correct to keep in R4b for `ASTM B117` and `MIL-A-8625`, and it is the class my
+own harness pins as **PASS controls E3 and E4**. My rule would have contradicted
+my own harness.
+
+The two-column-kind distinction is the right cut, and it is stated in the code
+rather than implied: a DOCUMENT column names something MAS issues, so §C applies
+to every cell and a bare `CoC` with no designation fires; a SPECIFICATION column
+names which spec governs the row, so its cells are tested as prose tokens and
+fire only on a management-system or qualification scheme — `AS9100D` parked in a
+`Standart` column still fires. I confirmed the silent side independently with
+probes M1–M3 and M8, and the firing side with G2.
+
+**TABLE_RULE_LINE: CORRECT.** No cell in the 11 should fire.
+
+---
+
+## R4 — the self-caught instrument regression, verified independently
+
+`reports/qa/tools/p06c-coverage-regression.mjs`. The Coder's principle — *a gate
+that reports fewer claims on a known-red tree is the same failure as one that
+reports zero on a live one* — is right, and it deserves a stricter instrument
+than the count comparison it was found with. **A count diff hides a rule that
+gains three hits and loses three.** So this diffs the violation **sets**, keyed
+`rule@file:line`, running both gate builds over the same tree.
+
+Tree: `75629f3`, the pre-Phase-06 red baseline, 222 files / 29,216 lines.
+
+```text
+prev:  FAIL — 767 claim violation(s)      new:  FAIL — 788 claim violation(s)
+
+26 of 27 rules: identical, line for line, LOST 0 / GAINED 0
+  attestation-adjective     43=43    machine-inventory         117=117
+  certifying-body            8=8     process-capability-metric  72=72
+  company-scale-disclosure  42=42    <- the disclosed regression, restored
+  tolerance-beyond-verified 88=88    universal-inspection-claim 33=33
+  unverified-certification  61=61    quote-sla-overpromise      12=12
+  ...
+
+table-column-attestation            0 ->  11   (+11 gained, 0 lost)
+unauthorised-standard-conformity  144 -> 155   (+11 gained, 0 lost)
+unconditional-guarantee            29 ->  28   ( 0 gained, 1 LOST)
+```
+
+**The one lost line, in full:**
+
+```text
+LOST  unconditional-guarantee  src/data/chatFaqData.ts:76
+      keywords: ["garanti", "garantili", "güvence", "warranty", "sorumluluk"],
+```
+
+That is a matcher input array, read only by `findBestFaqMatch` and rendered by
+no component. The two lines above it — `:74` the question and `:75` the answer,
+both of which *do* render — are still reported by the corrected gate. So the
+exemption is exactly as narrow as documented, and my probes K1/K2 confirm the
+scope from the other side: a certificate and a company-scale disclosure both
+still fire **inside** a keywords array, because the exemption is bound to one
+rule and not to the array.
+
+Both restorations are confirmed independently as CATCH probes N1–N3:
+`{ label: "Stok Malzeme", value: "Al 6061: 5.000 kg" }`, `Güvenlik stoğu
+(5.000 kg)` and the comma form all fire. The `sto[kğ]` softening is real
+Turkish, not a patch written for a probe.
+
+**COVERAGE_REGRESSION: NONE.**
+
+---
+
+## R5 — the chatbot, A/B rather than spot-checked
+
+A change to `normalize()` moves **every** score on both sides of the matcher, so
+neither of my tools here is a spot check.
+
+### `p06b-chat-routing.mjs`, unmodified
+
+All four disclosed variants now reach the true returns answer at **1.00**:
+`garanti`, `garanti veriyor musunuz`, `garantiniz var mı`, `güvence veriyor
+musunuz`. `warranty`, `sorumluluk` and `iade` are unchanged at 1.00.
+`hatalı parça gelirse ne olur` and `ölçü tutmazsa ne yapıyorsunuz` still fall
+through to the AI-consent prompt — **unchanged**, which is the point.
+
+### `p06c-chat-routing-ab.mjs` — 165 queries through both trees
+
+Nine guarantee/returns queries, sixteen unrelated intents, and all 140 shipped
+FAQ questions used as their own query, routed through the real module built from
+each tree with the project's own esbuild. **Nine differ.**
+
+Four are the intended fix, and two of those four were previously answered
+*confidently and wrongly*: `garanti veriyor musunuz` and `güvence veriyor
+musunuz` used to return **"Tasarım desteği veriyor musunuz?"** on the shared
+question words. That is the failure the packet describes and it is closed.
+
+Five are collateral, and none is a content-truth failure:
+
+- Three FAQ questions typed verbatim now answer from a **sibling entry on the
+  same subject** — series production, first-article inspection, surface
+  treatment. Within-topic ties, not topic changes.
+- `kaynak yapıyor musunuz` moves from one wrong answer to another. The corpus
+  contains **no welding FAQ at all**, so neither tree can answer it. The
+  previous answer was won on `yapıyor`+`musunuz` alone — the exact pathology
+  being fixed. The new one is won because the matcher's substring rule makes
+  `"kaynak".includes("ayna")` true and the Ra 0.1 µm answer contains `ayna`.
+  I confirmed that mechanism directly against the live corpus. It predates
+  Phase 06 and outlives it. **Advisory, carried forward.**
+
+### The disclosed stopword shrink, reproduced — `p06c-stopword-sensitivity.mjs`
+
+The Coder says it *shrank* a larger list because the larger one turned my
+`hatalı parça gelirse ne olur` from NO MATCH into a confident wrong answer.
+Score is `matchCount / inputWords.length`, so a longer stopword list
+mechanically **raises** a query's best score by shrinking the denominator.
+Feeding the same query at successively shorter lengths — which is what a longer
+list produces — against the live matcher:
+
+```text
+"hatalı parça gelirse ne olur"  (5 words)  -> NO MATCH          <- SHIPPED
+"hatalı parça gelirse olur"     (4 words)  -> NO MATCH
+"hatalı parça gelirse"          (3 words)  -> "Verimlilik çalışması parçamı
+                                               nasıl etkiler?"  score 0.67
+"hatalı parça"                  (2 words)  -> NO MATCH
+```
+
+The disclosure is true, and the shipped fourteen-word list stops one step short
+of it. Disclosing a discarded worse version is the behaviour I want to see.
+
+**CHATBOT_REGRESSION: FIXED.**
+
+---
+
+## R6 — G3, fixed and gated
+
+The four standards are out of the three `metaTitle` strings:
+
+```text
+"Yenilenebilir Enerji Parça Üretimi | Rüzgar & Güneş | Mas Technic"
+"Petrol & Gaz Parça Üretimi | 15000 PSI | Mas Technic"
+"Güç Dağıtım Parça Üretimi | 36kV | IACS %99+ | Mas Technic"
+```
+
+The gate now carries a `metaTitle` pass applying the §C allow-list
+unconditionally, because a badge list gives a sentence-scoped rule nothing to
+read. **The R6 question was whether it is an allow-list or a deny-list with a
+hole in it**, and the answer is the first — probe **L1**:
+
+```text
+L1  metaTitle: "Hassas İmalat | ISO 41822-7 | Mas Technic"
+    -> unauthorised-standard-conformity   (a designation nobody has invented)
+L2  metaTitle: "... | API 6A | NACE MR0175 | ..."      -> fires
+L3  metaTitle: "Genel Toleranslar | ISO 2768-m | ..."  -> silent (reference class)
+L4  metaTitle: "Kalite | ISO 9001 | ..."               -> silent (§C held)
+```
+
+The two-entry reference-class allow-list (`MIL-A-8625`, `ISO 2768`) is written
+down in the gate with its reason, and it preserves exactly the two designations
+I adjudicated in R4b. Phase 11 can now wire route metadata without resurrecting
+this class.
+
+---
+
+## R7 — suites, goldens, guarantees
+
+| Check | Result |
+|---|---|
+| `tsc --noEmit` x 3 projects (`app`, `node`, `e2e`) | clean |
+| `eslint .` | clean |
+| `npm run build` | built in 36.1 s |
+| critical-1280 + critical-375 | **163 passed, 3 skipped, 0 failed** (12.8 m) |
+| smoke x 4 (webkit/firefox x 1440/390) | **12 passed, 0 failed** (2.1 m) |
+| visual-375 + visual-1280 + visual-1440 | **27 passed, 0 failed** (2.3 m) |
+| goldens changed | **0** — `git diff 3747db5 2c4b124 -- e2e/__golden__` is empty, and empty again after the visual run |
+| `motion-audit --mode=guard` | PASS — every motion call site goes through `@/components/shell/motion` |
+| `motion-audit --mode=rest` (B28) | PASS — `hiddenText=0` on all 5 routes x 2 viewports |
+| `grid-axis-probe` | PASS — every measured edge on a master axis, tolerance 1 px |
+| `verify-route-inventory` / `verify-visual-manifest` / `verify-traceability` / `scan-report-secrets` | PASS / PASS / PASS / PASS |
+
+**The disclosed smoke flake did not reproduce.** The Coder reported 11 + 1
+environmental (`smoke-firefox-390` hero-shell teardown). I got **12/12** on the
+first run, in 2.1 minutes. Environmental, as disclosed.
+
+**Zero goldens changed is correct, and checkable rather than plausible.**
+`e2e/visual/shell-golden.spec.ts` captures the header and footer of one
+representative per page family, and its own header comment says page **bodies**
+are deliberately not captured because "a golden that fails on every content edit
+teaches people to run `--update-snapshots` without looking". Its service
+representative is `/hizmetler/cnc-frezeleme`, which this packet did not touch.
+Every edit in the packet is `/hizmetler/*` page **data** plus the chatbot
+matcher. No golden covers either. So zero is the number I would expect, and
+27/27 passing against untouched baselines is the proof rather than the claim.
+
+---
+
+## Scope integrity — PASS
+
+```text
+git diff --stat 3747db5 2c4b124
+ scripts/claims-gate.mjs  | 377 ++++++++++++++++++++++++-
+ src/data/chatFaqData.ts  |  34 ++-
+ src/data/servicePages.ts |  61 +++--
+ 3 files changed, 438 insertions(+), 34 deletions(-)
+```
+
+Three files. No `e2e/**`, no `reports/**`, no `PROGRESS.md`, no
+`IMPLEMENTATION.md`, no `USER_INPUTS.md`, no build or workflow config. The Coder
+did not touch a QA-owned artefact, which is why my harness is byte-identical to
+the one that failed this packet twice and its 18/18 means something.
+
+On my side: four new files, all under `reports/qa/tools/**`, plus this report.
+No path listed read-only in the packet was modified.
+
+---
+
+## Advisories — not failures, and not new blocking findings
+
+1. **Chat matcher substring rule.** `tw.includes(iw) || iw.includes(tw)` over
+   auto-derived keywords makes `"kaynak"` match `"ayna"`. It predates Phase 06,
+   it is not what this packet changed, and it will keep producing confident
+   off-topic answers for any query the corpus cannot serve. Worth a phase of its
+   own; not one of Phase 06's criteria.
+2. **`%99.9+ okuma oranı` and `{ label: "Okuma Oranı", value: "%99.9+" }`**
+   (`servicePages.ts:1132`, `:1115`). Present in the pre-Phase-06 red baseline
+   and through both of my prior reports without being flagged. I read it the way
+   I read `%100 IACS` and the `500+ saat` salt-spray hours — a property of the
+   symbology and its verification, not a self-graded company KPI — and
+   `delivery-or-quality-rate` is scoped to on-time/quality/scrap/savings by
+   design. Recording it so the next reader does not have to rediscover the
+   adjudication.
+3. **Gate hardening notes:** the eight probes in `p06c-attack19.mjs` that found
+   holes. None reachable in this tree. If the gate is touched again, adding
+   `onaylı` to `CELL_ATTESTATION` and widening `DOCUMENT_COLUMN` beyond six
+   nouns are the two cheapest wins.
+
+## Carry-forwards, restated unchanged
+
+`Maks. 50 MB` (Phase 09); canonical / `og:url` / `og:image` / `IST` clock
+(Phase 11); lead-time day-ranges, the volume-discount schedule, the 7-day
+returns window and "3 iterasyonlu revizyon döngüsü" — commercial promises with
+no `USER_INPUTS.md` field; band 07/10 compositional pass (Phases 07/08); B24,
+B29, B30, B31.
+
+**G3's condition is discharged.** It was carried forward with the condition that
+the four `metaTitle` standards be defused before Phase 11 wires route metadata.
+They were defused now, and the gate will not let them back.
+
+## Verdict
+
+I failed this phase twice, and the second failure was the more instructive one:
+the sweep was driven by the gate, so it inherited the gate's blind spots. Both
+of those spots are now closed **as rules** rather than as strings, which is the
+fix I asked for. The evidence that they are closed as rules is that my
+unmodified harness went 9/18 to 18/18 without the harness moving, and that the
+Coder found a second instance of the table shape I had not reported.
+
+Two things raise this above a clean scorecard.
+
+The Coder **refused a QA instruction and was right to**. My table rule would
+have deleted `ASTM A967`, `MIL-DTL-16232` and five `EN ISO` NDT method standards
+— content that makes the site read like a shop that knows what it is doing — and
+it would have contradicted two PASS controls in my own harness. Over-removal is
+a failure, and the refusal arrived with the argument rather than instead of it.
+
+And the Coder **caught a regression in its own instrument**, from a four-claim
+drop on a tree nobody was looking at, then disclosed a discarded worse version
+of the chatbot fix which I reproduced. A gate that quietly gets weaker is worse
+than one that is loudly wrong. Verified rule by rule, by set and not by count,
+across 27 rules and 788 violations on the red tree: one line changed, and it is
+the one the commit message names.
+
+**STATUS: PASS.**
