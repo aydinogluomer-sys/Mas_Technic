@@ -132,6 +132,22 @@
 
   /* ── MOTION ─────────────────────────────────────────────────────────────
      One easing curve for the whole system. Motion never changes geometry.
+
+     THREE LEVELS, and only three. These are the CSS spellings of
+     `MOTION_LEVEL` in `src/config/motion-system.ts`; `NAV_MOTION` in
+     `src/components/navigation/motion.ts` is the same three again. The
+     property names are historical, so read them as:
+
+       --tl-dur-micro  .22s  MICRO      one control responding: hover, focus,
+                                        a toggle, a swap under the eye.
+       --tl-dur-short  .35s  STANDARD   the default — one element entering,
+                                        leaving or resolving.
+       --tl-in         .62s  CINEMATIC  reserved for narrative moments: the
+                                        menu opening, a band's entrance.
+       --tl-step       65ms  the stagger unit between siblings, not a duration.
+
+     A fourth duration is not a new level, it is a mis-classified one. Under
+     `prefers-reduced-motion` every level is 0 — off, not fast.
      ---------------------------------------------------------------------- */
   --tl-ease-out: cubic-bezier(.16, 1, .3, 1);
   --tl-dur-micro: .22s;

@@ -64,11 +64,9 @@
 import { forwardRef, type ComponentType } from "react";
 import { motion as framerMotion } from "framer-motion";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
+import { MOTION_REDUCED } from "@/config/motion-system";
 
 type UnknownProps = Record<string, unknown>;
-
-/** Reduced motion is not "fast", it is off — the same contract as `NAV_MOTION.reduced`. */
-const INSTANT = { duration: 0 } as const;
 
 const isVariantLabel = (value: unknown): value is string | string[] =>
   typeof value === "string" || (Array.isArray(value) && typeof value[0] === "string");
@@ -129,7 +127,7 @@ function resolveAtRest(props: UnknownProps): UnknownProps {
     target = { ...(animate as UnknownProps), ...(whileInView as UnknownProps) };
   }
 
-  const next: UnknownProps = { ...rest, initial: false, transition: INSTANT };
+  const next: UnknownProps = { ...rest, initial: false, transition: MOTION_REDUCED };
   if (target !== undefined) {
     next.animate = isVariantLabel(target) ? target : settle(target as UnknownProps);
   }

@@ -20,6 +20,10 @@
  *   --mode=rest      reduced motion, no scrolling: how much content is hidden
  *                    behind an un-triggered reveal, per route, per viewport.
  *                    Exit 1 if any route hides text-bearing content.
+ *   --mode=enabled   the counter-proof to `rest`: motion ALLOWED, per route,
+ *                    how much is still armed before scrolling and how much is
+ *                    left hidden after. Fixing `rest` must not turn the
+ *                    choreography off for everyone.
  *   --mode=cls       motion ENABLED, scripted scroll of `/`: layout-shift
  *                    entries reported by the browser itself.
  *   --mode=frames    motion ENABLED, scripted scroll of `/`: rAF pacing.
@@ -227,6 +231,65 @@ async function runRest(browser, baseURL) {
       await page.waitForTimeout(1200);
       const census = await page.evaluate(REST_PROBE);
       results.push({ viewport: viewport.name, route, label, ...census });
+    }
+    await context.close();
+  }
+  return results;
+}
+
+/**
+ * The counter-proof to `--mode=rest`.
+ *
+ * Fixing B28 must not degenerate into "reveals are off for everybody". With
+ * motion ALLOWED, a scroll-triggered reveal has to still be armed before the
+ * user reaches it and resolved after. So this measures the same at-rest hidden
+ * count twice: once on load without scrolling, once after scrolling the route
+ * end to end and back to the top.
+ *
+ * Read it as: `armed` should be clearly > 0 (the choreography is alive) and
+ * `afterScroll` should be ~0 (it completes and nothing is stranded).
+ */
+async function runEnabled(browser, baseURL) {
+  const results = [];
+  for (const viewport of VIEWPORTS) {
+    const context = await browser.newContext({
+      viewport: { width: viewport.width, height: viewport.height },
+      isMobile: viewport.mobile,
+      hasTouch: viewport.mobile,
+      deviceScaleFactor: 1,
+      reducedMotion: "no-preference",
+      baseURL,
+    });
+    const page = await context.newPage();
+    for (const [route, label] of ROUTES) {
+      await page.goto(route, { waitUntil: "load" });
+      await page.waitForLoadState("networkidle").catch(() => {});
+      await page.waitForTimeout(1200);
+      const armed = await page.evaluate(REST_PROBE);
+
+      const height = await page.evaluate(() => document.body.scrollHeight);
+      const step = Math.round(viewport.height * 0.6);
+      for (let y = 0; y < height; y += step) {
+        await page.evaluate((top) => window.scrollTo(0, top), y);
+        await page.waitForTimeout(220);
+      }
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.waitForTimeout(1200);
+      const after = await page.evaluate(REST_PROBE);
+
+      results.push({
+        viewport: viewport.name,
+        route,
+        label,
+        elements: armed.elements,
+        armed: armed.hidden,
+        armedText: armed.hiddenText,
+        afterScroll: after.hidden,
+        afterScrollText: after.hiddenText,
+        // Anything still hidden AFTER the whole route has been scrolled is a
+        // reveal that never fired, not a reveal that is waiting.
+        samples: after.samples,
+      });
     }
     await context.close();
   }
@@ -511,6 +574,7 @@ async function main() {
     else if (MODE === "frames") results = await runFrames(browser, baseURL);
     else if (MODE === "density") results = await runDensity(browser, baseURL);
     else if (MODE === "cursor") results = await runCursor(browser, baseURL);
+    else if (MODE === "enabled") results = await runEnabled(browser, baseURL);
     else throw new Error(`unknown --mode=${MODE}`);
 
     if (JSON_OUT) {
