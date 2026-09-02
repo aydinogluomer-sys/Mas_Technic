@@ -6,7 +6,7 @@ RUN_BASE_COMMIT: 366f321 (pre-run working tree preserved + plan path normalized)
 INTEGRATION_BRANCH: claude/awwwards-90-overhaul
 USER_BRANCH_PRESERVED: claude/motion-layer-and-asset-pipeline @ b6f2552 (untouched)
 STARTED_AT: 2026-08-31T01:51:28Z
-CURRENT_PHASE: 06
+CURRENT_PHASE: 07
 
 ## Authority
 
@@ -31,8 +31,8 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | 03 | PASS | 4937757..1d5ea91 (9), c72fd99, 4066b41, d3822b8 | 1c7e5df, ab8c585, 46d64a8, 02ab2c2 | 220 passed / 4 pre-existing page-debt fails / 3 skipped | 2026-09-01T06:10Z |
 | 04 | PASS | 7d01465, d2c7dc1, 6a3bc84, f3cd3f5, a059aef, 9809889, 829cadf, 94f87c3, fe42ce8 | 141fc06..9ad97de (5), 3586e43..3350203 (7) | 202 passed / 0 failed / 3 skipped | 2026-09-02T04:20Z |
 | 05 | PASS | 05a: 46ae7f4..e1bc431 (6); 05b: a133728..3f45fd5 (6), 5ff0cae, c3797e5, 7cefcf0 | 05a: 5313739..ca797a5 (4); 05b: e4e626d..5d58889 (5), 3b6cf36..2d7adcd (5) | 198 passed / 0 failed / 3 skipped | 2026-09-02T17:05Z |
-| 06 | IN_PROGRESS | — | — | — | 2026-09-02T17:05Z |
-| 07 | NOT_STARTED | — | — | — | — |
+| 06 | PASS | 895e1ff..a9763a4 (8), af83702..d5e2c90 (5), ad6dcb4, 6cefea8, f9e164d | 1cf8f14..3724b1b (3), 9f56bbf, 7c8a761, 2b904c1..516efc3 (4) | 544 passed / 0 failed / 3 skipped; 281 QA probes added | 2026-09-03T02:10Z |
+| 07 | IN_PROGRESS | — | — | — | 2026-09-03T02:10Z |
 | 08 | NOT_STARTED | — | — | — | — |
 | 09 | NOT_STARTED | — | — | — | — |
 | 10 | NOT_STARTED | — | — | — | — |
@@ -693,3 +693,122 @@ signalled leakage into resting styles.
 **Carried forward unchanged:** B24 `ServiceDetail` 28 serious `color-contrast` (Phases 07/13); I5
 `/iletisim` 4 always-visible serious nodes, present in both motion modes so not motion-related
 (Phase 13); win32-only golden gap; content wording (Phase 06).
+
+---
+
+### Phase 06 — CONTENT TRUTH, EVIDENCE MODEL AND CASE-STUDY DATA — PASS (after 2 correction loops)
+
+**The truth phase.** Two QA FAILs before PASS, both because the claims gate reported **0 while fabrications
+shipped**. The final gate is 26 rules over 207 files / 26,068 non-comment lines.
+
+**What was removed** (each with its `USER_INPUTS.md` authority): AS9100D (14+ sites, incl. a fake wet
+signature and embossed notary seal), IATF 16949, ISO 13485, NADCAP, NIST 800-171, EN ISO 3834-2, ISO
+9606-1/-2, ISO 15614-1, AWS D1.1, EN 1090, IEC 61400/62271, API 6A/6D/5CT, NACE MR0175, EN 10204,
+IPC-A-610, ISO 1413; the invented certifying bodies TÜV SÜD / SGS / Bureau Veritas / DNV-GL; `%100 CMM`;
+`50+` materials; `%98` on-time; team size, `15.000 m²`, machine counts, OEE, Cpk, PPAP, `50K+`/`100K+`
+adet, 14 stock tonnages; blog view counts and the ranking derived from them; ZTM; every `MT-20xx-xxxx`
+report number; the QR "RAPORU DOĞRULA" and QUALITY ASSURED stamp; NDA / confidentiality / security-clearance
+guarantees; `availableLanguage: English`; Instagram / YouTube / `twitter:site`.
+**Corrected:** `±0.005 → ±0.01 mm`, `48 saat → 1–3 iş günü`, `İstanbul → İzmir`, CAD format lists derived
+from `CAD_ACCEPTED_EXTENSIONS`. **Added under explicit authority:** OHSAS 18001 (§C), TEKNOPAR (§F), and
+the four `Politikalar/` PDFs (§H, all `PUBLIC_OK`, md5-identical to source) — so `KAYNAKLAR HAZIRLANIYOR`
+became real downloads. **15 dead claim-carrying components deleted**, verified dead before this phase.
+
+**Publication made a compile-time property.** `src/content/claims.ts`: `publish()` accepts only a
+`PublishableClaim`; `withhold()` returns a type that cannot satisfy it, so shipping a
+`PRIVATE_DO_NOT_DISCLOSE` fact is a `tsc` error. QA proved it rather than reading it — scratch probes
+compile to `TS2345` / `TS2322`. Two honest limits recorded: the guarantee binds only inside `claims.ts`
+(`publish`/`withhold` are module-private), and `strict: false` means `const s: string = ON_TIME_DELIVERY`
+compiles.
+
+**QA FAIL #1 — the gate reported 0 over ~30 live fabrications.** Found by extracting every percentage-,
+guarantee- and certification-shaped literal from the **built bundle** and reading it. Root cause: rules
+enumerated **nouns and standard numbers** instead of matching **claim shape**, and ROOTS omitted
+`src/hooks`, `src/utils`, `src/config`, `src/lib`, `src/App.tsx`, `public/**`. Orchestrator ordered the
+rules widened **before any string was touched**.
+The structural change: certification checking became an **allow-list against §C's three certificates**
+rather than a deny-list of numbers. QA then invented four designations absent from the codebase —
+`ISO 27893`, `EN 4956-3`, `ASME B99.7`, `MAS 1000` — and **all four fire**. A deny-list could never have
+done that. Twelve false-positive controls stayed silent, so it was not bought with over-removal.
+Normalisation closed eleven lexical evasions as a class: zero-width strip, HTML-entity decode,
+string-concat and `${}` interpolation joins, and **Turkish dotted/dotless-I folding** — which had been
+hiding `KANITLANMIŞ TESLİM.` ("PROVEN DELIVERY") shipping in `dist/` from `SiteFooter.tsx:166`.
+
+**QA FAIL #2 — two claims the widened gate still could not see.**
+**G1:** a `"Tedarik Süresi ve Sertifika Matrisi"` table published `EN 10204 3.1` ×3, `3.2` ×2 and `CoC`
+unconditionally under a `Sertifika` column, while **line 1540 of the same file, installed by the same
+commit**, read `{ label: "Sertifika", value: "Talebe bağlı" }`. Blind spot: the rule read
+`{ label, value }` object rows but not `headers`/`rows` tables, where heading and cell live in different
+arrays. **G2:** `"ASTM standartlarına tam uyum"` / `"ISO/IEC standartlarına tam uyum"` survived because
+packet #1 removed only *numbered* instances — conformity to an entire body is **strictly broader**. Blind
+spot: the rule iterated standard tokens *before* consulting conformity context, so a body named without a
+number produced nothing to check.
+QA also corrected the Orchestrator: the `EN 10204` withholding I had accepted reached production **only
+via the dev-only `/legacy-landing`** and never shipped — which is also why the landing goldens moved in
+one band, not two. "Commit messages must describe what actually ships" became an explicit rule.
+
+**The Coder caught a regression in its own instrument.** Its literal-boundary guard silenced **two real
+claims on the red tree** — including `"Güvenlik stoğu (5.000 kg)"`, which never matched the `stok` stem
+because Turkish softens k→ğ. It found this only by re-running the anti-laundering comparison and noticing
+`company-scale-disclosure` had dropped 42 → 38, and fixed it in a third commit nobody asked for. Its
+principle, recorded: *"A gate that reports fewer claims on a known-red tree is the same failure as one
+that reports zero on a live one."*
+
+**QA REVERSED ITSELF ON THE TABLE RULE.** The Coder deliberately did **not** implement QA's proposed rule,
+arguing it would have deleted `ASTM A967` (nitric passivation), `MIL-DTL-16232` (zinc phosphate) and five
+`EN ISO 176xx/3452` NDT method standards — the same class as `ASTM B117` / `MIL-A-8625` that QA itself had
+adjudicated correct to keep. It split by column *kind* instead: a **document** column (`Sertifika`,
+`Belge`, `Akreditasyon`, `Onay`, `Uygunluk`, `Rapor`) names something MAS issues, so §C applies and a cell
+fires with no designation at all; a **specification** column (`Standart`, `Norm`) names which spec governs
+the row. QA's verdict: `TABLE_RULE_LINE: CORRECT` — *"I was wrong, the Coder was right."* The 11 surviving
+cells sit in method-comparison tables where the row's subject is the method, not MAS; and one of the 7
+removed (`IPC-A-610`) QA's own scanner had never matched, because `IPC` was absent from its body list.
+
+**Anti-laundering — the check that decides whether a gate is real.** A gate can be made green by fixing
+content or by weakening rules. Verified three ways, twice by the Orchestrator independently:
+- Widened gate vs verbatim pre-fix `servicePages.ts`: **117 violations**, restoring to 0 (Orchestrator).
+- New gate vs `3747db5` — **the exact tree the previous gate passed with 0** — fired **14 violations**
+  (Orchestrator).
+- QA's `p06c-coverage-regression.mjs` diffed `rule@file:line` **sets** across both gate builds over the
+  whole 222-file red tree: **767 → 788**, 26 of 27 rules identical line for line, `company-scale-disclosure`
+  42 = 42, and **exactly one line lost** — the documented `chatFaqData.ts:76` keyword array, whose `:74`
+  question and `:75` answer still fire. `COVERAGE_REGRESSION: NONE`.
+
+**Evasion resistance.** QA's 18 attacks: 9/18 caught → **18/18**, with all 12 false-positive controls
+still silent. QA then wrote 31 fresh probes and found 8 more holes (JS `\u`/`\x` escapes, homoglyphs
+outside the folded ranges, a document heading outside the six-noun list, `onaylı` as a cell attestation,
+two body-less conformity claims) — a homoglyph sweep over all 207 files found **no claim carrier** behind
+any of them, so QA recorded them as hardening notes rather than findings, applying its own prior bar that
+`GATE_DEFEATABLE: YES` was a finding *because G2 was live*. Final: `GATE_DEFEATABLE: NO`.
+
+**A regression the truth work caused, disclosed and fixed.** Removing the guarantee FAQ cost the chatbot
+its `garanti`/`güvence` keywords, because those words cannot live in `src/data` without firing the rule.
+QA found it was **worse than disclosed**: `"garanti veriyor musunuz"` did not fall through — it
+**mis-routed to the DFM design-support answer at 0.67**, i.e. answered confidently and wrongly. Fixed by a
+narrow per-rule `exempt` hook (only `unconditional-guarantee`, only inside `keywords: [ … ]`), plus
+dropping 14 content-free question-form words from scoring. QA A/B'd **165 queries**: four targeted queries
+now reach the returns answer at **1.00**; five collateral changes, all disclosed. The Coder had already
+*shrunk* an earlier, larger stopword list because it turned QA's `hatalı parça gelirse ne olur` from
+NO MATCH into a confident wrong answer — QA reproduced that exactly.
+
+**Goldens.** 21 regenerated in packet #1, adjudicated with QA's own dependency-free PNG decoder **before**
+regenerating (never `--update-snapshots` first): 24 byte-identical controls, all 21 minimising at **offset
++0** (repaint, not shift), one tight band per width, all driven by one word (`KANITLANMIŞ`→`İZLENEBİLİR`,
+same character count so nothing reflows), all far above `maxDiffPixels: 200`. Packet #2 changed **zero**
+goldens — correct, since every edit was `/hizmetler/*` data and the chatbot matcher, which no golden covers.
+Earlier finding retained: five of six 375 footers had been **passing while depicting a footer that no
+longer existed**, a 79-px change under the 200-px threshold.
+
+**Judgement calls adjudicated SOUND:** `%98` **removed** rather than corrected to the verified 95%, because
+`PUBLIC_IF_VERIFIED_AND_STRATEGIC` is a conjunction and a retrospective self-grade matches none of §0's
+five positioning priorities; `MIL-A-8625` / `ASME B16.5` / `ISO 2768-m` / `ASTM B117` **kept** as coating
+class, interface geometry, tolerance class and test method — over-removal fails §0's `PRECISION_ENGINEERING`
+priority as surely as fabrication fails the truth rule.
+
+**CARRY-FORWARDS.** Commercial promises with **no** `USER_INPUTS.md` field, therefore ungated: ~85
+lead-time day-ranges, the volume-discount schedule, the 7-day returns window, "3 iterasyonlu revizyon
+döngüsü", and 4× `24 saatte ilk parça` (vacuum-casting delivery, no quote vocabulary). Advisories: the chat
+matcher's substring rule (`"kaynak".includes("ayna")`); `%99.9+ okuma oranı` adjudicated a symbology
+property like `%100 IACS`; the eight unreachable gate holes. Unchanged: `Maks. 50 MB` (Phase 09);
+canonical / `og:url` / r2.dev `og:image` / `IST` clock label (Phase 11); band 07/10 compositional pass
+(Phases 07/08); B24, B29, B30, B31.
