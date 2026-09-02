@@ -766,13 +766,27 @@ a:focus-visible,
   }
 }
 
-/* Custom cursor — hide default on desktop */
+/* Custom cursor — hide the native one ONLY while a replacement is mounted.
+
+   I3. This rule used to be unconditional: on any viewport ≥901px with a fine
+   pointer it removed the native cursor from html/body/every link and button,
+   whether or not `CustomCursor` had rendered. So the moment that component
+   declined to render — it returns `null` for coarse pointers, and it used to
+   return `null` for `prefers-reduced-motion` users too — a desktop visitor was
+   left with NO POINTER AT ALL. A stylesheet must not be able to take the
+   pointer away on its own; taking it away is only safe as the second half of a
+   swap, so the rule is now gated on the first half having happened.
+
+   `[data-custom-cursor]` is the marker `CustomCursor` puts on the dot and the
+   ring. `:has()` makes their presence the condition, which means the guarantee
+   holds for every future reason the replacement might not mount, not just the
+   two known ones. `!important` stays: element rules such as
+   `.tl-cad-drop { cursor: pointer }` out-specify a bare selector, and a
+   half-hidden cursor is worse than either state. */
 @media (min-width: 901px) and (pointer: fine) {
-  html,
-  body,
-  a,
-  button,
-  [role="button"] {
+  html:has([data-custom-cursor]),
+  html:has([data-custom-cursor]) body,
+  html:has([data-custom-cursor]) :is(a, button, [role="button"]) {
     cursor: none !important;
   }
 }

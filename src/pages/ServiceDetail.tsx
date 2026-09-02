@@ -127,7 +127,20 @@ export const ServiceDetail = () => {
     offset: ["start start", "end start"],
   });
   const heroY = useTransform(heroScrollProgress, [0, 1], [0, 120]);
-  const heroOpacity = useTransform(heroScrollProgress, [0, 0.6], [1, 0]);
+  /* I4 — `heroOpacity` is gone.
+     It was `useTransform(heroScrollProgress, [0, 0.6], [1, 0])` on the block
+     that holds the breadcrumb, the eyebrow and the page's ONLY `<h1>`. Every
+     `whileInView` on this route already carries `once: true`, so the heading
+     was not re-hidden by a reveal — it was faded out by scroll position, and
+     scroll position runs both ways. At 375 the hero is 320px tall, so the h1
+     sits near its bottom edge and hit progress 0.6 while it was still on
+     screen: the title of the page dissolved under the reader, and came back if
+     they scrolled up. A heading that is legible only at one scroll offset is
+     missing content at every other offset, and a scroll-linked opacity can
+     never be `once`.
+     The image parallax (`heroY`) is untouched — it moves a photograph, which
+     is exactly what cinematic motion is for. Nothing here changes layout,
+     copy, or the at-rest appearance of the hero. */
 
   if (!page) {
     return (
@@ -187,10 +200,8 @@ export const ServiceDetail = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-base)] via-[rgb(var(--surface-base-rgb)/0.75)] to-[rgb(var(--surface-base-rgb)/0.2)]" />
 
-            <motion.div
-              className="absolute bottom-0 left-0 right-0 container-industrial pb-10"
-              style={{ opacity: heroOpacity }}
-            >
+            {/* I4: no scroll-linked opacity here — see `heroY` above. */}
+            <div className="absolute bottom-0 left-0 right-0 container-industrial pb-10">
               <nav className="flex items-center gap-2 text-xs text-[rgb(var(--text-primary-rgb)/0.6)] mb-4">
                 <Link to="/" className="inline-flex min-h-[24px] items-center hover:text-[var(--text-primary)] transition-colors">Ana Sayfa</Link>
                 <ChevronRight size={12} />
@@ -225,7 +236,7 @@ export const ServiceDetail = () => {
                   ))}
                 </motion.div>
               )}
-            </motion.div>
+            </div>
           </div>
         </section>
 

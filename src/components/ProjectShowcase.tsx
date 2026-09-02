@@ -3,6 +3,7 @@ import { motion } from "@/components/shell/motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { gsap, ScrollTrigger } from "@/hooks/use-gsap";
 import { Reveal } from "@/components/ui/Reveal";
 import { MagneticButton } from "./MagneticButton";
@@ -61,6 +62,7 @@ const projects = [
 
 export const ProjectShowcase = () => {
   const isMobile = useIsMobile();
+  const prefersReduced = usePrefersReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
@@ -169,14 +171,27 @@ export const ProjectShowcase = () => {
         .chroma-active .chroma-g { animation-name: chroma-g; }
         .chroma-active .chroma-b { animation-name: chroma-b; }
       `}</style>
-      <motion.div
-        className="absolute inset-0 z-[1] pointer-events-none"
-        onViewportEnter={() => {
-          const el = containerRef.current;
-          if (el) el.classList.add("chroma-active");
-        }}
-        viewport={{ once: true }}
-      />
+      {/* I1 — the one reduced-motion hole the `motion` proxy CANNOT close.
+          `@/components/shell/motion` resolves a reveal by rewriting
+          `initial` / `animate` / `whileInView`. This element carries none of
+          those: it is a bare `onViewportEnter` tripwire that adds a class, and
+          the class starts three CSS keyframe animations. The proxy sees no
+          target to settle, forwards the props verbatim, and an RGB channel
+          split — pure decoration, zero measurement semantics — plays for a
+          user who asked for no motion. The global `prefers-reduced-motion`
+          block in `index.css` only shortens it to 0.01ms; shortened decoration
+          is still decoration, and three `mix-blend-mode: screen` layers still
+          get composited. So the tripwire is not armed at all. */}
+      {!prefersReduced && (
+        <motion.div
+          className="absolute inset-0 z-[1] pointer-events-none"
+          onViewportEnter={() => {
+            const el = containerRef.current;
+            if (el) el.classList.add("chroma-active");
+          }}
+          viewport={{ once: true }}
+        />
+      )}
       {/* chromatic aberration / RGB channel split — intentional, DO NOT tokenize */}
       {/* eslint-disable-next-line no-restricted-syntax */}
       <div className="chroma-layer chroma-r" style={{ backgroundColor: "rgba(255,0,0,0.15)" /* OK: chroma split */ }} />

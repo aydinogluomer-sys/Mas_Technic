@@ -72,16 +72,59 @@ const isVariantLabel = (value: unknown): value is string | string[] =>
   typeof value === "string" || (Array.isArray(value) && typeof value[0] === "string");
 
 /**
+ * The resting value of an `opacity` keyframe array — MAXIMUM, not last.
+ *
+ * THE CONSTRAINT, STATED (inherited item I2)
+ * ------------------------------------------
+ * A keyframe array reaching here is assumed to be a PULSE: a transient
+ * emphasis whose brightest frame is the element's real, visible state.
+ * `opacity: [0, 0.6, 0]` is a flash, and its LAST frame is invisible; resting
+ * there would reintroduce the exact defect this module exists to remove. Its
+ * maximum can never hide anything. QA checked all four current opacity-keyframe
+ * call sites and every one of them is such a pulse.
+ *
+ * The constraint that makes the rule sound is therefore: **no call site may use
+ * an opacity keyframe array to express a deliberately-hidden END state.** If
+ * one ever does — `opacity: [1, 0]` meaning "and then it is gone" — this would
+ * silently pin it visible, which is a content bug in the opposite direction.
+ *
+ * That is not left to the comment. When the maximum and the last frame
+ * disagree, DEV builds say so once per distinct signature, so the fifty-eighth
+ * call site announces itself instead of being discovered visually. An element
+ * that genuinely has to end hidden must not express that as a keyframe array
+ * here; it belongs behind conditional rendering, the way `ProjectShowcase`'s
+ * chroma tripwire now is.
+ */
+const warnedOpacitySignatures = new Set<string>();
+
+function restingOpacity(frames: unknown[]): unknown {
+  const numbers = frames.filter((v): v is number => typeof v === "number");
+  if (!numbers.length) return frames[frames.length - 1];
+
+  const max = Math.max(...numbers);
+  const last = numbers[numbers.length - 1];
+  if (import.meta.env.DEV && max !== last) {
+    const signature = numbers.join(",");
+    if (!warnedOpacitySignatures.has(signature)) {
+      warnedOpacitySignatures.add(signature);
+      console.warn(
+        `[shell/motion] opacity keyframes [${signature}] rest at ${max}, not at their last frame ${last}. ` +
+          "That is correct for a pulse. If the element is meant to END HIDDEN, express that with conditional " +
+          "rendering instead — a reduced-motion user would otherwise be left looking at it.",
+      );
+    }
+  }
+  return max;
+}
+
+/**
  * Collapse a keyframe array to the one value the element should rest at.
  *
- * `opacity` takes the MAXIMUM, everything else takes the LAST. The asymmetry
- * is deliberate and is the whole point of the fix: `opacity: [0, 0.6, 0]` is a
- * flash, and its last frame is invisible. Resting an element at its last
- * keyframe would therefore reintroduce the exact defect this module exists to
- * remove — content that a reduced-motion user cannot see. Resting it at its
- * brightest frame can never hide anything. Every other property is positional
- * (`x`, `scale`, `clipPath`, `width`), and for those the last keyframe IS the
- * settled layout; taking a maximum there would leave elements displaced.
+ * `opacity` goes through `restingOpacity` above — maximum, under the stated
+ * constraint. Everything else takes the LAST frame: every other property is
+ * positional (`x`, `scale`, `clipPath`, `width`), and for those the last
+ * keyframe IS the settled layout; taking a maximum there would leave elements
+ * displaced.
  */
 function settle(target: UnknownProps): UnknownProps {
   const out: UnknownProps = {};
@@ -98,8 +141,7 @@ function settle(target: UnknownProps): UnknownProps {
       continue;
     }
     if (key === "opacity") {
-      const numbers = value.filter((v): v is number => typeof v === "number");
-      out[key] = numbers.length ? Math.max(...numbers) : value[value.length - 1];
+      out[key] = restingOpacity(value);
       continue;
     }
     out[key] = value[value.length - 1];
