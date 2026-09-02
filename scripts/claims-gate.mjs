@@ -682,13 +682,20 @@ const RULES = [
         String.raw`\b\d[\d.,]*\s?\+\s*(?:parça|malzeme|proje|çeşit)`,
         // Stock tonnage is order-volume disclosure: it tells a reader what the
         // company buys and turns over. §D REVENUE_OR_ORDER_VOLUME.
-        // The window may NOT cross a string-literal boundary. Stock tonnage is
-        // one statement — "stokta 50 ton alüminyum". Two adjacent table cells,
-        // `"Stokta", "Aynı gün", "Talebe bağlı", "1 kg"`, are a delivery status
-        // and a minimum order quantity in different columns, and reading them
-        // as one claim is the mirror image of the table blind spot below.
-        String.raw`(?:stok|stokta|depo)\w*[^.\n"'\x60]{0,60}?\b\d[\d.,]*\s?(?:kg|ton)\b`,
-        String.raw`\b\d[\d.,]*\s?(?:kg|ton)\b[^.\n"'\x60]{0,60}?(?:stok|depo)`,
+        // Stock tonnage is ONE statement — "güvenlik stoğu (5.000 kg)" — so the
+        // proximity window may not wander across three table columns:
+        // `"Stokta", "Aynı gün", "Talebe bağlı", "1 kg"` is a delivery status
+        // and a minimum order quantity in different columns, and reading them as
+        // one claim is the mirror image of the table blind spot below. The
+        // window therefore stops at a string-literal boundary…
+        // (`sto[kğ]`: `stoğu` softens the k, and the k-only stem missed
+        // "Güvenlik stoğu (5.000 kg)" entirely.)
+        String.raw`(?:sto[kğ]|depo)\w*[^.\n"'\x60]{0,60}?\b\d[\d.,]*\s?(?:kg|ton)\b`,
+        String.raw`\b\d[\d.,]*\s?(?:kg|ton)\b[^.\n"'\x60]{0,60}?(?:sto[kğ]|depo)`,
+        // …with ONE exception, the label/value pair, which is a single claim
+        // split across two literals by construction:
+        // `{ label: "Stok Malzeme", value: "Al 6061: 5.000 kg" }`.
+        String.raw`(?:label|title|name|key)\s*:\s*["'\x60][^"'\x60]*(?:sto[kğ]|depo)[^"'\x60]*["'\x60]\s*,\s*(?:value|val|text|desc)\s*:\s*["'\x60][^"'\x60]*\b\d[\d.,]*\s?(?:kg|ton)\b`,
         String.raw`\b\d[\d.,]*['’´]?(?:d[ae]n|t[ae]n)?\s*(?:fazla|üzerinde|aşkın)\s+(?:farklı\s+)?(?:malzeme|tezgah|tezgâh|makine|mühendis|teknisyen|personel|çalışan|müşteri|proje|parça)`,
         String.raw`\b24\s?\/\s?7|\b7\s?\/\s?24`,
       ].join("|"),
