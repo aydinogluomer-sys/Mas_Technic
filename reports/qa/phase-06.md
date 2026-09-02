@@ -3,17 +3,28 @@
 - PHASE: 06
 - CODE_COMMIT: `d23a7c6` (integration HEAD; +7 preceding: `895e1ff` `40e2f6a` `abaeb3a` `6b16282` `054210d` `2074118` `222cda4` `a9763a4`)
 - BASE FOR DIFF: `75629f3`
-- QA_COMMIT: TBD
+- QA_COMMIT: three commits on `wt/qa-p06`, report + tools only
 - STATUS: **FAIL**
-- TESTS_PASSED: TBD
-- TESTS_FAILED: TBD
-- TESTS_SKIPPED: TBD
+- TESTS_PASSED: 202 (critical 163, visual 27, smoke 12)
+- TESTS_FAILED: 0
+- TESTS_SKIPPED: 3 (pre-existing width-conditional `shell-cascade-contract` cases)
 - NEW_TESTS_ADDED: 0 (2 QA-owned analysis tools added under `reports/qa/tools/`)
 
-- FABRICATION_REMAINING: **1 — a 24-hour quote SLA on the live `/teklif-al` route**
+- FABRICATION_REMAINING: **NOT NONE** — 5 classes, ~30 live occurrences:
+  the 24-hour quote SLA on `/teklif-al` (F1); a "proven by real case studies"
+  savings claim (F4); five `%100` / "her parça" universal-inspection claims
+  (F5); ~16 unauthorised guarantee claims (F6); seven sector-standard
+  certification claims outside §C (F7). All pre-existing, none introduced by
+  this phase, all shipped in `dist/`.
 - INVENTED_ANYTHING: **NO**
 - TYPE_GUARANTEE: **PROVEN**
 - GATE_DEFEATABLE: **YES**
+
+> **Note on the suite verdicts.** Every automated check this phase owns passes
+> — 202/0/3, claims gate `PASS — 0 across 22 rules`, build and typecheck clean.
+> The findings below were all reached by reading the shipped bundle rather than
+> by running a test. That gap *is* the second finding: the gate reports zero
+> over a tree that still carries roughly thirty unauthorised claims.
 
 ---
 
@@ -25,8 +36,11 @@ named in the packet is gone from `src/` **and** from `dist/`. Nothing was
 invented. The type guarantee compiles as advertised. The golden regeneration
 is honest and is backed by an independent pixel audit.
 
-It fails on one thing, and it is the thing this phase exists to prevent: **an
-overstated commercial promise survives on the public RFQ page.**
+It fails on the thing this phase exists to prevent: **fabricated public claims
+survive.** The packet's enumerated list is clean; the tree is not. Reading the
+built bundle rather than grepping for known strings turned up roughly thirty
+live unauthorised claims across five classes (F1, F4, F5, F6, F7 below). The
+sharpest single one:
 
 `src/pages/TeklifAl.tsx:1098-1099` — a file this phase edited — still renders:
 
@@ -52,7 +66,8 @@ bilgisi ile`.
 
 | # | Criterion | Result | Evidence |
 |---|---|---|---|
-| R1 | Fabricated claim classes removed from `src/` and `dist/` | **PASS** | below |
+| R1 | The claim classes **the packet enumerates** removed from `src/` and `dist/` | **PASS** | below |
+| R1+ | No fabricated claim of any kind remains (exhaustive bundle sweep) | **FAIL** | F4–F7: ~30 live claims the packet's string list does not name |
 | R2 | Corrections are correct, not merely different | **FAIL** | 24-hour SLA survives; CAD list only partly reconciled |
 | R3 | `%98 on-time` removal rather than correction to 95 % | **PASS (sound)** | adjudication below |
 | R4 | Nothing invented | **PASS** | OHSAS 18001 / TEKNOPAR / 4 PDFs all authorised; PDFs byte-identical to `Politikalar/` |
@@ -61,7 +76,7 @@ bilgisi ile`.
 | R7 | 21 goldens regenerated for content reasons only | **PASS** | independent pixel audit, control group byte-identical |
 | R8 | 16 deletions were dead before the phase | **PASS** | zero live importers at `75629f3` |
 | R9 | Positioning neither apologetic nor inflated | **PASS** | see below |
-| R10 | Suites and Phase 01–05 guarantees | TBD | see below |
+| R10 | Suites and Phase 01–05 guarantees | **PASS** | 202/0/3; grid 0 off-grid; B28 `hiddenText=0`; motion guard PASS |
 
 ---
 
@@ -576,3 +591,260 @@ field `USER_INPUTS.md` does not supply.
 | EN control hidden / JSON-LD honest | PASS | `availableLanguage: ["Turkish"]` |
 | Generic marketing filler removed | PASS | `marketing-filler` 6 to 0 |
 | CTA terminology one hierarchy | PASS | every public quote CTA shares the "Teklif Al" stem with a contextual qualifier |
+
+---
+
+## The rest of R1 — what the string-list check missed, and the exhaustive sweep that found it
+
+The packet gave me a list of claim classes to grep for. That list is clean. So
+I stopped grepping for known strings and instead **extracted every
+percentage-shaped, guarantee-shaped and certification-shaped string literal
+that actually ships**, out of the built public chunks, and read them. That is
+where the remaining fabrication is.
+
+None of it was introduced by Phase 06 — I checked every item against
+`75629f3` and all of it pre-exists. These are **survivors of a sweep reported
+as complete**, on live public service routes, shipped in
+`dist/assets/servicePages-BKh_aClb.js` and the chat-FAQ chunk.
+
+### F4 (FAIL) — case-study evidence asserted where §G says none exists
+
+`src/data/servicePages.ts:1854`
+
+> "**Gerçek vaka çalışmalarıyla kanıtlanmış** %70'e kadar tasarruf"
+> (up to 70 % savings **proven by real case studies**)
+
+`USER_INPUTS.md` §G `CASE_STUDIES: NONE_PROVIDED_YET`. This is the most on-nose
+violation available in this phase: an explicit appeal to case-study evidence,
+attached to a quantified savings figure, on the page that sells DFM analysis.
+The landing page had exactly this failure removed (band 07, `SEÇİLMİŞ
+PROJELER` became `KABİLİYET PROFİLLERİ`); the service page kept it.
+
+No gate rule covers `kanıtlanmış` or `vaka çalışması`.
+
+### F5 (FAIL) — `%100` universal-inspection claims, the same shape as the removed `%100 CMM RAPORU`
+
+| File:line | Claim |
+|---|---|
+| `servicePages.ts:788` | "Kaplama kalınlığı ve sertlik ölçümü ile **%100 kalite kontrolü**" |
+| `servicePages.ts:2737` | "Basınç Testi — **%100 sızdırmazlık kontrolü**" |
+| `servicePages.ts:2760` | "**%100 basınç testi** ve sızdırmazlık kontrolü" |
+| `servicePages.ts:2767` | "Sızdırmazlık garantisi veriyor musunuz?" → "**Evet**, … **%100 basınç testinden** geçmektedir." |
+| `servicePages.ts:2728` | "**Her** hidrolik parça basınç testinden (1.5× çalışma basıncı) ve sızdırmazlık testinden geçmektedir." |
+
+The ledger's own words for why `%100 CMM RAPORU` had to go are *"coverage is
+on demand, not universal"* and *"an unconditional promise is a claim with no
+evidence"* (§D `CMM_COVERAGE_INTERNAL: THIRD_PARTY_ACCREDITED_ON_DEMAND`).
+That reasoning applies identically here and was not applied.
+
+The gate's `unconditional-guarantee` rule is
+`/%\s?100\s*(CMM|kontrol|muayene|ölçüm|izlenebilir|NDT|boyutsal|lot|denetim)/i`.
+`%100 kalite kontrolü` slips because `kalite` sits between `%100` and
+`kontrol`; `%100 basınç testi` and `%100 sızdırmazlık` slip because their nouns
+are not in the list.
+
+### F6 (FAIL) — an unauthorised guarantee vocabulary, ~16 live occurrences
+
+No `USER_INPUTS.md` field authorises MAS TECHNIC to *guarantee* anything. The
+gate has a rule for this class (`teslimat garantisi|kalite garantisi|tedarik
+garantisi`) but it matches only the noun-phrase form. The verb and adjective
+forms all ship:
+
+| File:line | Claim |
+|---|---|
+| `servicePages.ts:625` | "5-10 iş günü üretim süresi ile hızlı **teslimat garanti ediyoruz**" |
+| `servicePages.ts:3033` | "IEC 61400 uyumlu, **25+ yıl ömür garantili** bileşenler" |
+| `servicePages.ts:2054` | "Her yöntemde seri üretim eşdeğeri kalite ve tutarlılık **garanti edilmektedir**" |
+| `servicePages.ts:2051` | "verimlilik ve rekabetçi **fiyat garantisi** sunuyoruz" |
+| `servicePages.ts:319` | "±0.01mm çap toleransı **garanti eder**" |
+| `servicePages.ts:1094` | "ISO/IEC 16022 ve ISO 15415 doğrulama standartlarına **tam uyum garanti ediyoruz**" |
+| `servicePages.ts:1223` | "**2000N+ çekme kuvveti garantisi**" |
+| `servicePages.ts:1356` | "… ile kaynak kalitesini **garanti ediyoruz**" |
+| `servicePages.ts:2843` | "Helyum sızdırmazlık testi ile **ultra-düşük kaçak garantisi**" |
+| `servicePages.ts:2890` | "**3 iterasyon garantisi** ile risk azaltma" |
+| `chatFaqData.ts:75` | "**tüm ürünlerimiz** teknik şartnameye **uygunluk garantisi** ile teslim edilir" |
+
+`servicePages.ts:625` is the sharpest: a *delivery* guarantee, the literal
+phrase the gate rule was written to catch, in verb form.
+
+### F7 (FAIL) — sector-standard certification claims outside §C
+
+The phase removed AS9100D, IATF 16949, ISO 13485, NADCAP and NIST 800-171 and
+added a `sector-standard-compliance` rule whose stated rationale is *"a sector
+regulation is a claim a customer's submission depends on."* Several claims of
+exactly that kind remain, because the rule enumerates standard numbers:
+
+| File:line | Claim | Why it matters |
+|---|---|---|
+| `servicePages.ts:1356` | "EN ISO 15614-1 … ve AWS D1.1 **sertifikalı kaynakçılarımız** ile **EN ISO 3834-2 standardında** üretim" | EN ISO 3834-2 is a welding **quality-management-system** certification, directly parallel to ISO 9001; §C lists three certificates and this is not one |
+| `servicePages.ts:1378` | "**ISO 9606 sertifikalı** kaynakçılar" | welder qualification certificates |
+| `servicePages.ts:3100` | "**NACE MR0175 sour service sertifikalı**" | oil-and-gas material qualification |
+| `servicePages.ts:762` | "**MIL-A-8625 Tam Uyum** — Havacılık ve savunma **sertifikalı** kaplama" | defence spec compliance |
+| `servicePages.ts:2409` | "Malzeme Tedarik (**AMS sertifikalı**)" | aerospace material spec |
+| `servicePages.ts:1532` | "EN 10204 3.1/3.2 Sertifika — **Her malzeme** sertifikalı tedarik" | the phase removed `EN 10204 3.1` from the landing proof list in `RestoredLandingSections.tsx` but left a stronger, universal form here |
+| `servicePages.ts:1560` | "Havacılık ve medikal sınıf **sertifikalı** malzemeler" | |
+
+**Deliberately excluded from this finding:** `ASME B16.5`, `ISO 4401`,
+`IEC 61400`, `ISO 1461`, `API 6A`, `ISO 2768`, `ASME Y14.5`, `ASTM A967/B912`,
+`MIL-DTL-16232/5541`. Those describe what a *part* conforms to dimensionally,
+or what a *coating standard* specifies — published design standards, not
+assertions that MAS TECHNIC holds an audit. The gate's own comments make the
+same distinction and it is the right one.
+
+### Why these are Phase 06 failures and not carry-forwards
+
+The Orchestrator's carry-forward list covers unguarded **lead-time day-ranges**
+("no `USER_INPUTS.md` field covers production lead time"). F4–F7 are different:
+each has a `USER_INPUTS.md` field that speaks directly to it (§G for F4, §D
+`CMM_COVERAGE` for F5, §C for F7), each is the same claim class the phase
+removed elsewhere, and each is named in the phase's own mandatory task list —
+*"Verify/remove … 100% CMM … **and similar KPI claims**"*, *"Verify/remove …
+any other certification claim"* — and in the acceptance criterion *"No
+knowingly fabricated customer/certification/KPI/measurement proof remains in
+production public UI."*
+
+Commit `8d31435` is titled *"finish the servicePages sweep — certifications,
+capacity, suppliers and sector standards."* The sweep is not finished.
+
+---
+
+## R10 — suites and Phase 01–05 guarantees
+
+All runs on the integrated tree at `d23a7c6`, `PLAYWRIGHT_PREVIEW_ONLY=1`
+against a single `npm run build`, one suite at a time.
+
+| Check | Result |
+|---|---|
+| `npm run build` | exit 0 |
+| `npm run typecheck` (app + node + e2e projects) | exit 0 |
+| `node scripts/claims-gate.mjs` | PASS — 0 across 22 rules |
+| `test:e2e:critical` (`critical-1280` + `critical-375`) | **163 passed, 3 skipped, 0 failed** (11.4 min) — matches the Coder's report exactly |
+| `test:e2e:visual` (375 / 1280 / 1440) | **27 passed, 0 failed** (1.6 min) |
+| `test:e2e:smoke` (webkit + firefox, 1440 + 390) | **12 passed, 0 failed** (1.4 min) |
+| `motion-audit --mode=guard` | PASS — every motion call site goes through `@/components/shell/motion` |
+| `grid-axis-probe` | **PASS — every measured edge sits on a master axis, 0 off-grid** (1 px tolerance) |
+| `motion-audit --mode=rest` (B28) | **PASS — `hiddenText=0` on every route and viewport** |
+
+Totals: **202 passed, 0 failed, 3 skipped.**
+
+The two claims-gate tests are inside the 163 and both pass, including the
+self-check that requires the gate to reject a reintroduced `AS9100D`.
+
+**No flake observed.** The Coder reported one environmental flake
+(`motion-grammar` "nothing animates while off screen" at `critical-1280`); it
+did not reproduce here — it passed first time in a full-suite run.
+
+The three skips are the pre-existing width-conditional `shell-cascade-contract`
+cases, not new suppressions. **No skip, `xfail`, tolerance widening or deleted
+assertion was introduced by this phase.** The `technical-landing.spec.ts`
+changes go the other way: they add negative assertions for `AS9100D` /
+`IATF 16949` / `ISO 13485` / `ZTM` / placeholder badges, and they replace "the
+resource rows must have no link" with a live HTTP fetch of all four PDFs
+requiring `200` and a `pdf` content type. Strictly stronger.
+
+The B28 `rest` run also confirms the Phase 05 guarantee survives this phase:
+the only hidden elements at rest are text-free decorative gradient overlays.
+
+---
+
+## Failed checks
+
+| Check | Observation | Root cause | Production fix required? |
+|---|---|---|---|
+| F1 | `TeklifAl.tsx:1098` promises a 24-hour quote; ships in `dist` | string missed by the sweep; gate rule needs `teklif`/`dönüş` adjacent to `24 saat` | **YES — blocking** |
+| F4 | `servicePages.ts:1854` claims savings "proven by real case studies" | §G `CASE_STUDIES: NONE_PROVIDED_YET`; no gate rule covers `kanıtlanmış` / `vaka çalışması` | **YES — blocking** |
+| F5 | five live `%100` / "her parça" universal-inspection claims | gate rule enumerates nouns after `%100` instead of matching the pattern | **YES — blocking** |
+| F6 | ~16 live guarantee claims in verb/adjective form | gate rule matches only the noun-phrase form `… garantisi` | **YES** |
+| F7 | seven sector-standard certification claims outside §C (EN ISO 3834-2, ISO 9606, NACE MR0175, MIL-A-8625, AMS, EN 10204) | gate rule enumerates standard numbers | **YES** |
+| F2 | dead `FinalCTASection.tsx` carries the same 24-hour claim | not reachable, but 15 other dead components were deleted and this one was not | Yes (delete) |
+| F3 | published CAD format lists disagree with `CAD_ACCEPTED_EXTENSIONS`; `TeklifAl.tsx:620` `accept` offers `.x_t/.x_b` the validator rejects | hand-maintained lists instead of `CAD_ACCEPT_ATTR` | Yes (Phase 09 acceptable) |
+
+## Advisories (not failures)
+
+- **A1 — `maxDiffPixels: 200`.** Reproduced masking a real content change at
+  79 px on five of six 375 footers. Recommend a ratio-based threshold or a DOM
+  assertion for the footer link set. See R7(d).
+- **A2 — gate hardening.** Eleven evasions demonstrated (R6), plus `ROOTS`
+  blind to `src/hooks` where rendered copy already lives, plus the self-check
+  probe race under `workers: 2`.
+- **A3 — commercial claims with no `USER_INPUTS.md` field.**
+  `servicePages.ts:2923-2924` publishes a volume-discount schedule (`%15-25` at
+  50+, `%25-35` at 200+). Same uncovered class as the ~85 lead-time day-ranges
+  already carried forward; recorded so it is decided rather than forgotten.
+- **A4 — the admin dashboard still renders fabricated OEE / availability /
+  quality figures** (`src/components/admin/dashboardConstants.tsx:53`:
+  `Genel OEE 84.2%`, `quality: 98`), shipped in
+  `dist/assets/AdminDashboard-*.js`. §N `NEVER_REDESIGN_ADMIN: YES` puts it out
+  of scope and it is not a public surface, but it is the last place in the repo
+  where the invented operational metrics still live.
+- **A5 — two doc references that do not resolve.** `src/content/claims.ts`
+  says the PDF sizes are "measured from the served file by
+  `scripts/sync-quality-docs.mjs`"; no such file exists — the measurement is
+  actually done by `scripts/claims-gate.mjs` (`checkQualityResources`). The
+  header example reads `publish(TEAM_SIZE_LEDGER)`; the constant is named
+  `TEAM_SIZE`. The guarantees hold; the attributions do not.
+
+## Commands run
+
+```text
+npm run build                                                    # exit 0
+npm run typecheck                                                # exit 0
+node scripts/claims-gate.mjs                                     # PASS, 0 across 22 rules
+node <basetree>/scripts/claims-gate.mjs                          # FAIL, 562 violations (red baseline at 75629f3)
+node <probetree>/scripts/claims-gate.mjs                         # 11 evasions unlogged
+npx tsc --noEmit --strict false ... <claims.ts + QA probes>      # TS2345 + TS2322 as advertised
+node reports/qa/tools/golden-audit.mjs <old-goldens> e2e/__golden__/win32
+md5sum Politikalar/*.pdf public/belgeler/*.pdf                   # four exact matches
+pdftotext -enc UTF-8 public/belgeler/*.pdf -                     # four genuine MAS documents
+PLAYWRIGHT_PREVIEW_ONLY=1 npx playwright test --project=critical-1280 --project=critical-375
+PLAYWRIGHT_PREVIEW_ONLY=1 npx playwright test --project=visual-375 --project=visual-1280 --project=visual-1440
+PLAYWRIGHT_PREVIEW_ONLY=1 npx playwright test --project=smoke-webkit-1440 --project=smoke-webkit-390 \
+                                              --project=smoke-firefox-1440 --project=smoke-firefox-390
+node scripts/motion-audit.mjs --mode=guard                        # PASS
+node scripts/grid-axis-probe.mjs                                  # PASS, 0 off-grid
+node scripts/motion-audit.mjs --mode=rest                         # PASS, hiddenText=0
+```
+
+## Scope integrity
+
+- Production files modified by QA: **NONE**.
+- Test/report files modified by QA: `reports/qa/phase-06.md`,
+  `reports/qa/tools/png-diff.mjs`, `reports/qa/tools/golden-audit.mjs` — all
+  inside `QA_WRITE_ALLOWLIST`. All probe trees were built in the scratch
+  directory, never in the repo.
+- No golden was regenerated, deleted or edited by QA. No assertion was
+  weakened. No test was skipped or removed.
+- Coder scope: 74 files, none of them `package.json`, `.github/**`,
+  `supabase/**`, `/admin/*`, `/musteri-paneli/*`, `PROGRESS.md`,
+  `IMPLEMENTATION.md` or `USER_INPUTS.md`.
+
+**SCOPE_INTEGRITY: PASS.**
+
+## Verdict
+
+Phase 06 is the strongest phase artefact in this run so far. The ledger, the
+type guarantee, the gate, the case-study schema, the PDF provenance and the
+golden audit trail are all real, and several are better than the summaries
+claimed. It is still a **FAIL**, because the standard for this phase is not
+"most of the fabrication is gone."
+
+What must be true before this phase closes:
+
+1. `TeklifAl.tsx:1098` states `1-3 iş günü` (import `QUOTE_RESPONSE_TIME`).
+2. `servicePages.ts:1854` no longer claims case-study proof.
+3. The five `%100` / "her parça" universal-inspection claims are removed or
+   conditioned, on the same reasoning the ledger already records for
+   `%100 CMM RAPORU`.
+4. The guarantee vocabulary (F6) and the out-of-§C certification claims (F7)
+   are swept.
+5. The gate rules are widened to catch the demonstrated evasions — at minimum
+   the `24 saat … dönüş` gap, the `garanti ed*` / `garantili` verb forms,
+   `%100 <any noun>`, `kanıtlanmış`, and the `sertifikalı` + standard-number
+   shape — and `ROOTS` is extended to `src/hooks`, `src/utils`, `src/config`
+   and `src/lib`.
+
+A gate that reports `PASS — 0 across 22 rules` over a tree containing roughly
+thirty live unauthorised claims is the most dangerous artefact this run has
+produced, precisely because it is otherwise excellent. Widening the rules
+matters more than the individual string fixes: fix only the strings and the
+next copy edit puts them back.
