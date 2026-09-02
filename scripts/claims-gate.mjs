@@ -105,6 +105,27 @@ const EXT = /\.(tsx?|html|txt|xml|json|webmanifest|svg|md)$/;
    The output keeps an exact character → original-line map, so a violation
    still reports the line a human can open.                                   */
 
+/**
+ * The Turkish dotted/dotless I trap — and it hid a live claim.
+ *
+ * JavaScript's `/i` flag canonicalises by `toUpperCase`, which is ASCII-shaped:
+ * `ı` (U+0131) upper-cases to `I`, but `İ` (U+0130) upper-cases to itself. So
+ * `/kanıtlanmış/i` does NOT match `KANITLANMIŞ`, and `/garanti/i` does not match
+ * `GARANTİ`. Every uppercase heading in this codebase — and headings are where
+ * the loudest claims live — was invisible to half the rule table.
+ *
+ * `SiteFooter.tsx:166` shipped `KANITLANMIŞ TESLİM.` into `dist/` past a
+ * `kanıtlanmış` rule that was written for exactly it.
+ *
+ * Fix: fold the I-family in BOTH the scanned text and the pattern sources, so
+ * the two ends agree. Folding is one-for-one, so character offsets — and the
+ * line map built from them — are unaffected, and an unfolded copy is kept for
+ * reporting so a violation still prints the Turkish a human wrote.
+ */
+const foldTurkishI = (s) => s.replace(/ı/g, "i").replace(/İ/g, "I");
+/** Rebuilds a pattern so it matches the folded text. */
+const trPattern = (re) => new RegExp(foldTurkishI(re.source), re.flags);
+
 const ZERO_WIDTH = new Set([
   "​", // zero-width space
   "‌", // zero-width non-joiner
@@ -216,7 +237,9 @@ function normalise(src) {
     i += 1;
   }
 
-  return { text: chars.join(""), lineOf: Int32Array.from(lines) };
+  const display = chars.join("");
+  // Same length, same offsets — only the I-family differs.
+  return { text: foldTurkishI(display), display, lineOf: Int32Array.from(lines) };
 }
 
 /**
@@ -267,8 +290,23 @@ const ALLOWED_STANDARDS = [
 // inside `HASSAS`, and `NF` inside identifiers. The designator part accepts a
 // letter series (`AWS D1.1`, `API 6A`, `ASME B16.5`, `MIL-A-8625`) because the
 // deny-list version of this rule missed every one of them.
+// The trailing `[A-Z]{0,3}` matters: without it `API 6A`, `API 6D` and
+// `API 5CT` do not match at all, because the designator ends in a letter with
+// no separator before it. All three shipped as "standartlarına tam uyum".
 const STANDARD_TOKEN =
-  /\b(?:TS\s+)?(?:EN\s+)?(?:ISO|IEC|EN|DIN|ASTM|ASME|AWS|AMS|SAE|API|NAS|BS|JIS|MIL|NACE|NF|UNI|GOST|AQAP|OHSAS|IATF|NADCAP|AS|CFR|MDR)[\s/-]?(?:IEC[\s/-]?)?(?:[A-Z]{1,3}[- ]?)?\d{1,6}(?:[.\-–/][0-9A-Za-z]{1,4})*\b/g;
+  /\b(?:TS\s+)?(?:EN\s+)?(?:ISO|IEC|EN|DIN|ASTM|ASME|AWS|AMS|SAE|API|NAS|BS|JIS|MIL|NACE|NF|UNI|GOST|AQAP|OHSAS|IATF|NADCAP|AS|CFR|MDR)[\s/-]?(?:IEC[\s/-]?)?(?:[A-Z]{1,3}[- ]?)?\d{1,6}[A-Z]{0,3}(?:[.\-–/][0-9A-Za-z]{1,4})*\b/g;
+
+/**
+ * A spec-table row that DECLARES a certificate or standard:
+ * `{ label: "Sertifika", value: "EN 1090" }`.
+ *
+ * Sentence scoping is right for prose and wrong here — the label and the value
+ * are separate string literals, so a sentence-scoped rule reads them as two
+ * unrelated claims when they are in fact one: "our certificate is EN 1090".
+ * The value is checked against the same §C allow-list.
+ */
+const LABEL_VALUE_CLAIM =
+  /(?:label|title|name|key)\s*:\s*["'`](?:Sertifika|Sertifikasyon|Standart|Belge|Akreditasyon|Uygunluk)[^"'`]*["'`]\s*,\s*(?:value|val|text|desc)\s*:\s*["'`]([^"'`]*)["'`]/g;
 
 /**
  * Conformity vocabulary. A standard number becomes a CLAIM when the copy says
@@ -303,11 +341,16 @@ const CONFORMITY_CONTEXT = new RegExp(
     "uyumlu",
     "tam uyum",
     "uygun olarak",
+    "uygun üretim",
+    "uygun imalat",
+    `spesifikasyon${TRW}{0,6}\\s*uygun`,
     `standar[dt]${TRW}{0,12}\\s*(?:uygun|göre|üret|imal|uyum|çal[ıi]ş)`,
     `standar[dt]${TRW}{0,4}nda\\b`,
   ].join("|"),
   "i",
 );
+// Folded like every other pattern, so `SERTİFİKALI` and `STANDARDINA` reach it.
+const CONFORMITY_CONTEXT_FOLDED = trPattern(CONFORMITY_CONTEXT);
 
 /**
  * Standards that assert an audit merely by being named — management systems and
@@ -328,6 +371,32 @@ const CONFORMITY_CONTEXT = new RegExp(
  */
 const CONFORMITY_BY_NATURE =
   /^(?:(?:TS\s+)?(?:EN\s+)?ISO\s*(?:9001|9004|9606|10012|13485|14001|14731|15614|17020|17025|17065|18001|22000|27001|3834|45001|50001|80079)|AS\s?9\d{3}|IATF\s?\d{5}|OHSAS\s?\d{5}|NADCAP|AQAP\s?\d+|AWS\s?[A-Z]\d+|MIL-(?:I-45208|Q-9858|STD-45662)|MIL-SPEC)/i;
+
+/**
+ * The sentence containing `index`.
+ *
+ * Scoping the standards rule to the SENTENCE rather than the line is what makes
+ * it precise enough to keep. "Sızdırmazlık yüzeyleri ASME B16.5 FF/RF
+ * geometrisinde işlenir. … malzeme sertifikası talebe bağlı olarak sağlanır."
+ * is two claims: an interface geometry and a document offer. Neither says the
+ * company is audited to ASME B16.5, and a line-scoped rule cannot tell.
+ *
+ * A period only ends a sentence when it is not inside a standard designation:
+ * `ASME B16.5` and `EN 10204 3.1` both carry an internal dot, so the boundary
+ * requires a non-digit before and whitespace after. String-literal boundaries
+ * count too — adjacent array entries are separate claims.
+ */
+const SENTENCE_BREAK = /[\n]|(?<=[^\d\s])[.!?](?=\s)|["'`]\s*,/g;
+function sentenceAt(text, index) {
+  SENTENCE_BREAK.lastIndex = 0;
+  let start = 0;
+  let m;
+  while ((m = SENTENCE_BREAK.exec(text)) !== null) {
+    if (m.index >= index) return text.slice(start, m.index + m[0].length);
+    start = m.index + m[0].length;
+  }
+  return text.slice(start);
+}
 
 /* ── rules ─────────────────────────────────────────────────────────────────
    Each rule is either a `pattern` (matched against the normalised text) or a
@@ -372,10 +441,10 @@ const RULES = [
       [
         // window → quote vocabulary
         String.raw`\b(?:\d{1,3}\s?(?:saat|sa\.|saatte|saatlik)|aynı gün|ertesi gün|birkaç saat)` +
-          String.raw`[^.!?\n]{0,60}?(?:teklif|fiyatland|fiyat ver|dönüş|geri dön|yanıt|cevap|görüşl?e|bildir)`,
+          String.raw`[^.!?;{}]{0,120}?(?:teklif|fiyatland|fiyat ver|dönüş|geri dön|yanıt|cevap|görüşl?e|bildir)`,
         // quote vocabulary → window
         String.raw`(?:teklif|fiyatland|fiyat ver|dönüş|geri dön|yanıt|cevap|RFQ)` +
-          String.raw`[^.!?\n]{0,60}?\b(?:\d{1,3}\s?(?:saat|sa\.|saatte|saatlik)|aynı gün|ertesi gün|birkaç saat)`,
+          String.raw`[^.!?;{}]{0,120}?\b(?:\d{1,3}\s?(?:saat|sa\.|saatte|saatlik)|aynı gün|ertesi gün|birkaç saat)`,
         // the specific fabricated figure, unconditionally
         String.raw`\b48\s?saat|\b48\s?h\b`,
       ].join("|"),
@@ -390,10 +459,18 @@ const RULES = [
     // is a payment term, not a performance rate. Both the `%` glyph and the
     // word form `yüzde` count — QA showed `yüzde 98` evading the glyph-only
     // rule while reading identically on screen.
+    // The third alternation covers a QUANTIFIED PROJECT OUTCOME —
+    // `%70 maliyet ↓`, `ortalama %30-50 maliyet tasarrufu`. A saving is only a
+    // fact if a project produced it, and §G says none was supplied. This was
+    // the last shape with no rule at all: the fabricated "DFM Başarı Vaka
+    // Çalışmaları" table stated its four outcomes as bare table cells with no
+    // vocabulary any other rule could see.
     pattern:
-      /(?:%\s?|yüzde\s+)\d{1,3}([.,]\d+)?\s*(zamanında|teslimat oranı|başarı|kalite oranı|verimlilik|doğruluk|ilk seferde|hatasız|fire|hurda|red oranı)|(zamanında teslimat|teslimat oranı|başarı oranı|kalite oranı|hatasız üretim|müşteri memnuniyeti)[^.\n]{0,30}(?:%\s?|yüzde\s+)\d/gi,
-    authority: "§D ON_TIME_DELIVERY_INTERNAL: 95% (PUBLIC_IF_VERIFIED_AND_STRATEGIC — condition not met)",
-    remedy: "No self-graded performance percentage is published. See ON_TIME_DELIVERY in src/content/claims.ts.",
+      /(?:%\s?|yüzde\s+)\d{1,3}([.,]\d+)?\s*(zamanında|teslimat oranı|başarı|kalite oranı|verimlilik|doğruluk|ilk seferde|hatasız|fire|hurda|red oranı)|(zamanında teslimat|teslimat oranı|başarı oranı|kalite oranı|hatasız üretim|müşteri memnuniyeti)[^.\n]{0,30}(?:%\s?|yüzde\s+)\d|(?:%\s?|yüzde\s+)\d{1,3}(\s?-\s?\d{1,3})?(['’]?[a-zçğıöşü]{0,3})?\s*(tasarruf|maliyet|süre|ağırlık|kazanç|iyileş|azalma|artış)|(tasarruf|maliyet düşüşü|verim artışı)[^.\n]{0,20}(?:%\s?|yüzde\s+)\d/gi,
+    authority:
+      "§D ON_TIME_DELIVERY_INTERNAL: 95% (PUBLIC_IF_VERIFIED_AND_STRATEGIC — condition not met) · OTHER_PUBLIC_KPIS: NONE · §G CASE_STUDIES: NONE_PROVIDED_YET",
+    remedy:
+      "No self-graded performance percentage and no quantified project outcome is published. See ON_TIME_DELIVERY in src/content/claims.ts.",
   },
   {
     id: "process-capability-metric",
@@ -408,8 +485,25 @@ const RULES = [
     // §D TEAM_SIZE / FACILITY_SIZE withhold, and both evaded the glyph-bound
     // rule. Capability counts that are NOT scale (`5 eksen`, `3 vardiya`,
     // `2 iterasyon`) are excluded by the noun list, not by the number.
-    pattern:
-      /\b\d[\d.,]*\s?K?\s?\+?\s*(?:adet\s+)?(?:CNC\s+)?(?:tezgah|tezgâh|makine|işleme merkezi|mühendis|teknisyen|personel|çalışan|operatör|kişilik ekip|müşteri|m²|m2\b|metrekare)|\b\d[\d.,]*\s?m²|\b\d[\d.,]*\s?\+\s*(?:parça|malzeme|proje)|\b24\s?\/\s?7|\b7\s?\/\s?24/gi,
+    // The `N'den fazla / üzerinde / aşkın` form is the same disclosure as
+    // `N+`, written out. `500'den fazla malzeme çeşidi` is §D
+    // MATERIAL_COUNT_INTERNAL: UNKNOWN_REMOVE_IF_UNVERIFIED with
+    // MATERIAL_COUNT_VISIBILITY: PRIVATE_DO_NOT_DISCLOSE — unverified AND
+    // withheld — and the glyph-bound rule never saw it.
+    pattern: new RegExp(
+      [
+        String.raw`\b\d[\d.,]*\s?K?\s?\+?\s*(?:adet\s+)?(?:CNC\s+)?(?:tezgah|tezgâh|makine|işleme merkezi|mühendis|teknisyen|personel|çalışan|operatör|kişilik ekip|müşteri|m²|m2\b|metrekare)`,
+        String.raw`\b\d[\d.,]*\s?m²`,
+        String.raw`\b\d[\d.,]*\s?\+\s*(?:parça|malzeme|proje|çeşit)`,
+        // Stock tonnage is order-volume disclosure: it tells a reader what the
+        // company buys and turns over. §D REVENUE_OR_ORDER_VOLUME.
+        String.raw`(?:stok|stokta|depo)\w*[^.\n]{0,60}?\b\d[\d.,]*\s?(?:kg|ton)\b`,
+        String.raw`\b\d[\d.,]*\s?(?:kg|ton)\b[^.\n]{0,60}?(?:stok|depo)`,
+        String.raw`\b\d[\d.,]*['’´]?(?:d[ae]n|t[ae]n)?\s*(?:fazla|üzerinde|aşkın)\s+(?:farklı\s+)?(?:malzeme|tezgah|tezgâh|makine|mühendis|teknisyen|personel|çalışan|müşteri|proje|parça)`,
+        String.raw`\b24\s?\/\s?7|\b7\s?\/\s?24`,
+      ].join("|"),
+      "gi",
+    ),
     authority:
       "§D TEAM_SIZE / MACHINE_COUNT / FACILITY_SIZE / REVENUE_OR_ORDER_VOLUME: PRIVATE_DO_NOT_DISCLOSE · §0 DO_NOT_EMPHASIZE_COMPANY_SCALE: YES",
     remedy: "Scale is withheld even where true. Positioning comes from process and measurement, not size.",
@@ -434,7 +528,22 @@ const RULES = [
   },
   {
     id: "demo-placeholder-badge",
-    pattern: /DEMO İÇERİK|ÖRNEK İÇERİK|HAZIRLANIYOR|TEMSİL[İÎ]|GERÇEK RAPOR DEĞİLDİR|COMING SOON/gi,
+    // `HAZIRLANIYOR` is matched UPPERCASE-ONLY, and only as a shouted heading.
+    // Lower-case "hazırlanıyor" is a transient progress message — "Rapor
+    // hazırlanıyor…", "Sayfa hazırlanıyor." — which is a loading state, not a
+    // coming-soon affordance. The claim this rule exists for was the heading
+    // `KAYNAKLAR HAZIRLANIYOR` over four documents that were never in the
+    // build. (Before the I-fold below, the `/i` flag never reached the
+    // lower-case form at all, so this distinction had not come up.)
+    scan: function* (text) {
+      const shouted = /DEMO İÇERİK|ÖRNEK İÇERİK|HAZIRLANIYOR|GERÇEK RAPOR DEĞİLDİR|COMING SOON/g;
+      const anyCase = trPattern(/TEMSİL[İÎ]|demo içerik|örnek içerik|coming soon/gi);
+      for (const re of [trPattern(shouted), anyCase]) {
+        re.lastIndex = 0;
+        let m;
+        while ((m = re.exec(text)) !== null) yield { index: m.index, match: m[0] };
+      }
+    },
     authority: "IMPLEMENTATION.md §7 Phase 06 — no demo/sample/coming-soon affordance ships on a public route",
     remedy: "Finish the feature or remove it. A badge does not make placeholder content acceptable.",
   },
@@ -569,10 +678,17 @@ const RULES = [
       while ((m = STANDARD_TOKEN.exec(text)) !== null) {
         const token = m[0].replace(/\s+/g, " ").trim();
         if (ALLOWED_STANDARDS.some((re) => re.test(token))) continue;
-        const sentenceStart = Math.max(0, text.lastIndexOf("\n", m.index) + 1);
-        const sentenceEnd = text.indexOf("\n", m.index) === -1 ? text.length : text.indexOf("\n", m.index);
-        const sentence = text.slice(sentenceStart, sentenceEnd);
-        if (CONFORMITY_BY_NATURE.test(token) || CONFORMITY_CONTEXT.test(sentence)) {
+        if (CONFORMITY_BY_NATURE.test(token) || CONFORMITY_CONTEXT_FOLDED.test(sentenceAt(text, m.index))) {
+          yield { index: m.index, match: token };
+        }
+      }
+      LABEL_VALUE_CLAIM.lastIndex = 0;
+      while ((m = LABEL_VALUE_CLAIM.exec(text)) !== null) {
+        STANDARD_TOKEN.lastIndex = 0;
+        const declared = m[1].match(STANDARD_TOKEN) ?? [];
+        for (const raw of declared) {
+          const token = raw.replace(/\s+/g, " ").trim();
+          if (ALLOWED_STANDARDS.some((re) => re.test(token))) continue;
           yield { index: m.index, match: token };
         }
       }
@@ -580,6 +696,56 @@ const RULES = [
     authority: "§C — only ISO 9001, ISO 14001 and OHSAS 18001 are supplied; every other standard is unheld",
     remedy:
       "Describe the practice, not the standard you are audited against. Asserting conformity to a standard the company has not declared is a claim a customer's own submission depends on.",
+  },
+  {
+    id: "attestation-adjective",
+    // `sertifikalı` used as a MODIFIER asserts that an attestation exists for
+    // the thing it modifies — "sertifikalı kaynakçılar", "AMS sertifikalı
+    // malzeme tedarik", "havacılık ve medikal sınıf sertifikalı malzemeler".
+    // None of the three needs a standard number to make the claim, so the
+    // standards rule cannot see them.
+    //
+    // `sertifikası` / `sertifikasyon` as a NOUN is deliberately not matched: a
+    // document offered on request ("malzeme sertifikası talebe bağlı olarak
+    // sağlanır") is a supply practice, not a claim that MAS is audited.
+    //
+    // `akredite` is excluded in exactly one form — "akredite üçüncü taraf",
+    // which §D CMM_COVERAGE_INTERNAL: THIRD_PARTY_ACCREDITED_ON_DEMAND
+    // authorises verbatim. Any other accreditation claim fires.
+    // It does NOT fire when an allow-listed certificate is named in the same
+    // sentence: `title: "ISO 9001:2015", desc: "Sertifikalı kalite yönetim
+    // sistemi"` is a certificate MAS actually holds (§C ISO_9001_VALUE:
+    // VERIFIED, PUBLIC_OK) and saying so is the correct copy.
+    scan: function* (text) {
+      // NOT `\bsertifikalı\b`. JS `\w` is ASCII, so `ı` (U+0131) is a non-word
+      // character and there is no word boundary after it — the anchored form
+      // silently matched nothing and let "AMS sertifikalı" and "sınıf
+      // sertifikalı malzemeler" through. Turkish-final words need an explicit
+      // letter lookaround instead.
+      const re = trPattern(
+        /(?<![\wçğıöşüâî])sertifikalı(?![\wçğıöşüâî])|\bsertifikasyonlu\b|\bbelgeli\b|\bakredite\s+(?!üçüncü\s+taraf|CMM|3\.\s?taraf)\S/gi,
+      );
+      let m;
+      while ((m = re.exec(text)) !== null) {
+        // The exemption is LINE-scoped, not sentence-scoped: a card is written
+        // as `{ title: "ISO 9001:2015", desc: "Sertifikalı kalite yönetim
+        // sistemi" }` and the certificate it names sits in a sibling string
+        // literal, which sentence scoping would separate. Widening only the
+        // exemption is safe — a line that names no permitted certificate still
+        // fires.
+        const lineStart = Math.max(0, text.lastIndexOf("\n", m.index) + 1);
+        const lineEndRaw = text.indexOf("\n", m.index);
+        const line = text.slice(lineStart, lineEndRaw === -1 ? text.length : lineEndRaw);
+        const named = line.match(STANDARD_TOKEN) ?? [];
+        const allAllowed =
+          named.length > 0 &&
+          named.every((raw) => ALLOWED_STANDARDS.some((r) => r.test(raw.replace(/\s+/g, " ").trim())));
+        if (!allAllowed) yield { index: m.index, match: m[0] };
+      }
+    },
+    authority: "§C — only ISO 9001, ISO 14001 and OHSAS 18001 are supplied · §D CMM_COVERAGE_INTERNAL: THIRD_PARTY_ACCREDITED_ON_DEMAND",
+    remedy:
+      "Calling a material, a person or a process 'sertifikalı' asserts a third-party attestation. Name the record you actually keep, or the specification the customer supplied.",
   },
   {
     id: "named-supplier",
@@ -608,6 +774,14 @@ const RULES = [
   },
 ];
 
+// Every `pattern` is rebuilt against the folded alphabet, so a rule may be
+// WRITTEN in ordinary Turkish (`kanıtlanmış`) and still match the uppercase
+// form (`KANITLANMIŞ`) that JavaScript's `/i` flag cannot reach. `scan` rules
+// fold their own regexes at the point of use.
+for (const rule of RULES) {
+  if (rule.pattern) rule.pattern = trPattern(rule.pattern);
+}
+
 /* ── file walk ─────────────────────────────────────────────────────────── */
 
 /** @type {{ rule: Rule, file: string, line: number, text: string }[]} */
@@ -626,7 +800,7 @@ function scanFile(path, abs) {
   filesScanned += 1;
   const rel = relative(REPO_ROOT, abs).replace(/\\/g, "/");
   const raw = readFileSync(abs, "utf8").normalize("NFC");
-  const { text, lineOf } = normalise(blankComments(raw, abs.endsWith(".html")));
+  const { text, display, lineOf } = normalise(blankComments(raw, abs.endsWith(".html")));
   linesScanned += text.split("\n").filter((l) => l.trim()).length;
 
   const seen = new Set();
@@ -648,7 +822,15 @@ function scanFile(path, abs) {
       const key = `${rule.id}:${line}`;
       if (seen.has(key)) continue;
       seen.add(key);
-      violations.push({ rule, file: rel, line, match: hit.match, text: lineTextOf(text, hit.index) });
+      // Report from the UNFOLDED copy: offsets are identical, and a violation
+      // must print the Turkish that is actually in the file.
+      violations.push({
+        rule,
+        file: rel,
+        line,
+        match: display.substr(hit.index, hit.match.length),
+        text: lineTextOf(display, hit.index),
+      });
     }
   }
 }

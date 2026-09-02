@@ -163,7 +163,13 @@ export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label
             a band body does not get to half-adopt the master grid. */}
         <div className="tl-footer-body">
           <div className="tl-footer-brand">
-            <h2>HASSAS ÜRETİM.<br />KANITLANMIŞ TESLİM.</h2>
+            {/* `KANITLANMIŞ TESLİM.` iddiası kaldırıldı: §G CASE_STUDIES:
+                NONE_PROVIDED_YET — "kanıtlanmış" var olmayan bir kanıta atıf
+                yapıyordu. `İZLENEBİLİR` §0 PUBLIC_POSITIONING_PRIORITY'deki
+                TRACEABILITY'yi karşılar, sitenin başka yerinde anlatılan lot
+                ve ölçüm kaydı mekanizmasıyla birebir örtüşür ve aynı karakter
+                sayısındadır, dolayısıyla satır kırılımı değişmez. */}
+            <h2>HASSAS ÜRETİM.<br />İZLENEBİLİR TESLİM.</h2>
             {/* DOM order is address–address–phone–mail so a screen reader reads
                 the postal address as one block. The two visual columns are
                 built with explicit placement in CSS, which does not disturb

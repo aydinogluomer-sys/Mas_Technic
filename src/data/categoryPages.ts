@@ -116,7 +116,7 @@ export const categoryPages: CategoryPageData[] = [
     description: "Proje yönetimi, tedarik zinciri ve operasyon planlaması ile öngörülebilir üretim süreci.",
     links: [
       { label: "Proje Yönetimi", path: "/kabiliyetler/proje-yonetimi", description: "Uçtan uca proje koordinasyonu ve raporlama." },
-      { label: "Tedarik Zinciri", path: "/kabiliyetler/tedarik-zinciri", description: "Sertifikalı tedarikçi ağı ve malzeme yönetimi." },
+      { label: "Tedarik Zinciri", path: "/kabiliyetler/tedarik-zinciri", description: "Tedarikçi seçimi, malzeme izlenebilirliği ve lot kaydı." },
       { label: "Operasyonel Verimlilik", path: "/kabiliyetler/operasyonel-verimlilik", description: "Yalın üretim ve sürekli iyileştirme." },
     ],
   },

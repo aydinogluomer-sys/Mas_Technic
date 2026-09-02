@@ -316,7 +316,7 @@ export const servicePages: ServicePageData[] = [
     content: [
       "Derin delik delme, boy/çap oranı (L/D) 10:1'den büyük delikler için gerekli olan özel bir işleme sürecidir. Standart matkaplarla bu oranlarda hassas delme mümkün değildir. Özel derin delik delme tezgahlarımız ile Ø2-200mm çap aralığında ve 2000mm derinliğe kadar hassas delik delme imkânı sunuyoruz.",
       "Gun drilling teknolojimiz ile tek dudaklı matkap kullanarak Ø2-20mm çap aralığında L/D oranı 100:1'e kadar derin delikler işliyoruz. Yağ kanalları ve soğutma delikleri için idealdir. BTA (Boring and Trepanning Association) delme sistemi ile Ø20-200mm aralığında büyük çaplı derin deliklerde yüksek talaş kaldırma hızı elde ediyoruz.",
-      "Hassas raybalama ile H6/H7 toleranslarında iç çap hassasiyeti sağlıyoruz. Hidrolik silindir ve rulman yatakları için ideal olan bu işlem, ±0.01mm çap toleransı garanti eder. Honlama işlemi ile iç yüzeylerde Ra 0.2µm'ye kadar yüzey kalitesi elde ederek silindir gömlekleri ve valfler için mükemmel sonuçlar üretiyoruz.",
+      "Hassas raybalama ile H6/H7 toleranslarında iç çap hassasiyeti sağlıyoruz. Hidrolik silindir ve rulman yatakları için ideal olan bu işlemde standart çalışma aralığımız ±0.01mm çap toleransıdır. Honlama işlemi ile iç yüzeylerde Ra 0.2µm'ye kadar yüzey kalitesi elde ederek silindir gömlekleri ve valfler için mükemmel sonuçlar üretiyoruz.",
       "Hidrolik sistemlerde silindir gövdeleri, valf blokları ve manifold delikleri; kalıp & takım sektöründe enjeksiyon kalıplarında soğutma kanalları ve ejektör delikleri; enerji & makina sektöründe türbin şaftları ve kompresör pistonları; savunma sektöründe silah namluları ve optik tüpleri üretiminde uzmanlaşmış deneyimimiz bulunmaktadır.",
     ],
     features: [
@@ -406,7 +406,7 @@ export const servicePages: ServicePageData[] = [
       "Alüminyum ve çelik kalıp imalatı. Hızlı prototip kalıplarından yüksek hacimli seri üretim kalıplarına kadar tüm ihtiyaçlarınıza çözüm.",
     heroImage: "hero-enjeksiyon-kalibi",
     content: [
-      "Yüksek hassasiyetli plastik enjeksiyon kalıplarının tasarımını ve üretimini gerçekleştiriyoruz. Moldflow simülasyonu ile dolum optimizasyonu yaparak üretim kalitesini garanti altına alıyoruz. Çekme payı optimizasyonu ve gate/vent konumlandırma dahil kapsamlı DFM analizi sunuyoruz.",
+      "Yüksek hassasiyetli plastik enjeksiyon kalıplarının tasarımını ve üretimini gerçekleştiriyoruz. Moldflow simülasyonu ile dolum davranışını kalıp üretiminden önce değerlendiriyoruz. Çekme payı optimizasyonu ve gate/vent konumlandırma dahil kapsamlı DFM analizi sunuyoruz.",
       "Kalıp malzemesi beklenen üretim adedine göre seçilir: Al 7075 (150 HB) prototip ve düşük hacim, P20 (280-320 HB) orta hacim, H13 (45-52 HRC) yüksek hacim, S136 (48-52 HRC) ise korozyon direnci gereken uygulamalar için. Sıcak yolluk desteği ile malzeme tasarrufu ve döngü süresi iyileştirmesi sağlanır.",
       "Alüminyum kalıplar düşük ve orta hacimde daha kısa sürede hazırlanırken, çelik kalıplar yüksek hacimli üretimde daha uzun ömür sağlar. Beklenen adet ve parça geometrisi, kalıp malzemesi ve boşluk sayısı kararını birlikte belirler.",
     ],
@@ -622,7 +622,7 @@ export const servicePages: ServicePageData[] = [
     content: [
       "Üretim süreçlerinizi hızlandıracak ve hassasiyeti artıracak özel fikstür ve aparatlar tasarlıyoruz. Torna fikstürü (milliyelti ve milliyetsiz), freze fikstürü (vise, vakumlu ve hidrolik), montaj fikstürü (operatör hatalarını önleme), kontrol fikstürü (ölçüm tekrarlanabilirliği) ve kaynak fikstürü (hizalama ve sabitleme) dahil geniş yelpazede çözümler sunuyoruz.",
       "CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans analizi simülasyonu, 3D baskı veya hızlı imalat ile prototip üretimi ve üretim ortamında doğrulama test & onay süreçleri ile profesyonel tasarım hizmeti veriyoruz.",
-      "Çelik, alüminyum ve kompozit malzemelerle ±0.01mm tekrarlanabilirlik sağlayan fikstürler üretiyoruz. 3-5 iş günü tasarım, 5-10 iş günü üretim süresi ile hızlı teslimat garanti ediyoruz.",
+      "Çelik, alüminyum ve kompozit malzemelerle ±0.01mm tekrarlanabilirlik sağlayan fikstürler üretiyoruz. Tasarım için 3-5 iş günü, üretim için 5-10 iş günü çalışma süresiyle ilerliyoruz.",
     ],
     features: [
       "Torna Fikstürü — Milliyelti ve milliyetsiz",
@@ -766,7 +766,7 @@ export const servicePages: ServicePageData[] = [
       { label: "Kaplama Kalınlığı", value: "5-100µm" },
       { label: "Sertlik (Tip III)", value: "60-70 HRC" },
       { label: "Tuz Testi", value: "500+ saat (ASTM B117)" },
-      { label: "Standart", value: "MIL-A-8625" },
+      { label: "Kaplama Sınıfı", value: "MIL-A-8625 Tip I / II / III" },
       { label: "Tank Boyutu", value: "2000×1000×800mm" },
       { label: "Renk Seçeneği", value: "20+ renk" },
     ],
@@ -873,7 +873,7 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Tuz Testi", value: "500+ saat" },
       { label: "Kaplama Kalınlığı", value: "1-25µm" },
-      { label: "Standartlar", value: "ASTM B117" },
+      { label: "Test Yöntemi", value: "ASTM B117 tuz spreyi" },
       { label: "Pasivasyon", value: "ASTM A967" },
     ],
     processSteps: [
@@ -1102,7 +1102,7 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Min. Modül Boyutu", value: "0.1mm" },
       { label: "Okuma Oranı", value: "%99.9+" },
-      { label: "Standart", value: "ISO/IEC 16022" },
+      { label: "Sembol", value: "DataMatrix (ISO/IEC 16022)" },
       { label: "Doğrulama", value: "ISO 15415" },
     ],
     processSteps: [
@@ -1220,7 +1220,7 @@ export const servicePages: ServicePageData[] = [
     advantages: [
       "4 farklı insert uygulama yöntemi",
       "3 farklı insert malzeme seçeneği",
-      "2000N+ çekme kuvveti garantisi",
+      "Çekme testi ile doğrulanan insert bağlantısı",
       "<3 saniye çevrim süresi",
     ],
     comparisonTables: [
@@ -1301,7 +1301,7 @@ export const servicePages: ServicePageData[] = [
       "Müşteriye özel kit oluşturma, etiketleme ve koruyucu ambalajlama. Tedarik zinciri verimliliğini artırın.",
     content: [
       "Vakumlu (nem ve toz koruması), ESD/antistatik (elektronik parçalar), köpük (kırılabilir parçalar) ve ahşap kasa (ağır ve değerli parçalar) paketleme seçenekleri ile ürünlerinizi güvenle teslim ediyoruz.",
-      "Barkodlu etiket, RFID etiket, müşteriye özel etiket tasarımı ve çoklu dil desteği ile kapsamlı etiketleme çözümleri sunuyoruz. MIL-PRF-81705 ESD koruma standardına uygun, VCI ve desiccant koruma dahil ve DDP/FCA teslimat seçenekleri ile profesyonel paketleme hizmeti veriyoruz.",
+      "Barkodlu etiket, RFID etiket, müşteriye özel etiket tasarımı ve çoklu dil desteği ile kapsamlı etiketleme çözümleri sunuyoruz. MIL-PRF-81705 sınıfı ESD koruyucu ambalaj, VCI ve desiccant koruma dahil ve DDP/FCA teslimat seçenekleri ile profesyonel paketleme hizmeti veriyoruz.",
     ],
     features: [
       "Vakumlu Paketleme — Nem ve toz koruması",
@@ -1519,27 +1519,27 @@ export const servicePages: ServicePageData[] = [
     metaDescription:
       "Alüminyumdan titanyuma, PEEK'ten Inconel'e geniş malzeme yelpazesi. Parti ve döküm kaydıyla izlenebilir tedarik; malzeme sertifikası talebe bağlı olarak sağlanır.",
     description:
-      "Alüminyumdan titanyuma, plastikten kompozitlere kadar 500'den fazla malzeme çeşidi ile projenize en uygun çözümü sunuyoruz. Tüm malzemeler EN 10204 3.1 sertifikası ile tedarik edilmektedir.",
+      "Alüminyumdan titanyuma, plastikten kompozitlere kadar geniş bir malzeme yelpazesi ile projenize uygun çözümü sunuyoruz. Malzeme sertifikası ve lot bazlı kayıt talebe bağlı olarak sağlanır.",
     heroImage: "hero-malzeme-kutuphanesi",
     content: [
-      "Mas Technic malzeme kütüphanesi, metal, plastik, kompozit ve özel alaşımlar dahil 500'den fazla farklı malzeme çeşidini kapsamaktadır. Havacılık sınıfı alüminyumdan medikal sınıfı titanyuma, yüksek performans plastiklerden süper alaşımlara kadar geniş bir yelpazede hizmet veriyoruz.",
+      "Mas Technic malzeme kütüphanesi metal, plastik, kompozit ve özel alaşımları kapsar. Havacılık sınıfı alüminyumdan medikal sınıfı titanyuma, yüksek performans plastiklerden süper alaşımlara kadar geniş bir yelpazede hizmet veriyoruz.",
       "Metal malzemelerimiz arasında Alüminyum (6061, 7075, 5083 — 95-150 HB), Paslanmaz Çelik (304, 316, 17-4PH — 150-350 HB), Karbon Çelik (1045, 4140, 4340 — 200-350 HB), Titanyum (Gr2, Gr5 Ti6Al4V — 250-350 HB) ve Pirinç/Bronz (C360, C932 — 60-150 HB) bulunmaktadır.",
       "Plastik ve kompozit malzemelerimiz arasında Asetal (POM — düşük sürtünme), Nylon (PA6, PA66 — aşınma direnci), Teflon (PTFE — kimyasal dirençi), PEEK (yüksek sıcaklık — havacılık/medikal), Polikarbonat (PC — şeffaflık) yer almaktadır. Özel alaşımlardan Inconel 718 (yüksek sıcaklık — türbin), Hastelloy (korozyon — kimya endüstrisi), Kovar (termal genleşme — elektronik) ve Tungsten (yüksek yoğunluk — radyasyon koruması) tedarik edebiliyoruz.",
-      "Malzeme tedarik sürecimiz beş aşamadan oluşur: ERP sistemi ile anlık stok kontrolü, 3.1 ve 3.2 malzeme sertifikası doğrulama, kimyasal analiz ve boyut kontrolü ile giriş kontrolü, klimatik kontrollü depolama ve lot numarası ile tam izlenebilirlik. Al 6061 (5.000 kg) ve SS 304 (3.000 kg) gibi kritik malzemeler sürekli stokta tutulmaktadır.",
+      "Malzeme tedarik sürecimiz beş aşamadan oluşur: anlık stok kontrolü, malzeme sertifikası doğrulama, kimyasal analiz ve boyut kontrolü ile giriş kontrolü, klimatik kontrollü depolama ve lot numarası ile izlenebilirlik. Sık kullanılan alüminyum ve paslanmaz çelik kaliteleri sürekli stokta tutulmaktadır.",
     ],
     features: [
       "Geniş Malzeme Yelpazesi — metal, plastik, kompozit ve özel alaşımlar",
-      "EN 10204 3.1/3.2 Sertifika — Her malzeme sertifikalı tedarik",
+      "Malzeme Sertifikası — Talebe bağlı olarak sağlanır",
       "Klimatik Kontrollü Depo — Sıcaklık ve nem kontrollü depolama",
       "Lot Bazlı İzlenebilirlik — Hammaddeden nihai ürüne tam takip",
       "Anlık Stok Takibi — ERP entegreli gerçek zamanlı stok yönetimi",
       "Havacılık & Medikal Sınıf — şartnameye göre malzeme seçimi",
     ],
     technicalSpecs: [
-      { label: "Toplam Malzeme", value: "500+ çeşit" },
-      { label: "Sertifika", value: "EN 10204 3.1/3.2" },
-      { label: "Stok Malzeme", value: "Al 6061: 5.000 kg" },
-      { label: "Stok Malzeme", value: "SS 304: 3.000 kg" },
+      { label: "Malzeme Grupları", value: "Metal, plastik, kompozit, özel alaşım" },
+      { label: "Sertifika", value: "Talebe bağlı" },
+      { label: "Sürekli Stok", value: "Al 6061, Al 7075" },
+      { label: "Sürekli Stok", value: "SS 304, SS 316" },
       { label: "Tedarik (Standart)", value: "Stokta / 1-2 hafta" },
       { label: "Tedarik (Özel)", value: "4-8 hafta" },
     ],
@@ -1557,21 +1557,21 @@ export const servicePages: ServicePageData[] = [
       "Kimyasal analiz ve spektrometre ile giriş kontrolü",
       "ERP sistemi ile anlık stok ve tedarik takibi",
       "Çoklu tedarikçi ile tedarik güvencesi",
-      "Havacılık ve medikal sınıf sertifikalı malzemeler",
+      "Havacılık ve medikal uygulamalar için şartnameye göre malzeme seçimi",
     ],
     materials: [
-      { name: "Alüminyum", grade: "6061, 7075, 5083", properties: "95-150 HB, havacılık/elektronik, 5.000 kg stok" },
-      { name: "Paslanmaz Çelik", grade: "304, 316, 17-4PH", properties: "150-350 HB, medikal/gıda, 3.000 kg stok" },
+      { name: "Alüminyum", grade: "6061, 7075, 5083", properties: "95-150 HB, havacılık/elektronik, sürekli stok" },
+      { name: "Paslanmaz Çelik", grade: "304, 316, 17-4PH", properties: "150-350 HB, medikal/gıda, sürekli stok" },
       { name: "Karbon Çelik", grade: "1045, 4140, 4340", properties: "200-350 HB, mekanik parçalar" },
-      { name: "Titanyum", grade: "Gr2, Gr5 (Ti6Al4V)", properties: "250-350 HB, medikal/havacılık, 200 kg stok" },
+      { name: "Titanyum", grade: "Gr2, Gr5 (Ti6Al4V)", properties: "250-350 HB, medikal/havacılık, sipariş üzerine" },
       { name: "Pirinç / Bronz", grade: "C360, C932", properties: "60-150 HB, dişli ve yatak uygulamaları" },
-      { name: "Inconel 718", grade: "Süper alaşım", properties: "Yüksek sıcaklık, türbin parçaları, 100 kg stok" },
+      { name: "Inconel 718", grade: "Süper alaşım", properties: "Yüksek sıcaklık, türbin parçaları, sipariş üzerine" },
       { name: "PEEK", grade: "450G", properties: "Yüksek sıcaklık, kimyasal direnci, havacılık/medikal" },
       { name: "POM (Delrin)", grade: "Delrin 150/500", properties: "Düşük sürtünme, dişli ve yatak" },
     ],
     faq: [
-      { question: "Hangi malzeme sertifikalarını sağlıyorsunuz?", answer: "Tüm metal malzemeler EN 10204 3.1 sertifikası ile tedarik edilmektedir. Talep üzerine 3.2 sertifika ve kimyasal analiz raporu da sağlanabilir." },
-      { question: "Stokta hangi malzemeler bulunuyor?", answer: "Al 6061 (5.000 kg), Al 7075 (2.000 kg), SS 304 (3.000 kg), SS 316 (1.500 kg) sürekli stokta tutulmaktadır. Titanyum ve Inconel gibi özel malzemeler sipariş üzerine tedarik edilir." },
+      { question: "Hangi malzeme sertifikalarını sağlıyorsunuz?", answer: "Malzeme sertifikası ve kimyasal analiz raporu talebe bağlı olarak sağlanır. Her tedarik, lot ve döküm numarasıyla kayıt altına alınır." },
+      { question: "Stokta hangi malzemeler bulunuyor?", answer: "Al 6061, Al 7075, SS 304 ve SS 316 sürekli stokta tutulmaktadır. Titanyum ve Inconel gibi özel malzemeler sipariş üzerine tedarik edilir." },
       { question: "Özel alaşım tedarik edebiliyor musunuz?", answer: "Evet, Inconel 718, Hastelloy, Kovar, Tungsten gibi özel alaşımları 4-8 hafta içinde tedarik edebiliyoruz." },
       { question: "Malzeme kalite kontrolü nasıl yapılıyor?", answer: "Her malzeme girişinde spektrometre ile kimyasal analiz, boyut kontrolü ve sertifika doğrulaması yapılmaktadır. Klimatik kontrollü depoda lot numarası ile izlenebilirlik sağlanır." },
     ],
@@ -1581,11 +1581,11 @@ export const servicePages: ServicePageData[] = [
         description: "Ana malzeme gruplarının mekanik özellikleri ve maliyet karşılaştırması",
         headers: ["Malzeme", "Sertlik (HB)", "Çekme Dayanımı", "İşlenebilirlik", "Maliyet", "Stok Durumu"],
         rows: [
-          ["Al 6061-T6", "95", "310 MPa", "★★★★★", "$", "Stokta (5.000 kg)"],
-          ["Al 7075-T6", "150", "572 MPa", "★★★★☆", "$$", "Stokta (2.000 kg)"],
-          ["SS 304", "187", "515 MPa", "★★★☆☆", "$$", "Stokta (3.000 kg)"],
-          ["SS 316L", "217", "485 MPa", "★★★☆☆", "$$$", "Stokta (1.500 kg)"],
-          ["Ti6Al4V (Gr5)", "334", "950 MPa", "★★☆☆☆", "$$$$", "Sipariş (200 kg)"],
+          ["Al 6061-T6", "95", "310 MPa", "★★★★★", "$", "Stokta"],
+          ["Al 7075-T6", "150", "572 MPa", "★★★★☆", "$$", "Stokta"],
+          ["SS 304", "187", "515 MPa", "★★★☆☆", "$$", "Stokta"],
+          ["SS 316L", "217", "485 MPa", "★★★☆☆", "$$$", "Stokta"],
+          ["Ti6Al4V (Gr5)", "334", "950 MPa", "★★☆☆☆", "$$$$", "Sipariş üzerine"],
           ["Inconel 718", "363", "1034 MPa", "★☆☆☆☆", "$$$$$", "4-8 hafta"],
           ["PEEK 450G", "100 (Shore D)", "100 MPa", "★★★★☆", "$$$$", "2-4 hafta"],
           ["POM (Delrin)", "85 (Shore D)", "70 MPa", "★★★★★", "$", "Stokta"],
@@ -1821,7 +1821,7 @@ export const servicePages: ServicePageData[] = [
       "Design for Manufacturing (DFM) analiz sürecimiz 4 aşamadan oluşur: 1. gün — ilk inceleme ve DFM raporu taslağı, 2-3. gün — detaylı analiz ve optimizasyon önerileri, 4. gün — müşteri görüşmesi ve revize CAD modeli, 5. gün — final DFM raporu ve onay. Toplam süreç 5 iş gününde tamamlanır.",
       "CNC işleme DFM kurallarımız: İç köşe yarıçapı R > 0.5mm (sivri köşelerden kaçının), duvar kalınlığı > 0.8mm (çok ince duvarlardan kaçının), derinlik/çap oranı < 4:1 (çok derin deliklerden kaçının) ve standart boyut kullanımı (özel ölçülerden kaçının). Enjeksiyon kalıp DFM kurallarımız: Duvar kalınlığı 1.5-3mm, çekme payı 0.5-2°, köşe yarıçapı R > 0.5mm ve gate konumu kalın kesimden.",
       "Yaygın CAD formatlarını doğrudan işleyebiliyoruz; katı model ile birlikte ölçülendirilmiş teknik resim gönderilmesi analiz süresini kısaltır. Takım yolları üretim öncesinde simülasyonla doğrulanır ve çarpışma kontrolü yapılır.",
-      "Gerçek müşteri projelerinden DFM başarılarımız: Havacılık parçası — 12 ayrı parçadan 1 parçaya düşürüldü, %70 maliyet tasarrufu. Otomotiv komponenti — montaj adımı 8'den 3'e indirildi. Medikal cihaz — malzeme değişikliği ile %40 maliyet düşüşü, aynı performans. DFM analizi ile ortalama %30-50 maliyet tasarrufu sağlıyoruz.",
+      "DFM analizinde tipik olarak baktığımız kaldıraçlar: montajı tek parçaya indirgemek, bağlama sayısını azaltmak, takım erişimini kolaylaştırmak, gereksiz dar toleransları gevşetmek ve malzemeyi fonksiyona göre yeniden seçmek. Hangisinin ne kadar etki edeceği parçanın geometrisine ve mevcut üretim planına bağlıdır; beklenen etki analiz raporunda parça bazında verilir.",
     ],
     features: [
       "DFM Analizi — 5 iş günü tamamlanma süresi",
@@ -1829,7 +1829,7 @@ export const servicePages: ServicePageData[] = [
       "Enjeksiyon Kalıp DFM — Duvar kalınlığı, çekme payı, gate konumu",
       "CAD/CAM Entegrasyonu — CATIA, SolidWorks, NX, Mastercam",
       "Simülasyon — takım yolu doğrulama ve çarpışma kontrolü",
-      "Maliyet Optimizasyonu — Ortalama %30-50 tasarruf",
+      "Maliyet Optimizasyonu — Parça sayısı, bağlama ve tolerans kaldıraçları",
     ],
     technicalSpecs: [
       { label: "Analiz Süresi", value: "5 iş günü" },
@@ -1851,15 +1851,15 @@ export const servicePages: ServicePageData[] = [
       "5 gün içinde tamamlanan DFM analiz süreci",
       "CATIA, SolidWorks, NX entegre çalışma",
       "Üretim öncesi takım yolu simülasyonu ve çarpışma kontrolü",
-      "Gerçek vaka çalışmalarıyla kanıtlanmış %70'e kadar tasarruf",
+      "Parça sayısı, bağlama sayısı ve işlem adımı azaltma fırsatlarının çıkarılması",
       "Enjeksiyon kalıp ve CNC işleme özel DFM kuralları",
       "Dijital ikiz ile üretim öncesi doğrulama",
     ],
     faq: [
       { question: "DFM analizi ücreti var mı?", answer: "İlk DFM değerlendirmesi ücretsizdir. Detaylı analiz raporu ve CAD revizyonları proje kapsamına göre fiyatlandırılır." },
       { question: "DFM analizi ne kadar sürer?", answer: "Standart bir DFM analizi 5 iş gününde tamamlanır: 1 gün inceleme, 2-3 gün detaylı analiz, 1 gün görüşme ve revizyon." },
-      { question: "Hangi CAD formatlarını kabul ediyorsunuz?", answer: "STEP, IGES, Parasolid, SolidWorks (.sldprt), CATIA (.catpart), Siemens NX (.prt) ve PDF/DWG teknik çizim formatlarını destekliyoruz." },
-      { question: "DFM analizi ne kadar tasarruf sağlar?", answer: "Projelerimizde ortalama %30-50 maliyet tasarrufu sağlanmaktadır. En iyi örnekte %70'e kadar tasarruf elde edilmiştir." },
+      { question: "Hangi CAD formatlarını kabul ediyorsunuz?", answer: "Teklif akışında STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını doğrudan yükleyebilirsiniz. Listede olmayan bir yerel CAD formatı veya ölçülendirilmiş teknik resim için dosyayı sales@mastechnic.com adresine iletebilirsiniz." },
+      { question: "DFM analizi ne kadar tasarruf sağlar?", answer: "Tasarrufun büyüklüğü parçanın geometrisine ve mevcut üretim planına bağlıdır. DFM analizinde parça sayısı, bağlama sayısı, takım erişimi ve tolerans zinciri değerlendirilir; beklenen etki analiz raporunda parça bazında verilir." },
     ],
     comparisonTables: [
       {
@@ -1875,17 +1875,23 @@ export const servicePages: ServicePageData[] = [
           ["Yüzey Kalitesi", "Ra 1.6µm", "Ra 0.1µm (özel)", "Fonksiyona uygun Ra seçin", "İşleme süresi kısalır"],
         ],
       },
-      {
-        title: "DFM Başarı Vaka Çalışmaları",
-        headers: ["Proje", "Sektör", "Problem", "DFM Çözümü", "Tasarruf"],
-        rows: [
-          ["Motor Braketi", "Havacılık", "12 parçalı montaj", "Tek parça 5 eksen işleme", "%70 maliyet ↓"],
-          ["Şanzıman Gövdesi", "Otomotiv", "8 montaj adımı", "DFA ile 3 adıma indirildi", "%45 süre ↓"],
-          ["Kateter Konnektörü", "Medikal", "Pahalı titanyum", "SS 316L malzeme değişimi", "%40 maliyet ↓"],
-          ["Sensör Muhafazası", "Elektronik", "Kalın duvar tasarımı", "Duvar optimizasyonu", "%35 ağırlık ↓"],
-        ],
-        highlight: 0,
-      },
+      /*
+       * "DFM Başarı Vaka Çalışmaları" tablosu kaldırıldı.
+       *
+       * Dört satır dört müşteri projesi anlatıyordu — Motor Braketi
+       * (Havacılık), Şanzıman Gövdesi (Otomotiv), Kateter Konnektörü
+       * (Medikal), Sensör Muhafazası (Elektronik) — her biri sayısal bir
+       * tasarruf oranıyla. USER_INPUTS.md §G CASE_STUDIES:
+       * NONE_PROVIDED_YET ve IF_NONE:
+       * REMOVE_FAKE_PROJECT_EVIDENCE_AND_USE_NON_FACTUAL_CAPABILITY_CONTENT.
+       * Ne proje ne de yayın izni verildi; tablonun tamamı uydurmaydı ve
+       * "Gerçek vaka çalışmalarıyla kanıtlanmış" ifadesinin dayanağıydı.
+       *
+       * Yerine yeni içerik üretilmedi: hemen üstteki "CNC İşleme DFM Kontrol
+       * Listesi" §G'nin istediği olgusal-olmayan kabiliyet içeriğidir ve
+       * sayfada zaten duruyor. Gerçek iş geldiğinde şeması
+       * src/content/caseStudies.ts içinde hazır bekliyor.
+       */
     ],
   },
   {
@@ -2048,10 +2054,10 @@ export const servicePages: ServicePageData[] = [
     metaDescription:
       "Seri imalatta belirleyici olan tek parçayı üretmek değil, yüzüncü parçayı ilkiyle aynı çıkarmaktır: standart kurulum, kontrol planı ve parti izlenebilirliği.",
     description:
-      "Çelik kalıp, basınçlı döküm, otomasyonlu CNC ve montaj hatları ile yüksek hacimli seri üretimde tutarlılık, verimlilik ve rekabetçi fiyat garantisi sunuyoruz.",
+      "Çelik kalıp, basınçlı döküm, otomasyonlu CNC ve montaj hatları ile yüksek hacimli seri üretimde tutarlılık ve verimlilik hedefliyoruz.",
     heroImage: "hero-seri-uretim",
     content: [
-      "Seri üretim kapasitelerimiz: CNC seri işleme 1.000-50.000 adet/yıl (±0.01mm tolerans), basınçlı döküm 5.000-500.000 adet/yıl (CT4-CT6), enjeksiyon kalıp 10.000-1.000.000 adet/yıl (CT5-CT7). Her yöntemde seri üretim eşdeğeri kalite ve tutarlılık garanti edilmektedir.",
+      "Seri üretim kapasitelerimiz: CNC seri işleme 1.000-50.000 adet/yıl (±0.01mm tolerans), basınçlı döküm 5.000-500.000 adet/yıl (CT4-CT6), enjeksiyon kalıp 10.000-1.000.000 adet/yıl (CT5-CT7).",
       "Seri işlerde kurulum bir kez yapılıp unutulmaz: standart kurulum prosedürü, sabit referans yüzeyleri ve otomatik takım değiştirme, partiler arası sapmayı sınırlar. İlk parça onaylanmadan seri başlamaz.",
       "Üretim takibi, stok ve kapasite planlaması tek bir kayıt üzerinden yürütülür; hangi partinin nerede olduğu ve hangi kontrolden geçtiği her an kayıtlıdır. Tedarik ihtiyacı bu kayıt üzerinden planlanır, müşteri portalından sipariş durumu görülebilir.",
       "Parti içi tutarlılık, ara kontrollerin plana bağlanmasıyla korunur. Kayma eğilimi olan koteler — takım aşınmasına duyarlı çaplar, ısıl işlem sonrası ölçüler — ayrı bir kontrol adımıyla izlenir ve sonuçlar kayıt altına alınır.",
@@ -2406,7 +2412,7 @@ export const servicePages: ServicePageData[] = [
     ],
     processSteps: [
       "Sözleşme İnceleme & PO",
-      "Malzeme Tedarik (AMS sertifikalı)",
+      "Malzeme Tedarik (şartnameye göre)",
       "CAM Programlama & Simülasyon",
       "5 Eksen CNC İşleme",
       "NDT Muayene",
@@ -2480,7 +2486,7 @@ export const servicePages: ServicePageData[] = [
     processSteps: [
       "Proje Koşullarının Belirlenmesi",
       "Teknik İnceleme & Teklif",
-      "Malzeme Tedarik (Sertifikalı)",
+      "Malzeme Tedarik (şartnameye göre)",
       "Üretim",
       "Tahribatsız Muayene",
       "Konfigürasyon Doğrulama",
@@ -2702,7 +2708,7 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "Malzeme seçimi galvanik uyum gözetilerek yapılır",
-      "1000+ saat tuz testi ile kanıtlanmış korozyon direnci",
+      "ASTM B117 tuz spreyi testi ile korozyon direnci doğrulaması",
       "SS 316L, Duplex ve bronz işleme uzmanlığı",
       "Superyacht ve yarış yelkenciliği deneyimi",
       "Elektropolisaj ile ultra-pürüzsüz yüzey",
@@ -2710,7 +2716,7 @@ export const servicePages: ServicePageData[] = [
     ],
     faq: [
       { question: "Deniz suyu uyumlu hangi malzemeleri işliyorsunuz?", answer: "SS 316L, Duplex 2205, bronz (C95400, C95500), Monel 400 ve titanyum Grade 2 gibi deniz suyu uyumlu malzemelerle çalışıyoruz." },
-      { question: "Tuz testi raporu veriyor musunuz?", answer: "Evet, ASTM B117 standardına uygun tuz spreyi test raporu sağlıyoruz. Parçalarımız 1000+ saat korozyon direnci göstermektedir." },
+      { question: "Tuz testi raporu veriyor musunuz?", answer: "Evet, ASTM B117 tuz spreyi test yöntemiyle yapılan testin raporunu sağlıyoruz. Test süresi ve kabul kriteri parçanın şartnamesine göre belirlenir." },
     ],
   },
 
@@ -2726,7 +2732,7 @@ export const servicePages: ServicePageData[] = [
     content: [
       "Hidrolik ve pnömatik sistemler için yüksek basınç dayanımlı bileşenler üretiyoruz. Valf gövdeleri (yönlendirme, basınç, akış kontrol), silindir parçaları (piston, gövde, kapak), manifold blokları (çok portlu, entegre devre) ve pompa bileşenleri konusunda uzmanız.",
       "350 bar'a kadar çalışma basıncında O-ring ve sızdırmazlık yüzeyleri Ra 0.4µm kalitesinde işlenmektedir. 42CrMo4, C45, SS 316 ve özel alaşımlarla üretim yapıyoruz. Derin delik delme kabiliyetimiz ile manifold bloklarında iç kanal işleme gerçekleştiriyoruz.",
-      "Her hidrolik parça basınç testinden (1.5× çalışma basıncı) ve sızdırmazlık testinden geçmektedir. ISO 4401 valf montaj standardına uygun üretim ve BoschRexroth, Parker, Eaton gibi markalarla uyumlu bağlantı geometrileri sağlıyoruz.",
+      "Basınç ve sızdırmazlık testleri, iş bazında kontrol planında tanımlanan kapsamda uygulanır ve sonuçlar kayıt altına alınır. Valf montaj yüzeyleri ISO 4401 delik düzenine göre işlenir; bağlantı geometrileri yaygın hidrolik bileşen arayüzleriyle çalışacak şekilde üretilir.",
     ],
     features: [
       "Valf Gövdesi — Yönlendirme, basınç ve akış kontrol valfleri",
@@ -2734,14 +2740,14 @@ export const servicePages: ServicePageData[] = [
       "Manifold Blok — Çok portlu, derin delik kanallı",
       "350 Bar Basınç — Yüksek basınç dayanımlı üretim",
       "Sızdırmazlık Yüzeyi — Ra 0.4µm O-ring kanalları",
-      "Basınç Testi — %100 sızdırmazlık kontrolü",
+      "Basınç Testi — Kontrol planına göre sızdırmazlık kontrolü",
     ],
     technicalSpecs: [
       { label: "Maks. Basınç", value: "350 bar" },
       { label: "Sızdırmazlık", value: "Ra 0.4µm O-ring yüzey" },
       { label: "Malzeme", value: "42CrMo4, C45, SS 316" },
       { label: "Test", value: "1.5× basınç testi" },
-      { label: "Standart", value: "ISO 4401" },
+      { label: "Delik Düzeni", value: "ISO 4401" },
       { label: "Derin Delik", value: "L/D 50:1" },
     ],
     processSteps: [
@@ -2754,17 +2760,17 @@ export const servicePages: ServicePageData[] = [
       "Koruyucu Paketleme",
     ],
     advantages: [
-      "350 bar'a kadar kanıtlanmış basınç dayanımı",
+      "350 bar'a kadar çalışma basıncı için tasarım ve üretim",
       "Ra 0.4µm sızdırmazlık yüzeyi işleme kalitesi",
       "Derin delik kabiliyeti ile manifold kanal işleme",
-      "%100 basınç testi ve sızdırmazlık kontrolü",
+      "Kontrol planına göre basınç ve sızdırmazlık testi",
       "BoschRexroth, Parker uyumlu bağlantı geometrileri",
       "42CrMo4 ve SS 316 malzeme uzmanlığı",
     ],
     faq: [
       { question: "Kaç bar basınca kadar parça üretebiliyorsunuz?", answer: "350 bar çalışma basıncına kadar parça üretiyoruz. Her parça 1.5× çalışma basıncında test edilmektedir." },
       { question: "Manifold bloklarında iç kanal açabilir misiniz?", answer: "Evet, derin delik delme kabiliyetimiz ile L/D 50:1 oranında manifold kanal işleme yapabiliyoruz." },
-      { question: "Sızdırmazlık garantisi veriyor musunuz?", answer: "Evet, tüm O-ring kanalları ve sızdırmazlık yüzeyleri Ra 0.4µm kalitesinde işlenmekte ve %100 basınç testinden geçmektedir." },
+      { question: "Sızdırmazlık nasıl doğrulanıyor?", answer: "O-ring kanalları ve sızdırmazlık yüzeyleri Ra 0.4µm hedefiyle işlenir. Basınç ve sızdırmazlık testinin kapsamı iş bazında kontrol planında tanımlanır ve sonuçlar teslimat dosyasına eklenir." },
     ],
   },
   {
@@ -2776,17 +2782,17 @@ export const servicePages: ServicePageData[] = [
     metaDescription: "ANSI, DIN, JIS standartlarında boru bağlantı parçaları. Flanş, adaptör, nipel, dirsek. DN15-DN600, PN6-PN40. SS, CS, Duplex çelik.",
     description: "ANSI, DIN ve JIS standartlarında endüstriyel boru bağlantı parçaları. Flanş, adaptör, nipel, dirsek ve özel geçiş parçaları.",
     content: [
-      "Endüstriyel boru sistemleri için flanş (kaynak boyunlu, slip-on, kör), adaptörler (boru çapı ve standart geçişleri), nipeller, dirsekler, T-parçalar ve redüksiyonlar üretiyoruz. ANSI B16.5, DIN EN 1092 ve JIS B2220 standartlarına tam uyum sağlıyoruz.",
+      "Endüstriyel boru sistemleri için flanş (kaynak boyunlu, slip-on, kör), adaptörler (boru çapı ve standart geçişleri), nipeller, dirsekler, T-parçalar ve redüksiyonlar üretiyoruz. Flanş delik düzeni, conta yüzeyi ve çap ölçüleri ANSI B16.5, DIN EN 1092 ve JIS B2220 boyut tablolarına göre işlenir.",
       "DN15-DN600 çap aralığında ve PN6-PN40 basınç sınıflarında üretim yapıyoruz. Karbon çeliği (A105, A350 LF2), paslanmaz çelik (F304, F316, F321), Duplex (F51, F53) ve özel alaşımlarla (Inconel, Monel, Hastelloy) çalışıyoruz.",
-      "Her parça basınç testi, boyutsal kontrol ve yüzey muayenesinden geçmektedir. Sızdırmazlık yüzeyleri ASME B16.5 FF/RF uyumlu işlenmektedir. Isıl işlem, NDT muayene ve EN 10204 3.1 malzeme sertifikası standart olarak sağlanmaktadır.",
+      "Basınç testi, boyutsal kontrol ve yüzey muayenesinin kapsamı iş bazında kontrol planında tanımlanır; sonuçlar kayıt altına alınır. Sızdırmazlık yüzeyleri ASME B16.5 FF/RF geometrisinde işlenir. Isıl işlem kaydı, NDT muayene raporu ve malzeme sertifikası talebe bağlı olarak sağlanır.",
     ],
     features: [
       "Çoklu Standart — ANSI B16.5, DIN EN 1092, JIS B2220",
       "Geniş Çap Aralığı — DN15'ten DN600'e kadar",
       "PN6-PN40 Basınç — Farklı basınç sınıflarında üretim",
       "Özel Alaşımlar — Inconel, Monel, Hastelloy",
-      "Sızdırmazlık Yüzey — FF/RF ASME B16.5 uyumlu",
-      "EN 10204 3.1 — Malzeme sertifikası standart",
+      "Sızdırmazlık Yüzey — FF/RF ASME B16.5 geometrisi",
+      "Malzeme Sertifikası — Talebe bağlı olarak sağlanır",
     ],
     technicalSpecs: [
       { label: "Standartlar", value: "ANSI, DIN, JIS" },
@@ -2794,18 +2800,18 @@ export const servicePages: ServicePageData[] = [
       { label: "Çap Aralığı", value: "DN15-DN600" },
       { label: "Malzeme", value: "CS, SS, Duplex, Inconel" },
       { label: "Sızdırmazlık", value: "FF/RF (ASME B16.5)" },
-      { label: "Sertifika", value: "EN 10204 3.1" },
+      { label: "Sertifika", value: "Talebe bağlı" },
     ],
     advantages: [
       "ANSI, DIN ve JIS üçlü standart uyumu",
       "DN15-DN600 geniş çap aralığında üretim",
       "Duplex ve süper alaşım işleme kabiliyeti",
-      "EN 10204 3.1 malzeme sertifikası standart",
-      "ASME B16.5 uyumlu sızdırmazlık yüzeyleri",
+      "Talebe bağlı malzeme sertifikası ve lot kaydı",
+      "ASME B16.5 geometrisinde sızdırmazlık yüzeyleri",
       "Isıl işlem ve NDT muayene dahil",
     ],
     faq: [
-      { question: "Hangi standartlara uygun üretim yapıyorsunuz?", answer: "ANSI B16.5, DIN EN 1092, JIS B2220 ve müşteri özel spesifikasyonlarına uygun üretim yapıyoruz." },
+      { question: "Flanş ölçüleri hangi boyut tablolarına göre işleniyor?", answer: "Flanş delik düzeni, conta yüzeyi ve çap ölçüleri ANSI B16.5, DIN EN 1092 ve JIS B2220 boyut tablolarına ya da müşterinin verdiği teknik resme göre işlenir." },
       { question: "Duplex çelik flanş üretebiliyor musunuz?", answer: "Evet, Duplex 2205 (F51), Super Duplex 2507 (F53) ve diğer korozyon dirençli alaşımlarda flanş ve bağlantı parçaları üretiyoruz." },
     ],
   },
@@ -2836,12 +2842,12 @@ export const servicePages: ServicePageData[] = [
       { label: "Sızdırmazlık", value: "Helyum 1×10⁻⁶ mbar·L/s" },
       { label: "Malzeme", value: "Al, Cu, SS 304/316" },
       { label: "Soğutucu", value: "R-134a, R-410A, R-744" },
-      { label: "Standart", value: "EN 378, ASHRAE" },
+      { label: "Soğutucu Sınıfı", value: "HFC / HFO / doğal" },
     ],
     advantages: [
       "-40°C / +200°C geniş sıcaklık aralığında dayanım",
-      "Helyum sızdırmazlık testi ile ultra-düşük kaçak garantisi",
-      "Soğutucu uyumlu malzeme sertifikası",
+      "Helyum sızdırmazlık testi ile kaçak doğrulaması",
+      "Soğutucu ile uyumlu malzeme seçimi",
       "100 bar'a kadar basınç dayanımlı bileşenler",
       "Termal şok testi ile uzun ömür doğrulaması",
       "HVAC ve endüstriyel soğutma sektör deneyimi",
@@ -2872,7 +2878,7 @@ export const servicePages: ServicePageData[] = [
       "3D Baskı — FDM, SLA, SLS, DMLS teknolojileri",
       "Silikon Kalıplama — 10-50 adet çoklu prototip",
       "DFM Analizi — Tasarım optimizasyonu dahil",
-      "3 İterasyon Garantisi — Tasarım revizyon desteği",
+      "3 İterasyonlu Revizyon Döngüsü — Tasarım revizyon desteği",
     ],
     technicalSpecs: [
       { label: "Teslim Süresi", value: "3-5 iş günü" },
@@ -2887,7 +2893,7 @@ export const servicePages: ServicePageData[] = [
       "Gerçek malzeme ile fonksiyonel test imkanı",
       "4 farklı 3D baskı teknolojisi (metal dahil)",
       "DFM analizi ile tasarım optimizasyonu",
-      "3 iterasyon garantisi ile risk azaltma",
+      "3 iterasyonlu revizyon döngüsü ile risk azaltma",
       "Seri üretime sorunsuz geçiş desteği",
     ],
     faq: [
@@ -3029,17 +3035,17 @@ export const servicePages: ServicePageData[] = [
     categoryLabel: "Enerji & Altyapı",
     title: "Yenilenebilir Enerji",
     metaTitle: "Yenilenebilir Enerji Parça Üretimi | Rüzgar & Güneş | IEC 61400 | Mas Technic",
-    metaDescription: "Rüzgar türbini ve güneş enerjisi sistemi bileşenleri. IEC 61400 uyumlu, hot-dip galvaniz, 25+ yıl ömür. Hub, pitch sistemi, montaj aparatı üretimi.",
-    description: "Rüzgar türbini, güneş enerjisi ve enerji depolama sistemleri için IEC 61400 uyumlu, 25+ yıl ömür garantili bileşenler.",
+    metaDescription: "Rüzgar türbini ve güneş enerjisi sistemi bileşenleri. Hot-dip galvaniz korozyon koruması, ağır yük parçaları. Hub, pitch sistemi, montaj aparatı üretimi.",
+    description: "Rüzgar türbini, güneş enerjisi ve enerji depolama sistemleri için dış ortam koşullarına göre malzeme ve kaplama seçilerek üretilen bileşenler.",
     content: [
       "Rüzgar türbini bileşenleri (hub, nacelle, pitch sistemi, yaw sistemi, tower flanşı), güneş paneli montaj sistemleri (tracker, sabit montaj, rail, klamp) ve enerji depolama parçaları (batarya muhafazası, soğutma bileşenleri) üretiyoruz.",
-      "IEC 61400 standardına uygun üretim süreçleri ile 25+ yıl dış ortam ömrü hedefliyoruz. Hot-dip galvaniz (ISO 1461 — 85µm min.), Dacromet kaplama ve SS 316L malzeme ile korozyon koruması sağlıyoruz. GGG-40, GGG-50 küresel grafitli dökme demir ve yüksek mukavemetli çeliklerle ağır yük bileşenleri üretiyoruz.",
+      "Dış ortam koşullarına göre malzeme ve kaplama seçimi ile 25+ yıl dış ortam ömrü hedefliyoruz. Hot-dip galvaniz (ISO 1461 — 85µm min.), Dacromet kaplama ve SS 316L malzeme ile korozyon koruması sağlıyoruz. GGG-40, GGG-50 küresel grafitli dökme demir ve yüksek mukavemetli çeliklerle ağır yük bileşenleri üretiyoruz.",
       "Offshore ve onshore rüzgar enerjisi projeleri, utility-scale güneş enerjisi santralleri ve endüstriyel enerji depolama sistemleri için parça tedarik ediyoruz.",
     ],
     features: [
       "Rüzgar Türbini — Hub, pitch, yaw, tower flanşı",
       "Güneş Paneli Montaj — Tracker, rail, klamp",
-      "IEC 61400 Uyumlu — Rüzgar enerjisi standardı",
+      "Ağır Yük Bileşenleri — GGG-40/50 ve yüksek mukavemetli çelik",
       "Hot-Dip Galvaniz — ISO 1461, 85µm+ kaplama",
       "25+ Yıl Ömür — Dış ortam dayanım tasarımı",
       "Enerji Depolama — Batarya muhafaza, soğutma",
@@ -3048,12 +3054,12 @@ export const servicePages: ServicePageData[] = [
       { label: "Malzeme", value: "SS 316L, GGG-40, S355" },
       { label: "Kaplama", value: "Hot-dip galvaniz (85µm+)" },
       { label: "Dayanım", value: "25+ yıl dış ortam" },
-      { label: "Standart", value: "IEC 61400" },
+      { label: "Kapsam", value: "Rüzgar, güneş, depolama" },
       { label: "Ağırlık", value: "500 kg'a kadar" },
       { label: "NDT", value: "UT, MT zorunlu" },
     ],
     advantages: [
-      "IEC 61400 rüzgar enerjisi standardına uyum",
+      "Dış ortam koşullarına göre malzeme ve kaplama seçimi",
       "Hot-dip galvaniz ile 25+ yıl korozyon koruması",
       "500 kg'a kadar ağır parça işleme kapasitesi",
       "Offshore ve onshore proje deneyimi",
@@ -3061,7 +3067,7 @@ export const servicePages: ServicePageData[] = [
       "NDT muayene dahil kalite güvence",
     ],
     faq: [
-      { question: "Rüzgar türbini bileşenleri üretebiliyor musunuz?", answer: "Evet, hub, pitch sistemi, yaw mekanizması, tower flanşı ve nacelle iç bileşenleri IEC 61400 standardında üretiyoruz." },
+      { question: "Rüzgar türbini bileşenleri üretebiliyor musunuz?", answer: "Evet; hub, pitch sistemi, yaw mekanizması, tower flanşı ve nacelle iç bileşenleri üretiyoruz. Uygulanacak şartname ve kabul kriterleri iş bazında müşteriyle birlikte belirlenir." },
       { question: "Kaç yıl dış ortam dayanımı sağlıyorsunuz?", answer: "Hot-dip galvaniz (ISO 1461, 85µm+) ve uygun malzeme seçimi ile 25+ yıl dış ortam ömrü hedefliyoruz." },
     ],
   },
@@ -3071,40 +3077,40 @@ export const servicePages: ServicePageData[] = [
     categoryLabel: "Enerji & Altyapı",
     title: "Petrol & Gaz",
     metaTitle: "Petrol & Gaz Parça Üretimi | API 6A | 15000 PSI | NACE MR0175 | Mas Technic",
-    metaDescription: "API 6A, 6D standardında petrol ve gaz sektörü bileşenleri. 15000 PSI basınç, -46°C/+343°C sıcaklık. NACE MR0175, Inconel, Duplex çelik işleme.",
-    description: "API 6A ve 6D standardında petrol ve gaz sektörü bileşenleri. 15.000 PSI basınç, -46°C/+343°C sıcaklık aralığında çalışan kritik parçalar.",
+    metaDescription: "Petrol ve gaz sektörü bileşenleri. 15.000 PSI basınç, -46°C/+343°C sıcaklık. Inconel, Duplex ve Super Duplex çelik işleme.",
+    description: "Petrol ve gaz sektörü bileşenleri. 15.000 PSI basınç, -46°C/+343°C sıcaklık aralığında çalışan kritik parçalar.",
     content: [
       "Petrol ve gaz sektörünün zorlu çalışma koşullarına uygun yüksek dayanımlı parçalar üretiyoruz. Wellhead ve Christmas tree bileşenleri, choke ve kontrol valfleri, boru bağlantı parçaları (API 6A flanş, hub), manifold ve BOP (Blowout Preventer) komponentleri imal ediyoruz.",
-      "API 6A (wellhead), API 6D (pipeline valf) ve API 5CT (casing) standartlarına tam uyum sağlıyoruz. 15.000 PSI (1034 bar) çalışma basıncı, -46°C / +343°C sıcaklık aralığı ve NACE MR0175 / ISO 15156 sour service uyumluluğu ile en zorlu şartlarda güvenilir performans sunuyoruz.",
+      "Wellhead, pipeline valf ve casing uygulamaları için 15.000 PSI (1034 bar) çalışma basıncı ve -46°C / +343°C sıcaklık aralığındaki parçaları üretiyoruz. Sour service uygulamalarında malzeme, ısıl işlem ve sertlik sınırları müşteri şartnamesine göre belirlenir ve kayıt altına alınır.",
       "Inconel 625/718, Duplex 2205, Super Duplex 2507, F22 (2.25Cr-1Mo) ve SS 316L gibi korozyon ve yüksek sıcaklık dayanımlı malzemelerle çalışıyoruz. Tahribatsız muayene (RT, UT, MPI, PMI) kapsamı, şartnameye göre kontrol planında tanımlanır.",
     ],
     features: [
-      "API 6A / 6D Uyumlu — Petrol ve gaz sektörü standartları",
+      "Wellhead & Pipeline — Flanş, hub, valf gövdesi",
       "15.000 PSI — Ultra yüksek basınç dayanımı",
       "-46°C / +343°C — Ekstrem sıcaklık aralığı",
-      "NACE MR0175 — Sour service uyumluluk",
+      "Sour Service — Şartnameye göre malzeme ve ısıl işlem",
       "Inconel & Duplex — Korozyon dirençli özel alaşımlar",
       "Tahribatsız Muayene — RT, UT, MPI, PMI; kapsam plana yazılır",
     ],
     technicalSpecs: [
-      { label: "Standart", value: "API 6A, 6D, 5CT" },
+      { label: "Kapsam", value: "Wellhead, pipeline, casing" },
       { label: "Basınç", value: "15.000 PSI (1034 bar)" },
       { label: "Sıcaklık", value: "-46°C / +343°C" },
-      { label: "NACE", value: "MR0175 / ISO 15156" },
+      { label: "Sour Service", value: "Şartnameye göre" },
       { label: "Malzeme", value: "Inconel, Duplex, F22" },
       { label: "NDT", value: "RT, UT, MPI, PMI" },
     ],
     advantages: [
-      "API 6A ve 6D tam standart uyumu",
+      "Wellhead ve pipeline bileşeni üretim kapasitesi",
       "15.000 PSI ultra yüksek basınç kapasitesi",
-      "NACE MR0175 sour service sertifikalı",
+      "Sour service için şartnameye göre malzeme seçimi",
       "Inconel ve Super Duplex işleme uzmanlığı",
       "Tahribatsız muayene kapsamı kontrol planında tanımlanır",
       "Offshore ve onshore proje deneyimi",
     ],
     faq: [
-      { question: "API 6A sertifikanız var mı?", answer: "API 6A standardına uygun üretim süreçleri ve kalite kontrol prosedürleri uyguluyoruz. Her parça API gereksinimlerine göre test ve raporlanmaktadır." },
-      { question: "Sour service uyumlu parça üretebiliyor musunuz?", answer: "Evet, NACE MR0175 / ISO 15156 uyumlu malzeme seçimi ve ısıl işlem ile sour service parçalar üretiyoruz." },
+      { question: "Petrol ve gaz bileşenlerinde hangi kalite kayıtları veriliyor?", answer: "Malzeme sertifikası, ısıl işlem kaydı ve tahribatsız muayene raporları, kapsamı kontrol planında tanımlandığı şekilde teslimat dosyasına eklenir." },
+      { question: "Sour service uyumlu parça üretebiliyor musunuz?", answer: "Evet. Sour service uygulamalarında malzeme, ısıl işlem ve sertlik sınırları müşteri şartnamesine göre belirlenir ve kayıt altına alınır." },
     ],
   },
   {
@@ -3113,15 +3119,15 @@ export const servicePages: ServicePageData[] = [
     categoryLabel: "Enerji & Altyapı",
     title: "Güç Dağıtım Sistemleri",
     metaTitle: "Güç Dağıtım Parça Üretimi | IEC 62271 | 36kV | IACS %99+ | Mas Technic",
-    metaDescription: "Elektrik dağıtım ve güç sistemi bileşenleri. IEC 62271 uyumlu, 36kV'a kadar, IACS %99+ iletkenlik. Bakır ve alüminyum bara, kontak parçası, izolator.",
-    description: "Elektrik dağıtım panoları, transformatör bileşenleri ve güç dağıtım sistemi parçaları. IEC 62271 uyumlu, 36kV'a kadar.",
+    metaDescription: "Elektrik dağıtım ve güç sistemi bileşenleri. 36kV'a kadar, IACS %99+ iletkenlik. Bakır ve alüminyum bara, kontak parçası, izolator.",
+    description: "Elektrik dağıtım panoları, transformatör bileşenleri ve güç dağıtım sistemi parçaları. 36kV gerilim seviyesine kadar.",
     content: [
-      "Elektrik dağıtım sistemi bileşenleri üretiyoruz: bakır ve alüminyum baralar (iletken, IACS %99+), kontak parçaları (gümüş kaplama, düşük direnç), izolator montaj elemanları ve pano iç bileşenleri. IEC 62271 standardına uygun, 36kV gerilim seviyesine kadar çalışan parçalar.",
+      "Elektrik dağıtım sistemi bileşenleri üretiyoruz: bakır ve alüminyum baralar (iletken, IACS %99+), kontak parçaları (gümüş kaplama, düşük direnç), izolator montaj elemanları ve pano iç bileşenleri. 36kV gerilim seviyesine kadar çalışan parçalar üretiyoruz.",
       "OFE bakır (C10100 — IACS %101), ETP bakır (C11000 — IACS %99.9) ve elektrik kalite alüminyum (1050/1070 — IACS %61) ile yüksek iletkenlik gerektiren parçalar üretiyoruz. Gümüş kaplama ile kontak direncini minimize ediyor, nikel altlık ile difüzyon bariyeri oluşturuyoruz.",
       "Termal simülasyon ile ısı dağılımı optimizasyonu, kısa devre akım dayanımı hesaplama ve ark direnci testleri ile güvenlik doğrulaması sağlıyoruz.",
     ],
     features: [
-      "IEC 62271 Uyumlu — Elektrik dağıtım standardı",
+      "Pano İç Bileşenleri — İzolator montaj ve bağlantı elemanları",
       "36kV Gerilim — Orta gerilim seviyesine kadar",
       "IACS %99+ İletkenlik — OFE ve ETP bakır",
       "Gümüş Kaplama — Düşük kontak direnci",
@@ -3132,12 +3138,12 @@ export const servicePages: ServicePageData[] = [
       { label: "Malzeme", value: "Cu (OFE, ETP), Al 1050" },
       { label: "İletkenlik", value: "IACS %99+" },
       { label: "Gerilim", value: "36kV'a kadar" },
-      { label: "Standart", value: "IEC 62271" },
+      { label: "Kapsam", value: "Bara, kontak, izolator montaj" },
       { label: "Kaplama", value: "Ag (gümüş), Ni altlık" },
       { label: "Test", value: "Ark direnci, kısa devre" },
     ],
     advantages: [
-      "IEC 62271 standardına tam uyum",
+      "36kV'a kadar orta gerilim bileşeni üretimi",
       "IACS %99+ iletkenlikli bakır işleme",
       "Gümüş kaplama ile minimum kontak direnci",
       "36kV orta gerilim seviyesine kadar parça",
