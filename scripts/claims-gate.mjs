@@ -170,9 +170,34 @@ const RULES = [
   {
     id: "unconditional-guarantee",
     pattern:
-      /%\s?100\s*(CMM|kontrol|muayene|ölçüm|izlenebilir)|teslimat garantisi|kalite garantisi|(her|tüm)\s+(sipariş|parça|üretim)\w*\s+(için\s+)?[^.\n]{0,40}(sertifika|test raporu)/i,
+      /%\s?100\s*(CMM|kontrol|muayene|ölçüm|izlenebilir|NDT|boyutsal|lot|denetim)|teslimat garantisi|kalite garantisi|tedarik garantisi|(her|tüm)\s+(sipariş|parça|üretim)\w*\s+(için\s+)?[^.\n]{0,40}(sertifika|test raporu)/i,
     authority: "§D CMM_COVERAGE_INTERNAL: THIRD_PARTY_ACCREDITED_ON_DEMAND — coverage is on demand, not universal",
     remedy: "State the mechanism and its condition. An unconditional promise is a claim with no evidence.",
+  },
+  {
+    id: "sector-standard-compliance",
+    // Sector regulations and form standards are the same failure as a
+    // certificate: a buyer acts on them. `USER_INPUTS.md` §C lists three
+    // management-system certificates and nothing else.
+    pattern:
+      /MIL-SPEC|\bAQAP\b|\bITAR\b|MIL-I-45208|\bAS9102\b|21\s?CFR\s?820|MDR\s?2017|ISO\s?10993|ISO\s?14644|Class\s?7\s*(\(|temiz)|FDA\s?(uyum|21)/i,
+    authority: "§C — only ISO 9001, ISO 14001 and OHSAS 18001 are supplied",
+    remedy: "Describe the practice, not the standard you are audited against. A sector regulation is a claim a customer's submission depends on.",
+  },
+  {
+    id: "named-supplier",
+    // The supply-chain page listed mills by name with percentage shares and
+    // tonnage. Neither the names nor the shares were ever supplied, and the
+    // shares are order-volume disclosure on top (§D REVENUE_OR_ORDER_VOLUME).
+    pattern: /\bAlcoa\b|\bOutokumpu\b|\bErdemir\b|\bVSMPO\b|\bSabic\b|\bAssan\b/,
+    authority: "§D REVENUE_OR_ORDER_VOLUME: PRIVATE_DO_NOT_DISCLOSE — and no supplier list was supplied",
+    remedy: "Name the material and its specification, never the mill and its share of your spend.",
+  },
+  {
+    id: "named-enterprise-system",
+    pattern: /SAP\s?(MES|ERP)|\bFastems\b|\bVericut\b|\b3DCS\b/i,
+    authority: "§D — no software or automation-system inventory was supplied",
+    remedy: "Named ERP/MES/CAM systems assert an infrastructure nobody verified.",
   },
   {
     id: "marketing-filler",

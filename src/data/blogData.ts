@@ -104,7 +104,7 @@ export const blogPosts: BlogPost[] = [
     fullContent: [
       "Koordinat Ölçüm Makineleri (CMM), CNC işlenmiş parçaların boyutsal doğruluğunu mikron seviyesinde kontrol eden hassas ölçüm cihazlarıdır. Modern üretimde kalite güvencesinin temelini oluşturur.",
       "CMM ölçüm süreci, parçanın 3D koordinat sisteminde konumlandırılmasıyla başlar. Dokunmatik prob veya optik tarama ile yüzeyler taranarak gerçek boyutlar belirlenir. Bu veriler CAD modeli ile karşılaştırılarak sapma raporları oluşturulur.",
-      "FAIR (First Article Inspection Report), yeni bir parçanın ilk üretiminde tüm kritik boyutların doğrulanmasını sağlar. AS9102 standardına uygun FAIR raporu, havacılık ve savunma sektörlerinde zorunludur.",
+      "İlk parça kontrolü, yeni bir parçanın ilk üretiminde tüm kritik ölçülerin doğrulanmasını sağlar. Sektöre göre bu kontrolün hangi formatta belgeleneceği müşteri şartnamesiyle belirlenir.",
       "İstatistiksel proses kontrolü (SPC) uygulamaları, seri üretimde ölçüm sonuçlarının dağılımını izler. Proses yeterlilik indeksleri, ölçülen dağılımın tolerans aralığına ne kadar sığdığını gösterir; hedeflenen değer parça ve müşteri şartnamesine göre belirlenir.",
       "Mas Technic olarak her iş için bir kontrol planı hazırlar, ölçüm sonuçlarını kayıt altına alırız. Akredite üçüncü taraf CMM ölçümü talebe bağlı olarak sağlanır.",
     ],
