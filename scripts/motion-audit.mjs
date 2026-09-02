@@ -34,6 +34,11 @@
  *   --mode=cursor    does a pointer exist? The stylesheet hides the native
  *                    cursor on desktop; measure that something replaces it,
  *                    including under reduced motion.
+ *   --mode=axe       serious/critical axe counts per route, run twice: with
+ *                    reduced motion (what a reduced-motion user sees now) and
+ *                    with motion allowed and no scrolling (the same hidden set
+ *                    they used to be left in). The difference separates newly
+ *                    VISIBLE pre-existing debt from newly INTRODUCED defects.
  *
  * USAGE
  *   node scripts/motion-audit.mjs --mode=rest
@@ -457,6 +462,60 @@ const CURSOR_PROBE = () => {
   };
 };
 
+/**
+ * Serious/critical axe counts, and the one comparison that makes them
+ * interpretable.
+ *
+ * Fixing B28 makes ~186 previously-transparent nodes on the service route
+ * scannable, and axe skips what it cannot see. So the count going UP is the
+ * expected consequence of the fix, not evidence of a new defect — the question
+ * is only whether the newly counted nodes are pre-existing debt.
+ *
+ * The comparison is free, because the pre-fix reduced-motion DOM still exists:
+ * with motion ALLOWED and no scrolling, the reveals are all still armed, which
+ * is exactly the state a reduced-motion user used to be left in. So:
+ *
+ *   reduce, no scroll          = what a reduced-motion user sees NOW
+ *   no-preference, no scroll   = what they saw BEFORE (same hidden set)
+ *
+ * Anything present in both is pre-existing. Anything present only in the
+ * first, on nodes whose only change was becoming visible, is B24-class debt
+ * (`color-contrast` on ServiceDetail) that Phases 07/13 own.
+ */
+async function runAxe(browser, baseURL) {
+  const { default: AxeBuilder } = await import("@axe-core/playwright");
+  const results = [];
+  for (const motionMode of ["reduce", "no-preference"]) {
+    const context = await browser.newContext({
+      viewport: { width: 1280, height: 900 },
+      deviceScaleFactor: 1,
+      reducedMotion: motionMode,
+      baseURL,
+    });
+    const page = await context.newPage();
+    for (const [route] of ROUTES) {
+      await page.goto(route, { waitUntil: "load" });
+      await page.waitForLoadState("networkidle").catch(() => {});
+      await page.waitForTimeout(1200);
+      const scan = await new AxeBuilder({ page }).analyze();
+      const blocking = scan.violations.filter((v) => v.impact === "serious" || v.impact === "critical");
+      const byRule = {};
+      for (const violation of blocking) {
+        byRule[violation.id] = (byRule[violation.id] ?? 0) + violation.nodes.length;
+      }
+      results.push({
+        reducedMotion: motionMode,
+        route,
+        rules: blocking.length,
+        nodes: blocking.reduce((sum, v) => sum + v.nodes.length, 0),
+        breakdown: Object.entries(byRule).map(([id, n]) => `${id}:${n}`).join(" ") || "-",
+      });
+    }
+    await context.close();
+  }
+  return results;
+}
+
 async function runCursor(browser, baseURL) {
   const results = [];
   for (const motionMode of ["no-preference", "reduce"]) {
@@ -575,6 +634,7 @@ async function main() {
     else if (MODE === "density") results = await runDensity(browser, baseURL);
     else if (MODE === "cursor") results = await runCursor(browser, baseURL);
     else if (MODE === "enabled") results = await runEnabled(browser, baseURL);
+    else if (MODE === "axe") results = await runAxe(browser, baseURL);
     else throw new Error(`unknown --mode=${MODE}`);
 
     if (JSON_OUT) {
