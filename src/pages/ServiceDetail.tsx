@@ -377,42 +377,15 @@ export const ServiceDetail = () => {
                 </motion.div>
               )}
 
-              {/* Machines — scale reveal */}
-              {page.machines && page.machines.length > 0 && (
-                <motion.div {...scaleIn(0.1)}>
-                  <h2 className="heading-industrial text-xl mb-6 flex items-center gap-3">
-                    <div className="accent-line !w-8" />
-                    <Cpu size={20} className="text-primary" />
-                    Makine Parkuru
-                  </h2>
-                  <motion.div
-                    className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
-                    variants={staggerContainer}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                  >
-                    {page.machines.map((machine, i) => (
-                      <motion.div
-                        key={i}
-                        variants={staggerItem}
-                        className="border border-border bg-card p-5 hover:border-primary transition-all group relative overflow-hidden"
-                        whileHover={{ y: -4, boxShadow: "0 8px 24px hsl(var(--primary) / 0.1)" }}
-                      >
-                        <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary/0 via-primary to-primary/0 scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className="w-8 h-8 bg-primary/10 flex items-center justify-center group-hover:bg-primary transition-colors duration-300">
-                            <Cpu size={16} className="text-primary group-hover:text-primary-foreground transition-colors" />
-                          </div>
-                          <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">{machine.brand}</span>
-                        </div>
-                        <h4 className="font-bold text-sm mb-2 group-hover:text-primary transition-colors">{machine.name}</h4>
-                        <p className="text-technical text-xs text-muted-foreground">{machine.specs}</p>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </motion.div>
-              )}
+              {/* THE MACHINE PARK BLOCK WAS REMOVED (Phase 06).
+
+                  It rendered `page.machines` — a fabricated inventory of
+                  named models, work envelopes and spindle speeds across nine
+                  service pages. `USER_INPUTS.md` §D marks MACHINE_COUNT
+                  PRIVATE_DO_NOT_DISCLOSE and supplies no model list at all,
+                  so both the data and this renderer are gone: leaving the
+                  renderer would invite the data back. §H publishes a real
+                  measurement-equipment PDF instead, linked from KAYNAKLAR. */}
 
               {/* Materials — slide left cards */}
               {page.materials && page.materials.length > 0 && (

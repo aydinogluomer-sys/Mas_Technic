@@ -96,11 +96,13 @@ const RULES = [
   },
   {
     id: "machine-inventory",
-    // CASE-SENSITIVE: these are proper nouns and always capitalised in source.
-    // Case-insensitively, `Okuma` matches the Turkish word "okuma" (reading)
-    // and `GOM` matches inside ordinary words.
+    // CASE-SENSITIVE: these are proper nouns and always capitalised in source,
+    // and case-insensitively `GOM` matches inside ordinary words. The machine
+    // brand `Okuma` is deliberately absent — it collides with the Turkish word
+    // "okuma" (reading), which the DataMatrix page uses correctly as
+    // "Okuma Doğrulama". A rule that cries wolf gets switched off.
     pattern:
-      /DMG\s?MORI|\bDMU\s?\d|Variaxis|monoBLOCK|\bMazak\b|\bHaas\b|\bSodick\b|\bZeiss\b|\bGOM\b|Taylor\s?Hobson|Mitutoyo|Renishaw|Hexagon\s?Metrology|Keyence|\bOkuma\b|Hermle|Doosan|Makino|Kitamura|\bStuder\b/,
+      /DMG\s?MORI|\bDMU\s?\d|Variaxis|monoBLOCK|\bMazak\b|\bHaas\b|\bSodick\b|\bZeiss\b|\bGOM\b|Taylor\s?Hobson|Mitutoyo|Renishaw|Hexagon\s?Metrology|Keyence|Hermle|Doosan|Makino|Kitamura|\bStuder\b|\bKUKA\b|\bFANUC\b|Stratasys|Formlabs|Trumpf|GF Machining|\bTornos\b/,
     authority: "§D MACHINE_COUNT_VISIBILITY: PRIVATE_DO_NOT_DISCLOSE — and no model list was ever supplied",
     remedy: "Named machines and metrology brands were invented. §H supplies a real equipment PDF instead.",
   },

@@ -20,7 +20,10 @@ export interface ServicePageData {
   heroImage?: string;
   processSteps?: string[];
   advantages?: string[];
-  machines?: { name: string; brand: string; specs: string }[];
+  /* `machines` was removed in Phase 06. It published a named machine park
+     across nine service pages; §D marks MACHINE_COUNT PRIVATE_DO_NOT_DISCLOSE
+     and no model list was ever supplied. The field is gone from the type so
+     the data cannot come back without a deliberate decision. */
   materials?: { name: string; grade: string; properties: string }[];
   faq?: { question: string; answer: string }[];
   comparisonTables?: ComparisonTable[];
@@ -76,11 +79,6 @@ export const servicePages: ServicePageData[] = [
       "Gerçek zamanlı süreç izleme ve dijital ikiz simülasyonu",
       "Prototipten seri üretime esnek çözümler (min. 1 adet)",
       "3-5 iş günü prototip, 7-15 iş günü seri üretim teslimatı",
-    ],
-    machines: [
-      { name: "DMG MORI DMU 65 monoBLOCK", brand: "DMG MORI", specs: "5 eksen, 650×500×450mm, 18.000 RPM" },
-      { name: "Mazak Variaxis i-700", brand: "Mazak", specs: "5 eksen, 730×460×460mm, 12.000 RPM" },
-      { name: "Haas VF-4SS", brand: "Haas", specs: "3+2 eksen, 1270×508×635mm, 12.000 RPM" },
     ],
     materials: [
       { name: "Alüminyum", grade: "6061-T6 / 7075-T6", properties: "Hafif, korozyona dayanıklı, iyi işlenebilirlik" },
@@ -173,12 +171,6 @@ export const servicePages: ServicePageData[] = [
       "Turn-mill ile frezeleme ihtiyacını tek operasyonda çözme",
       "C ekseni 0.001° hassasiyet ile hassas pozisyonlama",
     ],
-    machines: [
-      { name: "DMG MORI NLX 2500", brand: "DMG MORI", specs: "C/Y eksen, 380mm çap, 4.000 RPM" },
-      { name: "Mazak Quick Turn Smart 350", brand: "Mazak", specs: "C eksen, 350mm çap, 3.500 RPM" },
-      { name: "Doosan Puma TT 1800SY", brand: "Doosan", specs: "Çift mil, Y eksen, 1800mm boy" },
-      { name: "Star SR-38 Swiss Tip", brand: "Star", specs: "0.5-38mm çap, 10.000 RPM" },
-    ],
     materials: [
       { name: "Alüminyum", grade: "6061 / 2024 / 7075", properties: "Otomat kalite, serbest kesim, hafif" },
       { name: "Pirinç", grade: "CuZn39Pb3 (CW614N)", properties: "Mükemmel işlenebilirlik, dekoratif" },
@@ -270,11 +262,6 @@ export const servicePages: ServicePageData[] = [
       "Medikal, havacılık ve elektronik sektör deneyimi",
       "Otomatik besleyicili Swiss torna ile mikro seri üretim",
     ],
-    machines: [
-      { name: "Kern Micro Pro", brand: "Kern", specs: "5 eksen mikro freze, ±1µm hassasiyet, 60.000 RPM" },
-      { name: "Star SR-20J Swiss Torna", brand: "Star", specs: "Ø0.3-20mm, canlı takımlı, 10.000 RPM" },
-      { name: "Zeiss O-Inspect Optik CMM", brand: "Zeiss", specs: "Optik + dokunmatik ölçüm, 0.1µm çözünürlük" },
-    ],
     materials: [
       { name: "Titanyum", grade: "Grade 5 (Ti6Al4V)", properties: "Biyouyumlu, hafif, yüksek mukavemet" },
       { name: "Paslanmaz (Medikal)", grade: "316L", properties: "Biyouyumlu, korozyona dayanıklı" },
@@ -363,11 +350,6 @@ export const servicePages: ServicePageData[] = [
       "Yüksek basınçlı soğutma sıvısı ile optimize edilmiş kesme",
       "Hidrolik, enerji, kalıp ve savunma sektörü deneyimi",
     ],
-    machines: [
-      { name: "TBT ML-200 Gun Drill", brand: "TBT", specs: "Ø2-100mm, 2000mm derinlik, tek kanal" },
-      { name: "IMSA MF-1000 BTA", brand: "IMSA", specs: "Ø20-200mm, 1500mm derinlik, yüksek hacim" },
-      { name: "Sunnen SV-2015 Honlama", brand: "Sunnen", specs: "Ø10-200mm, Ra 0.1µm, otomatik" },
-    ],
     materials: [
       { name: "Çelik", grade: "1045 / 4140 / 42CrMo4", properties: "Yüksek mukavemet, ısıl işleme uygun" },
       { name: "Paslanmaz Çelik", grade: "304 / 316L", properties: "Korozyon direnci, hidrolik uygulamalar" },
@@ -453,11 +435,6 @@ export const servicePages: ServicePageData[] = [
       "DFM analizi ve çekme payı optimizasyonu",
       "Hot runner sistemi desteği",
       "4 farklı kalıp malzemesi seçeneği (Al 7075, P20, H13, S136)",
-    ],
-    machines: [
-      { name: "Makino S33 Grafik İşleme", brand: "Makino", specs: "HSM, 33.000 RPM, ±0.003mm" },
-      { name: "Sodick AG60L Wire EDM", brand: "Sodick", specs: "0.05mm tel, ±0.002mm hassasiyet" },
-      { name: "Mitsubishi EA12V Sinker EDM", brand: "Mitsubishi", specs: "Mirror finish, 0.1µm Ra" },
     ],
     materials: [
       { name: "Al 7075", grade: "150 HB", properties: "Prototip kalıp, 10.000+ çevrim" },
@@ -1431,103 +1408,104 @@ export const servicePages: ServicePageData[] = [
   },
 
   // ── Kabiliyetler > Üretim Altyapısı ──
+  /* MACHINE PARK — rewritten in Phase 06.
+
+     Every sentence on this page was an inventory disclosure, an invented one,
+     or both: `15.000 m² üretim alanı`, `50+ tezgah`, per-model work envelopes
+     and spindle speeds, a `24/7` production mode, a named calibration
+     instrument, and a 2024-2026 capital-investment plan. `USER_INPUTS.md` §D
+     marks MACHINE_COUNT, FACILITY_SIZE and REVENUE_OR_ORDER_VOLUME
+     PRIVATE_DO_NOT_DISCLOSE, and §0 sets DO_NOT_EMPHASIZE_COMPANY_SCALE: YES.
+     Nothing here was verifiable and none of it was publishable.
+
+     The page keeps its slug and its title because `src/components/navigation/
+     ia.ts` links to both. What it describes now is the PROCESS FAMILY set —
+     which is derived from the repository's own service pages (§E
+     MUST_KEEP_SERVICES: DERIVE_FROM_REPO) — and how a process is chosen for a
+     part. That is what a buyer needs from this page anyway: not how many
+     machines exist, but whether the geometry can be made and how.            */
   {
     slug: "makine-parkuru",
     category: "kabiliyetler",
     categoryLabel: "Üretim Altyapısı",
     title: "Makine Parkuru",
-    metaTitle: "CNC Makine Parkuru | 50+ Tezgah | DMG MORI, Mazak, Hermle | Mas Technic",
+    metaTitle: "Üretim Kabiliyetleri | CNC Freze, Torna, Erozyon | Mas Technic",
     metaDescription:
-      "15.000 m² üretim alanında 50+ CNC tezgah ile 24/7 üretim kapasitesi. 5 eksenli işleme merkezleri, Swiss torna, Wire EDM ve 3D baskı. DMG MORI, Mazak, Hermle.",
+      "5 eksen CNC frezeleme, C/Y eksenli tornalama, Swiss tornalama, derin delik işleme ve tel erozyon kabiliyetleri. Parça geometrisine göre proses seçimi.",
     description:
-      "15.000 m² üretim tesisimizde 50'den fazla CNC tezgah ile sınırsız üretim kapasitesi sunuyoruz. 5 eksenli işleme merkezlerinden yüksek hızlı tornalara, derin delik işlemeden lazer kesime kadar tam donanımlı altyapımız.",
+      "Bir parçanın hangi tezgâhta üretileceği, geometrisi ve tolerans zinciri tarafından belirlenir. Proses ailelerimiz, bu kararı parçanın gereksinimine göre verebilmek üzere birlikte planlanır.",
     heroImage: "hero-makine-parkuru",
     content: [
-      "Mas Technic üretim tesisi, DMG MORI, Mazak, Hermle, Haas ve Doosan gibi dünya liderlerinin tezgahlarıyla donatılmış 15.000 m²'lik modern bir üretim alanına sahiptir. 50'den fazla CNC tezgahımız ile havacılık, otomotiv, medikal ve savunma sanayinin en zorlu parçalarını üretiyoruz.",
-      "5 eksenli CNC freze parkurumuzda DMG DMU 65 monoBLOCK (650×500×450mm, 18.000 RPM, 60 takım), DMG DMU 85 monoBLOCK (850×650×500mm, 18.000 RPM, 80 takım), Hermle C 42 (800×600×450mm, 25.000 RPM) ve Mazak Variaxis (730×510×460mm, 18.000 RPM, 50 takım) tezgahlarımız ile karmaşık geometrileri tek bağlamada işliyoruz. 3 eksenli parkurumuzda Haas VF-4 ve Doosan DNM tezgahları ekonomik çözümler üretmektedir.",
-      "CNC torna merkezlerimizde DMG NLX 2500 (C+Y eksen, 380mm çap, çift mil), Mazak QT 350 (C+Y, sub-spindle), Doosan Puma TT (çift taraflı işleme) ve Swiss tip Tornos/Star SR-38 (0.5-38mm çap, 10.000 RPM) ile mikro parçalardan büyük miller çapa kadar geniş yelpazede tornalama yapıyoruz.",
-      "Özel amaçlı makinelerimiz arasında Zimmer ZK840 derin delik delme (3-50mm çap, 2000mm derinlik), GF CUT P 550 tel erozyon (550×350×250mm), Trumpf TruLaser 5030 fiber lazer kesim (3000×1500mm, 6kW), EOS M290 metal 3D baskı (250×250×325mm) ve Stratasys F900 FDM 3D baskı (914×610×914mm) sistemleri bulunmaktadır.",
-      "Tüm tezgahlarımız yıllık laser interferometre kalibrasyonu, aylık ballbar testi, haftalık hassasiyet kontrolü ve günlük operatör denetiminden geçmektedir. Gerçek zamanlı makine izleme sistemi ile OEE, arıza ve verimlilik verilerini anlık takip ediyoruz.",
+      "Üretim planlaması bir tezgâh listesiyle değil, parçanın kendisiyle başlar. Bağlama sayısı, erişilmesi gereken yüzeyler, ölçü zinciri ve malzemenin davranışı; hangi proses ailesinin kullanılacağını ve hangi sırayla işleneceğini belirler.",
+      "5 eksen simültane frezeleme, tek bağlamada birden fazla yüzeye erişim gerektiren geometrilerde kullanılır. Bağlama sayısını azaltmak yalnızca süreyi kısaltmaz; her yeni bağlama ölçü zincirine yeni bir hata kaynağı eklediği için doğrudan tolerans lehine çalışır.",
+      "C ve Y eksenli tornalama, dönel parçalarda torna ve freze operasyonlarını tek kurulumda toplar. Kayar puntalı (Swiss tip) tornalama ise küçük çaplı, uzun parçalarda desteklenmemiş boyu kısaltarak sehimi sınırlar.",
+      "Derin delik işleme, tel erozyon ve dalma erozyon; frezeleme ile ulaşılamayan geometriler için kullanılır: yüksek boy/çap oranlı kanallar, sert malzemede keskin iç köşeler, ince cidarlı kesitler.",
+      "Tezgâh doğruluğu üretimin girdisidir, sonucu değildir. Bu nedenle doğruluk periyodik kontrollerle izlenir, kritik işler öncesinde test parçasıyla teyit edilir ve sapma görüldüğünde parça değil proses düzeltilir.",
     ],
     features: [
-      "8 Adet 5 Eksen CNC Freze — DMG MORI, Mazak, Hermle ile karmaşık geometriler",
-      "15 Adet 3 Eksen CNC Freze — Haas, Doosan ile ekonomik üretim",
-      "12 Adet CNC Torna (C/Y Eksen) — DMG, Mazak, Doosan çift milli torna",
-      "4 Adet Swiss Torna — Tornos, Star ile Ø0.5-38mm mikro tornalama",
-      "3 Adet Derin Delik Delme — Zimmer, Botek ile L/D 100:1 kapasitesi",
-      "2 Adet Tel Erozyon — GF Machining, Sodick ile hassas kesim",
-      "2 Adet Lazer Kesim — Trumpf, Amada ile 6kW fiber lazer",
-      "4 Adet 3D Printer — Stratasys, EOS, Formlabs ile hızlı prototipleme",
+      "5 Eksen Simültane Frezeleme — tek bağlamada çok yüzeyli geometriler",
+      "3 ve 4 Eksen Frezeleme — düz yüzeyler, cepler ve çevresel işleme",
+      "C/Y Eksenli CNC Tornalama — dönel parçalarda torna ve freze tek kurulumda",
+      "Kayar Puntalı (Swiss) Tornalama — küçük çaplı, uzun parçalar",
+      "Derin Delik İşleme — yüksek boy/çap oranlı delikler",
+      "Tel ve Dalma Erozyon — sert malzemede keskin iç köşeler",
     ],
     technicalSpecs: [
-      { label: "Toplam Tezgah", value: "50+" },
-      { label: "Üretim Alanı", value: "15.000 m²" },
-      { label: "5 Eksen CNC", value: "8 adet" },
-      { label: "CNC Torna", value: "12 adet (C/Y eksen)" },
-      { label: "Swiss Torna", value: "4 adet (Ø0.5-38mm)" },
-      { label: "Üretim Modu", value: "24/7 kesintisiz" },
+      { label: "Freze Konfigürasyonu", value: "3, 4 ve 5 eksen" },
+      { label: "Torna Konfigürasyonu", value: "C ve Y eksen, kayar punta" },
+      { label: "Standart Tolerans", value: "±0.01 mm" },
+      { label: "Proses Seçimi", value: "Geometri ve ölçü zincirine göre" },
+      { label: "Doğruluk Takibi", value: "Periyodik kontrol + test parçası" },
+      { label: "Kontrol", value: "Kontrol planına göre ölçüm" },
     ],
     processSteps: [
+      "Teknik İnceleme",
+      "Proses Seçimi",
       "Kapasite Planlama",
-      "Tezgah Atama",
       "CAM Programlama",
       "Kurulum & Bağlama",
       "CNC İşleme",
-      "In-Process Kontrol",
-      "CMM Ölçüm",
-      "Kalite Raporu",
+      "Ara Kontrol",
+      "Son Kontrol",
     ],
     advantages: [
-      "50+ CNC tezgah ile 7/24 kesintisiz üretim kapasitesi",
-      "DMG MORI, Mazak, Hermle gibi dünya lideri tezgah markaları",
-      "Yıllık laser interferometre kalibrasyonu ve ballbar testi",
-      "Gerçek zamanlı tezgah izleme ve OEE takibi",
-      "Metal ve plastik 3D baskı ile hızlı prototipleme",
-      "Otomatik palet değiştirme ile kesintisiz seri üretim",
-    ],
-    machines: [
-      { name: "DMG MORI DMU 65 monoBLOCK", brand: "DMG MORI", specs: "5 eksen, 650×500×450mm, 18.000 RPM, 60 takım" },
-      { name: "DMG MORI DMU 85 monoBLOCK", brand: "DMG MORI", specs: "5 eksen, 850×650×500mm, 18.000 RPM, 80 takım" },
-      { name: "Hermle C 42", brand: "Hermle", specs: "5 eksen, 800×600×450mm, 25.000 RPM, 40 takım" },
-      { name: "Mazak Variaxis i-700", brand: "Mazak", specs: "5 eksen, 730×510×460mm, 18.000 RPM, 50 takım" },
-      { name: "DMG MORI NLX 2500", brand: "DMG MORI", specs: "C+Y eksen, 380mm çap, 4.000 RPM, çift mil" },
-      { name: "Mazak Quick Turn Smart 350", brand: "Mazak", specs: "C+Y eksen, 380mm çap, sub-spindle" },
-      { name: "Doosan Puma TT 1800SY", brand: "Doosan", specs: "Çift mil, Y eksen, 1800mm boy" },
-      { name: "Star SR-38 Swiss", brand: "Star", specs: "Ø0.5-38mm, 10.000 RPM, Swiss tip" },
-      { name: "Zimmer ZK840", brand: "Zimmer", specs: "Derin delik, 3-50mm çap, 2000mm derinlik" },
-      { name: "GF CUT P 550", brand: "GF Machining", specs: "Tel erozyon, 550×350×250mm" },
-      { name: "Trumpf TruLaser 5030", brand: "Trumpf", specs: "Fiber lazer, 3000×1500mm, 6kW" },
-      { name: "EOS M290", brand: "EOS", specs: "Metal 3D baskı, 250×250×325mm" },
+      "Proses, parçanın geometrisine göre seçilir; parça prosese uydurulmaz",
+      "Bağlama sayısı ölçü zinciri gözetilerek en aza indirilir",
+      "Tezgâh doğruluğu periyodik kontrol ve test parçasıyla izlenir",
+      "Kritik ölçüler için kontrol planı üretimden önce hazırlanır",
+      "Frezeleme, tornalama ve erozyon aynı iş için birlikte planlanabilir",
+      "Sapma görüldüğünde parça değil proses düzeltilir",
     ],
     faq: [
-      { question: "Kaç adet CNC tezgahınız var?", answer: "Toplam 50'den fazla CNC tezgahımız bulunmaktadır: 8 adet 5 eksenli freze, 15 adet 3 eksenli freze, 12 adet C/Y eksenli torna, 4 adet Swiss torna, 3 derin delik, 2 tel erozyon, 2 lazer kesim ve 4 adet 3D baskı sistemi." },
-      { question: "Hangi marka tezgahları kullanıyorsunuz?", answer: "DMG MORI, Mazak, Hermle, Haas, Doosan, Tornos, Star, GF Machining, Trumpf, EOS ve Stratasys gibi dünya liderlerinin tezgahlarını kullanıyoruz." },
-      { question: "Tezgahlarınızın bakım ve kalibrasyonu nasıl yapılıyor?", answer: "Günlük operatör kontrolü, haftalık hassasiyet kontrolü, aylık tam servis ve ballbar testi, yıllık laser interferometre kalibrasyonu ve geometri kontrolü uygulanmaktadır." },
-      { question: "24 saat üretim yapabiliyor musunuz?", answer: "Evet, otomatik palet değiştirme sistemleri ve bar besleyiciler ile 7/24 kesintisiz üretim kapasitemiz bulunmaktadır." },
-      { question: "Yeni makine yatırımlarınız var mı?", answer: "2024-2026 yatırım planımızda DMG MORI DMU 85, Mazak Integrex i-200S, Tornos SwissNano, Zimmer ZK840, GF CUT P 550 ve Trumpf TruLaser 5030 gibi tezgahlar yer almaktadır." },
+      { question: "Parçam hangi prosesle üretilecek?", answer: "Kararı geometri verir: erişilmesi gereken yüzeyler, ölçü zinciri, boy/çap oranı ve malzeme. Teknik inceleme sonucunda hangi prosesle ve kaç bağlamada üretileceğini teklifle birlikte paylaşırız." },
+      { question: "3 eksen mi 5 eksen mi gerekir?", answer: "Düz yüzeyler ve basit cep işlemleri 3 eksende daha ekonomiktir. Alttan kesim, eğik yüzey veya tek bağlamada çok yüzey gerekiyorsa 5 eksen tercih edilir; bağlama sayısındaki azalma tolerans lehine çalışır." },
+      { question: "Sert malzemede keskin iç köşe yapılabiliyor mu?", answer: "Frezeleme ile iç köşe yarıçapı takım çapıyla sınırlıdır. Bu sınırın altındaki köşeler için tel veya dalma erozyon kullanılır." },
+      { question: "Tezgâh doğruluğunu nasıl teyit ediyorsunuz?", answer: "Doğruluk periyodik kontrollerle izlenir ve kritik işler öncesinde test parçası ölçümüyle teyit edilir. Ölçüm sonuçları kayıt altına alınır." },
+      { question: "Uzun ve ince parçalarda ne yapıyorsunuz?", answer: "Kayar puntalı tornalama desteklenmemiş boyu kısaltarak sehimi sınırlar. Gerekirse operasyon sırası ve destek düzeni parçaya göre yeniden planlanır." },
     ],
     comparisonTables: [
       {
-        title: "Teknoloji Grubu Kapasiteleri",
-        description: "Üretim teknolojilerine göre makine kapasiteleri ve öne çıkan özellikleri",
-        headers: ["Teknoloji Grubu", "Makine Tipi", "İşleme Hacmi (X, Y, Z)", "Maks. Devir / Çözünürlük", "Öne Çıkan Özellik"],
+        title: "Proses Ailesine Göre Kullanım Alanı",
+        description: "Parça geometrisine göre hangi proses ailesinin tercih edildiği",
+        headers: ["Proses Ailesi", "Tipik Geometri", "Neden Tercih Edilir", "Sınırı"],
         rows: [
-          ["CNC Freze", "5-Eksenli Hassas İşleme", "800 × 700 × 600 mm", "18.000 RPM", "Havacılık seviyesi hassasiyet, karmaşık parça işleme"],
-          ["CNC Torna", "Canlı Takımlı Y-Eksen", "Ø350 mm × 1000 mm", "6.000 RPM", "Tek operasyonda torna ve frezeleme"],
-          ["3D Yazıcı (SLS)", "Endüstriyel Naylon Baskı", "340 × 340 × 600 mm", "100 µm Katman", "Destek yapısı gerektirmeyen fonksiyonel üretim"],
-          ["Sac Metal", "Fiber Lazer Kesim", "3000 × 1500 mm", "±0.1 mm Pozisyonlama", "Yüksek hızda hassas sac metal kesimi"],
-          ["Tel Erozyon", "GF CUT P 550", "550 × 350 × 250 mm", "±0.002mm", "Sert malzemelerde hassas kesim"],
-          ["Derin Delik", "Zimmer ZK840", "Ø3-50mm × 2000mm", "L/D 100:1", "Hidrolik silindir, kalıp soğutma kanalları"],
+          ["5 Eksen Frezeleme", "Çok yüzeyli, eğik düzlemli parçalar", "Bağlama sayısını ve ölçü zincirini kısaltır", "Kurulum ve programlama süresi uzundur"],
+          ["3/4 Eksen Frezeleme", "Düz yüzeyler, cepler, çevresel kanallar", "Ekonomik ve hızlı kurulum", "Alttan kesim ve eğik yüzeylerde yetersiz"],
+          ["C/Y Eksenli Tornalama", "Dönel gövdeler, yan delikli miller", "Torna ve frezeyi tek kurulumda toplar", "Dönel olmayan geometriye uygun değil"],
+          ["Kayar Puntalı Tornalama", "Küçük çaplı, uzun parçalar", "Desteklenmemiş boyu kısaltır, sehimi sınırlar", "Çap aralığı dardır"],
+          ["Derin Delik İşleme", "Yüksek boy/çap oranlı delikler", "Doğrusallığı ve talaş tahliyesini korur", "Delik ekseni kısıtlıdır"],
+          ["Tel / Dalma Erozyon", "Sert malzemede keskin iç köşeler", "Kesme kuvveti uygulamaz, formu kopyalar", "Talaş kaldırma hızı düşüktür"],
         ],
       },
       {
-        title: "Kalibrasyon ve Bakım Protokolü",
-        headers: ["Periyot", "İşlem", "Yöntem", "Sorumlu"],
+        title: "Doğruluk Takibi",
+        description: "Tezgâh doğruluğunun izlenme biçimi",
+        headers: ["Ne Zaman", "Ne Yapılır", "Ne Bırakır"],
         rows: [
-          ["Günlük", "Operatör kontrolü", "Görsel + sıcaklık", "CNC Operatörü"],
-          ["Haftalık", "Hassasiyet kontrolü", "Test parçası ölçümü", "Kalite Departmanı"],
-          ["Aylık", "Ballbar testi", "Renishaw QC20-W", "Bakım Mühendisi"],
-          ["Yıllık", "Laser interferometre", "Renishaw XL-80", "Dış kalibrasyon"],
+          ["Vardiya başında", "Operatör kontrolü", "Operasyon kaydı"],
+          ["Kritik iş öncesi", "Test parçası ölçümü", "Ölçüm kaydı"],
+          ["Periyodik", "Geometri ve doğruluk kontrolü", "Bakım kaydı"],
+          ["Sapma görüldüğünde", "Proses düzeltme ve yeniden doğrulama", "Düzeltici faaliyet kaydı"],
         ],
       },
     ],
@@ -1627,94 +1605,105 @@ export const servicePages: ServicePageData[] = [
       },
     ],
   },
+  /* QUALITY CONTROL — rewritten in Phase 06.
+
+     This page was the single worst fabrication in the repository. It named
+     four certificates that do not exist AND the registrars that supposedly
+     issued them (`ISO 9001:2015 (TÜV SÜD), AS9100D (SGS), IATF 16949 (Bureau
+     Veritas), ISO 13485 (TÜV SÜD)`), a %99.7 quality rate, a 6 Sigma target,
+     %100 CMM coverage of critical dimensions, and a metrology laboratory —
+     Zeiss, Mitutoyo, GOM, Taylor Hobson, Nikon, Wilson — with model numbers
+     and accuracies down to the micron.
+
+     `USER_INPUTS.md` §C supplies ISO 9001, ISO 14001 and OHSAS 18001 and no
+     issuer for any of them. §D records CMM coverage as
+     THIRD_PARTY_ACCREDITED_ON_DEMAND — not universal, not in-house. §H does
+     supply a real, publishable measurement-equipment list as a PDF, which is
+     now served from `public/belgeler/` and linked from the landing.
+
+     What replaces it is the thing that was missing: how conformity is
+     actually established, and what record each step leaves behind.          */
   {
     slug: "kalite-kontrol",
     category: "kabiliyetler",
     categoryLabel: "Kalite & Standartlar",
     title: "Kalite Kontrol",
-    metaTitle: "Kalite Kontrol | CMM Ölçüm | ISO 9001 & AS9100 | Sıfır Hata | Mas Technic",
+    metaTitle: "Kalite Kontrol | Kontrol Planı ve Ölçüm Kaydı | Mas Technic",
     metaDescription:
-      "Zeiss CMM, GOM 3D tarayıcı, Taylor Hobson profilometre ve X-Ray muayene ile %99.7 kalite oranı. ISO 9001, AS9100D, IATF 16949, ISO 13485 sertifikalı.",
+      "Her iş için kontrol planı, proses içi ara kontrol ve kontrol planına göre son kontrol. Akredite üçüncü taraf CMM ölçümü talebe bağlı. ISO 9001:2015.",
     description:
-      "Sıfır hata felsefemiz ile 3D CMM ölçüm sistemlerinden görüntü işleme kontrolüne, yüzey profilometreden X-ray muayeneye kadar kapsamlı kalite altyapımız her aşamada kaliteyi garanti altına alır.",
+      "Kalite kontrol, üretimden sonra yapılan bir muayene değil, üretimden önce yazılan bir plandır. Hangi ölçünün nasıl ve hangi aşamada kontrol edileceği, parça tezgâha bağlanmadan belirlenir.",
     heroImage: "hero-kalite-kontrol",
     content: [
-      "Mas Technic kalite kontrol altyapısı, %99.7 kalite oranı ve 6 Sigma hedefi ile endüstrinin en yüksek standartlarını karşılamaktadır. Kritik boyutların %100'ü CMM ile kontrol edilmektedir. Zeiss Contura (1200×900×600mm, 1.9µm hassasiyet) ve Mitutoyo Crysta (800×600×500mm, 2.0µm) CMM cihazlarımız ile boyutsal doğrulama yapıyoruz.",
-      "GOM ATOS Q 3D tarayıcımız ile 0.01mm hassasiyette tam yüzey taraması, Taylor Hobson profilometremiz ile Ra 0.01 mikron çözünürlükte yüzey pürüzlülüğü ölçümü, Nikon XT H X-Ray cihazımız ile döküm parçalarda porozite tespiti ve Wilson sertlik ölçerimiz ile Rockwell, Vickers ve Brinell sertlik testleri gerçekleştiriyoruz.",
-      "Beş aşamalı kalite kontrol sürecimiz: Malzeme giriş kontrolü (spektrometre + CMM), işlem öncesi takım ve fikstür kontrolü (görsel + ölçü), üretim içi kontrol (SPC, ilk/son parça), son kontrol (tam CMM ölçümü ve raporu) ve sevkiyat kontrolü (ambalaj + etiket checklist). Her aşamada izlenebilirlik sağlanmaktadır.",
-      "İstatistiksel Proses Kontrol (SPC) uygulamalarımız kapsamında X-bar ve R grafikleri ile süreç ortalaması ve değişkenlik takibi, Cp ve Cpk hesaplamaları ile süreç yetenek indeksleri, Pareto analizi ile hata kaynaklarının önceliklendirilmesi ve 8D problem çözme ile kök neden analizi ve düzeltici faaliyetler yürütüyoruz.",
+      "Her iş için bir kontrol planı oluşturulur. Plan; teknik resimdeki hangi kotelerin kritik olduğunu, her birinin hangi yöntemle ve hangi aşamada kontrol edileceğini ve kontrolün hangi kaydı bırakacağını tanımlar. Bu plan teklif aşamasındaki teknik incelemenin çıktısıdır.",
+      "Ara kontroller proses sırasında yapılır. Amaç, hatayı son kontrolde yakalamak değil, bir sonraki operasyona hatalı parça göndermemektir. İlk parça onayı, ısıl işlem gibi ölçü kaydıran adımların sonrası ve bağlama değişimleri, ara kontrolün doğal duraklarıdır.",
+      "Son kontrol, kontrol planında tanımlanan koteler üzerinden yapılır ve sonuçlar kayıt altına alınır. Koordinat ölçüm (CMM) gerektiren durumlarda ölçüm, akredite üçüncü taraf tarafından talebe bağlı olarak gerçekleştirilir; bu tercih, ölçümün üretimden bağımsız olmasını sağlar.",
+      "Malzeme izlenebilirliği parti ve döküm kaydı üzerinden yürütülür; malzeme sertifikası talep edilmesi halinde teslimat dosyasına eklenir. Kullandığımız ölçüm ve kontrol ekipmanlarının listesi ayrı bir doküman olarak yayımlanmıştır ve kaynaklar bölümünden indirilebilir.",
+      "Uygunsuzluk çıktığında sorulan soru parçanın kurtarılıp kurtarılamayacağı değil, prosesin neden o sonucu ürettiğidir. Kök neden bulunana kadar aynı kurulumla üretime devam edilmez.",
     ],
     features: [
-      "Zeiss CMM Ölçüm — 1200×900×600mm, 1.9µm hassasiyet",
-      "GOM ATOS Q 3D Tarama — 0.01mm hassasiyette tam yüzey tarama",
-      "Taylor Hobson Profilometre — Ra 0.01µm çözünürlükte yüzey ölçümü",
-      "Nikon X-Ray Muayene — Döküm parçalarda porozite tespiti",
-      "İstatistiksel Proses Kontrol (SPC) — X-bar, R, Cp, Cpk grafikleri",
-      "8D Problem Çözme — Kök neden analizi ve düzeltici faaliyetler",
+      "Kontrol Planı — kritik koteler üretimden önce belirlenir",
+      "İlk Parça Kontrolü — kurulum onaylanmadan seri başlamaz",
+      "Ara Kontrol — hata bir sonraki operasyona taşınmaz",
+      "Son Kontrol — kontrol planına göre, kayıtlı",
+      "Akredite 3. Taraf CMM — talebe bağlı, üretimden bağımsız",
+      "Malzeme İzlenebilirliği — parti ve döküm kaydı",
     ],
     technicalSpecs: [
-      { label: "Kalite Oranı", value: "%99.7" },
-      { label: "Hedef", value: "6 Sigma" },
-      { label: "CMM Hassasiyet", value: "1.9µm (Zeiss)" },
-      { label: "3D Tarama", value: "0.01mm (GOM ATOS Q)" },
-      { label: "Yüzey Ölçüm", value: "Ra 0.01µm (Taylor Hobson)" },
-      { label: "Kritik CMM", value: "%100 kontrol" },
+      { label: "Yönetim Sistemi", value: "ISO 9001:2015" },
+      { label: "Standart Tolerans", value: "±0.01 mm" },
+      { label: "Kontrol Planı", value: "Her iş için" },
+      { label: "CMM Ölçüm", value: "Akredite 3. taraf, talebe bağlı" },
+      { label: "Ölçüm Kaydı", value: "Teslimat dosyasında" },
+      { label: "İzlenebilirlik", value: "Parti ve döküm kaydı" },
     ],
     processSteps: [
-      "Malzeme Giriş Kontrolü",
-      "İşlem Öncesi Kontrol",
-      "Üretim İçi SPC",
-      "İlk/Son Parça Kontrolü",
-      "Final CMM Ölçümü",
-      "Kalite Raporu & Sertifika",
-      "Sevkiyat Kontrolü",
+      "Teknik İnceleme",
+      "Kontrol Planı",
+      "Malzeme Giriş Kaydı",
+      "İlk Parça Kontrolü",
+      "Ara Kontroller",
+      "Son Kontrol",
+      "Ölçüm Kaydı",
     ],
     advantages: [
-      "%99.7 kalite oranı ve 6 Sigma hedefi",
-      "Zeiss ve Mitutoyo CMM ile mikron seviyesinde ölçüm",
-      "GOM 3D tarayıcı ile tam yüzey karşılaştırma",
-      "ISO 9001, AS9100D, IATF 16949, ISO 13485 sertifikaları",
-      "SPC ile istatistiksel proses kontrol ve sürekli iyileştirme",
-      "%100 CMM kontrol (kritik boyutlar)",
-    ],
-    machines: [
-      { name: "Zeiss Contura CMM", brand: "Zeiss", specs: "1200×900×600mm, 1.9µm hassasiyet" },
-      { name: "Mitutoyo Crysta CMM", brand: "Mitutoyo", specs: "800×600×500mm, 2.0µm hassasiyet" },
-      { name: "GOM ATOS Q", brand: "GOM", specs: "3D tarayıcı, 0.01mm hassasiyet" },
-      { name: "Taylor Hobson", brand: "Taylor Hobson", specs: "Yüzey profilometre, Ra 0.01µm" },
-      { name: "Nikon XT H", brand: "Nikon", specs: "X-Ray muayene, porozite tespiti" },
-      { name: "Wilson Sertlik Ölçer", brand: "Wilson", specs: "Rockwell, Vickers, Brinell" },
+      "Kontrol planı üretimden önce yazılır, sonradan uydurulmaz",
+      "Ara kontroller hatayı bir sonraki operasyona taşımaz",
+      "Koordinat ölçümü akredite üçüncü tarafça, üretimden bağımsız yapılır",
+      "Ölçüm kayıtları teslimat dosyasıyla birlikte verilir",
+      "Malzeme parti ve döküm kaydıyla izlenir",
+      "Uygunsuzlukta parça değil proses düzeltilir",
     ],
     faq: [
-      { question: "Hangi kalite sertifikalarınız var?", answer: "ISO 9001:2015 (TÜV SÜD), AS9100D (SGS), IATF 16949 (Bureau Veritas), ISO 13485 (TÜV SÜD) ve ISO 14001 (SGS) sertifikalarımız bulunmaktadır." },
-      { question: "CMM ölçüm raporu veriyor musunuz?", answer: "Evet, her kritik parça Zeiss veya Mitutoyo CMM ile ölçülür ve detaylı boyutsal ölçüm raporu hazırlanır. FAIR ve PPAP dokümantasyonu da sağlanmaktadır." },
-      { question: "Kalite kontrol süreci nasıl işliyor?", answer: "5 aşamalı sürecimiz: Malzeme giriş kontrolü, işlem öncesi kontrol, üretim içi SPC, final CMM ölçümü ve sevkiyat kontrolü. Kritik boyutların %100'ü CMM ile kontrol edilir." },
-      { question: "SPC uygulaması yapıyor musunuz?", answer: "Evet, X-bar/R grafikleri, Cp/Cpk hesaplamaları, Pareto analizi ve 8D problem çözme ile istatistiksel proses kontrolü uyguluyoruz." },
-      { question: "3D tarama hizmeti sunuyor musunuz?", answer: "Evet, GOM ATOS Q 3D tarayıcımız ile 0.01mm hassasiyette tam yüzey taraması ve CAD model karşılaştırması yapıyoruz." },
+      { question: "Hangi kalite belgeleriniz var?", answer: "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Belge kapsamı dışında bir standart gerekiyorsa teknik incelemede birlikte değerlendiririz." },
+      { question: "Ölçüm raporu veriyor musunuz?", answer: "Evet. Kontrol planında tanımlanan koteler ölçülür ve sonuçlar kayıt altına alınır; ölçüm kaydı teslimat dosyasına eklenir." },
+      { question: "CMM ölçümü yapılıyor mu?", answer: "Koordinat ölçümü, akredite üçüncü taraf tarafından talebe bağlı olarak yapılır. Bu tercih ölçümün üretimden bağımsız olmasını sağlar; ihtiyacınızı teklif aşamasında belirtmeniz yeterlidir." },
+      { question: "Kalite kontrol süreci nasıl işliyor?", answer: "Teknik inceleme ile kontrol planı oluşturulur; malzeme girişi kaydedilir, ilk parça onaylanır, proses sırasında ara kontroller yapılır ve son kontrol plana göre tamamlanarak kayıt altına alınır." },
+      { question: "Malzeme sertifikası alabilir miyim?", answer: "Malzeme parti ve döküm kaydı üzerinden izlenir. Malzeme sertifikası talep etmeniz halinde teslimat dosyasına eklenir." },
     ],
     comparisonTables: [
       {
-        title: "Kalite Kontrol Aşamaları ve Raporlama",
-        description: "5 aşamalı kalite kontrol sürecimizde her aşama izlenebilirlik ile desteklenmektedir",
-        headers: ["Aşama", "Kontrol Noktası", "Yöntem / Cihaz", "Çıktı Doküman", "Sıklık"],
+        title: "Kontrol Aşamaları ve Bıraktığı Kayıt",
+        description: "Her kontrol adımı bir karar noktasıdır ve arkasında bir kayıt bırakır",
+        headers: ["Aşama", "Kontrol Noktası", "Yöntem", "Bıraktığı Kayıt", "Sıklık"],
         rows: [
-          ["1. Giriş", "Malzeme kimyasal analiz", "Spektrometre + CMM", "Malzeme Sertifikası (3.1)", "Her lot"],
-          ["2. Ön Kontrol", "Takım ve fikstür doğrulama", "Görsel + ölçü", "Setup Onay Formu", "Her setup"],
-          ["3. Süreç İçi", "İlk/son parça + SPC", "CMM + X-bar/R", "SPC Raporu, Cpk", "Her parti"],
-          ["4. Final", "Tam boyutsal doğrulama", "Zeiss CMM + GOM 3D", "CMM Ölçüm Raporu", "Her parça (kritik)"],
-          ["5. Sevkiyat", "Ambalaj + etiket checklist", "Görsel + barkod", "Uygunluk Beyanı (CoC)", "Her sevkiyat"],
+          ["1. Giriş", "Malzeme kimliği", "Parti / döküm takibi", "İzlenebilirlik kaydı", "Her parti"],
+          ["2. Kurulum", "Takım ve bağlama doğrulama", "Görsel + ölçü", "Kurulum onayı", "Her kurulum"],
+          ["3. İlk Parça", "Kritik koteler", "Kontrol planına göre ölçüm", "İlk parça kaydı", "Her kurulum"],
+          ["4. Proses İçi", "Kayma eğilimi olan koteler", "Ara kontrol", "Operasyon kaydı", "Plana göre"],
+          ["5. Son Kontrol", "Kontrol planındaki tüm koteler", "Ölçüm; gerekirse akredite CMM", "Ölçüm kaydı", "Plana göre"],
         ],
       },
       {
-        title: "Metroloji Ekipmanları ve Kapasiteleri",
-        headers: ["Cihaz", "Marka / Model", "Ölçüm Aralığı", "Hassasiyet", "Uygulama Alanı"],
+        title: "Kontrol Yönteminin Seçimi",
+        description: "Yöntem, ölçülecek özelliğe ve toleransın darlığına göre belirlenir",
+        headers: ["Özellik", "Tipik Yöntem", "Ne Zaman Akredite CMM Gerekir"],
         rows: [
-          ["CMM (Dokunmatik)", "Zeiss Contura", "1200×900×600mm", "1.9µm", "Boyutsal doğrulama, GD&T"],
-          ["CMM (Dokunmatik)", "Mitutoyo Crysta", "800×600×500mm", "2.0µm", "Seri ölçüm, FAI"],
-          ["3D Tarayıcı", "GOM ATOS Q", "Tam yüzey", "0.01mm", "CAD karşılaştırma, ısı haritası"],
-          ["Profilometre", "Taylor Hobson", "N/A", "Ra 0.01µm", "Yüzey pürüzlülüğü"],
-          ["X-Ray", "Nikon XT H", "Ø300mm", "5µm detay", "Döküm porozite tespiti"],
-          ["Sertlik Ölçer", "Wilson", "N/A", "±1%", "Rockwell, Vickers, Brinell"],
+          ["Çap ve boy ölçüleri", "Kontrol planına göre ölçüm", "Tolerans zinciri dar olduğunda"],
+          ["Form (düzlem, silindiriklik)", "Kontrol planına göre ölçüm", "Geometrik tolerans şartnamede ise"],
+          ["Konum ve eş eksenlilik", "Datum üzerinden kontrol", "Datum yapısı karmaşık olduğunda"],
+          ["Yüzey durumu", "Karşılaştırmalı kontrol", "Sayısal Ra şartnamede ise"],
+          ["Malzeme kimliği", "Parti / döküm takibi", "Uygulanmaz — belge ile yürür"],
         ],
       },
     ],
@@ -2013,11 +2002,6 @@ export const servicePages: ServicePageData[] = [
       "Silikon kalıp ile düşük kalıp maliyeti",
       "Seri üretim öncesi pilot doğrulama",
       "Fonksiyonel prototip ile gerçek koşullarda test",
-    ],
-    machines: [
-      { name: "Stratasys F900", brand: "Stratasys", specs: "FDM, 914×610×914mm, ABS/Nylon" },
-      { name: "Formlabs Form 3L", brand: "Formlabs", specs: "SLA, yüksek detay reçine baskı" },
-      { name: "EOS M290", brand: "EOS", specs: "DMLS, 250×250×325mm, Al/SS/Ti" },
     ],
     faq: [
       { question: "Prototip için hangi yöntem en uygun?", answer: "1-10 adet ve hızlı teslimat için 3D baskı (1-3 gün), hassas parçalar için CNC (3-10 gün), 10-100 adet plastik parça için silikon kalıplama (5-10 gün) öneriyoruz." },
@@ -2400,11 +2384,6 @@ export const servicePages: ServicePageData[] = [
       "5 eksen tek bağlamada karmaşık havacılık geometrileri",
       "AS9102 uyumlu FAI raporu ve tam dokümantasyon",
       "Frozen process ile onaylı parametrelerin sabitleştirilmesi",
-    ],
-    machines: [
-      { name: "DMG MORI DMU 65 monoBLOCK", brand: "DMG MORI", specs: "5 eksen, 650×500×450mm, 18.000 RPM" },
-      { name: "Hermle C 42", brand: "Hermle", specs: "5 eksen, 800×600×450mm, 25.000 RPM" },
-      { name: "Zeiss Contura G2 CMM", brand: "Zeiss", specs: "800×1000×600mm, 1.5+L/350µm" },
     ],
     materials: [
       { name: "Titanyum", grade: "Ti6Al4V (Grade 5)", properties: "Hafif, biyouyumlu, 950 MPa çekme" },
