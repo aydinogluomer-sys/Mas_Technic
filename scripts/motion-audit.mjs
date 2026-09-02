@@ -352,6 +352,29 @@ async function runCls(browser, baseURL) {
   return results;
 }
 
+/**
+ * WHY THIS RUNS THREE PASSES AND PRINTS ALL THREE
+ * -----------------------------------------------
+ * A single pass of this probe is not a measurement, it is a sample, and on
+ * this host the samples are wide. Measured on ONE unchanged build, four
+ * consecutive passes at 1280 gave `over32ms` = 19, 16, 34, 34, with the frame
+ * count itself falling from 465 to 362 as the passes stacked up — the machine
+ * is memory-constrained and degrades under repetition, so later passes are
+ * slower for reasons that have nothing to do with the stylesheet.
+ *
+ * That spread is larger than any difference between two versions of the motion
+ * layer, which means a single-pass before/after comparison here can prove
+ * whatever you were hoping for. It very nearly did: an intermediate reading of
+ * "3 slow frames" against "15" looked like a serious regression and pointed at
+ * a band that later passes exonerated.
+ *
+ * So the probe reports every pass and the spread across them. `median` is the
+ * number to read — it was 16.7ms in every pass of every version, which is the
+ * finding that actually holds. Treat a change in `over32ms` as signal only if
+ * it clears the spread printed next to it.
+ */
+const FRAME_PASSES = 3;
+
 async function runFrames(browser, baseURL) {
   const results = [];
   for (const viewport of VIEWPORTS) {
@@ -367,51 +390,95 @@ async function runFrames(browser, baseURL) {
     await page.waitForLoadState("networkidle").catch(() => {});
     await page.waitForTimeout(1200);
 
-    const pacing = await page.evaluate(async () => {
-      const frames = [];
-      let last = performance.now();
-      let running = true;
-      const tick = (now) => {
-        frames.push(now - last);
-        last = now;
-        if (running) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
+    for (let pass = 1; pass <= FRAME_PASSES; pass += 1) {
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.waitForTimeout(600);
 
-      // Continuous scroll, ~14px per frame for ~9 s of the core path.
-      const total = document.body.scrollHeight - window.innerHeight;
-      const startedAt = performance.now();
-      await new Promise((resolve) => {
-        const drive = () => {
-          const elapsed = (performance.now() - startedAt) / 9000;
-          window.scrollTo(0, Math.min(total, total * elapsed));
-          if (elapsed >= 1) return resolve();
-          requestAnimationFrame(drive);
+      const pacing = await page.evaluate(async () => {
+        /* Each frame is recorded WITH the band that was centred in the viewport
+           when it was drawn. A bare list of durations tells you the path janks;
+           it does not tell you which grammar to go and fix, and guessing that
+           from a stylesheet is how a plausible-looking wrong culprit gets
+           "optimised". Attribution is the difference between a measurement and
+           an anecdote. */
+        const bandAt = () => {
+          const mid = window.innerHeight / 2;
+          for (const band of document.querySelectorAll(".tl-band")) {
+            const box = band.getBoundingClientRect();
+            if (box.top <= mid && box.bottom >= mid) {
+              return (band.className.match(/tl-(?!band|inview|onscreen)[a-z-]+/) ?? ["?"])[0];
+            }
+          }
+          return "-";
         };
-        requestAnimationFrame(drive);
-      });
-      running = false;
 
-      const measured = frames.slice(3);
-      const sorted = [...measured].sort((a, b) => a - b);
-      const at = (p) => sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * p))];
-      let longestRun = 0;
-      let run = 0;
-      for (const frame of measured) {
-        run = frame > 32 ? run + 1 : 0;
-        if (run > longestRun) longestRun = run;
-      }
-      return {
-        frames: measured.length,
-        median: Number(at(0.5).toFixed(2)),
-        p95: Number(at(0.95).toFixed(2)),
-        worst: Number(Math.max(...measured).toFixed(2)),
-        over32ms: measured.filter((f) => f > 32).length,
-        over50ms: measured.filter((f) => f > 50).length,
-        longestConsecutiveSlowRun: longestRun,
-      };
+        const frames = [];
+        const bands = [];
+        let last = performance.now();
+        let running = true;
+        const tick = (now) => {
+          frames.push(now - last);
+          bands.push(bandAt());
+          last = now;
+          if (running) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+
+        // Continuous scroll, ~14px per frame for ~9 s of the core path.
+        const total = document.body.scrollHeight - window.innerHeight;
+        const startedAt = performance.now();
+        await new Promise((resolve) => {
+          const drive = () => {
+            const elapsed = (performance.now() - startedAt) / 9000;
+            window.scrollTo(0, Math.min(total, total * elapsed));
+            if (elapsed >= 1) return resolve();
+            requestAnimationFrame(drive);
+          };
+          requestAnimationFrame(drive);
+        });
+        running = false;
+
+        const measured = frames.slice(3);
+        const measuredBands = bands.slice(3);
+        const sorted = [...measured].sort((a, b) => a - b);
+        const at = (p) => sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * p))];
+        let longestRun = 0;
+        let run = 0;
+        const blame = {};
+        for (let i = 0; i < measured.length; i += 1) {
+          const frame = measured[i];
+          run = frame > 32 ? run + 1 : 0;
+          if (run > longestRun) longestRun = run;
+          if (frame > 32) blame[measuredBands[i]] = (blame[measuredBands[i]] ?? 0) + 1;
+        }
+        return {
+          frames: measured.length,
+          median: Number(at(0.5).toFixed(2)),
+          p95: Number(at(0.95).toFixed(2)),
+          worst: Number(Math.max(...measured).toFixed(2)),
+          over32ms: measured.filter((f) => f > 32).length,
+          over50ms: measured.filter((f) => f > 50).length,
+          longestConsecutiveSlowRun: longestRun,
+          slowFramesByBand: Object.entries(blame)
+            .sort((a, b) => b[1] - a[1])
+            .map(([band, n]) => `${band}:${n}`)
+            .join(" ") || "-",
+        };
+      });
+      results.push({ viewport: viewport.name, pass, ...pacing });
+    }
+
+    /* The spread across identical passes, printed next to them, so nobody has
+       to remember that it exists before believing a delta. */
+    const passes = results.filter((r) => r.viewport === viewport.name);
+    const slow = passes.map((r) => r.over32ms);
+    results.push({
+      viewport: viewport.name,
+      pass: "spread",
+      medianOfMedians: passes.map((r) => r.median).sort((a, b) => a - b)[Math.floor(passes.length / 2)],
+      over32msRange: `${Math.min(...slow)}..${Math.max(...slow)}`,
+      note: "a delta smaller than this range is host noise, not code",
     });
-    results.push({ viewport: viewport.name, ...pacing });
     await context.close();
   }
   return results;
