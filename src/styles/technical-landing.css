@@ -401,6 +401,17 @@
    Zamanlama zincirleme: çizgi 0.35s'de başlar, 2.0s'de biter; kilitlenme
    1.1s'de yani çizgiler parçaya DEĞDİKTEN sonra başlar. Değer, ölçüm bitmeden
    yazılmaz.
+
+   `opacity` bu iki kare dizisinde BİLEREK yok, ve bu bir eksiklik değil
+   başka bir kuralın ön koşulu: `fill-mode: both` animasyonun bitiş değerini
+   kalıcı olarak uygulanmış bırakır ve animasyonlu değerler basamakta normal
+   bildirimlerin ÜSTÜNDEDİR. Kare dizisi `opacity: 1` ile bitseydi 13'teki
+   ölçü bağıntısının bu altı kutuya yazdığı hiçbir opaklık uygulanamazdı —
+   ölçüldü: eski kare dizisi geri enjekte edildiğinde altı kutu da her
+   durumda 1'de kalıyor, kaldırıldığında bağıntı çalışıyor. Görüntü
+   değişmez, çünkü kırpma kutuyu zaten tamamen gizliyor; değişen tek şey
+   opaklığın artık basamağa ait olması. Zaten bu bloğun cümlesi de buydu:
+   etiket SOLMAZ, KİLİTLENİR.
    ═══════════════════════════════════════════════════════════════════════ */
 .tl-root[data-motion="ready"] .tl-dimension-lines{stroke-dashoffset:900;animation:tl-draw-measure 1.65s .35s var(--tl-ease-out) forwards}
 .tl-root[data-motion="ready"] :is(.tl-measure-top,.tl-fcf-top){animation:tl-label-lock-down .5s 1.1s var(--tl-ease-out) both}
@@ -414,8 +425,8 @@
 .tl-root[data-motion="ready"] .tl-process.tl-inview .tl-band-index span,.tl-root[data-motion="ready"] .tl-projects.tl-inview .tl-band-index span,.tl-root[data-motion="ready"] .tl-quality.tl-inview .tl-band-index span,.tl-root[data-motion="ready"] .tl-faq-band.tl-inview .tl-band-index span,.tl-root[data-motion="ready"] .tl-rfq.tl-inview .tl-band-index span{color:var(--tl-paper);background:var(--tl-ink)}
 
 @keyframes tl-draw-measure{to{stroke-dashoffset:0}}
-@keyframes tl-label-lock-down{from{opacity:0;clip-path:inset(0 0 100% 0)}to{opacity:1;clip-path:inset(0)}}
-@keyframes tl-label-lock-up{from{opacity:0;clip-path:inset(100% 0 0 0)}to{opacity:1;clip-path:inset(0)}}
+@keyframes tl-label-lock-down{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0)}}
+@keyframes tl-label-lock-up{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0)}}
 @keyframes tl-part-expose{from{filter:contrast(1.06) saturate(.72) brightness(.25)}to{filter:contrast(1.06) saturate(.72) brightness(1)}}
 
 /* ══ TABLET — six master columns ═════════════════════════════════════════
@@ -996,11 +1007,23 @@
      iki şeyi ilişkilendiriyor. İşaretçisi olmayan kullanıcı hiçbir şey
      kaybetmez; altı dekoratif durak kazanan klavye kullanıcısı ise kaybeder.
      Reduced-motion'da geçiş süresi sıfırlanır ama DURUM aynen çalışır:
-     kaybolan şey animasyon, bilgi değil. */
-  .tl-hero :is(.tl-dim-line path,.tl-measure,.tl-fcf,.tl-datum,.tl-pp-body,.tl-pp-bore,.tl-pp-holes,.tl-pp-dim){
+     kaybolan şey animasyon, bilgi değil.
+
+     BU BİR ÖZGÜLLÜK SÖZLEŞMESİDİR, üslup tercihi değil. Yalıtma ile bağıntı
+     AYNI aile üzerinde ve AYNI özellikte (`opacity`) çalışır; hangisinin
+     kazanacağını kaynak sırası belirlesin diye ikisinin özgüllüğü BİLEREK
+     eşit tutulur: önce yalıtma, sonra bağıntı. `:is()` listenin EN ÖZGÜL
+     üyesinin özgüllüğünü alır, dolayısıyla listede TEK bir eleman seçici
+     (`.tl-dim-line path`) bulunması bile yalıtmayı (0,4,1)'e çıkarır, bağıntı
+     (0,4,0)'da kalır ve HİÇ uygulanmaz — dosyada daha önce geldiği hâlde
+     yalıtma kazanır. Kılavuz çizgileri bu yüzden `path` ile değil, zaten
+     taşıdıkları `tl-dim--*` sınıflarıyla seçilir. `!important` gerekmez;
+     gereken tek şey her iki listenin de yalnızca SINIFLARDAN oluşmasıdır.
+     Yeni bir öge eklenirken bu kural bozulmamalı. */
+  .tl-hero :is(.tl-dim--bore,.tl-dim--tol,.tl-dim--height,.tl-dim--perp,.tl-dim--finish,.tl-dim--datum,.tl-measure,.tl-fcf,.tl-datum,.tl-pp-body,.tl-pp-bore,.tl-pp-holes,.tl-pp-dim){
     transition:opacity var(--tl-dur-micro) ease,stroke var(--tl-dur-micro) ease,border-color var(--tl-dur-micro) ease}
   /* Yalıtma: bir ölçü etkinken diğerleri geri çekilir. */
-  .tl-hero:has([data-dim]:hover) :is(.tl-dim-line path,.tl-measure,.tl-fcf,.tl-datum,.tl-pp-bore,.tl-pp-holes,.tl-pp-dim){opacity:.34}
+  .tl-hero:has([data-dim]:hover) :is(.tl-dim--bore,.tl-dim--tol,.tl-dim--height,.tl-dim--perp,.tl-dim--finish,.tl-dim--datum,.tl-measure,.tl-fcf,.tl-datum,.tl-pp-body,.tl-pp-bore,.tl-pp-holes,.tl-pp-dim){opacity:.34}
   /* Bağıntı: etkin ölçü + kılavuz çizgisi + pasaporttaki karşılığı. */
   .tl-hero:has(.tl-measure-top:hover)    :is(.tl-measure-top,.tl-dim--bore,.tl-pp-bore),
   .tl-hero:has(.tl-fcf-top:hover)        :is(.tl-fcf-top,.tl-dim--tol,.tl-pp-holes),
