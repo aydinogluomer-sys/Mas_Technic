@@ -220,6 +220,39 @@ devam ederdi.
   `layout-shift` girdisi üretmiyor, çünkü `strong` kendi satırındaki tek
   kutudur. İkinci bir örnek çıkarsa yeniden ölçülmelidir.
 
+### CLS ölçümü nasıl okunur
+
+`--mode=cls` **tek bir toplam basmaz**, çünkü tek bir toplam iddiayı
+taşıyamaz. İddia nedensel — "hareket katmanı yerleşim kaydırmasına yol
+açmıyor" — ama sayfanın toplam CLS'i hareketle ilgisi olmayan şeyleri de
+içerir: giriş kabuğunun devir teslimi, geç gelen bir yazı tipi, yerine oturan
+bir görsel. Bu yüzden her genişlik **iki kez** koşulur (hareket açık ve
+`prefers-reduced-motion: reduce`) ve koşu iki yarıya bölünür: kaydırma
+BAŞLAMADAN önce olan her şey YÜKLEME, sonrasında olan her şey bant
+koreografisidir.
+
+Ölçüldü, bu yapı üzerinde üç ardışık koşu:
+
+| ölçüm | 1280 | 375 |
+| --- | --- | --- |
+| `scrollCost` (nedensel sayı) | 0.00000 / 0.00000 / 0.00000 | 0.00000 / 0.00106 / 0.00000 |
+| `clsWhileScrolling`, hareket açık | 0 / 0 / 0 | 0 / 0.00106 / 0 |
+| `manifestoEntries` | 0 / 0 / 0 | 0 / 0 / 0 |
+| ham `cls`, hareket açık | 0.01915 / 0.02087 / 0.02087 | 0.01102 / 0.01291 / 0.01139 |
+| ham `cls`, reduced-motion | 0.08544 / 0.06444 / 0.08207 | 0.01069 / 0.01070 / 0.01069 |
+
+Okunuşu: **bütün landing baştan sona kaydırılırken ve her bandın girişi
+oynarken tarayıcı hiçbir kaydırma girdisi bildirmiyor** — hareket açıkken de,
+reduced-motion'da da. Raporlanacak sayı budur.
+
+Ham toplam ise tek bir şeyi göstermek dışında işe yaramaz: **hareket açık koşu
+reduced-motion koşusundan DAHA AZ kayıyor** (1280'de ~0.02'ye karşı
+0.064–0.085). Fark hareket katmanından değil, giriş kabuğunun devir
+tesliminden geliyor — reduced-motion yolunda en büyük iki girdi
+`div.shell-state` (t≈185ms) ve `div.relative` (t≈541ms), yani landing kendi
+koreografisine başlamadan önce. Ham toplamı "hareketin bedeli" diye
+raporlamak bu yüzden yanlış olur; üstelik kendisi de tekrarlanabilir değil.
+
 ### Kare ölçümü nasıl okunur
 
 `--mode=frames` üç geçiş koşar ve üçünü de basar, çünkü **aynı şeyi

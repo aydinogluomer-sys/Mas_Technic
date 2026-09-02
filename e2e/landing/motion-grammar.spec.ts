@@ -250,4 +250,87 @@ test.describe("motion grammar", () => {
     expect(grammars.paperContainer, `the container carries it instead · ${seen}`).toBe("opacity");
     expect(grammars.panelContainer, `the container carries it instead · ${seen}`).toBe("opacity");
   });
+
+  test("hovering a measurement lights its guide line and its passport counterpart", async ({ page }) => {
+    /* WHY A TEST AND NOT A SCREENSHOT
+       -------------------------------
+       This interaction shipped once already as a stylesheet that read
+       correctly and did nothing. Two separate cascade facts defeated it:
+
+         (a) `tl-label-lock-{down,up}` ended on `opacity: 1` under
+             `fill-mode: both`, and an animation's fill state is applied in
+             the animation origin, which outranks every normal declaration —
+             so the six boxes were frozen opaque in every state;
+         (b) `:is()` takes the specificity of its MOST SPECIFIC argument, so
+             one element selector (`.tl-dim-line path`) inside the isolation
+             list made it (0,4,1) against the correlation's (0,4,0) and the
+             isolation won although it comes first in the file.
+
+       Neither is visible in a diff and neither changes the resting picture,
+       so only a reading of computed opacity under a real pointer can tell
+       the working version from the dead one. That is what this does. */
+    const CASES = [
+      { hover: ".tl-measure-top", line: ".tl-dim--bore", passport: ".tl-pp-bore", receded: ".tl-measure-finish" },
+      { hover: ".tl-fcf-top", line: ".tl-dim--tol", passport: ".tl-pp-holes", receded: ".tl-measure-top" },
+      { hover: ".tl-measure-left", line: ".tl-dim--height", passport: ".tl-pp-dim", receded: ".tl-measure-top" },
+      { hover: ".tl-fcf-bottom", line: ".tl-dim--perp", passport: ".tl-pp-body", receded: ".tl-measure-top" },
+      { hover: ".tl-measure-finish", line: ".tl-dim--finish", passport: ".tl-pp-body", receded: ".tl-measure-top" },
+      { hover: ".tl-datum", line: ".tl-dim--datum", passport: ".tl-pp-dim", receded: ".tl-measure-top" },
+    ];
+
+    await gotoAndSettle(page, "/");
+    await landingReady(page);
+    await settleRendering(page);
+
+    /* Below 768 the dimension lines and two of the callouts are deliberately
+       dropped and the pointer is coarse, so there is no correlation to read.
+       That is a design decision, not a skipped assertion: the desktop project
+       asserts it and the mobile project asserts its own absence. */
+    const fine = await page.evaluate(() => matchMedia("(hover:hover) and (pointer:fine)").matches);
+    if (!fine) {
+      await expect(page.locator(".tl-dimension-lines")).toBeHidden();
+      return;
+    }
+
+    /** Own opacity, to two decimals — the isolation value is `.34`. */
+    const opacity = (selector: string) => page.evaluate((sel) => {
+      const nodes = Array.from(document.querySelectorAll(sel));
+      if (!nodes.length) return -1;
+      return Math.min(...nodes.map((n) => Number.parseFloat(getComputedStyle(n).opacity)));
+    }, selector);
+
+    // Nothing is dimmed until a pointer asks for something.
+    for (const c of CASES) expect(await opacity(c.hover), `${c.hover} at rest`).toBeCloseTo(1, 2);
+
+    for (const c of CASES) {
+      await page.hover(c.hover);
+      await page.waitForTimeout(350);
+
+      /* Assert the SELECTOR matched before reading any number from it: a
+         renamed class would otherwise read as "nothing dimmed" and pass. */
+      const matched = await page.evaluate(
+        (sel) => !!document.querySelector(`.tl-hero:has(${sel}:hover)`),
+        c.hover,
+      );
+      expect(matched, `${c.hover} must actually be hovered`).toBe(true);
+
+      const seen = {
+        measurement: await opacity(c.hover),
+        line: await opacity(c.line),
+        passport: await opacity(c.passport),
+        receded: await opacity(c.receded),
+      };
+      const why = `${c.hover} · ${JSON.stringify(seen)}`;
+      expect(seen.measurement, `the hovered measurement stays lit · ${why}`).toBeCloseTo(1, 2);
+      expect(seen.line, `its guide line lights · ${why}`).toBeCloseTo(1, 2);
+      expect(seen.passport, `its passport counterpart lights · ${why}`).toBeCloseTo(1, 2);
+      expect(seen.receded, `everything else recedes · ${why}`).toBeLessThan(0.5);
+
+      await page.mouse.move(2, 2);
+      await page.waitForTimeout(250);
+    }
+
+    // And the page returns to one flat resting state when the pointer leaves.
+    for (const c of CASES) expect(await opacity(c.hover), `${c.hover} back at rest`).toBeCloseTo(1, 2);
+  });
 });

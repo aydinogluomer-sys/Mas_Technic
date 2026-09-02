@@ -872,11 +872,16 @@
 
      `letter-spacing` bu dosyadaki TEK yerleşim özelliğidir. Gerekçe: kapanan
      tolerans metaforunun kendisi odur ve `transform` ile taklidi sözcüğü
-     bulanıklaştırır. Ölçüldü — `--mode=cls`, 1280 ve 375: manifesto hiçbir
-     `layout-shift` girdisi üretmiyor, çünkü `strong` kendi satırındaki tek
-     kutudur ve büyümesi başka hiçbir kutunun başlangıcını kaydırmaz. Bu
-     istisna GENİŞLETİLMEMELİDİR; ikinci bir örnek çıkarsa ölçüm yeniden
-     yapılmalıdır. */
+     bulanıklaştırır. Ölçüldü — `--mode=cls`, üç ardışık koşu × iki genişlik
+     (1280 / 375): `manifestoEntries` altı ölçümün altısında da 0, yani
+     tarayıcı manifestoya bağlı tek bir `layout-shift` girdisi bildirmiyor;
+     `strong` kendi satırındaki tek kutudur ve büyümesi başka hiçbir kutunun
+     başlangıcını kaydırmaz. Aynı koşuda bütün landing kaydırılırken oluşan
+     toplam (`scrollCost`) 1280'de üç koşuda da 0.00000, 375'te
+     0.00000/0.00106/0.00000. Ham sayfa CLS'i bu iddianın kanıtı DEĞİLDİR ve
+     öyle raporlanmamalıdır — gerekçesi `docs/lean/07-motion-system.md`,
+     "CLS ölçümü nasıl okunur". Bu istisna GENİŞLETİLMEMELİDİR; ikinci bir
+     örnek çıkarsa ölçüm yeniden yapılmalıdır. */
   /* Karanlıktan çıkış, GÖRSELİN KENDİSİYLE değil üstüne konan bir perdeyle.
      İlk yazımı `filter: brightness()` idi — 02'deki `tl-part-expose` de öyle
      yapıyor ve doğru görünüyordu. Ama bu görsel tam genişlikte ve
