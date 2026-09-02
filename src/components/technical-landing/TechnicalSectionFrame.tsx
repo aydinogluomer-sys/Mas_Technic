@@ -7,6 +7,5 @@
    the landing does not pass. */
 export {
   ShellBand as TechnicalSectionFrame,
-  type ShellContentStatus as TechnicalContentStatus,
   type ShellBandProps as TechnicalSectionFrameProps,
 } from "@/components/shell/ShellBand";

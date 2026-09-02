@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { ShellBand, type ShellContentStatus } from "./ShellBand";
+import { ShellBand } from "./ShellBand";
 
 /* ══════════════════════════════════════════════════════════════════════════
    SHARED PUBLIC PRIMITIVES
@@ -40,7 +40,6 @@ export function ShellPageHero({
   lede,
   meta,
   actions,
-  status,
   id,
 }: {
   no?: string;
@@ -51,11 +50,10 @@ export function ShellPageHero({
   /** Mono `label / value` pairs shown as a measured run under the lede. */
   meta?: { label: string; value: string }[];
   actions?: ReactNode;
-  status?: ShellContentStatus;
   id?: string;
 }) {
   return (
-    <ShellBand no={no} label={label} className="shell-hero" status={status} id={id} labelledBy="shell-page-title">
+    <ShellBand no={no} label={label} className="shell-hero" id={id} labelledBy="shell-page-title">
       <div className="tl-grid shell-hero-body">
         <div className="shell-hero-copy">
           {eyebrow && <p className="shell-eyebrow">{eyebrow}</p>}
@@ -163,7 +161,6 @@ export function ShellSurfaceBand({
   id,
   labelledBy,
   ariaLabel,
-  status,
   children,
 }: {
   no: string;
@@ -173,7 +170,6 @@ export function ShellSurfaceBand({
   id?: string;
   labelledBy?: string;
   ariaLabel?: string;
-  status?: ShellContentStatus;
   children: ReactNode;
 }) {
   return (
@@ -181,7 +177,6 @@ export function ShellSurfaceBand({
       no={no}
       label={label}
       tone={tone}
-      status={status}
       id={id}
       labelledBy={labelledBy}
       ariaLabel={ariaLabel}

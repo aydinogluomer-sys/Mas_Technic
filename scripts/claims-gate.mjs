@@ -92,8 +92,11 @@ const RULES = [
   },
   {
     id: "machine-inventory",
+    // CASE-SENSITIVE: these are proper nouns and always capitalised in source.
+    // Case-insensitively, `Okuma` matches the Turkish word "okuma" (reading)
+    // and `GOM` matches inside ordinary words.
     pattern:
-      /DMG\s?MORI|\bDMU\s?\d|Variaxis|monoBLOCK|\bMazak\b|\bHaas\b|\bSodick\b|\bZeiss\b|\bGOM\b|Taylor\s?Hobson|Mitutoyo|Renishaw|Hexagon\s?Metrology|Keyence|\bOkuma\b|Hermle|Doosan|Makino|Kitamura|\bStuder\b/i,
+      /DMG\s?MORI|\bDMU\s?\d|Variaxis|monoBLOCK|\bMazak\b|\bHaas\b|\bSodick\b|\bZeiss\b|\bGOM\b|Taylor\s?Hobson|Mitutoyo|Renishaw|Hexagon\s?Metrology|Keyence|\bOkuma\b|Hermle|Doosan|Makino|Kitamura|\bStuder\b/,
     authority: "§D MACHINE_COUNT_VISIBILITY: PRIVATE_DO_NOT_DISCLOSE — and no model list was ever supplied",
     remedy: "Named machines and metrology brands were invented. §H supplies a real equipment PDF instead.",
   },
@@ -199,11 +202,30 @@ function walk(path) {
   filesScanned += 1;
   const rel = relative(REPO_ROOT, abs).replace(/\\/g, "/");
   const lines = readFileSync(abs, "utf8").split(/\r?\n/);
+  // A removed claim must stay DISCUSSABLE — the whole point of the ledger is
+  // that it explains what went and why. So comments are skipped, including
+  // block comments whose continuation lines carry no `*` gutter.
+  let inBlockComment = false;
   lines.forEach((line, index) => {
     const trimmed = line.trim();
+    const opens = line.lastIndexOf("/*");
+    const closes = line.lastIndexOf("*/");
+    const wasInBlock = inBlockComment;
+    if (inBlockComment) {
+      if (closes > -1) inBlockComment = false;
+    } else if (opens > -1 && closes < opens) {
+      inBlockComment = true;
+    }
+    if (wasInBlock || (opens > -1 && closes < opens)) return;
     if (!trimmed) return;
-    // A removed claim must remain discussable. Comments explain WHY it went.
-    if (trimmed.startsWith("//") || trimmed.startsWith("*") || trimmed.startsWith("/*")) return;
+    if (
+      trimmed.startsWith("//") ||
+      trimmed.startsWith("*") ||
+      trimmed.startsWith("/*") ||
+      trimmed.startsWith("{/*")
+    ) {
+      return;
+    }
     linesScanned += 1;
     for (const rule of RULES) {
       if (rule.pattern.test(line)) {

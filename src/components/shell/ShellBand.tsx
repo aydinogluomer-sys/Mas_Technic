@@ -22,19 +22,19 @@ import type { ElementType, ReactNode } from "react";
    re-export so the landing keeps working through its old name.
    ══════════════════════════════════════════════════════════════════════════ */
 
-/**
- * Content provenance, shown as a corner stamp.
+/* THE CONTENT-PROVENANCE STAMP IS GONE (Phase 06).
  *
- * `demo`/`sample` exist so an unfinished band has to SAY it is unfinished
- * instead of passing as evidence. They are not decoration.
- */
-export type ShellContentStatus = "demo" | "sample" | "verified";
-
-const statusLabels: Record<ShellContentStatus, string> = {
-  demo: "DEMO İÇERİK",
-  sample: "ÖRNEK İÇERİK",
-  verified: "DOĞRULANMIŞ",
-};
+ * `status="demo" | "sample"` painted a corner badge — `DEMO İÇERİK`,
+ * `ÖRNEK İÇERİK` — so an unfinished band had to SAY it was unfinished instead
+ * of passing as evidence. That was the right instinct at the wrong altitude:
+ * three bands of the landing carried one, which made the home page read as a
+ * demo to any careful visitor, and the badge did nothing to stop the invented
+ * numbers underneath it from being invented.
+ *
+ * Phase 06 removed the content instead. No band sets a status any more, so the
+ * prop, the labels and the badge are deleted rather than left as a loaded gun:
+ * `scripts/claims-gate.mjs` fails on the strings, and there is no longer an
+ * affordance that makes shipping placeholder content feel acceptable.        */
 
 export type ShellBandProps = {
   as?: ElementType;
@@ -46,7 +46,6 @@ export type ShellBandProps = {
   id?: string;
   labelledBy?: string;
   ariaLabel?: string;
-  status?: ShellContentStatus;
   /** `paper` flips the band to the warm evidence ground. */
   tone?: "graphite" | "paper";
   children: ReactNode;
@@ -60,7 +59,6 @@ export function ShellBand({
   id,
   labelledBy,
   ariaLabel,
-  status,
   tone,
   children,
 }: ShellBandProps) {
@@ -70,14 +68,12 @@ export function ShellBand({
       className={`tl-band ${className}`.trim()}
       aria-labelledby={labelledBy}
       aria-label={ariaLabel}
-      data-content-status={status}
       data-band-tone={tone}
     >
       <div className="tl-band-index" aria-hidden="true">
         <span>{no}</span>
         <small>{label}</small>
       </div>
-      {status && <span className="tl-status-badge">{statusLabels[status]}</span>}
       {children}
     </Component>
   );

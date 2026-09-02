@@ -1,4 +1,4 @@
-import { technicalProof } from "@/data/technicalLandingData";
+import { technicalProof, technicalProofNote } from "@/data/technicalLandingData";
 import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
 
 export function ProofStrip() {
@@ -13,7 +13,7 @@ export function ProofStrip() {
           </article>
         ))}
       </div>
-      <p className="tl-proof-note">Gösterilen değerler proje kapsamı, malzeme ve teknik resim gereksinimlerine göre doğrulanır.</p>
+      <p className="tl-proof-note">{technicalProofNote}</p>
     </TechnicalSectionFrame>
   );
 }

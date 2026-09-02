@@ -25,7 +25,7 @@ export function TechnicalHero() {
         </Link>
       </div>
 
-      <div className="tl-part-stage" aria-label="Ölçümlendirilmiş örnek CNC manifold parçası">
+      <div className="tl-part-stage" aria-label="Ölçülendirilmiş CNC manifold parçası çizimi">
         {/* Çerçeve görselin en-boy oranını birebir taşır: parça kırpılmaz ve
             ölçü etiketleri her ekran genişliğinde parçanın üstünde kalır. */}
         <div className="tl-part-frame">
@@ -75,7 +75,7 @@ export function TechnicalHero() {
               {/* Ø 28.000 — kutu altından iner, üst yüzeyde ok ile biter */}
               <path className="tl-dim--bore" d="M580 82V120" markerEnd="url(#tl-arrow)" />
 
-              {/* Ø 0.005 — tolerans çerçevesinden çıkıp delik yüzeyine iner */}
+              {/* Ø 0.010 — tolerans çerçevesinden çıkıp delik yüzeyine iner */}
               <path className="tl-dim--tol" d="M786 82L742 146" markerEnd="url(#tl-arrow)" />
 
               {/* 72.000 — gerçek ölçü çizgisi: uzatma çizgileri + çift ok */}
@@ -98,21 +98,31 @@ export function TechnicalHero() {
               gizlemez ve yeni bir sekme durağı açmaz. Bağıntı, zaten görünen
               bilgileri BİRBİRİNE bağlayan bir zenginleştirmedir — işaretçisi
               olmayan kullanıcı hiçbir şey kaybetmez. */}
-          <span className="tl-measure tl-measure-top" data-dim="bore">Ø 28.000 ±0.005</span>
+          {/* Every printed tolerance is the verified floor from
+              `src/content/claims.ts` (§D ±0.01 mm). The hero used to carry
+              ±0.005 in three places — twice the capability MAS TECHNIC has —
+              and a surface-finish value (`Ra 0.4 µm`) that `USER_INPUTS.md`
+              never supplies at all. The third leader now names a datum
+              feature: drawing vocabulary, asserting nothing about capability. */}
+          <span className="tl-measure tl-measure-top" data-dim="bore">Ø 28.000 ±0.010</span>
           <span className="tl-measure tl-measure-left" data-dim="height"><b>72.000</b><b>±0.010</b></span>
-          <span className="tl-measure tl-measure-finish" data-dim="finish">Ra 0.4 µm</span>
+          <span className="tl-measure tl-measure-finish" data-dim="finish">DATUM B</span>
 
           {/* Tolerans çerçeveleri: referansta hücrelere bölünmüş kutular */}
           {/* U+2300 ⌀ IBM Plex Mono'da yok ve minik bir yedeğe düşüyordu;
               U+00D8 Ø hem grotesk hem yedek yüzlerde tam cap yüksekliğinde. */}
-          <span className="tl-fcf tl-fcf-top" data-dim="tol" aria-hidden="true"><i>Ø</i><b>0.005</b></span>
+          <span className="tl-fcf tl-fcf-top" data-dim="tol" aria-hidden="true"><i>Ø</i><b>0.010</b></span>
           <span className="tl-fcf tl-fcf-bottom" data-dim="perp" aria-hidden="true"><i>⊥</i><b>0.010</b><b>A</b></span>
           <span className="tl-datum" data-dim="datum" aria-hidden="true">A</span>
         </div>
       </div>
 
-      <aside className="tl-part-passport" aria-label="Örnek parça bilgisi">
-        <h2>PARÇA BİLGİSİ</h2>
+      {/* The panel reads the drawing next to it rather than describing a part.
+          It used to list dimensions, material and an inspection report number
+          for a specific component — none of it verified, all of it captioned
+          as illustrative, which is a disclaimer where a fact should be. */}
+      <aside className="tl-part-passport" aria-label="Çizim lejandı">
+        <h2>ÇİZİM OKUMA</h2>
         <dl>{heroPartFacts.map(([term, value]) => <div key={term}><dt>{term}</dt><dd>{value}</dd></div>)}</dl>
         {/* Parçanın ortografik ön görünüşü — referansta soyut bir nişangâh
             değil, gövde hattı, ana delik ve bağlantı delikleri okunuyor. */}
@@ -140,7 +150,7 @@ export function TechnicalHero() {
             <path d="M18 34v82M14 40h8M14 110h8" />
           </g>
         </svg>
-        <p>GÖRSEL / TEMSİLÎ PARÇA</p>
+        <p>ÖLÇÜ · TOLERANS · DATUM</p>
       </aside>
     </TechnicalSectionFrame>
   );

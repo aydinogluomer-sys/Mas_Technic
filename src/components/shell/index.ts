@@ -2,7 +2,7 @@
    Phases 07 and 08 compose inner-page bodies from these; nothing else in
    `src/components/shell/**` is meant to be imported directly. */
 export { PageShell, type PageShellProps } from "./PageShell";
-export { ShellBand, type ShellBandProps, type ShellContentStatus } from "./ShellBand";
+export { ShellBand, type ShellBandProps } from "./ShellBand";
 export {
   ShellDivider,
   ShellEvidence,

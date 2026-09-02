@@ -99,10 +99,7 @@ export const CERTIFICATION_SENTENCE_LIST = CERTIFICATIONS.map((c) => c.code)
 export const CERTIFYING_BODIES = withhold({
   visibility: "REMOVE_IF_UNVERIFIED",
   source: "USER_INPUTS.md §C — no issuer field is provided for any certificate",
-  reason:
-    "servicePages.ts once printed 'ISO 9001:2015 (TÜV SÜD), AS9100D (SGS), " +
-    "IATF 16949 (Bureau Veritas)'. None of it was supplied; naming a registrar " +
-    "invents an audit that did not happen.",
+  reason: "Naming a registrar invents an audit that did not happen.",
 });
 
 /* ── §D — capability figures ────────────────────────────────────────────── */
@@ -176,8 +173,8 @@ export const ON_TIME_DELIVERY = withhold({
   visibility: "REMOVE_IF_UNVERIFIED",
   source: "USER_INPUTS.md §D ON_TIME_DELIVERY_INTERNAL: 95% (PUBLIC_IF_VERIFIED_AND_STRATEGIC)",
   reason:
-    "The site printed %98 against a verified 95%. The condition 'AND_STRATEGIC' " +
-    "is not met: an unaudited self-reported rate is not evidence.",
+    "The published rate exceeded the verified one, and the 'AND_STRATEGIC' " +
+    "condition is not met: an unaudited self-reported rate is not evidence.",
 });
 
 export const MATERIAL_COUNT = withhold({
@@ -185,42 +182,38 @@ export const MATERIAL_COUNT = withhold({
   source:
     "USER_INPUTS.md §D MATERIAL_COUNT_INTERNAL: UNKNOWN_REMOVE_IF_UNVERIFIED, " +
     "MATERIAL_COUNT_VISIBILITY: PRIVATE_DO_NOT_DISCLOSE",
-  reason: "'50+ MALZEME' was both unverified and marked private.",
+  reason: "The published material count was both unverified and marked private.",
 });
 
 export const TEAM_SIZE = withhold({
   visibility: "PRIVATE_DO_NOT_DISCLOSE",
   source: "USER_INPUTS.md §D TEAM_SIZE_VISIBILITY + §0 DO_NOT_PUBLISH_TEAM_SIZE_BY_DEFAULT: YES",
-  reason: "'50+ deneyimli mühendis' is scale-revealing and unverified.",
+  reason: "The published headcount was scale-revealing and unverified.",
 });
 
 export const MACHINE_COUNT = withhold({
   visibility: "PRIVATE_DO_NOT_DISCLOSE",
   source: "USER_INPUTS.md §D MACHINE_COUNT_VISIBILITY + §0 DO_NOT_PUBLISH_MACHINE_COUNT_BY_DEFAULT: YES",
-  reason:
-    "'50+ Tezgah' plus named machine models (DMG MORI, Mazak, Haas, Sodick) " +
-    "published a machine park that is private and was never verified.",
+  reason: "The machine park is private, and the model list was never supplied.",
 });
 
 export const FACILITY_SIZE = withhold({
   visibility: "PRIVATE_DO_NOT_DISCLOSE",
   source: "USER_INPUTS.md §D FACILITY_SIZE_VISIBILITY + §0 DO_NOT_PUBLISH_FACILITY_SIZE_BY_DEFAULT: YES",
-  reason: "'15.000 m² üretim alanı' is scale-revealing and unverified.",
+  reason: "The published floor area was scale-revealing and unverified.",
 });
 
 export const ORDER_VOLUME = withhold({
   visibility: "PRIVATE_DO_NOT_DISCLOSE",
   source: "USER_INPUTS.md §D REVENUE_OR_ORDER_VOLUME: PRIVATE_DO_NOT_DISCLOSE",
-  reason: "'50K+ adet/ay kapasite' and the OEE table were invented AND private.",
+  reason: "Monthly capacity and the equipment-effectiveness table were invented AND private.",
 });
 
 /** No analytics provider exists, so no view count, ranking or reach can. */
 export const CONTENT_ANALYTICS = withhold({
   visibility: "REMOVE_IF_UNVERIFIED",
   source: "USER_INPUTS.md §K ANALYTICS_PROVIDER: NONE",
-  reason:
-    "blogData.ts carried hardcoded per-post view counts and Blog.tsx summed them " +
-    "into '14.2K TOPLAM OKUMA' and a most-read ranking. Nothing measured them.",
+  reason: "Per-post read counts, their sum and the most-read ranking were all hardcoded.",
 });
 
 /* ── §F — customer references ───────────────────────────────────────────── */
@@ -244,7 +237,7 @@ export const REFERENCE_LOGOS: readonly ReferenceLogo[] = publish({
   visibility: "PUBLIC_CORE",
   source:
     "USER_INPUTS.md §F — HPT/TAAC/METSAN/TEKNIK_BALANS/AKON_HIDROLIK: PUBLIC_OK; " +
-    "OTHER_REFERENCES: TEKNOPAR (PUBLIC_OK). ZTM: REMOVE_IF_UNVERIFIED.",
+    "OTHER_REFERENCES: TEKNOPAR (PUBLIC_OK). One further name is REMOVE_IF_UNVERIFIED.",
 });
 
 /** A reference logo is permission to show a name — not to describe a project. */
@@ -298,10 +291,7 @@ export const QUALITY_RESOURCES: readonly QualityResource[] = publish({
 export const REPORT_VERIFICATION_SERVICE = withhold({
   visibility: "REMOVE_IF_UNVERIFIED",
   source: "USER_INPUTS.md §H OTHER_PUBLIC_DOCS: NONE — no verification endpoint exists",
-  reason:
-    "The landing showed a decorative seeded-LCG QR under 'RAPORU DOĞRULA' with " +
-    "'DOĞRULAMA SERVİSİ HAZIRLANIYOR'. IMPLEMENTATION.md §13 forbids a fake " +
-    "verification destination outright.",
+  reason: "IMPLEMENTATION.md §13 forbids a fake verification destination outright.",
 });
 
 /* ── §J — RFQ and CAD policy ────────────────────────────────────────────── */
@@ -315,7 +305,7 @@ export const CONFIDENTIALITY_PROMISE = withhold({
   source:
     "USER_INPUTS.md §J — NDA_AVAILABLE: NO, CONFIDENTIALITY_TEXT_APPROVED: NO, " +
     "CAD_RETENTION_PERIOD: UNKNOWN_REMOVE_IF_UNVERIFIED, CAD_DELETE_REQUEST_PROCESS: UNKNOWN",
-  reason: "No NDA, retention window or deletion process may be promised anywhere.",
+  reason: "No confidentiality agreement, retention window or deletion process may be promised.",
 });
 
 /* ── §A / §B / §L — identity ────────────────────────────────────────────── */
@@ -335,7 +325,5 @@ export const SOCIAL_LINKS: readonly { label: string; href: string }[] = publish(
 export const ENGLISH_SITE = withhold({
   visibility: "REMOVE_IF_UNVERIFIED",
   source: "USER_INPUTS.md §B ENGLISH_LIVE_NOW: NO",
-  reason:
-    "The header EN toggle went in Phase 03. JSON-LD still told search engines " +
-    "`availableLanguage: ['Turkish', 'English']`; Phase 06 removed that too.",
+  reason: "The header toggle went in Phase 03; the JSON-LD language list went in Phase 06.",
 });

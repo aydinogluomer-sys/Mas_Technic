@@ -24,58 +24,26 @@ const sectors = [
 
 const DRAFT_RFQ_ID = "RFQ-DRAFT-LANDING";
 
-/** Referansta her sertifikanın imzası farklı; tek bir çizim tekrar etmiyor. */
-const SIGNATURE_PATHS = [
-  "M4 22c10-4 13-18 18-17s2 19 8 20 9-15 14-14 3 13 8 13 8-8 12-10 14-2 18-1",
-  "M3 19c6 4 9-15 14-14s2 18 8 19 10-14 15-13 5 12 11 11 12-6 17-8",
-  "M5 23c4-10 10-17 14-16s1 17 7 18 8-13 13-12 5 11 11 10 12-5 17-7",
-] as const;
+/* ══════════════════════════════════════════════════════════════════════════
+   WHAT THIS FILE NO LONGER DRAWS
 
-/** Islak imza izlenimi veren dekoratif çizgi. */
-function Signature({ variant = 0 }: { variant?: number }) {
-  return (
-    <svg className="tl-signature" viewBox="0 0 120 28" aria-hidden="true">
-      <path d={SIGNATURE_PATHS[variant % SIGNATURE_PATHS.length]} />
-      <path className="tl-signature-rule" d="M0 27h120" />
-    </svg>
-  );
-}
+   Four decorative devices were deleted in Phase 06, not restyled:
 
-/** Kabartma noter mührü — referansta yalnızca ilk sertifikada var. */
-function EmbossSeal() {
-  return (
-    <svg className="tl-emboss" viewBox="0 0 48 48" aria-hidden="true">
-      <circle cx="24" cy="24" r="22" />
-      <circle className="tl-emboss-teeth" cx="24" cy="24" r="19.4" strokeDasharray="1.5 3.6" />
-      <circle cx="24" cy="24" r="16" />
-      <circle cx="24" cy="24" r="7" />
-      <path d="M24 8v8M24 32v8M8 24h8M32 24h8M12.9 12.9l5.7 5.7M29.4 29.4l5.7 5.7M35.1 12.9l-5.7 5.7M18.6 29.4l-5.7 5.7" />
-    </svg>
-  );
-}
+     • a wet-signature SVG under each certificate       — a forged signature
+     • an embossed notary seal on the first certificate — a forged attestation
+     • a seeded-LCG "QR" under `RAPORU DOĞRULA` with
+       `DOĞRULAMA SERVİSİ HAZIRLANIYOR`                 — a verification
+                                                          destination that
+                                                          does not exist
+     • a `QUALITY ASSURED` circular stamp               — a self-issued seal
+                                                          with no issuing body
 
-/**
- * Dekoratif QR dokusu. Modül dizilimi sabit tohumlu LCG ile üretilir; Math.random
- * kullanılmaz ki her render ve her test koşusu aynı deseni versin.
- */
-const QR_SIZE = 29;
-const QR_FINDERS = [[0, 0], [QR_SIZE - 7, 0], [0, QR_SIZE - 7]]
-  .map(([x, y]) => `M${x} ${y}h7v7h-7zM${x + 1} ${y + 1}v5h5v-5zM${x + 2} ${y + 2}h3v3h-3z`)
-  .join("");
-const QR_MODULES = (() => {
-  const cells: string[] = [];
-  const inFinder = (x: number, y: number) =>
-    (x < 8 && y < 8) || (x > QR_SIZE - 9 && y < 8) || (x < 8 && y > QR_SIZE - 9);
-  let seed = 0x2f6e2b1;
-  for (let y = 0; y < QR_SIZE; y += 1) {
-    for (let x = 0; x < QR_SIZE; x += 1) {
-      seed = (seed * 1103515245 + 12345) & 0x7fffffff;
-      if (inFinder(x, y) || ((seed >>> 15) & 1) === 0) continue;
-      cells.push(`M${x} ${y}h1v1h-1z`);
-    }
-  }
-  return cells.join("");
-})();
+   Each was decorative in intent and evidentiary in effect. `IMPLEMENTATION.md`
+   §13 names the fake verification destination explicitly; the other three are
+   the same failure with a different geometry. The band keeps its structure —
+   six cards on the paper ground — but every card now points at something that
+   exists.
+   ══════════════════════════════════════════════════════════════════════════ */
 
 /** 08 — Hizmet verilen sektörler. */
 export function TechnicalSectors() {
@@ -113,27 +81,26 @@ export function MeasurementManifesto() {
 /** 10 — Kalite dosyası: sertifikalar, ölçüm raporu ve doğrulama. */
 export function QualityFile() {
   return (
-    <TechnicalSectionFrame no="10" id="kalite" label="KALİTE DOSYASI" className="tl-quality" labelledBy="tl-quality-title" status="sample">
+    <TechnicalSectionFrame no="10" id="kalite" label="KALİTE DOSYASI" className="tl-quality" labelledBy="tl-quality-title">
       <div className="tl-quality-body">
         <h2 id="tl-quality-title" className="tl-visually-hidden">Kalite dosyası</h2>
         <div className="tl-quality-strip">
-          {qualityCertificates.map(({ code, name }, index) => (
+          {/* Three certificates, and only three: `USER_INPUTS.md` §C records
+              AS9100D and IATF 16949 as NONE. The card count is unchanged
+              because OHSAS 18001 was permitted and simply missing. */}
+          {qualityCertificates.map(({ code, name }) => (
             <article className="tl-cert" key={code}>
               <h3>{code}</h3>
               <p>{name}</p>
               <div className="tl-cert-sign">
-                <span>
-                  <Signature variant={index} />
-                  <small>YETKİLİ İMZA</small>
-                </span>
-                {index === 0 ? <EmbossSeal /> : null}
+                <span><small>YÖNETİM SİSTEMİ BELGESİ</small></span>
               </div>
             </article>
           ))}
 
           <article className="tl-cert tl-cert-report">
-            <h3>CMM ÖLÇÜM RAPORU</h3>
-            <p>MT-2024-04518</p>
+            <h3>ÖLÇÜM KAYDI</h3>
+            <p>Kontrol planına göre</p>
             <div className="tl-mini-doc" aria-hidden="true">
               <img src={reportPart} alt="" loading="lazy" />
               <div>
@@ -146,44 +113,28 @@ export function QualityFile() {
           </article>
 
           <article className="tl-cert tl-cert-material">
-            <h3>MALZEME SERTİFİKASI</h3>
-            <p>EN 10204 3.1</p>
+            <h3>MALZEME İZLENEBİLİRLİĞİ</h3>
+            <p>Parti ve döküm kaydı</p>
             <div className="tl-cert-table" aria-hidden="true">
               {Array.from({ length: 7 }, (_, row) => (
                 <span key={row}><i /><i /><i /><i /></span>
               ))}
-              <b className="tl-grade-badge">3.1</b>
             </div>
-            <Signature variant={2} />
           </article>
 
+          {/* Where the fake verification QR stood. The documents named here are
+              the four real PDFs in §H; they are downloadable from the KAYNAKLAR
+              list in band 12. */}
           <article className="tl-cert tl-cert-verify">
-            <h3>RAPORU DOĞRULA</h3>
-            <svg className="tl-qr" viewBox={`0 0 ${QR_SIZE} ${QR_SIZE}`} aria-hidden="true" shapeRendering="crispEdges">
-              <path fillRule="evenodd" d={QR_FINDERS} />
-              <path d={QR_MODULES} />
-            </svg>
-            <p>QR kodu okutunuz</p>
-            <small>DOĞRULAMA SERVİSİ HAZIRLANIYOR</small>
+            <h3>KALİTE DOSYASI</h3>
+            <p>Kalite politikası · Ölçüm ekipmanları · Paketleme · Tedarikçi kuralları</p>
+            <div className="tl-cert-table" aria-hidden="true">
+              {Array.from({ length: 7 }, (_, row) => (
+                <span key={row}><i /><i /><i /><i /></span>
+              ))}
+            </div>
+            <small>KAYNAKLAR BÖLÜMÜNDEN İNDİRİLEBİLİR</small>
           </article>
-
-          <div className="tl-stamp" aria-hidden="true">
-            <svg viewBox="0 0 120 120">
-              <defs>
-                {/* Üst yay soldan sağa (sweep=1) üstten geçer, alt yay soldan sağa (sweep=0)
-                    alttan geçer; ikisi de bu yönde okunaklı çıkıyor. Yön çevrilirse harf sırası ters döner. */}
-                <path id="tl-stamp-arc-top" d="M26 60a34 34 0 0 1 68 0" />
-                <path id="tl-stamp-arc-bottom" d="M21 60a39 39 0 0 0 78 0" />
-              </defs>
-              <circle cx="60" cy="60" r="56" />
-              <circle cx="60" cy="60" r="52" strokeDasharray="1.6 3.2" />
-              <circle cx="60" cy="60" r="42" />
-              <text className="tl-stamp-arc"><textPath href="#tl-stamp-arc-top" startOffset="50%">MAS TECHNIC</textPath></text>
-              <text className="tl-stamp-arc"><textPath href="#tl-stamp-arc-bottom" startOffset="50%">ASSURED</textPath></text>
-              <path d="M17 57v8M13.5 59l7 4M20.5 59l-7 4M103 57v8M99.5 59l7 4M106.5 59l-7 4" />
-            </svg>
-            <span>QUALITY<br />ASSURED</span>
-          </div>
         </div>
       </div>
     </TechnicalSectionFrame>
@@ -219,11 +170,35 @@ export function FaqSection() {
             </details>
           ))}
         </div>
+        {/* The four documents were real and publishable (§H) the whole time.
+            They were rendered as inert `<li>`s under `KAYNAKLAR HAZIRLANIYOR`
+            with four invented file sizes, for files that had never been copied
+            into the build. They are served from `public/belgeler/` now, and
+            `scripts/claims-gate.mjs` re-measures every printed size from disk.
+
+            The inline flex is deliberate: `.tl-resource-list li` owns the row
+            layout in `technical-landing.css`, which this phase may not edit, so
+            the anchor has to become the row rather than sit inside it. */}
         <div className="tl-resource">
-          <h3 className="tl-resource-title">KAYNAKLAR <small>HAZIRLANIYOR</small></h3>
+          <h3 className="tl-resource-title">KAYNAKLAR</h3>
           <ul className="tl-resource-list">
-            {technicalResources.map(([name, size]) => (
-              <li key={name}><span>{name}</span><em>{size}</em><ArrowDown aria-hidden="true" /></li>
+            {technicalResources.map(({ title, href, size }) => (
+              <li key={href}>
+                <a
+                  href={href}
+                  download
+                  style={{
+                    display: "flex",
+                    flex: 1,
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "var(--tl-s4)",
+                    color: "inherit",
+                  }}
+                >
+                  <span>{title}</span><em>{size}</em><ArrowDown aria-hidden="true" />
+                </a>
+              </li>
             ))}
           </ul>
         </div>

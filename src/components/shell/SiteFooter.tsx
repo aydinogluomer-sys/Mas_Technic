@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
-import { ArrowLeft, ArrowRight, ChevronDown, Instagram, Linkedin, Mail, MapPin, Phone, Youtube } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { legalLinks, rfqLink } from "@/components/navigation/ia";
@@ -58,10 +58,12 @@ const CONTACT = {
   mailHref: "mailto:sales@mastechnic.com",
 } as const;
 
+/* `USER_INPUTS.md` §L lists LINKEDIN as the only permitted channel; INSTAGRAM,
+   YOUTUBE and X_TWITTER are all `NONE`. The footer linked to an Instagram and a
+   YouTube handle that were never supplied — a dead icon is a promise the brand
+   does not keep, and if the handle belongs to someone else it is worse. */
 const SOCIAL = [
   { label: "LinkedIn", href: "https://www.linkedin.com/company/mas-technic", Icon: Linkedin },
-  { label: "Instagram", href: "https://www.instagram.com/mastechnic", Icon: Instagram },
-  { label: "YouTube", href: "https://www.youtube.com/@mastechnic", Icon: Youtube },
 ] as const;
 
 /* ── Mobile disclosure ────────────────────────────────────────────────────
