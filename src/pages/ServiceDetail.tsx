@@ -127,20 +127,35 @@ export const ServiceDetail = () => {
     offset: ["start start", "end start"],
   });
   const heroY = useTransform(heroScrollProgress, [0, 1], [0, 120]);
-  /* I4 — `heroOpacity` is gone.
-     It was `useTransform(heroScrollProgress, [0, 0.6], [1, 0])` on the block
-     that holds the breadcrumb, the eyebrow and the page's ONLY `<h1>`. Every
-     `whileInView` on this route already carries `once: true`, so the heading
-     was not re-hidden by a reveal — it was faded out by scroll position, and
-     scroll position runs both ways. At 375 the hero is 320px tall, so the h1
-     sits near its bottom edge and hit progress 0.6 while it was still on
-     screen: the title of the page dissolved under the reader, and came back if
-     they scrolled up. A heading that is legible only at one scroll offset is
-     missing content at every other offset, and a scroll-linked opacity can
-     never be `once`.
-     The image parallax (`heroY`) is untouched — it moves a photograph, which
-     is exactly what cinematic motion is for. Nothing here changes layout,
-     copy, or the at-rest appearance of the hero. */
+  /* I4 — `heroOpacity` is gone. It was
+     `useTransform(heroScrollProgress, [0, 0.6], [1, 0])` on the block holding
+     the breadcrumb, the eyebrow and this page's ONLY `<h1>`. Every
+     `whileInView` on this route already carries `once: true`, so nothing was
+     re-hidden by a reveal — the heading was faded out by scroll POSITION, and
+     scroll position runs both ways. A scroll-linked opacity can never be
+     `once`, and content legible at one scroll offset and not at another is
+     missing content at every other offset. `heroY` is untouched: it moves a
+     photograph, which is what cinematic motion is for. No layout, copy or
+     at-rest appearance changes here.
+
+     WHAT THIS DOES NOT FIX, MEASURED — for Phase 07, which owns this body.
+     At 375 the eyebrow and the h1 are invisible regardless of the above, and
+     the cause is LAYOUT, not motion. The hero is 320px (viewport y 96..416)
+     while the `absolute bottom-0` block inside it is 424px tall, so the block
+     spans y -8..416 and its top 104px — the eyebrow and the whole h1, at
+     y 32..92 — are clipped off by the hero's `overflow: hidden`. Being
+     clipped, the block never intersects, so its `whileInView` never fires and
+     it sits at `opacity: 0` as a second, dependent symptom. At 1280 the same
+     block is 229px inside a 440px hero and both are fine.
+
+     `--mode=enabled` reports this as `afterScrollText=2` at 375 and 0 at 1280,
+     and reports the SAME two elements on base commit a2b4c20, so it predates
+     this packet. It is deliberately not patched from here: forcing the reveal
+     to fire would put `opacity: 1` on text that is still clipped away, which
+     clears the measurement while leaving the reader with no page title. The
+     hero needs to fit its content at 375, and that is a layout change this
+     packet may not make. `e2e/landing/motion-grammar.spec.ts` pins the motion
+     half so it cannot regress while the layout half is outstanding. */
 
   if (!page) {
     return (

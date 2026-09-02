@@ -125,6 +125,69 @@ En az bir silence zone zorunlu.
 
 ---
 
+## Hareket Dilbilgisi — İÇERİK TÜRÜNE göre, banda göre değil
+
+Süre ölçeği bir hareketin NE KADAR sürdüğünü söyler; dilbilgisi NE OLDUĞUNU
+söyler. Bir bandın nasıl geldiği, ne taşıdığını anlatmak zorundadır. Aksi
+hâlde hareket anlam değil gecikme ekler — nitekim eski katmanda 03, 05, 06,
+07, 10, 12, 13 ve 14 aynı `opacity` + `translateY` çiftini kullanıyordu.
+
+Eşleme **türe** bağlıdır: aynı türden içerik taşıyan yeni bir bant yeni bir
+dil icat etmez, aşağıdakini konuşur.
+
+| # | Dilbilgisi | İçerik türü | Jest | Nerede (`styles/technical-landing.css`) |
+|---|-----------|-------------|------|------------------------------------------|
+| G1 | **DRAW → LOCK** | teknik çizgi işi | çizgi çizilir, değeri ucuna basılır | 02 hero kılavuz çizgileri + ölçü kutuları; 10 ıslak imza |
+| G2 | **PRINT** | kâğıt kanıt | sayfa yukarıdan aşağı ortaya çıkar, dikey yol YOK | 07 ölçüm raporları, 10 sertifikalar |
+| G3 | **EXPOSE → CALIBRATE** | koyu cihaz paneli | panel raydan sağa açılır, sonra sayılar netleşir | 06 NEXUS |
+| G4 | **RESOLVE → VERIFY** | veri tablosu | satırlar çözülür, SONUÇ hücresi en son yazılır | 06 iş emirleri, 07 ölçüm tabloları |
+| G5 | **REVEAL** | görsel | perde + ≤1.07 ölçek oturması | 05 süreç, 08 sektörler, 09 manifesto |
+| G6 | **SETTLE** | düz metin — sessiz varsayılan | opaklık + ≤10px yol, `--tl-dur-short` | 03, 05 adımlar, 11, 12, 13 tabanı, 14 |
+
+Beşinin hiçbirini hak etmeyen her şey G6'dır. G6 bir başarısızlık değil,
+varsayılandır.
+
+### Üç zirve — ve bedeli
+
+Sayfada tam olarak üç büyük an vardır. Dördüncüsünü eklemek üçünü birden
+küçültür.
+
+1. **02 HERO** — parça kahramandır: karanlıktan çıkar (`tl-part-expose`),
+   ölçülür (`tl-draw-measure`), değerleri kilitlenir (`tl-label-lock-*`).
+   Sayfanın tek anlamlı etkileşimi de buradadır: bir ölçünün üzerine gelmek o
+   ölçünün kılavuz çizgisini ve pasaporttaki karşılığını birlikte aydınlatır,
+   kalanı geri çeker. Yeni sekme durağı açmaz — zaten görünen iki bilgiyi
+   ilişkilendirir, hiçbirini gizlemez.
+2. **09 MANİFESTO** — "Hassasiyet iddia edilmez. **Ölçülür.**" İddia
+   canlandırılmaz, ölçülür: sözcüğün altında iki uzatma çizgisi dışarıdan
+   içeriye kapanır, sonra sözcük harf aralığını toplayarak yerine oturur.
+3. **13 RFQ** — devir teslim: bırakma alanı ortadan dışa doğru açılır.
+
+Zirveleri korumak için **bilinçli olarak susturulanlar**: 03 (dikey yol
+kaldırıldı, .62s → .35s), 04 (görüş alanı dışında durdurulur), 11 (altı ayrı
+gecikme tek blok geçişine indi), 12 (yol kaldırıldı).
+
+### Mobil = daha az şey, daha yavaş değil
+
+G2–G5 ve iki zirvenin destek katmanları `@media (min-width: 768px)` içindedir.
+Mobilde animasyonlu **birim değişir**: tek tek kart/hücre/satır değil, onları
+taşıyan kap tek bir sessiz geçişle gelir. Manifesto zirvesi mobilde de durur
+ama tek jeste iner (başlığın satır açılışı).
+
+Ölçüldü — `node scripts/motion-audit.mjs --mode=density`:
+
+| | 1280 | 375 |
+|---|---|---|
+| `transitioned` | 132 | 58 |
+| `animated` | 9 | 5 |
+| `transformed` | 23 | 15 |
+
+`e2e/landing/motion-grammar.spec.ts` bu farkı bir eşikle değil bir
+KARŞILAŞTIRMAYLA sabitler; eşik, ikisi birbirine yaklaşırken bile geçmeye
+devam ederdi.
+
+---
+
 ## Performans Kuralları
 
 - Sadece `transform` ve `opacity` animate et
@@ -132,3 +195,39 @@ En az bir silence zone zorunlu.
 - `will-change: transform` sadece animate edilen elementlerde
 - `ScrollTrigger.batch()` — per-element yerine
 - Three.js canvas → IntersectionObserver ile lazy
+
+### Phase 05b'de ölçülerek eklenenler
+
+- **Büyük bir ögeyi `clip-path` ile açma — ÜZERİNE perde koy.** `clip-path`
+  ögenin kendisini her karede yeniden boyatır; tablo, kaydırma kapsayıcısı
+  veya filtreli görsel taşıyan bir panelde bu pahalıdır. Tek renk bir
+  `::after` perdesini `scaleX`/`scaleY` ile toplamak aynı görüntüyü verir ve
+  kompozitörde kalır. `clip-path` küçük ögelerde kalır (durum rozeti, sonuç
+  hücresi) — orada metafor da tam oturuyor: hücre soldan sağa YAZILIR.
+- **Kaydırmaya bağlı bir dönüşümün içindeki ögeye ikinci dönüşüm bindirme.**
+  `ReverseScrollSection` + `filter` + CSS `transform` dört katmanlı bir yığın
+  demektir.
+- **Görüş alanı dışında iş yapma.** Sonsuz animasyonlar (`tl-marquee`) iki
+  yönlü `.tl-onscreen` sınıfıyla durdurulur. Giriş koreografisinin sınıfı
+  (`.tl-inview`) TEK yönlüdür ve öyle kalmalıdır: geri kaydırınca yeniden
+  tetiklenen bir giriş, okunmuş içeriği yeniden gizler.
+- **Odaklanabilir öge saran her `clip-path` `inset(-8px)` ile biter.**
+  `inset(0)` kutuyu tam sınırından keser ve `:focus-visible` halkasını
+  (`outline-offset: 4px`) yok eder.
+- **Yerleşim animasyonu bir tanedir ve ölçülmüştür:** 09'daki
+  `letter-spacing` kapanışı. Metafor onun kendisidir ve `transform` ile
+  taklidi sözcüğü bulanıklaştırır. `--mode=cls`: manifesto hiçbir
+  `layout-shift` girdisi üretmiyor, çünkü `strong` kendi satırındaki tek
+  kutudur. İkinci bir örnek çıkarsa yeniden ölçülmelidir.
+
+### Kare ölçümü nasıl okunur
+
+`--mode=frames` üç geçiş koşar ve üçünü de basar, çünkü **aynı şeyi
+ölçmezler**: 1. geçiş giriş koreografisinin bedelidir (ilk okuyucunun
+gördüğü), 2.–3. geçişler `.tl-inview` tek yönlü olduğu için yerleşik
+kaydırmadır. Bu yapıda ölçülen — 1280: 489 karede 12 yavaş kare, sonra 1 ve 0.
+
+Ayrıca bu makinenin gürültüsü geniştir: değişmeyen bir yapı üzerinde ardışık
+dört geçiş `over32ms` = 16 / 19 / 34 / 34 verdi. Bir farkı ancak bu aralığı
+aşıyorsa **ve 1. geçiş 1. geçişle** karşılaştırılıyorsa ciddiye al. Her
+sürümün her geçişinde sabit kalan tek sayı `median` = 16.7ms'dir.
