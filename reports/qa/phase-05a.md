@@ -4,10 +4,10 @@
 - CODE_COMMITS: 5ac4135 (integration HEAD), preceded by 46ae7f4, d51adad, ca40ef0, e54f9f8, 4d9bb28, e1bc431
 - BASE FOR DIFF: 62a57cd
 - QA_COMMIT: TBD
-- STATUS: IN PROGRESS
-- TESTS_PASSED: TBD
-- TESTS_FAILED: TBD
-- TESTS_SKIPPED: TBD
+- STATUS: PASS
+- TESTS_PASSED: 186
+- TESTS_FAILED: 0
+- TESTS_SKIPPED: 3
 - NEW_TESTS_ADDED: 0
 
 Environment: preview served on **port 4188** (4173 and 5199 held by stale
@@ -264,4 +264,213 @@ full menu teardown matrix **including the reduced-motion close path**,
 B25 modal-lock, the 404 shell state, and "reduced motion keeps the complete
 page visible without active animation".
 
-*(Blocks 4+ appended below as they complete.)*
+## BLOCK 4 — remaining suites, grid, axe, goldens (R7, R8, R9)
+
+### `test:e2e:smoke` (webkit-1440, webkit-390, firefox-1440, firefox-390) → **12 passed, 0 failed** (1.4m)
+
+Cross-browser: complete landing + intro shell hand-off, inner page on the
+shared shell, primary conversion route reachable — on both WebKit and Firefox
+at both widths.
+
+### `test:e2e:visual` (visual-375, visual-1280, visual-1440) → **27 passed, 0 failed** (1.5m)
+
+### `node scripts/grid-axis-probe.mjs` → **PASS, 0 off-grid**
+
+Run with `PROBE_PORT=4455` (its default 4199 is held by a stale process that
+answers with an HTTP error — environmental, see Notes).
+`PASS — every measured edge sits on a master axis (tolerance 1px).`
+
+### R9 — goldens → PASS
+
+`git diff --name-only 62a57cd..5ac4135 -- e2e` is **empty**: not one file under
+`e2e/**` changed, so `e2e/__golden__/win32/{visual-375,visual-1280,visual-1440}`
+are **byte-unchanged**. §12's per-viewport re-justification is therefore not
+triggered — there is no regenerated golden to re-justify, which is the outcome
+carrying the least risk of repeating the Phase 04 incident (a golden
+regenerated on a justification true at 1280/1440 and false at 375).
+
+All 27 visual assertions pass against those untouched baselines, checked **per
+viewport separately** (9 per viewport: landing, closed header, open menu, and
+six shell-chrome routes). This is a meaningful result rather than a formality:
+`CustomCursor` dropped `mixBlendMode: "difference"` from the dot and moved from
+`z-[10052]` to `Z.preloader + 1` (101), and the goldens confirm neither shifted
+a single rendered pixel of the baselines.
+
+### R8 — axe, and whether the separation is real → PASS
+
+`node scripts/motion-audit.mjs --mode=axe` (serious + critical only, @1280):
+
+| Route | reduce (what a reduced user sees NOW) | no-preference, no scroll (the pre-fix hidden set) |
+|---|---|---|
+| `/` | 0 | 0 |
+| `/hizmetler/cnc-frezeleme` | **28** — `color-contrast:28` | **0** |
+| `/iletisim` | 4 — `color-contrast:1 label:1 select-name:2` | 4 — identical |
+| `/malzemeler/aluminyum` | 0 | 0 |
+| `/hakkimizda` | 0 | 0 |
+
+The node count on the reference route rises 0 -> 28. **I did not accept that as
+automatically fine, and I did not accept the Coder's classification.** The
+Coder's mode compares two *at-rest* states, which explains why the count rose
+but cannot by itself distinguish "newly visible pre-existing debt" from "newly
+introduced defect" — it never observes those nodes in a state an ordinary
+motion-enabled user would reach.
+
+So I added the missing discriminator
+(`reports/qa/tools/p05a-r8-scrolled-axe.mjs`, then
+`reports/qa/tools/p05a-r8-node-identity.mjs`): take a **motion-enabled** user,
+**scroll the whole page** so every `whileInView` reveal fires naturally, and
+compare the resulting violation set against the reduced-at-rest set.
+
+| Run | serious/critical nodes |
+|---|---|
+| `motion=reduce, scroll=false` | 28 — `color-contrast:28` |
+| `motion=no-preference, scroll=false` | 0 |
+| **`motion=no-preference, scroll=true`** | **28 — `color-contrast:28`** |
+| `motion=reduce, scroll=true` | 28 — `color-contrast:28` |
+
+Compared on **node identity** (element `outerHTML` + axe's resolved
+fg/bg/ratio), not on axe's synthesised selector string:
+
+```text
+reduced, at rest (no scroll)      : 28 color-contrast nodes
+no-preference, scrolled naturally : 28 color-contrast nodes
+identical nodes in both           : 28
+only on the reduced path          : 0
+only on the normal-scrolled path  : 0
+```
+
+**The separation is real and the classification is correct.** Every node axe
+now reports on the reduced path is reported for an ordinary scrolling user too,
+so all 28 are newly *visible* pre-existing debt. Phase 05a introduced none.
+
+(A first pass on selector strings appeared to show 6 divergent nodes. That was
+my own probe artifact — v1 scrolled back to the top, which lets `whileInView`
+elements without `once:true` re-hide, and axe then synthesises different
+`:nth-child()` paths. Corrected in v2 by not returning to the top and by keying
+on element identity. Recorded so the 6 is not mistaken for a finding.)
+
+**B24 — neither fixed nor worsened. Confirmed.**
+
+```text
+#0a7d8a on #e1ecea = 4.03:1  x22
+#0a7d8a on #edf2f0 = 4.3:1   x6
+                              --- 28 nodes total
+```
+
+28 nodes, ratio 4.03:1 — matching the record of B24 in `reports/qa/phase-04.md`
+(28 serious `color-contrast` on `ServiceDetail`, 4.025:1 against a 4.5:1
+requirement; the 4.03 vs 4.025 difference is axe's 2-dp rounding, not movement).
+Count unchanged, ratios unchanged, colour pairs unchanged. Owned by Phases 07/13.
+
+`/iletisim`'s 4 nodes are **identical in both modes** (`color-contrast:1
+label:1 select-name:2`), i.e. always-visible pre-existing debt untouched by this
+packet.
+
+---
+
+## Acceptance criteria matrix
+
+| Criterion | Result | Evidence |
+|---|---|---|
+| R1 — B28 fixed, measured at rest | **PASS** | `--mode=rest`: `hiddenText=0` on all 5 routes x 2 viewports; reference route 186 -> 0 @1280, 195 -> 0 @375 |
+| R2 — non-reduced path still animates | **PASS** | `--mode=enabled`: 516 armed on `/`, 524 on service detail with no preference; `afterScrollText=0` |
+| R3 — proxy faithful, not bypassable | **PASS** | `resolved = prefersReduced ? resolveAtRest(props) : props`; no prop-drop; `settle()` opacity-max safe against all 4 keyframe call sites; `--mode=guard` PASS |
+| R4 — 49 files, import line only | **PASS** | Aggregated diff = 49 added imports + matching removals, zero content/copy/layout lines |
+| R5 — three motion levels, no fourth | **PASS** | `MOTION_LEVEL` 0.22/0.35/0.62 == `NAV_MOTION` == `--tl-dur-micro/short/in`; consumed in 9 sites |
+| R6 — cursor semantic half kept | **PASS** | Blanket empty-label selector + `mixBlendMode` + hover sound removed; 10 content-typed labels kept; `use-sound.ts` unchanged, 3 consumers intact; `--mode=cursor` 0 -> 2 nodes under `reduce` |
+| R7 — suites green, Phase 01-04 guarantees hold | **PASS** | critical 147P/3S, smoke 12P, visual 27P, grid probe 0 off-grid |
+| R8 — axe separation real, B24 unmoved | **PASS** | Node-identity comparison: 28 == 28, 0 divergent; B24 28 nodes @4.03:1 unchanged |
+| R9 — goldens | **PASS** | No `e2e/**` file changed; byte-unchanged; 27 visual assertions green per viewport |
+
+## Failed checks
+
+| Check | Error / observation | Root cause | Production fix required? |
+|---|---|---|---|
+| — | none | — | — |
+
+## Commands run
+
+```text
+npm run build                                                  # once; dist/ reused
+node scripts/motion-audit.mjs --mode=rest                      # PASS
+node scripts/motion-audit.mjs --mode=enabled
+node scripts/motion-audit.mjs --mode=cursor
+node scripts/motion-audit.mjs --mode=guard                     # PASS
+node scripts/motion-audit.mjs --mode=axe
+PROBE_PORT=4455 node scripts/grid-axis-probe.mjs               # PASS
+PLAYWRIGHT_PREVIEW_ONLY=1 PLAYWRIGHT_PORT=4321 PLAYWRIGHT_ARTIFACTS=0 \
+  npx playwright test --project=critical-1280 --project=critical-375
+  ... --project=smoke-webkit-1440 --project=smoke-webkit-390 \
+      --project=smoke-firefox-1440 --project=smoke-firefox-390
+  ... --project=visual-375 --project=visual-1280 --project=visual-1440
+node reports/qa/tools/p05a-r8-scrolled-axe.mjs
+node reports/qa/tools/p05a-r8-node-identity.mjs
+```
+
+## Scope integrity
+
+- Production files modified by QA: **NONE**
+- Test/report files modified by QA: `reports/qa/phase-05a.md`,
+  `reports/qa/tools/p05a-r8-scrolled-axe.mjs`,
+  `reports/qa/tools/p05a-r8-node-identity.mjs` — all inside QA_WRITE_ALLOWLIST.
+- No assertion weakened, no tolerance broadened, no golden regenerated, no skip
+  or xfail added, no coverage deleted.
+- Coder scope integrity: **PASS** — the 49-file migration is import-only; the
+  six rewritten modules are all named deliverables of the packet.
+
+## Notes — environment
+
+- Preview served on **port 4188** for the audit/probes and **4321** for
+  Playwright. **4173, 4199 and 5199 are held by stale processes** (4199 answers
+  with an HTTP error code, which is why `grid-axis-probe.mjs` needed
+  `PROBE_PORT=4455`). Environmental, not code defects.
+- Built once; `dist/` reused everywhere via `PLAYWRIGHT_PREVIEW_ONLY=1`. One
+  suite at a time. No `net::ERR_INSUFFICIENT_RESOURCES` encountered.
+- `node_modules` junction untouched; no install/prune run. `.env` never read,
+  printed or committed.
+
+## Carry-forwards (not 05a failures)
+
+- **B24** — `ServiceDetail` 28 serious `color-contrast` @4.03:1. Phases 07/13.
+  Now *visible* rather than hidden, which is correct: the fix surfaced it.
+- **`/iletisim`** — 4 serious nodes (`color-contrast`, `label`, `select-name`),
+  always-visible pre-existing debt.
+- **`src/index.css`** — `cursor: none` under `(min-width:901px) and
+  (pointer:fine)` is still unscoped to whether a replacement is mounted.
+  Correctly reported by the Coder rather than edited (outside allowlist).
+- **`src/styles/z-index.ts`** — `Z.cursor` (90) sits below `Z.pageTransition`
+  (95) and `Z.preloader` (100); `CustomCursor` works around it locally with
+  `Z.preloader + 1`. The token wants correcting in the file that owns it.
+- **375 `/hizmetler/cnc-frezeleme`** — eyebrow and `<h1>` re-hide after being
+  scrolled past on the **motion-enabled** path (`whileInView` without
+  `once:true`). Entirely on the verbatim-forwarded path; 05a neither caused nor
+  changed it. For Packet 2 / Phase 06.
+- **`ProjectShowcase.tsx:172`** — a decorative chromatic-aberration animation
+  still triggers for reduced-motion users (the element has only
+  `onViewportEnter`, so the primitive correctly passes it through untouched).
+  Motion-grammar question owned by Packet 2.
+- Packet 2 items (motion grammar by content type, climax hierarchy, hero-part
+  interaction, manifesto enactment, mobile effect density, jank tuning) are out
+  of scope here and their absence is not a 05a failure.
+
+## Verdict
+
+**B28_VERDICT: FIXED.**
+
+Text-bearing elements at effective `opacity: 0` at rest under
+`prefers-reduced-motion: reduce`, no scrolling — metric: effective opacity
+multiplied down the ancestor chain, over all laid-out elements:
+
+| Route | @1280 before -> after | @375 before -> after |
+|---|---|---|
+| `/hizmetler/cnc-frezeleme` | **186 -> 0** | **195 -> 0** |
+| `/` | 205 -> 0 | 214 -> 0 |
+| `/malzemeler/aluminyum` | 14 -> 0 | 21 -> 0 |
+| `/iletisim` | 0 -> 0 | 24 -> 0 |
+| `/hakkimizda` | 0 -> 0 | 0 -> 0 |
+
+The repair is structural rather than per-call-site, the guard makes the bypass
+a build failure, the non-reduced choreography is provably untouched, and the
+rise in axe nodes is verified to be pre-existing debt becoming visible.
+
+**STATUS: PASS.**
