@@ -16,7 +16,8 @@ import {
   MapPin,
   ChevronLeft,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 

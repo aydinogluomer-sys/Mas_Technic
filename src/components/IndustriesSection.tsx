@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { useRef, useEffect } from "react";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { Link } from "react-router-dom";
 import { gsap } from "@/hooks/use-gsap";
 import { Reveal as TextReveal } from "./ui/Reveal";

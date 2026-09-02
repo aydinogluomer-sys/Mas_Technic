@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2, AtSign, ChevronLeft, Mail } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PageShell } from "@/components/shell/PageShell";

@@ -1,5 +1,5 @@
 import { useRef, useState, forwardRef, type ReactNode, type MouseEvent } from "react";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { Link } from "react-router-dom";
 import { useSoundEngine } from "@/hooks/use-sound";
 

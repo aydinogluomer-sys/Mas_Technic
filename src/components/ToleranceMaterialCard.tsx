@@ -1,5 +1,5 @@
 import { CheckCircle2, Gauge, Ruler } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import type { toleranceMaterials } from "@/data/toleranceMaterials";
 

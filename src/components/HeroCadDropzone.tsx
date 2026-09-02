@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { CheckCircle2, Loader2, UploadCloud } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { CAD_ACCEPT_ATTR, useCadHandoff } from "@/hooks/useCadHandoff";
 
 const DRAFT_RFQ_ID = "RFQ-DRAFT-HERO";

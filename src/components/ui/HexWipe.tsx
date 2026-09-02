@@ -1,4 +1,5 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { type ReactNode } from "react";
 
 interface HexWipeProps {

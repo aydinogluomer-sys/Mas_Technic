@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, forwardRef } from "react";
 import { Reveal } from "@/components/ui/Reveal";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { ArrowRight } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { MagneticButton } from "./MagneticButton";

@@ -1,4 +1,5 @@
-import { motion, type MotionValue } from "framer-motion";
+import { type MotionValue } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 
 interface CrosshairOverlayProps {
   opacity?: MotionValue<number>;

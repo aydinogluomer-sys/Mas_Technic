@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useRef } from "react";
-import { motion, useTransform } from "framer-motion";
+import { useTransform } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { gsap } from "@/hooks/use-gsap";
 

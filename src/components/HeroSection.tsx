@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";

@@ -1,5 +1,5 @@
 import { forwardRef, useRef, useEffect, type ForwardedRef } from "react";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Reveal as TextReveal } from "./ui/Reveal";

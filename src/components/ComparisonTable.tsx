@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import type { ComparisonTable as ComparisonTableType } from "@/data/servicePages";
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@/components/ui/table";
 

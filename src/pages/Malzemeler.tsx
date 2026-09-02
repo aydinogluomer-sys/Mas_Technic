@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect, Suspense, lazy } from "react";
 import { usePageMeta } from "@/hooks/use-page-meta";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { Link } from "react-router-dom";
 import {
   Search, X, ChevronLeft, ChevronRight, ArrowUpDown, LayoutGrid, Rows3,

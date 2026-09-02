@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 

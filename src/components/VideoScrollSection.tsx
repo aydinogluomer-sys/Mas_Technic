@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useScroll, useTransform } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import cncVideo from "@/assets/cnc-sequence-scroll.mp4";
 import cncPoster from "@/assets/cnc-start-frame.webp";
 import { Settings, Target, Layers, Zap } from "lucide-react";

@@ -1,6 +1,7 @@
 import { forwardRef, useRef, useEffect, useCallback, useState, type ForwardedRef } from "react";
 import { AmbientGlowOverlay } from "@/components/ui/AmbientGlowOverlay";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { useImagePreloader } from "@/hooks/use-image-preloader";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";

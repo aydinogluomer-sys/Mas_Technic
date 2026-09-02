@@ -1,4 +1,5 @@
-import { motion, type MotionValue } from "framer-motion";
+import { type MotionValue } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 
 interface HUDDataPoint {

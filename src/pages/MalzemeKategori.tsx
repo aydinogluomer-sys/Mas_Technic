@@ -1,5 +1,5 @@
 import { useParams, Link, Navigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { ArrowRight, Check, ChevronRight } from "lucide-react";
 import { PageShell } from "@/components/shell/PageShell";
 import { materialsData, materialCategories, findMaterialCategory } from "@/data/materialsData";

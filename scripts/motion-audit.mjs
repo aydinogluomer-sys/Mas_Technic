@@ -24,6 +24,12 @@
  *                    entries reported by the browser itself.
  *   --mode=frames    motion ENABLED, scripted scroll of `/`: rAF pacing.
  *   --mode=density   how many elements the motion layer touches at 375 vs 1280.
+ *   --mode=guard     SOURCE check, no browser: nobody re-imported `motion`
+ *                    straight from `framer-motion` and so bypassed the
+ *                    reduced-motion primitive. Exit 1 on any breach.
+ *   --mode=cursor    does a pointer exist? The stylesheet hides the native
+ *                    cursor on desktop; measure that something replaces it,
+ *                    including under reduced motion.
  *
  * USAGE
  *   node scripts/motion-audit.mjs --mode=rest
@@ -34,7 +40,7 @@
 
 import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 const MODE = (process.argv.find((a) => a.startsWith("--mode=")) ?? "--mode=rest").slice(7);
@@ -142,17 +148,25 @@ const REST_PROBE = () => {
 
   const hidden = [];
   const hiddenText = [];
+  /* Elements that are transparent but carry no text of their own. These are
+     not automatically fine — a transparent wrapper can still be swallowing a
+     whole subtree — so a sample is printed and has to be read, rather than
+     silently subtracted from the count. */
+  const hiddenSilent = [];
   for (const el of laidOut) {
     const value = effective(el);
     if (value !== 0) continue;
     hidden.push(el);
     const text = ownText(el);
+    const describe = () => ({
+      tag: el.tagName.toLowerCase(),
+      cls: (el.getAttribute("class") ?? "").slice(0, 60),
+      text: (el.textContent ?? "").trim().slice(0, 40),
+    });
     if (text.length > 1 && el.closest("[aria-hidden='true']") === null) {
-      hiddenText.push({
-        tag: el.tagName.toLowerCase(),
-        cls: (el.getAttribute("class") ?? "").slice(0, 60),
-        text: text.slice(0, 60),
-      });
+      hiddenText.push({ ...describe(), text: text.slice(0, 60) });
+    } else if (hiddenSilent.length < 20) {
+      hiddenSilent.push(describe());
     }
   }
 
@@ -161,6 +175,7 @@ const REST_PROBE = () => {
     hidden: hidden.length,
     hiddenText: hiddenText.length,
     samples: hiddenText.slice(0, 8),
+    silent: hiddenSilent,
   };
 };
 
@@ -355,9 +370,125 @@ async function runDensity(browser, baseURL) {
   return results;
 }
 
+/**
+ * Is there a pointer?
+ *
+ * `src/index.css` sets `cursor: none !important` on html/body/a/button inside
+ * `@media (min-width: 901px) and (pointer: fine)` — unconditionally, with no
+ * reduced-motion escape and no dependency on the replacement mounting. So the
+ * question "should the custom cursor stay?" is not only aesthetic: if it ever
+ * declines to render, a desktop user is left with no pointer at all. This
+ * reports the computed `cursor` on the elements that rule names, plus whether
+ * a replacement is in the DOM, with motion both allowed and reduced.
+ */
+const CURSOR_PROBE = () => {
+  const read = (selector) => {
+    const el = document.querySelector(selector);
+    return el ? getComputedStyle(el).cursor : "n/a";
+  };
+  return {
+    body: getComputedStyle(document.body).cursor,
+    link: read("a[href]"),
+    button: read("button"),
+    replacementNodes: document.querySelectorAll("[data-custom-cursor]").length,
+  };
+};
+
+async function runCursor(browser, baseURL) {
+  const results = [];
+  for (const motionMode of ["no-preference", "reduce"]) {
+    const context = await browser.newContext({
+      viewport: { width: 1280, height: 900 },
+      deviceScaleFactor: 1,
+      reducedMotion: motionMode,
+      baseURL,
+    });
+    const page = await context.newPage();
+    await page.goto("/", { waitUntil: "load" });
+    await page.waitForLoadState("networkidle").catch(() => {});
+    await page.waitForTimeout(1500);
+    await page.mouse.move(640, 450);
+    await page.waitForTimeout(400);
+    results.push({ reducedMotion: motionMode, ...(await page.evaluate(CURSOR_PROBE)) });
+    await context.close();
+  }
+  return results;
+}
+
+/* ══ SOURCE GUARD ═════════════════════════════════════════════════════════
+   Defect B28's repair is only durable if it cannot be routed around. Every
+   public component reaches Framer through `@/components/shell/motion`, which
+   resolves a reveal to its finished state under `prefers-reduced-motion`. The
+   one way to lose that is to import `motion` from `framer-motion` again, so
+   that is what this refuses.
+
+   Four files are exempt because this phase's packet forbids editing them
+   (`Header.tsx`, `navigation/**`) or they are out of the public surface
+   (`admin/**`). Exemption is not a free pass: an exempt file is still failed
+   if it uses `whileInView`, since that is the construct that hides content. */
+const GUARD_PRIMITIVE = "src/components/shell/motion.tsx";
+const GUARD_EXEMPT = new Set([
+  "src/components/Header.tsx",
+  "src/components/navigation/NavCategoryPanel.tsx",
+  "src/components/navigation/NavFamilyRail.tsx",
+  "src/components/navigation/NavTrigger.tsx",
+  "src/components/admin/DashboardHome.tsx",
+]);
+
+function sourceFiles(dir, out = []) {
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    if (statSync(full).isDirectory()) sourceFiles(full, out);
+    else if (/\.(tsx|ts)$/.test(entry)) out.push(full);
+  }
+  return out;
+}
+
+function runGuard() {
+  const breaches = [];
+  for (const file of sourceFiles("src")) {
+    const rel = file.split(/[\\/]/).join("/");
+    if (rel === GUARD_PRIMITIVE) continue; // the primitive is the one legal importer
+    const source = readFileSync(file, "utf8");
+    const imports = source.match(/import\s*(?:type\s*)?\{[^}]*\}\s*from\s*["']framer-motion["']/g) ?? [];
+    const importsMotion = imports.some((line) =>
+      line
+        .replace(/^import\s*(?:type\s*)?\{|\}\s*from[\s\S]*$/g, "")
+        .split(",")
+        .map((s) => s.trim())
+        .includes("motion"),
+    );
+
+    if (GUARD_EXEMPT.has(rel)) {
+      if (/whileInView/.test(source)) {
+        breaches.push({ file: rel, why: "exempt file uses whileInView — it cannot reach the primitive" });
+      }
+      continue;
+    }
+    if (importsMotion) {
+      breaches.push({ file: rel, why: 'imports `motion` from "framer-motion" instead of "@/components/shell/motion"' });
+    }
+  }
+  return breaches;
+}
+
 /* ══ DRIVER ═══════════════════════════════════════════════════════════════ */
 
 async function main() {
+  // Static mode: no build, no server, no browser — it reads the source tree.
+  if (MODE === "guard") {
+    const breaches = runGuard();
+    if (JSON_OUT) console.log(JSON.stringify({ mode: MODE, results: breaches }, null, 2));
+    else {
+      console.log("\nMOTION AUDIT — mode=guard (source)\n");
+      breaches.forEach((b) => console.log(`  ${b.file}\n      ${b.why}`));
+      console.log(breaches.length
+        ? `\nFAIL — ${breaches.length} file(s) bypass the reduced-motion primitive.`
+        : "\nPASS — every motion call site goes through @/components/shell/motion.");
+    }
+    process.exit(breaches.length ? 1 : 0);
+  }
+
   const baseURL = EXTERNAL_BASE ?? `http://localhost:${PORT}`;
   let server;
   if (!EXTERNAL_BASE) {
@@ -379,6 +510,7 @@ async function main() {
     else if (MODE === "cls") results = await runCls(browser, baseURL);
     else if (MODE === "frames") results = await runFrames(browser, baseURL);
     else if (MODE === "density") results = await runDensity(browser, baseURL);
+    else if (MODE === "cursor") results = await runCursor(browser, baseURL);
     else throw new Error(`unknown --mode=${MODE}`);
 
     if (JSON_OUT) {
@@ -386,9 +518,10 @@ async function main() {
     } else {
       console.log(`\nMOTION AUDIT — mode=${MODE}  base=${baseURL}\n`);
       for (const row of results) {
-        const { samples, worst, ...rest } = row;
+        const { samples, worst, silent, ...rest } = row;
         console.log(Object.entries(rest).map(([k, v]) => `${k}=${v}`).join("  "));
         if (samples?.length) samples.forEach((s) => console.log(`      hidden text: <${s.tag} class="${s.cls}"> ${JSON.stringify(s.text)}`));
+        if (silent?.length) silent.forEach((s) => console.log(`      hidden, no own text: <${s.tag} class="${s.cls}"> ${JSON.stringify(s.text)}`));
         if (worst?.length) worst.forEach((s) => console.log(`      shift ${s.value.toFixed(5)} @${s.time}ms  ${s.sources.join(", ")}`));
       }
       console.log("");

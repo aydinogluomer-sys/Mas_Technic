@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { ArrowRight } from "lucide-react";
 import { travelers } from "@/data/travelers";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";

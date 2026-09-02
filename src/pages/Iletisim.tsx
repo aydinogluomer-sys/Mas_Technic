@@ -1,7 +1,7 @@
 import { PageShell } from "@/components/shell/PageShell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { Phone, Mail, MapPin, Clock, Calendar, Video, ArrowRight, Send, CheckCircle2 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { useState } from "react";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { toast } from "sonner";

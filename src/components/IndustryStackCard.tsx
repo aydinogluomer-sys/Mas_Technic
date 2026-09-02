@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
-import { motion, useTransform, useMotionValue, useSpring, type MotionValue } from "framer-motion";
+import { useTransform, useMotionValue, useSpring, type MotionValue } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { ArrowRight } from "lucide-react";
 import { BlurImage } from "./BlurImage";

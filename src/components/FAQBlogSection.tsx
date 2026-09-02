@@ -1,7 +1,8 @@
 import { ChevronDown, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import blog5eksen from "@/assets/blog-5eksen.webp";
 import blogMalzeme from "@/assets/blog-malzeme.webp";

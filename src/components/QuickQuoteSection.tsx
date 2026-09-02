@@ -2,7 +2,8 @@ import { useState, useRef, useCallback, forwardRef } from "react";
 import { Reveal } from "@/components/ui/Reveal";
 import { useNavigate } from "react-router-dom";
 import { Upload, CheckCircle } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { toast } from "sonner";
 
 const ACCEPTED_EXTENSIONS = [".step", ".stp", ".stl", ".obj", ".iges", ".igs", ".3mf"];

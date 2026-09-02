@@ -1,5 +1,5 @@
 import { forwardRef, useRef, useEffect, type ReactNode } from "react";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { gsap } from "@/hooks/use-gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";

@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { PageShell } from "@/components/shell/PageShell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { ArrowLeft, Clock, Tag, Eye, Share2, Facebook, Twitter, Linkedin, Link2, MessageSquare, Send } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { useState } from "react";
 import { blogPosts } from "@/data/blogData";
 

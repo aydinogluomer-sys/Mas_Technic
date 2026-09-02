@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { PageShell } from "@/components/shell/PageShell";
 import { categoryPages } from "@/data/categoryPages";
 import { ArrowRight, ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 
 export const CategoryPage = () => {
   const { slug } = useParams<{ slug: string }>();

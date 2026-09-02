@@ -1,7 +1,8 @@
 // StatsSection - each stat uses its own StatCard component for proper hook usage
 import { SectionHeader } from "./SectionHeader";
 import { useEffect, useState, useRef, forwardRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useScroll, useTransform } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 const staggerItemVariants = {
   hidden: { opacity: 0, y: 30 },

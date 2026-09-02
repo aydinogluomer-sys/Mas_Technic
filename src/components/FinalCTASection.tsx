@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { AmbientGlowOverlay } from "@/components/ui/AmbientGlowOverlay";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { useRef, useState, useCallback, useLayoutEffect, forwardRef } from "react";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { MagneticButton } from "./MagneticButton";

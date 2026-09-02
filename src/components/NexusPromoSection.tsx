@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { AmbientGlowOverlay } from "@/components/ui/AmbientGlowOverlay";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { Link } from "react-router-dom";

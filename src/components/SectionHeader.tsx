@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { Reveal } from "@/components/ui/Reveal";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 
 interface SectionHeaderProps {
   tag: string;

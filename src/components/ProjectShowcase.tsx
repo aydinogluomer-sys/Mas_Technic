@@ -1,5 +1,5 @@
 import { useRef, useEffect, forwardRef } from "react";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";

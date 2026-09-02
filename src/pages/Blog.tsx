@@ -2,7 +2,7 @@ import { PageShell } from "@/components/shell/PageShell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { Link } from "react-router-dom";
 import { ArrowRight, Clock, Tag, Eye, Search, TrendingUp, SlidersHorizontal, BookOpen, Hash } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { useState, useMemo } from "react";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { blogPosts, blogCategories } from "@/data/blogData";
