@@ -167,3 +167,206 @@ allowlist.
 **R3 — PASS. I4_REMAINING_DEFECT: CONFIRMED_PRE_EXISTING.** Carried to Phase 07.
 
 ---
+
+## Block 3 — R2: is the choreography real and differentiated?
+
+Tool: `reports/qa/tools/p05b-r2-grammar.mjs`. Rather than reading the
+stylesheet, it reads back from the live page, per band, the **set of properties
+that band's entrance actually moves** (transition properties with a non-zero
+duration, plus animation names, including `::before` / `::after`). Bands sharing
+one reveal with different durations would collapse to a single signature.
+
+### Bands genuinely differ — 11 distinct signatures across 13 bands at 1280
+
+| band | what its entrance moves |
+|---|---|
+| `tl-hero` | `@tl-draw-measure` + `@tl-label-lock-down` + `@tl-label-lock-up` + `@tl-part-expose` + `stroke` |
+| `tl-proof` | `opacity` **only** — `transform: none`, duration `0.35s` |
+| `tl-marquee` | `@tl-marquee` |
+| `tl-process` | `opacity` + `transform` + `border-right-color` |
+| `tl-nexus` | `clip-path` + **`filter`** + `transform` + `opacity` |
+| `tl-projects` | `clip-path` + `transform` + `opacity` |
+| `tl-sectors` | `clip-path` + `transform`, **no `opacity`** |
+| `tl-quality` | `transform` (curtain `::after`) |
+| `tl-references` | `background` + `color` only |
+| `tl-faq-band` | `opacity` + `transform` |
+| `tl-rfq` | `opacity` + `transform` + `border-color` |
+| `tl-footer` | `opacity` + `transform` + `border-color` |
+
+The "eight bands share `opacity` + `translateY`" starting state is genuinely
+gone. `filter` (G3 CALIBRATE blur→sharp) appears on exactly one band;
+`clip-path` on three, and with different geometry each time; `stroke-dashoffset`
+draw animations on the hero only. **PASS.**
+
+### Quietened bands — all four confirmed
+
+- **03 proof** — `transitionProperty: opacity`, `transitionDuration: 0.35s`,
+  `transform: none`. Vertical travel removed and the duration is the claimed
+  `.62s → .35s`. ✔
+- **04 marquee** — see R8 below; parked off screen. ✔
+- **11 references** — items carry `color` only; the grid carries `opacity` at
+  375 and **`none` at 1280**. Quieter than the "single block transition"
+  described in `docs/lean/07-motion-system.md` (on desktop it is *no*
+  transition), which is a documentation nit, not a defect: the content is
+  visible either way. ✔
+- **12 FAQ** — `.tl-faq-title` transitions `opacity, transform`; details carry
+  `opacity` only. Path removed as claimed. ✔
+
+### Mobile is structurally different, not slower — 8 signatures vs 11
+
+At 375: `rfqGateClip = none`, `manifestoRuleBefore/After = none`,
+`refGridTransition = opacity` (the container carries what the children no
+longer do). No `clip-path` curtain exists anywhere below 768. This is the
+structural claim, confirmed. See R7 for the counts.
+
+### Climax 1 (02 hero) — entrance PASSES, the interaction FAILS
+
+Entrance is real: `.tl-dimension-lines → @tl-draw-measure`,
+`.tl-measure-top → @tl-label-lock-down`, `.tl-measure-finish →
+@tl-label-lock-up`, `.tl-part-stage img → @tl-part-expose`. DRAW → LOCK exists.
+
+The **measurement correlation** does not do what it is documented to do.
+`reports/qa/tools/p05b-r2-hero-correlation.mjs` at 1440, after the entrance has
+finished, reading computed style in three states:
+
+| element | no hover | hover `Ø 28.000` | hover `Ra 0.4 µm` |
+|---|---|---|---|
+| `.tl-measure-top` opacity | 1 | **1** | **1** |
+| `.tl-measure-finish` opacity | 1 | **1** | **1** |
+| `.tl-fcf-top` / `.tl-fcf-bottom` / `.tl-datum` / `.tl-measure-left` opacity | 1 | **1** | **1** |
+| `.tl-dim--bore` opacity / stroke | 1 / `rgba(226,230,225,.34)` | **0.34** / `rgb(238,233,222)` | 0.34 / base |
+| `.tl-dim--finish` opacity / stroke | 1 / base | 0.34 / base | **0.34** / `rgb(238,233,222)` |
+| `.tl-pp-bore` opacity | 1 | **0.34** | 0.34 |
+| `.tl-pp-holes` / `.tl-pp-dim` opacity | 1 | 0.34 | 0.34 |
+| hovered box `border-top-color` | `rgba(226,230,225,.42)` | `rgb(238,233,222)` | `rgb(238,233,222)` |
+
+Both `:has()` selectors were confirmed to be matching at the time of reading
+(`heroHasDataDim: true`, `heroHasThis: true`), so this is not a failed hover.
+
+`src/styles/technical-landing.css:~977` claims three simultaneous effects, and
+`docs/lean/07-motion-system.md` repeats one of them as fact
+("bir ölçünün üzerine gelmek o ölçünün kılavuz çizgisini ve **pasaporttaki
+karşılığını** birlikte aydınlatır, kalanı geri çeker"). Measured:
+
+1. "kutunun kendisi öne çıkar" — **partly**. Only `border-color` responds. The
+   `opacity: 1` half is inert.
+2. "kılavuz çizgisi parlar" — **yes** by `stroke`, but its `opacity` is
+   simultaneously pulled to `0.34` along with every other line.
+3. "KARŞILIK GELEN öge aydınlanır" — **NO. It is dimmed to 0.34**, the same as
+   the elements that are supposed to be receding. The claim is inverted.
+4. "Geri kalan ölçümler geri çekilir" — **not for the six measurement boxes**,
+   which never move off `opacity: 1` in any state.
+
+Screenshots for the record: `reports/qa/tools/shots/p05b-hero-nohover.png` and
+`…/p05b-hero-hover-tlmeasuretop.png`. The orthographic passport at bottom right
+is visibly *fainter* on hover, not brighter.
+
+#### Root causes — two, both in `src/styles/technical-landing.css`
+
+**(a) Fill-forwards animations outrank the hover declarations.** The six labels
+carry `animation: tl-label-lock-down|up .5s … both` (lines 405–407), whose `to`
+keyframe is `opacity: 1`. `animation-fill-mode: both` keeps that applied
+forever, and CSS animation values win over normal declarations. Measured:
+`animationFillMode: both` on all six, `opacity: 1` in all three states. So both
+the `opacity: .34` recede rule and the `opacity: 1` highlight rule are dead on
+`.tl-measure`, `.tl-fcf` and `.tl-datum`.
+
+**(b) The dim rule out-specifies the highlight rule.** Line 1004 is
+`.tl-hero:has([data-dim]:hover) :is(.tl-dim-line path, .tl-measure, …, .tl-pp-dim){opacity:.34}`;
+lines 1006–1011 are `.tl-hero:has(.tl-measure-top:hover) :is(.tl-measure-top,.tl-dim--bore,.tl-pp-bore){opacity:1}`.
+A `:is()` takes the specificity of its **most specific argument**, so the first
+`:is()` counts as `.tl-dim-line path` = (0,1,1) while the second counts as
+(0,1,0) — (0,4,1) beats (0,4,0).
+
+This is confirmed **empirically, not just from the spec**: the dim rule appears
+*earlier* in the file than the highlight rule, so on equal specificity the
+highlight would win by source order. It does not win — measured
+`.tl-dim--finish` = `0.34` while hovering `.tl-measure-finish`, which is one of
+that rule's own targets. Higher specificity on the dim rule is therefore proven
+by observation.
+
+**R2 — FAIL on climax 1's interaction.** The six grammars, the quietened bands,
+the mobile structure, climax 2 and climax 3 all verify. The hero correlation —
+described in the CSS and asserted as fact in `docs/lean/07-motion-system.md` —
+does the opposite of what is written for the passport correspondence, and
+nothing at all for the labels.
+
+---
+
+## Block 4 — R4: I1, I2, I3
+
+### I3 — the `cursor: none` swap. PASS, with a real negative control.
+
+```text
+MOTION_AUDIT_BASE_URL=http://localhost:4211 node scripts/motion-audit.mjs --mode=cursor
+```
+
+| reducedMotion | guard | body | link | button | replacementNodes |
+|---|---|---|---|---|---|
+| no-preference | replacement present | `none` | `none` | `none` | 2 |
+| no-preference | **replacement REMOVED** | `auto` | `pointer` | `pointer` | 0 |
+| reduce | replacement present | `none` | `none` | `none` | 2 |
+| reduce | **replacement REMOVED** | `auto` | `pointer` | `pointer` | 0 |
+
+The negative control is the part that proves anything, and it behaves
+correctly: deleting `[data-custom-cursor]` hands the native pointer straight
+back. Under the old unconditional rule it would have stayed `none`. `Z.cursor`
+90 → 101 confirmed at `src/styles/z-index.ts:25`, above `pageTransition` (95)
+and `preloader` (100).
+
+*Hygiene note (not this packet's file):* `src/components/ui/CustomCursor.tsx:78`
+still says "`Z.cursor` is 90, which sits BELOW `Z.pageTransition`…". That
+comment is now stale. The file is outside the allowlist, so the Coder could not
+have fixed it; recorded so it is not lost.
+
+### I2 — `restingOpacity`. PASS on both halves.
+
+Verified against a DEV server (`vite --port 5311`), because
+`import.meta.env.DEV` strips the warning from the production build.
+`/giris` renders `FloatingPaths`, whose `opacity: [0.3, 0.6, 0.3]` is the only
+live call site where max ≠ last.
+
+```text
+node reports/qa/tools/p05b-r4-i2-warning.mjs
+```
+
+- **The warning fires**, once, de-duplicated by signature:
+  `warning: [shell/motion] opacity keyframes [0.3,0.6,0.3] rest at 0.6, not at
+  their last frame 0.3. …` — 1 distinct, 1 occurrence.
+- **Semantics did not shift**: 72 non-animating paths, and their distinct
+  resting opacities are exactly `[0.6]` — the **maximum**, not the last frame
+  `0.3`. Identical to the pre-change behaviour.
+
+### I1 — chroma tripwire and the new guard rule. PASS, with the caveat confirmed.
+
+Source: the tripwire is now behind `{!prefersReduced && (…)}`
+(`src/components/ProjectShowcase.tsx:184`). The Coder's own caveat is accurate —
+`grep -rn "ProjectShowcase" src/` returns exactly one hit outside the file
+itself, and it is a **comment** in `src/components/shell/motion.tsx:95`. The
+component is imported by no route, so this fix has no live surface. Carried
+forward for dead-code hygiene.
+
+**Guard, negative-controlled by QA** (`--mode=guard` reads `src/` relative to
+cwd, so three synthetic files in a scratch directory exercise it without
+touching production):
+
+| control | shape | result |
+|---|---|---|
+| A | `onViewportEnter`, no `usePrefersReducedMotion` anywhere | **FAIL** — "uses a viewport callback the primitive cannot settle…" ✔ |
+| B | `import { motion } from "framer-motion"` | **FAIL** — pre-existing rule ✔ |
+| C | `onViewportEnter` **with** the hook called (the fixed shape) | **PASS** ✔ |
+
+The rule fires on the defect, passes the fix, and is therefore discriminating,
+not merely noisy. On the real tree: `PASS — every motion call site goes through
+@/components/shell/motion`, exit 0.
+
+*Hardening note.* The check is `!/usePrefersReducedMotion/.test(source)` — a raw
+substring test over the whole file, comments included. My first draft of control
+A was **not** caught, purely because its comment contained the word
+`usePrefersReducedMotion`. Merely importing the hook and never calling it would
+also satisfy it. This is a weakening path rather than a bypass of a live defect,
+and the Coder labels the rule a heuristic explicitly; recommend tightening to a
+call-shaped match (`usePrefersReducedMotion\s*\(`) outside comments. Not a
+phase failure.
+
+---
