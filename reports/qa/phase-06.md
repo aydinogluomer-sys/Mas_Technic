@@ -294,3 +294,285 @@ which contradicts the claim as written:
    the expected and acceptable limit that the type system checks permission
    **shape**, not truth: a fabricated value wrapped in a correct `publish({...})`
    compiles.
+
+---
+
+## R6 — the gate: teeth, wiring, and where the enamel is thin
+
+### Red baseline reproduced — and it is redder than reported
+
+`git archive 75629f3 src index.html` into a clean directory, dropped the
+Phase 06 gate script beside it, ran it:
+
+```text
+# scanned:  186 files, 26393 non-comment lines
+### unverified-certification — 61      ### machine-inventory — 117
+### certifying-body — 8                ### fabricated-analytics — 8
+### tolerance-beyond-verified — 88     ### demo-placeholder-badge — 6
+### quote-sla-overpromise — 10         ### fake-verification — 5
+### delivery-or-quality-rate — 8       ### fabricated-report-number — 11
+### process-capability-metric — 72     ### unverified-reference — 1
+### company-scale-disclosure — 49      ### unapproved-confidentiality — 10
+### sector-standard-compliance — 37    ### unverified-social — 3
+### named-supplier — 7                 ### english-availability — 1
+### named-enterprise-system — 28       ### wrong-city — 1
+### unconditional-guarantee — 25       ### marketing-filler — 6
+FAIL — 562 claim violation(s), 1 resource problem(s).   [exit 1]
+```
+
+**562, not the 503 the Coder reported.** Not a defect — the gate grew rules
+after the baseline was taken — but the Orchestrator should record 562 as the
+measured figure. Post-phase the same script returns
+`PASS — 0 unverified claims across 22 rules` over 172 files / 23,488
+non-comment lines. Red to green reproduces.
+
+### Wiring is real
+
+`e2e/landing/claims-gate.spec.ts` sits under `e2e/landing/`, and
+`playwright.config.ts:108` sets `CRITICAL_MATCH = ["landing/**/*.spec.ts",
+"technical-landing.spec.ts"]`. So `npm run test:e2e:critical` runs it in both
+`critical-1280` and `critical-375`. `package.json` and `.github/**` were
+untouched, as required. The self-check test writes a probe containing
+`AS9100D` and asserts a non-zero exit — a neutered rule set fails there.
+
+### But the gate is defeatable — GATE_DEFEATABLE: **YES**
+
+I ran the gate against a synthetic tree of evasion probes. These are written
+in ordinary, publishable Turkish, with correct diacritics — not adversarial
+gibberish:
+
+| Probe | Caught? | Why it slips |
+|---|---|---|
+| `"Teklifinizi 24 saat içinde iletiyoruz."` | **NO** | `quote-sla-overpromise` needs `teklif`/`dönüş` immediately after `24 saat` |
+| `"Zamanında teslimat oranımız yüzde 98."` | **NO** | `delivery-or-quality-rate` requires the `%` glyph; the word form evades |
+| `"Ekibimizde 48 mühendis çalışıyor."` | **NO** | `company-scale-disclosure` requires a `+` before the noun; a bare count evades. §D TEAM_SIZE is `PRIVATE_DO_NOT_DISCLOSE` |
+| `"Üretim alanımız 15.000 metrekare."` | **NO** | requires the `m²` glyph |
+| `"Her parça CMM ile %100 ölçülür."` | **NO** | `unconditional-guarantee` lists `ölçüm`, not the verb `ölçülür` |
+| `"Bütün siparişlerde muayene raporu verilir."` | **NO** | the rule enumerates `her|tüm`; `bütün` is a synonym it does not know |
+| template literal `AS` + `${""}` + `9100D` | **NO** | per-line regex, interpolation splits the token |
+| `"AS" +` then newline then `"9100D"` | **NO** | per-line regex |
+| `"..." + "AS" + "9100" + "D"` (same line) | **NO** | quotes and `+` sit between the characters |
+| `15.000 m&#178;` (HTML entity) | **NO** | entity is not the glyph |
+| `A` + U+200B + `S9100D` (zero-width space) | **NO** | invisible character splits the token |
+| `AS9100D` / `as9100d` / `NADCAP` / `IATF 16949` | yes | positive controls, all caught |
+| `MT-2024-0512`, `15.000 m²`, `52 adet CNC tezgah`, `±0.005mm`, `0.005 mm` | yes | positive controls, all caught |
+
+The first row is **not hypothetical**. It is finding F1: the exact shape the
+rule was written for, live on `/teklif-al`, shipped in `dist/`, and walked
+past by the gate.
+
+Two further structural gaps:
+
+- **G4 — scope.** `ROOTS = ["src/pages","src/components","src/data","src/content","index.html"]`.
+  Not scanned: `src/hooks`, `src/utils`, `src/config`, `src/lib`, `src/routes`,
+  `src/App.tsx`, and all of `public/**`. This is not theoretical — user-facing
+  copy already lives there: `CAD_FORMAT_HINT` is composed in
+  `src/hooks/useCadHandoff.ts:16` and rendered at
+  `src/components/technical-landing/FinalSections.tsx:255`. It currently
+  carries the Phase 09 carry-forward `Maks. 50 MB`. I scanned the blind zone by
+  hand: no *other* live violation is hiding there today.
+- **G5 — the self-check races itself.** The probe is written to the shared path
+  `src/content/__claims-gate-probe__.ts`. With `fullyParallel: true` and
+  `workers: 2` under CI, `critical-1280`'s "the gate can still fail" can be
+  holding the probe while `critical-375`'s "no unverified claim exists" runs
+  the scanner — a spurious red that `retries: 2` would mask rather than
+  explain. A hard kill also leaves a stray `AS9100D` file in `src/`. (Verified
+  no stray file is present in the integrated tree.)
+
+**R6: PARTIAL.** The gate is real, wired, honest about its own failure mode,
+and its rules each name their `USER_INPUTS.md` authority — that is a genuinely
+good artefact. But it is not a sufficient barrier, and this phase shipped a
+violation through it.
+
+---
+
+## R7 — the golden regeneration, adjudicated pixel by pixel
+
+`--update-snapshots=all` destroys the evidence a reviewer needs, so I rebuilt
+it: `reports/qa/tools/png-diff.mjs` decodes the pre-phase blob from
+`git archive 75629f3` and the post-phase blob, and reports changed pixels, the
+change bounding box, the changed row bands, and the vertical offset in
+`[-4..+4]` that minimises the difference. It also reproduces pixelmatch's YIQ
+delta at Playwright's default `threshold: 0.2`, which is the only way to say
+what `maxDiffPixels: 200` would actually have seen.
+
+### (c) Headers and navigation goldens are genuinely unchanged — PASS
+
+Only 21 files changed in git: 3 viewports x (1 landing + 6 footers). I diffed
+the control group anyway. `shell-header-home`, `shell-header-about`,
+`navigation-closed`, `navigation-open` at all three viewports: **0 changed
+pixels, all twelve.** Nothing was quietly rebaselined.
+
+### (b) The offset analysis is right — PASS
+
+| Coder's claim | Measured |
+|---|---|
+| `/` footer at 1440 minimises at **+1** | confirmed: +1 gives 19,037 px, offset 0 gives 41,890 px |
+| `/` footer at 1280 minimises at **0** | confirmed: +0 gives 12,119 px |
+| `/hakkimizda` footer at 375 minimises at **-1** | confirmed: -1 gives 3,144 px |
+
+### (a) Every diff is a content change — PASS
+
+The only edit to `SiteFooter.tsx` in this phase is the removal of the
+Instagram and YouTube entries from `SOCIAL` (§L: both `NONE`, LinkedIn is the
+only permitted channel). I confirmed this visually against both golden
+versions at 1440: the old bottom bar carries three social glyphs, the new one
+carries one; the legal row reflows left by ~84 px, which exactly explains the
+uniform `x[122..638] y[265..296]` band that appears on all six desktop
+footers. The 1 px vertical offsets are the sub-pixel consequence of that
+reflow, not a layout regression.
+
+At 375 the change is confined to `x[74..167] y[606..631]` — the icon row and
+nothing else.
+
+The landing goldens shrink by 132 px (375) and 146 px (1280/1440). I read both
+versions. The old golden is the fabrication catalogue itself: `±0.005 mm`,
+`48 SAAT`, `50+ MALZEME`, `%100 CMM RAPORU`, `%98 ZAMANINDA TESLİMAT`,
+`AS9100D`, wet signatures under each certificate, a notary emboss, a
+`RAPORU DOĞRULA` QR, a `QUALITY ASSURED` stamp, `CMM ÖLÇÜM RAPORU
+MT-2024-04018`, `AERO HOUSING / RAPOR NO: MT-2024-0512`, `ZTM` in the
+reference row, `12 AKTİF SİPARİŞ / %98.7 BAŞARI`, and `PDF · 1.2 MB` rows
+under `KAYNAKLAR HAZIRLANIYOR` that linked to nothing. The new golden replaces
+every one of them and the page still reads as a finished composition — no
+blank band, no collapsed section, no orphaned rule. **No unrelated regression
+is present in any regenerated golden.**
+
+### (d) `maxDiffPixels: 200` masked a real change — CONFIRMED, and it is a finding
+
+The Coder reported that five of six 375 footers had been passing against a
+golden depicting a footer that no longer exists. **I measured it independently
+and it is true:**
+
+| Golden | Playwright-equivalent diff | Verdict against `maxDiffPixels: 200` |
+|---|---|---|
+| 375 footer home / service / rfq / journal / notfound | **79 px** | **PASS — masked** |
+| 375 footer about | 4,498 px | fail (would have been caught) |
+| 1280 footers | 639–1,316 px | fail |
+| 1440 footers | 651–8,278 px | fail |
+| landing-fullpage, all viewports | 392k–503k px | fail |
+
+79 px out of 277,875 = **0.028 %**. Two 26 px icon boxes vanished from a public
+page and the suite would have said nothing, at five of six surfaces, for as
+long as nobody looked. That is the Phase 04 failure mode reappearing with a
+smaller blast radius.
+
+**Recommendation (not a Phase 06 blocker, and not mine to implement):**
+`maxDiffPixels: 200` is a flat allowance applied to crops ranging from
+375x64 px to 1440x4,119 px. On the shell crops it is roughly an order of
+magnitude too generous. Either scale it (`maxDiffPixelRatio` around 0.0005) or,
+better for this specific surface, assert the footer's social-link set in the
+DOM — a link list is a content contract and should not be defended by
+photography.
+
+**R7: PASS.** The regeneration is justified, correctly analysed, and hides
+nothing. The threshold finding is recorded as a hardening item.
+
+---
+
+## R8 — the 16 deletions
+
+15 components plus `src/data/travelers.ts`. I checked importers **at the base
+commit `75629f3`**, i.e. before this phase could have made anything dead:
+
+| Deleted module | Importers at base |
+|---|---|
+| `CNCScrollStory`, `CapabilitiesSection`, `CertificationsSection`, `FAQBlogSection`, `HeroSection`, `IndustriesSection`, `NexusPromoSection`, `ProjectShowcase`, `QuickQuoteSection`, `ServicesSection`, `TestimonialsSection`, `VideoScrollSection`, `WhyUsSection` | **0** |
+| `LiveLedgerCard` | 1 — `HeroSection.tsx` (itself dead, also deleted) |
+| `ui/CrosshairOverlay` | 1 — `CNCScrollStory.tsx` (itself dead, also deleted) |
+| `data/travelers.ts` | 1 — `ServicesSection.tsx` (itself dead, also deleted) |
+
+The whole set is transitively dead at base. **No user-reachable surface lost
+content.** The build confirms it: every golden PNG shrank, the landing page is
+132–146 px shorter, and nothing these modules rendered appears in `dist/`.
+
+**R8: PASS.**
+
+---
+
+## R9 — positioning
+
+`DO_NOT_USE_SMALL_WORKSHOP_LANGUAGE` **and**
+`DO_NOT_INVENT_LARGE_COMPANY_LANGUAGE`. I read the changed public copy rather
+than the summary of it.
+
+**Not apologetic anywhere.** A scan of all public copy for diminishing forms
+(`küçük atölye`, `mütevazı`, `sınırlı kapasite`, `henüz`, `maalesef`,
+`yapamıyoruz`, `bulunmamaktadır`, `az sayıda`) returns nothing on public
+routes; every hit is an admin or customer-panel empty state, which is correct
+UI copy. The one public `bulunmamaktadır` is `SSS.tsx:23` — "Minimum sipariş
+adedi bulunmamaktadır" — which is a strength, not a limitation.
+
+**Not inflated either.** `marketing-filler` rule: 6 hits at base, 0 now. The
+Hakkımızda vision card no longer claims to be "one of Europe's leading
+precision machining centres" and the team card no longer publishes a headcount.
+
+**The freed proof-strip cells.** Verified in source and in the regenerated
+1280 golden. The strip reads:
+
+```text
+±0.01 mm      1-3 İŞ GÜNÜ    TALEBE BAĞLI          İZLENEBİLİR   5 EKSEN       ISO 9001:2015
+TOLERANS      TEKLİF DÖNÜŞÜ  AKREDİTE CMM ÖLÇÜMÜ   ÜRETİM        CNC İŞLEME    KALİTE YÖNETİM SİSTEMİ
+```
+
+Six cells, none empty, every one either a specification a buyer can test or a
+certificate §C authorises. The two cells vacated by `50+ MALZEME` and
+`%98 ZAMANINDA TESLİMAT` carry `5 EKSEN / CNC İŞLEME` and `ISO 9001:2015` — as
+reported. This reads as discipline. The strip is *stronger* than the one it
+replaced, because a reader can act on all six.
+
+**Band 06 NEXUS.** The four fabricated counters (`12 AKTİF SİPARİŞ`,
+`7 ÜRETİMDE`, `126 TOPLAM PARÇA`, `%98.7 BAŞARI`) and the named quality
+manager are gone; the tiles now name what the portal does
+(`SİPARİŞ · DURUM TAKİBİ`, `ÜRETİM · AŞAMA GÖRÜNÜRLÜĞÜ`,
+`ÖLÇÜM · KONTROL KAYITLARI`, `SEVKİYAT · TESLİMAT PLANI`) and the order table
+is masked (`MT-••••-••12`, `••.••.••••`) under
+`PORTAL GÖRÜNÜMÜ · MÜŞTERİYE AİT ALANLAR MASKELENMİŞTİR`.
+
+**My judgement: discipline, not a missing feature.** A masked product
+screenshot is the standard and honest way to show a customer portal, the
+customer panel it depicts genuinely exists in the repo, and the band asserts
+no quantity, rate, date or person. One caveat for the record: the label
+*asserts* that the rows are real-but-masked. A strictly weaker phrasing was
+unavailable — `ÖRNEK` and `TEMSİLÎ` are themselves forbidden demo badges — so
+the Coder was choosing between two rules and chose the one that asserts
+nothing checkable. I accept it; the Orchestrator may want a human to confirm
+the wording before release.
+
+**Band 07** was renamed `SEÇİLMİŞ PROJELER` to `KABİLİYET PROFİLLERİ` and its
+table heads changed from `NOMİNAL / ÖLÇÜLEN / SONUÇ` (a measurement record
+that was never measured) to `ÖZELLİK / KONTROL / KAYIT` (a control plan). The
+e2e contract now pins those column heads. That is the right correction: the
+band stopped pretending to be evidence and started describing method.
+
+**R9: PASS.**
+
+---
+
+## Case-study schema (Phase 06 acceptance criterion)
+
+`src/content/caseStudies.ts` carries every field the phase requires —
+`challenge`, `material`, `process`, `tolerance`, `surfaceFinish`,
+`inspection`, `leadTime`, `outcome`, `controlPlan`, `gallery`,
+`relatedCapability`, `rfq` — as a discriminated union on `kind`.
+`CapabilityProfile` types `client`, `reportNo` and `measuredResults` as
+`never`, so a capability profile cannot grow project evidence by accident;
+`AnonymisedProject` requires `permission: "ANONYMISED"` and a `sector` in place
+of a customer. There is deliberately **no** `named-project` variant, which is
+the right call: naming a client needs both §F `PUBLIC_OK` and written project
+consent, and no project has either.
+
+`tolerance` and `inspection` import from `claims.ts` rather than repeating a
+literal. `LEAD_TIME` describes the mechanism ("termin ... teklifle birlikte
+verilir") instead of promising a number, which is the correct handling of a
+field `USER_INPUTS.md` does not supply.
+
+## Other Phase 06 acceptance criteria
+
+| Criterion | Result | Evidence |
+|---|---|---|
+| No demo/sample/hazırlanıyor badge on public pages | PASS | `demo-placeholder-badge` 6 to 0; `status="sample"` removed from band 10; zero in `dist/` |
+| Claims used on multiple pages come from one source | PASS | `claims.ts` is imported by `technicalLandingData.ts`, `servicePages.ts`, `caseStudies.ts`, `Hakkimizda.tsx`, `SSS.tsx` |
+| Resource rows are real links or removed | PASS | four `/belgeler/*.pdf`, HTTP-fetched by the e2e contract, sizes measured from disk by the gate |
+| EN control hidden / JSON-LD honest | PASS | `availableLanguage: ["Turkish"]` |
+| Generic marketing filler removed | PASS | `marketing-filler` 6 to 0 |
+| CTA terminology one hierarchy | PASS | every public quote CTA shares the "Teklif Al" stem with a contextual qualifier |
