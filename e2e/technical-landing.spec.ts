@@ -13,7 +13,7 @@ test.describe("technical editorial landing phase 1", () => {
   test("renders the frame, hero, annotations and proof strip", async ({ page }) => {
     await expect(page.getByTestId("technical-landing-root")).toBeVisible();
     await expect(page.getByTestId("technical-hero-title")).toBeVisible();
-    await expect(page.getByLabel("Ölçümlendirilmiş örnek CNC manifold parçası")).toBeVisible();
+    await expect(page.getByLabel("Ölçülendirilmiş CNC manifold parçası çizimi")).toBeVisible();
     await expect(page.getByRole("region", { name: "Üretim kabiliyeti özeti" })).toBeVisible();
     await expect(page.getByTestId("technical-hero-cta")).toHaveAttribute("href", "/teklif-al");
   });
@@ -101,23 +101,34 @@ test.describe("technical editorial landing phase 1", () => {
     expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(before);
   });
 
-  test("renders process, NEXUS and measured project evidence", async ({ page }) => {
+  test("renders process, the NEXUS preview and the capability profiles", async ({ page }) => {
     await expect(page.getByRole("heading", { name: /Karardan parçaya/ })).toBeVisible();
     await expect(page.getByRole("heading", { name: /siz sormadan görünür/ })).toBeVisible();
-    await expect(page.getByRole("region", { name: "NEXUS örnek iş emirleri" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "SEÇİLMİŞ PROJELER" })).toBeVisible();
-    await expect(page.getByText(/ÖLÇÜM DEĞERLERİ TEMSİLÎDİR/)).toBeVisible();
-    await expect(page.getByText("RAPOR NO: MT-2024-0512")).toBeVisible();
+    await expect(page.getByRole("region", { name: /NEXUS iş emri görünümü/ })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "KABİLİYET PROFİLLERİ" })).toBeVisible();
+    // Band 07 shows a control plan, not a measurement record. The column head
+    // is the contract: NOMİNAL/ÖLÇÜLEN/SONUÇ asserted conformity that was never
+    // measured (§G CASE_STUDIES: NONE_PROVIDED_YET).
+    const projectHeads = await page.locator(".tl-project-grid article thead th").allTextContents();
+    expect([...new Set(projectHeads)]).toEqual(["ÖZELLİK", "KONTROL", "KAYIT"]);
+    // Each profile links to the capability behind it instead of to a report number.
+    await expect(page.locator(".tl-project-grid .tl-report-no a")).toHaveCount(3);
   });
 
   test("renders sectors, the quality file and the reference band", async ({ page }) => {
     await expect(page.getByRole("region", { name: "Çalıştığımız sektörler" })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: /İDDİA EDİLMEZ/ })).toBeVisible();
-    for (const code of ["ISO 9001:2015", "AS9100D", "ISO 14001:2015"]) {
+    // The permitted set, and ONLY the permitted set (USER_INPUTS.md §C).
+    for (const code of ["ISO 9001:2015", "ISO 14001:2015", "OHSAS 18001"]) {
       await expect(page.getByRole("heading", { name: code, exact: true })).toBeVisible();
+    }
+    for (const code of ["AS9100D", "IATF 16949", "ISO 13485"]) {
+      await expect(page.getByText(code, { exact: false })).toHaveCount(0);
     }
     await expect(page.getByRole("region", { name: "Referanslar" })).toBeVisible();
     await expect(page.getByText("METSAN", { exact: true })).toBeVisible();
+    await expect(page.getByText("TEKNOPAR", { exact: true })).toBeVisible();
+    await expect(page.getByText("ZTM", { exact: true })).toHaveCount(0);
     await expect(page.locator(".tl-reference-grid li")).toHaveCount(6);
     // En uzun isimler bile hücreden taşmamalı.
     const tasma = await page.locator(".tl-reference-grid li").evaluateAll((els) =>
@@ -125,17 +136,37 @@ test.describe("technical editorial landing phase 1", () => {
     expect(Math.max(...tasma)).toBeLessThanOrEqual(0);
   });
 
-  test("keeps unpublished quality assets honest instead of faking downloads", async ({ page }) => {
-    await expect(page.getByText("DOĞRULAMA SERVİSİ HAZIRLANIYOR")).toBeVisible();
-    await expect(page.locator(".tl-resource-title small")).toHaveText("HAZIRLANIYOR");
-    // Kaynak satırları indirilebilir görünmemeli: link ya da buton olmamalı.
-    await expect(page.locator(".tl-resource-list li a, .tl-resource-list li button")).toHaveCount(0);
+  test("serves the four quality documents as real downloads", async ({ page, request }) => {
+    // This test replaces "keeps unpublished quality assets honest instead of
+    // faking downloads", which asserted the rows had NO link. §H marks all four
+    // PDFs PUBLIC_OK; they were never copied into the build. The assertion is
+    // strengthened, not relaxed: it now fetches every file and requires a real
+    // PDF back, so a broken or missing document fails the gate.
+    await expect(page.locator(".tl-resource-title")).toHaveText("KAYNAKLAR");
+    const links = page.locator(".tl-resource-list li a");
+    await expect(links).toHaveCount(4);
+    const hrefs = await links.evaluateAll((els) => els.map((el) => (el as HTMLAnchorElement).getAttribute("href")!));
+    expect(hrefs.every((href) => href.startsWith("/belgeler/") && href.endsWith(".pdf"))).toBe(true);
+    for (const href of hrefs) {
+      const response = await request.get(href);
+      expect(response.status(), `${href} must be served`).toBe(200);
+      expect(response.headers()["content-type"]).toContain("pdf");
+    }
+    // And no placeholder affordance survives on the public route.
+    for (const badge of ["HAZIRLANIYOR", "DEMO İÇERİK", "ÖRNEK İÇERİK", "TEMSİLÎ"]) {
+      await expect(page.getByText(badge, { exact: false })).toHaveCount(0);
+    }
   });
 
   test("renders FAQ answers and the RFQ hand-off", async ({ page }) => {
     const faq = page.getByText("Hangi dosya formatlarını destekliyorsunuz?");
     await faq.click();
-    await expect(page.getByText(/STEP, STP, IGES/)).toBeVisible();
+    // The list must match `CAD_ACCEPTED_EXTENSIONS` exactly. It used to read
+    // "STEP, STP, IGES, STL, OBJ, DWG ve PDF": it advertised two formats the
+    // uploader rejects and omitted 3MF, which it accepts. Copy that contradicts
+    // the implementation sends a buyer away with a file that will not upload.
+    await expect(page.getByText(/STEP, STP, STL, OBJ, IGES, IGS ve 3MF/)).toBeVisible();
+    await expect(page.getByText(/DWG ve PDF teknik resimlerini/)).toHaveCount(0);
     const drop = page.getByTestId("technical-cad-drop");
     await expect(drop).toHaveText(/ÇİZİM DOSYANIZI SÜRÜKLEYİN/);
     expect(await drop.evaluate((el) => el.tagName)).toBe("BUTTON");

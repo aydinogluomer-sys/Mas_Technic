@@ -239,12 +239,17 @@ function walk(path) {
   // A removed claim must stay DISCUSSABLE — the whole point of the ledger is
   // that it explains what went and why. So comments are skipped, including
   // block comments whose continuation lines carry no `*` gutter.
+  // HTML comments are NOT skipped: Vite ships `index.html` verbatim, so a
+  // comment there reaches production and is readable in view-source. This was
+  // found the hard way — an explanatory comment naming a removed certificate
+  // shipped into `dist/index.html`. JS/TS comments are compiled away and are
+  // the right place to record why a claim went.
   const html = abs.endsWith(".html");
   let inBlockComment = false;
   lines.forEach((line, index) => {
     const trimmed = line.trim();
-    const opens = line.lastIndexOf(html ? "<!--" : "/*");
-    const closes = line.lastIndexOf(html ? "-->" : "*/");
+    const opens = html ? -1 : line.lastIndexOf("/*");
+    const closes = html ? -1 : line.lastIndexOf("*/");
     const wasInBlock = inBlockComment;
     if (inBlockComment) {
       if (closes > -1) inBlockComment = false;
@@ -257,8 +262,7 @@ function walk(path) {
       trimmed.startsWith("//") ||
       trimmed.startsWith("*") ||
       trimmed.startsWith("/*") ||
-      trimmed.startsWith("{/*") ||
-      trimmed.startsWith("<!--")
+      trimmed.startsWith("{/*")
     ) {
       return;
     }
