@@ -16,6 +16,13 @@ export const CAD_ACCEPT_ATTR = CAD_ACCEPTED_EXTENSIONS.map((ext) => `.${ext}`).j
 export const CAD_FORMAT_HINT = `${CAD_ACCEPTED_EXTENSIONS.map((ext) => ext.toUpperCase()).join(", ")} · Maks. ${Math.round(CAD_MAX_FILE_SIZE / (1024 * 1024))} MB`;
 
 /**
+ * Rozet listesi. Elle yazılan liste `.x_t`/`.x_b` gibi doğrulayıcının
+ * reddettiği formatları yayınlamıştı; §J `ACCEPTED_CAD_FORMATS:
+ * DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION` gereği tek kaynaktan türetilir.
+ */
+export const CAD_FORMAT_CHIPS = CAD_ACCEPTED_EXTENSIONS.map((ext) => ext.toUpperCase());
+
+/**
  * CAD dosyasını doğrular, yükler ve teklif formuna devreder.
  * HeroCadDropzone ve teknik landing RFQ bandı aynı akışı paylaşır.
  */

@@ -1,4 +1,14 @@
+import { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadUpload";
 import { servicePages } from "./servicePages";
+
+/**
+ * ".step, .stp, .stl, .obj, .iges, .igs, .3mf"
+ *
+ * Elle yazılan liste SolidWorks, DXF, DWG ve PDF'i kabul ettiğimizi söylüyordu;
+ * `validateCadFile` dördünü de reddediyor. §J
+ * `ACCEPTED_CAD_FORMATS: DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION`.
+ */
+const CAD_EXTENSION_LIST = CAD_ACCEPTED_EXTENSIONS.map((ext) => `.${ext}`).join(", ");
 
 export interface FaqEntry {
   question: string;
@@ -94,8 +104,8 @@ const staticEntries: FaqEntry[] = [
   // ── Dosya Formatları ──
   {
     question: "Hangi CAD dosya formatlarını kabul ediyorsunuz?",
-    answer: "STEP (.stp/.step), IGES (.igs), SolidWorks (.sldprt/.sldasm), DXF, DWG, PDF çizimler ve 3D modeller kabul ediyoruz. En çok tercih edilen format STEP'tir.",
-    keywords: ["dosya", "format", "cad", "step", "iges", "solidworks", "dxf", "dwg", "pdf", "çizim", "3d", "model"],
+    answer: `Teklif akışında doğrudan yükleyebileceğiniz formatlar: ${CAD_EXTENSION_LIST}. En çok tercih edilen format STEP'tir. Listede olmayan bir format veya ölçülendirilmiş teknik resim için dosyayı sales@mastechnic.com adresine iletebilirsiniz.`,
+    keywords: ["dosya", "format", "cad", "step", "iges", "stl", "obj", "3mf", "çizim", "3d", "model"],
   },
   // ── Çalışma Saatleri ──
   {

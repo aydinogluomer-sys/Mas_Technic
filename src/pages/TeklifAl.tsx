@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { getCSSVar } from "@/utils/cssVar";
 import { useTheme } from "@/hooks/use-theme";
 import { createCadStoragePath, uploadCadFile, type UploadedCadFile } from "@/utils/cadUpload";
+import { CAD_ACCEPT_ATTR, CAD_FORMAT_CHIPS, CAD_FORMAT_HINT } from "@/hooks/useCadHandoff";
 import {
   Cog,
   ChevronLeft,
@@ -617,7 +618,7 @@ export const TeklifAl = () => {
         <input
           ref={fileInputRef}
           type="file"
-          accept=".step,.stp,.iges,.igs,.stl,.obj,.3mf,.x_t,.x_b"
+          accept={CAD_ACCEPT_ATTR}
           className="hidden"
           onChange={handleFileUpload}
         />
@@ -635,10 +636,10 @@ export const TeklifAl = () => {
             </div>
             <div className="text-center">
               <p className="text-base font-bold">CAD dosyanızı buraya sürükleyin veya tıklayın</p>
-              <p className="text-xs text-muted-foreground mt-2">STEP, STP, STL, OBJ, IGES, 3MF • Maks. 50 MB</p>
+              <p className="text-xs text-muted-foreground mt-2">{CAD_FORMAT_HINT}</p>
             </div>
-            <div className="flex items-center gap-4 mt-2">
-              {["STEP", "STL", "OBJ", "IGES", "3MF"].map((fmt) => (
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-2">
+              {CAD_FORMAT_CHIPS.map((fmt) => (
                 <span
                   key={fmt}
                   className="text-[10px] font-bold tracking-widest text-muted-foreground bg-muted px-2.5 py-1"
@@ -1095,8 +1096,8 @@ export const TeklifAl = () => {
           <div className="flex items-start gap-3 p-4 bg-primary/5 border border-primary/20">
             <AlertCircle size={16} className="text-primary shrink-0 mt-0.5" />
             <p className="text-xs text-muted-foreground">
-              Teklif talebiniz gönderildikten sonra mühendislerimiz dosyanızı inceleyecek ve 24 saat içinde size detaylı
-              fiyat ve süre bilgisi ile dönüş yapacaktır.
+              Teklif talebiniz gönderildikten sonra mühendislerimiz dosyanızı inceleyecek ve {QUOTE_RESPONSE_TIME}{" "}
+              içinde size detaylı fiyat ve süre bilgisi ile dönüş yapacaktır.
             </p>
           </div>
         </div>
