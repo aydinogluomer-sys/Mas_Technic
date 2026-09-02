@@ -678,3 +678,351 @@ passed with zero failures across three suites on first run.
 
 - **B28_REGRESSION: NONE**
 - **I4_REMAINING_DEFECT: CONFIRMED_PRE_EXISTING**
+
+---
+
+# RE-VERIFICATION after correction packet #1
+
+**Date:** 2026-09-02 · **Worktree:** `wt/qa-p05c` · **Integration HEAD:** `1e88593`
+(`150c546` C1, `c358834` C3/C2, `1e88593` docs) · **Prior QA:** `5191530` (FAIL)
+
+Everything above this line is the original FAIL report and stands unedited.
+This section re-verifies only the items the correction packet touched, plus the
+regression surface. All numbers below were produced on a fresh `npm run build`
+of `1e88593` in this worktree, served by one `vite preview` on `:4211` and
+reused by every probe and suite.
+
+**STATUS: PASS.**
+
+- `HOVER_CORRELATION: WORKS`
+- `CLS_METHOD: SPLIT_AT_SCROLL_CORRECT`
+- `GUARD_HOLE: CLOSED` (the reported one; a narrower, latent one is open — R4 below)
+
+---
+
+## Scope
+
+`diff --name-status 5191530 1e88593` — 4 files, +293 / −20:
+
+| file | |
+|---|---|
+| `src/styles/technical-landing.css` | the fix |
+| `e2e/landing/motion-grammar.spec.ts` | one new test, +83 |
+| `scripts/motion-audit.mjs` | CLS A/B + `codeOf` |
+| `docs/lean/07-motion-system.md` | the CLS reading note |
+
+No golden touched. Verified independently rather than taken on trust: the 45
+committed PNGs under `e2e/` hashed identically before and after a full
+`test:e2e:visual` run. No `!important` anywhere in the diff. The built CSS
+carries the fix — `@keyframes tl-label-lock-down{0%{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0)}}`,
+no `opacity` — and the only surviving `.tl-dim-line path` selector in the
+shipped bundle is `{fill:none;stroke:…}`, which cannot collide.
+
+---
+
+## R1 — the correlation works. Measured, at 1440, all sixteen elements.
+
+`reports/qa/tools/p05c-r1-correlation-matrix.mjs`. Every hover is gated on
+`.tl-hero:has(SEL:hover)` matching *before* any opacity is read; all six
+matched, so none of the numbers below are the "nothing dimmed" false positive.
+
+At rest all sixteen read **1.00** (`.tl-dim--height` matches two paths; both).
+
+Computed own-opacity, one row per hover:
+
+| hovered | m-top | m-left | m-fin | fcf-top | fcf-bot | datum | bore | tol | height | perp | finish | datum-l | pp-body | pp-bore | pp-holes | pp-dim |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `.tl-measure-top` | **1.00** | .34 | .34 | .34 | .34 | .34 | **1.00** | .34 | .34 | .34 | .34 | .34 | .34 | **1.00** | .34 | .34 |
+| `.tl-fcf-top` | .34 | .34 | .34 | **1.00** | .34 | .34 | .34 | **1.00** | .34 | .34 | .34 | .34 | .34 | .34 | **1.00** | .34 |
+| `.tl-measure-left` | .34 | **1.00** | .34 | .34 | .34 | .34 | .34 | .34 | **1.00** | .34 | .34 | .34 | .34 | .34 | .34 | **1.00** |
+| `.tl-fcf-bottom` | .34 | .34 | .34 | .34 | **1.00** | .34 | .34 | .34 | .34 | **1.00** | .34 | .34 | **1.00** | .34 | .34 | .34 |
+| `.tl-measure-finish` | .34 | .34 | **1.00** | .34 | .34 | .34 | .34 | .34 | .34 | .34 | **1.00** | .34 | **1.00** | .34 | .34 | .34 |
+| `.tl-datum` | .34 | .34 | .34 | .34 | .34 | **1.00** | .34 | .34 | .34 | .34 | .34 | **1.00** | .34 | .34 | .34 | **1.00** |
+
+This is the Coder's table exactly, and it is stronger than the table asked for:
+every one of the thirteen *uncorrelated* elements recedes on every hover, not
+just the one or two named per row. After the pointer leaves, all sixteen return
+to 1.00. The same behaviour is asserted in the suite at 1280 by
+`motion-grammar.spec.ts:254`, which passes in `critical-1280`; at `critical-375`
+it takes the coarse-pointer branch and asserts `.tl-dimension-lines` is hidden,
+which is an assertion rather than a skip.
+
+The latent bug the Coder found in its own work is fixed and I can see it:
+`.tl-pp-body` now reads .34 under four of the six hovers. It could not before —
+it was in the transition list and in two correlations but in neither dim list.
+
+## R2 — both causes are dead, and the parity claim is real
+
+Both controls are applied **in place on the live CSSOM at the rule's own
+index**, so source order never moves and only the property under test changes.
+An appended `<style>` would have won by order and proved nothing.
+
+**Cause (a) — `opacity` in the keyframes.** Re-adding `0%{opacity:0…}` /
+`100%{opacity:1…}` to `tl-label-lock-down` and `-up`: all six measurement boxes
+immediately read 1.00 while hovering `.tl-measure-top`, i.e. frozen opaque in
+every state, exactly as described — an animation's fill value under
+`fill-mode: both` is applied in the animation origin and outranks every normal
+declaration. Guide lines were unaffected in that control (`.tl-dim--bore` 1.00,
+the other five .34), which locates the defect precisely.
+
+**Cause (b) — `.tl-dim-line path` in the isolation list.** Replacing the
+isolation rule at index 6 with the old list, leaving the correlation at index 7
+untouched: every guide line goes to .34 **and so does the hovered box**, while
+`.tl-pp-body` stays at 1.00 — the old list's missing member, visible as a
+fingerprint. That composite symptom is what the original FAIL described.
+
+**Parity.** Observing that the correlation wins today does not prove parity; it
+is equally consistent with the correlation being more specific. The two
+hypotheses differ in exactly one observable, so
+`reports/qa/tools/p05c-r2-specificity-parity.mjs` reverses the two rules in
+place:
+
+```
+shipped order  (isolation, then correlation): hovered=1    guide=1    passport=1    other=0.34
+reversed order (correlation, then isolation): hovered=0.34 guide=0.34 passport=0.34 other=0.34
+```
+
+Reversing the order reverses the winner. Under "correlation is more specific"
+that could not happen. **The two rules are equally specific and source order is
+what decides** — the contract the stylesheet now documents is the contract the
+browser is enforcing.
+
+## R3 — the CLS methodology dispute. Adjudicated.
+
+**`CLS_METHOD: SPLIT_AT_SCROLL_CORRECT`.** The split method is sound and is the
+number the causal claim rests on. Two corrections to the framing, though, and
+they run opposite ways.
+
+**The premise of the dispute is not accurate.** My original A/B was not a
+raw-total A/B. `reports/qa/tools/p05b-r6-cls-causation.mjs` already split each
+run, at a fixed 2000 ms cutoff, and the table in the original report is headed
+"entries **after 2000ms** (the window in which entrances run)". The
+`0.00000 / 0.00105` figures came from that split column, not from a total. The
+original report also already states, in the same paragraph, that the reduced
+path shifts *more* at 1280 — "at 1280 *larger* with motion off (0.06446 >
+0.01952)". So the entrance-shell inversion was in the previous report as a
+finding, not missed by it.
+
+**The correction is nevertheless the right one and an improvement.** A fixed
+2000 ms cutoff is a guess that silently degrades if load runs long; a
+`performance.now()` mark taken at the moment scrolling begins is the same idea
+implemented so that it cannot drift. Moving the A/B into `--mode=cls` itself
+matters more: the number is now reproducible by instrument instead of by a
+QA-side script referenced in a note.
+
+Three consecutive runs of the shipped `--mode=cls` against one build:
+
+| | 1280 | 375 |
+|---|---|---|
+| `scrollCost` | **0 / 0 / 0** | **0 / 0 / 0** |
+| `manifestoEntries` | 0 / 0 / 0 | 0 / 0 / 0 |
+| raw `cls`, motion on | 0.01694 / 0.01652 / 0.01150 | 0.01452 / 0.01476 / 0.01452 |
+| raw `cls`, reduced | 0.06275 / 0.06385 / 0.06448 | 0.01069 / 0.01070 / 0.01070 |
+
+`scrollCost` 0 and `manifestoEntries` 0 in all six passes — the packet's claim
+reproduces, and slightly better (I never saw the 375 `0.00106`). The
+reduced-motion path really is the heavier one at 1280, by ~4x, and the largest
+entries there are `div.relative` @974 ms and `div.shell-state` @327 ms — the
+entrance-shell handover, before scrolling starts. Different timestamps from the
+Coder's t≈185/541 ms, same elements, same phase of the page.
+
+**One number here settles the older dispute.** Run 3 measured raw 1280 CLS at
+**0.01150** — the exact figure the original report could not reproduce and
+flagged as "stable, not noisy". Over three runs of a single unchanged build the
+raw total moved 0.0115 → 0.0209. It is not stable; my earlier three-run spread
+was luck. That retires the R6 finding in the original report: the discrepancy
+belonged to the instrument, not to the build, and the docs are right to say the
+raw total is not evidence.
+
+`docs/lean/07-motion-system.md` §"CLS ölçümü nasıl okunur" states it plainly —
+"Ham sayfa CLS'i bu iddianın kanıtı DEĞİLDİR ve öyle raporlanmamalıdır" — with
+the split explained and the numbers tabled. Requirement met.
+
+## R4 — the reported hole is closed. A narrower one is not, and it fails open.
+
+`GUARD_HOLE: CLOSED` for the hole in the packet. Seven fixtures, run against
+both the shipped guard and a pinned copy of the pre-fix script
+(`reports/qa/tools/p05c-motion-audit-PREFIX.mjs`), from a scratch tree outside
+the repo — no synthetic file ever entered `src/`:
+
+| fixture | old guard | new guard | |
+|---|---|---|---|
+| A `onViewportEnter`, no mention | FAIL | **FAIL** | correct |
+| B real `usePrefersReducedMotion()` call | pass | **pass** | correct |
+| C1 mention only in `//`, `/* */`, `{/* */}` + a plain doc URL | **pass** | **FAIL** | the reported hole, closed |
+| F commented-out `import { motion } from "framer-motion"` | **breach** | **pass** | old false breach, also fixed |
+| E template nested in an interpolation + comment mention | pass | **FAIL** | correct |
+| **C2** identifier inside a URL **string** | pass | **pass** | **fails open** |
+| **D** regex literal `/['"]/g` then a comment mention | pass | **pass** | **fails open** |
+
+**The direction-of-failure argument in the script's own comment is wrong for
+this rule.** The comment says the blind spots "can only make it drop too
+little, which surfaces as a LOUD false breach rather than a quiet false pass."
+That holds for the import check, which is presence-based. It inverts for the
+reduced-motion check, which is **absence**-based: `!/\busePrefersReducedMotion\s*\(/`.
+Retaining more text makes the call pattern *easier* to find, so the breach is
+silently not reported. Instrumenting `codeOf` on fixture D shows the mechanism —
+in `/['"]/g` the `'` opens a string that closes on the `"`, then nothing
+rebalances it, the scanner runs to EOF in string mode and the `//` comment on
+the next line survives verbatim:
+
+```
+has viewport callback : true
+looks like a CALL     : true      <- from the COMMENT
+=> breach reported    : false
+```
+
+C2 needs no scanner bug at all: `codeOf` keeps string bodies by design (the
+import check needs the specifier), so a URL that happens to contain
+`usePrefersReducedMotion(` satisfies the rule.
+
+**Severity: latent, not live.** `reports/qa/tools/p05c-r4-guard-reachability.mjs`
+scans all 269 files under `src/`: zero string literals read as a call, and the
+one file with surviving `//` after `codeOf` (`r3f/LiquidImage.tsx`) is GLSL
+inside a template literal — correctly preserved string content, not a desync —
+and carries no viewport callback. The only file whose *code* contains
+`onViewportEnter` is `ProjectShowcase.tsx`, which calls the hook for real at
+line 65 and is the already-carried unimported dead-code item.
+`--mode=guard` on the real tree: **PASS**.
+
+Not a 05b failing condition — the hole named in the packet is closed and the
+guard is strictly better than it was. Recorded for whoever owns the guard next:
+anchoring the check to a line that is not a comment, or matching
+`const … = usePrefersReducedMotion(`, would close it without a parser.
+
+## R5 — no regressions
+
+| check | result |
+|---|---|
+| `test:e2e:critical` | **159 passed, 3 skipped, 0 failed** (9.2 m) |
+| `test:e2e:smoke` | **12 passed** (59.0 s) |
+| `test:e2e:visual` | **27 passed** (59.7 s), first run, **no flake** |
+| goldens | 45 PNGs, **byte-identical** before/after |
+| `motion-audit --mode=guard` | PASS |
+| `grid-axis-probe` | PASS, **0 off-grid**, tolerance 1 px |
+| `npm run build` | clean |
+| working tree | clean — QA modified no production file |
+
+**B28 at rest**, `--mode=rest`, ten route/viewport pairs: `hiddenText=0` on all
+ten. The 14 `hidden` on `/hizmetler/cnc-frezeleme` at both widths are the
+pre-existing decorative `div.absolute.inset-0.bg-gradient-to-*` elements with no
+own text, reported by the instrument's own `hidden, no own text` channel.
+Unchanged from the original report.
+
+**The visual flake.** It did not reproduce — 27/27 on my first run. The Coder's
+argument that its diff cannot reach `/__phase04-not-a-route__` is not merely
+plausible, it is checkable, and `reports/qa/tools/p05c-r5-flake-reachability.mjs`
+checks it under the golden project's own conditions (375, `reducedMotion:
+"reduce"`):
+
+- on the 404 route the stylesheet carrying every changed rule, `Index-*.css`,
+  **is not loaded at all** (`carriesChangedRules: false`); there is no
+  `.tl-hero` and no `.tl-root`;
+- on `/` under reduced motion `data-motion` is `"reduced"`, never `"ready"`, so
+  **zero** elements anywhere have `tl-label-lock-*` as an applied animation;
+- `[data-fullscreen-header]`, the captured element, does not contain the hero on
+  either route.
+
+The correction's CSS is not even downloaded on the route that flaked. Add that
+the wordmark is shared by all six surfaces and only one of eighteen header
+captures moved, and a CSS cause is excluded. Settle race, not regression. No
+golden was regenerated, which was the right response.
+
+## R6 — the accessibility trade-off. Route to Phase 13; worse than described.
+
+The Coder flagged this against itself, which is to its credit. Measured rather
+than accepted: `reports/qa/tools/p05c-r6-dimmed-text-contrast.mjs` reads
+rendered pixels, because these boxes sit on a photograph and the composite
+cannot be derived from the stylesheet. Glyph luminance at the 97th percentile
+against local backdrop at the 25th, inside each box, at 1440.
+
+| box | at rest | while another is hovered |
+|---|---|---|
+| `.tl-measure-top` | 15.87:1 | — (hovered) |
+| `.tl-measure-left` | 16.02:1 | **2.72:1** |
+| `.tl-measure-finish` | 15.40:1 | 3.45:1 |
+| `.tl-fcf-top` | 15.58:1 | **2.65:1** |
+| `.tl-fcf-bottom` | 14.61:1 | **2.92:1** |
+| `.tl-datum` | 12.18:1 | 4.07:1 |
+
+**It is worse than the note says.** The note describes dropping below 4.5:1.
+Three of the five drop below **3:1**, the large-text/non-text floor as well.
+`.tl-measure-left` — `72.000 ±0.010`, real text, not `aria-hidden`, genuinely
+informative — sits at 2.72:1. `aria-hidden="true"` on the three FCF/datum
+glyphs does not exempt them from SC 1.4.3, which applies to text that is
+visually rendered.
+
+The mitigations are real and I verified each rather than restating them:
+
+- **pointer-only** — the entire block is inside `@media (hover:hover) and (pointer:fine)`; coarse-pointer users never enter the state;
+- **no information is gated** — `.tl-hero` `innerText` is identical in both states (measured, `true`);
+- **instantly reversible** — all sixteen return to 1.00 when the pointer leaves (R1);
+- **the value being read is always at full opacity** — the hovered box measured 15.87:1.
+
+The one thing that stops this being fine is that it is not transient in the way
+an animation is. It persists for as long as the pointer rests, so a low-vision
+user with a magnifier and a parked pointer loses five of six values for the
+duration. There is no `prefers-contrast` guard anywhere in `src/` (only an
+unrelated `forced-colors` block in `shell.css`).
+
+**Judgement: acceptable for 05b, route to Phase 13.** It is not a 05b acceptance
+criterion, the interaction is a genuine and well-argued climax, and the
+information cost is zero. But .34 is a design number chosen for the picture, not
+for a contrast floor, and Phase 13 should either raise it until the dimmed text
+clears 4.5:1 or add a `prefers-contrast: more` branch that does. Filed with the
+measurement so Phase 13 does not have to re-derive it.
+
+---
+
+## Carry-forwards (unchanged, not failures)
+
+B24 (Phases 07/13) · I5 `/iletisim` (Phase 13) · the I4 remaining layout clip
+(Phase 07) · `ProjectShowcase` unimported (dead-code hygiene) · win32-only
+golden gap · content wording (Phase 06). **New:** the R4 latent guard hole and
+the R6 dimmed-text contrast, both above.
+
+## Commands run
+
+```bash
+npm run build
+node reports/qa/tools/p05c-r1-correlation-matrix.mjs
+node reports/qa/tools/p05c-r2-specificity-parity.mjs
+node reports/qa/tools/p05c-r4-guard-reachability.mjs
+node reports/qa/tools/p05c-r5-flake-reachability.mjs
+node reports/qa/tools/p05c-r6-dimmed-text-contrast.mjs
+node reports/qa/tools/p05c-motion-audit-PREFIX.mjs --mode=guard   # from a scratch fixture tree
+node scripts/motion-audit.mjs --mode=guard
+MOTION_AUDIT_BASE_URL=http://localhost:4211 node scripts/motion-audit.mjs --mode=cls    # x3
+MOTION_AUDIT_BASE_URL=http://localhost:4211 node scripts/motion-audit.mjs --mode=rest
+PROBE_BASE_URL=http://localhost:4211 node scripts/grid-axis-probe.mjs
+PLAYWRIGHT_PREVIEW_ONLY=1 npx playwright test --project=critical-1280 --project=critical-375
+PLAYWRIGHT_PREVIEW_ONLY=1 npx playwright test --project=smoke-webkit-1440 --project=smoke-webkit-390 \
+                                             --project=smoke-firefox-1440 --project=smoke-firefox-390
+PLAYWRIGHT_PREVIEW_ONLY=1 npx playwright test --project=visual-375 --project=visual-1280 --project=visual-1440
+```
+
+## Scope integrity — PASS
+
+- Production files modified by QA: **NONE**. The working tree stayed clean throughout.
+- QA wrote only `reports/qa/phase-05b.md` and `reports/qa/tools/p05c-*.mjs`, all
+  inside `QA_WRITE_ALLOWLIST`. The original FAIL report is unedited above.
+- Guard fixtures lived in a scratch directory outside the repo.
+- No test was weakened, skipped, retried into green, or deleted; no tolerance
+  broadened; no golden regenerated.
+
+## Verdict
+
+**STATUS: PASS.** The one item that failed is fixed, and the fix is verified by
+measurement and by two in-place negative controls that reproduce each cause
+independently. The specificity contract the stylesheet now claims is the one the
+browser enforces, proved by reversal. The CLS instrument now carries its own
+A/B and the docs say plainly that the raw total is not evidence — and the raw
+total's instability, demonstrated here across three runs of one build, retires
+the earlier reproducibility finding as an instrument artefact. The reported
+guard hole is closed and the guard is better than before. B28 is intact, 198
+tests pass across three suites with zero failures, and no golden moved.
+
+- **HOVER_CORRELATION: WORKS**
+- **CLS_METHOD: SPLIT_AT_SCROLL_CORRECT**
+- **GUARD_HOLE: CLOSED** (reported one; latent regex/string path open, routed)
+- **B28_REGRESSION: NONE**
