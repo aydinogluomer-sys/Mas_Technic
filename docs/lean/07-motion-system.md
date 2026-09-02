@@ -69,13 +69,47 @@ Phase 4: exit 0.4s / enter 0.6s, forge-teal (std) / forge-molten (CTA)
 
 ---
 
+## Süre Ölçeği — üç seviye, dördüncüsü yok
+
+| Seviye | Süre | TS | CSS | Ne zaman |
+|--------|------|----|-----|----------|
+| micro | 0.22s | `MOTION_LEVEL.micro` | `--tl-dur-micro` | Tek bir kontrolün yanıtı: hover, focus, toggle |
+| standard | 0.35s | `MOTION_LEVEL.standard` | `--tl-dur-short` | Varsayılan: bir öğe girer, çıkar, çözülür |
+| cinematic | 0.62s | `MOTION_LEVEL.cinematic` | `--tl-in` | Sadece anlatı anları: menü açılışı, bant girişi |
+| (stagger) | 65ms | `MOTION_STEP` | `--tl-step` | Kardeşler arası gecikme — süre değil |
+| reduced | 0 | `MOTION_REDUCED` | — | Kapalı, "hızlı" değil |
+
+`NAV_MOTION` (menü) aynı üç değerdir: `micro` / `close` / `open`.
+Ölçeğe oturmayan bir süre yeni bir seviye değil, yanlış sınıflanmış bir
+seviyedir; istisna ancak ölçülmüş bir gerekçe yorumuyla kalır
+(`ROUTE_TRANSITION.holdDuration`).
+
+Eğrisi iki tane: `MOTION_EASE.enter` (`--tl-ease-out`, GSAP'te `power3.out`)
+ve `MOTION_EASE.precision` (kesme/klip). Üçüncüsü yok.
+
+---
+
 ## Reduced Motion (Zorunlu)
 
+**Framer Motion kullanan her şey `@/components/shell/motion`'dan `motion`
+import eder — `framer-motion`'dan DEĞİL.** Bu primitive, kullanıcı reduced
+motion istediğinde reveal'i animasyonun biteceği duruma anında çözer
+(`initial=false`, `whileInView` → `animate`, `viewport` düşer, süre 0).
+
+Neden: `whileInView` IntersectionObserver'a bağlıdır ve Framer bu kapıyı
+reduced-motion için kaldırmaz. Sonuç, bozulmuş animasyon değil, **kaybolmuş
+içerik** olur (defect B28: `/hizmetler/cnc-frezeleme` 186 metin öğesi).
+
 ```typescript
+// GSAP tarafı — değişmedi
 const prefersReduced = usePrefersReducedMotion()
 if (prefersReduced) { gsap.set(el, finalState); return }
 ```
 CSS: `@media (prefers-reduced-motion: reduce) { ... }`
+
+Doğrulama: `node scripts/motion-audit.mjs --mode=rest` (içerik gizli mi),
+`--mode=enabled` (karşı kanıt: reveal'ler hâlâ çalışıyor mu),
+`--mode=guard` (kimse primitive'i atlamış mı).
 
 ---
 
