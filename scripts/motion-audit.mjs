@@ -353,25 +353,37 @@ async function runCls(browser, baseURL) {
 }
 
 /**
- * WHY THIS RUNS THREE PASSES AND PRINTS ALL THREE
- * -----------------------------------------------
- * A single pass of this probe is not a measurement, it is a sample, and on
- * this host the samples are wide. Measured on ONE unchanged build, four
- * consecutive passes at 1280 gave `over32ms` = 19, 16, 34, 34, with the frame
- * count itself falling from 465 to 362 as the passes stacked up — the machine
- * is memory-constrained and degrades under repetition, so later passes are
- * slower for reasons that have nothing to do with the stylesheet.
+ * WHY THIS RUNS THREE PASSES, AND WHY PASS 1 IS NOT COMPARABLE TO 2 AND 3
+ * ----------------------------------------------------------------------
+ * The three passes scroll the same page in the same way, but they do NOT
+ * measure the same thing, and reading them as three samples of one quantity
+ * is the mistake this docblock exists to prevent.
  *
- * That spread is larger than any difference between two versions of the motion
- * layer, which means a single-pass before/after comparison here can prove
- * whatever you were hoping for. It very nearly did: an intermediate reading of
- * "3 slow frames" against "15" looked like a serious regression and pointed at
- * a band that later passes exonerated.
+ *   pass 1  ENTRANCE COST. Every band is still un-entered, so each one runs
+ *           its choreography as it arrives. This is what a first-time reader
+ *           actually experiences, and it is the number that matters.
+ *   pass 2+ STEADY-STATE SCROLL. `.tl-inview` is one-way, so by now every
+ *           entrance has already fired and nothing re-arms. This measures the
+ *           page scrolling with the motion layer at rest.
  *
- * So the probe reports every pass and the spread across them. `median` is the
- * number to read — it was 16.7ms in every pass of every version, which is the
- * finding that actually holds. Treat a change in `over32ms` as signal only if
- * it clears the spread printed next to it.
+ * Measured on the current build at 1280: pass 1 = 12 slow frames of 489,
+ * passes 2 and 3 = 1 and 0. The layer costs something while it plays and
+ * nothing afterwards, which is the correct shape; a page that stayed slow on
+ * passes 2–3 would be doing permanent work.
+ *
+ * SEPARATELY, THE HOST IS NOISY
+ * -----------------------------
+ * Four consecutive pass-1 runs on ONE unchanged build gave `over32ms` = 16,
+ * 19, 34, 34, with the frame count falling from 465 to 362 as the runs stacked
+ * up: this machine is memory-constrained and degrades under repetition. That
+ * spread is wider than the difference between two versions of the motion
+ * layer, so a single-pass A/B here can prove whatever you were hoping for. It
+ * nearly did — an intermediate reading of "3" against "15" looked like a clear
+ * regression and sent me to optimise a band that later runs exonerated.
+ *
+ * `median` is the number that has held everywhere: 16.7ms in every pass of
+ * every version measured. Treat a change in `over32ms` as signal only if it
+ * clears the printed range AND is compared pass-1 to pass-1.
  */
 const FRAME_PASSES = 3;
 
@@ -468,16 +480,17 @@ async function runFrames(browser, baseURL) {
       results.push({ viewport: viewport.name, pass, ...pacing });
     }
 
-    /* The spread across identical passes, printed next to them, so nobody has
-       to remember that it exists before believing a delta. */
+    /* The summary line separates the two quantities rather than averaging
+       them into one meaningless figure. */
     const passes = results.filter((r) => r.viewport === viewport.name);
-    const slow = passes.map((r) => r.over32ms);
+    const settled = passes.slice(1).map((r) => r.over32ms);
     results.push({
       viewport: viewport.name,
-      pass: "spread",
+      pass: "summary",
       medianOfMedians: passes.map((r) => r.median).sort((a, b) => a - b)[Math.floor(passes.length / 2)],
-      over32msRange: `${Math.min(...slow)}..${Math.max(...slow)}`,
-      note: "a delta smaller than this range is host noise, not code",
+      entranceOver32ms: passes[0].over32ms,
+      settledOver32ms: `${Math.min(...settled)}..${Math.max(...settled)}`,
+      note: "compare pass-1 to pass-1 only; host noise on this machine is +-18",
     });
     await context.close();
   }
@@ -598,7 +611,22 @@ async function runCursor(browser, baseURL) {
     await page.waitForTimeout(1500);
     await page.mouse.move(640, 450);
     await page.waitForTimeout(400);
-    results.push({ reducedMotion: motionMode, ...(await page.evaluate(CURSOR_PROBE)) });
+    results.push({ reducedMotion: motionMode, guard: "replacement present", ...(await page.evaluate(CURSOR_PROBE)) });
+
+    /* THE NEGATIVE CONTROL, and the only part of this mode that proves
+       anything. `body=none` with a replacement mounted is the intended state
+       and it read exactly the same before I3 was fixed, so on its own it
+       cannot distinguish a scoped rule from an unscoped one. Deleting the
+       replacement can: under the old unconditional rule the pointer stayed
+       `none` and the user had nothing, whereas the `html:has(...)` gate must
+       hand the native cursor straight back. Anything other than `auto`/
+       `default`/`pointer` here means the stylesheet can still take the
+       pointer away on its own. */
+    await page.evaluate(() => {
+      document.querySelectorAll("[data-custom-cursor]").forEach((node) => node.remove());
+    });
+    await page.waitForTimeout(200);
+    results.push({ reducedMotion: motionMode, guard: "replacement REMOVED", ...(await page.evaluate(CURSOR_PROBE)) });
     await context.close();
   }
   return results;
@@ -614,7 +642,26 @@ async function runCursor(browser, baseURL) {
    Four files are exempt because this phase's packet forbids editing them
    (`Header.tsx`, `navigation/**`) or they are out of the public surface
    (`admin/**`). Exemption is not a free pass: an exempt file is still failed
-   if it uses `whileInView`, since that is the construct that hides content. */
+   if it uses `whileInView`, since that is the construct that hides content.
+
+   THE SECOND RULE — the hole the primitive cannot close (defect I1)
+   ----------------------------------------------------------------
+   The proxy settles a reveal by rewriting `initial` / `animate` /
+   `whileInView`. An element carrying NONE of those is passed through
+   untouched, because it is assumed to be a variant child. But
+   `onViewportEnter` is not a variant child: it is a tripwire that fires a
+   side effect on intersection, and the side effect can be anything. In
+   `ProjectShowcase` it added a class that started three CSS keyframe
+   animations, so a decorative RGB channel split played for reduced-motion
+   users while the primitive was working exactly as designed.
+
+   There is no way to fix that inside the proxy — it cannot know what a
+   callback will do. So it is fixed at the only place that can know, the call
+   site, and this rule makes the call site prove it: a file that uses a
+   viewport callback must also consult `usePrefersReducedMotion`. That is a
+   heuristic rather than a proof, but it is a precise one — the callback and
+   the check are the two halves of the same decision, and a file with one and
+   not the other is the exact shape of the defect. */
 const GUARD_PRIMITIVE = "src/components/shell/motion.tsx";
 const GUARD_EXEMPT = new Set([
   "src/components/Header.tsx",
@@ -656,6 +703,12 @@ function runGuard() {
     }
     if (importsMotion) {
       breaches.push({ file: rel, why: 'imports `motion` from "framer-motion" instead of "@/components/shell/motion"' });
+    }
+    if (/onViewportEnter|onViewportLeave/.test(source) && !/usePrefersReducedMotion/.test(source)) {
+      breaches.push({
+        file: rel,
+        why: "uses a viewport callback the primitive cannot settle, without consulting usePrefersReducedMotion",
+      });
     }
   }
   return breaches;
