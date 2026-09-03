@@ -250,3 +250,36 @@ mounts a 300vh scroll-driven canvas backed by an 80-frame image sequence, and a
 golden that fails on every copy edit teaches people to run
 `--update-snapshots` without looking — which `IMPLEMENTATION.md` §12 forbids by
 name.
+
+### 8.1 The golden suite depended on a third-party font host
+
+Worth knowing before anyone debugs a "random" golden failure again.
+
+Five consecutive runs of the visual suite on an unchanged build each failed one
+or two captures, a different one every time. The two 375 failures were
+byte-for-byte the same delta (1453 px, rows 19–43, best offset (0,0), residual
+flat at every offset), and the body-copy diffs showed text doubled with a
+displacement that *grows* along the line, with lines breaking at different
+words. That is a typeface substitution, not a layout change.
+
+`index.html` loads all three families from `fonts.googleapis.com`. When that
+request is slow or fails, the capture is of the fallback stack.
+
+Two traps, both now written into `e2e/visual/fonts.ts`:
+
+* `document.fonts.ready` cannot detect it. `ready` resolves when no font load
+  is *pending*, and a face that failed — or that was never declared because the
+  stylesheet never arrived — is not pending. Both `settleRendering` and
+  `freezeVisualState` await `ready`, which is why the race survived them.
+* `document.fonts.check()` cannot detect it either. Per spec it answers "can
+  this font *list* render the text without further downloads", and a system
+  fallback can, so it returns `true` on a machine that has never heard of Space
+  Grotesk. The sound test is to enumerate the `FontFaceSet` and require a
+  `FontFace` whose family matches and whose `status` is `"loaded"`.
+
+The visual specs now retry the font hosts and then prove the families loaded,
+failing with that reason if they did not. No tolerance was loosened; a raised
+`maxDiffPixels` would have made a typeface substitution invisible, which is the
+opposite of what a golden is for. Suite run time fell from 56 minutes to under
+4 as a side effect, because the same defect had been causing 60-second font
+timeouts.
