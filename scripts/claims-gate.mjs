@@ -679,7 +679,41 @@ const RULES = [
         // Spelled-out magnitude. "15 bin metrekare" discloses exactly what
         // "15.000 m²" discloses and reads identically to a buyer.
         String.raw`\b\d[\d.,]*\s+(?:bin|milyon)\s+(?:m²|m2\b|metrekare|adet|tezgah|tezgâh|makine|mühendis|teknisyen|personel|çalışan|müşteri|parça|proje)`,
-        String.raw`\b\d[\d.,]*\s?\+\s*(?:parça|malzeme|proje|çeşit)`,
+        // PHASE 07 CORRECTION #1 — F2, HOLE 1.
+        // The old form was `\b\d[\d.,]*\s?\+\s*(?:parça|malzeme|proje|çeşit)`:
+        // the noun had to follow the digit IMMEDIATELY, and three of the
+        // commonest inventory nouns were absent. Proved, not inferred — the
+        // byte-identical gate reported `PASS — 0` over a tree that still
+        // carried `15+ alüminyum alaşımı`, and in a scratch tree
+        // `15+ malzeme` / `15+ çeşit` fired while `15+ alüminyum alaşımı`,
+        // `20+ renk seçeneği` and `1000+ ünite/gün` were all silent.
+        // So: up to two intervening adjectives, and the noun may carry any
+        // Turkish suffix. Written against the I-FOLDED text, hence `alaş[ıi]m`.
+        //
+        // What must keep NOT firing, and does: `60+ HRC`, `1100+ MPa`,
+        // `950+ MPa`, `1.000.000+ çevrim`, `500.000+ çevrim`, `10.000+ çevrim`,
+        // `500+ saat (ASTM B117)`, `1000+ saat tuz testi`,
+        // `1000+ otoklav döngüsü`, `16+ kavite`, `2000N+`, `25+ yıl`. None of
+        // their nouns is an inventory noun; these are specification values and
+        // over-removal there fails §0 PRECISION_ENGINEERING.
+        String.raw`\b\d[\d.,]*[ \t]?\+[ \t]*(?:${TRW}+[ \t]+){0,2}(?:parça|malzeme|proje|çeşi[td]|alaş[ıi]m|renk|ünite|ürün|model|kalem|marka|tedarikçi|sektör)${TRW}*`,
+        // F2, HOLE 2 — the count that is never in the source.
+        // `Malzemeler.tsx:122` read `{materialsData.length}+ malzeme ve
+        // alaşım` and RENDERED "87+ malzeme ve alaşım". A rule that existed
+        // was defeated purely because no digit is written down.
+        // `normalise()` already erases `${…}` template interpolation, but a
+        // JSX `{expr}` keeps both braces, so the residue is a literal `}`
+        // sitting where the number will be. That residue is the signal.
+        // Restricted to the same line (`[ \t]`, never `\s`) so a closing brace
+        // of ordinary code cannot reach a noun on a later line.
+        String.raw`\}[ \t]{0,2}\+[ \t]*(?:${TRW}+[ \t]+){0,2}(?:parça|malzeme|proje|çeşi[td]|alaş[ıi]m|renk|ünite|ürün|model|kalem|tezgah|tezgâh|makine|mühendis|teknisyen|personel|çalışan|müşteri|metrekare)${TRW}*`,
+        String.raw`\}[ \t]{1,2}(?:${TRW}+[ \t]+){0,2}(?:parça|malzeme|proje|çeşi[td]|alaş[ıi]m|renk|ünite|tezgah|tezgâh|makine|mühendis|teknisyen|personel|çalışan|müşteri|metrekare)${TRW}*[ \t]*(?:çeşi[td]|say[ıi]s[ıi]|aded[ıi]|seçene)`,
+        // The third shape of the same hole: `` `${n}+ parça` ``. Here
+        // `normalise()` DOES erase the interpolation (that erasure is what
+        // defeats `AS${x}9100D`, so it must stay), which leaves a string
+        // literal that begins `+ parça`. Prose does not start with a bare
+        // plus, so the literal boundary is itself the evidence.
+        String.raw`["'\x60][ \t]{0,2}\+[ \t]*(?:${TRW}+[ \t]+){0,2}(?:parça|malzeme|proje|çeşi[td]|alaş[ıi]m|renk|ünite|tezgah|tezgâh|makine|mühendis|teknisyen|personel|çalışan|müşteri|metrekare)${TRW}*`,
         // Stock tonnage is order-volume disclosure: it tells a reader what the
         // company buys and turns over. §D REVENUE_OR_ORDER_VOLUME.
         // Stock tonnage is ONE statement — "güvenlik stoğu (5.000 kg)" — so the
