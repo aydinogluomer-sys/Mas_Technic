@@ -51,15 +51,46 @@ import { expect, type Page } from "@playwright/test";
    -------------------
    1. `installFontRetry()` retries the two font hosts a few times per request
       before letting the failure through, which removes the single-attempt
-      failure mode that produced every one of the diffs above.
+      failure mode.
    2. `awaitRealFaces()` then PROVES the three families are really loaded, and
       fails with the reason if they are not — so a run that could not get the
       fonts says so, instead of silently comparing, or banking, a fallback
       rendering.
 
-   No `maxDiffPixels` was raised anywhere to accommodate this. Loosening the
-   tolerance would have made a typeface substitution invisible, which is the
-   opposite of what a golden is for.
+   PART 1 DID NOT RUN — PHASE 07 CORRECTION #1, F4
+   ------------------------------------------------
+   This file used to register `page.route("https://fonts.g*", …)`. Playwright's
+   glob `*` does not cross `/`, so that pattern matches only a URL with no
+   path, and every font request went straight past it. Measured over a load
+   issuing 17 font requests:
+
+     "https://fonts.g*"                 intercepted  0 / 17
+     "https://fonts.g**"                intercepted  0 / 17
+     "**fonts.googleapis.com**"         intercepted  1 / 17
+     "https://fonts.googleapis.com/**"  intercepted  1 / 17
+
+   One of seventeen, because only the STYLESHEET is on `fonts.googleapis.com`;
+   the sixteen face files are on `fonts.gstatic.com`, which nothing was
+   watching. So both hosts are registered separately now.
+
+   And the stability this file previously credited to part 1 cannot have come
+   from part 1. Part 2 is the whole of the measured improvement: it fails a run
+   that could not get the fonts, rather than banking a fallback render, and the
+   suite's 56 min → under 4 min drop belongs to it and to the load path it
+   forces, not to a retry that never executed. Recorded here rather than
+   quietly corrected, because a silent no-op is exactly the failure mode.
+
+   THE NO-OP CANNOT RETURN SILENTLY
+   --------------------------------
+   `installFontRetry()` counts what it intercepts, per host, and
+   `awaitRealFaces()` FAILS if either count is zero. A route pattern that stops
+   matching now turns the visual suite red instead of doing nothing. That
+   assertion is the point of the fix; without it the next glob mistake is
+   invisible again.
+
+   No `maxDiffPixels` was raised anywhere to accommodate any of this. Loosening
+   the tolerance would have made a typeface substitution invisible, which is
+   the opposite of what a golden is for.
    ══════════════════════════════════════════════════════════════════════════ */
 
 /** The three families `design-tokens.css` declares. */
@@ -77,27 +108,68 @@ const FACES = [
   'italic 400 30px "Newsreader"',
 ] as const;
 
-const FONT_HOSTS = "https://fonts.g*";
+/** One pattern per host. `**` is required — `*` does not cross a `/`. */
+const FONT_HOSTS = {
+  googleapis: "https://fonts.googleapis.com/**",
+  gstatic: "https://fonts.gstatic.com/**",
+} as const;
 
-/** Must be installed BEFORE the navigation that requests the stylesheet. */
-export async function installFontRetry(page: Page) {
-  await page.route(FONT_HOSTS, async (route) => {
-    for (let attempt = 0; attempt < 4; attempt++) {
-      try {
-        const response = await route.fetch({ timeout: 15_000 });
-        if (response.ok()) {
-          await route.fulfill({ response });
-          return;
+export type FontInterceptions = { googleapis: number; gstatic: number };
+
+/** Live counters per page, so `awaitRealFaces()` can prove the routes fired. */
+const interceptions = new WeakMap<Page, FontInterceptions>();
+
+/**
+ * Must be installed BEFORE the navigation that requests the stylesheet.
+ *
+ * Returns the live counter it will increment, so a caller can assert on it
+ * directly; `awaitRealFaces()` asserts on it for every existing call site.
+ */
+export async function installFontRetry(page: Page): Promise<FontInterceptions> {
+  const counts: FontInterceptions = { googleapis: 0, gstatic: 0 };
+  interceptions.set(page, counts);
+
+  for (const [host, pattern] of Object.entries(FONT_HOSTS) as [keyof FontInterceptions, string][]) {
+    await page.route(pattern, async (route) => {
+      counts[host] += 1;
+      for (let attempt = 0; attempt < 4; attempt++) {
+        try {
+          const response = await route.fetch({ timeout: 15_000 });
+          if (response.ok()) {
+            await route.fulfill({ response });
+            return;
+          }
+        } catch {
+          /* retry */
         }
-      } catch {
-        /* retry */
       }
-    }
-    await route.continue();
-  });
+      await route.continue();
+    });
+  }
+
+  return counts;
 }
 
 export async function awaitRealFaces(page: Page) {
+  /* F4 — the assertion that makes the retry falsifiable.
+     `installFontRetry()` was a no-op for a whole phase and nothing noticed,
+     because a route that matches nothing behaves exactly like a route that
+     was never needed. If it is installed, it MUST have seen traffic on both
+     hosts by the time a capture is about to happen. */
+  const counts = interceptions.get(page);
+  if (counts) {
+    expect(
+      counts.googleapis,
+      "installFontRetry() intercepted 0 requests on fonts.googleapis.com — the route "
+        + "pattern is a no-op, which is the exact defect F4 closed (see e2e/visual/fonts.ts)",
+    ).toBeGreaterThan(0);
+    expect(
+      counts.gstatic,
+      "installFontRetry() intercepted 0 requests on fonts.gstatic.com — the face files "
+        + "live on that host, so a pattern that misses it retries nothing that matters",
+    ).toBeGreaterThan(0);
+  }
+
   await expect
     .poll(
       async () =>

@@ -90,13 +90,31 @@ Phase 08 owns; those bodies are still written against the light theme.
 
 ## 4. Radius
 
-`--tl-radius: 0`. The six rebuilt pages carry **no radius exception at all**,
-so there is nothing to document as one. `--tl-radius-round: 50%` remains
-available only for elements that *are* a circle by drawing convention (a seal,
-a grade badge, an avatar disc); none of the six uses it.
+`--tl-radius: 0`. The six rebuilt pages' **own stylesheets** declare no radius
+exception, and `shell.css` declares none.
+
+That is not the same as "nothing on those routes paints a radius", which is
+what this section used to say, and it was false of what renders. Measured on
+`/malzemeler` — computed `border-radius` over every visible element after a
+full scroll pass — three things paint one, and all three come from components
+the six pages *mount* rather than from the pages themselves:
+
+| element | viewport | count / size | source |
+|---|---|---|---|
+| `div.h-1.5.flex-1.rounded-full` progress meter | 375 | 20 × 21×6 px | `MaterialMorphScroll.tsx:154` |
+| `rounded-full` property meters | 1280 | 8 × 238×4 and 190×4 px | `MaterialMorphScroll.tsx:271-273` |
+| `button.fixed.rounded-full` chat launcher | both | 1 | `ChatBot.tsx:225` |
+
+None is a card, and none is the "generic rounded-card aesthetic" §5.5 forbids:
+the first two are 4–6 px hairline meters where the radius is the cap of a
+stroke, not the frame of a surface, and the third is a fixed overlay that
+belongs to a component Phases 09/13 own. They render identically on the Phase 06
+close, so this is the register being wrong, not the pages.
 
 If a future page needs a radius, the exception is written next to the
-declaration with its reason, and it is listed here.
+declaration with its reason, and it is listed here — and so is anything a
+mounted component paints, because the audit that missed these three checked the
+six page *files* and not the components they mount.
 
 ---
 
@@ -280,6 +298,29 @@ Two traps, both now written into `e2e/visual/fonts.ts`:
 The visual specs now retry the font hosts and then prove the families loaded,
 failing with that reason if they did not. No tolerance was loosened; a raised
 `maxDiffPixels` would have made a typeface substitution invisible, which is the
-opposite of what a golden is for. Suite run time fell from 56 minutes to under
-4 as a side effect, because the same defect had been causing 60-second font
-timeouts.
+opposite of what a golden is for.
+
+**Correction — the retry did not run.** The first version of this section
+described the fix as two parts and credited the suite's 56 min → under 4 min
+drop to the first of them. That part registered
+`page.route("https://fonts.g*", …)`, and Playwright's glob `*` does not cross a
+`/`, so the pattern matched only a URL with no path at all. Measured over a
+load issuing 17 font requests:
+
+| pattern | intercepted |
+|---|---|
+| `https://fonts.g*` | 0 / 17 |
+| `https://fonts.g**` | 0 / 17 |
+| `**fonts.googleapis.com**` | 1 / 17 |
+| `https://fonts.googleapis.com/**` | 1 / 17 |
+
+One of seventeen, because only the *stylesheet* is on `fonts.googleapis.com`;
+the sixteen face files are on `fonts.gstatic.com`, which nothing was watching.
+
+So the run-time improvement belongs entirely to `awaitRealFaces()`, which fails
+a run that could not get the fonts instead of banking a fallback render. The
+retry is now registered per host — `https://fonts.googleapis.com/**` and
+`https://fonts.gstatic.com/**` — and **counts what it intercepts**;
+`awaitRealFaces()` fails if either count is zero. A silent no-op is what went
+wrong here, so the repair is not a better glob, it is a glob that cannot fail
+quietly.
