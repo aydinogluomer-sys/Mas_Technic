@@ -749,14 +749,21 @@ export const servicePages: ServicePageData[] = [
     categoryLabel: "Yüzey İşlemleri",
     title: "Anodizasyon",
     metaTitle: "Anodizasyon Hizmeti | Tip I-II-III Sert Anodizasyon | MIL-A-8625 | Mas Technic",
-    metaDescription: "Tip I, II ve III anodizasyon. 5-100µm kaplama, 60-70 HRC sertlik, ASTM B117 tuz spreyi testi ile korozyon direnci doğrulaması. 20+ renk seçeneği, havacılık ve medikal uygulamalar.",
+    /* PHASE 07 CORRECTION #1 — F2. `20+ renk seçeneği` was an offering /
+       inventory count, structurally the same claim as `15+ alüminyum
+       alaşımı` (removed in Phase 07) and `87+ malzeme` — §0
+       DO_NOT_EMPHASIZE_COMPANY_SCALE, and no count is verified anywhere in
+       `USER_INPUTS.md`. The colours themselves are a real offering and are
+       still named; what goes is the number in front of them. ΔE ≤ 2.0 is a
+       measured homogeneity tolerance and stays. */
+    metaDescription: "Tip I, II ve III anodizasyon. 5-100µm kaplama, 60-70 HRC sertlik, ASTM B117 tuz spreyi testi ile korozyon direnci doğrulaması. Organik ve inorganik boyalarla renklendirme, havacılık ve medikal uygulamalar.",
     description:
       "Tip I kromik asit, Tip II sülfürik asit ve Tip III sert anodizasyon ile korozyon direnci, aşınma dayanımı, elektriksel yalıtım ve dekoratif kaplama.",
     heroImage: "hero-anodizasyon",
     content: [
       "Anodizasyon, alüminyum yüzeyinde elektrokimyasal yöntemle oluşturulan alüminyum oksit (Al₂O₃) tabakasıdır. Bu tabaka, parçanın korozyon direncini, aşınma dayanımını ve estetik görünümünü önemli ölçüde artırır. Mas Technic olarak havacılık ve medikal uygulamalar için Tip I, Tip II ve Tip III anodizasyon hizmeti sunuyoruz.",
       "Tip I (Kromik Asit) anodizasyon 5-15µm kalınlıkta ince bir oksit tabakası oluşturur; havacılık yapısal parçaları ve boya tutunma alt katmanı olarak tercih edilir. Tip II (Sülfürik Asit) anodizasyon 10-25µm kalınlıkta olup en yaygın kullanılan türdür; korozyon koruması, renkli kaplama ve genel mühendislik uygulamalarında idealdir. Tip III (Sert Anodizasyon) 25-100µm kalınlıkta, 60-70 HRC sertliğe ulaşarak aşınma direnci, elektriksel yalıtım ve yüksek performans gerektiren uygulamalarda kullanılır.",
-      "Renklendirme sürecimizde organik ve inorganik boyalar kullanarak siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) dahil 20+ renk seçeneği sunuyoruz. Renk homojenliği ΔE ≤ 2.0 toleransında kontrol edilmektedir. Sealing (sızdırmazlık) işlemi ile oksit tabakasının gözenekleri kapatılarak uzun ömürlü koruma sağlanır.",
+      "Renklendirme sürecimizde organik ve inorganik boyalar kullanarak siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) renklerde kaplama yapıyoruz; özel RAL ve Pantone eşleştirmesi de mümkündür. Renk homojenliği ΔE ≤ 2.0 toleransında kontrol edilmektedir. Sealing (sızdırmazlık) işlemi ile oksit tabakasının gözenekleri kapatılarak uzun ömürlü koruma sağlanır.",
       "Kalite kontrol sürecimiz: Eddy current veya mikrometre ile kaplama kalınlığı ölçümü, ASTM B117 tuz spreyi testi ile korozyon direnci doğrulaması, Vickers mikrosertlik testi ile sertlik kontrolü ve renk ölçüm cihazı ile ΔE renk homojenliği kontrolü. Her parti için ölçüm kaydı tutulur.",
       "2000×1000×800mm tank boyutlarımız ile büyük parçalarda da anodizasyon uygulayabiliyoruz. 50 kg/parça maksimum ağırlık kapasitesi, 24-72 saat standart teslimat süresi ve havacılık, otomotiv, medikal, elektronik ve savunma sanayi sektörlerine hizmet veriyoruz.",
     ],
@@ -764,7 +771,7 @@ export const servicePages: ServicePageData[] = [
       "Tip I (Kromik Asit) — 5-15µm, havacılık yapısal parçalar, boya alt katmanı",
       "Tip II (Sülfürik Asit) — 10-25µm, korozyon koruması, renkli kaplama",
       "Tip III (Sert Anodizasyon) — 25-100µm, 60-70 HRC sertlik, aşınma direnci",
-      "20+ Renk Seçeneği — Organik ve inorganik boyalar, ΔE ≤ 2.0 homojenlik",
+      "Renklendirme — Organik ve inorganik boyalar, ΔE ≤ 2.0 homojenlik",
       "Tip I / II / III — MIL-A-8625 kaplama sınıfları",
       "ASTM B117 Tuz Testi — Korozyon direnci doğrulaması",
     ],
@@ -774,7 +781,7 @@ export const servicePages: ServicePageData[] = [
       { label: "Tuz Testi", value: "500+ saat (ASTM B117)" },
       { label: "Kaplama Sınıfı", value: "MIL-A-8625 Tip I / II / III" },
       { label: "Tank Boyutu", value: "2000×1000×800mm" },
-      { label: "Renk Seçeneği", value: "20+ renk" },
+      { label: "Renk Homojenliği", value: "ΔE ≤ 2.0" },
     ],
     processSteps: [
       "Yüzey Temizliği & Yağ Giderme",
@@ -788,7 +795,7 @@ export const servicePages: ServicePageData[] = [
       "4 farklı anodizasyon tipi (Tip I, II, III ve dekoratif)",
       "Tip I, Tip II ve Tip III kaplama sınıfları",
       "ASTM B117 tuz testi ile korozyon direnci doğrulaması",
-      "20+ renk seçeneği ile dekoratif ve fonksiyonel kaplama",
+      "Organik ve inorganik boyalarla dekoratif ve fonksiyonel kaplama",
       "2000×1000×800mm tank boyutu ile büyük parça kapasitesi",
       "24-72 saat standart teslimat süresi",
       "Kaplama kalınlığı ve sertlik ölçümü ile kalite kontrolü",
@@ -806,7 +813,7 @@ export const servicePages: ServicePageData[] = [
       { question: "Anodizasyon hangi metallere uygulanabilir?", answer: "Temel olarak alüminyum ve alaşımlarına uygulanır. Titanyum ve magnezyum da anodize edilebilir. En yaygın uygulama Al 6061 ve 7075 serisi alaşımlardır." },
       { question: "Sert anodizasyon (Tip III) ile normal (Tip II) farkı nedir?", answer: "Tip III sert anodizasyon 25-100µm kalınlıkta olup 60-70 HRC sertlik sağlar, aşınma direnci ve elektriksel yalıtım gerektiğinde tercih edilir. Tip II 10-25µm olup genel korozyon koruması ve dekoratif kaplama için uygundur." },
       { question: "Anodizasyon boyut değişikliğine neden olur mu?", answer: "Evet, oksit tabakasının yaklaşık %50'si malzemeye nüfuz eder, %50'si yüzeyden dışarı büyür. Örneğin 25µm Tip II kaplama ~12.5µm boyut artışı yapar. Bu değer işleme toleranslarında dikkate alınmalıdır." },
-      { question: "Hangi renklerde anodizasyon yapabiliyorsunuz?", answer: "Siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel dahil 20+ renk seçeneği sunuyoruz. Özel RAL ve Pantone renk eşleştirmesi de yapabiliyoruz." },
+      { question: "Hangi renklerde anodizasyon yapabiliyorsunuz?", answer: "Siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) renklerde çalışıyoruz. Özel RAL ve Pantone renk eşleştirmesi de yapabiliyoruz; renk homojenliği ΔE ≤ 2.0 toleransında kontrol edilir." },
       { question: "Kaplama ne kadar dayanıklıdır?", answer: "Kaplamalarımızın korozyon direnci ASTM B117 tuz spreyi testi ile doğrulanır. Sert anodizasyon ile çelik sertliğine yakın aşınma direnci elde edilir." },
       { question: "Anodizasyon teslimat süreniz ne kadar?", answer: "Standart siparişlerde 24-72 saat, büyük partilerde 3-5 iş günü teslimat süremiz bulunmaktadır. Ekspres hizmet ile aynı gün teslimat da mümkündür." },
     ],
@@ -819,7 +826,7 @@ export const servicePages: ServicePageData[] = [
           ["Kaplama Kalınlığı", "5-15µm", "10-25µm", "25-100µm"],
           ["Sertlik", "200-400 HV", "200-400 HV", "400-600 HV (60-70 HRC)"],
           ["Korozyon Direnci (Tuz Testi)", "336+ saat", "500+ saat", "500+ saat"],
-          ["Renklendirme", "Sınırlı", "20+ renk", "Sınırlı (siyah, koyu tonlar)"],
+          ["Renklendirme", "Sınırlı", "Tam renk aralığı", "Sınırlı (siyah, koyu tonlar)"],
           ["Elektriksel Yalıtım", "Orta", "İyi", "Mükemmel (50V/µm)"],
           ["Aşınma Direnci", "Düşük", "Orta", "Yüksek (çelik eşdeğeri)"],
           ["Uygun Uygulama", "Havacılık yapısal, boya altı", "Genel mühendislik, dekoratif", "Silindir, piston, mil yüzeyleri"],
@@ -1267,7 +1274,10 @@ export const servicePages: ServicePageData[] = [
       "Vida, somun, perçin ve klips montajı. Tork kontrollü sıkma ve otomatik besleme sistemleri ile yüksek verimlilik.",
     content: [
       "Vida ve somun montajı (tork kontrollü), pervane/pernos montajı (hidrolik presle), klips ve segman montajı (otomatik besleme), bearing montajı (özel fikstürlerle) ve O-ring/conta montajı (yağ ve toz korumalı) hizmetleri sunuyoruz.",
-      "M3 (1.5-2.0 Nm), M4 (3.0-4.0 Nm), M5 (6.0-8.0 Nm) ve M6 (10.0-12.0 Nm) vida boyutlarında ±5% toleransla tork kontrollü sıkma gerçekleştiriyoruz. Fonksiyon testi, 1000+ ünite/gün kapasite ve seri numarası bazlı takip sistemi ile kaliteli montaj hizmeti sağlıyoruz.",
+      /* F2: `1000+ ünite/gün` is a daily production volume — §D
+         REVENUE_OR_ORDER_VOLUME. The torque values and the ±5% band are
+         process specification and stay. */
+      "M3 (1.5-2.0 Nm), M4 (3.0-4.0 Nm), M5 (6.0-8.0 Nm) ve M6 (10.0-12.0 Nm) vida boyutlarında ±5% toleransla tork kontrollü sıkma gerçekleştiriyoruz. Her montaj fonksiyon testinden geçer ve seri numarası bazlı takip sistemine kaydedilir.",
     ],
     features: [
       "Vida & Somun Montajı — Tork kontrollü",
@@ -1278,7 +1288,7 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Tork Kontrolü", value: "±5% hassasiyet" },
       { label: "Test", value: "Fonksiyon testi" },
-      { label: "Kapasite", value: "1000+ ünite/gün" },
+      { label: "Vida Aralığı", value: "M3-M12" },
       { label: "Takip", value: "Seri no bazlı" },
     ],
     processSteps: [
@@ -1291,7 +1301,7 @@ export const servicePages: ServicePageData[] = [
     advantages: [
       "Tork kontrollü hassas sıkma (±5%)",
       "Otomatik besleme sistemi ile yüksek verimlilik",
-      "1000+ ünite/gün kapasite",
+      "M3-M12 aralığında dijital tork metre ile doğrulama",
       "Seri numarası bazlı izlenebilirlik",
     ],
     comparisonTables: [
@@ -2084,23 +2094,33 @@ export const servicePages: ServicePageData[] = [
       "Çelik kalıp, basınçlı döküm, otomasyonlu CNC ve montaj hatları ile yüksek hacimli seri üretimde tutarlılık ve verimlilik hedefliyoruz.",
     heroImage: "hero-seri-uretim",
     content: [
-      "Seri üretim kapasitelerimiz: CNC seri işleme 1.000-50.000 adet/yıl (±0.01mm tolerans), basınçlı döküm 5.000-500.000 adet/yıl (CT4-CT6), enjeksiyon kalıp 10.000-1.000.000 adet/yıl (CT5-CT7).",
+      /* PHASE 07 CORRECTION #1 — F1. This sentence published three annual
+         production volumes in the first person ("Seri üretim
+         kapasitelerimiz: … 50.000 adet/yıl … 500.000 adet/yıl …
+         1.000.000 adet/yıl"). `USER_INPUTS.md` §0
+         DO_NOT_PUBLISH_REVENUE_OR_ORDER_VOLUME: YES and §D
+         REVENUE_OR_ORDER_VOLUME: PRIVATE_DO_NOT_DISCLOSE withhold that class,
+         and nothing in `USER_INPUTS.md` verifies the figures. KEPT is the
+         process-specification half — ±0.01 mm and the CT casting-tolerance
+         classes — the same class Phase 06 kept alongside MIL-A-8625 and
+         ISO 2768-m, and the one §0 PUBLIC_POSITIONING_PRIORITY leads with. */
+      "Seri üretimde yöntem, parça geometrisi ve tolerans hedefine göre seçilir: CNC seri işleme ±0.01mm, basınçlı döküm CT4-CT6 ve enjeksiyon kalıp CT5-CT7 kalıp toleransı aralığında çalışır.",
       "Seri işlerde kurulum bir kez yapılıp unutulmaz: standart kurulum prosedürü, sabit referans yüzeyleri ve otomatik takım değiştirme, partiler arası sapmayı sınırlar. İlk parça onaylanmadan seri başlamaz.",
       "Üretim takibi, stok ve kapasite planlaması tek bir kayıt üzerinden yürütülür; hangi partinin nerede olduğu ve hangi kontrolden geçtiği her an kayıtlıdır. Tedarik ihtiyacı bu kayıt üzerinden planlanır, müşteri portalından sipariş durumu görülebilir.",
       "Parti içi tutarlılık, ara kontrollerin plana bağlanmasıyla korunur. Kayma eğilimi olan koteler — takım aşınmasına duyarlı çaplar, ısıl işlem sonrası ölçüler — ayrı bir kontrol adımıyla izlenir ve sonuçlar kayıt altına alınır.",
     ],
     features: [
-      "CNC Seri Üretim — 50.000 adet/yıl, ±0.01mm tolerans",
-      "Basınçlı Döküm — 500.000 adet/yıl, CT4-CT6 kalıp toleransı",
-      "Enjeksiyon Kalıp — 1.000.000 adet/yıl kapasite",
+      "CNC Seri İşleme — ±0.01mm tolerans, sabit referans yüzeyleri",
+      "Basınçlı Döküm — CT4-CT6 kalıp toleransı",
+      "Enjeksiyon Kalıp — CT5-CT7 kalıp toleransı",
       "Otomatik Takım Değiştirme — uzun partilerde kesintisiz işleme",
       "Otomatik Palet Değiştirme — kurulumun üretimden ayrılması",
       "Üretim Takibi — parti durumunun kayıt altında olması",
     ],
     technicalSpecs: [
-      { label: "CNC Seri Kapasite", value: "50.000 adet/yıl" },
-      { label: "Döküm Kapasite", value: "500.000 adet/yıl" },
-      { label: "Enjeksiyon Kapasite", value: "1.000.000 adet/yıl" },
+      { label: "CNC Seri İşleme", value: "±0.01mm tolerans" },
+      { label: "Basınçlı Döküm", value: "CT4-CT6 kalıp toleransı" },
+      { label: "Enjeksiyon Kalıp", value: "CT5-CT7 kalıp toleransı" },
       { label: "Kurulum", value: "Standart prosedür" },
       { label: "Kontrol", value: "Kontrol planına göre" },
       { label: "Teslimat", value: "JIT uyumlu" },
@@ -2123,7 +2143,11 @@ export const servicePages: ServicePageData[] = [
       "İlk parça onaylanmadan seri üretim başlamaz",
     ],
     faq: [
-      { question: "Minimum seri üretim adedi nedir?", answer: "CNC seri üretim için 1.000 adet, basınçlı döküm için 5.000 adet ve enjeksiyon kalıp için 10.000 adetten başlamaktadır." },
+      /* The published minimums were the lower bounds of the same withheld
+         volume ranges (F1); quoting them would have left half the disclosure
+         standing. The answer now states how the threshold is DECIDED, which
+         is the part that is actually true of every job. */
+      { question: "Minimum seri üretim adedi nedir?", answer: "Tek bir eşik yoktur; yönteme göre değişir. Kalıp yatırımı gerektiren yöntemlerde (basınçlı döküm, enjeksiyon kalıp) eşiği kalıp maliyetinin parça başına dağılımı belirler; CNC seri işlemede kurulum süresi belirleyicidir. Parça geometrisi ve tolerans hedefiyle birlikte teklif aşamasında netleştiririz." },
       { question: "Teslimat programı düzenlenebiliyor mu?", answer: "Evet. Parti büyüklüğü ve teslimat sıklığı kapasite planlamasıyla birlikte kararlaştırılır; periyodik teslimat programları düzenlenebilir." },
       { question: "Seri üretimde tutarlılığı nasıl koruyorsunuz?", answer: "İlk parça onayı, standart kurulum prosedürü ve kontrol planına bağlı ara kontroller ile. Kayma eğilimi olan koteler ayrı bir adımda izlenir ve ölçüm sonuçları kayıt altına alınır." },
       { question: "Uzun partilerde tezgâh nasıl besleniyor?", answer: "Otomatik takım değiştirme ve bar besleme, uzun partilerde kesintisiz işlemeyi mümkün kılar. Hangi yöntemin kullanılacağı parça geometrisi ve parti büyüklüğüne göre planlanır." },
@@ -2558,7 +2582,10 @@ export const servicePages: ServicePageData[] = [
       { label: "Standart Tolerans", value: "±0.01mm" },
       { label: "Malzeme", value: "Al 7075, SS 316L, POM" },
       { label: "Yüzey", value: "Ra 0.4µm" },
-      { label: "Seri Üretim", value: "100-10K adet/yıl" },
+      /* F1: `100-10K adet/yıl` is the same annual-volume class as
+         `seri-imalat`'s three. Replaced with the geometric tolerance the page
+         already proves in its own FAQ. */
+      { label: "Eş Eksenlilik", value: "Datum üzerinden ölçülür" },
       { label: "Ağırlık Opt.", value: "Topoloji optimizasyonu" },
       { label: "GD&T", value: "Konsantriklik ≤0.01mm" },
     ],
@@ -2573,7 +2600,7 @@ export const servicePages: ServicePageData[] = [
     faq: [
       { question: "Robot bileşenlerinde hangi toleransları tutabiliyorsunuz?", answer: "Standart çalışma aralığımız ±0.01mm'dir. Eş eksenlilik ve diklik gibi geometrik toleranslar datum yapısıyla birlikte değerlendirilir ve kontrol planına yazılır." },
       { question: "Hafif malzeme çözümleriniz var mı?", answer: "Evet, Al 7075-T6 ile yüksek mukavemet/ağırlık oranı, topoloji optimizasyonu ile ağırlık azaltma ve PEEK gibi yüksek performans plastikler sunuyoruz." },
-      { question: "Seri üretim yapabiliyor musunuz?", answer: "Evet, 100-10.000 adet/yıl kapasitede otomasyonlu CNC seri üretim yapabiliyoruz. Bar besleyici ve palet sistemi ile kesintisiz üretim sağlıyoruz." },
+      { question: "Seri üretim yapabiliyor musunuz?", answer: "Evet. Otomasyonlu CNC seri üretimde bar besleyici ve palet sistemi ile kesintisiz işleme yapılır; parti büyüklüğü ve teslimat programı teklif aşamasında birlikte belirlenir." },
     ],
   },
 

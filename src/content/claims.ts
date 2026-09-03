@@ -373,3 +373,114 @@ export const ENGLISH_SITE = withhold({
   source: "USER_INPUTS.md §B ENGLISH_LIVE_NOW: NO",
   reason: "The header toggle went in Phase 03; the JSON-LD language list went in Phase 06.",
 });
+
+/* ── Publication CLASS filter for republished spec rows ───────────────────
+   PHASE 07 CORRECTION #1 — F1.
+
+   `CategoryPage` lifts facts out of a leaf page's `technicalSpecs` and
+   reprints them as listing metadata. The first version took
+   `technicalSpecs.slice(0, 2)`. A slice is not a filter: it inherits whatever
+   the array happens to begin with, so `seri-imalat`'s
+   `{ "CNC Seri Kapasite", "50.000 adet/yıl" }` and
+   `{ "Döküm Kapasite", "500.000 adet/yıl" }` were promoted onto a listing
+   surface that had never carried them.
+
+   The argument that defended it — "every figure can be checked against the
+   table on the same page" — is about internal CONSISTENCY, and publication is
+   a different question. `USER_INPUTS.md` §0 answers that one:
+   `DEFAULT_FACT_VISIBILITY: INTERNAL_ONLY_UNLESS_PUBLIC_OK`,
+   `NEVER_PUBLISH_JUST_BECAUSE_KNOWN: YES`,
+   `DO_NOT_PUBLISH_REVENUE_OR_ORDER_VOLUME: YES`.
+
+   SO THE FILTER IS AN ALLOWLIST, AND THAT IS THE POINT.
+   A denylist would have to anticipate every unpublishable phrasing a future
+   editor invents. This defaults to SILENCE: a spec is republished only if its
+   value is recognisably a member of a class §0's `PUBLIC_POSITIONING_PRIORITY`
+   names — tolerance, dimensional envelope, surface / hardness / strength
+   measurement, temperature, published standard, material grade. A spec added
+   to `servicePages.ts` tomorrow that is none of those simply does not appear,
+   and nobody has to remember to exclude it.
+
+   The withheld pass runs FIRST, and over the label as well as the value, so a
+   mixed string ("50.000 adet/yıl, ±0.01mm") cannot buy its way in on the
+   tolerance half. `scripts/claims-gate.mjs` is the second, independent line:
+   the withheld class must not reach the data file in the first place.
+   ------------------------------------------------------------------------ */
+
+/** Classes §0 and §D withhold. Checked against label AND value, first. */
+const WITHHELD_SPEC_CLASSES: readonly RegExp[] = [
+  /* Production / order volume: a count over a period, however written.
+     §D REVENUE_OR_ORDER_VOLUME · §0 DO_NOT_PUBLISH_REVENUE_OR_ORDER_VOLUME. */
+  /\b(?:adet|ünite|parça|birim|palet|parti|sipariş)\s*\/\s*(?:yıl|ay|hafta|gün|saat|vardiya)/i,
+  /\b\d[\d.,]*\s?K?\s?\+?\s*(?:adet|ünite)\b/i,
+  /kapasite|hacim|ciro|üretim adedi/i,
+  /* Company scale. §D TEAM_SIZE / MACHINE_COUNT / FACILITY_SIZE. */
+  /\b(?:tezgah|tezgâh|makine|işleme merkezi|mühendis|teknisyen|personel|çalışan|operatör|müşteri|vardiya)\b/i,
+  /\bm²|\bm2\b|metrekare/i,
+  /* Stock and warehouse tonnage — the same disclosure `claims-gate.mjs`
+     already refuses in the source. */
+  /sto[kğ]|depo/i,
+  /* Money. */
+  /[₺$€]|\bTL\b|\bEUR\b|\bUSD\b/i,
+  /* Inventory / offering counts — the `15+ alüminyum alaşımı` class. */
+  /\b\d[\d.,]*\s?\+\s*(?:\p{L}+\s+){0,2}(?:renk|çeşit|malzeme|alaşım|ürün|model|kalem)/iu,
+  /* Unsourced performance percentages — the `%99.9+ okuma oranı` /
+     `%30-50 maliyet tasarrufu` class. §D OTHER_PUBLIC_KPIS: NONE.
+     A ± TOLERANCE is not one of these, so `±5%` must survive: the first rule
+     requires the number not to be introduced by `±`. Written as a negated
+     character class rather than a lookbehind on purpose — lookbehind is a
+     parse-time SyntaxError on older Safari, which would take the whole
+     module down instead of failing one check. */
+  /(^|[^±\d])\d[\d.,]*\s?%/,
+  /%\s?\d/,
+];
+
+/** Classes that ARE publishable: measurement, standard, material grade. */
+const PUBLISHABLE_SPEC_CLASSES: readonly RegExp[] = [
+  /* Tolerance — linear, ISO/IT grade, casting-tolerance class (CT4-CT6). */
+  /±|\bIT\s?\d|\bCT\s?\d/i,
+  /* Dimensional envelope, and any length-unit value. */
+  /\b\d[\d.,]*\s?(?:mm|µm|μm|um|cm|nm|inç|inch)\b/i,
+  /\d\s*[x×]\s*\d/i,
+  /* Ratios and thread designations: `L/D 50:1`, `M2-M12`. */
+  /\bL\s?\/\s?D\b|\b\d+\s?:\s?\d+\b|\bM\d{1,2}\b/,
+  /* Surface finish, hardness, strength, torque, pressure. */
+  /\bR[az]\s?\d|\bHRC\b|\bHV\b|\bHB\b|\bShore\b|\bMPa\b|\bGPa\b|\bN\/mm|\bNm\b|\bbar\b|\bpsi\b|\b\d[\d.,]*\s?lb\b/i,
+  /* Force, mass, power, electrical and rotational envelopes — machine-side
+     process parameters, not an inventory of machines. */
+  /\b\d[\d.,]*\s?(?:ton|kg|kN|N|W|kW|kV|V|A|Hz|kHz|RPM|dev\/dak)\b/,
+  /* Thermal envelopes. */
+  /°\s?C\b/,
+  /* Service life expressed in cycles, and tooling cavity counts. */
+  /\b\d[\d.,]*\s?K?\+?\s*(?:çevrim|döngü|kavite)/i,
+  /* Published standards — the class Phase 06 kept alongside MIL-A-8625. */
+  /\bISO\b|\bEN\s?\d|\bASTM\b|\bMIL-|\bDIN\b|\bAMS\b|\bIEC\b|\bIPC\b|\bGD&T\b|\bIP\s?\d{2}\b|\bANSI\b|\bJIS\b|\bWPS\b|\bIACS\b/,
+  /* Non-destructive-test method sets: RT, UT, PT, MT, ET, MPI, PMI. */
+  /\b(?:RT|UT|PT|MT|ET|MPI|PMI)\b(?:[,\s/]+\b(?:RT|UT|PT|MT|ET|MPI|PMI)\b)+/,
+  /* Material grades and designations. A grade is a token that mixes letters
+     and digits (`ADC12`, `ZA-8`, `42CrMo4`, `6061-T6`, `S355`, `GGG-40`),
+     plus the named alloy families that do not. */
+  /\b[A-Z][A-Za-z]*-?\d[\w-]*\b|\b\d{3,4}[A-Z]\b/,
+  /\b(?:PEEK|POM|PTFE|PVDF|PEI|PPS|AISI|Inconel|Hastelloy|Monel|Duplex|Hardox|Armox|CoCrMo|Ti6Al4V|Bronz|Titanyum)\b/i,
+];
+
+/**
+ * May this `technicalSpecs` row be reprinted on a listing surface?
+ *
+ * Default is NO. Used by `src/pages/CategoryPage.tsx`; the decision lives here
+ * rather than in the view so the policy has one home.
+ */
+export function isPublishableSpec(spec: { label: string; value: string }): boolean {
+  const subject = `${spec.label} ${spec.value}`;
+  if (WITHHELD_SPEC_CLASSES.some((rule) => rule.test(subject))) return false;
+  return PUBLISHABLE_SPEC_CLASSES.some((rule) => rule.test(spec.value));
+}
+
+/** The first `limit` PUBLISHABLE rows, or none. Never a bare slice. */
+export function publishableSpecValues(
+  specs: readonly { label: string; value: string }[] | undefined,
+  limit: number,
+): string[] {
+  if (!specs?.length) return [];
+  return specs.filter(isPublishableSpec).slice(0, limit).map((spec) => spec.value);
+}

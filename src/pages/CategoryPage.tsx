@@ -13,7 +13,7 @@ import {
 import { categoryPages, type CategoryPageData } from "@/data/categoryPages";
 import { getPageBySlug } from "@/data/servicePages";
 import { usePageMeta } from "@/hooks/use-page-meta";
-import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
+import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME, publishableSpecValues } from "@/content/claims";
 
 /* ══════════════════════════════════════════════════════════════════════════
    CATEGORY PAGE — THE SERVICES LISTING *AND* THE SECTORS LISTING
@@ -47,7 +47,23 @@ import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
    read from that entry's `technicalSpecs` in `servicePages.ts`. A reader
    comparing CNC frezeleme with Hassas mikro işleme sees the two envelopes
    side by side on this page instead of opening both. Nothing is invented —
-   if an entry has no specs, the row simply has no chips.
+   if an entry has no publishable specs, the row simply has no chips.
+
+   WHAT MAY BE LIFTED, AND WHY THAT IS NOT THE VIEW'S CALL
+   ------------------------------------------------------
+   The first version of `entryMeta` took `technicalSpecs.slice(0, 2)`, and a
+   slice is not a filter: `seri-imalat` begins with two annual production
+   volumes, so this listing began printing `50.000 adet/yıl` and
+   `500.000 adet/yıl` — figures `USER_INPUTS.md` §0
+   `DO_NOT_PUBLISH_REVENUE_OR_ORDER_VOLUME: YES` withholds. That a reader
+   could have checked them against the leaf page's own table is an argument
+   about consistency, not about permission.
+
+   The decision now belongs to `publishableSpecValues()` in
+   `src/content/claims.ts`, which is an ALLOWLIST over classes of fact. A spec
+   added to `servicePages.ts` later cannot leak through it silently: if its
+   value is not recognisably a tolerance, an envelope, a measurement, a
+   standard or a material grade, it is not printed here at all.
 
    The second band is new and exists for the same reason: the old page was a
    dead end that offered exactly one way out (a CTA). The sibling categories
@@ -61,12 +77,11 @@ const FAMILY = {
   endustriyel: { label: "Endüstriyel", rail: { no: "05", label: "SEKTÖR" } },
 } as const;
 
-/** Up to two measured facts belonging to the entry itself, or none. */
+/** Up to two PUBLISHABLE measured facts belonging to the entry itself. */
 function entryMeta(path: string): string[] {
   const slug = path.split("/").filter(Boolean).pop();
   const page = slug ? getPageBySlug(slug) : undefined;
-  if (!page?.technicalSpecs?.length) return [];
-  return page.technicalSpecs.slice(0, 2).map((spec) => spec.value);
+  return publishableSpecValues(page?.technicalSpecs, 2);
 }
 
 export const CategoryPage = () => {
