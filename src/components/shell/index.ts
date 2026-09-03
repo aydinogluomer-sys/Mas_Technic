@@ -11,6 +11,21 @@ export {
   ShellSurfaceBand,
   ShellTitleBlock,
 } from "./ShellPrimitives";
+export {
+  ShellAction,
+  ShellBreadcrumb,
+  ShellIndexList,
+  ShellNextStep,
+  ShellPlate,
+  ShellRun,
+  ShellSpecTable,
+  ShellTagRow,
+  type ShellActionProps,
+  type ShellCrumb,
+  type ShellIndexItem,
+  type ShellRunItem,
+  type ShellSpecTableProps,
+} from "./ShellComposition";
 export { ShellEmpty, ShellLoading, ShellRouteBoundary, ShellRouteError } from "./ShellStates";
 export { SiteFooter } from "./SiteFooter";
 export { footerGroups, type FooterLinkGroup } from "./footer-groups";

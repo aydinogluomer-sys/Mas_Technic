@@ -967,3 +967,571 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   background: var(--tl-void);
   font-family: var(--tl-font-sans);
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PAGE COMPOSITION — PHASE 07
+
+   Phase 04 built the shell FRAME. Everything below is what the commercial
+   inner pages are BUILT FROM, and it exists because those pages were not:
+   `/hakkimizda`, `/iletisim`, `/malzemeler`, `/malzemeler/:slug`,
+   `/{hizmetler|kabiliyetler|endustriyel}/kategori/:slug` and
+   `/{...}/:slug` all composed their bodies out of the same device —
+   `border border-border bg-card p-6 hover:-translate-y-1 hover:shadow-lg` —
+   plus, on the two material pages, `rounded-lg/xl/full`, a `⭐` glyph,
+   `ring-2 ring-primary/20`, colour-coded `bg-emerald-100/amber-100/rose-100`
+   price pills and two full-bleed
+   `linear-gradient(135deg, hsl(var(--primary)) → hsl(var(--forge-navy)))`
+   bands. `--forge-navy` is the superseded forge palette; the gradients went
+   with it.
+
+   ONE GROUND SWITCH, NOT TWO STYLESHEETS
+   --------------------------------------
+   Everything here paints from `--sf-*` — semantic roles, not colours. The
+   roles are re-bound once per ground, so a `tone="paper"` band works
+   identically inside a graphite root and inside a paper one, and a new
+   component needs no second colour block. Before this, ground-dependent
+   colour was written as `.shell-root[data-shell-surface="paper"] .x { … }`
+   pairs, which cannot express "a paper band inside the graphite field" at all
+   — the descendant selector never matches — and that alternation is exactly
+   what the landing is built on.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.shell-root {
+  --sf-ink: var(--tl-white);
+  --sf-body: var(--tl-on-dark-body);
+  --sf-meta: var(--tl-on-dark-meta);
+  --sf-faint: var(--tl-on-dark-faint);
+  --sf-rule: var(--tl-rule);
+  --sf-rule-soft: var(--tl-rule-soft);
+  --sf-accent: var(--tl-bronze-light);
+  --sf-raise: var(--tl-tint-raise);
+  --sf-hover: var(--tl-tint-hover);
+  --sf-field: var(--tl-panel);
+  --sf-invert: var(--tl-paper);
+  --sf-on-invert: var(--tl-black);
+}
+
+/* Graphite gets the dark UA form controls too: a native date/time picker on a
+   graphite field is otherwise painted white by the browser, and that widget is
+   the one surface a stylesheet cannot reach. */
+.shell-root[data-shell-surface="graphite"] { color-scheme: dark; }
+
+.shell-root[data-shell-surface="paper"],
+.shell-root .tl-band[data-band-tone="paper"] {
+  --sf-ink: var(--tl-ink);
+  --sf-body: var(--tl-ink-muted);
+  --sf-meta: var(--tl-ink-faint);
+  --sf-faint: var(--tl-ink-soft);
+  --sf-rule: var(--tl-paper-rule);
+  --sf-rule-soft: var(--tl-paper-rule-soft);
+  --sf-accent: var(--tl-bronze-ink);
+  --sf-raise: var(--tl-ink-tint);
+  --sf-hover: var(--tl-ink-tint);
+  --sf-field: var(--tl-paper-raised);
+  --sf-invert: var(--tl-ink);
+  --sf-on-invert: var(--tl-paper);
+}
+.shell-root .tl-band[data-band-tone="paper"] { color-scheme: light; }
+
+/* The Phase 04 primitives were written before the roles existed and key their
+   ground off the ROOT, so they cannot see a paper band inside a graphite
+   field. These five lines finish the job for them rather than restyling them. */
+.shell-root .tl-band[data-band-tone="paper"] :is(.shell-eyebrow, .shell-state-label) { color: var(--tl-bronze-ink); }
+.shell-root .tl-band[data-band-tone="paper"] :is(.shell-lede, .shell-title-block > p, .shell-state-detail) { color: var(--tl-ink-muted); }
+.shell-root .tl-band[data-band-tone="paper"] :is(.shell-meta-row dt, .shell-title-index, .shell-evidence-source) { color: var(--tl-ink-faint); }
+.shell-root .tl-band[data-band-tone="paper"] .shell-meta-row { border-top-color: var(--tl-paper-rule); }
+.shell-root .tl-band[data-band-tone="paper"] .shell-meta-row > div { border-bottom-color: var(--tl-paper-rule-soft); }
+
+/* ── Master-column spans ──────────────────────────────────────────────────
+   Spans, never new tracks. Every boundary named here is a boundary of the
+   12/6/4 master grid, which is why a page can nest these three deep and stay
+   on the same vertical axes as the landing. */
+.shell-surface-body > *,
+.shell-next-body > * { min-width: 0; }
+
+.shell-span-full { grid-column: 1 / -1; }
+.shell-span-read { grid-column: 1 / span 7; }
+.shell-span-note { grid-column: 9 / -1; }
+.shell-span-half { grid-column: span 6; }
+.shell-span-third { grid-column: span 4; }
+
+/* A column block that keeps publishing the master tracks to its own children.
+   Contract from `master-grid.css`: no horizontal padding, border or margin. */
+.shell-doc {
+  display: grid;
+  grid-template-columns: subgrid;
+  align-content: start;
+  row-gap: var(--tl-s8);
+  padding-inline: 0;
+  border-inline-width: 0;
+  margin-inline: 0;
+}
+.shell-doc > * { grid-column: 1 / -1; min-width: 0; }
+.shell-doc-main { grid-column: 1 / span 8; }
+.shell-doc-aside { grid-column: 9 / -1; row-gap: var(--tl-s5); }
+
+@supports not (grid-template-columns: subgrid) {
+  .shell-doc { grid-template-columns: repeat(var(--tl-subgrid-cols, var(--tl-cols)), minmax(0, 1fr)); }
+  .shell-doc-main { --tl-subgrid-cols: 8; }
+  .shell-doc-aside { --tl-subgrid-cols: 4; }
+}
+
+@media (max-width: 1180px) {
+  .shell-span-read,
+  .shell-span-note,
+  .shell-doc-main,
+  .shell-doc-aside { grid-column: 1 / -1; }
+  .shell-span-half,
+  .shell-span-third { grid-column: span 3; }
+
+  @supports not (grid-template-columns: subgrid) {
+    .shell-doc-main,
+    .shell-doc-aside { --tl-subgrid-cols: var(--tl-cols); }
+  }
+}
+
+@media (max-width: 767px) {
+  .shell-span-half,
+  .shell-span-third { grid-column: 1 / -1; }
+}
+
+/* Vertical rhythm inside a column block: band / block / paragraph levels. */
+.shell-stack { display: grid; align-content: start; gap: var(--tl-s6); min-width: 0; }
+.shell-stack[data-gap="lg"] { gap: var(--tl-s8); }
+.shell-stack[data-gap="sm"] { gap: var(--tl-s4); }
+
+/* ── Editorial prose ──────────────────────────────────────────────────────
+   The one body-copy setting on the public site. Measure is capped in `ch`,
+   not px, so it stays a reading measure at every type size — including the
+   200 % text size the shell accessibility contract exercises. */
+.shell-prose { display: grid; gap: var(--tl-s5); max-width: 68ch; margin: 0; }
+.shell-prose > p { margin: 0; color: var(--sf-body); font-size: clamp(15px, 1.05vw, 17px); line-height: 1.72; }
+.shell-prose > p > strong { color: var(--sf-ink); font-weight: 600; }
+.shell-prose[data-lead] > p:first-child {
+  color: var(--sf-ink);
+  font-size: clamp(18px, 1.6vw, 23px);
+  line-height: 1.48;
+  letter-spacing: -.01em;
+}
+
+/* A serif statement — the system's single expressive face, used for the
+   editorial claim a company page is actually FOR, and nowhere else. */
+.shell-statement {
+  max-width: 22ch;
+  margin: 0;
+  color: var(--sf-ink);
+  font-family: var(--tl-font-serif);
+  font-size: clamp(24px, 3.1vw, 44px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+.shell-statement em { color: var(--tl-bronze); font-style: italic; }
+
+/* A margin note: mono, narrow, on the note column. */
+.shell-note {
+  margin: 0;
+  border-top: var(--tl-rule-size) solid var(--sf-rule);
+  padding-top: var(--tl-s3);
+  color: var(--sf-meta);
+  font: 500 11px/1.65 var(--tl-font-mono);
+  letter-spacing: .02em;
+}
+
+/* ── Breadcrumb ───────────────────────────────────────────────────────────*/
+.shell-crumb { padding-block: var(--tl-s4) var(--tl-s2); }
+.shell-crumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--tl-s2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.shell-crumb li {
+  display: flex;
+  align-items: center;
+  gap: var(--tl-s2);
+  color: var(--sf-meta);
+  font: 500 9px/1.5 var(--tl-font-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.shell-crumb li + li::before { content: "/"; color: var(--sf-faint); }
+.shell-crumb a { display: inline-flex; min-height: 24px; align-items: center; color: inherit; text-decoration: none; }
+.shell-crumb a:hover { color: var(--sf-ink); }
+.shell-crumb [aria-current] { color: var(--sf-ink); }
+
+/* ── Action ───────────────────────────────────────────────────────────────
+   One call-to-action shape site-wide. Square by policy (`--tl-radius: 0`),
+   44px minimum height, and it never changes SIZE on hover — only the arrow
+   moves, so the label under the reader's pointer stays where they aimed. */
+.shell-action {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tl-s4);
+  border: var(--tl-rule-size) solid transparent;
+  border-radius: var(--tl-radius);
+  padding-inline: var(--tl-s5);
+  font: 600 11px/1 var(--tl-font-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    color var(--tl-dur-micro) var(--tl-ease-out),
+    background-color var(--tl-dur-micro) var(--tl-ease-out),
+    border-color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-action-mark {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  stroke-width: 1.8;
+  transition: transform var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-action:hover .shell-action-mark { transform: translateX(3px); }
+.shell-action--full { width: 100%; }
+
+.shell-action--primary {
+  color: var(--sf-on-invert);
+  background: var(--sf-invert);
+  border-color: var(--sf-invert);
+}
+.shell-action--primary:hover { background: var(--sf-ink); border-color: var(--sf-ink); }
+
+.shell-action--ghost { color: var(--sf-ink); border-color: var(--sf-rule); }
+.shell-action--ghost:hover { border-color: var(--sf-ink); background: var(--sf-hover); }
+
+.shell-action--quiet {
+  min-height: 24px;
+  justify-content: flex-start;
+  gap: var(--tl-s2);
+  padding-inline: 0;
+  color: var(--sf-accent);
+}
+.shell-action--quiet:hover { color: var(--sf-ink); }
+
+.shell-action:disabled { cursor: not-allowed; opacity: .45; }
+.shell-action:disabled:hover .shell-action-mark { transform: none; }
+
+/* ── Index list ───────────────────────────────────────────────────────────
+   The replacement for the link-card grid. A register line, not a tile: sheet
+   number, title, scope, and the entry's own measured facts. */
+.shell-index {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--tl-rule-size) solid var(--sf-rule);
+}
+.shell-index > li { border-bottom: var(--tl-rule-size) solid var(--sf-rule); }
+
+.shell-index-row {
+  display: grid;
+  grid-template-columns: 3.5ch minmax(0, 1fr) 18px;
+  align-items: start;
+  gap: var(--tl-s5);
+  padding: var(--tl-s5) var(--tl-s4);
+  color: inherit;
+  text-decoration: none;
+  transition: background-color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-index-row:hover { background: var(--sf-hover); }
+.shell-index[data-compact] .shell-index-row { padding-block: var(--tl-s4); gap: var(--tl-s4); }
+
+.shell-index-no { color: var(--sf-accent); font: 500 11px/1.6 var(--tl-font-mono); letter-spacing: .06em; }
+.shell-index-body { display: grid; gap: var(--tl-s2); min-width: 0; }
+.shell-index-eyebrow {
+  color: var(--sf-faint);
+  font: 600 9px/1 var(--tl-font-mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.shell-index-title {
+  color: var(--sf-ink);
+  font-size: clamp(16px, 1.35vw, 20px);
+  font-weight: 600;
+  letter-spacing: -.015em;
+}
+.shell-index-desc { max-width: 66ch; color: var(--sf-body); font-size: 14px; line-height: 1.6; }
+.shell-index-meta { display: flex; flex-wrap: wrap; gap: var(--tl-s2); margin-top: var(--tl-s1); }
+.shell-index-meta > span {
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  padding: 3px var(--tl-s2);
+  color: var(--sf-meta);
+  font: 500 10px/1.4 var(--tl-font-mono);
+  letter-spacing: .04em;
+}
+.shell-index-mark {
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  color: var(--sf-faint);
+  stroke-width: 1.5;
+  transition:
+    color var(--tl-dur-micro) var(--tl-ease-out),
+    transform var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-index-row:hover .shell-index-mark { color: var(--sf-ink); transform: translate(2px, -2px); }
+
+@media (max-width: 767px) {
+  .shell-index-row { gap: var(--tl-s3); padding-inline: 0; }
+}
+
+/* ── Spec table ───────────────────────────────────────────────────────────
+   Measurements line up down the column in the mono face with tabular figures,
+   which is the entire reason a specification is a table and not a list. */
+.shell-table { margin: 0; }
+.shell-table > figcaption { padding-bottom: var(--tl-s3); }
+.shell-table-caption {
+  display: block;
+  color: var(--sf-ink);
+  font: 600 10px/1.5 var(--tl-font-mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.shell-table-note { display: block; max-width: 72ch; margin-top: var(--tl-s2); color: var(--sf-body); font-size: 13px; line-height: 1.6; }
+
+.shell-table-scroll { overflow-x: auto; border: var(--tl-rule-size) solid var(--sf-rule); }
+.shell-table-scroll:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.shell-table table { width: 100%; border-collapse: collapse; }
+.shell-table :is(th, td) {
+  padding: var(--tl-s3) var(--tl-s4);
+  border-bottom: var(--tl-rule-size) solid var(--sf-rule-soft);
+  text-align: left;
+  vertical-align: top;
+}
+.shell-table thead th {
+  border-bottom-color: var(--sf-rule);
+  color: var(--sf-meta);
+  font: 600 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.shell-table tbody th { color: var(--sf-ink); font-size: 14px; font-weight: 600; }
+.shell-table tbody td { color: var(--sf-body); font-size: 13px; line-height: 1.55; }
+.shell-table [data-numeric] {
+  font-family: var(--tl-font-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+.shell-table tbody tr:last-child :is(th, td) { border-bottom: 0; }
+.shell-table tbody tr[data-reference] { background: var(--sf-raise); }
+
+/* ── Numbered run ─────────────────────────────────────────────────────────
+   Process steps read as one measured run. Every interior boundary is a master
+   boundary: three per row at 12 columns, two at 6, one at 4 — so the run
+   cannot walk off the grid at any breakpoint. */
+.shell-run {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  margin: 0;
+  margin-inline: 0;
+  padding-inline: 0;
+  border-inline-width: 0;
+  list-style: none;
+  border-top: var(--tl-rule-size) solid var(--sf-rule);
+}
+.shell-run > li {
+  display: grid;
+  grid-column: span 4;
+  align-content: start;
+  gap: var(--tl-s2);
+  border-bottom: var(--tl-rule-size) solid var(--sf-rule-soft);
+  border-left: var(--tl-rule-size) solid var(--sf-rule-soft);
+  padding: var(--tl-s4);
+}
+.shell-run > li:first-child { border-left-color: transparent; }
+.shell-run-no { color: var(--sf-accent); font: 500 10px/1 var(--tl-font-mono); letter-spacing: .12em; }
+.shell-run-title { color: var(--sf-ink); font-size: 14px; font-weight: 600; line-height: 1.35; }
+.shell-run-detail { color: var(--sf-body); font-size: 13px; line-height: 1.55; }
+
+@supports not (grid-template-columns: subgrid) {
+  .shell-run { grid-template-columns: repeat(var(--tl-subgrid-cols, var(--tl-cols)), minmax(0, 1fr)); }
+}
+
+@media (max-width: 1180px) {
+  .shell-run > li { grid-column: span 3; }
+}
+
+@media (max-width: 767px) {
+  .shell-run > li { grid-column: 1 / -1; border-left-color: transparent; }
+}
+
+/* ── Tag row ──────────────────────────────────────────────────────────────
+   Hairline boxes, not `rounded-full` pills: a pill is a status chip and none
+   of these carry a status. */
+.shell-tags { display: flex; flex-wrap: wrap; gap: var(--tl-s2); margin: 0; padding: 0; list-style: none; }
+.shell-tags > li {
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  padding: 6px var(--tl-s3);
+  color: var(--sf-body);
+  font: 500 11px/1.4 var(--tl-font-mono);
+  letter-spacing: .04em;
+}
+
+/* ── Image plate ──────────────────────────────────────────────────────────
+   Blocker I4's structural fix. The frame's only children are the image and
+   four corner ticks, so no caption at any viewport can be clipped by it.
+   Overscan is symmetric and in PIXELS (60px each way), which is what makes
+   the ±60px parallax range in `ServiceDetail.tsx` cover the frame at BOTH
+   ends of the travel — the hero this replaces translated a `h-full` image
+   120px downward inside an `overflow:hidden` box and exposed the box. */
+.shell-plate { margin: 0; }
+.shell-plate-frame {
+  position: relative;
+  height: clamp(200px, 33vw, 420px);
+  overflow: hidden;
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  background: var(--sf-field);
+}
+.shell-plate-frame > img,
+.shell-plate-frame > video {
+  position: absolute;
+  inset: -60px 0;
+  width: 100%;
+  height: calc(100% + 120px);
+  object-fit: cover;
+}
+.shell-plate-tick {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 0 solid var(--tl-white);
+  opacity: .6;
+  pointer-events: none;
+}
+.shell-plate-tick[data-corner="tl"] { top: 8px; left: 8px; border-top-width: 1px; border-left-width: 1px; }
+.shell-plate-tick[data-corner="tr"] { top: 8px; right: 8px; border-top-width: 1px; border-right-width: 1px; }
+.shell-plate-tick[data-corner="bl"] { bottom: 8px; left: 8px; border-bottom-width: 1px; border-left-width: 1px; }
+.shell-plate-tick[data-corner="br"] { bottom: 8px; right: 8px; border-bottom-width: 1px; border-right-width: 1px; }
+.shell-plate > figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--tl-s2) var(--tl-s4);
+  padding-top: var(--tl-s2);
+}
+.shell-plate-no { color: var(--sf-accent); font: 600 9px/1.5 var(--tl-font-mono); letter-spacing: .18em; }
+.shell-plate-caption { color: var(--sf-meta); font: 500 11px/1.5 var(--tl-font-mono); letter-spacing: .02em; }
+
+/* ── Next step (RFQ continuation) ─────────────────────────────────────────*/
+.shell-next-body { align-items: start; padding-block: var(--tl-s8); }
+.shell-next-copy { grid-column: 1 / span 7; padding-right: var(--tl-s6); }
+.shell-next-copy h2 {
+  margin: var(--tl-s3) 0 0;
+  color: var(--sf-ink);
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -.025em;
+}
+.shell-next-lede { max-width: 56ch; margin: var(--tl-s4) 0 0; color: var(--sf-body); font-size: 15px; line-height: 1.65; }
+.shell-next-actions { display: flex; flex-wrap: wrap; gap: var(--tl-s3); margin-top: var(--tl-s6); }
+.shell-next-detail { grid-column: 9 / -1; }
+
+@media (max-width: 1180px) {
+  .shell-next-copy { grid-column: 1 / -1; padding-right: 0; }
+  .shell-next-detail { grid-column: 1 / -1; margin-top: var(--tl-s6); }
+}
+
+/* ── Form fields ──────────────────────────────────────────────────────────
+   `/iletisim` is the first shell surface with real inputs, and Phase 09 owns
+   the RFQ form next, so the field lives here rather than inside a page. */
+.shell-form { display: grid; gap: var(--tl-s5); }
+.shell-form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--tl-s4); }
+.shell-field { display: grid; gap: var(--tl-s2); min-width: 0; }
+.shell-field > label {
+  color: var(--sf-meta);
+  font: 600 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.shell-field :is(input, select, textarea) {
+  width: 100%;
+  min-height: 44px;
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  border-radius: var(--tl-radius);
+  padding: var(--tl-s3) var(--tl-s4);
+  color: var(--sf-ink);
+  background: var(--sf-field);
+  font: 400 14px/1.5 var(--tl-font-sans);
+}
+.shell-field textarea { min-height: 112px; resize: vertical; }
+.shell-field :is(input, select, textarea):focus-visible {
+  border-color: var(--sf-ink);
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.shell-field ::placeholder { color: var(--sf-faint); opacity: 1; }
+.shell-field-hint { color: var(--sf-meta); font: 500 11px/1.6 var(--tl-font-mono); }
+
+@media (max-width: 767px) {
+  .shell-form-row { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ── Filter bar (materials register) ──────────────────────────────────────*/
+.shell-filter { display: flex; flex-wrap: wrap; align-items: end; gap: var(--tl-s4); }
+.shell-filter .shell-field { flex: 0 1 auto; min-width: 168px; }
+.shell-filter-search { flex: 1 1 260px; }
+
+/* Segmented family selector — hairline segments, never a pill group. */
+.shell-segments { display: flex; flex-wrap: wrap; gap: 0; margin: 0; padding: 0; list-style: none; }
+.shell-segments > li { margin: 0 -1px -1px 0; }
+.shell-segment {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: var(--tl-s2);
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  border-radius: var(--tl-radius);
+  padding-inline: var(--tl-s4);
+  color: var(--sf-body);
+  background: transparent;
+  font: 500 11px/1 var(--tl-font-mono);
+  letter-spacing: .08em;
+  cursor: pointer;
+  transition:
+    color var(--tl-dur-micro) var(--tl-ease-out),
+    background-color var(--tl-dur-micro) var(--tl-ease-out),
+    border-color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-segment:hover { color: var(--sf-ink); background: var(--sf-hover); }
+.shell-segment[aria-pressed="true"] {
+  position: relative;
+  z-index: 1;
+  color: var(--sf-on-invert);
+  border-color: var(--sf-invert);
+  background: var(--sf-invert);
+}
+.shell-segment-code { font-weight: 700; letter-spacing: .12em; }
+
+/* ── Five-step gauge ──────────────────────────────────────────────────────
+   Replaces a `rounded-full` progress bar. Discrete segments, because the
+   underlying value IS discrete (1–5); a continuous bar implied a resolution
+   the data does not have. */
+.shell-gauge { display: inline-flex; align-items: center; gap: 3px; vertical-align: middle; }
+.shell-gauge > span { width: 8px; height: 10px; border: var(--tl-rule-size) solid var(--sf-rule); }
+.shell-gauge > span[data-on] { border-color: var(--sf-accent); background: var(--sf-accent); }
+
+/* ── Disclosure row (materials register) ──────────────────────────────────*/
+.shell-disclosure-panel {
+  border-top: var(--tl-rule-size) solid var(--sf-rule-soft);
+  padding: var(--tl-s5) var(--tl-s4);
+  background: var(--sf-raise);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-action,
+  .shell-action-mark,
+  .shell-index-row,
+  .shell-index-mark,
+  .shell-segment { transition-duration: .01ms; }
+}
