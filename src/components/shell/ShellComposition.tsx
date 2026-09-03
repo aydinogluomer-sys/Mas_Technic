@@ -36,7 +36,8 @@ import { ShellMetaRow } from "./ShellPrimitives";
    No radius, no shadow, no gradient, no glow, no icon tile, no colour-coded
    pill. Structure is hairlines, master columns, mono metadata and measured
    space — the landing's own devices. `docs/lean/17-inner-page-composition.md`
-   records the decisions and the one documented radius exception on the site.
+   records the decisions, including why the six rebuilt pages need no radius
+   exception at all.
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Breadcrumb ───────────────────────────────────────────────────────────

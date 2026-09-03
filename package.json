@@ -14,8 +14,8 @@
     "test:e2e": "playwright test",
     "test:e2e:critical": "playwright test --project=critical-1280 --project=critical-375",
     "test:e2e:smoke": "playwright test --project=smoke-webkit-1440 --project=smoke-webkit-390 --project=smoke-firefox-1440 --project=smoke-firefox-390",
-    "test:e2e:visual": "playwright test --project=visual-375 --project=visual-1280 --project=visual-1440",
-    "test:e2e:visual:update": "playwright test --project=visual-375 --project=visual-1280 --project=visual-1440 --update-snapshots",
+    "test:e2e:visual": "playwright test --project=visual-375 --project=visual-768 --project=visual-1280 --project=visual-1440",
+    "test:e2e:visual:update": "playwright test --project=visual-375 --project=visual-768 --project=visual-1280 --project=visual-1440 --update-snapshots",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:install": "playwright install --with-deps chromium",
     "assets:sync": "node scripts/assets-sync.mjs"

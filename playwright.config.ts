@@ -178,14 +178,28 @@ const smokeProjects = [
 
 // Altin goruntuler `prefers-reduced-motion: reduce` altinda uretilir: landing
 // hareket katmani o modda tamamen kapanir, dolayisiyla fark deterministiktir.
-const visualProjects = [375, 1280, 1440].map((width) => ({
+//
+// FAZ 07 — 768 EKLENDI. Matris `[375, 1280, 1440]` idi: iclerinde tablet
+// genisligi YOKTU, dolayisiyla Faz 07'nin "masaustu/tablet/mobil altin
+// goruntuler bulunmali" kabul kriteri matrisin kendisi yuzunden
+// karsilanamiyordu. 768 artik `tablet-768` regresyon projesiyle AYNI cihazi
+// tarif eder — 768x1024, dokunmatik — boylece iki serit ayni tabletten
+// bahseder, birbirine yakin iki farklı tabletten degil.
+const VISUAL_VIEWPORTS = [
+  { width: 375, height: 812, mobile: true },
+  { width: 768, height: 1024, mobile: true },
+  { width: 1280, height: 900, mobile: false },
+  { width: 1440, height: 900, mobile: false },
+] as const;
+
+const visualProjects = VISUAL_VIEWPORTS.map(({ width, height, mobile }) => ({
   name: `visual-${width}`,
   testMatch: VISUAL_MATCH,
   use: {
     ...devices["Desktop Chrome"],
     ...chromiumLaunch,
-    viewport: { width, height: width < 768 ? 812 : 900 },
-    ...(width < 768 ? { isMobile: true, hasTouch: true } : {}),
+    viewport: { width, height },
+    ...(mobile ? { isMobile: true, hasTouch: true } : {}),
     reducedMotion: "reduce" as const,
   },
 }));
