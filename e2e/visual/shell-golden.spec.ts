@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { freezeVisualState, gotoAndSettle } from "../helpers";
+import { awaitRealFaces, installFontRetry } from "./fonts";
 
 /* ══════════════════════════════════════════════════════════════════════════
    SHELL GOLDEN SCREENSHOTS — one shell, proved by pictures
@@ -39,10 +40,12 @@ const SURFACES = [
 test.describe("shell golden screenshots", () => {
   for (const surface of SURFACES) {
     test(`${surface.slug} carries the same shell chrome`, async ({ page }) => {
+      await installFontRetry(page);
       await page.emulateMedia({ reducedMotion: "reduce" });
       await gotoAndSettle(page, surface.path);
       await expect(page.locator(".shell-root")).toBeVisible({ timeout: 20_000 });
       await freezeVisualState(page);
+      await awaitRealFaces(page);
 
       const header = page.locator("[data-fullscreen-header]");
       await expect(header).toBeVisible();

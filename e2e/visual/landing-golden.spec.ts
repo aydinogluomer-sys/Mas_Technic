@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { freezeVisualState, gotoAndSettle, landingReady } from "../helpers";
+import { awaitRealFaces, installFontRetry } from "./fonts";
 
 /**
  * Altın (golden) görsel fark.
@@ -21,11 +22,13 @@ test.describe("landing golden screenshots", () => {
     // ayarına güvenildiğinde `[data-reverse-scroll-enabled]` "true" kalıyor ve
     // framer yayı yakalama anında hâlâ hareket hâlinde oluyordu
     // (`matrix(1,0,0,1,0,-35)` → `-72`), bu da altın farkı oynak yapıyordu.
+    await installFontRetry(page);
     await page.emulateMedia({ reducedMotion: "reduce" });
     await gotoAndSettle(page, "/");
     await landingReady(page);
     await page.waitForLoadState("networkidle");
     await freezeVisualState(page);
+    await awaitRealFaces(page);
 
     // Belirlenimlilik ön koşulu, sessiz bir varsayım değil ölçülen bir iddia:
     // ters-scroll katmanları reduced-motion altında kapalı ve dönüşümsüz

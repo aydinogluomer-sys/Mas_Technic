@@ -471,7 +471,11 @@ export const ServiceDetail = () => {
       <ShellNextStep
         no={no()}
         title={`${page.title} için teklif`}
-        body={`Teknik resim veya 3B model gönderin; ${page.title.toLocaleLowerCase("tr")} kapsamında üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım.`}
+        /* The title is NOT lower-cased. `toLocaleLowerCase("tr")` turned
+           "CNC Frezeleme" into "cnc frezeleme" mid-sentence, which reads as a
+           typo for an acronym and is wrong for every page whose title carries
+           one (CNC, QR, DFM, NDT). */
+        body={`Teknik resim veya 3B model gönderin; ${page.title} kapsamında üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım.`}
         detail={[
           { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
           { label: "Standart tolerans", value: MINIMUM_TOLERANCE },

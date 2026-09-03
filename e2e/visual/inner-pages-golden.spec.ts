@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import { gotoAndSettle } from "../helpers";
+import { awaitRealFaces, installFontRetry } from "./fonts";
 
 /* ══════════════════════════════════════════════════════════════════════════
    INNER-PAGE GOLDEN SCREENSHOTS — Phase 07
@@ -77,18 +78,18 @@ async function freezeForCapture(page: Page) {
       }
     `,
   });
-  await page.evaluate(async () => {
+  await page.evaluate(() => {
     document.querySelectorAll("video").forEach((video) => { video.pause(); video.currentTime = 0; });
-    await document.fonts?.ready;
-    await new Promise<void>((resolve) => {
-      requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
-    });
   });
+  /* Not `document.fonts.ready` alone — see `./fonts.ts` for the measured race
+     it does not cover. */
+  await awaitRealFaces(page);
 }
 
 test.describe("inner-page golden screenshots", () => {
   for (const route of ROUTES) {
     test(`${route.slug} opens and closes in the landing's language`, async ({ page }) => {
+      await installFontRetry(page);
       await page.emulateMedia({ reducedMotion: "reduce" });
       await gotoAndSettle(page, route.path);
       await expect(page.locator(".shell-root")).toBeVisible({ timeout: 20_000 });

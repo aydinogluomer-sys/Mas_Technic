@@ -29,8 +29,18 @@ export const PRICE_BAND: Record<Material["priceCategory"], string> = {
   high: "PREMİUM",
 };
 
-const trNumber = (value: number, digits = 0) =>
-  value.toLocaleString("tr-TR", { minimumFractionDigits: digits, maximumFractionDigits: digits });
+/**
+ * Deliberately NOT `toLocaleString("tr-TR")`.
+ *
+ * MEASURED DEFECT THIS FIXES: the hero on `/malzemeler/aluminyum` printed
+ * `2,65–2,83 g/cm³` while the alloy table twelve lines below it printed
+ * `2.65` — the same figure with two different decimal separators on one page,
+ * because the table renders the raw number and the hero went through the
+ * Turkish locale. The site's own convention is the dot (`±0.01 mm`, from
+ * `MINIMUM_TOLERANCE`), so the derived ranges follow the table rather than the
+ * locale.
+ */
+const decimal = (value: number, digits = 0) => value.toFixed(digits);
 
 /** `165–572 MPa`, or `7.85 g/cm³` when the family has one value. */
 export function range(values: number[], unit: string, digits = 0): string {
@@ -39,8 +49,8 @@ export function range(values: number[], unit: string, digits = 0): string {
   const high = Math.max(...values);
   const suffix = unit ? ` ${unit}` : "";
   return low === high
-    ? `${trNumber(low, digits)}${suffix}`
-    : `${trNumber(low, digits)}–${trNumber(high, digits)}${suffix}`;
+    ? `${decimal(low, digits)}${suffix}`
+    : `${decimal(low, digits)}–${decimal(high, digits)}${suffix}`;
 }
 
 /** The hero metadata run for a material family, read off its own alloys. */

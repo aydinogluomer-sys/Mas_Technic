@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { freezeVisualState, gotoAndSettle, landingReady } from "../helpers";
+import { awaitRealFaces, installFontRetry } from "./fonts";
 
 /**
  * GLOBAL NAVIGATION — golden screenshots, closed and open.
@@ -16,10 +17,12 @@ import { freezeVisualState, gotoAndSettle, landingReady } from "../helpers";
  */
 test.describe("global navigation golden screenshots", () => {
   test.beforeEach(async ({ page }) => {
+    await installFontRetry(page);
     await page.emulateMedia({ reducedMotion: "reduce" });
     await gotoAndSettle(page, "/");
     await landingReady(page);
     await freezeVisualState(page);
+    await awaitRealFaces(page);
   });
 
   test("matches the closed header baseline", async ({ page }) => {
