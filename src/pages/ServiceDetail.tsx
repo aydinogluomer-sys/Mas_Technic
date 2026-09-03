@@ -1,12 +1,11 @@
 import { useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useScroll, useTransform } from "framer-motion";
 import { motion } from "@/components/shell/motion";
 import {
   PageShell,
   ShellAction,
   ShellBreadcrumb,
-  ShellEmpty,
   ShellIndexList,
   ShellNextStep,
   ShellPageHero,
@@ -20,6 +19,7 @@ import { getPageBySlug, getPagesByCategory } from "@/data/servicePages";
 import { categoryPages } from "@/data/categoryPages";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
+import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 import cncWorkshop from "@/assets/cnc-workshop.webp";
 import qualityControl from "@/assets/quality-control.webp";
@@ -169,8 +169,36 @@ function splitFeature(feature: string) {
 
 export const ServiceDetail = () => {
   const { slug } = useParams<{ category: string; slug: string }>();
+  const { pathname } = useLocation();
   const page = slug ? getPageBySlug(slug) : undefined;
   const prefersReduced = usePrefersReducedMotion();
+
+  /* PHASE 07 CORRECTION #1 — F3.
+     The not-found branch hard-coded `{ no: "03", label: "HİZMET" }`, so
+     `/endustriyel/<unknown>` told the reader it was in the services family.
+     These routes carry no `:category` param (`/hizmetler/:slug`,
+     `/kabiliyetler/:slug`, `/endustriyel/:slug`), so the family is derived
+     from the path — the same derivation `CategoryPage` uses. */
+  const pathFamily: keyof typeof FAMILY = pathname.startsWith("/kabiliyetler")
+    ? "kabiliyetler"
+    : pathname.startsWith("/endustriyel")
+      ? "endustriyel"
+      : "hizmetler";
+
+  /* And the title: an unknown slug fell back to the SITE DEFAULT, which reads
+     to a crawler and to a tab strip as though the page had resolved.
+     `usePageMeta` cannot be called conditionally, so the found branch gets a
+     real title too — an improvement, and the reason the argument is computed
+     rather than the hook skipped. */
+  usePageMeta(
+    page
+      ? { title: page.title, description: page.description }
+      : {
+          title: `${FAMILY[pathFamily].label} — sayfa bulunamadı`,
+          description:
+            "Aradığınız kayıt bulunamadı. Hizmet ve sektör başlıklarına ana sayfadan ulaşabilirsiniz.",
+        },
+  );
 
   const plateRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -185,15 +213,43 @@ export const ServiceDetail = () => {
   const plateY = useTransform(scrollYProgress, [0, 1], prefersReduced ? [0, 0] : [-60, 60]);
 
   if (!page) {
+    /* F3: one `<h1>`, from the same primitive the found branch uses. The
+       string is not "Sayfa Bulunamadı", so the anchored canonical-route check
+       in `e2e/shared-shell-accessibility.spec.ts` keeps its full strength —
+       the earlier fix changed the ELEMENT to avoid that check when it only
+       ever needed to change the STRING. */
+    const notFoundFamily = FAMILY[pathFamily];
     return (
-      <PageShell surface="graphite" rail={{ no: "03", label: "HİZMET" }}>
-        <ShellSurfaceBand no="01" label="HİZMET" ariaLabel="Kayıt bulunamadı">
-          <div className="shell-span-read">
-            <ShellEmpty
-              label="KAYIT YOK"
-              title="Bu sayfa kaydı bulunamadı"
-              detail="Bağlantı değişmiş olabilir. Hizmet ve sektör başlıklarına ana sayfadan ulaşabilirsiniz."
-              action={<ShellAction to="/" variant="ghost">Ana sayfa</ShellAction>}
+      <PageShell surface="graphite" rail={notFoundFamily.rail}>
+        <ShellPageHero
+          no="01"
+          label={notFoundFamily.rail.label}
+          crumb={
+            <ShellBreadcrumb
+              trail={[{ label: "Ana sayfa", to: "/" }, { label: notFoundFamily.label }]}
+            />
+          }
+          eyebrow="KAYIT YOK"
+          title="Bu sayfa kaydı bulunamadı"
+          lede="Bağlantı değişmiş olabilir. Aşağıdaki başlıklardan devam edebilirsiniz."
+          actions={<ShellAction to="/" variant="ghost">Ana sayfa</ShellAction>}
+        />
+        <ShellSurfaceBand
+          no="02"
+          label={notFoundFamily.rail.label}
+          ariaLabel={`${notFoundFamily.label} kategorileri`}
+        >
+          <div className="shell-span-full">
+            <ShellIndexList
+              compact
+              ariaLabel={`${notFoundFamily.label} kategorileri`}
+              items={categoryPages
+                .filter((item) => item.prefix === pathFamily)
+                .map((item) => ({
+                  to: `/${item.prefix}/kategori/${item.slug}`,
+                  title: item.title,
+                  description: item.description,
+                }))}
             />
           </div>
         </ShellSurfaceBand>

@@ -3,7 +3,6 @@ import {
   PageShell,
   ShellAction,
   ShellBreadcrumb,
-  ShellEmpty,
   ShellIndexList,
   ShellNextStep,
   ShellPageHero,
@@ -96,24 +95,43 @@ export const CategoryPage = () => {
   const family = FAMILY[prefix];
 
   usePageMeta({
-    title: category ? category.title : family.label,
+    title: category ? category.title : `${family.label} — kategori bulunamadı`,
     description: category?.description,
   });
 
   if (!category) {
-    /* Deliberately NOT the string "Sayfa Bulunamadı": that heading is what
-       `e2e/shared-shell-accessibility.spec.ts` looks for to prove a canonical
-       route did not silently fall back to a local not-found body. */
+    /* PHASE 07 CORRECTION #1 — F3.
+       The first version put this message in `ShellEmpty`, whose `title` is a
+       `<p>`, so three not-found bodies shipped with NO `<h1>` at all. The
+       concern that produced it was real —
+       `e2e/shared-shell-accessibility.spec.ts:363` asserts that no canonical
+       route renders a heading matching /^(Sayfa|Yazı) Bulunamadı$/ — but the
+       answer was to change the STRING, not to delete the element. This
+       heading is "Bu kategori kaydı bulunamadı", which the anchored pattern
+       does not match, and the spec keeps its full strength.
+
+       `ShellPageHero` is the same primitive the found branch uses, so the
+       not-found body is a page of the same family rather than a fragment. */
     return (
       <PageShell surface="graphite" rail={family.rail}>
-        <ShellSurfaceBand no="01" label={family.rail.label} ariaLabel="Kategori bulunamadı">
-          <div className="shell-span-read">
-            <ShellEmpty
-              label="KATEGORİ YOK"
-              title="Bu kategori kaydı bulunamadı"
-              detail="Bağlantı değişmiş olabilir. Aşağıdaki listeden ilgili başlığa geçebilirsiniz."
+        <ShellPageHero
+          no="01"
+          label={family.rail.label}
+          crumb={
+            <ShellBreadcrumb
+              trail={[{ label: "Ana sayfa", to: "/" }, { label: family.label }]}
             />
-          </div>
+          }
+          eyebrow="KATEGORİ YOK"
+          title="Bu kategori kaydı bulunamadı"
+          lede="Bağlantı değişmiş olabilir. Aşağıdaki listeden ilgili başlığa geçebilirsiniz."
+          actions={<ShellAction to="/" variant="ghost">Ana sayfa</ShellAction>}
+        />
+        <ShellSurfaceBand
+          no="02"
+          label={family.rail.label}
+          ariaLabel={`${family.label} kategorileri`}
+        >
           <div className="shell-span-full">
             <ShellIndexList
               compact

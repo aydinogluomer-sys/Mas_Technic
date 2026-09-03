@@ -1,4 +1,4 @@
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   PageShell,
   ShellAction,
@@ -44,11 +44,54 @@ export const MalzemeKategori = () => {
   const category = findMaterialCategory(slug || "");
 
   usePageMeta({
-    title: category?.seoTitle ?? "Malzemeler",
-    description: category?.seoDescription,
+    title: category?.seoTitle ?? "Malzeme ailesi bulunamadı",
+    description:
+      category?.seoDescription
+      ?? "Aradığınız malzeme ailesi bulunamadı. Aşağıdaki ailelerden devam edebilirsiniz.",
   });
 
-  if (!category) return <Navigate to="/malzemeler" replace />;
+  if (!category) {
+    /* PHASE 07 CORRECTION #1 — F3.
+       This was `<Navigate to="/malzemeler" replace />`: an unknown family
+       slug landed on the full materials index, which looks exactly like a
+       page that resolved. A soft 404 is worse than a hard one — the reader
+       cannot tell the request failed, and neither can a crawler. It now says
+       so, in the family's own shell, with one `<h1>` and its own title, and
+       still offers every real family as a way forward. */
+    return (
+      <PageShell surface="graphite" rail={{ no: "R1", label: "MALZEME" }}>
+        <ShellPageHero
+          no="01"
+          label="MALZEME"
+          crumb={
+            <ShellBreadcrumb
+              trail={[
+                { label: "Ana sayfa", to: "/" },
+                { label: "Malzemeler", to: "/malzemeler" },
+              ]}
+            />
+          }
+          eyebrow="AİLE YOK"
+          title="Bu malzeme ailesi bulunamadı"
+          lede="Bağlantı değişmiş olabilir. Aşağıdaki ailelerden devam edebilir veya tam malzeme kaydına geçebilirsiniz."
+          actions={<ShellAction to="/malzemeler" variant="ghost">Malzeme kaydı</ShellAction>}
+        />
+        <ShellSurfaceBand no="02" label="MALZEME" ariaLabel="Malzeme aileleri">
+          <div className="shell-span-full">
+            <ShellIndexList
+              compact
+              ariaLabel="Malzeme aileleri"
+              items={materialCategories.map((item) => ({
+                to: `/malzemeler/${item.slug}`,
+                title: item.name,
+                description: item.heroDescription,
+              }))}
+            />
+          </div>
+        </ShellSurfaceBand>
+      </PageShell>
+    );
+  }
 
   const materials = materialsData.filter((item) => item.subcategory === category.subcategoryKey);
   const relatedCategories = materialCategories.filter((item) =>
