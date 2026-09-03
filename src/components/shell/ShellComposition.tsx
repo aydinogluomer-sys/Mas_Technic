@@ -35,7 +35,7 @@ import { ShellMetaRow } from "./ShellPrimitives";
    -----------------
    No radius, no shadow, no gradient, no glow, no icon tile, no colour-coded
    pill. Structure is hairlines, master columns, mono metadata and measured
-   space — the landing's own devices. `docs/lean/16-inner-page-composition.md`
+   space — the landing's own devices. `docs/lean/17-inner-page-composition.md`
    records the decisions and the one documented radius exception on the site.
    ══════════════════════════════════════════════════════════════════════════ */
 
@@ -247,7 +247,13 @@ export function ShellSpecTable({
    The rule under the numbers is the datum line; the steps are ticks on it.
    `detail` is optional so the same primitive carries a bare six-step sequence
    and an annotated one. */
-export type ShellRunItem = { title: string; detail?: string };
+export type ShellRunItem = {
+  title: string;
+  detail?: string;
+  /** An action belonging to this step — used by `/iletisim`, where the run is
+   *  a choice of three routes rather than a sequence of six stages. */
+  action?: ReactNode;
+};
 
 export function ShellRun({ items, ariaLabel }: { items: ShellRunItem[]; ariaLabel?: string }) {
   return (
@@ -257,6 +263,7 @@ export function ShellRun({ items, ariaLabel }: { items: ShellRunItem[]; ariaLabe
           <span className="shell-run-no" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
           <span className="shell-run-title">{item.title}</span>
           {item.detail && <span className="shell-run-detail">{item.detail}</span>}
+          {item.action && <span className="shell-run-action">{item.action}</span>}
         </li>
       ))}
     </ol>
@@ -346,7 +353,10 @@ export function ShellNextStep({
   title,
   body,
   detail,
-  primary = { label: "Teklif dosyası aç", to: "/teklif-al" },
+  /* One primary label site-wide. It is deliberately the same words the footer
+     and the global navigation use, so the site has ONE named primary action
+     rather than six differently-worded ones pointing at two destinations. */
+  primary = { label: "Teklif Al", to: "/teklif-al" },
   secondary,
   id,
 }: {

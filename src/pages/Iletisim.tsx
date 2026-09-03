@@ -1,12 +1,77 @@
-import { PageShell } from "@/components/shell/PageShell";
-import { JsonLdSchema } from "@/components/JsonLdSchema";
-import { Phone, Mail, MapPin, Clock, Calendar, Video, ArrowRight, Send, CheckCircle2 } from "lucide-react";
-import { motion } from "@/components/shell/motion";
 import { useState } from "react";
-import { usePageMeta } from "@/hooks/use-page-meta";
-import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import { toast } from "sonner";
+import {
+  PageShell,
+  ShellAction,
+  ShellNextStep,
+  ShellPageHero,
+  ShellRun,
+  ShellSurfaceBand,
+  ShellTitleBlock,
+} from "@/components/shell";
+import { JsonLdSchema } from "@/components/JsonLdSchema";
+import { usePageMeta } from "@/hooks/use-page-meta";
+import { supabase } from "@/integrations/supabase/client";
+import {
+  PUBLIC_ADDRESS_LINES,
+  PUBLIC_PHONE,
+  PUBLIC_PHONE_HREF,
+  QUOTE_RESPONSE_TIME,
+  SALES_EMAIL,
+  SALES_EMAIL_HREF,
+} from "@/content/claims";
+
+/* ══════════════════════════════════════════════════════════════════════════
+   İLETİŞİM — three routes, one of which is the RFQ
+
+   THE ACCEPTANCE CRITERION THIS PAGE FAILED
+   -----------------------------------------
+   "Contact page must feel like part of the same system and route naturally
+   into RFQ." It did neither. The page was four `border border-border bg-card`
+   contact tiles over a `border-primary` panel with a teal header bar, beside a
+   quick-message card, an "Online Toplantı Avantajları" checkmark card and an
+   "Acil mi?" `bg-primary/5` tile. `/teklif-al` — the site's actual quote flow —
+   was not linked from it once.
+
+   Three routes are now the page's structure, in the order a buyer needs them:
+   a technical quote (`/teklif-al`), a technical conversation (the booking form
+   below), and the direct line. The RFQ is route 01.
+
+   TWO THINGS WERE REMOVED, AND BOTH REMOVALS ARE THE POINT
+   --------------------------------------------------------
+   1. THE QUICK-MESSAGE FORM. Its submit handler was:
+
+          const handleContactSubmit = (e) => {
+            e.preventDefault();
+            toast.success("Mesajınız başarıyla gönderildi!");
+            setContactForm({ name: "", email: "", message: "" });
+          };
+
+      No network call of any kind. It told the reader their message had been
+      sent and then discarded it. A form that lies about delivery is worse than
+      no form, and the page already offers two paths that genuinely deliver —
+      the meeting request below (which does insert into `meetings`) and
+      `/teklif-al`. The direct e-mail address is route 03.
+
+   2. THE "AVANTAJLAR" LIST. It promised "30 dakikalık ücretsiz ilk görüşme"
+      and "Toplantı sonrası detaylı teklif raporu". Neither is a fact in
+      `USER_INPUTS.md`; §D authorises capability figures, not commitments. The
+      aside now states what the mechanism actually does.
+
+   Working hours ("Pzt-Cum: 08:00-18:00") are also gone from the published
+   copy: no field authorises them and nothing on the page depends on them —
+   the booking form's own slot list is the operative information, and it is UI
+   rather than a claim. `QUOTE_RESPONSE_TIME` takes the slot in the hero.
+
+   WHAT WAS FIXED WHILE THE FORM WAS REBUILT
+   -----------------------------------------
+   Every field had a bare `<label>` with no `htmlFor` and no `id` on the
+   control, so not one label was programmatically associated (WCAG 1.3.1 /
+   3.3.2). They are associated now, the validation error is announced through a
+   live region instead of only a toast, and the submit control is disabled
+   while a request is in flight.
+   ══════════════════════════════════════════════════════════════════════════ */
 
 const meetingSchema = z.object({
   name: z.string().trim().min(2, "Ad en az 2 karakter olmalı").max(100, "Ad en fazla 100 karakter olabilir"),
@@ -19,329 +84,286 @@ const meetingSchema = z.object({
   notes: z.string().max(1000, "Notlar en fazla 1000 karakter olabilir").optional().or(z.literal("")),
 });
 
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 16 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { delay, duration: 0.4 },
-});
+const TIME_SLOTS = [
+  "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+  "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00",
+];
+
+const TOPICS = [
+  "CNC Frezeleme Teklifi",
+  "CNC Tornalama Teklifi",
+  "Prototip Üretim",
+  "Seri Üretim Görüşmesi",
+  "Kalıp & Aparat Projesi",
+  "Malzeme & Yüzey İşlemi Danışmanlık",
+  "Genel Bilgi",
+];
+
+/* What the booking mechanism actually does. No duration, no price, no report:
+   none of the three is a fact anybody supplied. */
+const MEETING_SEQUENCE = [
+  {
+    title: "Talep kaydedilir",
+    detail: "Formu gönderdiğinizde tarih, saat ve konu tercihiniz kayda alınır.",
+  },
+  {
+    title: "Davet iletilir",
+    detail: "Google Meet davet bağlantısı verdiğiniz e-posta adresine gönderilir.",
+  },
+  {
+    title: "Görüşme",
+    detail: "CAD dosyanızı ekran paylaşımıyla birlikte inceler, teknik soruları görüşürüz.",
+  },
+];
+
+const emptyForm = {
+  name: "", email: "", company: "", phone: "", date: "", time: "", topic: "", notes: "",
+};
 
 export const Iletisim = () => {
-  usePageMeta({ title: "İletişim", description: "CNC işleme, teklif talebi ve mühendislik desteği için Mas Technic ile iletişime geçin." });
-  const [meetingForm, setMeetingForm] = useState({
-    name: "",
-    email: "",
-    company: "",
-    phone: "",
-    date: "",
-    time: "",
-    topic: "",
-    notes: "",
+  usePageMeta({
+    title: "İletişim",
+    description: "CNC işleme, teklif talebi ve mühendislik desteği için Mas Technic ile iletişime geçin.",
   });
 
-  const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState(emptyForm);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
 
-  const [meetingLoading, setMeetingLoading] = useState(false);
+  const set = (field: keyof typeof emptyForm) => (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+  ) => setForm((current) => ({ ...current, [field]: event.target.value }));
 
-  const handleMeetingSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const parsed = meetingSchema.safeParse(meetingForm);
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (pending) return;
+
+    const parsed = meetingSchema.safeParse(form);
     if (!parsed.success) {
-      const firstError = parsed.error.errors[0]?.message || "Geçersiz giriş.";
-      toast.error(firstError);
+      const message = parsed.error.errors[0]?.message || "Geçersiz giriş.";
+      setError(message);
+      toast.error(message);
       return;
     }
-
-    setMeetingLoading(true);
+    setError(null);
+    setPending(true);
     try {
-      const v = parsed.data;
-      const { error } = await supabase.from("meetings").insert({
-        name: v.name,
-        email: v.email,
-        company: v.company || null,
-        phone: v.phone || null,
-        meeting_date: v.date,
-        meeting_time: v.time,
-        topic: v.topic,
-        notes: v.notes || null,
+      const value = parsed.data;
+      const { error: insertError } = await supabase.from("meetings").insert({
+        name: value.name,
+        email: value.email,
+        company: value.company || null,
+        phone: value.phone || null,
+        meeting_date: value.date,
+        meeting_time: value.time,
+        topic: value.topic,
+        notes: value.notes || null,
       });
-      if (error) throw error;
-      toast.success("Toplantı talebiniz alındı! En kısa sürede Google Meet davet linki gönderilecektir.");
-      setMeetingForm({ name: "", email: "", company: "", phone: "", date: "", time: "", topic: "", notes: "" });
+      if (insertError) throw insertError;
+      toast.success("Toplantı talebiniz alındı. Google Meet davet bağlantısı e-posta ile iletilecek.");
+      setForm(emptyForm);
     } catch {
-      toast.error("Bir hata oluştu. Lütfen tekrar deneyin.");
+      const message = "Talep gönderilemedi. Lütfen tekrar deneyin veya doğrudan e-posta gönderin.";
+      setError(message);
+      toast.error(message);
     } finally {
-      setMeetingLoading(false);
+      setPending(false);
     }
   };
 
-  const handleContactSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast.success("Mesajınız başarıyla gönderildi!");
-    setContactForm({ name: "", email: "", message: "" });
-  };
-
-  const timeSlots = [
-    "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-    "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00",
-  ];
-
-  const topics = [
-    "CNC Frezeleme Teklifi",
-    "CNC Tornalama Teklifi",
-    "Prototip Üretim",
-    "Seri Üretim Görüşmesi",
-    "Kalıp & Aparat Projesi",
-    "Malzeme & Yüzey İşlemi Danışmanlık",
-    "Genel Bilgi",
-  ];
-
   return (
-    /* Shell only (Phase 04) — see `KVKK.tsx`. Body untouched; Phase 07 owns
-       the contact page's composition. */
-    <PageShell rail={{ no: "C2", label: "İLETİŞİM" }}>
+    <PageShell surface="graphite" rail={{ no: "C2", label: "İLETİŞİM" }}>
       <JsonLdSchema type="contact" />
-        {/* Hero */}
-        <section className="container-industrial py-12 md:py-16">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="accent-line" />
-            <span className="text-technical text-muted-foreground uppercase tracking-widest text-sm">İletişim</span>
-          </div>
-          <h1 className="heading-industrial text-3xl md:text-5xl mb-4">Bize Ulaşın</h1>
-          <p className="subheading-industrial text-lg max-w-2xl">
-            Projeleriniz hakkında konuşmak, teklif almak veya online toplantı planlamak için bizimle iletişime geçin.
-          </p>
-        </section>
 
-        <div className="container-industrial">
-          {/* Contact Info Cards */}
-          <motion.div {...fadeUp(0.1)} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-            {[
-              { icon: Phone, label: "Telefon", value: "+90 (536) 564 51 94", href: "tel:+905365645194" },
-              { icon: Mail, label: "E-posta", value: "sales@mastechnic.com", href: "mailto:sales@mastechnic.com" },
-              { icon: MapPin, label: "Adres", value: "İzmir, Türkiye", href: "#" },
-              { icon: Clock, label: "Çalışma Saatleri", value: "Pzt-Cum: 08:00-18:00", href: "#" },
-            ].map((item) => (
-              <motion.a
-                key={item.label}
-                href={item.href}
-                className="flex items-start gap-4 border border-border bg-card p-5 hover:border-primary transition-all group"
-                whileHover={{ y: -2 }}
-              >
-                <div className="w-10 h-10 bg-primary flex items-center justify-center flex-shrink-0 group-hover:shadow-lg transition-shadow">
-                  <item.icon className="w-5 h-5 text-primary-foreground" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-sm mb-1">{item.label}</h3>
-                  <p className="text-xs text-muted-foreground">{item.value}</p>
-                </div>
-              </motion.a>
-            ))}
-          </motion.div>
+      <ShellPageHero
+        no="01"
+        label="İLETİŞİM"
+        eyebrow="İletişim"
+        title="Bize ulaşın"
+        lede="Teknik resminizi göndermek, bir görüşme planlamak veya doğrudan konuşmak için üç yol var. Hangisi işinize uyuyorsa onu seçin."
+        meta={[
+          { label: "Telefon", value: PUBLIC_PHONE },
+          { label: "E-posta", value: SALES_EMAIL },
+          { label: "Merkez", value: PUBLIC_ADDRESS_LINES.join(" ") },
+          { label: "Teklif dönüşü", value: QUOTE_RESPONSE_TIME },
+        ]}
+        actions={
+          <>
+            <ShellAction to="/teklif-al" variant="primary">Teklif Al</ShellAction>
+            <ShellAction href="#toplanti" variant="ghost">Toplantı planla</ShellAction>
+          </>
+        }
+      />
 
-          <div className="grid lg:grid-cols-5 gap-8">
-            {/* Meeting Booking - Main */}
-            <motion.div {...fadeUp(0.2)} className="lg:col-span-3">
-              <div className="border border-primary bg-card">
-                <div className="bg-primary p-5 flex items-center gap-3">
-                  <Video size={22} className="text-primary-foreground" />
-                  <div>
-                    <h2 className="font-bold text-primary-foreground text-lg">Online Toplantı Planlayın</h2>
-                    <p className="text-primary-foreground/70 text-xs">Google Meet üzerinden mühendislik ekibimizle görüşün</p>
-                  </div>
-                </div>
+      <ShellSurfaceBand no="02" label="YÖNLENDİRME" tone="paper" labelledBy="iletisim-yon">
+        <div className="shell-span-read">
+          <ShellTitleBlock
+            id="iletisim-yon"
+            index="02"
+            title="Nasıl ilerleyelim?"
+            standfirst="Elinizde ne olduğuna göre değişir. Teknik resim varsa birinci yol en hızlısıdır."
+          />
+        </div>
+        <ShellRun
+          ariaLabel="İletişim yolları"
+          items={[
+            {
+              title: "Teknik teklif",
+              detail: `Teknik resim veya 3B modelinizi yükleyin; üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım. Dönüş süresi ${QUOTE_RESPONSE_TIME}.`,
+              action: <ShellAction to="/teklif-al" variant="primary">Teklif Al</ShellAction>,
+            },
+            {
+              title: "Teknik görüşme",
+              detail: "Dosya henüz netleşmediyse mühendislik ekibiyle ekran paylaşımlı bir görüşme planlayın.",
+              action: <ShellAction href="#toplanti" variant="ghost">Toplantı planla</ShellAction>,
+            },
+            {
+              title: "Doğrudan hat",
+              detail: `Kısa bir soru için telefon veya e-posta. ${PUBLIC_ADDRESS_LINES.join(" ")}.`,
+              action: <ShellAction href={PUBLIC_PHONE_HREF} variant="ghost">{PUBLIC_PHONE}</ShellAction>,
+            },
+          ]}
+        />
+      </ShellSurfaceBand>
 
-                <form onSubmit={handleMeetingSubmit} className="p-6 space-y-5">
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Ad Soyad *</label>
-                      <input
-                        type="text"
-                        required
-                        value={meetingForm.name}
-                        onChange={(e) => setMeetingForm({ ...meetingForm, name: e.target.value })}
-                        className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors"
-                        placeholder="Adınız Soyadınız"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">E-posta *</label>
-                      <input
-                        type="email"
-                        required
-                        value={meetingForm.email}
-                        onChange={(e) => setMeetingForm({ ...meetingForm, email: e.target.value })}
-                        className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors"
-                        placeholder="ornek@firma.com"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Firma</label>
-                      <input
-                        type="text"
-                        value={meetingForm.company}
-                        onChange={(e) => setMeetingForm({ ...meetingForm, company: e.target.value })}
-                        className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors"
-                        placeholder="Firma Adı"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Telefon</label>
-                      <input
-                        type="tel"
-                        value={meetingForm.phone}
-                        onChange={(e) => setMeetingForm({ ...meetingForm, phone: e.target.value })}
-                        className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors"
-                        placeholder="+90 5XX XXX XX XX"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Topic */}
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Toplantı Konusu *</label>
-                    <select
-                      required
-                      value={meetingForm.topic}
-                      onChange={(e) => setMeetingForm({ ...meetingForm, topic: e.target.value })}
-                      className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors appearance-none cursor-pointer"
-                    >
-                      <option value="">Konu Seçin</option>
-                      {topics.map((t) => (
-                        <option key={t} value={t}>{t}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Date & Time */}
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Tercih Edilen Tarih *</label>
-                      <input
-                        type="date"
-                        required
-                        value={meetingForm.date}
-                        onChange={(e) => setMeetingForm({ ...meetingForm, date: e.target.value })}
-                        className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors"
-                        min={new Date().toISOString().split("T")[0]}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Tercih Edilen Saat *</label>
-                      <select
-                        required
-                        value={meetingForm.time}
-                        onChange={(e) => setMeetingForm({ ...meetingForm, time: e.target.value })}
-                        className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors appearance-none cursor-pointer"
-                      >
-                        <option value="">Saat Seçin</option>
-                        {timeSlots.map((t) => (
-                          <option key={t} value={t}>{t}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Notes */}
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Ek Notlar</label>
-                    <textarea
-                      value={meetingForm.notes}
-                      onChange={(e) => setMeetingForm({ ...meetingForm, notes: e.target.value })}
-                      rows={3}
-                      className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors resize-none"
-                      placeholder="Toplantıda görüşmek istediğiniz konuları kısaca belirtin..."
-                    />
-                  </div>
-
-                  <button type="submit" disabled={meetingLoading} className="btn-industrial-primary w-full flex items-center justify-center gap-2 disabled:opacity-50">
-                    <Calendar size={16} /> {meetingLoading ? "Gönderiliyor..." : "Toplantı Talep Et"}
-                  </button>
-
-                  <div className="flex items-start gap-2 text-xs text-muted-foreground">
-                    <CheckCircle2 size={14} className="text-primary shrink-0 mt-0.5" />
-                    <span>Talebiniz alındıktan sonra Google Meet davet linki e-posta adresinize gönderilecektir.</span>
-                  </div>
-                </form>
-              </div>
-            </motion.div>
-
-            {/* Right Side - Quick Contact + Info */}
-            <motion.div {...fadeUp(0.3)} className="lg:col-span-2 space-y-6">
-              {/* Quick Message */}
-              <div className="border border-border bg-card p-6">
-                <h2 className="font-bold text-lg mb-1">Hızlı Mesaj</h2>
-                <p className="text-xs text-muted-foreground mb-5">Kısa bir mesaj göndermek için bu formu kullanın.</p>
-                <form onSubmit={handleContactSubmit} className="space-y-4">
+      <ShellSurfaceBand no="03" label="TOPLANTI" id="toplanti" labelledBy="iletisim-toplanti">
+        <div className="shell-doc">
+          <div className="shell-doc-main">
+            <ShellTitleBlock
+              id="iletisim-toplanti"
+              index="03"
+              title="Online toplantı planlayın"
+              standfirst="Tercih ettiğiniz tarih ve saati bırakın; uygunluk teyidiyle birlikte davet bağlantısını gönderelim."
+            />
+            <form className="shell-form" onSubmit={handleSubmit} noValidate>
+              <div className="shell-form-row">
+                <div className="shell-field">
+                  <label htmlFor="toplanti-ad">Ad soyad *</label>
                   <input
+                    id="toplanti-ad"
+                    name="name"
                     type="text"
                     required
-                    placeholder="Adınız"
-                    value={contactForm.name}
-                    onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                    className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:border-primary"
+                    autoComplete="name"
+                    value={form.name}
+                    onChange={set("name")}
+                    placeholder="Adınız Soyadınız"
                   />
+                </div>
+                <div className="shell-field">
+                  <label htmlFor="toplanti-eposta">E-posta *</label>
                   <input
+                    id="toplanti-eposta"
+                    name="email"
                     type="email"
                     required
-                    placeholder="E-posta"
-                    value={contactForm.email}
-                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                    className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:border-primary"
+                    autoComplete="email"
+                    value={form.email}
+                    onChange={set("email")}
+                    placeholder="ornek@firma.com"
                   />
-                  <textarea
+                </div>
+                <div className="shell-field">
+                  <label htmlFor="toplanti-firma">Firma</label>
+                  <input
+                    id="toplanti-firma"
+                    name="company"
+                    type="text"
+                    autoComplete="organization"
+                    value={form.company}
+                    onChange={set("company")}
+                    placeholder="Firma adı"
+                  />
+                </div>
+                <div className="shell-field">
+                  <label htmlFor="toplanti-telefon">Telefon</label>
+                  <input
+                    id="toplanti-telefon"
+                    name="phone"
+                    type="tel"
+                    autoComplete="tel"
+                    value={form.phone}
+                    onChange={set("phone")}
+                    placeholder="+90 5XX XXX XX XX"
+                  />
+                </div>
+              </div>
+
+              <div className="shell-field">
+                <label htmlFor="toplanti-konu">Toplantı konusu *</label>
+                <select id="toplanti-konu" name="topic" required value={form.topic} onChange={set("topic")}>
+                  <option value="">Konu seçin</option>
+                  {TOPICS.map((topic) => <option key={topic} value={topic}>{topic}</option>)}
+                </select>
+              </div>
+
+              <div className="shell-form-row">
+                <div className="shell-field">
+                  <label htmlFor="toplanti-tarih">Tercih edilen tarih *</label>
+                  <input
+                    id="toplanti-tarih"
+                    name="date"
+                    type="date"
                     required
-                    placeholder="Mesajınız"
-                    rows={4}
-                    value={contactForm.message}
-                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                    className="w-full border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:border-primary resize-none"
+                    value={form.date}
+                    onChange={set("date")}
+                    min={new Date().toISOString().split("T")[0]}
                   />
-                  <button type="submit" className="btn-industrial-primary w-full flex items-center justify-center gap-2">
-                    <Send size={14} /> Gönder
-                  </button>
-                </form>
-              </div>
-
-              {/* Meeting Benefits */}
-              <div className="border border-border bg-card p-6">
-                <div className="w-10 h-10 bg-primary/10 flex items-center justify-center mb-3">
-                  <Video size={18} className="text-primary" />
                 </div>
-                <h3 className="font-bold text-sm mb-3">Online Toplantı Avantajları</h3>
-                <div className="space-y-3">
-                  {[
-                    "Google Meet ile yüz yüze görüşme",
-                    "Mühendislik ekibiyle teknik danışmanlık",
-                    "CAD dosyalarınızı ekran paylaşımıyla inceleyin",
-                    "30 dakikalık ücretsiz ilk görüşme",
-                    "Toplantı sonrası detaylı teklif raporu",
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <CheckCircle2 size={14} className="text-primary shrink-0 mt-0.5" />
-                      <span className="text-xs text-muted-foreground">{item}</span>
-                    </div>
-                  ))}
+                <div className="shell-field">
+                  <label htmlFor="toplanti-saat">Tercih edilen saat *</label>
+                  <select id="toplanti-saat" name="time" required value={form.time} onChange={set("time")}>
+                    <option value="">Saat seçin</option>
+                    {TIME_SLOTS.map((slot) => <option key={slot} value={slot}>{slot}</option>)}
+                  </select>
                 </div>
               </div>
 
-              {/* CTA */}
-              <div className="border border-primary bg-primary/5 p-6 text-center">
-                <h3 className="font-bold text-sm mb-2">Acil mi?</h3>
-                <p className="text-xs text-muted-foreground mb-4">
-                  Hemen telefonla ulaşın, en hızlı şekilde yardımcı olalım.
-                </p>
-                <a
-                  href="tel:+905365645194"
-                  className="btn-industrial-primary !py-3 w-full flex items-center justify-center gap-2 text-xs"
-                >
-                  <Phone size={14} /> +90 (536) 564 51 94
-                </a>
+              <div className="shell-field">
+                <label htmlFor="toplanti-not">Ek notlar</label>
+                <textarea
+                  id="toplanti-not"
+                  name="notes"
+                  rows={4}
+                  value={form.notes}
+                  onChange={set("notes")}
+                  placeholder="Görüşmek istediğiniz konuları kısaca yazın."
+                />
               </div>
-            </motion.div>
+
+              {/* The error was a toast only. A toast is transient and is not
+                  attached to the form, so a screen-reader user who missed it
+                  had no way back to the reason. */}
+              <p className="shell-form-error" role="alert">{error}</p>
+
+              <ShellAction type="submit" variant="primary" disabled={pending}>
+                {pending ? "Gönderiliyor…" : "Toplantı talep et"}
+              </ShellAction>
+            </form>
+          </div>
+
+          <div className="shell-doc-aside">
+            <p className="shell-eyebrow">Ne oluyor?</p>
+            <ShellRun ariaLabel="Toplantı akışı" items={MEETING_SEQUENCE} />
+            <p className="shell-note">
+              Teknik resminiz hazırsa toplantıyı beklemeden teklif dosyası açabilirsiniz.
+            </p>
+            <ShellAction href={SALES_EMAIL_HREF} variant="ghost">{SALES_EMAIL}</ShellAction>
           </div>
         </div>
+      </ShellSurfaceBand>
+
+      <ShellNextStep
+        no="04"
+        title="Teknik resminiz hazır mı?"
+        body="Teklif dosyası, görüşmeye göre daha hızlı ilerler: dosyayı yükleyin, üretilebilirlik incelemesiyle birlikte dönelim."
+        detail={[
+          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
+          { label: "E-posta", value: SALES_EMAIL },
+          { label: "Telefon", value: PUBLIC_PHONE },
+        ]}
+        secondary={{ label: "Toplantı planla", href: "#toplanti" }}
+      />
     </PageShell>
   );
 };

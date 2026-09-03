@@ -35,6 +35,7 @@ import { ShellBand } from "./ShellBand";
 export function ShellPageHero({
   no = "02",
   label = "SAYFA",
+  crumb,
   eyebrow,
   title,
   lede,
@@ -44,6 +45,17 @@ export function ShellPageHero({
 }: {
   no?: string;
   label?: string;
+  /**
+   * The trail, ABOVE the title and inside the hero's own flow (Phase 07).
+   *
+   * Every deep page needs it, and the three that had one each put it
+   * somewhere different: `CategoryPage` above the hero in a
+   * `container-industrial`, `MalzemeKategori` inside a gradient hero, and
+   * `ServiceDetail` inside an `overflow:hidden` image box where it was the
+   * first of the four elements clipped off at 375 (blocker I4). It belongs to
+   * the hero, in flow, once.
+   */
+  crumb?: ReactNode;
   eyebrow?: string;
   title: ReactNode;
   lede?: ReactNode;
@@ -56,6 +68,7 @@ export function ShellPageHero({
     <ShellBand no={no} label={label} className="shell-hero" id={id} labelledBy="shell-page-title">
       <div className="tl-grid shell-hero-body">
         <div className="shell-hero-copy">
+          {crumb}
           {eyebrow && <p className="shell-eyebrow">{eyebrow}</p>}
           <h1 id="shell-page-title">{title}</h1>
           {lede && <p className="shell-lede">{lede}</p>}

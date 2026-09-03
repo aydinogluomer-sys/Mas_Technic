@@ -1,12 +1,26 @@
-import { useParams, Link } from "react-router-dom";
-import { PageShell } from "@/components/shell/PageShell";
-import { getPageBySlug, getPagesByCategory } from "@/data/servicePages";
-import { ArrowRight, ChevronRight, CheckCircle2, Gauge, ArrowUpRight, Cpu, FlaskConical, Calendar, Sparkles, Layers, Zap } from "lucide-react";
+import { useRef } from "react";
+import { useParams } from "react-router-dom";
 import { useScroll, useTransform } from "framer-motion";
 import { motion } from "@/components/shell/motion";
-import { useRef } from "react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ComparisonTable } from "@/components/ComparisonTable";
+import {
+  PageShell,
+  ShellAction,
+  ShellBreadcrumb,
+  ShellEmpty,
+  ShellIndexList,
+  ShellNextStep,
+  ShellPageHero,
+  ShellPlate,
+  ShellRun,
+  ShellSpecTable,
+  ShellSurfaceBand,
+  ShellTitleBlock,
+} from "@/components/shell";
+import { getPageBySlug, getPagesByCategory } from "@/data/servicePages";
+import { categoryPages } from "@/data/categoryPages";
+import { JsonLdSchema } from "@/components/JsonLdSchema";
+import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
+import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 import cncWorkshop from "@/assets/cnc-workshop.webp";
 import qualityControl from "@/assets/quality-control.webp";
 import heroCncFrezeleme from "@/assets/hero-cnc-frezeleme.webp";
@@ -40,7 +54,64 @@ import heroProjeYonetimi from "@/assets/hero-proje-yonetimi.webp";
 import heroTedarikZinciri from "@/assets/hero-tedarik-zinciri.webp";
 import heroOperasyonelVerimlilik from "@/assets/hero-operasyonel-verimlilik.webp";
 import heroSeriUretim from "@/assets/hero-seri-uretim.webp";
-import { JsonLdSchema } from "@/components/JsonLdSchema";
+
+/* ══════════════════════════════════════════════════════════════════════════
+   SERVICE · CAPABILITY · SECTOR DETAIL
+
+   One component serves `/hizmetler/:slug`, `/kabiliyetler/:slug` and
+   `/endustriyel/:slug`. The substance was never the problem — process steps,
+   advantages, features, materials, comparison tables, an FAQ, a technical
+   specification sheet, related pages — the LANGUAGE was: `bg-card` +
+   `hover:shadow-lg` + `hover:-translate-y-1` cards, two circular tinted
+   blobs behind two blocks, a teal header bar on the
+   spec sheet, and a hero that clipped its own title.
+
+   ── BLOCKER I4 — THE 375 HERO CLIP, CLOSED STRUCTURALLY ──────────────────
+   The hero was `<div class="relative h-[320px] md:h-[440px] overflow-hidden">`
+   with an `absolute bottom-0 … pb-10` child holding the breadcrumb, the
+   eyebrow, the `<h1>` and four spec chips. At 375 that child measured 424px
+   inside a 320px box, so its top ~104px — the eyebrow and the WHOLE page
+   title — were cut off; and because the block never intersected the viewport,
+   its `whileInView` never fired either, so it also sat at `opacity: 0`. A
+   second, dependent symptom of a layout defect.
+
+   The repair is not a bigger box and not `opacity: 1`. The title block is now
+   in normal flow in its own band and the photograph is a separate plate band
+   below it, whose only children are the image and four corner ticks
+   (`ShellPlate`). No caption length at any viewport can be clipped by a frame
+   that contains no caption. The `<h1>` is a plain, always-visible heading with
+   no reveal at all: a page title must not depend on an IntersectionObserver,
+   which is I4's real lesson. `e2e/landing/motion-grammar.spec.ts` asserts the
+   heading's opacity is monotonic non-decreasing across scroll; a constant 1
+   satisfies it by construction rather than by timing.
+
+   The plate keeps the cinematic motion — a scale settle and a ±60px parallax,
+   both suppressed under `prefers-reduced-motion` — because that is what
+   cinematic motion is for: a photograph, not a heading.
+
+   ── BLOCKER B24 — CONTRAST ───────────────────────────────────────────────
+   The 28 serious `color-contrast` nodes were the teal `--primary` chrome on
+   `bg-card`: the eyebrow, the spec chips, the numbered step badges, the
+   feature titles and the sidebar labels. Phase 04 measured the chip at
+   4.025:1 against its true composited ancestor `rgb(249,248,245)`. None of
+   that chrome exists any more. Every text run on this page now resolves from
+   the shell's ink ladder against the graphite ground, which is where the
+   ladder's steps were chosen and measured. Ratios are reported from rendered
+   pixels in the phase report, not asserted here.
+
+   ── THE GHOST VIDEO IS GONE ──────────────────────────────────────────────
+   `/machine-loop.mp4` autoplayed on a loop behind the hero with no pause
+   control. Looping motion longer than five seconds with no mechanism to stop
+   it is WCAG 2.2.2, and `prefers-reduced-motion` cannot reach an autoplaying
+   `<video>` from CSS. It also cost a video request on ~60 routes.
+
+   ── READING AS A SECTOR PAGE (`/endustriyel/*`) ──────────────────────────
+   The same bands, framed as the question a sector visitor is actually asking.
+   Section titles change ("Bu sektörde ne üretiyoruz", "Sektör kabiliyet
+   kaydı", "Sektör akışı"), and the closing index adds the SERVICE families
+   the sector's parts are produced with — so a sector page ends in capability
+   evidence and a route into it, rather than in more sector links.
+   ══════════════════════════════════════════════════════════════════════════ */
 
 const heroImageMap: Record<string, string> = {
   "hero-cnc-frezeleme": heroCncFrezeleme,
@@ -76,112 +147,81 @@ const heroImageMap: Record<string, string> = {
   "hero-seri-uretim": heroSeriUretim,
 };
 
-/* ── Animation variants ── */
-const smoothEase: [number, number, number, number] = [0.25, 0.46, 0.45, 0.94];
-const revealEase: [number, number, number, number] = [0.77, 0, 0.175, 1];
+const FAMILY = {
+  hizmetler: { label: "Hizmetler", rail: { no: "03", label: "HİZMET" } },
+  kabiliyetler: { label: "Kabiliyetler", rail: { no: "04", label: "KABİLİYET" } },
+  endustriyel: { label: "Endüstriyel", rail: { no: "05", label: "SEKTÖR" } },
+} as const;
 
-const slideUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 30 } as const,
-  whileInView: { opacity: 1, y: 0 } as const,
-  viewport: { once: true, margin: "-60px" as const },
-  transition: { delay, duration: 0.5, ease: smoothEase },
-});
-
-const slideLeft = (delay = 0) => ({
-  initial: { opacity: 0, x: 40 } as const,
-  whileInView: { opacity: 1, x: 0 } as const,
-  viewport: { once: true, margin: "-60px" as const },
-  transition: { delay, duration: 0.5, ease: smoothEase },
-});
-
-const scaleIn = (delay = 0) => ({
-  initial: { opacity: 0, scale: 0.92 } as const,
-  whileInView: { opacity: 1, scale: 1 } as const,
-  viewport: { once: true, margin: "-60px" as const },
-  transition: { delay, duration: 0.5, ease: smoothEase },
-});
-
-const clipReveal = (delay = 0) => ({
-  initial: { clipPath: "inset(0 0 100% 0)", opacity: 0 } as const,
-  whileInView: { clipPath: "inset(0 0 0% 0)", opacity: 1 } as const,
-  viewport: { once: true, margin: "-60px" as const },
-  transition: { delay, duration: 0.7, ease: revealEase },
-});
-
-const staggerContainer = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.06 } },
-};
-
-const staggerItem = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
-};
+/**
+ * `features` are authored as `"Başlık — açıklama"` in `servicePages.ts`. The
+ * old renderer printed the whole string inside a numbered card, so the title
+ * and its explanation carried the same weight. Splitting on the em dash costs
+ * nothing and gives the run a real hierarchy; a feature with no dash keeps its
+ * whole string as the title.
+ */
+function splitFeature(feature: string) {
+  const parts = feature.split(/\s+—\s+/);
+  return parts.length > 1
+    ? { title: parts[0], detail: parts.slice(1).join(" — ") }
+    : { title: feature };
+}
 
 export const ServiceDetail = () => {
   const { slug } = useParams<{ category: string; slug: string }>();
   const page = slug ? getPageBySlug(slug) : undefined;
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: heroScrollProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
+  const prefersReduced = usePrefersReducedMotion();
+
+  const plateRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: plateRef,
+    offset: ["start end", "end start"],
   });
-  const heroY = useTransform(heroScrollProgress, [0, 1], [0, 120]);
-  /* I4 — `heroOpacity` is gone. It was
-     `useTransform(heroScrollProgress, [0, 0.6], [1, 0])` on the block holding
-     the breadcrumb, the eyebrow and this page's ONLY `<h1>`. Every
-     `whileInView` on this route already carries `once: true`, so nothing was
-     re-hidden by a reveal — the heading was faded out by scroll POSITION, and
-     scroll position runs both ways. A scroll-linked opacity can never be
-     `once`, and content legible at one scroll offset and not at another is
-     missing content at every other offset. `heroY` is untouched: it moves a
-     photograph, which is what cinematic motion is for. No layout, copy or
-     at-rest appearance changes here.
-
-     WHAT THIS DOES NOT FIX, MEASURED — for Phase 07, which owns this body.
-     At 375 the eyebrow and the h1 are invisible regardless of the above, and
-     the cause is LAYOUT, not motion. The hero is 320px (viewport y 96..416)
-     while the `absolute bottom-0` block inside it is 424px tall, so the block
-     spans y -8..416 and its top 104px — the eyebrow and the whole h1, at
-     y 32..92 — are clipped off by the hero's `overflow: hidden`. Being
-     clipped, the block never intersects, so its `whileInView` never fires and
-     it sits at `opacity: 0` as a second, dependent symptom. At 1280 the same
-     block is 229px inside a 440px hero and both are fine.
-
-     `--mode=enabled` reports this as `afterScrollText=2` at 375 and 0 at 1280,
-     and reports the SAME two elements on base commit a2b4c20, so it predates
-     this packet. It is deliberately not patched from here: forcing the reveal
-     to fire would put `opacity: 1` on text that is still clipped away, which
-     clears the measurement while leaving the reader with no page title. The
-     hero needs to fit its content at 375, and that is a layout change this
-     packet may not make. `e2e/landing/motion-grammar.spec.ts` pins the motion
-     half so it cannot regress while the layout half is outstanding. */
+  /* ±60px, matching the plate frame's symmetric 60px overscan in `shell.css`,
+     so the image covers the frame at BOTH ends of the travel. The hero this
+     replaces translated a `h-full` image 0→120px inside `overflow:hidden` and
+     exposed the box at the bottom of the range. Zero under reduced motion:
+     a scroll-linked transform is motion whatever drives it. */
+  const plateY = useTransform(scrollYProgress, [0, 1], prefersReduced ? [0, 0] : [-60, 60]);
 
   if (!page) {
     return (
-      <PageShell rail={{ no: "03", label: "HİZMET" }}>
-        <div className="container-industrial text-center py-20">
-          <h1 className="heading-industrial text-3xl mb-4">Sayfa Bulunamadı</h1>
-          <p className="text-muted-foreground mb-8">Aradığınız sayfa mevcut değil.</p>
-          <Link to="/" className="btn-industrial-primary">Ana Sayfaya Dön</Link>
-        </div>
+      <PageShell surface="graphite" rail={{ no: "03", label: "HİZMET" }}>
+        <ShellSurfaceBand no="01" label="HİZMET" ariaLabel="Kayıt bulunamadı">
+          <div className="shell-span-read">
+            <ShellEmpty
+              label="KAYIT YOK"
+              title="Bu sayfa kaydı bulunamadı"
+              detail="Bağlantı değişmiş olabilir. Hizmet ve sektör başlıklarına ana sayfadan ulaşabilirsiniz."
+              action={<ShellAction to="/" variant="ghost">Ana sayfa</ShellAction>}
+            />
+          </div>
+        </ShellSurfaceBand>
       </PageShell>
     );
   }
 
-  const relatedPages = getPagesByCategory(page.category).filter((p) => p.slug !== page.slug);
-  const categoryLabels: Record<string, string> = { hizmetler: "Hizmetler", kabiliyetler: "Kabiliyetler", endustriyel: "Endüstriyel" };
+  const family = FAMILY[page.category];
+  const isSector = page.category === "endustriyel";
+  const related = getPagesByCategory(page.category).filter((item) => item.slug !== page.slug);
+  const parent = categoryPages.find((category) =>
+    category.prefix === page.category
+    && category.links.some((link) => link.path === `/${page.category}/${page.slug}`));
+  const serviceFamilies = categoryPages.filter((category) => category.prefix === "hizmetler");
+  const specs = page.technicalSpecs ?? [];
+  const materialRows = page.materials ?? [];
   const heroImage = page.heroImage && heroImageMap[page.heroImage]
     ? heroImageMap[page.heroImage]
     : page.category === "kabiliyetler" ? qualityControl : cncWorkshop;
 
+  /* Band numbers are assigned in render order, so a page without comparison
+     tables does not leave a hole in the sheet numbering. JSX evaluates its
+     children in source order and `&&` short-circuits before the call. */
+  let band = 0;
+  const no = () => String(++band).padStart(2, "0");
+
   return (
-    /* Shell only (Phase 04). The page's `<main>` (which carried no id, so the
-       skip link had no target here) and its `pt-24` hero clearance are gone:
-       the shell supplies `<main id="main-content">` and the fixed bar is
-       reserved once by `.tl-header-spacer`. Body untouched — Phase 07 owns
-       this page, including blocker B24's 28 `color-contrast` violations. */
-    <PageShell rail={{ no: "03", label: "HİZMET" }}>
+    <PageShell surface="graphite" rail={family.rail}>
       <JsonLdSchema
         type="service"
         name={page.title}
@@ -189,391 +229,257 @@ export const ServiceDetail = () => {
         category={page.categoryLabel}
         faq={page.faq}
       />
-        {/* ═══ HERO with parallax ═══ */}
-        <section ref={heroRef} className="relative pb-0">
-          <div className="relative h-[320px] md:h-[440px] overflow-hidden">
-            <motion.img
-              src={heroImage}
-              alt={page.title}
-              className="w-full h-full object-cover"
-              style={{ y: heroY }}
-              initial={{ scale: 1.15 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-            />
-            {/* Ghost machine-loop video */}
-            <video
-              src="/machine-loop.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="none"
-              className="absolute inset-0 w-full h-full object-cover opacity-[0.12] pointer-events-none hidden md:block"
-              style={{ mixBlendMode: "luminosity" }}
-              aria-hidden="true"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-base)] via-[rgb(var(--surface-base-rgb)/0.75)] to-[rgb(var(--surface-base-rgb)/0.2)]" />
 
-            {/* I4: no scroll-linked opacity here — see `heroY` above. */}
-            <div className="absolute bottom-0 left-0 right-0 container-industrial pb-10">
-              <nav className="flex items-center gap-2 text-xs text-[rgb(var(--text-primary-rgb)/0.6)] mb-4">
-                <Link to="/" className="inline-flex min-h-[24px] items-center hover:text-[var(--text-primary)] transition-colors">Ana Sayfa</Link>
-                <ChevronRight size={12} />
-                <span>{categoryLabels[page.category] || page.category}</span>
-                <ChevronRight size={12} />
-                <span className="text-[var(--text-primary)] font-medium">{page.title}</span>
-              </nav>
+      <ShellPageHero
+        no={no()}
+        label={family.rail.label}
+        crumb={
+          <ShellBreadcrumb
+            trail={[
+              { label: "Ana sayfa", to: "/" },
+              { label: family.label },
+              ...(parent
+                ? [{ label: parent.title, to: `/${parent.prefix}/kategori/${parent.slug}` }]
+                : []),
+              { label: page.title },
+            ]}
+          />
+        }
+        eyebrow={page.categoryLabel}
+        title={page.title}
+        lede={page.description}
+        meta={(page.technicalSpecs ?? []).slice(0, 4).map((spec) => ({
+          label: spec.label,
+          value: spec.value,
+        }))}
+        actions={
+          <>
+            <ShellAction to="/teklif-al" variant="primary">Teklif Al</ShellAction>
+            <ShellAction to="/iletisim" variant="ghost">Teknik görüşme</ShellAction>
+          </>
+        }
+      />
 
-              <motion.div {...clipReveal(0.2)}>
-                <span className="text-xs font-semibold uppercase tracking-[0.4em] mb-2 block text-primary">
-                  {page.categoryLabel}
-                </span>
-                <h1 className="heading-industrial text-3xl md:text-5xl text-[var(--text-primary)]">{page.title}</h1>
-              </motion.div>
-
-              {page.technicalSpecs && page.technicalSpecs.length > 0 && (
-                <motion.div
-                  className="flex flex-wrap gap-3 mt-5"
-                  variants={staggerContainer}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  {page.technicalSpecs.slice(0, 4).map((spec, i) => (
-                    <motion.div
-                      key={i}
-                      variants={staggerItem}
-                      className="bg-[rgb(var(--text-primary-rgb)/0.1)] backdrop-blur-sm border border-[rgb(var(--text-primary-rgb)/0.1)] px-4 py-2 hover:bg-[rgb(var(--text-primary-rgb)/0.15)] transition-colors"
-                    >
-                      <span className="text-[10px] uppercase tracking-wider text-[rgb(var(--text-primary-rgb)/0.5)] block">{spec.label}</span>
-                      <span className="text-technical text-sm font-bold text-[var(--text-primary)]">{spec.value}</span>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              )}
-            </div>
-          </div>
-        </section>
-
-        <div className="container-industrial py-12 md:py-16">
-          {/* Description with clip reveal */}
-          <motion.p {...clipReveal(0.1)} className="text-lg md:text-xl text-muted-foreground max-w-3xl mb-12 leading-relaxed">
-            {page.description}
-          </motion.p>
-
-          <div className="grid lg:grid-cols-3 gap-12 lg:gap-16">
-            {/* ═══ MAIN CONTENT ═══ */}
-            <div className="lg:col-span-2 space-y-14">
-
-              {/* Content paragraphs — stagger */}
-              <motion.div
-                className="space-y-5 text-muted-foreground leading-relaxed"
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-60px" }}
-              >
-                {page.content.map((p, i) => (
-                  <motion.p key={i} variants={staggerItem}>{p}</motion.p>
-                ))}
-              </motion.div>
-
-              {/* Process Steps — numbered timeline style */}
-              {page.processSteps && page.processSteps.length > 0 && (
-                <motion.div {...slideUp(0.1)}>
-                  <h2 className="heading-industrial text-xl mb-6 flex items-center gap-3">
-                    <div className="accent-line !w-8" />
-                    <Layers size={20} className="text-primary" />
-                    Süreç Adımları
-                  </h2>
-                  <motion.div
-                    className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3"
-                    variants={staggerContainer}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                  >
-                    {page.processSteps.map((step, i) => (
-                      <motion.div
-                        key={i}
-                        variants={staggerItem}
-                        className="group flex items-center gap-3 bg-card border border-border px-4 py-4 hover:border-primary hover:bg-primary/5 transition-all duration-300"
-                        whileHover={{ x: 4 }}
-                      >
-                        <span className="text-technical text-xs text-primary font-bold shrink-0 w-7 h-7 bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        <span className="text-sm font-medium">{step}</span>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </motion.div>
-              )}
-
-              {/* Advantages — slide from left */}
-              {page.advantages && page.advantages.length > 0 && (
-                <motion.div {...slideUp(0.1)}>
-                  <h2 className="heading-industrial text-xl mb-6 flex items-center gap-3">
-                    <div className="accent-line !w-8" />
-                    <Zap size={20} className="text-primary" />
-                    Avantajlarımız
-                  </h2>
-                  <motion.div
-                    className="grid sm:grid-cols-2 gap-3"
-                    variants={staggerContainer}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                  >
-                    {page.advantages.map((adv, i) => (
-                      <motion.div
-                        key={i}
-                        variants={staggerItem}
-                        className="group flex items-start gap-3 bg-card border border-border p-4 hover:border-primary transition-all duration-300 relative overflow-hidden"
-                        whileHover={{ x: 4 }}
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <CheckCircle2 size={18} className="text-primary shrink-0 mt-0.5 relative z-10" />
-                        <span className="text-sm relative z-10">{adv}</span>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </motion.div>
-              )}
-
-              {/* Features — scale-in cards */}
-              {page.features && page.features.length > 0 && (
-                <motion.div {...slideUp(0.1)}>
-                  <h2 className="heading-industrial text-xl mb-6 flex items-center gap-3">
-                    <div className="accent-line !w-8" />
-                    <Sparkles size={20} className="text-primary" />
-                    Öne Çıkan Özellikler
-                  </h2>
-                  <motion.div
-                    className="grid sm:grid-cols-2 gap-4"
-                    variants={staggerContainer}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                  >
-                    {page.features.map((feature, i) => (
-                      <motion.div
-                        key={feature}
-                        variants={staggerItem}
-                        className="group border border-border bg-card p-5 hover:border-primary hover:shadow-lg transition-all duration-300 relative overflow-hidden"
-                        whileHover={{ y: -4, scale: 1.01 }}
-                      >
-                        <div className="absolute top-0 left-0 w-1 h-full bg-primary scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top" />
-                        <div className="absolute bottom-0 right-0 w-20 h-20 bg-primary/5 rounded-full translate-x-10 translate-y-10 group-hover:scale-[3] transition-transform duration-500" />
-                        <div className="flex items-start gap-4 relative z-10">
-                          <div className="w-10 h-10 bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
-                            <span className="text-technical text-xs font-bold">{String(i + 1).padStart(2, "0")}</span>
-                          </div>
-                          <span className="text-sm font-semibold group-hover:text-primary transition-colors">{feature}</span>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </motion.div>
-              )}
-
-              {/* THE MACHINE PARK BLOCK WAS REMOVED (Phase 06).
-
-                  It rendered `page.machines` — a fabricated inventory of
-                  named models, work envelopes and spindle speeds across nine
-                  service pages. `USER_INPUTS.md` §D marks MACHINE_COUNT
-                  PRIVATE_DO_NOT_DISCLOSE and supplies no model list at all,
-                  so both the data and this renderer are gone: leaving the
-                  renderer would invite the data back. §H publishes a real
-                  measurement-equipment PDF instead, linked from KAYNAKLAR. */}
-
-              {/* Materials — slide left cards */}
-              {page.materials && page.materials.length > 0 && (
-                <motion.div {...slideUp(0.1)}>
-                  <h2 className="heading-industrial text-xl mb-6 flex items-center gap-3">
-                    <div className="accent-line !w-8" />
-                    <FlaskConical size={20} className="text-primary" />
-                    İşlenebilir Malzemeler
-                  </h2>
-                  <motion.div
-                    className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
-                    variants={staggerContainer}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                  >
-                    {page.materials.map((mat, i) => (
-                      <motion.div
-                        key={i}
-                        variants={staggerItem}
-                        className="border border-border bg-card overflow-hidden hover:border-primary transition-all group"
-                        whileHover={{ y: -4 }}
-                      >
-                        <div className="bg-primary/5 px-5 py-3 border-b border-border relative overflow-hidden">
-                          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500" />
-                          <h4 className="font-bold text-sm group-hover:text-primary transition-colors relative z-10">{mat.name}</h4>
-                          <span className="text-technical text-xs text-primary relative z-10">{mat.grade}</span>
-                        </div>
-                        <div className="px-5 py-3">
-                          <p className="text-xs text-muted-foreground">{mat.properties}</p>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </motion.div>
-              )}
-
-              {/* Comparison Tables */}
-              {page.comparisonTables && page.comparisonTables.length > 0 && (
-                <motion.div {...scaleIn(0.1)} className="space-y-8">
-                  <h2 className="heading-industrial text-xl mb-6 flex items-center gap-3">
-                    <div className="accent-line !w-8" /> Teknik Karşılaştırma Tabloları
-                  </h2>
-                  {page.comparisonTables.map((table, i) => (
-                    <ComparisonTable key={i} table={table} index={i} />
-                  ))}
-                </motion.div>
-              )}
-
-              {/* FAQ Section */}
-              {page.faq && page.faq.length > 0 && (
-                <motion.div {...slideUp(0.1)}>
-                  <h2 className="heading-industrial text-xl mb-6 flex items-center gap-3">
-                    <div className="accent-line !w-8" /> Sıkça Sorulan Sorular
-                  </h2>
-                  <Accordion type="single" collapsible className="space-y-2">
-                    {page.faq.map((item, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: i * 0.05, duration: 0.4 }}
-                      >
-                        <AccordionItem value={`faq-${i}`} className="border border-border bg-card px-5 hover:border-primary/50 transition-colors">
-                          <AccordionTrigger className="text-sm font-semibold text-left hover:text-primary transition-colors py-4">
-                            {item.question}
-                          </AccordionTrigger>
-                          <AccordionContent className="text-sm text-muted-foreground pb-4">
-                            {item.answer}
-                          </AccordionContent>
-                        </AccordionItem>
-                      </motion.div>
-                    ))}
-                  </Accordion>
-                </motion.div>
-              )}
-            </div>
-
-            {/* ═══ SIDEBAR — STICKY ═══ */}
-            <div className="lg:col-span-1">
-              <div className="lg:sticky lg:top-24 space-y-6">
-                {page.technicalSpecs && page.technicalSpecs.length > 0 && (
-                  <motion.div
-                    className="border border-border bg-card overflow-hidden"
-                    {...slideLeft(0.2)}
-                  >
-                    <div className="bg-primary p-4 flex items-center gap-3 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-accent to-primary" />
-                      <Gauge size={20} className="text-primary-foreground relative z-10" />
-                      <h3 className="font-bold text-primary-foreground text-sm uppercase tracking-wider relative z-10">Teknik Özellikler</h3>
-                    </div>
-                    <div className="divide-y divide-border">
-                      {page.technicalSpecs.map((spec, i) => (
-                        <motion.div
-                          key={i}
-                          className="flex justify-between items-center px-4 py-3 hover:bg-primary/5 transition-colors"
-                          initial={{ opacity: 0, x: 20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: 0.3 + i * 0.04 }}
-                        >
-                          <span className="text-xs text-muted-foreground">{spec.label}</span>
-                          <span className="text-technical text-xs font-bold text-foreground">{spec.value}</span>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-
-                <motion.div
-                  className="border-2 border-primary bg-card p-6 relative overflow-hidden group"
-                  {...slideLeft(0.3)}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
-                  <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/10 rounded-full group-hover:scale-150 transition-transform duration-700" />
-                  <div className="relative z-10">
-                    <h3 className="font-bold text-lg mb-2">Projeniz için teklif alın</h3>
-                    <p className="text-sm text-muted-foreground mb-5">
-                      {page.title} hizmeti hakkında detaylı bilgi ve fiyat teklifi için bizimle iletişime geçin.
-                    </p>
-                    <Link to="/iletisim" className="btn-industrial-primary w-full flex items-center justify-center gap-2 text-center group/btn">
-                      Teklif Al <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
-                    </Link>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="border border-border bg-card p-6 hover:border-primary/50 transition-colors group"
-                  {...slideLeft(0.4)}
-                >
-                  <div className="w-10 h-10 bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary transition-colors duration-300">
-                    <Calendar size={18} className="text-primary group-hover:text-primary-foreground transition-colors" />
-                  </div>
-                  <h3 className="font-bold text-sm mb-2">Online Toplantı Planlayın</h3>
-                  <p className="text-xs text-muted-foreground mb-4">
-                    Mühendislik ekibimizle Google Meet üzerinden projenizi detaylı konuşun.
-                  </p>
-                  <Link to="/iletisim" className="text-xs font-semibold text-primary inline-flex min-h-[24px] w-fit items-center gap-1 hover:gap-2 transition-all">
-                    Toplantı Talep Et <ArrowRight size={12} aria-hidden="true" />
-                  </Link>
-                </motion.div>
-              </div>
-            </div>
-          </div>
-
-          {/* Related pages */}
-          {relatedPages.length > 0 && (
-            <motion.div className="mt-20 pt-12 border-t border-border" {...slideUp(0.1)}>
-              <h2 className="heading-industrial text-xl mb-8 flex items-center gap-3">
-                <div className="accent-line !w-8" /> İlgili Sayfalar
-              </h2>
-              <motion.div
-                className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
-                variants={staggerContainer}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                {relatedPages.slice(0, 8).map((rp) => (
-                  <motion.div key={rp.slug} variants={staggerItem}>
-                    <Link
-                      to={`/${rp.category}/${rp.slug}`}
-                      className="block border border-border bg-card p-5 hover:border-primary transition-all group h-full relative overflow-hidden"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <div className="relative z-10">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-[10px] uppercase tracking-widest text-muted-foreground">{rp.categoryLabel}</span>
-                          <ArrowUpRight size={14} className="text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-                        </div>
-                        <h3 className="font-bold text-sm group-hover:text-primary transition-colors">{rp.title}</h3>
-                        <p className="text-xs text-muted-foreground mt-2 line-clamp-2">{rp.description}</p>
-                        {rp.technicalSpecs && rp.technicalSpecs.length > 0 && (
-                          <div className="mt-3 pt-3 border-t border-border flex flex-wrap gap-2">
-                            {rp.technicalSpecs.slice(0, 2).map((spec, i) => (
-                              <span key={i} className="text-technical text-[10px] text-primary bg-primary/10 px-2 py-0.5">{spec.value}</span>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </Link>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </motion.div>
-          )}
+      <ShellSurfaceBand no={no()} label="TANIM" labelledBy="detay-tanim">
+        <div className="shell-span-full" ref={plateRef}>
+          <ShellPlate
+            plate={`PLAKA · ${page.title.toLocaleUpperCase("tr")}`}
+            caption={page.categoryLabel}
+            media={
+              <motion.img
+                src={heroImage}
+                alt={page.title}
+                loading="eager"
+                style={{ y: plateY }}
+                initial={{ scale: 1.08, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              />
+            }
+          />
         </div>
+
+        <div className="shell-span-read shell-stack">
+          <ShellTitleBlock
+            id="detay-tanim"
+
+            title={isSector ? "Bu sektörde ne üretiyoruz" : "Kapsam"}
+          />
+          <div className="shell-prose" data-lead>
+            {page.content.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+          </div>
+        </div>
+
+        {page.advantages && page.advantages.length > 0 && (
+          <div className="shell-span-note shell-stack" data-gap="sm">
+            <p className="shell-eyebrow">{isSector ? "Sektöre uygunluk" : "Öne çıkan"}</p>
+            <ul className="shell-detail-list">
+              {page.advantages.map((advantage) => <li key={advantage}>{advantage}</li>)}
+            </ul>
+          </div>
+        )}
+      </ShellSurfaceBand>
+
+      {((page.features && page.features.length > 0)
+        || (page.technicalSpecs && page.technicalSpecs.length > 0)) && (
+        <ShellSurfaceBand no={no()} label="KABİLİYET" tone="paper" labelledBy="detay-kabiliyet">
+          <div className="shell-doc">
+            <div className="shell-doc-main">
+              <ShellTitleBlock
+                id="detay-kabiliyet"
+                title={isSector ? "Sektör kabiliyet kaydı" : "Kabiliyet kaydı"}
+                standfirst={
+                  isSector
+                    ? "Bu sektörün parçalarında hangi kabiliyetin devreye girdiği ve neyin kayda geçtiği."
+                    : "Hizmetin kapsadığı kabiliyetler ve çalışma aralıkları."
+                }
+              />
+              {page.features && page.features.length > 0 && (
+                <ShellRun
+                  ariaLabel={`${page.title} kabiliyetleri`}
+                  items={page.features.map(splitFeature)}
+                />
+              )}
+            </div>
+
+            {page.technicalSpecs && page.technicalSpecs.length > 0 && (
+              <div className="shell-doc-aside" data-sticky>
+                <ShellSpecTable
+                  caption="Teknik kayıt"
+                  headers={["Başlık", "Değer"]}
+                  rows={page.technicalSpecs.map((spec) => [spec.label, spec.value])}
+                  rowKey={(_, index) => specs[index].label}
+                />
+                <ShellAction to="/teklif-al" variant="primary" full>Teklif Al</ShellAction>
+              </div>
+            )}
+          </div>
+        </ShellSurfaceBand>
+      )}
+
+      {page.processSteps && page.processSteps.length > 0 && (
+        <ShellSurfaceBand no={no()} label="SÜREÇ" labelledBy="detay-surec">
+          <div className="shell-span-read">
+            <ShellTitleBlock
+              id="detay-surec"
+
+              title={isSector ? "Sektör akışı" : "Süreç akışı"}
+              standfirst={`Sıra sabittir; içerik parçaya göre yazılır. Standart çalışma aralığımız ${MINIMUM_TOLERANCE}.`}
+            />
+          </div>
+          <ShellRun
+            ariaLabel={`${page.title} süreç adımları`}
+            items={page.processSteps.map((step) => ({ title: step }))}
+          />
+        </ShellSurfaceBand>
+      )}
+
+      {page.materials && page.materials.length > 0 && (
+        <ShellSurfaceBand no={no()} label="MALZEME" tone="paper" labelledBy="detay-malzeme">
+          <div className="shell-span-read">
+            <ShellTitleBlock
+              id="detay-malzeme"
+
+              title="İşlenebilir malzemeler"
+              standfirst="Bu sayfada sık kullanılan malzemeler. Ailenin tamamı malzeme kaydındadır."
+            />
+          </div>
+          <div className="shell-span-full shell-stack" data-gap="sm">
+            <ShellSpecTable
+              caption={`${page.title} — malzeme kaydı`}
+              headers={["Malzeme", "Kalite", "Özellik"]}
+              numericFrom={99}
+              rows={page.materials.map((material) => [
+                material.name,
+                material.grade,
+                material.properties,
+              ])}
+              rowKey={(_, index) => `${materialRows[index].name}-${index}`}
+            />
+            <ShellAction to="/malzemeler" variant="quiet">Malzeme kaydının tamamı</ShellAction>
+          </div>
+        </ShellSurfaceBand>
+      )}
+
+      {page.comparisonTables && page.comparisonTables.length > 0 && (
+        <ShellSurfaceBand no={no()} label="KARŞILAŞTIRMA" labelledBy="detay-karsilastirma">
+          <div className="shell-span-read">
+            <ShellTitleBlock
+              id="detay-karsilastirma"
+
+              title="Teknik karşılaştırma"
+              standfirst="Seçenekler yan yana; hangisinin hangi koşulda anlamlı olduğu tabloların kendi notlarında."
+            />
+          </div>
+          {page.comparisonTables.map((table, index) => (
+            <div className="shell-span-full" key={table.title}>
+              <ShellSpecTable
+                caption={table.title}
+                note={table.description}
+                headers={table.headers}
+                rows={table.rows}
+                highlight={table.highlight}
+                rowKey={(_, rowIndex) => `${index}-${rowIndex}`}
+              />
+            </div>
+          ))}
+        </ShellSurfaceBand>
+      )}
+
+      {page.faq && page.faq.length > 0 && (
+        <ShellSurfaceBand no={no()} label="SORULAR" tone="paper" labelledBy="detay-sorular">
+          <div className="shell-span-read">
+            <ShellTitleBlock id="detay-sorular" title="Sık sorulan sorular" />
+          </div>
+          <div className="shell-span-full">
+            <div className="shell-faq">
+              {page.faq.map((item) => (
+                <details className="shell-faq-item" key={item.question}>
+                  <summary>{item.question}</summary>
+                  <div className="shell-faq-answer"><p>{item.answer}</p></div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </ShellSurfaceBand>
+      )}
+
+      <ShellSurfaceBand no={no()} label="İLGİLİ" labelledBy="detay-ilgili">
+        <div className="shell-span-read">
+          <ShellTitleBlock
+            id="detay-ilgili"
+
+            title={isSector ? "Bu sektörün yakınındaki sayfalar" : "İlgili sayfalar"}
+            standfirst={
+              isSector
+                ? "Aynı sektör ailesindeki diğer başlıklar ve bu parçaların üretildiği hizmet aileleri."
+                : "Aynı aileden, birlikte sorulan başlıklar."
+            }
+          />
+        </div>
+        {related.length > 0 && (
+          <div className="shell-span-full">
+            <ShellIndexList
+              compact
+              ariaLabel={`${family.label} ailesindeki diğer sayfalar`}
+              items={related.slice(0, 8).map((item) => ({
+                to: `/${item.category}/${item.slug}`,
+                eyebrow: item.categoryLabel,
+                title: item.title,
+                description: item.description,
+                meta: (item.technicalSpecs ?? []).slice(0, 2).map((spec) => spec.value),
+              }))}
+            />
+          </div>
+        )}
+        {isSector && (
+          <div className="shell-span-full shell-stack" data-gap="sm">
+            <p className="shell-eyebrow">Bu parçalar hangi hizmetlerle üretiliyor</p>
+            <ShellIndexList
+              compact
+              ariaLabel="Hizmet aileleri"
+              items={serviceFamilies.map((category) => ({
+                to: `/${category.prefix}/kategori/${category.slug}`,
+                title: category.title,
+                description: category.description,
+              }))}
+            />
+          </div>
+        )}
+      </ShellSurfaceBand>
+
+      <ShellNextStep
+        no={no()}
+        title={`${page.title} için teklif`}
+        body={`Teknik resim veya 3B model gönderin; ${page.title.toLocaleLowerCase("tr")} kapsamında üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım.`}
+        detail={[
+          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
+          { label: "Standart tolerans", value: MINIMUM_TOLERANCE },
+          { label: family.label, value: page.categoryLabel },
+        ]}
+        secondary={{ label: "Teknik görüşme", to: "/iletisim" }}
+      />
     </PageShell>
   );
 };
+

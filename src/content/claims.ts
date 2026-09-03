@@ -316,6 +316,52 @@ export const PUBLIC_CITY = publish({
   source: "USER_INPUTS.md §A PUBLIC_CITY: İzmir",
 });
 
+/**
+ * The public contact block (Phase 07).
+ *
+ * These strings existed already — in `SiteFooter.tsx` as a local `CONTACT`
+ * object, and again as literals in `Iletisim.tsx`. Two copies of a phone
+ * number is how a site ends up publishing two phone numbers. They move here
+ * because §A authorises each of them individually and because the contact page
+ * and the footer must agree by construction, not by review.
+ *
+ * The values are byte-identical to the ones the footer already rendered, so
+ * this consolidation changes no pixel.
+ */
+export const PUBLIC_PHONE = publish({
+  value: "+90 (536) 564 51 94",
+  visibility: "PUBLIC_CORE",
+  source: "USER_INPUTS.md §A PUBLIC_PHONE: +90 536 564 51 94",
+});
+
+export const PUBLIC_PHONE_HREF = publish({
+  value: "tel:+905365645194",
+  visibility: "PUBLIC_CORE",
+  source: "USER_INPUTS.md §A PUBLIC_PHONE",
+});
+
+export const SALES_EMAIL = publish({
+  value: "sales@mastechnic.com",
+  visibility: "PUBLIC_CORE",
+  source: "USER_INPUTS.md §A SALES_EMAIL · §J RFQ_RECIPIENT_EMAIL",
+});
+
+export const SALES_EMAIL_HREF = publish({
+  value: "mailto:sales@mastechnic.com",
+  visibility: "PUBLIC_CORE",
+  source: "USER_INPUTS.md §A SALES_EMAIL",
+});
+
+/** Two lines, because the footer sets it on two. `PUBLIC_SUPPORTING`: the
+ *  address may appear contextually, and does — footer and contact page. */
+export const PUBLIC_ADDRESS_LINES: readonly string[] = publish({
+  value: ["Ataşehir Mah., 8287. Sok.", "No: 4, 35620 Çiğli / İZMİR"] as const,
+  visibility: "PUBLIC_SUPPORTING",
+  source:
+    "USER_INPUTS.md §A PUBLIC_ADDRESS: Ataşehir, 8287. Sk. No:4, 35620 Çiğli/İzmir; " +
+    "ADDRESS_VISIBILITY: PUBLIC_SUPPORTING",
+});
+
 export const SOCIAL_LINKS: readonly { label: string; href: string }[] = publish({
   value: [{ label: "LINKEDIN", href: "https://www.linkedin.com/company/mas-technic" }] as const,
   visibility: "PUBLIC_SUPPORTING",

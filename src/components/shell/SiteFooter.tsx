@@ -4,6 +4,13 @@ import { ArrowLeft, ArrowRight, ChevronDown, Linkedin, Mail, MapPin, Phone } fro
 import { Link, useLocation } from "react-router-dom";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { legalLinks, rfqLink } from "@/components/navigation/ia";
+import {
+  PUBLIC_ADDRESS_LINES,
+  PUBLIC_PHONE,
+  PUBLIC_PHONE_HREF,
+  SALES_EMAIL,
+  SALES_EMAIL_HREF,
+} from "@/content/claims";
 import { footerGroups, type FooterLinkGroup } from "./footer-groups";
 import { ShellBand } from "./ShellBand";
 
@@ -51,11 +58,16 @@ import { ShellBand } from "./ShellBand";
    band's proportion rather than trusting this comment.
    ══════════════════════════════════════════════════════════════════════════ */
 
+/* Phase 07: these four strings moved into `src/content/claims.ts`, where §A
+   authorises each one, because `/iletisim` published its own second copy of
+   the phone number and the address. Two copies of a phone number is how a
+   site ends up publishing two phone numbers. The values are unchanged, so the
+   footer goldens do not move. */
 const CONTACT = {
-  phone: "+90 (536) 564 51 94",
-  phoneHref: "tel:+905365645194",
-  mail: "sales@mastechnic.com",
-  mailHref: "mailto:sales@mastechnic.com",
+  phone: PUBLIC_PHONE,
+  phoneHref: PUBLIC_PHONE_HREF,
+  mail: SALES_EMAIL,
+  mailHref: SALES_EMAIL_HREF,
 } as const;
 
 /* `USER_INPUTS.md` §L lists LINKEDIN as the only permitted channel; INSTAGRAM,
@@ -175,8 +187,8 @@ export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label
                 built with explicit placement in CSS, which does not disturb
                 that reading order. */}
             <address>
-              <p><MapPin aria-hidden="true" /><span>Ataşehir Mah., 8287. Sok.</span></p>
-              <p className="tl-addr-cont"><span>No: 4, 35620 Çiğli / İZMİR</span></p>
+              <p><MapPin aria-hidden="true" /><span>{PUBLIC_ADDRESS_LINES[0]}</span></p>
+              <p className="tl-addr-cont"><span>{PUBLIC_ADDRESS_LINES[1]}</span></p>
               <p className="tl-tel"><Phone aria-hidden="true" /><a href={CONTACT.phoneHref}>{CONTACT.phone}</a></p>
               <p className="tl-mail"><Mail aria-hidden="true" /><a href={CONTACT.mailHref}>{CONTACT.mail}</a></p>
             </address>

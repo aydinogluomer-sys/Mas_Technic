@@ -1007,6 +1007,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   --sf-raise: var(--tl-tint-raise);
   --sf-hover: var(--tl-tint-hover);
   --sf-field: var(--tl-panel);
+  --sf-ground: var(--tl-void);
   --sf-invert: var(--tl-paper);
   --sf-on-invert: var(--tl-black);
 }
@@ -1028,10 +1029,15 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   --sf-raise: var(--tl-ink-tint);
   --sf-hover: var(--tl-ink-tint);
   --sf-field: var(--tl-paper-raised);
+  --sf-ground: var(--tl-paper-sunken);
   --sf-invert: var(--tl-ink);
   --sf-on-invert: var(--tl-paper);
 }
-.shell-root .tl-band[data-band-tone="paper"] { color-scheme: light; }
+.shell-root .tl-band[data-band-tone="paper"] {
+  color-scheme: light;
+  /* A paper BAND paints `--tl-paper`, one step darker than a paper ROOT. */
+  --sf-ground: var(--tl-paper);
+}
 
 /* The Phase 04 primitives were written before the roles existed and key their
    ground off the ROOT, so they cannot see a paper band inside a graphite
@@ -1057,18 +1063,35 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
 
 /* A column block that keeps publishing the master tracks to its own children.
    Contract from `master-grid.css`: no horizontal padding, border or margin. */
-.shell-doc {
+.shell-doc,
+.shell-doc-main,
+.shell-doc-aside {
   display: grid;
   grid-template-columns: subgrid;
   align-content: start;
-  row-gap: var(--tl-s8);
   padding-inline: 0;
   border-inline-width: 0;
   margin-inline: 0;
 }
-.shell-doc > * { grid-column: 1 / -1; min-width: 0; }
-.shell-doc-main { grid-column: 1 / span 8; }
+.shell-doc > *,
+.shell-doc-main > *,
+.shell-doc-aside > * { grid-column: 1 / -1; min-width: 0; }
+.shell-doc { grid-column: 1 / -1; row-gap: var(--tl-s8); }
+.shell-doc-main { grid-column: 1 / span 8; row-gap: var(--tl-s8); }
 .shell-doc-aside { grid-column: 9 / -1; row-gap: var(--tl-s5); }
+
+/* A sticky aside works HERE and not inside the aside, because a sticky
+   element resolves against its containing block and a grid item's containing
+   block is its grid area: the aside shares the main column's row, so its area
+   is as tall as the document beside it, while anything nested one level deeper
+   would only get a one-row area and never travel. `align-self: start` is what
+   shrinks the item to its content and leaves the rest of the area to scroll
+   through. */
+.shell-doc-aside[data-sticky] {
+  position: sticky;
+  top: calc(var(--gnav-h) + var(--shell-safe-top, 0px) + var(--tl-s5));
+  align-self: start;
+}
 
 @supports not (grid-template-columns: subgrid) {
   .shell-doc { grid-template-columns: repeat(var(--tl-subgrid-cols, var(--tl-cols)), minmax(0, 1fr)); }
@@ -1081,6 +1104,8 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   .shell-span-note,
   .shell-doc-main,
   .shell-doc-aside { grid-column: 1 / -1; }
+  /* Stacked, the aside is in its own one-row area and has nothing to travel. */
+  .shell-doc-aside[data-sticky] { position: static; }
   .shell-span-half,
   .shell-span-third { grid-column: span 3; }
 
@@ -1140,6 +1165,8 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
 
 /* ── Breadcrumb ───────────────────────────────────────────────────────────*/
 .shell-crumb { padding-block: var(--tl-s4) var(--tl-s2); }
+/* In the hero the band already supplies the top rhythm. */
+.shell-hero-copy > .shell-crumb { padding-block: 0 var(--tl-s4); }
 .shell-crumb ol {
   display: flex;
   flex-wrap: wrap;
@@ -1352,6 +1379,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
 .shell-run-no { color: var(--sf-accent); font: 500 10px/1 var(--tl-font-mono); letter-spacing: .12em; }
 .shell-run-title { color: var(--sf-ink); font-size: 14px; font-weight: 600; line-height: 1.35; }
 .shell-run-detail { color: var(--sf-body); font-size: 13px; line-height: 1.55; }
+.shell-run-action { padding-top: var(--tl-s3); }
 
 @supports not (grid-template-columns: subgrid) {
   .shell-run { grid-template-columns: repeat(var(--tl-subgrid-cols, var(--tl-cols)), minmax(0, 1fr)); }
@@ -1473,6 +1501,17 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
 .shell-field ::placeholder { color: var(--sf-faint); opacity: 1; }
 .shell-field-hint { color: var(--sf-meta); font: 500 11px/1.6 var(--tl-font-mono); }
 
+/* The live region is always in the DOM, empty and zero-height until it has
+   something to say: an `aria-live` region inserted at the same moment as its
+   message is frequently not announced at all. */
+.shell-form-error:not(:empty) {
+  border-left: 2px solid var(--tl-stamp);
+  padding-left: var(--tl-s3);
+  color: var(--sf-ink);
+  font: 500 13px/1.5 var(--tl-font-sans);
+}
+.shell-form-error { margin: 0; }
+
 @media (max-width: 767px) {
   .shell-form-row { grid-template-columns: minmax(0, 1fr); }
 }
@@ -1521,11 +1560,131 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
 .shell-gauge > span { width: 8px; height: 10px; border: var(--tl-rule-size) solid var(--sf-rule); }
 .shell-gauge > span[data-on] { border-color: var(--sf-accent); background: var(--sf-accent); }
 
-/* ── Disclosure row (materials register) ──────────────────────────────────*/
+/* ── FAQ ──────────────────────────────────────────────────────────────────
+   Native `<details>`, not the shadcn accordion. Three reasons, in order of
+   weight: it works with JavaScript unavailable and before hydration; its
+   open/closed state is expressed by the element itself, so there is nothing to
+   keep in sync with `aria-expanded`; and the accordion's own styling is
+   written against the shadcn light theme, which is the palette this phase is
+   removing from these routes. The marker is drawn from the datum tick the rest
+   of the system uses rather than a chevron glyph. */
+.shell-faq { border-top: var(--tl-rule-size) solid var(--sf-rule); }
+.shell-faq-item { border-bottom: var(--tl-rule-size) solid var(--sf-rule); }
+.shell-faq-item > summary {
+  display: flex;
+  align-items: center;
+  gap: var(--tl-s4);
+  min-height: 56px;
+  padding: var(--tl-s3) var(--tl-s4);
+  color: var(--sf-ink);
+  font-size: clamp(15px, 1.2vw, 17px);
+  font-weight: 600;
+  line-height: 1.35;
+  cursor: pointer;
+  list-style: none;
+}
+.shell-faq-item > summary::-webkit-details-marker { display: none; }
+.shell-faq-item > summary::before {
+  content: "";
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-top: var(--tl-rule-size) solid var(--sf-accent);
+  border-left: var(--tl-rule-size) solid var(--sf-accent);
+  transform: rotate(135deg);
+  transform-origin: center;
+  transition: transform var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-faq-item[open] > summary::before { transform: rotate(225deg); }
+.shell-faq-item > summary:hover { background: var(--sf-hover); }
+.shell-faq-answer { padding: 0 var(--tl-s4) var(--tl-s5) calc(var(--tl-s4) + 12px + var(--tl-s4)); }
+.shell-faq-answer > p { max-width: 72ch; margin: 0; color: var(--sf-body); font-size: 14px; line-height: 1.65; }
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-faq-item > summary::before { transition-duration: .01ms; }
+}
+
+@media (max-width: 767px) {
+  .shell-faq-answer { padding-left: var(--tl-s4); }
+}
+
+/* ── Materials register: sticky scope ─────────────────────────────────────
+   `position: sticky` is resolved against the element's CONTAINING BLOCK, and
+   for a grid item that is its own one-row grid area — so a sticky bar placed
+   as a grid child never travels. The bar and the register therefore share one
+   BLOCK container, which is the shape `e2e/malzemeler-sticky.spec.ts` measures:
+   the bar travels the register's height and releases before the footer. Do not
+   turn this into a grid; the spec is what will notice. */
+.shell-register-scope { position: relative; }
+.shell-register-scope > * + * { margin-top: var(--tl-s6); }
+
+.shell-sticky-filter {
+  position: sticky;
+  top: calc(var(--gnav-h) + var(--shell-safe-top, 0px));
+  padding-block: var(--tl-s4);
+  border-bottom: var(--tl-rule-size) solid var(--sf-rule);
+  /* Opaque by necessity: table rows scroll underneath it. */
+  background: var(--sf-ground);
+}
+
+.shell-compare { display: grid; justify-items: start; gap: var(--tl-s4); }
+
+/* ── Materials register: selection, disclosure row, detail panel ──────────*/
+.shell-check {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--sf-accent);
+  cursor: pointer;
+}
+.shell-check:disabled { cursor: not-allowed; opacity: .4; }
+
+.shell-row-toggle {
+  min-height: 32px;
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  border-radius: var(--tl-radius);
+  padding-inline: var(--tl-s3);
+  color: var(--sf-body);
+  background: transparent;
+  font: 600 9px/1 var(--tl-font-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.shell-row-toggle:hover { color: var(--sf-ink); border-color: var(--sf-ink); }
+
 .shell-disclosure-panel {
   border-top: var(--tl-rule-size) solid var(--sf-rule-soft);
   padding: var(--tl-s5) var(--tl-s4);
   background: var(--sf-raise);
+}
+
+.shell-detail { display: grid; gap: var(--tl-s5); }
+.shell-detail-lede { max-width: 72ch; margin: 0; color: var(--sf-ink); font-size: 15px; line-height: 1.6; }
+.shell-detail-figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--tl-s4);
+  margin: 0;
+}
+.shell-detail-figures dt {
+  color: var(--sf-meta);
+  font: 600 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.shell-detail-figures dd { margin: var(--tl-s1) 0 0; color: var(--sf-ink); font: 500 14px/1.4 var(--tl-font-mono); }
+.shell-detail-lists { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--tl-s5); }
+.shell-detail-list { display: grid; gap: 6px; margin: var(--tl-s2) 0 0; padding: 0; list-style: none; }
+.shell-detail-list > li { color: var(--sf-body); font-size: 13px; line-height: 1.5; }
+.shell-detail-list > li::before { content: "— "; color: var(--sf-faint); }
+
+@media (max-width: 767px) {
+  /* The value is not lost — it is in the disclosure panel one tap away — and
+     `display:none` takes the cell out of the accessibility tree with the
+     layout, so a screen reader is not read a column that is not there. */
+  .shell-table [data-col="secondary"] { display: none; }
+  .shell-detail-lists { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (prefers-reduced-motion: reduce) {
