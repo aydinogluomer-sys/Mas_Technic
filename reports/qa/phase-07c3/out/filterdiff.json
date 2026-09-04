@@ -1,0 +1,88 @@
+{
+ "pairsFound": 294,
+ "filesScanned": 256,
+ "oldAdmitted": 132,
+ "newAdmitted": 139,
+ "ADMITTED": 7,
+ "REVOKED": 0,
+ "admitted": [
+  {
+   "file": "src/content/claims.ts",
+   "line": 423,
+   "label": "Sürekli Stok",
+   "value": "Al 6061, Al 7075",
+   "old": false,
+   "new": true,
+   "viaClass": 11,
+   "viaSource": "/\\b[A-Z][A-Za-z]{0,3}[\\s-]\\d{3,4}(?:[\\s-]?[A-Z]\\d?)?\\b/",
+   "withheldHitOnSubject": []
+  },
+  {
+   "file": "src/content/claims.ts",
+   "line": 483,
+   "label": "Sürekli Stok",
+   "value": "Al 6061, Al 7075",
+   "old": false,
+   "new": true,
+   "viaClass": 11,
+   "viaSource": "/\\b[A-Z][A-Za-z]{0,3}[\\s-]\\d{3,4}(?:[\\s-]?[A-Z]\\d?)?\\b/",
+   "withheldHitOnSubject": []
+  },
+  {
+   "file": "src/data/servicePages.ts",
+   "line": 1483,
+   "label": "Freze Konfigürasyonu",
+   "value": "3, 4 ve 5 eksen",
+   "old": false,
+   "new": true,
+   "viaClass": 7,
+   "viaSource": "/\\b\\d(?:[\\s,]+(?:ve\\s+)?\\d)*\\s*eksen(?:li)?\\b/i",
+   "withheldHitOnSubject": []
+  },
+  {
+   "file": "src/data/servicePages.ts",
+   "line": 1570,
+   "label": "Sürekli Stok",
+   "value": "Al 6061, Al 7075",
+   "old": false,
+   "new": true,
+   "viaClass": 11,
+   "viaSource": "/\\b[A-Z][A-Za-z]{0,3}[\\s-]\\d{3,4}(?:[\\s-]?[A-Z]\\d?)?\\b/",
+   "withheldHitOnSubject": []
+  },
+  {
+   "file": "src/data/servicePages.ts",
+   "line": 1571,
+   "label": "Sürekli Stok",
+   "value": "SS 304, SS 316",
+   "old": false,
+   "new": true,
+   "viaClass": 11,
+   "viaSource": "/\\b[A-Z][A-Za-z]{0,3}[\\s-]\\d{3,4}(?:[\\s-]?[A-Z]\\d?)?\\b/",
+   "withheldHitOnSubject": []
+  },
+  {
+   "file": "src/data/servicePages.ts",
+   "line": 2897,
+   "label": "Malzeme",
+   "value": "Al, Cu, SS 304/316",
+   "old": false,
+   "new": true,
+   "viaClass": 11,
+   "viaSource": "/\\b[A-Z][A-Za-z]{0,3}[\\s-]\\d{3,4}(?:[\\s-]?[A-Z]\\d?)?\\b/",
+   "withheldHitOnSubject": []
+  },
+  {
+   "file": "src/data/servicePages.ts",
+   "line": 3192,
+   "label": "Malzeme",
+   "value": "Cu (OFE, ETP), Al 1050",
+   "old": false,
+   "new": true,
+   "viaClass": 11,
+   "viaSource": "/\\b[A-Z][A-Za-z]{0,3}[\\s-]\\d{3,4}(?:[\\s-]?[A-Z]\\d?)?\\b/",
+   "withheldHitOnSubject": []
+  }
+ ],
+ "revoked": []
+}

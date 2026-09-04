@@ -1,0 +1,22 @@
+[
+ { "id": "atk-01-suffix-adettir",   "expect": "FIRE", "src": "const s = \"Yıllık kapasitemiz 50.000 adettir.\";",                      "note": "Turkish suffix on the count noun, adverbial alt has NA and no TRW*" },
+ { "id": "atk-02-suffix-adetlik",   "expect": "FIRE", "src": "const s = \"yılda 50.000 adetlik üretim\";" },
+ { "id": "atk-03-suffix-adedi",     "expect": "FIRE", "src": "const s = \"aylık üretim adedi 20.000\";" },
+ { "id": "atk-04-suffix-parcayi",   "expect": "FIRE", "src": "const s = \"yılda 50.000 parçayı işliyoruz\";" },
+ { "id": "atk-05-suffix-uniteyi",   "expect": "FIRE", "src": "const s = \"günde 1000 üniteyi tamamlıyoruz\";" },
+ { "id": "atk-06-bare-kapasite",    "expect": "FIRE", "src": "const a = [{ label: \"Kapasite\", value: \"50.000 adet\" }];",           "note": "the label-side `kapasite` exclusion, worst case" },
+ { "id": "atk-07-reversed-pair",    "expect": "FIRE", "src": "const a = [{ value: \"50.000 adet\", label: \"Yıllık Kapasite\" }];",    "note": "pair order reversed" },
+ { "id": "atk-08-pair-newline",     "expect": "FIRE", "src": "const a = [{\n  label: \"Yıllık Kapasite\",\n  value: \"50.000 adet\",\n}];", "note": "pair split across lines" },
+ { "id": "atk-09-saatte",           "expect": "FIRE", "src": "const s = \"saatte 500 adet üretiyoruz\";",                              "note": "hourly throughput — the `saat` exclusion, worst case" },
+ { "id": "atk-10-annum-latin",      "expect": "FIRE", "src": "const s = \"50.000 adet/annum\";" },
+ { "id": "atk-11-adet-yil-dash",    "expect": "FIRE", "src": "const s = \"50.000 adet-yıl\";" },
+ { "id": "atk-12-per-year-en",      "expect": "FIRE", "src": "const s = \"50,000 units/year\";" },
+ { "id": "atk-13-yillik-uretim",    "expect": "FIRE", "src": "const s = \"Yıllık üretim hacmimiz 500.000 adet.\";",                    "note": "two intervening words + suffixless noun" },
+ { "id": "atk-14-yilda-3words",     "expect": "FIRE", "src": "const s = \"yılda yaklaşık olarak ortalama 50.000 adet\";",              "note": "three intervening words — documented {0,2} limit" },
+ { "id": "atk-15-sene",             "expect": "FIRE", "src": "const s = \"senede 50.000 adet\";",                                      "note": "`sene` is a synonym of `yıl`" },
+ { "id": "atk-16-ay-boyunca",       "expect": "FIRE", "src": "const s = \"her ay 20.000 adet\";" },
+ { "id": "atk-17-cyrillic",         "expect": "FIRE", "src": "const s = \"50.000 аdet/yıl\";",                                         "note": "Cyrillic a homoglyph" },
+ { "id": "atk-18-interp",           "expect": "FIRE", "src": "const s = `${n} adet/${period}`;" },
+ { "id": "atk-19-tonaj",            "expect": "FIRE", "src": "const s = \"yılda 12.000 ton üretim\";",                                 "note": "tonnage per year — a volume in mass units" },
+ { "id": "atk-20-value-only-slash", "expect": "FIRE", "src": "const a = [{ label: \"Hacim\", value: \"50.000 ad./yıl\" }];" }
+]
