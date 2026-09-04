@@ -2,6 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { caseStudies } from "../src/content/caseStudies";
 import { categoryPages } from "../src/data/categoryPages";
 import { materialCategories } from "../src/data/materialsData";
 import { servicePages } from "../src/data/servicePages";
@@ -51,6 +52,14 @@ const STATIC_FULL_SHELL_ROUTES = [
   "/iletisim",
   "/malzemeler",
   "/blog",
+  /* FAZ 08 — KABİLİYET PROFİLİ DİZİNİ VE KALİTE DOSYASI.
+     İkisi de yeni halka açık yüzey: `PageShell` içinde, paylaşılan header ve
+     footer ile. Bunlar İSTİSNA DEĞİL — sözleşmeye EKLENİYORLAR, yani tam
+     kabuk sayımı 90 → 95 (burada 2 statik + aşağıda 3 türetilmiş profil) ve
+     toplam halka açık yüzey 94 → 99 olarak BÜYÜYOR. Hiçbir iddia
+     gevşetilmedi; ölçülen yüzey kümesi genişledi. */
+  "/kabiliyet-profilleri",
+  "/kalite-dosyasi",
   /* FAZ 04 — `/teklif-al` TAM KABUĞA KATILDI.
      `src/pages/TeklifAl.tsx:54` `Footer`'ı import ediyor ama HİÇBİR yerde
      render etmiyordu; sitenin birincil dönüşüm sayfasının footer'ı, yasal
@@ -114,6 +123,9 @@ const EXPECTED_PUBLIC_ROUTE_PATTERNS = [
   "/malzemeler/:slug",
   "/blog",
   "/blog/:slug",
+  "/kabiliyet-profilleri",
+  "/kabiliyet-profilleri/:slug",
+  "/kalite-dosyasi",
   "/hizmetler/kategori/:slug",
   "/kabiliyetler/kategori/:slug",
   "/endustriyel/kategori/:slug",
@@ -134,12 +146,22 @@ const CATEGORY_ROUTES = categoryPages.map((item) => `/${item.prefix}/kategori/${
 const SERVICE_ROUTES = servicePages.map((item) => `/${item.category}/${item.slug}`);
 const MATERIAL_ROUTES = materialCategories.map((item) => `/malzemeler/${item.slug}`);
 const BLOG_ROUTES = BLOG_SLUGS.map((slug) => `/blog/${slug}`);
+/* FAZ 08 — TÜRETİLMİŞ, ELDE SAYILMIŞ DEĞİL.
+   `/kabiliyet-profilleri/:slug` tek bir veri kaynağından beslenir:
+   `src/content/caseStudies.ts`. Dizin sayfası da (`KabiliyetProfilleri`)
+   detay sayfası da (`KabiliyetProfilDetay`) aynı diziyi okur, bu yüzden rota
+   listesi de onu okur — `CATEGORY_ROUTES` / `SERVICE_ROUTES` /
+   `MATERIAL_ROUTES` / `BLOG_ROUTES` ile birebir aynı biçim. Bir profil
+   eklendiğinde sözleşme kendiliğinden genişler; aşağıdaki `toHaveLength(3)`
+   ise SESSİZCE genişlemesini engeller: sayı değişirse koşu önce orada durur. */
+const PROFILE_ROUTES = caseStudies.map((study) => `/kabiliyet-profilleri/${study.slug}`);
 const FULL_SHELL_ROUTES = [
   ...STATIC_FULL_SHELL_ROUTES,
   ...CATEGORY_ROUTES,
   ...SERVICE_ROUTES,
   ...MATERIAL_ROUTES,
   ...BLOG_ROUTES,
+  ...PROFILE_ROUTES,
 ];
 
 const FOOTER_SEQUENTIAL_SELECTOR = [
@@ -266,13 +288,14 @@ test.describe("Shared public shell accessibility", () => {
     expect(layers.skip).toBeGreaterThan(layers.header);
   });
 
-  test("derives an exhaustive 94-path public route and shell ownership contract", async ({ browserName }, testInfo) => {
+  test("derives an exhaustive 99-path public route and shell ownership contract", async ({ browserName }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical route-inventory lane");
     expect(browserName).toBe("chromium");
     expect(categoryPages).toHaveLength(15);
     expect(servicePages).toHaveLength(48);
     expect(materialCategories).toHaveLength(11);
     expect(BLOG_SLUGS).toHaveLength(6);
+    expect(caseStudies).toHaveLength(3);
     expect([...APP_PANEL_ROUTE_PATTERNS].sort()).toEqual([...EXPECTED_PANEL_ROUTE_PATTERNS].sort());
     expect([...APP_PUBLIC_ROUTE_PATTERNS].sort()).toEqual([...EXPECTED_PUBLIC_ROUTE_PATTERNS].sort());
     // Üç dev rotası yalnız dev bloğunda yaşar ve orada `DevRoute &&` koruması
@@ -288,16 +311,24 @@ test.describe("Shared public shell accessibility", () => {
       /import\.meta\.env\.DEV\s*\?\s*lazy\(\(\)\s*=>\s*import\("\.\/routes\/DevRoutes"\)\)\s*:\s*null;/,
     );
     expect(new Set([...CATEGORY_ROUTES, ...SERVICE_ROUTES, ...MATERIAL_ROUTES, ...BLOG_ROUTES]).size).toBe(80);
+    expect(new Set(PROFILE_ROUTES).size).toBe(3);
     // 88 → 89 → 90: `/` Faz 03'te (B14), `/teklif-al` Faz 04'te katıldı.
-    expect(new Set(FULL_SHELL_ROUTES).size).toBe(90);
+    // 90 → 95: Faz 08 İKİ statik yüzey (`/kabiliyet-profilleri`,
+    // `/kalite-dosyasi`) ve `caseStudies`ten türetilen ÜÇ profil detayı
+    // EKLEDİ. Önceki iki değişiklikten farkı: onlar rotayı bir kümeden
+    // diğerine TAŞIMIŞTI, bu beşi sözleşmeye YENİ yüzey ekliyor.
+    expect(new Set(FULL_SHELL_ROUTES).size).toBe(95);
     expect(FULL_SHELL_ROUTES).toContain("/");
     expect(FULL_SHELL_ROUTES).toContain("/teklif-al");
-    // Toplam DEĞİŞMEDİ: her iki rota da istisna kümesinden tam kabuk kümesine
-    // TAŞINDI; yeni rota eklenmedi, hiçbiri kaldırılmadı.
-    expect(new Set([...FULL_SHELL_ROUTES, ...NON_SHELL_PUBLIC_ROUTES]).size).toBe(94);
+    expect(FULL_SHELL_ROUTES).toContain("/kabiliyet-profilleri");
+    expect(FULL_SHELL_ROUTES).toContain("/kalite-dosyasi");
+    // Toplam 94 → 99: istisna kümesinden HİÇBİR ŞEY çıkmadı; tam kabuk
+    // kümesine beş yeni rota girdi. Sayı büyüdü, sözleşmeden hiçbir rota
+    // düşmedi.
+    expect(new Set([...FULL_SHELL_ROUTES, ...NON_SHELL_PUBLIC_ROUTES]).size).toBe(99);
   });
 
-  test("keeps all 90 canonical full-shell routes on one header/footer contract", async ({ page }, testInfo) => {
+  test("keeps all 95 canonical full-shell routes on one header/footer contract", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical all-route shell lane");
     test.setTimeout(600_000);
     const runtimeErrors: string[] = [];
@@ -360,8 +391,16 @@ test.describe("Shared public shell accessibility", () => {
       const footer = page.getByRole("contentinfo");
       await expect(footer, `${route} must own one footer`).toHaveCount(1);
       await expect(footer, `${route} footer must stay in normal flow`).toHaveCSS("position", "relative");
+      /* FAZ 08 \u2014 DESEN GEN\u0130\u015eLET\u0130LD\u0130, GEV\u015eET\u0130LMED\u0130.
+         `KabiliyetProfilDetay` bilinmeyen bir slug'da kendi yerel "kay\u0131t yok"
+         kabu\u011funu basar ve onun ba\u015fl\u0131\u011f\u0131 "Bu profil kayd\u0131 bulunamad\u0131" \u2014 eski
+         desenin hi\u00e7 g\u00f6rmedi\u011fi bir dize. Yani \u00fc\u00e7 profil rotas\u0131 sessizce yerel
+         \u00e7\u0131kmaza d\u00fc\u015fse bu d\u00f6ng\u00fc YE\u015e\u0130L kal\u0131rd\u0131. Desen o ba\u015fl\u0131\u011f\u0131 da kaps\u0131yor:
+         yakalanan durum k\u00fcmesi b\u00fcy\u00fcd\u00fc, hi\u00e7bir durum listeden \u00e7\u0131kmad\u0131. */
       await expect(
-        page.getByRole("heading", { name: /^(Sayfa|Yaz\u0131) Bulunamad\u0131$/u }),
+        page.getByRole("heading", {
+          name: /^(Sayfa|Yaz\u0131) Bulunamad\u0131$|^Bu profil kayd\u0131 bulunamad\u0131$/u,
+        }),
         `${route} must resolve canonical content rather than a local not-found shell`,
       ).toHaveCount(0);
       await expect.poll(
