@@ -218,6 +218,55 @@ control. Looping motion longer than five seconds with no mechanism to stop it
 is WCAG 2.2.2, and `prefers-reduced-motion` cannot reach an autoplaying
 `<video>` from CSS.
 
+### 6.9 Text over the 80-frame canvas gets a scrim, not a bigger font
+
+`MaterialMorphScroll` is the one component on `/malzemeler` whose ground is a
+photograph that changes under the text. Measured from rendered pixels — the
+background sampled with every text colour forced transparent, over each run's
+own `Range` line boxes, the foreground composited *per pixel* through the
+ancestor opacity chain, and the result reported as the **median** over the
+sampled pixels because a single modal colour is meaningless against a
+photograph — every run in it failed:
+
+| run | viewport | before | need |
+|---|---|---|---|
+| `Malzeme Dönüşümü` 12px, `--primary` teal | 375 | **1.745** | 4.5 |
+| 4 × 10px property labels, `--text-technical` | 375 | 3.769–4.053 | 4.5 |
+| `Malzeme Dönüşümü` 12px, `--primary` teal | 1280 | **2.363** | 4.5 |
+| `Yüzey Mükemmelliği` 60px/700 | 1280 | **2.108** | 3 |
+| 4 × 10px card labels, `--text-technical` | 1280 | 2.020–2.717 | 4.5 |
+| 4 × 10px card values, `--text-secondary` | 1280 | 4.113–4.118 | 4.5 |
+
+Three causes and three repairs, recorded because the obvious fix — larger type
+— would have fixed none of them:
+
+1. **A dark accent on a dark ground.** The eyebrow was `--primary`
+   (rgb 10,125,138). No size passes there. It is `--text-primary` now, which
+   also removes the last low-contrast teal on this route.
+2. **No scrim.** A 0.25 vignette cannot bound a background that runs from dark
+   oxide to bright polished metal across 80 frames. Both the desktop title
+   overlay and the mobile fallback now sit on a gradient scrim, so the ground
+   under the two largest runs is bounded whatever the frame.
+3. **The card was glass.** `rgba(0,0,0,.8)` + `backdrop-blur-md` over
+   blown-out metal measured **rgb(88,89,88)** — nowhere near the near-black the
+   0.8 alpha implies, which is exactly why "the alpha says it is dark" is not a
+   contrast argument. It is a solid `--bg-dark-obsidian` now and the
+   backdrop-filter went with it; §5.5 names blur-behind glass as generic-SaaS
+   residue and Phase 04 had already removed it from the footer.
+
+**An instrument correction worth keeping.** A first version of this measurement
+reported `.shell-row-toggle` ("Ayrıntı") at **1.442:1**, apparently light grey
+on paper. It is not a defect: the button's own box measures **1684 of 1763
+pixels at `rgb(7,11,13)`** — the graphite sheet — and its `--sf-body` resolves
+to `#c1c5c2`, which is a high-contrast pair. Two things produced the false
+reading, and both are general traps: the page scrolls through **Lenis**, so a
+naive `window.scrollTo` + fixed wait collects line-box rects at one offset and
+screenshots at another; and the **chat launcher covers 91 % of that button's
+line box** at 1280, so the few unobstructed pixels are not representative of
+anything. The instrument now polls to a stable scroll offset, re-verifies it
+did not move across the capture, and counts launcher-covered pixels as an
+*obstruction* rather than a contrast sample.
+
 ---
 
 ## 7. `ShellPlate` and the I4 rule
