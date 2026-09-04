@@ -329,3 +329,80 @@ finding (`17` §6.6) — a form that accepts something and discards it:
 specs extract `slug:` from that file by regex
 (`/\bslug\s*:\s*["']([^"']+)["']/g`), and a second `slug:` key anywhere in it
 would silently inflate the blog route list they check.
+
+---
+
+## 11. Goldens
+
+### 11.1 Four new baselines, and why only four
+
+`e2e/visual/wave-b-golden.spec.ts` captures four crops at 375 / 768 / 1280 /
+1440. Each is the region an acceptance criterion or a content-truth rule
+actually turns on — the 404 body, the journal lead band, the quality document
+register, and the band that states on the page that the capability profiles are
+not customer projects. Whole pages are deliberately not captured: `/sss` renders
+~120 `<details>` and grows with `servicePages.ts`, and the legal texts will be
+revised by people who are not looking at a screenshot suite. Pinning those would
+manufacture the failure mode §12 warns about.
+
+All sixteen were opened and looked at before they were banked.
+
+### 11.2 The skip link was in the first four, and that is a finding
+
+`.shared-skip-link` (`src/App.tsx`) is `position: fixed`, parked at
+`-translate-y-24` off the top of the viewport, and carries Tailwind's
+`shadow-lg`. It paints nothing on screen. But these crops are **taller than the
+viewport**, so Playwright captures them with `captureBeyondViewport`, and in the
+expanded viewport the fixed link's shadow lands at the crop's own top-left.
+
+Measured on `waveb-notfound-body` @375 before the fix: a wash from
+`rgb(235,232,226)` at row 0 back to the page ground `rgb(251,248,241)` by row
+~12, across the leftmost ~110px — a ~2.7 % black shading, invisible at full size
+and quietly baked into the baseline. Two controls identified it: hiding
+`.shared-skip-link` removes it, and so does `box-shadow: none` on everything;
+nothing else fixed in the document paints there. **It appears only on the two
+mobile-emulated projects (375, 768) and not at 1280/1440**, which is exactly how
+it would have surfaced later as an unexplained two-viewport diff.
+
+The global bar is hidden for the same reason and by the same measurement: the
+first `waveb-notfound-body` baseline had `ERR::PAGE_NOT_FOUND` covered by the
+fixed header, i.e. a content golden that could not see a change in the content it
+exists to watch.
+
+Both are hidden **locally in that spec**. `e2e/visual/overlays.ts` is the right
+home for the skip-link rule and is outside Phase 08's write allowlist, so it is
+reported rather than reached for.
+
+### 11.3 The 23 that changed, adjudicated per viewport before regeneration
+
+One cause: `resourceLinks` in `ia.ts` gained two entries
+(`Kabiliyet Profilleri`, `Kalite Dosyası`), which reaches the footer's KURUMSAL
+column and the menu's RESOURCES group.
+
+**Source-level control first.** Between the Phase 07 close (`fb62d9e`) and this
+phase, the only change to anything the footer renders from is those two array
+entries: `SiteFooter.tsx`, `footer-groups.ts`, `claims.ts`, `Header.tsx`, the
+rest of `navigation/`, `technical-landing.css`, `master-grid.css` and
+`navigation.css` are byte-identical, and `shell.css` gained no `tl-footer` /
+`shell-footer` selector. All 24 `shell-header-*` goldens are unchanged, which is
+the same statement made by measurement.
+
+| viewport | changed | measured account |
+|---|---|---|
+| 375 | 2 of 6 footers | **The two links paint nothing here.** Below 768 the nav columns are replaced by `.shell-footer-disclosure` panels carrying a real `hidden` attribute, so a closed column has zero height — and four of the six 375 footer captures passed byte-compatible. The two that changed are exactly the two routes whose *body* this phase rewrote (`/blog`, the 404): a changed page height moves the footer crop by one pixel. `shell-footer-journal`: identical content at offset (0,−1), residual 4.304 → **1.327** (worst offset 14.648). `shell-footer-notfound`: identical content at (0,0), residual **0.781**, crop 743 → 742. |
+| 768 | 6 footers + `navigation-open` | KURUMSAL strip (x 428–520): every band unchanged through y 501; y 514 and y 537 change text (glyph height 8 → 10, the new labels have descenders); **two new bands at y 559 and y 582, pitch 22 + 23 = 45**; everything below shifts exactly 45 (y 664 → 709, y 689 → 734); crop 690 → 735. |
+| 1280 | 6 footers + `navigation-open` | KURUMSAL strip (x 1095–1250): bands identical at y 0/19/42/64/87/107; y 132 and y 154 change text; **two new bands at y 177 and y 199, pitch 23 + 22 = 45**; conversion row y 208 → 253 and legal run y 277 → 322, both +45; crop 298 → 343. Above the insertion, 9 145 of 10 375 changed pixels are Δ ≤ 8 (sub-pixel antialiasing from the footer's new height); every Δ ≥ 25 pixel is inside x 1092–1184, y 132–176 — the two rows whose text changed — plus 208 pixels on the four column hairlines, which grow with the tallest column. |
+| 1440 | 6 footers + `navigation-open` | Band table identical to 1280 (y 0/19/42/64/89/109/132/154 → + 177/199, 208 → 253, 277 → 322); crop 298 → 343. |
+
+`navigation-open` @1280, same method: every band unchanged through y 641
+(including the `KAYNAKLAR` heading and the first resource row); y 673 and y 717
+change text (glyph height 10 → 13); **two new rows at y 761 and y 805, pitch 44
+each**; the crop is a fixed-size overlay so its height does not change. The
+group's `03` → `05` count is the reason the whole-image change box starts at
+y 597 rather than y 673 — it is a small low-contrast mono pair, below the
+Δ ≥ 121 threshold but inside the box.
+
+`navigation-open` @375 **did not change**, and that is evidence rather than
+luck: the directory is below the fold inside the menu's own scroll container, so
+it is not in the element crop. Had it been, the capture would have failed like
+the other three.
