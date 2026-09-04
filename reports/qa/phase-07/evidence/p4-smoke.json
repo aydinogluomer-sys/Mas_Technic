@@ -1,0 +1,202 @@
+1280 /hizmetler/cnc-frezeleme: measured 386, below-threshold 11
+{
+ "1280|/hizmetler/cnc-frezeleme": {
+  "measured": 386,
+  "dist": {
+   "<3": 9,
+   "3-4.5": 2,
+   "4.5-7": 40,
+   ">=7": 335,
+   "unknown": 0
+  },
+  "failures": [
+   {
+    "sel": "div.shell-doc > div.shell-doc-main > header.shell-title-block > h2",
+    "text": "Kabiliyet kaydı",
+    "fontSize": 30.72,
+    "fontWeight": 400,
+    "color": "rgb(18, 23, 25)",
+    "bg": [
+     12,
+     16,
+     17
+    ],
+    "bgShare": 0.999,
+    "ratio": 1.059,
+    "required": 3,
+    "ariaHidden": false,
+    "scrollStep": 2
+   },
+   {
+    "sel": "div.shell-doc > div.shell-doc-main > header.shell-title-block > p",
+    "text": "Hizmetin kapsadığı kabiliyetler ve çalışma aralıkları.",
+    "fontSize": 15,
+    "fontWeight": 400,
+    "color": "rgb(59, 66, 63)",
+    "bg": [
+     12,
+     16,
+     17
+    ],
+    "bgShare": 0.998,
+    "ratio": 1.855,
+    "required": 4.5,
+    "ariaHidden": false,
+    "scrollStep": 2
+   },
+   {
+    "sel": "table > thead > tr > th",
+    "text": "Başlık",
+    "fontSize": 9,
+    "fontWeight": 600,
+    "color": "rgb(78, 85, 82)",
+    "bg": [
+     12,
+     16,
+     17
+    ],
+    "bgShare": 0.993,
+    "ratio": 2.501,
+    "required": 4.5,
+    "ariaHidden": false,
+    "scrollStep": 2
+   },
+   {
+    "sel": "table > thead > tr > th",
+    "text": "Değer",
+    "fontSize": 12,
+    "fontWeight": 600,
+    "color": "rgb(78, 85, 82)",
+    "bg": [
+     12,
+     16,
+     17
+    ],
+    "bgShare": 0.526,
+    "ratio": 2.501,
+    "required": 4.5,
+    "ariaHidden": false,
+    "scrollStep": 2
+   },
+   {
+    "sel": "main.shell-main > section.tl-band.shell-surface-band > div.tl-band-index > span",
+    "text": "05",
+    "fontSize": 15,
+    "fontWeight": 400,
+    "color": "rgb(92, 99, 96)",
+    "bg": [
+     12,
+     16,
+     17
+    ],
+    "bgShare": 0.947,
+    "ratio": 3.105,
+    "required": 4.5,
+    "ariaHidden": true,
+    "scrollStep": 3
+   },
+   {
+    "sel": "main.shell-main > section.tl-band.shell-surface-band > div.tl-band-index > small",
+    "text": "MALZEME",
+    "fontSize": 8,
+    "fontWeight": 400,
+    "color": "rgb(92, 99, 96)",
+    "bg": [
+     12,
+     16,
+     17
+    ],
+    "bgShare": 0.73,
+    "ratio": 3.105,
+    "required": 4.5,
+    "ariaHidden": true,
+    "scrollStep": 3
+   },
+   {
+    "sel": "div.tl-grid.shell-surface-body > div.shell-span-read > header.shell-title-block > h2",
+    "text": "İşlenebilir malzemeler",
+    "fontSize": 30.72,
+    "fontWeight": 400,
+    "color": "rgb(18, 23, 25)",
+    "bg": [
+     12,
+     16,
+     17
+    ],
+    "bgShare": 0.666,
+    "ratio": 1.059,
+    "required": 3,
+    "ariaHidden": false,
+    "scrollStep": 3
+   },
+   {
+    "sel": "div.shell-faq > details.shell-faq-item > div.shell-faq-answer > p",
+    "text": "Düz yüzeyler ve basit cep işlemleri için 3 eksen yeterlidir ",
+    "fontSize": 14,
+    "fontWeight": 400,
+    "color": "rgb(59, 66, 63)",
+    "bg": [
+     12,
+     16,
+     17
+    ],
+    "bgShare": 0.998,
+    "ratio": 1.855,
+    "required": 4.5,
+    "ariaHidden": false,
+    "scrollStep": 5
+   },
+   {
+    "sel": "div.shell-span-full > div.shell-faq > details.shell-faq-item > summary",
+    "text": "CNC frezeleme tolerans değerleriniz nedir?",
+    "fontSize": 15.36,
+    "fontWeight": 600,
+    "color": "rgb(18, 23, 25)",
+    "bg": [
+     12,
+     16,
+     17
+    ],
+    "bgShare": 0.938,
+    "ratio": 1.059,
+    "required": 4.5,
+    "ariaHidden": false,
+    "scrollStep": 5
+   },
+   {
+    "sel": "div.shell-faq > details.shell-faq-item > div.shell-faq-answer > p",
+    "text": "Standart çalışma aralığımız ±0.01mm'dir. Ulaşılabilir tolera",
+    "fontSize": 14,
+    "fontWeight": 400,
+    "color": "rgb(59, 66, 63)",
+    "bg": [
+     12,
+     16,
+     17
+    ],
+    "bgShare": 0.665,
+    "ratio": 1.855,
+    "required": 4.5,
+    "ariaHidden": false,
+    "scrollStep": 5
+   },
+   {
+    "sel": "div.shell-span-full > div.shell-faq > details.shell-faq-item > summary",
+    "text": "Hangi dosya formatlarını kabul ediyorsunuz?",
+    "fontSize": 15.36,
+    "fontWeight": 600,
+    "color": "rgb(18, 23, 25)",
+    "bg": [
+     12,
+     16,
+     17
+    ],
+    "bgShare": 0.736,
+    "ratio": 1.059,
+    "required": 4.5,
+    "ariaHidden": false,
+    "scrollStep": 5
+   }
+  ]
+ }
+}

@@ -1,0 +1,99 @@
+{
+  "320": {
+    "total": 10,
+    "visible": 5,
+    "inView": [
+      "Karşılaştırmaya ek",
+      "Malzeme"
+    ],
+    "hidden": [
+      "Aile",
+      "Sertlik",
+      "Maks. °C",
+      "İşlenebilirlik",
+      "Fiyat bandı"
+    ],
+    "scrollWidth": 543,
+    "clientWidth": 276,
+    "focusStops": 174,
+    "firstStop": "INPUT:ABS — karşılaştırmaya ek",
+    "lastStopColumn": {
+      "tag": "BUTTON",
+      "cell": 9,
+      "text": "Ayrıntı"
+    }
+  },
+  "375": {
+    "total": 10,
+    "visible": 5,
+    "inView": [
+      "Karşılaştırmaya ek",
+      "Malzeme",
+      "Yoğunluk g/cm³"
+    ],
+    "hidden": [
+      "Aile",
+      "Sertlik",
+      "Maks. °C",
+      "İşlenebilirlik",
+      "Fiyat bandı"
+    ],
+    "scrollWidth": 543,
+    "clientWidth": 331,
+    "focusStops": 174,
+    "firstStop": "INPUT:ABS — karşılaştırmaya ek",
+    "lastStopColumn": {
+      "tag": "BUTTON",
+      "cell": 9,
+      "text": "Ayrıntı"
+    }
+  },
+  "768": {
+    "total": 10,
+    "visible": 10,
+    "inView": [
+      "Karşılaştırmaya ek",
+      "Malzeme",
+      "Aile",
+      "Yoğunluk g/cm³",
+      "Çekme MPa",
+      "Sertlik"
+    ],
+    "hidden": [],
+    "scrollWidth": 1068,
+    "clientWidth": 708,
+    "focusStops": 174,
+    "firstStop": "INPUT:ABS — karşılaştırmaya ek",
+    "lastStopColumn": {
+      "tag": "BUTTON",
+      "cell": 9,
+      "text": "Ayrıntı"
+    }
+  },
+  "1280": {
+    "total": 10,
+    "visible": 10,
+    "inView": [
+      "Karşılaştırmaya ek",
+      "Malzeme",
+      "Aile",
+      "Yoğunluk g/cm³",
+      "Çekme MPa",
+      "Sertlik",
+      "Maks. °C",
+      "İşlenebilirlik",
+      "Fiyat bandı",
+      "Ayrıntı"
+    ],
+    "hidden": [],
+    "scrollWidth": 1212,
+    "clientWidth": 1212,
+    "focusStops": 174,
+    "firstStop": "INPUT:ABS — karşılaştırmaya ek",
+    "lastStopColumn": {
+      "tag": "BUTTON",
+      "cell": 9,
+      "text": "Ayrıntı"
+    }
+  }
+}
