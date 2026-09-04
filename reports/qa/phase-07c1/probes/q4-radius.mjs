@@ -40,10 +40,16 @@ for (const vp of VIEWPORTS) {
       window.scrollTo(0, 0);
       await new Promise((r) => setTimeout(r, 120));
     });
-    // Move the pointer, so any pointer:fine cursor layer is mounted and painted.
-    await page.mouse.move(Math.round(vp.width / 2), Math.round(vp.height / 2));
-    await page.mouse.move(Math.round(vp.width / 2) + 40, Math.round(vp.height / 2) + 40);
-    await page.waitForTimeout(250);
+    // Move the pointer only when QA_POINTER=1, so the register's claim can be
+    // checked BOTH ways: what a golden capture sees (no pointer ever moves) and
+    // what a real desktop reader sees (a pointer always has).
+    if (process.env.QA_POINTER === "1") {
+      await page.mouse.move(Math.round(vp.width / 2), Math.round(vp.height / 2));
+      await page.mouse.move(Math.round(vp.width / 2) + 40, Math.round(vp.height / 2) + 40);
+      await page.waitForTimeout(250);
+    } else {
+      await page.waitForTimeout(250);
+    }
 
     const found = await page.evaluate(() => {
       const groups = new Map();
