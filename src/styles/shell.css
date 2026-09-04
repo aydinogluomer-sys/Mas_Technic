@@ -910,48 +910,22 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
 
 .shell-notfound-meta { max-width: 640px; margin-top: var(--tl-s7); }
 
-.shell-notfound-links {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  max-width: 720px;
-  margin-top: var(--tl-s6);
-  border-top: var(--tl-rule-size) solid var(--tl-paper-rule);
-  border-left: var(--tl-rule-size) solid var(--tl-paper-rule);
-}
-.shell-root[data-shell-surface="graphite"] .shell-notfound-links {
-  border-top-color: var(--tl-rule);
-  border-left-color: var(--tl-rule);
-}
+/* PHASE 08 — `.shell-notfound-links` IS GONE, not restyled.
+   It was a `repeat(auto-fit, minmax(160px, 1fr))` grid of four hand-picked
+   destinations behind four lucide icons: four of ~90 routes, chosen by
+   somebody, in an order nobody can defend, and structurally the "four icon
+   cards" template §PHASE 07 forbids. Its replacement is two `ShellIndexList`s
+   — the nearest real routes to what the reader typed, then the site's own
+   directory — which are register rows and already own their styling. What
+   remains here is the rhythm around them. */
+.shell-notfound-section { max-width: 760px; margin-top: var(--tl-s7); }
+.shell-notfound-section > .shell-eyebrow { margin: 0 0 var(--tl-s3); }
 
-.shell-notfound-links a {
+.shell-notfound-actions {
   display: flex;
-  min-height: 56px;
-  align-items: center;
+  flex-wrap: wrap;
   gap: var(--tl-s3);
-  border-right: var(--tl-rule-size) solid var(--tl-paper-rule);
-  border-bottom: var(--tl-rule-size) solid var(--tl-paper-rule);
-  padding: var(--tl-s4);
-  color: var(--tl-ink-muted);
-  font: 600 11px/1 var(--tl-font-mono);
-  letter-spacing: .1em;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: color var(--tl-dur-micro) var(--tl-ease-out), background var(--tl-dur-micro) var(--tl-ease-out);
-}
-.shell-notfound-links a:is(:hover, :focus-visible) { color: var(--tl-ink); background: var(--tl-ink-tint); }
-
-.shell-root[data-shell-surface="graphite"] .shell-notfound-links a {
-  border-right-color: var(--tl-rule);
-  border-bottom-color: var(--tl-rule);
-  color: var(--tl-on-dark-body);
-}
-.shell-root[data-shell-surface="graphite"] .shell-notfound-links a:is(:hover, :focus-visible) {
-  color: var(--tl-white);
-  background: var(--tl-tint-hover);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .shell-notfound-links a { transition-duration: .01ms; }
+  margin-top: var(--tl-s7);
 }
 
 /* The pre-route loader lives outside any shell (it renders while the route
