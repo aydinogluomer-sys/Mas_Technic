@@ -726,7 +726,17 @@ const RULES = [
         //
         // The negative controls above are unaffected: none of them reaches a
         // scale noun within two words of the plus.
-        // `çal[ıi]şan`, not `çalışan` — this runs over the I-FOLDED text.
+        //
+        // `çal[ıi]şan` is belt-and-braces, and the commit that added it gave a
+        // WRONG reason — recorded here rather than quietly dropped, because a
+        // false claim about the machinery is the defect this packet exists to
+        // fix. It said the unfolded spelling `çalışan` is dead against the
+        // I-folded text. It is not: every rule's pattern is itself folded, once,
+        // at the bottom of this file (`rule.pattern = trPattern(rule.pattern)`),
+        // so ordinary Turkish spelling is correct in ANY `pattern` rule and
+        // `alaş[ıi]m` above was never needed either. Folding is idempotent, so
+        // the bracket form costs nothing and keeps the alternative readable
+        // if it is ever lifted out of a `pattern` rule.
         String.raw`\b\d[\d.,]*[ \t]?\+[ \t]*(?:${TRW}+[ \t]+){0,2}(?:parça|malzeme|proje|çeşi[td]|alaş[ıi]m|renk|ünite|ürün|model|kalem|marka|tedarikçi|sektör|tezgah|tezgâh|makine|mühendis|teknisyen|personel|çal[ıi]şan|operatör|müşteri|metrekare|m²|m2\b)${TRW}*`,
         // F2, HOLE 2 — the count that is never in the source.
         // `Malzemeler.tsx:122` read `{materialsData.length}+ malzeme ve
@@ -818,8 +828,12 @@ const RULES = [
     // the whole source, and over-removal here costs real published
     // engineering.
     //
-    // Written through `trPattern()`, so the Turkish is readable here and the
-    // matching happens against the I-folded text.
+    // The explicit `trPattern()` below is redundant — the loop at the bottom of
+    // this file folds every rule's `pattern` already, and folding is
+    // idempotent. It is kept because this rule is the one place where the
+    // period words (`yıl`, `yıllık`, `yılda`) carry the dotless ı in every
+    // alternative, and a reader checking THIS rule should not have to scroll
+    // 500 lines to learn why they match `yil`.
     pattern: trPattern(
       new RegExp(
         [
