@@ -1687,10 +1687,131 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   .shell-detail-lists { grid-template-columns: minmax(0, 1fr); }
 }
 
+/* ══════════════════════════════════════════════════════════════════════════
+   PHASE 08 — DOCUMENT SURFACES
+
+   Legal clauses, journal articles, the quality dossier and the capability
+   profiles. Every rule below paints from the `--sf-*` roles, so the same
+   markup is correct on the graphite field and inside a paper evidence band
+   without a second stylesheet.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Numbered document section ────────────────────────────────────────────
+   The number is a hanging marker in the margin at ≥1181px and moves above the
+   heading below it — a hanging indent inside a 4-column layout would eat the
+   measure. Co-located with its base per the cascade contract (defect D0). */
+.shell-doc-section {
+  position: relative;
+  border-top: var(--tl-rule-size) solid var(--sf-rule);
+  padding-top: var(--tl-s5);
+}
+.shell-doc-section + .shell-doc-section { margin-top: var(--tl-s7); }
+.shell-doc-section-no {
+  display: block;
+  margin-bottom: var(--tl-s3);
+  color: var(--sf-accent);
+  font: 500 10px/1 var(--tl-font-mono);
+  letter-spacing: .18em;
+}
+.shell-doc-section > h2 {
+  margin: 0;
+  color: var(--sf-ink);
+  font-size: clamp(19px, 1.5vw, 23px);
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -.012em;
+  text-wrap: balance;
+}
+.shell-doc-section-body { margin-top: var(--tl-s4); }
+/* `:target` is the citation landing state: a clause linked to from the
+   contents index, or from somebody else's e-mail, says so for a moment. */
+.shell-doc-section:target { border-top-color: var(--sf-ink); }
+.shell-doc-section:target > .shell-doc-section-no { color: var(--sf-ink); }
+
+@media (min-width: 1181px) {
+  .shell-doc-section-no {
+    position: absolute;
+    top: var(--tl-s5);
+    left: calc(-1 * (var(--tl-s7) + var(--tl-s2)));
+    margin-bottom: 0;
+  }
+}
+
+/* ── Contents ─────────────────────────────────────────────────────────────*/
+.shell-contents { border-top: var(--tl-rule-size) solid var(--sf-rule); padding-top: var(--tl-s4); }
+.shell-contents .shell-eyebrow { margin: 0 0 var(--tl-s3); }
+.shell-contents ol { margin: 0; padding: 0; list-style: none; }
+.shell-contents li + li { border-top: var(--tl-rule-size) solid var(--sf-rule-soft); }
+.shell-contents a {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--tl-s3);
+  min-height: 40px;
+  padding-block: var(--tl-s2);
+  color: var(--sf-body);
+  font-size: 13px;
+  line-height: 1.45;
+  text-decoration: none;
+  transition: color .25s ease;
+}
+.shell-contents a > span:first-child {
+  color: var(--sf-accent);
+  font: 500 10px/1.6 var(--tl-font-mono);
+  letter-spacing: .1em;
+}
+.shell-contents a:hover { color: var(--sf-ink); }
+
+/* ── Notice ───────────────────────────────────────────────────────────────
+   A rule on the leading edge, never a tinted card. `--tl-stamp` is the same
+   red `.shell-form-error` uses, so a field-level error and a block-level one
+   are visibly the same object. */
+.shell-notice {
+  border-left: 2px solid var(--sf-rule);
+  padding: var(--tl-s3) 0 var(--tl-s3) var(--tl-s4);
+}
+.shell-notice[data-tone="error"] { border-left-color: var(--tl-stamp); }
+.shell-notice[data-tone="caution"] { border-left-color: var(--sf-accent); }
+.shell-notice-label {
+  margin: 0;
+  color: var(--sf-meta);
+  font: 600 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.shell-notice[data-tone="error"] .shell-notice-label { color: var(--tl-stamp); }
+.shell-notice-title {
+  margin: var(--tl-s2) 0 0;
+  color: var(--sf-ink);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.shell-notice-body {
+  margin-top: var(--tl-s2);
+  max-width: 68ch;
+  color: var(--sf-body);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.shell-notice-body > p { margin: 0; }
+.shell-notice-body > p + p { margin-top: var(--tl-s2); }
+.shell-notice-actions { margin-top: var(--tl-s3); }
+
+/* The route-error status readout. Same face and rhythm as the 404 meta row,
+   because they are the same kind of message. */
+.shell-state-reason {
+  margin: 0;
+  color: var(--sf-faint);
+  font: 500 10px/1.6 var(--tl-font-mono);
+  letter-spacing: .12em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .shell-action,
   .shell-action-mark,
   .shell-index-row,
   .shell-index-mark,
+  .shell-contents a,
   .shell-segment { transition-duration: .01ms; }
 }

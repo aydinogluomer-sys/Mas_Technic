@@ -55,22 +55,45 @@ export function ShellEmpty({
   );
 }
 
+/**
+ * THE GENERAL / 500-CLASS ERROR STATE (Phase 08).
+ *
+ * `ShellEmpty` above renders its title as a `<p>` because it is a FRAGMENT: it
+ * appears inside a page that has already published an `<h1>` from
+ * `ShellPageHero`. Phase 07's correction F3 established that split, after an
+ * earlier version used `ShellEmpty` as a whole not-found BODY and so shipped
+ * three routes with no `<h1>` at all.
+ *
+ * This one is the opposite case, and it had the same defect. `ShellRouteBoundary`
+ * renders it INSTEAD OF the entire routed body, so while it is on screen it is
+ * the only content the document has — and a document whose only content is a
+ * `<p>` has no `<h1>`. The title is an `<h1>` now. `role="alert"` stays on the
+ * status label, so the failure is announced rather than merely drawn.
+ *
+ * `reason` is the shell's own mono status readout. An exception message or a
+ * stack trace is deliberately NOT offered to the reader; `componentDidCatch`
+ * below logs those to the console, which is where they belong.
+ */
 export function ShellRouteError({
   label = "ROTA HATASI",
   title = "Bu sayfa yüklenemedi",
-  detail = "Sayfayı yeniden deneyebilir veya ana sayfaya dönebilirsiniz.",
+  detail = "Sayfa çizilirken beklenmeyen bir hata oluştu. Yeniden deneyebilir, ana sayfaya dönebilir veya bize bildirebilirsiniz.",
+  reason = "ERR::ROUTE_RENDER_FAILED",
   onRetry,
 }: {
   label?: string;
   title?: string;
   detail?: string;
+  /** Mono status readout, e.g. `ERR::ROUTE_RENDER_FAILED`. */
+  reason?: string;
   onRetry?: () => void;
 }) {
   return (
     <div className="shell-state shell-state-error" data-shell-state="error" data-full>
       <p className="shell-state-label" role="alert">{label}</p>
-      <p className="shell-state-title">{title}</p>
+      <h1 className="shell-state-title">{title}</h1>
       <p className="shell-state-detail">{detail}</p>
+      {reason && <p className="shell-state-reason">{reason}</p>}
       <div className="shell-state-actions">
         {onRetry && (
           <button type="button" className="shell-state-action" onClick={onRetry}>
@@ -78,6 +101,7 @@ export function ShellRouteError({
           </button>
         )}
         <Link className="shell-state-action" to="/">Ana sayfa</Link>
+        <Link className="shell-state-action" to="/iletisim">İletişim</Link>
       </div>
     </div>
   );

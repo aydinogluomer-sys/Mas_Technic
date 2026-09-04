@@ -14,8 +14,11 @@ export {
 export {
   ShellAction,
   ShellBreadcrumb,
+  ShellContents,
+  ShellDocSection,
   ShellIndexList,
   ShellNextStep,
+  ShellNotice,
   ShellPlate,
   ShellRun,
   ShellSpecTable,
