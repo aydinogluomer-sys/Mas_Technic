@@ -1,0 +1,173 @@
+[
+  {
+    "route": "/kabiliyetler/seri-imalat",
+    "url": "/kabiliyetler/seri-imalat",
+    "title": "Seri İmalat | Mas Technic",
+    "h1": [
+      "Seri İmalat"
+    ],
+    "textLen": 6451,
+    "gone": [
+      {
+        "needle": "50.000 adet/yıl",
+        "present": false
+      },
+      {
+        "needle": "500.000 adet/yıl",
+        "present": false
+      },
+      {
+        "needle": "1.000.000 adet/yıl",
+        "present": false
+      },
+      {
+        "needle": "adet/yıl",
+        "present": false
+      }
+    ],
+    "survive": [
+      {
+        "needle": "±0.01mm",
+        "present": true
+      },
+      {
+        "needle": "CT4-CT6",
+        "present": true
+      },
+      {
+        "needle": "CT5-CT7",
+        "present": true
+      }
+    ]
+  },
+  {
+    "route": "/endustriyel/robotik",
+    "url": "/endustriyel/robotik",
+    "title": "Robotik & Otomasyon | Mas Technic",
+    "h1": [
+      "Robotik & Otomasyon"
+    ],
+    "textLen": 5790,
+    "gone": [
+      {
+        "needle": "100-10K adet/yıl",
+        "present": false
+      },
+      {
+        "needle": "adet/yıl",
+        "present": false
+      }
+    ],
+    "survive": []
+  },
+  {
+    "route": "/hizmetler/mekanik-montaj",
+    "url": "/hizmetler/mekanik-montaj",
+    "title": "Mekanik Montaj | Mas Technic",
+    "h1": [
+      "Mekanik Montaj"
+    ],
+    "textLen": 4968,
+    "gone": [
+      {
+        "needle": "1000+ ünite/gün",
+        "present": false
+      },
+      {
+        "needle": "ünite/gün",
+        "present": false
+      }
+    ],
+    "survive": [
+      {
+        "needle": "M3",
+        "present": true
+      },
+      {
+        "needle": "M12",
+        "present": true
+      },
+      {
+        "needle": "Nm",
+        "present": true
+      },
+      {
+        "needle": "±5%",
+        "present": true
+      }
+    ]
+  },
+  {
+    "route": "/hizmetler/anodizasyon",
+    "url": "/hizmetler/anodizasyon",
+    "title": "Anodizasyon | Mas Technic",
+    "h1": [
+      "Anodizasyon"
+    ],
+    "textLen": 9316,
+    "gone": [
+      {
+        "needle": "20+ renk",
+        "present": false
+      },
+      {
+        "needle": "20+ Renk",
+        "present": false
+      }
+    ],
+    "survive": [
+      {
+        "needle": "ΔE",
+        "present": true
+      },
+      {
+        "needle": "60-70 HRC",
+        "present": true
+      },
+      {
+        "needle": "MIL-A-8625",
+        "present": true
+      }
+    ]
+  },
+  {
+    "route": "/hizmetler/kimyasal-islemler",
+    "url": "/hizmetler/kimyasal-islemler",
+    "title": "Kimyasal İşlemler | Mas Technic",
+    "h1": [
+      "Kimyasal İşlemler"
+    ],
+    "textLen": 5196,
+    "gone": [],
+    "survive": [
+      {
+        "needle": "ASTM B117",
+        "present": true
+      },
+      {
+        "needle": "saat",
+        "present": true
+      }
+    ]
+  },
+  {
+    "route": "/malzemeler",
+    "url": "/malzemeler",
+    "title": "Malzemeler | Mas Technic",
+    "h1": [
+      "Malzeme kütüphanesi"
+    ],
+    "textLen": 7617,
+    "gone": [
+      {
+        "needle": "15+ alüminyum",
+        "present": false
+      },
+      {
+        "needle": "+ malzeme ve alaşım",
+        "present": false
+      }
+    ],
+    "survive": []
+  }
+]
