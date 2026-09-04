@@ -1,0 +1,80 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   QA-OWNED NEGATIVE CONTROL — PHASE 07 CORRECTION #1, advisory A2
+
+   `hideForeignOverlays()` defaults to `require: true` and is supposed to FAIL
+   when it finds nothing to hide. That assertion is the whole reason the fix is
+   not itself a future no-op: "a no-op that looks like success is exactly how
+   it got into 25 baselines" (e2e/visual/overlays.ts). So it has to be shown
+   failing, not asserted to fail.
+
+   `/` is the one route `App.tsx` does not mount `ChatBot` on, so navigating
+   there and calling with the DEFAULT options reproduces a drifted selector
+   exactly: the locator matches nothing, and the guard must go red.
+
+   Also pinned here: the three production call sites pass `require: false` only
+   for `/` (landing-golden and navigation-golden visit `/` only;
+   shell-golden passes `surface.path !== "/"`), and inner-pages-golden takes
+   the default. If a later phase adds a non-`/` route with `require: false`,
+   that is a hole this file does not cover — it is called out in the report.
+   ══════════════════════════════════════════════════════════════════════════ */
+import { expect, test } from "@playwright/test";
+import { gotoAndSettle } from "../helpers";
+import { hideForeignOverlays } from "./overlays";
+
+test.describe("A2 — the foreign-overlay guard is falsifiable", () => {
+  test("armed: on a route that mounts the launcher it finds and hides it", async ({ page }) => {
+    await gotoAndSettle(page, "/hizmetler/cnc-frezeleme");
+    await expect(page.locator("[data-chat-launcher]")).toBeVisible();
+
+    const found = await hideForeignOverlays(page);
+    expect(found, "the guard must report what it hid").toBeGreaterThan(0);
+    await expect(
+      page.locator("[data-chat-launcher]"),
+      "the launcher must be gone from the paint after the call",
+    ).toBeHidden();
+  });
+
+  test("red: require:true throws when the selector matches nothing", async ({ page }) => {
+    // `/` mounts no launcher, which is behaviourally identical to a selector
+    // that has drifted — the exact condition the guard exists to catch.
+    await gotoAndSettle(page, "/");
+    await expect(page.locator("[data-chat-launcher]")).toHaveCount(0);
+
+    const err = await hideForeignOverlays(page).then(
+      () => null,
+      (e: Error) => e.message,
+    );
+    expect(err, "hideForeignOverlays must THROW when it hides nothing").not.toBeNull();
+    expect(err).toContain("no [data-chat-launcher] was found to hide");
+  });
+
+  test("green: require:false is the documented escape and does not throw", async ({ page }) => {
+    await gotoAndSettle(page, "/");
+    const found = await hideForeignOverlays(page, { require: false });
+    expect(found).toBe(0);
+  });
+
+  test("the launcher really does sit inside the captured footer element", async ({ page }) => {
+    // The premise of A2. If the launcher did not overlap the crop, removing it
+    // could not have changed 25 baselines, and the change would need another
+    // explanation.
+    await gotoAndSettle(page, "/hakkimizda");
+    // The launcher is position:fixed, so its rect is viewport-relative; the
+    // footer's is not. They only overlap once the footer is on screen, which
+    // is the state the golden specs capture in. (My first version of this test
+    // skipped the scroll and reported no overlap — the probe was wrong.)
+    await page.locator("footer").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(400);
+    const overlap = await page.evaluate(() => {
+      const l = document.querySelector("[data-chat-launcher]");
+      const f = document.querySelector("footer.tl-footer, footer");
+      if (!l || !f) return null;
+      const a = l.getBoundingClientRect(), b = f.getBoundingClientRect();
+      const ix = Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
+      const iy = Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
+      return { launcher: [Math.round(a.width), Math.round(a.height)], covered: Math.round(ix * iy) };
+    });
+    expect(overlap, "both elements must exist").not.toBeNull();
+    expect(overlap!.covered, "the launcher must overlap the footer crop").toBeGreaterThan(0);
+  });
+});

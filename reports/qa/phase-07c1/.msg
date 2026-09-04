@@ -1,44 +1,59 @@
-test(qa): A7 — red control, counter-proof, and an anti-narrowing set comparison
+test(qa): A2 — the launcher is in none of the 100, and the guard fails on cue
 
-THE FIX IS REAL, AND THE RED IT CLOSES IS REPRODUCIBLE.
-Current scripts/motion-audit.mjs --mode=rest, run against two builds:
+THE LAUNCHER IS GONE, AND THE SCAN THAT SAYS SO CAN FIND IT.
+probes/q6-launcher-scan.mjs reads the disc colour from the LIVE page rather
+than hardcoding it (rgb(10,125,138), 56x56 at 1280), then decodes every golden
+in a canvas. The site's brand teal appears as antialiased TEXT within euclidean
+distance 11-13 of the same colour, so a colour test alone cannot separate "the
+disc is here" from "this page uses the brand". The discriminator is a solid
+horizontal RUN: a >=48px disc must produce one, a 1-2px glyph stroke cannot.
 
-  pre-fix build (dfe9da7, :4191)
-    /malzemeler @1280   hidden=38  hiddenText=12  partialText=0   -> FAIL
-    /malzemeler @375    hidden=0   hiddenText=0                   (desktop-only
-                                                                   choreography)
-  integrated build (6f37eb0)
-    12 pairs, /malzemeler @1280 at 1977 elements
-    hidden=0  hiddenText=0  partialText=0 on every pair           -> PASS
+  positive control (a live capture that DOES contain it)
+      exact=172  tight<=8=2204  near<=24=2518  maxRun=52
+  all 100 goldens
+      exact=0    maxRun=1       (single antialiased text pixels)
 
-The Coder reports 39; I measure 38, on an element count of 1976 against their
-1977. A one-element drift in a portal-mounted overlay. hiddenText=12 — the
-number that carries the finding — matches exactly.
+  52 against 1. The separation is total, and the control proves a zero result
+  means something.
 
-THE CHOREOGRAPHY WAS GATED, NOT DELETED.
---mode=enabled on the integrated build:
-  /malzemeler @1280  elements=1998  armed=44  armedText=12
-                     afterScroll=44  afterScrollText=12
-  /malzemeler @375   armed=5  armedText=0
-The same 12 text-bearing elements are still animated for a reader who did not
-ask for motion off. A "fix" that deleted the reveal would report 0 here too,
-which is why this run is the one that decides it.
+WHAT BECAME VISIBLE — LOOKED AT, NOT ASSUMED.
+probes/q7-golden-reveal.mjs decodes the OLD and NEW blob of each of the 25
+changed goldens, diffs them and crops the changed region old-over-new.
 
-THE HARD GATE WAS NOT NARROWED — measured, not read off the diff.
-The PRE-A7 audit script (7e69a79) was run against the SAME pre-fix build:
-  old script: 10 pairs, all hidden=0 hiddenText=0, exit 0 — it reported PASS
-              over a build hiding 12 text-bearing elements, because
-              /malzemeler was not in its matrix.
-  new script: those same 10 pairs, identical hidden=0 hiddenText=0, PLUS the
-              two new /malzemeler pairs, one of them red.
-Every pair the old gate judged, the new gate judges identically. Widened only.
+  every one of the 25 changes inside ONE bounding box, in the corner the
+  launcher occupied, and nowhere else:
+    1280  70x64 at x=1200      1440  70x64 at x=1360
+     768  61x70 at x=690        375  60x64 at x=305 (footers)
+                                375  42x11 / 36x8 (inner crops)
+  changed area 0.105% - 0.952% per file.
 
-THE partialText BAND IS UNGATED OBSERVABILITY.
-partialText=0 on BOTH builds and every pair, including the pre-fix pair where
-38 elements sat at chain 0 — so the band did not absorb anything the hard gate
-used to catch. In source the band intercepts only 0 < chain < 0.95, which the
-previous code already discarded at `if (value !== 0) continue`. The chain-0
-gate is byte-equivalent.
+  Inspected at full size: 375 shell-footer-about, 1280 shell-footer-service,
+  375 inner-hero-sector-detail. In every case the newly-baselined region is
+  plain footer/hero background — the disc was sitting on empty ground, not on
+  text. The MALZEMELER spec block (Ti6Al4V, Inconel 718, Al 7075) sits beside
+  the old disc, not under it, and reads identically in both. No defect is
+  pinned by the new baseline.
+
+NO GOLDEN MOVED BECAUSE OF A1 OR A7 — measured, not asserted. If either had
+moved a pixel inside these 25 crops, the diff would show a second bounding box.
+There is exactly one per file, and it is the launcher's.
+
+THE require:true GUARD FAILS ON CUE.
+e2e/visual/qa-a2-overlay-guard.spec.ts (QA-owned), 16/16 at 375/768/1280/1440:
+  armed          finds and hides [data-chat-launcher] on a mounting route
+  red            require:true THROWS "no [data-chat-launcher] was found to
+                 hide" on /, which mounts none — behaviourally identical to a
+                 drifted selector
+  green          require:false returns 0 without throwing
+  premise        the launcher really does overlap the captured footer element
+
+ChatBot.tsx is byte-identical (7a5daf0) at d1ed8e3, e07c154 and 6f37eb0 — the
+fix touched no production code, as claimed. All three require:false call sites
+are on / only.
+
+MY OWN ERROR, CORRECTED IN THE FILE: the overlap test first compared a
+position:fixed viewport rect against an unscrolled footer rect and reported no
+overlap. The probe was wrong.
 
 Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_013mzqXq7KjpjHdm76iXjL6k

@@ -1,0 +1,477 @@
+[
+  {
+    "name": "win32/visual-1280/shell-footer-about.png",
+    "w": 1278,
+    "h": 298,
+    "changed": 2926,
+    "maxDelta": 248,
+    "bbox": [
+      1200,
+      150,
+      70,
+      64
+    ],
+    "crop": [
+      1186,
+      136,
+      92,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-1280/shell-footer-journal.png",
+    "w": 1278,
+    "h": 299,
+    "changed": 2926,
+    "maxDelta": 248,
+    "bbox": [
+      1200,
+      151,
+      70,
+      64
+    ],
+    "crop": [
+      1186,
+      137,
+      92,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-1280/shell-footer-notfound.png",
+    "w": 1278,
+    "h": 299,
+    "changed": 2926,
+    "maxDelta": 248,
+    "bbox": [
+      1200,
+      150,
+      70,
+      64
+    ],
+    "crop": [
+      1186,
+      136,
+      92,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-1280/shell-footer-rfq.png",
+    "w": 1278,
+    "h": 298,
+    "changed": 2926,
+    "maxDelta": 248,
+    "bbox": [
+      1200,
+      150,
+      70,
+      64
+    ],
+    "crop": [
+      1186,
+      136,
+      92,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-1280/shell-footer-service.png",
+    "w": 1278,
+    "h": 298,
+    "changed": 2926,
+    "maxDelta": 248,
+    "bbox": [
+      1200,
+      149,
+      70,
+      64
+    ],
+    "crop": [
+      1186,
+      135,
+      92,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-1440/shell-footer-about.png",
+    "w": 1438,
+    "h": 298,
+    "changed": 2926,
+    "maxDelta": 248,
+    "bbox": [
+      1360,
+      150,
+      70,
+      64
+    ],
+    "crop": [
+      1346,
+      136,
+      92,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-1440/shell-footer-journal.png",
+    "w": 1438,
+    "h": 299,
+    "changed": 2926,
+    "maxDelta": 248,
+    "bbox": [
+      1360,
+      150,
+      70,
+      64
+    ],
+    "crop": [
+      1346,
+      136,
+      92,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-1440/shell-footer-notfound.png",
+    "w": 1438,
+    "h": 299,
+    "changed": 2926,
+    "maxDelta": 248,
+    "bbox": [
+      1360,
+      151,
+      70,
+      64
+    ],
+    "crop": [
+      1346,
+      137,
+      92,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-1440/shell-footer-rfq.png",
+    "w": 1438,
+    "h": 298,
+    "changed": 2926,
+    "maxDelta": 248,
+    "bbox": [
+      1360,
+      150,
+      70,
+      64
+    ],
+    "crop": [
+      1346,
+      136,
+      92,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-1440/shell-footer-service.png",
+    "w": 1438,
+    "h": 298,
+    "changed": 2926,
+    "maxDelta": 248,
+    "bbox": [
+      1360,
+      150,
+      70,
+      64
+    ],
+    "crop": [
+      1346,
+      136,
+      92,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-375/inner-hero-material-family.png",
+    "w": 375,
+    "h": 557,
+    "changed": 336,
+    "maxDelta": 127,
+    "bbox": [
+      314,
+      546,
+      42,
+      11
+    ],
+    "crop": [
+      300,
+      532,
+      70,
+      25
+    ]
+  },
+  {
+    "name": "win32/visual-375/inner-hero-sector-detail.png",
+    "w": 375,
+    "h": 614,
+    "changed": 2192,
+    "maxDelta": 248,
+    "bbox": [
+      306,
+      545,
+      58,
+      57
+    ],
+    "crop": [
+      292,
+      531,
+      83,
+      83
+    ]
+  },
+  {
+    "name": "win32/visual-375/inner-hero-service-detail.png",
+    "w": 375,
+    "h": 625,
+    "changed": 2192,
+    "maxDelta": 248,
+    "bbox": [
+      308,
+      546,
+      54,
+      56
+    ],
+    "crop": [
+      294,
+      532,
+      81,
+      84
+    ]
+  },
+  {
+    "name": "win32/visual-375/inner-next-sector-detail.png",
+    "w": 375,
+    "h": 549,
+    "changed": 216,
+    "maxDelta": 127,
+    "bbox": [
+      317,
+      541,
+      36,
+      8
+    ],
+    "crop": [
+      303,
+      527,
+      64,
+      22
+    ]
+  },
+  {
+    "name": "win32/visual-375/inner-next-service-detail.png",
+    "w": 375,
+    "h": 549,
+    "changed": 216,
+    "maxDelta": 127,
+    "bbox": [
+      317,
+      541,
+      36,
+      8
+    ],
+    "crop": [
+      303,
+      527,
+      64,
+      22
+    ]
+  },
+  {
+    "name": "win32/visual-375/shell-footer-about.png",
+    "w": 375,
+    "h": 741,
+    "changed": 2290,
+    "maxDelta": 248,
+    "bbox": [
+      305,
+      600,
+      60,
+      64
+    ],
+    "crop": [
+      291,
+      586,
+      84,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-375/shell-footer-journal.png",
+    "w": 375,
+    "h": 742,
+    "changed": 2290,
+    "maxDelta": 248,
+    "bbox": [
+      305,
+      602,
+      60,
+      64
+    ],
+    "crop": [
+      291,
+      588,
+      84,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-375/shell-footer-notfound.png",
+    "w": 375,
+    "h": 743,
+    "changed": 2290,
+    "maxDelta": 248,
+    "bbox": [
+      305,
+      602,
+      60,
+      64
+    ],
+    "crop": [
+      291,
+      588,
+      84,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-375/shell-footer-rfq.png",
+    "w": 375,
+    "h": 742,
+    "changed": 2290,
+    "maxDelta": 248,
+    "bbox": [
+      305,
+      601,
+      60,
+      64
+    ],
+    "crop": [
+      291,
+      587,
+      84,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-375/shell-footer-service.png",
+    "w": 375,
+    "h": 742,
+    "changed": 2290,
+    "maxDelta": 248,
+    "bbox": [
+      305,
+      601,
+      60,
+      64
+    ],
+    "crop": [
+      291,
+      587,
+      84,
+      92
+    ]
+  },
+  {
+    "name": "win32/visual-768/shell-footer-about.png",
+    "w": 766,
+    "h": 745,
+    "changed": 3155,
+    "maxDelta": 248,
+    "bbox": [
+      690,
+      597,
+      61,
+      70
+    ],
+    "crop": [
+      676,
+      583,
+      89,
+      98
+    ]
+  },
+  {
+    "name": "win32/visual-768/shell-footer-journal.png",
+    "w": 766,
+    "h": 747,
+    "changed": 3155,
+    "maxDelta": 248,
+    "bbox": [
+      690,
+      598,
+      61,
+      70
+    ],
+    "crop": [
+      676,
+      584,
+      89,
+      98
+    ]
+  },
+  {
+    "name": "win32/visual-768/shell-footer-notfound.png",
+    "w": 766,
+    "h": 746,
+    "changed": 3155,
+    "maxDelta": 248,
+    "bbox": [
+      690,
+      598,
+      61,
+      70
+    ],
+    "crop": [
+      676,
+      584,
+      89,
+      98
+    ]
+  },
+  {
+    "name": "win32/visual-768/shell-footer-rfq.png",
+    "w": 766,
+    "h": 746,
+    "changed": 3155,
+    "maxDelta": 248,
+    "bbox": [
+      690,
+      598,
+      61,
+      70
+    ],
+    "crop": [
+      676,
+      584,
+      89,
+      98
+    ]
+  },
+  {
+    "name": "win32/visual-768/shell-footer-service.png",
+    "w": 766,
+    "h": 746,
+    "changed": 3155,
+    "maxDelta": 248,
+    "bbox": [
+      690,
+      598,
+      61,
+      70
+    ],
+    "crop": [
+      676,
+      584,
+      89,
+      98
+    ]
+  }
+]
