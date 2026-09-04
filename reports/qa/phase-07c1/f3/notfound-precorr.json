@@ -1,0 +1,318 @@
+{
+  "notFound": [
+    {
+      "path": "/hizmetler/kategori/qa-yok-boyle-bir-sey",
+      "family": "03",
+      "label": "HİZMET",
+      "url": "/hizmetler/kategori/qa-yok-boyle-bir-sey",
+      "title": "Hizmetler | Mas Technic",
+      "h1": [],
+      "headings": [
+        "H2:HASSAS ÜRETİM.İZLENEBİLİR TESLİM.",
+        "H3:HİZMETLER",
+        "H3:KABİLİYETLER",
+        "H3:ENDÜSTRİYEL",
+        "H3:KURUMSAL",
+        "H2:HİZMETLER",
+        "H2:KABİLİYETLER",
+        "H2:ENDÜSTRİYEL",
+        "H2:KURUMSAL"
+      ],
+      "railNos": [
+        "01",
+        "01",
+        "14"
+      ],
+      "railLabels": [
+        "HEADER",
+        "HİZMET",
+        "FOOTER"
+      ],
+      "heroRail": null,
+      "bodyText": "Ana içeriğe geç 01 HEADER MAS TECHNIC PRECISION CNC MAS TECHNIC MENÜ TEKLİF AL 03 HİZMET 01 HİZMET KATEGORİ YOK Bu kategori kaydı bulunamadı Bağlantı değişmiş olabilir. Aşağıdaki listeden ilgili başlığa geçebilirsiniz. 01 Talaşlı İmalat CNC frezeleme, tornalama ve hassas mikro işleme ile yüksek toleranslı üretim çözümleri. 02 Ön Üretim Kalıp, döküm ve prototip üretim süreçleri ile ürün geliştirme "
+    },
+    {
+      "path": "/kabiliyetler/kategori/qa-yok-boyle-bir-sey",
+      "family": "04",
+      "label": "KABİLİYET",
+      "url": "/kabiliyetler/kategori/qa-yok-boyle-bir-sey",
+      "title": "Kabiliyetler | Mas Technic",
+      "h1": [],
+      "headings": [
+        "H2:HASSAS ÜRETİM.İZLENEBİLİR TESLİM.",
+        "H3:HİZMETLER",
+        "H3:KABİLİYETLER",
+        "H3:ENDÜSTRİYEL",
+        "H3:KURUMSAL",
+        "H2:HİZMETLER",
+        "H2:KABİLİYETLER",
+        "H2:ENDÜSTRİYEL",
+        "H2:KURUMSAL"
+      ],
+      "railNos": [
+        "01",
+        "01",
+        "14"
+      ],
+      "railLabels": [
+        "HEADER",
+        "KABİLİYET",
+        "FOOTER"
+      ],
+      "heroRail": null,
+      "bodyText": "Ana içeriğe geç 01 HEADER MAS TECHNIC PRECISION CNC MAS TECHNIC MENÜ TEKLİF AL 04 KABİLİYET 01 KABİLİYET KATEGORİ YOK Bu kategori kaydı bulunamadı Bağlantı değişmiş olabilir. Aşağıdaki listeden ilgili başlığa geçebilirsiniz. 01 Üretim Altyapısı Son teknoloji CNC tezgahları, ölçüm cihazları ve geniş malzeme kütüphanesi. 02 Kalite & Standartlar ISO 9001:2015 kapsamında tanımlı kalite kontrol süreçle"
+    },
+    {
+      "path": "/endustriyel/kategori/qa-yok-boyle-bir-sey",
+      "family": "05",
+      "label": "SEKTÖR",
+      "url": "/endustriyel/kategori/qa-yok-boyle-bir-sey",
+      "title": "Endüstriyel | Mas Technic",
+      "h1": [],
+      "headings": [
+        "H2:HASSAS ÜRETİM.İZLENEBİLİR TESLİM.",
+        "H3:HİZMETLER",
+        "H3:KABİLİYETLER",
+        "H3:ENDÜSTRİYEL",
+        "H3:KURUMSAL",
+        "H2:HİZMETLER",
+        "H2:KABİLİYETLER",
+        "H2:ENDÜSTRİYEL",
+        "H2:KURUMSAL"
+      ],
+      "railNos": [
+        "01",
+        "01",
+        "14"
+      ],
+      "railLabels": [
+        "HEADER",
+        "SEKTÖR",
+        "FOOTER"
+      ],
+      "heroRail": null,
+      "bodyText": "Ana içeriğe geç 01 HEADER MAS TECHNIC PRECISION CNC MAS TECHNIC MENÜ TEKLİF AL 05 SEKTÖR 01 SEKTÖR KATEGORİ YOK Bu kategori kaydı bulunamadı Bağlantı değişmiş olabilir. Aşağıdaki listeden ilgili başlığa geçebilirsiniz. 01 Yüksek Teknoloji Havacılık, savunma ve robotik gibi kritik sektörlere yönelik yüksek hassasiyetli üretim. 02 Seri Üretim Otomotiv, medikal ve denizcilik sektörlerine yönelik yüks"
+    },
+    {
+      "path": "/hizmetler/qa-yok-boyle-bir-sey",
+      "family": "03",
+      "label": "HİZMET",
+      "url": "/hizmetler/qa-yok-boyle-bir-sey",
+      "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+      "h1": [],
+      "headings": [
+        "H2:HASSAS ÜRETİM.İZLENEBİLİR TESLİM.",
+        "H3:HİZMETLER",
+        "H3:KABİLİYETLER",
+        "H3:ENDÜSTRİYEL",
+        "H3:KURUMSAL",
+        "H2:HİZMETLER",
+        "H2:KABİLİYETLER",
+        "H2:ENDÜSTRİYEL",
+        "H2:KURUMSAL"
+      ],
+      "railNos": [
+        "01",
+        "01",
+        "14"
+      ],
+      "railLabels": [
+        "HEADER",
+        "HİZMET",
+        "FOOTER"
+      ],
+      "heroRail": null,
+      "bodyText": "Ana içeriğe geç 01 HEADER MAS TECHNIC PRECISION CNC MAS TECHNIC MENÜ TEKLİF AL 03 HİZMET 01 HİZMET KAYIT YOK Bu sayfa kaydı bulunamadı Bağlantı değişmiş olabilir. Hizmet ve sektör başlıklarına ana sayfadan ulaşabilirsiniz. ANA SAYFA 14 FOOTER HASSAS ÜRETİM. İZLENEBİLİR TESLİM. Ataşehir Mah., 8287. Sok. No: 4, 35620 Çiğli / İZMİR +90 (536) 564 51 94 sales@mastechnic.com HİZMETLER Talaşlı İmalat Ön "
+    },
+    {
+      "path": "/endustriyel/qa-yok-boyle-bir-sey",
+      "family": "05",
+      "label": "SEKTÖR",
+      "url": "/endustriyel/qa-yok-boyle-bir-sey",
+      "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+      "h1": [],
+      "headings": [
+        "H2:HASSAS ÜRETİM.İZLENEBİLİR TESLİM.",
+        "H3:HİZMETLER",
+        "H3:KABİLİYETLER",
+        "H3:ENDÜSTRİYEL",
+        "H3:KURUMSAL",
+        "H2:HİZMETLER",
+        "H2:KABİLİYETLER",
+        "H2:ENDÜSTRİYEL",
+        "H2:KURUMSAL"
+      ],
+      "railNos": [
+        "01",
+        "01",
+        "14"
+      ],
+      "railLabels": [
+        "HEADER",
+        "HİZMET",
+        "FOOTER"
+      ],
+      "heroRail": null,
+      "bodyText": "Ana içeriğe geç 01 HEADER MAS TECHNIC PRECISION CNC MAS TECHNIC MENÜ TEKLİF AL 03 HİZMET 01 HİZMET KAYIT YOK Bu sayfa kaydı bulunamadı Bağlantı değişmiş olabilir. Hizmet ve sektör başlıklarına ana sayfadan ulaşabilirsiniz. ANA SAYFA 14 FOOTER HASSAS ÜRETİM. İZLENEBİLİR TESLİM. Ataşehir Mah., 8287. Sok. No: 4, 35620 Çiğli / İZMİR +90 (536) 564 51 94 sales@mastechnic.com HİZMETLER Talaşlı İmalat Ön "
+    },
+    {
+      "path": "/kabiliyetler/qa-yok-boyle-bir-sey",
+      "family": "04",
+      "label": "KABİLİYET",
+      "url": "/kabiliyetler/qa-yok-boyle-bir-sey",
+      "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+      "h1": [],
+      "headings": [
+        "H2:HASSAS ÜRETİM.İZLENEBİLİR TESLİM.",
+        "H3:HİZMETLER",
+        "H3:KABİLİYETLER",
+        "H3:ENDÜSTRİYEL",
+        "H3:KURUMSAL",
+        "H2:HİZMETLER",
+        "H2:KABİLİYETLER",
+        "H2:ENDÜSTRİYEL",
+        "H2:KURUMSAL"
+      ],
+      "railNos": [
+        "01",
+        "01",
+        "14"
+      ],
+      "railLabels": [
+        "HEADER",
+        "HİZMET",
+        "FOOTER"
+      ],
+      "heroRail": null,
+      "bodyText": "Ana içeriğe geç 01 HEADER MAS TECHNIC PRECISION CNC MAS TECHNIC MENÜ TEKLİF AL 03 HİZMET 01 HİZMET KAYIT YOK Bu sayfa kaydı bulunamadı Bağlantı değişmiş olabilir. Hizmet ve sektör başlıklarına ana sayfadan ulaşabilirsiniz. ANA SAYFA 14 FOOTER HASSAS ÜRETİM. İZLENEBİLİR TESLİM. Ataşehir Mah., 8287. Sok. No: 4, 35620 Çiğli / İZMİR +90 (536) 564 51 94 sales@mastechnic.com HİZMETLER Talaşlı İmalat Ön "
+    },
+    {
+      "path": "/malzemeler/qa-yok-boyle-bir-sey",
+      "family": null,
+      "label": null,
+      "url": "/malzemeler",
+      "title": "Malzemeler | Mas Technic",
+      "h1": [
+        "Malzeme kütüphanesi"
+      ],
+      "headings": [
+        "H1:Malzeme kütüphanesi",
+        "H2:Yüzey Mükemmelliği",
+        "H2:Malzeme aileleri",
+        "H2:Malzeme seçimini birlikte netleştirelim",
+        "H2:HASSAS ÜRETİM.İZLENEBİLİR TESLİM.",
+        "H3:HİZMETLER",
+        "H3:KABİLİYETLER",
+        "H3:ENDÜSTRİYEL",
+        "H3:KURUMSAL",
+        "H2:HİZMETLER",
+        "H2:KABİLİYETLER",
+        "H2:ENDÜSTRİYEL",
+        "H2:KURUMSAL"
+      ],
+      "railNos": [
+        "01",
+        "01",
+        "02",
+        "03",
+        "04",
+        "14"
+      ],
+      "railLabels": [
+        "HEADER",
+        "MALZEME",
+        "AİLE",
+        "KAYIT",
+        "SONRAKİ ADIM",
+        "FOOTER"
+      ],
+      "heroRail": [
+        "01",
+        "MALZEME"
+      ],
+      "bodyText": "Ana içeriğe geç 01 HEADER MAS TECHNIC PRECISION CNC MAS TECHNIC MENÜ TEKLİF AL R1 MALZEME 01 MALZEME TEKNİK REFERANS Malzeme kütüphanesi CNC işlemede sık kullanılan metaller, mühendislik plastikleri ve kompozitler için karşılaştırmalı teknik kayıt. Aileyi seçin, değerleri yan yana okuyun, seçtiğiniz malzemeyle teklif dosyası açın. TEKLİF AL KAYDA GEÇ KAYIT TÜRÜ Karşılaştırmalı teknik referans STAN"
+    },
+    {
+      "path": "/qa-bogus-route",
+      "family": null,
+      "label": null,
+      "url": "/qa-bogus-route",
+      "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+      "h1": [
+        "Aradığınız sayfa bulunamadı"
+      ],
+      "headings": [
+        "H1:Aradığınız sayfa bulunamadı",
+        "H2:HASSAS ÜRETİM.İZLENEBİLİR TESLİM.",
+        "H3:HİZMETLER",
+        "H3:KABİLİYETLER",
+        "H3:ENDÜSTRİYEL",
+        "H3:KURUMSAL",
+        "H2:HİZMETLER",
+        "H2:KABİLİYETLER",
+        "H2:ENDÜSTRİYEL",
+        "H2:KURUMSAL"
+      ],
+      "railNos": [
+        "01",
+        "14"
+      ],
+      "railLabels": [
+        "HEADER",
+        "FOOTER"
+      ],
+      "heroRail": null,
+      "bodyText": "Ana içeriğe geç 01 HEADER MAS TECHNIC PRECISION CNC MAS TECHNIC MENÜ TEKLİF AL 404 HATA ERR::PAGE_NOT_FOUND 404 Aradığınız sayfa bulunamadı Bu koordinatlarda işlenecek parça yok. DURUM 404 İSTENEN YOL /qa-bogus-route YÖNLENDİRME YOK ANA SAYFA HİZMETLERİMİZ TEKLİF AL SSS 14 FOOTER HASSAS ÜRETİM. İZLENEBİLİR TESLİM. Ataşehir Mah., 8287. Sok. No: 4, 35620 Çiğli / İZMİR +90 (536) 564 51 94 sales@maste"
+    }
+  ],
+  "real": [
+    {
+      "path": "/hizmetler/cnc-frezeleme",
+      "url": "/hizmetler/cnc-frezeleme",
+      "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+      "h1": [
+        "CNC Frezeleme"
+      ]
+    },
+    {
+      "path": "/hizmetler/anodizasyon",
+      "url": "/hizmetler/anodizasyon",
+      "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+      "h1": [
+        "Anodizasyon"
+      ]
+    },
+    {
+      "path": "/kabiliyetler/seri-imalat",
+      "url": "/kabiliyetler/seri-imalat",
+      "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+      "h1": [
+        "Seri İmalat"
+      ]
+    },
+    {
+      "path": "/endustriyel/otomotiv",
+      "url": "/endustriyel/otomotiv",
+      "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+      "h1": [
+        "Otomotiv"
+      ]
+    },
+    {
+      "path": "/malzemeler/aluminyum",
+      "url": "/malzemeler/aluminyum",
+      "title": "Alüminyum CNC İşleme | 6061, 7075, 2024 Alaşımları | Mas Technic",
+      "h1": [
+        "CNC İşleme için Alüminyum Alaşımları"
+      ]
+    },
+    {
+      "path": "/hizmetler/kategori/talasli-imalat",
+      "url": "/hizmetler/kategori/talasli-imalat",
+      "title": "Talaşlı İmalat | Mas Technic",
+      "h1": [
+        "Talaşlı İmalat"
+      ]
+    }
+  ]
+}
