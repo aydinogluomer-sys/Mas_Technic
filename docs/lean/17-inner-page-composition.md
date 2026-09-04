@@ -228,14 +228,22 @@ ancestor opacity chain, and the result reported as the **median** over the
 sampled pixels because a single modal colour is meaningless against a
 photograph — every run in it failed:
 
-| run | viewport | before | need |
-|---|---|---|---|
-| `Malzeme Dönüşümü` 12px, `--primary` teal | 375 | **1.745** | 4.5 |
-| 4 × 10px property labels, `--text-technical` | 375 | 3.769–4.053 | 4.5 |
-| `Malzeme Dönüşümü` 12px, `--primary` teal | 1280 | **2.363** | 4.5 |
-| `Yüzey Mükemmelliği` 60px/700 | 1280 | **2.108** | 3 |
-| 4 × 10px card labels, `--text-technical` | 1280 | 2.020–2.717 | 4.5 |
-| 4 × 10px card values, `--text-secondary` | 1280 | 4.113–4.118 | 4.5 |
+| run | viewport | need | before | after |
+|---|---|---|---|---|
+| `Malzeme Dönüşümü` 12px, `--primary` teal | 375 | 4.5 | **1.745** | pass |
+| 4 × 10px property labels, `--text-technical` | 375 | 4.5 | 3.769–4.053 | pass |
+| `Yüzey Mükemmelliği` 60px/700 | 1280 | 3 | **2.108** | pass |
+| `Malzeme Dönüşümü` 12px, `--primary` teal | 1280 | 4.5 | **2.363** | pass |
+
+**At-rest failures on `/malzemeler`: 5 → 0 at 375, 2 → 0 at 1280.** Same
+instrument, same controls, both builds; the only difference is this component.
+
+A run is counted only when its ancestor **opacity chain is ≥ 0.95**. The card
+is scroll-faded (`cardOpacity`, `titleOpacity`), and a run caught at chain 0.66
+on its way in is a transition frame, not something a reader is reading — the
+same distinction the motion audit's rest matrix draws. Those are reported
+separately (9 before, 7 after at 1280) and are not counted either way, so the
+gate cannot be passed by fading something out.
 
 Three causes and three repairs, recorded because the obvious fix — larger type
 — would have fixed none of them:
@@ -265,7 +273,9 @@ screenshots at another; and the **chat launcher covers 91 % of that button's
 line box** at 1280, so the few unobstructed pixels are not representative of
 anything. The instrument now polls to a stable scroll offset, re-verifies it
 did not move across the capture, and counts launcher-covered pixels as an
-*obstruction* rather than a contrast sample.
+*obstruction* rather than a contrast sample. With the hit-test guard in place
+the `.shell-row-toggle` reading disappears from **both** builds, which is the
+control that says the guard removed an artefact rather than a defect.
 
 ---
 
