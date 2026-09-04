@@ -1,0 +1,5 @@
+
+MOTION AUDIT — mode=guard (source)
+
+
+PASS — every motion call site goes through @/components/shell/motion.
