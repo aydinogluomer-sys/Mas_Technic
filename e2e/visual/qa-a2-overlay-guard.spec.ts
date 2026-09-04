@@ -14,8 +14,19 @@
    Also pinned here: the three production call sites pass `require: false` only
    for `/` (landing-golden and navigation-golden visit `/` only;
    shell-golden passes `surface.path !== "/"`), and inner-pages-golden takes
-   the default. If a later phase adds a non-`/` route with `require: false`,
-   that is a hole this file does not cover — it is called out in the report.
+   the default.
+
+   PHASE 07 CORRECTION #2 — H5 CLOSED THE HOLE THIS HEADER USED TO NAME. It
+   used to end "if a later phase adds a non-`/` route with `require: false`,
+   that is a hole this file does not cover". The waiver was an honour system:
+   nothing stopped a later phase from passing it on a route that DOES mount the
+   launcher, which silently restores the exact defect A2 removed.
+   `hideForeignOverlays` now derives the exemption from `page.url()` instead of
+   trusting the caller. Measured side by side against the same build, five
+   cases: the pre-correction file scored 3/5 and the corrected one 5/5, with
+   `/hakkimizda` and `/malzemeler` + `require:false` going `resolved(1)` →
+   THROWS (reports/qa/phase-07c3/out/overlays-control.json). The last test
+   below locks it, so the honour system cannot come back unnoticed.
    ══════════════════════════════════════════════════════════════════════════ */
 import { expect, test } from "@playwright/test";
 import { gotoAndSettle } from "../helpers";
@@ -52,6 +63,24 @@ test.describe("A2 — the foreign-overlay guard is falsifiable", () => {
     await gotoAndSettle(page, "/");
     const found = await hideForeignOverlays(page, { require: false });
     expect(found).toBe(0);
+  });
+
+  test("red: require:false is refused on a route that DOES mount the launcher", async ({ page }) => {
+    // The H5 lock. `/hakkimizda` mounts the launcher, so waiving the
+    // requirement there is precisely how 25 baselines acquired a foreign fixed
+    // overlay. Before H5 this call resolved with 1 and said nothing.
+    await gotoAndSettle(page, "/hakkimizda");
+    await expect(page.locator("[data-chat-launcher]")).toHaveCount(1);
+
+    const err = await hideForeignOverlays(page, { require: false }).then(
+      () => null,
+      (e: Error) => e.message,
+    );
+    expect(
+      err,
+      "require:false must be refused anywhere but `/` — otherwise the waiver is an honour system",
+    ).not.toBeNull();
+    expect(err).toContain("is only legal on `/`");
   });
 
   test("the launcher really does sit inside the captured footer element", async ({ page }) => {

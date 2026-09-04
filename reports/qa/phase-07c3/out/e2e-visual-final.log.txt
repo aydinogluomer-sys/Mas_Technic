@@ -1,0 +1,195 @@
+
+> vite_react_shadcn_ts@0.0.0 test:e2e:visual
+> playwright test --project=visual-375 --project=visual-768 --project=visual-1280 --project=visual-1440
+
+(node:37484) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 100 tests using 1 worker
+
+(node:36600) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓    1 [visual-375] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › about opens and closes in the landing's language (4.7s)
+  ✓    2 [visual-375] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › contact opens and closes in the landing's language (3.1s)
+  ✘    3 [visual-375] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › materials opens and closes in the landing's language (2.8s)
+(node:18464) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓    4 [visual-375] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › material-family opens and closes in the landing's language (2.8s)
+  ✓    5 [visual-375] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-category opens and closes in the landing's language (2.2s)
+  ✓    6 [visual-375] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-detail opens and closes in the landing's language (2.3s)
+  ✓    7 [visual-375] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › sector-detail opens and closes in the landing's language (2.7s)
+  ✓    8 [visual-375] › e2e\visual\landing-golden.spec.ts:20:3 › landing golden screenshots › matches the committed landing baseline (5.7s)
+  ✓    9 [visual-375] › e2e\visual\navigation-golden.spec.ts:31:3 › global navigation golden screenshots › matches the closed header baseline (3.1s)
+  ✓   10 [visual-375] › e2e\visual\navigation-golden.spec.ts:44:3 › global navigation golden screenshots › matches the open menu baseline (3.6s)
+  ✓   11 [visual-375] › e2e\visual\qa-a2-overlay-guard.spec.ts:36:3 › A2 — the foreign-overlay guard is falsifiable › armed: on a route that mounts the launcher it finds and hides it (1.9s)
+  ✓   12 [visual-375] › e2e\visual\qa-a2-overlay-guard.spec.ts:48:3 › A2 — the foreign-overlay guard is falsifiable › red: require:true throws when the selector matches nothing (2.1s)
+  ✓   13 [visual-375] › e2e\visual\qa-a2-overlay-guard.spec.ts:62:3 › A2 — the foreign-overlay guard is falsifiable › green: require:false is the documented escape and does not throw (2.2s)
+  ✓   14 [visual-375] › e2e\visual\qa-a2-overlay-guard.spec.ts:68:3 › A2 — the foreign-overlay guard is falsifiable › red: require:false is refused on a route that DOES mount the launcher (2.0s)
+  ✓   15 [visual-375] › e2e\visual\qa-a2-overlay-guard.spec.ts:86:3 › A2 — the foreign-overlay guard is falsifiable › the launcher really does sit inside the captured footer element (2.2s)
+  ✓   16 [visual-375] › e2e\visual\qa-f4-font-guard.spec.ts:36:3 › F4 — the font-retry guard is falsifiable › armed: a real load intercepts on BOTH hosts (4.5s)
+  ✓   17 [visual-375] › e2e\visual\qa-f4-font-guard.spec.ts:49:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.gstatic.com fails with the gstatic reason (4.7s)
+  ✓   18 [visual-375] › e2e\visual\qa-f4-font-guard.spec.ts:65:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.googleapis.com fails with the googleapis reason (3.3s)
+  ✓   19 [visual-375] › e2e\visual\qa-f4-font-guard.spec.ts:79:3 › F4 — the font-retry guard is falsifiable › red: blackholing both hosts fails with the fallback-stack reason (28.2s)
+  ✓   20 [visual-375] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › home carries the same shell chrome (4.6s)
+  ✓   21 [visual-375] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › service carries the same shell chrome (4.9s)
+  ✓   22 [visual-375] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › about carries the same shell chrome (4.2s)
+  ✓   23 [visual-375] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › journal carries the same shell chrome (5.9s)
+  ✓   24 [visual-375] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › rfq carries the same shell chrome (4.1s)
+  ✓   25 [visual-375] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › notfound carries the same shell chrome (2.9s)
+(node:12324) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   26 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › about opens and closes in the landing's language (6.1s)
+  ✓   27 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › contact opens and closes in the landing's language (3.4s)
+  ✓   28 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › materials opens and closes in the landing's language (7.1s)
+  ✘   29 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › material-family opens and closes in the landing's language (4.6s)
+(node:34800) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   30 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-category opens and closes in the landing's language (11.7s)
+  ✓   31 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-detail opens and closes in the landing's language (33.5s)
+  ✓   32 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › sector-detail opens and closes in the landing's language (6.3s)
+  ✓   33 [visual-768] › e2e\visual\landing-golden.spec.ts:20:3 › landing golden screenshots › matches the committed landing baseline (26.2s)
+  ✓   34 [visual-768] › e2e\visual\navigation-golden.spec.ts:31:3 › global navigation golden screenshots › matches the closed header baseline (5.3s)
+  ✓   35 [visual-768] › e2e\visual\navigation-golden.spec.ts:44:3 › global navigation golden screenshots › matches the open menu baseline (6.6s)
+  ✓   36 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:36:3 › A2 — the foreign-overlay guard is falsifiable › armed: on a route that mounts the launcher it finds and hides it (11.2s)
+  ✓   37 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:48:3 › A2 — the foreign-overlay guard is falsifiable › red: require:true throws when the selector matches nothing (5.6s)
+  ✓   38 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:62:3 › A2 — the foreign-overlay guard is falsifiable › green: require:false is the documented escape and does not throw (4.1s)
+  ✓   39 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:68:3 › A2 — the foreign-overlay guard is falsifiable › red: require:false is refused on a route that DOES mount the launcher (2.4s)
+  ✓   40 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:86:3 › A2 — the foreign-overlay guard is falsifiable › the launcher really does sit inside the captured footer element (2.9s)
+  ✓   41 [visual-768] › e2e\visual\qa-f4-font-guard.spec.ts:36:3 › F4 — the font-retry guard is falsifiable › armed: a real load intercepts on BOTH hosts (2.4s)
+  ✓   42 [visual-768] › e2e\visual\qa-f4-font-guard.spec.ts:49:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.gstatic.com fails with the gstatic reason (2.8s)
+  ✓   43 [visual-768] › e2e\visual\qa-f4-font-guard.spec.ts:65:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.googleapis.com fails with the googleapis reason (3.0s)
+  ✓   44 [visual-768] › e2e\visual\qa-f4-font-guard.spec.ts:79:3 › F4 — the font-retry guard is falsifiable › red: blackholing both hosts fails with the fallback-stack reason (28.1s)
+  ✓   45 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › home carries the same shell chrome (3.8s)
+  ✓   46 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › service carries the same shell chrome (3.6s)
+  ✓   47 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › about carries the same shell chrome (3.6s)
+  ✓   48 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › journal carries the same shell chrome (3.4s)
+  ✓   49 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › rfq carries the same shell chrome (2.7s)
+  ✓   50 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › notfound carries the same shell chrome (2.5s)
+(node:36184) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   51 [visual-1280] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › about opens and closes in the landing's language (4.0s)
+  ✓   52 [visual-1280] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › contact opens and closes in the landing's language (3.1s)
+  ✓   53 [visual-1280] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › materials opens and closes in the landing's language (5.9s)
+  ✓   54 [visual-1280] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › material-family opens and closes in the landing's language (3.1s)
+  ✓   55 [visual-1280] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-category opens and closes in the landing's language (6.5s)
+  ✓   56 [visual-1280] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-detail opens and closes in the landing's language (5.3s)
+  ✓   57 [visual-1280] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › sector-detail opens and closes in the landing's language (3.9s)
+  ✓   58 [visual-1280] › e2e\visual\landing-golden.spec.ts:20:3 › landing golden screenshots › matches the committed landing baseline (12.2s)
+  ✓   59 [visual-1280] › e2e\visual\navigation-golden.spec.ts:31:3 › global navigation golden screenshots › matches the closed header baseline (3.8s)
+  ✓   60 [visual-1280] › e2e\visual\navigation-golden.spec.ts:44:3 › global navigation golden screenshots › matches the open menu baseline (4.8s)
+  ✓   61 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:36:3 › A2 — the foreign-overlay guard is falsifiable › armed: on a route that mounts the launcher it finds and hides it (3.0s)
+  ✓   62 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:48:3 › A2 — the foreign-overlay guard is falsifiable › red: require:true throws when the selector matches nothing (3.6s)
+  ✓   63 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:62:3 › A2 — the foreign-overlay guard is falsifiable › green: require:false is the documented escape and does not throw (3.3s)
+  ✓   64 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:68:3 › A2 — the foreign-overlay guard is falsifiable › red: require:false is refused on a route that DOES mount the launcher (3.4s)
+  ✓   65 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:86:3 › A2 — the foreign-overlay guard is falsifiable › the launcher really does sit inside the captured footer element (7.0s)
+  ✓   66 [visual-1280] › e2e\visual\qa-f4-font-guard.spec.ts:36:3 › F4 — the font-retry guard is falsifiable › armed: a real load intercepts on BOTH hosts (4.7s)
+  ✓   67 [visual-1280] › e2e\visual\qa-f4-font-guard.spec.ts:49:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.gstatic.com fails with the gstatic reason (7.1s)
+  ✓   68 [visual-1280] › e2e\visual\qa-f4-font-guard.spec.ts:65:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.googleapis.com fails with the googleapis reason (4.4s)
+  ✓   69 [visual-1280] › e2e\visual\qa-f4-font-guard.spec.ts:79:3 › F4 — the font-retry guard is falsifiable › red: blackholing both hosts fails with the fallback-stack reason (29.6s)
+  ✓   70 [visual-1280] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › home carries the same shell chrome (6.0s)
+  ✓   71 [visual-1280] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › service carries the same shell chrome (6.1s)
+  ✓   72 [visual-1280] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › about carries the same shell chrome (3.6s)
+  ✓   73 [visual-1280] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › journal carries the same shell chrome (4.0s)
+  ✓   74 [visual-1280] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › rfq carries the same shell chrome (3.8s)
+  ✓   75 [visual-1280] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › notfound carries the same shell chrome (3.0s)
+(node:25724) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   76 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › about opens and closes in the landing's language (5.2s)
+  ✓   77 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › contact opens and closes in the landing's language (3.8s)
+  ✓   78 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › materials opens and closes in the landing's language (7.0s)
+  ✓   79 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › material-family opens and closes in the landing's language (5.6s)
+  ✓   80 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-category opens and closes in the landing's language (10.7s)
+  ✓   81 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-detail opens and closes in the landing's language (5.8s)
+  ✓   82 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › sector-detail opens and closes in the landing's language (9.5s)
+  ✓   83 [visual-1440] › e2e\visual\landing-golden.spec.ts:20:3 › landing golden screenshots › matches the committed landing baseline (42.7s)
+  ✓   84 [visual-1440] › e2e\visual\navigation-golden.spec.ts:31:3 › global navigation golden screenshots › matches the closed header baseline (5.2s)
+  ✓   85 [visual-1440] › e2e\visual\navigation-golden.spec.ts:44:3 › global navigation golden screenshots › matches the open menu baseline (4.1s)
+  ✓   86 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:36:3 › A2 — the foreign-overlay guard is falsifiable › armed: on a route that mounts the launcher it finds and hides it (3.0s)
+  ✓   87 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:48:3 › A2 — the foreign-overlay guard is falsifiable › red: require:true throws when the selector matches nothing (3.5s)
+  ✓   88 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:62:3 › A2 — the foreign-overlay guard is falsifiable › green: require:false is the documented escape and does not throw (3.4s)
+  ✓   89 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:68:3 › A2 — the foreign-overlay guard is falsifiable › red: require:false is refused on a route that DOES mount the launcher (2.5s)
+  ✓   90 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:86:3 › A2 — the foreign-overlay guard is falsifiable › the launcher really does sit inside the captured footer element (2.6s)
+  ✓   91 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:36:3 › F4 — the font-retry guard is falsifiable › armed: a real load intercepts on BOTH hosts (4.8s)
+  ✓   92 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:49:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.gstatic.com fails with the gstatic reason (4.5s)
+  ✓   93 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:65:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.googleapis.com fails with the googleapis reason (4.3s)
+  ✓   94 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:79:3 › F4 — the font-retry guard is falsifiable › red: blackholing both hosts fails with the fallback-stack reason (36.4s)
+  ✓   95 [visual-1440] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › home carries the same shell chrome (8.9s)
+  ✓   96 [visual-1440] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › service carries the same shell chrome (3.5s)
+  ✓   97 [visual-1440] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › about carries the same shell chrome (3.0s)
+  ✓   98 [visual-1440] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › journal carries the same shell chrome (3.3s)
+  ✓   99 [visual-1440] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › rfq carries the same shell chrome (2.7s)
+  ✓  100 [visual-1440] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › notfound carries the same shell chrome (2.2s)
+
+
+  1) [visual-375] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › materials opens and closes in the landing's language 
+
+    Error: installFontRetry() intercepted 0 requests on fonts.gstatic.com — the face files live on that host, so a pattern that misses it retries nothing that matters
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThan[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: > [32m0[39m
+    Received:   [31m0[39m
+
+       at visual\fonts.ts:170
+
+      168 |       "installFontRetry() intercepted 0 requests on fonts.gstatic.com — the face files "
+      169 |         + "live on that host, so a pattern that misses it retries nothing that matters",
+    > 170 |     ).toBeGreaterThan(0);
+          |       ^
+      171 |   }
+      172 |
+      173 |   await expect
+        at awaitRealFaces (C:\Users\Trade Bilisim\pdh-wt\qa-p07c2\e2e\visual\fonts.ts:170:7)
+        at freezeForCapture (C:\Users\Trade Bilisim\pdh-wt\qa-p07c2\e2e\visual\inner-pages-golden.spec.ts:87:9)
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07c2\e2e\visual\inner-pages-golden.spec.ts:100:7
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-inner-pages-golden--c9b40-s-in-the-landing-s-language-visual-375\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\visual-inner-pages-golden--c9b40-s-in-the-landing-s-language-visual-375\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\visual-inner-pages-golden--c9b40-s-in-the-landing-s-language-visual-375\error-context.md
+
+  2) [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › material-family opens and closes in the landing's language 
+
+    Error: installFontRetry() intercepted 0 requests on fonts.gstatic.com — the face files live on that host, so a pattern that misses it retries nothing that matters
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThan[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: > [32m0[39m
+    Received:   [31m0[39m
+
+       at visual\fonts.ts:170
+
+      168 |       "installFontRetry() intercepted 0 requests on fonts.gstatic.com — the face files "
+      169 |         + "live on that host, so a pattern that misses it retries nothing that matters",
+    > 170 |     ).toBeGreaterThan(0);
+          |       ^
+      171 |   }
+      172 |
+      173 |   await expect
+        at awaitRealFaces (C:\Users\Trade Bilisim\pdh-wt\qa-p07c2\e2e\visual\fonts.ts:170:7)
+        at freezeForCapture (C:\Users\Trade Bilisim\pdh-wt\qa-p07c2\e2e\visual\inner-pages-golden.spec.ts:87:9)
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07c2\e2e\visual\inner-pages-golden.spec.ts:100:7
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-inner-pages-golden--382bd-s-in-the-landing-s-language-visual-768\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\visual-inner-pages-golden--382bd-s-in-the-landing-s-language-visual-768\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\visual-inner-pages-golden--382bd-s-in-the-landing-s-language-visual-768\error-context.md
+
+  2 failed
+    [visual-375] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › materials opens and closes in the landing's language 
+    [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › material-family opens and closes in the landing's language 
+  98 passed (13.3m)

@@ -1,0 +1,130 @@
+[
+ {
+  "shape": "768 touch (visual-768 project shape)",
+  "signatures": 5,
+  "cursorSignatures": 0,
+  "list": [
+   {
+    "key": "button.fixed.z-50.flex.h-12.w-12.items-center.justify-center.rounded-full.bg-primary.text-primary-foreground.shadow-lg.transition-shadow.hover:shadow-xl.md:h-14.md:w-14 @ 56x56",
+    "n": 6,
+    "rects": [
+     "696,876"
+    ],
+    "cursor": false,
+    "routes": 6
+   },
+   {
+    "key": "div.h-1.rounded-full.overflow-hidden @ 238x4",
+    "n": 4,
+    "rects": [
+     "472,1200",
+     "472,1235",
+     "472,1270"
+    ],
+    "cursor": false,
+    "routes": 1
+   },
+   {
+    "key": "div.h-full.rounded-full @ 190x4",
+    "n": 2,
+    "rects": [
+     "472,1200",
+     "472,1270"
+    ],
+    "cursor": false,
+    "routes": 1
+   },
+   {
+    "key": "div.h-full.rounded-full @ 238x4",
+    "n": 1,
+    "rects": [
+     "472,1235"
+    ],
+    "cursor": false,
+    "routes": 1
+   },
+   {
+    "key": "div.h-full.rounded-full @ 143x4",
+    "n": 1,
+    "rects": [
+     "472,1305"
+    ],
+    "cursor": false,
+    "routes": 1
+   }
+  ]
+ },
+ {
+  "shape": "768 mouse (fine pointer)",
+  "signatures": 7,
+  "cursorSignatures": 2,
+  "list": [
+   {
+    "key": "div.fixed.top-0.left-0.pointer-events-none @ 6x6",
+    "n": 6,
+    "rects": [
+     "-3,-3"
+    ],
+    "cursor": true,
+    "routes": 6
+   },
+   {
+    "key": "div.fixed.top-0.left-0.pointer-events-none.flex.items-center.justify-center @ 44x44",
+    "n": 6,
+    "rects": [
+     "-22,-22"
+    ],
+    "cursor": true,
+    "routes": 6
+   },
+   {
+    "key": "button.fixed.z-50.flex.h-12.w-12.items-center.justify-center.rounded-full.bg-primary.text-primary-foreground.shadow-lg.transition-shadow.hover:shadow-xl.md:h-14.md:w-14 @ 56x56",
+    "n": 6,
+    "rects": [
+     "696,876"
+    ],
+    "cursor": false,
+    "routes": 6
+   },
+   {
+    "key": "div.h-1.rounded-full.overflow-hidden @ 238x4",
+    "n": 4,
+    "rects": [
+     "472,1200",
+     "472,1235",
+     "472,1270"
+    ],
+    "cursor": false,
+    "routes": 1
+   },
+   {
+    "key": "div.h-full.rounded-full @ 190x4",
+    "n": 2,
+    "rects": [
+     "472,1200",
+     "472,1270"
+    ],
+    "cursor": false,
+    "routes": 1
+   },
+   {
+    "key": "div.h-full.rounded-full @ 238x4",
+    "n": 1,
+    "rects": [
+     "472,1235"
+    ],
+    "cursor": false,
+    "routes": 1
+   },
+   {
+    "key": "div.h-full.rounded-full @ 143x4",
+    "n": 1,
+    "rects": [
+     "472,1305"
+    ],
+    "cursor": false,
+    "routes": 1
+   }
+  ]
+ }
+]

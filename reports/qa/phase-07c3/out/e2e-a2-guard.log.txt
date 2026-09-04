@@ -1,0 +1,35 @@
+(node:27608) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 20 tests using 1 worker
+
+(node:17136) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   1 [visual-375] › e2e\visual\qa-a2-overlay-guard.spec.ts:36:3 › A2 — the foreign-overlay guard is falsifiable › armed: on a route that mounts the launcher it finds and hides it (5.1s)
+  ✓   2 [visual-375] › e2e\visual\qa-a2-overlay-guard.spec.ts:48:3 › A2 — the foreign-overlay guard is falsifiable › red: require:true throws when the selector matches nothing (4.2s)
+  ✓   3 [visual-375] › e2e\visual\qa-a2-overlay-guard.spec.ts:62:3 › A2 — the foreign-overlay guard is falsifiable › green: require:false is the documented escape and does not throw (2.5s)
+  ✓   4 [visual-375] › e2e\visual\qa-a2-overlay-guard.spec.ts:68:3 › A2 — the foreign-overlay guard is falsifiable › red: require:false is refused on a route that DOES mount the launcher (2.0s)
+  ✓   5 [visual-375] › e2e\visual\qa-a2-overlay-guard.spec.ts:86:3 › A2 — the foreign-overlay guard is falsifiable › the launcher really does sit inside the captured footer element (3.0s)
+(node:35892) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   6 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:36:3 › A2 — the foreign-overlay guard is falsifiable › armed: on a route that mounts the launcher it finds and hides it (5.1s)
+  ✓   7 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:48:3 › A2 — the foreign-overlay guard is falsifiable › red: require:true throws when the selector matches nothing (7.2s)
+  ✓   8 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:62:3 › A2 — the foreign-overlay guard is falsifiable › green: require:false is the documented escape and does not throw (4.2s)
+  ✓   9 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:68:3 › A2 — the foreign-overlay guard is falsifiable › red: require:false is refused on a route that DOES mount the launcher (3.8s)
+  ✓  10 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:86:3 › A2 — the foreign-overlay guard is falsifiable › the launcher really does sit inside the captured footer element (3.5s)
+(node:6868) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  11 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:36:3 › A2 — the foreign-overlay guard is falsifiable › armed: on a route that mounts the launcher it finds and hides it (5.8s)
+  ✓  12 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:48:3 › A2 — the foreign-overlay guard is falsifiable › red: require:true throws when the selector matches nothing (7.8s)
+  ✓  13 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:62:3 › A2 — the foreign-overlay guard is falsifiable › green: require:false is the documented escape and does not throw (3.9s)
+  ✓  14 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:68:3 › A2 — the foreign-overlay guard is falsifiable › red: require:false is refused on a route that DOES mount the launcher (2.4s)
+  ✓  15 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:86:3 › A2 — the foreign-overlay guard is falsifiable › the launcher really does sit inside the captured footer element (2.9s)
+(node:30148) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  16 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:36:3 › A2 — the foreign-overlay guard is falsifiable › armed: on a route that mounts the launcher it finds and hides it (3.2s)
+  ✓  17 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:48:3 › A2 — the foreign-overlay guard is falsifiable › red: require:true throws when the selector matches nothing (8.3s)
+  ✓  18 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:62:3 › A2 — the foreign-overlay guard is falsifiable › green: require:false is the documented escape and does not throw (3.2s)
+  ✓  19 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:68:3 › A2 — the foreign-overlay guard is falsifiable › red: require:false is refused on a route that DOES mount the launcher (2.4s)
+  ✓  20 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:86:3 › A2 — the foreign-overlay guard is falsifiable › the launcher really does sit inside the captured footer element (2.8s)
+
+  20 passed (1.8m)

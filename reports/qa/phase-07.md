@@ -1,320 +1,374 @@
-# QA Report — Phase 07 (Inner Pages Wave A) — re-verification after correction packet #1
+# QA Report — Phase 07 (Inner Pages Wave A) — round 3, narrow confirmation of correction packet #2
 
 - PHASE: 07
-- CODE_COMMITS: `f73efe3`, `dacf66d`, `4640135`, `7e69a79`, `d335aeb`, `818f2ea`,
-  `b4995fc`, `c83c3a8`, `6494760`, `516ab95`, `6f37eb0`
-  (integrated tree `6f37eb0`; pre-correction Phase 07 close `dfe9da7`;
-  Phase 06 close `d1ed8e3`; pre-run base `19f30f5`)
-- QA_COMMIT: last commit on `wt/qa-p07c1`
-- STATUS: **FAIL** — one residual finding (F5-R). Seven of the eight items close.
-- TESTS_PASSED: **96** — `npm run test:e2e:visual` on the integrated tree with my
-  two new specs included (64 pre-existing executions + 32 mine), 8.0 min, exit 0
-- TESTS_FAILED: 0 in any suite; the finding is a documentation-accuracy defect
-  caught by a QA probe, not by a suite
-- TESTS_SKIPPED: 0 in the runs I made
-- NEW_TESTS_ADDED: 8 test cases (`e2e/visual/qa-f4-font-guard.spec.ts` ×4,
-  `e2e/visual/qa-a2-overlay-guard.spec.ts` ×4) = 32 executions across the four
-  visual projects
+- CODE_COMMITS: `93b77bc` (H3), `3b8fcdc` (H1), `0898f66` (H6), `9b4f312` (H4+H5),
+  `f14e194` (F5-R), `23cbc63` (self-retraction) — integrated tree `7bdd587`.
+  Reference trees: packet-1 close `6f37eb0`, Phase 06 close `d1ed8e3`,
+  pre-run base `19f30f5`.
+- QA_COMMIT: last commit on `wt/qa-p07c2` (this branch)
+- STATUS: **FAIL** — narrowly, on **H4**. Five of the six items close cleanly, the
+  self-retraction verifies TRUE, and nothing closed in round 2 has moved.
+- TESTS_PASSED: **263** — visual 100/100 (was 96; I added one test that runs in
+  four projects) + critical 163/166, all re-run against my own build of `7bdd587`
+- TESTS_FAILED: **0 attributable to the tree.** Two environmental failures
+  occurred in one visual run and both passed on immediate re-run — root cause
+  identified and reported under "F4's guard is not hermetic". The finding that
+  drives this FAIL is a false statement written into a guard file and into
+  `docs/lean/17`, not a red test.
+- TESTS_SKIPPED: 3 (pre-existing skips in `critical-*`)
+- NEW_TESTS_ADDED: **1** (`e2e/visual/qa-a2-overlay-guard.spec.ts` — the H5 lock;
+  4 executions, one per visual project)
 
-Everything below was measured against builds I made and served myself:
-`http://localhost:4190` = the integrated tree `6f37eb0`, `http://localhost:4191`
-= the pre-correction Phase 07 close `dfe9da7`. Every number comes from a command
-I ran. I did not re-run the eight checks the Orchestrator had already re-derived
-independently.
-
----
-
-## 1. Verdict in one paragraph
-
-Seven of the eight items are closed, and most of them are closed unusually well:
-F2's anti-laundering set diff reproduces to the digit on three trees, F3 has a
-red control that fails on every count it claims to fix, F4's guard can be made to
-fail on cue in four different ways, A7's counter-proof shows the choreography was
-gated rather than deleted and an old-versus-new script comparison shows the hard
-gate was not narrowed, and A2's 25 regenerated goldens contain exactly one changed
-region each — the launcher's own footprint, at CSS geometry, with zero darker
-shadow strays. I looked at the newly-baselined content and it is correct. The
-phase fails on **F5 alone**: the radius register in `docs/lean/17` §4 still lists
-three of the five things that paint a radius on those routes. It omits both
-layers of the custom cursor, which render at `opacity: 1` with `border-radius:
-50%` on all six routes at 1280. The register's sentence "three things paint one"
-is false of the exact route and measurement it cites, and the register's own
-closing paragraph promises to include "anything a mounted component paints".
+Round-2 report preserved at `reports/qa/phase-07-round2.md`; round 1 at
+`reports/qa/phase-07-round1.md`. Round-3 evidence: `reports/qa/phase-07c3/`.
 
 ---
 
-## 2. Item-by-item
+## Verdict in one paragraph
 
-| Item | Result | Decisive evidence |
-|---|---|---|
-| **F1** withheld-fact leak | **CLOSED** | Filter is fail-closed (4/4), compound values blocked on both value and label (6/6), the six removed claims suppressed (6/6). Rendered DOM of both bundles: 48 primary listing rows, **23 changed**, and a ten-class withheld scan over all **69 surviving chips returns 0 leaks**. Claims resolved at the LEAF, not hidden: `adet/yıl` and `ünite/gün` absent from `/kabiliyetler/seri-imalat`, `/endustriyel/robotik`, `/hizmetler/mekanik-montaj`; `20+ renk` absent from `/hizmetler/anodizasyon`. No over-removal: ±0.01mm, CT4-CT6, CT5-CT7, ΔE, 60-70 HRC, M3–M12/Nm, ASTM B117 all still render. |
-| **F2** gate holes | **CLOSED as scoped** | `rule@file:line` SET diff, re-derived by my own harness on three trees: `19f30f5` 788→801 **LOST 0**, company-scale 42→55, all 26 other rules identical; `d1ed8e3` old gate `PASS — 0` → new gate 12, **LOST 0**; `6f37eb0` both 0. Adversarial battery: 16/17 invented disclosure shapes caught (old gate: 1/17), **21/21 specification shapes silent**, 4/4 defeat attempts confirm the documented same-line limit. Three residual issues → hardening notes H1–H3. |
-| **F3** not-found bodies | **CLOSED** | Integrated: 0 problems — one `<h1>` each, none matching `/^(Sayfa\|Yazı) Bulunamadı$/`, 8/8 distinct titles, `/malzemeler/<unknown>` keeps its URL. Pre-correction red control: 6 bodies with **h1 count = 0**, `/endustriyel/` and `/kabiliyetler/` both reading `HİZMET`, 3 site-default titles, `/malzemeler/<unknown>` swapping its URL to `/malzemeler`. Spec byte-identical (`cfdc358`) at d1ed8e3/e07c154/dfe9da7/4640135/6f37eb0. |
-| **F4** font retry | **CLOSED** | New QA spec, 4/4: armed on both hosts on a real load; throws the gstatic reason when gstatic is silenced; throws the googleapis reason when googleapis is silenced; throws the fallback-stack reason when the faces never load. |
-| **F5** radius register | **FAIL** | Fresh census over all six routes × {375, 1280}: **6 class signatures / 5 components** paint a radius. §4 lists 3. See §3. |
-| **A1** contrast | **CLOSED** | My glyph-free instrument, controls held (21.000 / 1.000 / 3.033@16px / 3.033@8px / 3.977). At-rest failures 5→0 @375, 1→0 @1280. **The claim the Coder declined to make is now measured**: the property card under reduced motion at chain 1.0 is **8.481:1** @1280 and 7.574–7.875 @375, against a bound of ~8.6. |
-| **A7** reduced-motion | **CLOSED** | Red control on the pre-fix build: `hidden=38 hiddenText=12` → FAIL. Integrated: 12 pairs, all `0/0/0` → PASS. Counter-proof `--mode=enabled`: `armed=44 armedText=12` — the reveal still exists. Anti-narrowing: the PRE-A7 script over the SAME build gives byte-identical numbers on all 10 shared pairs. |
-| **A2** launcher goldens | **CLOSED** | Launcher in **0 of 100** goldens (positive control finds it at run 52; goldens max run 1). All 25 changes confined to **one** bbox each — the launcher's — at CSS geometry ±1px at all four widths. **4,845 strays, 4 darker**, and those 4 are the two documented rim pixels. New QA spec, 16/16 at four widths, proves `require: true` fails when nothing is found. |
+H3, H1, H6, H5 and the self-retraction are all confirmed by independent
+measurement with red controls, and the F5-R **table** is complete — my own
+census reproduces it element for element at both censused widths. H4 is not.
+The commit replaced a wrong reason with a reason that is right in two of its
+three legs and **false in the first**: `CustomCursor` does not "not mount below
+901 px". Its guard is `isMobile || !finePointer`, `useIsMobile` is
+`width < 768`, and there is no `901` anywhere in the component — 901 is the
+breakpoint of a `cursor: none` rule in `src/index.css`, a different rule in a
+different file. Measured: **at 768 px and at 900 px with a fine pointer, both
+cursor layers mount on all six rebuilt routes**, parked at (-3,-3) and
+(-22,-22) exactly as at 1280. The same false threshold is repeated in
+`docs/lean/17` §4 and, worst, in the forward instruction `overlays.ts` gives to
+future phases — which therefore tells the next phase that a full-page capture
+below 901 px is safe. It is not, and following that instruction reintroduces
+the exact 25-baseline defect A2 removed.
 
 ---
 
-## 3. FINDING — F5-R: the radius register lists three of five sources
+## Acceptance criteria matrix
 
-**Defect.** `docs/lean/17` §4 says, of `/malzemeler`, "computed `border-radius`
-over every visible element after a full scroll pass — **three** things paint one",
-and tabulates three. Repeating that measurement finds **five**.
-
-**Measured** (`reports/qa/phase-07c1/probes/q4-radius.mjs`, six rebuilt routes ×
-{375, 1280}, full scroll pass, every visible element with a non-zero computed
-radius on any corner, grouped by class signature):
-
-| source | listed in §4? | where | size / radius |
+| # | Criterion | Result | Evidence |
 |---|---|---|---|
-| `div.h-1.5.flex-1.rounded-full` | yes | `/malzemeler` @375, 20× | 21×6, 9999px |
-| `div.h-1.rounded-full.overflow-hidden` | yes (the "8 ×" row) | `/malzemeler` @1280, 4× | 238×4, 9999px |
-| `div.h-full.rounded-full` | yes (same row) | `/malzemeler` @1280, 4× | 190×4 / 238×4 / 143×4 |
-| `button.fixed…rounded-full` | yes | all six routes, both widths, 12× | 48×48 / 56×56 |
-| `div.fixed.top-0.left-0.pointer-events-none` | **NO** | **all six routes @1280**, 6× | **6×6, radius 50%** |
-| `div.fixed.top-0.left-0.pointer-events-none.flex…` | **NO** | **all six routes @1280**, 6× | **44×44, radius 50%** |
-
-**Root cause.** `src/components/ui/CustomCursor.tsx:198-203` (the 6×6 dot) and
-`:213-218` (the 44×44 ring), both `borderRadius: "50%"` as an **inline style**, so
-no stylesheet grep can see them. §4's own closing paragraph commits to listing
-"anything a mounted component paints, because the audit that missed these three
-checked the six page *files* and not the components they mount" — and then omits a
-mounted component that paints on every one of the six.
-
-**They paint, they are not merely present.** Measured before and after a pointer
-move (`probes/q4b-cursor.mjs`): `opacity: 1`, `border-radius: 50%`, full size, on
-every route, from mount. Before a pointer moves they are parked at (-3,-3) and
-(-22,-22); after, they follow the pointer at 6×6 and 44×44. A real desktop reader
-(`min-width: 901px` + `pointer: fine`) sees both.
-
-**Not a code defect.** `CustomCursor.tsx` is byte-identical (`98e64ab`) at
-`d1ed8e3`, `e07c154` and `6f37eb0` — exactly the same status as the three sources
-that ARE listed. Neither layer is a card, so acceptance criterion 3 is not
-violated *in substance*. What is defective is the register that criterion's
-documented-exception escape hatch depends on.
-
-**A correct fix must satisfy:** §4 lists both `CustomCursor.tsx` layers with their
-sizes, their radius and their source lines, and the sentence "three things paint
-one" is corrected to the measured count — or §4 states explicitly which mounted
-components it excludes and why, so the omission is a decision rather than a miss.
-It must not be closed by deleting the table.
+| F5-R | `docs/lean/17` §4 register is **complete**, not merely larger | **PASS (table)** | My own census, six routes x {375, 1280}, `reducedMotion: reduce`, full scroll pass, run once with **no pointer** and once with the pointer moved: **6 distinct class signatures, 9 distinct (class, size) signatures, 52 radius elements**, identical both ways. Every table row reproduces exactly. `phase-07c3/out/radius-nopointer.json`, `radius-pointer.json`, probe `probes/r3-radius.mjs` |
+| F5-R | the register's exclusion criteria are not doing hidden work | **PASS** | The probe counts what `display:none / visibility:hidden / opacity:0 / zero-box` removes: **0 elements**. The criteria drop nothing. |
+| F5-R | source-line and provenance attributions | **PASS** | `MaterialMorphScroll.tsx:228/357/359`, `ChatBot.tsx:225`, `CustomCursor.tsx:194-207` and `209-221` all exact (the ring's opening tag closes at 222, not 221 — cosmetic). `98e64ab` and `7a5daf0` are **blob** hashes, and `git rev-parse HEAD:...` and `d1ed8e3:...` return them for both files: byte-identical to the Phase 06 close, exactly as claimed. `git diff d1ed8e3 HEAD -- MaterialMorphScroll.tsx` touches no radius line. |
+| F5-R | "a census run only at 375 finds four sources" | **FAIL (minor)** | It finds **two**: the step meter and the launcher. The two property-meter sites are 1280-only *as well as* the two cursor layers, so 6 − 2 = 4 is the wrong subtraction. Measured both ways in `radius-nopointer.json`. The *warning* the sentence carries ("375 alone is not enough") survives; the number does not. |
+| F5-R | "...and so is anything a mounted component paints, **at every width where it mounts**" | **FAIL** | Not met. At **768 px with a fine pointer** both cursor layers mount on all six routes and appear in no row of the table; they are excluded on a stated ground that is false. `phase-07c3/out/radius-768.json`, probe `r8-radius-768.mjs` |
+| H3 | new rule `periodic-volume-disclosure`, red-then-green | **PASS** | 24 periodic forms: **23 SILENT on the pre-C2 gate, all 24 FIRE on the new one**; the 24th (`1000+ ünite/gün`) fired pre-C2 only on an unrelated company-scale alternative, never on the periodic class. `out/h3-OLD.json` vs `out/h3-NEW.json` |
+| H3 | 12 live carriers over `d1ed8e3`, 32 over `19f30f5` | **PASS** | Exactly 12 and exactly 32, all in `src/data/servicePages.ts`, including the two rows F1 removed (`:2101`, `:2102`) and ten more. `out/setdiff-d1.json`, `out/setdiff-19.json` |
+| H3 | the five alternatives, plus the normaliser's hardening | **PASS** | Denominator, adverb, adjective, trailing period and `{label,value}` pair all fire; and because the rule is a `pattern` rule it inherits the normaliser, so the shouted (`YILDA 50.000 ADET`), zero-width-split, HTML-entity, string-concat, `${}`-interpolation and Cyrillic-homoglyph forms all fire too. 24/24. |
+| H3 | `saat` exclusion is the right line, drawn in the right place | **PASS — adjudicated** | Counterfactual gate with `saat` added, run over the real tree: **1 hit, `servicePages.ts:471` `["Kavite", "Çevrim/Saat", "Parça/Saat", ...]`** — exactly the row claimed. The rule requires no digit (deliberate, F2 HOLE 2), so `saat` cannot be admitted without either re-opening that hole or bolting on an exemption. The calendar subset is defensible and is documented with its reason. `out/CFsaatxHEAD.json` |
+| H3 | `kapasite` exclusion on the label side | **PASS — adjudicated** | Counterfactual with `kapasite` added: **1 hit, `servicePages.ts:63` `{ label: "Takım Kapasitesi", value: "30-120 adet (otomatik)" }`** — a tool magazine, a machine envelope. Exactly as claimed. `out/CFkapxHEAD.json` |
+| H1 | company-scale nouns reach the intervening-adjective alternative, with a live carrier | **PASS** | The carrier is real: `src/pages/Hakkimizda.tsx:29` `50+ deneyimli mühendis`, **silent on the pre-C2 gate, firing now**, and it is the single `company-scale-disclosure` gain in the `19f30f5` set diff. Eight forms go SILENT to FIRE. `out/h1-OLD.json` vs `out/h1-NEW.json` |
+| H1 | the documented `{0,2}` adjective limit | **PASS** | `8+ tam otomatik makine` fires; `8+ tam otomatik beş eksenli makine` (three intervening words) is silent. |
+| H6 | chip census: 48 rows before and after, 69 to 71 chips, exactly two rows change | **PASS** | Re-derived from the **rendered DOM** of my own build over all 15 category routes: 48 primary rows both sides, **69 to 71**, **2 rows changed** — `Makine Parkuru` gains `3, 4 ve 5 eksen`, `Güç Dağıtım Sistemleri` gains `Cu (OFE, ETP), Al 1050`. `out/chips-AFTER-H6.json` vs round-2 `phase-07c1/f1/chips-after.json` |
+| H6 | nothing withheld leaks back in through the widened grade class | **PASS** | Stronger than the claimed check. Both filter revisions lifted verbatim from their own `claims.ts` and run over **every one of the 294 `{label, value}` pairs in `src/`**, not just the 48 listed rows: **7 newly admitted, 0 revoked**, and all 7 are grade lists or axis counts. Separately, all **11** withheld classes over all **71** rendered chips: **0 trips**. `out/filterdiff.json`, probe `r2-filterdiff.mjs` |
+| H6 | the `/malzemeler` correction — I was wrong on surface | **PASS — Coder correct** | `categoryPages.ts:79` points the "Malzeme Kütüphanesi" row at `/malzemeler`, which has no `servicePage`; the `Sürekli Stok` pairs live on `servicePages.ts:1543` slug `malzeme-kutuphanesi`, which **no listing row targets** (only `ia.ts:143` links it). The row is chipless for an unrelated reason. My round-2 attribution was wrong; the substance (the unqualified stock rule suppressed a grade list) was right, and the stock qualification and the widened grade class are jointly necessary for that pair. |
+| H4 | at 375 `CustomCursor` returns null; at 1280 both layers `opacity: 1` at (-3,-3) 6x6 and (-22,-22) 44x44 | **PASS** | Exactly. No pointer ever moved: **0 cursor layers at 375 on all six routes; 12 at 1280 (2 x 6 routes), `opacity: 1`, dot 6x6 rect (-3,-3) with 9 px inside the viewport, ring 44x44 rect (-22,-22) with 484 px inside**. The old reason was indeed false. `out/radius-nopointer.json`, probe `r4-cursorcolour.mjs` |
+| H4 | leg 3 — "QA's exact-colour scan over all 100 goldens finds zero cursor pixels" | **PASS — and it needed checking** | My round-2 scan targeted the **launcher's** colour, so the citation is only honest if the dot paints the same colour. It does: both are `rgb(10, 125, 138)`. Over the 100 committed goldens: **exact = 0, tight = 0, maxRun = 1**, against a positive control at **exact = 172, maxRun = 52**. The citation holds. |
+| H4 | leg 1 — "below 901 px there is nothing to hide (the component does not mount)" | **FAIL** | False. See "Failed checks". |
+| H5 | the `require: false` waiver is derived, not trusted | **PASS** | Both implementations compiled from their real sources with esbuild and driven side by side against the same build: **OLD 3/5, NEW 5/5**, with `/hakkimizda` and `/malzemeler` + `require:false` going **`resolved(1)` to THROWS**. `out/overlays-control.json`, probe `r5-overlays.mjs` |
+| H5 | the call-site shape is unchanged, so my guard spec needs no edit | **PASS** | All five call sites unchanged; `shell-golden.spec.ts:52` still passes `require: surface.path !== "/"`. My spec passed unmodified in the 96/96 run. I added one test anyway, to lock H5 rather than leave it uncovered. |
+| H5 | the `about:blank` residual — is loud acceptable? | **PASS — adjudicated** | Measured: on `about:blank` the new file throws under `require:false`, **and both the old and the new file throw under `require:true`** (no launcher there either). H5 therefore adds **no new silent mode** and no new failure a caller could hit without already being broken. All five call sites are after `gotoAndSettle`. Loud is correct. |
+| 23cbc63 | the self-retraction is itself true | **PASS — verified on the old gate** | The pre-C2 gate spells the noun `çalışan` **unfolded** at lines 677, 681, 709, 710, 716, 733, and those alternatives match both `120+ çalışan` and `120+ ÇALIŞAN` in my probe. So the claim in `0757365` — that the unfolded spelling is dead against I-folded text — was false, and the retraction is correct: `rule.pattern = trPattern(rule.pattern)` folds every rule centrally, folding is idempotent, and `alaş[ıi]m` was never needed either (`15+ alüminyum alaşımı` and `15+ ALÜMİNYUM ALAŞIMI` both fire). |
+| §4 | anti-laundering, `rule@file:line` SET diff over both trees | **PASS** | `19f30f5`: **801 to 834, LOST 0**, gained 33 (32 periodic, 1 company-scale). `d1ed8e3`: **12 to 24, LOST 0**, gained 12. Re-derived with my own scanner, which reproduces the official gate exactly (27 rules / 209 files / 26,633 lines / 0). `out/setdiff-19.json`, `out/setdiff-d1.json` |
+| §4 | negative controls still silent on **both** gates | **PASS** | All 19 named controls plus 5 more: `60+ HRC`, `1100+/950+ MPa`, `1.000.000+/500.000+/10.000+ çevrim`, `500+ saat (ASTM B117)`, `1000+ saat tuz testi`, `1000+ otoklav döngüsü`, `16+ kavite`, `2000N+`, `25+ yıl`, `5 eksen`, `3 vardiya`, `2 iterasyon`, `CT4-CT6`, `dE <= 2.0`, `+/-0.01mm`, `1 adet`, `10-500 adet`, `Parça/Saat`, `Takım Kapasitesi` — **24/24 SILENT on the old gate and on the new one**. |
+| §4 | H2 left alone; no rule narrowed anywhere to silence it | **PASS** | Rule-text comparison, not hit counts: **25 of 26 rules byte-identical**, the 26th widened with every old fragment retained, **1 rule added, 0 removed, 0 `scan` functions changed**. The only narrowing in the packet is the deliberate H6 stock qualification in `claims.ts`, and the gate still fires on all four stock-tonnage shapes at source. `out/narrowing.json` |
+| §3 | sweep the other 26 rules for the `\b` ASCII defect | **PASS — no live carrier** | Differential, not by inspection: every `\b` in every `pattern` rule replaced by a Turkish-aware boundary, all three trees re-scanned. **HEAD 0 to 0, `d1ed8e3` 24 to 24, `19f30f5` 834 to 834.** A static analyzer, red-controlled on injected `\bünite`, `sipariş\b` and `\b(?:çeşit|çalışan)`, finds **0 of 89** sites adjacent to a non-ASCII Turkish letter. The gate already handled the class once, in a prior phase, at `claims-gate.mjs:1196`. Details and the one latent site in `claims.ts` under "Notes". |
+| §4 | nothing closed in round 2 has regressed | **PASS** | `claims-gate` PASS 0/27 over 209 files / 26,633 lines · `grid-axis-probe` PASS · `motion-audit --mode=guard` PASS · `--mode=rest` PASS, 12 pairs all zero · `typecheck` PASS · `test:e2e:visual` **100/100** · `test:e2e:critical` **163 passed / 3 skipped** · `git diff 6f37eb0..HEAD -- e2e/__golden__` **empty** · `git status e2e/__golden__` clean after every run. All run against my own preview of `7bdd587`. |
 
 ---
 
-## 4. Adjudications the packet asked for
+## Failed checks
 
-**F1 assumption 1 — a lot-size range that *defines* a service is not an annual
-production volume. ACCEPTED.** §D withholds `REVENUE_OR_ORDER_VOLUME` — what the
-company turns over — not the range of order sizes it accepts. A minimum order
-quantity is a commercial term a buyer needs in order to self-qualify, and removing
-it would cost usability for no truth gain. Applied consistently: `1 adet` /
-`1.000 adet` on `dusuk-hacimli-uretim` and `10-500 adet` on `kucuk-seri` stay on
-their leaf pages. The chip filter suppresses them from the *listing* anyway, which
-is conservative in the safe direction.
+| Check | Error / observation | Root cause | Production fix required? |
+|---|---|---|---|
+| **H4-R1** — `e2e/visual/overlays.ts`, leg 1 of "THE REASON IT NEVERTHELESS HOLDS" | The file states "below 901 px there is nothing to hide (**the component does not mount**), which covers the 375 and 768 goldens outright". Measured on `/hakkimizda`, `reducedMotion: reduce`: **768 px + fine pointer gives 2 cursor layers; 900 px + fine pointer gives 2 cursor layers.** Extended to all six rebuilt routes at 768 with a fine pointer: **both layers on all six**, rects (-3,-3) 6x6 and (-22,-22) 44x44 — identical to 1280. | `CustomCursor`'s guard is `isMobile \|\| !finePointer` (`src/components/ui/CustomCursor.tsx:189`); `useIsMobile` is `width < 768` (`src/hooks/use-mobile.tsx:3`). There is no `901` in the component. 901 is the breakpoint of the `cursor: none` rule in `src/index.css:786`, a different rule in a different file, and the two were conflated. The 375 and 768 goldens are in fact safe because `playwright.config.ts` configures both projects `isMobile: true, hasTouch: true`, which makes `(pointer: fine)` **false** — a true, checkable reason the file does not give. | **Yes** — `e2e/visual/overlays.ts` (comment) |
+| **H4-R2** — the forward instruction in the same file | "A FULL-PAGE capture at >=901 px, or any element crop that includes the viewport's top-left corner, WILL bake both layers in. If a golden is ever added under either shape, add `[data-custom-cursor]` here." This tells a later phase that a full-page capture **below** 901 px is safe. It is not: at 768-900 px with a fine pointer both layers paint 3x3 and 22x22 px at the origin. A later phase that adds a non-touch visual project in that band and follows this rule reintroduces exactly the defect A2 removed — 25 baselines with a foreign fixed overlay in them — **by following the corrected file's own instruction**. | Same conflation. The correct threshold is ">=768 px **with a fine pointer**" — or, better, no width at all: the observable condition is whether `[data-custom-cursor]` is present in the context being captured. | **Yes** — `e2e/visual/overlays.ts` (comment) |
+| **H4-R3 / F5-R** — `docs/lean/17` §4 repeats the same false threshold | "Both cursor layers are on all six routes at 1280 and on **none** at 375, because `CustomCursor` returns null below 901 px". The measured half is right; the stated reason is not. And §4 promises to list "anything a mounted component paints, **at every width where it mounts**" while omitting the 768-900 fine-pointer band, where both layers mount on all six routes. | Same. | **Yes** — `docs/lean/17-inner-page-composition.md` §4 |
+| **F5-R-R4** — `docs/lean/17` §4, "a census run only at 375 finds **four** sources and thinks it is finished" | It finds **two** — the step meter (`MaterialMorphScroll.tsx:228`) and the launcher (`ChatBot.tsx:225`). The property-meter track and fill are 1280-only too, not just the cursor layers. | 6 sources minus 2 cursor layers = 4 is the wrong subtraction: four of the six are absent at 375, not two. | **Yes** — `docs/lean/17-inner-page-composition.md` §4 (one word) |
 
-**F1 assumption 2 — rewriting `seri-imalat`'s minimum-order answer rather than
-quoting the lower bounds. ACCEPTED, with a recorded tension.** The old answer
-quoted 1.000 / 5.000 / 10.000 adet, which were the lower bounds of the three
-withheld ranges (`1.000-50.000`, `5.000-500.000`, `10.000-1.000.000 adet/yıl`), so
-quoting them leaves half the disclosure standing. Nothing in `USER_INPUTS.md`
-verifies those numbers, and §0 `NEVER_PUBLISH_JUST_BECAUSE_KNOWN` settles it. The
-tension with assumption 1 is real — both are "minimum lot size" — and the
-discriminator the Coder actually used is *provenance*, not class. Worth recording:
-if a minimum order quantity is ever verified in `USER_INPUTS.md`, assumption 2
-should be revisited, because assumption 1 would then permit it. The replacement
-answer is also more useful than the number it replaced: it names the two things
-that actually set the threshold (tooling amortisation, setup time) and says it is
-settled at quote stage.
+All four are one-sentence corrections in two files, both already inside this
+packet's scope. None is a code change, and none makes any current golden, gate
+or suite wrong today — every suite is green and no golden is contaminated
+(0 exact-colour cursor pixels across all 100).
 
-**A2 per-viewport justification (`516ab95` / §8.2). VERIFIED, cell for cell.**
-Disc geometry: 48×48 at x 311–358 @375 (CSS predicts x0=311, Δ0); 56×56 at
-x 695–750 @768 (predicts 694, Δ+1); 56×56 at x 1207–1262 @1280 (predicts 1206,
-Δ+1); 56×56 at x 1367–1422 @1440 (predicts 1366, Δ+1). Strays per file: 222
-@1280, 222 @1440, 406 @768 — the doc's exact numbers; **zero darker at 768/1280/
-1440**, and the only 4 darker pixels in all 25 are 2 each on the two inner-next
-slivers at maxΔ 30, which §8.2 declares separately and explains correctly (a rim
-pixel losing a teal blend to a graphite ground, not a black wash). Largest change
-outside the disc: 2 @1280/1440, 4 @768.
+### Why this is a FAIL and not a carry
 
-**Every stray hugs the disc**, the third of §8.2's falsifiable predictions:
-overhang beyond the disc's own box is 1–7 px left and right and 0–14 px below,
-with the top edge *inside* the disc's vertical span — the asymmetric footprint of
-`shadow-lg` (`0 10px 15px -3px`, `0 4px 6px -4px`), which is downward. No stray
-sits anywhere else in any of the 25 images.
+Because the acceptance criterion for H4 is *"state the reason the cursor
+exclusion **actually holds**"* — that is the commit's own title — and one third
+of the stated reason does not hold. This is the **third** wrong reason in this
+one file: the original ("paints nothing until a real pointer moves"), which QA
+caught in round 2, and now the replacement's first leg. The run has
+consistently treated a false claim about the machinery as a defect in its own
+right — the Coder did so itself in `23cbc63`, retracting a claim of exactly this
+shape, and the Orchestrator promoted H4 into scope for precisely this reason.
+Applying a weaker standard to the Coder than the Coder applies to itself would
+not be a verification.
 
-**The 2 extra goldens were not swept in.** `inner-next-{sector,service}-detail`
-@375: 214 disc pixels + 2 strays = 216, against the doc's "216 changed pixels
-each, of which 214 are the sliver and 2 are its antialiased rim". Exact.
-
-**`shell-footer-home` is a real control.** It exists at all four widths, is absent
-from the 25, and the only Phase 07 change to it was the *addition* of the 768
-variant when that viewport was introduced. Same footer element, same widths, the
-one route that mounts no launcher, and it did not move.
-
-**No golden moved because of A1 or A7.** Each of the 25 has exactly one changed
-bounding box and it is the launcher's. Had A1 or A7 moved a pixel inside any of
-those crops, a second box would appear. None does.
-
-**The newly-baselined content is correct.** Inspected at full size: 375
-`shell-footer-about`, 1280 `shell-footer-service`, 375 `inner-hero-sector-detail`.
-In each the region the disc occupied is plain footer/hero ground. The MALZEMELER
-spec block (`Ti6Al4V, Inconel 718, Al 7075`) sits beside the old disc, not under
-it, and reads identically in both. No defect is pinned by the first baseline.
+It is also not merely descriptive. The false threshold is the operative rule
+this guard file hands to future phases, and it is wrong **in the unsafe
+direction, by 133 px**, with a named and plausible trigger: a half-screen
+browser window on a 1600-wide display is 800 px, and a non-touch visual project
+in that band is a normal thing for a later phase to add.
 
 ---
 
-## 5. Hardening notes (not findings; no correction cycle needed for the phase)
-
-- **H1 — the intervening-adjective widening did not reach the company-scale nouns.**
-  `30+ tezgah` fires (the older rule, noun immediately after the digit) but
-  `30+ yeni tezgah` is silent, and so are `25+ deneyimli mühendis`,
-  `40+ tam zamanlı personel`, `150+ aktif müşteri` and `5.000+ kapalı metrekare`.
-  The widened rule's noun list is inventory-only; the JSX-residue rules right
-  below it *do* carry `tezgah|makine|mühendis|teknisyen|personel|çalışan|müşteri|
-  metrekare`, so the omission looks like an oversight rather than a decision.
-  Out of scope for F2 as written — none of the three live claims I proved was of
-  this class — but it is Hole 1's own mechanism, half-applied.
-- **H2 — a false positive on ordinary JS concatenation.** `"" + malzemeAdi` and
-  `'x' + renkKodu` fire on the string-literal-boundary rule. The commit message's
-  rationale ("prose does not start with a bare plus") is about prose and this rule
-  runs over code, where `"" + x` is an idiom. It fails *loud*, so it costs a human
-  adjudication rather than leaking a claim, and nothing in the tree trips it today.
-- **H3 — the annual-volume class is still ungated.** `50.000 adet/yıl` is caught by
-  **neither** gate, in any of six forms (`adet/yıl`, `adet / yıl`, `adet/ay`,
-  `100-10K adet/yıl`, `yıllık N adet`, and inside a label/value pair). The
-  spelled-out `50 bin adet` is caught; the numeric form is not. Re-adding the exact
-  line F1 removed leaves the gate at `PASS — 0`. Pre-existing (not introduced by
-  this phase) and not live — `publishableSpecValues()` defends the listing surface
-  by construction — but the class that produced F1 has no static guard.
-- **H4 — `overlays.ts`'s stated reason for excluding the cursor is imprecise.** It
-  says the cursor "paints nothing until a real pointer moves". Measured: both
-  layers are at `opacity: 1` from mount and merely parked at (-3,-3) / (-22,-22),
-  so 3×3 of the dot and 22×22 of the ring lie inside the viewport. The
-  *conclusion* holds empirically — my teal scan finds 0 exact-colour pixels in all
-  100 goldens — but the reason given is not the reason it holds, and a future
-  golden that crops the top-left corner would not be protected by it.
-- **H5 — `require: false` is currently safe but unguarded.** All three
-  `require: false` call sites are on `/` only (`landing-golden` and
-  `navigation-golden` visit `/` exclusively; `shell-golden` passes
-  `surface.path !== "/"`). Nothing prevents a later phase from adding a non-`/`
-  route with `require: false`, which would silently restore the A2 defect.
-- **H6 — the chip filter is conservative in two places worth knowing about.**
-  `malzeme-kutuphanesi` shows no chips because its label contains `Stok`, and the
-  withheld rule `/sto[kğ]|depo/i` is unqualified by a quantity (the gate's own
-  stock rule requires `kg|ton` nearby) — so `Sürekli Stok = Al 6061, Al 7075`, a
-  material-grade list, is suppressed. And `makine-parkuru` loses `3, 4 ve 5 eksen`
-  because the allowlist has no axis-count class, while `claims-gate.mjs`'s own
-  negative controls deliberately keep `5 eksen` as a specification. Neither leaves
-  a row empty of *measurements* that exist, so neither is over-removal in the
-  packet's sense.
-- **H7 — a small counting drift, not worth a cycle.** The Coder reports 44 listing
-  rows (I measure 48; the count that matters, 23 changed, is exact), 39 hidden
-  elements under A7 (I measure 38; `hiddenText=12` matches exactly), 2 at-rest
-  contrast failures at 1280 (I measure 1), and "2 strays" on
-  `inner-hero-material-family` (I measure 32, a bbox-edge difference). Every
-  direction and every endpoint agrees.
-
----
-
-## 6. Retired — my own errors this round
-
-- **Rail numbers.** My first F3 probe asserted the not-found rail number equalled
-  the family number (03/04/05), inferred from a summary rather than from the code.
-  `CategoryPage`/`ServiceDetail` pass `no="01"` for the hero and `no="02"` for the
-  band; the family lives in the **label**, and the label is right on all six.
-  Rescored. **The Coder was right and I was wrong.**
-- **Disc-vs-stray classification.** My first A2 adjudication classified by colour,
-  which threw the launcher's white speech-bubble icon out into the "strays" and
-  produced 15,662 strays with 5,973 darker — an apparent contradiction of §8.2.
-  §8.2 locates the launcher as a connected changed *region*, which is correct.
-  Reclassified; the numbers then match the doc. **The doc was right and my
-  instrument was wrong.**
-- **Two probe-order mistakes**, both corrected in the committed files: the F4
-  "armed" case used a bare `goto` where the golden specs use `gotoAndSettle` (the
-  face files are fetched lazily after the stylesheet parses, so gstatic read 0);
-  and the A2 overlap case compared a `position: fixed` viewport rect against an
-  unscrolled footer rect.
-- **A wrong route list.** My first chip probe used 15 invented category slugs, 12
-  of which do not exist; it measured 8 rows instead of 48 and was silently
-  measuring not-found bodies. Regenerated from `src/data/categoryPages.ts`.
-- **The contention hypothesis is corroborated, and I withdraw my 11 failures.**
-  The Orchestrator's five bounded chunks give 163 passed / 3 skipped / 0 failed at
-  both widths. I do not dispute it.
-
----
-
-## 7. Commands run
+## Commands run
 
 ```text
-npm run build                                                   PASS (1m 1s)
-node reports/qa/phase-07c1/probes/f2-setdiff.mjs  × 3 trees      LOST 0 / 0 / 0
-node reports/qa/phase-07c1/probes/f2-probe.mjs    × 2 batteries  55 + 21 probes
-esbuild src/content/claims.ts + 34-case unit battery             29/34 as expected
-node reports/qa/phase-07c1/probes/q1-chips.mjs    × 2 builds      48 rows, 23 changed
-node reports/qa/phase-07c1/probes/q2-leaf.mjs                     0 problems / 27
-node reports/qa/phase-07c1/probes/q3-notfound.mjs × 2 builds      0 vs 12 problems
-node reports/qa/phase-07c1/probes/q4-radius.mjs   × 2 modes       6 sources
-node reports/qa/phase-07c1/probes/q4b-cursor.mjs                  opacity 1, radius 50%
-node reports/qa/phase-07c1/probes/p6-contrast.mjs × 4 runs        5→0 @375, 1→0 @1280
-node scripts/motion-audit.mjs --mode=rest         (integrated)   PASS, 12 pairs
-node scripts/motion-audit.mjs --mode=enabled      (integrated)   armed=44/12
-node scripts/motion-audit.mjs --mode=rest         (pre-fix)      FAIL, 38/12
-node .../q5-motion-audit-PRE-A7.mjs --mode=rest   (pre-fix)      PASS — the blind spot
-node reports/qa/phase-07c1/probes/q6-launcher-scan.mjs            0/100, control 52
-node reports/qa/phase-07c1/probes/q7-golden-reveal.mjs            25 × one bbox
-node reports/qa/phase-07c1/probes/q8-golden-adjudicate.mjs        geometry ±1px, 4 darker
-npx playwright test e2e/visual/qa-f4-font-guard.spec.ts           4/4 @1280
-npx playwright test e2e/visual/qa-a2-overlay-guard.spec.ts        16/16 @375/768/1280/1440
-npm run test:e2e:visual  (64 existing + 32 mine)                  96 passed (8.0m)
+# instrument validation — my scanner must reproduce the official gate exactly
+node reports/qa/phase-07c3/probes/scan.mjs .../gate-NEW.mjs .  -> 27 rules, 209 files, 26633 lines, 0 hits
+node scripts/claims-gate.mjs                                    -> PASS — 0 across 27 rules (same numbers)
+
+# anti-laundering, old gate (6f37eb0) vs new (7bdd587), rule@file:line SET diff
+scan.mjs gate-OLD .../tree-19f30f5   -> 801     scan.mjs gate-NEW .../tree-19f30f5   -> 834
+scan.mjs gate-OLD .../tree-d1ed8e3   ->  12     scan.mjs gate-NEW .../tree-d1ed8e3   ->  24
+setdiff.mjs  19f30f5: 801 -> 834  LOST=0  GAINED=33 {company-scale:1, periodic:32}
+setdiff.mjs  d1ed8e3:  12 ->  24  LOST=0  GAINED=12 {periodic:12}
+
+# H3 / H1 / negative controls, both gates
+probe.mjs gate-NEW set-h3.json  -> 48 probes, 48 as-expected, 0 mismatch
+probe.mjs gate-OLD set-h3.json  -> 48 probes, 25 as-expected  (23 red-control mismatches, all FIRE->SILENT)
+probe.mjs gate-NEW set-h1.json  -> 16/16      probe.mjs gate-OLD set-h1.json -> 8/16
+probe.mjs gate-NEW set-attack.json  -> 20 evasion probes (see Notes)
+probe.mjs gate-NEW set-h6gate.json  -> 7/7
+
+# the two deliberate exclusions, as counterfactual gates over the real tree
+mkcounterfactual.mjs +saat      -> 1 hit: servicePages.ts:471 [Parça/Saat]
+mkcounterfactual.mjs +kapasite  -> 1 hit: servicePages.ts:63  [label: "Takım Kapasitesi", value: "30-120 adet"]
+
+# the \b class sweep
+bsweep.mjs  (every \b -> Turkish-aware boundary, all pattern rules; 89 boundaries, 16 rules)
+   HEAD 0->0    d1ed8e3 24->24    19f30f5 834->834      LOST=0 GAINED=0 on all three
+bstatic.mjs gate-NEW      -> 89 \b sites, 0 adjacent to a non-ASCII Turkish letter
+bstatic.mjs gate-RC-b     -> 93 sites, 3 flagged  (red control: the analyzer works)
+
+# anti-narrowing at rule-text level
+r6-narrowing.mjs -> 26->27 rules; 25/26 IDENTICAL; 1 WIDENED (all old fragments retained); 0 removed
+
+# H6 — chip census and leak hunt
+r1-chips.mjs (rendered DOM, 15 category routes) -> 48 rows, 71 chips  (round 2: 48 rows, 69 chips)
+r2-filterdiff.mjs OLD NEW -> 294 label/value pairs; 132 -> 139 publishable; ADMITTED 7, REVOKED 0
+11 withheld classes x 71 rendered chips -> 0 trips
+
+# F5-R — the radius census
+r3-radius.mjs                 -> 6 class sigs, 9 (class,size) sigs, 52 elements, 0 excluded
+QA_POINTER=1 r3-radius.mjs    -> identical
+r7-cursor-breakpoint.mjs      -> 375 touch 0 | 768 touch 0 | 768 MOUSE 2 | 900 MOUSE 2 | 1280 MOUSE 2
+r8-radius-768.mjs             -> 768 touch: 5 sigs, 0 cursor | 768 mouse: 7 sigs, 2 cursor, all six routes
+
+# H4 / H5
+r4-cursorcolour.mjs -> launcher bg === dot bg (rgb(10,125,138)); dot 9 px, ring 484 px inside the viewport
+round-2 launcher-scan.json re-read -> 100 goldens: exact 0, tight 0, maxRun 1; control exact 172, maxRun 52
+r5-overlays.mjs -> OLD 3/5, NEW 5/5; about:blank throws under require:false AND require:true
+
+# regression, all against my own preview of 7bdd587 (PLAYWRIGHT_BASE_URL=http://localhost:4917)
+npm run build                              -> exit 0
+npm run typecheck                          -> exit 0
+node scripts/grid-axis-probe.mjs           -> PASS
+node scripts/motion-audit.mjs --mode=guard -> PASS
+node scripts/motion-audit.mjs --mode=rest  -> PASS, 12 pairs, all hidden/hiddenText/partialText = 0
+npm run test:e2e:visual                    -> 96/96 (before my added test)
+npm run test:e2e:visual                    -> 98 passed / 2 failed, both fonts.gstatic.com, environmental
+npx playwright test ...inner-pages-golden -g "opens and closes" -> 14 passed (the two, green)
+npm run test:e2e:critical                  -> 163 passed, 3 skipped
+npx playwright test ...qa-a2-overlay-guard.spec.ts (4 projects) -> 20 passed (5 tests x 4)
+git diff 6f37eb0..HEAD -- e2e/__golden__   -> empty
+git status --porcelain e2e/__golden__      -> clean after every run
 ```
 
-My two specs live in `e2e/visual/` and are matched by the suite's `testMatch`, so
-`npm run test:e2e:visual` is now **96 executions, not 64**. All 64 pre-existing
-golden comparisons still pass unchanged alongside them.
+A note on instruments, since the Orchestrator's first H3 attempt was invalidated
+by one: I did **not** copy `claims-gate.mjs`. `probes/mklib.mjs` truncates any
+revision of it at the `file walk` banner — everything above which is pure
+definition and never touches `REPO_ROOT` — and exports the rule table. The tree
+root is then passed to the scanner as an argument. That is why the same probe
+can scan three trees with two gate revisions, and why it cannot report
+`scanned: 0 files`. It is validated against the real gate on the real tree:
+27 rules, 209 files, 26,633 lines, 0 violations — identical.
 
-Full logs and JSON: `reports/qa/phase-07c1/`.
-
-Not re-run (already re-derived independently by the Orchestrator on `6f37eb0`):
-`npm run typecheck`, `node scripts/claims-gate.mjs`, `node scripts/grid-axis-probe.mjs`,
-`motion-audit --mode=guard`, and the five-chunk critical suite.
-
----
-
-## 8. Scope integrity — **PASS**
-
-Production files modified by QA: **NONE**. `git diff --name-only 6f37eb0 HEAD`
-contains only `e2e/visual/qa-f4-font-guard.spec.ts`,
-`e2e/visual/qa-a2-overlay-guard.spec.ts` (both QA-authored, both new) and
-`reports/qa/phase-07c1/**`. No golden was regenerated or deleted; no
-`maxDiffPixels`, tolerance, skip or assertion was changed anywhere.
-
-Coder scope, checked independently: the eleven correction commits touch
-`src/content/claims.ts`, `src/data/servicePages.ts`, `src/pages/{CategoryPage,
-MalzemeKategori,ServiceDetail}.tsx`, `src/components/MaterialMorphScroll.tsx`,
-`scripts/{claims-gate,motion-audit}.mjs`, `docs/lean/17`, five `e2e/visual/*`
-files and 25 golden PNGs. `ChatBot.tsx` (`7a5daf0`) and `CustomCursor.tsx`
-(`98e64ab`) are byte-identical to the Phase 06 close. The whole `e2e/` diff across
-Phase 07 is **443 insertions, 0 deletions**.
+I also ran every browser measurement against a preview on **port 4917**. Ports
+4173 and 4183 were already occupied by other agents' servers in this run, and a
+census taken against someone else's bundle is not evidence about this tree.
 
 ---
 
-## 9. Still open, for the PROGRESS.md record
+## Scope integrity
 
-- **F5-R (this report, §3)** — the radius register lists 3 of 5 sources.
-- **H1–H7 (§5)** — hardening notes, no cycle required.
+- Production files modified by QA: **NONE**. `src/`, `scripts/`, `docs/`,
+  `e2e/__golden__/`, `playwright.config.ts`, `package.json`, `PROGRESS.md`,
+  `USER_INPUTS.md`, `IMPLEMENTATION.md` all untouched by me.
+- No golden regenerated, no tolerance changed, no assertion weakened, no skip or
+  xfail added, no coverage deleted. `git status e2e/__golden__` is clean after
+  every suite run, and `git diff 6f37eb0..HEAD -- e2e/__golden__` is empty.
+- Test/report files modified by QA: `reports/qa/phase-07.md` (this file),
+  `reports/qa/phase-07-round2.md` (round 2, preserved before overwrite),
+  `reports/qa/phase-07c3/` (probes, libraries, evidence), and
+  `e2e/visual/qa-a2-overlay-guard.spec.ts` — my own spec, one test added and its
+  header corrected because H5 closed the hole the header said was open.
+- The copies under `reports/qa/phase-07c3/lib/` are read-only derivatives of
+  `scripts/claims-gate.mjs`, `src/content/claims.ts` and `e2e/visual/overlays.ts`
+  at two revisions each, plus two counterfactual and one red-control variant.
+  They exist so the measurements are reproducible; nothing in the app imports
+  them.
+
+---
+
+## Notes
+
+### The `\b` class defect — carried, not a Phase 07 finding
+
+The Coder's discovery is correct and important: JavaScript's `\b` is ASCII-only,
+so `ü ş ç ö ğ ı â` are not `\w`, and a `\b` next to one is dead. With `\b` the
+new rule read `1000 ünite/gün` as SILENT. It was handled with `NB`/`NA`
+lookarounds.
+
+Swept as instructed, and the sweep is differential rather than by eye: every
+`\b` in every `pattern` rule replaced by the Turkish-aware boundary, then all
+three trees re-scanned. **Zero difference on all three, including the
+834-violation pre-run base.** A static analyzer — red-controlled by injecting
+`\bünite`, `sipariş\b` and `\b(?:çeşit|çalışan)` into a rule, which it catches —
+finds **0 of 89** `\b` sites adjacent to a non-ASCII letter. The four
+`scan`-only rules were read by hand: their `\b`s all sit next to ASCII
+(`\b(?:her|tüm|bütün|...)`, `\bgüvence`, `\bakredite`, `eder\b`), and one of
+them already solved this class in a prior phase — `claims-gate.mjs:1196`
+explicitly writes `ı(?![\wçğıöşüâî])` instead of `\b`, with the reason.
+
+So the class is real, the instrument was already partly aware of it, and there
+is **no live carrier anywhere**. Per my own bar, not a Phase 07 finding.
+
+**One latent site does exist, in the other instrument.** `src/content/claims.ts`
+withheld class 1 is
+`/\b(?:adet|ünite|parça|birim|palet|parti|sipariş)\s*\/\s*(?:yıl|ay|hafta|gün|saat|vardiya)/i`
+— the `ünite` branch is dead behind that `\b` (every other branch starts with an
+ASCII letter). It is covered today by withheld class 2
+(`\b\d...(?:adet|ünite)\b`) whenever a digit precedes, and by class 3
+(`kapasite|hacim|ciro`) for the labels that occur; the shape that would escape
+(`{ label: "Çıktı", value: "ünite/gün: 1000" }`) exists nowhere and would fail
+the build at the gate first. Worth fixing when that file is next opened.
+
+### Evasions of the new rule — latent, none with a carrier
+
+I attacked `periodic-volume-disclosure` with 20 evasions; 18 succeed. Every one
+was then hunted for a live carrier in all three trees, and **none has one**:
+
+- **Turkish suffixes on the count noun.** `yılda 50.000 adetlik`,
+  `50.000 adettir`, `günde 1000 üniteyi`. The adverb/adjective/trailing
+  alternatives end in `${NA}` with no `${TRW}*`, while the denominator
+  alternative does allow the suffix — an asymmetry, not a decision. Every
+  `aded[ie]` / `parçayı` in the tree is a lot-size or cost-per-unit sentence and
+  correctly silent.
+- **`{ label, value }` split across lines.** The pair alternative requires them
+  on one line. No multi-line pair exists outside `admin/`, which the gate
+  excludes.
+- **`{ label: "Kapasite", value: "50.000 adet" }`** — bare `Kapasite` with no
+  period word. This is the cost of the (correct) `kapasite` exclusion. The chip
+  filter withholds it independently (`kapasite|hacim|ciro`), so it is
+  double-covered on the listing surface, but the gate would not stop it entering
+  the data.
+- **Hourly throughput** (`saatte 500 adet`) — the cost of the (correct) `saat`
+  exclusion.
+- Synonyms and non-Turkish forms: `senede`, `her ay`, `units/year`, `/annum`,
+  `50.000 adet-yıl`, `yılda 12.000 ton`.
+
+None is a Phase 07 finding. All are worth a line in whichever phase next opens
+the gate.
+
+### Two latent leaks in the widened chip filter — both double-covered
+
+Found by probing, not by reading; neither has a carrier among the 294 pairs:
+
+- `{ label: "Hammadde Stoğu", value: "...toplam 1.200 ton" }` slips the qualified
+  stock rule, whose window is `{0,40}` while the gate's equivalent is `{0,60}`
+  and stops at a string-literal boundary. **The gate fires on it** (and on all
+  four stock-tonnage shapes I tried), so such a row cannot exist without failing
+  the build. Defence in depth holds, and the Coder's "qualified the same way it
+  is there" is true in kind, not in the window.
+- `{ label: "Sipariş No", value: "MT 2024" }` is read as a material grade by the
+  widened class `\b[A-Z][A-Za-z]{0,3}[\s-]\d{3,4}...`. That is a false *admit*,
+  not a disclosure — it would print a meaningless chip, never a withheld one.
+
+### F4's guard is not hermetic — new observation, reported not escalated
+
+`e2e/visual/fonts.ts:170` asserts that `installFontRetry()` intercepted more
+than zero requests on `fonts.gstatic.com`. That assertion depends on the
+browser actually issuing those requests during the test. In one of my three
+visual runs it did not, and two tests went red:
+
+```text
+[visual-375] inner-pages-golden.spec.ts:95  materials       -> intercepted 0 on fonts.gstatic.com
+[visual-768] inner-pages-golden.spec.ts:95  material-family -> intercepted 0 on fonts.gstatic.com
+```
+
+Both passed on immediate re-run (`14 passed`), and the same suite was 96/96 an
+hour earlier and 98/100 in the run that produced these, so the guard is not
+broken — it is **non-hermetic**, and this run has already lost agents to a DNS
+drop. The failure direction is the safe one (it goes red rather than quietly
+passing), which is why this is an observation and not a finding. But a golden
+suite whose green depends on reaching `fonts.gstatic.com` will cost the run
+time again, and it is worth a decision: either warm the faces deterministically
+before asserting, or scope the interception count to the first navigation in
+the worker rather than every capture.
+
+### Where I was wrong, and where the Coder was right
+
+- **H6 surface.** My round-2 report attributed the chipless material-library row
+  to the stock rule. It is chipless because `categoryPages.ts:79` points it at
+  `/malzemeler`, which has no `servicePage`. The Coder's correction is right and
+  mine was wrong on that point; the substance of H6 stood, and the two rendered
+  chip gains are on different rows than the ones I named.
+- **H4 leg 3.** I suspected the citation of my own scan was a mis-attribution,
+  because that scan targeted the launcher. It is not: the dot paints the same
+  colour, so the scan does exclude it. The Coder's citation is honest.
+- **The provenance hashes.** I took `98e64ab` and `7a5daf0` for commit SHAs and
+  went looking for a discrepancy. They are blob hashes, and they are exact.
+
+That is now five times in this phase that a QA finding has been retired or
+corrected in the Coder's favour.
+
+---
+
+## Still open after this phase — for `PROGRESS.md`
+
+**Must be corrected before Phase 07 closes** (this is the FAIL):
+
+1. `e2e/visual/overlays.ts` — leg 1 of the cursor exclusion, and the forward
+   instruction, both assert a 901 px mount threshold the component does not
+   have. True rule: the layers mount at **>=768 px with a fine pointer**; the
+   375 and 768 goldens are safe because both projects are configured
+   `isMobile: true, hasTouch: true`, i.e. coarse pointer.
+2. `docs/lean/17` §4 — the same false threshold; plus "a census run only at 375
+   finds four sources" (it finds two); plus the unmet promise to list every
+   width where a mounted component paints.
+
+**Carried, still open, not Phase 07's** (verified still carried this round):
+
 - **A3** — three suites, three font policies. Phases 14/15.
-- **A4** — the published address expansion. Adjudicated harmless.
-- **A6** — `/iletisim`'s Meet-invite promise (4 → 2). Phase 09.
-- **A8** — the register scrolls at 768 with all ten columns. Phase 08.
-- **The launcher obstruction itself** — at 1280 it covers 91% of a
-  `.shell-row-toggle` line box; at 375 it fully covers five `<td>` glyph line
-  boxes. `ChatBot.tsx` is out of scope here. Phases 09/13. Note that A2 makes this
-  *more* visible, not less: the goldens no longer hide it.
-- **`motion-grammar:254` at `tablet-768` / `landscape-844`** — pre-existing on both
-  trees, Phase 05's, carried to Phase 13.
-- **New this round, for Phase 11's benefit:** the ~48 real service/sector detail
-  routes now emit per-page `<title>`s where they previously emitted the site
-  default. Nothing depended on the old value.
+- **A4** — the address expansion; adjudicated harmless, for the reason given in
+  round 2.
+- **A6** — the `/iletisim` Meet promise. Phase 09.
+- **A8** — the register scrolls at 768. Phase 08.
+- **The chat launcher obstruction itself.** Phases 09/13 — and note A2 makes it
+  *more* visible now, because the goldens no longer hide it.
+- **`motion-grammar:254` at `tablet-768` / `landscape-844`.** Pre-existing
+  Phase 05, carried to Phase 13.
+- **H7's counting drift.**
+- **Phase 11** — roughly 48 detail routes now emit per-page titles.
+
+**New this round, carried, with no live carrier** (each needs a home, none
+blocks Phase 07):
+
+- **The duplicate pointer at 768-900 px.** In that band with a fine pointer,
+  `CustomCursor` mounts *and* `src/index.css:786`'s `cursor: none` does not apply
+  (it needs >=901 px), so a real reader sees both the native cursor and the
+  custom dot and ring. `CustomCursor.tsx` and `index.css` are byte-identical to
+  the Phase 06 close, so this is **pre-existing, not Phase 07's** — but it is the
+  behavioural half of the same 768/901 confusion, and it belongs to whichever
+  phase owns the cursor and `index.css`. `CustomCursor.tsx`'s own header already
+  flags that `index.css` rule as out of its packet.
+- **The `\b` ASCII class**, one latent site in `src/content/claims.ts` (above).
+- **18 latent evasions** of `periodic-volume-disclosure` (above).
+- **Two latent leaks** in the chip filter, both double-covered by the gate
+  (above).
+- **F4's font guard is non-hermetic** and cost two red tests in one of three
+  runs, both green on re-run (above). Fails in the safe direction; worth a
+  decision, not a correction loop.
