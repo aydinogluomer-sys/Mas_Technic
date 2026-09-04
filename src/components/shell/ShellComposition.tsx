@@ -121,7 +121,21 @@ export function ShellAction({
    pulled from its detail page — so the reader can choose without opening four
    pages first. */
 export type ShellIndexItem = {
-  to: string;
+  /** A route. Rendered as a router `<Link>`. */
+  to?: string;
+  /**
+   * A non-route destination — a served PDF, an external page. Rendered as a
+   * plain `<a>`, because a router `<Link>` to `/belgeler/…` would be
+   * intercepted by the router and resolve to the 404 catch-all.
+   *
+   * Exactly one of `to` and `href` is meaningful; `to` wins if both are given.
+   * PHASE 08: added so the quality dossier's document register is the SAME
+   * register row as every other index on the site, instead of a page-local
+   * skin that happens to look like one.
+   */
+  href?: string;
+  /** For `href` rows: mark the link as a download and name the file. */
+  download?: boolean;
   /** Sheet number in the rail column. Supplied so a list can continue. */
   index?: string;
   title: string;
@@ -143,9 +157,9 @@ export function ShellIndexList({
 }) {
   return (
     <ol className="shell-index" aria-label={ariaLabel} data-compact={compact || undefined}>
-      {items.map((item, i) => (
-        <li key={item.to + item.title}>
-          <Link className="shell-index-row" to={item.to}>
+      {items.map((item, i) => {
+        const body = (
+          <>
             <span className="shell-index-no" aria-hidden="true">
               {item.index ?? String(i + 1).padStart(2, "0")}
             </span>
@@ -162,9 +176,21 @@ export function ShellIndexList({
               )}
             </span>
             <ArrowUpRight className="shell-index-mark" aria-hidden="true" />
-          </Link>
-        </li>
-      ))}
+          </>
+        );
+
+        return (
+          <li key={(item.to ?? item.href ?? "") + item.title}>
+            {item.to ? (
+              <Link className="shell-index-row" to={item.to}>{body}</Link>
+            ) : (
+              <a className="shell-index-row" href={item.href} download={item.download || undefined}>
+                {body}
+              </a>
+            )}
+          </li>
+        );
+      })}
     </ol>
   );
 }

@@ -252,8 +252,29 @@ export const landingSections: SectionAnchor[] = [
 ];
 
 /* ── RESOURCES — technical reference surfaces ─────────────────────────────*/
+/* PHASE 08 added two entries here. Both are reference/evidence surfaces
+   rather than commercial destinations, which is exactly what this group is
+   for:
+
+     `/kabiliyet-profilleri`  the index over `src/content/caseStudies.ts`,
+                              carrying the same name as landing band 07.
+     `/kalite-dosyasi`        the four §H documents with the control chain that
+                              produces the records. Named after the landing
+                              band it continues (`10 KALİTE DOSYASI`) and NOT
+                              `/kalite`, because `kalite` is already a
+                              published landing ANCHOR in `landingSections`
+                              below — two destinations differing only by a `#`
+                              is an addressing trap for readers and for whoever
+                              maintains this file next.
+
+   Registering them here is what keeps
+   `e2e/landing/navigation-reachability.spec.ts` green: an unlisted new route
+   fails that gate as an orphan. The detail route
+   `/kabiliyet-profilleri/:slug` is covered by `INDEX_ROUTES` below. */
 export const resourceLinks: NavigationLink[] = [
   { label: "CNC İşleme Malzemeleri", path: "/malzemeler" },
+  { label: "Kabiliyet Profilleri", path: "/kabiliyet-profilleri" },
+  { label: "Kalite Dosyası", path: "/kalite-dosyasi" },
   { label: "Teknik Günlük", path: "/blog" },
   { label: "Sık Sorulanlar", path: "/sss" },
 ];
@@ -296,6 +317,7 @@ export const EXCLUDED_FROM_PRIMARY_NAV: { path: string; reason: string }[] = [
 /** Index pages that are the documented entry point for a parametrised family. */
 export const INDEX_ROUTES: { path: string; covers: string }[] = [
   { path: "/malzemeler", covers: "/malzemeler/:slug" },
+  { path: "/kabiliyet-profilleri", covers: "/kabiliyet-profilleri/:slug" },
   { path: "/blog", covers: "/blog/:slug" },
 ];
 

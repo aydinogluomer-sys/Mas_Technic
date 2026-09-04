@@ -40,6 +40,22 @@ const Iletisim = lazy(() => import("./pages/Iletisim").then((m) => ({ default: m
 const ServiceDetail = lazy(() => import("./pages/ServiceDetail").then((m) => ({ default: m.ServiceDetail })));
 const Blog = lazy(() => import("./pages/Blog").then((m) => ({ default: m.Blog })));
 const BlogDetail = lazy(() => import("./pages/BlogDetail").then((m) => ({ default: m.BlogDetail })));
+/* PHASE 08 — the two surfaces §PHASE 08 requires and the site had no route
+   for: the case-study/capability index + detail pair over
+   `src/content/caseStudies.ts`, and the quality/resources document surface
+   over the four §H PDFs. Both are registered in
+   `src/components/navigation/ia.ts` under RESOURCES, so
+   `e2e/landing/navigation-reachability.spec.ts` covers them rather than
+   reporting them as orphans. */
+const KabiliyetProfilleri = lazy(() =>
+  import("./pages/KabiliyetProfilleri").then((m) => ({ default: m.KabiliyetProfilleri })),
+);
+const KabiliyetProfilDetay = lazy(() =>
+  import("./pages/KabiliyetProfilDetay").then((m) => ({ default: m.KabiliyetProfilDetay })),
+);
+const KaliteDosyasi = lazy(() =>
+  import("./pages/KaliteDosyasi").then((m) => ({ default: m.KaliteDosyasi })),
+);
 const AdminLogin = lazy(() => import("./pages/AdminLogin").then((m) => ({ default: m.AdminLogin })));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard").then((m) => ({ default: m.AdminDashboard })));
 const Login = lazy(() => import("./pages/Login").then((m) => ({ default: m.Login })));
@@ -182,6 +198,9 @@ const AnimatedRoutes = () => {
           <Route path="/malzemeler/:slug" element={<MalzemeKategori />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogDetail />} />
+          <Route path="/kabiliyet-profilleri" element={<KabiliyetProfilleri />} />
+          <Route path="/kabiliyet-profilleri/:slug" element={<KabiliyetProfilDetay />} />
+          <Route path="/kalite-dosyasi" element={<KaliteDosyasi />} />
           <Route path="/hizmetler/kategori/:slug" element={<CategoryPage />} />
           <Route path="/kabiliyetler/kategori/:slug" element={<CategoryPage />} />
           <Route path="/endustriyel/kategori/:slug" element={<CategoryPage />} />
