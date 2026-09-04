@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { freezeVisualState, gotoAndSettle, landingReady } from "../helpers";
 import { awaitRealFaces, installFontRetry } from "./fonts";
+import { hideForeignOverlays } from "./overlays";
 
 /**
  * Altın (golden) görsel fark.
@@ -29,6 +30,9 @@ test.describe("landing golden screenshots", () => {
     await page.waitForLoadState("networkidle");
     await freezeVisualState(page);
     await awaitRealFaces(page);
+    /* A2: `/` mounts no launcher today; wired anyway so a future mount cannot
+       be baked into the landing baseline unnoticed. */
+    await hideForeignOverlays(page, { require: false });
 
     // Belirlenimlilik ön koşulu, sessiz bir varsayım değil ölçülen bir iddia:
     // ters-scroll katmanları reduced-motion altında kapalı ve dönüşümsüz

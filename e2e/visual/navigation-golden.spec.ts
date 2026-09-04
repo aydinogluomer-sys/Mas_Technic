@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { freezeVisualState, gotoAndSettle, landingReady } from "../helpers";
 import { awaitRealFaces, installFontRetry } from "./fonts";
+import { hideForeignOverlays } from "./overlays";
 
 /**
  * GLOBAL NAVIGATION — golden screenshots, closed and open.
@@ -23,6 +24,8 @@ test.describe("global navigation golden screenshots", () => {
     await landingReady(page);
     await freezeVisualState(page);
     await awaitRealFaces(page);
+    /* A2: see landing-golden — `/` mounts no launcher today. */
+    await hideForeignOverlays(page, { require: false });
   });
 
   test("matches the closed header baseline", async ({ page }) => {

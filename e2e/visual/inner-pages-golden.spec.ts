@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import { gotoAndSettle } from "../helpers";
 import { awaitRealFaces, installFontRetry } from "./fonts";
+import { hideForeignOverlays } from "./overlays";
 
 /* ══════════════════════════════════════════════════════════════════════════
    INNER-PAGE GOLDEN SCREENSHOTS — Phase 07
@@ -84,6 +85,9 @@ async function freezeForCapture(page: Page) {
   /* Not `document.fonts.ready` alone — see `./fonts.ts` for the measured race
      it does not cover. */
   await awaitRealFaces(page);
+  /* A2: every route in this spec mounts the chat launcher, so `require`
+     stays on — a count of zero here means the selector drifted. */
+  await hideForeignOverlays(page);
 }
 
 test.describe("inner-page golden screenshots", () => {

@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { freezeVisualState, gotoAndSettle } from "../helpers";
 import { awaitRealFaces, installFontRetry } from "./fonts";
+import { hideForeignOverlays } from "./overlays";
 
 /* ══════════════════════════════════════════════════════════════════════════
    SHELL GOLDEN SCREENSHOTS — one shell, proved by pictures
@@ -46,6 +47,9 @@ test.describe("shell golden screenshots", () => {
       await expect(page.locator(".shell-root")).toBeVisible({ timeout: 20_000 });
       await freezeVisualState(page);
       await awaitRealFaces(page);
+      /* A2: the launcher is a foreign fixed overlay and does not belong in a
+         page-content baseline. `/` legitimately mounts none. */
+      await hideForeignOverlays(page, { require: surface.path !== "/" });
 
       const header = page.locator("[data-fullscreen-header]");
       await expect(header).toBeVisible();
