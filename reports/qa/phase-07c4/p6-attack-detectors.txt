@@ -1,0 +1,69 @@
+=== A. pageScopedGoldenSpecs — under-detection probes (dangerous direction) ===
+OK   A1 plain expect(page).toHaveScreenshot
+       got=["x.spec.ts"] want=["x.spec.ts"]
+OK   A2 newline between expect(page) and .toHaveScreenshot
+       got=["x.spec.ts"] want=["x.spec.ts"]
+HOLE A3 ALIASED page variable  -> expect(p).toHaveScreenshot
+       got=[] want=["x.spec.ts"]
+HOLE A4 destructured rename  ({ page: view })
+       got=[] want=["x.spec.ts"]
+HOLE A5 this.page / obj.page
+       got=[] want=["x.spec.ts"]
+OK   A6 element crop is correctly NOT flagged
+       got=[] want=[]
+OK   A7 fullPage via a spread option object
+       got=["x.spec.ts"] want=["x.spec.ts"]
+
+=== B. readVisualSpecs — does the scan reach every file the config runs? ===
+HOLE B1 subdirectory spec is scanned (config testMatch is visual/**/*.spec.ts)
+       got=["flat.spec.ts"] want=["flat.spec.ts","nested.spec.ts"]
+HOLE B2 the nested page-scoped golden is flagged
+       got=["flat.spec.ts"] want=["flat.spec.ts","nested.spec.ts"]
+
+=== C. isVisualProject — natural glob spellings the config could use ===
+OK   C1 'visual/**/*.spec.ts' (today)
+       got=true want=true
+HOLE C2 '**/visual/**/*.spec.ts'
+       got=false want=true
+HOLE C3 './visual/*.spec.ts'
+       got=false want=true
+HOLE C4 RegExp testMatch /visual\//
+       got=false want=true
+HOLE C5 testDir-scoped project (no testMatch at all)
+       got=false want=true
+
+=== D. pointerIsFine — the mechanism claim ===
+OK   D1 hasTouch:true -> coarse
+       got=false want=false
+OK   D2 isMobile alone -> still fine
+       got=true want=true
+OK   D3 undefined use -> fine (a project that declares nothing)
+       got=true want=true
+
+=== E. §4 register — is a STALE number actually fatal? ===
+parsed rows:
+   `step meter` | 20 | – | – | `9999px` | 375: 21×6 | `MaterialMorphScroll.tsx:228`
+   `property-meter track` | – | 4 | 4 | `9999px` | 768: 238×4 · 1280: 238×4 | `MaterialMorphScroll.tsx:357`
+   `property-meter fill` | – | 4 | 4 | `9999px` | 768: 143×4, 190×4, 238×4 · 1280: 143×4, 190×4, 238×4 | `MaterialMorphScroll.tsx:359`
+   `chat launcher` | 6 | 6 | 6 | `9999px` | 375: 48×48 · 768: 56×56 · 1280: 56×56 | `ChatBot.tsx:225`
+   `cursor dot` | – | 6 | 6 | `50%` | 768: 6×6 · 1280: 6×6 | `CustomCursor.tsx:194-207`
+   `cursor ring` | – | 6 | 6 | `50%` | 768: 44×44 · 1280: 44×44 | `CustomCursor.tsx:209-221`
+RED  stale-doc mutation "count 768 launcher 6 -> 5" -> parsed table differs from the live one, so toEqual(measured) fails
+RED  stale-doc mutation "box 768 launcher 56x56 -> 48x48" -> parsed table differs from the live one, so toEqual(measured) fails
+RED  stale-doc mutation "cursor dot back to 1280-only" -> parsed table differs from the live one, so toEqual(measured) fails
+RED  stale-doc mutation "radius 9999px -> 8px on track" -> parsed table differs from the live one, so toEqual(measured) fails
+RED  stale-doc mutation "source line 228 -> 229" -> parsed table differs from the live one, so toEqual(measured) fails
+
+=== F. citationDeclaresRadius — does it really read the cited lines? ===
+OK              src/components/MaterialMorphScroll.tsx:228 -> true
+(informational) src/components/MaterialMorphScroll.tsx:227 -> false
+OK              src/components/MaterialMorphScroll.tsx:1 -> false
+OK              src/components/ui/CustomCursor.tsx:194-207 -> true
+OK              src/components/ui/CustomCursor.tsx:1-3 -> false
+(informational) src/components/ui/CustomCursor.tsx:1-400 -> true
+
+=== G. foldRegister — does an unlabelled radius source really throw? ===
+RED   unlabelled source throws: the census found a radius source with no row in RADIUS_SOURCES:
+RED   two-radii row throws: "step meter" paints two different radii (9999px and 4px)
+
+=== 9 hole(s)/unexpected result(s) ===

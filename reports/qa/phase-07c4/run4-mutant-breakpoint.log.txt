@@ -1,0 +1,100 @@
+(node:35384) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:7712) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  1 [visual-1280] › e2e\visual\cursor-overlay-guard.spec.ts:157:3 › H4 — CustomCursor's mount condition, measured › the whole (width, pointer) matrix is what the browser does (1.1m)
+
+
+  1) [visual-1280] › e2e\visual\cursor-overlay-guard.spec.ts:157:3 › H4 — CustomCursor's mount condition, measured › the whole (width, pointer) matrix is what the browser does 
+
+    Error: the mount matrix moved. This is the register three loops of prose kept getting wrong; fix the code or re-measure and update THIS table, and then the docs that quote it (e2e/visual/cursor-overlay.ts, docs/lean/17 §4)
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 3[39m
+    [31m+ Received  + 3[39m
+
+    [33m@@ -30,21 +30,21 @@[39m
+    [2m      "layers": 0,[22m
+    [2m    },[22m
+    [2m    "768/fine": Object {[22m
+    [2m      "bodyCursor": "auto",[22m
+    [2m      "finePointer": true,[22m
+    [32m-     "layers": 2,[39m
+    [31m+     "layers": 0,[39m
+    [2m    },[22m
+    [2m    "768/isMobile-without-touch": Object {[22m
+    [2m      "bodyCursor": "auto",[22m
+    [2m      "finePointer": true,[22m
+    [32m-     "layers": 2,[39m
+    [31m+     "layers": 0,[39m
+    [2m    },[22m
+    [2m    "900/fine": Object {[22m
+    [2m      "bodyCursor": "auto",[22m
+    [2m      "finePointer": true,[22m
+    [32m-     "layers": 2,[39m
+    [31m+     "layers": 0,[39m
+    [2m    },[22m
+    [2m    "901/fine": Object {[22m
+    [2m      "bodyCursor": "none",[22m
+    [2m      "finePointer": true,[22m
+    [2m      "layers": 2,[22m
+
+      168 |         + "wrong; fix the code or re-measure and update THIS table, and then the docs "
+      169 |         + "that quote it (e2e/visual/cursor-overlay.ts, docs/lean/17 §4)",
+    > 170 |     ).toEqual(EXPECTED_MOUNT_MATRIX);
+          |       ^
+      171 |
+      172 |     /* The retired claim, stated as its own counterfactual so the failure names
+      173 |        it. If `CustomCursor` ever really did stop mounting below 901, THIS is
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07c3\e2e\visual\cursor-overlay-guard.spec.ts:170:7
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-cursor-overlay-guar-1ceae-ix-is-what-the-browser-does-visual-1280\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-cursor-overlay-guar-1ceae-ix-is-what-the-browser-does-visual-1280\test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-cursor-overlay-guar-1ceae-ix-is-what-the-browser-does-visual-1280\test-failed-4.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-cursor-overlay-guar-1ceae-ix-is-what-the-browser-does-visual-1280\test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-cursor-overlay-guar-1ceae-ix-is-what-the-browser-does-visual-1280\test-failed-5.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #6: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-cursor-overlay-guar-1ceae-ix-is-what-the-browser-does-visual-1280\test-failed-6.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #7: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-cursor-overlay-guar-1ceae-ix-is-what-the-browser-does-visual-1280\test-failed-7.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #8: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-cursor-overlay-guar-1ceae-ix-is-what-the-browser-does-visual-1280\test-failed-8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #9: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-cursor-overlay-guar-1ceae-ix-is-what-the-browser-does-visual-1280\test-failed-9.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #10: screenshot (image/png) ─────────────────────────────────────────────────────────
+    test-results\visual-cursor-overlay-guar-1ceae-ix-is-what-the-browser-does-visual-1280\test-failed-10.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\visual-cursor-overlay-guar-1ceae-ix-is-what-the-browser-does-visual-1280\error-context.md
+
+  1 failed
+    [visual-1280] › e2e\visual\cursor-overlay-guard.spec.ts:157:3 › H4 — CustomCursor's mount condition, measured › the whole (width, pointer) matrix is what the browser does 

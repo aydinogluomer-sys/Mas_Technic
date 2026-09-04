@@ -1,0 +1,54 @@
+(node:376) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:16508) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  1 [visual-1280] › e2e\visual\qa-h4-cursor-independent.spec.ts:169:5 › QA R4 — would hiding the cursor actually move the landing baseline? › 1280: the cursor's contribution to the whole-page frame (1.9m)
+(node:2200) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  2 [visual-1280] › e2e\visual\qa-h4-cursor-independent.spec.ts:169:5 › QA R4 — would hiding the cursor actually move the landing baseline? › 1440: the cursor's contribution to the whole-page frame (25.1s)
+
+
+  1) [visual-1280] › e2e\visual\qa-h4-cursor-independent.spec.ts:169:5 › QA R4 — would hiding the cursor actually move the landing baseline? › 1280: the cursor's contribution to the whole-page frame 
+
+    Error: hiding [data-custom-cursor] changed the whole-page frame. Non-zero means the cursor IS reaching landing-fullpage.png and the sibling guard's ARMED assertion should already have failed. Zero means adding the cursor to FOREIGN_OVERLAYS would not move the baseline, and any refusal resting on 'it would move the golden' rests on a wrong reason.
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoMatchObject[2m([22m[32mexpected[39m[2m)[22m
+
+    [32m- Expected  - 2[39m
+    [31m+ Received  + 7[39m
+
+    [2m  Object {[22m
+    [32m-   "bbox": null,[39m
+    [32m-   "differing": 0,[39m
+    [31m+   "bbox": Array [[39m
+    [31m+     65,[39m
+    [31m+     210,[39m
+    [31m+     1278,[39m
+    [31m+     3898,[39m
+    [31m+   ],[39m
+    [31m+   "differing": 150688,[39m
+    [2m  }[22m
+
+      211 |             + "move the baseline, and any refusal resting on 'it would move the golden' rests "
+      212 |             + "on a wrong reason.",
+    > 213 |         ).toMatchObject({ differing: 0, bbox: null });
+          |           ^
+      214 |       } finally {
+      215 |         await context.close();
+      216 |       }
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07c3\e2e\visual\qa-h4-cursor-independent.spec.ts:213:11
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-qa-h4-cursor-indepe-a8c7c-ion-to-the-whole-page-frame-visual-1280\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\visual-qa-h4-cursor-indepe-a8c7c-ion-to-the-whole-page-frame-visual-1280\error-context.md
+
+  1 failed
+    [visual-1280] › e2e\visual\qa-h4-cursor-independent.spec.ts:169:5 › QA R4 — would hiding the cursor actually move the landing baseline? › 1280: the cursor's contribution to the whole-page frame 
+  1 passed (3.6m)

@@ -1,0 +1,60 @@
+(node:15992) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:19812) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  1 [visual-1280] › e2e\visual\radius-census.spec.ts:46:3 › §4 — the radius register is the census › every number in docs/lean/17 §4 comes back out of the browser (1.6m)
+
+
+  1) [visual-1280] › e2e\visual\radius-census.spec.ts:46:3 › §4 — the radius register is the census › every number in docs/lean/17 §4 comes back out of the browser 
+
+    Error: docs/lean/17 §4's register no longer matches what the browser paints on the six rebuilt routes. Do not edit the table to match the diff by hand — read the diff, decide whether the PAGES changed or the REGISTER rotted, and say which in the document. Every previous version of this table was wrong because somebody typed it instead of measuring it.
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 5[39m
+    [31m+ Received  + 5[39m
+
+    [2m  Array [[22m
+    [32m-   "`step meter` | 20 | – | – | `9999px` | 375: 21×6 | `MaterialMorphScroll.tsx:228`",[39m
+    [32m-   "`property-meter track` | – | 4 | 4 | `9999px` | 768: 238×4 · 1280: 238×4 | `MaterialMorphScroll.tsx:357`",[39m
+    [32m-   "`property-meter fill` | – | 4 | 4 | `9999px` | 768: 143×4, 190×4, 238×4 · 1280: 143×4, 190×4, 238×4 | `MaterialMorphScroll.tsx:359`",[39m
+    [31m+   "`step meter` | 20 | 20 | – | `9999px` | 375: 21×6 · 768: 24×6 | `MaterialMorphScroll.tsx:228`",[39m
+    [31m+   "`property-meter track` | – | – | 4 | `9999px` | 1280: 238×4 | `MaterialMorphScroll.tsx:357`",[39m
+    [31m+   "`property-meter fill` | – | – | 4 | `9999px` | 1280: 143×4, 190×4, 238×4 | `MaterialMorphScroll.tsx:359`",[39m
+    [2m    "`chat launcher` | 6 | 6 | 6 | `9999px` | 375: 48×48 · 768: 56×56 · 1280: 56×56 | `ChatBot.tsx:225`",[22m
+    [32m-   "`cursor dot` | – | 6 | 6 | `50%` | 768: 6×6 · 1280: 6×6 | `CustomCursor.tsx:194-207`",[39m
+    [32m-   "`cursor ring` | – | 6 | 6 | `50%` | 768: 44×44 · 1280: 44×44 | `CustomCursor.tsx:209-221`",[39m
+    [31m+   "`cursor dot` | – | – | 6 | `50%` | 1280: 6×6 | `CustomCursor.tsx:194-207`",[39m
+    [31m+   "`cursor ring` | – | – | 6 | `50%` | 1280: 44×44 | `CustomCursor.tsx:209-221`",[39m
+    [2m  ][22m
+
+      92 |         + "document. Every previous version of this table was wrong because somebody typed "
+      93 |         + "it instead of measuring it.",
+    > 94 |     ).toEqual(documented);
+         |       ^
+      95 |
+      96 |     /* Both directions of the label map, so a new radius source cannot hide
+      97 |        behind a table that still adds up. (`foldRegister` throws on an
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07c3\e2e\visual\radius-census.spec.ts:94:7
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-radius-census-§4-—--1a684-mes-back-out-of-the-browser-visual-1280\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-radius-census-§4-—--1a684-mes-back-out-of-the-browser-visual-1280\test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-radius-census-§4-—--1a684-mes-back-out-of-the-browser-visual-1280\test-failed-3.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\visual-radius-census-§4-—--1a684-mes-back-out-of-the-browser-visual-1280\error-context.md
+
+  1 failed
+    [visual-1280] › e2e\visual\radius-census.spec.ts:46:3 › §4 — the radius register is the census › every number in docs/lean/17 §4 comes back out of the browser 
