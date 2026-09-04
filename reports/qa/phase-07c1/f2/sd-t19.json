@@ -1,0 +1,95 @@
+{
+  "cwd": "C:/Users/TRADEB~1/AppData/Local/Temp/claude/C--Users-Trade-Bilisim-precision-dynamics-hub-main/2e14ce45-c8a7-4199-8eb6-31cbd396a7a9/scratchpad/t19",
+  "gateA": "C:/Users/TRADEB~1/AppData/Local/Temp/claude/C--Users-Trade-Bilisim-precision-dynamics-hub-main/2e14ce45-c8a7-4199-8eb6-31cbd396a7a9/scratchpad/t19/scripts/gate-old.mjs",
+  "gateB": "C:/Users/TRADEB~1/AppData/Local/Temp/claude/C--Users-Trade-Bilisim-precision-dynamics-hub-main/2e14ce45-c8a7-4199-8eb6-31cbd396a7a9/scratchpad/t19/scripts/gate-new.mjs",
+  "scannedOld": [
+    "218",
+    "28875"
+  ],
+  "scannedNew": [
+    "218",
+    "28875"
+  ],
+  "passOld": false,
+  "passNew": false,
+  "totalOld": 788,
+  "totalNew": 801,
+  "LOST": 0,
+  "GAINED": 13,
+  "lostKeys": [],
+  "gainedKeys": [
+    {
+      "key": "company-scale-disclosure@src/pages/Malzemeler.tsx:119",
+      "match": "}+ malzeme ve alaşım",
+      "text": "<p className=\"text-lg text-[rgb(var(--text-primary-rgb)/0.7)] max-w-2xl mx-auto mb-8\">{materialsData.length}+ malzeme ve alaşım ile endüstriyel ihtiyaçlarınıza çözüm. Karşılaştırın"
+    },
+    {
+      "key": "company-scale-disclosure@src/data/materialsData.ts:50",
+      "match": "15+ alüminyum alaşımı",
+      "text": "heroDescription: \"Havacılıktan otomotive, 6061'den 7075'e kadar 15+ alüminyum alaşımı ile hassas CNC parça üretimi.\","
+    },
+    {
+      "key": "company-scale-disclosure@src/data/servicePages.ts:769",
+      "match": "20+ renk",
+      "text": "metaDescription: \"MIL-A-8625 uyumlu Tip I, II, III anodizasyon. 5-100µm kaplama, 60-70 HRC sertlik, 500+ saat tuz testi. 20+ renk seçeneği, havacılık ve medikal sınıf kaplama.\","
+    },
+    {
+      "key": "company-scale-disclosure@src/data/servicePages.ts:776",
+      "match": "20+ renk",
+      "text": "\"Renklendirme sürecimizde organik ve inorganik boyalar kullanarak siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) dahil 20+ renk seçeneği s"
+    },
+    {
+      "key": "company-scale-disclosure@src/data/servicePages.ts:784",
+      "match": "20+ Renk",
+      "text": "\"20+ Renk Seçeneği — Organik ve inorganik boyalar, ΔE ≤ 2.0 homojenlik\","
+    },
+    {
+      "key": "company-scale-disclosure@src/data/servicePages.ts:794",
+      "match": "20+ renk",
+      "text": "{ label: \"Renk Seçeneği\", value: \"20+ renk\" },"
+    },
+    {
+      "key": "company-scale-disclosure@src/data/servicePages.ts:808",
+      "match": "20+ renk",
+      "text": "\"20+ renk seçeneği ile dekoratif ve fonksiyonel kaplama\","
+    },
+    {
+      "key": "company-scale-disclosure@src/data/servicePages.ts:826",
+      "match": "20+ renk",
+      "text": "{ question: \"Hangi renklerde anodizasyon yapabiliyorsunuz?\", answer: \"Siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel dahil 20+ renk seçeneği sunuyor"
+    },
+    {
+      "key": "company-scale-disclosure@src/data/servicePages.ts:839",
+      "match": "20+ renk",
+      "text": "[\"Renklendirme\", \"Sınırlı\", \"20+ renk\", \"Sınırlı (siyah, koyu tonlar)\"],"
+    },
+    {
+      "key": "company-scale-disclosure@src/data/servicePages.ts:1274",
+      "match": "1000+ ünite",
+      "text": "\"M3 (1.5-2.0 Nm), M4 (3.0-4.0 Nm), M5 (6.0-8.0 Nm) ve M6 (10.0-12.0 Nm) vida boyutlarında ±5% toleransla tork kontrollü sıkma gerçekleştiriyoruz. Fonksiyon testi, 1000+ ünite/gün k"
+    },
+    {
+      "key": "company-scale-disclosure@src/data/servicePages.ts:1285",
+      "match": "1000+ ünite",
+      "text": "{ label: \"Kapasite\", value: \"1000+ ünite/gün\" },"
+    },
+    {
+      "key": "company-scale-disclosure@src/data/servicePages.ts:1298",
+      "match": "1000+ ünite",
+      "text": "\"1000+ ünite/gün kapasite\","
+    },
+    {
+      "key": "company-scale-disclosure@src/data/servicePages.ts:2945",
+      "match": "100.000+ adet projelerinde",
+      "text": "{ question: \"Minimum yıllık kontrat adedi var mı?\", answer: \"Seri üretim için minimum 10.000 adet/yıl kontrat ile başlamaktadır. Yıllık 100.000+ adet projelerinde özel fiyatlandırm"
+    }
+  ],
+  "perRuleCountsChanged": [
+    {
+      "rule": "company-scale-disclosure",
+      "old": 42,
+      "new": 55
+    }
+  ],
+  "perRuleCountsSame": 26
+}
