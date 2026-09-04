@@ -375,6 +375,20 @@ because the Phase 04 precedent is a justification true at 1280/1440 and false at
 than averaged in: its crop clips the launcher 11 px down, so the disc is a
 40×11 sliver — 336 changed pixels, 2 strays, max Δ 1.
 
+**Two more goldens changed than the first run reported, and they were
+adjudicated separately.** `inner-next-sector-detail` and
+`inner-next-service-detail` at 375 never appeared in the first run's failures
+because `toHaveScreenshot` stops a test at its first failing assertion, and the
+hero capture on those routes fails earlier — so the next-step capture was never
+reached. Total: **25**, which is exactly the number the launcher was found in.
+Both are the launcher's clipped top arc: a 34×8 sliver at x 318–351 in a
+375×549 crop, 216 changed pixels each, of which 214 are the sliver and 2 are its
+antialiased rim one pixel either side of the widest row. Those two get *darker*
+(max Δ 30) rather than brighter, which is the opposite of the shadow strays and
+is correct — a rim pixel loses a teal blend to a graphite ground, while a shadow
+pixel loses a black wash. Direction follows the ground, and both directions are
+accounted for.
+
 **No golden moved because of A1 or A7.** This suite ran on the post-A1 /
 post-A7 build, so a `MaterialMorphScroll` change would have surfaced as a
 content-region diff. `/malzemeler`'s only golden is its hero crop; the
