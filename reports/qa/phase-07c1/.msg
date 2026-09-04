@@ -1,42 +1,44 @@
-test(qa): A1 re-measured with my own glyph-free instrument, red-controlled
+test(qa): A7 — red control, counter-proof, and an anti-narrowing set comparison
 
-probes/p6-contrast.mjs is the Phase 07 instrument, unchanged: it never reads a
-glyph pixel. Background is measured from rendered pixels with the glyphs made
-transparent (not hidden, which would take the element's own background with
-it); foreground is COMPUTED as composite(color, alpha x ancestor-opacity-chain)
-over that background, so the number is immune to font size.
+THE FIX IS REAL, AND THE RED IT CLOSES IS REPRODUCIBLE.
+Current scripts/motion-audit.mjs --mode=rest, run against two builds:
 
-NEGATIVE CONTROLS, asserted every run, all held:
-  21.000 / 1.000 / 3.033 @16px / 3.033 @8px / 3.977 (half-opacity ancestor)
-  The 8px control matching the 16px control at 3.033 is the point: the naive
-  glyph-pixel method reports 2.119 for the same control at 1280.
+  pre-fix build (dfe9da7, :4191)
+    /malzemeler @1280   hidden=38  hiddenText=12  partialText=0   -> FAIL
+    /malzemeler @375    hidden=0   hiddenText=0                   (desktop-only
+                                                                   choreography)
+  integrated build (6f37eb0)
+    12 pairs, /malzemeler @1280 at 1977 elements
+    hidden=0  hiddenText=0  partialText=0 on every pair           -> PASS
 
-AT-REST FAILURES on /malzemeler, reducedMotion=reduce, same instrument, two
-builds:
-  375 : 5 -> 0   (274/451 candidates measured)
-  1280: 1 -> 0   (838/839 candidates measured)
+The Coder reports 39; I measure 38, on an element count of 1976 against their
+1977. A one-element drift in a portal-mounted overlay. hiddenText=12 — the
+number that carries the finding — matches exactly.
 
-The Coder reports 2 at 1280; my instrument finds 1. Direction and endpoint
-agree, so I do not press it.
+THE CHOREOGRAPHY WAS GATED, NOT DELETED.
+--mode=enabled on the integrated build:
+  /malzemeler @1280  elements=1998  armed=44  armedText=12
+                     afterScroll=44  afterScrollText=12
+  /malzemeler @375   armed=5  armedText=0
+The same 12 text-bearing elements are still animated for a reader who did not
+ask for motion off. A "fix" that deleted the reveal would report 0 here too,
+which is why this run is the one that decides it.
 
-The five pre-correction failures are exactly the three repairs claimed:
-  the dark-accent eyebrow rgb(10,125,138) "Malzeme Dönüşümü" on a dark ground
-    - 1.588 @375 and 4.013 @1280
-  four rgba(240,239,237,0.5) property labels at 10px - 3.442 to 4.110 @375
+THE HARD GATE WAS NOT NARROWED — measured, not read off the diff.
+The PRE-A7 audit script (7e69a79) was run against the SAME pre-fix build:
+  old script: 10 pairs, all hidden=0 hiddenText=0, exit 0 — it reported PASS
+              over a build hiding 12 text-bearing elements, because
+              /malzemeler was not in its matrix.
+  new script: those same 10 pairs, identical hidden=0 hiddenText=0, PLUS the
+              two new /malzemeler pairs, one of them red.
+Every pair the old gate judged, the new gate judges identically. Widened only.
 
-THE GAP THE CODER DECLINED TO CLAIM IS NOW MEASURED, NOT BOUNDED.
-The property card under prefers-reduced-motion, where A7 makes it newly visible
-at chain 1.0, was bounded by arithmetic at ~8.6:1. Measured:
-
-  1280  İşlenebilirlik / Korozyon Direnci / Mukavemet / Termal Dayanım
-        ratio 8.481 (worst-pixel 8.481 too), required 4.5, opacityChain 1.000
-  375   the same four at 7.574 - 7.875, opacityChain 1.000
-
-  opacityChain = 1.000 on every one is itself the proof they were measured
-  while fully painted under reduced motion, which is A7's counter-proof seen
-  from the contrast side.
-
-  The eyebrow: 1.588 -> 14.505 @375, 4.013 -> 16.877 @1280.
+THE partialText BAND IS UNGATED OBSERVABILITY.
+partialText=0 on BOTH builds and every pair, including the pre-fix pair where
+38 elements sat at chain 0 — so the band did not absorb anything the hard gate
+used to catch. In source the band intercepts only 0 < chain < 0.95, which the
+previous code already discarded at `if (value !== 0) continue`. The chain-0
+gate is byte-equivalent.
 
 Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_013mzqXq7KjpjHdm76iXjL6k
