@@ -1574,6 +1574,30 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
 .shell-faq-answer { padding: 0 var(--tl-s4) var(--tl-s5) calc(var(--tl-s4) + 12px + var(--tl-s4)); }
 .shell-faq-answer > p { max-width: 72ch; margin: 0; color: var(--sf-body); font-size: 14px; line-height: 1.65; }
 
+/* The answer's own page. A register entry that came from somewhere should say
+   where, and the link is the way back to the full technical text. */
+.shell-faq-source { margin-top: var(--tl-s3); }
+.shell-faq-source a {
+  color: var(--sf-meta);
+  font: 500 10px/1.6 var(--tl-font-mono);
+  letter-spacing: .1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-bottom: var(--tl-rule-size) solid var(--sf-rule);
+}
+.shell-faq-source a:hover { color: var(--sf-ink); border-bottom-color: var(--sf-ink); }
+
+/* Group heading in the browsing (unfiltered) register. It names the run of
+   `<details>` under it and is a real heading, not a styled label. */
+.shell-faq-group {
+  margin: var(--tl-s7) 0 var(--tl-s3);
+  color: var(--sf-accent);
+  font: 600 10px/1.4 var(--tl-font-mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.shell-doc-main > section:first-of-type > .shell-faq-group { margin-top: var(--tl-s5); }
+
 @media (prefers-reduced-motion: reduce) {
   .shell-faq-item > summary::before { transition-duration: .01ms; }
 }
