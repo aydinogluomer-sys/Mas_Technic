@@ -60,11 +60,23 @@ const JSON_OUT = process.argv.includes("--json");
 const PORT = Number(process.env.MOTION_AUDIT_PORT ?? 4188);
 const EXTERNAL_BASE = process.env.MOTION_AUDIT_BASE_URL;
 
-/** The landing plus four inner routes from three different page families. */
+/**
+ * The landing plus five inner routes from four different page families.
+ *
+ * `/malzemeler` was added by the Phase 07 correction (advisory A7). It was the
+ * one route missing from this matrix and the one most worth having in it: it
+ * mounts `MaterialMorphScroll`, an 80-frame scroll-driven canvas whose title
+ * and property card take their opacity straight from `scrollYProgress`. A
+ * route whose content visibility is a FUNCTION OF SCROLL POSITION is precisely
+ * what a no-scroll census is for, and leaving it out is why the audit could
+ * report `hiddenText=0` across ten pairs while eleven text-bearing elements
+ * sat at an ancestor `opacity: 0`.
+ */
 const ROUTES = [
   ["/", "landing"],
   ["/hizmetler/cnc-frezeleme", "service detail (B28 reference route)"],
   ["/iletisim", "contact"],
+  ["/malzemeler", "material register (80-frame scroll canvas — A7)"],
   ["/malzemeler/aluminyum", "material category"],
   ["/hakkimizda", "about"],
 ];
@@ -131,6 +143,16 @@ function startPreview(port) {
  *   `textNodes` — elements that carry their own visible text. That is the
  *                 gate: a decorative transparent wrapper is not a defect, a
  *                 transparent paragraph is.
+ *
+ * PARTIAL OPACITY — added with A7, and deliberately NOT gated.
+ * This shares its definition of "at rest" with the Phase 07 correction's
+ * contrast instrument (`docs/lean/17` §6.9): a run counts as at rest only at
+ * ancestor opacity chain >= 0.95, and anything between 0.01 and 0.95 is a
+ * MID-FADE frame — reported separately and counted in neither total. Here that
+ * means `partialText` is printed but does not fail the build, exactly as
+ * mid-fade contrast runs are printed but never counted as failures. The hard
+ * gate stays where it was, at chain ~0, so nothing is narrowed: this only adds
+ * visibility of a band the census could not previously see at all.
  */
 const REST_PROBE = () => {
   const all = [...document.querySelectorAll("body *")];
@@ -160,6 +182,8 @@ const REST_PROBE = () => {
 
   const hidden = [];
   const hiddenText = [];
+  /* 0.01 <= chain < 0.95 — mid-fade. Reported, never gated. */
+  const partialText = [];
   /* Elements that are transparent but carry no text of their own. These are
      not automatically fine — a transparent wrapper can still be swallowing a
      whole subtree — so a sample is printed and has to be read, rather than
@@ -167,14 +191,21 @@ const REST_PROBE = () => {
   const hiddenSilent = [];
   for (const el of laidOut) {
     const value = effective(el);
-    if (value !== 0) continue;
-    hidden.push(el);
-    const text = ownText(el);
     const describe = () => ({
       tag: el.tagName.toLowerCase(),
       cls: (el.getAttribute("class") ?? "").slice(0, 60),
       text: (el.textContent ?? "").trim().slice(0, 40),
     });
+    if (value > 0 && value < 0.95) {
+      const own = ownText(el);
+      if (own.length > 1 && el.closest("[aria-hidden='true']") === null && partialText.length < 40) {
+        partialText.push({ ...describe(), opacity: Number(value.toFixed(3)) });
+      }
+      continue;
+    }
+    if (value !== 0) continue;
+    hidden.push(el);
+    const text = ownText(el);
     if (text.length > 1 && el.closest("[aria-hidden='true']") === null) {
       hiddenText.push({ ...describe(), text: text.slice(0, 60) });
     } else if (hiddenSilent.length < 20) {
@@ -186,7 +217,9 @@ const REST_PROBE = () => {
     elements: laidOut.length,
     hidden: hidden.length,
     hiddenText: hiddenText.length,
+    partialText: partialText.length,
     samples: hiddenText.slice(0, 8),
+    partial: partialText.slice(0, 8),
     silent: hiddenSilent,
   };
 };
@@ -891,9 +924,10 @@ async function main() {
     } else {
       console.log(`\nMOTION AUDIT — mode=${MODE}  base=${baseURL}\n`);
       for (const row of results) {
-        const { samples, worst, silent, ...rest } = row;
+        const { samples, worst, silent, partial, ...rest } = row;
         console.log(Object.entries(rest).map(([k, v]) => `${k}=${v}`).join("  "));
         if (samples?.length) samples.forEach((s) => console.log(`      hidden text: <${s.tag} class="${s.cls}"> ${JSON.stringify(s.text)}`));
+        if (partial?.length) partial.forEach((s) => console.log(`      mid-fade (opacity ${s.opacity}, not gated): <${s.tag} class="${s.cls}"> ${JSON.stringify(s.text)}`));
         if (silent?.length) silent.forEach((s) => console.log(`      hidden, no own text: <${s.tag} class="${s.cls}"> ${JSON.stringify(s.text)}`));
         if (worst?.length) worst.forEach((s) => console.log(`      shift ${s.value.toFixed(5)} @${s.time}ms  ${s.sources.join(", ")}`));
       }
