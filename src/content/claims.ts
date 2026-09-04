@@ -417,9 +417,18 @@ const WITHHELD_SPEC_CLASSES: readonly RegExp[] = [
   /* Company scale. §D TEAM_SIZE / MACHINE_COUNT / FACILITY_SIZE. */
   /\b(?:tezgah|tezgâh|makine|işleme merkezi|mühendis|teknisyen|personel|çalışan|operatör|müşteri|vardiya)\b/i,
   /\bm²|\bm2\b|metrekare/i,
-  /* Stock and warehouse tonnage — the same disclosure `claims-gate.mjs`
-     already refuses in the source. */
-  /sto[kğ]|depo/i,
+  /* Stock and warehouse TONNAGE — the same disclosure `claims-gate.mjs`
+     already refuses in the source, and qualified the same way it is there.
+     PHASE 07 CORRECTION #2 — H6. Unqualified, this suppressed
+     `{ label: "Sürekli Stok", value: "Al 6061, Al 7075" }` — a MATERIAL
+     GRADE LIST with no quantity in it at all — and with it every chip on the
+     material-library row, because the withheld pass reads the label too. The
+     gate's own stock rule requires `kg|ton` nearby; a filter stricter than the
+     gate, for no stated reason, is not conservatism, it is two instruments
+     disagreeing about what the class is. What is withheld is the TONNAGE
+     ("Güvenlik stoğu (5.000 kg)"), never the grade. */
+  /(?:sto[kğ]|depo)[\s\S]{0,40}?\b\d[\d.,]*\s?(?:kg|ton)\b/i,
+  /\b\d[\d.,]*\s?(?:kg|ton)\b[\s\S]{0,40}?(?:sto[kğ]|depo)/i,
   /* Money. */
   /[₺$€]|\bTL\b|\bEUR\b|\bUSD\b/i,
   /* Inventory / offering counts — the `15+ alüminyum alaşımı` class. */
@@ -451,6 +460,13 @@ const PUBLISHABLE_SPEC_CLASSES: readonly RegExp[] = [
   /\b\d[\d.,]*\s?(?:ton|kg|kN|N|W|kW|kV|V|A|Hz|kHz|RPM|dev\/dak)\b/,
   /* Thermal envelopes. */
   /°\s?C\b/,
+  /* Machine-axis counts. PHASE 07 CORRECTION #2 — H6: `claims-gate.mjs`
+     keeps `5 eksen` as a SPECIFICATION in its own negative controls — it is a
+     kinematic capability, not an inventory of machines — while this allowlist
+     had no class for it, so `3, 4 ve 5 eksen` was dropped from the machine-park
+     row. Two instruments cannot disagree about whether `5 eksen` is a
+     specification. Written to read a list ("3, 4 ve 5 eksen") as one value. */
+  /\b\d(?:[\s,]+(?:ve\s+)?\d)*\s*eksen(?:li)?\b/i,
   /* Service life expressed in cycles, and tooling cavity counts. */
   /\b\d[\d.,]*\s?K?\+?\s*(?:çevrim|döngü|kavite)/i,
   /* Published standards — the class Phase 06 kept alongside MIL-A-8625. */
@@ -459,7 +475,17 @@ const PUBLISHABLE_SPEC_CLASSES: readonly RegExp[] = [
   /\b(?:RT|UT|PT|MT|ET|MPI|PMI)\b(?:[,\s/]+\b(?:RT|UT|PT|MT|ET|MPI|PMI)\b)+/,
   /* Material grades and designations. A grade is a token that mixes letters
      and digits (`ADC12`, `ZA-8`, `42CrMo4`, `6061-T6`, `S355`, `GGG-40`),
-     plus the named alloy families that do not. */
+     plus the named alloy families that do not.
+
+     PHASE 07 CORRECTION #2 — H6, second cause. The token rule below is
+     GLUED: it reads `6061-T6` but not `Al 6061`, because the designation
+     there is written with a space. Measured, not inferred — after the stock
+     rule was qualified, `{ label: "Sürekli Stok", value: "Al 6061, Al 7075" }`
+     and `{ ..., value: "SS 304, SS 316" }` were STILL dropped, so the material
+     library would still have shown an empty row. A space is a typographic
+     accident, not a class boundary. Three or four digits are required, so
+     `Kontrol 3` is not a grade. */
+  /\b[A-Z][A-Za-z]{0,3}[\s-]\d{3,4}(?:[\s-]?[A-Z]\d?)?\b/,
   /\b[A-Z][A-Za-z]*-?\d[\w-]*\b|\b\d{3,4}[A-Z]\b/,
   /\b(?:PEEK|POM|PTFE|PVDF|PEI|PPS|AISI|Inconel|Hastelloy|Monel|Duplex|Hardox|Armox|CoCrMo|Ti6Al4V|Bronz|Titanyum)\b/i,
 ];
