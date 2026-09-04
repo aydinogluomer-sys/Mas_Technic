@@ -1,40 +1,33 @@
-test(qa): F3 verified with a red control on the pre-correction build
+test(qa): F4 — make the font guard fail on purpose, four ways
 
-probes/q3-notfound.mjs measures the six not-found bodies, the global 404 and
-six real detail routes in the DOM of two built bundles.
+A fix against a SILENT NO-OP is not closed until its new failure path is shown
+to be live. e2e/visual/qa-f4-font-guard.spec.ts (QA-owned) does not assert that
+the guard passes — the visual suite already does that 64 times. It asserts that
+the guard goes RED, deliberately, with the stated reason.
 
-INTEGRATED (:4190) — 0 problems.
-  Every not-found body exposes exactly ONE <h1>; none matches the anchored
-  /^(Sayfa|Yazı) Bulunamadı$/ the accessibility spec guards; all 8 titles are
-  distinct and route-specific; /malzemeler/<unknown> stays on its own URL with
-  its own h1 rather than rendering the index.
+  armed              counters > 0 on BOTH hosts on a real load          PASS
+  gstatic silenced   throws "intercepted 0 requests on fonts.gstatic"   PASS
+  googleapis silenced throws "intercepted 0 requests on fonts.google"   PASS
+  both blackholed    throws "the web fonts never loaded"                PASS
 
-PRE-CORRECTION (:4191) — the same probe goes red on every count.
-  6 bodies with h1 count = 0.
-  /endustriyel/<unknown> and /kabiliyetler/<unknown> both read the HİZMET rail.
-  3 bodies fell back to the site-default document.title.
-  /malzemeler/<unknown> silently swapped its URL to /malzemeler and rendered
-  the index — a soft 404 that looked valid.
+  4 passed (39.3s) @ visual-1280.
 
-RETIRED, MY ERROR: the first version of this probe asserted the rail NUMBER
-equalled the family number (03/04/05), which I had inferred from a summary
-rather than from the code. CategoryPage/ServiceDetail pass no="01" for the
-hero and no="02" for the band; the family lives in the LABEL, and the label is
-right on all six. Rescored on the label.
+Cases 2 and 3 reproduce the F4 defect exactly: a page.route() registered AFTER
+installFontRetry() wins (Playwright matches handlers last-registered-first), so
+the retry's handler never runs for that host and its counter stays 0 — which is
+precisely what the old `https://fonts.g*` glob did to both hosts at once.
 
-SPEC INTEGRITY, verified by blob hash rather than by reading a diff:
-  e2e/shared-shell-accessibility.spec.ts is cfdc358 at d1ed8e3, e07c154,
-  dfe9da7, 4640135 and 6f37eb0 — byte-identical. It was not weakened.
-  The whole e2e/ diff across Phase 07 is 443 insertions, 0 deletions.
+Case 4 isolates part 2 by NOT installing the retry, so awaitRealFaces() skips
+the counter block and the FontFaceSet proof is the only thing left standing.
 
-FOUND BRANCH: the ~48 real detail routes went from the site-default title to a
-per-page one. Nothing depended on the old value: a search of e2e/ for
-toHaveTitle and for document.title returns zero matches, and a golden captures
-the viewport, which the document title is not part of.
+The counting is therefore real and the failure mode is live, which is what
+makes the clean 64/64 run 64 independent confirmations rather than 64 silences.
+All four golden specs opt in (installFontRetry + awaitRealFaces in each).
 
-TOLERANCES: independently re-derived. Every pre-existing maxDiffPixels 200 is
-unchanged between e07c154 and 6f37eb0; the only new numeric is the new inner-
-page spec's own 120, which is tighter.
+MY OWN ERROR, CORRECTED IN THE FILE: the first version of the armed case used a
+bare page.goto(..., {waitUntil:"load"}) and saw gstatic at 0. The face files are
+fetched lazily after the stylesheet is parsed; the four golden specs use
+gotoAndSettle. The probe was wrong, not the guard.
 
 Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
 Claude-Session: https://claude.ai/code/session_013mzqXq7KjpjHdm76iXjL6k
