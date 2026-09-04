@@ -859,7 +859,58 @@ test.describe("Shared public shell accessibility", () => {
   test("records whole-page axe evidence and isolates documented non-shell debt", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical whole-page evidence lane");
     await gotoAndSettle(page, "/sss");
-    await expect(page.locator('span[class~="text-primary/30"]').first()).toBeVisible();
+    /* FAZ 08 DÜZELTME #1 — ÖLÜ NÖBETÇİ, VE ONUN GİZLEDİĞİ ŞEY.
+
+       Burada `span[class~="text-primary/30"]` görünene kadar bekleniyordu.
+       Faz 04 o sınıfa dayanan İDDİAYI kaldırmıştı ama BEKLEMEYİ bıraktı; Faz
+       08 `/sss`'i kabuk diline taşıyınca sınıf sayfadan tamamen kalktı ve
+       bekleme "element(s) not found" ile düştü — yani bu test, Faz 08'den beri
+       axe'i hiç çalıştırmadan kırmızıydı.
+
+       Nöbetçi SİLİNMİYOR, İKİYE AYRILIYOR — çünkü tek satırda iki ayrı işi
+       vardı ve ikisi de gerekli:
+
+       (1) GÖVDE BASILMIŞ OLMALI. Bu testin bütün delili "engelleyici
+           düğümlerin HEPSİ gövdenin içinde" olduğundan, boş bir gövde testi
+           sahte yeşile çevirir. Artık sayfanın kendi kayıt defteri bekleniyor:
+           en az bir soru satırı. Bir Tailwind sınıfının o anki görünürlüğüne
+           değil, sayfanın var olma sebebine bağlı.
+
+       (2) ROTA PERDESİ BİTMİŞ OLMALI — ölçülmüş, varsayılmamış. Eski nöbetçi
+           farkında olmadan bir gecikme görevi de görüyordu. O gecikme olmadan
+           axe, `PageTransition`'ın perdesi HÂLÂ OYNARKEN koşuyor ve altı
+           `color-contrast` düğümü buluyor: beş `.route-curtain-panel`
+           sayacı ve perdenin `MAS / PRECISION` okuması. Aynı sayfada, aynı
+           derlemede, perde bittikten sonra ölçüldüğünde: SIFIR engelleyici
+           düğüm (t≈1.5 sn'de perde opacity 0.99 ve 6 düğüm; t≈6 sn'de opacity
+           0 ve 0 düğüm).
+
+           Yani o altı düğüm kabuk borcu değil, ölçüm anının kendisiydi — ve
+           hiçbir okuyucunun üzerinde durmadığı bir kare. Bekleme, sihirli bir
+           `waitForTimeout` değil, perdenin BİTTİĞİ koşulu: önce perdenin var
+           olduğu doğrulanır (yoksa seçici kaymış demektir ve bekleme sessizce
+           hiçliği bekler), sonra sönmesi beklenir.
+
+       Not, gizlenmesin diye: Faz 04'ün kaydettiği 33 `color-contrast` düğümü
+       artık YOK — Faz 07 ve 08 o yüzeyleri yeniden yazdı. `blocking` boş bir
+       dizi olduğu için aşağıdaki `every(...)` şu an boş-doğru; iddia
+       zayıflatıldığı için değil, borç ödendiği için. */
+    await expect(page.locator("main#main-content details.shell-faq-item").first())
+      .toBeVisible();
+    const curtainLabel = page.locator("[data-route-curtain-label]");
+    await expect(
+      curtainLabel,
+      "the route curtain must be found before it can be waited out — a selector that "
+        + "matches nothing would wait for nothing and hand axe a mid-transition frame",
+    ).toHaveCount(1);
+    await expect.poll(
+      () => page.evaluate(() => {
+        const element = document.querySelector("[data-route-curtain-label]");
+        // Unmounted is settled; still mounted must have faded to zero.
+        return element ? Number(getComputedStyle(element).opacity) : 0;
+      }),
+      { message: "axe must measure a settled page, not the route curtain", timeout: 20_000 },
+    ).toBe(0);
     const result = await new AxeBuilder({ page }).analyze();
     const blocking = result.violations.filter((violation) =>
       violation.impact === "serious" || violation.impact === "critical");
