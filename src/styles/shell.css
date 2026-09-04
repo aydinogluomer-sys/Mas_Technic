@@ -1735,8 +1735,46 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   }
 }
 
+/* A table inside a document section: the caption keeps the section's rhythm,
+   and the whole figure sits on the section's own measure rather than the
+   prose measure, because a table's width is set by its columns. */
+.shell-doc-table { margin-top: var(--tl-s5); }
+
 /* ── Contents ─────────────────────────────────────────────────────────────*/
 .shell-contents { border-top: var(--tl-rule-size) solid var(--sf-rule); padding-top: var(--tl-s4); }
+.shell-contents small { color: var(--sf-faint); font-size: 10px; font-weight: 500; }
+.shell-contents .shell-action { margin-top: var(--tl-s3); }
+
+/* ── Journal lead: the article's own section headings, on the index ───────
+   Same register as `.shell-contents` because it is the same object — an index
+   of anchors — but these anchors are on ANOTHER route, so the rows are router
+   links and the block carries the lead's own rhythm. */
+.shell-lead-sections { margin: 0; padding: 0; list-style: none; border-top: var(--tl-rule-size) solid var(--sf-rule); }
+.shell-lead-sections > li { border-bottom: var(--tl-rule-size) solid var(--sf-rule-soft); }
+.shell-lead-sections a {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--tl-s3);
+  min-height: 44px;
+  padding-block: var(--tl-s2);
+  color: var(--sf-body);
+  font-size: 14px;
+  line-height: 1.45;
+  text-decoration: none;
+  transition: color .25s ease;
+}
+.shell-lead-sections a > span:first-child {
+  color: var(--sf-accent);
+  font: 500 10px/1.6 var(--tl-font-mono);
+  letter-spacing: .1em;
+}
+.shell-lead-sections a:hover { color: var(--sf-ink); }
+
+/* The lead's headline is a link; it must not look like body copy with an
+   underline, and it must not lose the title block's type. */
+.shell-title-block h2 > a { color: inherit; text-decoration: none; }
+.shell-title-block h2 > a:hover { color: var(--sf-accent); }
 .shell-contents .shell-eyebrow { margin: 0 0 var(--tl-s3); }
 .shell-contents ol { margin: 0; padding: 0; list-style: none; }
 .shell-contents li + li { border-top: var(--tl-rule-size) solid var(--sf-rule-soft); }

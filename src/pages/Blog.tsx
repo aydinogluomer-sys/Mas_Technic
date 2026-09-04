@@ -1,301 +1,179 @@
-import { PageShell } from "@/components/shell/PageShell";
-import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { Link } from "react-router-dom";
-import { ArrowRight, Clock, Tag, Star, Search, TrendingUp, SlidersHorizontal, BookOpen, Hash } from "lucide-react";
-import { motion } from "@/components/shell/motion";
-import { useState, useMemo } from "react";
+import {
+  PageShell,
+  ShellAction,
+  ShellBreadcrumb,
+  ShellIndexList,
+  ShellNextStep,
+  ShellPageHero,
+  ShellPlate,
+  ShellSurfaceBand,
+  ShellTagRow,
+  ShellTitleBlock,
+} from "@/components/shell";
+import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePageMeta } from "@/hooks/use-page-meta";
-import { blogPosts, blogCategories } from "@/data/blogData";
+import { blogCategories, blogPosts } from "@/data/blogData";
+import { QUOTE_RESPONSE_TIME } from "@/content/claims";
 
-/* The third option used to be "popular", sorting by a hardcoded per-post view
-   count. §K ANALYTICS_PROVIDER: NONE — nothing measures reads here, so nothing
-   can rank them. Editorial prominence is a real property an editor sets;
-   reach is not. */
-type SortOption = "newest" | "oldest" | "featured";
+/* ══════════════════════════════════════════════════════════════════════════
+   TEKNİK GÜNLÜK — THE INDEX, AS A PUBLICATION FRONT PAGE
+
+   ── WHAT THIS REPLACES ───────────────────────────────────────────────────
+   A `grid lg:grid-cols-4` with a three-quarter card grid and a sidebar of five
+   panels. The cards were `border border-border bg-card` with a 16:10 image
+   scaling to 105% on hover, a teal category chip, a two-line clamped title and
+   a two-line clamped excerpt — i.e. the generic card grid the phase names by
+   name. The sidebar carried: a "popular posts" list ranked by a `featured`
+   boolean; a four-tile statistics panel (Toplam Yazı / Dakika İçerik /
+   Kategori / Öne Çıkan); a category tag cloud duplicating the filter above it;
+   a NEWSLETTER SIGNUP; and a "Toplantı Talep Et" card.
+
+   ── THE NEWSLETTER FORM IS GONE, AND THIS IS THE IMPORTANT ONE ───────────
+   It rendered an e-mail input and an "Abone Ol" button with NO submit handler,
+   NO backend, NO list and no stated purpose. Pressing it did nothing at all.
+   That is the same defect Phase 07 removed from `/iletisim` — a form that
+   asks for a reader's contact details and discards them — except worse,
+   because the field it collects is exactly the one a privacy policy has to
+   account for. §K records no provider for anything of the sort. It is deleted
+   rather than wired up: nothing in `USER_INPUTS.md` authorises a mailing list.
+
+   ── SEARCH AND FILTER: EXPLICITLY OMITTED ────────────────────────────────
+   `IMPLEMENTATION.md` §PHASE 08 accepts an explicit omission with a reason,
+   and the corpus supplies it: SIX articles across five categories. Every one
+   of them is on this page, above the fold on a desktop screen and inside two
+   scrolls on a phone, with its own section headings visible. A search field, a
+   sort control and a category filter over six items are furniture — three
+   controls to narrow a list nobody needs narrowed, each of which can return an
+   empty state on a six-item corpus.
+
+   `/malzemeler` (a register of alloys) and `/sss` (127 questions) DO carry
+   search, and the difference is the corpus, not the page type. When this
+   journal passes the point where the index cannot be read at a glance, the
+   filter belongs here too — and `/sss` is the pattern to copy.
+
+   The sort control is separately gone even as an idea: its third option used
+   to be "popular", ranked by a hardcoded per-post view count, and §K
+   `ANALYTICS_PROVIDER: NONE` means nothing here can rank by reach.
+
+   ── WHAT THE READER GETS INSTEAD ─────────────────────────────────────────
+   A publication front page: one LEAD article opened up — plate, standfirst and
+   its own section headings, so the reader can see what is inside before
+   deciding — and then the rest as a register, each row carrying its date,
+   reading estimate and subject. The distinguishing information is on the page
+   rather than behind six clicks, which is the same argument
+   `docs/lean/17-inner-page-composition.md` §6.3 makes for every other index on
+   this site.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/** The lead is the corpus's first entry — its most recent article. */
+const [LEAD, ...REST] = blogPosts;
 
 export const Blog = () => {
-  usePageMeta({ title: "Blog", description: "CNC işleme, talaşlı imalat ve mühendislik konularında teknik makaleler ve sektör haberleri." });
-  const [activeCategory, setActiveCategory] = useState("Tümü");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState<SortOption>("newest");
-
-  const filtered = useMemo(() => {
-    let posts = [...blogPosts];
-    if (activeCategory !== "Tümü") {
-      posts = posts.filter((p) => p.category === activeCategory);
-    }
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      posts = posts.filter(
-        (p) =>
-          p.title.toLowerCase().includes(q) ||
-          p.excerpt.toLowerCase().includes(q) ||
-          p.category.toLowerCase().includes(q)
-      );
-    }
-    if (sortBy === "featured") {
-      posts.sort((a, b) => Number(b.featured) - Number(a.featured));
-    } else if (sortBy === "oldest") {
-      posts.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    }
-    return posts;
-  }, [activeCategory, searchQuery, sortBy]);
-
-  const featuredPosts = useMemo(
-    () => [...blogPosts].sort((a, b) => Number(b.featured) - Number(a.featured)).slice(0, 3),
-    [],
-  );
-  /* Derived from the articles themselves rather than from a metric nobody
-     collects: the sum of the editorial reading estimates. */
-  const totalReadMinutes = useMemo(
-    () => blogPosts.reduce((sum, p) => sum + (parseInt(p.readTime, 10) || 0), 0),
-    [],
-  );
-
-  // Tag cloud from categories (excluding Tümü)
-  const categoryStats = useMemo(() => {
-    const stats: Record<string, number> = {};
-    blogPosts.forEach((p) => {
-      stats[p.category] = (stats[p.category] || 0) + 1;
-    });
-    return stats;
-  }, []);
+  usePageMeta({
+    title: "Teknik Günlük",
+    description:
+      "CNC işleme, malzeme seçimi, üretilebilirlik ve kalite kontrol üzerine teknik yazılar. Ölçüye ve yönteme dayalı, kısa bir yayın dizisi.",
+  });
 
   return (
-    /* Shell only (Phase 04) — see `KVKK.tsx`. Body untouched; Phase 08 owns
-       the journal's composition. */
-    <PageShell rail={{ no: "R2", label: "GÜNLÜK" }}>
-      <JsonLdSchema type="blog" name="Mas Technic Blog" description="CNC işleme, talaşlı imalat, malzeme bilimi ve endüstriyel üretim hakkında teknik makaleler." />
-        {/* Hero */}
-        <section className="container-industrial py-12 md:py-16">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="accent-line" />
-            <span className="text-technical text-muted-foreground uppercase tracking-widest text-sm">Blog</span>
-          </div>
-          <h1 className="heading-industrial text-3xl md:text-5xl mb-4">Teknik İçerikler & Mühendislik Yazıları</h1>
-          <p className="subheading-industrial text-lg max-w-2xl">
-            CNC işleme, malzeme bilimi, kalite kontrol ve üretim mühendisliği hakkında teknik içeriklerimizi keşfedin.
-          </p>
-        </section>
+    <PageShell surface="graphite" rail={{ no: "R2", label: "GÜNLÜK" }}>
+      <JsonLdSchema
+        type="blog"
+        name="Mas Technic Teknik Günlük"
+        description="CNC işleme, talaşlı imalat, malzeme bilimi ve kalite kontrol üzerine teknik yazılar."
+      />
 
-        <div className="container-industrial">
-          <div className="grid lg:grid-cols-4 gap-8">
-            {/* Main Content */}
-            <div className="lg:col-span-3">
-              {/* Filters & Search Bar */}
-              <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                <div className="relative flex-1">
-                  <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                  <input
-                    type="text"
-                    placeholder="Blog yazılarında ara..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-card border border-border pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors"
-                  />
-                </div>
-                <div className="relative flex items-center gap-2">
-                  <SlidersHorizontal size={14} className="text-muted-foreground" />
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value as SortOption)}
-                    className="bg-card border border-border px-3 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors appearance-none pr-8 cursor-pointer"
-                  >
-                    <option value="newest">En Yeni</option>
-                    <option value="oldest">En Eski</option>
-                    <option value="featured">Öne Çıkanlar</option>
-                  </select>
-                </div>
-              </div>
+      <ShellPageHero
+        no="01"
+        label="GÜNLÜK"
+        crumb={<ShellBreadcrumb trail={[{ label: "Ana sayfa", to: "/" }, { label: "Teknik günlük" }]} />}
+        eyebrow="Yayın dizisi"
+        title="Teknik Günlük"
+        lede="Üretim yöntemi, malzeme davranışı ve ölçüm üzerine yazılar. Her yazı bir soruyu, o sorunun mekanizmasıyla birlikte yanıtlar; sayı vermek yerine sayının nereden geldiğini anlatır."
+        meta={[
+          { label: "Konu", value: blogCategories.join(" · ") },
+          { label: "Yazı sayısı", value: String(blogPosts.length) },
+          { label: "Teklif dönüşü", value: QUOTE_RESPONSE_TIME },
+        ]}
+      />
 
-              {/* Categories */}
-              <div className="flex flex-wrap gap-2 mb-6">
-                {blogCategories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={`text-xs font-semibold uppercase tracking-wider px-4 py-2 border transition-colors ${
-                      cat === activeCategory
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-transparent text-muted-foreground border-border hover:border-primary hover:text-primary"
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-
-              <p className="text-xs text-muted-foreground mb-6">
-                {filtered.length} blog yazısı gösteriliyor
-              </p>
-
-              {/* Posts Grid */}
-              {filtered.length === 0 ? (
-                <div className="text-center py-16 text-muted-foreground">
-                  <p className="text-lg mb-2">Sonuç bulunamadı</p>
-                  <p className="text-sm">Farklı bir arama terimi veya kategori deneyin.</p>
-                </div>
-              ) : (
-                <div className="grid sm:grid-cols-2 gap-6">
-                  {filtered.map((post, i) => (
-                    <motion.article
-                      key={post.slug}
-                      className="group border border-border bg-card overflow-hidden hover:border-primary transition-colors"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.05, duration: 0.4 }}
-                    >
-                      <Link to={`/blog/${post.slug}`}>
-                        <div className="aspect-[16/10] overflow-hidden relative">
-                          <img
-                            src={post.image}
-                            alt={post.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            loading="lazy"
-                          />
-                          {post.featured && (
-                            <span className="absolute top-3 left-3 bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider px-2 py-1">
-                              Öne Çıkan
-                            </span>
-                          )}
-                        </div>
-                        <div className="p-5">
-                          <div className="flex items-center gap-3 mb-2">
-                            <span className="text-technical text-xs text-primary flex items-center gap-1">
-                              <Tag size={12} /> {post.category}
-                            </span>
-                            <span className="text-xs text-muted-foreground flex items-center gap-1">
-                              <Clock size={12} /> {post.readTime}
-                            </span>
-                          </div>
-                          <h2 className="font-bold text-sm mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                            {post.title}
-                          </h2>
-                          <p className="text-xs text-muted-foreground line-clamp-2 mb-3">{post.excerpt}</p>
-                          <div className="flex items-center justify-between">
-                            <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
-                              Devamını Oku <ArrowRight size={12} />
-                            </span>
-                            <span className="text-xs text-muted-foreground flex items-center gap-1">
-                              <Tag size={12} /> {post.category}
-                            </span>
-                          </div>
-                        </div>
-                      </Link>
-                    </motion.article>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Sidebar */}
-            <div className="space-y-6">
-              {/* Popular Posts */}
-              <div className="border border-border bg-card">
-                <div className="bg-primary p-4 flex items-center gap-2">
-                  <TrendingUp size={18} className="text-primary-foreground" />
-                  <h3 className="font-bold text-primary-foreground text-sm uppercase tracking-wider">Öne Çıkan Yazılar</h3>
-                </div>
-                <div className="divide-y divide-border">
-                  {featuredPosts.map((post, i) => (
-                    <Link
-                      key={post.slug}
-                      to={`/blog/${post.slug}`}
-                      className="flex gap-3 p-4 hover:bg-muted/50 transition-colors group"
-                    >
-                      <span className="text-technical text-2xl font-bold text-primary/30">{String(i + 1).padStart(2, "0")}</span>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-xs font-bold line-clamp-2 group-hover:text-primary transition-colors">{post.title}</h4>
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-                            <Star size={10} /> {post.category}
-                          </span>
-                          <span className="text-[10px] text-muted-foreground">{post.readTime}</span>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              {/* Blog Stats */}
-              <div className="border border-border bg-card p-5">
-                <h3 className="font-bold text-sm uppercase tracking-wider mb-4 flex items-center gap-2">
-                  <BookOpen size={16} className="text-primary" /> Teknik Günlük
-                </h3>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="text-center p-3 bg-muted/50">
-                    <span className="text-technical text-2xl font-bold text-primary">{blogPosts.length}</span>
-                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider mt-1">Toplam Yazı</p>
-                  </div>
-                  <div className="text-center p-3 bg-muted/50">
-                    <span className="text-technical text-2xl font-bold text-primary">{totalReadMinutes}</span>
-                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider mt-1">Dakika İçerik</p>
-                  </div>
-                  <div className="text-center p-3 bg-muted/50">
-                    <span className="text-technical text-2xl font-bold text-primary">{blogCategories.length - 1}</span>
-                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider mt-1">Kategori</p>
-                  </div>
-                  <div className="text-center p-3 bg-muted/50">
-                    <span className="text-technical text-2xl font-bold text-primary">{blogPosts.filter(p => p.featured).length}</span>
-                    <p className="text-[10px] text-muted-foreground uppercase tracking-wider mt-1">Öne Çıkan</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Category Tags */}
-              <div className="border border-border bg-card p-5">
-                <h3 className="font-bold text-sm uppercase tracking-wider mb-4 flex items-center gap-2">
-                  <Hash size={16} className="text-primary" /> Kategoriler
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {Object.entries(categoryStats).map(([cat, count]) => (
-                    <button
-                      key={cat}
-                      onClick={() => setActiveCategory(cat)}
-                      className={`text-xs px-3 py-2 min-h-[36px] border transition-colors flex items-center gap-1.5 ${
-                        activeCategory === cat
-                          ? "bg-primary text-primary-foreground border-primary"
-                          : "bg-transparent text-muted-foreground border-border hover:border-primary hover:text-primary"
-                      }`}
-                    >
-                      {cat}
-                      <span className="text-[10px] opacity-60">({count})</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Newsletter CTA */}
-              <div className="border border-primary bg-card p-6">
-                <h3 className="font-bold text-lg mb-2">Teknik bülten</h3>
-                <p className="text-xs text-muted-foreground mb-4">
-                  CNC işleme ve üretim mühendisliği hakkında aylık teknik içerikler alın.
-                </p>
-                <input
-                  type="email"
-                  placeholder="E-posta adresiniz"
-                  className="w-full bg-background border border-border px-4 py-2.5 text-sm mb-3 focus:outline-none focus:border-primary transition-colors"
-                />
-                <button className="btn-industrial-primary w-full !py-2.5 text-xs">Abone Ol</button>
-              </div>
-
-              {/* CTA - Meeting */}
-              <div className="border border-border bg-card p-5">
-                <div className="w-10 h-10 bg-primary/10 flex items-center justify-center mb-3">
-                  <ArrowRight size={18} className="text-primary" />
-                </div>
-                <h3 className="font-bold text-sm mb-2">Projenizi Konuşalım</h3>
-                <p className="text-xs text-muted-foreground mb-4">
-                  CNC işleme ihtiyaçlarınız için uzman ekibimizle toplantı planlayın.
-                </p>
-                <Link to="/iletisim" className="btn-industrial-primary w-full !py-2.5 text-xs text-center block">
-                  Toplantı Talep Et
+      {/* ── 02 — the lead, opened up ─────────────────────────────────────── */}
+      <ShellSurfaceBand no="02" label="BAŞYAZI" labelledBy="blog-lead">
+        <div className="shell-span-read shell-stack">
+          <ShellTitleBlock
+            id="blog-lead"
+            index="02"
+            title={<Link to={`/blog/${LEAD.slug}`}>{LEAD.title}</Link>}
+            standfirst={LEAD.excerpt}
+          />
+          <ShellTagRow
+            ariaLabel="Yazı künyesi"
+            items={[LEAD.category, LEAD.date, LEAD.readTime]}
+          />
+          {/* The lead's own section headings. A reader decides to open an
+              article by what is inside it, and this is the only place the
+              inside is visible from the index. */}
+          <ol className="shell-lead-sections">
+            {LEAD.sections.map((section, index) => (
+              <li key={section.id}>
+                <Link to={`/blog/${LEAD.slug}#${section.id}`}>
+                  <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                  <span>{section.heading}</span>
                 </Link>
-              </div>
-            </div>
+              </li>
+            ))}
+          </ol>
+          <div className="shell-hero-actions">
+            <ShellAction to={`/blog/${LEAD.slug}`} variant="primary">Yazıyı oku</ShellAction>
           </div>
         </div>
+
+        <div className="shell-span-note">
+          <ShellPlate
+            plate="PLAKA 01"
+            caption={LEAD.imageCaption}
+            media={<img src={LEAD.image} alt={LEAD.imageAlt} width="1024" height="640" loading="lazy" />}
+          />
+        </div>
+      </ShellSurfaceBand>
+
+      {/* ── 03 — the rest, as a register ─────────────────────────────────── */}
+      <ShellSurfaceBand no="03" label="DİZİN" tone="paper" labelledBy="blog-index">
+        <div className="shell-span-read">
+          <ShellTitleBlock
+            id="blog-index"
+            index="03"
+            title="Yazı dizini"
+            standfirst="Her satır yazının konusunu, yayın tarihini ve okuma süresini taşır."
+          />
+        </div>
+        <div className="shell-span-full">
+          <ShellIndexList
+            ariaLabel="Teknik günlük yazıları"
+            items={REST.map((post, index) => ({
+              to: `/blog/${post.slug}`,
+              index: String(index + 2).padStart(2, "0"),
+              eyebrow: post.category,
+              title: post.title,
+              description: post.excerpt,
+              meta: [post.date, post.readTime, `${post.sections.length} bölüm`],
+            }))}
+          />
+        </div>
+      </ShellSurfaceBand>
+
+      <ShellNextStep
+        no="04"
+        title="Yazıdaki bir konu sizin parçanızda mı çıktı?"
+        body="Teknik resim veya 3B model gönderin; konuyu genel bir yazı üzerinden değil, kendi parçanız üzerinden konuşalım."
+        detail={[
+          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
+          { label: "Gönderilecek", value: "Teknik resim veya 3B model" },
+          { label: "Alternatif", value: "Sık sorulan sorular" },
+        ]}
+        secondary={{ label: "Sık sorulanlar", to: "/sss" }}
+      />
     </PageShell>
   );
 };
