@@ -61,7 +61,7 @@ const PORT = Number(process.env.MOTION_AUDIT_PORT ?? 4188);
 const EXTERNAL_BASE = process.env.MOTION_AUDIT_BASE_URL;
 
 /**
- * The landing plus five inner routes from four different page families.
+ * The landing plus nine inner routes from eight different page families.
  *
  * `/malzemeler` was added by the Phase 07 correction (advisory A7). It was the
  * one route missing from this matrix and the one most worth having in it: it
@@ -71,6 +71,28 @@ const EXTERNAL_BASE = process.env.MOTION_AUDIT_BASE_URL;
  * what a no-scroll census is for, and leaving it out is why the audit could
  * report `hiddenText=0` across ten pairs while eleven text-bearing elements
  * sat at an ancestor `opacity: 0`.
+ *
+ * PHASE 08 CORRECTION #1 — C2. THE INSTRUMENT MUST COVER WHAT SHIPS.
+ * Phase 08 rewrote four page families and shipped two brand-new ones, and not
+ * one of them was in this list — so the rest census could have reported
+ * `hiddenText=0` while an entire rewritten family kept its body text at an
+ * ancestor `opacity: 0`. That is the A7 failure again, one phase later: this
+ * audit's answer is only ever as wide as its matrix, and a matrix that stops
+ * at the routes of two phases ago measures the site that used to exist.
+ *
+ * The four added below are one per Phase 08 family, each the RICHEST surface
+ * of its family rather than its thinnest — the most structure available to
+ * hide something inside:
+ *
+ *   · `/sss`             the question register; long, dense, and the canonical
+ *                        shell route the accessibility spec already leans on.
+ *   · `/blog/…`          the technical publication — the only Phase 08 body
+ *                        carrying both a figure and a data table.
+ *   · `/kabiliyet-…/…`   a capability profile detail — a NEW route family,
+ *                        with a control plan and a measured-results table.
+ *   · `/kalite-dosyasi`  the quality dossier — the other NEW route family.
+ *
+ * Ten routes × two viewports = twenty pairs.
  */
 const ROUTES = [
   ["/", "landing"],
@@ -79,6 +101,10 @@ const ROUTES = [
   ["/malzemeler", "material register (80-frame scroll canvas — A7)"],
   ["/malzemeler/aluminyum", "material category"],
   ["/hakkimizda", "about"],
+  ["/sss", "question register (Faz 08)"],
+  ["/blog/kalite-kontrol-cmm-olcum", "technical publication — figure + table (Faz 08)"],
+  ["/kabiliyet-profilleri/ince-cidarli-govde", "capability profile detail (Faz 08)"],
+  ["/kalite-dosyasi", "quality dossier (Faz 08)"],
 ];
 
 const VIEWPORTS = [
