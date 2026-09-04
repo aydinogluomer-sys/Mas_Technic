@@ -710,7 +710,24 @@ const RULES = [
         // `1000+ otoklav döngüsü`, `16+ kavite`, `2000N+`, `25+ yıl`. None of
         // their nouns is an inventory noun; these are specification values and
         // over-removal there fails §0 PRECISION_ENGINEERING.
-        String.raw`\b\d[\d.,]*[ \t]?\+[ \t]*(?:${TRW}+[ \t]+){0,2}(?:parça|malzeme|proje|çeşi[td]|alaş[ıi]m|renk|ünite|ürün|model|kalem|marka|tedarikçi|sektör)${TRW}*`,
+        //
+        // PHASE 07 CORRECTION #2 — H1. The widening reached the INVENTORY
+        // nouns and stopped there, so `30+ tezgah` fired (the first
+        // alternative, whose noun is glued to the digit) while
+        // `30+ yeni tezgah`, `25+ deneyimli mühendis`,
+        // `40+ tam zamanlı personel`, `150+ aktif müşteri` and
+        // `5.000+ kapalı metrekare` were all silent. The three JSX-residue
+        // alternatives directly below already carry
+        // `tezgah|makine|mühendis|teknisyen|personel|çalışan|müşteri|metrekare`,
+        // so the omission was an oversight in ONE alternative rather than a
+        // decision — and company scale is the class §0
+        // DO_NOT_EMPHASIZE_COMPANY_SCALE names by name. One intervening
+        // adjective must not defeat it either.
+        //
+        // The negative controls above are unaffected: none of them reaches a
+        // scale noun within two words of the plus.
+        // `çal[ıi]şan`, not `çalışan` — this runs over the I-FOLDED text.
+        String.raw`\b\d[\d.,]*[ \t]?\+[ \t]*(?:${TRW}+[ \t]+){0,2}(?:parça|malzeme|proje|çeşi[td]|alaş[ıi]m|renk|ünite|ürün|model|kalem|marka|tedarikçi|sektör|tezgah|tezgâh|makine|mühendis|teknisyen|personel|çal[ıi]şan|operatör|müşteri|metrekare|m²|m2\b)${TRW}*`,
         // F2, HOLE 2 — the count that is never in the source.
         // `Malzemeler.tsx:122` read `{materialsData.length}+ malzeme ve
         // alaşım` and RENDERED "87+ malzeme ve alaşım". A rule that existed
