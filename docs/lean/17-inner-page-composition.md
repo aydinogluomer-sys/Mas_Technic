@@ -96,43 +96,81 @@ exception, and `shell.css` declares none.
 That is not the same as "nothing on those routes paints a radius", which is
 what this section used to say, and it was false of what renders.
 
-It then said **three** things paint one, and that was false too. This register
-is now the third version of itself, and the second one was wrong in exactly the
-way it was written to prevent: it listed what a reader would find by opening
-the two components it already knew about, instead of listing what the browser
-reports. So the table below is not derived from source files at all. It is the
-output of a census — every element on **all six** rebuilt routes at **375 and
-1280**, `reducedMotion: "reduce"`, after a full scroll pass, grouped by class
-signature, keeping anything with a non-zero computed `border-radius` on any
-corner that is not `display:none`, `visibility:hidden` or `opacity:0`. Source
-lines were attached afterwards, by looking up what the measurement had already
-found.
+**This register is the fourth version of itself, and the first one that is not
+typed.** v1 said nothing paints a radius. v2 said three things do — the list a
+reader gets by opening the two components the writer already knew about. v3
+said six, and six is right, but it ran the census at 375 and 1280 only and
+explained its two cursor rows with a threshold that does not exist. Three
+different wrong tables, one shared cause: somebody wrote down what they
+believed. So this table is no longer written. `e2e/visual/radius-census.spec.ts`
+runs the census and fails if any cell below disagrees with the browser, and it
+checks the source column too — a citation that has drifted off its declaration
+is what made v2 look checkable.
 
-**Six class signatures, six declaration sites, three components.** Not one of
-them belongs to a page file:
+**The census.** One route per rebuilt page component, which is what "the six
+rebuilt routes" has always meant and was never written down:
 
-| element | viewport | count | size / radius | source |
-|---|---|---|---|---|
-| `div.h-1.5.flex-1.rounded-full` step meter | 375 | 20 | 21×6 px, `9999px` | `MaterialMorphScroll.tsx:228` |
-| `div.h-1.rounded-full.overflow-hidden` property-meter track | 1280 | 4 | 238×4 px, `9999px` | `MaterialMorphScroll.tsx:357` |
-| `div.h-full.rounded-full` property-meter fill | 1280 | 4 | 190×4 / 238×4 / 143×4 px, `9999px` | `MaterialMorphScroll.tsx:359` |
-| `button.fixed…rounded-full` chat launcher | both | 12 | 48×48 @375, 56×56 @1280, `9999px` | `ChatBot.tsx:225` |
-| `div.fixed.top-0.left-0.pointer-events-none` cursor dot | 1280 | 6 | 6×6 px, `50%` | `CustomCursor.tsx:194-207` |
-| `div.fixed…pointer-events-none.flex` cursor ring | 1280 | 6 | 44×44 px, `50%` | `CustomCursor.tsx:209-221` |
+```
+/hakkimizda                          Hakkimizda
+/iletisim                            Iletisim
+/malzemeler                          Malzemeler
+/malzemeler/aluminyum                MalzemeKategori
+/hizmetler/kategori/talasli-imalat   CategoryPage
+/hizmetler/cnc-frezeleme             ServiceDetail
+```
 
-The first three are `/malzemeler` only. The launcher is on all six routes at
-both widths (six routes × two widths = 12). Both cursor layers are on all six
-routes at 1280 and on **none** at 375, because `CustomCursor` returns null
-below 901 px — which is also why a census run only at 375 finds four sources
-and thinks it is finished.
+at **375, 768 and 1280**, `reducedMotion: "reduce"`, **with a fine pointer at
+every width**, after a full scroll pass. Every element is grouped by tag plus
+full class list; anything with a non-zero computed `border-radius` on any
+corner is kept unless it is `display:none`, `visibility:hidden`, `opacity:0` or
+a zero box. Counts are instances summed over the six routes; `–` means the
+element does not paint at that width at all. Source lines are attached
+afterwards, by looking up what the measurement had already found.
 
-**The two cursor layers are the ones the previous version missed, and the
-reason it missed them is worth keeping.** Their radius is `borderRadius: "50%"`
-as an **inline style**, so no stylesheet audit and no `rounded-` class grep can
-see them; and they are at `opacity: 1` from mount, merely parked at (-3,-3) and
-(-22,-22), so "the cursor has not moved yet" does not mean "the cursor has not
-painted yet". `e2e/visual/overlays.ts` used to give that as its reason for
-excluding them and has been corrected too.
+**Six sources, three components.** Not one of them belongs to a page file:
+
+| element | 375 | 768 | 1280 | radius | box | source |
+|---|---|---|---|---|---|---|
+| `step meter` | 20 | – | – | `9999px` | 375: 21×6 | `MaterialMorphScroll.tsx:228` |
+| `property-meter track` | – | 4 | 4 | `9999px` | 768: 238×4 · 1280: 238×4 | `MaterialMorphScroll.tsx:357` |
+| `property-meter fill` | – | 4 | 4 | `9999px` | 768: 143×4, 190×4, 238×4 · 1280: 143×4, 190×4, 238×4 | `MaterialMorphScroll.tsx:359` |
+| `chat launcher` | 6 | 6 | 6 | `9999px` | 375: 48×48 · 768: 56×56 · 1280: 56×56 | `ChatBot.tsx:225` |
+| `cursor dot` | – | 6 | 6 | `50%` | 768: 6×6 · 1280: 6×6 | `CustomCursor.tsx:194-207` |
+| `cursor ring` | – | 6 | 6 | `50%` | 768: 44×44 · 1280: 44×44 | `CustomCursor.tsx:209-221` |
+
+The three meters are `/malzemeler` only, and they are two different meters
+rather than one that resizes: the step meter is the narrow layout and the
+property meters are the wide one, and the switch is between 375 and 768. The
+launcher is on all six routes at all three widths (six routes × three widths =
+18). Both cursor layers are on all six routes at 768 and at 1280, and on none
+at 375.
+
+**768 was missing from v3, and its absence was not neutral — it moved four of
+the six rows.** The property meters were recorded as 1280-only when they have
+been painting since 768, and the cursor rows were recorded as 1280-only because
+the register believed `CustomCursor` does not mount below 901 px.
+
+It does. `901` is the breakpoint of the `cursor: none` rule in `src/index.css`,
+which is also quoted in a docblock inside `CustomCursor.tsx` — and a comment
+describing a stylesheet was read as the component's own mount condition. The
+component's floor is `MOBILE_BREAKPOINT`, **768**, in `src/hooks/use-mobile.tsx`;
+above it the only other condition is `(pointer: fine)`. Measured: 767 px with a
+fine pointer paints no layers, 768 px paints both, and the two thresholds are
+133 px apart — between them a visitor is drawn two pointers, the replacement
+and the native one the stylesheet has not taken away yet. The full matrix is
+asserted, not described, in `e2e/visual/cursor-overlay-guard.spec.ts`.
+
+That is also why **a census run only at 375 finds two sources** — the step
+meter and the launcher — and thinks it is finished. Two, not four: the property
+meters are absent at 375 as well.
+
+**The two cursor layers are the ones v2 missed, and the reason it missed them
+is worth keeping.** Their radius is `borderRadius: "50%"` as an **inline
+style**, so no stylesheet audit and no `rounded-` class grep can see them; and
+they are at `opacity: 1` from mount, merely parked at (-3,-3) and (-22,-22), so
+"the cursor has not moved yet" does not mean "the cursor has not painted yet".
+`e2e/visual/overlays.ts` gave that as its reason for excluding them, and has
+been corrected twice since.
 
 None of the six is a card, and none is the "generic rounded-card aesthetic"
 §5.5 forbids: three are 4–6 px hairline meters where the radius is the cap of a
@@ -155,7 +193,9 @@ table.
 If a future page needs a radius, the exception is written next to the
 declaration with its reason, and it is listed here — and so is anything a
 mounted component paints, at every width where it mounts. The way to add a row
-is to re-run the census, not to read a file.
+is to re-run the census, not to read a file. The census is now a test, so it
+re-runs itself; what a person still has to decide is whether a moved cell means
+the pages changed or the register rotted, and to say which.
 
 ---
 
