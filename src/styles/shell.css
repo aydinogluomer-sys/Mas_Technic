@@ -1588,15 +1588,18 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
 .shell-faq-source a:hover { color: var(--sf-ink); border-bottom-color: var(--sf-ink); }
 
 /* Group heading in the browsing (unfiltered) register. It names the run of
-   `<details>` under it and is a real heading, not a styled label. */
+   `<details>` under it and is a real heading, not a styled label.
+
+   No top margin: the groups are grid children of `.shell-doc-main`, whose
+   `row-gap` already separates them. A margin here is added to that gap, not
+   instead of it — measured at 64 + 48 = 112px on `/sss` before this. */
 .shell-faq-group {
-  margin: var(--tl-s7) 0 var(--tl-s3);
+  margin: 0 0 var(--tl-s3);
   color: var(--sf-accent);
   font: 600 10px/1.4 var(--tl-font-mono);
   letter-spacing: .18em;
   text-transform: uppercase;
 }
-.shell-doc-main > section:first-of-type > .shell-faq-group { margin-top: var(--tl-s5); }
 
 @media (prefers-reduced-motion: reduce) {
   .shell-faq-item > summary::before { transition-duration: .01ms; }
@@ -1695,15 +1698,25 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
    ══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Numbered document section ────────────────────────────────────────────
-   The number is a hanging marker in the margin at ≥1181px and moves above the
-   heading below it — a hanging indent inside a 4-column layout would eat the
-   measure. Co-located with its base per the cascade contract (defect D0). */
+   THE NUMBER IS IN FLOW, ABOVE THE HEADING, AT EVERY WIDTH.
+
+   A first version hung it in the left margin at ≥1181px with
+   `left: calc(-1 * (--tl-s7 + --tl-s2))`. Measured at 1280 on `/kvkk` and on
+   an article: −56px puts it in the RAIL GUTTER, which is where the band index
+   (`02 / METİN`) already lives — so the sheet showed two unrelated numbering
+   systems in the same 40px column, the section number nearly touching the band
+   caption, and the number ~35px away from the heading it belongs to. One
+   gutter, one numbering.
+
+   Vertical rhythm between sections is the CONTAINER's `row-gap`
+   (`.shell-doc-main`, `--tl-s8`), not a margin here. The first version added
+   `margin-top: --tl-s7` on top of that row-gap, which is additive: 64 + 48 =
+   112px between clauses, measured on `/kvkk` and `/sss`. A component that sets
+   its own outer spacing inside a grid container is fighting the container. */
 .shell-doc-section {
-  position: relative;
   border-top: var(--tl-rule-size) solid var(--sf-rule);
   padding-top: var(--tl-s5);
 }
-.shell-doc-section + .shell-doc-section { margin-top: var(--tl-s7); }
 .shell-doc-section-no {
   display: block;
   margin-bottom: var(--tl-s3);
@@ -1725,15 +1738,6 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
    contents index, or from somebody else's e-mail, says so for a moment. */
 .shell-doc-section:target { border-top-color: var(--sf-ink); }
 .shell-doc-section:target > .shell-doc-section-no { color: var(--sf-ink); }
-
-@media (min-width: 1181px) {
-  .shell-doc-section-no {
-    position: absolute;
-    top: var(--tl-s5);
-    left: calc(-1 * (var(--tl-s7) + var(--tl-s2)));
-    margin-bottom: 0;
-  }
-}
 
 /* A table inside a document section: the caption keeps the section's rhythm,
    and the whole figure sits on the section's own measure rather than the
