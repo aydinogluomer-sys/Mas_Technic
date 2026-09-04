@@ -94,27 +94,68 @@ Phase 08 owns; those bodies are still written against the light theme.
 exception, and `shell.css` declares none.
 
 That is not the same as "nothing on those routes paints a radius", which is
-what this section used to say, and it was false of what renders. Measured on
-`/malzemeler` — computed `border-radius` over every visible element after a
-full scroll pass — three things paint one, and all three come from components
-the six pages *mount* rather than from the pages themselves:
+what this section used to say, and it was false of what renders.
 
-| element | viewport | count / size | source |
-|---|---|---|---|
-| `div.h-1.5.flex-1.rounded-full` progress meter | 375 | 20 × 21×6 px | `MaterialMorphScroll.tsx:154` |
-| `rounded-full` property meters | 1280 | 8 × 238×4 and 190×4 px | `MaterialMorphScroll.tsx:271-273` |
-| `button.fixed.rounded-full` chat launcher | both | 1 | `ChatBot.tsx:225` |
+It then said **three** things paint one, and that was false too. This register
+is now the third version of itself, and the second one was wrong in exactly the
+way it was written to prevent: it listed what a reader would find by opening
+the two components it already knew about, instead of listing what the browser
+reports. So the table below is not derived from source files at all. It is the
+output of a census — every element on **all six** rebuilt routes at **375 and
+1280**, `reducedMotion: "reduce"`, after a full scroll pass, grouped by class
+signature, keeping anything with a non-zero computed `border-radius` on any
+corner that is not `display:none`, `visibility:hidden` or `opacity:0`. Source
+lines were attached afterwards, by looking up what the measurement had already
+found.
 
-None is a card, and none is the "generic rounded-card aesthetic" §5.5 forbids:
-the first two are 4–6 px hairline meters where the radius is the cap of a
-stroke, not the frame of a surface, and the third is a fixed overlay that
-belongs to a component Phases 09/13 own. They render identically on the Phase 06
-close, so this is the register being wrong, not the pages.
+**Six class signatures, six declaration sites, three components.** Not one of
+them belongs to a page file:
+
+| element | viewport | count | size / radius | source |
+|---|---|---|---|---|
+| `div.h-1.5.flex-1.rounded-full` step meter | 375 | 20 | 21×6 px, `9999px` | `MaterialMorphScroll.tsx:228` |
+| `div.h-1.rounded-full.overflow-hidden` property-meter track | 1280 | 4 | 238×4 px, `9999px` | `MaterialMorphScroll.tsx:357` |
+| `div.h-full.rounded-full` property-meter fill | 1280 | 4 | 190×4 / 238×4 / 143×4 px, `9999px` | `MaterialMorphScroll.tsx:359` |
+| `button.fixed…rounded-full` chat launcher | both | 12 | 48×48 @375, 56×56 @1280, `9999px` | `ChatBot.tsx:225` |
+| `div.fixed.top-0.left-0.pointer-events-none` cursor dot | 1280 | 6 | 6×6 px, `50%` | `CustomCursor.tsx:194-207` |
+| `div.fixed…pointer-events-none.flex` cursor ring | 1280 | 6 | 44×44 px, `50%` | `CustomCursor.tsx:209-221` |
+
+The first three are `/malzemeler` only. The launcher is on all six routes at
+both widths (six routes × two widths = 12). Both cursor layers are on all six
+routes at 1280 and on **none** at 375, because `CustomCursor` returns null
+below 901 px — which is also why a census run only at 375 finds four sources
+and thinks it is finished.
+
+**The two cursor layers are the ones the previous version missed, and the
+reason it missed them is worth keeping.** Their radius is `borderRadius: "50%"`
+as an **inline style**, so no stylesheet audit and no `rounded-` class grep can
+see them; and they are at `opacity: 1` from mount, merely parked at (-3,-3) and
+(-22,-22), so "the cursor has not moved yet" does not mean "the cursor has not
+painted yet". `e2e/visual/overlays.ts` used to give that as its reason for
+excluding them and has been corrected too.
+
+None of the six is a card, and none is the "generic rounded-card aesthetic"
+§5.5 forbids: three are 4–6 px hairline meters where the radius is the cap of a
+stroke rather than the frame of a surface, one is a fixed launcher owned by
+Phases 09/13, and two are a 6 px dot and a 1 px ring that ARE the pointer. All
+six **declarations** are unchanged since the Phase 06 close — `CustomCursor.tsx`
+(`98e64ab`) and `ChatBot.tsx` (`7a5daf0`) are byte-identical to it, and
+`MaterialMorphScroll.tsx` changed in Phase 07 but in none of these three lines.
+So every version of this register has been the register being wrong, never the
+pages.
+
+**Excluded, as a decision rather than a miss:** two further radius sites exist
+in the same components but paint in states this census does not enter — the
+`w-10 h-10 rounded-full` loading spinner at `MaterialMorphScroll.tsx:278`, and
+the avatar/chip radii inside the chat panel (`ChatBot.tsx:276-346`), which
+require the panel to be open. Neither is reachable at rest on any of the six
+routes; if a future phase makes either reachable at rest, it belongs in the
+table.
 
 If a future page needs a radius, the exception is written next to the
 declaration with its reason, and it is listed here — and so is anything a
-mounted component paints, because the audit that missed these three checked the
-six page *files* and not the components they mount.
+mounted component paints, at every width where it mounts. The way to add a row
+is to re-run the census, not to read a file.
 
 ---
 
