@@ -1,0 +1,64 @@
+{
+  "1280": {
+    "before": {
+      "revealed": 0,
+      "scrollY": 0,
+      "docHeight": 3918,
+      "zeroOpacity": 1
+    },
+    "afterOneCapture": {
+      "revealed": 0,
+      "scrollY": 0,
+      "docHeight": 3918,
+      "zeroOpacity": 1
+    },
+    "afterScrollPass": {
+      "revealed": 0,
+      "scrollY": 0,
+      "docHeight": 3918,
+      "zeroOpacity": 1
+    },
+    "afterScrollPassAndCapture": {
+      "revealed": 0,
+      "scrollY": 0,
+      "docHeight": 3918,
+      "zeroOpacity": 1
+    }
+  },
+  "1440": {
+    "before": {
+      "revealed": 0,
+      "scrollY": 0,
+      "docHeight": 3973,
+      "zeroOpacity": 1
+    },
+    "afterOneCapture": {
+      "revealed": 0,
+      "scrollY": 0,
+      "docHeight": 3973,
+      "zeroOpacity": 1
+    },
+    "afterScrollPass": {
+      "revealed": 0,
+      "scrollY": 0,
+      "docHeight": 3973,
+      "zeroOpacity": 1
+    },
+    "afterScrollPassAndCapture": {
+      "revealed": 0,
+      "scrollY": 0,
+      "docHeight": 3973,
+      "zeroOpacity": 1
+    }
+  }
+}
+
+--- reading ---
+1280px  revealed: 0 -> 0 (after ONE whole-page capture)  |  zeroOpacity: 1 -> 1
+1280px  after an explicit scroll pass: revealed=0 zeroOpacity=1  -> after a further capture: revealed=0 zeroOpacity=1
+1280px  => a whole-page capture mutates the page: false; a prior scroll pass makes it idempotent: true
+
+1440px  revealed: 0 -> 0 (after ONE whole-page capture)  |  zeroOpacity: 1 -> 1
+1440px  after an explicit scroll pass: revealed=0 zeroOpacity=1  -> after a further capture: revealed=0 zeroOpacity=1
+1440px  => a whole-page capture mutates the page: false; a prior scroll pass makes it idempotent: true
+

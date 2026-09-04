@@ -1,0 +1,507 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\Trade Bilisim\\pdh-wt\\qa-p07c3\\playwright.config.ts",
+    "rootDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "critical-1280",
+        "name": "critical-1280",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "landing/**/*.spec.ts",
+          "technical-landing.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "critical-375",
+        "name": "critical-375",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "landing/**/*.spec.ts",
+          "technical-landing.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-320",
+        "name": "mobile-320",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [
+          "visual/**/*.spec.ts",
+          "smoke/**/*.spec.ts",
+          "legacy/**/*.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-375",
+        "name": "mobile-375",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [
+          "visual/**/*.spec.ts",
+          "smoke/**/*.spec.ts",
+          "legacy/**/*.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "mobile-390",
+        "name": "mobile-390",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [
+          "visual/**/*.spec.ts",
+          "smoke/**/*.spec.ts",
+          "legacy/**/*.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "tablet-768",
+        "name": "tablet-768",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [
+          "visual/**/*.spec.ts",
+          "smoke/**/*.spec.ts",
+          "legacy/**/*.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "landscape-844",
+        "name": "landscape-844",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [
+          "visual/**/*.spec.ts",
+          "smoke/**/*.spec.ts",
+          "legacy/**/*.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-1280",
+        "name": "desktop-1280",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [
+          "visual/**/*.spec.ts",
+          "smoke/**/*.spec.ts",
+          "legacy/**/*.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-1440-short",
+        "name": "desktop-1440-short",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [
+          "visual/**/*.spec.ts",
+          "smoke/**/*.spec.ts",
+          "legacy/**/*.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop-1440",
+        "name": "desktop-1440",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [
+          "visual/**/*.spec.ts",
+          "smoke/**/*.spec.ts",
+          "legacy/**/*.spec.ts"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "smoke-firefox-390",
+        "name": "smoke-firefox-390",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "smoke/**/*.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "smoke-firefox-1440",
+        "name": "smoke-firefox-1440",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "smoke/**/*.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "smoke-webkit-390",
+        "name": "smoke-webkit-390",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "smoke/**/*.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "smoke-webkit-1440",
+        "name": "smoke-webkit-1440",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "smoke/**/*.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-375",
+        "name": "visual-375",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "visual/**/*.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-768",
+        "name": "visual-768",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "visual/**/*.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-1280",
+        "name": "visual-1280",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "visual/**/*.spec.ts"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "visual-1440",
+        "name": "visual-1440",
+        "testDir": "C:/Users/Trade Bilisim/pdh-wt/qa-p07c3/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "visual/**/*.spec.ts"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "visual\\qa-h4-cursor-independent.spec.ts",
+      "file": "visual/qa-h4-cursor-independent.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "QA R4 — would hiding the cursor actually move the landing baseline?",
+          "file": "visual/qa-h4-cursor-independent.spec.ts",
+          "line": 168,
+          "column": 6,
+          "specs": [
+            {
+              "title": "1280: the cursor's contribution to the whole-page frame",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 240000,
+                  "annotations": [
+                    {
+                      "type": "slow",
+                      "location": {
+                        "file": "C:\\Users\\Trade Bilisim\\pdh-wt\\qa-p07c3\\e2e\\visual\\qa-h4-cursor-independent.spec.ts",
+                        "line": 175,
+                        "column": 8
+                      }
+                    },
+                    {
+                      "type": "cursor-contribution",
+                      "description": "1280: cursorRegion=0 wholeFrame=150688 wholeFrameBbox=[65,210,1278,3898] frame=[1280,3918] settled=10/8"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "visual-1280",
+                  "projectName": "visual-1280",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 46368,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-04T16:53:51.798Z",
+                      "annotations": [
+                        {
+                          "type": "slow",
+                          "location": {
+                            "file": "C:\\Users\\Trade Bilisim\\pdh-wt\\qa-p07c3\\e2e\\visual\\qa-h4-cursor-independent.spec.ts",
+                            "line": 175,
+                            "column": 8
+                          }
+                        },
+                        {
+                          "type": "cursor-contribution",
+                          "description": "1280: cursorRegion=0 wholeFrame=150688 wholeFrameBbox=[65,210,1278,3898] frame=[1280,3918] settled=10/8"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3ab949199c40e3899789-6c9b5cc78e3c24334bc7",
+              "file": "visual/qa-h4-cursor-independent.spec.ts",
+              "line": 178,
+              "column": 5
+            },
+            {
+              "title": "1440: the cursor's contribution to the whole-page frame",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 240000,
+                  "annotations": [
+                    {
+                      "type": "slow",
+                      "location": {
+                        "file": "C:\\Users\\Trade Bilisim\\pdh-wt\\qa-p07c3\\e2e\\visual\\qa-h4-cursor-independent.spec.ts",
+                        "line": 175,
+                        "column": 8
+                      }
+                    },
+                    {
+                      "type": "cursor-contribution",
+                      "description": "1440: cursorRegion=0 wholeFrame=0 wholeFrameBbox=null frame=[1440,3973] settled=5/2"
+                    }
+                  ],
+                  "expectedStatus": "passed",
+                  "projectId": "visual-1280",
+                  "projectName": "visual-1280",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 23225,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-09-04T16:54:41.673Z",
+                      "annotations": [
+                        {
+                          "type": "slow",
+                          "location": {
+                            "file": "C:\\Users\\Trade Bilisim\\pdh-wt\\qa-p07c3\\e2e\\visual\\qa-h4-cursor-independent.spec.ts",
+                            "line": 175,
+                            "column": 8
+                          }
+                        },
+                        {
+                          "type": "cursor-contribution",
+                          "description": "1440: cursorRegion=0 wholeFrame=0 wholeFrameBbox=null frame=[1440,3973] settled=5/2"
+                        }
+                      ],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "3ab949199c40e3899789-c7b73d75c80bfb7b2757",
+              "file": "visual/qa-h4-cursor-independent.spec.ts",
+              "line": 178,
+              "column": 5
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-04T16:53:50.569Z",
+    "duration": 75637.944,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

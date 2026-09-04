@@ -51,16 +51,32 @@ import { CURSOR_SELECTOR, readVisualSpecs, stripComments } from "./cursor-overla
 
 const GATE_PROJECT = "visual-1280";
 
-/** Byte-exact differing-pixel count between two PNG buffers, decoded in-page. */
-async function differingPixels(page: Page, a: Buffer, b: Buffer): Promise<number> {
-  return page.evaluate(async ([p, q]) => {
+type PixelDiff = { differing: number; bbox: number[] | null; maxDelta: number; size: number[] };
+
+/**
+ * Byte-exact pixel difference between two PNG buffers, decoded in-page.
+ *
+ * Returns WHERE as well as HOW MANY, because a bare count cannot distinguish
+ * "the cursor reached the frame" from "the page was still settling". The
+ * cursor can only ever occupy the top-left 22x22 of the viewport, so a bounding
+ * box that extends past that is by construction something else.
+ */
+async function differingPixels(
+  page: Page,
+  a: Buffer,
+  b: Buffer,
+  region?: { width: number; height: number },
+): Promise<PixelDiff> {
+  return page.evaluate(async ([p, q, r]) => {
     const load = (s: string) => new Promise<HTMLImageElement>((res) => {
       const img = new Image();
       img.onload = () => res(img);
       img.src = "data:image/png;base64," + s;
     });
     const [ia, ib] = await Promise.all([load(p), load(q)]);
-    if (ia.width !== ib.width || ia.height !== ib.height) return -1;
+    if (ia.width !== ib.width || ia.height !== ib.height) {
+      return { differing: -1, bbox: null, maxDelta: -1, size: [ia.width, ia.height, ib.width, ib.height] };
+    }
     const cv = document.createElement("canvas");
     cv.width = ia.width;
     cv.height = ia.height;
@@ -70,12 +86,34 @@ async function differingPixels(page: Page, a: Buffer, b: Buffer): Promise<number
     cx.clearRect(0, 0, cv.width, cv.height);
     cx.drawImage(ib, 0, 0);
     const db = cx.getImageData(0, 0, cv.width, cv.height).data;
-    let n = 0;
-    for (let i = 0; i < da.length; i += 4) {
-      if (da[i] !== db[i] || da[i + 1] !== db[i + 1] || da[i + 2] !== db[i + 2]) n += 1;
+    const limitW = r ? Math.min(r.width, cv.width) : cv.width;
+    const limitH = r ? Math.min(r.height, cv.height) : cv.height;
+    let n = 0, maxDelta = 0;
+    let x0 = Infinity, y0 = Infinity, x1 = -1, y1 = -1;
+    for (let py = 0; py < limitH; py += 1) {
+      for (let px = 0; px < limitW; px += 1) {
+        const i = (py * cv.width + px) * 4;
+        const d = Math.max(
+          Math.abs(da[i] - db[i]),
+          Math.abs(da[i + 1] - db[i + 1]),
+          Math.abs(da[i + 2] - db[i + 2]),
+        );
+        if (d === 0) continue;
+        n += 1;
+        if (d > maxDelta) maxDelta = d;
+        if (px < x0) x0 = px;
+        if (py < y0) y0 = py;
+        if (px > x1) x1 = px;
+        if (py > y1) y1 = py;
+      }
     }
-    return n;
-  }, [a.toString("base64"), b.toString("base64")] as [string, string]);
+    return {
+      differing: n,
+      bbox: n ? [x0, y0, x1, y1] : null,
+      maxDelta,
+      size: [cv.width, cv.height],
+    };
+  }, [a.toString("base64"), b.toString("base64"), region ?? null] as [string, string, { width: number; height: number } | null]);
 }
 
 /**
@@ -90,13 +128,21 @@ async function differingPixels(page: Page, a: Buffer, b: Buffer): Promise<number
  * from it fiction. So stability is established here, and asserted by the
  * caller, before anything is concluded.
  */
-async function stableFrame(page: Page, attempts = 10): Promise<{ frame: Buffer; settledAfter: number }> {
+async function stableFrame(page: Page, attempts = 14): Promise<{ frame: Buffer; settledAfter: number }> {
   const shot = () => page.screenshot({ fullPage: true, animations: "disabled", caret: "hide" });
+  await page.waitForLoadState("networkidle").catch(() => undefined);
   let previous = await shot();
+  let run = 0;
   for (let i = 1; i <= attempts; i += 1) {
     const next = await shot();
-    if (next.equals(previous)) return { frame: next, settledAfter: i };
+    /* THREE consecutive identical frames, not two. Measured at 1440: two
+       consecutive frames matched on the first try while the page was still
+       loading, `settledAfter` came back 1, and the comparison that followed
+       reported 181 549 differing pixels — a "stable" frame that was nothing of
+       the sort. A run of three costs one extra capture and closes that. */
+    run = next.equals(previous) ? run + 1 : 0;
     previous = next;
+    if (run >= 2) return { frame: next, settledAfter: i };
   }
   return { frame: previous, settledAfter: -1 };
 }
@@ -154,14 +200,67 @@ test.describe("QA R4 — would hiding the cursor actually move the landing basel
         const cursorHidden = await stableFrame(page);
         expect(cursorHidden.settledAfter, "the cursor-hidden frame never settled").toBeGreaterThan(0);
 
+        const wholeFrame = await differingPixels(page, asShipped.frame, cursorHidden.frame);
+        const cursorRegion = await differingPixels(
+          page, asShipped.frame, cursorHidden.frame, { width: 64, height: 64 },
+        );
+
+        /* Both numbers are recorded on every run, pass or fail. The count alone
+           was ambiguous the first two times this was measured; the box is what
+           made it readable. */
+        test.info().annotations.push({
+          type: "cursor-contribution",
+          description: `${viewport.width}: cursorRegion=${cursorRegion.differing} `
+            + `wholeFrame=${wholeFrame.differing} wholeFrameBbox=${JSON.stringify(wholeFrame.bbox)} `
+            + `frame=${JSON.stringify(wholeFrame.size)} `
+            + `settled=${asShipped.settledAfter}/${cursorHidden.settledAfter}`,
+        });
+
+        /* THE ASSERTION IS SCOPED, AND THE SCOPE IS THE HYPOTHESIS.
+           Both layers are `position: fixed` about the viewport origin — the dot
+           is 6x6 at (-3,-3), the ring 44x44 at (-22,-22) — so the ONLY pixels
+           they can reach in a whole-page frame are the top-left 22x22. 64x64 is
+           a generous margin around that.
+
+           This is not a narrowed assertion dodging a red result; it is the
+           correct frame for the question. Measured at 1280, the whole-frame
+           comparison reported 150 688 differing pixels with a bounding box of
+           [65, 210, 1278, 3898] — which EXCLUDES the cursor's footprint
+           entirely, so those pixels are something else moving on a long landing
+           page between two captures, and folding them into this assertion would
+           make it a page-stability test wearing a cursor's name. The whole-frame
+           number stays in the annotation above so it is never lost. */
         expect(
-          await differingPixels(page, asShipped.frame, cursorHidden.frame),
-          "hiding [data-custom-cursor] changed the whole-page frame. Non-zero means the cursor "
-            + "IS reaching landing-fullpage.png and the sibling guard's ARMED assertion should "
-            + "already have failed. Zero means adding the cursor to FOREIGN_OVERLAYS would not "
-            + "move the baseline, and any refusal resting on 'it would move the golden' rests "
-            + "on a wrong reason.",
-        ).toBe(0);
+          cursorRegion,
+          "hiding [data-custom-cursor] changed the whole-page frame INSIDE the 64x64 corner "
+            + "the layers are parked over. Non-zero means the cursor IS reaching "
+            + "landing-fullpage.png and the sibling guard's ARMED assertion should already have "
+            + "failed. Zero means adding the cursor to FOREIGN_OVERLAYS would not move those "
+            + "pixels of the baseline, and any refusal resting on 'it would move the golden' "
+            + "rests on a wrong reason.",
+        ).toMatchObject({ differing: 0, bbox: null });
+
+        /* RED CONTROL for the scoped assertion above. A comparison restricted
+           to 64x64 that has gone blind would report zero for the same reason a
+           working one does, so the occluder is removed and the SAME comparison
+           must stop reporting zero. Without this the assertion above is a no-op
+           that looks like success — which is the exact shape of the reasoning
+           this phase has been correcting for three rounds. */
+        await page.addStyleTag({
+          content: `.tl-header-band, header { display: none !important; } `
+            + `${CURSOR_SELECTOR} { display: revert !important; }`,
+        });
+        const unoccluded = await stableFrame(page);
+        await page.addStyleTag({ content: `${CURSOR_SELECTOR} { display: none !important; }` });
+        const unoccludedNoCursor = await stableFrame(page);
+        const control = await differingPixels(
+          page, unoccluded.frame, unoccludedNoCursor.frame, { width: 64, height: 64 },
+        );
+        expect(
+          control.differing,
+          "CONTROL: with the fixed header removed the cursor MUST change the 64x64 corner. It "
+            + "did not, so this test cannot see the cursor at all and its green above is worthless",
+        ).toBeGreaterThan(0);
       } finally {
         await context.close();
       }
