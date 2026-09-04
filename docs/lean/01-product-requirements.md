@@ -6,7 +6,7 @@
 - Hero: Video arka plan + 4-phase GSAP scroll choreography
 - Sections: HowWeWork, CNCScrollStory, Services, Industries, Materials, Capabilities, Testimonials, FAQ, FinalCTA
 - Smooth scroll: Lenis (desktop), native (mobile)
-- Custom cursor: Desktop (>901px, pointer:fine)
+- Custom cursor: ≥768px + pointer:fine (901px, bileşenin değil `cursor: none` kuralının eşiğidir — bkz. `09-responsive-rules.md`)
 - Film grain overlay: global, sabit
 - Page transitions: clip-path polygon reveal
 

@@ -34,7 +34,7 @@
 - [ ] Dark mode — forge renkleri doğru override
 - [ ] Light mode — concrete/workshop background sağlam
 - [ ] Film grain overlay görünüyor (opacity 0.035)
-- [ ] Custom cursor desktop'ta aktif (>901px, pointer:fine)
+- [ ] Custom cursor aktif (≥768px, pointer:fine — 901px yalnızca `cursor: none` eşiği)
 - [ ] border-radius: 0 — hiçbir element yuvarlak değil
 
 ---

@@ -45,41 +45,67 @@ import { expect, type Page } from "@playwright/test";
    NO TOLERANCE WAS TOUCHED. Not one `maxDiffPixels` changed anywhere; the
    diff for this advisory adds this file and one call per spec.
 
-   NOT INCLUDED: the custom cursor — AND THE REASON FIRST GIVEN HERE WAS WRONG
-   -------------------------------------------------------------------------
-   PHASE 07 CORRECTION #2 — H4.
+   NOT INCLUDED: the custom cursor — AND THE REASON HAS BEEN WRONG TWICE
+   ---------------------------------------------------------------------
+   PHASE 07 CORRECTION #3 — H4. Read the retractions first; they are the only
+   part of this comment that has never had to be rewritten.
 
-   This file used to say the cursor "paints nothing until a real pointer moves,
-   and Playwright never moves one". That is not true, and a wrong reason is
-   worth less than no reason: it stops the next reader from re-deriving the
-   real one. Measured on the six rebuilt routes, in a `reducedMotion: "reduce"`
-   context, with NO pointer ever moved:
+   RETRACTED (#1): "the cursor paints nothing until a real pointer moves, and
+   Playwright never moves one". False. Both layers are `opacity: 1` from mount.
 
-     375   `CustomCursor` returns null — `isMobile || !finePointer` — so
-           neither layer exists. Zero matches on all six routes.
-     1280  BOTH layers mount and BOTH are `opacity: 1` from the first frame.
-           The dot is 6×6 at rect (-3,-3), the ring 44×44 at rect (-22,-22),
-           each `translate(-50%,-50%)` about the viewport origin. So 3×3 of the
-           dot and 22×22 of the ring lie INSIDE the viewport and are painted,
-           on every one of the six routes. They are parked, not hidden.
+   RETRACTED (#2): "below 901 px the component does not mount". False, and it
+   is the load-bearing error, so here is where it came from: `901` is the
+   breakpoint of the `cursor: none` rule at `src/index.css:786`, and that rule
+   is QUOTED in a docblock inside `CustomCursor.tsx`. A comment describing a
+   stylesheet was read as the component's own mount condition.
 
-   THE REASON IT NEVERTHELESS HOLDS is geometric, and it is conditional:
+   RETRACTED (#2, second half): "every golden here is an ELEMENT-scoped crop of
+   page content". False. `landing-golden.spec.ts` takes
+   `expect(page).toHaveScreenshot("landing-fullpage.png", { fullPage: true })`
+   — a page-scoped capture, at 1280 and 1440, with a fine pointer, whose frame
+   begins at the viewport origin the layers are parked over.
 
-     1. below 901 px there is nothing to hide (the component does not mount),
-        which covers the 375 and 768 goldens outright;
-     2. at 1280/1440 the painted area is the top-left 22×22 px OF THE VIEWPORT,
-        and every golden here is an ELEMENT-scoped crop of page content, none
-        of which reaches that corner;
-     3. QA's independent exact-colour scan over all 100 committed goldens finds
-        zero cursor pixels, which is the same conclusion arrived at from the
-        pixels rather than from the geometry.
+   WHAT THE BROWSER DOES, measured with no pointer ever moved
+   ----------------------------------------------------------
+   `CustomCursor` renders when `!isMobile && finePointer`, and `useIsMobile()`
+   is `width < 768` (`MOBILE_BREAKPOINT`, `src/hooks/use-mobile.tsx`). So it
+   mounts from **768 px upward with a fine pointer** — 767 → no layers, 768 →
+   both — and paints the dot 6×6 at rect (-3,-3) and the ring 44×44 at rect
+   (-22,-22), i.e. up to 22×22 px of the viewport's top-left corner.
 
-   So the conclusion stands and the launcher is still the only entry in
-   `FOREIGN_OVERLAYS` — but on a condition that a later phase can break without
-   touching this file. A FULL-PAGE capture at ≥901 px, or any element crop that
-   includes the viewport's top-left corner, WILL bake both layers in. If a
-   golden is ever added under either shape, add `[data-custom-cursor]` here.
-   The attribute already exists on both layers, so the selector is one line.
+   WHY THE COMMITTED GOLDENS ARE NEVERTHELESS CLEAN — two reasons, neither of
+   them a property of this file or of the component
+   ----------------------------------------------------------------------------
+     1. AT 375 AND 768 it is the TEST CONFIGURATION, not the component.
+        `playwright.config.ts` marks those two visual projects `mobile: true`,
+        which spreads to `{ isMobile: true, hasTouch: true }`; `hasTouch` is
+        what makes `(pointer: fine)` false, so nothing mounts. `isMobile` alone
+        does not — measured at 768 with `{ isMobile: true, hasTouch: false }`:
+        both layers mount and paint.
+     2. AT 1280 AND 1440 the pointer IS fine, both layers DO mount, and the one
+        page-scoped golden DOES include their corner. Nothing of them reaches
+        the image because the fixed header band paints over them: `z-index:
+        10000` on an opaque graphite ground, against the layers' 101 and 100.
+        That is paint order, not design — it is an accident that happens to
+        hold.
+
+   And QA's exact-colour scan over all 100 committed goldens finds zero cursor
+   pixels, which is the same conclusion reached from the pixels instead of from
+   the mechanism.
+
+   SO THE LAUNCHER IS STILL THE ONLY ENTRY IN `FOREIGN_OVERLAYS`, and the
+   condition is now a test rather than this paragraph. `./cursor-overlay-guard
+   .spec.ts` asserts the mount matrix, re-derives the fine-pointer project list
+   from `playwright.config.ts`, and measures the corner with and without the
+   cursor — plus the same measurement with the occluder removed, which must
+   come out different, so a scan that has gone blind fails instead of passing.
+
+   FOR THE NEXT PHASE: the thing to check is not a width. It is whether a
+   capture's frame contains the viewport origin while `(pointer: fine)` is true
+   — which is any width from 768 up in a project that does not set `hasTouch`.
+   If you add such a capture, or a visual project without touch emulation, the
+   guard will tell you. The fix is one line: add `[data-custom-cursor]` to
+   `FOREIGN_OVERLAYS` below. The attribute already exists on both layers.
    ══════════════════════════════════════════════════════════════════════════ */
 
 /** Foreign fixed overlays: owned by other phases, not by any page's content. */

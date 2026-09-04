@@ -42,10 +42,14 @@ Ayrıntı: `docs/lean/06-design-system.md`.
 
 ```
 Mobile:    < 768px  → native scroll, snap sections, no Lenis, no custom cursor
-Tablet:    768–1024px → reduced animation, Lenis active, no custom cursor
+Tablet:    768–1024px → reduced animation, Lenis active, custom cursor (pointer:fine ise)
 Desktop:   > 1024px → full GSAP, Lenis, custom cursor
 Ultrawide: > 1400px → container bounded (max-width: 1400px)
-Custom:    > 901px + pointer:fine → custom cursor aktif
+
+Cursor — iki AYRI eşik, 133 px arayla (ölçüldü; `e2e/visual/cursor-overlay-guard.spec.ts`):
+  ≥ 768px + pointer:fine → `CustomCursor` mount olur (768 = MOBILE_BREAKPOINT)
+  ≥ 901px + pointer:fine → yerleşik imleç `cursor: none` ile gizlenir
+  Aradaki 768–900 aralığında İKİ imleç birden çizilir.
 ```
 
 ---
@@ -119,7 +123,7 @@ Custom:    > 901px + pointer:fine → custom cursor aktif
 ### Full feature set:
 - Lenis smooth scroll
 - Tüm GSAP ScrollTrigger phases
-- Custom cursor (>901px + pointer:fine)
+- Custom cursor (gerçek eşik: ≥768px + pointer:fine)
 - BrutalCrosshairCursor (landing page)
 - Three.js canvas
 - Horizontal scroll sections
@@ -143,10 +147,19 @@ body { overflow-x: hidden; }
 
 ## Ekran Boyutu Edge Cases
 
-### 901px sınırı (custom cursor)
+### 901px sınırı (yerleşik imleci gizleyen kural — mount eşiği DEĞİL)
+
+`CustomCursor` 768px'ten itibaren mount olur; aşağıdaki kural yalnızca yerleşik
+imleci gizler ve bunu ancak yerine geçen katman gerçekten mount olduysa yapar
+(`:has()` kapısı, `src/index.css`).
+
 ```css
 @media (min-width: 901px) and (pointer: fine) {
-  html, body, a, button, [role="button"] { cursor: none !important; }
+  html:has([data-custom-cursor]),
+  html:has([data-custom-cursor]) body,
+  html:has([data-custom-cursor]) :is(a, button, [role="button"]) {
+    cursor: none !important;
+  }
 }
 ```
 
