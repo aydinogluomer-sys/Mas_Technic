@@ -6,7 +6,7 @@ RUN_BASE_COMMIT: 366f321 (pre-run working tree preserved + plan path normalized)
 INTEGRATION_BRANCH: claude/awwwards-90-overhaul
 USER_BRANCH_PRESERVED: claude/motion-layer-and-asset-pipeline @ b6f2552 (untouched)
 STARTED_AT: 2026-08-31T01:51:28Z
-CURRENT_PHASE: 07
+CURRENT_PHASE: 08
 
 ## Authority
 
@@ -32,8 +32,8 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | 04 | PASS | 7d01465, d2c7dc1, 6a3bc84, f3cd3f5, a059aef, 9809889, 829cadf, 94f87c3, fe42ce8 | 141fc06..9ad97de (5), 3586e43..3350203 (7) | 202 passed / 0 failed / 3 skipped | 2026-09-02T04:20Z |
 | 05 | PASS | 05a: 46ae7f4..e1bc431 (6); 05b: a133728..3f45fd5 (6), 5ff0cae, c3797e5, 7cefcf0 | 05a: 5313739..ca797a5 (4); 05b: e4e626d..5d58889 (5), 3b6cf36..2d7adcd (5) | 198 passed / 0 failed / 3 skipped | 2026-09-02T17:05Z |
 | 06 | PASS | 895e1ff..a9763a4 (8), af83702..d5e2c90 (5), ad6dcb4, 6cefea8, f9e164d | 1cf8f14..3724b1b (3), 9f56bbf, 7c8a761, 2b904c1..516efc3 (4) | 544 passed / 0 failed / 3 skipped; 281 QA probes added | 2026-09-03T02:10Z |
-| 07 | IN_PROGRESS | — | — | — | 2026-09-03T02:10Z |
-| 08 | NOT_STARTED | — | — | — | — |
+| 07 | PASS | e598d01..dfe9da7 (5); C1 f73efe3..6f37eb0 (11); C2 93b77bc..23cbc63 (6); C3 73adb1b..6984fae (3) | R1 94f0ef0; R2 55d1e2f..19acc52 (12); R3 335ff5e..bf960c6 (3); R4 fac2b65..92567c4 (4) | visual 122 passed / 18 skipped / 0 failed (per project); critical 163 passed / 3 skipped / 0 failed (chunked) | 2026-09-04T18:40Z |
+| 08 | IN_PROGRESS | — | — | — | 2026-09-04T18:40Z |
 | 09 | NOT_STARTED | — | — | — | — |
 | 10 | NOT_STARTED | — | — | — | — |
 | 11 | NOT_STARTED | — | — | — | — |
@@ -816,3 +816,210 @@ matcher's substring rule (`"kaynak".includes("ayna")`); `%99.9+ okuma oranı` ad
 property like `%100 IACS`; the eight unreachable gate holes. Unchanged: `Maks. 50 MB` (Phase 09);
 canonical / `og:url` / r2.dev `og:image` / `IST` clock label (Phase 11); band 07/10 compositional pass
 (Phases 07/08); B24, B29, B30, B31.
+
+---
+
+### Phase 07 — INNER PAGES WAVE A — PASS (after 3 correction packets and 4 QA rounds)
+
+**The longest phase of the run.** Six commercial pages rebuilt on the shell system; every *design*
+acceptance criterion was met on the first Coder pass and never regressed. All three FAILs were **content
+truth and documentation accuracy**, which sit above the phase criteria.
+
+**What shipped.** Eight new molecules (`ShellComposition.tsx`: breadcrumb, action, index list, spec table,
+run, tag row, plate, next step) plus `MaterialRegister`; `Hakkimizda`, `Iletisim`, `Malzemeler`,
+`MalzemeKategori`, `CategoryPage`, `ServiceDetail` rebuilt; `ComparisonTable.tsx` deleted (proved
+unreferenced); emoji category icons replaced by technical designations; `visual-768` added, since the
+"desktop/tablet/mobile golden" criterion was unmeetable against a `[375,1280,1440]` matrix (A12).
+
+**B24 CLOSED — a genuine repair, not the Phase 04 bucket shuffle.** QA built an instrument that never reads
+a glyph pixel (background sampled with every text colour forced transparent over `Range` line boxes;
+foreground computed as `composite(color x alpha x ancestor-opacity-chain)`), controlled at 21:1, 1:1, 3.03:1
+at 16px **and** 8px, and 50%-black-on-white. It reads **28 real failures on `/endustriyel/havacilik-uzay`
+at 375 on `d1ed8e3` and 0 on the integrated build.** Both axe buckets fell: violations 29 -> 0, incomplete
+17 -> 4, and the 4 survivors were measured individually (10.01, 8.44, 10.01) — axe declines them only
+because an image ancestor makes the background unprovable.
+
+**QA retired the Coder's own declared risk, in the Coder's favour.** `.tl-band-index small` measures
+**5.089:1**, not the ~3.0 the Coder reported and left unfixed. Its 8px control reproduces the Coder's
+method error exactly (true 3.033 -> naive 2.119). The Coder was right to leave it and wrong about why.
+
+**I4 CLOSED structurally.** The `<h1>` moved into normal flow in its own band, the photograph became a
+`ShellPlate`, and the title carries **no reveal at all** — "a page title must not depend on an
+IntersectionObserver" is I4's real lesson. Verified `clippers=[]`, opacity 1, fully on screen at
+320/375/768/1280 under both motion modes.
+
+---
+
+#### QA round 1 -> FAIL: five findings, all content truth
+
+- **F1 (most serious) — Phase 07 published annual production volumes on a surface that did not carry them.**
+  `/kabiliyetler/kategori/prototipten-seri-uretime` printed `50.000 adet/yil` and `500.000 adet/yil`, from
+  `CategoryPage.tsx:64-70` republishing `technicalSpecs.slice(0,2)` with **no publication-class filter**. The
+  design note defended the chips as internally consistent with a table further down the same page — an
+  argument orthogonal to whether the figure may be published at all. §0
+  `DO_NOT_PUBLISH_REVENUE_OR_ORDER_VOLUME: YES`; §D `PRIVATE_DO_NOT_DISCLOSE`.
+- **F2 — the claims gate had two holes with live claims behind them.** Proved by running the byte-identical
+  gate inside the tree that still carried `15+ aluminyum alasimi`: **`PASS — 0`**. Hole 1: the noun had to
+  follow the digit immediately and `alasim`/`renk`/`unite` were absent. Hole 2: `{materialsData.length}+
+  malzeme` **rendered "87+ malzeme ve alasim"** against a rule that existed, defeated because the digit is
+  never in the source.
+- **F3** — the `<h1>` was removed from three not-found bodies (`ShellEmpty`'s title is a `<p>`);
+  `/endustriyel/<unknown>` also showed the wrong family rail.
+- **F4** — `installFontRetry()` never ran: `page.route("https://fonts.g*")` intercepted **0 of 17** requests,
+  because Playwright's `*` does not cross `/`. Two documents credited it for a 56min -> 4min improvement.
+- **F5** — `docs/lean/17` §4's radius register was false of what renders.
+
+**The Coder's own most valuable find, unprompted.** Five runs of the visual suite on an unchanged build each
+failed one or two *different* captures. The two 375 failures were byte-identical (1453 px, rows 19-43, best
+offset (0,0), residual flat) and body copy was doubled with a displacement growing along the line — a
+**typeface substitution**. `document.fonts.ready` cannot see it (a failed face is not *pending*) and
+`document.fonts.check()` cannot either (per spec it answers whether the font *list* can render without
+further downloads, so a system fallback returns `true`). The fix enumerates the `FontFaceSet` for
+`status === "loaded"`. **No tolerance was raised** — a looser `maxDiffPixels` would have made a typeface
+substitution invisible.
+
+#### Correction #1 — F1-F5 plus three advisories the Orchestrator promoted
+
+- **F1 fixed fail-closed.** `publishableSpecValues()` runs a withheld pass over **label and value together**,
+  then requires a positive match against publishable classes — so a spec added later that matches nothing is
+  **not printed**. QA: 4/4 nonsense specs suppressed, compound-value attack fails 6/6 (including
+  `"50.000 adet/yil, ±0.01mm"`), 48 rows measured, 23 changed, **0 leaks across all 69 chips**. Underlying
+  claims resolved at the leaf, not hidden. `±0.01mm`, `CT4-CT6`, `ΔE ≤ 2.0`, `60-70 HRC`, the M3-M12 torque
+  table and `500+ saat (ASTM B117)` all kept — over-removal fails §0 `PRECISION_ENGINEERING` as surely as
+  fabrication fails the truth rule.
+- **A7 (promoted advisory) found a live B28 recurrence.** `/malzemeler` was missing from the reduced-motion
+  rest matrix. Adding it turned it red immediately: **`hidden=39 hiddenText=12`** at 1280 — the entire title
+  overlay and property card invisible to readers who asked for reduced motion, because `titleOpacity`,
+  `cardOpacity` and `cardX` took `scrollYProgress` unconditionally while `exitOpacity`/`exitScale` **two
+  lines below in the same file** were already gated. Red banked in `b4995fc` before the fix. `hidden` went to
+  **0**, not just `hiddenText`, and `--mode=enabled` still reports `armed=44 / armedText=12` — the
+  choreography was not deleted, only turned off for readers who asked.
+- **A1 (promoted)** — `MaterialMorphScroll` contrast 5 -> 0 at 375 (lowest was **1.588:1**) and 2 -> 0 at 1280.
+- **A2 (promoted)** — the chat launcher was baked into **25 of 100 goldens**, 10 of them new this phase.
+  Fixed with `display: none`, **not** Playwright's `mask`: `mask` paints an opaque box and would permanently
+  blind every baseline to the content underneath, in exactly the region most likely to be covered by
+  accident. The content there is now under test for the first time; QA decoded it and found no defect pinned.
+  `hideForeignOverlays` **fails** when it finds nothing to hide — a silent no-op is how it got into 25
+  baselines, and is the same failure F4 had just closed.
+
+#### QA round 2 -> FAIL on F5-R alone; correction #2
+
+Seven of eight items closed. The Orchestrator then **overrode QA's classification on two hardening notes**,
+and both turned out to have had live carriers:
+
+- **H3** — the annual-volume class was caught by **neither** gate in any of six forms. Re-adding the exact
+  line F1 removed left the gate green. QA's bar (live carrier = finding, else hardening note) is right for a
+  pre-existing hole found in the wild, and **wrong for a hole sitting behind a claim this phase just
+  removed** — there the absence of a carrier is a consequence of the fix. The new rule found **12 live
+  carriers in `servicePages.ts` on `d1ed8e3`**: the exact rows F1 removed.
+- **H1** — one intervening adjective defeated the company-scale nouns. Live carrier:
+  `Hakkimizda.tsx:29`, `50+ deneyimli muhendis`, on the pre-run base.
+- **H6** — two over-removals fixed; two instruments had disagreed about whether `5 eksen` is a specification.
+
+**A latent class found while building it:** **`\b` in JavaScript is ASCII-only**, so `\bunite` never matches
+after a space. With `\b` the rule read `1000 unite/gun` as SILENT. Swept across all 27 rules on three trees
+(0->0, 24->24, 834->834): real, no live carrier, hardening note.
+
+**Anti-laundering, every gate change, `rule@file:line` SET diff:** `19f30f5` 801 -> 834 **LOST 0**;
+`d1ed8e3` `PASS — 0` -> 24 **LOST 0**. 21/21 specification shapes stayed silent.
+
+**The Coder retracted its own commit message** (`23cbc63`): a claim it had made about I-folding was false,
+because `trPattern()` folds every rule centrally. Its reason: *"a wrong reason next to correct code is
+precisely F5-R and H4; it does not get to survive because it was mine."*
+
+#### QA round 3 -> FAIL on H4; correction #3 under §10
+
+`overlays.ts` had replaced a wrong reason with one **right in two legs and false in the first**: it claimed
+`CustomCursor` does not mount below 901px. The real guard is `CustomCursor.tsx:189`
+(`isMobile || !finePointer`, `MOBILE_BREAKPOINT = 768`); 2 layers mount at 768 and at 900 with a fine
+pointer. **901 is the breakpoint of the `cursor: none` rule at `index.css:786`** — and it also appears in a
+docblock at `CustomCursor.tsx:31` quoting that CSS rule. A comment describing a stylesheet was read as the
+component's own mount condition. The forward instruction therefore told future phases that sub-901 full-page
+captures are safe; they are not.
+
+**This was the third loop in which the same claim was written down wrong**, so IMPLEMENTATION.md §10 was
+invoked: **stop writing the threshold in prose and make it executable.** The result is a ten-cell
+`(width, pointer)` matrix asserting the real mount condition, a §4 register derived from a census rather than
+typed, and only then the prose correction.
+
+**QA made the new guard red three ways**, each injected into a **copy** of `dist/` on a second port so the
+repo never contained the defect: `--gnav-z: 10000 -> 5`; header alpha `.98 -> .30`; and
+`MOBILE_BREAKPOINT: 768 -> 901`, i.e. **making the retired claim true**, which turned the matrix red on
+exactly the three cells it denied. Against the breakpoint mutant the census collapses to `- | - | 6` — which
+*is* §4 version 3's wrong table.
+
+**Two claims corrected against the Orchestrator's own packet:**
+- **`elementsFromPoint` cannot return either cursor layer** — both are `pointer-events: none`. The
+  Orchestrator relayed that method as evidence for the pointer-loss measurement; the conclusion held, the
+  cited method did not. QA re-measured with the pointer actually moved.
+- **The Coder's stated reason for refusing the literal assertion was false** (hiding the cursor moves no
+  pixel: at 1440 the frame is byte-identical, at 1280 the diff bbox excludes the 22x22 footprint). The
+  refusal was still **correct for a better reason it did not give**: `hideForeignOverlays` sums one counter
+  across all selectors, so the cursor's two matches would permanently satisfy the launcher-drift assertion at
+  1280/1440, disarming two specs and two of QA's own round-3 red controls.
+
+**The "safety" of the goldens had two different causes at different widths, and both files had stated a third.**
+375/768 are safe because `hasTouch: true` makes `(pointer: fine)` false (`isMobile` alone does not);
+1280/1440 are safe by **paint order** — `.tl-header-band` at `z-index: 10000` over the layers' 101/100,
+measured as 0 teal pixels in the committed `landing-fullpage.png` versus 6 with the header hidden.
+
+---
+
+**ENVIRONMENTAL — recorded because it recurred three times.** On this host the visual and critical suites
+fail 1-2 assertions when run whole, a **different** one each time, and pass completely when run per project
+or in chunks. Settled by measurement, not by assertion: visual **122 passed / 18 skipped / 0 failed** across
+375/768/1280/1440 run separately (the same 140 executions that gave 2 failures combined); critical
+**163 passed / 3 skipped / 0 failed** in five chunks. QA only **partly** accepts contention as the cause and
+found a contributing defect — see N3.
+
+**Agent losses this phase:** ten, to 600s watchdog stalls, process exits, 529s and two DNS outages. Three
+were recovered by resuming with their worktree intact; one was lost because the Orchestrator removed a failed
+agent's worktree as routine hygiene and made it unresumable. The incremental-commit protocol preserved work
+three separate times.
+
+**A near-miss in the record itself.** QA wrote all four rounds to `reports/qa/phase-07.md`. Integrating a
+later round alone would have silently discarded the report that produced the FAIL it answers. Round 1 is
+preserved as `phase-07-round1.md` and round 2 as `phase-07-round2.md`; only filenames changed.
+
+---
+
+**OPEN AT CLOSE (from QA round 4 §15, verbatim):**
+
+- **A3** *(carried, advisory)* — three suites, three font policies: `shared-shell-accessibility` stubs the
+  host, the visual suite now **requires** it live and fails without it, the critical suite does neither. A CI
+  runner without egress to `fonts.gstatic.com` fails the visual suite by design. **Phases 14/15.**
+- **N1** — no visible pointer over the header at >=901px: native `cursor: none` plus a replacement
+  contributing **0 px** because it sits under `z-index: 10000`. The `:has([data-custom-cursor])` gate passes
+  because it checks the replacement *exists*, not that it is *visible*. Usability high, not a WCAG SC
+  failure. **Phase 13.**
+- **N2** — both pointers drawn between 768 and 900px. **Phase 13.**
+- **N3** — unguarded terminal `route.continue()` at `e2e/visual/fonts.ts:146` turns a slow host into
+  `Route is already handled!`; every visual spec installs that handler, which explains the *roving* failures
+  better than contention alone. **Phase 13.**
+- **N4** — `isVisualProject` recognises one glob spelling. **N5** — the ARMED message blames the cursor for a
+  header regression. **N6** — the detector over-flags on string literals. **N7** — `citationDeclaresRadius`
+  passes on wide ranges. **N12** — flat-specs / no-fixture-rename now enforced by tripwires.
+- **N8** — `CLAUDE.md:48` and `MASTER_CONTEXT.md:170` still say `Desktop cursor (>901px, pointer:fine)`.
+  Both DO_NOT_TOUCH this run; **the user's call.**
+- **N9** — `BrutalCrosshairCursor` is a **phantom**: it never existed on any ref, yet is named in 6 docs.
+  Same shape as the stale B31 the Coder corrected the Orchestrator on.
+- **N10** — `CustomCursor.tsx:78` still says `Z.cursor` is 90; it is 101. **Phase 15.**
+- **N11** — `Z.header: 50` has **zero consumers** while `navigation.css:34` hardcodes `--gnav-z: 10000`,
+  though `CLAUDE.md` names `z-index.ts` as the single source of truth for z-index. **Phase 15.**
+
+**Carried from earlier phases, unchanged:** B29 (hero isolation contrast, Phase 13); B30 (guard fails open on
+regex literals/URL strings, no live false pass); `motion-grammar:254` at `tablet-768`/`landscape-844` —
+reproducible on **both** trees, `technical-landing.css:513` hides the lines under `@media (max-width:767px)`
+while the spec asserts hidden whenever `(hover:hover) and (pointer:fine)` is false (**pre-existing Phase 05,
+Phase 13**); win32-only golden gap; `Maks. 50 MB` (Phase 09); canonical / `og:url` / r2.dev `og:image` / `IST`
+clock (Phase 11); the launcher **obstruction** itself — at 1280 it covers 91% of a `.shell-row-toggle` line
+box, at 375 it fully covers five `<td>` glyph line boxes (**Phases 09/13**; A2 makes it *more* visible, since
+the goldens no longer hide it); ungated commercial promises with no `USER_INPUTS.md` field; A4 (the address
+expansion, adjudicated harmless because `Mah.` labels a mahalle already in §A and `Sok.`/`Sk.` abbreviate the
+same word — no fact added); A6 (`/iletisim` Meet promise, 4 -> 2, Phase 09); A8 (register scrolls at 768,
+Phase 08); H2 (a **loud** false positive on `"" + x`, deliberately not narrowed); H7 (counting drift, every
+direction and endpoint agreeing); ~48 detail routes now emit per-page titles (**Phase 11**); the uncommitted
+`.claude/` permission change (A07).
+
+**B31 CLOSED** — `ProjectShowcase.tsx` does not exist at `d1ed8e3`; Phase 06 had already deleted it. The
+Coder corrected the Orchestrator's stale carry-forward.
