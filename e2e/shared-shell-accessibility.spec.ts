@@ -174,12 +174,18 @@ const LOCAL_ORIGIN = new URL(
   process.env.PLAYWRIGHT_BASE_URL ?? `http://localhost:${process.env.PLAYWRIGHT_PORT ?? "4173"}`,
 ).origin;
 const FONT_STYLESHEET_URL = "https://fonts.googleapis.com/css2";
-const FAQ_ANALYTICS_URL = "https://zdqiujpeewtyhtcqhdcj.supabase.co/rest/v1/faq_analytics";
 
+/* FAZ 08 DÜZELTME #1 — C3. `faq_analytics` MUAFİYETİ KALDIRILDI.
+   Bu listede ikinci bir giriş vardı: `…/rest/v1/faq_analytics`. Onu bir izin
+   olarak okumak gerekir — 95 rotalık döngü o adrese giden bir isteği görürse
+   "beklenmeyen dış istek" saymayacaktı. `/sss` de, `ChatBot` de artık o tabloya
+   hiçbir şey yazmıyor, dolayısıyla muafiyet ölü; ölü bir muafiyeti bırakmak,
+   yazma yeniden eklendiğinde sözleşmenin sessiz kalması demektir. Silinmesi
+   İDDİAYI GÜÇLENDİRİR: artık yazı tipi sayfası dışında HERHANGİ bir dış istek
+   bu döngüyü kırmızıya döndürür. */
 function isKnownExternalTestRequest(rawUrl: string) {
   const url = new URL(rawUrl);
-  return (url.origin + url.pathname === FONT_STYLESHEET_URL)
-    || (url.origin + url.pathname === FAQ_ANALYTICS_URL);
+  return url.origin + url.pathname === FONT_STYLESHEET_URL;
 }
 
 async function expandFooterDisclosures(page: Page) {
@@ -340,11 +346,13 @@ test.describe("Shared public shell accessibility", () => {
       contentType: "text/css",
       body: "",
     }));
-    await page.route("https://zdqiujpeewtyhtcqhdcj.supabase.co/rest/v1/faq_analytics**", (route) => route.fulfill({
-      status: 200,
-      contentType: "application/json",
-      body: "[]",
-    }));
+    /* Bir zamanlar burada bir `faq_analytics` sahtelemesi (`route.fulfill`)
+       vardı. Onun işi, sayfa yüklenirken o tabloya giden istekleri ağdan
+       kesmekti — yani sözleşmeyi o isteğe karşı KÖR ediyordu. Faz 08 Düzeltme
+       #1 C3 halka açık son yazmayı da kaldırdığından sahtelemeye gerek yok;
+       kaldırılması demek, o adrese bir istek yeniden doğarsa artık gerçekten
+       ağa çıkıp yukarıdaki `unexpectedExternalRequests` listesine düşmesi
+       demek. */
 
     page.on("request", (request) => {
       const url = new URL(request.url());
