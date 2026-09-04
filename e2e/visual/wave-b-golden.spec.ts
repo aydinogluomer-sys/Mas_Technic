@@ -80,32 +80,22 @@ test.describe("wave B golden screenshots", () => {
          property that makes hiding the launcher safe. The header has its own
          goldens in `navigation-golden.spec.ts` and `shell-golden.spec.ts`;
          this file is page content only. */
-      /* AND THE SKIP LINK, which is the finding this spec produced.
+      /* THE SKIP LINK USED TO BE HIDDEN ON THIS LINE TOO, and no longer is —
+         because `hideForeignOverlays()` above now hides it for EVERY visual
+         spec. `.shared-skip-link` is a foreign fixed overlay whose `shadow-lg`
+         lands at the top-left of any crop taken with `captureBeyondViewport`;
+         the measurement that found it, and the reason it is a separate list
+         from the launcher rather than a second entry beside it, are recorded
+         in `e2e/visual/overlays.ts` (Phase 08 correction C4). Keeping the fix
+         local would have left every other visual spec still baking it — which
+         is why this spec reported it upward instead of only fixing itself.
 
-         `.shared-skip-link` (`src/App.tsx`) is `position: fixed`, parked at
-         `-translate-y-24` off the top of the viewport, and carries Tailwind's
-         `shadow-lg`. It paints nothing on screen — but these crops are TALLER
-         THAN THE VIEWPORT, so Playwright captures them with
-         `captureBeyondViewport`, and in the expanded viewport the fixed link's
-         shadow lands at the crop's own top-left.
-
-         Measured on `waveb-notfound-body` at 375 before this line existed: a
-         wash from `rgb(235,232,226)` at row 0 back to the page ground
-         `rgb(251,248,241)` by row ~12, across the crop's leftmost ~110px —
-         i.e. a ~2.7% black shading, invisible to the eye at full size and
-         quietly baked into the baseline. Two controls identified it: hiding
-         `.shared-skip-link` removes it, and so does `box-shadow: none` on
-         everything; nothing else fixed in the document paints there.
-
-         It appears only on the two mobile-emulated projects (375, 768) and not
-         at 1280/1440, which is why it would have gone unnoticed and then shown
-         up as an unexplained two-viewport diff later.
-
-         This is a LOCAL fix. `e2e/visual/overlays.ts` is the right home for it
-         and is outside this phase's write allowlist; the finding is reported so
-         its owner can decide. */
+         The header stays local: `navigation-golden.spec.ts` and
+         `shell-golden.spec.ts` exist to photograph it. It is hidden HERE only
+         because `.shell-notfound` starts at the top of the sheet, so the bar
+         painted over this file's own subject. */
       await page.addStyleTag({
-        content: "[data-fullscreen-header],.shared-skip-link{display:none !important}",
+        content: "[data-fullscreen-header]{display:none !important}",
       });
       await expect(page.locator("[data-fullscreen-header]")).toBeHidden();
       await expect(page.locator(".shared-skip-link")).toBeHidden();

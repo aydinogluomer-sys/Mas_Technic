@@ -108,8 +108,65 @@ import { expect, type Page } from "@playwright/test";
    `FOREIGN_OVERLAYS` below. The attribute already exists on both layers.
    ══════════════════════════════════════════════════════════════════════════ */
 
+/* ══════════════════════════════════════════════════════════════════════════
+   PHASE 08 CORRECTION #1 — C4. THE SECOND FOREIGN FIXED OVERLAY.
+
+   `.shared-skip-link` (`src/App.tsx`) is `position: fixed`, parked off the top
+   of the viewport at `-translate-y-24`, and carries Tailwind's `shadow-lg`. On
+   screen it paints nothing. But element crops TALLER THAN THE VIEWPORT are
+   taken with `captureBeyondViewport`, and in the expanded viewport the fixed
+   link's shadow lands at the crop's own top-left.
+
+   MEASURED on `waveb-notfound-body` @375 before it was hidden: a wash from
+   `rgb(235,232,226)` at row 0 back to the page ground `rgb(251,248,241)` by
+   row ~12, across the crop's leftmost ~110 px — about 2.7% black shading,
+   invisible at full size and quietly baked into a baseline. Two independent
+   controls identified it: hiding `.shared-skip-link` removes it, and so does
+   `box-shadow: none` on everything. Nothing else fixed in the document paints
+   there.
+
+   It appears ONLY on the two mobile-emulated visual projects (375 and 768) and
+   not at 1280/1440 — which is exactly how it would have surfaced later as an
+   unexplained two-viewport diff, the kind of mass red that teaches people to
+   reach for `--update-snapshots`. That is the same failure A2 was written to
+   stop, so it belongs in this file rather than in one spec's local
+   `addStyleTag`.
+
+   WHY IT IS A SEPARATE LIST AND NOT A SECOND ENTRY IN `FOREIGN_OVERLAYS`
+   ----------------------------------------------------------------------
+   The two overlays have DIFFERENT presence rules, and collapsing them would
+   quietly destroy the guarantee `require` exists to give.
+
+     · The launcher is route-conditional: `App.tsx` withholds it from `/`. So
+       "found nothing" there is legal, and anywhere else it means the selector
+       drifted.
+     · The skip link is on EVERY route, `/` included — it is rendered above the
+       router, outside `AnimatedRoutes`.
+
+   If `.shared-skip-link` simply joined `FOREIGN_OVERLAYS`, the summed `found`
+   would be ≥1 on `/` as well, and the launcher's drift check would be
+   satisfied by a completely different element. `qa-a2-overlay-guard.spec.ts`
+   measures precisely that: it requires a THROW naming `[data-chat-launcher]`
+   on `/`, and `found === 0` there under `require: false`. Both would have gone
+   green while meaning nothing.
+
+   So the return value keeps its meaning — LAUNCHER nodes hidden — and the skip
+   link gets its own unconditional, PER-SELECTOR requirement. Per selector
+   rather than summed, because a summed count is exactly how one selector
+   covers for another that has gone blind: the F4 failure in `./fonts.ts`.
+
+   NO TOLERANCE WAS TOUCHED. Not one `maxDiffPixels` moved.
+   ══════════════════════════════════════════════════════════════════════════ */
+
 /** Foreign fixed overlays: owned by other phases, not by any page's content. */
 const FOREIGN_OVERLAYS = ["[data-chat-launcher]"] as const;
+
+/**
+ * Foreign fixed overlays present on EVERY route, so their absence is always a
+ * drifted selector and never a legal state. Hidden unconditionally, asserted
+ * one selector at a time, and deliberately NOT counted into the return value.
+ */
+const UBIQUITOUS_OVERLAYS = [".shared-skip-link"] as const;
 
 /**
  * Remove foreign fixed overlays from a capture.
@@ -169,11 +226,28 @@ export async function hideForeignOverlays(
     ).toBeGreaterThan(0);
   }
 
+  /* C4. Checked per selector and never waived: these exist on every route, so
+     a count of zero has no legal reading — it can only mean the selector no
+     longer matches, and a silent no-op is how the launcher got into 25
+     baselines. Deliberately after the launcher's own check, so the failure
+     message on `/` stays the one `qa-a2-overlay-guard.spec.ts` reads. */
+  for (const selector of UBIQUITOUS_OVERLAYS) {
+    expect(
+      await page.locator(selector).count(),
+      `no ${selector} was found to hide — it is rendered on every route, so a count `
+        + "of zero means the selector has drifted and the goldens have started baking "
+        + "a foreign fixed overlay again (see e2e/visual/overlays.ts)",
+    ).toBeGreaterThan(0);
+  }
+
+  const hidden = [...FOREIGN_OVERLAYS, ...UBIQUITOUS_OVERLAYS];
   await page.addStyleTag({
-    content: `${FOREIGN_OVERLAYS.join(", ")} { display: none !important; }`,
+    content: `${hidden.join(", ")} { display: none !important; }`,
   });
-  for (const selector of FOREIGN_OVERLAYS) {
+  for (const selector of hidden) {
     if (await page.locator(selector).count()) await expect(page.locator(selector)).toBeHidden();
   }
+  /* Still the LAUNCHER count, not the total: `qa-a2-overlay-guard.spec.ts`
+     asserts `found === 0` on `/`, where the skip link is nonetheless present. */
   return found;
 }
