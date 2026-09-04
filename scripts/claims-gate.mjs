@@ -486,6 +486,20 @@ const insideKeywordArray = (text, index) => keywordArraySpans(text).some(([a, b]
 // `standart` also softens to `standard` before a vowel. Both stems, any number
 // of suffix letters, then the conformity verb.
 const TRW = "[A-Za-z0-9_çğıîöşüâÇĞİÖŞÜÂÎ]";
+/**
+ * Turkish-aware word boundaries.
+ *
+ * `\b` is ASCII-only in JS: `ü`, `ş`, `ç`, `â` are not `\w`, so `\bünite`
+ * never matches after a space and `sipariş\b` never matches before one.
+ * Measured, not assumed — with `\b` the periodic-volume rule below read
+ * `1000 ünite/gün` as SILENT, which is one of the exact shapes it exists to
+ * catch. Any rule whose boundary sits next to a Turkish letter must use
+ * these instead. Lookbehind is safe here: this script runs in Node only
+ * (the browser-side filter in `src/content/claims.ts` deliberately avoids
+ * it, for a reason recorded there).
+ */
+const NB = `(?<!${TRW})`;
+const NA = `(?!${TRW})`;
 const CONFORMITY_CONTEXT = new RegExp(
   [
     // an attestation is claimed to exist
@@ -738,6 +752,90 @@ const RULES = [
     authority:
       "§D TEAM_SIZE / MACHINE_COUNT / FACILITY_SIZE / REVENUE_OR_ORDER_VOLUME: PRIVATE_DO_NOT_DISCLOSE · §0 DO_NOT_EMPHASIZE_COMPANY_SCALE: YES",
     remedy: "Scale is withheld even where true. Positioning comes from process and measurement, not size.",
+  },
+  {
+    id: "periodic-volume-disclosure",
+    // PHASE 07 CORRECTION #2 — H3. THE CLASS F1 REMOVED HAD NO GATE AT ALL.
+    //
+    // Phase 07's most serious finding was `{ label: "CNC Seri Kapasite",
+    // value: "50.000 adet/yıl" }` and `{ label: "Döküm Kapasite", value:
+    // "500.000 adet/yıl" }` promoted onto a listing surface. The content was
+    // removed and `publishableSpecValues()` now defends the listing by
+    // construction — but a scratch file containing those two pairs, plus
+    // "Seri üretim kapasitelerimiz: CNC seri işleme 1.000-50.000 adet/yıl",
+    // "yılda 50.000 adet üretiyoruz", "aylık 20.000 adet kapasite" and
+    // "günde 1000 ünite", ran through the gate as `0 claim violations`.
+    // Re-adding any of those six lines tomorrow left the build green. The
+    // spelled-out `50 bin adet` was caught by the magnitude alternative above;
+    // no numeric form was caught by anything.
+    //
+    // A content fix with no gate behind it is one commit from regressing
+    // silently, so the class gets its own rule.
+    //
+    // THE CLASS IS A COUNT OVER A PERIOD, not a count. That distinction is the
+    // whole rule and it is the one `USER_INPUTS.md` §D draws:
+    // REVENUE_OR_ORDER_VOLUME is what the company turns over. A minimum or
+    // maximum LOT SIZE — `1 adet`, `10-500 adet`, `1.000 adet` — is a
+    // commercial term a buyer needs in order to self-qualify, it discloses no
+    // volume, and it must keep rendering. So every alternative below requires
+    // a period: as a denominator (`adet/yıl`), as an adverb (`yılda`,
+    // `günde`), or as an adjective (`yıllık`, `aylık`).
+    //
+    // No digit is required. F2's HOLE 2 was exactly a count that is never
+    // written down (`{materialsData.length}+ malzeme`), and `adet/yıl` is a
+    // throughput unit whether or not the number is a literal.
+    //
+    // The COUNT nouns are deliberately identical to `WITHHELD_SPEC_CLASSES[0]`
+    // in `src/content/claims.ts`. Two instruments disagreeing about what a
+    // class is was itself a Phase 07 finding (H6).
+    //
+    // The PERIOD list is the calendar subset of that filter's — yıl, ay,
+    // hafta, gün, vardiya — and deliberately omits `saat`. Measured, not
+    // assumed: with `saat` included this rule fires on
+    // `servicePages.ts:471`, `headers: ["Kavite", "Çevrim/Saat", "Parça/Saat",
+    // …]`, which is a mould's cycle rate sitting next to its cycle count —
+    // a process parameter of exactly the kind §0 PRECISION_ENGINEERING
+    // protects, not a statement about what the company turns over. The chip
+    // filter may be stricter there because it is an ALLOWLIST over one listing
+    // surface whose default is silence; this rule is a hard build failure over
+    // the whole source, and over-removal here costs real published
+    // engineering.
+    //
+    // Written through `trPattern()`, so the Turkish is readable here and the
+    // matching happens against the I-folded text.
+    pattern: trPattern(
+      new RegExp(
+        [
+          // `50.000 adet/yıl`, `adet / yıl`, `adet/ay`, `ünite/gün`,
+          // `1.000-50.000 adet/yıl`, `parti/vardiya`.
+          String.raw`${NB}(?:adet|ünite|parça|birim|palet|parti|sipariş)${TRW}*[ \t]*\/[ \t]*(?:yıl|ay|hafta|gün|vardiya)${NA}`,
+          // `yılda 50.000 adet`, `günde 1000 ünite`, `ayda toplam 20.000 parça`.
+          String.raw`${NB}(?:yılda|ayda|haftada|günde|vardiyada)[ \t]+(?:${TRW}+[ \t]+){0,2}\d[\d.,]*[ \t]?K?[ \t]?\+?[ \t]*(?:adet|ünite|parça|birim|palet|parti|sipariş)${NA}`,
+          // `yıllık 50.000 adet`, `aylık 20.000 adet kapasite`, `günlük 1000 ünite`.
+          String.raw`${NB}(?:yıllık|aylık|haftalık|günlük)[ \t]+(?:${TRW}+[ \t]+){0,2}\d[\d.,]*[ \t]?K?[ \t]?\+?[ \t]*(?:adet|ünite|parça|birim|palet|parti|sipariş)${NA}`,
+          // The same statement with the period trailing: `50.000 adet yıllık
+          // kapasite`, `20.000 parça aylık`.
+          String.raw`${NB}\d[\d.,]*[ \t]?K?[ \t]?\+?[ \t]*(?:adet|ünite|parça|birim|palet|parti|sipariş)${TRW}*[ \t]+(?:yıllık|aylık|haftalık|günlük|yılda|ayda|günde|vardiyada)${NA}`,
+          // The label/value pair, where the period is in the LABEL and the
+          // count in the VALUE — one claim split across two string literals by
+          // construction, the same shape the stock rule above already has to
+          // handle: `{ label: "Yıllık Kapasite", value: "50.000 adet" }`.
+          // The label side carries PERIOD words only, and not `kapasite`:
+          // with `kapasite` on the label side this fires on
+          // `servicePages.ts:63`, `{ label: "Takım Kapasitesi", value:
+          // "30-120 adet (otomatik)" }` — a tool magazine, which is a machine
+          // envelope and not a throughput. `{ label: "Minimum Sipariş",
+          // value: "10-500 adet" }` stays silent for the same reason the whole
+          // rule requires a period: a lot size is not a volume.
+          String.raw`(?:label|title|name|key)[ \t]*:[ \t]*["'\x60][^"'\x60]*(?:yıllık|aylık|haftalık|günlük|${NB}(?:yıl|ay|hafta|gün|vardiya)${NA})[^"'\x60]*["'\x60][ \t]*,[ \t]*(?:value|val|text|desc)[ \t]*:[ \t]*["'\x60][^"'\x60]*${NB}\d[\d.,]*[ \t]?K?[ \t]?\+?[ \t]*(?:adet|ünite|parça|birim|palet|parti|sipariş)${NA}`,
+        ].join("|"),
+        "gi",
+      ),
+    ),
+    authority:
+      "§D REVENUE_OR_ORDER_VOLUME: PRIVATE_DO_NOT_DISCLOSE · §0 DO_NOT_PUBLISH_REVENUE_OR_ORDER_VOLUME: YES · NEVER_PUBLISH_JUST_BECAUSE_KNOWN: YES",
+    remedy:
+      "Throughput over a period is order-volume disclosure and is withheld even where verified. A lot size (`10-500 adet`) is not — it carries no period, and this rule requires one.",
   },
   {
     id: "machine-inventory",
