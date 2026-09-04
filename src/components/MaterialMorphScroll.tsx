@@ -82,13 +82,36 @@ export const MaterialMorphScroll = () => {
     offset: ["start start", "end end"],
   });
 
+  /* PHASE 07 CORRECTION #1 — A7. REDUCED MOTION MUST NOT COST CONTENT.
+     `titleOpacity`, `cardOpacity` and `cardX` were scroll-driven for EVERY
+     reader, including one who has asked for reduced motion. At rest that means
+     `scrollYProgress = 0`, so the whole title overlay and the whole property
+     card sit at `opacity: 0` — measured by
+     `scripts/motion-audit.mjs --mode=rest` on `/malzemeler` at 1280:
+     `hidden=39, hiddenText=12`, the entire card and title.
+
+     `exitOpacity` and `exitScale` two lines down were already gated this way,
+     so this is the file's own established pattern rather than a new one; the
+     three that carry CONTENT were simply the ones nobody had gated. Under
+     reduced motion they are now constant 1 (and 0 travel), which is the
+     "instant state" `CLAUDE.md` requires, not a disabled feature: with motion
+     allowed the choreography is untouched, and `--mode=enabled` is the
+     counter-proof that it still runs. */
   const frameIndex = useTransform(scrollYProgress, [0, 1], [0, TOTAL_FRAMES - 1]);
-  const cardOpacity = useTransform(scrollYProgress, [0.25, 0.32, 0.82, 0.88], [0, 1, 1, 0]);
-  const cardX = useTransform(scrollYProgress, [0.25, 0.35], [60, 0]);
+  const cardOpacity = useTransform(
+    scrollYProgress,
+    [0.25, 0.32, 0.82, 0.88],
+    prefersReduced ? [1, 1, 1, 1] : [0, 1, 1, 0],
+  );
+  const cardX = useTransform(scrollYProgress, [0.25, 0.35], prefersReduced ? [0, 0] : [60, 0]);
   const ringProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const circumference = 2 * Math.PI * 45;
   const ringOffset = useTransform(ringProgress, (v: number) => circumference * (1 - v));
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.05, 0.25, 0.32], [0, 1, 1, 0]);
+  const titleOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.05, 0.25, 0.32],
+    prefersReduced ? [1, 1, 1, 1] : [0, 1, 1, 0],
+  );
   const exitOpacity = useTransform(scrollYProgress, [0.85, 1], prefersReduced ? [1, 1] : [1, 0.15]);
   const exitScale = useTransform(scrollYProgress, [0.85, 1], prefersReduced ? [1, 1] : [1, 0.88]);
 
