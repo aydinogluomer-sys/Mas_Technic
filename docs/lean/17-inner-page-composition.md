@@ -322,6 +322,65 @@ opening band and, where the acceptance criterion names it, the closing RFQ band
 any spec. 768 now matches the `tablet-768` regression project exactly
 (768×1024, touch) so the two lanes describe the same device.
 
+### 8.2 The chat launcher is not page content, and is hidden before capture
+
+The launcher (`ChatBot.tsx`) is `position: fixed`, mounts on every public route
+except `/`, and sits bottom-right — inside the footer crop at every width and
+inside the hero and next-step crops at 375. Scanning all 100 committed goldens
+for its teal (`rgb(10,125,138) ±10`) found it baked into **25**, ten of them
+banked by this phase.
+
+Nothing is wrong with how it looks. The problem is ownership: Phases 09 and 13
+own its visual language, and the day they touch it those goldens go red
+together. The reflex to a mass red is `--update-snapshots`, which
+`IMPLEMENTATION.md` §12 forbids by name. A baseline of a page's content should
+fail when that page's content changes and for no other reason.
+
+`e2e/visual/overlays.ts` hides it with `display: none` before the first
+capture. **Hidden, not masked**, and the difference is load-bearing:
+Playwright's `mask` paints an opaque box, which would also blind the baseline
+to whatever the launcher sits on — permanently, in the exact region where
+content is most likely to be covered by accident. At 375 the launcher
+completely covers five `<td>` glyph line boxes on `/malzemeler`, so that region
+is precisely the one worth keeping under test. `display: none` on a fixed
+element removes it from the paint without moving anything, and the content
+underneath is compared for the first time. **No `maxDiffPixels` changed
+anywhere.**
+
+**What the regeneration was adjudicated on, per viewport, before it happened.**
+23 goldens changed. Decoding every `-expected` / `-actual` pair and locating the
+launcher as the connected region that changed by more than 40/255 in a channel:
+
+| viewport | disc measured | predicted from CSS | strays | brighter / darker | max Δ |
+|---|---|---|---|---|---|
+| 375 | 48×48 at x 311–358 | `h-12 w-12`, `right:1rem` → 375−16−48 = **311** | 188–288 | all / **0** | 1–4 |
+| 768 | 56×56 at x 695–750 | `md:h-14 md:w-14` → 766−16−56 = **694** | 406 | all / **0** | 4 |
+| 1280 | 56×56 at x 1207–1262 | 1278−16−56 = **1206** | 222 | all / **0** | 2 |
+| 1440 | 56×56 at x 1367–1422 | 1438−16−56 = **1366** | 222 | all / **0** | 2 |
+
+The disc lands within a pixel of its CSS geometry at all four widths. The
+strays are a halo ±5–7 px around it reaching ~14–20 px below — the footprint of
+`shadow-lg` (`0 10px 15px -3px`, `0 4px 6px -4px`). Three falsifiable
+predictions were checked rather than asserted: every stray pixel gets
+**brighter** (removing a translucent black shadow can only brighten — 1,250
+strays, **zero** darker, at every viewport), every stray hugs the disc, and the
+largest change anywhere outside the disc is **4/255**.
+
+So every changed pixel in all 23 goldens is the launcher or its shadow, and no
+content pixel moved. The justification was checked **at each width separately**,
+because the Phase 04 precedent is a justification true at 1280/1440 and false at
+375 that silently pinned a regression.
+
+`inner-hero-material-family` @375 is the odd one out and is called out rather
+than averaged in: its crop clips the launcher 11 px down, so the disc is a
+40×11 sliver — 336 changed pixels, 2 strays, max Δ 1.
+
+**No golden moved because of A1 or A7.** This suite ran on the post-A1 /
+post-A7 build, so a `MaterialMorphScroll` change would have surfaced as a
+content-region diff. `/malzemeler`'s only golden is its hero crop; the
+morph-scroll band is further down the page and no golden crops it. Measured,
+not inferred from golden names.
+
 Full-page captures are deliberately avoided on these routes: `/malzemeler`
 mounts a 300vh scroll-driven canvas backed by an 80-frame image sequence, and a
 golden that fails on every copy edit teaches people to run
