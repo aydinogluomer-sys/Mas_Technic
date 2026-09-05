@@ -1,0 +1,142 @@
+QA ROUND 2 — STEP 4: every browser storage key, and every cookie, over every
+public route. This closes round 1's open item 7 — and it does not close the
+way round 1 expected.
+============================================================================
+Raw captures: storage.json (26 routes x 2 regimes + 3 special contexts),
+cookies.json (8 routes with response-level capture).
+
+ROUTE SET — all 26 public route templates in `src/App.tsx`, one concrete URL
+per template, including the landing, all three legal routes, all three auth
+routes, `/teklif-al`, the `/cad-dashboard` redirect alias and a 404.
+`/admin/*` and `/musteri-paneli/*` are out of scope per §N.
+
+A. ONE CONTEXT, ALL 26 ROUTES IN SEQUENCE — final state:
+     cookies : ["__cf_bm"]                     <-- SEE DEFECT R2-2
+     local   : ["mas-technic-theme"]
+     session : ["mas_intro_seen"]
+
+B. A FRESH CONTEXT PER ROUTE — which route writes what, on its own:
+     every one of the 26 routes            localStorage: mas-technic-theme
+     `/`                        ADDITIONALLY sessionStorage: mas_intro_seen
+     `/giris`                   ADDITIONALLY cookie: __cf_bm
+     no other route writes anything else.
+
+C. REDUCED MOTION on `/` (`reducedMotion: "reduce"`), first load AND reload:
+     local: ["mas-technic-theme"]   session: []        cookies: []
+   `mas_intro_seen` is NOT written. The cookie policy's new row says
+   "hareket azaltma açıksa hiç yazılmaz" and that is exactly what happens.
+
+D. THE LANDING, PLAIN:
+     first load  session: ["mas_intro_seen"]
+     after reload session: ["mas_intro_seen"]   (written once, survives reload)
+     a FRESH context loading `/kvkk` directly: session: []  — the script does
+     not write off the landing.
+   Against `index.html:294-316`: `var onLanding = location.pathname === "/" ||
+   location.pathname === "/index.html"; if (seen || reduced || !onLanding)
+   return; sessionStorage.setItem(KEY, "1")`. Every one of the row's four
+   claims — store, purpose, "only on the home page / not under reduced
+   motion", "until the tab closes" — is exactly what the source does and what
+   the browser shows. D4 IS CORRECTLY FIXED.
+
+SO: `mas_intro_seen` IS the only unlisted LOCAL/SESSION key, and it is now
+listed. Madde 01's completeness claim, read as a claim about localStorage and
+sessionStorage, is TRUE as of b77be5c. That half of round 1's open item is
+closed clean.
+
+=============================================================================
+DEFECT R2-2 (BLOCKING) — `/giris` LOADS hCAPTCHA, WHICH SETS A COOKIE AND IS
+EMBEDDED THIRD-PARTY CONTENT. FOUR PUBLISHED ABSOLUTE CLAIMS ARE FALSE.
+=============================================================================
+MEASURED (cookies.json, fresh context, plain page load of `/giris`, no
+interaction, 2.5 s settle):
+
+  cookie   __cf_bm
+    domain   .hcaptcha.com
+    path     /
+    httpOnly true    secure true    sameSite None
+    lifetime 30 minutes
+
+  third-party hosts contacted on `/giris`:
+    fonts.googleapis.com          (disclosed)
+    fonts.gstatic.com             (disclosed)
+    js.hcaptcha.com               NOT DISCLOSED
+    newassets.hcaptcha.com        NOT DISCLOSED  (the widget iframe host)
+    5415eb02f24b.w.hcaptcha.com   NOT DISCLOSED
+    d2ce14801451.w.hcaptcha.com   NOT DISCLOSED
+
+  Every other route measured (`/`, `/kvkk`, `/cerez-politikasi`,
+  `/malzemeler`, `/teklif-al`, `/sifremi-unuttum`, `/reset-password`)
+  contacts only the two font hosts and creates zero cookies.
+
+SOURCE: `src/pages/Login.tsx:3` imports `@hcaptcha/react-hcaptcha`, `:30`
+holds a hardcoded `HCAPTCHA_SITE_KEY`, `:230` renders `<HCaptcha>` inside the
+form. It mounts with the page — no interaction is required to make the
+requests or set the cookie.
+
+`/giris` IS A PUBLIC PAGE. The repository's own contract says so:
+`e2e/shared-shell-accessibility.spec.ts` names it in `NON_SHELL_PUBLIC_ROUTES`.
+
+THE FOUR FALSE SENTENCES, quoted from the rendered DOM:
+
+  /cerez-politikasi madde 01
+    "Herkese açık sayfalarda hiçbir çerez oluşturulmuyor."
+    FALSE. A cookie is created on a public page.
+    (The second sentence of the same clause — no ad cookie, no analytics
+     cookie, no tag manager, no ad pixel, no session-recording software —
+     SURVIVES: `__cf_bm` is a bot-management cookie and is none of those.)
+
+  /cerez-politikasi madde 03
+    "Üçüncü tarafa giden ikinci ve son istek sohbet asistanınındır."
+    FALSE. There is a third destination, and unlike the chat it needs no
+    consent and fires on page load.
+
+  /gizlilik-politikasi madde 03
+    "Site çerez kullanmaz."
+    FALSE, as an absolute claim over "herkese açık sayfalar", which madde 01
+    is the declared scope of.
+
+  /gizlilik-politikasi madde 05
+    "Bunun dışında sayfalarda gömülü üçüncü taraf içerik, reklam veya sosyal
+     medya bileşeni bulunmaz." and
+    "Bir istisna var ve kendi maddesini hak ediyor: sohbet asistanına ..."
+    FALSE. hCaptcha is embedded third-party content — a widget iframe served
+    from `newassets.hcaptcha.com` — and it is a second exception, not the
+    only one.
+
+AND ONE MORE, in the document C3 just corrected:
+  /kvkk madde 04 now says "Aktarım üç hâlde olur". Loading `/giris` sends the
+  visitor's IP and browser data to Intuition Machines' hCaptcha endpoints.
+  That is a fourth case, in a list that was just closed at three. The defect
+  class C3 fixed is still present one third party over.
+
+ATTRIBUTION — the cause is old, the CLAIMS are Phase 08's:
+  `git show 7dcfb65~1:src/pages/CerezPolitikasi.tsx` says the OPPOSITE:
+  "Zorunlu çerezler, performans çerezleri ve analitik çerezler
+  kullanmaktayız." Phase 08 (`36c3980`) replaced that false statement with a
+  different false statement — an absolute denial. `Login.tsx`'s hCaptcha
+  predates Phase 08 and is untouched by it. So Phase 08 did not create the
+  cookie; it published four absolute claims that were false on the day they
+  shipped, in the two documents whose subject is exactly this.
+  IMPLEMENTATION.md §13 and §1.3 are the C3 packet's own REQUIREMENT_IDS.
+
+I ALSO HAVE TO CORRECT MYSELF. Round 1 wrote: "No undisclosed third-party
+transfer exists: the only outbound hosts reachable from a visitor's browser
+are fonts.googleapis.com / fonts.gstatic.com and the Gemini endpoint." That
+was wrong, and it was wrong for the reason round 1 itself flagged as an open
+item — I measured six routes and none of them was `/giris`. Four hCaptcha
+hosts were reachable the whole time.
+
+SMALLEST FIX (QA does not choose, and does not edit production):
+  Both documents are Phase 08 files and both are in the correction surface.
+  Either (a) disclose hCaptcha where the fonts CDN is already disclosed —
+  `/cerez-politikasi` madde 03, `/gizlilik-politikasi` madde 05, `/kvkk`
+  madde 04's enumeration, plus a `__cf_bm` row in the storage table with its
+  30-minute lifetime — or (b) scope the absolute sentences to the routes they
+  are true of. (a) is the honest one and matches how the fonts CDN and Gemini
+  are already handled. Removing hCaptcha is a security decision that belongs
+  to Phase 09's RFQ/auth work, not to a legal-copy correction.
+
+A GATE FOR IT: `e2e/qa-p08-storage-disclosure.spec.ts` (this round) already
+fails on this — see STEP5-gate.txt. It was written to catch an unlisted
+STORAGE key and it caught an undisclosed cookie on the first run, which is
+the only kind of evidence that a new gate is worth having.
