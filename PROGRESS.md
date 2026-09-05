@@ -69,6 +69,7 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | A20 | 08 | D5 (unbranded CAD-parse and form errors) is accepted as CARRIED to Phase 09 — on the plan's authority, not on the write-allowlist claim QA declined to accept. | The literal claim in `docs/lean/18-document-surfaces.md:162-165` ("Phase 09 owns it and Phase 08 may not edit it") is **unverifiable**: subagent packets were never persisted to disk, so nothing in the repository records that allowlist. The substantive claim is verifiable and true — IMPLEMENTATION.md §7 PHASE 09 names the file (“Decompose oversized `TeklifAl.tsx`”) and names these exact states (“Handle timeout/network/upload/parse failures”, “Client validation with accessible field errors”). Phase 08's own mandatory task also names “CAD parse error, form error”, so this is a **plan overlap**, not a Phase 08 evasion. Branding a toast inside a 1540-line file Phase 09 will decompose is the same work twice plus a merge conflict with the decomposition. Phase 09 therefore inherits a hard requirement: wire `ShellNotice tone="error"` — built by `7dcfb65`, used **zero** times in `src/` — to both states. The doc sentence should be re-pointed at §7 PHASE 09 rather than at an uncitable packet. |
 | A21 | 08 | D6: criterion 3's five failing routes are two Phase 09 routes plus three genuinely unowned auth routes; all five attach to Phase 09, which is split 09a/09b. | `/teklif-al` is Phase 09's by §7. `/cad-dashboard` is not a fifth problem — `src/components/navigation/ia.ts` records it as “Redirect alias for /teklif-al, not a destination of its own”, which is why QA measured byte-identical symptoms on both (16 teal, 3 Radix, 1 shell primitive); fixing one fixes the other. That leaves `/giris`, `/sifremi-unuttum`, `/reset-password`, named by no phase. The run brief requires Phase 09 to be halved regardless (Phase 05 §10 precedent, which bought a correction round), so they attach to **09b**, beside the form primitives 09a builds. Scope constraint recorded now so 09b does not overreach: all four are `NON_SHELL_PUBLIC_ROUTES` (`e2e/shared-shell-accessibility.spec.ts:83-88`) and `:334` asserts 95 full-shell + 4 non-shell = 99. Criterion 3 asks for the design **language**, not the shell chrome; migrating them into the shell would re-derive that 99/95 contract and is not what the criterion requires. |
 | A22 | 08 | Four forgotten `vite preview` servers (ports 4173, 4187, 4190, 4191; started 03–05 Sep by agents that are long dead) were stopped during C3 integration. No worktree, branch or file was touched. | Same class as A13 (stale worktrees) — environment hygiene rather than a product decision, and this time it was blocking: `reuseExistingServer` on the default port 4173 makes a suite silently test **another worktree's `dist`**, which is a wrong measurement that looks like a right one. They were identified by port with `Get-NetTCPConnection` rather than by guessing at process names, and a preview server is restored by re-running `npm run preview`. The 8 GB box is genuinely short as well: a cold `npm run build` in the primary checkout died with `write ENOMEM` at ~1 GB free while they were up. Recorded because stopping a process is a side effect on the user's machine, however small. |
+| A23 | 08 | `e2e/landing/motion-grammar.spec.ts:254`, red at `tablet-768` and `landscape-844`, is recorded as a PRE-EXISTING failure carried to **Phase 10** rather than fixed in a Phase 08 correction round. | QA proved it pre-existing rather than asserting it: `git log 7dcfb65~1..b77be5c` over both `src/styles/technical-landing.css` and the spec is **empty** — no Phase 08 commit, C3 included, touched either file. The cause is a breakpoint/pointer mismatch: the test branches on `(hover:hover) and (pointer:fine)` and both projects set `mobile: true`, while the rule that removes `.tl-dimension-lines` is `@media (max-width:767px)` (`technical-landing.css:507`), so a hover-only affordance paints on a coarse pointer at 768 and 844. It went unseen because this run had never exercised those two viewports. Fixing it removes the lines at 768 and therefore **changes landing goldens** — landing responsive art direction, which Phase 10 owns, not a legal-page correction packet. Precedent for carrying a pre-existing red across a phase close is in this table's own history (Phase 02 "1 pre-existing fail", Phase 03 "4 pre-existing page-debt fails"). |
 
 ## Phase notes
 
@@ -1345,9 +1346,56 @@ state.
 `installFontRetry()` failed three times (once each at 375, 768, 1440), all clean on isolated re-run — a higher
 flake rate than the C3 Coder saw, and another input to the Phase 12 decision to self-host the three families.
 
-**Still open in round 2:** step 5's regression backlog, step 6's permanent storage gate, and step 7 — the
-`hiçbir yapay zekâ servisine gönderilmez` trace against `finance-ai` / `ocr-invoice` / `parasut-sync`, which is
-still fully unresolved and could be a second blocker.
+#### QA round 2 returned — FAIL, on two defects C3 was never asked to touch
 
-**Next action:** await the resumed QA return, then send C4 (the cookie-table clipping plus the two false
-comment claims) and re-run. Phase 09 is scoped as 09a/09b per A21 once Phase 08 closes.
+Nine QA commits cherry-picked as `e676ef2..a5e4e7d`; scope audited first and clean (`reports/qa/**` and
+`e2e/qa-p08-storage-disclosure.spec.ts` only, no production file). 1155 passed / 6 failed / 526 skipped; three
+of the six failures are the one `installFontRetry()` fixture flake, clean on isolated re-run.
+
+**All four C3 fixes verified.** D1, D2, D3, D4 confirmed at the measurements above. The phase fails on
+different ground.
+
+**R2-2 — the heaviest finding of the whole phase, and QA found it by correcting itself.** `/giris` mounts
+hCaptcha on page load (`Login.tsx:230`, no interaction required), which sets `__cf_bm` on `.hcaptcha.com` and
+`.w.hcaptcha.com` (30-minute lifetime) and contacts four `hcaptcha.com` hosts. `/giris` is public by the
+repository's own contract. **Five published sentences deny it**, and Phase 08 wrote all five in `36c3980`:
+`/cerez-politikasi` madde 01 "Herkese açık sayfalarda hiçbir çerez oluşturulmuyor" and madde 03 "üçüncü tarafa
+giden **ikinci ve son** istek"; `/gizlilik-politikasi` madde 03 "Site çerez kullanmaz" and madde 05 "gömülü
+üçüncü taraf içerik … bulunmaz"; and `/kvkk` madde 04, which C3 just closed at "üç hâl" — the same closed-list
+defect class as D3, one third party over. Round 1 had asserted "no undisclosed third-party transfer exists";
+QA retracted that in writing, naming the reason — it had measured six routes and none of them was `/giris`.
+That is the run's own open-item discipline catching a real miss, and it is why round 1's open list was worth
+carrying.
+
+**R2-1 — a legal page unreadable on a phone.** As recorded above, and now with a screenshot
+(`r2/shots/cerez-viewport-375.png`). Orchestrator-verified at source that the primitive is innocent.
+
+**R2-3 — pre-existing, carried to Phase 10 (A23).** Not Phase 08's, proven by an empty `git log` over both
+files across every phase commit.
+
+**Round 1's open list is closed.** `mas_intro_seen` was the last unlisted local/session key: 26 route
+templates, fresh context per route plus one accumulating context, every route writes `mas-technic-theme`, only
+`/` adds `mas_intro_seen`, and under `reducedMotion: "reduce"` it is not written at all — matching
+`index.html:294-316` claim for claim. So madde 01's completeness sentence is TRUE about local and session
+storage; it is the **cookie** half of the same clause that fails. The full `desktop-1280` regression, the seven
+remaining viewports, cross-browser smoke and contrast at 375 all ran.
+
+**The RFQ / AI claim is TRUE as written** — the check I asked for before Phase 09 scopes privacy. An RFQ writes
+one `rfqs` row via `rfq-rate-limit` and one `cad-uploads` object; the three AI/sync `functions.invoke` sites
+live in one admin file that never reads either; `rfqs` and `cad-uploads` appear in none of `finance-ai`,
+`ocr-invoice`, `parasut-sync`, `due-date-reminder`; the single scheduled `net.http_post` is a daily empty-body
+call and no trigger exists on `rfqs`. **Caveat to carry into Phase 09b:** `finance-ai`'s `documents` array is
+caller-supplied and unvalidated, so the guarantee is held by one call site rather than by a constraint.
+
+**Both carried criteria re-measured with round 1's own probes and neither got worse** (teal 16/92/16, shell
+primitives 1/0/0/0/1; the CAD error still a white 8 px system-font toast).
+
+**C4 dispatched** to `wt/coder-p08c4` at `a5e4e7d`, packet at `.work/packets/phase-08-C4.md`: R2-1, R2-2, the
+`FAMILY_RESOURCES` label-keying bug QA found (keyed by label while its comment claims route, so a rename in
+`ia.ts` would drop a published route from the footer to **zero** appearances), the two false comment claims C3
+added, and two smaller legal-text tensions. `Login.tsx` is DO_NOT_TOUCH — whether the login form should carry
+hCaptcha is Phase 09's security decision, not a disclosure decision. `src/styles/shell.css` is a conditional
+grant, reachable only with a measurement that rules out the call-site fix.
+
+**Next action:** review C4 at source, then QA round 3. Phase 09 is scoped as 09a/09b per A21 once Phase 08
+closes.
