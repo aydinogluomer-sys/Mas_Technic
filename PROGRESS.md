@@ -65,6 +65,9 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | A16 | 08 | "Rework Quality/Resources into real technical-document/evidence surfaces" is satisfied by `/kalite-dosyasi` presenting the four §H PDFs as a document register with their measured file sizes, rather than by asserting certifications. | The repo can substantiate the documents themselves — they exist in `public/` — but not any certification claim about them. Publishing the register is evidence; publishing a claim about scope of certification would be invention. `DEFAULT_FACT_VISIBILITY: INTERNAL_ONLY_UNLESS_PUBLIC_OK` also bars restating anything in them that §D holds private. |
 | A17 | 08 | The legal pages now disclose that chat messages are transferred to Google (`generativelanguage.googleapis.com`) although `USER_INPUTS.md` contains **no field** for AI, processors or third parties. | The transfer is a fact of the shipped code (`supabase/functions/chat/index.ts`), not a fact supplied by the user, so the publication policy does not gate it — a privacy page that omits a transfer the code performs is false, and §13 forbids that. The disclosure is confined to what the code proves (when the request is made, what is sent, what is not forwarded, that nothing reaches the database) and deliberately asserts **nothing** about Google's retention, training or handling, which is unknowable from this repo. |
 | A18 | 08 | QA copied the primary checkout's gitignored `.env` into the `wt/qa-p08` worktree and rebuilt before measuring anything. | A worktree has no `.env`, and without one every route renders the top-level error boundary — so a QA agent that did not notice would have measured an error page and reported it as the site. The file was **not** committed and the worktree is throwaway, so no secret enters git. Same class as A04 (`node_modules` junction): worktree setup, not a product decision. Any future worktree-based QA must do the same.
+| A19 | 08 | Correction packet C3 extends the A14 grant: `mas-coder` may edit `e2e/visual/radius-census.ts` (the `lines` field of one `RADIUS_SOURCES` entry), `e2e/__golden__/**` (only baselines whose diff the footer change explains) and comment prose in `e2e/technical-landing.spec.ts`. | §3.3 permits a phase task to give the Coder ownership, and D2 forces it: the register's SOURCE column is **generated** from `RADIUS_SOURCES` (`radius-census.ts:194`), not parsed from the document, so the doc cell and the code constant are one contract living in two files — repairing either alone turns the sibling test red. QA's stated fix ("a one-line citation update in `docs/lean/17`") is incomplete for that reason; the packet says so and tells the Coder to verify it before editing. The golden grant is A14 continued for the same footer. The `technical-landing.spec.ts` grant is prose-only and conditional: every executable line, `0.26` included, byte-identical, proven with `git diff -U0`. |
+| A20 | 08 | D5 (unbranded CAD-parse and form errors) is accepted as CARRIED to Phase 09 — on the plan's authority, not on the write-allowlist claim QA declined to accept. | The literal claim in `docs/lean/18-document-surfaces.md:162-165` ("Phase 09 owns it and Phase 08 may not edit it") is **unverifiable**: subagent packets were never persisted to disk, so nothing in the repository records that allowlist. The substantive claim is verifiable and true — IMPLEMENTATION.md §7 PHASE 09 names the file (“Decompose oversized `TeklifAl.tsx`”) and names these exact states (“Handle timeout/network/upload/parse failures”, “Client validation with accessible field errors”). Phase 08's own mandatory task also names “CAD parse error, form error”, so this is a **plan overlap**, not a Phase 08 evasion. Branding a toast inside a 1540-line file Phase 09 will decompose is the same work twice plus a merge conflict with the decomposition. Phase 09 therefore inherits a hard requirement: wire `ShellNotice tone="error"` — built by `7dcfb65`, used **zero** times in `src/` — to both states. The doc sentence should be re-pointed at §7 PHASE 09 rather than at an uncitable packet. |
+| A21 | 08 | D6: criterion 3's five failing routes are two Phase 09 routes plus three genuinely unowned auth routes; all five attach to Phase 09, which is split 09a/09b. | `/teklif-al` is Phase 09's by §7. `/cad-dashboard` is not a fifth problem — `src/components/navigation/ia.ts` records it as “Redirect alias for /teklif-al, not a destination of its own”, which is why QA measured byte-identical symptoms on both (16 teal, 3 Radix, 1 shell primitive); fixing one fixes the other. That leaves `/giris`, `/sifremi-unuttum`, `/reset-password`, named by no phase. The run brief requires Phase 09 to be halved regardless (Phase 05 §10 precedent, which bought a correction round), so they attach to **09b**, beside the form primitives 09a builds. Scope constraint recorded now so 09b does not overreach: all four are `NON_SHELL_PUBLIC_ROUTES` (`e2e/shared-shell-accessibility.spec.ts:83-88`) and `:334` asserts 95 full-shell + 4 non-shell = 99. Criterion 3 asks for the design **language**, not the shell chrome; migrating them into the shell would re-derive that 99/95 contract and is not what the criterion requires. |
 
 ## Phase notes
 
@@ -1181,5 +1184,54 @@ the top-level error boundary — a QA agent that did not notice would have measu
 as the site. QA copied the main repo's `.env` in, gitignored and **not** committed, and rebuilt; every
 measurement above is post-rebuild. Any future worktree-based QA must do the same.
 
-**Next action when the run resumes:** correction packet C3 to `mas-coder` for D1–D4, then QA round 2. D5 and D6
-are Orchestrator calls that do not block the packet.
+#### Correction round C3 — dispatched 2026-09-05T07:37Z
+
+**QA round 1 integrated first.** `88a4fa7` was still sitting on `wt/qa-p08` and had never been cherry-picked,
+so the Coder would have based C3 on a tree without QA's 46-test contract spec or its probes. Scope inspected
+before picking: 49 files, `e2e/qa-p08-waveb-contract.spec.ts` and `reports/qa/phase-08/**` only, no production
+code — clean under §3.3. Cherry-picked as **`aae3536`**, now the integration HEAD and the C3 base commit.
+
+**Worktree.** Reused the existing `C:\Users\Trade Bilisim\pdh-wt\coder-p08` (clean, `node_modules` junction,
+`.env` present), branch `wt/coder-p08c3` created at `97dab55` and fast-forwarded to `aae3536`. **No worktree
+was deleted**, and `wt/coder-p08c2` still points at `ed427b7`. Packet persisted to
+`.work/packets/phase-08-C3.md` so it survives an agent death — the Phase 08 packets were not, which is exactly
+why A20 could not be settled on its own terms.
+
+**Packet scope:** D1–D4 only. D5 and D6 are settled above (A20, A21) and were deliberately kept out of it.
+
+**Two Orchestrator corrections to QA's stated fixes, both verified at source before the packet went out.**
+
+- **D2 is a two-file contract, not a one-line doc edit.** `foldRegister` (`e2e/visual/radius-census.ts:194`)
+  builds each register row's SOURCE cell as `` `${basename(source.file)}:${source.lines}` `` — from
+  `RADIUS_SOURCES`, not from the markdown — and the sibling test asserts the rendered rows `toEqual` the table
+  parsed out of the document. Editing `docs/lean/17:137` alone would have turned *that* test red and produced a
+  second correction round. Two further citations in the same document have drifted the same way
+  (`ChatBot.tsx:276-346` → the in-panel radii are now at `:345,:357,:369,:395,:428,:434`), and one claim in it
+  is now flatly false: `docs/lean/17` says `ChatBot.tsx` is byte-identical to blob `7a5daf0` at the Phase 06
+  close, but `git hash-object src/components/ChatBot.tsx` is `44d9bafc…`. `CustomCursor.tsx` is still
+  `98e64abf…`, so only half the sentence rotted. Four repairs, not one.
+- **D1: the Phase 04 comment's "~9 rows" estimate is the part that is wrong, not the bound.** The same comment
+  states headroom over the measured value as 11%; 11% of 298 px is 34.8 px, i.e. **~1.5 link rows** at the
+  ~22.5 px pitch implied by 45 px / 2 rows. From a 6-row column the guard therefore trips at **8** rows, which
+  is exactly what happened. So the earlier note in this file — "the first question is whether the footer map can
+  absorb two more links without any column passing 9 rows" — asks the wrong question: 9 rows was never
+  reachable. The packet hands the Coder the arithmetic and forbids raising `0.26`, and requires `BLOCKED` with
+  measurements rather than a re-derived constant if nothing defensible fits under 332.8 px.
+
+**A blast radius the packet closes off.** `src/components/navigation/ia.ts` is DO_NOT_TOUCH for D1, because
+`resourceLinks` is also read by `NavDirectory.tsx:50-53` — which prints `resourceLinks.length` as the
+fullscreen menu's zero-padded index — and by `NotFound.tsx:150,164`, whose 8-entry directory is QA's own
+criterion-1 evidence. Removing an entry there would silently edit the menu and the 404. The fix locus is
+`src/components/shell/footer-groups.ts`: how the footer composes four columns, not what the IA publishes.
+
+**Footer row counts counted from source at `aae3536`** (the packet's input, to be falsified by measurement):
+HİZMETLER 5, KABİLİYETLER 5, ENDÜSTRİYEL 6, KURUMSAL 6 → **8**. The band is as tall as its tallest column, and
+298 px → 342 px matches 2 rows at ~22.5 px. ENDÜSTRİYEL at 6 cannot absorb anything without becoming the new
+tallest.
+
+**Still relayed, not independently confirmed:** the `0.2671875` figure is QA's, from three identical runs; the
+Orchestrator has not re-run `critical-1280`. The packet requires the Coder to measure it directly, and QA
+round 2 will re-measure it a third time.
+
+**Next action:** await the C3 return, review the diff and the measurements at source (not the summary), then
+QA round 2. Phase 09 is scoped as 09a/09b per A21 once Phase 08 closes.
