@@ -264,10 +264,27 @@ test.describe("technical editorial landing phase 1", () => {
     // THE ASSERTION IS NOT WEAKENED, it is re-aimed at the same failure it
     // always guarded against — a footer that stops being a title block:
     //   · the mega footer this replaced would read 1.09 here;
-    //   · a fifth nav column, or a link column growing past ~9 rows, or the
+    //   · a fifth nav column, or a link column REACHING 8 ROWS, or the
     //     conversion rule wrapping to two rows at desktop, each pushes past
     //     0.26 (headroom over the measured value is 11%, tighter than the
     //     0.17 bound's own 2% headroom over 0.1666 was).
+    //
+    // THE 8-ROW FIGURE IS MEASURED. An earlier version of this comment said
+    // "growing past ~9 rows"; that was an unmeasured illustration and it
+    // overstated the room by about a row. It was also contradicted by the 11%
+    // figure on the line above it: 11% of 298px is 34.8px, which is 1.5 row
+    // pitches, not three. Phase 08 put a column at 8 rows and this assertion
+    // went red, which is how the estimate got checked.
+    //
+    // The arithmetic, at 1280, all of it measured rather than divided: the
+    // band is as tall as its TALLEST nav column, the row pitch is 22.50px
+    // (the delta between two consecutive link tops, the same in all four
+    // columns and at 375/768/1280/1440), and the ceiling is 0.26 x 1280 =
+    // 332.8px. From the 6-row column that ships today: 7 rows measures
+    // 319.50px / 0.2496 and still passes, 8 rows measures 342px / 0.2672 and
+    // does not. So there is exactly one row of headroom, and the number is
+    // recorded next to the thing that spends it, in
+    // `src/components/shell/footer-groups.ts`.
     expect(footer.bantOrani).toBeLessThan(0.26);
     // Nav sütunu marka sütunu genişlerse kaymamalı.
     //
