@@ -70,6 +70,7 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | A21 | 08 | D6: criterion 3's five failing routes are two Phase 09 routes plus three genuinely unowned auth routes; all five attach to Phase 09, which is split 09a/09b. | `/teklif-al` is Phase 09's by §7. `/cad-dashboard` is not a fifth problem — `src/components/navigation/ia.ts` records it as “Redirect alias for /teklif-al, not a destination of its own”, which is why QA measured byte-identical symptoms on both (16 teal, 3 Radix, 1 shell primitive); fixing one fixes the other. That leaves `/giris`, `/sifremi-unuttum`, `/reset-password`, named by no phase. The run brief requires Phase 09 to be halved regardless (Phase 05 §10 precedent, which bought a correction round), so they attach to **09b**, beside the form primitives 09a builds. Scope constraint recorded now so 09b does not overreach: all four are `NON_SHELL_PUBLIC_ROUTES` (`e2e/shared-shell-accessibility.spec.ts:83-88`) and `:334` asserts 95 full-shell + 4 non-shell = 99. Criterion 3 asks for the design **language**, not the shell chrome; migrating them into the shell would re-derive that 99/95 contract and is not what the criterion requires. |
 | A22 | 08 | Four forgotten `vite preview` servers (ports 4173, 4187, 4190, 4191; started 03–05 Sep by agents that are long dead) were stopped during C3 integration. No worktree, branch or file was touched. | Same class as A13 (stale worktrees) — environment hygiene rather than a product decision, and this time it was blocking: `reuseExistingServer` on the default port 4173 makes a suite silently test **another worktree's `dist`**, which is a wrong measurement that looks like a right one. They were identified by port with `Get-NetTCPConnection` rather than by guessing at process names, and a preview server is restored by re-running `npm run preview`. The 8 GB box is genuinely short as well: a cold `npm run build` in the primary checkout died with `write ENOMEM` at ~1 GB free while they were up. Recorded because stopping a process is a side effect on the user's machine, however small. |
 | A23 | 08 | `e2e/landing/motion-grammar.spec.ts:254`, red at `tablet-768` and `landscape-844`, is recorded as a PRE-EXISTING failure carried to **Phase 10** rather than fixed in a Phase 08 correction round. | QA proved it pre-existing rather than asserting it: `git log 7dcfb65~1..b77be5c` over both `src/styles/technical-landing.css` and the spec is **empty** — no Phase 08 commit, C3 included, touched either file. The cause is a breakpoint/pointer mismatch: the test branches on `(hover:hover) and (pointer:fine)` and both projects set `mobile: true`, while the rule that removes `.tl-dimension-lines` is `@media (max-width:767px)` (`technical-landing.css:507`), so a hover-only affordance paints on a coarse pointer at 768 and 844. It went unseen because this run had never exercised those two viewports. Fixing it removes the lines at 768 and therefore **changes landing goldens** — landing responsive art direction, which Phase 10 owns, not a legal-page correction packet. Precedent for carrying a pre-existing red across a phase close is in this table's own history (Phase 02 "1 pre-existing fail", Phase 03 "4 pre-existing page-debt fails"). |
+| A24 | 08 | `e2e/qa-p08-storage-disclosure.spec.ts` test 3 is **re-aimed** by QA in round 3 — from "no cookie is created on any public route" to "every cookie observed on any public route is covered by the published disclosure" — rather than left permanently red or made green by touching `Login.tsx`. | The assertion `expect(cookies).toEqual([])` encoded a **published claim**, and it did its job: it held `/cerez-politikasi` to its word and it is how R2-2 surfaced. That claim has now been retired *because it was false*, and the document discloses one cookie with its attributes instead. The assertion therefore no longer corresponds to anything the site asserts — it now fails on a **correctly disclosed** cookie, which is not a defect. This is the Phase 04 re-aiming shape, not a weakening: the JOB changed. The new assertion is strictly stronger for the purpose the gate exists to serve — it goes red the day an undisclosed cookie appears, which the old one could not distinguish from the disclosed one — and it is immune to the variance C4 measured, where `.w.hcaptcha.com`'s ephemeral worker hostname produced **two** `__cf_bm` entries in one run and **one** in another, so any count-based assertion would flake. The Coder was right to refuse all three green paths available to it (removing hCaptcha = DO_NOT_TOUCH and Phase 09's security call; editing QA's test = forbidden to the Coder; blocking `hcaptcha.com` at the network layer = a test that lies) and to return PARTIAL instead. Leaving it red was the remaining option and is rejected: this run gates phase closure on suites being green, so a permanently expected-red test would both block Phase 08 forever and corrode the discipline every other gate depends on. The visibility it was preserving belongs in this file and in the Phase 09 packet, which is where hCaptcha's fate is recorded. Both existing negative controls must be extended to the new assertion, and QA must write the reasoning into the file the way Phase 04 wrote its own. |
 
 ## Phase notes
 
@@ -1407,5 +1408,71 @@ against the same packet. Persisting packets to `.work/packets/` is what makes th
 which is the second time that habit has paid since A20 identified its absence. One orphaned preview server the
 stopped agent left on port 4187 was cleared first, same class as A22.
 
-**Next action:** review C4 at source, then QA round 3. Phase 09 is scoped as 09a/09b per A21 once Phase 08
-closes.
+#### C4 returned PARTIAL and was integrated — three premises falsified, two of them QA's
+
+Three commits cherry-picked as `6981a4d`, `3e2f7dc`, `c79147b`. Scope clean: five files, no `Login.tsx`, no
+`shell.css`, no `ia.ts`, no golden touched (`git diff --name-only … -- e2e/__golden__` is empty), only the two
+`.tsbuildinfo` artifacts left alone in the working tree. Verified independently on a **fresh build** of the
+integrated state: `critical-1280` 15/15.
+
+**My "smallest fix is one class" premise was wrong, and both candidate classes were measured inert.**
+`.shell-doc-section-body` computes `display: block`, so `grid-column` on a child does nothing —
+`shell-span-read` leaves the figure at 585.88px at every width, and `shell-doc-table` is `margin-top` only. The
+real cause is subtler than QA's diagnosis too: `div.shell-stack` is correctly sized (278 / 333 / 348px); the
+585.875px is its **implicit grid track**. `.shell-stack` sets `min-width: 0` on itself but **not on its
+items**, so `figure.shell-table` kept `min-width: auto` and the single `auto` track could not size below the
+figure's min-content — and *this* table's min-content is 585.875px because its key column carries unbreakable
+tokens like `mas_pending_cad_upload`. The other seven `ShellSpecTable` figures share the identical wrapper and
+survive only because their own min-content happens to fit. Fixed by dropping the grid at the call site, in
+`BlogDetail.tsx:199`'s shape — the one call site that already had it right. Measured after: scroll region with
+`tabindex="0"`, `role="group"` and an `aria-label`, **24 of 24 cells reachable** at 320/375/390 by real touch
+drag and by `End`; 768/1280/1440 identical to before, digit for digit. The better long-term fix
+(`.shell-stack > * { min-width: 0 }`) is named in the code comment for whoever owns that call.
+
+**The carried lesson is now written next to the fix.** `documentElement.scrollWidth − clientWidth <= 1`
+measured **0** at all three widths while three of four columns were unreachable, because `div.shell-root`
+computes `overflow-x: clip` — which, unlike `hidden`, is not programmatically scrollable either. Neither the
+reflow guard nor axe can see this class. The Coder names the test that could and where it belongs
+(`e2e/landing/shell-cascade-contract.spec.ts`, whose "scrollable regions stay keyboard reachable" lane passed
+here for the wrong reason). That is QA's to write.
+
+**R2-2 was bigger than the packet said: eight false sentences, not five.** The Coder found three more — the
+page lede, the clause-01 title, and the `metaDescription`. The last is the one worth keeping: a page that
+repairs its body and keeps a lying meta description still lies in a search result. hCaptcha is disclosed
+following the font-CDN precedent — cookie attributes in the cookie clause, the request in the clause that
+enumerates outbound requests, the transfer in the document whose statutory job is transfers. `__cf_bm` is
+deliberately **not** a row in madde 02, because that table is titled "Yerel depo kayıtları" and its own note
+says these records are not cookies and are readable only by this site's pages; `__cf_bm` is the opposite on
+both counts. Orchestrator adversarial scan of all three files: no retention, deletion, training, encryption,
+NDA or security-posture claim; the aktarım clause no longer carries a numeral at all, so it cannot go stale
+again; no cross-route `#` link.
+
+**QA's rename trigger does not reproduce, and a test written against it would have gone green over a live
+bug.** `footerGroups` passed `family("Kabiliyetler")` as its own string literal, so an `ia.ts` rename never
+reached the map; all it did was empty the column of its five categories. The edit that actually zeroes the link
+is the *next* one — updating the map key to follow the rename, which is what a careful maintainer does. The
+defect was real and the fix is right; the reported trigger was not. Now keyed by route, with both sides of the
+split decided by one `adoptingColumn()` function rather than two expressions that could disagree.
+
+**QA's "≥1024" boundary was also wrong.** Measured `grid-template-rows`: 768/1024/1100/1180 are all
+`150px 150px`, **1181** is `150px`. The switch is `--tl-cols` 12→6 at `@media (max-width:1180px)`
+(`design-tokens.css:160`) — not a footer rule at all. Ratios 1180 → 0.6072, 1181 → 0.2515. Also recorded: the
+375 rendering is an **accordion**, so closed there is no link pitch at all, and opened the deltas are 40px
+inside a panel and 105px across a panel boundary.
+
+**The one thing C4 could not do, and the decision it forced — A24.** `qa-p08-storage-disclosure.spec.ts` test 3
+stays red, and the Coder returned PARTIAL rather than reach for any of the three green paths, all of which
+would have broken something (removing hCaptcha, editing QA's test, or blocking `hcaptcha.com` — "a test that
+lies"). Orchestrator-confirmed on the integrated state: 5 passed, 1 failed, and **both negative controls
+pass**, so the checker itself is sound. The test is re-aimed by QA in round 3 per **A24**; the reasoning is
+recorded there and it is the Phase 04 shape, not a weakening.
+
+**Still open, carried:** `/cerez-politikasi` madde 04 still says no cookie-preferences window is shown, and
+whether a widget that loads before any interaction changes that is a legal determination rather than a
+repository fact — recorded in the file header, routed to Phase 09 with hCaptcha itself. And the madde 02 rows
+are very tall at ≤390 with blank space in the visible strip; every cell is reachable, so it is a polish
+question for QA round 3 to judge, not a defect.
+
+**Next action:** QA round 3 — re-aim test 3 per A24, verify the eight rewritten sentences from the rendered
+DOM, re-measure the table reach independently, and write the `.shell-table-scroll` guard the C4 comment
+specifies. Phase 09 is scoped as 09a/09b per A21 once Phase 08 closes.
