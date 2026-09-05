@@ -1,0 +1,14 @@
+(node:6004) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:38828) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  1 [critical-1280] › e2e\landing\navigation-reachability.spec.ts:88:3 › public navigation reachability › extracts a real route inventory before it claims anything about it (38ms)
+  ✓  2 [critical-1280] › e2e\landing\navigation-reachability.spec.ts:124:3 › public navigation reachability › covers every public route surface by navigation, index page or a recorded exclusion (21ms)
+  ✓  3 [critical-1280] › e2e\landing\navigation-reachability.spec.ts:164:3 › public navigation reachability › the menu on / really publishes the whole route set (11.6s)
+  ✓  4 [critical-1280] › e2e\landing\navigation-reachability.spec.ts:199:3 › public navigation reachability › keeps deep links and history navigation correct (10.3s)
+  ✓  5 [critical-1280] › e2e\landing\navigation-reachability.spec.ts:240:3 › public navigation reachability › every route the menu links to resolves without a redirect or a not-found shell (30.3s)
+
+  5 passed (55.0s)

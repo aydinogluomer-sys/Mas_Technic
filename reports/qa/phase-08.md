@@ -1,762 +1,785 @@
-# QA Report — Phase 08
+# QA Report — Phase 08 · ROUND 2
 
 - PHASE: 08 — INNER PAGES WAVE B: quality, projects, blog, resources, legal, search/discovery, 404/error
-- CODE_COMMIT: `5138fc1` (15 commits, `7dcfb65~1..5138fc1`, 67 files, +4165/−1264)
-- QA_COMMIT: this commit
-- WORKTREE: `C:\Users\Trade Bilisim\pdh-wt\qa-p08` on `wt/qa-p08`
+- CODE_COMMIT: `b77be5c` (round 1 base `aae3536` + the five C3 commits `2994246 · 17c5b3c · e62e96c · 64edf48 · b77be5c`)
+- ROUND 1 CODE_COMMIT: `5138fc1` — verdict **FAIL**, preserved in §15 and in `reports/qa/phase-08/`
+- QA_COMMIT: this commit (round-2 chain `e676ef2 · 6f55acc · 87d0bb9 · a822e1c · d023322 · a3df541 · 048500f · e78beff`)
+- WORKTREE: `C:\Users\Trade Bilisim\pdh-wt\qa-p08` on `wt/qa-p08r2`
 - STATUS: **FAIL**
-- TESTS_PASSED: 380
-- TESTS_FAILED: 2
-- TESTS_SKIPPED: 84
-- NEW_TESTS_ADDED: 46 (one new spec, `e2e/qa-p08-waveb-contract.spec.ts`; 61 executions across three projects)
+- TESTS_PASSED: 1155
+- TESTS_FAILED: 6 (3 distinct causes; 3 of the 6 are one known fixture flake, clean on isolated re-run)
+- TESTS_SKIPPED: 526
+- NEW_TESTS_ADDED: 6 (one new spec, `e2e/qa-p08-storage-disclosure.spec.ts`, `desktop-1280` lane)
 
-**Why FAIL, in one paragraph.** Two of the repository's own gates are red at the
-integration HEAD, both caused by Phase 08 commits, both deterministic (each
-re-run twice, identical value), and neither is a snapshot that could be argued
-either way: `e2e/technical-landing.spec.ts:271` is in the `critical-*` family
-that `playwright.config.ts` describes as "PR'ı bloke eden hızlı kapı", and it
-fires because the two footer links this phase added grew the shared footer past
-the exact bound Phase 04 set to catch that growth. Separately, the phase's own
-new legal surfaces carry two content defects on the axis this phase was
-otherwise careful about: the KVKK notice still enumerates transfers as "two
-cases" after the same phase disclosed a third one in the other two documents,
-and the cookie policy's own completeness claim is short by one storage record.
-Everything else Phase 08 set out to do, it did — and several parts of it are
-better evidenced than the packet's premises assumed. The detail is below.
+**Why FAIL, in one paragraph.** All four defects C3 was asked to fix are fixed,
+and I verified each against the running browser rather than the diff: the footer
+band measures **297.0000 px / `bantOrani` 0.23203125** at 1280 with the
+`critical-*` family green, all three `radius-census` tests pass including the
+drift negative control, `/kvkk` madde 04 now enumerates three transfer cases and
+names Gemini while asserting nothing about Google after receipt, and the cookie
+table renders five rows with `mas_intro_seen` correctly described. The 21
+rebanked goldens are justified, and the strongest single measurement of this
+round says so: the current 1280 `landing-fullpage` baseline is the same height
+as the pre-Phase-08 one and has **zero changed pixels above the footer top even
+at threshold 1/255**. But two new blocking defects turned up in the places the
+packet sent me to look, both on surfaces Phase 08 created, both fixable inside
+Phase 08's own files. **R2-1:** `/cerez-politikasi`'s storage table is 583.9 px
+wide inside a 375 px viewport and nothing scrolls — three of its four columns
+are unreachable at 320/375/390, on the document a reader is explicitly pointed
+at for exactly that information. **R2-2:** `/giris` mounts hCaptcha on page
+load, which sets a `__cf_bm` cookie and contacts four `hcaptcha.com` hosts,
+falsifying four absolute claims Phase 08 published in two legal documents —
+including "Herkese açık sayfalarda hiçbir çerez oluşturulmuyor." Criteria 3 and
+5 are recorded as CARRIED per A21/A20 and neither got worse. And the one thing
+the packet asked me to close before Phase 09 scopes privacy — the RFQ /
+"hiçbir yapay zekâ servisine gönderilmez" sentence — is **TRUE as written**,
+traced end to end.
 
-> Evidence files are in `reports/qa/phase-08/`. Console captures carry a `.txt`
-> extension rather than `.log` because `.gitignore:3` is `*.log`, and evidence
-> that cannot be committed is not evidence.
+> Round-2 evidence is in `reports/qa/phase-08/r2/`; round-1 evidence remains in
+> `reports/qa/phase-08/`. Evidence files carry `.txt` rather than `.log` because
+> `.gitignore:3` is `*.log`.
 
 ---
 
-## Acceptance criteria matrix
+## 1. The four C3 defects, re-measured
 
-| # | Criterion | Result | Evidence |
+| C3 defect | Round-1 state | Round-2 measurement | Verdict |
 |---|---|---|---|
-| 1 | 404 is unmistakably MAS TECHNIC, usable and linked back into the site | **PASS** | `notfound-branches.txt`. POPULATED branch `/kalite-dosyas` → 3 suggestions, each resolved: `/kalite-dosyasi` 200 `<h1>`"Kalite Dosyası", `/kabiliyetler/kalite-kontrol` 200 `<h1>`"Kalite Kontrol", `/kabiliyetler/kategori/kalite-standartlar` 200 `<h1>`"Kalite & Standartlar". EMPTY branch `/qa-zzz-nothing` → `YAKIN KAYIT 0`, block correctly absent, 8-entry directory + global header/footer still rendered (33 anchors captured, `rendered.txt`). Golden `e2e/__golden__/win32/visual-1280/waveb-notfound-body.png` opened and read: status readout, correction block, directory, three actions. |
-| 2 | Blog/article, quality/resources, case studies, SSS and legal share the global design system | **PASS** | `design-membership.txt` + `legacy-accent.txt`, measured inside `<main>`: all ten Wave B surfaces have 0 legacy-teal nodes, 0 Radix component roots, 0 `bg-card`, 0 off-register border-radius, 0 system-font nodes, and 47–404 `shell-*`/`tl-*` primitives. |
-| 3 | No public route still visibly belongs to the old generic design language | **FAIL** | Same instruments. `/teklif-al` 16 teal `rgb(10,125,138)` + 3 Radix tablists + 1 shell primitive; `/giris` 92 teal + 0 shell primitives; `/sifremi-unuttum` and `/reset-password` 0 shell primitives; `/cad-dashboard` 16 teal + 3 Radix + 1 shell primitive. Screenshot `shots/teklifal-format-error.png`. See **DEFECT 6**. |
-| 4 | Search/filter is either implemented with a justified need or explicitly omitted | **PASS** | Recorded per surface, in writing, in the source: implemented on `/sss` with the corpus as the reason (`src/pages/SSS.tsx:60-72`); explicitly omitted on `/blog` (`src/pages/Blog.tsx:41-56`), `/kabiliyet-profilleri` (`:44-46`), `/kalite-dosyasi` (`:68-69`) and the 404 (`src/pages/NotFound.tsx:59-65`). Measured corpus backing the `/sss` decision: 117 `<details>` rendered (`rendered.json`). |
-| 5 | Error/loading/empty states no longer fall back to generic library defaults | **FAIL** | Reached, not inferred (`error-states.txt`). Loading PASS, empty PASS, 500-class route error PASS. CAD-format/form error is a stock sonner toast: `background rgb(255,255,255)`, `border-radius 8px`, `font-family ui-sans-serif, system-ui, -apple-system…`. See **DEFECT 5**. |
+| **D1** footer breaks `critical-1280` | `bantOrani` 0.2671875 (342 px), three identical runs | **0.23203125** from a **297.0000 px** band; `critical-1280` `technical-landing.spec.ts` 15/15; `critical-375` 81 passed / 2 skipped | **FIXED** |
+| **D2** radius citation drifted | `["src/components/ChatBot.tsx:225"]` | `radius-census.spec.ts` at `visual-1280` **3/3**, including *every number in docs/lean/17 §4 comes back out of the browser* (55.4 s) and the drift negative control (7 ms) | **FIXED** |
+| **D3** `/kvkk` said transfers happen in two cases | "Aktarım iki hâlde olur" | rendered: "Aktarım **üç hâlde** olur … Google'ın Gemini servisine iletilmesi" | **FIXED** |
+| **D4** cookie table short by one | four rows | five rows, `mas_intro_seen` present, every claim in it verified against `index.html:294-316` **and** against the browser | **FIXED** |
 
-### Mandatory tasks
+### 1.1 `bantOrani` as a number — the third independent reading
 
-| Task | Result | Evidence |
-|---|---|---|
-| Case-study/project index + detail on a verified/anonymised model | PASS | `/kabiliyet-profilleri` + `/kabiliyet-profilleri/:slug` over `src/content/caseStudies.ts` (`kind: "capability"`, `client`/`reportNo`/`measuredResults` typed `never`). All 3 slugs render, `<h1>` = the profile title. |
-| The page states these are not customer projects | PASS | Rendered band 02 (`rendered.txt`, `/kabiliyet-profilleri`): "Bunlar müşteri projesi **değildir** … Bir isim, bir sipariş numarası veya bir ölçüm sonucu bulamazsınız". Golden `waveb-profile-scope.png` opened at 1280 and 375 — the sentence and both paragraphs are inside the crop, so the golden really does guard it. |
-| Quality/Resources as a real technical-document surface | PASS | `/kalite-dosyasi` band 02 = the four §H PDFs as a register. See the document-register audit below. |
-| Blog as a technical editorial publication | PASS | `/blog` lead band + register, no card grid, no newsletter form. Golden `waveb-journal-lead.png` (1280, 768) opened. |
-| Article typography, figure/caption, tables, TOC, related content, non-aggressive RFQ continuation | PASS | `/blog/havacilik-parcalarinda-malzeme-secimi`: `PLAKA 01` figure+caption; `ShellSpecTable` "7075-T6 ve Ti-6Al-4V — yayımlanmış tipik değerler" with a note that a batch certificate governs (`src/data/blogData.ts:196-208`); `BÖLÜMLER` TOC; `İLGİLİ YAZILAR` × 3; one `SONRAKİ ADIM` band at the end. |
-| SSS/FAQ and legal/privacy/cookie in the same shell, restrained | PASS | Criterion 2 measurement. Three legal routes share one `LegalDocument` composition; no hero image, no RFQ band. |
-| Branded 500/general error | PASS | Reached by aborting the route chunk: `data-shell-state="error"`, exactly one `<h1>` "Bu sayfa yüklenemedi", mono `ERR::ROUTE_RENDER_FAILED`, three recovery actions. `shots/route-error.png`. |
-| Branded CAD parse error | **FAIL** (documented deferral) | **DEFECT 5**. |
-| Branded form error | **FAIL** (documented deferral) | **DEFECT 5**. |
-| Meaningful empty/loading states | PASS | `/sss` empty: `border-radius 0px`, Space Grotesk, "EŞLEŞME YOK / Bu aramayla soru bulunamadı" + a working "Filtreleri temizle". Loading: "YÜKLENİYOR / Sayfa hazırlanıyor.", 0px, Space Grotesk. `shots/sss-empty.png`, `shots/route-loading.png`. |
-| 404 has global navigation and recovery paths | PASS | Criterion 1. |
-| Real HTTP/deployment 404 where hosting permits | **DEFERRED, explicitly and with a reason** | `src/pages/NotFound.tsx:68-99` states the gap and why. Verified independently: no `vercel.json`, `netlify.toml`, `public/_redirects`, `public/_headers`, `staticwebapp.config.json`, `firebase.json`, `.htaccess` or `public/404.html` exists anywhere in the tree; `public/` contains only `belgeler`, `favicon.ico`, `images`, `machine-loop.mp4`, `placeholder.svg`, `robots.txt`, `sequence-cnc`, `sequence-material`. Measured against the preview: `/bu-sayfa-yok` → `200 text/html`, i.e. a soft-404. Not a silent skip; the deferral is written down and the "adding `404.html` on a guess breaks every deep route" argument is correct for a static host. |
+Measured with the spec's own expression
+(`document.querySelector(".tl-footer").getBoundingClientRect().height / window.innerWidth`),
+`probe-footer.mjs`, on the production preview:
 
----
+| viewport | `.tl-footer` height | `bantOrani` | `.tl-footer nav` display |
+|---|---|---|---|
+| 375 | 740.4375 px | 1.9745 | **none** (assertion skipped) |
+| 768 | 711.1719 px | 0.9260050456 | grid (assertion skipped) |
+| **1280** | **297.0000 px** | **0.23203125** | grid ← the gate |
+| 1440 | 297.0000 px | 0.20625 | grid |
 
-## Content truth and publication policy
-
-`node scripts/claims-gate.mjs` → `PASS — 0 unverified claims across 27 rules`,
-214 files / 27 666 non-comment lines (`claims-gate.txt`).
-
-**Rendered-text scan (not source).** `probe-scale.mjs` / `probe-scale-expanded.mjs`
-over the rendered `innerText` of every Phase 08 surface — with all 117 `<details>`
-forced open first, because a closed `<details>` body is excluded from `innerText`
-and the first pass had therefore read none of the 117 FAQ answers. 15 rule
-families (machine count, headcount, facility size, revenue, order volume, years
-of experience, "since YYYY", percentage KPI, capacity, superlative, testimonial,
-client name, certificate number/registrar, material count, on-time delivery).
-Result on the Phase 08 surfaces: every hit is a false positive (a list index
-number, or `", firma"` inside a prose sentence). No scale, no headcount, no
-machine count, no revenue proxy, no client name, no certificate number, no
-superlative, no testimonial, no delivery statistic. Full output:
-`scale-scan-expanded.txt`.
-
-**The document register, checked against disk and against HTTP.** `/kalite-dosyasi`
-prints four sizes. Bytes on disk: 81 083 / 103 038 / 92 312 / 88 370 → 79 / 101 /
-90 / 86 KB, exactly the four printed values. `public/belgeler/*.pdf` are
-`md5sum`-identical to the four `Politikalar/*.pdf` files §H names. All four serve
-`200 application/pdf` with byte counts matching the disk exactly. The page states
-no date, so there is no date to be wrong. `scripts/claims-gate.mjs:1384-1397`
-re-measures the same thing on every run, so the register cannot drift.
-
-**Certifications.** Rendered: ISO 9001:2015, ISO 14001:2015, OHSAS 18001 — the
-three §C authorises and no more, with an explicit "Bu üç belge dışında bir
-yönetim sistemi belgesi bulunmamaktadır" and an explicit refusal to print a
-certificate number, a registrar or a verification link.
-
-### Adversarial probe of the claims gate
-
-Per §3.A. Copied `scripts/claims-gate.mjs` into a scratch tree at
-`<scratch>/gateprobe/scripts/` (so `REPO_ROOT` resolves correctly) with a
-`src/pages/Probe.tsx` containing three positive controls and ten adversarial
-strings. The controls fired, so the tree was genuinely scanned:
-
-```
-### company-scale-disclosure — 4
-  src/pages/Probe.tsx:4:  [48 mühendis]
-  src/pages/Probe.tsx:5:  [15.000 metrekare]
-  src/pages/Probe.tsx:12: [15 bin metrekare]
-  src/pages/Probe.tsx:18: [6 işleme merkezi]
-### periodic-volume-disclosure — 1
-  src/pages/Probe.tsx:6:  [Yılda 50.000 adet]
-```
-
-**Eight strings that state company scale, headcount, machine count, order volume
-or revenue and pass all 27 rules:**
-
-| Input | Should have been caught by | Why it escapes |
-|---|---|---|
-| `Yıllık ciromuz 50 milyon TL seviyesindedir.` | §0 `DO_NOT_PUBLISH_REVENUE_OR_ORDER_VOLUME` | **There is no revenue rule at all.** No currency token (`TL`, `USD`, `EUR`, `₺`, `$`, `€`, `ciro`) appears anywhere in the 27 rules. This is the largest hole. |
-| `Sipariş hacmimiz geçen yıl iki katına çıktı ve 8 milyon avroya ulaştı.` | same | same |
-| `Bugüne kadar 12.000 parça teslim ettik.` | `periodic-volume-disclosure` | that rule requires a period by design; a cumulative total carries none, and `company-scale-disclosure` reaches `parça` only after a `+` |
-| `2024 yılında 320 farklı siparişi tamamladık.` | `periodic-volume-disclosure` | the period is a year *label*, not a denominator/adverb/adjective |
-| `Aylık ortalama 2.400 iş emri kapatıyoruz.` | `periodic-volume-disclosure` | `iş emri` is not in the count-noun list (`adet\|ünite\|parça\|birim\|palet\|parti\|sipariş`) |
-| `Şu ana kadar 180 firmaya üretim yaptık.` | `company-scale-disclosure` | the noun list has `müşteri`, not `firma` |
-| `Kadromuz 45 kişiden oluşmaktadır.` | `company-scale-disclosure` | the list has `kişilik ekip`, not bare `kişi` |
-| `Atölyemizde otuz adet CNC tezgâh bulunmaktadır.` | `company-scale-disclosure` | every alternative requires a digit; the spelled-out numeral defeats them all |
-
-None of these strings is present in the tree — the rendered scan above is clean.
-This is a gate-coverage finding, not a Phase 08 content failure, and it is
-reported because a gate is only as good as the class it can still be walked
-around. `machine-inventory` and `unverified-certification` were probed too and
-hold.
+Ceiling `0.26 × 1280 = 332.80 px`. Headroom `35.80 px = 1.591` row pitches, i.e.
+**exactly one row**: 7 rows measures 319.50 px / 0.24960938 and passes, 8 rows
+measures 342.00 px / 0.2671875 and does not. The Coder's reported 0.2320312 and
+the header comment's "HEADROOM: ONE ROW" both hold.
 
 ---
 
-## Failed checks
+## 2. Falsifying the D1 footer account
+
+Everything the Coder claimed reproduces, and the composition is safe:
+
+- **Column counts** — HİZMETLER 5, KABİLİYETLER 6, ENDÜSTRİYEL 5, KURUMSAL 6,
+  identical at 375/768/1280/1440. 22 nav anchors, one fewer than the 23 before.
+  (The Orchestrator's original table said ENDÜSTRİYEL had 6; it has 5, as the C3
+  packet already conceded.)
+- **Row pitch, measured not divided** — 22.50 px between consecutive link tops,
+  in all four columns, at 768/1280/1440.
+- **The complement holds.** All five `resourceLinks` entries appear **exactly
+  once** in the `nav` rendering *and* exactly once in the `<768` disclosure
+  rendering, at both 375 and 1280: `/malzemeler`, `/kabiliyet-profilleri`,
+  `/kalite-dosyasi`, `/blog`, `/sss`. `href="/"` now appears **zero** times
+  anywhere inside `.tl-footer`.
+- **`Ana Sayfa` leaving costs the reader nothing — clicked, not asserted.**
+  From the bottom of `/kalite-dosyasi`: at 375 the header brand is a
+  249.75 × 63 box at `y = 0`, `elementFromPoint` at its centre resolves inside
+  the link (nothing covers it), and clicking it lands on `/` with `scrollY 0`.
+  Identical at 1280 (303.5 × 71). The brand is focusable at position **1** of 29
+  (375) / 47 (1280). The menu brand is visible in the open menu at both widths,
+  and the 404 keeps its own "Ana sayfa" action.
+- **`navigation-reachability.spec.ts`** — 5/5 at `critical-1280`, including
+  `:240` *every route the menu links to resolves without a redirect or a
+  not-found shell* at 30.3 s.
+- **The two IA controls did not move**, so the fix did not leak into `ia.ts`:
+  the fullscreen menu's KAYNAKLAR index still prints **`05`** with 5 entries
+  (KURUMSAL `02`/2, ANA SAYFA BÖLÜMLERİ `07`/7), and the 404's `ul.shell-index`
+  still holds **8** items — both at 375 and 1280.
+
+### 2.1 Three claims in the new comments that my measurements contradict
+
+None breaks a test. All three are the class of unmeasured sentence this run
+keeps having to correct, so they are findings rather than notes.
+
+**C1 — the pitch is not "the same … at 375".** Both
+`src/components/shell/footer-groups.ts` and the new comment in
+`e2e/technical-landing.spec.ts` say the 22.50 px row pitch is "the same in all
+four columns and at 375/768/1280/1440". At 375 `.tl-footer nav` computes to
+`display: none`; every one of the 22 links has a 0 × 0 rect and every measured
+delta is **0**. The rendering that *does* paint at 375 is
+`.shell-footer-disclosures`, and its pitch is **40 px**, not 22.50. The figure
+is unmeasurable at the one viewport it is claimed for.
+
+**C2 — the "tallest column" model only holds at ≥ 1024.** `footer-groups.ts`
+explains the band as "as tall as its tallest column". At 768 `.tl-footer nav`
+computes `grid-template-rows: 150px 150px` — a 2 × 2 grid with two distinct row
+origins (559.8 and 733.8) and columns at `x = 57` and `x = 412`. Its height is
+`tallest(row 1) + tallest(row 2)`:
+
+```
+before C3   row1 max(HİZ 5, KAB 5) = 5   row2 max(END 5, KUR 8) = 8   = 13 rows
+after  C3   row1 max(HİZ 5, KAB 6) = 6   row2 max(END 5, KUR 6) = 6   = 12 rows
+net −1 × 22.50 px
+```
+
+That is exactly the −22 / −23 px the 768 goldens moved, against −45 px at
+1280/1440 — and it is why they moved by different amounts, which the comment
+does not explain.
+
+**C3 — a latent orphaning risk in the new map.** `FAMILY_RESOURCES` is keyed by
+family **label** (`"Kabiliyetler"`) while `ADOPTED_BY_FAMILY` is built from
+`Object.values(...).flat()` regardless of whether any label matched. The comment
+says "Keyed by ROUTE, so a renamed label in `ia.ts` cannot silently orphan an
+entry" and "an unmatched path simply stays in KURUMSAL, because that column
+takes the complement". If the label in `ia.ts` is renamed, `family()` adopts
+nothing **and** KURUMSAL still excludes the path — the link would appear
+**zero** times. Not a defect today (the label matches and all five appear once,
+measured), but the comment's stated safety property is the opposite of the
+code's behaviour. LOW, recorded.
+
+---
+
+## 3. The 21 rebanked goldens, re-adjudicated
+
+**No `--update-snapshots` was run, at any point, for any reason. No golden PNG
+was written, moved or deleted by QA in either round.**
+
+C3 touched exactly 21 baselines — `landing-fullpage` + the six `shell-footer-*`
+crops at each of `visual-1280`, `visual-1440`, `visual-768`. **No `visual-375`,
+`shell-header-*`, `inner-*`, `navigation-*` or `waveb-*` baseline was
+regenerated**, and those specs pass against the committed baselines.
+`git diff --name-only aae3536..b77be5c -- reports/` is empty, confirming the
+Coder borrowed `probe-golden-rebank.mjs` / `probe-golden-shift.mjs` without
+writing into `reports/qa/**`.
+
+### 3.1 The four visual projects, against the committed baselines
+
+| project | result |
+|---|---|
+| `visual-375` | 34 passed, 6 skipped, 1 failed → **re-run clean 2/2** |
+| `visual-768` | 34 passed, 6 skipped, 1 failed → **re-run clean 6/6** |
+| `visual-1280` | **41 passed, 0 failed** |
+| `visual-1440` | 34 passed, 6 skipped, 1 failed → **re-run clean 7/7** |
+
+**Not one golden mismatch in any project.** All three failures are the same
+fixture precondition the packet warned about —
+`installFontRetry() intercepted 0 requests on fonts.gstatic.com` — at
+`navigation-golden:44`, `shell-golden:43` and `inner-pages-golden:95`
+respectively. Three of four projects hit it in a single pass, a higher rate than
+the "twice, for the Coder" the packet records. It feeds the Phase 12
+self-hosting decision.
+
+### 3.2 Per-golden adjudication (threshold 16/255, oldRef `aae3536`)
+
+| golden | old | new | ΔH | first changed row |
+|---|---|---|---|---|
+| `1280/landing-fullpage` | 1280×3963 | 1280×3918 | −45 | 3662 of 3918 (93.5 %) |
+| `1280/shell-footer-{about,home,journal,rfq}` | 1278×343 | 1278×298 | −45 | 42 |
+| `1280/shell-footer-notfound` | 1278×344 | 1278×299 | −45 | 43 |
+| `1280/shell-footer-service` | 1278×343 | 1278×298 | −45 | 41 |
+| `1440/landing-fullpage` | 1440×4018 | 1440×3973 | −45 | 3717 of 3973 (93.6 %) |
+| `1440/shell-footer-*` (six) | 1438×343/344 | 1438×298/299 | −45 | 42 / 43 |
+| `768/landing-fullpage` | 768×6189 | 768×6167 | −22 | 5830 of 6167 (94.5 %) |
+| `768/shell-footer-*` (six) | 766×735…792 | 766×712…770 | −22 / −23 | 375…433 |
+
+The first changed row moved **up**, from round 1's 132 to 42 on the 1280 footer
+crops. That is the correct shape and I checked it deliberately: this is not an
+append or a truncation. `Ana Sayfa` leaving KURUMSAL shifts that column from its
+**first** link row, and KABİLİYETLER gains a sixth. A change that still started
+at row 132 would have been the wrong answer.
+
+For the three full-page crops, footer top = `new height − measured footer
+height`: 1280 → 3621 (first change 3662), 1440 → 3675 (3717), 768 → 5456 (5830).
+**Nothing above the footer moved**, at threshold 16 and at threshold 8.
+
+### 3.3 The control that settles it
+
+Comparing the **current** baseline against the **pre-Phase-08** one
+(`7dcfb65~1`), skipping the whole Phase 08 rebank:
+
+```
+e2e/__golden__/win32/visual-1280/landing-fullpage.png
+  old 1280x3918   new 1280x3918   heightDelta = 0
+  threshold 16/255 : 61 changed rows, all between 3662 and 3784
+  threshold  1/255 : 61 changed rows, pixels changed ABOVE row 3621 = 0
+e2e/__golden__/win32/visual-1280/shell-footer-home.png
+  old 1278x298    new 1278x298    heightDelta = 0    61 changed rows, 42..164
+```
+
+Phase 08's **net** footprint on the 1280 landing page is 61 rows inside the
+footer band, and the page is back to the exact height it had before the phase.
+Above the footer the picture is sub-perceptually identical to pre-Phase-08 —
+zero changed pixels even at a 1/255 threshold. That is a stronger statement than
+"the rebank was justified".
+
+*Noise, recorded so a future threshold-1 reader is not misled:* current vs
+`aae3536` at threshold 1 shows 150 632 px above the footer at 1280 and 1 px at
+1440; at threshold 8 both are 0. Since current vs pre-Phase-08 at threshold 1 is
+0 at 1280, that noise lives in the `aae3536` blob (the Phase 08 regeneration
+`931594f`). At 1440 it is the mirror case. All of it is < 8/255, none of it
+affects a passing comparison.
+
+### 3.4 The "375 is structurally immune" claim — tested, and it holds, with a limit
+
+It holds as the goldens see it: `.tl-footer nav` computes to `display: none` at
+375, every link rect is 0 × 0, C3 regenerated no `visual-375` baseline, and all
+of them match.
+
+**The limit.** Below 768 the same four groups are *also* rendered as
+`.shell-footer-disclosures`, collapsed, with a real `hidden` attribute. Opened,
+the footer goes **740.44 px → 1684.44 px** at a **40 px** pitch and both changed
+columns are fully visible — KABİLİYETLER ending "Kabiliyet Profilleri", KURUMSAL
+now starting "Hakkımızda" with no "Ana Sayfa". **No golden covers an open
+disclosure.** "Structurally immune" is true of the collapsed state only, which
+happens to be the only state any 375 golden captures.
+
+---
+
+## 4. The legal texts, from the rendered DOM
+
+Quotations are `innerText` read out of the running preview at `b77be5c`.
+
+**`/kvkk` madde 04 — three cases, Gemini named:**
+
+> "Kişisel verileriniz satılmaz ve pazarlama amacıyla üçüncü taraflara
+> devredilmez. Aktarım **üç hâlde** olur: yetkili kamu kurum ve kuruluşlarının
+> kanuna dayalı talebi; bu sitenin çalışması için kullanılan barındırma ile veri
+> tabanı altyapısının hizmet sağlayıcısı; ve sohbet asistanında yapay zekâ onayı
+> vermeniz hâlinde, o ana kadarki yazışmanın sitenin kendi sunucu fonksiyonu
+> üzerinden Google'ın Gemini servisine iletilmesi."
+
+**Nothing is asserted about Google after receipt** — the clause says so itself
+("Metnin Google'a ulaştıktan sonraki âkıbeti hakkında bu belge bir şey
+söylemez"). An adversarial pattern scan over the full rendered text of all three
+legal routes found **no** retention period, **no** deletion timetable, **no**
+encryption/SSL/TLS claim, **no** confidentiality-agreement claim, **no**
+security-posture claim, and no sentence of the form
+`(Google|Gemini) … (sakla|eğit|silin|imha|güvenli|koru|geçici olarak işle)`. The
+one `imha takvimi` hit is madde 05's explicit **negation**.
+
+**Exactly one link in madde 04, with no fragment:**
+`[{ text: "Gizlilik Politikası", href: "/gizlilik-politikasi", hasHash: false }]`.
+The clause is cited by number in prose ("Gizlilik Politikası'nın 06.
+maddesindedir"), so `ScrollToTop.tsx`'s carried defect cannot strand the reader.
+
+**Unchanged and still true:** "satılmaz" and "pazarlama amacıyla üçüncü
+taraflara devredilmez" are both present; clause 05's statutory wording is intact
+and is followed by its own refusal of a fixed timetable.
+
+**Madde 02 brings the chat into scope**, in the phase's own register, and adds
+"Sohbet metni sitenin veri tabanına kaydedilmez".
+
+**`/cerez-politikasi` madde 02 renders five rows** — `sb-…-auth-token`,
+`mas_chat_ai_count`, `mas_pending_cad_upload`, **`mas_intro_seen`**,
+`mas-technic-theme` — and madde 01's completeness sentence is **byte-identical**
+to `aae3536` (`diff` of the source block is empty).
+
+> *Method note worth carrying:* an earlier scan with `\bNDA\b` produced three
+> false hits. JavaScript's `\b` is ASCII-only, so Turkish `ı`/`ş` count as word
+> boundaries and "kapsamında" matches `\bnda\b`. Anywhere a Turkish corpus is
+> scanned with word boundaries — `scripts/claims-gate.mjs` included — that is a
+> live hazard.
+
+---
+
+## 5. Failed checks
 
 | # | Check | Error / observation | Root cause | Production fix required? |
 |---|---|---|---|---|
-| 1 | `npx playwright test --project=critical-1280 -g "reference proportions"` | `expect(footer.bantOrani).toBeLessThan(0.26)` → received `0.2671875`. Re-run twice, identical. | `src/components/navigation/ia.ts:256-257` | **YES — blocking** |
-| 2 | `npx playwright test --project=visual-1280 e2e/visual/radius-census.spec.ts` | `§4's source column still lands on a radius declaration` → `["src/components/ChatBot.tsx:225"]` | `docs/lean/17-inner-page-composition.md:137` vs `src/components/ChatBot.tsx` | **YES — blocking** |
-| 3 | Rendered `/kvkk` madde 04 vs `/gizlilik-politikasi` madde 06 | KVKK enumerates transfers as "two cases"; the Gemini transfer is not one of them | `src/pages/KVKK.tsx` clause `aktarim` | **YES** |
-| 4 | `probe-storage-and-hash.mjs` part A | `/cerez-politikasi` claims its storage list is complete; `sessionStorage` also holds `mas_intro_seen` | `src/pages/CerezPolitikasi.tsx` madde 02 vs `index.html:314` | **YES** |
-| 5 | `probe-error-states.mjs` step 1 | CAD/format error and form error render a stock sonner toast | `src/components/ui/sonner.tsx` (unchanged since `2cd03c1`), `src/pages/TeklifAl.tsx:358,411,490` | Deferred in writing to Phase 09 — Orchestrator decision |
-| 6 | `probe-design-membership.mjs`, `probe-legacy-accent.mjs` | five public routes still in the old language | `src/pages/TeklifAl.tsx`, `src/pages/Login.tsx`, `src/pages/CADDashboard.tsx` | Orchestrator decision — no phase owns it |
+| R2-1 | Visual inspection + geometry of `/cerez-politikasi` madde 02 at 320/375/390 | table is 583.9 px wide in a 375 px viewport; `DEPO`, `NE İŞE YARAR`, `SÜRE` off-screen for all five rows; **nothing scrolls** | `src/pages/CerezPolitikasi.tsx:133` — bare `div.shell-stack`, implicit grid track resolves to 585.875 px | **YES — blocking** |
+| R2-2 | `e2e/qa-p08-storage-disclosure.spec.ts` · *no cookie is created on any public route* | `["__cf_bm@.hcaptcha.com", "__cf_bm@.w.hcaptcha.com"]`; four `hcaptcha.com` hosts contacted on `/giris` | `src/pages/Login.tsx:230` mounts hCaptcha; four absolute claims in `src/pages/CerezPolitikasi.tsx` and `src/pages/GizlilikPolitikasi.tsx` deny it | **YES — blocking** |
+| R2-3 | `--project=tablet-768` and `--project=landscape-844` | `motion-grammar.spec.ts:254` `expect(locator).toBeHidden()` — Expected hidden, Received visible | `src/styles/technical-landing.css:507` `@media (max-width:767px)` vs two `mobile:true` projects at 768 and 844 | **PRE-EXISTING — not Phase 08's** |
+| — | `visual-375` / `visual-768` / `visual-1440`, one test each | `installFontRetry() intercepted 0 requests on fonts.gstatic.com` | `e2e/visual/fonts.ts` | No — flake, clean on isolated re-run |
+
+### DEFECT R2-1 (BLOCKING) — the storage table loses three of its four columns below 768, and nothing scrolls
+
+The packet asked me to **look** at the table, because no golden covers the legal
+routes (`e2e/visual/wave-b-golden.spec.ts:37` says so deliberately). I did:
+`reports/qa/phase-08/r2/shots/cerez-viewport-375.png`.
+
+**Measured at 375** (`table-clip.json`, and the same at 320 and 390):
+
+```
+table width 583.9 px, x = 43, right edge 626.9, viewport 375
+KAYIT        [ 43.0 .. 256.0]  VISIBLE
+DEPO         [256.0 .. 385.2]  OFF-SCREEN
+NE İŞE YARAR [385.2 .. 530.3]  OFF-SCREEN
+SÜRE         [530.3 .. 626.9]  OFF-SCREEN
+```
+
+Every one of the five rows shows only its key. At 390 `DEPO` appears; columns 3
+and 4 never do below 768. At 768 and 1280 the table fits and reads correctly.
+
+**It is not merely off-screen — it is unreachable** (`table-reach.json`):
+horizontal wheel leaves `window.scrollX` at 0 and the fourth header's right edge
+at 626.875; `scrollLeft = 9999` forced on **every** ancestor from `<table>` to
+`<documentElement>` leaves all of them at 0; `window.scrollTo(9999, y)` does
+nothing; `.shell-table-scroll` carries **no `tabindex` and no `role`**, so there
+is no keyboard route either. `div.shell-root` computes `overflow-x: clip`,
+which — unlike `hidden` — is not programmatically scrollable.
+
+**It is not the fifth row's fault.** Hiding the `mas_intro_seen` row in the
+browser and re-measuring gives an **identical** 583.9 px and identical column
+widths. The row does make the damage far more visible — at 375 it is 246.5 px
+tall against 85–126 px for the others, because its long third cell wraps to
+eight invisible lines and leaves a quarter-screen of blank paper in the visible
+strip — but the clip predates C3. It belongs to Phase 08, which created this
+table: `git show 7dcfb65~1:src/pages/CerezPolitikasi.tsx` contains no table at
+all, and the pre-Phase-08 text said the opposite of today's ("Zorunlu çerezler,
+performans çerezleri ve analitik çerezler kullanmaktayız").
+
+**It is unique to this one surface** (`table-blastradius.json`, at 375 and 320):
+
+| route | figure width (375 / 320) | scrolls | tabindex |
+|---|---|---|---|
+| `/blog/havacilik-parcalarinda-malzeme-secimi` | 333 / 278 | yes | 0 |
+| `/kalite-dosyasi` | 333 / 278 | fits | — |
+| `/hizmetler/cnc-frezeleme` (4 tables) | 333 / 278 | yes | 0 |
+| `/malzemeler` (MaterialRegister) | 333 / 278 | yes | — |
+| **`/cerez-politikasi`** | **585.9 / 585.9** | **NO** | **null** |
+
+(One marginal Wave A case at 320 only: `CNC Frezeleme — malzeme kaydı` is
+295.1 px in a 320 viewport and loses one column the same way. Phase 07's, one
+column not three.)
+
+**Root cause, measured** (`table-container.json`, containing block of
+`figure.shell-table` at 375):
+
+| route | parent | resolved track |
+|---|---|---|
+| `/blog` | `div.shell-doc-table` | `display: block`, 333 px |
+| `/kalite-dosyasi` | `div.shell-span-read shell-stack` | `grid-template-columns: 333px` |
+| `/hizmetler/…` | `div.shell-span-full shell-stack` | `grid-template-columns: 333px` |
+| **`/cerez-politikasi`** | **`div.shell-stack`** | **`grid-template-columns: 585.875px`** |
+
+`CerezPolitikasi.tsx:133` wraps the table in a bare
+`<div className="shell-stack" data-gap="sm">` with no `shell-span-*` class and
+no `shell-doc-table`. `.shell-stack` (`shell.css:1098`) sets `min-width: 0` on
+*itself*, but its implicit grid track is `auto` and resolves to the table's
+585.875 px max-content width instead of the 333 px content column. The figure
+then never overflows its wrapper, `.shell-table-scroll`'s `overflow-x: auto`
+(`shell.css:1299`) never engages, and `useScrollableRegionAccess` — which grants
+the tabindex only `if (isScrollable(element))`
+(`useScrollableRegionAccess.ts:160`) — grants nothing. The escape hatch the
+primitive's own comment promises ("so a narrow viewport scrolls the data",
+`ShellComposition.tsx:203`) is inert here.
+
+**Four instruments go green on it**, which is why it survived round 1:
+
+1. the reflow assertion measures `scrollWidth − clientWidth ≤ 1`, satisfied
+   *because* an ancestor clips (round 1: 15/15 at `mobile-320`);
+2. axe has no rule for content clipped out of an `overflow: clip` ancestor;
+3. `wave-b-golden.spec.ts:37` deliberately covers no legal route;
+4. `e2e/landing/shell-cascade-contract.spec.ts`'s three-test lane *"scrollable
+   regions stay keyboard reachable"* passes — and cannot fail here, because at
+   375 the table is not a scrollable region at all, so there is no missing focus
+   stop to find.
+
+A fifth, unrelated instrument did see it: the glyph-free contrast probe at 375
+could measure only **91 of 113** candidates on `/cerez-politikasi` — the only
+route in the set with a large unmeasurable share — because 22 elements never
+enter the viewport.
+
+**Smallest fix:** one class on `src/pages/CerezPolitikasi.tsx:133` — the same
+`shell-span-read` / `shell-span-full` the other document surfaces use, or
+`shell-doc-table` as the journal article does. A `min-width: 0` on
+`.shell-stack > *` would fix the class rather than the instance; that is a
+design call. QA does not make production edits.
+
+**Why it blocks:** criterion 2 requires the legal surfaces to share the global
+design system, and this is the only one of eight `ShellSpecTable` surfaces that
+does not get the shell's table behaviour; the mandatory task list names
+"tables"; and the document's own completeness claim points a mobile reader at a
+table whose purpose and lifetime columns they cannot read by any means.
+
+### DEFECT R2-2 (BLOCKING) — `/giris` sets a cookie and embeds a third party, and four published absolute claims deny it
+
+**Measured** (`cookies.json`, fresh context, plain load of `/giris`, no
+interaction):
+
+```
+cookie  __cf_bm   domain .hcaptcha.com   httpOnly  secure  sameSite None
+                  lifetime 30 minutes    (also .w.hcaptcha.com)
+third-party hosts: fonts.googleapis.com, fonts.gstatic.com   (disclosed)
+                   js.hcaptcha.com, newassets.hcaptcha.com,
+                   <id>.w.hcaptcha.com x 2                   (NOT disclosed)
+```
+
+Every other route measured — `/`, `/kvkk`, `/cerez-politikasi`, `/malzemeler`,
+`/teklif-al`, `/sifremi-unuttum`, `/reset-password` — contacts only the two font
+hosts and creates zero cookies.
+
+**Source:** `src/pages/Login.tsx:3` imports `@hcaptcha/react-hcaptcha`, `:30`
+holds a hardcoded site key, `:230` renders `<HCaptcha>` inside the form. It
+mounts with the page; no interaction is needed. **`/giris` is a public route by
+the repository's own contract** — `e2e/shared-shell-accessibility.spec.ts` names
+it in `NON_SHELL_PUBLIC_ROUTES`.
+
+**The four false sentences, quoted from the rendered DOM:**
+
+| document | sentence | status |
+|---|---|---|
+| `/cerez-politikasi` madde 01 | "Herkese açık sayfalarda **hiçbir çerez oluşturulmuyor**." | **FALSE** |
+| `/cerez-politikasi` madde 03 | "Üçüncü tarafa giden **ikinci ve son** istek sohbet asistanınındır." | **FALSE** — there is a third, it needs no consent and fires on load |
+| `/gizlilik-politikasi` madde 03 | "**Site çerez kullanmaz.**" | **FALSE** as an absolute over the scope madde 01 declares |
+| `/gizlilik-politikasi` madde 05 | "Bunun dışında sayfalarda **gömülü üçüncü taraf içerik** … bulunmaz" / "**Bir istisna var**…" | **FALSE** — hCaptcha is an embedded widget iframe, and a second exception |
+
+And one more in the document C3 just corrected: `/kvkk` madde 04 now closes its
+list at "üç hâl", while loading `/giris` sends the visitor's IP and browser data
+to Intuition Machines' hCaptcha endpoints. That is a fourth case — the same
+closed-list defect class C3 fixed, one third party over.
+
+The madde 01 sentence that **survives** is its second one: `__cf_bm` is a
+bot-management cookie and is not an ad cookie, analytics cookie, tag manager, ad
+pixel or session-recording tool.
+
+**Attribution.** The cause predates Phase 08 and `Login.tsx` is untouched by it.
+All four sentences were **written by Phase 08** (`36c3980`), replacing a
+pre-Phase-08 text that claimed the opposite. §13 and §1.3 are the C3 packet's
+own REQUIREMENT_IDs, and both fixes land in Phase 08's own files.
+
+**I have to correct myself.** Round 1 wrote: *"No undisclosed third-party
+transfer exists: the only outbound hosts reachable from a visitor's browser are
+fonts.googleapis.com / fonts.gstatic.com and the Gemini endpoint."* That was
+wrong, for exactly the reason round 1 itself listed as open item 7 — I measured
+six routes and none of them was `/giris`.
+
+**Smallest fix:** disclose hCaptcha where the fonts CDN already is
+(`/cerez-politikasi` madde 03, `/gizlilik-politikasi` madde 05, `/kvkk` madde
+04's enumeration) and add a `__cf_bm` row with its 30-minute lifetime; or scope
+the four absolute sentences to the routes they are true of. The first is the
+honest one and matches how the fonts CDN and Gemini are already handled.
+Removing hCaptcha is a security decision belonging to Phase 09.
+
+### DEFECT R2-3 (PRE-EXISTING, not Phase 08's) — a hover-only affordance renders on touch above the breakpoint
+
+`e2e/landing/motion-grammar.spec.ts:254` fails at `tablet-768` **and**
+`landscape-844`, and only there. Reproduced in isolation (5 passed, 1 failed),
+so not a flake. The test branches on
+`matchMedia("(hover:hover) and (pointer:fine)")`; both projects set
+`mobile: true`, so the pointer is coarse and it asserts `.tl-dimension-lines` is
+absent. The rule that removes them is `@media (max-width:767px)`
+(`src/styles/technical-landing.css:507`, declaration at `:513`), and both
+viewports are above it. `git log 7dcfb65~1..b77be5c` over
+`src/styles/technical-landing.css` and `e2e/landing/motion-grammar.spec.ts` is
+**empty** — neither file was touched by any of the phase's commits, C3 included.
+It went unseen because these are the two viewports this run had never exercised.
 
 ---
 
-### DEFECT 1 — the two new footer links break the critical gate (BLOCKING)
+## 6. Storage, enumerated (round 1's open item 7, closed)
 
-**Measured** (`fail-1-critical-footer-ratio.txt`):
+26 public route templates, two regimes, three special contexts.
 
-```
-npx playwright test e2e/technical-landing.spec.ts --project=critical-1280 -g "reference proportions"
-  x keeps reference proportions for headline, project cards and NEXUS rows
-    Expected: < 0.26
-    Received:   0.2671875     (run 1)
-    Received:   0.2671875     (run 2)
-    Received:   0.2671875     (run 3)
-```
+| regime | result |
+|---|---|
+| one context, all 26 routes in sequence | cookies `["__cf_bm"]`, local `["mas-technic-theme"]`, session `["mas_intro_seen"]` |
+| fresh context per route | all 26 write `mas-technic-theme`; **only `/`** adds `mas_intro_seen`; **only `/giris`** adds a cookie |
+| `reducedMotion: "reduce"` on `/`, first load and reload | session `[]` — the intro key is **not** written |
+| `/` plain, first load and reload | `mas_intro_seen` written once, survives reload |
+| fresh context loading `/kvkk` directly | session `[]` — the script does not write off the landing |
 
-`0.2671875 x 1280 = 342 px`. The pre-Phase-08 footer measured 298 px — read
-directly out of the old golden blob:
-`git show 7dcfb65~1:e2e/__golden__/win32/visual-1280/shell-footer-home.png`
-is `1278x298`; the new one is `1278x343`. `298 / 1280 = 0.2328`, comfortably
-under the bound. So the test was green before this phase and is red after it.
+Against `index.html:294-316`
+(`if (seen || reduced || !onLanding) return; sessionStorage.setItem(KEY, "1")`):
+every one of the fifth row's four claims — store, purpose, "only on the home
+page / not under reduced motion", "until the tab closes" — is exactly what the
+source does and what the browser shows.
 
-**Root cause.** `src/components/navigation/ia.ts:256-257` adds
-`Kabiliyet Profilleri` and `Kalite Dosyası` to `resourceLinks`. Those two rows
-land in the footer's KURUMSAL column and grow the band by 45 px.
-
-**Why this is not a bound that should simply be moved.** The bound is not
-arbitrary and it is not stale. `e2e/technical-landing.spec.ts:255-270` is a
-15-line comment written when Phase 04 raised it from 0.17 to 0.26, and it names
-this exact failure in advance:
-
-> "THE ASSERTION IS NOT WEAKENED, it is re-aimed at the same failure it always
-> guarded against — a footer that stops being a title block: … **a fifth nav
-> column, or a link column growing past ~9 rows**, or the conversion rule
-> wrapping to two rows at desktop, each pushes past 0.26 (headroom over the
-> measured value is 11%…)"
-
-A link column grew. The guard fired. Moving the number to 0.27 would be the
-third re-aiming of the same assertion in four phases and would make it
-unfalsifiable.
-
-**What I think happened.** Commit `931594f` adjudicated the footer growth
-carefully and per viewport — its message contains the correct band tables for
-768/1280/1440 and the correct `(0,-1)` finding at 375 — and rebanked 23 goldens
-on that basis. What it did not do is run the `critical-*` projects, where the
-same +45 px is a hard numeric contract rather than a picture. The visual
-evidence and the proportional contract disagree, and only the picture was
-consulted.
-
-**Fix options (QA does not choose).** (a) absorb the two links without growing
-the band — the KURUMSAL column is the tallest, so redistributing across the four
-columns costs nothing; (b) place the two new surfaces in a different footer
-group; (c) re-derive the contract with a written justification of the same
-quality as Phase 04's. Do not simply raise the constant.
+**So `mas_intro_seen` was the only unlisted local/session key, and it is now
+listed.** Madde 01's completeness claim, read as a claim about localStorage and
+sessionStorage, is TRUE. It is the *cookie* half of the same clause that fails.
 
 ---
 
-### DEFECT 2 — a Phase 08 edit moved a line the radius register cites (BLOCKING)
+## 7. The new permanent gate
 
-**Measured** (`fail-2-radius-citation.txt`):
+`e2e/qa-p08-storage-disclosure.spec.ts` — QA-owned, `qa-` prefixed,
+`desktop-1280` lane, `npx tsc -b` exit 0.
 
-```
-npx playwright test --project=visual-1280 e2e/visual/radius-census.spec.ts
-  x §4's source column still lands on a radius declaration
-    Error: a cited line no longer declares a radius. A citation that has drifted
-    is worse than no citation: it is what made the second version of this
-    register look checkable.
-    + Array [ "src/components/ChatBot.tsx:225" ]
-```
+| # | test | result |
+|---|---|---|
+| 1 | every stored key over every public route has a row in the published table | **pass** — the D4 contract |
+| 2 | the rendered table and the `STORAGE_ROWS` constant are the same list | pass |
+| 3 | no cookie is created on any public route | **FAIL — defect R2-2** |
+| 4 | `mas_intro_seen` is written on `/` and not under reduced motion | pass |
+| 5 | negative control — red on an observed key nobody published | pass |
+| 6 | negative control — red on a published list that lost a row | pass |
 
-**Root cause.** `docs/lean/17-inner-page-composition.md:137` reads
+It asserts set **coverage**, not a row count, because a count is not a contract.
+It is red by design until the disclosure is corrected; two runs produced the same
+two cookies with different ephemeral worker hostnames.
 
-```
-| `chat launcher` | 6 | 6 | 6 | `9999px` | 375: 48x48 · 768: 56x56 · 1280: 56x56 | `ChatBot.tsx:225` |
-```
-
-Verified green before the phase: `git show 7dcfb65~1:src/components/ChatBot.tsx`
-line 225 **is** the launcher's `…rounded-full bg-primary…` declaration. Phase 08
-inserted 143 lines into that file — the 81-line header comment at `:11-91`
-(`a6d9f3f`) and the consent block at `:404-440` (`5138fc1`) — and the declaration
-is now at `src/components/ChatBot.tsx:294`. Line 225 is now `[addAssistantMsg]`,
-a `useCallback` dependency array.
-
-`docs/lean/17:188` carries a second, un-asserted citation with the same drift:
-`ChatBot.tsx:276-346` for the in-panel avatar/chip radii, now `:345-398`.
-
-**Fix.** One-line citation update in `docs/lean/17-inner-page-composition.md:137`
-(and `:188` while there). `docs/**` is outside the QA allowlist, so this is
-reported rather than made. Nothing about the rendered radius changed; the
-`every number in docs/lean/17 §4 comes back out of the browser` test in the same
-file **passes**.
+**The first version of this file passed everything, and that is recorded on
+purpose** (`STEP5-gate.txt`). It built the sweep on `gotoAndSettle`, which is
+`domcontentloaded` plus two paint frames — the right readiness contract for
+layout and the wrong one for a widget that mounts after hydration. hCaptcha had
+not made a request yet, so all six tests were green against a page that
+demonstrably violates the claim. It now waits for `networkidle` (bounded) plus
+1 s per route and carries a **positive** control requiring the sweep to have
+reached at least one third-party host. The two negative controls did not catch
+the vacuous pass, because the hollow part was the *measurement*, not the
+comparison — which is the general lesson.
 
 ---
 
-### DEFECT 3 — the KVKK notice still says transfers happen in exactly two cases
+## 8. RFQ / "hiçbir yapay zekâ servisine gönderilmez" — TRUE as written
 
-**Measured.** Rendered `/kvkk`, madde 04 "Aktarım" (`rendered-expanded.txt`):
+The sentence appears in `/kvkk` madde 04 (new) and `/gizlilik-politikasi` madde
+06. Full trace in `STEP7-rfq-ai-trace.txt`.
 
-> "Aktarım **iki hâlde** olur: yetkili kamu kurum ve kuruluşlarının kanuna dayalı
-> talebi, ve bu sitenin çalışması için kullanılan barındırma ile veri tabanı
-> altyapısının hizmet sağlayıcısı."
+**What an RFQ submission writes** (`TeklifAl.tsx:513-543`, the only submit path):
+one object into the `cad-uploads` bucket, and one row into `rfqs` via
+`supabase.functions.invoke("rfq-rate-limit")` →
+`supabase/functions/rfq-rate-limit/index.ts:127`. Nothing else.
 
-Rendered `/gizlilik-politikasi`, madde 06, added by the same phase:
+**Can either reach `finance-ai`, `ocr-invoice` or `parasut-sync`?**
 
-> "…o ana kadarki yazışma önce sitenin kendi sunucu fonksiyonuna, oradan da
-> Google'ın Gemini servisine (`generativelanguage.googleapis.com`,
-> `gemini-2.0-flash`) iletilir"
+- There are exactly **four** `functions.invoke` call sites in all of `src/`:
+  `TeklifAl.tsx:523` → `rfq-rate-limit`, and `FinanceDocsView.tsx:167/255/272` →
+  the three AI/sync functions. All three AI invocations live in **one admin file
+  that never reads `rfqs` and never touches `cad-uploads`**; its `finance-ai`
+  payload is seven fields built from `financial_documents`.
+- **Every** reader of `rfqs` (13 sites) and **every** consumer of `cad-uploads`
+  (13 sites) was enumerated. Not one invokes an edge function; they are
+  `select`/`update`/`delete`, `createSignedUrl`, `list`, `download`, `upload`.
+- Server-side, the strings `rfqs` and `cad-uploads` **do not appear** in
+  `finance-ai`, `ocr-invoice`, `parasut-sync` or `due-date-reminder`. Those read
+  `user_roles`, the `finance-docs` bucket and `financial_documents`.
+- The database adds `pg_cron` + `pg_net` and exactly **one** scheduled
+  `net.http_post` — a daily 08:00 empty-body call to `due-date-reminder`. No
+  trigger on `rfqs`, no webhook on `cad-uploads`.
 
-`/cerez-politikasi` madde 03 says the same. `/kvkk` does not.
-
-**Root cause.** `git show --stat 5138fc1` — the commit whose subject is *"the
-chat does not stop at our backend — it goes to Google, so say that"* — touches
-`docs/lean/18-document-surfaces.md`, `src/components/ChatBot.tsx`,
-`src/pages/CerezPolitikasi.tsx`, `src/pages/GizlilikPolitikasi.tsx`. It does not
-touch `src/pages/KVKK.tsx`. Two of the three legal texts were corrected; the one
-whose statutory job is to enumerate *aktarım* was not.
-
-**Why this is in scope and not a technicality.** The KVKK notice sets its own
-scope broadly, in the phase's own new wording at madde 02: "Yüklediğiniz
-dosyanın içeriği kişisel veri taşıyorsa — örneğin çizim antedindeki bir isim — o
-veri de bu metnin kapsamındadır." Content-borne personal data is in scope by the
-document's own rule. Text a visitor types into the chat is content-borne data of
-exactly that kind — `/gizlilik-politikasi` madde 06 says so itself when it warns
-"parça numarası, tolerans değeri, teknik resim içeriği ya da firmanızın adı gibi
-… hiçbir bilgiyi sohbet kutusuna yazmayın". So a third transfer exists, and the
-notice that enumerates transfers says there are two. Madde 02 has the mirror
-gap: it lists the RFQ form and account e-mail and does not mention the chat,
-where `/gizlilik-politikasi` madde 02 does.
-
-This is the same defect class the phase spent itself removing (`/sss` analytics,
-the `faq_analytics` write, the "şifreli ortamlarda saklanır" clause) — an
-enumerating document that is misleading by omission even though no individual
-sentence in it is false.
-
-**Fix.** `src/pages/KVKK.tsx`, clause `aktarim` (and the collected-data clause),
-worded from the code the same way clause 06 of the privacy policy was.
+**Verdict: the sentence is true and both documents may keep it.** Two caveats
+recorded rather than hidden: `finance-ai` accepts an unvalidated caller-supplied
+`documents` array, so the guarantee is held by one call site and not by a
+server-side constraint — the same drift shape round 1 recorded for the chat
+consent filter; and an admin pasting RFQ text into the finance AI's free-text box
+is a human action, not the data path the sentence is about.
 
 ---
 
-### DEFECT 4 — the cookie policy's storage list claims completeness and is short by one
+## 9. Criteria 3 and 5 — CARRIED, re-measured, neither got worse
 
-**Measured** (`storage-and-hash.txt`, six public routes visited in one context):
+Recorded as CARRIED per `PROGRESS.md` **A21** and **A20**. C3 did not address
+them and was not asked to. Both re-measured with round 1's own probes.
 
-```
-cookies created over six public routes: []
-localStorage keys:   ["mas-technic-theme"]
-sessionStorage keys: ["mas_intro_seen"]
-```
+**Criterion 3 (A21)** — identical to round 1, to the node:
 
-The no-cookie claim (madde 01) is **true** — zero cookies. The completeness
-claim is not. Madde 01 says "Sakladığı şeyler … hepsi 02. maddede
-listelenmiştir" and madde 02's table lists exactly four records:
-`sb-…-auth-token`, `mas_chat_ai_count`, `mas_pending_cad_upload`,
-`mas-technic-theme`. `mas_intro_seen` is not among them.
+| route | legacy-teal nodes | Radix roots | `shell-*`/`tl-*` primitives |
+|---|---|---|---|
+| `/teklif-al` | 16 | 3 | 1 |
+| `/giris` | 92 | 0 | 0 |
+| `/sifremi-unuttum` | — | — | 0 |
+| `/reset-password` | — | — | 0 |
+| `/cad-dashboard` | 16 | 3 | 1 |
 
-**Root cause.** `index.html:314` — `sessionStorage.setItem(KEY, "1")` inside the
-inline "Precision Born" intro script, written once per session on `/` only.
+All ten Wave B surfaces and the four Wave A controls: 0 teal, 0 Radix roots, 0
+`bg-card`, 0 off-register radii, 0 system-font nodes, 47–404 shell primitives.
+`/cad-dashboard` is the redirect alias for `/teklif-al`, which is why the two
+rows are identical.
 
-**Severity.** Low in substance — it is a one-bit UI-state flag, not tracking, not
-identifying, never sent anywhere. But it is a completeness assertion in a legal
-text, and the surrounding table is precise to the point of naming an expiry per
-row, which is what makes the omission visible. Add the fifth row, or drop the
-word "hepsi".
-
----
-
-### DEFECT 5 — CAD parse error and form error are still library defaults
-
-**Reached, not inferred.** `probe-error-states.mjs` uploads a `.txt` file to the
-single `input[type=file]` on `/teklif-al` and reads what appears
-(`error-states.txt`):
+**Criterion 5 (A20)** — identical to round 1:
 
 ```json
-{ "tag": "li", "sonner": true,
-  "text": "Desteklenmeyen dosya formatı.",
-  "background": "rgb(255, 255, 255)",
-  "borderRadius": "8px",
+{ "tag": "li", "sonner": true, "text": "Desteklenmeyen dosya formatı.",
+  "background": "rgb(255, 255, 255)", "borderRadius": "8px",
   "border": "1px solid rgb(217, 222, 226)",
   "fontFamily": "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont," }
 ```
 
-Screenshot: `shots/teklifal-format-error.png` — a white, 8 px-rounded,
-system-font card on a graphite shell. For contrast, the two states this phase
-*did* brand measure `border-radius 0px` and
-`font-family "Space Grotesk", system-ui, sans-serif`.
+The three states Phase 08 *did* brand are unchanged and still correct: `/sss`
+empty (`0px`, Space Grotesk, working "FİLTRELERİ TEMİZLE"), loading (`0px`, Space
+Grotesk), route error (one `<h1>` "Bu sayfa yüklenemedi",
+`ERR::ROUTE_RENDER_FAILED`, three recovery actions).
 
-**Root cause.** `src/pages/TeklifAl.tsx:358` (`Desteklenmeyen dosya formatı.`),
-`:411` (`STEP dosyası işlenirken hata oluştu.` — the CAD parse error by name) and
-`:490` (the form error) all call `toast.error`, which resolves to
-`src/components/ui/sonner.tsx`, a file unchanged since the initial commit
-`2cd03c1`. `ShellNotice`'s `tone="error"` variant — introduced by `7dcfb65` and
-described in its own commit message as "the one inline message block: form
-error, parse error, caution" — is used **zero** times in `src/`
-(`grep -rn 'tone="error"' src/` returns only the CSS rules and the comment; the
-three real usages are all `tone="caution"`).
-
-**This is a documented deferral, not a silent skip.** `docs/lean/18-document-surfaces.md:162-165`:
-
-> "**Not wired, and deliberately:** the CAD parse error and the RFQ form errors
-> live in `src/pages/TeklifAl.tsx`, which Phase 09 owns and Phase 08 may not
-> edit. The primitive is here for Phase 09 to use; claiming those states are
-> 'done' would be claiming a change that does not exist in that file."
-
-I record this fairly: the reasoning is sound, the deferral is written down in the
-repository, and Phase 09's acceptance criteria do include "All expected failure
-states are designed and tested". But Phase 08's mandatory task names these two
-states, criterion 5 is written unconditionally, and the criterion as written is
-not met. Whether a Phase-09 ownership boundary overrides a Phase-08 acceptance
-criterion is the Orchestrator's call, not QA's. I cannot verify the Coder's
-write-allowlist claim ("Phase 08 may not edit") because I do not hold the Coder's
-packet.
+**NEITHER CARRIED CRITERION GOT WORSE.**
 
 ---
 
-### DEFECT 6 — five public routes are still in the old generic design language
+## 10. Acceptance criteria matrix
 
-**Measured structurally, inside `<main>`, at 1280**
-(`design-membership.txt`, `legacy-accent.txt`):
-
-| route | shell-*/tl-* primitives | legacy teal nodes | Radix roots | off-register radii | `bg-card` | system-font nodes |
-|---|---|---|---|---|---|---|
-| all 10 Wave B surfaces | 47–404 | 0 | 0 | 0 | 0 | 0 |
-| `/hakkimizda`, `/iletisim`, `/malzemeler`, `/hizmetler/cnc-frezeleme` (Wave A control) | 86–331 | 0 | 0 | 0 | 0 | 0 |
-| `/teklif-al` | 1 | 16 | 3 | 0 | 0 | 0 |
-| `/giris` | 0 | 92 | 0 | 0 | 0 | 0 |
-| `/sifremi-unuttum` | 0 | — | — | 0 | 0 | 0 |
-| `/reset-password` | 0 | — | — | 0 | 0 | 0 |
-| `/cad-dashboard` | 1 | 16 | 3 | 0 | 0 | 0 |
-
-Legacy teal = `rgb(10, 125, 138)`, sampled from the live page. All five are
-public routes: `/giris`, `/sifremi-unuttum`, `/reset-password` and
-`/cad-dashboard` are the four the repository's own contract calls
-`NON_SHELL_PUBLIC_ROUTES` (`e2e/shared-shell-accessibility.spec.ts`), and
-`/teklif-al` is a full-shell public route whose *body* is unmigrated. Visual
-confirmation of `/teklif-al` at 1280: `shots/teklifal-format-error.png` — teal
-`İLERİ` fill, teal upload tile, shadcn `Tabs`.
-
-Two honest notes in the phase's favour. First, the radius register is clean
-everywhere, including these five — the shadcn `--radius` token was retuned to the
-shell register in an earlier phase, so the packet's expected "raw `rounded-lg`"
-marker genuinely does not exist anywhere in the tree. Second, no repository
-document records an exception for these five, and no phase's mandatory tasks name
-a visual redesign of them: Phase 07 is Wave A (about/contact/materials/services/
-sectors), Phase 08 is Wave B, Phase 09 owns `/teklif-al` for functionality and
-security only, and the three auth routes are named by no phase at all. So
-criterion 3 cannot be satisfied by any phase as currently written. That is a plan
-gap the Orchestrator has to close, not something the Phase 08 Coder could have
-fixed inside its scope.
+| # | Criterion | Round 1 | Round 2 | Evidence |
+|---|---|---|---|---|
+| 1 | 404 is unmistakably MAS TECHNIC, usable and linked back | PASS | **PASS** | `ul.shell-index` 8 entries at 375 and 1280; `<h1>` "Bu koordinatta kayıt yok"; own "Ana sayfa" action; `waveb-notfound-body` golden matches |
+| 2 | Blog/article, quality/resources, case studies, SSS and legal share the global design system | PASS | **FAIL** | Structurally still 0 teal / 0 Radix / 0 off-register radii on all ten surfaces — but `/cerez-politikasi`'s table is the only one of eight `ShellSpecTable` surfaces that does not get the shell's table behaviour. **DEFECT R2-1** |
+| 3 | No public route still visibly belongs to the old design language | FAIL | **CARRIED (A21)** | §9. Unchanged, not worse |
+| 4 | Search/filter implemented with a justified need or explicitly omitted | PASS | **PASS** | Unchanged; recorded per surface in source |
+| 5 | Error/loading/empty states no longer fall back to library defaults | FAIL | **CARRIED (A20)** | §9. Unchanged, not worse |
+| — | Content truth (§13, §1.3) across the published legal set | partly FAIL (D3, D4) | **FAIL** | D3 and D4 fixed and verified; **DEFECT R2-2** — four absolute claims falsified by hCaptcha on `/giris` |
 
 ---
 
-## Adjudication of the two handed-over defects (§3.C)
+## 11. What Phase 08 and C3 got right, with the measurement
 
-### C.1 — `src/components/ChatBot.tsx:239-240`, the stale consent-prompt filter
+*Carried forward from round 1 and extended, because a report that lists only
+failures misrepresents the work.*
 
-Confirmed as described. Line 240 filters against
-`"🤖 Bu soruyu daha detaylı yanıtlamak için AI asistanı kullanmamı ister misiniz? (Günlük limit: " + AI_DAILY_LIMIT + " mesaj)\n\n**Evet** yazarak onaylayabilirsiniz."`
-while `:273` renders `` `…(Kalan: ${remaining} mesaj)\n\n**Evet** veya **Hayır** yazarak yanıtlayın.` ``.
-The filter matches nothing.
-
-**Traced payload.** `callAi(pendingAiPrompt, [...msgs.filter(never-matches), userMsg])`,
-and `callAi`'s first parameter is never read — `streamChat({ messages: history })`
-at `:211-212` sends the array whole. So Google receives: every prior turn in the
-session (including any locally-answered FAQ exchange), the assistant's consent
-prompt, and a **duplicate** of the original question. The literal `"Evet"` the
-reader typed is correctly excluded (it is appended to `newMsgs`, not to the
-payload).
-
-**(a) Does this make any sentence on the legal pages false?** **No.** All three
-texts are worded to cover it, and one of them deliberately so:
-
-- in-panel, `ChatBot.tsx:414` — "Evet derseniz **o ana kadarki yazışma**, sitenin sunucusu üzerinden Google'ın Gemini servisine iletilir";
-- `GizlilikPolitikasi.tsx:210-213` — "**o ana kadarki yazışma** önce sitenin kendi sunucu fonksiyonuna, oradan da Google'ın Gemini servisine … iletilir";
-- `CerezPolitikasi.tsx` madde 03 — "yazışmanız … iletilir".
-
-"The conversation up to that point" includes the assistant's own prompt. The
-disclosure is broader than the code's intent, which is the safe direction.
-
-**(b) Production fix required for Phase 08 to pass?** **No — carried item, for
-Phase 09.** It is a code-correctness defect (a dead filter, one duplicated user
-turn, one assistant turn the author meant to strip, and a few wasted tokens per
-call), not an acceptance-criterion violation and not a disclosure defect.
-
-**One corollary the Orchestrator should carry forward.** The defect is currently
-*masked* by the broad wording. The moment anyone narrows clause 06 to something
-like "only the question you asked is sent" — which is what `:240` was clearly
-trying to make true — that sentence becomes false the same day, with no test
-watching. The right fix is to key the filter on state (drop the trailing
-assistant message when `pendingAiPrompt` is set) rather than on any string
-literal, so the two can never drift again.
-
-### C.2 — `src/components/ScrollToTop.tsx` ignoring `location.hash`
-
-Confirmed and **measured at runtime**, three ways (`storage-and-hash.txt`):
-
-```
-B1. SAME-PAGE anchor click        {"scrollY":2115,"clauseTop":0,"hash":"#sohbet-asistani"}   <- works
-B2. FULL navigation to the URL    {"scrollY":0,"clauseTop":2115,"hash":"#sohbet-asistani"}   <- does not
-B3. clause link present in panel  true
-B4. SPA <Link> click from the chat consent block
-    {"url":"/gizlilik-politikasi#sohbet-asistani","scrollY":0,"clauseTop":2115,"viewportH":900}
-    -> clause is NOT in the viewport
-```
-
-The clause sits 2115 px below a 900 px viewport. `ScrollToTop.tsx:7-19` is a
-`useLayoutEffect` keyed on `pathname` alone that sets
-`history.scrollRestoration = "manual"`, scrolls to 0, then schedules a second
-`window.scrollTo(0, 0)` in `requestAnimationFrame` — which is why even a
-**full page load of the pasted URL** fails, not just the SPA click: it overrides
-the browser's own native fragment scroll. `src/components/Header.tsx:296` handles
-hashes, but only when `onLanding`. Same-page anchors work, so the in-page
-`MADDELER` index is unaffected.
-
-**Adjudication.** This is a Phase 08 defect, and a narrow one.
-
-- It does **not** touch criterion 1. Every link on the 404 is a route path, and I
-  resolved them: three suggestions, three `200`s, three real `<h1>`s. The 404's
-  recovery paths work.
-- It **does** break the phase's own new disclosure affordance.
-  `ChatBot.tsx:418` is the *only* cross-route hash link in the entire
-  application — `grep -rnoE '(to|href)=\{?"[^"]*#[a-zA-Z0-9_-]+"' src/ | grep -v '="#'`
-  returns exactly one line — Phase 08 created it, and it is the link a reader
-  follows at the precise moment they are deciding whether to send text to a
-  third party. It lands them at the top of a seven-clause document.
-
-**Production fix required for Phase 08 to pass?** **Not on its own.** The
-destination opens, the citation names the clause number in its own text
-("Gizlilik Politikası, madde 06"), and the sticky `MADDELER` index puts the
-clause one click away. I classify it **MEDIUM, required before release, not a
-standalone blocker** — and I would not argue if the Orchestrator upgrades it,
-because "the deep link in the privacy affordance does not land" is a poor thing
-to ship. The fix is small and belongs in `src/components/ScrollToTop.tsx`: when
-`location.hash` is present, scroll the target into view instead of resetting to
-0, and leave the reset alone otherwise. It is production code, so it is
-described here rather than made.
-
-Phase 08 is not the author of `ScrollToTop.tsx` — the file is untouched by all 15
-commits — but it is the author of the first link that depends on the behaviour.
+- **The footer fix is the right fix.** The band came back to 297 px without
+  touching `ia.ts`, without a fifth column, and without moving the `0.26`
+  constant. The 1280 landing page is now byte-clean above the footer against the
+  pre-Phase-08 baseline (§3.3).
+- **The radius register moved as one contract.** The C3 packet was right that
+  QA's stated one-line doc fix was incomplete — `foldRegister` builds the SOURCE
+  cell from `RADIUS_SOURCES` — and all three tests are green, including the
+  browser census and the drift control.
+- **The KVKK correction is well-judged.** It states only what the repository can
+  prove, refuses to describe Google's behaviour, cites the clause by number
+  rather than by a fragment `ScrollToTop.tsx` would eat, and leaves the two true
+  statements alone.
+- **The `<h1>` recurrence of Phase 07's F3 still has not happened** — 15 Wave B
+  paths, exactly one `<h1>` each.
+- **Zero serious/critical axe violations**, 30/30 across `desktop-1280` and
+  `mobile-375`; reflow at 320 CSS px holds on all 15.
+- **Contrast at 375 — round 1's open item, now closed.** 1 324 elements over ten
+  surfaces, **zero real failures**, negative controls reproducing at
+  21 / 1 / 3.033 / 3.033 / 3.977 on every route. The single hit is the same
+  `aria-hidden`, transparent-filled decorative "404" numeral round 1 adjudicated
+  at 1280 (2.63 here against 2.75 there), whose content is carried as real text
+  beside it.
+- **The full `desktop-1280` regression round 1 lost is complete** — 176 tests,
+  151 passed, 24 skipped, 1 failed (my own new gate). Every repository-owned test
+  at that viewport is green, including the five specs round 1 never reached.
+- **Cross-browser, run for the first time in this phase:** all four `smoke-*`
+  projects green, 12/12. Stated honestly: the smoke suite is three tests and
+  covers one inner page, so Wave B under Firefox and WebKit is still uncovered.
+- **`node scripts/claims-gate.mjs` → PASS — 0 unverified claims across 27
+  rules**, 214 files / 27 705 non-comment lines, re-run after the C3 legal edits.
+- **`npx tsc -b` exit 0; `npm run build` exit 0** at `b77be5c`.
 
 ---
 
-## What Phase 08 got right, with the measurement
+## 12. Observations (not blocking)
 
-Stated because a FAIL report that lists only failures misrepresents the phase.
-
-- **The `<h1>` recurrence of Phase 07's F3 did not happen.** All 15 Wave B paths
-  expose exactly one `<h1>` in `main#main-content`, including both not-found
-  bodies and both 404 branches (`e2e/qa-p08-waveb-contract.spec.ts`, 15/15 at
-  `desktop-1280`). The 500-class state got its `<h1>` too, verified by reaching
-  it.
-- **Zero serious/critical axe violations** on all 15 paths at both
-  `desktop-1280` and `mobile-375` (30/30). `incomplete` was not read as
-  `violations`.
-- **Reflow at 320 CSS px** holds on all 15 (15/15, `mobile-320`), measured as
-  `documentElement.scrollWidth − clientWidth <= 1`.
-- **Contrast**, with Phase 07's glyph-free instrument (negative controls
-  reproduced at 21.0 / 1.0 / 3.033 / 3.033 / 3.977 on every route): **0 real
-  failures** across `/kabiliyet-profilleri`, its detail, `/kalite-dosyasi`,
-  `/blog`, an article, `/sss`, all three legal routes and the 404 — 1 587
-  elements measured (`contrast-1280.json`, `contrast-1280.txt`). The two
-  candidates it raised were both adjudicated and both cleared
-  (`contrast-adjudication.txt`): `.shell-faq-source a` measures a uniform
-  **6.319:1** (10 px, `rgb(78,85,82)` on `rgb(238,233,222)`) when every
-  `<details>` is forced open — the single 2.583 reading was an artifact of a
-  scroll step where the row was not painted at all (`naiveGlyphPx == modalBg`);
-  and the 404 numeral is `aria-hidden="true"` with
-  `-webkit-text-fill-color: transparent` and a `rgba(18,23,25,0.42)` 1.5 px
-  stroke over paper — decorative, and the same "404" is carried as real text in
-  the status readout.
-- **Keyboard, SC 2.1.2.** The 117-item `/sss` register opens and closes from
-  `Enter` on a `<summary>`, and `Tab` escapes the register within the bound. No
-  trap.
-- **Analytics removal is complete.** No `faq_analytics` write survives in public
-  code (`src/components/admin/ChatbotAnalyticsView.tsx` is an admin *read*, and
-  `admin/` is out of scope per §N). `src/pages/SSS.tsx` imports no Supabase
-  client and runs no `useEffect`. No gtag/GTM/Plausible/Sentry/PostHog/Hotjar/
-  Clarity/Matomo/Mixpanel/Segment anywhere in `src/`, `index.html` or `public/`.
-  §K `ANALYTICS_PROVIDER: NONE` is now true of the code, not only of the copy.
-- **The AI-disclosure claims check out against the code.** Local FAQ match makes
-  no request (`findBestFaqMatch` over the bundled `src/data/chatFaqData`);
-  `callAi` has exactly one call site (`ChatBot.tsx:240`) reachable only from the
-  consent branch; the edge function forwards only `system_instruction` /
-  `contents` / `generationConfig` and sets one header
-  (`supabase/functions/chat/index.ts:34-45`), so no browser header and therefore
-  no visitor IP reaches Google; the 103-line function holds no Supabase client,
-  no `insert`, no `from(`; and the clause says nothing about Google's retention
-  or training, which is correct because nothing in the repo can establish it.
-  **No undisclosed third-party transfer exists**: the only outbound hosts
-  reachable from a visitor's browser are `fonts.googleapis.com` /
-  `fonts.gstatic.com` (disclosed, `index.html:265-274`) and the Gemini endpoint
-  via the edge function (disclosed). The `pub-…r2.dev` URLs in `index.html:32,45`
-  are `og:image`/`twitter:image` meta only and are never fetched by the visitor.
-- **The register of four PDFs is exact** — see the document-register audit above.
-- **`npx tsc -b` exit 0; `npm run build` exit 0.**
+1. **`/kvkk` madde 04 still opens a closed list and then adds to it.** "Aktarım
+   üç hâlde olur" is followed a paragraph later by "Bir işin yürütülmesi için
+   üçüncü bir tedarikçiye teknik dosya iletilmesi gerekiyorsa…". Pre-existing and
+   hedged, so not raised to blocking — but "üç hâlde" is a stronger closed claim
+   than "iki hâlde" was.
+2. **The storage table's note** says "hiçbiri üçüncü bir tarafa aktarılmaz";
+   `sb-…-auth-token` is sent to Supabase on every authenticated request.
+   Defensible under the document's own vocabulary, in tension for a literal
+   reader.
+3. **"Aktarılan tek şey yazışma metnidir"** — the request body also carries the
+   site's own `system_instruction` and `generationConfig`. Neither is the
+   visitor's data; noted for exactness.
+4. **`installFontRetry()` flaked in three of four visual projects in one pass.**
+   Higher than previously recorded; feeds the Phase 12 self-hosting decision.
+5. **`/malzemeler`'s scroll region scrolls but was not granted a tabindex** in my
+   probe window, where the others were. Possibly timing; worth a look when
+   somebody is next in `useScrollableRegionAccess`.
+6. **Carried from round 1, unchanged:** the claims-gate coverage holes (eight
+   strings, no revenue rule); blog publication dates untouched while the bodies
+   were rewritten; `ScrollToTop.tsx` eating `location.hash`; the stale
+   consent-prompt filter at `ChatBot.tsx:239-240`; the `/sss` capacity claim
+   inherited from `servicePages.ts`.
 
 ---
 
-## The goldens (IMPLEMENTATION.md §12)
-
-**No `--update-snapshots` was run, at any point, for any reason.** No golden PNG
-was written, moved or deleted by QA.
-
-**All four visual projects were run per project, in bounded foreground chunks.**
-`visual-375`, `visual-768`, `visual-1440`: 35 passed, 0 failed each.
-`visual-1280`: 40 passed, 1 failed — the failure is DEFECT 2, a citation check,
-not a snapshot. **Every one of the 16 new and 23 modified baselines matched.**
-No flake was observed in any of the four runs.
-
-### Falsifying the rebank claim for the 23 modified goldens
-
-Claim under test: the only change is the shared footer gaining two links, i.e. a
-pure append below the fold with nothing above it moving. Old blobs read straight
-out of `git show 7dcfb65~1:…`, decoded, compared row by row
-(`probe-golden-rebank.mjs`, `probe-golden-shift.mjs`, threshold 16/255;
-`golden-rebank.txt`, `golden-shift-375-*.txt`):
-
-| golden | height Δ | first changed row | verdict |
-|---|---|---|---|
-| `visual-1280/landing-fullpage` | +45 | **3752** of 3918 (95.8 % down) | inside the footer region (footer ≈ last 298 rows, i.e. from 3620) — nothing above it moved |
-| `visual-1440/landing-fullpage` | +45 | **3807** of 3973 (95.8 %) | same |
-| `visual-768/landing-fullpage` | +45 | **5969** of 6144 (97.2 %) | same |
-| `visual-1280/shell-footer-home` | +45 | **132** of 298 | crop *is* the footer; rows 0–131 byte-identical, everything below shifts +45 |
-| `visual-1280/shell-footer-about` | +45 | **132** of 298 | same |
-| `visual-1280/navigation-open` | 0 | **597** of 900 | inside the menu's KAYNAKLAR group; fixed-size overlay, so no height change |
-| `visual-375/shell-footer-journal` | 0 | 10 | see below |
-| `visual-375/shell-footer-notfound` | −1 | 0 | see below |
-
-**The claim holds at 768/1280/1440.** No body content above the footer moved. At
-threshold 1/255 there are scattered ±1 antialiasing pixels higher up (1–3 px on
-a row); those are sub-perceptual and are why the meaningful measurement is at
-threshold 8–16.
-
-**At 375 the change is a different thing, and the commit says so.** Only 2 of the
-6 footer crops changed there, because below 768 the nav columns become
-disclosure panels with a real `hidden` attribute, so the two new links paint
-nothing. The two that changed are exactly the two routes whose *body* this phase
-rewrote. Row-by-row shift analysis: `shell-footer-notfound` is a **uniform −1**
-(crop 743 → 742); `shell-footer-journal` is **0 down to row ~71 and −1 below it**
-— a sub-pixel rasterisation shift from the footer element sitting at a different
-fractional offset, not a content change. Source-level control, verified
-independently: `SiteFooter.tsx`, `footer-groups.ts`, `claims.ts` and `Header.tsx`
-are **byte-identical** across `7dcfb65~1..5138fc1` (`git diff --name-only` over
-those four paths is empty), and the `shell.css` diff adds **no** `tl-footer` /
-`shell-footer` selector. So the footer's own rendering did not change.
-
-**Verdict: the rebank was justified.** No body content was silently rebanked
-under cover of a footer change.
-
-### The 16 new `waveb-*` baselines
-
-Six opened and read directly (`waveb-profile-scope` @1280 and @375,
-`waveb-quality-documents` @1280, `waveb-notfound-body` @1280 and @375,
-`waveb-journal-lead` @1280 and @768); the remaining ten checked programmatically
-for degeneracy (`golden-nondegenerate.txt`): 1 391–2 056 distinct 5-bit colours
-each, dimensions 333x1521 to 1438x1665. **None is an empty band, a header
-overlay or the chat launcher.** Each contains its stated subject:
-
-- `waveb-notfound-body` — status readout, the populated `YAKIN KAYITLAR` block,
-  the 8-entry directory, the three actions;
-- `waveb-journal-lead` — the lead article opened up with plate, standfirst,
-  section list and CTA;
-- `waveb-quality-documents` — all four PDFs with `PDF · 79/101/90/86 KB`;
-- `waveb-profile-scope` — the "Bunlar müşteri projesi **değildir**" heading and
-  both paragraphs, so the golden really does guard the §G sentence it exists for.
-
----
-
-## Observations (not Phase 08 defects; recorded so they are not lost)
-
-1. **A capacity claim on `/sss` that `USER_INPUTS.md` does not authorise.**
-   Rendered, inside an open `<details>`: *"Evet, 500 kg'a kadar ağırlık ve
-   1500mm'ye kadar boyutta parça işleme kapasitemiz bulunmaktadır. Vinçli
-   yükleme ve özel bağlama düzenleri kullanıyoruz."* Also *"CNC + konvansiyonel
-   tezgah hibrit işleme kapasitesi"*. Source: `src/data/servicePages.ts:3112`,
-   `:3118`, `:3223`. **Carried, not introduced:** `servicePages.ts` is untouched
-   by all 15 commits, and `git show 7dcfb65~1:src/pages/SSS.tsx:53` already
-   aggregated the same `page.faq` entries. The claims gate does not reach it —
-   by its own documented design decision that a machine *envelope* (tool
-   magazine, part size) is a legitimate specification while a machine *count* is
-   not. I do not think that decision is wrong; I do think a max part weight and
-   a hybrid machine mix sit closer to the §0 line than a tool magazine does, and
-   somebody should decide deliberately rather than by rule coverage.
-2. **Claims-gate holes** — eight strings, table above. The revenue hole is the
-   one I would close first: §0 names revenue explicitly and no rule mentions a
-   currency.
-3. **Blog publication dates.** All six `date:` values are byte-identical to
-   pre-Phase-08 (`15 Ocak 2024` … `10 Aralık 2023`) while the article bodies were
-   rewritten wholesale. The same reasoning that moved `LEGAL_REVISION` to
-   `4 Eylül 2026` — *"a date that had not been true since the texts were last
-   edited"*, `LegalDocument.tsx:62-70` — was not applied here.
-4. **`/gizlilik-politikasi` madde 06 says "Yalnızca 'Evet' yazarsanız"**;
-   `ChatBot.tsx:233` also accepts `👍`. An understatement in the reader's favour,
-   but an inaccuracy.
-5. **Asymmetric naming.** Clause 05 names Google for Gemini but calls the font
-   host only "harici bir yazı tipi dağıtım ağı". It is `fonts.googleapis.com` /
-   `fonts.gstatic.com`. Not false; defensibly editorial; worth a decision.
-6. **The 404 numeral**, measured as a stroke composite
-   (`rgba(18,23,25,0.42)` over `#fbf8f1`), computes ≈ **2.75:1** against 3:1 for
-   large text. `aria-hidden="true"`, purely decorative, and the same content is
-   real text elsewhere on the page — so not a violation, but the number is here
-   rather than omitted.
-7. **The route-error state renders without header and footer**
-   (`hasHeader: false`, `hasFooter: false`). Correct by construction — the shell
-   comes from `PageShell` inside the page that just failed — and it is not a dead
-   end (it offers `/` and `/iletisim`). Noted because the 404 *is* required to
-   carry global navigation and the 500 reads differently.
-
----
-
-## Commands run
+## 13. Commands run
 
 ```text
-git log --oneline 7dcfb65~1..5138fc1                                   # 15 commits
-git diff --stat 7dcfb65~1..5138fc1                                     # 67 files, +4165/-1264
-npx tsc -b --pretty false                                              # exit 0
 npm run build                                                          # exit 0
+npx tsc -b --pretty false                                              # exit 0
 node scripts/claims-gate.mjs                                           # PASS - 0/27, 214 files
-node <scratch>/gateprobe/scripts/claims-gate.mjs                       # adversarial: 3 controls fire, 8 probes pass
-md5sum Politikalar/*.pdf public/belgeler/*.pdf                         # 4 pairs identical
-curl -s -o /dev/null -w '%{http_code} %{size_download}' /belgeler/*.pdf  # 4 x 200 application/pdf, sizes exact
-curl -s -o /dev/null -w '%{http_code}' /bu-sayfa-yok                   # 200 -> soft-404 confirmed
 
-npx playwright test e2e/shared-shell-accessibility.spec.ts --project=desktop-1280      # 12 passed, 4 skipped
-npx playwright test e2e/qa-p08-waveb-contract.spec.ts --project=desktop-1280           # 31 passed, 15 skipped
-npx playwright test e2e/qa-p08-waveb-contract.spec.ts --project=mobile-375 --project=mobile-320
-                                                                                       # 30 passed, 62 skipped
-npx playwright test --project=visual-1280                              # 40 passed, 1 FAILED (radius-census citation)
-npx playwright test --project=visual-1440                              # 35 passed
-npx playwright test --project=visual-768                               # 35 passed
-npx playwright test --project=visual-375                               # 35 passed
-npx playwright test --project=critical-1280 --project=critical-375     # 162 passed, 1 FAILED, 3 skipped
-npx playwright test e2e/technical-landing.spec.ts --project=critical-1280 -g "reference proportions"
-                                                                       # x3, 0.2671875 every time
+npx playwright test e2e/technical-landing.spec.ts --project=critical-1280   # 15 passed
+npx playwright test --project=critical-375                                  # 81 passed, 2 skipped
+npx playwright test e2e/visual/radius-census.spec.ts --project=visual-1280  # 3 passed
+npx playwright test e2e/landing/navigation-reachability.spec.ts --project=critical-1280  # 5 passed
+npx playwright test --project=visual-375   # 34 passed, 1 failed (font flake) -> re-run 2 passed
+npx playwright test --project=visual-768   # 34 passed, 1 failed (font flake) -> re-run 6 passed
+npx playwright test --project=visual-1280  # 41 passed
+npx playwright test --project=visual-1440  # 34 passed, 1 failed (font flake) -> re-run 7 passed
+npx playwright test --project=desktop-1280            # 5 chunks: 151 passed, 24 skipped, 1 failed
+npx playwright test --project=mobile-320              # 123 passed, 53 skipped
+npx playwright test --project=mobile-375              # 119 passed, 57 skipped
+npx playwright test --project=mobile-390              # 102 passed, 74 skipped
+npx playwright test --project=tablet-768              #  99 passed, 76 skipped, 1 FAILED
+npx playwright test --project=landscape-844           #  99 passed, 76 skipped, 1 FAILED
+npx playwright test --project=desktop-1440            # 103 passed, 73 skipped
+npx playwright test --project=desktop-1440-short      # 103 passed, 73 skipped
+npx playwright test --project=smoke-firefox-390 / -1440 / smoke-webkit-390 / -1440   # 12 passed
+npx playwright test e2e/qa-p08-storage-disclosure.spec.ts --project=desktop-1280
+                                                      # 5 passed, 1 FAILED (defect R2-2)
 
-node reports/qa/phase-08/probe-render.mjs                              # 13 routes: h1 counts, links, text
-node reports/qa/phase-08/probe-expanded.mjs                            # 11 routes with all <details> forced open
-node reports/qa/phase-08/probe-scale.mjs / probe-scale-expanded.mjs    # 15-family publication-policy scan
-node reports/qa/phase-08/probe-404.mjs                                 # both 404 branches + link resolution
-node reports/qa/phase-08/probe-error-states.mjs                        # form/CAD error, empty, loading, route error
-node reports/qa/phase-08/probe-design-membership.mjs                   # 19 routes, structural
-node reports/qa/phase-08/probe-legacy-accent.mjs                       # 11 routes, teal + Radix
-node reports/qa/phase-08/probe-storage-and-hash.mjs                    # cookies/storage + the hash deep link
-node reports/qa/phase-08/probe-golden-rebank.mjs   (x8 goldens)        # first-changed-row falsification
-node reports/qa/phase-08/probe-golden-shift.mjs    (x2 goldens)        # per-row shift profile at 375
-node reports/qa/phase-08/probe-golden-nondegenerate.mjs                # all 16 waveb baselines
-node reports/qa/phase-07/probes/p6-contrast.mjs  (QA_ROUTES=10 routes) # glyph-free contrast, 1587 elements
-node reports/qa/phase-08/probe-faq-source.mjs                          # contrast adjudication
+node reports/qa/phase-08/r2/probe-footer.mjs             # band, columns, pitch, complement, brand
+node reports/qa/phase-08/r2/probe-controls.mjs           # menu index, 404 directory, home click
+node reports/qa/phase-08/r2/probe-nav-grid.mjs           # the 2x2 grid at 768; 375 disclosures opened
+node reports/qa/phase-08/probe-golden-rebank.mjs  (x22)  # 21 rebanked + the pre-Phase-08 control
+node reports/qa/phase-08/r2/probe-legal.mjs              # rendered clauses, anchors, table, shots
+node reports/qa/phase-08/r2/probe-table-clip.mjs         # the clip, and the 4-row experiment
+node reports/qa/phase-08/r2/probe-table-reach.mjs        # every scroll route, tried and refused
+node reports/qa/phase-08/r2/probe-table-blastradius.mjs  # 6 routes at 375, 768 and 320
+node reports/qa/phase-08/r2/probe-table-container.mjs    # the containing block, route by route
+node reports/qa/phase-08/r2/probe-storage.mjs            # 26 routes x 2 regimes + 3 contexts
+node reports/qa/phase-08/r2/probe-cookie.mjs             # per-route cookies and third-party hosts
+node reports/qa/phase-08/probe-legacy-accent.mjs         # carried criterion 3
+node reports/qa/phase-08/probe-design-membership.mjs     # carried criterion 3
+node reports/qa/phase-08/probe-error-states.mjs          # carried criterion 5
+QA_VP=375 node reports/qa/phase-07/probes/p6-contrast.mjs  # 10 routes, 1324 elements
 ```
 
-Playwright was run per project, in bounded foreground chunks, never
-`run_in_background`, against a single `vite preview` on `:4173` via
-`PLAYWRIGHT_BASE_URL`.
+All Playwright runs were foreground, one `--project` at a time, against a single
+`vite preview` on `:4173` via `PLAYWRIGHT_BASE_URL`, with output redirected to
+`.txt`. Never `run_in_background`.
 
 ---
 
-## Scope integrity
+## 14. Scope integrity
 
 **PASS.**
 
-- Production files modified by QA: **NONE**. `git status` before commit showed
-  exactly two untracked paths: `e2e/qa-p08-waveb-contract.spec.ts` and
-  `reports/qa/phase-08/`.
-- Files created by QA, all inside the WRITE_ALLOWLIST:
-  `reports/qa/phase-08.md`, `reports/qa/phase-08/**`,
-  `e2e/qa-p08-waveb-contract.spec.ts` (new, `qa-` prefixed).
-- No golden PNG written, moved or deleted. `--update-snapshots` never run.
+- Production files modified by QA: **NONE**.
+- Files created by QA this round, all inside the WRITE_ALLOWLIST:
+  `e2e/qa-p08-storage-disclosure.spec.ts`, `reports/qa/phase-08.md`,
+  `reports/qa/phase-08/r2/**`. One QA-owned round-2 probe
+  (`reports/qa/phase-08/r2/probe-table-blastradius.mjs`) gained an env knob; it
+  is mine and inside the allowlist.
+- **No golden PNG written, moved or deleted. `--update-snapshots` never run, in
+  either round, for any reason.**
 - No assertion weakened, no tolerance broadened, no skip or xfail added, no
-  coverage deleted. The one new spec adds only assertions the repository did not
-  already make — see its header comment for the measured gap it closes (of the
-  six surfaces Phase 08 created or rewrote, only `/sss` had ever been through a
-  whole-page axe run in the repository suite).
+  coverage deleted. The one budget change in the new spec
+  (`test.setTimeout(360_000)` on the two sweep tests) is a time budget for a
+  23-route walk measured at ~51 s and ~57 s; it loosens no assertion, and the
+  60 s default was what made the first honest run report a timeout instead of a
+  defect.
 - `PROGRESS.md`, `IMPLEMENTATION.md`, `USER_INPUTS.md`, `CLAUDE.md`,
   `MASTER_CONTEXT.md`, `docs/**`, `src/**`, `public/**`, `supabase/**`,
-  `scripts/**` and all build/package config: untouched.
-- Two transient files were touched and restored: `tsconfig.app.tsbuildinfo`
-  (restored with `git checkout --`) and `tsconfig.e2e.tsbuildinfo` (a build
-  artefact, deleted). Neither is in the final commit.
-
-**Environment note, recorded because it changes what a fresh worktree renders.**
-The worktree had no `.env`. Without it, `src/integrations/supabase/env` throws
-`VITE_SUPABASE_URL is not set` at module load and **every route renders the
-top-level branded error state** — my first 13-route pass captured
-`<h1>Sayfa şu anda yüklenemedi.</h1>` on all 13 before I diagnosed it. I copied
-`.env` from the main repo (it is `.gitignore`d at `.gitignore:16-17`, so it is
-not in this commit) and rebuilt. Every measurement in this report is from the
-rebuild. The accident is also the cleanest evidence that the top-level error
-boundary is branded and reachable.
+  `scripts/**`, `.claude/**`, `tsconfig.json` and all build/package config:
+  untouched.
+- `tsconfig.app.tsbuildinfo` (tracked, modified by the type-check) and
+  `tsconfig.e2e.tsbuildinfo` (untracked) are build artifacts outside the
+  allowlist. They were left alone and are **not** in any QA commit.
 
 ---
 
-## Notes — what I could NOT verify
+## 15. Round 1, preserved
 
-Stated plainly as unverified rather than assumed passing.
+Round 1 ran at `5138fc1` and returned **FAIL**: 380 passed, 2 failed, 84 skipped,
+46 new tests. It found two red repository gates (`bantOrani` 0.2671875; the
+drifted `ChatBot.tsx:225` radius citation) and two content-truth defects (the
+two-case KVKK transfer list; the four-row storage table). All four are now fixed
+and independently re-verified above. Round 1 also falsified two Orchestrator
+premises, adjudicated the two handed-over defects (`ChatBot.tsx:239-240`,
+`ScrollToTop.tsx`), audited the four-PDF document register byte for byte, proved
+the analytics removal complete, and ran an adversarial probe of
+`scripts/claims-gate.mjs` that found eight escaping strings. Its full text is in
+this file's git history at `aae3536`, and all of its evidence remains on disk in
+`reports/qa/phase-08/`.
 
-1. **The full `desktop-1280` regression project.** I started it and the Claude
-   Code process exited mid-run. The specs it would have covered beyond what I
-   did run are `footer-reveal`, `fullscreen-menu`, `malzemeler-sticky`,
-   `material-category-footer`, `scroll-snap-regression` and the remaining
-   `landing/**` specs at that one viewport. `critical-1280` / `critical-375`
-   (166 tests) and `shared-shell-accessibility` at `desktop-1280` did run.
-   The other seven regression viewports were not run at all.
-2. **`smoke-*` (Firefox/WebKit).** Not run. Cross-browser behaviour of the Wave
-   B surfaces is unverified.
-3. **`e2e/visual/radius-census.spec.ts` at 375/768/1440.** The citation test is
-   `desktop-1280`-scoped, so DEFECT 2 shows only there; the three other visual
-   projects were green.
-4. **Lighthouse / performance.** Not in this phase's criteria and not run.
-5. **The Coder's write-allowlist.** DEFECT 5's deferral rests on the claim that
-   "Phase 08 may not edit `TeklifAl.tsx`". I do not hold the Coder's packet and
-   cannot confirm it.
-6. **The real-HTTP-404 behaviour of the production host.** Unknowable from the
-   repository — that is precisely the Coder's argument, and I agree with it. What
-   I verified is only that no hosting config exists and that the preview serves
-   `200` for an unknown path.
-7. **Whether `mas_intro_seen` is the only unlisted storage record.** I measured
-   six public routes in one browsing session. A route I did not visit, or a flow
-   I did not complete (login, an RFQ submission), could write another.
-8. **Contrast at 375.** The glyph-free instrument was run at 1280 only
-   (1 587 elements). axe's `color-contrast` rule did run at `mobile-375` on all
-   15 paths and found nothing serious/critical, but axe declines on composited
-   backgrounds, which is the whole reason the Phase 07 instrument exists.
+Round 1 named eight things it could not verify. Round 2 closes five of them (the
+full `desktop-1280` regression, the other seven viewports, the `smoke-*`
+projects, contrast at 375, and whether `mas_intro_seen` was the only unlisted
+key), and the Orchestrator resolved a sixth (the Coder write-allowlist claim is
+dropped as unverifiable — the Phase 08 packets were never written to disk). Two
+remain open and are stated as such: the production host's real-HTTP-404
+behaviour, unknowable from the repository; and Lighthouse/performance, not in
+this phase's criteria.
+
+**And round 1 got one thing wrong**, which round 2 corrects: its claim that "no
+undisclosed third-party transfer exists" was false, because it measured six
+routes and none of them was `/giris`. That is defect R2-2.
