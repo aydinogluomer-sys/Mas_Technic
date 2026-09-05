@@ -4,7 +4,7 @@
 - CODE_COMMIT: `27de482` (C5: `5003c66 · a727e54 · 27de482`)
 - WORKTREE: `C:\Users\Trade Bilisim\pdh-wt\qa-p08` on `wt/qa-p08r4`
 - STATUS: **PASS**
-- TESTS_PASSED: 214 in this round's scope (guard 26 over three lanes, four visual projects 146, qa-p08 storage + wave B 37, motion-grammar 10 of 12)
+- TESTS_PASSED: 219 in this round's scope — guard 26 over three lanes, four visual projects 146 (35+35+41+35), `qa-p08-storage-disclosure` + `qa-p08-waveb-contract` 37, `motion-grammar` 10 of 12. Six further probe measurements are evidence, not gates, and are excluded from the count
 - TESTS_FAILED: 2 — R2-3 only, both lanes, carried to Phase 10 per A23
 - TESTS_SKIPPED: 19 (18 visual `installFontRetry` lanes; 1 live control skipped at 1280 by design)
 - NEW_TESTS_ADDED: 3 (`wrongSurfaces()` plus its completeness control, its fixture control, and a live-404 control), and the live R2-1 control re-aimed and strengthened
