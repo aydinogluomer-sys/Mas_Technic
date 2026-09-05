@@ -71,6 +71,7 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | A22 | 08 | Four forgotten `vite preview` servers (ports 4173, 4187, 4190, 4191; started 03–05 Sep by agents that are long dead) were stopped during C3 integration. No worktree, branch or file was touched. | Same class as A13 (stale worktrees) — environment hygiene rather than a product decision, and this time it was blocking: `reuseExistingServer` on the default port 4173 makes a suite silently test **another worktree's `dist`**, which is a wrong measurement that looks like a right one. They were identified by port with `Get-NetTCPConnection` rather than by guessing at process names, and a preview server is restored by re-running `npm run preview`. The 8 GB box is genuinely short as well: a cold `npm run build` in the primary checkout died with `write ENOMEM` at ~1 GB free while they were up. Recorded because stopping a process is a side effect on the user's machine, however small. |
 | A23 | 08 | `e2e/landing/motion-grammar.spec.ts:254`, red at `tablet-768` and `landscape-844`, is recorded as a PRE-EXISTING failure carried to **Phase 10** rather than fixed in a Phase 08 correction round. | QA proved it pre-existing rather than asserting it: `git log 7dcfb65~1..b77be5c` over both `src/styles/technical-landing.css` and the spec is **empty** — no Phase 08 commit, C3 included, touched either file. The cause is a breakpoint/pointer mismatch: the test branches on `(hover:hover) and (pointer:fine)` and both projects set `mobile: true`, while the rule that removes `.tl-dimension-lines` is `@media (max-width:767px)` (`technical-landing.css:507`), so a hover-only affordance paints on a coarse pointer at 768 and 844. It went unseen because this run had never exercised those two viewports. Fixing it removes the lines at 768 and therefore **changes landing goldens** — landing responsive art direction, which Phase 10 owns, not a legal-page correction packet. Precedent for carrying a pre-existing red across a phase close is in this table's own history (Phase 02 "1 pre-existing fail", Phase 03 "4 pre-existing page-debt fails"). |
 | A24 | 08 | `e2e/qa-p08-storage-disclosure.spec.ts` test 3 is **re-aimed** by QA in round 3 — from "no cookie is created on any public route" to "every cookie observed on any public route is covered by the published disclosure" — rather than left permanently red or made green by touching `Login.tsx`. | The assertion `expect(cookies).toEqual([])` encoded a **published claim**, and it did its job: it held `/cerez-politikasi` to its word and it is how R2-2 surfaced. That claim has now been retired *because it was false*, and the document discloses one cookie with its attributes instead. The assertion therefore no longer corresponds to anything the site asserts — it now fails on a **correctly disclosed** cookie, which is not a defect. This is the Phase 04 re-aiming shape, not a weakening: the JOB changed. The new assertion is strictly stronger for the purpose the gate exists to serve — it goes red the day an undisclosed cookie appears, which the old one could not distinguish from the disclosed one — and it is immune to the variance C4 measured, where `.w.hcaptcha.com`'s ephemeral worker hostname produced **two** `__cf_bm` entries in one run and **one** in another, so any count-based assertion would flake. The Coder was right to refuse all three green paths available to it (removing hCaptcha = DO_NOT_TOUCH and Phase 09's security call; editing QA's test = forbidden to the Coder; blocking `hcaptcha.com` at the network layer = a test that lies) and to return PARTIAL instead. Leaving it red was the remaining option and is rejected: this run gates phase closure on suites being green, so a permanently expected-red test would both block Phase 08 forever and corrode the discipline every other gate depends on. The visibility it was preserving belongs in this file and in the Phase 09 packet, which is where hCaptcha's fate is recorded. Both existing negative controls must be extended to the new assertion, and QA must write the reasoning into the file the way Phase 04 wrote its own. |
+| A25 | 08 | R3-1 — a `mobile-320` failure on `/hizmetler/cnc-frezeleme`, a **Phase 07** surface — is fixed inside Phase 08's C5 rather than carried, even though A23 carried a different pre-existing red one round earlier. | The two are not alike, and the difference is the cost of the fix, not the ownership. A23's `motion-grammar` red needs `.tl-dimension-lines` removed at 768, which **moves landing goldens** and is a responsive-art-direction decision Phase 10 owns. R3-1 needs the one-class change C4 already proved on `/cerez-politikasi`, and QA states the guard goes green "with no edit to the test" — no golden, no design decision, no new mechanism. The governing reason is consistency with A24: this round rejected leaving a test permanently red because a phase that gates closure on green suites cannot ship an expected-red gate without corroding every other one. Invoking that to re-aim one test and then closing the phase with a different one red — written by this phase's own QA, in this phase's own round — would be incoherent. Recorded because it is a deliberate scope excursion beyond Phase 08's acceptance criteria, which name only Wave B surfaces: the guard is site-wide by design, so the first thing it found outside Wave B is the phase's to answer for, once. |
 
 ## Phase notes
 
@@ -1473,6 +1474,80 @@ repository fact — recorded in the file header, routed to Phase 09 with hCaptch
 are very tall at ≤390 with blank space in the visible strip; every cell is reachable, so it is a polish
 question for QA round 3 to judge, not a defect.
 
-**Next action:** QA round 3 — re-aim test 3 per A24, verify the eight rewritten sentences from the rendered
-DOM, re-measure the table reach independently, and write the `.shell-table-scroll` guard the C4 comment
-specifies. Phase 09 is scoped as 09a/09b per A21 once Phase 08 closes.
+#### QA round 3 — PASS, and the new guard immediately found a second instance of the defect it was written for
+
+Thirteen QA commits cherry-picked as `f9f5442..41fe117`; scope clean (`reports/qa/**` and `e2e/qa-p08-*` only).
+1168 passed / 5 failed / 557 skipped. Both C4 blockers verified fixed.
+
+**A24 implemented, and made stronger than I specified.** Test 3 now checks disclosure coverage in **both
+halves** — the cookie's name must appear as a `<code>` token in the rendered `/cerez-politikasi` **and** its
+host must be a domain the document names or a subdomain of one. Controls: both standalone ones extended
+(`_ga@.google-analytics.com` red, `__cf_bm@.evil.example` red — precisely the case the old assertion could not
+distinguish from the disclosed one — `.a1b2c3.w.hcaptcha.com` green), plus three inline controls on the live
+observed set. The `.w.hcaptcha.com` variance C4 reported reproduced: two entries this run, one in an earlier
+probe. 6/6 green, hCaptcha untouched.
+
+**The packet's own predicate for the new guard was inert, and QA said so instead of shipping it.** I specified
+`scrollWidth <= clientWidth + 1 || isScrollable(el)`. Measured live against R2-1's *pre-fix* markup that
+predicate is **TRUE** — the region fit its own box (584 in 584) while being 627.875px wide inside a 375px
+viewport. A guard built to my specification would have passed the defect it was written to catch. QA replaced
+it: walk every `<table>` (not a class) on 22 public routes, find the nearest scrolling ancestor, and assert
+fits → else the container's own box is in the viewport → else at max scroll the right edge comes inside → else
+keyboard-reachable. Controls include R2-1's own numbers kept as a fixture it must reject, and a **live** control
+that restores the pre-C4 markup in the real DOM and requires the guard to go red.
+
+**It caught a second instance on its first run — R3-1.** `/hizmetler/cnc-frezeleme`'s
+`CNC Frezeleme — malzeme kaydı` figure, `ServiceDetail.tsx:423`, same mechanism, one column instead of three,
+`mobile-320` only. PRE-EXISTING and Phase 07's: QA verified that phase's full diff touches neither the page nor
+its data.
+
+**Two C4 claims corrected by later measurement.** `End` does nothing — ArrowRight is the scroll key; the region
+is still keyboard reachable, so the acceptance holds, but C4's stated method was wrong. And QA could not
+demonstrate touch either way and says so plainly: its instrument moves the document but no inner region on any
+route, including pre-existing ones, with `touch-action: auto` on all 15 ancestors. Reach at 320/375/390 is
+established by keyboard and by geometry, not by a touch measurement anyone has made.
+
+**QA also confirmed C4 against itself:** the tallest-column boundary is 1181, not its own round-2 "≥1024"
+(1024 measures `150px 150px`, identical to 768). Table reach 24/24 at all six widths, with 768/1280/1440 proven
+unchanged by live A/B rather than by trust. All eight rewritten sentences verified from the DOM; `/kvkk` madde
+04 numeral-free with the supplier case inside the enumeration; madde 01's second sentence byte-identical;
+`__cf_bm`'s absence from the madde 02 table verified by *reasoning* — `document.cookie` is `""` on `/giris`
+while the cookie exists in the jar, and it rides every request to `.hcaptcha.com`, so both of the table note's
+properties fail for it. Footer invariant holds under all four rename scenarios, and scenario 3a reproduced
+C4's OLD **0× NOWHERE** exactly.
+
+**Polish judged and declined, with a better finding in its place.** The `mas_intro_seen` row is 246.5px with
+228.5px blank at ≤390; the only truthful shortening buys 65px of 705, and QA declined that trade on a legal
+page this phase spent three rounds teaching to carry its facts. What it raised instead is not this page's:
+`.shell-table-scroll` (`shell.css:1299`) has **no affordance that it scrolls sideways** — no fade, no shadow,
+no hint, overlay scrollbars hidden at rest — across all 16 tables on 8 routes. C4 made the table reachable;
+nothing yet makes it discoverable. **Carried to Phase 10 or 12.**
+
+#### C5 dispatched — I am not closing the phase with the guard red
+
+QA returned PASS and handed R3-1 up rather than hiding it. I am not accepting that close as it stands, and the
+reason is consistency: **A24 rejected leaving a test permanently red**, and it would be incoherent to invoke
+that reasoning to re-aim one test and then close the phase with another one red — one this phase's own QA just
+wrote. The fix is the one C4 already proved, applied to one more call site, and QA states the guard goes green
+"with no edit to the test".
+
+C5 is deliberately small — two items, at `wt/coder-p08c5`, packet
+`.work/packets/phase-08-C5.md`:
+
+1. **R3-1.** Four call sites share the wrapper shape (`ServiceDetail.tsx:423` and `:512`,
+   `KabiliyetProfilDetay.tsx:157`, `Malzemeler.tsx:177`); only `:423` fails today and the other three survive
+   by accident of content width, which is the same accident C4 described. The Coder must **measure** the choice
+   between the call-site fix and the systemic `.shell-stack > * { min-width: 0 }` its own C4 comment named as
+   better, and default to the narrow one in a closing round unless the blast-radius measurement clears the
+   shared stylesheet.
+2. **A third closed count, in a sentence C4 itself wrote.** `/cerez-politikasi` madde 03 now says "Tarayıcınızın
+   bu sitenin dışına istek gönderdiği **üç yer** var. **Üçü de burada.**" QA measured that true on plain page
+   load only. Orchestrator-verified at source why that is not enough:
+   `src/integrations/supabase/client.ts:11` calls `createClient` with `VITE_SUPABASE_URL` **in the browser**,
+   and `/giris` and `/teklif-al` — both public — call Supabase from the browser on interaction. The sentence is
+   false the moment a reader does what the site asks. This is the third instance of the defect class this phase
+   has now corrected twice, and the second one we ourselves introduced while fixing the first; `/kvkk` madde 04
+   shows the shape that cannot go stale, because C4 removed the numeral there entirely.
+
+**Next action:** verify C5 at source, re-run the guard and the gates, then close Phase 08 — or send C6. Phase
+09 is scoped as 09a/09b per A21 once it closes.
