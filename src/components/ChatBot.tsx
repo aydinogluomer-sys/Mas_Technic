@@ -5,7 +5,7 @@ import { motion } from "@/components/shell/motion";
 import ReactMarkdown from "react-markdown";
 import { findBestFaqMatch } from "@/data/chatFaqData";
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/integrations/supabase/env";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -64,6 +64,30 @@ import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
    untrue. It is, however, not itself described anywhere in the legal text —
    reported as a stated gap rather than patched here, because narrowing what a
    legal page promises is not a decision this correction gets to take alone.
+
+   ── CORRECTION #2 CLOSED THAT GAP, AND CORRECTED THE PARAGRAPH ABOVE ──────
+   THE SENTENCE ABOVE IS INCOMPLETE, DELIBERATELY LEFT AS WRITTEN. It says the
+   conversation goes to `functions/v1/chat` and stops describing it there —
+   which is where the escalated draft got its wrong wording ("the site's own
+   backend"). The function does not answer. `supabase/functions/chat/index.ts`
+   remaps the conversation into Gemini's `role`/`parts` shape at `:22-30`,
+   builds `https://generativelanguage.googleapis.com/v1beta/models/
+   gemini-2.0-flash:streamGenerateContent` at `:32` and fetches it at `:34`.
+
+     WHAT LEAVES  the message text only — the outbound body is
+                  `system_instruction`, `contents`, `generationConfig`
+                  (`chat/index.ts:37-44`); no browser header is forwarded.
+     WHAT STAYS   everything. The 103-line function holds no Supabase client,
+                  no `insert`, no `from(`: this site's database receives
+                  nothing from the chat.
+     THE GATE     `:216` is the only call site of `callAi()`, reachable only
+                  from `:209` (typed `Evet` / `👍`) or `:384` (the button).
+
+   READ ANY LINE OF THIS FILE ALONGSIDE THE FUNCTION BEFORE DESCRIBING IT
+   ANYWHERE. `/gizlilik-politikasi` madde 06 and `/cerez-politikasi` madde 03
+   now state the whole chain, and the consent block below states it in the
+   panel, at the moment of the decision. Change what this component sends and
+   those three texts become false the same day.
    ══════════════════════════════════════════════════════════════════════════ */
 
 type Msg = { role: "user" | "assistant"; content: string };
@@ -377,21 +401,41 @@ export function ChatBot() {
                 </div>
               )}
 
-              {/* AI onay butonları */}
+              {/* AI onay butonları — ve onayın NEYE verildiğini söyleyen satır.
+                  Onay ekranı, onayın sonucunu söylemediği sürece onay değildir:
+                  buraya basan okuyucu yazışmasını üçüncü bir tarafa gönderiyor
+                  ve bunu bir yasal sayfayı açmadan öğrenemiyordu. Metnin her
+                  iddiası kodun kendisinden: `chat/index.ts:32` Gemini uç
+                  noktasını kurar, `:34` çağırır. Uyarı, kararın verildiği yerde
+                  ve karardan ÖNCE duruyor. */}
               {pendingAiPrompt && !loading && (
-                <div className="flex gap-2 ml-9">
-                  <button
-                    onClick={() => send("Evet")}
-                    className="text-xs px-4 py-1.5 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-                  >
-                    ✅ Evet
-                  </button>
-                  <button
-                    onClick={() => send("Hayır")}
-                    className="text-xs px-4 py-1.5 rounded-full border border-border bg-background hover:bg-accent text-foreground transition-colors"
-                  >
-                    ❌ Hayır
-                  </button>
+                <div className="ml-9 space-y-2">
+                  <p className="rounded-lg border border-border px-3 py-2 text-xs leading-snug text-foreground">
+                    Evet derseniz o ana kadarki yazışma, sitenin sunucusu üzerinden Google’ın Gemini
+                    servisine iletilir. Paylaşmak istemediğiniz parça, ölçü veya firma bilgisini
+                    yazmayın —{" "}
+                    <Link
+                      to="/gizlilik-politikasi#sohbet-asistani"
+                      className="underline underline-offset-2 hover:text-foreground"
+                    >
+                      Gizlilik Politikası, madde 06
+                    </Link>
+                    .
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => send("Evet")}
+                      className="text-xs px-4 py-1.5 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                    >
+                      ✅ Evet
+                    </button>
+                    <button
+                      onClick={() => send("Hayır")}
+                      className="text-xs px-4 py-1.5 rounded-full border border-border bg-background hover:bg-accent text-foreground transition-colors"
+                    >
+                      ❌ Hayır
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

@@ -42,6 +42,17 @@ import { SALES_EMAIL } from "@/content/claims";
    master-grid overlay key (both behind `import.meta.env.DEV`) and
    `nexus-settings` (the admin panel, outside this site's public surface per
    `USER_INPUTS.md` §N).
+
+   CLAUSE 03 NAMES THE GEMINI TRANSFER — PHASE 08 CORRECTION #2. This clause
+   enumerates the requests that leave the reader's browser, and it listed only
+   the font CDN. The chat panel's opt-in AI path is the other one: the
+   conversation goes to the site's own edge function, which forwards it to
+   Google (`supabase/functions/chat/index.ts:32`, fetched at `:34`). A list of
+   third-party requests that omits one is a list that misleads, so it is named
+   here — but the CHAIN lives in `/gizlilik-politikasi` madde 06 and this page
+   defers to it rather than keeping a second copy that can drift out of step.
+   It sets no cookie and leaves no key in the browser, which is why it is a
+   sentence here and not a fifth row in the table above.
    ══════════════════════════════════════════════════════════════════════════ */
 
 const STORAGE_ROWS: string[][] = [
@@ -122,6 +133,13 @@ const CLAUSES: LegalClause[] = [
         <p>
           Sayfalarda gömülü üçüncü taraf video, harita, reklam veya sosyal medya bileşeni
           bulunmuyor.
+        </p>
+        <p>
+          Üçüncü tarafa giden ikinci ve son istek sohbet asistanınındır: yapay zekâ onayı
+          verirseniz yazışmanız Google’ın Gemini servisine iletilir. O da çerez oluşturmaz, ama
+          burada listelenen kayıtlardan farklı olarak tarayıcınızda kalmaz — bu yüzden tam olarak
+          nereye gittiği{" "}
+          <Link to="/gizlilik-politikasi">Gizlilik Politikası</Link>’nın 06. maddesinde yazıyor.
         </p>
       </div>
     ),

@@ -283,6 +283,65 @@ not something the site stores), `mas_gsap_debug` and the master-grid overlay key
 (both behind `import.meta.env.DEV`), and `nexus-settings` (the admin panel,
 outside the public surface per §N).
 
+### 9.1 The AI disclosure, and the false sentence that nearly replaced a false page
+
+A fourth correction, added later in the phase, because §3 above set the standard
+and the standard cut both ways: *"this phase rewrote both legal pages to say the
+site runs no analytics — that sentence has to be true of the code."* The
+converse binds too. The chat panel made a request that no legal page described,
+and **a privacy policy's job is to enumerate processing**, so an undisclosed
+transfer of reader-typed content makes the document misleading even where no
+individual sentence in it is false.
+
+**The first draft of the disclosure was wrong, and that is the point.** It said
+the assistant sends what you type "to the site's own backend for answering" —
+inferred from `ChatBot.tsx`, which posts to `{SUPABASE_URL}/functions/v1/chat`
+and stops there. The function does not answer:
+
+| step | where it is written |
+| --- | --- |
+| local FAQ first, no network on a match | `ChatBot.tsx:235-239` over the bundled `chatFaqData` |
+| opt-in gate — typed `Evet` or the button | `:209`, `:384`; `:216` is the only call site of `callAi()` |
+| browser → the site's own function | `:71`, `:98` |
+| function → **Google Gemini** | `chat/index.ts:32` builds `generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent`, `:34` fetches it, `:22-30` remaps to `role`/`parts` |
+| only the text goes onward | `chat/index.ts:37-44` — `system_instruction`, `contents`, `generationConfig`; no browser header forwarded |
+| nothing reaches this site's database | the whole 103-line function holds no Supabase client, no `insert`, no `from(` |
+| the chat is the ONLY such path | `TeklifAl.tsx:523` invokes `rfq-rate-limit`, which calls nothing external, and `src/` contains no external `fetch()` at all |
+
+So "our own backend" would have been a **new false statement in the document
+this phase rewrote to stop being false** — the failure class this run kept
+hitting. The agent that found the gap escalated it rather than patching it,
+which is what caught the error; narrowing a legal page is not a call one agent
+takes alone.
+
+**What clause 06 does not say, and why.** Nothing about what Google does with
+the text, how long it holds it, or whether it trains on it. `USER_INPUTS.md` has
+no field about processors, AI or third parties, so this disclosure is grounded
+in **observable code facts only** — there is no §-authority to cite the way a
+certification has one. The clause states the boundary instead: what we send,
+to whom, and that this policy cannot speak for what happens after the handoff.
+A reassurance nobody can check is exactly the defect the page lost its
+"şifreli ortamlarda saklanır" sentence for.
+
+**The advice is load-bearing, not decoration.** §J records `NDA_AVAILABLE: NO`,
+and a reader on a precision-manufacturing site types part numbers, tolerances
+and their own company name into a box like that one. Clause 06 tells them not
+to, and points them at the RFQ flow, which stays inside the site's own
+infrastructure.
+
+**It is also disclosed in the panel**, above the Evet/Hayır buttons, because a
+consent gate that does not say what is being consented to is not consent, and
+the reader deciding has not opened the policy. `/cerez-politikasi` madde 03
+enumerates third-party requests, so it names the transfer too and defers to
+madde 06 for the chain.
+
+**No golden covers the legal routes**, by the deliberate design recorded in
+`e2e/visual/wave-b-golden.spec.ts`: *"the legal routes are text that will be
+revised by somebody who is not looking at a screenshot suite."* Wave B pins four
+crops — 404 body, journal lead, quality documents, profile scope — and none is a
+legal page. The chat panel is never opened by any spec; only its launcher is,
+and that is hidden by `hideForeignOverlays()`.
+
 ---
 
 ## 10. Content truth in `blogData.ts`
