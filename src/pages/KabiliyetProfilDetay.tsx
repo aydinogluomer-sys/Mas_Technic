@@ -154,6 +154,13 @@ export const KabiliyetProfilDetay = () => {
             standfirst="Hangi özelliğin hangi yöntemle doğrulandığı ve arkasında hangi kaydın kaldığı. Bu plan imalat başlamadan önce yazılır."
           />
         </div>
+        {/* The second instance of R3-1, and the one the guard could not see:
+            `e2e/qa-p08-scroll-region-reach.spec.ts` walks
+            `/kabiliyet-profilleri/ince-cidarli-aluminyum-govde`, which is not a
+            slug — the three real ones are `hassas-mil`, `ince-cidarli-govde`
+            and `titanyum-baglanti-parcasi`, and ALL THREE lost this table's
+            last column at 320 (track 314-327px against a 278px column). Fixed
+            in the primitive: `.shell-stack > * { min-width: 0 }`, shell.css. */}
         <div className="shell-span-full shell-stack" data-gap="sm">
           <ShellSpecTable
             caption={`${study.title} — kontrol planı`}

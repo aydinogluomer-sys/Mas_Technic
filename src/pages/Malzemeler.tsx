@@ -174,6 +174,11 @@ export const Malzemeler = () => {
             standfirst="Bir aile seçtiğinizde kayıt daralır; ailenin kendi teknik sayfasına da buradan geçebilirsiniz."
           />
         </div>
+        {/* Same `shell-span-full shell-stack` shape that lost a column on ten
+            other routes (R3-1). This one measured inside its column at every
+            width, but its register is FILTERABLE, so that was a property of
+            today's data and not of the markup. The primitive now guarantees it:
+            `.shell-stack > * { min-width: 0 }`, shell.css. */}
         <div className="shell-span-full shell-stack" data-gap="sm">
           <ul className="shell-segments">
             <li>

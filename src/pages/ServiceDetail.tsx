@@ -420,6 +420,15 @@ export const ServiceDetail = () => {
               standfirst="Bu sayfada sık kullanılan malzemeler. Ailenin tamamı malzeme kaydındadır."
             />
           </div>
+          {/* R3-1's surface. This figure escaped its column on SEVEN service
+              routes at 320 and on two of them at 375 and 390: the stack's
+              implicit `auto` track sized to the TABLE's min-content (295-358px
+              against a 278px column), so `.shell-table-scroll` never engaged
+              and no reader could reach the last column. Fixed in the primitive
+              rather than here — `.shell-stack > * { min-width: 0 }`, shell.css,
+              which carries the measurement — because the same shape failed at
+              `KabiliyetProfilDetay.tsx:157` too. Watched by QA's
+              `e2e/qa-p08-scroll-region-reach.spec.ts`. */}
           <div className="shell-span-full shell-stack" data-gap="sm">
             <ShellSpecTable
               caption={`${page.title} — malzeme kaydı`}
@@ -509,6 +518,10 @@ export const ServiceDetail = () => {
           </div>
         )}
         {isSector && (
+          /* Same `shell-span-full shell-stack` shape as :423. Measured inside
+             its column at every width (278/333/348/710/786/1214/1374), so it
+             never failed — but only because an index list wraps. The primitive
+             now guarantees it: `.shell-stack > * { min-width: 0 }`. */
           <div className="shell-span-full shell-stack" data-gap="sm">
             <p className="shell-eyebrow">Bu parçalar hangi hizmetlerle üretiliyor</p>
             <ShellIndexList

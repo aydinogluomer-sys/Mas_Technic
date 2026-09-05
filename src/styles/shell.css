@@ -1099,6 +1099,69 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
 .shell-stack[data-gap="lg"] { gap: var(--tl-s8); }
 .shell-stack[data-gap="sm"] { gap: var(--tl-s4); }
 
+/* A STACK IS A COLUMN. ITS ITEMS TAKE THE COLUMN; THEY NEVER WIDEN IT.
+   PHASE 08 CORRECTION #5 — this line is the fix C4's own comment named and
+   deferred, promoted from "better long-term" to "the fix", because the defect
+   turned out to be two call sites and ten routes rather than the one the
+   correction packet described.
+
+   THE MECHANISM. `.shell-stack` is `display: grid` and already carries
+   `min-width: 0` on ITSELF, one line above. Its ITEMS did not: a grid item's
+   automatic minimum size is `min-content`, so a single implicit `auto` track
+   resolves to the WIDEST item's min-content and not to the column it was
+   handed. When a `figure.shell-table` sits in a stack, its min-content is the
+   table's — unbreakable material codes, tolerance tokens, method names — so
+   the figure grew PAST its own wrapper. `.shell-table-scroll`'s
+   `overflow-x: auto` then had nothing to do (its box was already as wide as
+   its content), `useScrollableRegionAccess` grants `tabindex` only
+   `if (isScrollable(element))` and so granted nothing, and the columns past
+   the viewport edge were unreachable by touch, by keyboard and by a forced
+   `scrollLeft`. This is defect R2-1's mechanism; `/cerez-politikasi` was its
+   first instance and was fixed at the call site in C4.
+
+   WHERE IT ACTUALLY WAS — measured against the live preview build, 76 routes
+   x 7 viewports = 375 records (the packet said one call site, one route, 320
+   only; that was wrong on all three counts):
+
+     ServiceDetail.tsx:423   "— malzeme kaydı"    7 routes @320, 2 also @375
+                             /hizmetler/cnc-frezeleme        295.078 -> 278
+                             /hizmetler/cnc-tornalama        358     -> 278
+                             /hizmetler/anodizasyon          313.938 -> 278
+                             /hizmetler/derin-delik-raybalama 306.156 -> 278
+                             /hizmetler/hassas-mikro-isleme  305.281 -> 278
+                             /kabiliyetler/malzeme-kutuphanesi 351.844 -> 278
+                             /endustriyel/havacilik-uzay     295.078 -> 278
+     KabiliyetProfilDetay.tsx:157  "— kontrol planı"   all 3 profiles @320
+                             hassas-mil                      325.172 -> 278
+                             ince-cidarli-govde              314.453 -> 278
+                             titanyum-baglanti-parcasi       327.281 -> 278
+
+   Fourteen route x viewport instances, at 320, 375 and 390. The two remaining
+   `shell-span-full shell-stack` call sites — ServiceDetail.tsx:512 and
+   Malzemeler.tsx:177 — measured inside their column at every width, which is
+   the accident this rule removes: Malzemeler's register is FILTERABLE, so its
+   min-content is user-driven and its survival is a property of today's data.
+
+   BLAST RADIUS, MEASURED THE SAME WAY. Each route was loaded, its full
+   `body *` rect table read, this one rule injected, and every rect re-read in
+   the same session. Across all 375 records the rule moves geometry ONLY inside
+   the fourteen defective figures. At 768, 844, 1280 and 1440 NOTHING moves on
+   ANY route. All fourteen golden surfaces (`landing-`, `shell-`,
+   `inner-pages-`, `wave-b-golden.spec.ts`) were in the sweep at all four
+   golden widths — 375 / 768 / 1280 / 1440 — and none of them moves, so no
+   baseline is rebanked by this line.
+
+   THE ONE CONSEQUENCE WORTH NAMING: at 320 only, on four routes, pulling the
+   figure back to the column makes its `figcaption` wrap to a second line, so
+   the page below it shifts down 15-35px. That is the correct outcome — the
+   caption is now inside the reading column instead of hanging out of it — and
+   320 is not a golden viewport.
+
+   The guard that now watches all of this is QA's
+   `e2e/qa-p08-scroll-region-reach.spec.ts`: it walks every `<table>` on the
+   public routes and asserts the reader's contract, not a computed style. */
+.shell-stack > * { min-width: 0; }
+
 /* ── Editorial prose ──────────────────────────────────────────────────────
    The one body-copy setting on the public site. Measure is capped in `ch`,
    not px, so it stays a reading measure at every type size — including the
