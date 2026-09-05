@@ -276,15 +276,35 @@ test.describe("technical editorial landing phase 1", () => {
     // pitches, not three. Phase 08 put a column at 8 rows and this assertion
     // went red, which is how the estimate got checked.
     //
-    // The arithmetic, at 1280, all of it measured rather than divided: the
-    // band is as tall as its TALLEST nav column, the row pitch is 22.50px
-    // (the delta between two consecutive link tops, the same in all four
-    // columns and at 375/768/1280/1440), and the ceiling is 0.26 x 1280 =
-    // 332.8px. From the 6-row column that ships today: 7 rows measures
-    // 319.50px / 0.2496 and still passes, 8 rows measures 342px / 0.2672 and
-    // does not. So there is exactly one row of headroom, and the number is
-    // recorded next to the thing that spends it, in
+    // The arithmetic, AT 1280 AND ONLY AT 1280, all of it measured rather than
+    // divided: the band is as tall as its TALLEST nav column, the row pitch is
+    // 22.50px (the delta between two consecutive link tops), and the ceiling is
+    // 0.26 x 1280 = 332.8px. From the 6-row column that ships today: 7 rows
+    // measures 319.50px / 0.2496 and still passes, 8 rows measures 342px /
+    // 0.2672 and does not. So there is exactly one row of headroom, and the
+    // number is recorded next to the thing that spends it, in
     // `src/components/shell/footer-groups.ts`.
+    //
+    // AN EARLIER VERSION OF THIS COMMENT SAID THE 22.50px PITCH IS "the same in
+    // all four columns and at 375/768/1280/1440". The four columns part holds —
+    // 22.50px in every column at 768, 1024, 1280 and 1440. The 375 part is not
+    // merely wrong, it is UNMEASURABLE: `.tl-footer nav` computes
+    // `display: none` below 768 (`shell.css:747`), every one of the 22 links
+    // has a 0x0 rect and every delta is 0. What paints at 375 is
+    // `.shell-footer-disclosures`, an accordion — in its default state the
+    // panels are CLOSED and no link pitch exists at all; opened, the deltas are
+    // 40px inside a panel and 105px across a panel boundary. Neither is 22.50.
+    //
+    // The single-row model this ratio rests on is also viewport-bound, and the
+    // boundary is 1181, not 1024: `--tl-cols` drops 12 -> 6 at
+    // `@media (max-width: 1180px)` (`design-tokens.css:160`), so at 768, 1024,
+    // 1100 and 1180 `.tl-footer nav` computes `grid-template-rows: 150px 150px`
+    // — a 2x2 whose height is tallest(row 1) + tallest(row 2) — and only at
+    // >= 1181 is it the single `150px` row this arithmetic assumes. Measured
+    // ratios at the boundary: 1180 -> 0.6072, 1181 -> 0.2515, 1200 -> 0.2475.
+    // This assertion runs at `critical-1280`, where the model is the right one;
+    // the note is here so the next person does not carry the 1280 number to a
+    // width where the band is built differently.
     expect(footer.bantOrani).toBeLessThan(0.26);
     // Nav sütunu marka sütunu genişlerse kaymamalı.
     //
