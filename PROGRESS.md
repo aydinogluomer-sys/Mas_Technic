@@ -34,7 +34,8 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | 06 | PASS | 895e1ff..a9763a4 (8), af83702..d5e2c90 (5), ad6dcb4, 6cefea8, f9e164d | 1cf8f14..3724b1b (3), 9f56bbf, 7c8a761, 2b904c1..516efc3 (4) | 544 passed / 0 failed / 3 skipped; 281 QA probes added | 2026-09-03T02:10Z |
 | 07 | PASS | e598d01..dfe9da7 (5); C1 f73efe3..6f37eb0 (11); C2 93b77bc..23cbc63 (6); C3 73adb1b..6984fae (3) | R1 94f0ef0; R2 55d1e2f..19acc52 (12); R3 335ff5e..bf960c6 (3); R4 fac2b65..92567c4 (4) | visual 122 passed / 18 skipped / 0 failed (per project); critical 163 passed / 3 skipped / 0 failed (chunked) | 2026-09-04T18:40Z |
 | 08 | PASS | 7dcfb65..5138fc1 (15); C3 2994246..b77be5c (5); C4 6981a4d..c79147b (3); C5 5003c66..27de482 (3) | R1 aae3536; R2 e676ef2..a5e4e7d (9); R3 f9f5442..41fe117 (13); R4 a9291bd..0b3ed2a (6) | round 3 full regression 1168 passed / 557 skipped; round 4 closing lanes 219 passed / 19 skipped; 1 carried pre-existing red (R2-3, A23) | 2026-09-05T22:06Z |
-| 09 | NOT_STARTED | — | — | — | — |
+| 09a | IN_PROGRESS | — | — | — | 2026-09-06T02:40Z |
+| 09b | NOT_STARTED | — | — | — | — |
 | 10 | NOT_STARTED | — | — | — | — |
 | 11 | NOT_STARTED | — | — | — | — |
 | 12 | NOT_STARTED | — | — | — | — |
@@ -1656,5 +1657,46 @@ misattributed comment → Phase 10 (A27); `/gizlilik-politikasi` madde 02 → Ph
 on `/giris` and the cookie-preferences question → Phase 09; `finance-ai`'s unvalidated `documents` array →
 Phase 09b; the three-suite font policy → Phase 12; criteria 3 and 5 → Phase 09 (A20, A21).
 
-**Next action:** scope Phase 09 as 09a/09b per A21, with the carried privacy items above folded into 09b's
-contract.
+---
+
+### Phase 09a — RFQ/CAD ARCHITECTURE, FORM BEHAVIOUR AND THE SURFACE ITSELF — IN_PROGRESS
+
+**The user closed A07 themselves.** Between turns, `3a89e7c` committed the eleven files that had been
+deliberately uncommitted all run — `.claude/agents/mas-coder.md`, the nine skill files and `tsconfig.json` —
+with the message *"commit the harness permission escalation deliberately, not silently"*. A07 recorded that
+this was the user's decision to make and not the run's; it is now made. The integration branch is unaffected:
+`dc19d5a` is an ancestor of `3a89e7c`, the working tree is clean apart from the `.references/react-bits`
+submodule that has been dirty since the run began, and every Phase 08 artefact is present — six packets under
+`.work/packets/`, the PASS row, and all three `qa-p08-*` specs.
+
+**The `pdh-wt/*` worktrees were pruned in the same window, and nothing was lost by it.** `git worktree list`
+now shows only the main checkout, and `wt/coder-p08c5` and `wt/qa-p08r4` are gone as refs — but both had
+already been cherry-picked into the integration branch, so the content is on the branch and reachable. This is
+worth recording precisely because the run's standing rule is never to delete a worktree: **the rule held, and
+this was not the run deleting one.** Phase 09a therefore starts in a newly created
+`C:\Users\Trade Bilisim\pdh-wt\coder-p09a`, provisioned the A04/A18 way — `node_modules` junction plus a
+copied, uncommitted `.env`.
+
+**The split, per A21 and the run brief.** `IMPLEMENTATION.md` §7 PHASE 09 has four task blocks. **09a** takes
+Architecture/performance and Form behaviour, plus the two Phase 08 items that live inside `TeklifAl.tsx` and
+would otherwise mean editing 1540 lines twice: **A20** (wire `ShellNotice tone="error"` — built by `7dcfb65`,
+`role="alert"`, still **zero** usages in `src/` — to the CAD parse error and the form error) and **A21**'s
+`/teklif-al` + `/cad-dashboard` design migration. **09b** takes Privacy/business policy, Security, the three
+auth routes, and the carried privacy items: **A26** (madde 02's "tek yer"), hCaptcha's presence on `/giris` and
+the cookie-preferences question, `finance-ai`'s unvalidated `documents` array, `ChatBot.tsx`'s dead
+consent-prompt filter (fix keyed on state, never on a string literal), and `ScrollToTop.tsx`'s fragment
+override.
+
+**Starting facts handed to the Coder, measured rather than assumed:** the route is *already* lazy
+(`App.tsx:66`) but the 3D stack is **static** at `TeklifAl.tsx:3-7`, so opening `/teklif-al` pulls the whole
+viewer before anyone asks for one — while `occt-import-js` is already dynamic at `:382`, which is the pattern
+to copy and it is in the same file. `rfq-rate-limit` already exists (164 lines), so the spam/rate-limit task
+needs no invention. The three AI/sync edge functions are invoked only from `admin/FinanceDocsView.tsx`, which
+is what makes the RFQ/AI claim true, and 09a must not disturb it.
+
+**The packet carries an explicit permission I have not given before:** if the decomposition lands green but the
+design migration is barely started, commit what is green and return `PARTIAL`. Phase 08 cost four correction
+rounds partly because packets were large and returns were all-or-nothing; a clean partial is worth more than an
+unreviewable whole.
+
+**Next action:** review 09a at source, integrate, QA it, then scope 09b with the carried items above.
