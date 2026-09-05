@@ -1,4 +1,5 @@
 ---
+name: mas-content-truth
 description: Truth, publication-permission, evidence, certification, KPI, client-reference, case-study, and brand-positioning policy for MAS TECHNIC. Use whenever editing public factual copy or proof sections.
 ---
 # MAS TECHNIC Content Truth

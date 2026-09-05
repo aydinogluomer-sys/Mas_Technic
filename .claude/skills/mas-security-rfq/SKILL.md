@@ -1,4 +1,5 @@
 ---
+name: mas-security-rfq
 description: RFQ/CAD upload, privacy, Supabase, form security, data-handling, validation, headers, and irreversible-action boundaries for MAS TECHNIC. Use when changing forms, uploads, backend calls, privacy/legal behavior, or security configuration.
 ---
 # MAS TECHNIC RFQ / Security

@@ -1,4 +1,5 @@
 ---
+name: mas-motion-system
 description: Measurement-driven motion and interaction grammar for MAS TECHNIC. Use for scroll choreography, hero dimensions, menu/page transitions, cursor, reverse-scroll effects, and reduced-motion behavior.
 ---
 # MAS TECHNIC Motion System

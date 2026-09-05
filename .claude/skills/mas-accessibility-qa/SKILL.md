@@ -1,4 +1,5 @@
 ---
+name: mas-accessibility-qa
 description: Accessibility and inclusive-interaction acceptance rules for MAS TECHNIC. Use for menu, forms, tables, motion, responsive UI, semantic HTML, keyboard/focus, contrast, and cross-browser QA.
 ---
 # MAS TECHNIC Accessibility QA

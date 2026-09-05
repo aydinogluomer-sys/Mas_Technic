@@ -1,4 +1,5 @@
 ---
+name: mas-design-language
 description: MAS TECHNIC public-site visual source of truth. Use when designing or refactoring landing, inner pages, 404/error states, navigation, typography, color, surfaces, rules, or component styling.
 ---
 # MAS TECHNIC Design Language

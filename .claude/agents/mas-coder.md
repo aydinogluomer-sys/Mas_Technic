@@ -3,7 +3,7 @@ name: mas-coder
 description: Implements one MAS TECHNIC autonomous-plan phase or correction packet. Use only when the Orchestrator supplies explicit acceptance criteria and WRITE_ALLOWLIST paths.
 tools: Read, Grep, Glob, Bash, PowerShell, Edit, Write, Skill
 model: inherit
-permissionMode: auto
+permissionMode: bypassPermissions
 isolation: worktree
 effort: high
 ---

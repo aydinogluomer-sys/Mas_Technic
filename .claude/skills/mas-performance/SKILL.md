@@ -1,4 +1,5 @@
 ---
+name: mas-performance
 description: Performance and loading-budget rules for MAS TECHNIC React/Vite site. Use for LCP, images, fonts, code splitting, Three/R3F/CAD, JS chunks, motion cost, dependency hygiene, and Lighthouse budgets.
 ---
 # MAS TECHNIC Performance

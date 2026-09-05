@@ -1,4 +1,5 @@
 ---
+name: mas-grid-system
 description: Master grid rules for MAS TECHNIC. Use for landing or inner-page layout, rail geometry, desktop/tablet/mobile columns, subgrid, section alignment, and visual regression of vertical axes.
 ---
 # MAS TECHNIC Grid System

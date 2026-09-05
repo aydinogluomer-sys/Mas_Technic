@@ -1,4 +1,5 @@
 ---
+name: mas-release-gate
 description: Phase closure and final Awwwards release-gate procedure for MAS TECHNIC. Use when deciding whether a phase or final release candidate passes.
 ---
 # MAS TECHNIC Release Gate

@@ -1,4 +1,5 @@
 ---
+name: mas-navigation-ia
 description: Global Awwwards-grade MAS TECHNIC menu and information architecture. Use for header consolidation, fullscreen navigation, route grouping, active states, deep links, page discoverability, mobile navigation, and route cleanup.
 ---
 # MAS TECHNIC Navigation & IA
