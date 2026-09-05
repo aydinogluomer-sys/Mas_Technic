@@ -33,7 +33,7 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | 05 | PASS | 05a: 46ae7f4..e1bc431 (6); 05b: a133728..3f45fd5 (6), 5ff0cae, c3797e5, 7cefcf0 | 05a: 5313739..ca797a5 (4); 05b: e4e626d..5d58889 (5), 3b6cf36..2d7adcd (5) | 198 passed / 0 failed / 3 skipped | 2026-09-02T17:05Z |
 | 06 | PASS | 895e1ff..a9763a4 (8), af83702..d5e2c90 (5), ad6dcb4, 6cefea8, f9e164d | 1cf8f14..3724b1b (3), 9f56bbf, 7c8a761, 2b904c1..516efc3 (4) | 544 passed / 0 failed / 3 skipped; 281 QA probes added | 2026-09-03T02:10Z |
 | 07 | PASS | e598d01..dfe9da7 (5); C1 f73efe3..6f37eb0 (11); C2 93b77bc..23cbc63 (6); C3 73adb1b..6984fae (3) | R1 94f0ef0; R2 55d1e2f..19acc52 (12); R3 335ff5e..bf960c6 (3); R4 fac2b65..92567c4 (4) | visual 122 passed / 18 skipped / 0 failed (per project); critical 163 passed / 3 skipped / 0 failed (chunked) | 2026-09-04T18:40Z |
-| 08 | IN_PROGRESS | — | — | — | 2026-09-04T18:40Z |
+| 08 | PASS | 7dcfb65..5138fc1 (15); C3 2994246..b77be5c (5); C4 6981a4d..c79147b (3); C5 5003c66..27de482 (3) | R1 aae3536; R2 e676ef2..a5e4e7d (9); R3 f9f5442..41fe117 (13); R4 a9291bd..0b3ed2a (6) | round 3 full regression 1168 passed / 557 skipped; round 4 closing lanes 219 passed / 19 skipped; 1 carried pre-existing red (R2-3, A23) | 2026-09-05T22:06Z |
 | 09 | NOT_STARTED | — | — | — | — |
 | 10 | NOT_STARTED | — | — | — | — |
 | 11 | NOT_STARTED | — | — | — | — |
@@ -72,7 +72,8 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | A23 | 08 | `e2e/landing/motion-grammar.spec.ts:254`, red at `tablet-768` and `landscape-844`, is recorded as a PRE-EXISTING failure carried to **Phase 10** rather than fixed in a Phase 08 correction round. | QA proved it pre-existing rather than asserting it: `git log 7dcfb65~1..b77be5c` over both `src/styles/technical-landing.css` and the spec is **empty** — no Phase 08 commit, C3 included, touched either file. The cause is a breakpoint/pointer mismatch: the test branches on `(hover:hover) and (pointer:fine)` and both projects set `mobile: true`, while the rule that removes `.tl-dimension-lines` is `@media (max-width:767px)` (`technical-landing.css:507`), so a hover-only affordance paints on a coarse pointer at 768 and 844. It went unseen because this run had never exercised those two viewports. Fixing it removes the lines at 768 and therefore **changes landing goldens** — landing responsive art direction, which Phase 10 owns, not a legal-page correction packet. Precedent for carrying a pre-existing red across a phase close is in this table's own history (Phase 02 "1 pre-existing fail", Phase 03 "4 pre-existing page-debt fails"). |
 | A24 | 08 | `e2e/qa-p08-storage-disclosure.spec.ts` test 3 is **re-aimed** by QA in round 3 — from "no cookie is created on any public route" to "every cookie observed on any public route is covered by the published disclosure" — rather than left permanently red or made green by touching `Login.tsx`. | The assertion `expect(cookies).toEqual([])` encoded a **published claim**, and it did its job: it held `/cerez-politikasi` to its word and it is how R2-2 surfaced. That claim has now been retired *because it was false*, and the document discloses one cookie with its attributes instead. The assertion therefore no longer corresponds to anything the site asserts — it now fails on a **correctly disclosed** cookie, which is not a defect. This is the Phase 04 re-aiming shape, not a weakening: the JOB changed. The new assertion is strictly stronger for the purpose the gate exists to serve — it goes red the day an undisclosed cookie appears, which the old one could not distinguish from the disclosed one — and it is immune to the variance C4 measured, where `.w.hcaptcha.com`'s ephemeral worker hostname produced **two** `__cf_bm` entries in one run and **one** in another, so any count-based assertion would flake. The Coder was right to refuse all three green paths available to it (removing hCaptcha = DO_NOT_TOUCH and Phase 09's security call; editing QA's test = forbidden to the Coder; blocking `hcaptcha.com` at the network layer = a test that lies) and to return PARTIAL instead. Leaving it red was the remaining option and is rejected: this run gates phase closure on suites being green, so a permanently expected-red test would both block Phase 08 forever and corrode the discipline every other gate depends on. The visibility it was preserving belongs in this file and in the Phase 09 packet, which is where hCaptcha's fate is recorded. Both existing negative controls must be extended to the new assertion, and QA must write the reasoning into the file the way Phase 04 wrote its own. |
 | A25 | 08 | R3-1 — a `mobile-320` failure on `/hizmetler/cnc-frezeleme`, a **Phase 07** surface — is fixed inside Phase 08's C5 rather than carried, even though A23 carried a different pre-existing red one round earlier. | The two are not alike, and the difference is the cost of the fix, not the ownership. A23's `motion-grammar` red needs `.tl-dimension-lines` removed at 768, which **moves landing goldens** and is a responsive-art-direction decision Phase 10 owns. R3-1 needs the one-class change C4 already proved on `/cerez-politikasi`, and QA states the guard goes green "with no edit to the test" — no golden, no design decision, no new mechanism. The governing reason is consistency with A24: this round rejected leaving a test permanently red because a phase that gates closure on green suites cannot ship an expected-red gate without corroding every other one. Invoking that to re-aim one test and then closing the phase with a different one red — written by this phase's own QA, in this phase's own round — would be incoherent. Recorded because it is a deliberate scope excursion beyond Phase 08's acceptance criteria, which name only Wave B surfaces: the guard is site-wide by design, so the first thing it found outside Wave B is the phase's to answer for, once. |
-| A26 | 08 | `/gizlilik-politikasi` madde 02's "sohbet … sitede yazdığınız bir metnin dışarı çıktığı **tek yer**" is carried to **Phase 09** rather than repaired in a Phase 08 round — subject to QA round 4 ruling it contestable rather than false. | C5 found it and correctly refused to edit it, because its allowlist opened `GizlilikPolitikasi.tsx` only if madde 05 was contestable, and madde 05 proved true. The tension is real: madde 05 of the same document says RFQ form data and the uploaded file reach the hosting and database infrastructure, which `/kvkk` madde 04 counts as a transfer case. It is nevertheless a different severity from R2-2, and the distinction is the one that decides this: R2-2's five sentences were **false** — a cookie existed that the text said did not — whereas "dışarı çıkan metin" can honestly denote leaving our own processing chain for a genuine third party such as Google, which the RFQ path does not do. On that reading the sentence stands, and no test is red either way. Phase 09's mandatory tasks name this work exactly ("Align KVKK/privacy copy with actual data flow") and Phase 09 rewrites the RFQ path that creates the tension, so it has a real owner rather than a convenient one. **QA round 4 is asked to test this reading, not accept it**: if it measures the sentence false, Phase 08 does not close — that is the call QA got right on R2-2. |
+| A26 | 08 | `/gizlilik-politikasi` madde 02's "sohbet … sitede yazdığınız bir metnin dışarı çıktığı **tek yer**" is carried to **Phase 09** rather than repaired in a Phase 08 round — subject to QA round 4 ruling it contestable rather than false. | C5 found it and correctly refused to edit it, because its allowlist opened `GizlilikPolitikasi.tsx` only if madde 05 was contestable, and madde 05 proved true. The tension is real: madde 05 of the same document says RFQ form data and the uploaded file reach the hosting and database infrastructure, which `/kvkk` madde 04 counts as a transfer case. It is nevertheless a different severity from R2-2, and the distinction is the one that decides this: R2-2's five sentences were **false** — a cookie existed that the text said did not — whereas "dışarı çıkan metin" can honestly denote leaving our own processing chain for a genuine third party such as Google, which the RFQ path does not do. On that reading the sentence stands, and no test is red either way. Phase 09's mandatory tasks name this work exactly ("Align KVKK/privacy copy with actual data flow") and Phase 09 rewrites the RFQ path that creates the tension, so it has a real owner rather than a convenient one. **QA round 4 was asked to test this reading, not accept it**, and did. **Verdict: contestable, but my factual premise above was understated and is corrected here.** QA measured — with every non-loopback request intercepted and aborted, so nothing was written — that filling `/iletisim`'s free-text "Ek notlar" and submitting produces `POST https://<project>.supabase.co/rest/v1/meetings` carrying `{"notes":"…"}`, the typed string **verbatim**, to a different registrable domain; `/teklif-al` does the same with "Kritik ölçüler" (`TeklifAl.tsx:534`). So typed text does leave the site's own domain, and my "the RFQ path does not do that" was wrong as stated. The reading nevertheless survives, on a ground QA states better than I did: the predicate is **custodial, not a host count**. "Üç yer" was false because 3 ≠ 4 and no reading survives that; here "dışarı" is undefined and the document set uses it both ways — against, madde 05's heading is "Üçüncü taraf istekleri" and `/kvkk` madde 04 calls it an aktarım; for, madde 05's body says "**sitenin** barındırma ve veri tabanı altyapısı", and a veri işleyen is not a third party with its own purposes. Decisively, and unlike R2-2, **no reader is deprived of the fact**: madde 05 states it unqualified two clauses later, `/kvkk` madde 04 enumerates it, and C5's madde 03 now names it with its triggers. What would flip it to false is typed text reaching a party outside the processing chain — measured, and the only non-loopback hosts attempted on the whole submit path were `fonts.googleapis.com` and the one project host. Carried **by name** to Phase 09's "Align KVKK/privacy copy with actual data flow"; the repair is one clause. |
+| A27 | 08 | `src/pages/Malzemeler.tsx:177` carries a C5 comment that describes the **wrong element**, and it is carried to Phase 10 as a one-line correction rather than fixed in a sixth Phase 08 round. | C5 flagged that call site as an unwatched risk because "Malzemeler' register is filterable, so its min-content is user-driven". QA round 4 measured it and the attribution is wrong: that stack holds `ul.shell-segments` — the filter buttons — not the register. The filterable register lives in `div.shell-span-full.shell-register-scope`, which is not a `shell-stack` and never carried the auto-track shape. All **12 filter states** at 320 and 375 keep the wrapper box at the column (278 / 333) with the table 491.484–543.141 inside a live scroll region, and the widest state is the default one the guard already walks — filtering can only remove rows. So **no watcher is needed** and the risk C5 named does not exist. Its `tabindex=null` is correct by design: the hook skips regions that already contain a focus stop. The comment is wrong about which element it documents, which in this repository is a defect and not a triviality — but it misleads no measurement, no test and no reader of the site, and the phase's gates are green. The authoritative facts are recorded here, so the record is right even while the comment is not. |
 
 ## Phase notes
 
@@ -1594,6 +1595,66 @@ action that falsified "üç yer".
 
 **One content item handed up rather than edited out of scope (A26).**
 
-**Next action:** QA round 4 — fix the dead-sentinel routes and add an anti-404 control, verify C5's 14
-instances, rule on the live control versus the class fix, adjudicate A26, confirm no golden moved. Then close
-Phase 08. Phase 09 is scoped as 09a/09b per A21.
+#### QA round 4 — PASS. Phase 08 closes.
+
+Six QA commits picked as `a9291bd..0b3ed2a`; scope clean. Orchestrator's closing verification on the
+integration branch, fresh build: `qa-p08-scroll-region-reach` + `qa-p08-storage-disclosure` +
+`qa-p08-waveb-contract` at `mobile-320` → **24 passed, 0 failed**.
+
+**The dead sentinel is closed, and the fix is better than the one I asked for.** Both walked paths confirmed
+dead **by measurement** rather than by reading the data — they render "Bu profil kaydı bulunamadı" and "Bu
+sayfa kaydı bulunamadı" with 0 tables. The mechanism is worth keeping: `TABLE_CENSUS` is a floor keyed **by
+route**, and it listed neither path, so it expected 0 tables and got 0. The sentinel was dead in exactly the
+way an empty scan is green. Corrected to the real slugs plus the other two capability profiles: the walk now
+sees **22 tables over 24 routes** (was 16 over 22), and finds **no new red** — C5 missed nothing.
+
+**The anti-404 control tested the naive alternative instead of assuming it.** `wrongSurfaces()` runs before any
+table assertion: a route must declare a surface, its `<h1>` must not be one of the app's four not-found
+headings, and `PUBLIC_ROUTES` and `ROUTE_SURFACE` are asserted equal in both directions. A length floor —
+the obvious cheap guard — **would not have worked, and the test proves it**: the 404 bodies are 667 / 768 / 792
+characters, *longer* than `/reset-password` (490), `/sifremi-unuttum` (483), `/teklif-al` (493) and `/giris`
+(629). Its live control drives the app to both historical dead paths and a nonsense path and measures each
+**under the identity of a walked route** — the exact substitution the defect performed.
+
+**C5's fourteen reproduced exactly**, by removing the fix's effect in the live DOM rather than by trusting the
+report: same set, same numbers, all of the R2-1 "own box" shape. As shipped: zero problems at every width.
+
+**QA overturned its own round-3 control, and named the error as its own.** Ruling: re-aim it, keep it live —
+and the class fix is now available. The reasoning is the best sentence of the round: the control *had two jobs
+and only one is a control's*. Regression-catching belongs to the walk (24 routes, 3 lanes); this test only
+proves the checker is not hollow. Sourcing its defect from **production being broken** turned repairing
+production into a failure — a **defect ratchet**. QA calls that its own round-3 error, not C5's in round 5. The
+re-aimed control stays live but builds the geometry inline on a class-less wrapper so no stylesheet can reach
+it, asserts the defect's *shape* (container right edge past the viewport, `forcedScrollLeft` exactly 0) rather
+than a count, and ends by injecting `.shell-stack > * { min-width: 0 }` and requiring itself to **still fire**.
+Strictly harder to hollow than before, and the systemic fix becomes a clean later-phase cleanup.
+
+**A26 adjudicated: contestable, not false — with my premise corrected.** See A26; QA measured typed free text
+reaching `supabase.co` verbatim, which my wording had denied. The reading survives on a custodial predicate,
+and no reader is deprived of the fact. Carried by name to Phase 09.
+
+**Goldens unmoved, confirmed three ways:** four visual projects green, `git diff 9dc1353..27de482 --
+e2e/__golden__` empty, `git status` clean after QA's own runs. 116 baselines, none under 2 kB.
+
+### Phase 08 closed — PASS
+
+Four correction rounds and four QA rounds. What the phase actually cost and bought:
+
+- **Two blocking gates** (footer proportion, radius citation) and **four content-truth defects** fixed in C3.
+- **Two more blocking defects** C3 was never asked about — a legal table no phone could read, and eight
+  published sentences denying a cookie that had been shipping — found by QA round 2 **because round 1 wrote
+  down what it had not verified** and then went back for it.
+- **Three new permanent gates** that did not exist before: storage-disclosure coverage, scroll-region reach,
+  and the anti-404 surface control.
+- **Nine falsified premises**, spread across every role: two of mine in C3, my footer row count, my
+  one-class-fix claim, my R3-1 scope, my "page load" wording, my A26 premise; QA's rename trigger, its ≥1024
+  boundary, its own round-1 third-party conclusion, and its own round-3 control.
+
+**Carried out of the phase, all recorded, none silent:** R2-3 → Phase 10 (A23); `.shell-table-scroll` has no
+affordance that it scrolls at all across 16 tables on 8 routes → Phase 10/12; `Malzemeler.tsx:177`'s
+misattributed comment → Phase 10 (A27); `/gizlilik-politikasi` madde 02 → Phase 09 (A26); hCaptcha's presence
+on `/giris` and the cookie-preferences question → Phase 09; `finance-ai`'s unvalidated `documents` array →
+Phase 09b; the three-suite font policy → Phase 12; criteria 3 and 5 → Phase 09 (A20, A21).
+
+**Next action:** scope Phase 09 as 09a/09b per A21, with the carried privacy items above folded into 09b's
+contract.
