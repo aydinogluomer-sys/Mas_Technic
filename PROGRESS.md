@@ -1293,5 +1293,61 @@ round-1 unverified list, starting with whether `mas_intro_seen` really is the on
 one is now load-bearing for a published completeness claim; and to add a permanent storage gate, because D4 was
 a legal-text claim that nothing tested and it was wrong for as long as it existed.
 
-**Next action:** review QA round 2's evidence at source, then close Phase 08 or send C4. Phase 09 is scoped as
-09a/09b per A21 once Phase 08 closes.
+#### QA round 2 — interrupted after step 3, resumed not restarted
+
+The QA agent was killed by a Claude Code process exit, not by anything it did. **Its commit discipline held and
+nothing was lost:** three step commits stand on `wt/qa-p08r2` (`e676ef2`, `6f55acc`, `87d0bb9`) and steps 4–5
+were on disk uncommitted. Resumed from its own transcript via `SendMessage` — per the run's rule, a dead agent
+is resumed, never restarted — with instructions to commit the loose evidence first and continue at step 5. The
+worktree was not deleted and no work was redone.
+
+**Gates re-measured, third independent reading.** `critical-1280` 15/15; `critical-375` 81 passed / 2 skipped;
+`radius-census` 3/3 including the drift negative control. `bantOrani` **0.23203125** from a **297.0000 px**
+band, ceiling 332.80 px, headroom 35.80 px = 1.591 pitches = exactly one row. Columns ship 5 / 6 / 5 / 6; all
+five `resourceLinks` entries appear exactly once in each footer rendering; `href="/"` appears **zero** times in
+the footer, and the header brand clicked from the bottom of `/kalite-dosyasi` lands on `/` at both 375 and
+1280 at focus position 1. IA controls unmoved: menu KAYNAKLAR index `05`, 404 directory 8 entries — so the fix
+did not leak into `ia.ts`.
+
+**The strongest evidence in the round.** Current 1280 `landing-fullpage` against **pre-Phase-08** `7dcfb65~1`:
+`heightDelta 0`, 61 changed rows all inside the footer, and **zero changed pixels above the footer top at
+threshold 1/255**. The band is back where Phase 04 left it, and the phase's two links cost nothing above it.
+Not one golden mismatched across the four visual projects.
+
+**NEW DEFECT, expected blocking — the cookie table is unreadable on a phone.** At 320 / 375 / 390 the storage
+table renders **583.9 px wide inside a 375 px viewport**: `DEPO`, `NE İŞE YARAR` and `SÜRE` are entirely
+off-screen for all five rows, and **nothing scrolls** — `scrollLeft` forced to 9999 on every ancestor from
+`<table>` to `<documentElement>` stays 0, there is no `tabindex`, and `div.shell-root` computes
+`overflow-x: clip`. The reflow guard is green *precisely because an ancestor clips*, which is worth carrying:
+that guard cannot see this failure class. It is **not** the fifth row's fault — hiding the new row leaves the
+width at 583.9 with identical columns — and it is Phase 08's own: the table arrives in `36c3980` and
+`7dcfb65~1` has none. Root cause isolated to the call site: `CerezPolitikasi.tsx:133` wraps the figure in a
+bare `div.shell-stack` whose implicit grid track resolves to 585.875 px, where `/kalite-dosyasi` uses
+`shell-span-read shell-stack` and resolves to 333 px. Orchestrator-verified at source: the primitive is
+innocent — `ShellSpecTable` (`ShellComposition.tsx:224-268`) already wraps its table in
+`div.shell-table-scroll`; it simply never becomes a scroll container while its own box is unconstrained. The
+other seven `ShellSpecTable` figures measure 333 px and do become real scroll regions.
+
+**Two claims C3 itself added are contradicted by measurement**, and both go into C4 rather than being left in
+commit bodies:
+
+- `e2e/technical-landing.spec.ts`'s new "the same in all four columns and at 375/768/1280/1440" is **false at
+  375**: `.tl-footer nav` is `display: none` there and every pitch delta is 0.
+- `footer-groups.ts`'s single tallest-column model holds only at **>=1024**. At 768 the band is a 2x2 grid
+  (`grid-template-rows: 150px 150px`) whose height is tallest(row 1) + tallest(row 2) — 13 rows before, 12
+  after, which is why 768 lost one pitch where 1280/1440 lost two.
+
+**A 375 state no golden covers.** With `.tl-footer nav` collapsed the footer is 740.44 px and immune to this
+change; opening the four disclosures takes it to 1684.44 px at a 40 px pitch with both changed columns fully
+visible. Immunity at 375 is conditional on the disclosures staying shut, and nothing photographs the open
+state.
+
+`installFontRetry()` failed three times (once each at 375, 768, 1440), all clean on isolated re-run — a higher
+flake rate than the C3 Coder saw, and another input to the Phase 12 decision to self-host the three families.
+
+**Still open in round 2:** step 5's regression backlog, step 6's permanent storage gate, and step 7 — the
+`hiçbir yapay zekâ servisine gönderilmez` trace against `finance-ai` / `ocr-invoice` / `parasut-sync`, which is
+still fully unresolved and could be a second blocker.
+
+**Next action:** await the resumed QA return, then send C4 (the cookie-table clipping plus the two false
+comment claims) and re-run. Phase 09 is scoped as 09a/09b per A21 once Phase 08 closes.
