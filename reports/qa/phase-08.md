@@ -1,4 +1,315 @@
-# QA Report — Phase 08 · ROUND 3 (closing round)
+# QA Report — Phase 08 · ROUND 4 (closing)
+
+- PHASE: 08 — INNER PAGES WAVE B
+- CODE_COMMIT: `27de482` (C5: `5003c66 · a727e54 · 27de482`)
+- WORKTREE: `C:\Users\Trade Bilisim\pdh-wt\qa-p08` on `wt/qa-p08r4`
+- STATUS: **PASS**
+- TESTS_PASSED: 214 in this round's scope (guard 26 over three lanes, four visual projects 146, qa-p08 storage + wave B 37, motion-grammar 10 of 12)
+- TESTS_FAILED: 2 — R2-3 only, both lanes, carried to Phase 10 per A23
+- TESTS_SKIPPED: 19 (18 visual `installFontRetry` lanes; 1 live control skipped at 1280 by design)
+- NEW_TESTS_ADDED: 3 (`wrongSurfaces()` plus its completeness control, its fixture control, and a live-404 control), and the live R2-1 control re-aimed and strengthened
+- SCOPE_INTEGRITY: **PASS** — nothing outside `e2e/qa-p08-*.spec.ts` and `reports/qa/**`
+
+**Why PASS, in one paragraph.** C5's two class names are correct and I
+reproduced their justification independently: with the fix's effect removed in
+the live DOM, exactly **14** route × viewport instances go red, the same set and
+the same numbers C5 reported, and as shipped **zero** problems appear over 10
+routes × 6 widths. Both untouched call sites measure track == column at every
+width. Çerez madde 03 renders without a numeral and names the hosting case with
+its triggers. No golden moved. The round's real work was mine to fix: **my guard
+walked two 404s**, which is why `KabiliyetProfilDetay.tsx:157` had no watcher,
+and it now carries a surface check that a 404 cannot pass. I also **re-aimed my
+own live control**, because it was forbidding a root fix that C5 measured safe —
+and I measured the block myself before changing anything.
+
+---
+
+## R4-1 · GUARD_FIXED — two 404s, and the control that closes the hole
+
+`reports/qa/phase-08/r4/p1-route-surface.json`, 27 routes at 375.
+
+| walked path | rendered `<h1>` | tables | `<main>` chars |
+|---|---|---|---|
+| `/kabiliyet-profilleri/ince-cidarli-aluminyum-govde` | **Bu profil kaydı bulunamadı** | 0 | 768 |
+| `/endustriyel/havacilik` | **Bu sayfa kaydı bulunamadı** | 0 | 667 |
+| `/kabiliyet-profilleri/ince-cidarli-govde` (real) | İNCE CİDARLI GÖVDE | 1 | 2282 |
+| `/endustriyel/havacilik-uzay` (real) | Havacılık & Uzay | 3 | 7210 |
+
+**Why `TABLE_CENSUS` could not see it.** The census is a floor keyed *by route*.
+It listed neither walked path, so it expected 0 tables and got 0. It was written
+to stop a walk that measures nothing on a route that *has* tables; it says
+nothing about a route that does not exist. Same shape as `d3c8a6c`'s dead axe
+sentinel: a gate reports green for the reason an empty scan does.
+
+**Corrected list.** Both slugs replaced with the real ones; the other two
+capability profiles added, because C5 measured all three carrying R3-1. The walk
+now sees **22 tables over 24 routes** (was 16 over 22) and 85 header cells over
+12 routes. `TABLE_CENSUS` gains four floors.
+
+**What the corrected list finds: no new red anywhere.** mobile-320 9/9,
+mobile-375 9/9, desktop-1280 8 passed / 1 skipped, production code unedited.
+Every surface C5 fixed is now watched, and C5 missed nothing.
+
+**The new control — `wrongSurfaces()`.** A second pure function over per-route
+`<h1>` records, wired into *both* walks *before* any table assertion. Three
+rules: the route must have a declared `ROUTE_SURFACE`; its `<h1>` must not be
+one of the app's four not-found headings; and it must match the route's own
+pattern. `PUBLIC_ROUTES` and `ROUTE_SURFACE` are asserted equal in both
+directions, so adding a route without saying what it renders now fails.
+
+A character floor would have been the obvious check and it does **not** work
+here — the test proves that rather than assuming it: the not-found bodies
+(667 / 768 / 792) are **longer** than `/reset-password` (490),
+`/sifremi-unuttum` (483), `/teklif-al` (493) and `/giris` (629). Hence the
+`<h1>` key.
+
+Its own controls: a fixture over the two transcribed 404 bodies, a route
+rendering a different page, an undeclared route, the positive case; and a live
+one that drives the app to both historical dead paths plus a nonsense path,
+measures each **under the identity of a route that is walked** — the exact
+substitution the defect performed — and requires all three rejected. Measured
+live: `["Bu profil kaydı bulunamadı · 0 tables · 768 chars", "Bu sayfa kaydı
+bulunamadı · 0 tables · 667 chars", "Bu koordinatta kayıt yok · 0 tables · 792
+chars"]`.
+
+---
+
+## R4-2 · C5_VERIFIED — the 14, the two untouched sites, and a misattributed risk
+
+**The 14, reproduced independently** (`r4/p2-r31.json`; 10 routes × 6 widths ×
+2 states = 120 measurements). As shipped: **0** problems at every width. With
+the fix's effect removed in the live DOM — the implicit `auto` track put back on
+every `div.shell-stack` holding a `figure.shell-table` — exactly **14** route ×
+viewport instances go red, all of them the R2-1 "container's OWN box" shape:
+
+| route | 320 | 375 | 390 |
+|---|---|---|---|
+| `/hizmetler/cnc-frezeleme` | **295.078** | ok | ok |
+| `/hizmetler/cnc-tornalama` | **358** | **358** | **358** |
+| `/hizmetler/anodizasyon` | **313.938** | ok | ok |
+| `/hizmetler/derin-delik-raybalama` | **306.156** | ok | ok |
+| `/hizmetler/hassas-mikro-isleme` | **305.281** | ok | ok |
+| `/kabiliyetler/malzeme-kutuphanesi` | **351.844** | **351.844** | **351.844** |
+| `/endustriyel/havacilik-uzay` | **295.078** | ok | ok |
+| `/kabiliyet-profilleri/ince-cidarli-govde` | **314.453** | ok | ok |
+| `/kabiliyet-profilleri/titanyum-baglanti-parcasi` | **327.281** | ok | ok |
+| `/kabiliyet-profilleri/hassas-mil` | **325.172** | ok | ok |
+
+Against a 278 / 333 / 348 px column. Same set, same numbers as C5's commit
+message. Nothing at 768, 1280 or 1440 in either state.
+
+**The two untouched call sites are genuinely safe.** `ServiceDetail.tsx:512`
+and `Malzemeler.tsx:177` both measure track == column at 320 / 375 / 390 / 768 /
+1280 / 1440 — 278 / 333 / 348 / 710 / 1213.984 / 1374 — with
+`scrollWidth == clientWidth` in every case. Neither contains a table.
+
+**C5's Malzemeler risk flag is MISATTRIBUTED, and the register needs no
+watcher.** `Malzemeler.tsx:177`'s `shell-stack` holds `ul.shell-segments` and an
+optional action — no table. The **filterable register is in a different
+wrapper**, `div.shell-span-full.shell-register-scope`, which is not a
+`shell-stack` and does not carry the `auto`-track shape at all. Measured across
+all 12 filter states at 320 and 375 (`r4/p3-untouched.json`): the wrapper box
+stays at the column (278 / 333) in **every** state while the table ranges
+491.484–543.141 inside a live `.shell-table-scroll` (543/276 at 320). The widest
+state is the **default unfiltered one** (543.141, "Tümü") — the state the guard
+already walks — and filtering or searching can only remove rows, which cannot
+raise min-content. The guard's existing coverage is already the worst case.
+
+One thing C5 noted that I confirm: that scroll region carries `tabindex=null` at
+every filter state. Correct by design, not a gap — `useScrollableRegionAccess`
+grants a tabindex only when the region contains no focus stop, matching axe's
+`scrollable-region-focusable`, and the register's rows contain links.
+
+---
+
+## R4-3 · LEGAL — madde 03 rendered, and what remains closed
+
+Rendered from the live DOM (`r4/p4-cerez-politikasi.txt`), madde 03 now opens
+**"Tarayıcınızın bu sitenin dışına istek gönderdiği yerler aşağıda tek tek
+sayılıdır."** and closes **"İsteğin gittiği yerler bunlardır."** — `/kvkk` madde
+04's shape, no numeral. Four labelled cases: fonts, the security component, the
+hosting/database infrastructure, the chat assistant. The hosting paragraph names
+its triggers — sign-in, password reset, contact form, RFQ, each chat message —
+**and** "giriş yaptıysanız oturumunuzu açık tutmak için", which is the case my
+own packet's suggested "a page load" framing would have got wrong. C5 was right
+to refuse it: `persistSession: true` + `autoRefreshToken: true` means a
+signed-in reader reaches that host on a plain load.
+
+Nothing new is claimed about any third party after receipt. The hCaptcha
+paragraph explicitly disclaims it; the chat paragraph defers to
+`/gizlilik-politikasi` madde 06; the hosting paragraph asserts only what the
+browser does and cites `/kvkk` madde 04.
+
+**The count-closed list defect is gone from all three documents. Three
+closed-at-one claims remain**, and I record them rather than declare the
+criterion met on a scan:
+
+| claim | verdict |
+|---|---|
+| çerez md 01 / gizlilik md 03 — "**Tek istisna** giriş sayfası[dır]" (cookies) | TRUE and *watched* — `qa-p08-storage-disclosure.spec.ts` walks the public routes for cookies and is 6/6 |
+| gizlilik md 05 — "Sayfalara gömülü **tek** üçüncü taraf bileşeni" | TRUE — verified independently: no `<iframe>` anywhere in `src/**` outside hCaptcha's own injected frames, and `index.html` carries no third-party `<script src>` (the font links are stylesheets). It survives the action that falsified "üç yer": logging in, sending an RFQ or opening the chat embeds nothing |
+| gizlilik md 02 — "…dışarı çıktığı **tek yer**" | see R4-5 |
+
+The operative rule this phase has applied three times is *a closed claim is a
+defect when a reader can falsify it by doing what the site asks*. The first two
+survive that test; the third is adjudicated below.
+
+---
+
+## R4-4 · CONTROL — my live control was forbidding the root fix. I re-aimed it.
+
+**The block is real, and I measured it myself before touching anything**
+(`r4/p6-old-control.json`, `/cerez-politikasi` at 375):
+
+| state | container box | client/scroll | forced `scrollLeft` | tabindex | checker |
+|---|---|---|---|---|---|
+| shipped (`shell-doc-table`) | 42 → 375 | 331 / 584 | 253 | `"0"` | clean |
+| old control (`shell-stack` restored) | 42 → **627.875** | 584 / 584 | **0** | `null` | **R2-1 fires** |
+| old control **+** `.shell-stack > * { min-width: 0 }` | 42 → 375 | 331 / 584 | 253 | `"0"` | **zero problems** |
+
+With the systemic fix in the stylesheet the old control cannot express the
+defect, reports zero problems where it demands one, and the guard fails. C5's
+account is exact, and its choice of (a) was correct under its instructions.
+
+**Ruling: re-aim the control; keep it live. The class fix is now available.**
+
+The reason is not that C5 was inconvenienced. It is that the old control had
+**two jobs and only one of them is a control's**. Catching a regression of this
+defect is the *walk's* job, and the walk does it over 24 routes and three lanes.
+This test exists solely to prove `unreachableTables()` is not hollow — an
+instrument check. By sourcing its defect from *production being broken*, it made
+repairing production a test failure: a defect ratchet. That is strictly worse
+than the marginal realism it buys, and it was my error in round 3, not C5's in
+round 5.
+
+**What the re-aim keeps and what it changes.** It stays live — real page, real
+engine, real collector, on `/cerez-politikasi` — because that is its whole value
+over the transcribed fixture. What changes is how the defect gets there: it is
+now **built** from inline geometry (`display: grid`, `grid-template-columns:
+auto`) on a wrapper stripped of every class, so no stylesheet rule can reach it.
+It is also **strengthened**, not softened: it asserts the defect's shape
+(`containerRight` past the viewport, `forcedScrollLeft` exactly 0) rather than
+only a problem count, and it ends by **injecting
+`.shell-stack > * { min-width: 0 }` and requiring itself to still fire** — a
+control on the control, so the ratchet cannot silently come back. Verified green
+at mobile-320 and mobile-375 with that injection in place.
+
+**Consequence for the Orchestrator:** `.shell-stack > * { min-width: 0 }` is no
+longer blocked by the spec. C5 measured it safe over 76 routes × 7 viewports
+with no golden movement. It is a clean systemic cleanup for a later phase; it is
+**not** needed for Phase 08, because the two call-site classes already close all
+14 instances.
+
+---
+
+## R4-5 · MADDE02 — contestable, not false. And here is the measurement.
+
+`/gizlilik-politikasi` madde 02: *"Sohbet kutusuna yazdıklarınız da kaydedilmez;
+ama onay verirseniz bir yapay zekâ servisine iletilir. Bu, sitede yazdığınız bir
+metnin dışarı çıktığı **tek yer** olduğu için ayrı bir maddede — 06. maddede —
+anlatılıyor."*
+
+**The measurement, which I ran rather than reasoned about**
+(`r4/p5-outbound.json`). Every non-loopback request intercepted and **aborted**,
+so nothing was written anywhere; what is recorded is the request the browser
+attempted. Filling `/iletisim`'s free-text "Ek notlar" box and pressing submit:
+
+```
+POST https://<project>.supabase.co/rest/v1/meetings
+{"name":…,"notes":"Bu bir not: QA-R4-MARKER-9f3a1c"}
+```
+
+The typed string leaves verbatim for a host on a different registrable domain.
+`/teklif-al` does the same at source with the typed "Kritik ölçüler" and
+"Parça/Revizyon" strings (`TeklifAl.tsx:534` → `functions.invoke("rfq-rate-limit")`).
+A text the reader wrote on the site reaches a non-site host in at least two
+places besides the chat. **The Orchestrator's factual premise is understated,
+not overstated.**
+
+**And I still rule it contestable, for a reason the measurement does not
+settle.** The predicate is not a host count. Çerez madde 03 counted *request
+destinations* — "üç yer" was false because 3 ≠ 4, and no reading survives that.
+Madde 02 makes a **custodial** claim about where a text *goes*, and "dışarı" is
+undefined in the set, which uses it in two senses:
+
+- **against the sentence** — gizlilik md 05 files the hosting transfer under the
+  heading "Üçüncü taraf istekleri", and `/kvkk` md 04 enumerates it as an
+  *aktarım*;
+- **for the sentence** — md 05's own body calls it "**sitenin** barındırma ve
+  veri tabanı altyapısı", the site's *own* infrastructure, and under KVKK a
+  *veri işleyen* acting on the controller's instructions is precisely not a
+  third party with purposes of its own. On that reading Gemini is the only
+  recipient outside the processing chain and the sentence stands exactly.
+
+Two honest readings, both licensed by the document set, and — decisively — **no
+reader is deprived of the fact**: md 05 states the RFQ/hosting transfer
+unqualified two clauses later, `/kvkk` md 04 enumerates it, and after C5 çerez
+md 03 names it with its triggers. That is what separates this from R2-2, where
+"hiçbir çerez oluşturulmuyor" had exactly one reading, a cookie existed, and the
+fact was disclosed **nowhere**.
+
+**Verdict: CONTESTABLE. Phase 08 closes.** Not comfortable, and it should be
+carried by name rather than silently: the sentence is defensible only because
+"dışarı" is undefined, and this phase has spent three corrections learning what
+an undefined absolute costs. Its natural owner is Phase 09's mandatory "Align
+KVKK/privacy copy with actual data flow", which rewrites the RFQ path the
+sentence turns on. The repair, when it comes, is one clause: say *what* leaves
+and *to whom* instead of counting places.
+
+**What would flip this to FALSE.** If any typed text reached a party outside the
+site's own processing chain — an analytics endpoint, a form-relay service, an
+email provider called from the browser — without consent. I measured for that:
+over the whole `/iletisim` submit path the only non-loopback hosts the browser
+attempted at all were `fonts.googleapis.com` and the one `*.supabase.co` project
+host. (`fonts.gstatic.com` never appears because aborting the font stylesheet
+means the font files are never requested; round 2 measured those two font hosts
+as the complete set on every non-`/giris` route.) There is no third recipient.
+
+---
+
+## R4-6 · GOLDENS — unmoved, confirmed three ways
+
+1. All four visual projects run per project and green: `visual-375` 35 passed /
+   6 skipped, `visual-768` 35 / 6, `visual-1280` **41 passed, 0 skipped**,
+   `visual-1440` 35 / 6. No `--update-snapshots` in any invocation.
+2. `git diff 9dc1353..27de482 -- e2e/__golden__` is **empty** — C5 rebanked
+   nothing, so the claim is not "the diff passed", it is "there was no diff to
+   pass".
+3. `git status --porcelain e2e/__golden__` clean after my four runs.
+
+116 baselines, none under 2 kB, so nothing is a degenerate blank.
+
+---
+
+## R4-7 · CARRIED AND OUT OF SCOPE — confirmed, nothing more
+
+- **R2-3** still red at *both* lanes, identical cause:
+  `motion-grammar.spec.ts:291` expects `.tl-dimension-lines` hidden and measures
+  `"visible"`; 5 passed / 1 failed at `tablet-768` and at `landscape-844`.
+  Carried to Phase 10 per A23.
+- Criteria 3 and 5: carried per A20/A21, verified twice, not re-measured.
+- hCaptcha, `Login.tsx`, `KVKK.tsx`: settled, untouched.
+- Not re-run this round, per packet: full regression, cross-browser, contrast,
+  whole-page axe. C5's production delta is two class names plus legal copy, and
+  round 3 covered those lanes at `49a1af6`.
+
+## R4-8 · GATES
+
+| gate | result |
+|---|---|
+| `npm run build` | exit 0, 41.76 s |
+| `npx tsc -b` | exit 0 |
+| `node scripts/claims-gate.mjs` | **PASS** — 0 unverified claims, 27 rules, 214 files |
+| `qa-p08-scroll-region-reach` × 3 lanes | 26 passed, 1 skipped by design |
+| `qa-p08-storage-disclosure` | **6/6** |
+| `qa-p08-waveb-contract` | 37/37 |
+| visual × 4 | green, no golden moved |
+| `git status` | nothing outside `e2e/qa-p08-*.spec.ts` and `reports/qa/**` (two `.tsbuildinfo` artifacts left alone per packet) |
+
+---
+---
+
+# — ROUND 3 REPORT BELOW, UNCHANGED —
 
 - PHASE: 08 — INNER PAGES WAVE B: quality, projects, blog, resources, legal, search/discovery, 404/error
 - CODE_COMMIT: `49a1af6` (round-2 base `a5e4e7d` + the three C4 commits `6981a4d · 3e2f7dc · c79147b` + the PROGRESS entry)
