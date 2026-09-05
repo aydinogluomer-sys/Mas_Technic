@@ -1,0 +1,302 @@
+/* QA ROUND 4 PROBE — TEMPORARY. Deleted before the round's final commit.
+   Writes JSON evidence to reports/qa/phase-08/r4/. Not a gate. */
+import { test, expect, type Page } from "@playwright/test";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { gotoAndSettle } from "./helpers";
+
+const OUT = "reports/qa/phase-08/r4";
+mkdirSync(OUT, { recursive: true });
+const write = (name: string, data: unknown) =>
+  writeFileSync(`${OUT}/${name}`, JSON.stringify(data, null, 2), "utf8");
+
+async function settle(page: Page, route: string) {
+  await gotoAndSettle(page, route);
+  await page.waitForLoadState("networkidle", { timeout: 10_000 }).catch(() => {});
+  await page.waitForTimeout(350);
+}
+
+/* The guard's own collector + checker, inlined so the probe measures the same
+   contract the gate does. */
+const COLLECT = () => {
+  const FOCUS_STOP = "a[href], button:not([disabled]), input:not([disabled]),"
+    + " select:not([disabled]), textarea:not([disabled]), summary,"
+    + " [contenteditable=''], [contenteditable='true'], [tabindex]:not([tabindex^='-'])";
+  const px = (n: number) => Number(n.toFixed(3));
+  return [...document.querySelectorAll("table")].map((table, index) => {
+    let cursor: Element | null = table.parentElement;
+    let container: Element | null = null;
+    while (cursor) {
+      const ox = getComputedStyle(cursor).overflowX;
+      if (ox === "auto" || ox === "scroll" || ox === "hidden" || ox === "clip") { container = cursor; break; }
+      cursor = cursor.parentElement;
+    }
+    const rect = table.getBoundingClientRect();
+    let tableRightAtMaxScroll = rect.right;
+    let forced: number | null = null;
+    let containerBox: DOMRect | null = null;
+    if (container) {
+      containerBox = container.getBoundingClientRect();
+      const before = container.scrollLeft;
+      container.scrollLeft = 9999;
+      forced = container.scrollLeft;
+      tableRightAtMaxScroll = table.getBoundingClientRect().right;
+      container.scrollLeft = before;
+    }
+    const tabindex = container?.getAttribute("tabindex") ?? null;
+    const stack = table.closest("figure.shell-table")?.parentElement ?? null;
+    return {
+      index,
+      label: table.querySelector("caption")?.textContent?.trim() || `table ${index}`,
+      viewportWidth: window.innerWidth,
+      tableWidth: px(rect.width), tableLeft: px(rect.left), tableRight: px(rect.right),
+      tableRightAtMaxScroll: px(tableRightAtMaxScroll),
+      container: container ? container.tagName.toLowerCase() + (typeof container.className === "string" && container.className.trim() ? "." + container.className.trim().split(/\s+/).join(".") : "") : null,
+      containerLeft: containerBox ? px(containerBox.left) : null,
+      containerRight: containerBox ? px(containerBox.right) : null,
+      containerClientWidth: container ? container.clientWidth : null,
+      containerScrollWidth: container ? container.scrollWidth : null,
+      containerOverflowX: container ? getComputedStyle(container).overflowX : null,
+      forcedScrollLeft: forced === null ? null : Number(forced.toFixed(2)),
+      tabindex,
+      keyboardReachable: container === null ? false
+        : (tabindex !== null && !tabindex.startsWith("-")) || container.matches(FOCUS_STOP) || container.querySelector(FOCUS_STOP) !== null,
+      stackClass: stack ? stack.className : null,
+      stackTrack: stack ? getComputedStyle(stack).gridTemplateColumns : null,
+      stackWidth: stack ? px(stack.getBoundingClientRect().width) : null,
+      stackRight: stack ? px(stack.getBoundingClientRect().right) : null,
+      parentContentWidth: stack?.parentElement ? stack.parentElement.clientWidth : null,
+    };
+  });
+};
+
+type Rec = Awaited<ReturnType<typeof COLLECT>>[number] & { route: string };
+
+function problems(records: readonly Rec[]) {
+  const out: string[] = [];
+  for (const r of records) {
+    const where = `${r.route} table#${r.index} (${r.label})`;
+    if (r.tableLeft >= -1 && r.tableRight <= r.viewportWidth + 1) continue;
+    if (r.container === null) { out.push(`${where}: no scrolling ancestor`); continue; }
+    if ((r.containerLeft ?? 0) < -1 || (r.containerRight ?? 0) > r.viewportWidth + 1) {
+      out.push(`${where}: OWN box ${r.containerLeft}..${r.containerRight} in ${r.viewportWidth}px`); continue;
+    }
+    if (r.tableRightAtMaxScroll > r.viewportWidth + 1) { out.push(`${where}: clipped away at ${r.tableRightAtMaxScroll}`); continue; }
+    if (!r.keyboardReachable) out.push(`${where}: no focus stop`);
+  }
+  return out;
+}
+
+const WIDTHS = [320, 375, 390, 768, 1280, 1440];
+
+const R31_ROUTES = [
+  "/hizmetler/cnc-frezeleme",
+  "/hizmetler/cnc-tornalama",
+  "/hizmetler/anodizasyon",
+  "/hizmetler/derin-delik-raybalama",
+  "/hizmetler/hassas-mikro-isleme",
+  "/kabiliyetler/malzeme-kutuphanesi",
+  "/endustriyel/havacilik-uzay",
+  "/kabiliyet-profilleri/ince-cidarli-govde",
+  "/kabiliyet-profilleri/titanyum-baglanti-parcasi",
+  "/kabiliyet-profilleri/hassas-mil",
+];
+
+/* ── P1: does every route the guard walks render its own surface? ───────── */
+test("P1 route surface census", async ({ page }) => {
+  test.setTimeout(600_000);
+  const routes = [
+    "/", "/sss", "/gizlilik-politikasi", "/kvkk", "/cerez-politikasi", "/hakkimizda",
+    "/iletisim", "/malzemeler", "/malzemeler/aluminyum", "/blog",
+    "/blog/havacilik-parcalarinda-malzeme-secimi", "/kabiliyet-profilleri",
+    "/kabiliyet-profilleri/ince-cidarli-aluminyum-govde",  // the walked 404
+    "/kabiliyet-profilleri/ince-cidarli-govde",            // the real one
+    "/kalite-dosyasi", "/hizmetler/kategori/talasli-imalat", "/hizmetler/cnc-frezeleme",
+    "/kabiliyetler/kalite-kontrol",
+    "/endustriyel/havacilik",                              // the walked 404
+    "/endustriyel/havacilik-uzay",                         // the real one
+    "/giris", "/sifremi-unuttum", "/reset-password", "/teklif-al",
+    "/kabiliyet-profilleri/titanyum-baglanti-parcasi", "/kabiliyet-profilleri/hassas-mil",
+    "/bu-rota-yok-12345",
+  ];
+  await page.setViewportSize({ width: 375, height: 812 });
+  const rows: unknown[] = [];
+  for (const route of routes) {
+    await settle(page, route);
+    rows.push(await page.evaluate((r) => ({
+      route: r,
+      h1: [...document.querySelectorAll("h1")].map((h) => (h.textContent || "").trim()),
+      tables: document.querySelectorAll("table").length,
+      mainChars: (document.querySelector("main")?.textContent || "").trim().length,
+      title: document.title,
+    }), route));
+  }
+  write("p1-route-surface.json", rows);
+  console.log(JSON.stringify(rows, null, 1));
+});
+
+/* ── P2: R3-1 as shipped, and the counterfactual that removes the fix ───── */
+test("P2 R3-1 shipped vs counterfactual", async ({ page }) => {
+  test.setTimeout(900_000);
+  const shipped: Rec[] = [];
+  const counter: Rec[] = [];
+  for (const route of R31_ROUTES) {
+    for (const width of WIDTHS) {
+      await page.setViewportSize({ width, height: 900 });
+      await settle(page, route);
+      const a = (await page.evaluate(COLLECT)).map((r) => ({ ...r, route }));
+      shipped.push(...a);
+      // remove the fix's effect: put the implicit `auto` track back
+      await page.evaluate(() => {
+        for (const el of document.querySelectorAll<HTMLElement>("div.shell-stack")) {
+          if (el.querySelector("figure.shell-table")) el.style.gridTemplateColumns = "none";
+        }
+      });
+      await page.waitForTimeout(250);
+      const b = (await page.evaluate(COLLECT)).map((r) => ({ ...r, route }));
+      counter.push(...b);
+    }
+  }
+  const shippedProblems = shipped.filter((r) => problems([r]).length > 0);
+  const counterProblems = counter.filter((r) => problems([r]).length > 0);
+  const key = (r: Rec) => `${r.route} @${r.viewportWidth}`;
+  write("p2-r31.json", {
+    shippedProblemCount: shippedProblems.length,
+    shippedProblems: shippedProblems.map((r) => ({ ...r, why: problems([r]) })),
+    counterProblemCount: counterProblems.length,
+    counterInstances: [...new Set(counterProblems.map(key))],
+    counterProblems: counterProblems.map((r) => ({ route: r.route, w: r.viewportWidth, label: r.label, stackWidth: r.stackWidth, parentContentWidth: r.parentContentWidth, stackRight: r.stackRight, why: problems([r]) })),
+    shippedTracks: shipped.map((r) => ({ route: r.route, w: r.viewportWidth, label: r.label, stackClass: r.stackClass, stackTrack: r.stackTrack, stackWidth: r.stackWidth, parentContentWidth: r.parentContentWidth, tabindex: r.tabindex, containerScrollWidth: r.containerScrollWidth, containerClientWidth: r.containerClientWidth })),
+  });
+  console.log(`SHIPPED problems: ${shippedProblems.length}`);
+  console.log(`COUNTERFACTUAL problem route x viewport instances: ${[...new Set(counterProblems.map(key))].length}`);
+  console.log(JSON.stringify([...new Set(counterProblems.map(key))], null, 1));
+});
+
+/* ── P3: the two untouched call sites, incl. Malzemeler under filtering ─── */
+test("P3 untouched call sites", async ({ page }) => {
+  test.setTimeout(600_000);
+  const rows: unknown[] = [];
+  for (const route of ["/malzemeler", "/endustriyel/havacilik-uzay"]) {
+    for (const width of WIDTHS) {
+      await page.setViewportSize({ width, height: 900 });
+      await settle(page, route);
+      rows.push(await page.evaluate((meta) => {
+        const px = (n: number) => Number(n.toFixed(3));
+        return {
+          ...meta,
+          stacks: [...document.querySelectorAll<HTMLElement>("div.shell-span-full.shell-stack")].map((el, i) => ({
+            i,
+            className: el.className,
+            track: getComputedStyle(el).gridTemplateColumns,
+            width: px(el.getBoundingClientRect().width),
+            right: px(el.getBoundingClientRect().right),
+            parentContentWidth: el.parentElement ? el.parentElement.clientWidth : null,
+            scrollWidth: el.scrollWidth,
+            clientWidth: el.clientWidth,
+            firstChild: el.firstElementChild?.className ?? null,
+            hasTable: !!el.querySelector("table"),
+          })),
+        };
+      }, { route, width }));
+    }
+  }
+  // /malzemeler filter states — the register's min-content is user-driven
+  const filterRows: unknown[] = [];
+  for (const width of [320, 375]) {
+    await page.setViewportSize({ width, height: 900 });
+    await settle(page, "/malzemeler");
+    const segs = await page.$$("ul.shell-segments a, ul.shell-segments button");
+    for (let i = 0; i < segs.length; i++) {
+      await settle(page, "/malzemeler");
+      const s = (await page.$$("ul.shell-segments a, ul.shell-segments button"))[i];
+      const label = (await s.textContent())?.trim();
+      await s.click().catch(() => {});
+      await page.waitForTimeout(400);
+      filterRows.push(await page.evaluate((meta) => {
+        const px = (n: number) => Number(n.toFixed(3));
+        const table = document.querySelector("table");
+        const stack = table?.closest("figure.shell-table")?.parentElement
+          ?? document.querySelector<HTMLElement>("div.shell-span-full.shell-stack");
+        const scroll = table?.closest<HTMLElement>(".shell-table-scroll") ?? null;
+        return {
+          ...meta,
+          rows: table ? table.querySelectorAll("tbody tr").length : 0,
+          tableWidth: table ? px(table.getBoundingClientRect().width) : null,
+          tableRight: table ? px(table.getBoundingClientRect().right) : null,
+          stackWidth: stack ? px(stack.getBoundingClientRect().width) : null,
+          stackRight: stack ? px(stack.getBoundingClientRect().right) : null,
+          stackTrack: stack ? getComputedStyle(stack).gridTemplateColumns : null,
+          stackClass: stack ? stack.className : null,
+          scrollClient: scroll ? scroll.clientWidth : null,
+          scrollScroll: scroll ? scroll.scrollWidth : null,
+          scrollTabindex: scroll ? scroll.getAttribute("tabindex") : null,
+          url: location.pathname,
+        };
+      }, { width, label, i }));
+    }
+  }
+  write("p3-untouched.json", { stacks: rows, malzemelerFilters: filterRows });
+  console.log(JSON.stringify(filterRows, null, 1));
+});
+
+/* ── P4: the rendered legal set ────────────────────────────────────────── */
+test("P4 legal text", async ({ page }) => {
+  test.setTimeout(300_000);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  const docs: Record<string, unknown> = {};
+  for (const route of ["/cerez-politikasi", "/gizlilik-politikasi", "/kvkk"]) {
+    await settle(page, route);
+    // open every <details>/accordion so nothing is measured collapsed
+    await page.evaluate(() => {
+      document.querySelectorAll("details").forEach((d) => d.setAttribute("open", ""));
+      document.querySelectorAll<HTMLElement>("[aria-expanded='false']").forEach((b) => b.click());
+    });
+    await page.waitForTimeout(600);
+    docs[route] = await page.evaluate(() => ({
+      text: (document.querySelector("main")?.innerText || "").replace(/ /g, " "),
+      clauses: [...document.querySelectorAll("main h2, main h3")].map((h) => (h.textContent || "").trim()),
+    }));
+  }
+  write("p4-legal.json", docs);
+  for (const [route, d] of Object.entries(docs)) {
+    writeFileSync(`${OUT}/p4-${route.replace(/\//g, "")}.txt`, (d as { text: string }).text, "utf8");
+  }
+  expect(Object.keys(docs).length).toBe(3);
+});
+
+/* ── P5: does a text the reader typed leave for a non-site host? ─────────
+   Every non-loopback request is INTERCEPTED AND ABORTED, so nothing is
+   written anywhere. What is recorded is the request the browser attempted. */
+test("P5 outbound typed text", async ({ page }) => {
+  test.setTimeout(300_000);
+  const attempts: { url: string; method: string; hasMarker: boolean; bodyHead: string }[] = [];
+  const MARKER = "QA-R4-MARKER-9f3a1c";
+  await page.route("**/*", async (route) => {
+    const url = route.request().url();
+    const host = new URL(url).hostname;
+    if (host === "localhost" || host === "127.0.0.1") return route.continue();
+    const body = route.request().postData() || "";
+    attempts.push({
+      url, method: route.request().method(),
+      hasMarker: body.includes(MARKER),
+      bodyHead: body.slice(0, 400),
+    });
+    return route.abort();
+  });
+
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await settle(page, "/iletisim");
+  await page.fill("#toplanti-ad", "QA Test");
+  await page.fill("#toplanti-eposta", "qa@example.com");
+  await page.selectOption("#toplanti-konu", { index: 1 });
+  const tomorrow = new Date(Date.now() + 86_400_000).toISOString().split("T")[0];
+  await page.fill("#toplanti-tarih", tomorrow);
+  await page.selectOption("#toplanti-saat", { index: 1 });
+  await page.fill("#toplanti-not", `Bu bir not: ${MARKER}`);
+  const before = attempts.length;
+  await page.click("button[type=submit], [type=submit]");
+  await page.waitForTimeout(4000);
+  const after = attempts.slice(before);
+  write("p5-outbound.json", { all: attempts, afterSubmit: after, marker: MARKER });
+  console.log("AFTER SUBMIT:", JSON.stringify(after, null, 1));
+});
