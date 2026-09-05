@@ -64,6 +64,7 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | A15 | 08 | "Build case-study/project index and detail pages" is satisfied by `/kabiliyet-profilleri` + `/kabiliyet-profilleri/:slug` over the three `kind: "capability"` entries in `src/content/caseStudies.ts`, and the surface says on the page that these are capability profiles rather than delivered customer projects. | `USER_INPUTS.md` §J `NDA_AVAILABLE: NO` and §G: there is no customer project the repo can substantiate and no permission to publish one. IMPLEMENTATION.md §13 and the run brief both require neutralising an unverifiable public claim rather than inventing one or stopping. The Phase 06 data model was built for exactly this: an entry changes `kind` and gains `measuredResults` when a real project and a permission arrive, and nothing else is rewritten. |
 | A16 | 08 | "Rework Quality/Resources into real technical-document/evidence surfaces" is satisfied by `/kalite-dosyasi` presenting the four §H PDFs as a document register with their measured file sizes, rather than by asserting certifications. | The repo can substantiate the documents themselves — they exist in `public/` — but not any certification claim about them. Publishing the register is evidence; publishing a claim about scope of certification would be invention. `DEFAULT_FACT_VISIBILITY: INTERNAL_ONLY_UNLESS_PUBLIC_OK` also bars restating anything in them that §D holds private. |
 | A17 | 08 | The legal pages now disclose that chat messages are transferred to Google (`generativelanguage.googleapis.com`) although `USER_INPUTS.md` contains **no field** for AI, processors or third parties. | The transfer is a fact of the shipped code (`supabase/functions/chat/index.ts`), not a fact supplied by the user, so the publication policy does not gate it — a privacy page that omits a transfer the code performs is false, and §13 forbids that. The disclosure is confined to what the code proves (when the request is made, what is sent, what is not forwarded, that nothing reaches the database) and deliberately asserts **nothing** about Google's retention, training or handling, which is unknowable from this repo. |
+| A18 | 08 | QA copied the primary checkout's gitignored `.env` into the `wt/qa-p08` worktree and rebuilt before measuring anything. | A worktree has no `.env`, and without one every route renders the top-level error boundary — so a QA agent that did not notice would have measured an error page and reported it as the site. The file was **not** committed and the worktree is throwaway, so no secret enters git. Same class as A04 (`node_modules` junction): worktree setup, not a product decision. Any future worktree-based QA must do the same.
 
 ## Phase notes
 
@@ -1030,7 +1031,7 @@ Coder corrected the Orchestrator's stale carry-forward.
 
 ---
 
-### Phase 08 — INNER PAGES WAVE B: QUALITY, PROJECTS, BLOG, RESOURCES, LEGAL, SEARCH/DISCOVERY, 404/ERROR — IN_PROGRESS
+### Phase 08 — INNER PAGES WAVE B: QUALITY, PROJECTS, BLOG, RESOURCES, LEGAL, SEARCH/DISCOVERY, 404/ERROR — IN_PROGRESS (QA round 1: FAIL)
 
 **Integration branch at this record:** `5138fc1`. **Coder worktree:** `wt/coder-p08` (left in place, resumable).
 **QA worktree:** `wt/qa-p08` at `5138fc1` — round 1 dispatched, not yet returned.
@@ -1084,3 +1085,101 @@ of severity rather than existence.**
 (capability profiles, not customer projects — `NDA_AVAILABLE: NO`), A16 (the quality surface is a document
 register, not a certification claim), A17 (the Google transfer is disclosed although `USER_INPUTS.md` has no
 field for it, because it is a fact of the code rather than a fact supplied by the user).
+
+#### QA round 1 — **FAIL**
+
+Worktree `wt/qa-p08` at `5138fc1`; report and evidence committed there as **`88a4fa7`** (49 files: the report,
+14 probe scripts, 18 evidence captures, 4 screenshots, 1 new `qa-*` spec; no production path in the commit).
+380 passed / 2 failed / 84 skipped, 46 new assertions. The agent was killed by a process exit mid-run and was
+**resumed from its own transcript** — its worktree was left in place, which is why 45 minutes of probes
+survived. Contrast with the Phase 07 loss, where removing a stopped agent's worktree destroyed its work.
+
+**Acceptance criteria as measured:**
+
+| # | Criterion | Result | Evidence |
+|---|---|---|---|
+| 1 | 404 unmistakably MAS TECHNIC, usable, linked back | PASS | Both branches reached. `/kalite-dosyas` gives 3 suggestions, each resolving 200 with a real `<h1>`; `/qa-zzz-nothing` gives `YAKIN KAYIT 0`, block correctly absent, 8-entry directory and global nav still present. |
+| 2 | Wave B shares the global design system | PASS | Measured inside `<main>` on all ten surfaces: 0 teal, 0 Radix primitives, 0 `bg-card`, 0 off-register radii, 0 system fonts, 47–404 shell primitives. |
+| 3 | No public route in the old generic language | **FAIL** | `/teklif-al` 16 teal + 3 Radix + 1 shell primitive; `/giris` 92 teal; `/cad-dashboard` 16 + 3 + 1; `/sifremi-unuttum` and `/reset-password` 0 shell primitives. |
+| 4 | Search/filter justified or explicitly omitted | PASS | In writing, per surface: `SSS.tsx:60-72` implemented; `Blog.tsx:41-56`, `KabiliyetProfilleri.tsx:44-46`, `KaliteDosyasi.tsx:68-69`, `NotFound.tsx:59-65` omitted, with the reason. |
+| 5 | Error/loading/empty not library defaults | **FAIL** | Loading, empty and 500 are branded and reachable. CAD-format and form errors render a stock `sonner` toast: `rgb(255,255,255)`, `8px` radius, `ui-sans-serif`. |
+
+Mandatory tasks all PASS except the two error states (D5). **"Real HTTP 404 where hosting permits" is
+explicitly deferred with a verified reason** — QA confirmed no hosting config of any kind exists in the repo
+and that `/bu-sayfa-yok` returns `200 text/html`. The task's own condition is therefore not met, which is a
+legitimate deferral rather than a silent skip.
+
+**Defects.**
+
+- **D1 — BLOCKING, `critical-1280` is red.** `e2e/technical-landing.spec.ts:271`: `footer.bantOrani`
+  `0.2671875` against a `< 0.26` bound, three identical runs. Cause is `src/components/navigation/ia.ts:256-257`
+  — the two new `resourceLinks` grew the footer 298 to 342 px. **The bound's own comment names this exact
+  failure**: "a fifth nav column, or a link column growing past ~9 rows, or the conversion rule wrapping to two
+  rows at desktop, each pushes past 0.26". `931594f` rebanked 23 goldens but never ran the critical projects.
+  Orchestrator note: the fix is NOT raising the constant. Phase 04's precedent in that same comment re-aimed
+  0.17 to 0.26 only because the underlying geometry deliberately changed, and recorded the measurement for it.
+  The first question for the Coder is whether the footer map can absorb two more links without any column
+  passing 9 rows.
+- **D2 — BLOCKING, `visual-1280` is red.** `radius-census.spec.ts:108`:
+  `docs/lean/17-inner-page-composition.md:137` cites `ChatBot.tsx:225` for the launcher radius; Phase 08
+  inserted 143 lines and the `rounded-full` declaration is now at `:294`. QA verified `:225` *was* correct at
+  `7dcfb65~1`. The same drift affects the panel-radius citation nearby. Documentation-accuracy failure, one-line
+  class — but it is red, so it blocks.
+- **D3 — CONTENT TRUTH, the most serious finding.** `/kvkk` madde 04 (`src/pages/KVKK.tsx:86-99`) still says
+  transfer happens **in exactly two cases** — a lawful public-authority request, and the hosting/database
+  provider. Google is neither. `git show --stat 5138fc1` confirms the commit that exists to disclose the Gemini
+  transfer touched `CerezPolitikasi.tsx` and `GizlilikPolitikasi.tsx` and **not `KVKK.tsx`**. The notice's own
+  madde 02 puts content-borne personal data in scope, so chat text is in scope by the document's own rule. This
+  is worse than an omission: the sentence affirmatively **closes** an enumeration that is now incomplete.
+- **D4 — CONTENT TRUTH.** `/cerez-politikasi` madde 02 claims its storage list is complete; measured over six
+  routes it is short by `mas_intro_seen`, declared at `index.html:302`. Cookies proper: genuinely zero, as
+  claimed.
+- **D5 — Orchestrator decision, not a Coder correction.** The two unbranded error states are deferred at
+  `docs/lean/18-document-surfaces.md:162-165`. QA did **not** verify the write-allowlist claim behind that
+  deferral, and says so.
+- **D6 — Orchestrator decision.** Criterion 3 fails on five routes. QA reports that no phase owns them; the
+  Orchestrator's reading is that `/teklif-al` and `/cad-dashboard` are substantially rewritten by **Phase 09**,
+  which decomposes `TeklifAl.tsx` (1540 lines), and that only the three auth routes — `/giris`,
+  `/sifremi-unuttum`, `/reset-password` — are genuinely unowned. To be settled when Phase 09 is scoped.
+
+**The two carried defects, adjudicated.**
+
+- **P08-D1 (`ChatBot.tsx:239-240`)** — makes **no** legal sentence false. All three texts say "o ana kadarki
+  yazışma", which covers the consent prompt. QA traced the real payload: every prior turn, the consent prompt,
+  and a duplicate of the question; `callAi`'s first argument is dead. **Not a Phase 08 blocker — carried to
+  Phase 09.** QA's corollary is the part worth keeping: the defect is *masked* by broad wording, so if anyone
+  later narrows that clause it becomes false the same day with **no test watching**. Fix by keying the filter
+  on state, never on a string literal.
+- **P08-D2 (`ScrollToTop.tsx`)** — confirmed by measurement and worse than assumed: the clause sits 2115 px
+  below a 900 px viewport both after an SPA click **and** after a full navigation to the pasted URL, because
+  the `useLayoutEffect` overrides the browser's native fragment scroll. It does **not** affect criterion 1; all
+  404 links are route paths and all resolve. It does break the only cross-route hash link in the app —
+  `ChatBot.tsx:418`, created by Phase 08, in the privacy affordance. **MEDIUM, required before release.**
+
+**Goldens — §12 honoured.** No `--update-snapshots`, at any point. All four visual projects run per-project:
+35/35/35 green, 40+1 at 1280, where the 1 is D2, a citation assertion rather than a snapshot. **All 16 new and
+all 23 modified baselines matched.** QA falsified the rebank claim rather than accepting it: first meaningful
+changed row 3752 of 3918 on the 1280 landing, 132 of 298 on the footer crops — nothing above the footer moved.
+At 375 it is a sub-pixel plus-or-minus-1 shift from the rewritten `/blog` and 404 bodies, with
+`SiteFooter.tsx`, `footer-groups.ts`, `claims.ts` and `Header.tsx` byte-identical across the phase. All 16
+`waveb-*` contain their stated subject: 6 opened by eye, 10 checked for degeneracy.
+
+**Orchestrator verification of QA's claims.** D2, D3 and D4 were re-verified independently at the source
+(`git show --stat 5138fc1`; `docs/lean/17-inner-page-composition.md:137` against `grep -n "rounded-full"
+src/components/ChatBot.tsx`; `src/pages/KVKK.tsx:86-99`; `index.html:302`). D1 was verified in *substance* —
+the bound, its comment, and the `ia.ts` change — but the **`critical-1280` run itself was not repeated by the
+Orchestrator**; that figure is QA's, from three identical runs. Recorded as relayed, not as independently
+confirmed.
+
+**Stated unverified by QA, carried:** the full `desktop-1280` regression, cut off by the process exit, though
+`critical-*` and `shared-shell-accessibility` did run; the other seven regression viewports; `smoke-*` on
+Firefox and WebKit; contrast at 375 with the glyph-free instrument, where axe ran clean; the write-allowlist
+claim behind D5; and whether `mas_intro_seen` is the only unlisted storage key.
+
+**Environmental fact worth carrying (A18).** The QA worktree had no `.env`, and without it every route renders
+the top-level error boundary — a QA agent that did not notice would have measured an error page and reported it
+as the site. QA copied the main repo's `.env` in, gitignored and **not** committed, and rebuilt; every
+measurement above is post-rebuild. Any future worktree-based QA must do the same.
+
+**Next action when the run resumes:** correction packet C3 to `mas-coder` for D1–D4, then QA round 2. D5 and D6
+are Orchestrator calls that do not block the packet.
