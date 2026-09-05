@@ -60,6 +60,10 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | A11 | 07 | Phase 07 grants `mas-coder` ownership of `playwright.config.ts`, `e2e/visual/**` and `e2e/__golden__/**`, which §3.3 otherwise assigns to QA. | §3.3 permits it when the phase task explicitly gives the Coder ownership. Phase 07's acceptance requires desktop/tablet/mobile goldens for the routes it redesigns; capturing a golden is inseparable from the redesign that changes it, and splitting them across two agents guarantees a broken intermediate state. Same basis as A08. `mas-qa` still verifies independently and may add its own specs anywhere in `e2e/**`. |
 | A12 | 07 | A `visual-768` project is added to the Playwright visual matrix (previously `[375, 1280, 1440]`). | Phase 07 acceptance requires **tablet** golden coverage and no tablet width existed in the visual matrix, so the criterion was unmeetable as configured. Goldens this creates at 768 are first baselines, not regenerations — but the Coder is required to visually inspect each one before committing, because a first baseline can pin a defect exactly as a regenerated one can (Phase 04 D0 precedent). |
 | A13 | 07 | Five clean stale `.claude/worktrees/agent-*` worktrees at pre-run snapshot `1477484` were removed and their throwaway branches deleted. | Each verified `git status --porcelain` empty and unlocked. Same class as A06, where stale worktrees blocked all agent spawning. Never merged; the integration branch was untouched. |
+| A14 | 08 | Phase 08 grants `mas-coder` ownership of `e2e/shared-shell-accessibility.spec.ts`, `e2e/visual/**`, the golden PNGs and `scripts/motion-audit.mjs`, which §3.3 otherwise assigns to QA. | Same basis as A08/A11, and forced: the phase adds three routes, and both the shared-shell route inventory and the motion rest matrix hard-code the route list. Splitting "add the route" from "add it to the inventory the suite asserts against" across two agents guarantees a red intermediate state. The Orchestrator's first packet mandated new routes while placing both files on DO_NOT_TOUCH — an impossible contract, corrected in packet C1. `mas-qa` still verifies independently and may add its own `qa-*` specs. |
+| A15 | 08 | "Build case-study/project index and detail pages" is satisfied by `/kabiliyet-profilleri` + `/kabiliyet-profilleri/:slug` over the three `kind: "capability"` entries in `src/content/caseStudies.ts`, and the surface says on the page that these are capability profiles rather than delivered customer projects. | `USER_INPUTS.md` §J `NDA_AVAILABLE: NO` and §G: there is no customer project the repo can substantiate and no permission to publish one. IMPLEMENTATION.md §13 and the run brief both require neutralising an unverifiable public claim rather than inventing one or stopping. The Phase 06 data model was built for exactly this: an entry changes `kind` and gains `measuredResults` when a real project and a permission arrive, and nothing else is rewritten. |
+| A16 | 08 | "Rework Quality/Resources into real technical-document/evidence surfaces" is satisfied by `/kalite-dosyasi` presenting the four §H PDFs as a document register with their measured file sizes, rather than by asserting certifications. | The repo can substantiate the documents themselves — they exist in `public/` — but not any certification claim about them. Publishing the register is evidence; publishing a claim about scope of certification would be invention. `DEFAULT_FACT_VISIBILITY: INTERNAL_ONLY_UNLESS_PUBLIC_OK` also bars restating anything in them that §D holds private. |
+| A17 | 08 | The legal pages now disclose that chat messages are transferred to Google (`generativelanguage.googleapis.com`) although `USER_INPUTS.md` contains **no field** for AI, processors or third parties. | The transfer is a fact of the shipped code (`supabase/functions/chat/index.ts`), not a fact supplied by the user, so the publication policy does not gate it — a privacy page that omits a transfer the code performs is false, and §13 forbids that. The disclosure is confined to what the code proves (when the request is made, what is sent, what is not forwarded, that nothing reaches the database) and deliberately asserts **nothing** about Google's retention, training or handling, which is unknowable from this repo. |
 
 ## Phase notes
 
@@ -1023,3 +1027,60 @@ direction and endpoint agreeing); ~48 detail routes now emit per-page titles (**
 
 **B31 CLOSED** — `ProjectShowcase.tsx` does not exist at `d1ed8e3`; Phase 06 had already deleted it. The
 Coder corrected the Orchestrator's stale carry-forward.
+
+---
+
+### Phase 08 — INNER PAGES WAVE B: QUALITY, PROJECTS, BLOG, RESOURCES, LEGAL, SEARCH/DISCOVERY, 404/ERROR — IN_PROGRESS
+
+**Integration branch at this record:** `5138fc1`. **Coder worktree:** `wt/coder-p08` (left in place, resumable).
+**QA worktree:** `wt/qa-p08` at `5138fc1` — round 1 dispatched, not yet returned.
+
+**Integrated so far — 15 commits in three batches.**
+
+| Batch | Commits | What it delivered |
+|---|---|---|
+| Wave B | `7dcfb65` … `931594f` (8) | Three Wave B shell molecules and the 500 state's `<h1>`; three legal texts onto one document sheet; the 404 as a coordinate that is not on the sheet, with a correction affordance; `/sss` as a register; `/blog` as a technical publication; the two new route families; two document-sheet spacing defects found by measuring the render; 16 new Wave B baselines with 23 existing goldens adjudicated per viewport before regeneration. |
+| C1 | `f190ef2` … `d3c8a6c` (5) | Route inventory to 99; the motion rest matrix repointed off the site that no longer exists; the last public write to `faq_analytics` removed together with the legal sentence it made false; the skip link recognised as the **second** foreign fixed overlay and moved into `e2e/visual/overlays.ts` so every visual spec stops baking it; a dead sentinel removed from the whole-page axe lane. |
+| C2 | `85a7d8b`, `5138fc1` (2) | Landing rebanked at 768/1280/1440 after per-viewport adjudication; the legal pages state that the chat does not stop at this site's backend — it goes to Google. |
+
+**Gates on the integrated tree (Orchestrator-run, not relayed):**
+
+| Check | Result |
+|---|---|
+| `npm run build` | PASS (49.84 s) |
+| `npm run typecheck` | PASS |
+| `node scripts/claims-gate.mjs` | PASS — 0 violations across 27 rules |
+| `node scripts/motion-audit.mjs --mode=guard` | PASS |
+
+**Two Orchestrator packet premises the Coder falsified, recorded because the pattern repeats.**
+
+1. The C2 packet asserted "the legal pages have Wave B baselines; if one moves, stop and report." They do not.
+   `e2e/visual/wave-b-golden.spec.ts` excludes the legal routes deliberately, and its own header gives the
+   reason: those routes are text that will be revised by somebody who is not looking at a screenshot suite,
+   so pinning them would manufacture the exact failure mode §12 warns about. Verified against the file:
+   `grep -nE "kvkk|gizlilik|cerez|legal"` returns a comment line and nothing else.
+2. The C1 packet mandated three new routes while placing `e2e/shared-shell-accessibility.spec.ts` (which
+   hard-codes the route inventory) and `scripts/**` (which holds the motion rest matrix) on DO_NOT_TOUCH.
+   Impossible as written; authorised in C1 and logged as A14.
+
+The Coder also corrected its own first wording, from "per session" to "every time", after re-reading
+`ChatBot.tsx:214`/`:248`: consent is re-asked on every unanswerable question, not once per visit.
+
+**Two defects confirmed by the Orchestrator in the integrated tree, carried into the QA packet for adjudication
+of severity rather than existence.**
+
+- **P08-D1** — `src/components/ChatBot.tsx:239` filters the assistant's consent prompt out of the payload by
+  comparing against a **stale literal** (`"… (Günlük limit: " + AI_DAILY_LIMIT + " mesaj)\n\n**Evet** yazarak
+  onaylayabilirsiniz."`), while `:273` renders `"… (Kalan: ${remaining} mesaj)\n\n**Evet** veya **Hayır**
+  yazarak yanıtlayın."`. The filter matches nothing, so the consent prompt **is** included in what is sent to
+  Google. Harmless in content — it is the site's own string, not the visitor's — but it is a dead filter, and
+  whether it falsifies a sentence on the legal pages is a QA call.
+- **P08-D2** — `src/components/ScrollToTop.tsx` contains no reference to `location.hash`; it scrolls to 0 on
+  every pathname change. Cross-route links to a clause anchor therefore land at the top of the page. The Coder
+  mitigated it by naming the clause number in the link text. Whether that satisfies "linked back into the
+  site" is a QA call.
+
+**Assumptions logged this phase:** A14 (Coder ownership of the two files the new routes force), A15
+(capability profiles, not customer projects — `NDA_AVAILABLE: NO`), A16 (the quality surface is a document
+register, not a certification claim), A17 (the Google transfer is disclosed although `USER_INPUTS.md` has no
+field for it, because it is a fact of the code rather than a fact supplied by the user).
