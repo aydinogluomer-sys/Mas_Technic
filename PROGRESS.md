@@ -68,6 +68,7 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | A19 | 08 | Correction packet C3 extends the A14 grant: `mas-coder` may edit `e2e/visual/radius-census.ts` (the `lines` field of one `RADIUS_SOURCES` entry), `e2e/__golden__/**` (only baselines whose diff the footer change explains) and comment prose in `e2e/technical-landing.spec.ts`. | §3.3 permits a phase task to give the Coder ownership, and D2 forces it: the register's SOURCE column is **generated** from `RADIUS_SOURCES` (`radius-census.ts:194`), not parsed from the document, so the doc cell and the code constant are one contract living in two files — repairing either alone turns the sibling test red. QA's stated fix ("a one-line citation update in `docs/lean/17`") is incomplete for that reason; the packet says so and tells the Coder to verify it before editing. The golden grant is A14 continued for the same footer. The `technical-landing.spec.ts` grant is prose-only and conditional: every executable line, `0.26` included, byte-identical, proven with `git diff -U0`. |
 | A20 | 08 | D5 (unbranded CAD-parse and form errors) is accepted as CARRIED to Phase 09 — on the plan's authority, not on the write-allowlist claim QA declined to accept. | The literal claim in `docs/lean/18-document-surfaces.md:162-165` ("Phase 09 owns it and Phase 08 may not edit it") is **unverifiable**: subagent packets were never persisted to disk, so nothing in the repository records that allowlist. The substantive claim is verifiable and true — IMPLEMENTATION.md §7 PHASE 09 names the file (“Decompose oversized `TeklifAl.tsx`”) and names these exact states (“Handle timeout/network/upload/parse failures”, “Client validation with accessible field errors”). Phase 08's own mandatory task also names “CAD parse error, form error”, so this is a **plan overlap**, not a Phase 08 evasion. Branding a toast inside a 1540-line file Phase 09 will decompose is the same work twice plus a merge conflict with the decomposition. Phase 09 therefore inherits a hard requirement: wire `ShellNotice tone="error"` — built by `7dcfb65`, used **zero** times in `src/` — to both states. The doc sentence should be re-pointed at §7 PHASE 09 rather than at an uncitable packet. |
 | A21 | 08 | D6: criterion 3's five failing routes are two Phase 09 routes plus three genuinely unowned auth routes; all five attach to Phase 09, which is split 09a/09b. | `/teklif-al` is Phase 09's by §7. `/cad-dashboard` is not a fifth problem — `src/components/navigation/ia.ts` records it as “Redirect alias for /teklif-al, not a destination of its own”, which is why QA measured byte-identical symptoms on both (16 teal, 3 Radix, 1 shell primitive); fixing one fixes the other. That leaves `/giris`, `/sifremi-unuttum`, `/reset-password`, named by no phase. The run brief requires Phase 09 to be halved regardless (Phase 05 §10 precedent, which bought a correction round), so they attach to **09b**, beside the form primitives 09a builds. Scope constraint recorded now so 09b does not overreach: all four are `NON_SHELL_PUBLIC_ROUTES` (`e2e/shared-shell-accessibility.spec.ts:83-88`) and `:334` asserts 95 full-shell + 4 non-shell = 99. Criterion 3 asks for the design **language**, not the shell chrome; migrating them into the shell would re-derive that 99/95 contract and is not what the criterion requires. |
+| A22 | 08 | Four forgotten `vite preview` servers (ports 4173, 4187, 4190, 4191; started 03–05 Sep by agents that are long dead) were stopped during C3 integration. No worktree, branch or file was touched. | Same class as A13 (stale worktrees) — environment hygiene rather than a product decision, and this time it was blocking: `reuseExistingServer` on the default port 4173 makes a suite silently test **another worktree's `dist`**, which is a wrong measurement that looks like a right one. They were identified by port with `Get-NetTCPConnection` rather than by guessing at process names, and a preview server is restored by re-running `npm run preview`. The 8 GB box is genuinely short as well: a cold `npm run build` in the primary checkout died with `write ENOMEM` at ~1 GB free while they were up. Recorded because stopping a process is a side effect on the user's machine, however small. |
 
 ## Phase notes
 
@@ -1233,5 +1234,64 @@ tallest.
 Orchestrator has not re-run `critical-1280`. The packet requires the Coder to measure it directly, and QA
 round 2 will re-measure it a third time.
 
-**Next action:** await the C3 return, review the diff and the measurements at source (not the summary), then
-QA round 2. Phase 09 is scoped as 09a/09b per A21 once Phase 08 closes.
+#### C3 returned and was integrated — 2026-09-05
+
+Five commits, cherry-picked one at a time into the integration branch as `2994246`, `17c5b3c`, `e62e96c`,
+`64edf48`, `b77be5c`. The integrated tree is byte-identical to the Coder's `a48c719` outside `PROGRESS.md`
+and `.work/` (`git diff --stat` empty), so nothing was lost or altered in transit.
+
+**Scope audit — PASS.** 27 files: `footer-groups.ts`, `KVKK.tsx`, `CerezPolitikasi.tsx`, `docs/lean/17`,
+`radius-census.ts`, `technical-landing.spec.ts` (comment prose) and 21 goldens at 768/1280/1440. Nothing from
+the DO_NOT_TOUCH list: `ia.ts`, `ChatBot.tsx`, `ScrollToTop.tsx`, `TeklifAl.tsx`, `sonner.tsx`,
+`GizlilikPolitikasi.tsx`, `supabase/**`, `reports/qa/**`, `.claude/**`, `tsconfig.json` and `package*.json` are
+all untouched. `visual-375` goldens untouched.
+
+**The one optional item, proven rather than asserted.** `e2e/technical-landing.spec.ts` was edited. Stripping
+comment lines from both revisions and hashing gives `ab22563e…` on each side — identical — and `0.26` is still
+`0.26`. The comment now records the measured trip point instead of the "~9 rows" guess.
+
+**A premise of mine was falsified, correctly.** My C3 row-count table gave ENDÜSTRİYEL as 6 rows. It has **5**:
+`navigationItems[2].children` holds five categories, and my grep counted `path: "/endustriyel/kategori/
+yuksek-teknoloji"` twice because the family's own path and its first child's path are the same string
+(`ia.ts:184` and `:188`). All three family columns were 5, so the option space was wider than the packet
+claimed. It did not change the outcome — the Coder chose the packet's option 4 — but the table was wrong and
+the record should say so.
+
+**What ships.** `/kabiliyet-profilleri` moves to the KABİLİYETLER column (a reference surface under the family
+whose name it carries); `/kalite-dosyasi` stays with the other reference surfaces in KURUMSAL; `Ana Sayfa`
+leaves the footer, because the fixed header brand (`Header.tsx:489`) and the menu brand (`Header.tsx:552`)
+already link `/` at every width and the menu's own KURUMSAL column has never listed it. `ia.ts` is untouched;
+KURUMSAL takes the **complement** of what a family column adopts, so no `resourceLinks` entry can be dropped by
+editing the map. Rows 5 / 6 / 5 / 6, band 342 px → **297 px**, ratio 0.2320 against a 332.8 px ceiling, pitch
+22.50 px measured (not divided), **one row of headroom** — written into `footer-groups.ts` and into the spec
+comment next to the thing that spends it.
+
+**Independently verified by the Orchestrator at `b77be5c`, not relayed.** `critical-1280` on
+`e2e/technical-landing.spec.ts`: **15/15 green**, including `keeps reference proportions…` — the assertion this
+whole round exists for, and the third independent measurement of it. `radius-census.spec.ts` citation test and
+its drift control: **2/2 green**. Both run in the foreground against a `dist` built at 13:20, after the last C3
+commit.
+
+**Two integration incidents, both resolved without touching user state.** A range `git cherry-pick` refused
+(the sequencer wants a clean index) and left sequencer state plus the intentional `.claude/**` and
+`tsconfig.json` changes staged. Cleared with `cherry-pick --quit` (which does not touch the working tree) and
+`restore --staged`, returning those eleven files to exactly the ` M` state they were found in, contents
+unchanged; the five commits then went in one at a time. Separately, a cold `npm run build` in the primary
+checkout died with `write ENOMEM` — see A22.
+
+**One truth risk I am carrying, not silently accepting.** `/kvkk` now repeats a sentence
+`/gizlilik-politikasi` has shipped since `5138fc1`: that data left in the RFQ flow "hiçbir yapay zekâ servisine
+gönderilmez". `supabase/functions/` also holds `finance-ai`, `ocr-invoice` and `parasut-sync`. The claim is
+plausible — those are admin-side and invoice-shaped — but it is now published in two documents and has never
+been traced. QA round 2 is asked to trace it; if it is false as written it blocks, and it is in any case an
+input to Phase 09b's privacy scoping.
+
+**QA round 2 dispatched** to `wt/qa-p08r2` at `b77be5c`, packet at `.work/packets/phase-08-QA-R2.md`. It is
+told not to re-fail criteria 3 and 5 (carried per A20/A21) but to re-measure them and report if either got
+worse; to falsify the footer account and the 21-golden rebank with its own instruments; to close its own
+round-1 unverified list, starting with whether `mas_intro_seen` really is the only unlisted storage key — that
+one is now load-bearing for a published completeness claim; and to add a permanent storage gate, because D4 was
+a legal-text claim that nothing tested and it was wrong for as long as it existed.
+
+**Next action:** review QA round 2's evidence at source, then close Phase 08 or send C4. Phase 09 is scoped as
+09a/09b per A21 once Phase 08 closes.
