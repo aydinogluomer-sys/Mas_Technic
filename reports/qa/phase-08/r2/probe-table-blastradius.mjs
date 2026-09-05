@@ -21,7 +21,8 @@ const ROUTES = [
 
 const browser = await chromium.launch({ executablePath: EXE });
 const out = {};
-for (const vpW of [375, 768]) {
+const WIDTHS = (process.env.QA_WIDTHS || "375,768").split(",").map(Number);
+for (const vpW of WIDTHS) {
   out[vpW] = {};
   const ctx = await browser.newContext({ viewport: { width: vpW, height: 812 } });
   const page = await ctx.newPage();

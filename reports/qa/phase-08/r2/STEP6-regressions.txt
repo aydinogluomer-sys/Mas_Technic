@@ -1,0 +1,45 @@
+QA ROUND 2 — STEP 6: closing round 1's "could NOT verify" list
+===============================================================
+Round 1 left five things unverified. This file records what each one measures
+now. All runs foreground, one `--project` at a time, against one
+`vite preview` on :4173 via PLAYWRIGHT_BASE_URL, output redirected to `.txt`.
+
+1. THE FULL `desktop-1280` REGRESSION — round 1 started it and the process
+   exited mid-run. Now complete, in four chunks (176 tests in 22 files):
+
+     e2e/landing/**                              66 passed,  2 skipped
+     fullscreen-menu, footer-reveal,
+     scroll-snap-regression, material-category-
+     footer, malzemeler-sticky,
+     shared-shell-accessibility                  34 passed,  7 skipped
+     qa-p08-waveb-contract (mine, round 1)       31 passed, 15 skipped
+     technical-landing                           15 passed
+     qa-p08-storage-disclosure (mine, round 2)    5 passed,  0 skipped, 1 FAILED
+                                                ---------------------------
+     TOTAL                                      151 passed, 24 skipped, 1 failed
+
+   The single failure is my own new gate firing on DEFECT R2-2 (the
+   undisclosed hCaptcha cookie on `/giris`). Every repository-owned test at
+   this viewport is green, including the specs round 1 never reached:
+   `footer-reveal`, `fullscreen-menu`, `malzemeler-sticky`,
+   `material-category-footer`, `scroll-snap-regression` and all of
+   `e2e/landing/**`.
+
+   ONE OF THOSE SPECS IS WORTH NAMING. `e2e/landing/shell-cascade-contract.spec.ts`
+   carries a lane called "shell content field — scrollable regions stay
+   keyboard reachable", with three tests: axe finds no unreachable scrollable
+   region, each scrollable region has a real focus stop and a name, and the
+   shell grants a focus stop to a new region and takes it back. All three
+   pass. They are exactly the guard DEFECT R2-1 should have tripped — and
+   they cannot trip it, because at 375 the cookie table is not a scrollable
+   region at all. A region that never scrolls has no focus stop to be missing.
+   That is a fourth instrument that goes green on the defect, alongside the
+   reflow assertion, axe, and the deliberate absence of a legal-route golden.
+
+2/3. THE OTHER REGRESSION VIEWPORTS and 4. `smoke-firefox-*` /
+   `smoke-webkit-*` — see the per-project results appended below.
+
+5. CONTRAST AT 375 with Phase 07's glyph-free instrument — see
+   contrast-375.txt.
+
+-- per-project results follow, appended as each run completes --

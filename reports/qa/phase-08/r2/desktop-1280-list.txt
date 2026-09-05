@@ -1,0 +1,180 @@
+(node:39456) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Listing tests:
+  [desktop-1280] › footer-reveal.spec.ts:29:3 › complete footer is reachable on /
+  [desktop-1280] › footer-reveal.spec.ts:29:3 › complete footer is reachable on /sss
+  [desktop-1280] › footer-reveal.spec.ts:29:3 › complete footer is reachable on /iletisim
+  [desktop-1280] › footer-reveal.spec.ts:29:3 › complete footer is reachable on /malzemeler
+  [desktop-1280] › footer-reveal.spec.ts:29:3 › complete footer is reachable on /teklif-al
+  [desktop-1280] › footer-reveal.spec.ts:99:1 › complete shared footer is reachable in a short desktop viewport
+  [desktop-1280] › fullscreen-menu.spec.ts:26:3 › Fullscreen machining navigation › uses one three-line trigger and a viewport-bound takeover
+  [desktop-1280] › fullscreen-menu.spec.ts:48:3 › Fullscreen machining navigation › places the primary menu trigger before main-page controls
+  [desktop-1280] › fullscreen-menu.spec.ts:83:3 › Fullscreen machining navigation › exposes all three families and five categories per family
+  [desktop-1280] › fullscreen-menu.spec.ts:97:3 › Fullscreen machining navigation › traps focus, closes on Escape, and restores trigger focus
+  [desktop-1280] › fullscreen-menu.spec.ts:125:3 › Fullscreen machining navigation › closes before internal navigation and releases scroll lock
+  [desktop-1280] › fullscreen-menu.spec.ts:134:3 › Fullscreen machining navigation › preserves a pre-existing stopped Lenis state after closing
+  [desktop-1280] › fullscreen-menu.spec.ts:166:3 › Fullscreen machining navigation › reduced motion opens without a delayed hidden state, and still closes
+  [desktop-1280] › fullscreen-menu.spec.ts:183:3 › Fullscreen machining navigation › preserves 3 families, 15 categories and 48 unique detail routes
+  [desktop-1280] › fullscreen-menu.spec.ts:193:3 › Fullscreen machining navigation › keyboard-only reaches all 48 detail links without hover or programmatic focus
+  [desktop-1280] › fullscreen-menu.spec.ts:288:3 › Fullscreen machining navigation › supports roving keys and valid single-open accordion IDREFs
+  [desktop-1280] › fullscreen-menu.spec.ts:317:3 › Fullscreen machining navigation › has no axe violations inside the open dialog
+  [desktop-1280] › fullscreen-menu.spec.ts:325:3 › Fullscreen machining navigation › publishes the identical menu on an inner page shell
+  [desktop-1280] › fullscreen-menu.spec.ts:356:3 › Fullscreen machining navigation › has no serious or critical axe violations with the menu open on an inner page
+  [desktop-1280] › fullscreen-menu.spec.ts:370:3 › Fullscreen machining navigation › remains deterministic through repeated toggle input
+  [desktop-1280] › landing\claims-gate.spec.ts:27:3 › content truth › no unverified claim exists anywhere in the public source
+  [desktop-1280] › landing\claims-gate.spec.ts:47:3 › content truth › the gate can still fail — it is not a rubber stamp
+  [desktop-1280] › landing\dev-routes.spec.ts:16:5 › dev-only routes are absent from the production build › /technical-preview resolves to the 404 page
+  [desktop-1280] › landing\dev-routes.spec.ts:16:5 › dev-only routes are absent from the production build › /legacy-landing resolves to the 404 page
+  [desktop-1280] › landing\dev-routes.spec.ts:16:5 › dev-only routes are absent from the production build › /test resolves to the 404 page
+  [desktop-1280] › landing\landing-accessibility.spec.ts:20:3 › production landing accessibility › has no serious or critical axe violations on the whole document
+  [desktop-1280] › landing\landing-accessibility.spec.ts:32:3 › production landing accessibility › exposes one landmark set and a working skip link target
+  [desktop-1280] › landing\landing-accessibility.spec.ts:43:3 › production landing accessibility › keeps heading order legible: exactly one h1 and no skipped level
+  [desktop-1280] › landing\landing-anchors.spec.ts:20:3 › production landing anchors › every navigation hash link targets a real section anchor
+  [desktop-1280] › landing\landing-anchors.spec.ts:42:3 › production landing anchors › a section link scrolls its band clear of the fixed header
+  [desktop-1280] › landing\landing-anchors.spec.ts:60:3 › production landing anchors › anchor navigation actually reaches every declared section
+  [desktop-1280] › landing\landing-anchors.spec.ts:82:3 › production landing anchors › the drawing footer only links to routes the app actually serves
+  [desktop-1280] › landing\landing-grid-axes.spec.ts:55:3 › master grid axis contract › every landing band edge sits on a master grid boundary
+  [desktop-1280] › landing\landing-grid-axes.spec.ts:128:3 › master grid axis contract › the mobile rail does not consume an excessive share of the viewport
+  [desktop-1280] › landing\landing-process-flow.spec.ts:163:3 › process flow connector contract › the connector matrix holds at every measured width
+  [desktop-1280] › landing\landing-process-flow.spec.ts:196:3 › process flow connector contract › the connector matrix holds at this project's own viewport
+  [desktop-1280] › landing\landing-reduced-motion.spec.ts:14:3 › production landing under reduced motion › renders a complete, static landing and removes the intro shell at once
+  [desktop-1280] › landing\landing-reduced-motion.spec.ts:31:3 › production landing under reduced motion › keeps every band measurable — nothing collapses to zero height
+  [desktop-1280] › landing\landing-structure.spec.ts:27:3 › production landing structure › serves TechnicalLanding on / and numbers all 14 bands in order
+  [desktop-1280] › landing\landing-structure.spec.ts:41:3 › production landing structure › hands the intro shell off and leaves no stale intro state
+  [desktop-1280] › landing\landing-structure.spec.ts:60:3 › production landing structure › preloads exactly one image and it is the hero the page actually renders
+  [desktop-1280] › landing\landing-structure.spec.ts:82:3 › production landing structure › never creates document-level horizontal overflow
+  [desktop-1280] › landing\landing-structure.spec.ts:95:3 › production landing structure › loads without console errors or failed local requests
+  [desktop-1280] › landing\landing-structure.spec.ts:115:3 › production landing structure › an End-key journey reaches the landing footer legal links
+  [desktop-1280] › landing\motion-grammar.spec.ts:40:3 › motion grammar › I4 — scroll position never takes opacity away from the service-detail heading
+  [desktop-1280] › landing\motion-grammar.spec.ts:106:3 › motion grammar › no landing band un-arrives once it has arrived
+  [desktop-1280] › landing\motion-grammar.spec.ts:125:3 › motion grammar › nothing animates while it is off screen
+  [desktop-1280] › landing\motion-grammar.spec.ts:150:3 › motion grammar › mobile arms fewer elements than desktop
+  [desktop-1280] › landing\motion-grammar.spec.ts:184:3 › motion grammar › content types do not share one generic reveal
+  [desktop-1280] › landing\motion-grammar.spec.ts:254:3 › motion grammar › hovering a measurement lights its guide line and its passport counterpart
+  [desktop-1280] › landing\navigation-reachability.spec.ts:88:3 › public navigation reachability › extracts a real route inventory before it claims anything about it
+  [desktop-1280] › landing\navigation-reachability.spec.ts:124:3 › public navigation reachability › covers every public route surface by navigation, index page or a recorded exclusion
+  [desktop-1280] › landing\navigation-reachability.spec.ts:164:3 › public navigation reachability › the menu on / really publishes the whole route set
+  [desktop-1280] › landing\navigation-reachability.spec.ts:199:3 › public navigation reachability › keeps deep links and history navigation correct
+  [desktop-1280] › landing\navigation-reachability.spec.ts:240:3 › public navigation reachability › every route the menu links to resolves without a redirect or a not-found shell
+  [desktop-1280] › landing\navigation-teardown.spec.ts:146:7 › global navigation teardown — reduced motion › Escape closes and fully releases on the landing
+  [desktop-1280] › landing\navigation-teardown.spec.ts:156:7 › global navigation teardown — reduced motion › the close button closes and fully releases on the landing
+  [desktop-1280] › landing\navigation-teardown.spec.ts:166:7 › global navigation teardown — reduced motion › a menu link navigates and fully releases on the landing
+  [desktop-1280] › landing\navigation-teardown.spec.ts:146:7 › global navigation teardown — reduced motion › Escape closes and fully releases on the inner page
+  [desktop-1280] › landing\navigation-teardown.spec.ts:156:7 › global navigation teardown — reduced motion › the close button closes and fully releases on the inner page
+  [desktop-1280] › landing\navigation-teardown.spec.ts:166:7 › global navigation teardown — reduced motion › a menu link navigates and fully releases on the inner page
+  [desktop-1280] › landing\navigation-teardown.spec.ts:146:7 › global navigation teardown — full motion › Escape closes and fully releases on the landing
+  [desktop-1280] › landing\navigation-teardown.spec.ts:156:7 › global navigation teardown — full motion › the close button closes and fully releases on the landing
+  [desktop-1280] › landing\navigation-teardown.spec.ts:166:7 › global navigation teardown — full motion › a menu link navigates and fully releases on the landing
+  [desktop-1280] › landing\navigation-teardown.spec.ts:146:7 › global navigation teardown — full motion › Escape closes and fully releases on the inner page
+  [desktop-1280] › landing\navigation-teardown.spec.ts:156:7 › global navigation teardown — full motion › the close button closes and fully releases on the inner page
+  [desktop-1280] › landing\navigation-teardown.spec.ts:166:7 › global navigation teardown — full motion › a menu link navigates and fully releases on the inner page
+  [desktop-1280] › landing\shell-and-transition.spec.ts:73:5 › global public page shell › landing (/) renders inside the one shell
+  [desktop-1280] › landing\shell-and-transition.spec.ts:73:5 › global public page shell › company (/hakkimizda) renders inside the one shell
+  [desktop-1280] › landing\shell-and-transition.spec.ts:73:5 › global public page shell › service detail (/hizmetler/cnc-frezeleme) renders inside the one shell
+  [desktop-1280] › landing\shell-and-transition.spec.ts:73:5 › global public page shell › service category (/hizmetler/kategori/talasli-imalat) renders inside the one shell
+  [desktop-1280] › landing\shell-and-transition.spec.ts:73:5 › global public page shell › material index (/malzemeler) renders inside the one shell
+  [desktop-1280] › landing\shell-and-transition.spec.ts:73:5 › global public page shell › journal index (/blog) renders inside the one shell
+  [desktop-1280] › landing\shell-and-transition.spec.ts:73:5 › global public page shell › faq (/sss) renders inside the one shell
+  [desktop-1280] › landing\shell-and-transition.spec.ts:73:5 › global public page shell › legal (/kvkk) renders inside the one shell
+  [desktop-1280] › landing\shell-and-transition.spec.ts:73:5 › global public page shell › rfq (/teklif-al) renders inside the one shell
+  [desktop-1280] › landing\shell-and-transition.spec.ts:73:5 › global public page shell › 404 (/__phase04-not-a-route__) renders inside the one shell
+  [desktop-1280] › landing\shell-and-transition.spec.ts:101:3 › global public page shell › the 404 is a shell state with a way out, not a dead end
+  [desktop-1280] › landing\shell-and-transition.spec.ts:116:3 › global public page shell › /teklif-al has a footer whose legal links navigate
+  [desktop-1280] › landing\shell-and-transition.spec.ts:132:3 › route transition › survives direct load, client navigation, Back and Forward
+  [desktop-1280] › landing\shell-and-transition.spec.ts:172:3 › route transition › B25 — a history move with the menu open never strands the modal lock
+  [desktop-1280] › landing\shell-and-transition.spec.ts:231:3 › route transition › rapid repeated navigation cannot strand the site in a transition state
+  [desktop-1280] › landing\shell-and-transition.spec.ts:278:3 › route transition › reduced motion renders no curtain at all and still navigates
+  [desktop-1280] › landing\shell-cascade-contract.spec.ts:44:3 › shell sheet — one cascade across chunks › every route resolves the same sheet side rules at this width
+  [desktop-1280] › landing\shell-cascade-contract.spec.ts:81:3 › shell sheet — one cascade across chunks › no shipped stylesheet declares the sheet's side rules without its override
+  [desktop-1280] › landing\shell-cascade-contract.spec.ts:156:3 › shell content field — scrollable regions stay keyboard reachable › axe finds no unreachable scrollable region on a shell-framed page
+  [desktop-1280] › landing\shell-cascade-contract.spec.ts:170:3 › shell content field — scrollable regions stay keyboard reachable › each scrollable region has a real focus stop and a name
+  [desktop-1280] › landing\shell-cascade-contract.spec.ts:230:3 › shell content field — scrollable regions stay keyboard reachable › the shell grants a focus stop to a new scrollable region and takes it back
+  [desktop-1280] › malzemeler-sticky.spec.ts:5:3 › /malzemeler footer release contract › sticky filters release before the footer and legal links stay unobscured
+  [desktop-1280] › material-category-footer.spec.ts:5:3 › /malzemeler/:slug footer overlap regression › hero, local CTA and footer preserve order and usable hit targets
+  [desktop-1280] › qa-p08-storage-disclosure.spec.ts:162:3 › QA — what the browser stores vs what /cerez-politikasi publishes › every stored key over every public route has a row in the published table
+  [desktop-1280] › qa-p08-storage-disclosure.spec.ts:178:3 › QA — what the browser stores vs what /cerez-politikasi publishes › the rendered table and the STORAGE_ROWS constant are the same list
+  [desktop-1280] › qa-p08-storage-disclosure.spec.ts:184:3 › QA — what the browser stores vs what /cerez-politikasi publishes › no cookie is created on any public route
+  [desktop-1280] › qa-p08-storage-disclosure.spec.ts:206:3 › QA — what the browser stores vs what /cerez-politikasi publishes › mas_intro_seen is written on the landing and not under reduced motion
+  [desktop-1280] › qa-p08-storage-disclosure.spec.ts:232:3 › QA — what the browser stores vs what /cerez-politikasi publishes › the coverage check is red on an observed key nobody published
+  [desktop-1280] › qa-p08-storage-disclosure.spec.ts:242:3 › QA — what the browser stores vs what /cerez-politikasi publishes › the coverage check is red on a published list that lost a row
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri/ince-cidarli-govde
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri/titanyum-baglanti-parcasi
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri/hassas-mil
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri/__qa-no-such-profile__
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kalite-dosyasi
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /blog
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /blog/5-eksen-cnc-isleme-avantajlari
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /blog/__qa-no-such-post__
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /sss
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kvkk
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /gizlilik-politikasi
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /cerez-politikasi
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kalite-dosyas
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /qa-zzz-nothing
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri/ince-cidarli-govde
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri/titanyum-baglanti-parcasi
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri/hassas-mil
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri/__qa-no-such-profile__
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kalite-dosyasi
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /blog
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /blog/5-eksen-cnc-isleme-avantajlari
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /blog/__qa-no-such-post__
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /sss
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kvkk
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /gizlilik-politikasi
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /cerez-politikasi
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kalite-dosyas
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /qa-zzz-nothing
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri/ince-cidarli-govde
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri/titanyum-baglanti-parcasi
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri/hassas-mil
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri/__qa-no-such-profile__
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kalite-dosyasi
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /blog
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /blog/5-eksen-cnc-isleme-avantajlari
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /blog/__qa-no-such-post__
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /sss
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kvkk
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /gizlilik-politikasi
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /cerez-politikasi
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kalite-dosyas
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /qa-zzz-nothing
+  [desktop-1280] › qa-p08-waveb-contract.spec.ts:140:3 › QA — Phase 08 Wave B surface contract › keeps the /sss register keyboard-operable and free of a focus trap
+  [desktop-1280] › scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on /
+  [desktop-1280] › scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on /sss
+  [desktop-1280] › scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on /iletisim
+  [desktop-1280] › shared-shell-accessibility.spec.ts:281:3 › Shared public shell accessibility › keeps the skip link above the closed header and below the modal
+  [desktop-1280] › shared-shell-accessibility.spec.ts:297:3 › Shared public shell accessibility › derives an exhaustive 99-path public route and shell ownership contract
+  [desktop-1280] › shared-shell-accessibility.spec.ts:337:3 › Shared public shell accessibility › keeps all 95 canonical full-shell routes on one header/footer contract
+  [desktop-1280] › shared-shell-accessibility.spec.ts:423:3 › Shared public shell accessibility › keeps declared public and panel shell exceptions explicit
+  [desktop-1280] › shared-shell-accessibility.spec.ts:467:3 › Shared public shell accessibility › keeps the dialog fixed, isolated, keyboard bounded, and restorable
+  [desktop-1280] › shared-shell-accessibility.spec.ts:524:3 › Shared public shell accessibility › makes mobile footer disclosures semantic and removes closed links from Tab order
+  [desktop-1280] › shared-shell-accessibility.spec.ts:561:3 › Shared public shell accessibility › keeps footer CTA and legal controls reachable, stable, and unobscured
+  [desktop-1280] › shared-shell-accessibility.spec.ts:589:3 › Shared public shell accessibility › keeps every footer control unobscured in natural forward and reverse keyboard order
+  [desktop-1280] › shared-shell-accessibility.spec.ts:599:3 › Shared public shell accessibility › preserves footer reflow at a 400 percent equivalent CSS viewport
+  [desktop-1280] › shared-shell-accessibility.spec.ts:612:3 › Shared public shell accessibility › supports WCAG text spacing without clipping footer content
+  [desktop-1280] › shared-shell-accessibility.spec.ts:635:3 › Shared public shell accessibility › retains visible footer focus indicators in forced-colors mode
+  [desktop-1280] › shared-shell-accessibility.spec.ts:677:3 › Shared public shell accessibility › honors four-edge safe-area tokens in the closed header, modal and footer
+  [desktop-1280] › shared-shell-accessibility.spec.ts:781:3 › Shared public shell accessibility › renders footer content immediately and uses non-smooth scroll under reduced motion
+  [desktop-1280] › shared-shell-accessibility.spec.ts:845:3 › Shared public shell accessibility › has no serious or critical axe violations in the closed shared shell
+  [desktop-1280] › shared-shell-accessibility.spec.ts:859:3 › Shared public shell accessibility › records whole-page axe evidence and isolates documented non-shell debt
+  [desktop-1280] › shared-shell-accessibility.spec.ts:956:3 › Shared public shell accessibility › preserves shell reflow and focus access at 200 percent text size
+  [desktop-1280] › technical-landing.spec.ts:13:3 › technical editorial landing phase 1 › renders the frame, hero, annotations and proof strip
+  [desktop-1280] › technical-landing.spec.ts:21:3 › technical editorial landing phase 1 › numbers every band of the drawing sheet in order
+  [desktop-1280] › technical-landing.spec.ts:26:3 › technical editorial landing phase 1 › does not create document-level horizontal overflow
+  [desktop-1280] › technical-landing.spec.ts:31:3 › technical editorial landing phase 1 › keeps the shared sheet rail and viewport column contract
+  [desktop-1280] › technical-landing.spec.ts:68:3 › technical editorial landing phase 1 › renders the capability marquee with its loop copy hidden from assistive tech
+  [desktop-1280] › technical-landing.spec.ts:77:3 › technical editorial landing phase 1 › moves the two visual bands against the scroll without hijacking input
+  [desktop-1280] › technical-landing.spec.ts:104:3 › technical editorial landing phase 1 › renders process, the NEXUS preview and the capability profiles
+  [desktop-1280] › technical-landing.spec.ts:118:3 › technical editorial landing phase 1 › renders sectors, the quality file and the reference band
+  [desktop-1280] › technical-landing.spec.ts:139:3 › technical editorial landing phase 1 › serves the four quality documents as real downloads
+  [desktop-1280] › technical-landing.spec.ts:161:3 › technical editorial landing phase 1 › renders FAQ answers and the RFQ hand-off
+  [desktop-1280] › technical-landing.spec.ts:178:3 › technical editorial landing phase 1 › keeps reference proportions for headline, project cards and NEXUS rows
+  [desktop-1280] › technical-landing.spec.ts:361:3 › technical editorial landing phase 1 › has no serious or critical accessibility violations
+  [desktop-1280] › technical-landing.spec.ts:374:3 › technical editorial landing phase 1 › the one global menu traps focus, locks scroll and restores the trigger
+  [desktop-1280] › technical-landing.spec.ts:393:3 › technical editorial landing phase 1 › keeps the global header free of serious accessibility violations
+  [desktop-1280] › technical-landing.spec.ts:421:3 › technical editorial landing phase 1 › reduced motion keeps the complete page visible without active animation
+Total: 176 tests in 22 files
