@@ -1,0 +1,46 @@
+﻿node.exe : (node:12536) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:12536) [D...oks()` instead.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:8128) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8128) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:8128) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [visual-1280] › e2e\visual\radius-census.spec.ts:108:3 › §4 — the radius register is the census › §4's source column still lands on a radius declaration (16ms)
+
+
+  1) [visual-1280] › e2e\visual\radius-census.spec.ts:108:3 › §4 — the radius register is the census › §4's source column still lands on a radius declaration 
+
+    Error: a cited line no longer declares a radius. A citation that has drifted is worse than no citation: it is what made the second version of this register look checkable.
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 3[39m
+
+    [32m- Array [][39m
+    [31m+ Array [[39m
+    [31m+   "src/components/ChatBot.tsx:225",[39m
+    [31m+ ][39m
+
+      115 |       "a cited line no longer declares a radius. A citation that has drifted is worse than "
+      116 |         + "no citation: it is what made the second version of this register look checkable.",
+    > 117 |     ).toEqual([]);
+          |       ^
+      118 |   });
+      119 |
+      120 |   test("the citation check is red on a citation that has drifted", () => {
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p08\e2e\visual\radius-census.spec.ts:117:7
+
+    Error Context: test-results\visual-radius-census-§4-—--682da-nds-on-a-radius-declaration-visual-1280\error-context.md
+
+  1 failed
+    [visual-1280] › e2e\visual\radius-census.spec.ts:108:3 › §4 — the radius register is the census › §4's source column still lands on a radius declaration 

@@ -1,0 +1,9 @@
+﻿A. cookies created over six public routes: []
+   localStorage keys: ["mas-technic-theme"]
+   sessionStorage keys: ["mas_intro_seen"]
+
+B1. SAME-PAGE anchor click: {"scrollY":2115,"clauseTop":0,"hash":"#sohbet-asistani"}
+B2. FULL navigation to /gizlilik-politikasi#sohbet-asistani: {"scrollY":0,"clauseTop":2115,"hash":"#sohbet-asistani"}
+B3. consent-block clause link present in the panel: true
+B4. SPA <Link> click from the chat consent block: {"url":"/gizlilik-politikasi#sohbet-asistani","scrollY":0,"clauseTop":2115,"viewportH":900}
+    -> clause is NOT in the viewport (deep link does not land)

@@ -1,0 +1,16 @@
+﻿visual-1280  waveb-journal-lead.png        1278x  701  distinctColours(5bit)= 1961  dominantShare=80.3%
+visual-1280  waveb-notfound-body.png       1214x 1627  distinctColours(5bit)= 2056  dominantShare=96.6%
+visual-1280  waveb-profile-scope.png       1278x  466  distinctColours(5bit)= 1773  dominantShare=92.6%
+visual-1280  waveb-quality-documents.png   1278x  832  distinctColours(5bit)= 1452  dominantShare=97.0%
+visual-1440  waveb-journal-lead.png        1438x  706  distinctColours(5bit)= 2036  dominantShare=80.2%
+visual-1440  waveb-notfound-body.png       1374x 1665  distinctColours(5bit)= 2046  dominantShare=97.0%
+visual-1440  waveb-profile-scope.png       1438x  486  distinctColours(5bit)= 1856  dominantShare=92.9%
+visual-1440  waveb-quality-documents.png   1438x  849  distinctColours(5bit)= 1462  dominantShare=97.1%
+visual-375   waveb-journal-lead.png         375x  979  distinctColours(5bit)= 1750  dominantShare=77.0%
+visual-375   waveb-notfound-body.png        333x 1729  distinctColours(5bit)= 1872  dominantShare=90.6%
+visual-375   waveb-profile-scope.png        375x  867  distinctColours(5bit)= 1778  dominantShare=87.9%
+visual-375   waveb-quality-documents.png    375x  929  distinctColours(5bit)= 1391  dominantShare=92.8%
+visual-768   waveb-journal-lead.png         766x  972  distinctColours(5bit)= 1921  dominantShare=73.6%
+visual-768   waveb-notfound-body.png        710x 1521  distinctColours(5bit)= 1916  dominantShare=94.5%
+visual-768   waveb-profile-scope.png        766x  580  distinctColours(5bit)= 1819  dominantShare=90.7%
+visual-768   waveb-quality-documents.png    766x  817  distinctColours(5bit)= 1447  dominantShare=95.5%

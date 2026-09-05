@@ -1,0 +1,20 @@
+﻿route                                     shell-*  bg-card  radiusOffRegister  systemFontNodes  topOffRadii
+/kabiliyet-profilleri                         71        0                  0                0  
+/kabiliyet-profilleri/hassas-mil              85        0                  0                0  
+/kalite-dosyasi                              115        0                  0                0  
+/blog                                         89        0                  0                0  
+/blog/5-eksen-cnc-isleme-avantajlari          93        0                  0                0  
+/sss                                         404        0                  0                0  
+/kvkk                                         50        0                  0                0  
+/gizlilik-politikasi                          50        0                  0                0  
+/cerez-politikasi                             47        0                  0                0  
+/qa-zzz-nothing                               60        0                  0                0  
+/hakkimizda                                  161        0                  0                0  
+/iletisim                                     86        0                  0                0  
+/malzemeler                                  331        0                  0                0  
+/hizmetler/cnc-frezeleme                     206        0                  0                0  
+/teklif-al                                     1        0                  0                0  
+/giris                                         0        0                  0                0  
+/sifremi-unuttum                               0        0                  0                0  
+/reset-password                                0        0                  0                0  
+/cad-dashboard                                 1        0                  0                0  
