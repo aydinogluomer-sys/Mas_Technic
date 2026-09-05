@@ -1,0 +1,67 @@
+{
+  "/malzemeler": [
+    {
+      "text": "CNC İşleme Malzemeleri",
+      "visible": true,
+      "where": "div.tl-footer-body > nav > div > a"
+    },
+    {
+      "text": "CNC İşleme Malzemeleri",
+      "visible": false,
+      "where": "div.tl-footer-body > div.shell-footer-disclosures > div.shell-footer-disclosure > div > ul > li > a"
+    }
+  ],
+  "/kabiliyet-profilleri": [
+    {
+      "text": "Kabiliyet Profilleri",
+      "visible": true,
+      "where": "div.tl-footer-body > nav > div > a"
+    },
+    {
+      "text": "Kabiliyet Profilleri",
+      "visible": false,
+      "where": "div.tl-footer-body > div.shell-footer-disclosures > div.shell-footer-disclosure > div > ul > li > a"
+    }
+  ],
+  "/kalite-dosyasi": [
+    {
+      "text": "Kalite Dosyası",
+      "visible": true,
+      "where": "div.tl-footer-body > nav > div > a"
+    },
+    {
+      "text": "Kalite Dosyası",
+      "visible": false,
+      "where": "div.tl-footer-body > div.shell-footer-disclosures > div.shell-footer-disclosure > div > ul > li > a"
+    }
+  ],
+  "/blog": [
+    {
+      "text": "Teknik Günlük",
+      "visible": true,
+      "where": "div.tl-footer-body > nav > div > a"
+    },
+    {
+      "text": "Teknik Günlük",
+      "visible": false,
+      "where": "div.tl-footer-body > div.shell-footer-disclosures > div.shell-footer-disclosure > div > ul > li > a"
+    },
+    {
+      "text": "Yazıları incele",
+      "visible": true,
+      "where": "div.tl-footer-body > div.shell-footer-conversion > div.shell-footer-journal > a"
+    }
+  ],
+  "/sss": [
+    {
+      "text": "Sık Sorulanlar",
+      "visible": true,
+      "where": "div.tl-footer-body > nav > div > a"
+    },
+    {
+      "text": "Sık Sorulanlar",
+      "visible": false,
+      "where": "div.tl-footer-body > div.shell-footer-disclosures > div.shell-footer-disclosure > div > ul > li > a"
+    }
+  ]
+}
