@@ -1,0 +1,202 @@
+{
+  "375": {
+    "headerButtons": 1,
+    "menuOpened": true,
+    "menuDirectory": [
+      {
+        "title": "ANA SAYFA BÖLÜMLERİ",
+        "index": "07",
+        "entries": 7,
+        "hrefs": [
+          "/#surec",
+          "/#nexus",
+          "/#projeler",
+          "/#sektorler",
+          "/#kalite",
+          "/#sss",
+          "/#iletisim"
+        ]
+      },
+      {
+        "title": "KAYNAKLAR",
+        "index": "05",
+        "entries": 5,
+        "hrefs": [
+          "/malzemeler",
+          "/kabiliyet-profilleri",
+          "/kalite-dosyasi",
+          "/blog",
+          "/sss"
+        ]
+      },
+      {
+        "title": "KURUMSAL",
+        "index": "02",
+        "entries": 2,
+        "hrefs": [
+          "/hakkimizda",
+          "/iletisim"
+        ]
+      }
+    ],
+    "menuBrandHome": [
+      {
+        "text": "MAS TECHNICPRECISION CNC",
+        "cls": "tl-brand",
+        "visible": true
+      },
+      {
+        "text": "MAS TECHNIC",
+        "cls": "tl-menu-brand",
+        "visible": true
+      }
+    ],
+    "notFound": {
+      "h1": [
+        "Bu koordinatta kayıt yok"
+      ],
+      "lists": [
+        {
+          "cls": "shell-index",
+          "items": 8,
+          "hrefs": [
+            "/hizmetler/kategori/talasli-imalat",
+            "/kabiliyetler/kategori/uretim-altyapisi",
+            "/endustriyel/kategori/yuksek-teknoloji",
+            "/malzemeler",
+            "/kabiliyet-profilleri",
+            "/kalite-dosyasi",
+            "/blog",
+            "/sss"
+          ]
+        }
+      ],
+      "mainAnchorCount": 11,
+      "homeActions": [
+        "Ana sayfa"
+      ]
+    },
+    "homeFromFooter": {
+      "beforeUrl": "http://localhost:4173/kalite-dosyasi",
+      "brandBox": {
+        "x": 42,
+        "y": 0,
+        "width": 249.75,
+        "height": 63
+      },
+      "elementAtBrandCentre": {
+        "tag": "EM",
+        "cls": "",
+        "inBrand": true
+      },
+      "afterClick": {
+        "url": "http://localhost:4173/",
+        "scrollY": 0
+      }
+    },
+    "brandTabIndex": {
+      "position": 1,
+      "total": 29
+    }
+  },
+  "1280": {
+    "headerButtons": 1,
+    "menuOpened": true,
+    "menuDirectory": [
+      {
+        "title": "ANA SAYFA BÖLÜMLERİ",
+        "index": "07",
+        "entries": 7,
+        "hrefs": [
+          "/#surec",
+          "/#nexus",
+          "/#projeler",
+          "/#sektorler",
+          "/#kalite",
+          "/#sss",
+          "/#iletisim"
+        ]
+      },
+      {
+        "title": "KAYNAKLAR",
+        "index": "05",
+        "entries": 5,
+        "hrefs": [
+          "/malzemeler",
+          "/kabiliyet-profilleri",
+          "/kalite-dosyasi",
+          "/blog",
+          "/sss"
+        ]
+      },
+      {
+        "title": "KURUMSAL",
+        "index": "02",
+        "entries": 2,
+        "hrefs": [
+          "/hakkimizda",
+          "/iletisim"
+        ]
+      }
+    ],
+    "menuBrandHome": [
+      {
+        "text": "MAS TECHNICPRECISION CNC",
+        "cls": "tl-brand",
+        "visible": true
+      },
+      {
+        "text": "MAS TECHNIC",
+        "cls": "tl-menu-brand",
+        "visible": true
+      }
+    ],
+    "notFound": {
+      "h1": [
+        "Bu koordinatta kayıt yok"
+      ],
+      "lists": [
+        {
+          "cls": "shell-index",
+          "items": 8,
+          "hrefs": [
+            "/hizmetler/kategori/talasli-imalat",
+            "/kabiliyetler/kategori/uretim-altyapisi",
+            "/endustriyel/kategori/yuksek-teknoloji",
+            "/malzemeler",
+            "/kabiliyet-profilleri",
+            "/kalite-dosyasi",
+            "/blog",
+            "/sss"
+          ]
+        }
+      ],
+      "mainAnchorCount": 11,
+      "homeActions": [
+        "Ana sayfa"
+      ]
+    },
+    "homeFromFooter": {
+      "beforeUrl": "http://localhost:4173/kalite-dosyasi",
+      "brandBox": {
+        "x": 65,
+        "y": 0,
+        "width": 303.5,
+        "height": 71
+      },
+      "elementAtBrandCentre": {
+        "tag": "EM",
+        "cls": "",
+        "inBrand": true
+      },
+      "afterClick": {
+        "url": "http://localhost:4173/",
+        "scrollY": 0
+      }
+    },
+    "brandTabIndex": {
+      "position": 1,
+      "total": 47
+    }
+  }
+}

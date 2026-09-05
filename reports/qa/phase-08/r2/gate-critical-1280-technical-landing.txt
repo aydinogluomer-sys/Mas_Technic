@@ -1,0 +1,24 @@
+(node:33896) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 15 tests using 1 worker
+
+(node:26720) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   1 [critical-1280] › e2e\technical-landing.spec.ts:13:3 › technical editorial landing phase 1 › renders the frame, hero, annotations and proof strip (3.8s)
+  ✓   2 [critical-1280] › e2e\technical-landing.spec.ts:21:3 › technical editorial landing phase 1 › numbers every band of the drawing sheet in order (3.5s)
+  ✓   3 [critical-1280] › e2e\technical-landing.spec.ts:26:3 › technical editorial landing phase 1 › does not create document-level horizontal overflow (3.3s)
+  ✓   4 [critical-1280] › e2e\technical-landing.spec.ts:31:3 › technical editorial landing phase 1 › keeps the shared sheet rail and viewport column contract (4.0s)
+  ✓   5 [critical-1280] › e2e\technical-landing.spec.ts:68:3 › technical editorial landing phase 1 › renders the capability marquee with its loop copy hidden from assistive tech (3.9s)
+  ✓   6 [critical-1280] › e2e\technical-landing.spec.ts:77:3 › technical editorial landing phase 1 › moves the two visual bands against the scroll without hijacking input (4.6s)
+  ✓   7 [critical-1280] › e2e\technical-landing.spec.ts:104:3 › technical editorial landing phase 1 › renders process, the NEXUS preview and the capability profiles (4.4s)
+  ✓   8 [critical-1280] › e2e\technical-landing.spec.ts:118:3 › technical editorial landing phase 1 › renders sectors, the quality file and the reference band (4.6s)
+  ✓   9 [critical-1280] › e2e\technical-landing.spec.ts:139:3 › technical editorial landing phase 1 › serves the four quality documents as real downloads (4.2s)
+  ✓  10 [critical-1280] › e2e\technical-landing.spec.ts:161:3 › technical editorial landing phase 1 › renders FAQ answers and the RFQ hand-off (3.6s)
+  ✓  11 [critical-1280] › e2e\technical-landing.spec.ts:178:3 › technical editorial landing phase 1 › keeps reference proportions for headline, project cards and NEXUS rows (4.3s)
+  ✓  12 [critical-1280] › e2e\technical-landing.spec.ts:361:3 › technical editorial landing phase 1 › has no serious or critical accessibility violations (9.0s)
+  ✓  13 [critical-1280] › e2e\technical-landing.spec.ts:374:3 › technical editorial landing phase 1 › the one global menu traps focus, locks scroll and restores the trigger (5.3s)
+  ✓  14 [critical-1280] › e2e\technical-landing.spec.ts:393:3 › technical editorial landing phase 1 › keeps the global header free of serious accessibility violations (10.3s)
+  ✓  15 [critical-1280] › e2e\technical-landing.spec.ts:421:3 › technical editorial landing phase 1 › reduced motion keeps the complete page visible without active animation (3.7s)
+
+  15 passed (1.3m)
