@@ -130,20 +130,74 @@ const CLAUSES: LegalClause[] = [
     id: "tarayici-kayitlari",
     title: "Tarayıcınızda tutulan kayıtlar",
     body: (
-      <div className="shell-stack" data-gap="sm">
-        <ShellSpecTable
-          caption="Yerel depo kayıtları"
-          note="Bu kayıtlar çerez değildir: her HTTP isteğiyle birlikte otomatik gönderilmezler ve yalnızca bu sitenin kendi sayfaları tarafından okunabilirler. Tarayıcınızın geliştirici araçlarındaki Uygulama / Depolama bölümünden hepsini görebilirsiniz."
-          headers={["KAYIT", "DEPO", "NE İŞE YARAR", "SÜRE"]}
-          numericFrom={4}
-          rows={STORAGE_ROWS}
-          rowKey={(row) => String(row[0])}
-        />
+      <>
+        {/* THE WRAPPER IS A BLOCK, NOT A GRID — PHASE 08 CORRECTION #4.
+
+            This figure was the only `ShellSpecTable` on the site that a phone
+            could not read. Measured at 375 before the change: the table is
+            583.88px wide, `DEPO`, `NE İŞE YARAR` and `SÜRE` sit entirely
+            outside the viewport for all five rows, and nothing scrolls.
+
+            The cause is one level up from the primitive, which is innocent:
+            `ShellSpecTable` already wraps its table in `.shell-table-scroll`
+            (`overflow-x: auto`). That region only engages when its own box is
+            NARROWER than the table. The old wrapper was `div.shell-stack`,
+            which is `display: grid`. `.shell-stack` sets `min-width: 0` on
+            ITSELF but not on its items, so `figure.shell-table` kept
+            `min-width: auto` and the single implicit `auto` track could not be
+            sized below the figure's min-content contribution. THIS table's
+            min-content is 585.875px — its key column carries unbreakable
+            tokens like `mas_pending_cad_upload` — so the track resolved to
+            585.875px inside a 333px container and the scroll box was never
+            constrained. The other seven `ShellSpecTable` figures survive the
+            same wrapper only because their own min-content happens to fit.
+
+            Two classes were tried and MEASURED INERT here, so neither is the
+            fix: `shell-span-read` (what `/kalite-dosyasi` uses) and
+            `shell-doc-table` added on top of `shell-stack`. The clause body is
+            `.shell-doc-section-body`, which is `display: block`, so
+            `grid-column` on a child of it does nothing; and `.shell-doc-table`
+            only sets a top margin. What changes the geometry is DROPPING THE
+            GRID: a block-level figure takes its containing block's width
+            regardless of min-content, the table then overflows
+            `.shell-table-scroll`, and `useScrollableRegionAccess` grants
+            `tabindex="0"` because `isScrollable()` is finally true. Measured
+            after: figure 278 / 333 / 348px at 320 / 375 / 390, scrollWidth 584
+            against clientWidth 276 / 331 / 346 — reachable by touch and by
+            keyboard. 768 / 1280 / 1440 measure identical to before.
+
+            The shape is `BlogDetail.tsx:199`'s — `div.shell-doc-table` inside
+            a `ShellDocSection` — the one call site that already had it right.
+
+            CARRY THIS FORWARD: THE REFLOW GUARD IS GREEN *BECAUSE* AN ANCESTOR
+            CLIPS. `documentElement.scrollWidth - clientWidth <= 1` was 0 at all
+            three widths while three of four columns were unreachable, because
+            `div.shell-root` computes `overflow-x: clip` — which, unlike
+            `hidden`, is not programmatically scrollable either. That assertion
+            cannot see this failure class, and neither can axe. A test that CAN
+            would walk every `.shell-table-scroll` and assert that the table
+            either fits its box or its box is a real scroll region
+            (`scrollWidth <= clientWidth + 1 || isScrollable(el)`). It belongs
+            beside the existing lane in
+            `e2e/landing/shell-cascade-contract.spec.ts` ("scrollable regions
+            stay keyboard reachable"), which passed here for the wrong reason:
+            at 375 there was no scrollable region, so there was no missing focus
+            stop to find. Writing it is QA's call under §3.3, not this file's. */}
+        <div className="shell-doc-table">
+          <ShellSpecTable
+            caption="Yerel depo kayıtları"
+            note="Bu kayıtlar çerez değildir: her HTTP isteğiyle birlikte otomatik gönderilmezler ve yalnızca bu sitenin kendi sayfaları tarafından okunabilirler. Tarayıcınızın geliştirici araçlarındaki Uygulama / Depolama bölümünden hepsini görebilirsiniz."
+            headers={["KAYIT", "DEPO", "NE İŞE YARAR", "SÜRE"]}
+            numericFrom={4}
+            rows={STORAGE_ROWS}
+            rowKey={(row) => String(row[0])}
+          />
+        </div>
         <p className="shell-note">
           Bu kayıtların hiçbiri reklam veya profilleme amacı taşımaz ve hiçbiri üçüncü bir tarafa
           aktarılmaz.
         </p>
-      </div>
+      </>
     ),
   },
   {
