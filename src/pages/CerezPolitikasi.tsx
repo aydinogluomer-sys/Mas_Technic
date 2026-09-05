@@ -278,18 +278,48 @@ const CLAUSES: LegalClause[] = [
     title: "Üçüncü taraf istekleri",
     body: (
       <div className="shell-prose">
+        {/* NO NUMERAL — PHASE 08 CORRECTION #5, THE THIRD ONE OF THESE.
+
+            This clause opened "Tarayıcınızın bu sitenin dışına istek
+            gönderdiği ÜÇ YER var. ÜÇÜ DE BURADA." — a sentence C4 wrote here
+            while removing the same defect from two other clauses ("Aktarım
+            İKİ HÂLDE olur", "İKİNCİ VE SON istek"). It was measured true on a
+            plain page load and false the moment the reader does what the site
+            asks: `src/integrations/supabase/client.ts` builds the client IN
+            THE BROWSER against a `*.supabase.co` host, and `/giris`,
+            `/sifremi-unuttum`, `/reset-password`, `/iletisim` and `/teklif-al`
+            — all public — call it from a submit handler. The chat box calls it
+            too (`ChatBot.tsx:95`, `${SUPABASE_URL}/functions/v1/chat`), and
+            because the client is configured `persistSession` +
+            `autoRefreshToken`, a signed-in reader's browser reaches that host
+            on a plain page load as well. Four request destinations, not three,
+            and the document already said so in two other places: madde 02's
+            note describes the session key reaching the hosting and database
+            infrastructure, and `/kvkk` madde 04 enumerates it as a transfer.
+
+            The repair is `/kvkk` madde 04's shape, which C4 got right there:
+            drop the numeral, label each case instead of numbering it, and
+            close on "these are the cases" rather than on a count. Adding a
+            destination now costs a paragraph, not a re-count, and no reader
+            can falsify the clause by logging in or sending an RFQ.
+
+            The infrastructure provider is described and not named, which is
+            the convention `/kvkk` madde 04 already sets. Nothing is claimed
+            about what any of these parties does after receipt. */}
         <p>
-          Tarayıcınızın bu sitenin dışına istek gönderdiği üç yer var. Üçü de burada.
+          Tarayıcınızın bu sitenin dışına istek gönderdiği yerler aşağıda tek tek sayılıdır.
         </p>
         <p>
-          <strong>Birincisi her sayfada:</strong> yazı tipleri harici bir yazı tipi dağıtım ağından
-          yüklenir; tarayıcınız o sunucuya bir istek gönderir ve sunucu bu isteğe bağlı olarak IP
-          adresinizi görür. Bu istek çerez oluşturmaz.
+          <strong>Yazı tipleri — her sayfada.</strong> Yazı tipleri harici bir yazı tipi dağıtım
+          ağından yüklenir; tarayıcınız o sunucuya bir istek gönderir ve sunucu bu isteğe bağlı
+          olarak IP adresinizi görür. Bu istek çerez oluşturmaz.
         </p>
         <p>
-          <strong>İkincisi yalnızca <Link to="/giris">giriş sayfasında</Link>:</strong> form,
-          otomatik giriş denemelerine karşı hCaptcha ile korunuyor. Bileşen sayfa açılır açılmaz
-          yükleniyor — siz bir şey yapmadan ve onayınız istenmeden — tarayıcınız{" "}
+          <strong>
+            Güvenlik bileşeni — yalnızca <Link to="/giris">giriş sayfasında</Link>.
+          </strong>{" "}
+          Form, otomatik giriş denemelerine karşı hCaptcha ile korunuyor. Bileşen sayfa açılır
+          açılmaz yükleniyor — siz bir şey yapmadan ve onayınız istenmeden — tarayıcınız{" "}
           <code>hcaptcha.com</code> alan adındaki sunuculara istek gönderir, sayfaya oradan iki
           çerçeve gömülür ve 01. maddede anlatılan <code>__cf_bm</code> çerezi oluşur. İsteği alan
           sunucular, her istekte olduğu gibi, IP adresinizi ve tarayıcı bilginizi görür. Bundan
@@ -297,14 +327,24 @@ const CLAUSES: LegalClause[] = [
           adınıza bir şey taahhüt etmiyoruz.
         </p>
         <p>
-          <strong>Üçüncüsü sohbet asistanınındır:</strong> yapay zekâ onayı verirseniz yazışmanız
-          Google’ın Gemini servisine iletilir. O çerez oluşturmaz, ama burada listelenen
-          kayıtlardan farklı olarak tarayıcınızda kalmaz — bu yüzden tam olarak nereye gittiği{" "}
+          <strong>Barındırma ve veri tabanı altyapısı.</strong> Sitenin çalıştığı barındırma ve
+          veri tabanı altyapısı ayrı bir alan adındadır, dolayısıyla oraya giden istekleri de
+          tarayıcınız gönderir: giriş yaptığınızda, parola sıfırlama istediğinizde, iletişim
+          formunu ya da teklif akışını gönderdiğinizde, sohbet kutusuna bir mesaj yazdığınızda ve
+          giriş yaptıysanız oturumunuzu açık tutmak için. 02. maddedeki oturum anahtarı bu
+          isteklere eklenir; sayfayı yalnızca okuyorsanız eklenecek bir anahtar da olmaz. Bu hâl{" "}
+          <Link to="/kvkk">KVKK Aydınlatma Metni</Link>’nin 04. maddesinde de sayılıdır.
+        </p>
+        <p>
+          <strong>Sohbet asistanı — yalnızca yapay zekâ onayı verirseniz.</strong> Onay verirseniz
+          o ana kadarki yazışma, sitenin kendi sunucu fonksiyonu üzerinden Google’ın Gemini
+          servisine iletilir. O çerez oluşturmaz, ama burada listelenen kayıtlardan farklı olarak
+          tarayıcınızda kalmaz — bu yüzden tam olarak nereye gittiği{" "}
           <Link to="/gizlilik-politikasi">Gizlilik Politikası</Link>’nın 06. maddesinde yazıyor.
         </p>
         <p>
-          Bu üçünün dışında sayfalarda gömülü üçüncü taraf video, harita, reklam veya sosyal medya
-          bileşeni bulunmuyor.
+          İsteğin gittiği yerler bunlardır. Bunların dışında sayfalarda gömülü üçüncü taraf video,
+          harita, reklam veya sosyal medya bileşeni bulunmuyor.
         </p>
       </div>
     ),
