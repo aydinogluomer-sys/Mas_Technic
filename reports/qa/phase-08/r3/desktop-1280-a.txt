@@ -1,0 +1,69 @@
+(node:39920) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 56 tests using 1 worker
+
+(node:7520) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:7520) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:7520) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop-1280] › e2e\footer-reveal.spec.ts:29:3 › complete footer is reachable on / (9.6s)
+  ✓   2 [desktop-1280] › e2e\footer-reveal.spec.ts:29:3 › complete footer is reachable on /sss (4.6s)
+  ✓   3 [desktop-1280] › e2e\footer-reveal.spec.ts:29:3 › complete footer is reachable on /iletisim (3.5s)
+  ✓   4 [desktop-1280] › e2e\footer-reveal.spec.ts:29:3 › complete footer is reachable on /malzemeler (5.5s)
+  ✓   5 [desktop-1280] › e2e\footer-reveal.spec.ts:29:3 › complete footer is reachable on /teklif-al (3.5s)
+  -   6 [desktop-1280] › e2e\footer-reveal.spec.ts:99:1 › complete shared footer is reachable in a short desktop viewport
+  ✓   7 [desktop-1280] › e2e\fullscreen-menu.spec.ts:26:3 › Fullscreen machining navigation › uses one three-line trigger and a viewport-bound takeover (16.4s)
+  ✓   8 [desktop-1280] › e2e\fullscreen-menu.spec.ts:48:3 › Fullscreen machining navigation › places the primary menu trigger before main-page controls (6.2s)
+  ✓   9 [desktop-1280] › e2e\fullscreen-menu.spec.ts:83:3 › Fullscreen machining navigation › exposes all three families and five categories per family (13.0s)
+  ✓  10 [desktop-1280] › e2e\fullscreen-menu.spec.ts:97:3 › Fullscreen machining navigation › traps focus, closes on Escape, and restores trigger focus (6.8s)
+  ✓  11 [desktop-1280] › e2e\fullscreen-menu.spec.ts:125:3 › Fullscreen machining navigation › closes before internal navigation and releases scroll lock (4.8s)
+  ✓  12 [desktop-1280] › e2e\fullscreen-menu.spec.ts:134:3 › Fullscreen machining navigation › preserves a pre-existing stopped Lenis state after closing (4.5s)
+  -  13 [desktop-1280] › e2e\fullscreen-menu.spec.ts:166:3 › Fullscreen machining navigation › reduced motion opens without a delayed hidden state, and still closes
+  ✓  14 [desktop-1280] › e2e\fullscreen-menu.spec.ts:183:3 › Fullscreen machining navigation › preserves 3 families, 15 categories and 48 unique detail routes (8ms)
+  -  15 [desktop-1280] › e2e\fullscreen-menu.spec.ts:193:3 › Fullscreen machining navigation › keyboard-only reaches all 48 detail links without hover or programmatic focus
+  ✓  16 [desktop-1280] › e2e\fullscreen-menu.spec.ts:288:3 › Fullscreen machining navigation › supports roving keys and valid single-open accordion IDREFs (5.1s)
+  ✓  17 [desktop-1280] › e2e\fullscreen-menu.spec.ts:317:3 › Fullscreen machining navigation › has no axe violations inside the open dialog (6.1s)
+  ✓  18 [desktop-1280] › e2e\fullscreen-menu.spec.ts:325:3 › Fullscreen machining navigation › publishes the identical menu on an inner page shell (6.5s)
+  ✓  19 [desktop-1280] › e2e\fullscreen-menu.spec.ts:356:3 › Fullscreen machining navigation › has no serious or critical axe violations with the menu open on an inner page (5.2s)
+  ✓  20 [desktop-1280] › e2e\fullscreen-menu.spec.ts:370:3 › Fullscreen machining navigation › remains deterministic through repeated toggle input (5.5s)
+  ✓  21 [desktop-1280] › e2e\malzemeler-sticky.spec.ts:5:3 › /malzemeler footer release contract › sticky filters release before the footer and legal links stay unobscured (3.4s)
+  ✓  22 [desktop-1280] › e2e\material-category-footer.spec.ts:5:3 › /malzemeler/:slug footer overlap regression › hero, local CTA and footer preserve order and usable hit targets (2.7s)
+  ✓  23 [desktop-1280] › e2e\scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on / (3.6s)
+  ✓  24 [desktop-1280] › e2e\scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on /sss (2.9s)
+  ✓  25 [desktop-1280] › e2e\scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on /iletisim (2.5s)
+  ✓  26 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:281:3 › Shared public shell accessibility › keeps the skip link above the closed header and below the modal (2.3s)
+  ✓  27 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:297:3 › Shared public shell accessibility › derives an exhaustive 99-path public route and shell ownership contract (25ms)
+  ✓  28 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:337:3 › Shared public shell accessibility › keeps all 95 canonical full-shell routes on one header/footer contract (1.3m)
+  ✓  29 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:423:3 › Shared public shell accessibility › keeps declared public and panel shell exceptions explicit (5.2s)
+  ✓  30 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:467:3 › Shared public shell accessibility › keeps the dialog fixed, isolated, keyboard bounded, and restorable (4.3s)
+  -  31 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:524:3 › Shared public shell accessibility › makes mobile footer disclosures semantic and removes closed links from Tab order
+  ✓  32 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:561:3 › Shared public shell accessibility › keeps footer CTA and legal controls reachable, stable, and unobscured (3.2s)
+  ✓  33 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:589:3 › Shared public shell accessibility › keeps every footer control unobscured in natural forward and reverse keyboard order (14.1s)
+  ✓  34 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:599:3 › Shared public shell accessibility › preserves footer reflow at a 400 percent equivalent CSS viewport (2.2s)
+  -  35 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:612:3 › Shared public shell accessibility › supports WCAG text spacing without clipping footer content
+  ✓  36 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:635:3 › Shared public shell accessibility › retains visible footer focus indicators in forced-colors mode (4.3s)
+  -  37 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:677:3 › Shared public shell accessibility › honors four-edge safe-area tokens in the closed header, modal and footer
+  -  38 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:781:3 › Shared public shell accessibility › renders footer content immediately and uses non-smooth scroll under reduced motion
+  ✓  39 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:845:3 › Shared public shell accessibility › has no serious or critical axe violations in the closed shared shell (4.1s)
+  ✓  40 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:859:3 › Shared public shell accessibility › records whole-page axe evidence and isolates documented non-shell debt (5.8s)
+  ✓  41 [desktop-1280] › e2e\shared-shell-accessibility.spec.ts:956:3 › Shared public shell accessibility › preserves shell reflow and focus access at 200 percent text size (3.7s)
+  ✓  42 [desktop-1280] › e2e\technical-landing.spec.ts:13:3 › technical editorial landing phase 1 › renders the frame, hero, annotations and proof strip (2.6s)
+  ✓  43 [desktop-1280] › e2e\technical-landing.spec.ts:21:3 › technical editorial landing phase 1 › numbers every band of the drawing sheet in order (2.7s)
+  ✓  44 [desktop-1280] › e2e\technical-landing.spec.ts:26:3 › technical editorial landing phase 1 › does not create document-level horizontal overflow (2.7s)
+  ✓  45 [desktop-1280] › e2e\technical-landing.spec.ts:31:3 › technical editorial landing phase 1 › keeps the shared sheet rail and viewport column contract (2.5s)
+  ✓  46 [desktop-1280] › e2e\technical-landing.spec.ts:68:3 › technical editorial landing phase 1 › renders the capability marquee with its loop copy hidden from assistive tech (2.5s)
+  ✓  47 [desktop-1280] › e2e\technical-landing.spec.ts:77:3 › technical editorial landing phase 1 › moves the two visual bands against the scroll without hijacking input (3.2s)
+  ✓  48 [desktop-1280] › e2e\technical-landing.spec.ts:104:3 › technical editorial landing phase 1 › renders process, the NEXUS preview and the capability profiles (2.6s)
+  ✓  49 [desktop-1280] › e2e\technical-landing.spec.ts:118:3 › technical editorial landing phase 1 › renders sectors, the quality file and the reference band (3.3s)
+  ✓  50 [desktop-1280] › e2e\technical-landing.spec.ts:139:3 › technical editorial landing phase 1 › serves the four quality documents as real downloads (3.5s)
+  ✓  51 [desktop-1280] › e2e\technical-landing.spec.ts:161:3 › technical editorial landing phase 1 › renders FAQ answers and the RFQ hand-off (3.4s)
+  ✓  52 [desktop-1280] › e2e\technical-landing.spec.ts:178:3 › technical editorial landing phase 1 › keeps reference proportions for headline, project cards and NEXUS rows (3.8s)
+  ✓  53 [desktop-1280] › e2e\technical-landing.spec.ts:381:3 › technical editorial landing phase 1 › has no serious or critical accessibility violations (6.2s)
+  ✓  54 [desktop-1280] › e2e\technical-landing.spec.ts:394:3 › technical editorial landing phase 1 › the one global menu traps focus, locks scroll and restores the trigger (4.8s)
+  ✓  55 [desktop-1280] › e2e\technical-landing.spec.ts:413:3 › technical editorial landing phase 1 › keeps the global header free of serious accessibility violations (7.9s)
+  ✓  56 [desktop-1280] › e2e\technical-landing.spec.ts:441:3 › technical editorial landing phase 1 › reduced motion keeps the complete page visible without active animation (3.1s)
+
+  7 skipped
+  49 passed (5.3m)
