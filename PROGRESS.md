@@ -1397,5 +1397,15 @@ added, and two smaller legal-text tensions. `Login.tsx` is DO_NOT_TOUCH — whet
 hCaptcha is Phase 09's security decision, not a disclosure decision. `src/styles/shell.css` is a conditional
 grant, reachable only with a measurement that rules out the call-site fix.
 
+**C4 was interrupted once and relaunched — and the run's "resume, never restart" reflex has an exception.** The
+user stopped the first C4 agent before it wrote anything; the worktree was clean at `a5e4e7d`, so nothing was
+lost. On the user's instruction to continue, `SendMessage` refused the resume: *"Agent … was stopped by the
+user and won't be resumed. Treat its work as cancelled."* So the rule this run learned the expensive way —
+a dead agent is resumed, never restarted — holds for agents killed by 529s, watchdogs and process exits, but
+**not** for an agent stopped by the user: that one is cancelled permanently and a fresh agent must be launched
+against the same packet. Persisting packets to `.work/packets/` is what makes that relaunch cost nothing,
+which is the second time that habit has paid since A20 identified its absence. One orphaned preview server the
+stopped agent left on port 4187 was cleared first, same class as A22.
+
 **Next action:** review C4 at source, then QA round 3. Phase 09 is scoped as 09a/09b per A21 once Phase 08
 closes.
