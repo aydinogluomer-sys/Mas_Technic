@@ -1,0 +1,186 @@
+﻿diff --git a/src/components/shell/ShellComposition.tsx b/src/components/shell/ShellComposition.tsx
+index 9be078b..05f0aaf 100644
+--- a/src/components/shell/ShellComposition.tsx
++++ b/src/components/shell/ShellComposition.tsx
+@@ -121,7 +121,21 @@ export function ShellAction({
+    pulled from its detail page — so the reader can choose without opening four
+    pages first. */
+ export type ShellIndexItem = {
+-  to: string;
++  /** A route. Rendered as a router `<Link>`. */
++  to?: string;
++  /**
++   * A non-route destination — a served PDF, an external page. Rendered as a
++   * plain `<a>`, because a router `<Link>` to `/belgeler/…` would be
++   * intercepted by the router and resolve to the 404 catch-all.
++   *
++   * Exactly one of `to` and `href` is meaningful; `to` wins if both are given.
++   * PHASE 08: added so the quality dossier's document register is the SAME
++   * register row as every other index on the site, instead of a page-local
++   * skin that happens to look like one.
++   */
++  href?: string;
++  /** For `href` rows: mark the link as a download and name the file. */
++  download?: boolean;
+   /** Sheet number in the rail column. Supplied so a list can continue. */
+   index?: string;
+   title: string;
+@@ -143,9 +157,9 @@ export function ShellIndexList({
+ }) {
+   return (
+     <ol className="shell-index" aria-label={ariaLabel} data-compact={compact || undefined}>
+-      {items.map((item, i) => (
+-        <li key={item.to + item.title}>
+-          <Link className="shell-index-row" to={item.to}>
++      {items.map((item, i) => {
++        const body = (
++          <>
+             <span className="shell-index-no" aria-hidden="true">
+               {item.index ?? String(i + 1).padStart(2, "0")}
+             </span>
+@@ -162,9 +176,21 @@ export function ShellIndexList({
+               )}
+             </span>
+             <ArrowUpRight className="shell-index-mark" aria-hidden="true" />
+-          </Link>
+-        </li>
+-      ))}
++          </>
++        );
++
++        return (
++          <li key={(item.to ?? item.href ?? "") + item.title}>
++            {item.to ? (
++              <Link className="shell-index-row" to={item.to}>{body}</Link>
++            ) : (
++              <a className="shell-index-row" href={item.href} download={item.download || undefined}>
++                {body}
++              </a>
++            )}
++          </li>
++        );
++      })}
+     </ol>
+   );
+ }
+@@ -395,3 +421,120 @@ export function ShellNextStep({
+     </ShellBand>
+   );
+ }
++
++/* ══════════════════════════════════════════════════════════════════════════
++   PHASE 08 MOLECULES
++
++   Wave B is the documentary half of the site — legal clauses, a technical
++   journal, a quality dossier, capability profiles. Those pages need three
++   structures Wave A never did, and each one is here rather than inside a page
++   because more than one page needs it.
++
++       ShellDocSection   a numbered clause / article section   · 6 pages
++       ShellContents     the anchor index beside it            · 5 pages
++       ShellNotice       an inline error / caution / note      · shared
++   ══════════════════════════════════════════════════════════════════════════ */
++
++/* ── Numbered document section ────────────────────────────────────────────
++   A clause of a legal text, a section of an article, a heading in a dossier.
++   The number sits in the margin and is `aria-hidden`: "sıfır bir" announced
++   before every heading is noise, and the heading already carries the name.
++
++   `id` is REQUIRED, and it is the point of the primitive. A clause a reader
++   cannot link to cannot be quoted back at anybody, which is most of what a
++   legal section is for; and an article section with no anchor cannot have a
++   table of contents that works. */
++export function ShellDocSection({
++  id,
++  no,
++  title,
++  children,
++}: {
++  id: string;
++  no: string;
++  title: string;
++  children: ReactNode;
++}) {
++  return (
++    <section className="shell-doc-section" id={id} aria-labelledby={`${id}-title`}>
++      <span className="shell-doc-section-no" aria-hidden="true">{no}</span>
++      <h2 id={`${id}-title`}>{title}</h2>
++      <div className="shell-doc-section-body">{children}</div>
++    </section>
++  );
++}
++
++/* ── Contents ─────────────────────────────────────────────────────────────
++   The index of the anchors `ShellDocSection` publishes.
++
++   A PLAIN `<a href="#id">`, NOT A ROUTER `<Link>`. React Router resolves a
++   relative `to="#id"` against the current location and rewrites the URL; a
++   bare fragment anchor is handled by the browser, so it also works before
++   hydration and it keeps the platform's own fragment focus handling.
++
++   `<ol>` because a document's clauses are ordered, and the visible numbers are
++   the SECTION numbers rather than list markers — so the same `03` appears in
++   the index and in the margin of the section it points at. */
++export function ShellContents({
++  items,
++  label = "İÇİNDEKİLER",
++  ariaLabel = "Bu sayfadaki bölümler",
++}: {
++  items: { id: string; no: string; label: string }[];
++  label?: string;
++  ariaLabel?: string;
++}) {
++  return (
++    <nav className="shell-contents" aria-label={ariaLabel}>
++      <p className="shell-eyebrow">{label}</p>
++      <ol>
++        {items.map((item) => (
++          <li key={item.id}>
++            <a href={`#${item.id}`}>
++              <span aria-hidden="true">{item.no}</span>
++              <span>{item.label}</span>
++            </a>
++          </li>
++        ))}
++      </ol>
++    </nav>
++  );
++}
++
++/* ── Notice ───────────────────────────────────────────────────────────────
++   THE SITE'S ONE INLINE MESSAGE BLOCK: a submission that failed, a CAD file
++   that could not be read, a caution beside a technical table.
++
++   `tone="error"` sets `role="alert"` so the message is announced when it
++   appears. The other two tones are static prose and are deliberately NOT
++   announced: a note that interrupts a screen-reader user on every render is a
++   defect, not a courtesy.
++
++   Nothing here is a coloured card. The tone is carried by a 2px rule on the
++   leading edge and by the mono label — the same device `.shell-form-error`
++   already uses, so an error inside a form and an error beside one read as the
++   same object. */
++export function ShellNotice({
++  tone = "note",
++  label,
++  title,
++  children,
++  action,
++}: {
++  tone?: "error" | "caution" | "note";
++  /** Mono status label, e.g. `HATA`, `DİKKAT`, `NOT`. */
++  label: string;
++  /** Optional one-line summary above the body. */
++  title?: string;
++  children?: ReactNode;
++  action?: ReactNode;
++}) {
++  return (
++    <div className="shell-notice" data-tone={tone} role={tone === "error" ? "alert" : undefined}>
++      <p className="shell-notice-label">{label}</p>
++      {title && <p className="shell-notice-title">{title}</p>}
++      {children && <div className="shell-notice-body">{children}</div>}
++      {action && <div className="shell-notice-actions">{action}</div>}
++    </div>
++  );
++}
