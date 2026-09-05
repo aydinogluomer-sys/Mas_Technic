@@ -56,6 +56,43 @@ import { PUBLIC_ADDRESS_LINES, SALES_EMAIL } from "@/content/claims";
    land the reader at the top of a seven-clause document instead of at the
    clause it names.
 
+   5. THE LIST WAS CLOSED AND SHORT BY ONE AGAIN — PHASE 08 CORRECTION #5.
+      Correction #4 replaced "iki hâlde" with "üç hâlde", which fixed the
+      instance and kept the defect: a closed COUNT that a later measurement can
+      falsify without anyone noticing. It was falsified within the round.
+      Loading `/giris` sends the visitor's IP and browser data to hCaptcha's
+      endpoints — measured on a plain load, no interaction: two
+      `newassets.hcaptcha.com` iframes, four `hcaptcha.com` hosts, a `__cf_bm`
+      cookie on `.hcaptcha.com` with a 29.9-minute expiry. That is a transfer
+      and this is the document whose statutory job is to enumerate transfers.
+
+      So the count is gone. The clause now says "yalnızca aşağıda tek tek
+      sayılan hâllerde" and each case is its own paragraph with its own lead —
+      still a CLOSED list, which is what an aydınlatma metni owes a reader, but
+      one that cannot go stale silently: adding a case adds a paragraph, and no
+      numeral anywhere else in the clause has to be found and changed with it.
+      Prose paragraphs rather than an `<ol>` because `.shell-prose` styles only
+      `> p`; a bare list would render at the browser's default, which is the
+      library-default look this phase exists to remove, and `shell.css` is not
+      this packet's to extend.
+
+      What the new case says is only what the browser shows: which route, that
+      it mounts on load with no consent asked, which host, and what the request
+      necessarily carries. It says NOTHING about what hCaptcha or Cloudflare do
+      after receipt — same boundary as the Gemini case, for the same reason.
+
+   6. THE SUPPLIER TRANSFER IS NOW INSIDE THE LIST, NOT BENEATH IT.
+      "Bir işin yürütülmesi için üçüncü bir tedarikçiye teknik dosya
+      iletilmesi gerekiyorsa…" sat one paragraph under a sentence that had just
+      closed the enumeration. That predates correction #4 and got sharper when
+      the list acquired an explicit numeral: a closed list with a further case
+      immediately beneath it denies the case it is printing. It is now a
+      paragraph of the enumeration with the same lead as the others, and the
+      boundary paragraph that follows says the list has ended rather than
+      leaving the reader to infer it. Its own qualifier — that this happens
+      only with the customer's knowledge — is unchanged, because it is the
+      commitment the clause was already making and nothing here verifies more.
+
    The one thing this page must never grow is a security guarantee — see
    `GizlilikPolitikasi.tsx`, where one had to be removed.
    ══════════════════════════════════════════════════════════════════════════ */
@@ -124,29 +161,44 @@ const CLAUSES: LegalClause[] = [
       <div className="shell-prose">
         <p>
           Kişisel verileriniz satılmaz ve pazarlama amacıyla üçüncü taraflara devredilmez. Aktarım
-          üç hâlde olur: yetkili kamu kurum ve kuruluşlarının kanuna dayalı talebi; bu sitenin
-          çalışması için kullanılan barındırma ile veri tabanı altyapısının hizmet sağlayıcısı; ve
-          sohbet asistanında yapay zekâ onayı vermeniz hâlinde, o ana kadarki yazışmanın sitenin
-          kendi sunucu fonksiyonu üzerinden Google’ın Gemini servisine iletilmesi.
+          yalnızca aşağıda tek tek sayılan hâllerde olur.
         </p>
         <p>
-          Üçüncü hâl yalnızca açık onayınızla gerçekleşir; onay vermezseniz bu aktarım hiç olmaz.
-          Aktarılan tek şey yazışma metnidir: IP adresiniz, oturum bilginiz veya sizi tanımlayan
-          başka bir veri gönderilmez, çünkü aradaki sunucu fonksiyonu tarayıcınızın başlıklarını
-          iletmez. Metin sitenin veri tabanına da kaydedilmez. Aktarımın adım adım nasıl
-          gerçekleştiği{" "}
+          <strong>Kanuni talep.</strong> Yetkili kamu kurum ve kuruluşlarının kanuna dayalı talebi.
+        </p>
+        <p>
+          <strong>Barındırma ve veri tabanı.</strong> Bu sitenin çalışması için kullanılan
+          barındırma ile veri tabanı altyapısının hizmet sağlayıcısı.
+        </p>
+        <p>
+          <strong>Giriş sayfasındaki güvenlik bileşeni.</strong>{" "}
+          <Link to="/giris">Giriş sayfasını</Link> açtığınızda, formu otomatik giriş denemelerine
+          karşı koruyan hCaptcha bileşeni yüklenir; tarayıcınız <code>hcaptcha.com</code> alan
+          adındaki sunuculara istek gönderir ve bu istekle IP adresiniz ile tarayıcı bilginiz o
+          sunuculara ulaşır. Bu hâl için onayınız istenmez ve alınmaz: bileşen sayfa açılır açılmaz,
+          siz bir şey yapmadan yüklenir. Tarayıcınızda bıraktığı çerez ve bileşenin bütün alanları{" "}
+          <Link to="/cerez-politikasi">Çerez Politikası</Link>’nın 01. ve 03. maddelerinde yazılıdır.
+        </p>
+        <p>
+          <strong>Sohbet asistanı — yalnızca onay verirseniz.</strong> Sohbet asistanında yapay zekâ
+          onayı vermeniz hâlinde, o ana kadarki yazışma sitenin kendi sunucu fonksiyonu üzerinden
+          Google’ın Gemini servisine iletilir. Onay vermezseniz bu aktarım hiç olmaz. Aktarılan tek
+          şey yazışma metnidir: IP adresiniz, oturum bilginiz veya sizi tanımlayan başka bir veri
+          gönderilmez, çünkü aradaki sunucu fonksiyonu tarayıcınızın başlıklarını iletmez. Metin
+          sitenin veri tabanına da kaydedilmez. Aktarımın adım adım nasıl gerçekleştiği{" "}
           <Link to="/gizlilik-politikasi">Gizlilik Politikası</Link>’nın 06. maddesindedir.
         </p>
         <p>
-          Metnin Google’a ulaştıktan sonraki âkıbeti hakkında bu belge bir şey söylemez: orası bizim
-          göremediğimiz bir yer ve sizin adınıza doğrulayamayacağımız bir şeyi burada yazmayız. Bu
-          nedenle sohbet kutusuna paylaşmak istemediğiniz hiçbir bilgiyi yazmayın; teknik ayrıntılar
-          için teklif akışını kullanın, oraya bıraktığınız veri ve dosyalar hiçbir yapay zekâ
-          servisine gönderilmez.
+          <strong>Bir işin tedarikçiye verilmesi — bilginiz dâhilinde.</strong> Bir işin
+          yürütülmesi için üçüncü bir tedarikçiye teknik dosya iletilmesi gerekiyorsa, bu ancak
+          sizin bilginiz dâhilinde yapılır.
         </p>
         <p>
-          Bir işin yürütülmesi için üçüncü bir tedarikçiye teknik dosya iletilmesi gerekiyorsa, bu
-          ancak sizin bilginiz dâhilinde yapılır.
+          Aktarımın gerçekleştiği hâller bunlardır. Bir üçüncü tarafa ulaştıktan sonra verinin ne
+          olduğu hakkında bu belge bir şey söylemez: orası bizim göremediğimiz bir yer ve sizin
+          adınıza doğrulayamayacağımız bir şeyi burada yazmayız. Bu nedenle sohbet kutusuna
+          paylaşmak istemediğiniz hiçbir bilgiyi yazmayın; teknik ayrıntılar için teklif akışını
+          kullanın, oraya bıraktığınız veri ve dosyalar hiçbir yapay zekâ servisine gönderilmez.
         </p>
       </div>
     ),

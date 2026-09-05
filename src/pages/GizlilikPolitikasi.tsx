@@ -97,6 +97,38 @@ import { SALES_EMAIL } from "@/content/claims";
    whether to paste a part number needs the boundary more than the comfort.
    §J `NDA_AVAILABLE: NO` is why that advice is given plainly rather than
    hinted at.
+
+   ── CLAUSES 03 AND 05, CORRECTED BY PHASE 08 CORRECTION #5 ───────────────
+   This file carried two false sentences, both written by this phase:
+
+     madde 03  "Site çerez kullanmaz."
+     madde 05  "Bunun dışında sayfalarda gömülü üçüncü taraf içerik … bulunmaz"
+               + "Bir istisna var"
+
+   Measured on a plain load of `/giris` with no interaction: `Login.tsx:230`
+   mounts `@hcaptcha/react-hcaptcha`, two `newassets.hcaptcha.com` iframes are
+   embedded, four `hcaptcha.com` hosts are contacted, and a `__cf_bm` cookie
+   appears on `.hcaptcha.com` with a 29.9-minute expiry. So the site DOES embed
+   third-party content, it DOES cause a cookie, and there are TWO exceptions,
+   not one — and the second one, unlike the chat, needs no consent and fires on
+   load. The full measurement is in `CerezPolitikasi.tsx`'s header, which is
+   where the cookie's own attributes are published.
+
+   The disclosure is written where the font CDN's already was, because that is
+   this repository's established shape for a third party the browser contacts
+   directly, and it is how the Gemini transfer was handled in correction #2.
+   The old first sentence of madde 05's second paragraph is kept intact and its
+   trailing absolute is moved to its own paragraph, so the RFQ path's
+   description did not have to be rewritten to fix a claim about widgets.
+
+   MADDE 04 IS UNTOUCHED AND STILL TRUE: hCaptcha is not an analytics tool, a
+   tag manager, an ad pixel or a session recorder, and no page-view count,
+   click map or visitor profile is kept.
+
+   Clause 06's boundary — "orası bizim göremediğimiz bir yer ve sizin adınıza
+   doğrulayamayacağımız bir şeyi burada yazmıyoruz" — is the model the new
+   hCaptcha paragraph follows and cites rather than restates. Nothing here says
+   what hCaptcha or Cloudflare do with a request after it arrives.
    ══════════════════════════════════════════════════════════════════════════ */
 
 const CLAUSES: LegalClause[] = [
@@ -143,9 +175,10 @@ const CLAUSES: LegalClause[] = [
     body: (
       <div className="shell-prose">
         <p>
-          Site çerez kullanmaz. Tercihleriniz ve oturum bilgisi, tarayıcınızın kendi yerel
-          deposunda (<code>localStorage</code> / <code>sessionStorage</code>) tutulur ve her istekle
-          birlikte otomatik olarak sunucuya gönderilmez.
+          Bu sitenin kendi sayfaları çerez oluşturmaz; tek istisna giriş sayfasına gömülü güvenlik
+          bileşenidir ve 05. maddede yazılıdır. Tercihleriniz ve oturum bilgisi, tarayıcınızın kendi
+          yerel deposunda (<code>localStorage</code> / <code>sessionStorage</code>) tutulur ve her
+          istekle birlikte otomatik olarak sunucuya gönderilmez.
         </p>
         <p>
           Hangi kaydın ne işe yaradığı ve nasıl silineceği{" "}
@@ -183,13 +216,28 @@ const CLAUSES: LegalClause[] = [
         </p>
         <p>
           Teklif akışını kullandığınızda form verisi ve yüklediğiniz dosya, sitenin barındırma ve
-          veri tabanı altyapısına iletilir. Bunun dışında sayfalarda gömülü üçüncü taraf içerik,
-          reklam veya sosyal medya bileşeni bulunmaz.
+          veri tabanı altyapısına iletilir.
         </p>
         <p>
-          Bir istisna var ve kendi maddesini hak ediyor: sohbet asistanına yapay zekâ onayı
-          verirseniz yazdığınız metin bir üçüncü tarafa aktarılır. Nasıl ve kime olduğu 06. maddede
-          yazıyor.
+          Sayfalara gömülü tek üçüncü taraf bileşeni <Link to="/giris">giriş sayfasındadır</Link>:
+          form, otomatik giriş denemelerine karşı hCaptcha ile korunuyor. Bu bileşen sayfa açılır
+          açılmaz yükleniyor — bir şeye tıklamanız gerekmiyor ve onayınız istenmiyor — sayfaya{" "}
+          <code>hcaptcha.com</code> alan adından iki çerçeve gömülüyor, tarayıcınız o sunuculara
+          istek gönderdiği için sunucular IP adresinizi ve tarayıcı bilginizi görüyor ve
+          tarayıcınızda ömrü otuz dakika olan <code>__cf_bm</code> adında bir çerez oluşuyor.
+          Çerezin bütün alanları <Link to="/cerez-politikasi">Çerez Politikası</Link>’nın 01.
+          maddesinde yazılı. Verinin hcaptcha.com’a ulaştıktan sonra ne olduğunu bu politika
+          anlatamaz: 06. maddedeki sınır burada da geçerlidir.
+        </p>
+        <p>
+          Bunun dışında sayfalarda gömülü üçüncü taraf video, harita, reklam veya sosyal medya
+          bileşeni bulunmaz.
+        </p>
+        <p>
+          İkinci istisna kendi maddesini hak ediyor: sohbet asistanına yapay zekâ onayı verirseniz
+          yazdığınız metin bir üçüncü tarafa aktarılır. Nasıl ve kime olduğu 06. maddede yazıyor.
+          Aradaki fark önemli: bu aktarım yalnızca siz onay verirseniz olur, giriş sayfasındaki
+          bileşen ise sayfayı açtığınız anda yüklenir.
         </p>
       </div>
     ),

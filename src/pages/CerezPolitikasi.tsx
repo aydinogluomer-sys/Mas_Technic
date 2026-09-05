@@ -71,8 +71,69 @@ import { SALES_EMAIL } from "@/content/claims";
    identifies nobody and is never sent anywhere, so the note under the table
    still holds for it.
 
-   The no-cookie claim in madde 01 is separate and remains TRUE: measured, six
-   public routes, zero cookies.
+   THE NO-COOKIE CLAIM WAS FALSE — PHASE 08 CORRECTION #5. The sentence above
+   ("measured, six public routes, zero cookies") is exactly how this shipped
+   wrong: six routes were measured and `/giris` was not one of them. `/giris` is
+   a public route by the repository's own contract (`NON_SHELL_PUBLIC_ROUTES` in
+   `e2e/shared-shell-accessibility.spec.ts`), `Login.tsx:230` renders
+   `<HCaptcha>` inside the form, and it mounts with the page.
+
+   MEASURED, fresh context, plain load of `/giris`, NO interaction:
+
+     cookie  __cf_bm   domain .hcaptcha.com   httpOnly  secure  sameSite None
+                       expires in 29.9 minutes
+     hosts   js.hcaptcha.com · newassets.hcaptcha.com · two ephemeral
+             <id>.w.hcaptcha.com workers   (plus the two font hosts)
+     iframes 2, both newassets.hcaptcha.com/captcha/v1/…/hcaptcha.html
+             (`#frame=checkbox` and `#frame=challenge`)
+
+   Every other route measured — `/`, `/kvkk`, `/cerez-politikasi`,
+   `/malzemeler`, `/teklif-al`, `/sifremi-unuttum`, `/reset-password` —
+   contacts only the two font hosts and creates zero cookies.
+
+   THE PRECEDENT FOLLOWED is the font CDN's, which is this repository's own
+   shape for a third party the browser contacts directly, and it is how the
+   Gemini transfer was handled in correction #2: the disclosure goes in the
+   clause that already enumerates outbound requests (madde 03), the cookie
+   itself goes in the clause about cookies (madde 01), and the same three
+   documents are corrected together so none of them can drift.
+
+   WHAT IS DELIBERATELY NOT SAID: nothing about what hCaptcha or Cloudflare do
+   with the request after it arrives — no retention, no deletion, no training,
+   no security posture. Nothing in this repository establishes any of it, and
+   `GizlilikPolitikasi.tsx` madde 06's stance is the model. What IS said is
+   what the browser shows: which route, that it mounts on load without
+   interaction, which hosts, the cookie's name, domain, flags and lifetime.
+
+   MADDE 01'S SECOND SENTENCE IS UNTOUCHED AND STILL TRUE. `__cf_bm` is a
+   bot-management cookie; it is not an ad cookie, an analytics cookie, a tag
+   manager, an ad pixel or a session recorder.
+
+   THE COOKIE DOES NOT GET A ROW IN MADDE 02, and that is a decision rather
+   than an oversight. That table is titled "Yerel depo kayıtları" and its own
+   note says these records are NOT cookies — they are not sent with every HTTP
+   request and only this site's pages can read them. `__cf_bm` is the opposite
+   on both counts. A cookie row in a local-storage table would be a small new
+   untruth in the clause built to end one, so the cookie is disclosed in madde
+   01 and madde 03 with its full attributes instead.
+
+   LEFT OPEN, ON PURPOSE: madde 04 still says no "çerez tercihleri" window is
+   shown. Whether a third-party widget that loads before any interaction
+   changes that is a legal determination, not a repository fact, and whether
+   the login form should carry hCaptcha at all is Phase 09's security call.
+   This document's job here was to stop denying what the browser does.
+
+   THE NOTE UNDER THE TABLE SAID "hiçbiri üçüncü bir tarafa aktarılmaz", AND
+   THE FIRST ROW IS A COUNTEREXAMPLE. `sb-…-auth-token` is a bearer token: it
+   is attached to every authenticated request and therefore reaches the hosting
+   and database provider — which the other clauses and `/kvkk` madde 04
+   correctly enumerate as a transfer case. "Aktarım" in the sense the note
+   meant (nobody is handed this list) and "aktarım" in the sense KVKK madde 04
+   means (data reaches a third party) are different words, and a legal document
+   does not get to rely on the reader picking the right one. The note now says
+   what the token does and cites the clause that enumerates it. The provider is
+   described, not named, which is the convention `/kvkk` madde 04 already sets
+   ("barındırma ile veri tabanı altyapısının hizmet sağlayıcısı").
    ══════════════════════════════════════════════════════════════════════════ */
 
 const STORAGE_ROWS: string[][] = [
@@ -111,12 +172,21 @@ const STORAGE_ROWS: string[][] = [
 const CLAUSES: LegalClause[] = [
   {
     id: "cerez-kullanimi",
-    title: "Bu sitede çerez kullanılmıyor",
+    title: "Çerezler ve tek istisna",
     body: (
       <div className="shell-prose">
         <p>
-          Herkese açık sayfalarda hiçbir çerez oluşturulmuyor. Reklam çerezi, analitik çerezi,
+          Bu sitenin kendi sayfaları tarayıcınızda çerez oluşturmuyor. Reklam çerezi, analitik çerezi,
           etiket yöneticisi, reklam pikseli ve oturum kaydı yazılımı da yok.
+        </p>
+        <p>
+          Tek istisna giriş sayfasıdır ve kendi cümlesini hak ediyor:{" "}
+          <Link to="/giris">giriş sayfası</Link> açıldığında, formu otomatik giriş denemelerine karşı
+          koruyan hCaptcha bileşeni yükleniyor ve tarayıcınızda <code>__cf_bm</code> adında bir çerez
+          oluşuyor. Çerez <code>hcaptcha.com</code> alan adına aittir, ömrü otuz dakikadır,{" "}
+          <code>httpOnly</code> işaretlidir — yani sayfa betikleri onu okuyamaz — ve yalnızca
+          hcaptcha.com’a giden isteklerle gönderilir. Bileşen sayfa açılır açılmaz yükleniyor; bunun
+          için bir şeye tıklamanız gerekmiyor. Ne olduğu 03. maddede yazıyor.
         </p>
         <p>
           Bu, sitenin tarayıcınızda hiçbir şey saklamadığı anlamına gelmez. Sakladığı şeyler
@@ -194,8 +264,11 @@ const CLAUSES: LegalClause[] = [
           />
         </div>
         <p className="shell-note">
-          Bu kayıtların hiçbiri reklam veya profilleme amacı taşımaz ve hiçbiri üçüncü bir tarafa
-          aktarılmaz.
+          Bu kayıtların hiçbiri reklam veya profilleme amacı taşımaz. Tarayıcınız bunları
+          kendiliğinden hiçbir yere göndermez; tek istisna oturum anahtarıdır — giriş yaptıysanız
+          sitenin barındırma ve veri tabanı altyapısına yapılan isteklere eklenir, çünkü oturumunuzu
+          açık tutan şey odur. Bu aktarım{" "}
+          <Link to="/kvkk">KVKK Aydınlatma Metni</Link>’nin 04. maddesinde sayılıdır.
         </p>
       </>
     ),
@@ -206,20 +279,32 @@ const CLAUSES: LegalClause[] = [
     body: (
       <div className="shell-prose">
         <p>
-          Sayfa yazı tipleri harici bir yazı tipi dağıtım ağından yüklenir; tarayıcınız o sunucuya
-          bir istek gönderir ve sunucu bu isteğe bağlı olarak IP adresinizi görür. Bu istek de çerez
-          oluşturmaz.
+          Tarayıcınızın bu sitenin dışına istek gönderdiği üç yer var. Üçü de burada.
         </p>
         <p>
-          Sayfalarda gömülü üçüncü taraf video, harita, reklam veya sosyal medya bileşeni
-          bulunmuyor.
+          <strong>Birincisi her sayfada:</strong> yazı tipleri harici bir yazı tipi dağıtım ağından
+          yüklenir; tarayıcınız o sunucuya bir istek gönderir ve sunucu bu isteğe bağlı olarak IP
+          adresinizi görür. Bu istek çerez oluşturmaz.
         </p>
         <p>
-          Üçüncü tarafa giden ikinci ve son istek sohbet asistanınındır: yapay zekâ onayı
-          verirseniz yazışmanız Google’ın Gemini servisine iletilir. O da çerez oluşturmaz, ama
-          burada listelenen kayıtlardan farklı olarak tarayıcınızda kalmaz — bu yüzden tam olarak
-          nereye gittiği{" "}
+          <strong>İkincisi yalnızca <Link to="/giris">giriş sayfasında</Link>:</strong> form,
+          otomatik giriş denemelerine karşı hCaptcha ile korunuyor. Bileşen sayfa açılır açılmaz
+          yükleniyor — siz bir şey yapmadan ve onayınız istenmeden — tarayıcınız{" "}
+          <code>hcaptcha.com</code> alan adındaki sunuculara istek gönderir, sayfaya oradan iki
+          çerçeve gömülür ve 01. maddede anlatılan <code>__cf_bm</code> çerezi oluşur. İsteği alan
+          sunucular, her istekte olduğu gibi, IP adresinizi ve tarayıcı bilginizi görür. Bundan
+          sonrasını — orada ne olduğunu — bu metin anlatmıyor; göremediğimiz bir yer için sizin
+          adınıza bir şey taahhüt etmiyoruz.
+        </p>
+        <p>
+          <strong>Üçüncüsü sohbet asistanınındır:</strong> yapay zekâ onayı verirseniz yazışmanız
+          Google’ın Gemini servisine iletilir. O çerez oluşturmaz, ama burada listelenen
+          kayıtlardan farklı olarak tarayıcınızda kalmaz — bu yüzden tam olarak nereye gittiği{" "}
           <Link to="/gizlilik-politikasi">Gizlilik Politikası</Link>’nın 06. maddesinde yazıyor.
+        </p>
+        <p>
+          Bu üçünün dışında sayfalarda gömülü üçüncü taraf video, harita, reklam veya sosyal medya
+          bileşeni bulunmuyor.
         </p>
       </div>
     ),
@@ -234,6 +319,11 @@ const CLAUSES: LegalClause[] = [
           geliştirici araçlarındaki Uygulama / Depolama bölümünden — istediğiniz zaman
           silebilirsiniz. Silmek sitenin çalışmasını engellemez; yalnızca varsa açık oturumunuz
           kapanır ve hatırlanan tercih sıfırlanır.
+        </p>
+        <p>
+          01. maddedeki <code>__cf_bm</code> çerezi bu sitenin alan adına değil hcaptcha.com’a ait
+          olduğu için, bu sitenin verilerini temizlemek onu silmez; tarayıcınızın çerez listesinden
+          ayrıca silinir ya da otuz dakika içinde kendiliğinden düşer.
         </p>
         <p>
           Silinecek bir izleme kaydı olmadığı için ayrıca bir “çerez tercihleri” penceresi de
@@ -265,8 +355,8 @@ export const CerezPolitikasi = () => (
     selfPath="/cerez-politikasi"
     eyebrow="Yasal metin"
     title="Çerez Politikası"
-    lede="Bu site çerez kullanmıyor. Tarayıcınızda ne tuttuğu ise madde 02’de tek tek listelenmiştir."
-    metaDescription="Mas Technic çerez politikası — bu sitede çerez kullanılmaz; tarayıcınızda tutulan yerel depo kayıtları, süreleri ve nasıl silinecekleri."
+    lede="Bu sitenin kendi sayfaları çerez oluşturmuyor; giriş sayfasındaki güvenlik bileşeni bir tane oluşturuyor. Tarayıcınızda tutulan kayıtların tamamı madde 02’de tek tek listelenmiştir."
+    metaDescription="Mas Technic çerez politikası — sitenin kendi sayfaları çerez oluşturmaz, giriş sayfasındaki hCaptcha bileşeni bir çerez oluşturur; tarayıcınızda tutulan yerel depo kayıtları, süreleri ve nasıl silinecekleri."
     clauses={CLAUSES}
   />
 );
