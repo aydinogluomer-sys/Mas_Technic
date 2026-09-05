@@ -1,0 +1,107 @@
+QA ROUND 2 — STEP 7: is "oraya bıraktığınız veri ve dosyalar hiçbir yapay
+zekâ servisine gönderilmez" TRUE AS WRITTEN?
+=============================================================================
+The sentence appears in TWO published documents:
+  /kvkk madde 04 (new in 64edf48)
+    "…teknik ayrıntılar için teklif akışını kullanın, oraya bıraktığınız veri
+     ve dosyalar hiçbir yapay zekâ servisine gönderilmez."
+  /gizlilik-politikasi madde 06 (since 5138fc1)
+    "Teknik ayrıntılar için teklif akışını kullanın: oraya bıraktığınız veri
+     ve dosyalar 05. maddedeki yolu izler ve hiçbir yapay zekâ servisine
+     gönderilmez."
+
+VERDICT: **TRUE as written**, on every path that exists in this repository.
+Two caveats below; neither makes the sentence false today.
+
+STEP 1 — WHAT AN RFQ SUBMISSION ACTUALLY WRITES
+  `src/pages/TeklifAl.tsx:513-543`, the only submit path:
+   (a) the CAD file -> storage bucket `cad-uploads`
+       (`src/utils/cadUpload.ts:6`, path from `createCadStoragePath`)
+   (b) one row -> table `rfqs`, via `supabase.functions.invoke("rfq-rate-limit")`
+       `supabase/functions/rfq-rate-limit/index.ts:127` inserts
+       id, customer, company, email, phone, service, material, quantity,
+       notes, files, user_id, date, status — with the service-role key.
+  Nothing else. `TeklifAl.tsx` contains exactly two Supabase surfaces
+  (`from("profiles")` read at :505, the invoke at :523) and one bucket upload.
+
+STEP 2 — CAN EITHER OF THOSE REACH `finance-ai`, `ocr-invoice` OR
+`parasut-sync`?
+
+  THE CLIENT SIDE. There are exactly FOUR `functions.invoke` call sites in
+  the whole of `src/`:
+    src/pages/TeklifAl.tsx:523                 -> "rfq-rate-limit"
+    src/components/admin/FinanceDocsView.tsx:167 -> "finance-ai"
+    src/components/admin/FinanceDocsView.tsx:255 -> "ocr-invoice"
+    src/components/admin/FinanceDocsView.tsx:272 -> "parasut-sync"
+  All three AI/sync invocations live in ONE admin file, and that file never
+  reads `rfqs` and never touches `cad-uploads`. Its data comes from
+  `financial_documents` (:109, :210, :317, :360, :367, :393), `profiles`
+  (:134), `notifications` (:238, :375) and the bucket `finance-docs`
+  (:306-307). The `documents` payload it sends to `finance-ai` (:153-161) is
+  built from `financial_documents` rows and carries exactly seven fields:
+  doc_type, vendor, total_amount, category, payment_status, doc_date, status.
+
+  EVERY READER OF `rfqs`, exhaustively (grep `from("rfqs")` over src/ and
+  supabase/): AdminHeader, AdminNotifications, DashboardHome,
+  QuickActionModals, RFQManager (x6), GenelBakisTab, TekliflerimTab (x2),
+  TeknikArsivTab, utils/excelExport (x2), and the insert in
+  `rfq-rate-limit`. NONE of them invokes an edge function of any kind.
+
+  EVERY CONSUMER OF `cad-uploads`, exhaustively: QuickActionModals:100,
+  RFQCadPreview:58,71,80,93, RFQManager:262,276,287, TekliflerimTab:179,185,188,
+  TeknikArsivTab:104, utils/cadUpload:6. All of them are `createSignedUrl`,
+  `list`, `download` or `upload` for display and download. NONE invokes an
+  edge function.
+
+  THE SERVER SIDE. Six edge functions; what each one can see:
+    chat              no Supabase client at all; no `from(`; forwards only
+                      system_instruction / contents / generationConfig
+    rfq-rate-limit    `from("rfqs").insert` only; calls nothing outward
+    finance-ai        reads `user_roles` (the admin gate) and NOTHING else
+                      from the database. Its `documents` come from the
+                      REQUEST BODY. Outbound: ai.gateway.lovable.dev
+    ocr-invoice       reads `user_roles`; downloads from bucket
+                      `finance-docs` (:61); writes `financial_documents`
+                      (:161). Outbound: ai.gateway.lovable.dev
+    parasut-sync      reads `user_roles`; reads/writes `financial_documents`
+                      (:115, :127). Outbound: api.parasut.com
+    due-date-reminder reads `financial_documents`; writes `notifications`
+  The strings `rfqs` and `cad-uploads` DO NOT APPEAR in finance-ai,
+  ocr-invoice, parasut-sync or due-date-reminder.
+
+  THE DATABASE. The one way an RFQ row could leave without appearing in
+  `src/` or in a function is a trigger or an outbound-HTTP extension.
+  Checked: `docs/supabase-full-setup.sql` has one trigger
+  (`set_updated_at` on `financial_documents`). The migrations add
+  `pg_cron` + `pg_net` (20260308230256) and exactly one scheduled
+  `net.http_post` (20260308230324) — a daily 08:00 call to
+  `due-date-reminder`, body `{}`. No trigger on `rfqs`, no webhook on
+  `cad-uploads`, no other `net.http_post` anywhere.
+
+CONCLUSION. There is no code path in this repository — visitor-triggered,
+admin-triggered, scheduled or database-triggered — that moves an `rfqs` row
+or a `cad-uploads` object to `ai.gateway.lovable.dev`, to
+`generativelanguage.googleapis.com`, or to any other AI service. The sentence
+is TRUE and both documents may keep it.
+
+CAVEAT 1 — the guarantee is held by a call site, not by the server.
+`finance-ai` accepts whatever `documents` array the caller sends and performs
+no validation that the rows came from `financial_documents`. Today's single
+call site sends seven finance fields. The day a new admin view passes RFQ
+rows through the same function, the sentence in two published legal documents
+becomes false, with nothing watching. That is the same drift shape round 1
+recorded for the chat consent filter: a true disclosure held true by one
+call site rather than by a constraint. Worth a server-side field allowlist in
+`finance-ai`, or a test.
+
+CAVEAT 2 — a human is not a data path. An admin can type or paste anything
+into the finance AI's free-text `question`/`history`, including RFQ contents.
+The published sentence is about the data and files the visitor leaves in the
+RFQ flow, i.e. the automated path, and that path is clean. I record the
+distinction rather than pretend it does not exist.
+
+OBSERVATION (out of scope, noted because I read it): migration
+20260308230324 hardcodes the project's anon JWT in the cron body. Anon keys
+are publishable by design, so this is not a leak; it is recorded only so that
+nobody later mistakes it for one, and so that a future key rotation knows the
+value lives in a migration file.
