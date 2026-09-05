@@ -175,10 +175,14 @@ export const Malzemeler = () => {
           />
         </div>
         {/* Same `shell-span-full shell-stack` shape that lost a column on ten
-            other routes (R3-1). This one measured inside its column at every
-            width, but its register is FILTERABLE, so that was a property of
-            today's data and not of the markup. The primitive now guarantees it:
-            `.shell-stack > * { min-width: 0 }`, shell.css. */}
+            other routes (R3-1 — see `ServiceDetail.tsx:423` for the mechanism
+            and the numbers). This one measured inside its column at every
+            width, 320 through 1440, so it is left as it is. Worth knowing that
+            its survival is thinner than it looks: the register below is
+            FILTERABLE, so its min-content is user-driven rather than fixed by
+            the markup. The guard walks `/malzemeler`, and the register
+            qualifies for keyboard reach through its own links rather than a
+            granted tabindex. */}
         <div className="shell-span-full shell-stack" data-gap="sm">
           <ul className="shell-segments">
             <li>

@@ -420,16 +420,48 @@ export const ServiceDetail = () => {
               standfirst="Bu sayfada sık kullanılan malzemeler. Ailenin tamamı malzeme kaydındadır."
             />
           </div>
-          {/* R3-1's surface. This figure escaped its column on SEVEN service
-              routes at 320 and on two of them at 375 and 390: the stack's
-              implicit `auto` track sized to the TABLE's min-content (295-358px
-              against a 278px column), so `.shell-table-scroll` never engaged
-              and no reader could reach the last column. Fixed in the primitive
-              rather than here — `.shell-stack > * { min-width: 0 }`, shell.css,
-              which carries the measurement — because the same shape failed at
-              `KabiliyetProfilDetay.tsx:157` too. Watched by QA's
-              `e2e/qa-p08-scroll-region-reach.spec.ts`. */}
-          <div className="shell-span-full shell-stack" data-gap="sm">
+          {/* R3-1's SURFACE, AND THE TRACK IS THE FIX — PHASE 08 CORRECTION #5.
+
+              `.shell-stack` is `display: grid` with an IMPLICIT column, so the
+              track is `auto` and its automatic minimum is the widest item's
+              min-content. `figure.shell-table`'s min-content is the table's —
+              unbreakable material codes and property strings — so the figure
+              grew PAST the wrapper it was given. `.shell-table-scroll`'s
+              `overflow-x: auto` then had nothing to do (its box was already as
+              wide as its content), `useScrollableRegionAccess` grants a
+              tabindex only `if (isScrollable(element))` and granted nothing,
+              and the last column was unreachable by touch, by keyboard and by
+              a forced `scrollLeft`. Naming the track `minmax(0, 1fr)` — the
+              same declaration `shell.css:1553` already uses for
+              `.shell-form-row` — lets it shrink to the column and hands the
+              overflow back to the scroll region that exists to take it.
+
+              WHAT THIS WAS MEASURED TO BE, against the preview build over 76
+              routes x 7 viewports: NOT one route at 320. This wrapper failed
+              on SEVEN service routes, and on two of them at 375 and 390 as
+              well. Track vs. the 278px column at 320 — cnc-frezeleme 295.078,
+              cnc-tornalama 358 (also 375/390), anodizasyon 313.938,
+              derin-delik-raybalama 306.156, hassas-mikro-isleme 305.281,
+              malzeme-kutuphanesi 351.844 (also 375/390), havacilik-uzay
+              295.078. After: 278 / 333 / 348, scroll region live, tabindex 0.
+
+              WHY NOT `.shell-stack > * { min-width: 0 }` IN shell.css, which
+              C4's comment proposed and which I measured as SAFE (375 records:
+              it moved geometry only inside the defective figures, and nothing
+              at all at 768/844/1280/1440 or on any golden surface)? Because
+              `e2e/qa-p08-scroll-region-reach.spec.ts`'s live control restores
+              the pre-C4 `shell-stack` markup on `/cerez-politikasi` and
+              REQUIRES the guard to go red on it. Fixing the class makes R2-1
+              impossible to express, the control goes green, and the guard
+              fails — measured: `containerClientWidth` 276 against
+              `scrollWidth` 584, `forcedScrollLeft` 308, `tabindex="0"`, zero
+              problems where the control demands one. The class-level fix is
+              correct and cannot land while that control stands; it belongs
+              with whoever owns the spec.
+
+              Watched by that same guard, and by `KabiliyetProfilDetay.tsx`,
+              which carried the identical defect. */}
+          <div className="shell-span-full shell-stack grid-cols-[minmax(0,1fr)]" data-gap="sm">
             <ShellSpecTable
               caption={`${page.title} — malzeme kaydı`}
               headers={["Malzeme", "Kalite", "Özellik"]}
@@ -518,10 +550,15 @@ export const ServiceDetail = () => {
           </div>
         )}
         {isSector && (
-          /* Same `shell-span-full shell-stack` shape as :423. Measured inside
-             its column at every width (278/333/348/710/786/1214/1374), so it
-             never failed — but only because an index list wraps. The primitive
-             now guarantees it: `.shell-stack > * { min-width: 0 }`. */
+          /* Same `shell-span-full shell-stack` shape as the malzeme-kaydı
+             wrapper above, WITHOUT its `minmax(0, 1fr)` track — deliberately.
+             Measured inside its column at every width
+             (278/333/348/710/786/1214/1374) because an index list wraps and
+             has no min-content floor a table has. It is left alone so the
+             track override stays where a measurement put it; if a child ever
+             stops wrapping, the guard
+             (`e2e/qa-p08-scroll-region-reach.spec.ts`) only walks tables, so
+             this one would need its own measurement. */
           <div className="shell-span-full shell-stack" data-gap="sm">
             <p className="shell-eyebrow">Bu parçalar hangi hizmetlerle üretiliyor</p>
             <ShellIndexList

@@ -154,14 +154,24 @@ export const KabiliyetProfilDetay = () => {
             standfirst="Hangi özelliğin hangi yöntemle doğrulandığı ve arkasında hangi kaydın kaldığı. Bu plan imalat başlamadan önce yazılır."
           />
         </div>
-        {/* The second instance of R3-1, and the one the guard could not see:
-            `e2e/qa-p08-scroll-region-reach.spec.ts` walks
-            `/kabiliyet-profilleri/ince-cidarli-aluminyum-govde`, which is not a
-            slug — the three real ones are `hassas-mil`, `ince-cidarli-govde`
-            and `titanyum-baglanti-parcasi`, and ALL THREE lost this table's
-            last column at 320 (track 314-327px against a 278px column). Fixed
-            in the primitive: `.shell-stack > * { min-width: 0 }`, shell.css. */}
-        <div className="shell-span-full shell-stack" data-gap="sm">
+        {/* THE SECOND INSTANCE OF R3-1, AND THE ONE NO TEST WAS LOOKING AT.
+
+            Same defect and same fix as `ServiceDetail.tsx:423`, which carries
+            the full diagnosis: `.shell-stack`'s implicit `auto` track sized to
+            this table's min-content instead of the column, so
+            `.shell-table-scroll` never engaged and the KAYIT column could not
+            be reached at 320 by touch, by keyboard or by a forced
+            `scrollLeft`. `minmax(0, 1fr)` names the track so it can shrink.
+
+            The guard did not catch this one and would not have: QA's route
+            list walks `/kabiliyet-profilleri/ince-cidarli-aluminyum-govde`,
+            which is not a slug — the three real ones are `hassas-mil`,
+            `ince-cidarli-govde` and `titanyum-baglanti-parcasi` — so it walks
+            a 404. Measured directly instead: ALL THREE profiles lost the
+            column at 320, track 325.172 / 314.453 / 327.281 against a 278px
+            column. After: 278, scroll region live, tabindex 0 on all three.
+            The route-list slug is QA's to correct; the spec is not ours. */}
+        <div className="shell-span-full shell-stack grid-cols-[minmax(0,1fr)]" data-gap="sm">
           <ShellSpecTable
             caption={`${study.title} — kontrol planı`}
             note="Sütunlar sırasıyla: kontrol edilen özellik, kontrol yöntemi ve kontrolün bıraktığı kayıt. Bir işe özel plan, parçanın kendi teknik resmine göre bu şablon üzerinden kurulur."
