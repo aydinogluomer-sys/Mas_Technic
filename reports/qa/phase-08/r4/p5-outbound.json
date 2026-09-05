@@ -1,0 +1,25 @@
+{
+  "all": [
+    {
+      "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+      "method": "GET",
+      "hasMarker": false,
+      "bodyHead": ""
+    },
+    {
+      "url": "https://zdqiujpeewtyhtcqhdcj.supabase.co/rest/v1/meetings",
+      "method": "POST",
+      "hasMarker": true,
+      "bodyHead": "{\"name\":\"QA Test\",\"email\":\"qa@example.com\",\"company\":null,\"phone\":null,\"meeting_date\":\"2026-09-06\",\"meeting_time\":\"09:00\",\"topic\":\"CNC Frezeleme Teklifi\",\"notes\":\"Bu bir not: QA-R4-MARKER-9f3a1c\"}"
+    }
+  ],
+  "afterSubmit": [
+    {
+      "url": "https://zdqiujpeewtyhtcqhdcj.supabase.co/rest/v1/meetings",
+      "method": "POST",
+      "hasMarker": true,
+      "bodyHead": "{\"name\":\"QA Test\",\"email\":\"qa@example.com\",\"company\":null,\"phone\":null,\"meeting_date\":\"2026-09-06\",\"meeting_time\":\"09:00\",\"topic\":\"CNC Frezeleme Teklifi\",\"notes\":\"Bu bir not: QA-R4-MARKER-9f3a1c\"}"
+    }
+  ],
+  "marker": "QA-R4-MARKER-9f3a1c"
+}

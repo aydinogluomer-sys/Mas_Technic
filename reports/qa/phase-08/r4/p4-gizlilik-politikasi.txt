@@ -1,0 +1,106 @@
+L2
+GİZLİLİK
+01
+GİZLİLİK
+ANA SAYFA
+YASAL
+GİZLİLİK POLİTİKASI
+
+YASAL METİN
+
+Gizlilik Politikası
+
+Bu sitenin ziyaretçi verisiyle ne yaptığı ve — daha önemlisi — ne yapmadığı.
+
+BELGE
+Gizlilik Politikası
+REVİZYON
+4 Eylül 2026
+MADDE SAYISI
+7
+02
+METİN
+01
+Kapsam
+
+Bu politika, mastechnic.com üzerindeki herkese açık sayfaların ziyaretçi verisiyle nasıl davrandığını anlatır. Kişisel verilerin işlenmesine ilişkin hukuki çerçeve, amaç, aktarım ve haklarınız ayrı bir belgede — KVKK Aydınlatma Metni — yer alır; bu iki metin birbirini tekrar etmez.
+
+02
+Bize ilettiğiniz bilgiler
+
+Site, siz bir form doldurmadıkça hiçbir kişisel bilgi toplamaz. Teklif akışında ad-soyad, e-posta, firma unvanı ve telefon ile yüklediğiniz teknik resim veya 3B model dosyası alınır. Hesap açtığınızda e-posta adresiniz kaydedilir.
+
+Bu bilgiler yalnızca teklif hazırlamak, üretilebilirlik incelemesi yapmak ve sizinle bu konuda iletişim kurmak için kullanılır. Bülten aboneliği, reklam listesi veya benzeri bir pazarlama kaydı tutulmaz.
+
+Sohbet kutusuna yazdıklarınız da kaydedilmez; ama onay verirseniz bir yapay zekâ servisine iletilir. Bu, sitede yazdığınız bir metnin dışarı çıktığı tek yer olduğu için ayrı bir maddede — 06. maddede — anlatılıyor.
+
+03
+Tarayıcınızda saklanan veriler
+
+Bu sitenin kendi sayfaları çerez oluşturmaz; tek istisna giriş sayfasına gömülü güvenlik bileşenidir ve 05. maddede yazılıdır. Tercihleriniz ve oturum bilgisi, tarayıcınızın kendi yerel deposunda (localStorage / sessionStorage) tutulur ve her istekle birlikte otomatik olarak sunucuya gönderilmez.
+
+Hangi kaydın ne işe yaradığı ve nasıl silineceği Çerez Politikası sayfasında madde madde listelenmiştir.
+
+04
+İzleme ve ölçümleme
+
+Bu sitede analitik aracı, etiket yöneticisi, reklam pikseli veya oturum kaydı yazılımı çalışmaz. Sayfa görüntüleme sayısı, tıklama haritası veya ziyaretçi profili tutulmaz.
+
+Bu, sitede yayımlanan hiçbir sayının bir okunma veya popülerlik ölçümüne dayanmadığı anlamına da gelir; böyle bir ölçüm yapılmadığı için böyle bir sayı da yayımlanmaz.
+
+05
+Üçüncü taraf istekleri
+
+Sayfa yazı tipleri harici bir yazı tipi dağıtım ağından yüklenir. Bu, tarayıcınızın o sunucuya bir istek göndermesi anlamına gelir ve ilgili sunucu bu isteğe bağlı olarak IP adresinizi ve tarayıcı bilginizi görür. Yazı tipi dosyalarının dışında bu istekle veri gönderilmez.
+
+Teklif akışını kullandığınızda form verisi ve yüklediğiniz dosya, sitenin barındırma ve veri tabanı altyapısına iletilir.
+
+Sayfalara gömülü tek üçüncü taraf bileşeni giriş sayfasındadır: form, otomatik giriş denemelerine karşı hCaptcha ile korunuyor. Bu bileşen sayfa açılır açılmaz yükleniyor — bir şeye tıklamanız gerekmiyor ve onayınız istenmiyor — sayfaya hcaptcha.com alan adından iki çerçeve gömülüyor, tarayıcınız o sunuculara istek gönderdiği için sunucular IP adresinizi ve tarayıcı bilginizi görüyor ve tarayıcınızda ömrü otuz dakika olan __cf_bm adında bir çerez oluşuyor. Çerezin bütün alanları Çerez Politikası’nın 01. maddesinde yazılı. Verinin hcaptcha.com’a ulaştıktan sonra ne olduğunu bu politika anlatamaz: 06. maddedeki sınır burada da geçerlidir.
+
+Bunun dışında sayfalarda gömülü üçüncü taraf video, harita, reklam veya sosyal medya bileşeni bulunmaz.
+
+İkinci istisna kendi maddesini hak ediyor: sohbet asistanına yapay zekâ onayı verirseniz yazdığınız metin bir üçüncü tarafa aktarılır. Nasıl ve kime olduğu 06. maddede yazıyor. Aradaki fark önemli: bu aktarım yalnızca siz onay verirseniz olur, giriş sayfasındaki bileşen ise sayfayı açtığınız anda yüklenir.
+
+06
+Sohbet asistanı ve yapay zekâ
+
+Ana sayfa dışındaki sayfaların köşesinde bir sohbet kutusu var ve iki ayrı şekilde çalışıyor. Aradaki fark, yazdığınız metnin nereye gittiğidir. Sorunuz sitenin içinde gömülü hazır soru-cevap listesiyle eşleşirse yanıt tarayıcınızın içinde bulunur: bu durumda hiçbir yere istek gönderilmez.
+
+Eşleşme bulunamazsa asistan durur ve size yapay zekâ kullanıp kullanmayacağını sorar. Yalnızca “Evet” yazarsanız — ya da çıkan Evet düğmesine basarsanız — o ana kadarki yazışma önce sitenin kendi sunucu fonksiyonuna, oradan da Google’ın Gemini servisine (generativelanguage.googleapis.com, gemini-2.0-flash) iletilir; yanıt oradan gelir. “Hayır” derseniz ya da hiçbir şey yazmazsanız bu aktarım olmaz. Onay bir kez alınıp kenara konmuyor: yanıtlanamayan her yeni soruda yeniden soruluyor.
+
+Bu istekle yalnızca yazışma metni gönderilir: IP adresiniz, oturum bilginiz veya sizi tanımlayan başka bir veri Google’a aktarılmaz. Yazdıklarınız sitenin veri tabanına da kaydedilmez — aradaki fonksiyon mesajı iletir, tutmaz. Tarayıcınızda kalan tek kayıt, günde en fazla 5 mesajlık sınırı sayan mas_chat_ai_count’tur ve Çerez Politikası’nın 02. maddesinde listelenmiştir.
+
+Metin Google’a ulaştıktan sonra ne olduğunu bu politika anlatamaz: orası bizim göremediğimiz bir yer ve sizin adınıza doğrulayamayacağımız bir şeyi burada yazmıyoruz. Bu yüzden açıkça söylüyoruz — parça numarası, tolerans değeri, teknik resim içeriği ya da firmanızın adı gibi paylaşmak istemediğiniz hiçbir bilgiyi sohbet kutusuna yazmayın. Teknik ayrıntılar için teklif akışını kullanın: oraya bıraktığınız veri ve dosyalar 05. maddedeki yolu izler ve hiçbir yapay zekâ servisine gönderilmez.
+
+07
+İletişim
+
+Bu politikaya ilişkin sorularınız ve kişisel verilerinizle ilgili talepleriniz için sales@mastechnic.com adresine yazabilirsiniz. KVKK md. 11 kapsamındaki haklarınızın tam listesi KVKK Aydınlatma Metni’nin 06. maddesindedir.
+
+MADDELER
+
+01
+Kapsam
+02
+Bize ilettiğiniz bilgiler
+03
+Tarayıcınızda saklanan veriler
+04
+İzleme ve ölçümleme
+05
+Üçüncü taraf istekleri
+06
+Sohbet asistanı ve yapay zekâ
+07
+İletişim
+
+DİĞER METİNLER
+
+01
+KVKK
+02
+Çerez Politikası
+
+Bu metinle ilgili sorularınızı ve KVKK başvurularınızı sales@mastechnic.com adresine iletebilirsiniz.
+
+SALES@MASTECHNİC.COM
