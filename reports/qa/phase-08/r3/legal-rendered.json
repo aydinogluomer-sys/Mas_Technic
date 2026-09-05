@@ -1,0 +1,425 @@
+{
+  "/cerez-politikasi": {
+    "title": "Çerez Politikası | Mas Technic",
+    "metaDescription": "Mas Technic çerez politikası — sitenin kendi sayfaları çerez oluşturmaz, giriş sayfasındaki hCaptcha bileşeni bir çerez oluşturur; tarayıcınızda tutulan yerel depo kayıtları, süreleri ve nasıl silinecekleri.",
+    "h1": "Çerez Politikası",
+    "lede": "Bu sitenin kendi sayfaları çerez oluşturmuyor; giriş sayfasındaki güvenlik bileşeni bir tane oluşturuyor. Tarayıcınızda tutulan kayıtların tamamı madde 02’de tek tek listelenmiştir.",
+    "allTopParagraphs": [
+      "YASAL METİN",
+      "Bu sitenin kendi sayfaları çerez oluşturmuyor; giriş sayfasındaki güvenlik bileşeni bir tane oluşturuyor. Tarayıcınızda tutulan kayıtların tamamı madde 02’de tek tek listelenmiştir.",
+      "Bu sitenin kendi sayfaları tarayıcınızda çerez oluşturmuyor. Reklam çerezi, analitik çerezi, etiket yöneticisi, reklam pikseli ve oturum kaydı yazılımı da yok.",
+      "Tek istisna giriş sayfasıdır ve kendi cümlesini hak ediyor: giriş sayfası açıldığında, formu otomatik giriş denemelerine karşı koruyan hCaptcha bileşeni yükleniyor ve tarayıcınızda __cf_bm adında bir çerez oluşuyor. Çerez hcaptcha.com alan adına aittir, ömrü otuz dakikadır, httpOnly işaretlidir — yani sayfa betikleri onu okuyamaz — ve yalnızca hcaptcha.com’a giden isteklerle gönderilir. Bileşen sayfa açılır açılmaz yükleniyor; bunun için bir şeye tıklamanız gerekmiyor. Ne olduğu 03. maddede yazıyor."
+    ],
+    "clauses": [
+      {
+        "no": "01",
+        "id": "cerez-kullanimi",
+        "title": "Çerezler ve tek istisna",
+        "paragraphs": [
+          "Bu sitenin kendi sayfaları tarayıcınızda çerez oluşturmuyor. Reklam çerezi, analitik çerezi, etiket yöneticisi, reklam pikseli ve oturum kaydı yazılımı da yok.",
+          "Tek istisna giriş sayfasıdır ve kendi cümlesini hak ediyor: giriş sayfası açıldığında, formu otomatik giriş denemelerine karşı koruyan hCaptcha bileşeni yükleniyor ve tarayıcınızda __cf_bm adında bir çerez oluşuyor. Çerez hcaptcha.com alan adına aittir, ömrü otuz dakikadır, httpOnly işaretlidir — yani sayfa betikleri onu okuyamaz — ve yalnızca hcaptcha.com’a giden isteklerle gönderilir. Bileşen sayfa açılır açılmaz yükleniyor; bunun için bir şeye tıklamanız gerekmiyor. Ne olduğu 03. maddede yazıyor.",
+          "Bu, sitenin tarayıcınızda hiçbir şey saklamadığı anlamına gelmez. Sakladığı şeyler çerez değil, tarayıcınızın kendi yerel deposundaki kayıtlar; hepsi 02. maddede listelenmiştir."
+        ],
+        "text": "Bu sitenin kendi sayfaları tarayıcınızda çerez oluşturmuyor. Reklam çerezi, analitik çerezi, etiket yöneticisi, reklam pikseli ve oturum kaydı yazılımı da yok. Tek istisna giriş sayfasıdır ve kendi cümlesini hak ediyor: giriş sayfası açıldığında, formu otomatik giriş denemelerine karşı koruyan hCaptcha bileşeni yükleniyor ve tarayıcınızda __cf_bm adında bir çerez oluşuyor. Çerez hcaptcha.com alan adına aittir, ömrü otuz dakikadır, httpOnly işaretlidir — yani sayfa betikleri onu okuyamaz — ve yalnızca hcaptcha.com’a giden isteklerle gönderilir. Bileşen sayfa açılır açılmaz yükleniyor; bunun için bir şeye tıklamanız gerekmiyor. Ne olduğu 03. maddede yazıyor. Bu, sitenin tarayıcınızda hiçbir şey saklamadığı anlamına gelmez. Sakladığı şeyler çerez değil, tarayıcınızın kendi yerel deposundaki kayıtlar; hepsi 02. maddede listelenmiştir.",
+        "links": [
+          {
+            "href": "/giris",
+            "text": "giriş sayfası"
+          }
+        ],
+        "codes": [
+          "__cf_bm",
+          "hcaptcha.com",
+          "httpOnly"
+        ]
+      },
+      {
+        "no": "02",
+        "id": "tarayici-kayitlari",
+        "title": "Tarayıcınızda tutulan kayıtlar",
+        "paragraphs": [
+          "Bu kayıtların hiçbiri reklam veya profilleme amacı taşımaz. Tarayıcınız bunları kendiliğinden hiçbir yere göndermez; tek istisna oturum anahtarıdır — giriş yaptıysanız sitenin barındırma ve veri tabanı altyapısına yapılan isteklere eklenir, çünkü oturumunuzu açık tutan şey odur. Bu aktarım KVKK Aydınlatma Metni’nin 04. maddesinde sayılıdır."
+        ],
+        "text": "YEREL DEPO KAYITLARI Bu kayıtlar çerez değildir: her HTTP isteğiyle birlikte otomatik gönderilmezler ve yalnızca bu sitenin kendi sayfaları tarafından okunabilirler. Tarayıcınızın geliştirici araçlarındaki Uygulama / Depolama bölümünden hepsini görebilirsiniz. KAYIT DEPO NE İŞE YARAR SÜRE sb-…-auth-token localStorage Giriş yaptıysanız oturumunuzu açık tutar. Çıkış yapana kadar mas_chat_ai_count localStorage Sohbet asistanına gönderilen günlük mesaj sayısını sayar. Gün sonuna kadar mas_pending_cad_upload sessionStorage Ana sayfadan bıraktığınız çizimi teklif formuna taşır. Form devralınca silinir mas_intro_seen sessionStorage Ana sayfadaki giriş sekansının oynadığını not eder; böylece aynı sekmede bir daha oynamaz. Yalnızca ana sayfada yazılır, hareket azaltma açıksa hiç yazılmaz. Sekme kapanana kadar mas-technic-theme localStorage 3B model görüntüleyicisinin açık/koyu paletini hatırlar. Siz silene kadar Bu kayıtların hiçbiri reklam veya profilleme amacı taşımaz. Tarayıcınız bunları kendiliğinden hiçbir yere göndermez; tek istisna oturum anahtarıdır — giriş yaptıysanız sitenin barındırma ve veri tabanı altyapısına yapılan isteklere eklenir, çünkü oturumunuzu açık tutan şey odur. Bu aktarım KVKK Aydınlatma Metni’nin 04. maddesinde sayılıdır.",
+        "links": [
+          {
+            "href": "/kvkk",
+            "text": "KVKK Aydınlatma Metni"
+          }
+        ],
+        "codes": []
+      },
+      {
+        "no": "03",
+        "id": "ucuncu-taraf",
+        "title": "Üçüncü taraf istekleri",
+        "paragraphs": [
+          "Tarayıcınızın bu sitenin dışına istek gönderdiği üç yer var. Üçü de burada.",
+          "Birincisi her sayfada: yazı tipleri harici bir yazı tipi dağıtım ağından yüklenir; tarayıcınız o sunucuya bir istek gönderir ve sunucu bu isteğe bağlı olarak IP adresinizi görür. Bu istek çerez oluşturmaz.",
+          "İkincisi yalnızca giriş sayfasında: form, otomatik giriş denemelerine karşı hCaptcha ile korunuyor. Bileşen sayfa açılır açılmaz yükleniyor — siz bir şey yapmadan ve onayınız istenmeden — tarayıcınız hcaptcha.com alan adındaki sunuculara istek gönderir, sayfaya oradan iki çerçeve gömülür ve 01. maddede anlatılan __cf_bm çerezi oluşur. İsteği alan sunucular, her istekte olduğu gibi, IP adresinizi ve tarayıcı bilginizi görür. Bundan sonrasını — orada ne olduğunu — bu metin anlatmıyor; göremediğimiz bir yer için sizin adınıza bir şey taahhüt etmiyoruz.",
+          "Üçüncüsü sohbet asistanınındır: yapay zekâ onayı verirseniz yazışmanız Google’ın Gemini servisine iletilir. O çerez oluşturmaz, ama burada listelenen kayıtlardan farklı olarak tarayıcınızda kalmaz — bu yüzden tam olarak nereye gittiği Gizlilik Politikası’nın 06. maddesinde yazıyor.",
+          "Bu üçünün dışında sayfalarda gömülü üçüncü taraf video, harita, reklam veya sosyal medya bileşeni bulunmuyor."
+        ],
+        "text": "Tarayıcınızın bu sitenin dışına istek gönderdiği üç yer var. Üçü de burada. Birincisi her sayfada: yazı tipleri harici bir yazı tipi dağıtım ağından yüklenir; tarayıcınız o sunucuya bir istek gönderir ve sunucu bu isteğe bağlı olarak IP adresinizi görür. Bu istek çerez oluşturmaz. İkincisi yalnızca giriş sayfasında: form, otomatik giriş denemelerine karşı hCaptcha ile korunuyor. Bileşen sayfa açılır açılmaz yükleniyor — siz bir şey yapmadan ve onayınız istenmeden — tarayıcınız hcaptcha.com alan adındaki sunuculara istek gönderir, sayfaya oradan iki çerçeve gömülür ve 01. maddede anlatılan __cf_bm çerezi oluşur. İsteği alan sunucular, her istekte olduğu gibi, IP adresinizi ve tarayıcı bilginizi görür. Bundan sonrasını — orada ne olduğunu — bu metin anlatmıyor; göremediğimiz bir yer için sizin adınıza bir şey taahhüt etmiyoruz. Üçüncüsü sohbet asistanınındır: yapay zekâ onayı verirseniz yazışmanız Google’ın Gemini servisine iletilir. O çerez oluşturmaz, ama burada listelenen kayıtlardan farklı olarak tarayıcınızda kalmaz — bu yüzden tam olarak nereye gittiği Gizlilik Politikası’nın 06. maddesinde yazıyor. Bu üçünün dışında sayfalarda gömülü üçüncü taraf video, harita, reklam veya sosyal medya bileşeni bulunmuyor.",
+        "links": [
+          {
+            "href": "/giris",
+            "text": "giriş sayfasında"
+          },
+          {
+            "href": "/gizlilik-politikasi",
+            "text": "Gizlilik Politikası"
+          }
+        ],
+        "codes": [
+          "hcaptcha.com",
+          "__cf_bm"
+        ]
+      },
+      {
+        "no": "04",
+        "id": "yonetim",
+        "title": "Kayıtları silmek",
+        "paragraphs": [
+          "02. maddedeki kayıtları tarayıcınızın ayarlarından — “site verilerini temizle” ya da geliştirici araçlarındaki Uygulama / Depolama bölümünden — istediğiniz zaman silebilirsiniz. Silmek sitenin çalışmasını engellemez; yalnızca varsa açık oturumunuz kapanır ve hatırlanan tercih sıfırlanır.",
+          "01. maddedeki __cf_bm çerezi bu sitenin alan adına değil hcaptcha.com’a ait olduğu için, bu sitenin verilerini temizlemek onu silmez; tarayıcınızın çerez listesinden ayrıca silinir ya da otuz dakika içinde kendiliğinden düşer.",
+          "Silinecek bir izleme kaydı olmadığı için ayrıca bir “çerez tercihleri” penceresi de gösterilmiyor. Onay istenecek bir işleme yapılmıyorsa, onay penceresi bilgi vermez; yalnızca sayfanın önünü kapatır."
+        ],
+        "text": "02. maddedeki kayıtları tarayıcınızın ayarlarından — “site verilerini temizle” ya da geliştirici araçlarındaki Uygulama / Depolama bölümünden — istediğiniz zaman silebilirsiniz. Silmek sitenin çalışmasını engellemez; yalnızca varsa açık oturumunuz kapanır ve hatırlanan tercih sıfırlanır. 01. maddedeki __cf_bm çerezi bu sitenin alan adına değil hcaptcha.com’a ait olduğu için, bu sitenin verilerini temizlemek onu silmez; tarayıcınızın çerez listesinden ayrıca silinir ya da otuz dakika içinde kendiliğinden düşer. Silinecek bir izleme kaydı olmadığı için ayrıca bir “çerez tercihleri” penceresi de gösterilmiyor. Onay istenecek bir işleme yapılmıyorsa, onay penceresi bilgi vermez; yalnızca sayfanın önünü kapatır.",
+        "links": [],
+        "codes": [
+          "__cf_bm"
+        ]
+      },
+      {
+        "no": "05",
+        "id": "iletisim",
+        "title": "İletişim",
+        "paragraphs": [
+          "Bu metinle ilgili sorularınız için sales@mastechnic.com adresine yazabilirsiniz. Kişisel verilerin işlenmesine ilişkin çerçeve KVKK Aydınlatma Metni’nde, sitenin genel gizlilik davranışı Gizlilik Politikası’nda yer alır."
+        ],
+        "text": "Bu metinle ilgili sorularınız için sales@mastechnic.com adresine yazabilirsiniz. Kişisel verilerin işlenmesine ilişkin çerçeve KVKK Aydınlatma Metni’nde, sitenin genel gizlilik davranışı Gizlilik Politikası’nda yer alır.",
+        "links": [
+          {
+            "href": "/kvkk",
+            "text": "KVKK Aydınlatma Metni"
+          },
+          {
+            "href": "/gizlilik-politikasi",
+            "text": "Gizlilik Politikası"
+          }
+        ],
+        "codes": []
+      }
+    ],
+    "table": {
+      "caption": null,
+      "headers": [
+        "KAYIT",
+        "DEPO",
+        "NE İŞE YARAR",
+        "SÜRE"
+      ],
+      "rows": [
+        [
+          "sb-…-auth-token",
+          "localStorage",
+          "Giriş yaptıysanız oturumunuzu açık tutar.",
+          "Çıkış yapana kadar"
+        ],
+        [
+          "mas_chat_ai_count",
+          "localStorage",
+          "Sohbet asistanına gönderilen günlük mesaj sayısını sayar.",
+          "Gün sonuna kadar"
+        ],
+        [
+          "mas_pending_cad_upload",
+          "sessionStorage",
+          "Ana sayfadan bıraktığınız çizimi teklif formuna taşır.",
+          "Form devralınca silinir"
+        ],
+        [
+          "mas_intro_seen",
+          "sessionStorage",
+          "Ana sayfadaki giriş sekansının oynadığını not eder; böylece aynı sekmede bir daha oynamaz. Yalnızca ana sayfada yazılır, hareket azaltma açıksa hiç yazılmaz.",
+          "Sekme kapanana kadar"
+        ],
+        [
+          "mas-technic-theme",
+          "localStorage",
+          "3B model görüntüleyicisinin açık/koyu paletini hatırlar.",
+          "Siz silene kadar"
+        ]
+      ],
+      "note": "YEREL DEPO KAYITLARI Bu kayıtlar çerez değildir: her HTTP isteğiyle birlikte otomatik gönderilmezler ve yalnızca bu sitenin kendi sayfaları tarafından okunabilirler. Tarayıcınızın geliştirici araçlarındaki Uygulama / Depolama bölümünden hepsini görebilirsiniz."
+    },
+    "mainText": "L3 ÇEREZ 01 ÇEREZ ANA SAYFA YASAL ÇEREZ POLİTİKASI YASAL METİN Çerez Politikası Bu sitenin kendi sayfaları çerez oluşturmuyor; giriş sayfasındaki güvenlik bileşeni bir tane oluşturuyor. Tarayıcınızda tutulan kayıtların tamamı madde 02’de tek tek listelenmiştir. BELGE Çerez Politikası REVİZYON 4 Eylül 2026 MADDE SAYISI 5 02 METİN 01 Çerezler ve tek istisna Bu sitenin kendi sayfaları tarayıcınızda çerez oluşturmuyor. Reklam çerezi, analitik çerezi, etiket yöneticisi, reklam pikseli ve oturum kaydı yazılımı da yok. Tek istisna giriş sayfasıdır ve kendi cümlesini hak ediyor: giriş sayfası açıldığında, formu otomatik giriş denemelerine karşı koruyan hCaptcha bileşeni yükleniyor ve tarayıcınızda __cf_bm adında bir çerez oluşuyor. Çerez hcaptcha.com alan adına aittir, ömrü otuz dakikadır, httpOnly işaretlidir — yani sayfa betikleri onu okuyamaz — ve yalnızca hcaptcha.com’a giden isteklerle gönderilir. Bileşen sayfa açılır açılmaz yükleniyor; bunun için bir şeye tıklamanız gerekmiyor. Ne olduğu 03. maddede yazıyor. Bu, sitenin tarayıcınızda hiçbir şey saklamadığı anlamına gelmez. Sakladığı şeyler çerez değil, tarayıcınızın kendi yerel deposundaki kayıtlar; hepsi 02. maddede listelenmiştir. 02 Tarayıcınızda tutulan kayıtlar YEREL DEPO KAYITLARI Bu kayıtlar çerez değildir: her HTTP isteğiyle birlikte otomatik gönderilmezler ve yalnızca bu sitenin kendi sayfaları tarafından okunabilirler. Tarayıcınızın geliştirici araçlarındaki Uygulama / Depolama bölümünden hepsini görebilirsiniz. KAYIT DEPO NE İŞE YARAR SÜRE sb-…-auth-token localStorage Giriş yaptıysanız oturumunuzu açık tutar. Çıkış yapana kadar mas_chat_ai_count localStorage Sohbet asistanına gönderilen günlük mesaj sayısını sayar. Gün sonuna kadar mas_pending_cad_upload sessionStorage Ana sayfadan bıraktığınız çizimi teklif formuna taşır. Form devralınca silinir mas_intro_seen sessionStorage Ana sayfadaki giriş sekansının oynadığını not eder; böylece aynı sekmede bir daha oynamaz. Yalnızca ana sayfada yazılır, hareket azaltma açıksa hiç yazılmaz. Sekme kapanana kadar mas-technic-theme localStorage 3B model görüntüleyicisinin açık/koyu paletini hatırlar. Siz silene kadar Bu kayıtların hiçbiri reklam veya profilleme amacı taşımaz. Tarayıcınız bunları kendiliğinden hiçbir yere göndermez; tek istisna oturum anahtarıdır — giriş yaptıysanız sitenin barındırma ve veri tabanı altyapısına yapılan isteklere eklenir, çünkü oturumunuzu açık tutan şey odur. Bu aktarım KVKK Aydınlatma Metni’nin 04. maddesinde sayılıdır. 03 Üçüncü taraf istekleri Tarayıcınızın bu sitenin dışına istek gönderdiği üç yer var. Üçü de burada. Birincisi her sayfada: yazı tipleri harici bir yazı tipi dağıtım ağından yüklenir; tarayıcınız o sunucuya bir istek gönderir ve sunucu bu isteğe bağlı olarak IP adresinizi görür. Bu istek çerez oluşturmaz. İkincisi yalnızca giriş sayfasında: form, otomatik giriş denemelerine karşı hCaptcha ile korunuyor. Bileşen sayfa açılır açılmaz yükleniyor — siz bir şey yapmadan ve onayınız istenmeden — tarayıcınız hcaptcha.com alan adındaki sunuculara istek gönderir, sayfaya oradan iki çerçeve gömülür ve 01. maddede anlatılan __cf_bm çerezi oluşur. İsteği alan sunucular, her istekte olduğu gibi, IP adresinizi ve tarayıcı bilginizi görür. Bundan sonrasını — orada ne olduğunu — bu metin anlatmıyor; göremediğimiz bir yer için sizin adınıza bir şey taahhüt etmiyoruz. Üçüncüsü sohbet asistanınındır: yapay zekâ onayı verirseniz yazışmanız Google’ın Gemini servisine iletilir. O çerez oluşturmaz, ama burada listelenen kayıtlardan farklı olarak tarayıcınızda kalmaz — bu yüzden tam olarak nereye gittiği Gizlilik Politikası’nın 06. maddesinde yazıyor. Bu üçünün dışında sayfalarda gömülü üçüncü taraf video, harita, reklam veya sosyal medya bileşeni bulunmuyor. 04 Kayıtları silmek 02. maddedeki kayıtları tarayıcınızın ayarlarından — “site verilerini temizle” ya da geliştirici araçlarındaki Uygulama / Depolama bölümünden — istediğiniz zaman silebilirsiniz. Silmek sitenin çalışmasını engellemez; yalnızca varsa açık oturumunuz kapanır ve hatırlanan tercih sıfırlanır. 01. maddedeki __cf_bm çerezi bu sitenin alan adına değil hcaptcha.com’a ait olduğu için, bu sitenin verilerini temizlemek onu silmez; tarayıcınızın çerez listesinden ayrıca silinir ya da otuz dakika içinde kendiliğinden düşer. Silinecek bir izleme kaydı olmadığı için ayrıca bir “çerez tercihleri” penceresi de gösterilmiyor. Onay istenecek bir işleme yapılmıyorsa, onay penceresi bilgi vermez; yalnızca sayfanın önünü kapatır. 05 İletişim Bu metinle ilgili sorularınız için sales@mastechnic.com adresine yazabilirsiniz. Kişisel verilerin işlenmesine ilişkin çerçeve KVKK Aydınlatma Metni’nde, sitenin genel gizlilik davranışı Gizlilik Politikası’nda yer alır. MADDELER 01 Çerezler ve tek istisna 02 Tarayıcınızda tutulan kayıtlar 03 Üçüncü taraf istekleri 04 Kayıtları silmek 05 İletişim DİĞER METİNLER 01 KVKK 02 Gizlilik Politikası Bu metinle ilgili sorularınızı ve KVKK başvurularınızı sales@mastechnic.com adresine iletebilirsiniz. SALES@MASTECHNİC.COM"
+  },
+  "/gizlilik-politikasi": {
+    "title": "Gizlilik Politikası | Mas Technic",
+    "metaDescription": "Mas Technic gizlilik politikası — bize ilettiğiniz bilgiler, tarayıcınızda saklanan veriler, izleme yapılmaması, üçüncü taraf istekleri ve sohbet asistanının yapay zekâ aktarımı.",
+    "h1": "Gizlilik Politikası",
+    "lede": "Bu sitenin ziyaretçi verisiyle ne yaptığı ve — daha önemlisi — ne yapmadığı.",
+    "allTopParagraphs": [
+      "YASAL METİN",
+      "Bu sitenin ziyaretçi verisiyle ne yaptığı ve — daha önemlisi — ne yapmadığı.",
+      "Bu politika, mastechnic.com üzerindeki herkese açık sayfaların ziyaretçi verisiyle nasıl davrandığını anlatır. Kişisel verilerin işlenmesine ilişkin hukuki çerçeve, amaç, aktarım ve haklarınız ayrı bir belgede — KVKK Aydınlatma Metni — yer alır; bu iki metin birbirini tekrar etmez.",
+      "Site, siz bir form doldurmadıkça hiçbir kişisel bilgi toplamaz. Teklif akışında ad-soyad, e-posta, firma unvanı ve telefon ile yüklediğiniz teknik resim veya 3B model dosyası alınır. Hesap açtığınızda e-posta adresiniz kaydedilir."
+    ],
+    "clauses": [
+      {
+        "no": "01",
+        "id": "kapsam",
+        "title": "Kapsam",
+        "paragraphs": [
+          "Bu politika, mastechnic.com üzerindeki herkese açık sayfaların ziyaretçi verisiyle nasıl davrandığını anlatır. Kişisel verilerin işlenmesine ilişkin hukuki çerçeve, amaç, aktarım ve haklarınız ayrı bir belgede — KVKK Aydınlatma Metni — yer alır; bu iki metin birbirini tekrar etmez."
+        ],
+        "text": "Bu politika, mastechnic.com üzerindeki herkese açık sayfaların ziyaretçi verisiyle nasıl davrandığını anlatır. Kişisel verilerin işlenmesine ilişkin hukuki çerçeve, amaç, aktarım ve haklarınız ayrı bir belgede — KVKK Aydınlatma Metni — yer alır; bu iki metin birbirini tekrar etmez.",
+        "links": [
+          {
+            "href": "/kvkk",
+            "text": "KVKK Aydınlatma Metni"
+          }
+        ],
+        "codes": []
+      },
+      {
+        "no": "02",
+        "id": "toplanan-bilgiler",
+        "title": "Bize ilettiğiniz bilgiler",
+        "paragraphs": [
+          "Site, siz bir form doldurmadıkça hiçbir kişisel bilgi toplamaz. Teklif akışında ad-soyad, e-posta, firma unvanı ve telefon ile yüklediğiniz teknik resim veya 3B model dosyası alınır. Hesap açtığınızda e-posta adresiniz kaydedilir.",
+          "Bu bilgiler yalnızca teklif hazırlamak, üretilebilirlik incelemesi yapmak ve sizinle bu konuda iletişim kurmak için kullanılır. Bülten aboneliği, reklam listesi veya benzeri bir pazarlama kaydı tutulmaz.",
+          "Sohbet kutusuna yazdıklarınız da kaydedilmez; ama onay verirseniz bir yapay zekâ servisine iletilir. Bu, sitede yazdığınız bir metnin dışarı çıktığı tek yer olduğu için ayrı bir maddede — 06. maddede — anlatılıyor."
+        ],
+        "text": "Site, siz bir form doldurmadıkça hiçbir kişisel bilgi toplamaz. Teklif akışında ad-soyad, e-posta, firma unvanı ve telefon ile yüklediğiniz teknik resim veya 3B model dosyası alınır. Hesap açtığınızda e-posta adresiniz kaydedilir. Bu bilgiler yalnızca teklif hazırlamak, üretilebilirlik incelemesi yapmak ve sizinle bu konuda iletişim kurmak için kullanılır. Bülten aboneliği, reklam listesi veya benzeri bir pazarlama kaydı tutulmaz. Sohbet kutusuna yazdıklarınız da kaydedilmez; ama onay verirseniz bir yapay zekâ servisine iletilir. Bu, sitede yazdığınız bir metnin dışarı çıktığı tek yer olduğu için ayrı bir maddede — 06. maddede — anlatılıyor.",
+        "links": [],
+        "codes": []
+      },
+      {
+        "no": "03",
+        "id": "tarayici-verisi",
+        "title": "Tarayıcınızda saklanan veriler",
+        "paragraphs": [
+          "Bu sitenin kendi sayfaları çerez oluşturmaz; tek istisna giriş sayfasına gömülü güvenlik bileşenidir ve 05. maddede yazılıdır. Tercihleriniz ve oturum bilgisi, tarayıcınızın kendi yerel deposunda (localStorage / sessionStorage) tutulur ve her istekle birlikte otomatik olarak sunucuya gönderilmez.",
+          "Hangi kaydın ne işe yaradığı ve nasıl silineceği Çerez Politikası sayfasında madde madde listelenmiştir."
+        ],
+        "text": "Bu sitenin kendi sayfaları çerez oluşturmaz; tek istisna giriş sayfasına gömülü güvenlik bileşenidir ve 05. maddede yazılıdır. Tercihleriniz ve oturum bilgisi, tarayıcınızın kendi yerel deposunda (localStorage / sessionStorage) tutulur ve her istekle birlikte otomatik olarak sunucuya gönderilmez. Hangi kaydın ne işe yaradığı ve nasıl silineceği Çerez Politikası sayfasında madde madde listelenmiştir.",
+        "links": [
+          {
+            "href": "/cerez-politikasi",
+            "text": "Çerez Politikası"
+          }
+        ],
+        "codes": [
+          "localStorage",
+          "sessionStorage"
+        ]
+      },
+      {
+        "no": "04",
+        "id": "izleme-yok",
+        "title": "İzleme ve ölçümleme",
+        "paragraphs": [
+          "Bu sitede analitik aracı, etiket yöneticisi, reklam pikseli veya oturum kaydı yazılımı çalışmaz. Sayfa görüntüleme sayısı, tıklama haritası veya ziyaretçi profili tutulmaz.",
+          "Bu, sitede yayımlanan hiçbir sayının bir okunma veya popülerlik ölçümüne dayanmadığı anlamına da gelir; böyle bir ölçüm yapılmadığı için böyle bir sayı da yayımlanmaz."
+        ],
+        "text": "Bu sitede analitik aracı, etiket yöneticisi, reklam pikseli veya oturum kaydı yazılımı çalışmaz. Sayfa görüntüleme sayısı, tıklama haritası veya ziyaretçi profili tutulmaz. Bu, sitede yayımlanan hiçbir sayının bir okunma veya popülerlik ölçümüne dayanmadığı anlamına da gelir; böyle bir ölçüm yapılmadığı için böyle bir sayı da yayımlanmaz.",
+        "links": [],
+        "codes": []
+      },
+      {
+        "no": "05",
+        "id": "ucuncu-taraf-istekleri",
+        "title": "Üçüncü taraf istekleri",
+        "paragraphs": [
+          "Sayfa yazı tipleri harici bir yazı tipi dağıtım ağından yüklenir. Bu, tarayıcınızın o sunucuya bir istek göndermesi anlamına gelir ve ilgili sunucu bu isteğe bağlı olarak IP adresinizi ve tarayıcı bilginizi görür. Yazı tipi dosyalarının dışında bu istekle veri gönderilmez.",
+          "Teklif akışını kullandığınızda form verisi ve yüklediğiniz dosya, sitenin barındırma ve veri tabanı altyapısına iletilir.",
+          "Sayfalara gömülü tek üçüncü taraf bileşeni giriş sayfasındadır: form, otomatik giriş denemelerine karşı hCaptcha ile korunuyor. Bu bileşen sayfa açılır açılmaz yükleniyor — bir şeye tıklamanız gerekmiyor ve onayınız istenmiyor — sayfaya hcaptcha.com alan adından iki çerçeve gömülüyor, tarayıcınız o sunuculara istek gönderdiği için sunucular IP adresinizi ve tarayıcı bilginizi görüyor ve tarayıcınızda ömrü otuz dakika olan __cf_bm adında bir çerez oluşuyor. Çerezin bütün alanları Çerez Politikası’nın 01. maddesinde yazılı. Verinin hcaptcha.com’a ulaştıktan sonra ne olduğunu bu politika anlatamaz: 06. maddedeki sınır burada da geçerlidir.",
+          "Bunun dışında sayfalarda gömülü üçüncü taraf video, harita, reklam veya sosyal medya bileşeni bulunmaz.",
+          "İkinci istisna kendi maddesini hak ediyor: sohbet asistanına yapay zekâ onayı verirseniz yazdığınız metin bir üçüncü tarafa aktarılır. Nasıl ve kime olduğu 06. maddede yazıyor. Aradaki fark önemli: bu aktarım yalnızca siz onay verirseniz olur, giriş sayfasındaki bileşen ise sayfayı açtığınız anda yüklenir."
+        ],
+        "text": "Sayfa yazı tipleri harici bir yazı tipi dağıtım ağından yüklenir. Bu, tarayıcınızın o sunucuya bir istek göndermesi anlamına gelir ve ilgili sunucu bu isteğe bağlı olarak IP adresinizi ve tarayıcı bilginizi görür. Yazı tipi dosyalarının dışında bu istekle veri gönderilmez. Teklif akışını kullandığınızda form verisi ve yüklediğiniz dosya, sitenin barındırma ve veri tabanı altyapısına iletilir. Sayfalara gömülü tek üçüncü taraf bileşeni giriş sayfasındadır: form, otomatik giriş denemelerine karşı hCaptcha ile korunuyor. Bu bileşen sayfa açılır açılmaz yükleniyor — bir şeye tıklamanız gerekmiyor ve onayınız istenmiyor — sayfaya hcaptcha.com alan adından iki çerçeve gömülüyor, tarayıcınız o sunuculara istek gönderdiği için sunucular IP adresinizi ve tarayıcı bilginizi görüyor ve tarayıcınızda ömrü otuz dakika olan __cf_bm adında bir çerez oluşuyor. Çerezin bütün alanları Çerez Politikası’nın 01. maddesinde yazılı. Verinin hcaptcha.com’a ulaştıktan sonra ne olduğunu bu politika anlatamaz: 06. maddedeki sınır burada da geçerlidir. Bunun dışında sayfalarda gömülü üçüncü taraf video, harita, reklam veya sosyal medya bileşeni bulunmaz. İkinci istisna kendi maddesini hak ediyor: sohbet asistanına yapay zekâ onayı verirseniz yazdığınız metin bir üçüncü tarafa aktarılır. Nasıl ve kime olduğu 06. maddede yazıyor. Aradaki fark önemli: bu aktarım yalnızca siz onay verirseniz olur, giriş sayfasındaki bileşen ise sayfayı açtığınız anda yüklenir.",
+        "links": [
+          {
+            "href": "/giris",
+            "text": "giriş sayfasındadır"
+          },
+          {
+            "href": "/cerez-politikasi",
+            "text": "Çerez Politikası"
+          }
+        ],
+        "codes": [
+          "hcaptcha.com",
+          "__cf_bm"
+        ]
+      },
+      {
+        "no": "06",
+        "id": "sohbet-asistani",
+        "title": "Sohbet asistanı ve yapay zekâ",
+        "paragraphs": [
+          "Ana sayfa dışındaki sayfaların köşesinde bir sohbet kutusu var ve iki ayrı şekilde çalışıyor. Aradaki fark, yazdığınız metnin nereye gittiğidir. Sorunuz sitenin içinde gömülü hazır soru-cevap listesiyle eşleşirse yanıt tarayıcınızın içinde bulunur: bu durumda hiçbir yere istek gönderilmez.",
+          "Eşleşme bulunamazsa asistan durur ve size yapay zekâ kullanıp kullanmayacağını sorar. Yalnızca “Evet” yazarsanız — ya da çıkan Evet düğmesine basarsanız — o ana kadarki yazışma önce sitenin kendi sunucu fonksiyonuna, oradan da Google’ın Gemini servisine (generativelanguage.googleapis.com, gemini-2.0-flash) iletilir; yanıt oradan gelir. “Hayır” derseniz ya da hiçbir şey yazmazsanız bu aktarım olmaz. Onay bir kez alınıp kenara konmuyor: yanıtlanamayan her yeni soruda yeniden soruluyor.",
+          "Bu istekle yalnızca yazışma metni gönderilir: IP adresiniz, oturum bilginiz veya sizi tanımlayan başka bir veri Google’a aktarılmaz. Yazdıklarınız sitenin veri tabanına da kaydedilmez — aradaki fonksiyon mesajı iletir, tutmaz. Tarayıcınızda kalan tek kayıt, günde en fazla 5 mesajlık sınırı sayan mas_chat_ai_count’tur ve Çerez Politikası’nın 02. maddesinde listelenmiştir.",
+          "Metin Google’a ulaştıktan sonra ne olduğunu bu politika anlatamaz: orası bizim göremediğimiz bir yer ve sizin adınıza doğrulayamayacağımız bir şeyi burada yazmıyoruz. Bu yüzden açıkça söylüyoruz — parça numarası, tolerans değeri, teknik resim içeriği ya da firmanızın adı gibi paylaşmak istemediğiniz hiçbir bilgiyi sohbet kutusuna yazmayın. Teknik ayrıntılar için teklif akışını kullanın: oraya bıraktığınız veri ve dosyalar 05. maddedeki yolu izler ve hiçbir yapay zekâ servisine gönderilmez."
+        ],
+        "text": "Ana sayfa dışındaki sayfaların köşesinde bir sohbet kutusu var ve iki ayrı şekilde çalışıyor. Aradaki fark, yazdığınız metnin nereye gittiğidir. Sorunuz sitenin içinde gömülü hazır soru-cevap listesiyle eşleşirse yanıt tarayıcınızın içinde bulunur: bu durumda hiçbir yere istek gönderilmez. Eşleşme bulunamazsa asistan durur ve size yapay zekâ kullanıp kullanmayacağını sorar. Yalnızca “Evet” yazarsanız — ya da çıkan Evet düğmesine basarsanız — o ana kadarki yazışma önce sitenin kendi sunucu fonksiyonuna, oradan da Google’ın Gemini servisine (generativelanguage.googleapis.com, gemini-2.0-flash) iletilir; yanıt oradan gelir. “Hayır” derseniz ya da hiçbir şey yazmazsanız bu aktarım olmaz. Onay bir kez alınıp kenara konmuyor: yanıtlanamayan her yeni soruda yeniden soruluyor. Bu istekle yalnızca yazışma metni gönderilir: IP adresiniz, oturum bilginiz veya sizi tanımlayan başka bir veri Google’a aktarılmaz. Yazdıklarınız sitenin veri tabanına da kaydedilmez — aradaki fonksiyon mesajı iletir, tutmaz. Tarayıcınızda kalan tek kayıt, günde en fazla 5 mesajlık sınırı sayan mas_chat_ai_count’tur ve Çerez Politikası’nın 02. maddesinde listelenmiştir. Metin Google’a ulaştıktan sonra ne olduğunu bu politika anlatamaz: orası bizim göremediğimiz bir yer ve sizin adınıza doğrulayamayacağımız bir şeyi burada yazmıyoruz. Bu yüzden açıkça söylüyoruz — parça numarası, tolerans değeri, teknik resim içeriği ya da firmanızın adı gibi paylaşmak istemediğiniz hiçbir bilgiyi sohbet kutusuna yazmayın. Teknik ayrıntılar için teklif akışını kullanın: oraya bıraktığınız veri ve dosyalar 05. maddedeki yolu izler ve hiçbir yapay zekâ servisine gönderilmez.",
+        "links": [
+          {
+            "href": "/cerez-politikasi",
+            "text": "Çerez Politikası"
+          },
+          {
+            "href": "/teklif-al",
+            "text": "teklif akışını"
+          }
+        ],
+        "codes": [
+          "generativelanguage.googleapis.com",
+          "gemini-2.0-flash",
+          "mas_chat_ai_count"
+        ]
+      },
+      {
+        "no": "07",
+        "id": "iletisim",
+        "title": "İletişim",
+        "paragraphs": [
+          "Bu politikaya ilişkin sorularınız ve kişisel verilerinizle ilgili talepleriniz için sales@mastechnic.com adresine yazabilirsiniz. KVKK md. 11 kapsamındaki haklarınızın tam listesi KVKK Aydınlatma Metni’nin 06. maddesindedir."
+        ],
+        "text": "Bu politikaya ilişkin sorularınız ve kişisel verilerinizle ilgili talepleriniz için sales@mastechnic.com adresine yazabilirsiniz. KVKK md. 11 kapsamındaki haklarınızın tam listesi KVKK Aydınlatma Metni’nin 06. maddesindedir.",
+        "links": [
+          {
+            "href": "/kvkk",
+            "text": "KVKK Aydınlatma Metni"
+          }
+        ],
+        "codes": []
+      }
+    ],
+    "table": null,
+    "mainText": "L2 GİZLİLİK 01 GİZLİLİK ANA SAYFA YASAL GİZLİLİK POLİTİKASI YASAL METİN Gizlilik Politikası Bu sitenin ziyaretçi verisiyle ne yaptığı ve — daha önemlisi — ne yapmadığı. BELGE Gizlilik Politikası REVİZYON 4 Eylül 2026 MADDE SAYISI 7 02 METİN 01 Kapsam Bu politika, mastechnic.com üzerindeki herkese açık sayfaların ziyaretçi verisiyle nasıl davrandığını anlatır. Kişisel verilerin işlenmesine ilişkin hukuki çerçeve, amaç, aktarım ve haklarınız ayrı bir belgede — KVKK Aydınlatma Metni — yer alır; bu iki metin birbirini tekrar etmez. 02 Bize ilettiğiniz bilgiler Site, siz bir form doldurmadıkça hiçbir kişisel bilgi toplamaz. Teklif akışında ad-soyad, e-posta, firma unvanı ve telefon ile yüklediğiniz teknik resim veya 3B model dosyası alınır. Hesap açtığınızda e-posta adresiniz kaydedilir. Bu bilgiler yalnızca teklif hazırlamak, üretilebilirlik incelemesi yapmak ve sizinle bu konuda iletişim kurmak için kullanılır. Bülten aboneliği, reklam listesi veya benzeri bir pazarlama kaydı tutulmaz. Sohbet kutusuna yazdıklarınız da kaydedilmez; ama onay verirseniz bir yapay zekâ servisine iletilir. Bu, sitede yazdığınız bir metnin dışarı çıktığı tek yer olduğu için ayrı bir maddede — 06. maddede — anlatılıyor. 03 Tarayıcınızda saklanan veriler Bu sitenin kendi sayfaları çerez oluşturmaz; tek istisna giriş sayfasına gömülü güvenlik bileşenidir ve 05. maddede yazılıdır. Tercihleriniz ve oturum bilgisi, tarayıcınızın kendi yerel deposunda (localStorage / sessionStorage) tutulur ve her istekle birlikte otomatik olarak sunucuya gönderilmez. Hangi kaydın ne işe yaradığı ve nasıl silineceği Çerez Politikası sayfasında madde madde listelenmiştir. 04 İzleme ve ölçümleme Bu sitede analitik aracı, etiket yöneticisi, reklam pikseli veya oturum kaydı yazılımı çalışmaz. Sayfa görüntüleme sayısı, tıklama haritası veya ziyaretçi profili tutulmaz. Bu, sitede yayımlanan hiçbir sayının bir okunma veya popülerlik ölçümüne dayanmadığı anlamına da gelir; böyle bir ölçüm yapılmadığı için böyle bir sayı da yayımlanmaz. 05 Üçüncü taraf istekleri Sayfa yazı tipleri harici bir yazı tipi dağıtım ağından yüklenir. Bu, tarayıcınızın o sunucuya bir istek göndermesi anlamına gelir ve ilgili sunucu bu isteğe bağlı olarak IP adresinizi ve tarayıcı bilginizi görür. Yazı tipi dosyalarının dışında bu istekle veri gönderilmez. Teklif akışını kullandığınızda form verisi ve yüklediğiniz dosya, sitenin barındırma ve veri tabanı altyapısına iletilir. Sayfalara gömülü tek üçüncü taraf bileşeni giriş sayfasındadır: form, otomatik giriş denemelerine karşı hCaptcha ile korunuyor. Bu bileşen sayfa açılır açılmaz yükleniyor — bir şeye tıklamanız gerekmiyor ve onayınız istenmiyor — sayfaya hcaptcha.com alan adından iki çerçeve gömülüyor, tarayıcınız o sunuculara istek gönderdiği için sunucular IP adresinizi ve tarayıcı bilginizi görüyor ve tarayıcınızda ömrü otuz dakika olan __cf_bm adında bir çerez oluşuyor. Çerezin bütün alanları Çerez Politikası’nın 01. maddesinde yazılı. Verinin hcaptcha.com’a ulaştıktan sonra ne olduğunu bu politika anlatamaz: 06. maddedeki sınır burada da geçerlidir. Bunun dışında sayfalarda gömülü üçüncü taraf video, harita, reklam veya sosyal medya bileşeni bulunmaz. İkinci istisna kendi maddesini hak ediyor: sohbet asistanına yapay zekâ onayı verirseniz yazdığınız metin bir üçüncü tarafa aktarılır. Nasıl ve kime olduğu 06. maddede yazıyor. Aradaki fark önemli: bu aktarım yalnızca siz onay verirseniz olur, giriş sayfasındaki bileşen ise sayfayı açtığınız anda yüklenir. 06 Sohbet asistanı ve yapay zekâ Ana sayfa dışındaki sayfaların köşesinde bir sohbet kutusu var ve iki ayrı şekilde çalışıyor. Aradaki fark, yazdığınız metnin nereye gittiğidir. Sorunuz sitenin içinde gömülü hazır soru-cevap listesiyle eşleşirse yanıt tarayıcınızın içinde bulunur: bu durumda hiçbir yere istek gönderilmez. Eşleşme bulunamazsa asistan durur ve size yapay zekâ kullanıp kullanmayacağını sorar. Yalnızca “Evet” yazarsanız — ya da çıkan Evet düğmesine basarsanız — o ana kadarki yazışma önce sitenin kendi sunucu fonksiyonuna, oradan da Google’ın Gemini servisine (generativelanguage.googleapis.com, gemini-2.0-flash) iletilir; yanıt oradan gelir. “Hayır” derseniz ya da hiçbir şey yazmazsanız bu aktarım olmaz. Onay bir kez alınıp kenara konmuyor: yanıtlanamayan her yeni soruda yeniden soruluyor. Bu istekle yalnızca yazışma metni gönderilir: IP adresiniz, oturum bilginiz veya sizi tanımlayan başka bir veri Google’a aktarılmaz. Yazdıklarınız sitenin veri tabanına da kaydedilmez — aradaki fonksiyon mesajı iletir, tutmaz. Tarayıcınızda kalan tek kayıt, günde en fazla 5 mesajlık sınırı sayan mas_chat_ai_count’tur ve Çerez Politikası’nın 02. maddesinde listelenmiştir. Metin Google’a ulaştıktan sonra ne olduğunu bu politika anlatamaz: orası bizim göremediğimiz bir yer ve sizin adınıza doğrulayamayacağımız bir şeyi burada yazmıyoruz. Bu yüzden açıkça söylüyoruz — parça numarası, tolerans değeri, teknik resim içeriği ya da firmanızın adı gibi paylaşmak istemediğiniz hiçbir bilgiyi sohbet kutusuna yazmayın. Teknik ayrıntılar için teklif akışını kullanın: oraya bıraktığınız veri ve dosyalar 05. maddedeki yolu izler ve hiçbir yapay zekâ servisine gönderilmez. 07 İletişim Bu politikaya ilişkin sorularınız ve kişisel verilerinizle ilgili talepleriniz için sales@mastechnic.com adresine yazabilirsiniz. KVKK md. 11 kapsamındaki haklarınızın tam listesi KVKK Aydınlatma Metni’nin 06. maddesindedir. MADDELER 01 Kapsam 02 Bize ilettiğiniz bilgiler 03 Tarayıcınızda saklanan veriler 04 İzleme ve ölçümleme 05 Üçüncü taraf istekleri 06 Sohbet asistanı ve yapay zekâ 07 İletişim DİĞER METİNLER 01 KVKK 02 Çerez Politikası Bu metinle ilgili sorularınızı ve KVKK başvurularınızı sales@mastechnic.com adresine iletebilirsiniz. SALES@MASTECHNİC.COM"
+  },
+  "/kvkk": {
+    "title": "KVKK Aydınlatma Metni | Mas Technic",
+    "metaDescription": "Mas Technic KVKK aydınlatma metni — işlenen kişisel veriler, işleme amacı ve hukuki sebep, aktarım, saklama ve KVKK md. 11 kapsamındaki haklarınız.",
+    "h1": "KVKK Aydınlatma Metni",
+    "lede": "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında: bu sitede hangi kişisel veri, hangi amaçla ve hangi hukuki sebeple işlenir.",
+    "allTopParagraphs": [
+      "YASAL METİN",
+      "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında: bu sitede hangi kişisel veri, hangi amaçla ve hangi hukuki sebeple işlenir.",
+      "6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında veri sorumlusu, Mas Technic Makine Sanayi Ltd. Şti.’dir.",
+      "Ataşehir Mah., 8287. Sok. No: 4, 35620 Çiğli / İZMİR · sales@mastechnic.com"
+    ],
+    "clauses": [
+      {
+        "no": "01",
+        "id": "veri-sorumlusu",
+        "title": "Veri sorumlusu",
+        "paragraphs": [
+          "6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında veri sorumlusu, Mas Technic Makine Sanayi Ltd. Şti.’dir.",
+          "Ataşehir Mah., 8287. Sok. No: 4, 35620 Çiğli / İZMİR · sales@mastechnic.com"
+        ],
+        "text": "6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında veri sorumlusu, Mas Technic Makine Sanayi Ltd. Şti.’dir. Ataşehir Mah., 8287. Sok. No: 4, 35620 Çiğli / İZMİR · sales@mastechnic.com",
+        "links": [],
+        "codes": []
+      },
+      {
+        "no": "02",
+        "id": "islenen-veriler",
+        "title": "İşlenen kişisel veriler",
+        "paragraphs": [
+          "Bu sitede kişisel veri yalnızca sizin ilettiğiniz kadarıyla işlenir. Teklif formunda ad-soyad, e-posta, firma unvanı ve telefon; teklif ekinde yüklediğiniz teknik resim veya 3B model dosyaları; hesap açtığınızda e-posta adresiniz alınır.",
+          "Yüklediğiniz dosyanın içeriği kişisel veri taşıyorsa — örneğin çizim antedindeki bir isim — o veri de bu metnin kapsamındadır.",
+          "Aynı kural sayfaların köşesindeki sohbet kutusuna yazdığınız metin için de geçerlidir: yazdıklarınız bir isim, bir telefon numarası veya bir firma unvanı taşıyorsa o veri de bu metnin kapsamındadır. Sohbet metni sitenin veri tabanına kaydedilmez; yalnızca yapay zekâ onayı verdiğiniz hâlde site dışına aktarılır ve bu aktarım 04. maddede yazılıdır."
+        ],
+        "text": "Bu sitede kişisel veri yalnızca sizin ilettiğiniz kadarıyla işlenir. Teklif formunda ad-soyad, e-posta, firma unvanı ve telefon; teklif ekinde yüklediğiniz teknik resim veya 3B model dosyaları; hesap açtığınızda e-posta adresiniz alınır. Yüklediğiniz dosyanın içeriği kişisel veri taşıyorsa — örneğin çizim antedindeki bir isim — o veri de bu metnin kapsamındadır. Aynı kural sayfaların köşesindeki sohbet kutusuna yazdığınız metin için de geçerlidir: yazdıklarınız bir isim, bir telefon numarası veya bir firma unvanı taşıyorsa o veri de bu metnin kapsamındadır. Sohbet metni sitenin veri tabanına kaydedilmez; yalnızca yapay zekâ onayı verdiğiniz hâlde site dışına aktarılır ve bu aktarım 04. maddede yazılıdır.",
+        "links": [],
+        "codes": []
+      },
+      {
+        "no": "03",
+        "id": "amac-ve-hukuki-sebep",
+        "title": "İşleme amacı ve hukuki sebep",
+        "paragraphs": [
+          "Veriler; teklif hazırlamak, üretilebilirlik incelemesi yapmak, sipariş ve üretim sürecini yürütmek, fatura düzenlemek ve sizinle bu konularda iletişim kurmak amacıyla işlenir.",
+          "Hukuki sebep, KVKK md. 5/2-c uyarınca sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması ve md. 5/2-ç uyarınca hukuki yükümlülüğün yerine getirilmesidir. Bu amaçların dışında bir işleme yapılmaz; pazarlama amaçlı profilleme ve otomatik karar verme uygulanmaz."
+        ],
+        "text": "Veriler; teklif hazırlamak, üretilebilirlik incelemesi yapmak, sipariş ve üretim sürecini yürütmek, fatura düzenlemek ve sizinle bu konularda iletişim kurmak amacıyla işlenir. Hukuki sebep, KVKK md. 5/2-c uyarınca sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması ve md. 5/2-ç uyarınca hukuki yükümlülüğün yerine getirilmesidir. Bu amaçların dışında bir işleme yapılmaz; pazarlama amaçlı profilleme ve otomatik karar verme uygulanmaz.",
+        "links": [],
+        "codes": []
+      },
+      {
+        "no": "04",
+        "id": "aktarim",
+        "title": "Aktarım",
+        "paragraphs": [
+          "Kişisel verileriniz satılmaz ve pazarlama amacıyla üçüncü taraflara devredilmez. Aktarım yalnızca aşağıda tek tek sayılan hâllerde olur.",
+          "Kanuni talep. Yetkili kamu kurum ve kuruluşlarının kanuna dayalı talebi.",
+          "Barındırma ve veri tabanı. Bu sitenin çalışması için kullanılan barındırma ile veri tabanı altyapısının hizmet sağlayıcısı.",
+          "Giriş sayfasındaki güvenlik bileşeni. Giriş sayfasını açtığınızda, formu otomatik giriş denemelerine karşı koruyan hCaptcha bileşeni yüklenir; tarayıcınız hcaptcha.com alan adındaki sunuculara istek gönderir ve bu istekle IP adresiniz ile tarayıcı bilginiz o sunuculara ulaşır. Bu hâl için onayınız istenmez ve alınmaz: bileşen sayfa açılır açılmaz, siz bir şey yapmadan yüklenir. Tarayıcınızda bıraktığı çerez ve bileşenin bütün alanları Çerez Politikası’nın 01. ve 03. maddelerinde yazılıdır.",
+          "Sohbet asistanı — yalnızca onay verirseniz. Sohbet asistanında yapay zekâ onayı vermeniz hâlinde, o ana kadarki yazışma sitenin kendi sunucu fonksiyonu üzerinden Google’ın Gemini servisine iletilir. Onay vermezseniz bu aktarım hiç olmaz. Aktarılan tek şey yazışma metnidir: IP adresiniz, oturum bilginiz veya sizi tanımlayan başka bir veri gönderilmez, çünkü aradaki sunucu fonksiyonu tarayıcınızın başlıklarını iletmez. Metin sitenin veri tabanına da kaydedilmez. Aktarımın adım adım nasıl gerçekleştiği Gizlilik Politikası’nın 06. maddesindedir.",
+          "Bir işin tedarikçiye verilmesi — bilginiz dâhilinde. Bir işin yürütülmesi için üçüncü bir tedarikçiye teknik dosya iletilmesi gerekiyorsa, bu ancak sizin bilginiz dâhilinde yapılır.",
+          "Aktarımın gerçekleştiği hâller bunlardır. Bir üçüncü tarafa ulaştıktan sonra verinin ne olduğu hakkında bu belge bir şey söylemez: orası bizim göremediğimiz bir yer ve sizin adınıza doğrulayamayacağımız bir şeyi burada yazmayız. Bu nedenle sohbet kutusuna paylaşmak istemediğiniz hiçbir bilgiyi yazmayın; teknik ayrıntılar için teklif akışını kullanın, oraya bıraktığınız veri ve dosyalar hiçbir yapay zekâ servisine gönderilmez."
+        ],
+        "text": "Kişisel verileriniz satılmaz ve pazarlama amacıyla üçüncü taraflara devredilmez. Aktarım yalnızca aşağıda tek tek sayılan hâllerde olur. Kanuni talep. Yetkili kamu kurum ve kuruluşlarının kanuna dayalı talebi. Barındırma ve veri tabanı. Bu sitenin çalışması için kullanılan barındırma ile veri tabanı altyapısının hizmet sağlayıcısı. Giriş sayfasındaki güvenlik bileşeni. Giriş sayfasını açtığınızda, formu otomatik giriş denemelerine karşı koruyan hCaptcha bileşeni yüklenir; tarayıcınız hcaptcha.com alan adındaki sunuculara istek gönderir ve bu istekle IP adresiniz ile tarayıcı bilginiz o sunuculara ulaşır. Bu hâl için onayınız istenmez ve alınmaz: bileşen sayfa açılır açılmaz, siz bir şey yapmadan yüklenir. Tarayıcınızda bıraktığı çerez ve bileşenin bütün alanları Çerez Politikası’nın 01. ve 03. maddelerinde yazılıdır. Sohbet asistanı — yalnızca onay verirseniz. Sohbet asistanında yapay zekâ onayı vermeniz hâlinde, o ana kadarki yazışma sitenin kendi sunucu fonksiyonu üzerinden Google’ın Gemini servisine iletilir. Onay vermezseniz bu aktarım hiç olmaz. Aktarılan tek şey yazışma metnidir: IP adresiniz, oturum bilginiz veya sizi tanımlayan başka bir veri gönderilmez, çünkü aradaki sunucu fonksiyonu tarayıcınızın başlıklarını iletmez. Metin sitenin veri tabanına da kaydedilmez. Aktarımın adım adım nasıl gerçekleştiği Gizlilik Politikası’nın 06. maddesindedir. Bir işin tedarikçiye verilmesi — bilginiz dâhilinde. Bir işin yürütülmesi için üçüncü bir tedarikçiye teknik dosya iletilmesi gerekiyorsa, bu ancak sizin bilginiz dâhilinde yapılır. Aktarımın gerçekleştiği hâller bunlardır. Bir üçüncü tarafa ulaştıktan sonra verinin ne olduğu hakkında bu belge bir şey söylemez: orası bizim göremediğimiz bir yer ve sizin adınıza doğrulayamayacağımız bir şeyi burada yazmayız. Bu nedenle sohbet kutusuna paylaşmak istemediğiniz hiçbir bilgiyi yazmayın; teknik ayrıntılar için teklif akışını kullanın, oraya bıraktığınız veri ve dosyalar hiçbir yapay zekâ servisine gönderilmez.",
+        "links": [
+          {
+            "href": "/giris",
+            "text": "Giriş sayfasını"
+          },
+          {
+            "href": "/cerez-politikasi",
+            "text": "Çerez Politikası"
+          },
+          {
+            "href": "/gizlilik-politikasi",
+            "text": "Gizlilik Politikası"
+          }
+        ],
+        "codes": [
+          "hcaptcha.com"
+        ]
+      },
+      {
+        "no": "05",
+        "id": "saklama",
+        "title": "Saklama",
+        "paragraphs": [
+          "Kişisel veriler, işlendikleri amaç için gerekli olduğu süre boyunca ve ilgili mevzuatın öngördüğü saklama yükümlülükleri devam ettiği sürece saklanır; bu süre sona erdiğinde silinir, yok edilir veya anonim hâle getirilir.",
+          "Bu metin belirli bir gün sayısı veya sabit bir imha takvimi taahhüt etmez. Verinizin silinmesini istiyorsanız, 06. maddedeki hakkınızı kullanarak talep edebilirsiniz."
+        ],
+        "text": "Kişisel veriler, işlendikleri amaç için gerekli olduğu süre boyunca ve ilgili mevzuatın öngördüğü saklama yükümlülükleri devam ettiği sürece saklanır; bu süre sona erdiğinde silinir, yok edilir veya anonim hâle getirilir. Bu metin belirli bir gün sayısı veya sabit bir imha takvimi taahhüt etmez. Verinizin silinmesini istiyorsanız, 06. maddedeki hakkınızı kullanarak talep edebilirsiniz.",
+        "links": [],
+        "codes": []
+      },
+      {
+        "no": "06",
+        "id": "haklariniz",
+        "title": "Haklarınız (KVKK md. 11)",
+        "paragraphs": [
+          "Kanunun 11. maddesi gereğince; kişisel verinizin işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme, işlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme, yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme, eksik veya yanlış işlenmişse düzeltilmesini isteme, silinmesini veya yok edilmesini isteme, düzeltme ve silme işlemlerinin aktarım yapılan üçüncü kişilere bildirilmesini isteme, işlenen verilerin münhasıran otomatik sistemlerle analiz edilmesi suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme ve kanuna aykırı işleme sebebiyle zarara uğramanız hâlinde zararın giderilmesini talep etme haklarına sahipsiniz."
+        ],
+        "text": "Kanunun 11. maddesi gereğince; kişisel verinizin işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme, işlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme, yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme, eksik veya yanlış işlenmişse düzeltilmesini isteme, silinmesini veya yok edilmesini isteme, düzeltme ve silme işlemlerinin aktarım yapılan üçüncü kişilere bildirilmesini isteme, işlenen verilerin münhasıran otomatik sistemlerle analiz edilmesi suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme ve kanuna aykırı işleme sebebiyle zarara uğramanız hâlinde zararın giderilmesini talep etme haklarına sahipsiniz.",
+        "links": [],
+        "codes": []
+      },
+      {
+        "no": "07",
+        "id": "basvuru",
+        "title": "Başvuru",
+        "paragraphs": [
+          "Bu haklara ilişkin taleplerinizi sales@mastechnic.com adresine iletebilirsiniz. Başvurunuzda kimliğinizi tespit etmeye yarayan bilgilerin ve talebinizin konusunun açıkça yer alması gerekir."
+        ],
+        "text": "Bu haklara ilişkin taleplerinizi sales@mastechnic.com adresine iletebilirsiniz. Başvurunuzda kimliğinizi tespit etmeye yarayan bilgilerin ve talebinizin konusunun açıkça yer alması gerekir.",
+        "links": [],
+        "codes": []
+      }
+    ],
+    "table": null,
+    "mainText": "L1 KVKK 01 KVKK ANA SAYFA YASAL KVKK AYDINLATMA METNİ YASAL METİN KVKK Aydınlatma Metni 6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında: bu sitede hangi kişisel veri, hangi amaçla ve hangi hukuki sebeple işlenir. BELGE KVKK Aydınlatma Metni REVİZYON 4 Eylül 2026 MADDE SAYISI 7 02 METİN 01 Veri sorumlusu 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında veri sorumlusu, Mas Technic Makine Sanayi Ltd. Şti.’dir. Ataşehir Mah., 8287. Sok. No: 4, 35620 Çiğli / İZMİR · sales@mastechnic.com 02 İşlenen kişisel veriler Bu sitede kişisel veri yalnızca sizin ilettiğiniz kadarıyla işlenir. Teklif formunda ad-soyad, e-posta, firma unvanı ve telefon; teklif ekinde yüklediğiniz teknik resim veya 3B model dosyaları; hesap açtığınızda e-posta adresiniz alınır. Yüklediğiniz dosyanın içeriği kişisel veri taşıyorsa — örneğin çizim antedindeki bir isim — o veri de bu metnin kapsamındadır. Aynı kural sayfaların köşesindeki sohbet kutusuna yazdığınız metin için de geçerlidir: yazdıklarınız bir isim, bir telefon numarası veya bir firma unvanı taşıyorsa o veri de bu metnin kapsamındadır. Sohbet metni sitenin veri tabanına kaydedilmez; yalnızca yapay zekâ onayı verdiğiniz hâlde site dışına aktarılır ve bu aktarım 04. maddede yazılıdır. 03 İşleme amacı ve hukuki sebep Veriler; teklif hazırlamak, üretilebilirlik incelemesi yapmak, sipariş ve üretim sürecini yürütmek, fatura düzenlemek ve sizinle bu konularda iletişim kurmak amacıyla işlenir. Hukuki sebep, KVKK md. 5/2-c uyarınca sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması ve md. 5/2-ç uyarınca hukuki yükümlülüğün yerine getirilmesidir. Bu amaçların dışında bir işleme yapılmaz; pazarlama amaçlı profilleme ve otomatik karar verme uygulanmaz. 04 Aktarım Kişisel verileriniz satılmaz ve pazarlama amacıyla üçüncü taraflara devredilmez. Aktarım yalnızca aşağıda tek tek sayılan hâllerde olur. Kanuni talep. Yetkili kamu kurum ve kuruluşlarının kanuna dayalı talebi. Barındırma ve veri tabanı. Bu sitenin çalışması için kullanılan barındırma ile veri tabanı altyapısının hizmet sağlayıcısı. Giriş sayfasındaki güvenlik bileşeni. Giriş sayfasını açtığınızda, formu otomatik giriş denemelerine karşı koruyan hCaptcha bileşeni yüklenir; tarayıcınız hcaptcha.com alan adındaki sunuculara istek gönderir ve bu istekle IP adresiniz ile tarayıcı bilginiz o sunuculara ulaşır. Bu hâl için onayınız istenmez ve alınmaz: bileşen sayfa açılır açılmaz, siz bir şey yapmadan yüklenir. Tarayıcınızda bıraktığı çerez ve bileşenin bütün alanları Çerez Politikası’nın 01. ve 03. maddelerinde yazılıdır. Sohbet asistanı — yalnızca onay verirseniz. Sohbet asistanında yapay zekâ onayı vermeniz hâlinde, o ana kadarki yazışma sitenin kendi sunucu fonksiyonu üzerinden Google’ın Gemini servisine iletilir. Onay vermezseniz bu aktarım hiç olmaz. Aktarılan tek şey yazışma metnidir: IP adresiniz, oturum bilginiz veya sizi tanımlayan başka bir veri gönderilmez, çünkü aradaki sunucu fonksiyonu tarayıcınızın başlıklarını iletmez. Metin sitenin veri tabanına da kaydedilmez. Aktarımın adım adım nasıl gerçekleştiği Gizlilik Politikası’nın 06. maddesindedir. Bir işin tedarikçiye verilmesi — bilginiz dâhilinde. Bir işin yürütülmesi için üçüncü bir tedarikçiye teknik dosya iletilmesi gerekiyorsa, bu ancak sizin bilginiz dâhilinde yapılır. Aktarımın gerçekleştiği hâller bunlardır. Bir üçüncü tarafa ulaştıktan sonra verinin ne olduğu hakkında bu belge bir şey söylemez: orası bizim göremediğimiz bir yer ve sizin adınıza doğrulayamayacağımız bir şeyi burada yazmayız. Bu nedenle sohbet kutusuna paylaşmak istemediğiniz hiçbir bilgiyi yazmayın; teknik ayrıntılar için teklif akışını kullanın, oraya bıraktığınız veri ve dosyalar hiçbir yapay zekâ servisine gönderilmez. 05 Saklama Kişisel veriler, işlendikleri amaç için gerekli olduğu süre boyunca ve ilgili mevzuatın öngördüğü saklama yükümlülükleri devam ettiği sürece saklanır; bu süre sona erdiğinde silinir, yok edilir veya anonim hâle getirilir. Bu metin belirli bir gün sayısı veya sabit bir imha takvimi taahhüt etmez. Verinizin silinmesini istiyorsanız, 06. maddedeki hakkınızı kullanarak talep edebilirsiniz. 06 Haklarınız (KVKK md. 11) Kanunun 11. maddesi gereğince; kişisel verinizin işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme, işlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme, yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme, eksik veya yanlış işlenmişse düzeltilmesini isteme, silinmesini veya yok edilmesini isteme, düzeltme ve silme işlemlerinin aktarım yapılan üçüncü kişilere bildirilmesini isteme, işlenen verilerin münhasıran otomatik sistemlerle analiz edilmesi suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme ve kanuna aykırı işleme sebebiyle zarara uğramanız hâlinde zararın giderilmesini talep etme haklarına sahipsiniz. 07 Başvuru Bu haklara ilişkin taleplerinizi sales@mastechnic.com adresine iletebilirsiniz. Başvurunuzda kimliğinizi tespit etmeye yarayan bilgilerin ve talebinizin konusunun açıkça yer alması gerekir. MADDELER 01 Veri sorumlusu 02 İşlenen kişisel veriler 03 İşleme amacı ve hukuki sebep 04 Aktarım 05 Saklama 06 Haklarınız (KVKK md. 11) 07 Başvuru DİĞER METİNLER 01 Gizlilik Politikası 02 Çerez Politikası Bu metinle ilgili sorularınızı ve KVKK başvurularınızı sales@mastechnic.com adresine iletebilirsiniz. SALES@MASTECHNİC.COM"
+  }
+}
