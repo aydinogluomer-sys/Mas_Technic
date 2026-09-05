@@ -97,10 +97,16 @@ import { gotoAndSettle } from "./helpers";
        for, kept catchable as a fixture long after the page was fixed;
      · a table that overflows and whose container will not scroll;
      · a table that scrolls but whose container takes no focus;
-     · and a LIVE one: the pre-C4 markup restored in the DOM of the real page,
-       re-measured by the same collector. That control is the one that matters —
-       it proves the guard sees the real defect on the real page, and not only
-       a record I typed out by hand.
+     · and a LIVE one: R2-1's geometry BUILT on the real page and re-measured
+       by the same collector. That control is the one that matters — it proves
+       the guard sees the real defect on the real page, and not only a record I
+       typed out by hand. Round 4 changed how it gets there and why; the reason
+       is on the test itself.
+
+   `wrongSurfaces()` is the second pure function, added in round 4, and it has
+   the same treatment: a fixture control over transcribed 404 bodies, a
+   completeness control over the route list, and a LIVE one that drives the app
+   to three dead paths and requires all three to be rejected.
 
    SCOPE
    -----
@@ -111,6 +117,33 @@ import { gotoAndSettle } from "./helpers";
    ══════════════════════════════════════════════════════════════════════════ */
 
 const LANES = new Set(["mobile-320", "mobile-375", "desktop-1280"]);
+
+/* ── ROUND 4: TWO OF THESE WERE 404s, AND THAT IS WHY THIS FILE NOW HAS A
+   SURFACE CHECK ─────────────────────────────────────────────────────────
+
+   `/kabiliyet-profilleri/ince-cidarli-aluminyum-govde` and
+   `/endustriyel/havacilik` are not slugs. `src/content/caseStudies.ts` has
+   `ince-cidarli-govde`, `titanyum-baglanti-parcasi` and `hassas-mil`;
+   `src/data/servicePages.ts:2434` has `havacilik-uzay`. Both walked paths
+   resolved to a not-found body with ZERO tables (measured at 375:
+   "Bu profil kaydı bulunamadı", 768 chars of `<main>`; "Bu sayfa kaydı
+   bulunamadı", 667 chars — `reports/qa/phase-08/r4/p1-route-surface.json`).
+
+   `TABLE_CENSUS` could not catch it: it lists neither path, so its floor
+   expected 0 tables and got 0. The floor was written to stop a walk that
+   measures nothing on a route that HAS tables; it says nothing about a route
+   that does not exist. So `KabiliyetProfilDetay.tsx:157` carried R3-1 on all
+   three profiles at 320 with no watcher — 314.453 / 327.281 / 325.172 against
+   a 278px column — and C5 found it by direct measurement instead. This is the
+   same dead-sentinel class as `d3c8a6c`'s whole-page axe lane.
+
+   The route fix below is the small half. The other half is `ROUTE_SURFACE`:
+   every route in this list must render ITS OWN page, and a 404 can no longer
+   masquerade as a passing route. A character floor cannot do that job here —
+   measured, the not-found bodies (667-792 chars) are LONGER than `/giris`
+   (629), `/sifremi-unuttum` (483), `/reset-password` (490) and `/teklif-al`
+   (493) — so the surface is keyed to the route's own `<h1>`.
+   ──────────────────────────────────────────────────────────────────────── */
 
 /** Every public route template in `src/App.tsx`, one concrete URL each. */
 const PUBLIC_ROUTES = [
@@ -126,17 +159,101 @@ const PUBLIC_ROUTES = [
   "/blog",
   "/blog/havacilik-parcalarinda-malzeme-secimi",
   "/kabiliyet-profilleri",
-  "/kabiliyet-profilleri/ince-cidarli-aluminyum-govde",
+  "/kabiliyet-profilleri/ince-cidarli-govde",
+  "/kabiliyet-profilleri/titanyum-baglanti-parcasi",
+  "/kabiliyet-profilleri/hassas-mil",
   "/kalite-dosyasi",
   "/hizmetler/kategori/talasli-imalat",
   "/hizmetler/cnc-frezeleme",
   "/kabiliyetler/kalite-kontrol",
-  "/endustriyel/havacilik",
+  "/endustriyel/havacilik-uzay",
   "/giris",
   "/sifremi-unuttum",
   "/reset-password",
   "/teklif-al",
 ] as const;
+
+/**
+ * THE ANTI-404 CONTROL — what each walked route must actually render.
+ *
+ * One `<h1>` pattern per route, measured from the rendered DOM. Every entry in
+ * `PUBLIC_ROUTES` must have one (asserted below), so adding a route without
+ * saying what it is supposed to look like fails rather than passes silently.
+ */
+const ROUTE_SURFACE: Record<string, RegExp> = {
+  "/": /HAM GEOMETR/,
+  "/sss": /^Sıkça Sorulan Sorular$/,
+  "/gizlilik-politikasi": /^Gizlilik Politikası$/,
+  "/kvkk": /^KVKK Aydınlatma Metni$/,
+  "/cerez-politikasi": /^Çerez Politikası$/,
+  "/hakkimizda": /^Hakkımızda$/,
+  "/iletisim": /^Bize ulaşın$/,
+  "/malzemeler": /^Malzeme kütüphanesi$/,
+  "/malzemeler/aluminyum": /Alüminyum Alaşımları/,
+  "/blog": /^Teknik Günlük$/,
+  "/blog/havacilik-parcalarinda-malzeme-secimi": /Havacılık Parçalarında Malzeme Seçimi/,
+  "/kabiliyet-profilleri": /^Kabiliyet Profilleri$/,
+  "/kabiliyet-profilleri/ince-cidarli-govde": /^İNCE CİDARLI GÖVDE$/,
+  "/kabiliyet-profilleri/titanyum-baglanti-parcasi": /^TİTANYUM BAĞLANTI PARÇASI$/,
+  "/kabiliyet-profilleri/hassas-mil": /^HASSAS MİL$/,
+  "/kalite-dosyasi": /^Kalite Dosyası$/,
+  "/hizmetler/kategori/talasli-imalat": /^Talaşlı İmalat$/,
+  "/hizmetler/cnc-frezeleme": /^CNC Frezeleme$/,
+  "/kabiliyetler/kalite-kontrol": /^Kalite Kontrol$/,
+  "/endustriyel/havacilik-uzay": /^Havacılık & Uzay$/,
+  "/giris": /^Giriş Yapın$/,
+  "/sifremi-unuttum": /^Şifremi Unuttum$/,
+  "/reset-password": /^Yeni Şifre Belirleyin$/,
+  "/teklif-al": /^Hassas Fiyat Teklifi Alın$/,
+};
+
+/**
+ * The not-found headings the app actually renders, measured. They are listed
+ * separately from `ROUTE_SURFACE` because three of the four are DELIBERATELY
+ * off the `/^(Sayfa|Yazı) Bulunamadı$/` sentinel two other route specs use —
+ * see `KabiliyetProfilDetay.tsx`'s own comment — so a spec that only knows the
+ * sentinel is blind to them, which is how this walk stayed green on two 404s.
+ */
+const NOT_FOUND_HEADINGS = [
+  "Bu profil kaydı bulunamadı",
+  "Bu sayfa kaydı bulunamadı",
+  "Bu koordinatta kayıt yok",
+  "Sayfa Bulunamadı",
+  "Yazı Bulunamadı",
+] as const;
+
+type SurfaceRecord = { route: string; h1: string; tables: number; mainChars: number };
+
+/**
+ * THE SECOND PURE COMPARISON. A route that does not render its own surface is
+ * not a passing route — it is an unmeasured one, and every assertion below a
+ * 404 is vacuous for that route.
+ */
+function wrongSurfaces(records: readonly SurfaceRecord[]) {
+  const problems: string[] = [];
+  for (const r of records) {
+    const expected = ROUTE_SURFACE[r.route];
+    if (!expected) {
+      problems.push(`${r.route}: walked with no ROUTE_SURFACE entry, so nothing says what it should render.`);
+      continue;
+    }
+    const notFound = NOT_FOUND_HEADINGS.find((h) => r.h1.includes(h));
+    if (notFound) {
+      problems.push(
+        `${r.route}: rendered the NOT-FOUND body "${notFound}" (${r.tables} tables, ${r.mainChars} chars). ` +
+        "A 404 walked as if it were a route — this is the hole that hid R3-1 on all three capability profiles.",
+      );
+      continue;
+    }
+    if (!expected.test(r.h1)) {
+      problems.push(
+        `${r.route}: <h1> is ${JSON.stringify(r.h1)}, which does not match its expected surface ${expected}. ` +
+        `(${r.tables} tables, ${r.mainChars} chars.) Either the route moved or this walk is measuring the wrong page.`,
+      );
+    }
+  }
+  return problems;
+}
 
 /**
  * How many `<table>` elements each route renders once it has settled, measured
@@ -154,6 +271,12 @@ const TABLE_CENSUS: Record<string, number> = {
   "/kalite-dosyasi": 1,
   "/hizmetler/cnc-frezeleme": 4,
   "/kabiliyetler/kalite-kontrol": 3,
+  // round 4 — the three routes the old list could not see, re-measured at 375
+  // (reports/qa/phase-08/r4/p1-route-surface.json)
+  "/kabiliyet-profilleri/ince-cidarli-govde": 1,
+  "/kabiliyet-profilleri/titanyum-baglanti-parcasi": 1,
+  "/kabiliyet-profilleri/hassas-mil": 1,
+  "/endustriyel/havacilik-uzay": 3,
 };
 
 /** One measured table and the box that is supposed to let a reader reach it. */
@@ -241,6 +364,16 @@ async function settle(page: Page, route: string) {
   await gotoAndSettle(page, route);
   await page.waitForLoadState("networkidle", { timeout: 10_000 }).catch(() => { /* long-poll route */ });
   await page.waitForTimeout(400);
+}
+
+/** Reads what the current page claims to be. Read-only. */
+async function collectSurface(page: Page, route: string): Promise<SurfaceRecord> {
+  return page.evaluate((routeName) => ({
+    route: routeName,
+    h1: [...document.querySelectorAll("h1")].map((h) => (h.textContent || "").trim()).join(" / "),
+    tables: document.querySelectorAll("table").length,
+    mainChars: (document.querySelector("main")?.textContent || "").trim().length,
+  }), route);
 }
 
 /** Reads every `<table>` on the current page. Mutates `scrollLeft` and restores it. */
@@ -408,13 +541,24 @@ test.describe("QA — every table on a public route is reachable at its viewport
   test("every table fits its viewport or lives in a real, focusable scroll region", async ({ page }) => {
     test.setTimeout(WALK_BUDGET_MS);
     const all: TableRecord[] = [];
+    const surfaces: SurfaceRecord[] = [];
     for (const route of PUBLIC_ROUTES) {
       await settle(page, route);
+      surfaces.push(await collectSurface(page, route));
       all.push(...await collectTables(page, route));
     }
 
     const found = Object.fromEntries(PUBLIC_ROUTES.map((r) => [r, all.filter((x) => x.route === r).length]));
     console.log(`[qa-p08 table walk] ${all.length} tables — ${JSON.stringify(found)}`);
+    console.log(`[qa-p08 surfaces] ${JSON.stringify(surfaces.map((s) => `${s.route} → ${s.h1}`))}`);
+
+    /* FIRST: did every walked route render its own page? Two of these paths
+       were 404s until round 4 and the walk reported green on both, because a
+       page with no tables satisfies every table assertion there is. */
+    expect(
+      wrongSurfaces(surfaces),
+      "a walked route did not render its own surface. Everything below this line is vacuous for that route.",
+    ).toEqual([]);
 
     /* A walk that measured nothing satisfies every assertion under it. */
     const short = Object.entries(TABLE_CENSUS)
@@ -433,10 +577,16 @@ test.describe("QA — every table on a public route is reachable at its viewport
   test("every table header can be brought fully inside the viewport", async ({ page }) => {
     test.setTimeout(WALK_BUDGET_MS);
     const all: Awaited<ReturnType<typeof collectHeaderReach>> = [];
+    const surfaces: SurfaceRecord[] = [];
     for (const route of PUBLIC_ROUTES) {
       await settle(page, route);
+      surfaces.push(await collectSurface(page, route));
       all.push(...await collectHeaderReach(page, route));
     }
+
+    /* Same reason as the walk above: a 404 has no headers to lose. This costs
+       one extra `evaluate` per route and no extra navigation. */
+    expect(wrongSurfaces(surfaces), "a walked route did not render its own surface").toEqual([]);
 
     console.log(`[qa-p08 header reach] ${all.length} header cells over ${new Set(all.map((h) => h.route)).size} routes`);
     expect(all.length, "no table header was measured at all — the walk found nothing").toBeGreaterThanOrEqual(12);
@@ -523,6 +673,88 @@ test.describe("QA — every table on a public route is reachable at its viewport
     expect(noContainer[0]).toContain("no scrolling ancestor");
   });
 
+  test("control — every walked route declares what it should render", () => {
+    const missing = PUBLIC_ROUTES.filter((r) => !ROUTE_SURFACE[r]);
+    expect(
+      missing,
+      "a route is walked with no ROUTE_SURFACE entry. Without one it can 404 and still pass every " +
+      "assertion in this file, which is exactly what /kabiliyet-profilleri/ince-cidarli-aluminyum-govde " +
+      "and /endustriyel/havacilik did for three rounds.",
+    ).toEqual([]);
+    const orphans = Object.keys(ROUTE_SURFACE).filter((r) => !(PUBLIC_ROUTES as readonly string[]).includes(r));
+    expect(orphans, "a ROUTE_SURFACE entry names a route this file does not walk").toEqual([]);
+  });
+
+  test("control — the surface checker rejects the two paths that were 404s", () => {
+    /* Measured at 375, reports/qa/phase-08/r4/p1-route-surface.json. */
+    const asWalked: SurfaceRecord[] = [
+      { route: "/kabiliyet-profilleri/ince-cidarli-govde", h1: "Bu profil kaydı bulunamadı", tables: 0, mainChars: 768 },
+      { route: "/endustriyel/havacilik-uzay", h1: "Bu sayfa kaydı bulunamadı", tables: 0, mainChars: 667 },
+    ];
+    const rejected = wrongSurfaces(asWalked);
+    expect(rejected.length, "the surface checker accepted a not-found body").toBe(2);
+    expect(rejected[0]).toContain("NOT-FOUND");
+    expect(rejected[1]).toContain("NOT-FOUND");
+
+    /* A route that renders SOMETHING, but not its own page. */
+    expect(
+      wrongSurfaces([{ route: "/kvkk", h1: "Çerez Politikası", tables: 0, mainChars: 5602 }]),
+      "the surface checker accepted a route rendering a different page",
+    ).toHaveLength(1);
+
+    /* And an unlisted route cannot buy a pass by not being described. */
+    expect(
+      wrongSurfaces([{ route: "/yeni-rota", h1: "Yeni Rota", tables: 0, mainChars: 900 }]),
+      "the surface checker accepted a route with no declared surface",
+    ).toHaveLength(1);
+
+    /* Sanity: the real ones pass, or the checker rejects everything. */
+    expect(wrongSurfaces([
+      { route: "/kabiliyet-profilleri/ince-cidarli-govde", h1: "İNCE CİDARLI GÖVDE", tables: 1, mainChars: 2282 },
+      { route: "/endustriyel/havacilik-uzay", h1: "Havacılık & Uzay", tables: 3, mainChars: 7210 },
+    ]), "the surface checker rejected the routes that do render").toEqual([]);
+  });
+
+  test("live control — a real 404 is rejected by the surface check", async ({ page }) => {
+    /* The fixture above uses numbers I transcribed. This one asks the app.
+       Three paths that must all fail the surface check: the two this file
+       walked for three rounds, and a nonsense one. */
+    const dead = [
+      "/kabiliyet-profilleri/ince-cidarli-aluminyum-govde",
+      "/endustriyel/havacilik",
+      "/bu-rota-yok-12345",
+    ];
+    const measured: SurfaceRecord[] = [];
+    for (const path of dead) {
+      await settle(page, path);
+      /* Measured under the identity of a route that IS walked, which is the
+         substitution the defect performed: a dead slug standing in for a live
+         one. If the checker cannot tell them apart, it is not a check. */
+      const raw = await collectSurface(page, path);
+      measured.push({ ...raw, route: "/kabiliyet-profilleri/ince-cidarli-govde" });
+    }
+    console.log(`[qa-p08 dead routes] ${JSON.stringify(measured.map((m) => `${m.h1} · ${m.tables} tables · ${m.mainChars} chars`))}`);
+
+    expect(
+      measured.every((m) => m.tables === 0),
+      "a path that is supposed to be dead rendered a table — the fixture below is describing the wrong page",
+    ).toBe(true);
+    expect(
+      wrongSurfaces(measured).length,
+      `the surface check accepted a live 404. Measured: ${JSON.stringify(measured)}`,
+    ).toBe(3);
+
+    /* And the character floor that would have been the obvious check is proven
+       useless here rather than assumed to be: these bodies are LONGER than
+       four real routes. That is why the check is keyed to the <h1>. */
+    await settle(page, "/reset-password");
+    const real = await collectSurface(page, "/reset-password");
+    expect(
+      Math.min(...measured.map((m) => m.mainChars)),
+      "a length floor would have caught these after all — then say so and simplify the check",
+    ).toBeGreaterThan(real.mainChars);
+  });
+
   test("control — the checker rejects a scrolling region no keyboard can reach", () => {
     const orphan = unreachableTables([fixture({
       keyboardReachable: false,
@@ -532,7 +764,42 @@ test.describe("QA — every table on a public route is reachable at its viewport
     expect(orphan[0]).toContain("no focus stop");
   });
 
-  test("live control — put the R2-1 markup back on the real page and the guard goes red", async ({ page }, testInfo) => {
+  /* ── THE LIVE CONTROL, RE-AIMED IN ROUND 4 ──────────────────────────────
+     WHY IT CHANGED, since changing a control is the one edit that most needs a
+     reason on the record.
+
+     Rounds 1-3 built this control by RESTORING THE PRE-C4 MARKUP: it set the
+     wrapper's className back to `shell-stack` and required the checker to
+     report exactly one problem. That worked, and it had a cost nobody saw
+     until C5 tried to pay it. C5 built the systemic fix
+     `.shell-stack > * { min-width: 0 }` — the one C4's own comment named as
+     the better long-term fix — and MEASURED IT SAFE over 76 routes x 7
+     viewports: it moved geometry only inside the fourteen defective figures,
+     nothing at all at 768/844/1280/1440, and nothing on any of the fourteen
+     golden surfaces at any golden width. Then it reverted the fix, because
+     with that rule in the stylesheet the restored `shell-stack` markup no
+     longer produces the defect, this control goes green, and the guard fails.
+
+     So the control FORBADE THE ROOT FIX. That is a defect ratchet: a control
+     whose subject is a production bug turns repairing that bug into a test
+     failure. A control's job is to falsify the INSTRUMENT, not to preserve the
+     PRODUCT's flaw — the walk above is what catches a regression; this test
+     exists only to prove `unreachableTables()` is not hollow. Coupling those
+     two jobs was my error in round 3, not C5's in round 5.
+
+     THE RE-AIM. The control still runs on the real page, in the real engine,
+     through the real collector — that is what a live control is worth, and it
+     is kept. What changes is HOW the defect gets there: it is now CONSTRUCTED
+     from inline geometry on a wrapper stripped of every production class,
+     instead of being summoned by removing a fix. No stylesheet rule can reach
+     an element with no classes, so no root fix — `.shell-stack > *`, or any
+     successor — can turn this control green. The test proves that itself: it
+     injects the candidate rule and asserts the control STILL fires.
+
+     Net effect: the class-level fix is now available to whoever wants it, and
+     the instrument is strictly harder to hollow than it was.
+     ──────────────────────────────────────────────────────────────────────── */
+  test("live control — build R2-1's geometry on the real page and the guard goes red", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name === "desktop-1280", "R2-1 was a narrow-viewport defect; at 1280 the table fits");
 
     await settle(page, "/cerez-politikasi");
@@ -540,31 +807,61 @@ test.describe("QA — every table on a public route is reachable at its viewport
     expect(healthy.length, "no table on /cerez-politikasi — the page did not render madde 02").toBe(1);
     expect(unreachableTables(healthy), "the shipped page is already red, so this control cannot say anything").toEqual([]);
 
-    /* The pre-C4 markup, exactly: what is now `div.shell-doc-table` was
-       `<div className="shell-stack" data-gap="sm">` at CerezPolitikasi.tsx:133.
-       A DOM-only edit inside this test's own page — no production file is
-       touched and nothing is written to disk. */
-    await page.evaluate(() => {
-      const wrapper = document.querySelector("main table")?.closest("figure.shell-table")?.parentElement;
-      if (!wrapper) throw new Error("the figure has no wrapper to revert");
-      wrapper.className = "shell-stack";
-      wrapper.setAttribute("data-gap", "sm");
+    /* R2-1's mechanism, rebuilt rather than restored: a grid box whose single
+       track is `auto`, so its automatic minimum is the figure's min-content and
+       the box grows past the column it was given. Inline, on a wrapper with NO
+       class, so it is immune to every stylesheet in the build — including any
+       future `.shell-stack > * { min-width: 0 }`. A DOM-only edit inside this
+       test's own page; no production file is touched, nothing hits disk. */
+    const buildDefect = () => page.evaluate(() => {
+      const wrapper = document.querySelector("main table")?.closest("figure.shell-table")?.parentElement as HTMLElement | null;
+      if (!wrapper) throw new Error("the figure has no wrapper to rebuild");
+      wrapper.removeAttribute("class");
+      wrapper.removeAttribute("data-gap");
+      wrapper.setAttribute("data-qa-control", "r2-1");
+      wrapper.style.display = "grid";
+      wrapper.style.gridTemplateColumns = "auto";
+      wrapper.style.justifyItems = "start";
     });
+
+    await buildDefect();
     await page.waitForTimeout(500);
 
-    const reverted = await collectTables(page, "/cerez-politikasi");
-    const problems = unreachableTables(reverted);
+    const broken = await collectTables(page, "/cerez-politikasi");
+    const problems = unreachableTables(broken);
     expect(
       problems.length,
-      "THE GUARD DID NOT SEE R2-1 ON THE REAL PAGE. The pre-C4 wrapper was restored in the DOM and " +
-      `the checker still passed. Measured: ${JSON.stringify(reverted)}`,
+      "THE GUARD DID NOT SEE R2-1 ON THE REAL PAGE. R2-1's geometry was built on the loaded page and " +
+      `the checker still passed. Measured: ${JSON.stringify(broken)}`,
     ).toBe(1);
     expect(problems[0]).toContain("OWN box");
+
+    /* And it is the defect's own shape, not merely "a" problem: the container
+       overhangs the viewport and a forced scroll cannot move it. */
+    const [record] = broken;
+    expect(record.containerRight ?? 0, "the rebuilt container fits the viewport, so this is not R2-1").toBeGreaterThan(record.viewportWidth + 1);
+    expect(record.forcedScrollLeft, "the rebuilt container scrolls, so this is not R2-1").toBe(0);
 
     const lost = (await collectHeaderReach(page, "/cerez-politikasi")).filter((h) => !h.reached);
     expect(
       lost.map((h) => h.header),
-      "with the defect restored, the header sweep still reported every column reachable",
+      "with the defect built, the header sweep still reported every column reachable",
     ).not.toEqual([]);
+
+    /* THE CONTROL ON THE CONTROL — this is the assertion that pays for the
+       re-aim. Inject the root fix that the previous form of this test made
+       unlandable, and the control must still fire. If this ever goes green,
+       the control has re-coupled itself to a production rule and the ratchet
+       is back. */
+    await page.addStyleTag({ content: ".shell-stack > * { min-width: 0 }" });
+    await buildDefect();
+    await page.waitForTimeout(300);
+    const withRootFix = unreachableTables(await collectTables(page, "/cerez-politikasi"));
+    expect(
+      withRootFix.length,
+      "the control stopped firing once `.shell-stack > * { min-width: 0 }` was in the stylesheet. It is " +
+      "coupled to the production defect again, and it now forbids the fix.",
+    ).toBe(1);
+    expect(withRootFix[0]).toContain("OWN box");
   });
 });
