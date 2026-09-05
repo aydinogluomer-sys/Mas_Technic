@@ -1,0 +1,3 @@
+IDENTICAL (ascii-normalised)  criterion 3 — legacy accent
+IDENTICAL (ascii-normalised)  criterion 3 — design membership
+IDENTICAL (ascii-normalised)  criterion 5 — error states
