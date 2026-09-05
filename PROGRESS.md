@@ -72,6 +72,7 @@ facility size, machine count, revenue/order volume) is never exposed by default.
 | A23 | 08 | `e2e/landing/motion-grammar.spec.ts:254`, red at `tablet-768` and `landscape-844`, is recorded as a PRE-EXISTING failure carried to **Phase 10** rather than fixed in a Phase 08 correction round. | QA proved it pre-existing rather than asserting it: `git log 7dcfb65~1..b77be5c` over both `src/styles/technical-landing.css` and the spec is **empty** — no Phase 08 commit, C3 included, touched either file. The cause is a breakpoint/pointer mismatch: the test branches on `(hover:hover) and (pointer:fine)` and both projects set `mobile: true`, while the rule that removes `.tl-dimension-lines` is `@media (max-width:767px)` (`technical-landing.css:507`), so a hover-only affordance paints on a coarse pointer at 768 and 844. It went unseen because this run had never exercised those two viewports. Fixing it removes the lines at 768 and therefore **changes landing goldens** — landing responsive art direction, which Phase 10 owns, not a legal-page correction packet. Precedent for carrying a pre-existing red across a phase close is in this table's own history (Phase 02 "1 pre-existing fail", Phase 03 "4 pre-existing page-debt fails"). |
 | A24 | 08 | `e2e/qa-p08-storage-disclosure.spec.ts` test 3 is **re-aimed** by QA in round 3 — from "no cookie is created on any public route" to "every cookie observed on any public route is covered by the published disclosure" — rather than left permanently red or made green by touching `Login.tsx`. | The assertion `expect(cookies).toEqual([])` encoded a **published claim**, and it did its job: it held `/cerez-politikasi` to its word and it is how R2-2 surfaced. That claim has now been retired *because it was false*, and the document discloses one cookie with its attributes instead. The assertion therefore no longer corresponds to anything the site asserts — it now fails on a **correctly disclosed** cookie, which is not a defect. This is the Phase 04 re-aiming shape, not a weakening: the JOB changed. The new assertion is strictly stronger for the purpose the gate exists to serve — it goes red the day an undisclosed cookie appears, which the old one could not distinguish from the disclosed one — and it is immune to the variance C4 measured, where `.w.hcaptcha.com`'s ephemeral worker hostname produced **two** `__cf_bm` entries in one run and **one** in another, so any count-based assertion would flake. The Coder was right to refuse all three green paths available to it (removing hCaptcha = DO_NOT_TOUCH and Phase 09's security call; editing QA's test = forbidden to the Coder; blocking `hcaptcha.com` at the network layer = a test that lies) and to return PARTIAL instead. Leaving it red was the remaining option and is rejected: this run gates phase closure on suites being green, so a permanently expected-red test would both block Phase 08 forever and corrode the discipline every other gate depends on. The visibility it was preserving belongs in this file and in the Phase 09 packet, which is where hCaptcha's fate is recorded. Both existing negative controls must be extended to the new assertion, and QA must write the reasoning into the file the way Phase 04 wrote its own. |
 | A25 | 08 | R3-1 — a `mobile-320` failure on `/hizmetler/cnc-frezeleme`, a **Phase 07** surface — is fixed inside Phase 08's C5 rather than carried, even though A23 carried a different pre-existing red one round earlier. | The two are not alike, and the difference is the cost of the fix, not the ownership. A23's `motion-grammar` red needs `.tl-dimension-lines` removed at 768, which **moves landing goldens** and is a responsive-art-direction decision Phase 10 owns. R3-1 needs the one-class change C4 already proved on `/cerez-politikasi`, and QA states the guard goes green "with no edit to the test" — no golden, no design decision, no new mechanism. The governing reason is consistency with A24: this round rejected leaving a test permanently red because a phase that gates closure on green suites cannot ship an expected-red gate without corroding every other one. Invoking that to re-aim one test and then closing the phase with a different one red — written by this phase's own QA, in this phase's own round — would be incoherent. Recorded because it is a deliberate scope excursion beyond Phase 08's acceptance criteria, which name only Wave B surfaces: the guard is site-wide by design, so the first thing it found outside Wave B is the phase's to answer for, once. |
+| A26 | 08 | `/gizlilik-politikasi` madde 02's "sohbet … sitede yazdığınız bir metnin dışarı çıktığı **tek yer**" is carried to **Phase 09** rather than repaired in a Phase 08 round — subject to QA round 4 ruling it contestable rather than false. | C5 found it and correctly refused to edit it, because its allowlist opened `GizlilikPolitikasi.tsx` only if madde 05 was contestable, and madde 05 proved true. The tension is real: madde 05 of the same document says RFQ form data and the uploaded file reach the hosting and database infrastructure, which `/kvkk` madde 04 counts as a transfer case. It is nevertheless a different severity from R2-2, and the distinction is the one that decides this: R2-2's five sentences were **false** — a cookie existed that the text said did not — whereas "dışarı çıkan metin" can honestly denote leaving our own processing chain for a genuine third party such as Google, which the RFQ path does not do. On that reading the sentence stands, and no test is red either way. Phase 09's mandatory tasks name this work exactly ("Align KVKK/privacy copy with actual data flow") and Phase 09 rewrites the RFQ path that creates the tension, so it has a real owner rather than a convenient one. **QA round 4 is asked to test this reading, not accept it**: if it measures the sentence false, Phase 08 does not close — that is the call QA got right on R2-2. |
 
 ## Phase notes
 
@@ -1549,5 +1550,50 @@ C5 is deliberately small — two items, at `wt/coder-p08c5`, packet
    has now corrected twice, and the second one we ourselves introduced while fixing the first; `/kvkk` madde 04
    shows the shape that cannot go stale, because C4 removed the numeral there entirely.
 
-**Next action:** verify C5 at source, re-run the guard and the gates, then close Phase 08 — or send C6. Phase
-09 is scoped as 09a/09b per A21 once it closes.
+#### C5 returned and was integrated — my scope was wrong on all three counts
+
+Three commits picked as `5003c66`, `a727e54`, `27de482`. Net production change is **two added class names**;
+everything else is comments and legal copy. Verified independently on a fresh build of the integrated state:
+`qa-p08-scroll-region-reach` **6/6 at `mobile-320`**.
+
+**R3-1 was not one call site, one route and one viewport, as my packet claimed. It was two call sites, ten
+routes, three viewports, 14 instances.** `ServiceDetail.tsx:423` fails on seven service routes at 320 —
+`cnc-tornalama` (358) and `malzeme-kutuphanesi` (351.844) also at 375 and 390 — and
+`KabiliyetProfilDetay.tsx:157` fails on **all three** capability profiles (325.172 / 314.453 / 327.281 against
+a 278px column). The fix is `grid-cols-[minmax(0,1fr)]`, the same declaration `shell.css:1553` already uses for
+`.shell-form-row`. `ServiceDetail.tsx:512` and `Malzemeler.tsx:177` measured track == wrapper at every width
+and were left alone with comments. After: all 106 `shell-span-full shell-stack` instances over 244
+route × viewport records fit their column, 0 overflowing.
+
+**The systemic fix is safe and unavailable, which are different things.** C5 built
+`.shell-stack > * { min-width: 0 }` first and measured it over 76 routes × 7 viewports = 375 records: it moved
+geometry only inside the defective figures, and **nothing** moved at 768/844/1280/1440 on any route or on any
+of the 14 golden surfaces at any golden width. I was not too cautious about blast radius. But QA's own **live
+control** (`qa-p08-scroll-region-reach.spec.ts:535`) restores the pre-C4 markup in the real DOM and requires
+the checker to report exactly one problem — and the class fix makes that defect *impossible to express*, so the
+control goes green and the test fails. A live control that reconstructs a defect at the root forbids fixing it
+at the root. C5 chose "green unedited" over a tidier stylesheet, which was right under its instructions, and
+left the measurement in both commit messages for whoever re-aims that control. **QA round 4 owns the ruling.**
+
+**A dead sentinel, in a gate written one round ago.** `qa-p08-scroll-region-reach.spec.ts:129` walks
+`/kabiliyet-profilleri/ince-cidarli-aluminyum-govde` and `:134` walks `/endustriyel/havacilik` — **neither is a
+slug**. Orchestrator-verified: the real profiles are `ince-cidarli-govde`, `titanyum-baglanti-parcasi`,
+`hassas-mil` (`src/content/caseStudies.ts:115,138,161`) and the real sector is `havacilik-uzay`
+(`servicePages.ts:2434`). So the guard walks a 404 twice, and `KabiliyetProfilDetay.tsx:157` had **no watcher
+at all** — C5 found those three instances by direct measurement, not by the gate. This is the same class as
+`d3c8a6c`, "the whole-page axe lane had a dead sentinel, and it was hiding the clock", one round after this run
+paid for it. QA round 4's first job, and the anti-404 control matters more than the route fix.
+
+**C5 corrected my proposed wording before it became the fourth instance of the defect it was fixing.** I
+suggested scoping madde 03 to "a page load". C5 refused: the client is configured `persistSession: true` +
+`autoRefreshToken: true`, so a signed-in reader's browser reaches that host on a plain load too. The clause now
+names its triggers positively and carries no count at all. `/gizlilik-politikasi` madde 05's "tek üçüncü taraf
+bileşeni" was checked and left: it counts **embedded components**, not request destinations — no `<iframe>`
+outside hCaptcha's own, no third-party script tag, and `fetch` embeds nothing — so it survives exactly the
+action that falsified "üç yer".
+
+**One content item handed up rather than edited out of scope (A26).**
+
+**Next action:** QA round 4 — fix the dead-sentinel routes and add an anti-404 control, verify C5's 14
+instances, rule on the live control versus the class fix, adjudicate A26, confirm no golden moved. Then close
+Phase 08. Phase 09 is scoped as 09a/09b per A21.
