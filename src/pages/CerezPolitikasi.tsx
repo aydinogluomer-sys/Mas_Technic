@@ -52,7 +52,27 @@ import { SALES_EMAIL } from "@/content/claims";
    here — but the CHAIN lives in `/gizlilik-politikasi` madde 06 and this page
    defers to it rather than keeping a second copy that can drift out of step.
    It sets no cookie and leaves no key in the browser, which is why it is a
-   sentence here and not a fifth row in the table above.
+   sentence here and not a row of its own in the table above.
+
+   THE TABLE WAS SHORT BY ONE — PHASE 08 CORRECTION #3. Madde 01 says the
+   things this site stores are "hepsi 02. maddede listelenmiştir", and that
+   sentence is the valuable part of the clause: it is a completeness claim a
+   reader can falsify in thirty seconds with devtools. It was false.
+   `mas_intro_seen` is written at `index.html:314` by the inline "Precision
+   Born" entry script, which is not a module and therefore never appeared in
+   any grep over `src/`. It is now the table's fifth row, because it is
+   cheaper to make the claim true than to water it down.
+
+   The row states only what `index.html:294-316` proves: `sessionStorage`, a
+   one-bit flag that records the entry sequence has already played, written
+   only when `location.pathname` is `/` and not written at all under
+   `prefers-reduced-motion: reduce`, living until the tab closes — which is
+   what `sessionStorage` IS, not a duration anybody chose. It is not tracking,
+   identifies nobody and is never sent anywhere, so the note under the table
+   still holds for it.
+
+   The no-cookie claim in madde 01 is separate and remains TRUE: measured, six
+   public routes, zero cookies.
    ══════════════════════════════════════════════════════════════════════════ */
 
 const STORAGE_ROWS: string[][] = [
@@ -73,6 +93,12 @@ const STORAGE_ROWS: string[][] = [
     "sessionStorage",
     "Ana sayfadan bıraktığınız çizimi teklif formuna taşır.",
     "Form devralınca silinir",
+  ],
+  [
+    "mas_intro_seen",
+    "sessionStorage",
+    "Ana sayfadaki giriş sekansının oynadığını not eder; böylece aynı sekmede bir daha oynamaz. Yalnızca ana sayfada yazılır, hareket azaltma açıksa hiç yazılmaz.",
+    "Sekme kapanana kadar",
   ],
   [
     "mas-technic-theme",
