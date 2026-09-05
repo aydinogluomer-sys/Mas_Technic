@@ -134,7 +134,7 @@ afterwards, by looking up what the measurement had already found.
 | `step meter` | 20 | – | – | `9999px` | 375: 21×6 | `MaterialMorphScroll.tsx:228` |
 | `property-meter track` | – | 4 | 4 | `9999px` | 768: 238×4 · 1280: 238×4 | `MaterialMorphScroll.tsx:357` |
 | `property-meter fill` | – | 4 | 4 | `9999px` | 768: 143×4, 190×4, 238×4 · 1280: 143×4, 190×4, 238×4 | `MaterialMorphScroll.tsx:359` |
-| `chat launcher` | 6 | 6 | 6 | `9999px` | 375: 48×48 · 768: 56×56 · 1280: 56×56 | `ChatBot.tsx:225` |
+| `chat launcher` | 6 | 6 | 6 | `9999px` | 375: 48×48 · 768: 56×56 · 1280: 56×56 | `ChatBot.tsx:294` |
 | `cursor dot` | – | 6 | 6 | `50%` | 768: 6×6 · 1280: 6×6 | `CustomCursor.tsx:194-207` |
 | `cursor ring` | – | 6 | 6 | `50%` | 768: 44×44 · 1280: 44×44 | `CustomCursor.tsx:209-221` |
 
@@ -176,16 +176,22 @@ None of the six is a card, and none is the "generic rounded-card aesthetic"
 §5.5 forbids: three are 4–6 px hairline meters where the radius is the cap of a
 stroke rather than the frame of a surface, one is a fixed launcher owned by
 Phases 09/13, and two are a 6 px dot and a 1 px ring that ARE the pointer. All
-six **declarations** are unchanged since the Phase 06 close — `CustomCursor.tsx`
-(`98e64ab`) and `ChatBot.tsx` (`7a5daf0`) are byte-identical to it, and
-`MaterialMorphScroll.tsx` changed in Phase 07 but in none of these three lines.
+six **declarations** are unchanged since the Phase 06 close. Only one of the
+three FILES still is: `CustomCursor.tsx` is `98e64ab`, byte-identical to the
+Phase 06 close. `ChatBot.tsx` is not — it was `7a5daf0` then and hashes
+`44d9baf` now, because Phase 08 edited the component above the launcher and
+pushed the launcher's `rounded-full` from line 225 to line **294**. The
+declaration is character-for-character the same one; only its address moved.
+`MaterialMorphScroll.tsx` changed in Phase 07 but in none of its three lines.
 So every version of this register has been the register being wrong, never the
-pages.
+pages — and a file hash is evidence about a FILE, which is why the sentence
+that used it to vouch for a DECLARATION had to be split in two.
 
 **Excluded, as a decision rather than a miss:** two further radius sites exist
 in the same components but paint in states this census does not enter — the
 `w-10 h-10 rounded-full` loading spinner at `MaterialMorphScroll.tsx:278`, and
-the avatar/chip radii inside the chat panel (`ChatBot.tsx:276-346`), which
+the avatar/chip radii inside the chat panel (`ChatBot.tsx:345, 357, 369, 395,
+428, 434` — six declarations, not the one range the earlier text implied), which
 require the panel to be open. Neither is reachable at rest on any of the six
 routes; if a future phase makes either reachable at rest, it belongs in the
 table.
