@@ -1,0 +1,40 @@
+{
+  "codes": [
+    "__cf_bm",
+    "hcaptcha.com",
+    "httpOnly",
+    "hcaptcha.com",
+    "__cf_bm",
+    "__cf_bm"
+  ],
+  "hits": [
+    {
+      "match": "hcaptcha.com",
+      "context": "r ve tarayıcınızda __cf_bm adında bir çerez oluşuyor. Çerez hcaptcha.com alan adına aittir, ömrü otuz dakikadır,"
+    },
+    {
+      "match": "hcaptcha.com",
+      "context": "aretlidir — yani sayfa betikleri onu okuyamaz — ve yalnızca hcaptcha.com’a giden isteklerle gönderilir. Bileşen "
+    },
+    {
+      "match": "hcaptcha.com",
+      "context": "— siz bir şey yapmadan ve onayınız istenmeden — tarayıcınız hcaptcha.com alan adındaki sunuculara istek gönderir"
+    },
+    {
+      "match": "hcaptcha.com",
+      "context": ".⏎⏎01. maddedeki __cf_bm çerezi bu sitenin alan adına değil hcaptcha.com’a ait olduğu için, bu sitenin verilerin"
+    },
+    {
+      "match": "mastechnic.com",
+      "context": "tır.⏎⏎05⏎İletişim⏎⏎Bu metinle ilgili sorularınız için sales@mastechnic.com adresine yazabilirsiniz. Kişisel verile"
+    },
+    {
+      "match": "mastechnic.com",
+      "context": "u metinle ilgili sorularınızı ve KVKK başvurularınızı sales@mastechnic.com adresine iletebilirsiniz.⏎⏎SALES@MASTEC"
+    },
+    {
+      "match": "C.COM",
+      "context": "es@mastechnic.com adresine iletebilirsiniz.⏎⏎SALES@MASTECHNİC.COM"
+    }
+  ]
+}
