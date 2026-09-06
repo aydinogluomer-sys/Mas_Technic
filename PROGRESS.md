@@ -2445,3 +2445,100 @@ packet `.work/packets/phase-09a-QA-R4.md`. Narrow by design: round 3's content f
 targets are the **new** mechanism rather than the old attacks, the two uncovered checks, whether the
 evidence-overwrite class is actually closed, the SLA wobble, and a second opinion on the D4 refusal. If it
 passes, 09a closes on its verdict.
+
+#### QA 09a round 4 — FAIL, because the gate this phase built cannot run in the place it blocks
+
+Eight commits integrated as `179f38d..ffe3c0b`; 44 files, all inside the four allowlisted prefixes, `.env`
+not committed, nothing submitted or inserted. Tree identical to QA's.
+
+**R4-1 — BLOCKING, and it is the kind of defect that only appears if you ask where the code runs rather than
+whether it works.** `checkDerivedCadCopy` (`claims-gate.mjs:813`) `await import()`s a `.ts` file and its own
+message says *"Node >= 22.18 is required"*. `.github/workflows/playwright.yml:29` pins **`NODE_VERSION:
+"20"`** for all six jobs, and Node 20 has no type stripping at all — `--experimental-strip-types` first
+appears in 22.6.0. Every link is in the repo: `e2e/landing/claims-gate.spec.ts` runs the gate, it is a
+`CRITICAL_MATCH` (`playwright.config.ts:108`), and the blocking `e2e-critical` job runs
+`npm run test:e2e:critical` on push and PR to `main`. **I verified the whole chain at the source and ran the
+proof myself**: `node --no-experimental-strip-types scripts/claims-gate.mjs` exits 1 with `Unknown file
+extension ".ts"`, reported as a *derived-copy problem*. So the first PR to `main` gets a red critical suite
+whose message is about CAD copy drift.
+
+It fails **closed**, which is the right direction. But a gate that cannot run where it blocks is not a gate,
+and C4 introduced the requirement — `git show e7cf106:scripts/claims-gate.mjs` has no dynamic import. Neither
+the Coder, nor QA round 3, nor I would have found this by testing locally on Node 26. `package.json` declares
+**no `engines.node`**, which is why nothing caught the mismatch.
+
+**R4-5 — the Coder's own self-criticism was confirmed four ways, and the reason it gave for not closing it was
+falsified.** QA used an ESM load hook to rewrite the gate **in memory** — disk never opened for writing —
+and neutered each check in turn: `checkDerivedCadCopy` neutered → PASS 262/0; dropped from the `clean`
+conjunction → PASS 262/0; the same twice for `checkQualityResources`. **And it proved its own probe could turn
+red** by neutering a check that *is* covered, which came back FAIL 262/1 — so the four PASSes are a finding
+rather than a broken harness. That last step is the difference between a measurement and a claim.
+
+The stated impossibility — *"a control would have to mutate a source file while the gate runs, which a gate
+must not do"* — does not hold. Two designs a gate is allowed to use: split the read from the judgement so
+`compareDerivedCopy(namespace, expected)` is pure and can be fed a fake namespace, or use an optional fixture
+path — **the very `mkdtempSync(tmpdir())` pattern C4 itself introduced** for `--also-scan=`. Recorded as
+accepted: the finding was right, the reason was not, and C5 closes it.
+
+**R4-4 — a finding that reaches backwards into two prior rounds, and QA filed it against itself.**
+`qa-p09a2-claims-sweep.spec.ts:139` waits for `#root > *` to be **attached** — which the shell alone satisfies
+— then sleeps 350 ms. Measured: **41 of 63 routes settle more than 350 ms after the fastest, the slowest at
+4018 ms**, and a faithful replica caught two routes mid-flight with `innerText` of **88 characters** against
+5753 and 4891 once settled. So `FINDINGS=0 across 63 routes` has always meant *"across the routes that
+happened to have rendered"* — in round 2 and round 3 as much as here.
+
+**The findings survive on a better instrument, which QA built rather than asserted.** A stabilised sweep
+returns `neverSettled=0`, `SLA_ROUTES=57`, `FINDINGS=0`, `EXEMPTED=12` at **both** desktop-1280 and
+mobile-375, naming the same six routes without the SLA. **57 was right; 56 was the instrument.** The 57-vs-56
+wobble I asked it to chase turned out to be the visible edge of a defect that had been quietly weakening two
+rounds of evidence.
+
+**R4-3 — the deferral I accepted is not discoverable where it was put.** The instinct was right; the
+execution rots. `claims-gate.mjs:1487` cites `servicePages.ts :774 :779 :797 :804`, and at the integration
+head those lines are a comparison-table row, a closing bracket, a fixture name and a repeatability label —
+the real sites moved **+14**, because a commit in the *same C4 batch* added a 14-line comment at `:132`. My
+own `PROGRESS.md` citation of the `ozel-projeler` pair is off by 26 for the same reason. The fix is to stop
+citing line numbers: `claims-gate.mjs:2396` already cross-references by **rule id** and survives any edit.
+
+**A correction to QA's correction, checked at the source.** QA reports the class is *five* sites, not six.
+That is true of **the control's enumeration** — which double-counts `:793` and never names `:3318` — but not
+of the class. I re-grepped: the live sites are `:788 :793 :811 :818 :3318 :3332`. **Six is right**, and the
+control names five of them. Recording this precisely because accepting the correction would have shrunk a
+class I am about to hand to 09b.
+
+**R4-2 — detector (D) over-catches twice, and one over-catch falsifies the defence written beside it.**
+`"Tüm dosyalarınızı tek adımda yükleyebilirsiniz; hiçbiri üçüncü tarafla paylaşılmaz."` fires — while the
+comment at `claims-gate.mjs:882` defends the detector by arguing `yükleyebilirsiniz` is not an offer
+predicate, **and it is in `CAD_OFFER_PREDICATE`**. The second, `"Ölçüm raporunu çeşitli formatlarda
+gönderebilirsiniz."`, cuts across the *"Rapor Formatı"* distinction the same rule draws deliberately one
+detector earlier. Neither string is in the tree, so it is latent.
+
+**R4-6 — a `.js` shadow would be invisible to both instruments.** `claims-gate.mjs:101`'s `EXT` does not scan
+`.js`/`.mjs`, and Vite's default `resolve.extensions` — read from `node_modules/vite/dist/node/constants.js`
+rather than from memory — puts `.mjs` and `.js` **before** `.ts`. A `src/content/claims.js` would be what the
+app bundles while the gate reads `claims.ts` literally. Zero such files today. **R4-7**: an `enum` or
+`namespace` added to `claims.ts` later throws `ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX` and the gate reports **CAD
+copy drift over a correct file** — fails closed, wrong diagnosis.
+
+**What round 4 confirmed rather than found.** The evidence-overwrite class **is** closed: QA's own grep
+across `e2e/**` finds only the `mkdtemp` probe, the two env-gated writes and seven `testInfo.attach()` calls
+landing in the gitignored `outputDir`. Rather than leave that as a point-in-time statement it wrote a
+**census control** — `qa-p09a4-evidence-write-guard.spec.ts` — that fails when a new write destination
+appears or an existing one loses its flag. That is the right response to a defect that had been "the last
+one" three times. Rounds 2 and 3's 61 committed files are byte-identical by manifest hash before and after
+the full regression. Regression **377 passed / 0 failed / 62 skipped**, no flake, **no golden moved**, and
+the widened rules survived 31 adversarial strings including the one I would not have thought of —
+`"Kazancı ustalığı … 40 yıldır"`, where *kazancı* is Turkish for **boilermaker**, correctly silent.
+
+**And a citation error of mine that QA caught.** My round-4 packet gave the range `8b5ee92..184abf2`, using
+the **Coder's** hashes; `8b5ee92` exists only on `wt/coder-p09a4`, never on the integration branch, so
+diffing the stated range silently omits the commit introducing the very mechanism under review. The real
+range is `e7cf106..184abf2`. Integration itself was clean — `git diff wt/coder-p09a4 184abf2` is my packet
+and `PROGRESS.md` only. **Cherry-picking rewrites hashes, and a packet that cites pre-pick hashes cites
+commits its reader cannot see.** Every future packet cites integration-branch hashes.
+
+**09a-C5 dispatched** to `wt/coder-p09a5` at `ffe3c0b`. It carries R4-1 through R4-7 and, explicitly
+authorised, the one QA spec whose defect reaches backwards. **I did not pick the mechanism for R4-1** — raise
+CI's Node, or remove the type-stripping dependency — because I have picked the mechanism twice this phase and
+been wrong both times; the packet gives the trade-offs and requires the choice to be proved against a Node
+that lacks stripping.
