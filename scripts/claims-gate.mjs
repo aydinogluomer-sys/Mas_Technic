@@ -1075,12 +1075,59 @@ const CAD_LABEL_OFFER = trPattern(/destekl|kabul|yükle|girdi|gelen dosya|alına
    The shape is a vague quantifier attached to a file/format noun inside a
    sentence that OFFERS. The quantifier is what makes it a claim — "Hangi dosya
    formatlarını destekliyorsunuz?" carries the same noun and the same verb and
-   asks a question rather than answering one, so it must stay silent — and the
-   offer predicate is what stops it from firing on the ordinary sense of `tüm
-   dosyalarınız`. The two-word gap keeps it inside one noun phrase. */
+   asks a question rather than answering one, so it stays silent for want of a
+   quantifier. The two-word gap keeps the match inside one noun phrase.
+
+   09a-C5 / R4-2 — THE SENTENCE THAT USED TO STAND HERE WAS FALSE, AND IT WAS
+   THE DEFENCE. It said "the offer predicate is what stops it from firing on the
+   ordinary sense of `tüm dosyalarınız`". It does not, and it cannot:
+   `yükleyebilirsiniz` IS in `CAD_OFFER_PREDICATE`, six lines up. QA measured
+   both strings this detector over-caught:
+
+     "Tüm dosyalarınızı tek adımda yükleyebilirsiniz; hiçbiri üçüncü
+      tarafla paylaşılmaz."
+     "Ölçüm raporunu çeşitli formatlarda gönderebilirsiniz."
+
+   Neither is in the tree, so this is latent — but the comment was the reason
+   nobody would look again, which is the more expensive half.
+
+   Two discriminators, each closing one of them, and each narrow enough to leave
+   the claim shape intact:
+
+   (i) THE VISITOR'S OWN DOCUMENTS ARE NOT A CLASS OF FORMATS. `dosyalarınızı`
+       carries a second-person possessive: it counts the files a visitor has, it
+       does not name a kind of file we accept. "Upload all of YOUR files in one
+       step" says nothing whatever about which formats survive the validator —
+       the validator is the answer, a few pixels below. So the possessive
+       suppresses, but ONLY when the predicate is second-person too
+       (`…ebilirsiniz`, `…ebileceğiniz`), because "Tüm dosyalarınızı kabul
+       ediyoruz" is a first-person acceptance claim about an unbounded class and
+       must still fire. Both halves, or nothing.
+
+   (ii) THE REPORT WE DELIVER IS NOT THE FILE THE VISITOR SENDS. That is the
+       distinction detector (C) already draws deliberately, in its own comment,
+       to keep `{ label: "Rapor Formatı", value: "PDF + revize CAD" }` quiet —
+       and this detector cut straight across it. A report noun GOVERNING the
+       quantified noun phrase (immediately before it, at most one word between)
+       suppresses. Adjacency is the point: "Kalite raporu ile birlikte tüm CAD
+       formatlarını gönderebilirsiniz" is three words away and still fires.
+
+   The match now runs to the end of the inflected noun — `Tüm dosyalarınızı`,
+   not `Tüm dosya` — because the suffix is the evidence discriminator (i) turns
+   on, and because a violation should print the word a human wrote. Both strings
+   are `silent` controls below, so this cannot quietly regress. */
 const CAD_VAGUE_SCOPE = trPattern(
-  /(?:yaygın|tüm|bütün|her\s+tür(?:lü)?|her\s+çeşit|birçok|pek\s+çok|çoğu|çeşitli|popüler|başlıca|bilinen|piyasadaki|geniş)\s+(?:\S+\s+){0,2}?(?:dosya|format|uzantı)/gi,
+  /(?:yaygın|tüm|bütün|her\s+tür(?:lü)?|her\s+çeşit|birçok|pek\s+çok|çoğu|çeşitli|popüler|başlıca|bilinen|piyasadaki|geniş)\s+(?:\S+\s+){0,2}?(?:dosya|format|uzantı)[a-zçğıöşü]*/gi,
 );
+
+/** `dosyalarınızı`, `dosyanız`, `belgelerinizi` — the visitor's OWN documents. */
+const CAD_VISITOR_OWNED_NOUN = trPattern(/^(?:dosya|belge)(?:ler|lar)?[ıiuü]?n[ıiuü]z/i);
+
+/** `…ebilirsiniz` / `…abileceğiniz` — the VISITOR acts. We assert nothing. */
+const CAD_VISITOR_ACTION = trPattern(/[ae]bilirsiniz|[ae]bileceğiniz|[ae]biliyorsunuz/i);
+
+/** A report noun immediately governing the quantified noun phrase. See (ii). */
+const CAD_DELIVERABLE_GOVERNOR = trPattern(/rapor[a-zçğıöşü]*\s+(?:\S+\s+)?$/i);
 
 /**
  * TWO FILES MAY SPELL THE LIST — AND BOTH ARE PINNED, NOT EXEMPTED.
@@ -1252,9 +1299,14 @@ function* cadFormatScan(text, file) {
   while ((vague = CAD_VAGUE_SCOPE.exec(text)) !== null) {
     if (insideKeywordArray(text, vague.index)) continue;
     if (!outside(vague.index, vague[0].length)) continue;
-    if (CAD_OFFER_PREDICATE.test(sentenceAt(text, vague.index))) {
-      yield { index: vague.index, match: vague[0] };
-    }
+    const sentence = sentenceAt(text, vague.index);
+    if (!CAD_OFFER_PREDICATE.test(sentence)) continue;
+    // (ii) the report WE deliver, not the file the visitor sends
+    if (CAD_DELIVERABLE_GOVERNOR.test(text.slice(Math.max(0, vague.index - 60), vague.index))) continue;
+    // (i) the visitor's own documents, and the visitor doing the uploading
+    const noun = vague[0].split(/\s+/).pop() ?? "";
+    if (CAD_VISITOR_OWNED_NOUN.test(noun) && CAD_VISITOR_ACTION.test(sentence)) continue;
+    yield { index: vague.index, match: vague[0] };
   }
 }
 
@@ -1673,6 +1725,16 @@ const RULES = [
         '"Analiz, teklif akışına yüklenen katı model üzerinden yürütülür; modelle birlikte ölçülendirilmiş teknik resim gönderilmesi analiz süresini kısaltır.",',
         '"Yaygın CAD formatları için ölçülendirilmiş teknik resim gönderilmesi analiz süresini kısaltır."',
         { file: "src/data/technicalLandingData.ts", text: '"Hangi dosya formatlarını destekliyorsunuz?",' },
+        /* 09a-C5 / R4-2 — detector (D)'s two over-catches, each held to the
+           discriminator that closes it. Neither string is in the tree; both are
+           ordinary sentences this site is entitled to write, and the detector
+           fired on both while the comment beside it argued it could not.
+           (i) the visitor's own files, uploaded by the visitor — no claim about
+               which formats survive the validator. */
+        '"Tüm dosyalarınızı tek adımda yükleyebilirsiniz; hiçbiri üçüncü tarafla paylaşılmaz."',
+        /* (ii) the report WE deliver, in the formats WE emit — detector (C) draws
+               this same line for `{ label: "Rapor Formatı", … }`. */
+        '"Ölçüm raporunu çeşitli formatlarda gönderebilirsiniz."',
         /* The CAD software our engineers model IN — a capability, not an intake
            list.
            09a-C4 — RE-AIMED. This slot used to hold `"CAD/CAM Entegrasyonu —
