@@ -2350,3 +2350,98 @@ probe file out of `src/**`, make the QA evidence write opt-in, stop the byte-exa
 reformat, and gate the four D4 sites that QA found ungated. **I deliberately did not prescribe the mechanism
 for the pin this time** — I prescribed one last packet and it could not be built. Acceptance is QA's own
 attack harness, `p09a3-pin-attacks.mjs`, which is committed on the branch: read it, run it, do not edit it.
+
+#### C4 integrated — the pin is closed, and the mechanism is a third one neither of us proposed
+
+Ten commits picked as `8b5ee92..184abf2`, six paths, tree identical to the Coder's on every code and test
+path. No rendered copy changed; **no golden moved**.
+
+**All four holes closed and both false positives gone — verified by my own runs of QA's harness, not by the
+Coder's report.** Three invocations, worktree checked clean after each:
+
+```
+A6-tuple-intact-derivation-appends-dwg    tsc=0 gate=1  caught by gate    ← was a HOLE
+A7-tuple-intact-derivation-truncates      tsc=0 gate=1  caught by gate    ← was a HOLE
+A10-pinned-file-prose-offer               tsc=0 gate=1  caught by gate    ← was a HOLE
+A11-other-pinned-file-prose-offer         tsc=0 gate=1  caught by gate    ← was a HOLE
+A8-whitespace-only-reformat               tsc=0 gate=0  correctly silent  ← was a FALSE POSITIVE
+A9-single-quotes                          tsc=0 gate=0  correctly silent  ← was a FALSE POSITIVE
+```
+
+Gate on the tree, my run: **PASS, 31 rules, 262 controls, 0 failed** (was 244).
+
+**The mechanism is neither of the two I imagined, and the Coder proved why the obvious one is unavailable
+rather than asserting it.** A type-level binding cannot be built here: `Array.prototype.map` is declared
+`map<U>(…): U[]`, so it returns a plain array and the element literals are destroyed before any
+template-literal type could join them back into `"STEP, … ve 3MF"`. It demonstrated that with a three-line
+probe under the repo's own `tsc` under `--strict`. And building one would have required rewriting the
+derivation *expression* — **which is the exact anchor `p09a3-pin-attacks.mjs` mutates**, so the fix would
+have disabled the probe that proves it. Both anchor lines are byte-identical to `8217c67`.
+
+So `claims-gate.mjs` now `await import()`s `claims.ts` and compares `CAD_UPLOAD_FORMATS` and
+`CAD_UPLOAD_EXTENSIONS` **as values** against a canonical rendering of `CAD_ACCEPTED_EXTENSIONS` read from the
+authority — the total, order-preserving function checked on the values rather than on the code that produces
+them. It can only do that because that file's single import is an `import type` Node's type stripping erases,
+which means **the check now enforces the no-runtime-imports property C3 merely asserted**. Both fail-closed
+paths were tested rather than assumed: a value import of the validator, and a non-erasable TypeScript enum,
+each producing an explicit `derived-copy problem` FAIL.
+
+**The pin also stopped replacing the general detectors.** Being pinned now buys a file an *extra* check —
+the pin marks the one span where the list may be spelt, and every detector runs over everything outside it.
+Detector (A) now runs on any pinned file, not only `src/data/**`; the ledger is not in `src/data/` and had no
+restated-list cover at all.
+
+**And both pins now parse instead of comparing bytes**, which is what killed the false positives: the ledger
+pin extracts the quoted tokens between the brackets and compares element-wise and in order, and the landing
+pin matches its words with `\s+` between them. A formatter run no longer turns the gate red for nothing.
+
+**The Coder refused half of an instruction and was right.** I asked for all four ungated D4 sites gated. It
+gated two that needed no judgement — a §J intake claim, and `Mastercam` added beside `Vericut` in a rule that
+already holds CAM packages. It **refused the other two**, because any rule catching them catches all six live
+sites of the software-inventory class I had just deferred to 09b: `:774`, `:779`, `:797`, `:804`, `:3292`,
+`:3306`. Its reasoning is the part worth keeping — *"writing the rule takes the decision, and writing it with
+an enumerated exemption list for the six fakes taking it"* — and if 09b rules the class publishable, the rule
+would be wrong and the list would be noise. It then wrote the deferral **into the gate at the re-aimed
+control, where the next agent will look**, rather than into a document nobody opens.
+
+**A stale control that was blessing a class vacuously.** `:1221` asserted silence on
+`'"CAD/CAM Entegrasyonu — CATIA, SolidWorks, NX, Mastercam",'` — a string `b3ae3c7` had **deleted**. A negative
+control on an absent string passes for free. Re-aimed at the two strings in that class that are live, so it
+fails the day either changes, and the deleted one moved to `fires` on `named-enterprise-system`.
+
+**My false sentence existed in three places and all three are corrected.** The addendum took the third at
+`servicePages.ts:133-139`, which my own allowlist parenthetical had fenced off. I verified the result: `grep`
+for the phrase now returns **one** hit, at `:141`, quoted as what the note used to say and immediately
+followed by `YANLIŞTI`. The Coder added to it the detail that explains why the same mistake was made three
+times — `LegalDocument.tsx` carries a prop of the same name on a different type, **and that one is read**.
+
+**The evidence-overwrite defect was found three times and each time it was "the last one".** Round 3 found it
+in its own round-2 spec; C4 fixed that and `claims-gate.spec.ts`, which was writing a probe file into
+`src/content/` and cleaning up in `finally` — a hazard this run has demonstrated twice by losing agents to
+process kills. Then running the required check for C4 revealed a **third**, `qa-p09a3-cad-dom.spec.ts`,
+overwriting round 3's own evidence. All three now write to `test-results/` on an ordinary run and to the
+committed path only behind an explicit env flag, with the path echoed either way. Round 2's fifteen files and
+round 3's forty-six are byte-identical by hash. **QA round 4 is asked to grep for a fourth rather than take
+"these were the last three" on trust.**
+
+**A self-criticism I asked for and got in the code rather than in a report.** `runControls` proves that
+*rules* fire on the strings they were written for, and knows nothing about the two checks that are not rules:
+delete `checkDerivedCadCopy` or `checkQualityResources`, or drop either from the `clean` conjunction, and
+**all 262 controls still pass and the gate still reports PASS**. The Coder wrote that plainly next to the
+function, said why it is recorded rather than closed — a control would have to mutate a source file while the
+gate runs, which a gate must not do — and named what proves it instead, so the external proof is findable
+from the code. Round 4 is asked to confirm it rather than accept it.
+
+**Carried, unfixed, deliberate:** `npm run lint` exits 1 at `8217c67` and at `184abf2` with the same four
+errors, two of them in files C4 edited and both pre-existing byte-for-byte, one on a line the packet forbade
+changing. A single `UV_HANDLE_CLOSING` libuv assertion, one observation against 25 clean re-runs, mitigated
+by moving off `process.exit()` so the loop drains, root cause not found and said so. And a wobble the Coder
+reported without chasing because the spec is QA's: `qa-p09a2-claims-sweep` gave `SLA_ROUTES=57` on one run
+and `56` on another in the same session, `FINDINGS=0` both times — if that measurement is flaky then round
+3's "SLA on 57 of 63" rests on it, which is why round 4 is asked to settle it.
+
+**QA round 4 dispatched** — the closing round — to a fresh, pre-provisioned `wt/qa-p09a4` at `184abf2`,
+packet `.work/packets/phase-09a-QA-R4.md`. Narrow by design: round 3's content findings are not reopened. Its
+targets are the **new** mechanism rather than the old attacks, the two uncovered checks, whether the
+evidence-overwrite class is actually closed, the SLA wobble, and a second opinion on the D4 refusal. If it
+passes, 09a closes on its verdict.
