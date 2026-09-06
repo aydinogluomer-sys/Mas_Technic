@@ -1,0 +1,15 @@
+{
+  "headOfBranch": {
+    "exit": 0,
+    "tests": "83",
+    "firstError": "(none)"
+  },
+  "withRuntimeImport": {
+    "exit": 1,
+    "tests": "0",
+    "firstError": "TypeError: Cannot read properties of undefined (reading 'VITE_SUPABASE_URL')",
+    "mentionsSupabaseEnv": true,
+    "excerpt": "Listing tests:\nTotal: 0 tests in 0 files\n(node:13636) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.\n(Use `node --trace-deprecation ...` to show where the warning was created)\n\nTypeError: Cannot read properties of undefined (reading 'VITE_SUPABASE_URL')\n\n   at ..\\src\\integrations\\supabase\\env.ts:22\n\n  20 | };\n  21 |\n> 22 | export const SUPABASE_URL = required(\"VITE_SUPABASE_URL\", import.meta.env.VITE_SUPABASE_URL);\n     |                                                                           ^\n  23 |\n  24 | export const SUPABASE_PUBLISHABLE_KEY = required(\n  25 |   \"VITE_SUPABASE_PUBLISHABLE_KEY\",\n    at C:\\Users\\Trade Bilisim\\pdh-wt\\qa-p09a3\\src\\integrations\\supabase\\env.ts:22:75\n"
+  },
+  "verdict": "CLAIM HOLDS — the runtime edge breaks critical-1280 collection; the type pin is load-bearing"
+}
