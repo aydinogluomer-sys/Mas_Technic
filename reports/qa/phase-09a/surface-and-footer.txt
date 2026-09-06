@@ -1,0 +1,18 @@
+
+══ 375 ══
+slug      surface   footerH  borderTop             bandIndex color / border-right
+home      graphite  740      0px rgb(217, 222, 226)rgb(243, 240, 232) / rgba(227, 231, 225, 0.28)   "14FOOTER"
+service   graphite  740      0px rgb(217, 222, 226)rgb(243, 240, 232) / rgba(227, 231, 225, 0.28)   "14FOOTER"
+about     graphite  740      0px rgb(217, 222, 226)rgb(243, 240, 232) / rgba(227, 231, 225, 0.28)   "14FOOTER"
+journal   graphite  740      0px rgb(217, 222, 226)rgb(243, 240, 232) / rgba(227, 231, 225, 0.28)   "14FOOTER"
+rfq       graphite  740      0px rgb(217, 222, 226)rgb(243, 240, 232) / rgba(227, 231, 225, 0.28)   "14FOOTER"
+notfound  paper     741      1px rgba(18, 23, 25, 0.42)rgb(164, 171, 168) / rgba(227, 231, 225, 0.28)   "14FOOTER"
+
+══ 1280 ══
+slug      surface   footerH  borderTop             bandIndex color / border-right
+home      graphite  297      0px rgb(217, 222, 226)rgb(243, 240, 232) / rgba(227, 231, 225, 0.28)   "14FOOTER"
+service   graphite  297      0px rgb(217, 222, 226)rgb(243, 240, 232) / rgba(227, 231, 225, 0.28)   "14FOOTER"
+about     graphite  297      0px rgb(217, 222, 226)rgb(243, 240, 232) / rgba(227, 231, 225, 0.28)   "14FOOTER"
+journal   graphite  297      0px rgb(217, 222, 226)rgb(243, 240, 232) / rgba(227, 231, 225, 0.28)   "14FOOTER"
+rfq       graphite  297      0px rgb(217, 222, 226)rgb(243, 240, 232) / rgba(227, 231, 225, 0.28)   "14FOOTER"
+notfound  paper     298      1px rgba(18, 23, 25, 0.42)rgb(164, 171, 168) / rgba(227, 231, 225, 0.28)   "14FOOTER"

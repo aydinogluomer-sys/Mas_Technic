@@ -1,0 +1,105 @@
+
+### e2e/__golden__/win32/visual-375/shell-footer-rfq.png   old 375x742  new 375x741  comparing new[y] against old[y+1]  thr=16
+  rows still differing after the 1px shift: 249/741   pixels: 15662
+    rows    9..  14  x 8..18  44px
+    rows   85.. 102  x 59..228  711px
+    rows  121.. 133  x 80..235  670px
+    rows  149.. 167  x 58..193  594px
+    rows  188.. 199  x 58..199  622px
+    rows  202.. 203  x 58..71  26px
+    rows  234.. 235  x 42..374  666px
+    rows  252.. 252  x 67..69  3px
+    rows  254.. 262  x 58..355  268px
+    rows  283.. 284  x 42..374  666px
+    rows  301.. 301  x 81..98  7px
+    rows  303.. 311  x 58..355  351px
+    rows  332.. 333  x 42..374  666px
+    rows  350.. 360  x 58..355  343px
+    rows  381.. 382  x 42..374  666px
+    rows  402.. 409  x 58..355  258px
+    rows  430.. 430  x 42..374  333px
+    rows  432.. 432  x 42..374  333px
+    rows  453.. 465  x 57..356  751px
+    rows  488.. 489  x 42..374  666px
+    rows  501.. 502  x 58..358  432px
+    rows  512.. 533  x 70..320  815px
+    rows  544.. 545  x 58..358  432px
+    rows  559.. 590  x 112..358  959px
+    rows  592.. 593  x 42..374  666px
+    rows  605.. 606  x 58..83  50px
+    rows  611.. 612  x 64..68  8px
+    rows  614.. 620  x 64..78  52px
+    rows  623.. 625  x 64..78  33px
+    rows  630.. 631  x 58..83  50px
+    rows  643.. 644  x 42..374  666px
+    rows  656.. 667  x 57..354  1096px
+    rows  678.. 686  x 58..128  272px
+    rows  698.. 699  x 42..374  666px
+    rows  711.. 711  x 345..346  2px
+    rows  714.. 718  x 338..353  34px
+    rows  720.. 724  x 338..353  34px
+    rows  727.. 727  x 345..346  2px
+    rows  739.. 740  x 0..374  749px
+  biggest band rows 656..667 samples:
+    x=58 old #828959 -> new #838a59
+    x=59 old #5489a9 -> new #35749a
+    x=61 old #a5ac86 -> new #a59d72
+    x=62 old #543972 -> new #363a73
+    x=63 old #83753b -> new #6d570d
+    x=72 old #5489a9 -> new #070b0d
+
+### e2e/__golden__/win32/visual-768/shell-footer-rfq.png   old 766x769  new 766x768  comparing new[y] against old[y+1]  thr=16
+  rows still differing after the 1px shift: 209/768   pixels: 12510
+    rows   27..  36  x 18..36  95px
+    rows   46..  50  x 14..40  110px
+    rows  205.. 223  x 73..433  1305px
+    rows  238.. 251  x 94..439  1291px
+    rows  254.. 255  x 298..311  26px
+    rows  286.. 287  x 56..765  1420px
+    rows  303.. 311  x 56..502  513px
+    rows  326.. 339  x 73..510  742px
+    rows  371.. 384  x 72..534  969px
+    rows  418.. 429  x 73..527  1108px
+    rows  453.. 453  x 56..411  2px
+    rows  477.. 485  x 56..477  484px
+    rows  502.. 513  x 72..487  755px
+    rows  545.. 558  x 73..551  1218px
+    rows  592.. 603  x 73..500  754px
+    rows  627.. 627  x 56..411  2px
+    rows  654.. 672  x 245..747  780px
+    rows  675.. 695  x 331..749  378px
+    rows  699.. 717  x 245..748  558px
+  biggest band rows 286..287 samples:
+    x=56 old #444848 -> new #070b0d
+    x=57 old #454949 -> new #070b0d
+    x=58 old #444848 -> new #070b0d
+    x=59 old #454949 -> new #070b0d
+    x=60 old #444848 -> new #070b0d
+    x=61 old #454949 -> new #070b0d
+
+### e2e/__golden__/win32/visual-1280/shell-footer-rfq.png   old 1278x298  new 1278x298  comparing new[y] against old[y+1]  thr=16
+  rows still differing after the 1px shift: 63/298   pixels: 2866
+    rows   27..  36  x 22..40  95px
+    rows   46..  51  x 16..46  141px
+    rows   90.. 113  x 81..430  1313px
+    rows  128.. 140  x 102..436  1138px
+    rows  142.. 151  x 102..308  179px
+  biggest band rows 90..113 samples:
+    x=81 old #070b0d -> new #1b1f21
+    x=82 old #929795 -> new #8d9290
+    x=83 old #1d2123 -> new #070b0d
+    x=84 old #070b0d -> new #15191a
+    x=85 old #565b5b -> new #9ea3a1
+    x=86 old #a3a8a6 -> new #070b0d
+
+### e2e/__golden__/win32/visual-1440/shell-footer-rfq.png   old 1438x298  new 1438x298  comparing new[y] against old[y+1]  thr=16
+  rows still differing after the 1px shift: 16/298   pixels: 236
+    rows   27..  36  x 22..40  95px
+    rows   46..  51  x 16..46  141px
+  biggest band rows 46..51 samples:
+    x=16 old #35748b -> new #72b6cc
+    x=17 old #764a2b -> new #be875a
+    x=18 old #25292b -> new #5b605b
+    x=19 old #25271c -> new #5a5746
+    x=20 old #0c0b0d -> new #260b0d
+    x=21 old #367587 -> new #73b7c6
