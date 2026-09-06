@@ -1912,3 +1912,47 @@ objects — a production mutation only the user can authorise, and the anon role
 service-role access; (2) whether the undeployed rate limiter is fixed now by deploying the repo's function —
 `USER_INPUTS.md` §M sets `ALLOW_PRODUCTION_DEPLOY: NO`, so I cannot close that exposure — or documented as a
 09b finding and left live until the user acts.
+
+#### C2 lost its agent one commit in — and the worktree rule paid for itself again
+
+The C2 Coder's process was killed after **one** commit. `ListAgents` shows no live subagent; the worktree
+`pdh-wt/coder-p09a` (`wt/coder-p09a2`) is clean at `60238c8`. Because the standing rule is never to remove a
+stopped agent's worktree, nothing was lost — the same rule that saved 45 minutes of QA probes in Phase 08, and
+the inverse of the Phase 07 loss where removing one destroyed the work. **C2 is being resumed, not restarted.**
+
+**What `60238c8` actually contains, reviewed at the source rather than taken from a summary.** The four
+`chatFaqData.ts` answers the packet named, **plus three the Coder found itself**: `:114` credit terms, `:131`
+working hours carrying a weekend-production commitment — Phase 07 removed the identical block from `/iletisim`
+for want of authority — and `:166` `"MAS Technic, İSTANBUL merkezli"`, which contradicted §A `PUBLIC_CITY:
+İzmir`, the footer, the JSON-LD, `/iletisim` **and this same file's own address answer twenty lines earlier**
+(`Çiğli/İzmir`). That value now reads `${PUBLIC_CITY}` from the ledger. `claims.ts` gains `PRODUCTION_LEAD_TIME`
+(withheld), `LEAD_TIME_STATEMENT` and `LEAD_TIME_SHORT`; `caseStudies.ts` reads the statement from there instead
+of holding its own literal. `QUOTE_RESPONSE_TIME` untouched.
+
+The Coder's own reasoning for the two commercial-policy answers is better than my packet's and is worth
+keeping: every question **stays**, because `findBestFaqMatch` has a 0.6 floor and a commercially loaded question
+left unanswered does not fall silent — it lands on a wrong neighbour. That is the failure Phase 06 hit with
+"garanti veriyor musunuz" at 0.67. Deleting the entry would have been worse than the claim.
+
+**Still untouched, measured by me in the worktree:** `servicePages.ts` — **62 hits, none addressed**;
+`scripts/claims-gate.mjs` — 1459 lines, **no rule added**; no verification run at all.
+
+**My inventory regex was wrong for the third time this phase.** It matched `gün` and `hafta` only, so it missed
+`servicePages.ts:774,806,824`'s `24-72 saat` delivery windows outright. Worse, `:824` publishes **"Ekspres
+hizmet ile aynı gün teslimat da mümkündür"** — a delivery commitment and a service tier with **no digits in
+them at all**, which no numeric pattern could ever have caught. The resume packet therefore tells the Coder to
+build the inventory from the claim rather than from my regex. Two files the original packet never named also
+carry matches: `rfq-model.ts` (`:82` is the authorised wording, verify and leave) and `RfqSubmitStep.tsx`
+(unexamined).
+
+**A gate-coverage finding that indicts the gate, not the copy.** `scripts/claims-gate.mjs:967`'s `wrong-city`
+rule matches `/geo\.placename[^\n]*İstanbul/gi` — so `chatFaqData.ts:166`'s wrong-city claim **in published
+prose** sailed straight past the rule whose entire purpose is wrong-city claims. Same shape as the gate having
+no revenue rule and no turnaround rule: the gate guards the structured field and not the sentence. Widening it,
+with a control, is in the resume packet.
+
+**Also corrected in the resume packet:** the DO_NOT_TOUCH list now names `ForgotPassword.tsx`. Every list I
+wrote this phase said `SifremiUnuttum.tsx`, which does not exist.
+
+`09a-C2r` dispatched to the same worktree, packet `.work/packets/phase-09a-C2-resume.md`, `PARTIAL` explicitly
+permitted and "commit after every step" made a packet rule rather than advice.
