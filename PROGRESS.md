@@ -2255,3 +2255,98 @@ Its three targets are the type pin — attacked by reordering, shortening, case 
 routes I did not test — the five CAD sites and six phrasings, and a second opinion on whether the Coder's F4
 refusal was right. It is also asked whether its own round-2 spec can overwrite round 2's committed evidence,
 since running it rewrote `sweep.json` and the Coder had to restore it.
+
+#### QA 09a round 3 — PASS, and it got through the pin two ways I did not think to try
+
+Ten commits integrated as `8ae3728..8217c67`; 62 paths, all allowlisted, `.env` not committed, nothing
+submitted or inserted. **Integration error of mine, caught and fixed in the same turn:** I first
+cherry-picked only QA's final report commit, which left the branch missing the nine commits carrying its
+evidence. `git diff` against the QA branch showed 15,984 deletions and I picked the remaining nine. The tree
+now matches exactly. Worth recording because the check that caught it — diffing the integration tree against
+the agent's own — is the one that makes "integrated" mean something.
+
+**VERDICT: PASS.** Six defects, none blocking.
+
+**It attacked the type pin twelve ways and four got through.** The four I named in the packet are all caught,
+both instruments: reorder, shorten, case change → `TS2344` **and** gate FAIL. Dropping `as const` or
+annotating `: readonly string[]` → tsc only, which is correct rather than a hole, because the literal is still
+textually right.
+
+**The two that got through are the ones I did not think to try, and they are inside `claims.ts`.** The pin
+binds the **tuple to the validator**; nothing binds the **published strings to the tuple**. Leave the tuple
+untouched and edit the derivation —
+`joinTurkishList([...PUBLISHED_CAD_EXTENSIONS.map(e => e.toUpperCase()), "DWG"])` — and `tsc` exits 0, the
+gate passes, and **all five publication sites read `… IGS, 3MF ve DWG` against a validator that refuses
+DWG.** That is the exact defect C3 existed to make impossible, reintroduced one layer up. `A7` is the same
+with `.slice(0, 5)`. **R3-1.**
+
+**And the gate's pinned-file scan replaces the general detectors instead of supplementing them**
+(`claims-gate.mjs:837-848`), so a bare prose offer of SolidWorks added to `claims.ts` — **or to
+`technicalLandingData.ts`, a rendered content file** — is invisible to both instruments. A file being pinned
+should buy an *extra* check, never fewer. **R3-2.**
+
+**Both of the Coder's refusals were independently confirmed, by measurement rather than by argument.** QA
+restored the runtime import edge and ran the collector: `critical-1280 --list` gives **0 tests in 0 files**
+(`TypeError … VITE_SUPABASE_URL` at `env.ts:22`) against **83** at HEAD. My instruction was not merely
+awkward, it was unbuildable. And the `F4` filter I ordered extended: over every header in the tree
+`isPublishableSpec` drops **265 of 279 (95%)**, **53 of 54 tables** lose a column, and
+`ShellComposition.tsx:243` renders `headers` and `rows` independently with no zip and no width check — it
+would have shipped 53 malformed tables. The counter-fix is sound: `Parça/Saat` fires, `Çevrim/Saat` and
+`Çevrim/Vardiya` stay silent, rows were trimmed with the header (0 mismatches, measured in the DOM).
+
+**The CAD fix reaches nine sites, not the five I recorded.** Beyond `:210 :152 :2058 :2100 SSS:135`, commit
+`b3ae3c7` corrected four more on the DFM page that its own fix had put into contradiction on screen. Pool
+re-assembled from the real modules: 140 entries, **0 offers of a refused format**; all six phrasings hit
+entry #26 at 1.000 with the refusal and the email route; rendered DOM at 1280 and 375 with `<details>` forced
+open shows 0 offers and 7 non-offer mentions.
+
+**A false statement of mine, corrected here rather than quietly.** I wrote — in the C3 packet, in this file,
+and in a commit message — that the free-DFM and `%70` claims were "shipping into search results and social
+cards" because they sat in a `metaDescription`. **That is false.** `ServiceDetail.tsx:195, 284, 306` all pass
+`page.description`; **nothing in `src/**` reads `metaDescription` on a service route.** The removals were
+right — they were unauthorised claims wherever they sat — but the reason I gave for their severity was wrong,
+and two in-code comments now repeat it. C4 corrects the comments. **That every service page carries an unread
+`metaDescription` is itself a real finding and it belongs to the SEO phase, not to a content correction** —
+recorded, not acted on.
+
+**A gate false negative in the class just widened: `kazanç` is matched, `kazancı` is not.** `{ label:
+"Maliyet Kazancı", value: "%30-50" }` passes the full gate while `Zaman Kazanç` fires. I checked the tree —
+**no live instances**, so it is a latent hole rather than a live claim. The fix is the `kazan[çc]` idiom the
+file already uses four times. **R3-3.**
+
+**A hazard this run has demonstrated twice.** `e2e/landing/claims-gate.spec.ts:53` writes a probe file into
+**`src/content/`** and removes it in `finally` — and two agents have been killed mid-run this phase, which
+leaves that file in production source. QA also found and owned a defect of its own: its round-2 spec writes
+`reports/qa/phase-09a-r2/sweep.json` unconditionally on every run, so running it **overwrites round 2's
+committed evidence**. It reproduced the overwrite, restored all 15 files to their pre-run md5, and reported
+it against itself. **R3-5.**
+
+**Goldens, profiled rather than eyeballed.** QA wrote a from-scratch PNG decoder and found the Coder's account
+is a *simplification* — two of the six did not change height and one grew a row — but every one is explained
+by a whole-band ±1-row displacement plus sub-pixel re-rasterisation, with 296–669 bit-identical consecutive
+rows in four of them and no localised block of new content anywhere. It also refused to claim something it
+could not check: **"the byte-identical-rewrite claim is not falsifiable from git"** — a rewrite producing
+identical bytes and no rewrite at all are indistinguishable — so it logged that as U12 rather than pretending.
+That is the discipline this run is being built on.
+
+**Regression 367 passed / 1 failed / 62 skipped**, the one failure being the `visual-375` font-cache flake,
+6/6 green on isolated re-run. Specs unedited, goldens clean after four visual projects.
+
+**Two scope corrections to me, both right.** `fe3a525..38d4f73` is **13** paths, not the 11 I wrote — the
+extras are `PROGRESS.md` and my own C3 packet, committed inside the range; `8e5472b..38d4f73` is the 11 I
+meant. And `servicePages.ts:3292` / `:3306` carry `{ label: "CAD", value: "SolidWorks, CATIA, NX" }` on
+`/endustriyel/ozel-projeler` — the same class as the row C3 removed, which the Coder had reported only for
+`fikstur-aparat`.
+
+**Orchestrator ruling on that class:** it is now **six sites** across two pages, and it is one decision, not
+six. It goes to **09b whole**. The Coder was right to stop at the DFM page in C3 — where deriving the
+"Desteklenen CAD" row had put two different accepted-format lists on one screen, making the contradiction its
+own to fix — and the same reasoning says do not half-sweep it now.
+
+**09a-C4 dispatched** to `wt/coder-p09a4` at `8217c67`, packet `.work/packets/phase-09a-C4.md`: bind the
+derived strings to the pinned tuple, make the pinned-file scan supplement rather than replace the general
+detectors, close `kazancı`, correct the two false comments without wiring `metaDescription` up, move the
+probe file out of `src/**`, make the QA evidence write opt-in, stop the byte-exact pin false-positiving on a
+reformat, and gate the four D4 sites that QA found ungated. **I deliberately did not prescribe the mechanism
+for the pin this time** — I prescribed one last packet and it could not be built. Acceptance is QA's own
+attack harness, `p09a3-pin-attacks.mjs`, which is committed on the branch: read it, run it, do not edit it.
