@@ -135,7 +135,13 @@ export const servicePages: ServicePageData[] = [
     title: "CNC Frezeleme",
     metaTitle: "CNC Frezeleme Hizmetleri | 5 Eksen Hassas İşleme | Mas Technic",
     metaDescription:
-      "3, 4 ve 5 eksenli CNC frezeleme ile ±0.01 mm standart tolerans aralığında üretim. Alüminyum, titanyum ve çelik işleme, ücretsiz DFM analizi.",
+      /* 09a-C3 — D3 ile aynı sınıf, ikinci yer. "ücretsiz DFM analizi" bir
+         TİCARİ POLİTİKADIR ve `USER_INPUTS.md` hiçbir alanında yer almıyor;
+         üstelik `metaDescription` olduğu için arama sonucuna ve sosyal karta
+         da çıkıyordu. Yumuşatılamaz — okuyucuya bir sayı değil bir taahhüt
+         söyleniyor — o yüzden yerine mekanizma yazıldı. `/sss` aynı soruyu
+         Phase 07'de aynı gerekçeyle yeniden yazmıştı. */
+      "3, 4 ve 5 eksenli CNC frezeleme ile ±0.01 mm standart tolerans aralığında üretim. Alüminyum, titanyum ve çelik işleme, teklifle birlikte üretilebilirlik incelemesi.",
     description:
       "5 eksenli CNC frezeleme merkezlerimiz ile karmaşık geometrileri yüksek hassasiyetle işliyoruz. Alüminyumdan titanyuma, plastikten kompozitlere kadar geniş malzeme yelpazesi.",
     heroImage: "hero-cnc-frezeleme",
@@ -175,7 +181,11 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "3, 4 ve 5 eksen konfigürasyonlarıyla her geometri",
-      "HSM ile %40 daha hızlı üretim ve üstün yüzey kalitesi",
+      /* 09a-C3 — F1. "%40 daha hızlı" kaynaksız bir performans KPI'ı; §D
+         `OTHER_PUBLIC_KPIS: NONE`. Kabiliyet kalır, doğrulanmamış sayı gider:
+         aynı sayfanın `content[2]` bölümü mekanizmayı zaten doğru anlatıyor
+         ("kesme kuvvetini düşürüp yüzey kalitesini iyileştiriyoruz"). */
+      "HSM stratejisiyle ince cidarlı parçalarda düşük kesme kuvveti ve iyi yüzey kalitesi",
       "Otomatik takım değiştirme (30-120 takım magazini)",
       "Gerçek zamanlı süreç izleme ve dijital ikiz simülasyonu",
       "Prototipten seri üretime esnek çözümler (min. 1 adet)",
@@ -276,7 +286,10 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "Tek bağlamada komple işleme",
-      "Çift milli üretimle %50 setup tasarrufu",
+      /* 09a-C3 — F1 ile aynı sınıf, bu sayfada. "%50 setup tasarrufu"
+         kaynaksız; §D `OTHER_PUBLIC_KPIS: NONE`. Kabiliyetin kendisi —
+         parçanın arka yüzünün ikinci bağlama olmadan tamamlanması — kalır. */
+      "Çift mil ile parçanın arka yüzü ayrı bir bağlama gerektirmeden tamamlanır",
       "Swiss tip mikro tornalama kabiliyeti (0.3-32mm)",
       "Bar besleyici ile uzun partilerde operatör müdahalesiz işleme",
       "Turn-mill ile frezeleme ihtiyacını tek operasyonda çözme",
@@ -585,13 +598,27 @@ export const servicePages: ServicePageData[] = [
       },
       {
         title: "Kavite Sayısı ve Üretim Verimliliği",
-        headers: ["Kavite", "Çevrim/Saat", "Parça/Saat", "Birim Maliyet", "Kalıp Maliyeti", "Önerilen Hacim"],
+        /* 09a-C3 — F4. "Parça/Saat" SÜTUNU KALDIRILDI.
+           `claims.ts` `WITHHELD_SPEC_CLASSES[0]` bir sayım nesnesinin bir
+           döneme bölünmesini — `parça/saat` dahil — yayımlanamaz sayar. O
+           filtre bu hücreye hiç bakmadı, çünkü `CategoryPage` üzerinden
+           yalnızca `technicalSpecs` üstünde çalışıyor, tablo başlıklarında
+           değil.
+
+           SÜTUN NEDEN SİLİNDİ, NEDEN YENİDEN ADLANDIRILMADI: değerleri
+           `Kavite × Çevrim/Saat` çarpımından ibaretti. Yani sütun kendi
+           başına hiçbir bilgi taşımıyordu; okuyucu aynı sayıya soldaki iki
+           sütundan zaten ulaşıyor. Bu dosyanın başındaki TAM SÜTUN KURALI ile
+           aynı gerekçe: bilgi taşımayan bir sütun nötralize edilmez, kaldırılır.
+           `Çevrim/Saat` KALIR — o kalıbın çevrim hızıdır, bir proses
+           parametresidir ve §0 `PRECISION_ENGINEERING`in koruduğu sınıftır. */
+        headers: ["Kavite", "Çevrim/Saat", "Birim Maliyet", "Kalıp Maliyeti", "Önerilen Hacim"],
         rows: [
-          ["Tek kavite", "60-120", "60-120", "$$$", "$", "1-10.000 adet"],
-          ["2 kavite", "60-120", "120-240", "$$", "1.5×", "10.000-50.000"],
-          ["4 kavite", "50-100", "200-400", "$$", "2×", "50.000-200.000"],
-          ["8 kavite", "40-80", "320-640", "$", "3×", "200.000-500.000"],
-          ["16+ kavite", "30-60", "480-960+", "$", "4-5×", "500.000+"],
+          ["Tek kavite", "60-120", "$$$", "$", "1-10.000 adet"],
+          ["2 kavite", "60-120", "$$", "1.5×", "10.000-50.000"],
+          ["4 kavite", "50-100", "$$", "2×", "50.000-200.000"],
+          ["8 kavite", "40-80", "$", "3×", "200.000-500.000"],
+          ["16+ kavite", "30-60", "$", "4-5×", "500.000+"],
         ],
       },
     ],
@@ -1989,8 +2016,14 @@ export const servicePages: ServicePageData[] = [
     categoryLabel: "Mühendislik Desteği",
     title: "Tasarım Rehberi (DFM)",
     metaTitle: "DFM Analizi | Tasarım Rehberi | Maliyet Optimizasyonu | Mas Technic",
+    /* 09a-C3 — F2a. "%70'e kadar maliyet tasarrufu" kaynaksız bir tasarruf
+       oranıydı (§D `OTHER_PUBLIC_KPIS: NONE`, §G `CASE_STUDIES:
+       NONE_PROVIDED_YET`) ve `metaDescription` içinde olduğu için sayfada
+       değil arama sonucunda ve sosyal kartta da yayımlanıyordu. Aynı sayfanın
+       SSS'i zaten "tasarrufun büyüklüğü parçaya bağlıdır" diyor; meta onunla
+       çelişiyordu. Sayı gitti, kaldıraçlar kaldı. */
     metaDescription:
-      "Design for Manufacturing (DFM/DFA) analizi ile tasarımlarınızı optimize edin. CNC ve enjeksiyon DFM kuralları, CATIA/SolidWorks/NX entegrasyonu, %70'e kadar maliyet tasarrufu.",
+      "Design for Manufacturing (DFM/DFA) analizi ile tasarımlarınızı optimize edin. CNC ve enjeksiyon DFM kuralları, CATIA/SolidWorks/NX entegrasyonu, parça bazında maliyet kaldıraçları.",
     description:
       "DFM/DFA analizi ile tasarımlarınızı üretilebilirlik açısından optimize ediyoruz. Üretim maliyetlerini düşüren, kaliteyi artıran ve süreyi kısaltan mühendislik desteği.",
     heroImage: "hero-dfm-tasarim",
@@ -2014,7 +2047,12 @@ export const servicePages: ServicePageData[] = [
       /* 09a-C3 — D1 ile aynı sınıf: "CATIA, NX, SW" hiçbiri kabul edilmiyor. */
       { label: "Desteklenen CAD", value: CAD_UPLOAD_FORMATS },
       { label: "Revizyon", value: "2 tur dahil" },
-      { label: "Maliyet Tasarrufu", value: "Ortalama %30-50" },
+      /* 09a-C3 — F2b. "Ortalama %30-50" kaynaksızdı ve bu sayfanın kendi
+         SSS'i tarafından yalanlanıyordu ("tasarrufun büyüklüğü parçanın
+         geometrisine ve mevcut üretim planına bağlıdır"). Satır bir ORTALAMA
+         vaat ediyordu; yerine analizde gerçekten bakılan kaldıraçlar yazıldı,
+         ki bunlar sayfanın `content[3]` bölümünde zaten sayılıyor. */
+      { label: "Maliyet Kaldıraçları", value: "Parça sayısı, bağlama, tolerans" },
       { label: "Simülasyon", value: "Takım yolu doğrulama" },
     ],
     processSteps: [
@@ -2034,7 +2072,14 @@ export const servicePages: ServicePageData[] = [
       "Dijital ikiz ile üretim öncesi doğrulama",
     ],
     faq: [
-      { question: "DFM analizi ücreti var mı?", answer: "İlk DFM değerlendirmesi ücretsizdir. Detaylı analiz raporu ve CAD revizyonları proje kapsamına göre fiyatlandırılır." },
+      /* 09a-C3 — D3. "İlk DFM değerlendirmesi ücretsizdir" bir BEDELSİZLİK
+         TAAHHÜDÜ, yani 09a-C2'nin sohbet botundan kaldırdığı ticari politika
+         sınıfı; `USER_INPUTS.md` hiçbir alanı böyle bir tarife vermiyor. Bir
+         politika hedge'e yumuşatılamaz — okuyucuya bir sayı değil bir kural
+         söyleniyor — bu yüzden ödeme koşulları ve iade taahhüdünde olduğu
+         gibi yerine MEKANİZMA yazıldı. Sorunun kendisi gerçek bir sorudur ve
+         `/sss` de Phase 07'de aynı gerekçeyle silmeyip yeniden yazmıştı. */
+      { question: "DFM analizi ücreti var mı?", answer: "Yayımlanan sabit bir DFM ücret tarifemiz yok. Gelen dosyanın üretilebilirlik incelemesi teklif hazırlığının bir adımıdır; ayrıca talep edilen detaylı DFM raporu ve CAD revizyonları ise kapsamıyla birlikte teklifte fiyatlandırılır." },
       { question: "DFM analizi ne kadar sürer?", answer: `Süreç dört aşamadan oluşur: ilk inceleme, detaylı analiz, müşteri görüşmesi ve final rapor. Takvim parçanın karmaşıklığına ve gönderilen dosyanın eksiksizliğine göre değişir. ${LEAD_TIME_STATEMENT}` },
       /* 09a-C3 — D2. Bu liste BUGÜN DOĞRUYDU ve tam da bu yüzden kaldırıldı:
          elle yazılmış olduğu için doğrulayıcı değiştiği gün sessizce yanlışa
@@ -2178,7 +2223,13 @@ export const servicePages: ServicePageData[] = [
       "Silikon Kalıplama — 10-100 adet PU/silikon/EP döküm",
       "Alüminyum Kalıp — pilot üretim ve tasarım doğrulaması için",
       "CNC İşleme — 1-100 adet ±0.01mm hassasiyette",
-      "Metal 3D Baskı (DMLS) — EOS M290 ile Al, SS, Ti",
+      /* 09a-C3 — F3, birinci yer. Model adı gitti, süreç kaldı: Al/SS/Ti'de
+         DMLS bir KABİLİYETTİR; onu yapan tezgâh ise ENVANTERDİR ve §D
+         `MACHINE_COUNT: PRIVATE_DO_NOT_DISCLOSE` / §0
+         `DO_NOT_EMPHASIZE_COMPANY_SCALE` kapsamındadır. Phase 06 adlandırılmış
+         modelleri makine parkı sayfasından aynı gerekçeyle kaldırmıştı; bu
+         ikisi o süpürmenin dışında kalmıştı. */
+      "Metal 3D Baskı (DMLS) — alüminyum, paslanmaz çelik ve titanyum",
       "Fonksiyonel Prototip — Seri üretim malzemesi ile test",
     ],
     technicalSpecs: [
@@ -2206,7 +2257,10 @@ export const servicePages: ServicePageData[] = [
     ],
     faq: [
       { question: "Prototip için hangi yöntem en uygun?", answer: `1-10 adet ve hızlı konsept doğrulaması için 3D baskı, ±0.01mm hassasiyet gereken parçalar için CNC, 10-100 adet plastik parça için silikon kalıplama öneriyoruz. ${LEAD_TIME_STATEMENT}` },
-      { question: "Metal 3D baskı yapabiliyor musunuz?", answer: "Evet, EOS M290 DMLS sistemimiz ile alüminyum, paslanmaz çelik ve titanyum malzemelerde metal 3D baskı yapabiliyoruz." },
+      /* 09a-C3 — F3, ikinci yer ve daha ağır olanı: bu bir `faq` girdisi,
+         yani `collectServiceFaqs()` ile sohbet havuzunun 78. kaydı. Model adı
+         botun bir soruyla ulaşılabildiği bir envanter bilgisiydi. */
+      { question: "Metal 3D baskı yapabiliyor musunuz?", answer: "Evet. DMLS (doğrudan metal lazer sinterleme) ile alüminyum, paslanmaz çelik ve titanyum malzemelerde metal 3D baskı yapıyoruz; parça ölçüsü ve ulaşılabilir tolerans teknik incelemede değerlendirilir." },
       { question: "Silikon kalıptan kaç parça çıkar?", answer: "Bir silikon kalıptan ortalama 20-50 parça üretilebilir. Malzeme ve geometriye göre bu sayı değişebilir." },
       { question: "Düşük hacimden seri üretime geçiş nasıl olur?", answer: "Prototip ve pilot üretimden sonra onaylanan tasarım için çelik kalıp yatırımı veya otomasyonlu CNC seri üretim planlaması yapılır. Geçiş süreci proje yöneticimiz tarafından koordine edilir." },
     ],
