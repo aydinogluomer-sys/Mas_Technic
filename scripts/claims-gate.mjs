@@ -779,7 +779,22 @@ const ACCEPTED_CAD = readAcceptedCadExtensions();
 
    It also enforces the property `claims.ts` claims for itself: the day someone
    turns that `import type` into a value import, this import throws and the
-   gate fails closed rather than quietly skipping.                            */
+   gate fails closed rather than quietly skipping.
+
+   THIS CHECK HAS NO CONTROL OF ITS OWN, and that is worth knowing before you
+   trust it. `runControls` proves that RULES still fire on the strings they
+   were written for; it knows nothing about the two checks here that are not
+   rules — this one and `checkQualityResources`. Delete either function, or
+   drop its result from the `clean` conjunction at the bottom of this file, and
+   all 262 controls still pass and the gate still reports PASS. That is the
+   same "one instrument asleep" shape the controls exist to prevent, one level
+   up. It is recorded rather than closed: a control for it would have to mutate
+   a source file while the gate is running, which a gate must not do.
+
+   What proves it today is external, and must be re-run when this changes:
+   `scripts/qa-probes/p09a3-pin-attacks.mjs` A6 and A7 — a derivation that
+   appends `DWG`, and one that truncates to five — go red through this check
+   and through nothing else. `tsc` is green on both.                          */
 const CAD_LEDGER_FILE = "src/content/claims.ts";
 
 /** What each exported string MUST be, derived from the authority. */
