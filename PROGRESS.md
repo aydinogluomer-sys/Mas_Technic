@@ -2052,3 +2052,104 @@ carrying a phantom into a later phase.
 carrying the production-write prohibition verbatim and instructing that **U1–U7 stay unattempted** — every one
 of them needs a write to the customer's database, and an honest unverifiable entry is worth more than a check
 bought that way.
+
+#### QA 09a round 2 — FAIL on one defect, and it is the one I sent QA to look for
+
+Nine commits integrated as `55a18ed..fe3a525`; 25 paths, every one inside the allowlist — three
+`qa-p09a2-*` specs, a fixture, seven probes, evidence. No production path, no golden, no pre-existing spec,
+and `.env` copied in but never committed (0 occurrences in history). The agent was killed mid-run for the
+**second** time this phase and resumed from its own transcript with five commits already banked. Two agents
+killed, two recoveries, zero work lost — the worktree rule has now paid for itself three times.
+
+**Everything C1 and C2 claimed reproduced, twice over.** Contrast measured both arithmetically from the token
+hexes and in the rendered cascade: `#e18570` on `#070b0d` = **7.33:1** at 9px/600 for both the label and the
+2px `border-left`, at 1280 and 375; the paper band nested inside the graphite root = 6.07:1; the trap a root
+override would have created = 2.23:1; ΔE = 33.8, which is C1's "34". Columns: 17 time-like columns walked in
+the real structure, **0 mixed**, and `proje-yonetimi`'s "Süre" proven to read the *identifier*
+`QUOTE_RESPONSE_TIME` at `:2324` rather than a literal that merely matches. Sweep: QA built its own 63-route
+list rather than taking the Coder's 56 — 0 findings, 12 raw hits all adjudicated false **by word sense** and
+each encoded with its reason so it re-fires if the text changes (`taahhüt ETMEZ` is a negated disclaimer;
+`kesintisiz işleme` is bar feed, not a shift; "Gun Drilling" is English; `100.000 saat` is fiber-laser
+service life). Goldens: exactly the two that moved, both explained by a bullet 19 characters longer
+re-wrapping at 375 and fitting on one line at every larger viewport — and the proof is that
+`git diff --stat dae15bb..HEAD -- e2e/__golden__` is **empty after all four visual projects ran**, which no
+`--update-snapshots` could leave true. Regression 364 passed / 0 failed / 62 skipped.
+
+**QA falsified me twice and was right both times, verified at the source.**
+
+- My packet said `.shell-form-error` had been at 2.69:1 **as text**. It never was. `shell.css:1493` sets
+  `color: var(--sf-ink)` and did before C1 too, ~17.9:1. What C1 moved to `--sf-danger` is the **2px
+  `border-left`** at `:1491`. The number 2.69 is right; the element and the criterion are not — a 2px rule is
+  non-text, so what was failing is **1.4.11's 3:1**, not 1.4.3's 4.5:1.
+- `F1` is at `servicePages.ts:117`, not `:77`. I had been carrying a line number 40 lines stale.
+
+Both matter only because a correction packet written from them sends a Coder to the wrong place — which is
+exactly what C3 would have done.
+
+**The pool coupling is worse than I described it.** Not "the larger half": the assembled pool is **140
+entries, 116 of them lifted from `servicePages.ts` by `collectServiceFaqs()` — 83%**. `ChatBot.tsx:261`
+renders `match.entry.answer` verbatim, no network, no moderation. QA read and adjudicated all 140. Against
+C2's three classes the sweep holds completely: **0 delivery durations, 0 payment or credit terms, 0
+return/warranty guarantees** anywhere in the pool.
+
+**D1 — BLOCKING, and it is 09a's own miss rather than an inherited defect.** `servicePages.ts:134` publishes
+*"STEP, IGES, Parasolid, SolidWorks (.sldprt), CATIA (.catpart), NX (.prt) ve PDF/DWG teknik çizim
+formatlarını destekliyoruz."* `cadUpload.ts:4` accepts `step, stp, stl, obj, iges, igs, 3mf` and **rejects
+nine of the formats that sentence names**. QA proved it at runtime rather than by reading — a `.sldprt`
+upload produced the live notice *"DOSYA REDDEDİLDİ … kabul edilen formatlardan biri değil."*
+
+The exposure is sharper than one unlucky probe. **Six phrasings score 1.000 onto it** — `catia`, `catia
+dosyası`, `catpart`, `solidworks`, `sldprt`, `solidworks dosyası` — while the *generic* question correctly
+reaches the honest derived answer. **So the false answer is served selectively to precisely the visitors it
+harms:** someone holding a SolidWorks or CATIA file asks, is told yes, and is refused at upload.
+
+And `chatFaqData.ts:8-10` documents removing this identical claim from the static half of the pool, citing §J
+`ACCEPTED_CAD_FORMATS: DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION`, with the `collectServiceFaqs()` principle
+stated in the same header. **The principle was applied to lead times and not to the CAD list documented ten
+lines above it.** The C2 diff prints line 134 as unchanged context one line below the `:133` it did change.
+
+QA's own adjudication of the three-way collision is the right one and I have adopted it: three CAD answers in
+the pool is **one** defect, not two — the other two are factually correct, and the collision is only harmful
+because `:134` is false. The literal list at `:1967` is a separate, non-blocking drift risk (D2): correct
+today, which is exactly what makes it dangerous, because `chatFaqData.ts:12` derives the same list and this
+one would go silently stale the day the validator changes.
+
+**All five carried findings confirmed live, with two of my references corrected.** `F1` at `:117`; `F2a` at
+`:1922` and **inside `metaDescription`**, so it ships into search results and social cards; `F2b` at `:1945`;
+`F3` at **two** sites, `:2103` and `:2131` — and `:2131` is **chatbot pool entry #78**, so the named machine
+model is reachable by asking the bot, not only by reading the page; `F4` at `:517`. QA added **D3**,
+`:1965`'s *"İlk DFM değerlendirmesi ücretsizdir"* — a free-of-charge commitment, the same commercial-policy
+class C2 stripped from the chatbot.
+
+**Orchestrator ruling on scope: all of them go into C3.** C2 was right to leave them — they were outside its
+three classes and the packet forbade opportunistic cleanup. But every one is an unverifiable public claim in
+the same 3,000-line file, the run's standing instruction to remove such claims is not phase-scoped, and a
+third pass over that file later costs more than folding them in now. C3 therefore carries D1, D2, D3 and
+F1–F4.
+
+**The gate's blind spot is the durable finding.** 29 rules, 178 controls, and it caught **none** of these.
+`WITHHELD_SPEC_CLASSES` matches `F4`'s `Parça/Saat` header *exactly* and misses it only because the filter
+runs on `technicalSpecs` via `CategoryPage` and never on a `comparisonTables` header. C3 asks for three
+rules, of which one matters most: **a published format list that is not derived from
+`CAD_ACCEPTED_EXTENSIONS` should fail the gate**, which makes D1 unrepeatable rather than merely fixed.
+
+**`visual-768`'s flake did not reproduce** — green on its only run, all 35. QA's assessment is environmental,
+and it argues it rather than asserting it: `fonts.ts:170` is a font-CDN interception helper on a surface 09a
+never touched, it hit a different untouched test each time, and C2 changed only string content in two data
+files, which cannot change whether a `gstatic` request is issued. It also refuses to file it as nothing:
+a real determinism gap, to be fixed at `fonts.ts:170`. Round 1 logged the same flake at `visual-375`, not 768.
+
+**Unverifiable, honestly kept.** U1–U7 carried forward **unattempted** — every one needs a write to the
+customer's database. Four new: **U8**, the five `tone="error"` sites are verified through one shared component
+and one shared rule rather than five independent renders; **U9**, `.shell-form-error` on `/teklif-al` was
+measured on a *planted* element and only `/iletisim`'s is the real always-rendered one; **U10**, deep-link and
+`:slug` routes fall outside the 63-route public sweep, so a claim living only on a blog post or material page
+would not have been seen; **U11** is not a gap but a proof — a live canary to example.com was fired and
+required to fail **before any control was touched**, in every test, and the probe bundles were given a
+loopback URL and a junk key instead of the real credentials so they could not reach the project even by
+accident.
+
+**09a-C3 dispatched** to `wt/coder-p09a3` at `fe3a525` in the existing Coder worktree, packet
+`.work/packets/phase-09a-C3.md`, with `cadUpload.ts` on DO_NOT_TOUCH and the reason spelled out: when a page
+and a validator disagree, the instinct to make them agree by widening the validator would turn a false
+sentence into a broken upload.
