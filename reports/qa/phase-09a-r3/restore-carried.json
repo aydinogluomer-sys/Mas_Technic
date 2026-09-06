@@ -1,0 +1,277 @@
+[
+  {
+    "id": "D1-faq-cnc-frezeleme",
+    "file": "src/data/servicePages.ts",
+    "restored": "answer: \"STEP, IGES, Parasolid, SolidWorks (.sldprt), CATIA (.catpart), NX (.prt) ve PDF/DWG teknik çizim form",
+    "expectSilent": false,
+    "expectedRule": "cad-format-list-not-derived",
+    "gateExit": 1,
+    "verdict": "FAIL — 1 claim violation(s), 0 resource problem(s), 0 control failure(s).",
+    "hits": [
+      "src/data/servicePages.ts:210: [STEP, IGES] answer: \"STEP, IGES, Parasolid, SolidWorks (.sldprt), CATIA (.catpart), NX (.prt) ve PDF/DWG teknik çizim formatlarını destekliyoruz.\","
+    ],
+    "mentionsExpectedRule": true,
+    "ruleIds": [],
+    "result": "fired by cad-format-list-not-derived"
+  },
+  {
+    "id": "D1b-body-prose-same-page",
+    "file": "src/data/servicePages.ts",
+    "restored": ", STEP, IGES, SolidWorks, CATIA ve NX formatlarını doğrudan işleyebiliyoruz.`,",
+    "expectSilent": false,
+    "expectedRule": "cad-format-list-not-derived",
+    "gateExit": 1,
+    "verdict": "FAIL — 1 claim violation(s), 0 resource problem(s), 0 control failure(s).",
+    "hits": [
+      "src/data/servicePages.ts:152: [STEP, IGES] `Alüminyum (6061, 7075), paslanmaz çelik (304, 316), karbon çelik, titanyum, PEEK ve POM/Delrin gibi mühendislik malzemelerinde uzmanlaşmış ekibimizle hizmetinizdeyiz. Her projede"
+    ],
+    "mentionsExpectedRule": true,
+    "ruleIds": [],
+    "result": "fired by cad-format-list-not-derived"
+  },
+  {
+    "id": "D1c-label-value-dfm",
+    "file": "src/data/servicePages.ts",
+    "restored": "{ label: \"Desteklenen CAD\", value: \"STEP, IGES, CATIA, NX, SW\" },",
+    "expectSilent": false,
+    "expectedRule": "cad-format-list-not-derived",
+    "gateExit": 1,
+    "verdict": "FAIL — 1 claim violation(s), 0 resource problem(s), 0 control failure(s).",
+    "hits": [
+      "src/data/servicePages.ts:2058: [STEP, IGES] { label: \"Desteklenen CAD\", value: \"STEP, IGES, CATIA, NX, SW\" },"
+    ],
+    "mentionsExpectedRule": true,
+    "ruleIds": [],
+    "result": "fired by cad-format-list-not-derived"
+  },
+  {
+    "id": "D2-dfm-faq-correct-but-handwritten",
+    "file": "src/data/servicePages.ts",
+    "restored": "answer: \"Teklif akışında STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını doğrudan yükleyebilirsiniz.\",",
+    "expectSilent": false,
+    "expectedRule": "cad-format-list-not-derived",
+    "gateExit": 1,
+    "verdict": "FAIL — 1 claim violation(s), 0 resource problem(s), 0 control failure(s).",
+    "hits": [
+      "src/data/servicePages.ts:2100: [STEP, STP] answer: \"Teklif akışında STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını doğrudan yükleyebilirsiniz.\","
+    ],
+    "mentionsExpectedRule": true,
+    "ruleIds": [],
+    "result": "fired by cad-format-list-not-derived"
+  },
+  {
+    "id": "D2b-SSS-general-faq",
+    "file": "src/pages/SSS.tsx",
+    "restored": "answer: \"Teklif akışındaki yükleyici STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını kabul eder.\",",
+    "expectSilent": false,
+    "expectedRule": "cad-format-list-not-derived",
+    "gateExit": 1,
+    "verdict": "FAIL — 1 claim violation(s), 0 resource problem(s), 0 control failure(s).",
+    "hits": [
+      "src/pages/SSS.tsx:135: [STEP] answer: \"Teklif akışındaki yükleyici STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını kabul eder.\","
+    ],
+    "mentionsExpectedRule": true,
+    "ruleIds": [],
+    "result": "fired by cad-format-list-not-derived"
+  },
+  {
+    "id": "D4a-yaygin-cad-formatlari",
+    "file": "src/data/servicePages.ts",
+    "restored": "\"Yaygın CAD formatlarını doğrudan işleyebiliyoruz; katı model ile birlikte ölçülendirilmiş teknik resim gönder",
+    "expectSilent": false,
+    "expectedRule": null,
+    "gateExit": 0,
+    "verdict": "PASS — 0 unverified claims across 31 rules, 244 controls green.",
+    "hits": [],
+    "mentionsExpectedRule": null,
+    "ruleIds": [],
+    "result": "*** UNGATED — restoring it leaves the gate green ***"
+  },
+  {
+    "id": "D4b-cadcam-entegrasyonu-inventory",
+    "file": "src/data/servicePages.ts",
+    "restored": "\"CAD/CAM Entegrasyonu — CATIA, SolidWorks, NX, Mastercam\",",
+    "expectSilent": false,
+    "expectedRule": null,
+    "gateExit": 0,
+    "verdict": "PASS — 0 unverified claims across 31 rules, 244 controls green.",
+    "hits": [],
+    "mentionsExpectedRule": null,
+    "ruleIds": [],
+    "result": "*** UNGATED — restoring it leaves the gate green ***"
+  },
+  {
+    "id": "D4c-catia-solidworks-nx-entegre",
+    "file": "src/data/servicePages.ts",
+    "restored": "\"CATIA, SolidWorks, NX entegre çalışma\",",
+    "expectSilent": false,
+    "expectedRule": null,
+    "gateExit": 0,
+    "verdict": "PASS — 0 unverified claims across 31 rules, 244 controls green.",
+    "hits": [],
+    "mentionsExpectedRule": null,
+    "ruleIds": [],
+    "result": "*** UNGATED — restoring it leaves the gate green ***"
+  },
+  {
+    "id": "D4d-metaDescription-software-inventory",
+    "file": "src/data/servicePages.ts",
+    "restored": "\"Design for Manufacturing (DFM/DFA) analizi ile tasarımlarınızı optimize edin. CNC ve enjeksiyon DFM kuralları",
+    "expectSilent": false,
+    "expectedRule": null,
+    "gateExit": 0,
+    "verdict": "PASS — 0 unverified claims across 31 rules, 244 controls green.",
+    "hits": [],
+    "mentionsExpectedRule": null,
+    "ruleIds": [],
+    "result": "*** UNGATED — restoring it leaves the gate green ***"
+  },
+  {
+    "id": "D3-free-dfm-faq",
+    "file": "src/data/servicePages.ts",
+    "restored": "{ question: \"DFM analizi ücreti var mı?\", answer: \"İlk DFM değerlendirmesi ücretsizdir.",
+    "expectSilent": false,
+    "expectedRule": "free-of-charge-commitment",
+    "gateExit": 1,
+    "verdict": "FAIL — 1 claim violation(s), 0 resource problem(s), 0 control failure(s).",
+    "hits": [
+      "src/data/servicePages.ts:2093: [ücretsiz] { question: \"DFM analizi ücreti var mı?\", answer: \"İlk DFM değerlendirmesi ücretsizdir. Gelen dosyanın üretilebilirlik incelemesi teklif hazırlığının bir adımıdır; ayrıca talep edi"
+    ],
+    "mentionsExpectedRule": true,
+    "ruleIds": [],
+    "result": "fired by free-of-charge-commitment"
+  },
+  {
+    "id": "D3b-free-dfm-metaDescription",
+    "file": "src/data/servicePages.ts",
+    "restored": "\"3, 4 ve 5 eksenli CNC frezeleme ile ±0.01 mm standart tolerans aralığında üretim. Alüminyum, titanyum ve çeli",
+    "expectSilent": false,
+    "expectedRule": "free-of-charge-commitment",
+    "gateExit": 1,
+    "verdict": "FAIL — 1 claim violation(s), 0 resource problem(s), 0 control failure(s).",
+    "hits": [
+      "src/data/servicePages.ts:140: [ücretsiz] \"3, 4 ve 5 eksenli CNC frezeleme ile ±0.01 mm standart tolerans aralığında üretim. Alüminyum, titanyum ve çelik işleme, ücretsiz DFM analizi.\","
+    ],
+    "mentionsExpectedRule": true,
+    "ruleIds": [],
+    "result": "fired by free-of-charge-commitment"
+  },
+  {
+    "id": "F1-hsm-40-percent",
+    "file": "src/data/servicePages.ts",
+    "restored": "\"HSM ile %40 daha hızlı üretim ve üstün yüzey kalitesi\",",
+    "expectSilent": false,
+    "expectedRule": "delivery-or-quality-rate",
+    "gateExit": 1,
+    "verdict": "FAIL — 1 claim violation(s), 0 resource problem(s), 0 control failure(s).",
+    "hits": [
+      "src/data/servicePages.ts:184: [%40 daha hızlı] \"HSM ile %40 daha hızlı üretim ve üstün yüzey kalitesi\","
+    ],
+    "mentionsExpectedRule": true,
+    "ruleIds": [],
+    "result": "fired by delivery-or-quality-rate"
+  },
+  {
+    "id": "F1b-50-percent-setup",
+    "file": "src/data/servicePages.ts",
+    "restored": "\"Çift milli üretimle %50 setup tasarrufu\",",
+    "expectSilent": false,
+    "expectedRule": "delivery-or-quality-rate",
+    "gateExit": 1,
+    "verdict": "FAIL — 1 claim violation(s), 0 resource problem(s), 0 control failure(s).",
+    "hits": [
+      "src/data/servicePages.ts:288: [%50 setup tasarruf] \"Çift milli üretimle %50 setup tasarrufu\","
+    ],
+    "mentionsExpectedRule": true,
+    "ruleIds": [],
+    "result": "fired by delivery-or-quality-rate"
+  },
+  {
+    "id": "F2a-70-percent-metaDescription",
+    "file": "src/data/servicePages.ts",
+    "restored": "\"Design for Manufacturing (DFM/DFA) analizi ile tasarımlarınızı optimize edin. CNC ve enjeksiyon DFM kuralları",
+    "expectSilent": false,
+    "expectedRule": "delivery-or-quality-rate",
+    "gateExit": 1,
+    "verdict": "FAIL — 1 claim violation(s), 0 resource problem(s), 0 control failure(s).",
+    "hits": [
+      "src/data/servicePages.ts:2022: [%70'e kadar maliyet tasarruf] \"Design for Manufacturing (DFM/DFA) analizi ile tasarımlarınızı optimize edin. CNC ve enjeksiyon DFM kuralları, CATIA/SolidWorks/NX entegrasyonu, %70'e kadar maliyet tasarrufu.\","
+    ],
+    "mentionsExpectedRule": true,
+    "ruleIds": [],
+    "result": "fired by delivery-or-quality-rate"
+  },
+  {
+    "id": "F2b-average-30-50",
+    "file": "src/data/servicePages.ts",
+    "restored": "{ label: \"Maliyet Tasarrufu\", value: \"Ortalama %30-50\" },",
+    "expectSilent": false,
+    "expectedRule": "delivery-or-quality-rate",
+    "gateExit": 1,
+    "verdict": "FAIL — 1 claim violation(s), 0 resource problem(s), 0 control failure(s).",
+    "hits": [
+      "src/data/servicePages.ts:2065: [label: \"Maliyet Tasarrufu\", value: \"Ortalama %30-50\"] { label: \"Maliyet Tasarrufu\", value: \"Ortalama %30-50\" },"
+    ],
+    "mentionsExpectedRule": true,
+    "ruleIds": [],
+    "result": "fired by delivery-or-quality-rate"
+  },
+  {
+    "id": "F3-eos-m290-feature",
+    "file": "src/data/servicePages.ts",
+    "restored": "\"Metal 3D Baskı (DMLS) — EOS M290 ile Al, SS, Ti\",",
+    "expectSilent": false,
+    "expectedRule": "machine-inventory",
+    "gateExit": 1,
+    "verdict": "FAIL — 1 claim violation(s), 0 resource problem(s), 0 control failure(s).",
+    "hits": [
+      "src/data/servicePages.ts:2243: [EOS M290] \"Metal 3D Baskı (DMLS) — EOS M290 ile Al, SS, Ti\","
+    ],
+    "mentionsExpectedRule": true,
+    "ruleIds": [],
+    "result": "fired by machine-inventory"
+  },
+  {
+    "id": "F3b-eos-m290-faq-chat-pool",
+    "file": "src/data/servicePages.ts",
+    "restored": "{ question: \"Metal 3D baskı yapabiliyor musunuz?\", answer: \"Evet, EOS M290 DMLS sistemimiz ile alüminyum, pasl",
+    "expectSilent": false,
+    "expectedRule": "machine-inventory",
+    "gateExit": 1,
+    "verdict": "FAIL — 1 claim violation(s), 0 resource problem(s), 0 control failure(s).",
+    "hits": [
+      "src/data/servicePages.ts:2274: [EOS M290] { question: \"Metal 3D baskı yapabiliyor musunuz?\", answer: \"Evet, EOS M290 DMLS sistemimiz ile alüminyum, paslanmaz çelik ve titanyum malzemelerde metal 3D baskı yapabiliyoruz.\" },"
+    ],
+    "mentionsExpectedRule": true,
+    "ruleIds": [],
+    "result": "fired by machine-inventory"
+  },
+  {
+    "id": "F4-parca-saat-column",
+    "file": "src/data/servicePages.ts",
+    "restored": "headers: [\"Kavite\", \"Çevrim/Saat\", \"Parça/Saat\", \"Birim Maliyet\", \"Kalıp Maliyeti\", \"Önerilen Hacim\"],\n       ",
+    "expectSilent": false,
+    "expectedRule": "periodic-volume-disclosure",
+    "gateExit": 1,
+    "verdict": "FAIL — 1 claim violation(s), 0 resource problem(s), 0 control failure(s).",
+    "hits": [
+      "src/data/servicePages.ts:611: [Parça/Saat] headers: [\"Kavite\", \"Çevrim/Saat\", \"Parça/Saat\", \"Birim Maliyet\", \"Kalıp Maliyeti\", \"Önerilen Hacim\"],"
+    ],
+    "mentionsExpectedRule": true,
+    "ruleIds": [],
+    "result": "fired by periodic-volume-disclosure"
+  },
+  {
+    "id": "F4-control-cevrim-saat-alone-stays-silent",
+    "file": "src/data/servicePages.ts",
+    "restored": "headers: [\"Kavite\", \"Çevrim/Saat\", \"Çevrim/Vardiya\", \"Birim Maliyet\", \"Kalıp Maliyeti\", \"Önerilen Hacim\"],",
+    "expectSilent": true,
+    "expectedRule": null,
+    "gateExit": 0,
+    "verdict": "PASS — 0 unverified claims across 31 rules, 244 controls green.",
+    "hits": [],
+    "mentionsExpectedRule": null,
+    "ruleIds": [],
+    "result": "ok (correctly silent)"
+  }
+]
