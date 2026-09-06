@@ -1,0 +1,15 @@
+(node:1792) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:15952) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  1 [visual-375] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › home carries the same shell chrome (2.7s)
+  ✓  2 [visual-375] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › service carries the same shell chrome (2.4s)
+  ✓  3 [visual-375] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › about carries the same shell chrome (2.1s)
+  ✓  4 [visual-375] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › journal carries the same shell chrome (1.9s)
+  ✓  5 [visual-375] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › rfq carries the same shell chrome (2.1s)
+  ✓  6 [visual-375] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › notfound carries the same shell chrome (1.8s)
+
+  6 passed (14.5s)
