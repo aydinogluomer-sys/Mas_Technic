@@ -2153,3 +2153,105 @@ accident.
 `.work/packets/phase-09a-C3.md`, with `cadUpload.ts` on DO_NOT_TOUCH and the reason spelled out: when a page
 and a validator disagree, the instinct to make them agree by widening the validator would turn a false
 sentence into a broken upload.
+
+#### C3 integrated — the fix I mandated was impossible, and what replaced it is stricter
+
+Six commits picked as `8e5472b..38d4f73`; eleven paths, tree identical to the Coder's on every code and test
+path. No production write of any kind.
+
+**D1 was five sites, not the one I named — and one of them was on the page I did name.** `:134` was the FAQ
+entry QA found; **`:89` publishes the same false claim in body prose on the same page**, so the fix my packet
+specified would have left `/hizmetler/cnc-frezeleme` still telling buyers it takes SolidWorks. Also `:1943`
+(`"Desteklenen CAD: STEP, IGES, CATIA, NX, SW"`), `:1967` (D2's correct-today literal) and **`pages/SSS.tsx:132`**,
+a fifth site my allowlist did not contemplate. The Coder edited it and **declared the interpretation rather
+than claiming silent compliance** — the right call, and accepted: leaving it would have left the packet's own
+highest-value gate rule failing on the tree.
+
+**What the fix keeps is as important as what it removes.** `:210` still *names* SolidWorks `.sldprt`, CATIA
+`.catpart`, NX `.prt` and PDF/DWG — as formats the uploader will **not** take, with an email route beside
+them. Deleting the words would have made all six phrasings fall through to a default response; naming them in
+a refusal is what keeps `catia`, `catpart`, `solidworks`, `sldprt` landing on a **true** answer. The Coder
+re-probed all six against the assembled pool: 1.000 onto that entry.
+
+**I mandated a fix that cannot be built, and the Coder proved it rather than working around it quietly.** I
+said derive the list from `CAD_ACCEPTED_EXTENSIONS` at runtime. That version typechecks and builds — and then
+**kills spec collection for all of `critical-1280`**, because `cadUpload.ts` → `supabase/env.ts` reads
+`import.meta.env` at module scope while `navigation-reachability.spec.ts` and
+`shared-shell-accessibility.spec.ts` import `servicePages.ts` into the Playwright **Node** runtime. Every
+runtime path to that constant goes through `env.ts`, and `cadUpload.ts`, `env.ts` and `tsconfig.e2e.json` are
+all off-limits.
+
+**What replaced it is stricter than what I asked for, not looser.** The list is restated **once**, in
+`claims.ts`, behind `import type` — erased at compile time, no module edge, so `claims.ts` keeps its
+no-runtime-imports property — and pinned by a tuple-exact type assertion (`Exact<typeof
+PUBLISHED_CAD_EXTENSIONS, typeof CAD_ACCEPTED_EXTENSIONS>`), with an independent text comparison in the gate.
+Two instruments that must agree. A runtime derivation would change the copy *silently* when the validator
+changed; this fails `npx tsc -b`, which the release gate already requires.
+
+**I tested the pin myself rather than accepting it.** Appending `"dwg"` to the tuple produced `TS2344` at
+`claims.ts:88` from `tsc` **and** a gate FAIL at `claims.ts:74` — both instruments, independently. Restored
+clean. I also tested the one deferral the Coder asked me to accept: `technicalLandingData.ts:130` still
+restates the list (not on the allowlist, and `technical-landing.spec.ts:167` asserts the exact string), and
+it is **pinned, not exempted** — drifting it by one format turned the gate FAIL at that line. A literal that
+survives only while it is exactly right is a legitimate deferral.
+
+**The `F4` instruction was wrong and the Coder refused it, correctly.** I told it to extend
+`WITHHELD_SPEC_CLASSES` to `comparisonTables` headers. `isPublishableSpec` is an **allowlist**: run over
+headers it drops "Kavite", "Özellik", "Yöntem" — nearly every header in the file — and its withheld half
+alone kills the `$/$$$` cost cells; worse, it would silently mutate a rendered table into rows with more cells
+than headers. The filter exists because `CategoryPage` **republishes** a spec on a surface it was not written
+for; a comparison table is authored in place, so there is no republication to guard. My instruction would
+have broken working tables to catch one header.
+
+**And the machine half it found instead is the better finding.** `periodic-volume-disclosure` had
+deliberately omitted `saat` from its period list, and **the note justifying the omission named the right table
+and defended the wrong column**: it cited `Çevrim/Saat` as "a mould's cycle rate", but `Çevrim/Saat` was never
+reachable, because `çevrim` is not one of the rule's count nouns. The omission bought nothing and cost the
+class for three phases. `saat` now sits in the denominator alternative only — `Parça/Saat` fires,
+`Çevrim/Saat` stays silent — and the rule agrees with `WITHHELD_SPEC_CLASSES[0]`, which had listed `saat` all
+along.
+
+**Gate: 29 rules / 178 controls → 31 / 244.** PASS on the tree, verified by my own run; FAIL with the removed
+strings restored, 15 violations at the exact lines. `cad-format-list-not-derived` reads
+`CAD_ACCEPTED_EXTENSIONS` from `cadUpload.ts` each run and **throws if it cannot**, and asks *"was this
+derived?"* rather than *"is this true?"* — so the two correct-today literals fire exactly as the false ones
+did. That is the rule that makes D1 unrepeatable rather than merely fixed. `free-of-charge-commitment` is new
+beside `payment-or-credit-terms`, which had removed payment terms and discount schedules and left the mirror
+image standing. `delivery-or-quality-rate` was **widened rather than duplicated** — the Coder's reasoning,
+which I endorse: §D `OTHER_PUBLIC_KPIS: NONE` already decides `%40 daha hızlı` the same way it decides `%95
+zamanında teslimat`, and *two rules over one class is how the last three holes happened*.
+
+**The carried findings, each with a twin the Coder found beside it.** D3's free-DFM promise also existed at
+`:81` **in a `metaDescription`**, so it was shipping into search results; F1's `%40 daha hızlı` had `%50 setup
+tasarrufu` at `:208`; F2a came out of a `metaDescription` too; F3's `EOS M290` went from both `:2103` and
+`:2131`; F4's column was removed rather than relabelled because its five values were exactly Kavite ×
+Çevrim/Saat and carried no information the two columns to its left did not.
+
+**Goldens: six moved at 375/768/1280, and the Coder proved the cause before touching them** — base `fe3a525`
+passes both tests, so not flake; `.shell-next` keeps its height (332.438px), child count (29) and text, and
+only its fractional top moved, so the crop rounds to 333 device rows instead of 334.
+`inner-hero-service-detail` and `shell-header-service` are captured by the same two tests and were rewritten
+**byte-identically** — the signature of a targeted update rather than a blanket one, and the thing QA R3 is
+asked to check specifically.
+
+**A residual that needs an allowlist decision, reported rather than swept.** `/hizmetler/fikstur-aparat`
+names CATIA and SolidWorks four times (`:680` in a `metaDescription`, `:685`, `:703`, `:710`) as the tools a
+fixture is *designed in* — a software-inventory class, the same authority the gate's `named-enterprise-system`
+rule already cites. The Coder fixed the DFM page's instance because deriving that page's "Desteklenen CAD" row
+put two different accepted-format lists on one screen and the contradiction was its own; the fixture page
+publishes no intake list, so no reader is misled about what to send. **Its reasoning for stopping is the right
+one — "a sweep of a class this packet does not contain is not mine to run" — and the decision is mine.**
+Carrying to 09b rather than expanding C3 a second time.
+
+**Also carried:** a pre-existing matcher quirk, not a false claim — `parasolid` scores 1.000 onto "Teklif
+nasıl alabilirim?" because `findBestFaqMatch` does substring matching and `para` is one of that entry's
+keywords. Harmless answer, wrong routing. And `chatFaqData.ts:165`'s keyword array still contains raw
+extension strings, which is exempted by rule and documented: matcher input, never rendered, and it is what
+routes those words to the derived answer.
+
+**QA round 3 dispatched** to a fresh, pre-provisioned `wt/qa-p09a3` at `38d4f73`, packet
+`.work/packets/phase-09a-QA-R3.md`. Deliberately **narrow**: round 2's findings are not to be re-verified.
+Its three targets are the type pin — attacked by reordering, shortening, case and dropping `as const`, the
+routes I did not test — the five CAD sites and six phrasings, and a second opinion on whether the Coder's F4
+refusal was right. It is also asked whether its own round-2 spec can overwrite round 2's committed evidence,
+since running it rewrote `sweep.json` and the Coder had to restore it.
