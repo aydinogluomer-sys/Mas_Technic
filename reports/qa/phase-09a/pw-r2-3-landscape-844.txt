@@ -1,0 +1,55 @@
+(node:22844) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:28048) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  1 [landscape-844] › e2e\landing\motion-grammar.spec.ts:40:3 › motion grammar › I4 — scroll position never takes opacity away from the service-detail heading (6.3s)
+  ✓  2 [landscape-844] › e2e\landing\motion-grammar.spec.ts:106:3 › motion grammar › no landing band un-arrives once it has arrived (5.7s)
+  ✓  3 [landscape-844] › e2e\landing\motion-grammar.spec.ts:125:3 › motion grammar › nothing animates while it is off screen (4.9s)
+  ✓  4 [landscape-844] › e2e\landing\motion-grammar.spec.ts:150:3 › motion grammar › mobile arms fewer elements than desktop (4.9s)
+  ✓  5 [landscape-844] › e2e\landing\motion-grammar.spec.ts:184:3 › motion grammar › content types do not share one generic reveal (3.9s)
+  ✘  6 [landscape-844] › e2e\landing\motion-grammar.spec.ts:254:3 › motion grammar › hovering a measurement lights its guide line and its passport counterpart (9.3s)
+
+
+  1) [landscape-844] › e2e\landing\motion-grammar.spec.ts:254:3 › motion grammar › hovering a measurement lights its guide line and its passport counterpart 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeHidden[2m([22m[2m)[22m failed
+
+    Locator:  locator('.tl-dimension-lines')
+    Expected: hidden
+    Received: visible
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - Expect "toBeHidden" with timeout 5000ms[22m
+    [2m  - waiting for locator('.tl-dimension-lines')[22m
+    [2m    9 × locator resolved to <svg aria-hidden="true" viewBox="0 0 1000 563" class="tl-dimension-lines">…</svg>[22m
+    [2m      - unexpected value "visible"[22m
+
+
+      289 |     const fine = await page.evaluate(() => matchMedia("(hover:hover) and (pointer:fine)").matches);
+      290 |     if (!fine) {
+    > 291 |       await expect(page.locator(".tl-dimension-lines")).toBeHidden();
+          |                                                         ^
+      292 |       return;
+      293 |     }
+      294 |
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p09a\e2e\landing\motion-grammar.spec.ts:291:57
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\landing-motion-grammar-mot-8efa7-nd-its-passport-counterpart-landscape-844\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\landing-motion-grammar-mot-8efa7-nd-its-passport-counterpart-landscape-844\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\landing-motion-grammar-mot-8efa7-nd-its-passport-counterpart-landscape-844\error-context.md
+
+  1 failed
+    [landscape-844] › e2e\landing\motion-grammar.spec.ts:254:3 › motion grammar › hovering a measurement lights its guide line and its passport counterpart 
+  5 passed (1.6m)

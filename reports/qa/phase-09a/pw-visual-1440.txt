@@ -1,0 +1,51 @@
+(node:39596) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 41 tests using 1 worker
+
+(node:27812) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  -   1 [visual-1440] › e2e\visual\cursor-overlay-guard.spec.ts:157:3 › H4 — CustomCursor's mount condition, measured › the whole (width, pointer) matrix is what the browser does
+  -   2 [visual-1440] › e2e\visual\cursor-overlay-guard.spec.ts:207:7 › H4 — the goldens are clean, and the reason is measured › visual-1280: the cursor contributes no pixel to landing-golden.spec.ts
+  -   3 [visual-1440] › e2e\visual\cursor-overlay-guard.spec.ts:207:7 › H4 — the goldens are clean, and the reason is measured › visual-1440: the cursor contributes no pixel to landing-golden.spec.ts
+  ✓   4 [visual-1440] › e2e\visual\cursor-overlay-guard.spec.ts:301:3 › H4 — the configuration the safety depends on › the gate project still exists, so the measured half cannot vanish quietly (4ms)
+  ✓   5 [visual-1440] › e2e\visual\cursor-overlay-guard.spec.ts:310:3 › H4 — the configuration the safety depends on › only touch-emulating visual projects are exempt from the cursor (3ms)
+  ✓   6 [visual-1440] › e2e\visual\cursor-overlay-guard.spec.ts:331:3 › H4 — the configuration the safety depends on › no new page-scoped golden appears without a route to measure it on (7ms)
+  ✓   7 [visual-1440] › e2e\visual\cursor-overlay-guard.spec.ts:343:3 › H4 — the configuration the safety depends on › the detector is red on the defect it exists to catch (9ms)
+  ✓   8 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › about opens and closes in the landing's language (3.1s)
+  ✓   9 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › contact opens and closes in the landing's language (2.3s)
+  ✓  10 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › materials opens and closes in the landing's language (3.6s)
+  ✓  11 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › material-family opens and closes in the landing's language (2.6s)
+  ✓  12 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-category opens and closes in the landing's language (2.6s)
+  ✓  13 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-detail opens and closes in the landing's language (2.8s)
+  ✓  14 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › sector-detail opens and closes in the landing's language (2.7s)
+  ✓  15 [visual-1440] › e2e\visual\landing-golden.spec.ts:20:3 › landing golden screenshots › matches the committed landing baseline (5.7s)
+  ✓  16 [visual-1440] › e2e\visual\navigation-golden.spec.ts:31:3 › global navigation golden screenshots › matches the closed header baseline (3.1s)
+  ✓  17 [visual-1440] › e2e\visual\navigation-golden.spec.ts:44:3 › global navigation golden screenshots › matches the open menu baseline (3.4s)
+  ✓  18 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:36:3 › A2 — the foreign-overlay guard is falsifiable › armed: on a route that mounts the launcher it finds and hides it (2.4s)
+  ✓  19 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:48:3 › A2 — the foreign-overlay guard is falsifiable › red: require:true throws when the selector matches nothing (2.8s)
+  ✓  20 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:62:3 › A2 — the foreign-overlay guard is falsifiable › green: require:false is the documented escape and does not throw (2.7s)
+  ✓  21 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:68:3 › A2 — the foreign-overlay guard is falsifiable › red: require:false is refused on a route that DOES mount the launcher (2.0s)
+  ✓  22 [visual-1440] › e2e\visual\qa-a2-overlay-guard.spec.ts:86:3 › A2 — the foreign-overlay guard is falsifiable › the launcher really does sit inside the captured footer element (2.5s)
+  ✓  23 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:36:3 › F4 — the font-retry guard is falsifiable › armed: a real load intercepts on BOTH hosts (2.4s)
+  ✓  24 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:49:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.gstatic.com fails with the gstatic reason (2.6s)
+  ✓  25 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:65:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.googleapis.com fails with the googleapis reason (2.4s)
+  ✓  26 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:79:3 › F4 — the font-retry guard is falsifiable › red: blackholing both hosts fails with the fallback-stack reason (27.8s)
+  ✓  27 [visual-1440] › e2e\visual\qa-h4-cursor-independent.spec.ts:59:3 › QA R4 — the two ways the Coder's scan can be walked around › the spec scan is flat, so no visual spec may live in a subdirectory (4ms)
+  ✓  28 [visual-1440] › e2e\visual\qa-h4-cursor-independent.spec.ts:78:3 › QA R4 — the two ways the Coder's scan can be walked around › no visual spec renames or aliases the `page` fixture (9ms)
+  -  29 [visual-1440] › e2e\visual\radius-census.spec.ts:46:3 › §4 — the radius register is the census › every number in docs/lean/17 §4 comes back out of the browser
+  -  30 [visual-1440] › e2e\visual\radius-census.spec.ts:108:3 › §4 — the radius register is the census › §4's source column still lands on a radius declaration
+  -  31 [visual-1440] › e2e\visual\radius-census.spec.ts:120:3 › §4 — the radius register is the census › the citation check is red on a citation that has drifted
+  ✓  32 [visual-1440] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › home carries the same shell chrome (2.6s)
+  ✓  33 [visual-1440] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › service carries the same shell chrome (2.8s)
+  ✓  34 [visual-1440] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › about carries the same shell chrome (2.5s)
+  ✓  35 [visual-1440] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › journal carries the same shell chrome (2.3s)
+  ✓  36 [visual-1440] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › rfq carries the same shell chrome (2.4s)
+  ✓  37 [visual-1440] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › notfound carries the same shell chrome (2.2s)
+  ✓  38 [visual-1440] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › notfound-body holds its baseline (2.3s)
+  ✓  39 [visual-1440] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › journal-lead holds its baseline (2.6s)
+  ✓  40 [visual-1440] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › quality-documents holds its baseline (2.4s)
+  ✓  41 [visual-1440] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › profile-scope holds its baseline (2.4s)
+
+  6 skipped
+  35 passed (1.8m)
