@@ -1,0 +1,30 @@
+100644 6a2fa4377316aecb525c4398cb84ef2e898d37d1 0	reports/qa/phase-09a-r2/cad-answers.json
+100644 f4b9fcc4d58ee43caa8050f08fde04c6c7d30a22 0	reports/qa/phase-09a-r2/cad-answers.txt
+100644 41c034222fb3793a56c515e44be2d99feaeca0ee 0	reports/qa/phase-09a-r2/carried-four.json
+100644 a1a5f80aee8738577f89dfc1b14bd467efb6a789 0	reports/qa/phase-09a-r2/carried-four.txt
+100644 83817b9296529e454beb73b5ec0ef9f58e6034cc 0	reports/qa/phase-09a-r2/chat-pool-hits.json
+100644 360a3e90f1504fa6a04d0d14c371364ba5f7d417 0	reports/qa/phase-09a-r2/chat-pool-scan.txt
+100644 99262b3ddbe47f247a09f01644e4f372aaad0bce 0	reports/qa/phase-09a-r2/chat-pool.json
+100644 397c2fa2940f09a12343eb32613ab416fd68ab4c 0	reports/qa/phase-09a-r2/chat-pool.txt
+100644 ec3c87a919d74a2d88c14485489b6e90d53acc37 0	reports/qa/phase-09a-r2/columns.json
+100644 8a208df770863611bcdac232518e18fa97818e2e 0	reports/qa/phase-09a-r2/columns.txt
+100644 a4e57a697b59c0a71bfd9c3d8f73da90a0bd8f4d 0	reports/qa/phase-09a-r2/contrast-math.txt
+100644 fc5ee40782c2b6cbe52f5bf93f268132d45b2d76 0	reports/qa/phase-09a-r2/matcher-probes.txt
+100644 eb1fd01efdcfe080a93a42941bb9f0147e311e77 0	reports/qa/phase-09a-r2/regression.txt
+100644 894a99e2bd8e8b7f554338aeba99ea9bc406905d 0	reports/qa/phase-09a-r2/routes.json
+100644 979b39b4884467d76ee303c920ed67b501cf09c4 0	reports/qa/phase-09a-r2/sweep.json
+0fae794de9fb7e7661dc338a00aa363e *reports/qa/phase-09a-r2/cad-answers.json
+e3457ceefb613cf29e4d474f2c61a275 *reports/qa/phase-09a-r2/cad-answers.txt
+c82b90d02b87c9f6048ff2fe642dc3e1 *reports/qa/phase-09a-r2/carried-four.json
+705e047f40736a2a536fc023b5bae2c8 *reports/qa/phase-09a-r2/carried-four.txt
+0978eb6bc679528a9b426cca3707be70 *reports/qa/phase-09a-r2/chat-pool.json
+a5f682a3f82fc8ff94d2185073bed647 *reports/qa/phase-09a-r2/chat-pool.txt
+68cd139912e82874bd259699ec2b532b *reports/qa/phase-09a-r2/chat-pool-hits.json
+019008bbc451070f9be70b92bf155e55 *reports/qa/phase-09a-r2/chat-pool-scan.txt
+2308bfd58983bc0544f4c1e1ff4f4867 *reports/qa/phase-09a-r2/columns.json
+47b711f856e3d389caeedc0c4656ff73 *reports/qa/phase-09a-r2/columns.txt
+59f2a2fe1ac3641b48e81ae9b0ac1b01 *reports/qa/phase-09a-r2/contrast-math.txt
+0e41e94356f9619dae23ce5f234a310e *reports/qa/phase-09a-r2/matcher-probes.txt
+81ea241bd932c3dbbdeb4bb5e4aeb958 *reports/qa/phase-09a-r2/regression.txt
+54f37e95c037372a05c2dcd5c9e96ef5 *reports/qa/phase-09a-r2/routes.json
+94ef86189e19e75896699021400450c6 *reports/qa/phase-09a-r2/sweep.json
