@@ -2014,10 +2014,22 @@ export const servicePages: ServicePageData[] = [
     metaTitle: "DFM Analizi | Tasarım Rehberi | Maliyet Optimizasyonu | Mas Technic",
     /* 09a-C3 — F2a. "%70'e kadar maliyet tasarrufu" kaynaksız bir tasarruf
        oranıydı (§D `OTHER_PUBLIC_KPIS: NONE`, §G `CASE_STUDIES:
-       NONE_PROVIDED_YET`) ve `metaDescription` içinde olduğu için sayfada
-       değil arama sonucunda ve sosyal kartta da yayımlanıyordu. Aynı sayfanın
-       SSS'i zaten "tasarrufun büyüklüğü parçaya bağlıdır" diyor; meta onunla
-       çelişiyordu. Sayı gitti, kaldıraçlar kaldı. */
+       NONE_PROVIDED_YET`). Aynı sayfanın SSS'i zaten "tasarrufun büyüklüğü
+       parçaya bağlıdır" diyor; meta onunla çelişiyordu. Sayı gitti,
+       kaldıraçlar kaldı.
+
+       09a-C4 / R3-4 — DÜZELTME. Bu not, satırın "`metaDescription` içinde
+       olduğu için sayfada değil arama sonucunda ve sosyal kartta da
+       yayımlandığını" söylüyordu. YANLIŞTI: bu alanı hiçbir şey okumuyor.
+       `ServiceDetail.tsx` :195, :284 ve :306'da `page.description` geçiriyor
+       ve `src/**` içinde bir servis rotasında `metaDescription` okuyan tek bir
+       yer yok — 44 sayfanın hepsinde ölü veri.
+
+       KALDIRMA DOĞRUYDU, GEREKÇE YANLIŞTI. Yetkisiz bir iddia ölü bir alanda
+       da yetkisizdir; üstelik bu alan canlı olmaya bir `usePageMeta` çağrısı
+       uzaklıkta ve `claims-gate.mjs` tam bu yüzden onu da tarıyor. Alanın
+       bağlanması gerçek bir SEO bulgusudur ve SEO fazına aittir; bir içerik
+       düzeltmesinde karara bağlanmaz. */
     metaDescription:
       "Design for Manufacturing (DFM/DFA) analizi ile tasarımlarınızı optimize edin. CNC ve enjeksiyon DFM kuralları, üretilebilirlik incelemesi, parça bazında maliyet kaldıraçları.",
     description:

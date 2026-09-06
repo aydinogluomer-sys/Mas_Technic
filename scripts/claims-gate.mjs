@@ -1505,12 +1505,27 @@ const RULES = [
        image untouched: a price of zero.
 
        `servicePages.ts:1965` answered "DFM analizi ücreti var mı?" with "İlk
-       DFM değerlendirmesi ücretsizdir", and `:81` shipped "ücretsiz DFM
-       analizi" inside a metaDescription — so into search results and social
-       cards, not merely onto the page. Nothing in `USER_INPUTS.md` authorises
+       DFM değerlendirmesi ücretsizdir", and `:81` carried "ücretsiz DFM
+       analizi" in a `metaDescription`. Nothing in `USER_INPUTS.md` authorises
        a tariff of any size, zero included, and `/iletisim` lost "30 dakikalık
        ücretsiz ilk görüşme" in Phase 07 for exactly this reason while these
        two survived four more phases.
+
+       09a-C4 / R3-4 — THIS COMMENT USED TO CLAIM MORE THAN WAS TRUE ABOUT THE
+       SECOND SITE. It said the string went "into search results and social
+       cards, not merely onto the page". It went to neither.
+       `ServiceDetail.tsx` passes `page.description` at :195, :284 and :306,
+       and nothing anywhere in `src/**` reads `metaDescription` on a service
+       route — all 44 of them are dead data. (`LegalDocument.tsx` has a prop of
+       the same name and it is a different prop on a different type.)
+
+       THE REMOVAL WAS RIGHT AND ONLY THE REASON WAS WRONG. An unauthorised
+       commercial policy is unauthorised in a dead field exactly as in a live
+       one, and that field is one `usePageMeta` call from being live — which is
+       also why the gate reads it. That 44 service pages carry an unread
+       `metaDescription` is a real finding, and it is an SEO finding: it is not
+       wired up here, because a content correction is the wrong place to decide
+       what a page's search-result copy should be.
 
        IT CANNOT BE SOFTENED, only replaced. "teklifle birlikte" answers a
        question about WHEN; the reader asked HOW MUCH and was told a rule. So
