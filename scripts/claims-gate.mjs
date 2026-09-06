@@ -56,7 +56,8 @@
  * Comment lines are skipped. A rule may be discussed in a comment (that is how
  * the removals stay explainable) but never rendered.
  */
-import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -97,8 +98,17 @@ const EXCLUDE = [
  * `public/` is served verbatim, so its text formats count too — `robots.txt`,
  * a `sitemap.xml`, a web manifest or an inline `<text>` in an SVG all reach a
  * reader without a compiler in between.
+ *
+ * 09a-C5 / R4-6 — AND THE JAVASCRIPT FAMILY, which this used to skip. Nothing
+ * makes `.ts` the only extension a public string can live in: Vite compiles
+ * `.js`, `.jsx`, `.mjs` and `.cjs` under `src/` exactly as happily, and it
+ * resolves `.mjs`/`.js` BEFORE `.ts` for an extensionless import — so a
+ * `src/content/claims.js` was what the app bundled and what neither instrument
+ * read. There are zero such files in the tree today; the point is that the day
+ * there is one it is scanned like anything else. `resolutionShadowsOf()` closes
+ * the other half: a shadow carrying no forbidden claim of its own.
  */
-const EXT = /\.(tsx?|html|txt|xml|json|webmanifest|svg|md)$/;
+const EXT = /\.([cm]?[jt]sx?|html|txt|xml|json|webmanifest|svg|md)$/;
 
 /* ── normalisation ─────────────────────────────────────────────────────────
    Eleven of QA's evasion probes were lexical, not semantic: the claim was
@@ -710,6 +720,33 @@ const WORDED_DELIVERY_TIER =
    `src/utils/cadUpload.ts` is the one file allowed to spell the list. It is
    the authority; asking it to derive from itself is incoherent.            */
 
+/* 09a-C5 / R4-6 — A `.js` SHADOW WOULD BE INVISIBLE TO BOTH INSTRUMENTS.
+   Vite's default `resolve.extensions` is
+   `['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json']`. Every publication
+   site imports the ledger without an extension — `from "@/content/claims"` — so
+   a `src/content/claims.mjs`, `.js` or `.mts` sitting beside `claims.ts`
+   RESOLVES FIRST. The app would bundle the shadow while both instruments read
+   `claims.ts`: the type pin stays green, this check reads the tuple it was
+   pointed at, and the published CAD strings could say anything at all. `EXT`
+   did not scan those extensions either, so the shadow was not even walked.
+
+   There are ZERO such files today; this is latent, and it is closed twice. `EXT`
+   now walks the JavaScript family, so a shadow is at least SCANNED like any
+   other public source — and the RESOLUTION is asserted here, for the ledger and
+   for the authority, because scanning alone would only catch a shadow that
+   happened to contain a forbidden claim. Only the extensions that sort BEFORE
+   `.ts` can shadow, so only those are named: a `.tsx` sibling is an ordinary
+   duplicate, not an override. */
+const SHADOWING_EXTENSIONS = [".mjs", ".js", ".mts"];
+
+/** Files that would win module resolution against `relFile`. */
+function resolutionShadowsOf(relFile) {
+  const stem = resolve(REPO_ROOT, relFile).replace(/\.tsx?$/, "");
+  return SHADOWING_EXTENSIONS.map((ext) => `${stem}${ext}`)
+    .filter((abs) => existsSync(abs))
+    .map((abs) => relative(REPO_ROOT, abs).replace(/\\/g, "/"));
+}
+
 const CAD_AUTHORITY_FILE = "src/utils/cadUpload.ts";
 
 /** `["A","B","C"]` → `"A, B ve C"` — the Turkish join the copy actually uses. */
@@ -718,6 +755,19 @@ const joinTurkish = (parts) =>
 
 function readAcceptedCadExtensions() {
   const abs = resolve(REPO_ROOT, CAD_AUTHORITY_FILE);
+  /* 09a-C5 / R4-6. The authority is read as TEXT, so a `.mjs`/`.js`/`.mts`
+     sibling would be what the app imports while this parses the file beside it
+     — the same shadow that can rewrite the ledger can rewrite the ground truth,
+     and then every CAD rule below is derived from a list nothing ships. It
+     throws rather than reporting, because there is no honest report to make. */
+  const shadowed = resolutionShadowsOf(CAD_AUTHORITY_FILE);
+  if (shadowed.length > 0) {
+    throw new Error(
+      `claims-gate: ${CAD_AUTHORITY_FILE} is shadowed by ${shadowed.join(", ")}; ` +
+        "module resolution prefers .mjs/.js/.mts over .ts, so that file — not this one — is the " +
+        "validator the app ships. Delete it.",
+    );
+  }
   if (!existsSync(abs)) {
     throw new Error(`claims-gate: ${CAD_AUTHORITY_FILE} is missing; the CAD rule has no ground truth.`);
   }
@@ -768,30 +818,63 @@ const ACCEPTED_CAD = readAcceptedCadExtensions();
    and it would still only prove the code LOOKS right.
 
    So the gate EVALUATES it. `claims.ts` has exactly one import and it is an
-   `import type`, which Node's type stripping erases, so the ledger loads in a
-   bare Node process with no bundler, no `import.meta.env` and no edge to
-   `supabase/env.ts`. The two exported strings are read as VALUES and compared
-   against the canonical rendering of `CAD_ACCEPTED_EXTENSIONS`. That is the
-   total, order-preserving function the copy is supposed to be: any append, any
-   truncation, any reorder, any case change and any hand-written substitution
-   fails, while whitespace and quote style are invisible because nothing here
-   compares bytes.
+   `import type`, which is erased before evaluation, so the ledger loads with no
+   bundler, no `import.meta.env` and no edge to `supabase/env.ts`. The two
+   exported strings are read as VALUES and compared against the canonical
+   rendering of `CAD_ACCEPTED_EXTENSIONS`. That is the total, order-preserving
+   function the copy is supposed to be: any append, any truncation, any reorder,
+   any case change and any hand-written substitution fails, while whitespace and
+   quote style are invisible because nothing here compares bytes.
 
    It also enforces the property `claims.ts` claims for itself: the day someone
-   turns that `import type` into a value import, this import throws and the
-   gate fails closed rather than quietly skipping.
+   turns that `import type` into a value import, the load throws and the gate
+   fails closed rather than quietly skipping.
 
-   THIS CHECK HAS NO CONTROL OF ITS OWN, and that is worth knowing before you
-   trust it. `runControls` proves that RULES still fire on the strings they
-   were written for; it knows nothing about the two checks here that are not
-   rules — this one and `checkQualityResources`. Delete either function, or
-   drop its result from the `clean` conjunction at the bottom of this file, and
-   all 262 controls still pass and the gate still reports PASS. That is the
-   same "one instrument asleep" shape the controls exist to prevent, one level
-   up. It is recorded rather than closed: a control for it would have to mutate
-   a source file while the gate is running, which a gate must not do.
+   09a-C5 / R4-1 — AND IT NO LONGER NEEDS A NODE THAT STRIPS TYPES.
+   ---------------------------------------------------------------
+   The C4 version did `await import("…/claims.ts")` and relied on Node's
+   unflagged TypeScript type stripping, which appears behind a flag in 22.6 and
+   unflagged in 22.18. `.github/workflows/playwright.yml` pins
+   `NODE_VERSION: "20"` for all six jobs, and Node 20 has no type stripping at
+   all: `node --no-experimental-strip-types scripts/claims-gate.mjs` exited 1
+   with `Unknown file extension ".ts"` — reported, wrongly, as CAD copy drift.
+   `e2e/landing/claims-gate.spec.ts` runs this file and is a `CRITICAL_MATCH`,
+   so the first PR to `main` would have got a red critical suite whose message
+   was about the wrong thing. It failed CLOSED, which is the right direction,
+   but a gate that cannot run in the place it is supposed to protect is not a
+   gate.
 
-   What proves it today is external, and must be re-run when this changes:
+   WHY THE FIX IS HERE AND NOT IN THE WORKFLOW. Raising CI's Node was the
+   smaller diff and it is not sufficient: what this check has to be is
+   RUNTIME-INDEPENDENT. A mechanism that only works on the newest major is one
+   CI-image decision — or one contributor on an LTS — away from returning to
+   exactly this state, and it returns to it wearing the wrong diagnosis. So the
+   gate transpiles the ledger with the repository's own `typescript`: a declared
+   devDependency, the same compiler `npm run typecheck` already runs, no new
+   package — and ONE code path on every Node, rather than a fast path that gets
+   exercised locally and a fallback that gets exercised only where it blocks.
+
+   THE "BARE NODE PROCESS" PROPERTY IS NOT TRADED AWAY — it is tightened.
+   Emission uses `verbatimModuleSyntax`, so ONLY an explicit `import type` is
+   erased and every other import survives into the emitted module verbatim. That
+   module is written to `mkdtempSync(tmpdir())`, OUTSIDE the repository and
+   deliberately: any surviving import then has to resolve from a directory with
+   no `node_modules`, no `@/` alias and no relative neighbours. A value import of
+   `@/utils/cadUpload` throws `ERR_MODULE_NOT_FOUND` exactly as it threw under
+   type stripping, and so now does a relative one — which is the property the
+   ledger states about itself, enforced rather than assumed.
+
+   09a-C5 / R4-5 — AND IT HAS CONTROLS NOW. The C4 comment here recorded that
+   this check and `checkQualityResources` were the two instruments `runControls`
+   cannot see, and gave a reason for leaving it open: that a control would have
+   to mutate a source file while the gate is running. That reason was wrong, and
+   QA showed the work. The read is now separated from the judgement —
+   `compareDerivedCopy()` is pure and can be handed a fabricated namespace — and
+   `checkDerivedCadCopy()` takes the file it reads as an argument, so a control
+   can point it at a `mkdtempSync(tmpdir())` fixture instead. Both run on every
+   invocation; see `NON_RULE_CHECKS` near the bottom of this file.
+
+   What ALSO proves it is external, and must be re-run when this changes:
    `scripts/qa-probes/p09a3-pin-attacks.mjs` A6 and A7 — a derivation that
    appends `DWG`, and one that truncates to five — go red through this check
    and through nothing else. `tsc` is green on both.                          */
@@ -803,38 +886,133 @@ const EXPECTED_CAD_COPY = {
   CAD_UPLOAD_EXTENSIONS: ACCEPTED_CAD.map((e) => `.${e}`).join(", "),
 };
 
-async function checkDerivedCadCopy() {
-  const abs = resolve(REPO_ROOT, CAD_LEDGER_FILE);
-  if (!existsSync(abs)) {
-    return [{ file: CAD_LEDGER_FILE, message: "the claim ledger is missing; the published CAD copy cannot be checked" }];
+/** Temp directories holding transpiled modules. Removed when the run ends. */
+const TRANSPILED_DIRS = [];
+
+/**
+ * Evaluate a TypeScript module on ANY Node, with only the parts that are
+ * provably not code erased. See the R4-1 note above for why this is not
+ * `await import(….ts)`.
+ *
+ * THROWS — it never returns a partial namespace — so the caller can tell
+ * "could not load" from "loaded and disagrees".
+ */
+async function importTypeScriptModule(abs) {
+  const ts = (await import("typescript")).default;
+  const emitted = ts.transpileModule(readFileSync(abs, "utf8"), {
+    fileName: abs,
+    reportDiagnostics: true,
+    compilerOptions: {
+      module: ts.ModuleKind.ESNext,
+      target: ts.ScriptTarget.ES2022,
+      // ONLY an explicit `import type` is erased; every value import survives.
+      verbatimModuleSyntax: true,
+      isolatedModules: true,
+    },
+  });
+  const errors = (emitted.diagnostics ?? []).filter((d) => d.category === ts.DiagnosticCategory.Error);
+  if (errors.length > 0) {
+    throw new Error(
+      `it does not compile in isolation: ${errors
+        .map((d) => ts.flattenDiagnosticMessageText(d.messageText, " "))
+        .join("; ")}`,
+    );
   }
-  let ledger;
-  try {
-    ledger = await import(pathToFileURL(abs).href);
-  } catch (error) {
-    return [
-      {
-        file: CAD_LEDGER_FILE,
-        message:
-          `could not be evaluated, so the published CAD strings were checked against nothing: ${error.message}. ` +
-          "The ledger must stay loadable in a bare Node process — that is what keeps it free of runtime imports. " +
-          "Node >= 22.18 is required for the TypeScript type stripping this uses.",
-      },
-    ];
+  const dir = mkdtempSync(join(tmpdir(), "mas-claims-gate-module-"));
+  TRANSPILED_DIRS.push(dir);
+  const file = join(dir, "module.mjs");
+  writeFileSync(file, emitted.outputText, "utf8");
+  return await import(pathToFileURL(file).href);
+}
+
+/** Remove every temp module this run wrote. Best effort; no verdict depends on it. */
+function cleanUpTranspiledModules() {
+  for (const dir of TRANSPILED_DIRS.splice(0)) {
+    try {
+      rmSync(dir, { recursive: true, force: true });
+    } catch {
+      /* a leftover directory in the OS temp space changes no verdict */
+    }
   }
+}
+
+/**
+ * THE JUDGEMENT, WITH NO FILE IN IT — 09a-C5 / R4-5.
+ *
+ * Pure: a namespace object in, a list of problems out. That is what makes this
+ * half controllable without touching the tree — a control hands it
+ * `{ CAD_UPLOAD_FORMATS: "… ve DWG" }` and asserts that it complains.
+ */
+function compareDerivedCopy(namespace, expected = EXPECTED_CAD_COPY, file = CAD_LEDGER_FILE) {
+  /** @type {{ kind: string, file: string, message: string }[]} */
   const problems = [];
-  for (const [name, expected] of Object.entries(EXPECTED_CAD_COPY)) {
-    const actual = ledger[name];
-    if (actual === expected) continue;
+  for (const [name, want] of Object.entries(expected)) {
+    const actual = namespace[name];
+    if (actual === want) continue;
     problems.push({
-      file: CAD_LEDGER_FILE,
+      kind: "drift",
+      file,
       message:
         `${name} publishes ${JSON.stringify(actual)}, but ${CAD_AUTHORITY_FILE} renders as ` +
-        `${JSON.stringify(expected)}. The published string must BE the derivation of the validator's ` +
+        `${JSON.stringify(want)}. The published string must BE the derivation of the validator's ` +
         "list, in order — never a hand-edited copy of it.",
     });
   }
   return problems;
+}
+
+/**
+ * THE READ. `ledgerFile` is a parameter so a control can point it at a fixture;
+ * every ordinary invocation reads the real ledger.
+ *
+ * 09a-C5 / R4-7 — EVERY PROBLEM CARRIES A `kind`. A file that cannot be
+ * evaluated at all and a file that evaluates to the wrong strings are different
+ * failures with different remedies, and reporting the first as the second sends
+ * a reader to correct copy that was never wrong. An `enum` or a `namespace` in
+ * the ledger is the concrete case: neither survives an isolated transpile, and
+ * the report has to say THAT rather than invent a drift.
+ */
+async function checkDerivedCadCopy(ledgerFile = CAD_LEDGER_FILE, expected = EXPECTED_CAD_COPY) {
+  const abs = resolve(REPO_ROOT, ledgerFile);
+  if (!existsSync(abs)) {
+    return [
+      {
+        kind: "load",
+        file: ledgerFile,
+        message: "the claim ledger is missing; the published CAD copy was checked against nothing",
+      },
+    ];
+  }
+  const shadows = resolutionShadowsOf(ledgerFile);
+  if (shadows.length > 0) {
+    return [
+      {
+        kind: "load",
+        file: ledgerFile,
+        message:
+          `is shadowed by ${shadows.join(", ")}. Vite resolves .mjs/.js/.mts BEFORE .ts, so the app would ` +
+          "bundle that file while both instruments read this one — the published CAD strings would be " +
+          "whatever the shadow says. Delete the shadow: the ledger is a .ts file and only a .ts file.",
+      },
+    ];
+  }
+  let ledger;
+  try {
+    ledger = await importTypeScriptModule(abs);
+  } catch (error) {
+    return [
+      {
+        kind: "load",
+        file: ledgerFile,
+        message:
+          `could not be evaluated, so the published CAD strings were checked against NOTHING: ${error.message}. ` +
+          "This is NOT a drift report — the copy may be perfectly correct. The ledger must stay loadable " +
+          "with only `import type` erased and no module edges at all; it is loaded from a temp directory " +
+          "precisely so that no edge can resolve.",
+      },
+    ];
+  }
+  return compareDerivedCopy(ledger, expected, ledgerFile);
 }
 
 /**
@@ -2718,23 +2896,45 @@ if (resourceProblems.length > 0) {
   for (const p of resourceProblems) console.log(`  ${p.file}: ${p.message}`);
 }
 
-if (derivedProblems.length > 0) {
+/* 09a-C5 / R4-7. Two different failures, two headings, two remedies. "I could
+   not read the ledger" printed under `derived-copy-drift` sends a reader to
+   hunt for a copy defect in a file that was never wrong — which is precisely
+   what the Node-20 load failure did. */
+const derivedLoadFailures = derivedProblems.filter((p) => p.kind === "load");
+const derivedDrift = derivedProblems.filter((p) => p.kind !== "load");
+
+if (derivedLoadFailures.length > 0) {
   console.log("");
-  console.log(`### derived-copy-drift — ${derivedProblems.length}`);
+  console.log(`### ledger-not-loadable — ${derivedLoadFailures.length}`);
+  console.log(
+    "authority: USER_INPUTS.md §J ACCEPTED_CAD_FORMATS: DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION",
+  );
+  console.log("remedy:    THIS IS NOT A COPY PROBLEM. The published CAD strings were compared to nothing, so");
+  console.log("           this says nothing at all about whether they are right. Make src/content/claims.ts");
+  console.log("           loadable again: no runtime import, and no syntax that an isolated transpile refuses.");
+  for (const p of derivedLoadFailures) console.log(`  ${p.file}: ${p.message}`);
+}
+
+if (derivedDrift.length > 0) {
+  console.log("");
+  console.log(`### derived-copy-drift — ${derivedDrift.length}`);
   console.log(
     "authority: USER_INPUTS.md §J ACCEPTED_CAD_FORMATS: DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION",
   );
   console.log(
     "remedy:    Fix the DERIVATION in src/content/claims.ts, or the tuple it reads. Never widen src/utils/cadUpload.ts to match the copy.",
   );
-  for (const p of derivedProblems) console.log(`  ${p.file}: ${p.message}`);
+  for (const p of derivedDrift) console.log(`  ${p.file}: ${p.message}`);
 }
 
 if (!clean) {
   console.log("");
   console.log(
     `FAIL — ${violations.length} claim violation(s), ${resourceProblems.length} resource problem(s), ` +
-      `${derivedProblems.length} derived-copy problem(s), ${controlFailures.length} control failure(s).`,
+      `${derivedDrift.length} derived-copy problem(s), ${derivedLoadFailures.length} ledger load failure(s), ` +
+      `${controlFailures.length} control failure(s).`,
   );
   process.exitCode = 1;
 }
+
+cleanUpTranspiledModules();
