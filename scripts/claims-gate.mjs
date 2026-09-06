@@ -48,13 +48,17 @@
  * Usage:
  *     node scripts/claims-gate.mjs            # fail on violation
  *     node scripts/claims-gate.mjs --list     # print the rule table
+ *     node scripts/claims-gate.mjs --also-scan=<path>
+ *                                             # scan one extra file as well as
+ *                                             # the roots. Adds coverage only;
+ *                                             # see EXTRA_SCAN_FILES below.
  *
  * Comment lines are skipped. A rule may be discussed in a comment (that is how
  * the removals stay explainable) but never rendered.
  */
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -732,6 +736,91 @@ function readAcceptedCadExtensions() {
 }
 
 const ACCEPTED_CAD = readAcceptedCadExtensions();
+
+/* ── THE THIRD INSTRUMENT: the published STRINGS, not the tuple behind them ──
+   09a-C4 / R3-1. QA attacked the C3 type pin twelve ways. Two got through and
+   they are the same attack: leave the pinned tuple alone and edit the
+   DERIVATION one line below it.
+
+       CAD_UPLOAD_FORMATS = joinTurkishList([...PUBLISHED_CAD_EXTENSIONS
+         .map((e) => e.toUpperCase()), "DWG"]);          // tsc 0, gate 0
+       CAD_UPLOAD_FORMATS = joinTurkishList(
+         PUBLISHED_CAD_EXTENSIONS.slice(0, 5).map(…));   // tsc 0, gate 0
+
+   All five publication sites then read "… IGS, 3MF ve DWG" against a validator
+   that refuses DWG — the exact defect the pin exists to make impossible, one
+   layer up. The tuple was bound to the validator and nothing bound the COPY to
+   the tuple.
+
+   WHY THIS IS NOT A FOURTH TYPE-LEVEL PIN. It cannot be one. The joined string
+   is produced by `PUBLISHED_CAD_EXTENSIONS.map(…)`, and `Array.prototype.map`
+   is declared `map<U>(…): U[]` — it returns a plain array, not a tuple, so the
+   element literals are gone before any template-literal type could join them.
+   Measured, not assumed: `const T = ["step","stp","3mf"] as const;` then
+   `const c: typeof T.map(f) = ["A","B"]` compiles clean under `--strict`. A
+   type-level binding would therefore require rewriting the derivation
+   expression itself, and that expression is the anchor QA's own harness
+   (`scripts/qa-probes/p09a3-pin-attacks.mjs`) mutates — editing it would
+   disable the probe that proves the fix.
+
+   WHY THIS IS NOT A BYTE PIN ON THE DERIVATION EITHER. Pinning the source text
+   of the derivation would fail on a formatter run (R3-6, the same complaint),
+   and it would still only prove the code LOOKS right.
+
+   So the gate EVALUATES it. `claims.ts` has exactly one import and it is an
+   `import type`, which Node's type stripping erases, so the ledger loads in a
+   bare Node process with no bundler, no `import.meta.env` and no edge to
+   `supabase/env.ts`. The two exported strings are read as VALUES and compared
+   against the canonical rendering of `CAD_ACCEPTED_EXTENSIONS`. That is the
+   total, order-preserving function the copy is supposed to be: any append, any
+   truncation, any reorder, any case change and any hand-written substitution
+   fails, while whitespace and quote style are invisible because nothing here
+   compares bytes.
+
+   It also enforces the property `claims.ts` claims for itself: the day someone
+   turns that `import type` into a value import, this import throws and the
+   gate fails closed rather than quietly skipping.                            */
+const CAD_LEDGER_FILE = "src/content/claims.ts";
+
+/** What each exported string MUST be, derived from the authority. */
+const EXPECTED_CAD_COPY = {
+  CAD_UPLOAD_FORMATS: joinTurkish(ACCEPTED_CAD.map((e) => e.toUpperCase())),
+  CAD_UPLOAD_EXTENSIONS: ACCEPTED_CAD.map((e) => `.${e}`).join(", "),
+};
+
+async function checkDerivedCadCopy() {
+  const abs = resolve(REPO_ROOT, CAD_LEDGER_FILE);
+  if (!existsSync(abs)) {
+    return [{ file: CAD_LEDGER_FILE, message: "the claim ledger is missing; the published CAD copy cannot be checked" }];
+  }
+  let ledger;
+  try {
+    ledger = await import(pathToFileURL(abs).href);
+  } catch (error) {
+    return [
+      {
+        file: CAD_LEDGER_FILE,
+        message:
+          `could not be evaluated, so the published CAD strings were checked against nothing: ${error.message}. ` +
+          "The ledger must stay loadable in a bare Node process — that is what keeps it free of runtime imports. " +
+          "Node >= 22.18 is required for the TypeScript type stripping this uses.",
+      },
+    ];
+  }
+  const problems = [];
+  for (const [name, expected] of Object.entries(EXPECTED_CAD_COPY)) {
+    const actual = ledger[name];
+    if (actual === expected) continue;
+    problems.push({
+      file: CAD_LEDGER_FILE,
+      message:
+        `${name} publishes ${JSON.stringify(actual)}, but ${CAD_AUTHORITY_FILE} renders as ` +
+        `${JSON.stringify(expected)}. The published string must BE the derivation of the validator's ` +
+        "list, in order — never a hand-edited copy of it.",
+    });
+  }
+  return problems;
+}
 
 /**
  * CAD formats the validator REFUSES. Unlike the accepted list this one is
@@ -2296,6 +2385,25 @@ function checkQualityResources() {
 
 /* ── run ───────────────────────────────────────────────────────────────── */
 
+/**
+ * Extra files to scan, named explicitly on the command line.
+ *
+ * 09a-C4 / R3-5. `e2e/landing/claims-gate.spec.ts` proves the gate can still
+ * FAIL by feeding it a forbidden claim. It used to do that by writing
+ * `src/content/__claims-gate-probe__.ts` into PRODUCTION SOURCE and deleting
+ * it in `finally` — and two agents have been killed mid-run in this phase
+ * alone, which leaves the probe behind in `src/**`.
+ *
+ * So the probe moves out of the repository and the gate is told where it is.
+ * This can only ADD a file to the scan; there is no flag here that removes a
+ * root, skips a rule or silences a hit, so it cannot be used to weaken the
+ * gate — which is the only property a test-facing entry point has to have.
+ */
+const EXTRA_SCAN_FILES = process.argv
+  .filter((a) => a.startsWith("--also-scan="))
+  .map((a) => a.slice("--also-scan=".length))
+  .filter(Boolean);
+
 if (process.argv.includes("--list")) {
   console.log("# claims gate rules");
   console.log(`# roots: ${ROOTS.join(", ")}`);
@@ -2312,7 +2420,9 @@ if (process.argv.includes("--list")) {
 const controlFailures = runControls();
 
 for (const root of ROOTS) walk(root);
+for (const extra of EXTRA_SCAN_FILES) scanFile(extra, resolve(REPO_ROOT, extra));
 const resourceProblems = checkQualityResources();
+const derivedProblems = await checkDerivedCadCopy();
 
 const byRule = new Map();
 for (const v of violations) {
@@ -2330,12 +2440,25 @@ const controlCount =
 console.log(`# controls: ${controlCount} (${controlFailures.length} failed)`);
 console.log("");
 
-if (violations.length === 0 && resourceProblems.length === 0 && controlFailures.length === 0) {
+/* `process.exitCode` rather than `process.exit()`, from the PASS path down.
+   Since 09a-C4 this script `await`s a dynamic import of the ledger, and calling
+   `process.exit()` while the loader's handle is still closing tripped a libuv
+   assertion on Windows once in the first run after that change (0/25 on
+   re-test, so a race rather than a determinism). Setting the code and letting
+   the event loop drain removes the race and also guarantees stdout is flushed
+   before the process goes away — which matters because the full report IS the
+   failure message the Playwright spec prints. */
+const clean =
+  violations.length === 0 &&
+  resourceProblems.length === 0 &&
+  derivedProblems.length === 0 &&
+  controlFailures.length === 0;
+
+if (clean) {
   console.log(`PASS — 0 unverified claims across ${RULES.length} rules, ${controlCount} controls green.`);
-  process.exit(0);
 }
 
-if (controlFailures.length > 0) {
+if (!clean && controlFailures.length > 0) {
   console.log("## RULE CONTROL FAILURES");
   console.log("A rule that no longer fires on the claim it was written for reports PASS over live");
   console.log("fabrication, which is worse than having no rule at all. Fix the RULE, not the control.");
@@ -2343,8 +2466,9 @@ if (controlFailures.length > 0) {
   console.log("");
 }
 
-console.log("## VIOLATIONS BY RULE");
+if (!clean) console.log("## VIOLATIONS BY RULE");
 for (const rule of RULES) {
+  if (clean) break;
   const hits = byRule.get(rule.id);
   if (!hits) continue;
   console.log("");
@@ -2364,8 +2488,23 @@ if (resourceProblems.length > 0) {
   for (const p of resourceProblems) console.log(`  ${p.file}: ${p.message}`);
 }
 
-console.log("");
-console.log(
-  `FAIL — ${violations.length} claim violation(s), ${resourceProblems.length} resource problem(s), ${controlFailures.length} control failure(s).`,
-);
-process.exit(1);
+if (derivedProblems.length > 0) {
+  console.log("");
+  console.log(`### derived-copy-drift — ${derivedProblems.length}`);
+  console.log(
+    "authority: USER_INPUTS.md §J ACCEPTED_CAD_FORMATS: DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION",
+  );
+  console.log(
+    "remedy:    Fix the DERIVATION in src/content/claims.ts, or the tuple it reads. Never widen src/utils/cadUpload.ts to match the copy.",
+  );
+  for (const p of derivedProblems) console.log(`  ${p.file}: ${p.message}`);
+}
+
+if (!clean) {
+  console.log("");
+  console.log(
+    `FAIL — ${violations.length} claim violation(s), ${resourceProblems.length} resource problem(s), ` +
+      `${derivedProblems.length} derived-copy problem(s), ${controlFailures.length} control failure(s).`,
+  );
+  process.exitCode = 1;
+}
