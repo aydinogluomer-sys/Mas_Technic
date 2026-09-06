@@ -883,17 +883,51 @@ const CAD_LABEL_OFFER = trPattern(/destekl|kabul|yükle|girdi|gelen dosya|alına
    list, and a probe that APPENDED `"dwg"` to the ledger tuple sailed through:
    the expected text was still a prefix of the longer one. TypeScript caught
    that probe; this gate did not, which is precisely the "two instruments, one
-   of them asleep" failure the rule exists to prevent. Both expectations now
+   of them asleep" failure the rule exists to prevent. Both expectations still
    carry their closing delimiter, so nothing can be inserted or appended
    without breaking the match.
 
+   09a-C4 / R3-6 — WHAT THEY NO LONGER DO IS COMPARE BYTES. A pin that
+   `includes()` the exact rendered literal turns red on a whitespace-only
+   reformat and on a single-quote change, with zero semantic drift. QA's A8 and
+   A9 are both that false positive. It fails CLOSED, which is the right
+   direction, but a formatter run producing a baffling FAIL is how a gate loses
+   the benefit of the doubt it needs on the day it is right.
+
+   So each pin now PARSES its span and compares the meaning:
+
+     the ledger tuple  — the quoted tokens between the brackets, compared
+                         element-wise and in order against the validator, so
+                         quoting and spacing are invisible and a reorder,
+                         a truncation, an append or a case change is not;
+     the landing prose — the same words with `\s+` between them and either
+                         quote character in front.
+
+   Each returns the SPAN it blesses, and only that span. See `cadFormatScan`.
    Folded through `foldTurkishI`, because the scanned text is folded. */
+const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/** The ledger tuple, parsed. `{ present, ok, index, match, region }`. */
+function claimsLedgerPin(text) {
+  const m = text.match(/PUBLISHED_CAD_EXTENSIONS\s*(?::[^=;]*)?=\s*\[([^\]]*)\]/);
+  if (!m) return { present: false };
+  const tokens = [...m[1].matchAll(/["'`]([A-Za-z0-9]+)["'`]/g)].map((x) => x[1]);
+  const ok = tokens.length === ACCEPTED_CAD.length && tokens.every((t, i) => t === ACCEPTED_CAD[i]);
+  return { present: true, ok, index: m.index, match: m[0], region: [m.index, m.index + m[0].length] };
+}
+
+/** The landing prose, whitespace- and quote-tolerant. */
+function technicalLandingPin(text) {
+  const expected = foldTurkishI(`${joinTurkish(ACCEPTED_CAD.map((e) => e.toUpperCase()))} dosyalarını`);
+  const re = new RegExp(`["'\`]\\s*${expected.trim().split(/\s+/).map(escapeRe).join("\\s+")}`);
+  const m = text.match(re);
+  if (!m) return { present: false };
+  return { present: true, ok: true, index: m.index, match: m[0], region: [m.index, m.index + m[0].length] };
+}
+
 const CAD_PINNED_FILES = new Map([
-  ["src/content/claims.ts", () => `[${ACCEPTED_CAD.map((e) => `"${e}"`).join(", ")}]`],
-  [
-    "src/data/technicalLandingData.ts",
-    () => foldTurkishI(`"${joinTurkish(ACCEPTED_CAD.map((e) => e.toUpperCase()))} dosyalarını`),
-  ],
+  ["src/content/claims.ts", claimsLedgerPin],
+  ["src/data/technicalLandingData.ts", technicalLandingPin],
 ]);
 
 /**
@@ -927,26 +961,47 @@ function* cadFormatScan(text, file) {
   // The authority may — must — spell its own list.
   if (file === CAD_AUTHORITY_FILE) return;
 
-  const pin = CAD_PINNED_FILES.get(file);
-  if (pin !== undefined) {
-    // Detectors (A) and (B) are about the literal, and the pin replaces both
-    // for these two files. Detector (C) is a different shape and still runs.
-    const restated = [...restatedCadLists(text)];
-    if (restated.length > 0 && !text.includes(pin())) {
-      yield { index: restated[0].index, match: restated[0].match };
-    }
-  } else {
-    // (A) a restated list, in copy-only data files
-    if (file.startsWith("src/data/")) yield* restatedCadLists(text);
+  /* 09a-C4 / R3-2. Being pinned used to REPLACE detectors (A) and (B) on these
+     two files, and QA's A10/A11 walked straight through the gap it left: a
+     bare prose offer of SolidWorks added to `claims.ts` — or to
+     `technicalLandingData.ts`, a RENDERED content file — was invisible to both
+     instruments while the pinned literal sat there unchanged, holding the
+     exemption open.
 
-    // (B) a format named inside a sentence that offers it
-    CAD_ANY_TOKEN.lastIndex = 0;
-    let token;
-    while ((token = CAD_ANY_TOKEN.exec(text)) !== null) {
-      if (insideKeywordArray(text, token.index)) continue;
-      if (CAD_OFFER_PREDICATE.test(sentenceAt(text, token.index))) {
-        yield { index: token.index, match: token[0] };
-      }
+     A file being pinned buys it an EXTRA check, never fewer. So the pin no
+     longer switches detectors off; it marks the one SPAN in which the list is
+     allowed to be spelt, and every detector runs over everything outside that
+     span. Remove the literal (by deriving it) and the pin reports `present:
+     false`, at which point nothing is blessed and the detectors cover the file
+     exactly as they cover any other. */
+  const pin = CAD_PINNED_FILES.get(file);
+  /** @type {[number, number] | null} */
+  let blessed = null;
+  if (pin !== undefined) {
+    const r = pin(text);
+    if (r.present) {
+      blessed = r.region;
+      if (!r.ok) yield { index: r.index, match: r.match };
+    }
+  }
+  const outside = (index, length) =>
+    blessed === null || index < blessed[0] || index + length > blessed[1];
+
+  // (A) a restated list — in copy-only data files, and in every pinned file
+  if (file.startsWith("src/data/") || pin !== undefined) {
+    for (const hit of restatedCadLists(text)) {
+      if (outside(hit.index, hit.match.length)) yield hit;
+    }
+  }
+
+  // (B) a format named inside a sentence that offers it
+  CAD_ANY_TOKEN.lastIndex = 0;
+  let token;
+  while ((token = CAD_ANY_TOKEN.exec(text)) !== null) {
+    if (insideKeywordArray(text, token.index)) continue;
+    if (!outside(token.index, token[0].length)) continue;
+    if (CAD_OFFER_PREDICATE.test(sentenceAt(text, token.index))) {
+      yield { index: token.index, match: token[0] };
     }
   }
 
@@ -1292,8 +1347,53 @@ const RULES = [
         { file: "src/pages/SSS.tsx", text: '"Teklif akışındaki yükleyici STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını kabul eder."' },
         // A single rejected format, offered in prose, with no list around it.
         '"SolidWorks dosyalarını da doğrudan kabul ediyoruz."',
+        /* 09a-C4 / R3-2 — QA's A10 and A11, kept as controls so the property
+           outlives the probe that found it. BOTH carry the pinned literal AND
+           the prose offer, because the hole was specifically that a valid pin
+           held the exemption open over the rest of the file. */
+        {
+          file: "src/content/claims.ts",
+          text:
+            'const PUBLISHED_CAD_EXTENSIONS = ["step", "stp", "stl", "obj", "iges", "igs", "3mf"] as const;\n' +
+            'export const CAD_UPLOAD_NOTE = "SolidWorks ve CATIA dosyalarını da doğrudan kabul ediyoruz.";',
+        },
+        {
+          file: "src/data/technicalLandingData.ts",
+          text:
+            '"STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını teklif akışında doğrudan yükleyebilirsiniz.",\n' +
+            'export const QA_PROBE_NOTE = "SolidWorks dosyalarını da doğrudan kabul ediyoruz.";',
+        },
+        /* 09a-C4 — the pin itself, drifted. The ledger tuple carrying a format
+           the validator refuses must fail HERE too, not only in `tsc`: two
+           instruments, and neither of them asleep. */
+        {
+          file: "src/content/claims.ts",
+          text: 'const PUBLISHED_CAD_EXTENSIONS = ["step", "stp", "stl", "obj", "iges", "igs", "3mf", "dwg"] as const;',
+        },
       ],
       silent: [
+        /* 09a-C4 / R3-6 — the same tuple in three spellings. The pin PARSES its
+           span now, so a formatter run and a quote-style change are invisible
+           to it while a content change is not. A8 and A9 were both this false
+           positive. */
+        {
+          file: "src/content/claims.ts",
+          text: 'const PUBLISHED_CAD_EXTENSIONS = ["step", "stp", "stl", "obj", "iges", "igs", "3mf"] as const;',
+        },
+        {
+          file: "src/content/claims.ts",
+          text: 'const PUBLISHED_CAD_EXTENSIONS = ["step","stp","stl","obj","iges","igs","3mf"] as const;',
+        },
+        {
+          file: "src/content/claims.ts",
+          text: "const PUBLISHED_CAD_EXTENSIONS = ['step', 'stp', 'stl', 'obj', 'iges', 'igs', '3mf'] as const;",
+        },
+        // The landing prose the second pin blesses — the live string
+        // `e2e/technical-landing.spec.ts:167` asserts is visible.
+        {
+          file: "src/data/technicalLandingData.ts",
+          text: '"STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını teklif akışında doğrudan yükleyebilirsiniz.",',
+        },
         // The derived replacements: `normalise()` drops `${…}`, so there is no
         // format token in the source to find. This is the invariant.
         'answer: `Teklif akışındaki yükleyici şu uzantıları doğrular: ${CAD_UPLOAD_EXTENSIONS} — listede olmayan bir uzantı yükleme adımından geçmez.`,',
