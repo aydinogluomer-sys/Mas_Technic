@@ -1699,4 +1699,59 @@ design migration is barely started, commit what is green and return `PARTIAL`. P
 rounds partly because packets were large and returns were all-or-nothing; a clean partial is worth more than an
 unreviewable whole.
 
-**Next action:** review 09a at source, integrate, QA it, then scope 09b with the carried items above.
+#### STOP — 09a wrote to the production database. Run paused for a user decision.
+
+`IMPLEMENTATION.md` §1.4 makes a production database mutation a **stop condition**. One occurred. The Coder
+disclosed it unprompted and gave search keys; I verified the extent read-only through the Supabase MCP against
+the project in `.env` (`zdqiujpeewtyhtcqhdcj`), and **the extent is larger than the Coder estimated** — it said
+"at most two of each".
+
+**Actually written, all on 2026-09-06:**
+
+| table | id / name | created |
+|---|---|---|
+| `public.rfqs` | `PROBE-DO-NOT-INSERT` (`email='not-an-email'`, rest null) | 00:13:02Z |
+| `public.rfqs` | `RFQ-2026-P1X2WWXZ` — `QA Probe` / `QA Muhendislik` / `qa@example.com` | 00:06:16Z |
+| `public.rfqs` | `RFQ-2026-P1VM3KET` — same | 00:05:07Z |
+| `public.rfqs` | `RFQ-2026-P1UNKFR4` — same | 00:04:24Z |
+| `storage.objects` `cad-uploads` | `anonymous/RFQ-2026-P1X2WWXZ/1788653175327-qa-part.stl` | 00:06:15Z |
+| `storage.objects` `cad-uploads` | `anonymous/RFQ-2026-P1VM3KET/1788653106897-qa-part.stl` | 00:05:07Z |
+| `storage.objects` `cad-uploads` | `anonymous/RFQ-2026-P1UIC7X6/1788653055355-qa-part.stl` | 00:04:16Z |
+
+**Four rows and three objects**, not two and two, and the object under `P1UIC7X6` has no matching row, so the
+sets only partly overlap. The older `rfqs` rows (`AeroBracket V2` / `client@precision.com`, Feb–Mar 2026) are
+pre-existing seed data, not this run's, and are not mine to touch or judge.
+
+**Nothing has been deleted.** Removing them is itself a production mutation and needs the user's explicit
+authorisation; the anon role has no DELETE policy, so it would require service-role access. Recorded here so
+the record survives regardless of what is decided.
+
+**How it happened, and it is not simple carelessness.** The Coder's premise was the edge-function source in
+this repository, which rejects a malformed e-mail with 400 *before* the insert. It probed with a duplicate
+primary key precisely so that nothing could be written. The deployed function does not behave like the source,
+so the write it had engineered to be impossible happened anyway. The packet is also at fault: it told the Coder
+to "verify the real submission pipeline end to end locally" and said `.env` is present so credentials permit
+it, without saying that the only configured project **is** production. That sentence is mine.
+
+**The far more serious finding is what the probe revealed.** `git log` over
+`supabase/functions/rfq-rate-limit/index.ts` has **one commit, the initial import** — the source has never been
+deployed. Probed against the deployed function, it reached the insert for a missing e-mail, a malformed
+e-mail, a one-character customer, a missing company and a `.txt` in `files`; only the `id` guard fires. Fifteen
+requests inside a minute from one address produced **no 429**. So on production today, anyone can write
+unvalidated rows to `rfqs` and objects to `cad-uploads` anonymously and unthrottled. That is a live exposure
+this run found by accident, and it belongs to 09b — but it is the user's to know now, not at 09b's close.
+
+Compounding it: `TeklifAl.tsx:545`'s `if (fnData?.error)` was **dead code**, so even a correctly deployed rate
+limiter could never have shown a reader its message.
+
+**09a's own work is green and scope-clean, and is being held rather than integrated** pending the user's
+decision: `TeklifAl.tsx` 1540 → 418 lines across twelve modules; route static closure 1629.48 kB → 816.79 kB
+(**−812.7 kB, −49.9 %**) with the WebGL stack behind an explicit request; teal 16 → 0, Radix 3 → 0, shell
+primitives 1 → 88 on `/teklif-al` and `/cad-dashboard`; both A20 error states branded and reached, not
+inferred; four `shell-footer-rfq` goldens rebanked and adjudicated at the DOM rather than the pixels. It also
+removed a content-truth defect nobody had flagged — the delivery selector was still publishing "10-12 Gün" and
+"3-5 Gün" production lead times in four places, the same class Phase 08 stripped from this page's sidebar.
+
+**Next action: none autonomously.** The run is paused for a decision on (1) whether to delete the four rows and
+three objects, (2) whether to treat the undeployed rate limiter as an immediate fix or 09b work, and
+(3) whether to integrate 09a as it stands.
