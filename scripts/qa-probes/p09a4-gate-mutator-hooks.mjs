@@ -35,6 +35,36 @@ const MUTATIONS = {
     ],
   ],
 
+  /* 6 — ADVERSARIAL CONTROLS, injected from `P09A4_PROBES`.
+     `--also-scan=` can only add a file whose repo-relative path is outside
+     `src/`, so it cannot exercise the file-scoped halves of the CAD rule
+     (detector (A) runs on `src/data/**` and on pinned files; the pins are keyed
+     by exact path). The gate's own control harness CAN: a control carries a
+     `file`, and `fires()` runs the real `rule.scan` against it.
+
+     So each candidate string is appended to the target rule's `fires` list. A
+     candidate that does NOT fire is reported by the gate itself as
+     "POSITIVE CONTROL DID NOT FIRE", and one that fires is silent in the
+     output. That gives a clean fire/silent classification per string, through
+     the gate's real matching path, with nothing on disk changed and no
+     assertion anywhere weakened. */
+  "inject-probe-controls": [
+    [
+      "function runControls() {",
+      `function runControls() {
+  if (process.env.P09A4_PROBES) {
+    for (const p of JSON.parse(process.env.P09A4_PROBES)) {
+      const r = RULES.find((x) => x.id === p.rule);
+      if (!r) throw new Error("p09a4: no such rule: " + p.rule);
+      if (!r.controls) r.controls = {};
+      const c = p.file ? { file: p.file, text: p.text } : p.text;
+      const list = process.env.P09A4_PROBE_AS === "silent" ? "silent" : "fires";
+      r.controls[list] = [...(r.controls[list] ?? []), c];
+    }
+  }`,
+    ],
+  ],
+
   none: [],
 };
 
