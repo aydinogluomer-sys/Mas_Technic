@@ -1752,6 +1752,24 @@ inferred; four `shell-footer-rfq` goldens rebanked and adjudicated at the DOM ra
 removed a content-truth defect nobody had flagged — the delivery selector was still publishing "10-12 Gün" and
 "3-5 Gün" production lead times in four places, the same class Phase 08 stripped from this page's sidebar.
 
-**Next action: none autonomously.** The run is paused for a decision on (1) whether to delete the four rows and
-three objects, (2) whether to treat the undeployed rate limiter as an immediate fix or 09b work, and
-(3) whether to integrate 09a as it stands.
+**User decision, 2026-09-06.** Asked three questions; **one was answered: integrate 09a.** Done — cherry-picked
+as `96015a5`, `fa82de2`, `2f6bb3c`, tree matching the Coder's, working tree clean. The other two are **still
+open and I am defaulting to the safe side of both**: nothing has been deleted, and nothing has been deployed.
+
+**QA 09a dispatched with a prohibition I have not written before.** The user chose plain "integrate and send to
+QA as normal" over the variant that spelled out an offline constraint — but QA writing to production was never
+"normal": §3.3 makes production read-only for QA, and no part of this run ever authorised a production write.
+The 09a write was an accident, not a precedent. So the QA packet forbids submitting the RFQ form against the
+live project even once, by any route; requires any check that needs the submit path to intercept and abort
+every non-loopback request and **prove the interception holds before the click**, the way round 4 measured the
+`/iletisim` payload without writing it; forbids touching the four rows and three objects, which are evidence of
+an unresolved decision; and forbids re-establishing the deployed-vs-source divergence by probing, since it is
+already established and it cost four rows. Its return format carries an `UNVERIFIABLE` field, and the packet
+says plainly that entries there are expected and are worth more than a check run by writing to the customer's
+database.
+
+**Still open, and blocking nothing else:** (1) whether to delete the four `rfqs` rows and three `cad-uploads`
+objects — a production mutation only the user can authorise, and the anon role has no DELETE policy so it needs
+service-role access; (2) whether the undeployed rate limiter is fixed now by deploying the repo's function —
+`USER_INPUTS.md` §M sets `ALLOW_PRODUCTION_DEPLOY: NO`, so I cannot close that exposure — or documented as a
+09b finding and left live until the user acts.
