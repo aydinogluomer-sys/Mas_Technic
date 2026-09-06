@@ -161,7 +161,15 @@ const staticEntries: FaqEntry[] = [
   // ── Dosya Formatları ──
   {
     question: "Hangi CAD dosya formatlarını kabul ediyorsunuz?",
-    answer: `Teklif akışında doğrudan yükleyebileceğiniz formatlar: ${CAD_EXTENSION_LIST}. En çok tercih edilen format STEP'tir. Listede olmayan bir format veya ölçülendirilmiş teknik resim için dosyayı sales@mastechnic.com adresine iletebilirsiniz.`,
+    /* 09a-C3: "En çok tercih edilen format STEP'tir." kaldırıldı. Listenin
+       kendisi türetiliyordu ama bu cümle bir format adını ELLE yazıyordu —
+       §J'ye göre yayımlanan hiçbir format adı elle yazılmaz. Üstelik bir
+       TERCİH SIRASI `CAD_ACCEPTED_EXTENSIONS`ta kodlanmış bir bilgi değil,
+       yani türetilebilir de değildi; dizideki sıra tesadüftür. Türetilmiş
+       liste okuyucuya ne göndereceğini zaten söylüyor.
+       Anahtar kelimeler aynen KALIR: onlar eşleştirici girdisidir, ekrana
+       basılmaz, ve `step`/`iges` yazan ziyaretçiyi bu doğru cevaba taşırlar. */
+    answer: `Teklif akışında doğrudan yükleyebileceğiniz formatlar: ${CAD_EXTENSION_LIST}. Listede olmayan bir format veya ölçülendirilmiş teknik resim için dosyayı sales@mastechnic.com adresine iletebilirsiniz.`,
     keywords: ["dosya", "format", "cad", "step", "iges", "stl", "obj", "3mf", "çizim", "3d", "model"],
   },
   // ── Çalışma Saatleri ──

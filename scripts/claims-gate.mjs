@@ -643,6 +643,247 @@ const WORDED_DELIVERY_TIER =
   String.raw`(?:${WORDED_TIER})[^.!?;{}\n"]{0,60}?(?:teslim|tedarik|üretim|sevkiyat|hizmet)` +
   String.raw`|(?:teslim|tedarik|sevkiyat|üretim)[^.!?;{}\n"]{0,60}?(?:${WORDED_TIER})`;
 
+/* ── 09a-C3: the published CAD format list ─────────────────────────────────
+   THE RULE'S GROUND TRUTH IS READ FROM THE VALIDATOR, NOT WRITTEN HERE.
+
+   `USER_INPUTS.md` §J says `ACCEPTED_CAD_FORMATS:
+   DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION`. A gate that hard-coded the
+   accepted list would be the very defect it is checking for, one directory
+   over — so it parses `CAD_ACCEPTED_EXTENSIONS` out of
+   `src/utils/cadUpload.ts` on every run and fails loudly if it cannot.
+
+   WHAT WENT WRONG, AND WHY A "CORRECT" LIST IS STILL A VIOLATION
+   -------------------------------------------------------------
+   Five places published a format list. Two were FALSE — `servicePages.ts:134`
+   and `:89` offered Parasolid, SolidWorks (.sldprt), CATIA (.catpart), NX
+   (.prt) and PDF/DWG, all nine of which `validateCadFile()` refuses; QA
+   confirmed at runtime that a `.sldprt` upload produces "DOSYA REDDEDİLDİ".
+   `:1943` offered CATIA/NX/SW under the label "Desteklenen CAD".
+
+   The other two — `servicePages.ts:1967` and `pages/SSS.tsx:132` — were
+   CORRECT ON THE DAY THEY WERE WRITTEN. They are in this rule anyway, and
+   that is the whole point: a hand-written list tracks the validator only
+   until somebody changes the validator, and then it goes stale in silence.
+   The rule therefore does not ask "is this list true?", it asks "was this
+   list DERIVED?" — because a derived list interpolates, and `normalise()`
+   drops `${…}`, so a derived list leaves NO format token in the source at
+   all. A literal that happens to be right is still a literal.
+
+   THREE DETECTORS, because the class has three shapes:
+
+     (A) RESTATED LIST, in `src/data/**` only. Two or more DISTINCT accepted
+         extensions inside 80 characters. `src/data` is copy with no code in
+         it, so a run of format names there can only be a published list.
+         Restricted to `src/data` on purpose: `pages/CADDashboard.tsx` is a
+         local STL/OBJ/STEP viewer whose `accept=".stl,.obj,.step,.stp"` and
+         `ext === "step"` comparisons are CODE, and a rule that fired on a
+         file-type check would be switched off within a week. Two tokens are
+         required, not one, because `toleranceMaterials.ts` uses `STL` as an
+         abbreviation for STEEL (`"STL·4140·QT"`).
+
+     (B) ACCEPTANCE ASSERTION, everywhere. A format name — accepted OR
+         rejected — inside a sentence that OFFERS it. This is the detector
+         that separates a promise from a warning, and the boundary is the
+         Turkish verb, not the topic:
+           "…formatlarını destekliyoruz"        offers   → fires
+           "…doğrudan işleyebiliyoruz"          offers   → fires
+           "…dosyalarını yükleyebilirsiniz"     offers   → fires
+           "…yükleme adımından geçmez"          refuses  → silent
+           "…yükleyebilir miyim?"               asks     → silent
+           "CATIA ve SolidWorks ile 3D modelleme"  toolchain → silent
+         The last one matters: naming the CAD software our engineers model IN
+         is a capability claim, not a statement about what a visitor may send,
+         and over-removal here would delete true content.
+
+     (C) LABEL / VALUE, where the offer is in the LABEL and the list in the
+         VALUE — `{ label: "Desteklenen CAD", value: "STEP, IGES, CATIA, NX,
+         SW" }` — one claim split across two string literals, which no
+         sentence-scoped detector can see. The label must carry the OFFER
+         (`desteklenen`, `kabul`, `yükle`), not merely the topic: with `cad`
+         or `format` alone this fires on `{ label: "Rapor Formatı", value:
+         "PDF + revize CAD" }`, which describes the report WE deliver.
+
+   `src/utils/cadUpload.ts` is the one file allowed to spell the list. It is
+   the authority; asking it to derive from itself is incoherent.            */
+
+const CAD_AUTHORITY_FILE = "src/utils/cadUpload.ts";
+
+/** `["A","B","C"]` → `"A, B ve C"` — the Turkish join the copy actually uses. */
+const joinTurkish = (parts) =>
+  parts.length < 2 ? parts.join("") : `${parts.slice(0, -1).join(", ")} ve ${parts[parts.length - 1]}`;
+
+function readAcceptedCadExtensions() {
+  const abs = resolve(REPO_ROOT, CAD_AUTHORITY_FILE);
+  if (!existsSync(abs)) {
+    throw new Error(`claims-gate: ${CAD_AUTHORITY_FILE} is missing; the CAD rule has no ground truth.`);
+  }
+  const source = readFileSync(abs, "utf8");
+  const decl = source.match(/CAD_ACCEPTED_EXTENSIONS\s*=\s*\[([^\]]*)\]/);
+  if (!decl) {
+    throw new Error(
+      `claims-gate: could not parse CAD_ACCEPTED_EXTENSIONS out of ${CAD_AUTHORITY_FILE}. ` +
+        "This rule derives its ground truth from the validator. Failing loudly beats " +
+        "reporting PASS over a list nothing was checked against.",
+    );
+  }
+  const list = [...decl[1].matchAll(/["'`]([A-Za-z0-9]+)["'`]/g)].map((x) => x[1].toLowerCase());
+  if (list.length === 0) throw new Error("claims-gate: CAD_ACCEPTED_EXTENSIONS parsed as empty.");
+  return list;
+}
+
+const ACCEPTED_CAD = readAcceptedCadExtensions();
+
+/**
+ * CAD formats the validator REFUSES. Unlike the accepted list this one is
+ * written down, and that is safe: it only ever WIDENS coverage. A name missing
+ * from it cannot turn a false claim into a pass, because detector (A) already
+ * fires on the accepted half of any restated list.
+ */
+const REJECTED_CAD_VOCAB = [
+  "parasolid", "x_t", "x_b", "sldprt", "sldasm", "solidworks", "catpart", "catproduct",
+  "catia", "dwg", "dxf", "ipt", "iam", "inventor", "creo", "rhino", "3dm", "f3d",
+  "sat", "acis", "jt", "pdf", "prt", "nx",
+];
+
+/* ASCII boundaries: a format token is ASCII by definition, and `.step` must
+   match with its leading dot while `Xstep` must not. */
+const cadToken = (names) => new RegExp(`(?<![A-Za-z0-9_])\\.?(?:${names.join("|")})(?![A-Za-z0-9_])`, "gi");
+const CAD_ACCEPTED_TOKEN = cadToken(ACCEPTED_CAD);
+const CAD_ANY_TOKEN = cadToken([...ACCEPTED_CAD, ...REJECTED_CAD_VOCAB]);
+
+/** The verb that turns naming a format into OFFERING it. */
+const CAD_OFFER_PREDICATE = trPattern(
+  /kabul\s+ed(?:iyoruz|iyor|er|ilir|ilen|ilmekte|ebiliyoruz|iliyor)|destekl(?:iyoruz|iyor|enen|ediğimiz|emekteyiz|enir)|işleyebiliyoruz|işleyebiliriz|yükleyebilirsiniz|yükleyebileceğiniz|yüklenebilir|yükleyebiliyorsunuz|gönderebilirsiniz/i,
+);
+
+const CAD_LABEL_VALUE =
+  /(?:label|title|name|key)\s*:\s*["'`]([^"'`]*)["'`]\s*,\s*(?:value|val|text|desc)\s*:\s*["'`]([^"'`]*)["'`]/g;
+/** The label has to carry the OFFER, not merely the topic. See (C) above. */
+const CAD_LABEL_OFFER = trPattern(/destekl|kabul|yükle|girdi|gelen dosya|alınan dosya/i);
+
+/**
+ * ONE FILE IS DEFERRED — AND PINNED, NOT EXEMPTED.
+ *
+ * `src/data/technicalLandingData.ts:130` restates the list ("STEP, STP, STL,
+ * OBJ, IGES, IGS ve 3MF … yükleyebilirsiniz"). It is CORRECT TODAY and it is
+ * detector (A)'s and (B)'s class exactly — but that file is not on packet
+ * 09a-C3's WRITE_ALLOWLIST, and `e2e/technical-landing.spec.ts:167` asserts
+ * that exact string is visible.
+ *
+ * A path exemption would be a hole, so this is a PIN instead: while the file
+ * still restates the list, the restated list must equal the derived one
+ * character for character. Change `CAD_ACCEPTED_EXTENSIONS` and this fails
+ * immediately, which is the failure the deferral would otherwise have hidden.
+ * Derive the file properly and the pin dissolves — no accepted-format literal
+ * survives, detector (A) finds nothing, and the entry becomes inert.
+ *
+ * The one-line fix, for whoever gets the allowlist for it:
+ *   `\`${CAD_UPLOAD_FORMATS} dosyalarını teklif akışında doğrudan yükleyebilirsiniz.\``
+ * with `CAD_UPLOAD_FORMATS` imported from `@/data/servicePages` — it produces
+ * byte-identical output, so the spec and the goldens do not move.
+ */
+const CAD_PINNED_FILES = new Map([["src/data/technicalLandingData.ts", () => joinTurkish(ACCEPTED_CAD.map((e) => e.toUpperCase()))]]);
+
+/**
+ * Distinct accepted-extension tokens within `span` characters of each other.
+ *
+ * `keywords: [ … ]` is skipped, narrowly and for this rule only, on the same
+ * grounds `payment-or-credit-terms` and `unconditional-guarantee` skip it:
+ * that array is MATCHER INPUT for `findBestFaqMatch()` and is never rendered.
+ * `chatFaqData.ts:165` lists `"step", "iges", "stl", "obj", "3mf"` there
+ * precisely so a visitor who types one reaches the derived answer — deleting
+ * them to satisfy a rule would break the routing the rule exists to protect.
+ */
+function* restatedCadLists(text, span = 80) {
+  CAD_ACCEPTED_TOKEN.lastIndex = 0;
+  const hits = [];
+  let m;
+  while ((m = CAD_ACCEPTED_TOKEN.exec(text)) !== null) {
+    if (!insideKeywordArray(text, m.index)) hits.push(m);
+  }
+  const bare = (s) => s.replace(/^\./, "").toLowerCase();
+  for (let i = 0; i + 1 < hits.length; i += 1) {
+    const a = hits[i];
+    const b = hits[i + 1];
+    if (b.index - a.index > span) continue;
+    if (bare(a[0]) === bare(b[0])) continue;
+    yield { index: a.index, match: text.slice(a.index, b.index + b[0].length) };
+  }
+}
+
+function* cadFormatScan(text, file) {
+  // The authority may — must — spell its own list.
+  if (file === CAD_AUTHORITY_FILE) return;
+
+  const pin = CAD_PINNED_FILES.get(file);
+  if (pin !== undefined) {
+    const restated = [...restatedCadLists(text)];
+    if (restated.length === 0) return; // derived; the deferral is over
+    if (text.includes(pin())) return; // still character-for-character the truth
+    yield { index: restated[0].index, match: restated[0].match };
+    return;
+  }
+
+  // (A) a restated list, in copy-only data files
+  if (file.startsWith("src/data/")) yield* restatedCadLists(text);
+
+  // (B) a format named inside a sentence that offers it
+  CAD_ANY_TOKEN.lastIndex = 0;
+  let token;
+  while ((token = CAD_ANY_TOKEN.exec(text)) !== null) {
+    if (insideKeywordArray(text, token.index)) continue;
+    if (CAD_OFFER_PREDICATE.test(sentenceAt(text, token.index))) {
+      yield { index: token.index, match: token[0] };
+    }
+  }
+
+  // (C) the offer in the label, the list in the value
+  CAD_LABEL_VALUE.lastIndex = 0;
+  let pair;
+  while ((pair = CAD_LABEL_VALUE.exec(text)) !== null) {
+    if (!CAD_LABEL_OFFER.test(pair[1])) continue;
+    CAD_ANY_TOKEN.lastIndex = 0;
+    if (CAD_ANY_TOKEN.exec(pair[2])) yield { index: pair.index, match: pair[0] };
+  }
+}
+
+/* ── 09a-C3: the benefit-percentage half of `delivery-or-quality-rate` ──────
+   The packet asked whether this should be a new rule or a widening of the
+   existing one. It is a WIDENING, and the reason is in the rule's own
+   authority line: §D `OTHER_PUBLIC_KPIS: NONE` and §G `CASE_STUDIES:
+   NONE_PROVIDED_YET` already decide `%40 daha hızlı` exactly as they decide
+   `%95 zamanında teslimat`. Two rules citing one authority over one class is
+   how `wrong-city` and `quote-sla-overpromise` each ended up with a hole
+   nobody owned.
+
+   WHY IT DID NOT ALREADY FIRE — measured on the three strings, not guessed.
+   The existing benefit alternation is `%N` + optional suffix + `\s*` + noun,
+   with NO GAP. Against the live claims:
+
+     "%70'e kadar maliyet tasarrufu"   `kadar ` sits between the suffix and
+                                       the noun → no match
+     "HSM ile %40 daha hızlı üretim"   `daha hızlı` is not in the noun list
+     "%50 setup tasarrufu"             `setup ` sits in the gap → no match
+     { label: "Maliyet Tasarrufu",
+       value: "Ortalama %30-50" }      the noun is in the LABEL, on the far
+                                       side of a string boundary
+
+   So: a bounded gap, a benefit vocabulary that includes the comparative
+   forms, and a label/value detector.
+
+   THE GAP IS 30 CHARACTERS AND STOPS AT SENTENCE PUNCTUATION, and the noun
+   list is deliberately narrow — `artış`, `azalma`, `düşüş` and `iyileşme` are
+   ordinary technical Turkish and are NOT here. A SURCHARGE is not a benefit
+   either: the Ra guide's `+%80-100` under "Ek Maliyet" is a price relativity,
+   it makes no claim about performance, and it stays. What fires is a
+   percentage attached to something getting cheaper, faster or better.       */
+const UNSOURCED_BENEFIT_PCT =
+  String.raw`(?:%\s?|yüzde\s+)\d{1,3}(?:[.,]\d+)?(?:\s?[-–]\s?\d{1,3}(?:[.,]\d+)?)?(?:['’]?[a-zçğıöşü]{0,4})?` +
+  String.raw`[^.!?;{}\n"]{0,30}?(?:tasarruf|kazanç|daha hızlı|daha ucuz|daha az maliyet|maliyet düş|maliyet avantaj|verim(?:lilik)?\s+artış|hız\s+artış)`;
+const UNSOURCED_BENEFIT_LABEL_VALUE =
+  String.raw`(?:label|title|name|key)\s*:\s*["'\x60][^"'\x60]*(?:tasarruf|kazanç|maliyet düşüşü|verim artışı|hız artışı|iyileşme)[^"'\x60]*["'\x60]` +
+  String.raw`\s*,\s*(?:value|val|text|desc)\s*:\s*["'\x60][^"'\x60]*(?:%\s?|yüzde\s+)\d[^"'\x60]*["'\x60]`;
+
 /** @type {Rule[]} */
 const RULES = [
   {
@@ -922,6 +1163,119 @@ const RULES = [
       "A payment term, a credit line and a discount schedule are contractual policy, not facts about capability. Say the terms are agreed per order and nothing more specific. Do not soften a policy into 'teklifle birlikte' — that answers a question the reader did not ask.",
   },
   {
+    id: "cad-format-list-not-derived",
+    scan: cadFormatScan,
+    controls: {
+      fires: [
+        // D1 — the false list, exactly as it stood at fe3a525.
+        '{ question: "Hangi dosya formatlarını kabul ediyorsunuz?", answer: "STEP, IGES, Parasolid, SolidWorks (.sldprt), CATIA (.catpart), NX (.prt) ve PDF/DWG teknik çizim formatlarını destekliyoruz." },',
+        // D1's other half: the same claim in body copy, one page above the FAQ.
+        '"Her projede DFM analizi uygulayarak maliyetleri optimize ediyor, STEP, IGES, SolidWorks, CATIA ve NX formatlarını doğrudan işleyebiliyoruz."',
+        // The offer in the label, the list in the value.
+        '{ label: "Desteklenen CAD", value: "STEP, IGES, CATIA, NX, SW" },',
+        // D2 — CORRECT ON THE DAY IT WAS WRITTEN, and still a violation.
+        '{ question: "Hangi CAD formatlarını kabul ediyorsunuz?", answer: "Teklif akışında STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını doğrudan yükleyebilirsiniz." },',
+        // The same, on the public FAQ register rather than in the data file.
+        { file: "src/pages/SSS.tsx", text: '"Teklif akışındaki yükleyici STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını kabul eder."' },
+        // A single rejected format, offered in prose, with no list around it.
+        '"SolidWorks dosyalarını da doğrudan kabul ediyoruz."',
+      ],
+      silent: [
+        // The derived replacements: `normalise()` drops `${…}`, so there is no
+        // format token in the source to find. This is the invariant.
+        'answer: `Teklif akışındaki yükleyici şu uzantıları doğrular: ${CAD_UPLOAD_EXTENSIONS} — listede olmayan bir uzantı yükleme adımından geçmez.`,',
+        '{ label: "Desteklenen CAD", value: CAD_UPLOAD_FORMATS },',
+        { file: "src/pages/SSS.tsx", text: "answer: `Teklif akışındaki yükleyici ${CAD_UPLOAD_FORMATS} dosyalarını kabul eder.`," },
+        // Naming a rejected format in order to REFUSE it. This is what lets the
+        // six phrasings QA measured (`catia`, `catpart`, `sldprt`, …) keep
+        // routing to an honest answer instead of falling off the matcher.
+        '"Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz."',
+        // A question is not an offer.
+        'question: "SolidWorks veya CATIA dosyamı doğrudan yükleyebilir miyim?",',
+        // The CAD software our engineers model IN — a capability, not an intake list.
+        '"CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans analizi simülasyonu."',
+        '"CAD/CAM Entegrasyonu — CATIA, SolidWorks, NX, Mastercam",',
+        // The report WE deliver, not the file the visitor sends.
+        '{ label: "Rapor Formatı", value: "PDF + revize CAD" },',
+        // `STL` as an abbreviation for STEEL. One token is not a list.
+        '{ code: "STL·4140·QT", name: "Çelik 4140 QT", subtitle: "Otomotiv · şanzıman parçaları" },',
+        // Matcher input, never rendered — and the reason those five tokens are
+        // there is so a visitor who types one REACHES the derived answer.
+        'keywords: ["dosya", "format", "cad", "step", "iges", "stl", "obj", "3mf", "çizim", "3d", "model"],',
+        // The authority itself, and the derivations that read it.
+        { file: "src/utils/cadUpload.ts", text: 'export const CAD_ACCEPTED_EXTENSIONS = ["step", "stp", "stl", "obj", "iges", "igs", "3mf"] as const;' },
+        'const CAD_EXTENSION_LIST = CAD_ACCEPTED_EXTENSIONS.map((ext) => `.${ext}`).join(", ");',
+        // A local file-type check is code, not published copy.
+        { file: "src/pages/CADDashboard.tsx", text: 'if (ext !== "stl" && ext !== "obj" && ext !== "step" && ext !== "stp") return;' },
+        { file: "src/pages/CADDashboard.tsx", text: '<input type="file" accept=".stl,.obj,.step,.stp" onChange={handleFileUpload} className="hidden" />' },
+      ],
+    },
+    authority: "§J ACCEPTED_CAD_FORMATS: DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION · §0 DEFAULT_FACT_VISIBILITY: INTERNAL_ONLY_UNLESS_PUBLIC_OK",
+    remedy:
+      "Derive the list from CAD_ACCEPTED_EXTENSIONS — src/data/servicePages.ts exports CAD_UPLOAD_FORMATS ('STEP, STP … ve 3MF') and CAD_UPLOAD_EXTENSIONS ('.step, .stp …'). Never widen the validator to match the copy: that turns a false sentence into a broken upload. A format may be NAMED in order to be refused; it may not be named in order to be offered.",
+  },
+  {
+    id: "free-of-charge-commitment",
+    /* NEW — 09a-C3. `payment-or-credit-terms` (above) removed payment terms,
+       credit lines and discount schedules from the chatbot on the grounds that
+       a commercial POLICY is not a fact about capability. It left the mirror
+       image untouched: a price of zero.
+
+       `servicePages.ts:1965` answered "DFM analizi ücreti var mı?" with "İlk
+       DFM değerlendirmesi ücretsizdir", and `:81` shipped "ücretsiz DFM
+       analizi" inside a metaDescription — so into search results and social
+       cards, not merely onto the page. Nothing in `USER_INPUTS.md` authorises
+       a tariff of any size, zero included, and `/iletisim` lost "30 dakikalık
+       ücretsiz ilk görüşme" in Phase 07 for exactly this reason while these
+       two survived four more phases.
+
+       IT CANNOT BE SOFTENED, only replaced. "teklifle birlikte" answers a
+       question about WHEN; the reader asked HOW MUCH and was told a rule. So
+       the remedy is the mechanism: what the step actually is, and where the
+       price is set.
+
+       ANCHORED TO THE GRANT, like the rule it sits beside. "Ücret var mı?" is
+       a question a visitor asks and must keep working, and the honest answer
+       ("Yayımlanan sabit bir ücret tarifemiz yok") must not fire either —
+       neither contains a word from this pattern. `keywords: [ … ]` is matcher
+       input and is exempted the same way, narrowly, for this rule only.     */
+    pattern: trPattern(
+      new RegExp(
+        [
+          String.raw`ücretsiz`,
+          String.raw`bedelsiz`,
+          String.raw`masrafsız`,
+          String.raw`hiçbir\s+(?:ücret|bedel)`,
+          String.raw`(?:ek\s+)?(?:ücret|bedel)\s*(?:talep\s+etmiyoruz|alınmaz|almıyoruz|yansıtmıyoruz)`,
+          String.raw`(?:ilk|birinci)\s+(?:\S+\s+){0,3}?(?:ücret|bedel)\s*(?:alınmaz|yoktur)`,
+        ].join("|"),
+        "gi",
+      ),
+    ),
+    exempt: (text, index) => insideKeywordArray(text, index),
+    controls: {
+      fires: [
+        '{ question: "DFM analizi ücreti var mı?", answer: "İlk DFM değerlendirmesi ücretsizdir. Detaylı analiz raporu ve CAD revizyonları proje kapsamına göre fiyatlandırılır." },',
+        '"3, 4 ve 5 eksenli CNC frezeleme ile ±0.01 mm standart tolerans aralığında üretim. Alüminyum, titanyum ve çelik işleme, ücretsiz DFM analizi.",',
+        '"30 dakikalık ücretsiz ilk görüşme"',
+        '"İlk numune için hiçbir ücret talep etmiyoruz."',
+        '"Kargo bedelsizdir."',
+      ],
+      silent: [
+        // The replacements: a mechanism, and where the price is actually set.
+        '"Yayımlanan sabit bir DFM ücret tarifemiz yok. Gelen dosyanın üretilebilirlik incelemesi teklif hazırlığının bir adımıdır; ayrıca talep edilen detaylı DFM raporu ve CAD revizyonları ise kapsamıyla birlikte teklifte fiyatlandırılır."',
+        '"Alüminyum, titanyum ve çelik işleme, teklifle birlikte üretilebilirlik incelemesi.",',
+        // The question a visitor asks has to keep working.
+        'question: "DFM analizi ücreti var mı?",',
+        '"Ödeme koşulları siparişe göre teklifte belirlenir."',
+        'keywords: ["ücret", "ücretsiz", "bedel", "fiyat", "maliyet"],',
+      ],
+    },
+    authority: "§0 DEFAULT_FACT_VISIBILITY: INTERNAL_ONLY_UNLESS_PUBLIC_OK · NEVER_PUBLISH_JUST_BECAUSE_KNOWN: YES · §J — QUOTE_SLA is the only commercial term supplied",
+    remedy:
+      "A price of zero is a commercial policy, exactly as a payment term is, and no field authorises one. State the mechanism — what the step is and where the price is set — rather than softening the promise into a hedge.",
+  },
+  {
     id: "delivery-or-quality-rate",
     // A bare "teslimat" after a percentage is excluded: "%50 teslimatta ödenir"
     // is a payment term, not a performance rate. Both the `%` glyph and the
@@ -937,12 +1291,58 @@ const RULES = [
     // doksan sekiz" is the same disclosure as "%98" and reads the same on
     // screen. It is anchored to a performance noun in both directions so a
     // spelled-out number in ordinary prose does not fire.
-    pattern:
-      /(?:%\s?|yüzde\s+)\d{1,3}([.,]\d+)?\s*(zamanında|teslimat oranı|başarı|kalite oranı|verimlilik|doğruluk|ilk seferde|hatasız|fire|hurda|red oranı)|(zamanında teslimat|teslimat oranı|başarı oranı|kalite oranı|hatasız üretim|müşteri memnuniyeti)[^.\n]{0,30}(?:%\s?|yüzde\s+)\d|(zamanında teslimat|teslimat oran|başarı oran|kalite oran|hatasız üretim|müşteri memnuniyet|verimlilik|doğruluk oran)[^.\n]{0,30}yüzde\s+(?:yüz|doksan|seksen|yetmiş|altmış|elli|kırk|otuz|yirmi|on\b|dokuz|sekiz|yedi|altı|beş|dört|üç|iki|bir)|yüzde\s+(?:yüz|doksan|seksen|yetmiş|altmış|elli)[^.\n]{0,30}(zamanında|teslimat oran|başarı oran|kalite oran|hatasız|verimlilik)|(?:%\s?|yüzde\s+)\d{1,3}(\s?-\s?\d{1,3})?(['’]?[a-zçğıöşü]{0,3})?\s*(tasarruf|maliyet|süre|ağırlık|kazanç|iyileş|azalma|artış)|(tasarruf|maliyet düşüşü|verim artışı)[^.\n]{0,20}(?:%\s?|yüzde\s+)\d/gi,
+    //
+    // WIDENED — 09a-C3, with the two alternations appended at the end. The
+    // existing source is spliced in verbatim rather than retyped, so the
+    // widening provably cannot change what already fired. The measurement of
+    // why the three live claims walked past it is above `UNSOURCED_BENEFIT_PCT`.
+    pattern: new RegExp(
+      [
+        /(?:%\s?|yüzde\s+)\d{1,3}([.,]\d+)?\s*(zamanında|teslimat oranı|başarı|kalite oranı|verimlilik|doğruluk|ilk seferde|hatasız|fire|hurda|red oranı)|(zamanında teslimat|teslimat oranı|başarı oranı|kalite oranı|hatasız üretim|müşteri memnuniyeti)[^.\n]{0,30}(?:%\s?|yüzde\s+)\d|(zamanında teslimat|teslimat oran|başarı oran|kalite oran|hatasız üretim|müşteri memnuniyet|verimlilik|doğruluk oran)[^.\n]{0,30}yüzde\s+(?:yüz|doksan|seksen|yetmiş|altmış|elli|kırk|otuz|yirmi|on\b|dokuz|sekiz|yedi|altı|beş|dört|üç|iki|bir)|yüzde\s+(?:yüz|doksan|seksen|yetmiş|altmış|elli)[^.\n]{0,30}(zamanında|teslimat oran|başarı oran|kalite oran|hatasız|verimlilik)|(?:%\s?|yüzde\s+)\d{1,3}(\s?-\s?\d{1,3})?(['’]?[a-zçğıöşü]{0,3})?\s*(tasarruf|maliyet|süre|ağırlık|kazanç|iyileş|azalma|artış)|(tasarruf|maliyet düşüşü|verim artışı)[^.\n]{0,20}(?:%\s?|yüzde\s+)\d/
+          .source,
+        UNSOURCED_BENEFIT_PCT,
+        UNSOURCED_BENEFIT_LABEL_VALUE,
+      ].join("|"),
+      "gi",
+    ),
+    controls: {
+      fires: [
+        // F1 — an unsourced speed claim, and the shape that defeated the old
+        // no-gap alternation: `daha hızlı` was not in the noun list at all.
+        '"HSM ile %40 daha hızlı üretim ve üstün yüzey kalitesi",',
+        // Same class, adjacent page. `setup ` sat in the gap.
+        '"Çift milli üretimle %50 setup tasarrufu",',
+        // F2a — and it was in a metaDescription, so it shipped into search
+        // results. `kadar ` sat in the gap.
+        '"CNC ve enjeksiyon DFM kuralları, CATIA/SolidWorks/NX entegrasyonu, %70\'e kadar maliyet tasarrufu.",',
+        // F2b — the noun is in the LABEL, on the far side of a string boundary.
+        '{ label: "Maliyet Tasarrufu", value: "Ortalama %30-50" },',
+        // The alternations that already worked, kept under control so the
+        // splice above is proved not to have dropped them.
+        '"%95 zamanında teslimat oranı"',
+        '"yüzde doksan sekiz kalite oranı"',
+      ],
+      silent: [
+        // The replacements: capability keeps its substance, loses the number.
+        '"HSM stratejisiyle ince cidarlı parçalarda düşük kesme kuvveti ve iyi yüzey kalitesi",',
+        '"Çift mil ile parçanın arka yüzü ayrı bir bağlama gerektirmeden tamamlanır",',
+        '{ label: "Maliyet Kaldıraçları", value: "Parça sayısı, bağlama, tolerans" },',
+        '"Tasarrufun büyüklüğü parçanın geometrisine ve mevcut üretim planına bağlıdır."',
+        // A SURCHARGE is not a benefit. The Ra guide prices a finer finish
+        // relative to standard machining; it grades no performance.
+        '["0.1 – 0.2", "Ayna parlaklığı", "Optik, yatak yüzeyleri", "Lepleme, polisaj", "+%80-100"],',
+        // Material and physics percentages, which this rule must never touch.
+        '{ label: "Okuma Oranı", value: "%99.9+" },',
+        '"OFE bakır (C10100 — IACS %101) ve ETP bakır (C11000 — IACS %99.9)"',
+        '"Kaplama kalınlığının %50\'si malzemeye nüfuz eder, %50\'si yüzeyden dışarı çıkar."',
+        // Direction without a number: arithmetic about setup amortisation.
+        '"Birim maliyeti belirleyen asıl kalem kurulumdur ve adede bölünür; hacim arttıkça birim fiyat düşer."',
+      ],
+    },
     authority:
       "§D ON_TIME_DELIVERY_INTERNAL: 95% (PUBLIC_IF_VERIFIED_AND_STRATEGIC — condition not met) · OTHER_PUBLIC_KPIS: NONE · §G CASE_STUDIES: NONE_PROVIDED_YET",
     remedy:
-      "No self-graded performance percentage and no quantified project outcome is published. See ON_TIME_DELIVERY in src/content/claims.ts.",
+      "No self-graded performance percentage and no quantified project outcome is published. A capability keeps its substance and loses the unverifiable number. See ON_TIME_DELIVERY in src/content/claims.ts.",
   },
   {
     id: "process-capability-metric",
@@ -1092,17 +1492,30 @@ const RULES = [
     // in `src/content/claims.ts`. Two instruments disagreeing about what a
     // class is was itself a Phase 07 finding (H6).
     //
-    // The PERIOD list is the calendar subset of that filter's — yıl, ay,
-    // hafta, gün, vardiya — and deliberately omits `saat`. Measured, not
-    // assumed: with `saat` included this rule fires on
-    // `servicePages.ts:471`, `headers: ["Kavite", "Çevrim/Saat", "Parça/Saat",
-    // …]`, which is a mould's cycle rate sitting next to its cycle count —
-    // a process parameter of exactly the kind §0 PRECISION_ENGINEERING
-    // protects, not a statement about what the company turns over. The chip
-    // filter may be stricter there because it is an ALLOWLIST over one listing
-    // surface whose default is silence; this rule is a hard build failure over
-    // the whole source, and over-removal here costs real published
-    // engineering.
+    // THE PERIOD LIST USED TO OMIT `saat`, AND THAT OMISSION WAS WRONG.
+    // 09a-C3 corrects it. The note that stood here read:
+    //
+    //   "with `saat` included this rule fires on `servicePages.ts:471`,
+    //    headers: ["Kavite", "Çevrim/Saat", "Parça/Saat", …], which is a
+    //    mould's cycle rate sitting next to its cycle count — a process
+    //    parameter … not a statement about what the company turns over."
+    //
+    // It named the right table and defended the wrong column. `Çevrim/Saat`
+    // was never at risk: `çevrim` is not one of the COUNT NOUNS above, so the
+    // rule cannot see it whatever the period list says. The only thing `saat`
+    // switched on was `Parça/Saat` — a count noun over a period, which is the
+    // exact shape this rule exists for and which `WITHHELD_SPEC_CLASSES[0]`
+    // in `src/content/claims.ts` has always listed, `saat` included. So the
+    // omission bought nothing and cost the class: the header published
+    // parts-per-hour past this gate for three phases, escaping the chip
+    // filter too because that one runs on `technicalSpecs` and never on a
+    // comparison-table header. Two instruments disagreeing about what a class
+    // is was itself finding H6; here they now agree.
+    //
+    // `saat` is added to the DENOMINATOR alternative only. The adverbial and
+    // adjectival forms (`saatte`, `saatlik`) stay out: they are how ordinary
+    // machining prose states a cycle time, and `quote-sla-overpromise` owns
+    // the one shape of theirs that is a promise.
     //
     // The explicit `trPattern()` below is redundant — the loop at the bottom of
     // this file folds every rule's `pattern` already, and folding is
@@ -1115,7 +1528,7 @@ const RULES = [
         [
           // `50.000 adet/yıl`, `adet / yıl`, `adet/ay`, `ünite/gün`,
           // `1.000-50.000 adet/yıl`, `parti/vardiya`.
-          String.raw`${NB}(?:adet|ünite|parça|birim|palet|parti|sipariş)${TRW}*[ \t]*\/[ \t]*(?:yıl|ay|hafta|gün|vardiya)${NA}`,
+          String.raw`${NB}(?:adet|ünite|parça|birim|palet|parti|sipariş)${TRW}*[ \t]*\/[ \t]*(?:yıl|ay|hafta|gün|saat|vardiya)${NA}`,
           // `yılda 50.000 adet`, `günde 1000 ünite`, `ayda toplam 20.000 parça`.
           String.raw`${NB}(?:yılda|ayda|haftada|günde|vardiyada)[ \t]+(?:${TRW}+[ \t]+){0,2}\d[\d.,]*[ \t]?K?[ \t]?\+?[ \t]*(?:adet|ünite|parça|birim|palet|parti|sipariş)${NA}`,
           // `yıllık 50.000 adet`, `aylık 20.000 adet kapasite`, `günlük 1000 ünite`.
@@ -1139,10 +1552,29 @@ const RULES = [
         "gi",
       ),
     ),
+    controls: {
+      fires: [
+        '"CNC Seri Kapasite", "50.000 adet/yıl"',
+        '"yılda 50.000 adet üretiyoruz"',
+        // 09a-C3 — F4. The header that escaped both instruments.
+        'headers: ["Kavite", "Çevrim/Saat", "Parça/Saat", "Birim Maliyet", "Kalıp Maliyeti", "Önerilen Hacim"],',
+      ],
+      silent: [
+        // The corrected header row. `Çevrim/Saat` is a mould cycle rate — a
+        // process parameter, and never reachable by this rule anyway, because
+        // `çevrim` is not a count noun. The control pins that it stays so.
+        'headers: ["Kavite", "Çevrim/Saat", "Birim Maliyet", "Kalıp Maliyeti", "Önerilen Hacim"],',
+        // A lot size carries no period.
+        '{ label: "Adet Aralığı", value: "10-500 adet" },',
+        '{ label: "Takım Kapasitesi", value: "30-120 adet (otomatik)" },',
+        // A cycle time in ordinary machining prose.
+        '"Kalıp çevrim süresi 45 saatte doğrulanır."',
+      ],
+    },
     authority:
       "§D REVENUE_OR_ORDER_VOLUME: PRIVATE_DO_NOT_DISCLOSE · §0 DO_NOT_PUBLISH_REVENUE_OR_ORDER_VOLUME: YES · NEVER_PUBLISH_JUST_BECAUSE_KNOWN: YES",
     remedy:
-      "Throughput over a period is order-volume disclosure and is withheld even where verified. A lot size (`10-500 adet`) is not — it carries no period, and this rule requires one.",
+      "Throughput over a period is order-volume disclosure and is withheld even where verified. A lot size (`10-500 adet`) is not — it carries no period, and this rule requires one. If a whole table COLUMN is throughput, remove it: `Parça/Saat` was Kavite × Çevrim/Saat and carried no information the two columns beside it did not.",
   },
   {
     id: "machine-inventory",
@@ -1151,10 +1583,33 @@ const RULES = [
     // brand `Okuma` is deliberately absent — it collides with the Turkish word
     // "okuma" (reading), which the DataMatrix page uses correctly as
     // "Okuma Doğrulama". A rule that cries wolf gets switched off.
+    // `EOS` added 09a-C3. `servicePages.ts:2103` and `:2131` published "EOS
+    // M290" through Phase 06's sweep of the machine-park page and three
+    // phases of this gate, because the brand was simply not on the list —
+    // and `:2131` is a `faq` entry, so `collectServiceFaqs()` had put the
+    // model number in the chatbot pool as entry #78, reachable by asking.
+    // Matched with a following model designation rather than bare: `EOS` is
+    // three capitals that occur inside identifiers and acronyms, and a rule
+    // that cries wolf gets switched off — the same reasoning that keeps
+    // `Okuma` off this list. `EOSINT` is the other product family.
     pattern:
-      /DMG\s?MORI|\bDMU\s?\d|Variaxis|monoBLOCK|\bMazak\b|\bHaas\b|\bSodick\b|\bZeiss\b|\bGOM\b|Taylor\s?Hobson|Mitutoyo|Renishaw|Hexagon\s?Metrology|Keyence|Hermle|Doosan|Makino|Kitamura|\bStuder\b|\bKUKA\b|\bFANUC\b|Stratasys|Formlabs|Trumpf|GF Machining|\bTornos\b/g,
+      /DMG\s?MORI|\bDMU\s?\d|Variaxis|monoBLOCK|\bMazak\b|\bHaas\b|\bSodick\b|\bZeiss\b|\bGOM\b|Taylor\s?Hobson|Mitutoyo|Renishaw|Hexagon\s?Metrology|Keyence|Hermle|Doosan|Makino|Kitamura|\bStuder\b|\bKUKA\b|\bFANUC\b|Stratasys|Formlabs|Trumpf|GF Machining|\bTornos\b|\bEOS\s?[A-Z]?\s?\d{2,4}\b|\bEOSINT\b/g,
+    controls: {
+      fires: [
+        '"Metal 3D Baskı (DMLS) — EOS M290 ile Al, SS, Ti",',
+        '{ question: "Metal 3D baskı yapabiliyor musunuz?", answer: "Evet, EOS M290 DMLS sistemimiz ile alüminyum, paslanmaz çelik ve titanyum malzemelerde metal 3D baskı yapabiliyoruz." },',
+        '"DMG MORI DMU 50 işleme merkezi"',
+      ],
+      silent: [
+        // The process is a capability; the machine that runs it is inventory.
+        '"Metal 3D Baskı (DMLS) — alüminyum, paslanmaz çelik ve titanyum",',
+        '"Evet. DMLS (doğrudan metal lazer sinterleme) ile alüminyum, paslanmaz çelik ve titanyum malzemelerde metal 3D baskı yapıyoruz."',
+        // `Okuma` the Turkish noun, kept off the brand list on purpose.
+        '{ label: "Okuma Doğrulama", value: "ISO/IEC 15415" },',
+      ],
+    },
     authority: "§D MACHINE_COUNT_VISIBILITY: PRIVATE_DO_NOT_DISCLOSE — and no model list was ever supplied",
-    remedy: "Named machines and metrology brands were invented. §H supplies a real equipment PDF instead.",
+    remedy: "Named machines and metrology brands were invented. Keep the process, drop the machine. §H supplies a real equipment PDF instead.",
   },
   {
     id: "fabricated-analytics",
