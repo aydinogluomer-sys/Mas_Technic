@@ -1,0 +1,563 @@
+#0 [chatFaqData.ts]
+Q: Teklif nasıl alabilirim?
+A: Teklif almak için [Teklif Al](/teklif-al) sayfamızı ziyaret edebilirsiniz. CAD dosyanızı yükleyerek hızlı teklif alabilirsiniz. Alternatif olarak sales@mastechnic.com adresine mail atabilirsiniz.
+
+#1 [chatFaqData.ts]
+Q: İletişim bilgileriniz nelerdir?
+A: 📞 Telefon: +90 (536) 564 51 94
+📧 E-posta: sales@mastechnic.com
+📍 Adres: Ataşehir Mah., 8287. Sok. No: 4, 35620 Çiğli/İzmir
+
+Detaylı bilgi için [İletişim](/iletisim) sayfamızı ziyaret edin.
+
+#2 [chatFaqData.ts]
+Q: Hangi sektörlere hizmet veriyorsunuz?
+A: Havacılık & uzay, savunma sanayi, otomotiv, medikal, robotik, enerji, denizcilik, hidrolik ve daha birçok sektöre hizmet veriyoruz. Detaylar için [Endüstriyel Çözümler](/endustriyel) sayfamıza bakabilirsiniz.
+
+#3 [chatFaqData.ts]
+Q: Prototip üretimi yapıyor musunuz?
+A: Evet! Tek parçadan başlayarak prototip üretimi yapıyoruz. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir. Detaylar için [Prototip Üretim](/endustriyel/prototip-uretim) sayfamıza bakın.
+
+#4 [chatFaqData.ts]
+Q: Hangi CNC hizmetleri sunuyorsunuz?
+A: CNC frezeleme (3-4-5 eksen), CNC tornalama, hassas mikro işleme, derin delik & raybalama, lazer kazıma, yüzey işlemleri, montaj ve daha fazlası. Tüm hizmetlerimiz için [Hizmetler](/hizmetler) sayfamızı inceleyin.
+
+#5 [chatFaqData.ts]
+Q: Teslimat süreniz ne kadar?
+A: Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir. Bir işin terminini çoğu zaman tezgâh değil malzemenin gelişi belirler; bu nedenle tedarik durumu üretim planlanmadan önce, teklif aşamasında değerlendirilir.
+
+#6 [chatFaqData.ts]
+Q: Hangi malzemelerle çalışıyorsunuz?
+A: Alüminyum (6061, 7075), paslanmaz çelik (304, 316), karbon çelik, titanyum, pirinç, bakır, PEEK ve POM/Delrin gibi mühendislik malzemeleriyle çalışıyoruz. [Malzeme Kütüphanesi](/malzemeler) sayfamızda detayları bulabilirsiniz.
+
+#7 [chatFaqData.ts]
+Q: Minimum sipariş adedi var mı?
+A: Minimum sipariş adedi 1 (tek parça) olarak belirlenmiştir. Prototipten seri üretime kadar esnek üretim planlaması yapıyoruz.
+
+#8 [chatFaqData.ts]
+Q: Kalite sertifikalarınız nelerdir?
+A: ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Her iş için kontrol planı oluşturulur; ölçüm kaydı teslimat dosyasına eklenir, akredite üçüncü taraf CMM ölçümü talebe bağlı olarak sağlanır.
+
+#9 [chatFaqData.ts]
+Q: Tolerans değerleriniz nedir?
+A: Standart çalışma aralığımız ±0.01mm olup ulaşılabilir tolerans; geometri, malzeme ve ölçü zincirine göre teknik incelemede belirlenir. Detaylar için [Tolerans & Hassasiyet](/kabiliyetler/tolerans-hassasiyet) sayfamızı inceleyin.
+
+#10 [chatFaqData.ts]
+Q: Kargo ile gönderim yapıyor musunuz?
+A: Evet, Türkiye genelinde anlaşmalı kargo firmalarıyla güvenli gönderim yapıyoruz. Yurt dışı sevkiyat için de DHL, FedEx ve UPS ile çalışıyoruz. Özel paketleme ve sigortalı gönderim seçenekleri mevcuttur.
+
+#11 [chatFaqData.ts]
+Q: Yurt dışına teslimat yapıyor musunuz?
+A: Evet, dünya genelinde ihracat yapıyoruz. Avrupa, Orta Doğu, ABD ve Asya'ya düzenli sevkiyatlarımız bulunmaktadır. İhracat belgeleri ve gümrük işlemlerinde destek sağlıyoruz.
+
+#12 [chatFaqData.ts]
+Q: İade veya değişim yapılabiliyor mu?
+A: Uygunluk, kontrol planında tanımlanan koteler ve teslimat dosyasındaki ölçüm kaydı üzerinden değerlendirilir. Bir uygunsuzluk tespit ederseniz ölçüm sonuçlarıyla birlikte sales@mastechnic.com adresine bildirin; nasıl ilerleneceği siparişin koşullarına göre birlikte kararlaştırılır.
+
+#13 [chatFaqData.ts]
+Q: Ödeme yöntemleriniz nelerdir?
+A: Ödeme koşulları siparişe göre teklifte belirlenir; kurumsal fatura ve e-fatura kesiyoruz. Hangi yöntemle ilerleyebileceğimizi teklif aşamasında netleştiriyoruz.
+
+#14 [chatFaqData.ts]
+Q: Peşin ödeme zorunlu mu?
+A: Yayımlanan sabit bir ödeme koşulumuz yok. Koşullar siparişe göre teklifte belirlenir ve teklif aşamasında birlikte netleştirilir.
+
+#15 [chatFaqData.ts]
+Q: Hangi CAD dosya formatlarını kabul ediyorsunuz?
+A: Teklif akışında doğrudan yükleyebileceğiniz formatlar: .step, .stp, .stl, .obj, .iges, .igs, .3mf. En çok tercih edilen format STEP'tir. Listede olmayan bir format veya ölçülendirilmiş teknik resim için dosyayı sales@mastechnic.com adresine iletebilirsiniz.
+
+#16 [chatFaqData.ts]
+Q: Çalışma saatleriniz nedir?
+A: Teklif ve teknik sorularınız için sales@mastechnic.com adresine her zaman yazabilirsiniz; teklif dönüş süremiz 1-3 iş günüdür. Telefon ve adres bilgisi [İletişim](/iletisim) sayfamızda.
+
+#17 [chatFaqData.ts]
+Q: Hangi yüzey işlemlerini yapıyorsunuz?
+A: Anodizasyon, kumlama, boyama, krom kaplama, nikel kaplama, siyah oksit, pasivasyon, eloksal ve daha fazlası. [Yüzey İşlemleri](/hizmetler/yuzey-islemleri) sayfamızda detayları bulabilirsiniz.
+
+#18 [chatFaqData.ts]
+Q: Seri üretim yapıyor musunuz?
+A: Evet, tek parçadan seri üretime kadar çalışıyoruz. Seri üretimde birim maliyet avantajı ve tutarlı kalite sağlıyoruz. [Seri Üretim](/kabiliyetler/seri-uretim) sayfamızı inceleyin.
+
+#19 [chatFaqData.ts]
+Q: Tasarım desteği veriyor musunuz?
+A: Evet! DFM (Design for Manufacturing) analizi ile tasarımınızı üretime uygun hale getirmenize yardımcı oluyoruz. Maliyet ve süre optimizasyonu için öneriler sunuyoruz.
+
+#20 [chatFaqData.ts]
+Q: Teknik çizim yapıyor musunuz?
+A: Evet, 3D modelleme ve 2D teknik çizim hizmeti sunuyoruz. Müşterilerimizin taslak çizimlerinden üretime hazır CAD dosyaları oluşturabiliyoruz.
+
+#21 [chatFaqData.ts]
+Q: Müşteri paneli nedir?
+A: Müşteri panelimizden siparişlerinizi takip edebilir, tekliflerinizi görüntüleyebilir, kalite raporlarına erişebilir ve destek talebi oluşturabilirsiniz. [Giriş Yap](/giris) sayfasından hesabınıza erişin.
+
+#22 [chatFaqData.ts]
+Q: MAS Technic nedir?
+A: MAS Technic, İzmir merkezli hassas CNC imalat firmasıdır. Prototipten seri üretime, havacılık-savunma-otomotiv-medikal başta olmak üzere birçok sektöre hizmet vermekteyiz. [Hakkımızda](/hakkimizda) sayfamızda detayları bulabilirsiniz.
+
+#23 [chatFaqData.ts]
+Q: Makine parkurunuz nedir?
+A: 3-4-5 eksen CNC freze, CNC torna, EDM, taşlama, CMM ölçüm cihazları ve lazer markalama makineleri dahil geniş bir makine parkurumuz bulunmaktadır. [Makine Parkuru](/kabiliyetler/makine-parkuru) sayfamızı inceleyin.
+
+#24 [servicePages.ts :: cnc-frezeleme]
+Q: 3 eksen mi 5 eksen mi kullanmalıyım?
+A: Düz yüzeyler ve basit cep işlemleri için 3 eksen yeterlidir ve daha ekonomiktir. Alttan kesim, eğik yüzeyler veya tek bağlamada çok yüzey işleme gerekiyorsa 5 eksen tercih edilir.
+
+#25 [servicePages.ts :: cnc-frezeleme]
+Q: CNC frezeleme tolerans değerleriniz nedir?
+A: Standart çalışma aralığımız ±0.01mm'dir. Ulaşılabilir tolerans; geometri, malzeme, parça ölçüsü ve ölçü zincirine göre değişir ve her parça için teknik incelemede belirlenir.
+
+#26 [servicePages.ts :: cnc-frezeleme]
+Q: Hangi dosya formatlarını kabul ediyorsunuz?
+A: STEP, IGES, Parasolid, SolidWorks (.sldprt), CATIA (.catpart), NX (.prt) ve PDF/DWG teknik çizim formatlarını destekliyoruz.
+
+#27 [servicePages.ts :: cnc-frezeleme]
+Q: Minimum sipariş adedi var mı?
+A: Hayır, tek parçadan seri üretime kadar her adette üretim yapıyoruz. Prototip siparişleri de kabul ediyoruz.
+
+#28 [servicePages.ts :: cnc-frezeleme]
+Q: Teslimat süreniz ne kadar?
+A: Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir.
+
+#29 [servicePages.ts :: cnc-tornalama]
+Q: Tornalama mı frezeleme mi seçmeliyim?
+A: Parçanız silindirik veya dönme simetrisine sahipse tornalama daha ekonomiktir. Prizmatik parçalar için frezeleme tercih edilir.
+
+#30 [servicePages.ts :: cnc-tornalama]
+Q: Karmaşık parçalar tek tezgahta mı yapılır?
+A: Turn-mill tezgahlarımızda hem tornalama hem frezeleme işlemleri tek bağlamada yapılabilir. Bu hassasiyeti artırır ve maliyeti düşürür.
+
+#31 [servicePages.ts :: cnc-tornalama]
+Q: Swiss tornalama ne zaman gerekir?
+A: Ø32mm altı çaplarda ve boy/çap oranı yüksek parçalarda (örn: medikal vidalar, pimler) Swiss torna daha hassas sonuç verir.
+
+#32 [servicePages.ts :: cnc-tornalama]
+Q: Seri üretim için uygun mu?
+A: Evet. Bar besleyicili tezgahlarda çubuk malzeme otomatik ilerlediği için uzun partiler operatör müdahalesi olmadan işlenebilir; parti büyüklüğü ve termin kapasite planıyla birlikte teklifte netleşir.
+
+#33 [servicePages.ts :: cnc-tornalama]
+Q: Hangi çap aralığında tornalama yapabiliyorsunuz?
+A: Swiss tip torna ile 0.3mm'den başlayarak konvansiyonel torna ile 500mm çapa kadar geniş bir aralıkta tornalama yapabiliyoruz.
+
+#34 [servicePages.ts :: hassas-mikro-isleme]
+Q: Mikro işleme ne zaman tercih edilmeli?
+A: Parça özellikleri 1mm altında veya toleranslar ±0.01mm altında ise mikro işleme gereklidir. Standart CNC bu hassasiyetlere ulaşamaz.
+
+#35 [servicePages.ts :: hassas-mikro-isleme]
+Q: Maliyet standart CNC'den yüksek mi?
+A: Evet, özel takımlar, yavaş ilerleme hızları ve hassas ölçüm gereksinimleri nedeniyle maliyet daha yüksektir. Ancak bu, standart yöntemlerle elde edilemeyecek sonuçlar içindir.
+
+#36 [servicePages.ts :: hassas-mikro-isleme]
+Q: Seri üretim yapabiliyor musunuz?
+A: Evet, otomatik besleyicili Swiss torna ve palletli 5 eksen sistemleri ile mikro parçalarda bile seri üretim yapabiliyoruz.
+
+#37 [servicePages.ts :: hassas-mikro-isleme]
+Q: Ölçüm raporu veriyor musunuz?
+A: Kontrol planında tanımlanan koteler ölçülür ve ölçüm kaydı teslimat dosyasına eklenir. Koordinat ölçümü gerektiğinde akredite üçüncü taraf ölçümü talebe bağlı olarak sağlanır.
+
+#38 [servicePages.ts :: derin-delik-raybalama]
+Q: Derin delik nedir?
+A: Boy/çap oranı (L/D) 10:1'den büyük delikler 'derin delik' olarak tanımlanır. Standart matkaplarla bu oranlarda hassas delme mümkün değildir.
+
+#39 [servicePages.ts :: derin-delik-raybalama]
+Q: Gun drill ile BTA arasındaki fark nedir?
+A: Gun drill küçük çaplarda (Ø2-20mm) ve yüksek L/D oranlarında kullanılır. BTA daha büyük çaplarda (Ø20mm üstü) ve yüksek talaş kaldırma hızlarında tercih edilir.
+
+#40 [servicePages.ts :: derin-delik-raybalama]
+Q: Doğrusallık nasıl sağlanır?
+A: Özel kılavuzlama burs sistemleri, yüksek basınçlı soğutma sıvısı ve optimize edilmiş kesme parametreleri ile sapma minimuma indirilir.
+
+#41 [servicePages.ts :: derin-delik-raybalama]
+Q: İç yüzey kalitesi iyileştirilebilir mi?
+A: Evet, raybalama ve honlama işlemleriyle Ra 0.2µm'ye kadar yüzey kalitesi elde edilebilir. H6 toleransında çap hassasiyeti sağlanır.
+
+#42 [servicePages.ts :: enjeksiyon-kalibi]
+Q: Kalıp teslimat süresi ne kadar?
+A: Kalıp termini malzeme sınıfına, kavite sayısına ve yüzey gereksinimine göre değişir; alüminyum kalıp çelik kalıba göre daha kısa sürede işlenir. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir.
+
+#43 [servicePages.ts :: enjeksiyon-kalibi]
+Q: Moldflow simülasyonu zorunlu mu?
+A: Zorunlu değildir ancak özellikle karmaşık parçalarda dolum problemlerini, çökme izlerini ve eğilmeyi önlemek için şiddetle tavsiye ederiz.
+
+#44 [servicePages.ts :: enjeksiyon-kalibi]
+Q: Alüminyum mı çelik kalıp mı seçmeliyim?
+A: 10.000 adete kadar üretim için alüminyum kalıp ekonomiktir. Daha yüksek hacimler için çelik kalıp uzun vadede maliyet avantajı sağlar.
+
+#45 [servicePages.ts :: anodizasyon]
+Q: Anodizasyon hangi metallere uygulanabilir?
+A: Temel olarak alüminyum ve alaşımlarına uygulanır. Titanyum ve magnezyum da anodize edilebilir. En yaygın uygulama Al 6061 ve 7075 serisi alaşımlardır.
+
+#46 [servicePages.ts :: anodizasyon]
+Q: Sert anodizasyon (Tip III) ile normal (Tip II) farkı nedir?
+A: Tip III sert anodizasyon 25-100µm kalınlıkta olup 60-70 HRC sertlik sağlar, aşınma direnci ve elektriksel yalıtım gerektiğinde tercih edilir. Tip II 10-25µm olup genel korozyon koruması ve dekoratif kaplama için uygundur.
+
+#47 [servicePages.ts :: anodizasyon]
+Q: Anodizasyon boyut değişikliğine neden olur mu?
+A: Evet, oksit tabakasının yaklaşık %50'si malzemeye nüfuz eder, %50'si yüzeyden dışarı büyür. Örneğin 25µm Tip II kaplama ~12.5µm boyut artışı yapar. Bu değer işleme toleranslarında dikkate alınmalıdır.
+
+#48 [servicePages.ts :: anodizasyon]
+Q: Hangi renklerde anodizasyon yapabiliyorsunuz?
+A: Siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) renklerde çalışıyoruz. Özel RAL ve Pantone renk eşleştirmesi de yapabiliyoruz; renk homojenliği ΔE ≤ 2.0 toleransında kontrol edilir.
+
+#49 [servicePages.ts :: anodizasyon]
+Q: Kaplama ne kadar dayanıklıdır?
+A: Kaplamalarımızın korozyon direnci ASTM B117 tuz spreyi testi ile doğrulanır. Sert anodizasyon ile çelik sertliğine yakın aşınma direnci elde edilir.
+
+#50 [servicePages.ts :: anodizasyon]
+Q: Anodizasyon teslimat süreniz ne kadar?
+A: Termin parti büyüklüğüne, kaplama sınıfına ve renklendirme adımının olup olmamasına göre değişir. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir.
+
+#51 [servicePages.ts :: makine-parkuru]
+Q: Parçam hangi prosesle üretilecek?
+A: Kararı geometri verir: erişilmesi gereken yüzeyler, ölçü zinciri, boy/çap oranı ve malzeme. Teknik inceleme sonucunda hangi prosesle ve kaç bağlamada üretileceğini teklifle birlikte paylaşırız.
+
+#52 [servicePages.ts :: makine-parkuru]
+Q: 3 eksen mi 5 eksen mi gerekir?
+A: Düz yüzeyler ve basit cep işlemleri 3 eksende daha ekonomiktir. Alttan kesim, eğik yüzey veya tek bağlamada çok yüzey gerekiyorsa 5 eksen tercih edilir; bağlama sayısındaki azalma tolerans lehine çalışır.
+
+#53 [servicePages.ts :: makine-parkuru]
+Q: Sert malzemede keskin iç köşe yapılabiliyor mu?
+A: Frezeleme ile iç köşe yarıçapı takım çapıyla sınırlıdır. Bu sınırın altındaki köşeler için tel veya dalma erozyon kullanılır.
+
+#54 [servicePages.ts :: makine-parkuru]
+Q: Tezgâh doğruluğunu nasıl teyit ediyorsunuz?
+A: Doğruluk periyodik kontrollerle izlenir ve kritik işler öncesinde test parçası ölçümüyle teyit edilir. Ölçüm sonuçları kayıt altına alınır.
+
+#55 [servicePages.ts :: makine-parkuru]
+Q: Uzun ve ince parçalarda ne yapıyorsunuz?
+A: Kayar puntalı tornalama desteklenmemiş boyu kısaltarak sehimi sınırlar. Gerekirse operasyon sırası ve destek düzeni parçaya göre yeniden planlanır.
+
+#56 [servicePages.ts :: malzeme-kutuphanesi]
+Q: Hangi malzeme sertifikalarını sağlıyorsunuz?
+A: Malzeme sertifikası ve kimyasal analiz raporu talebe bağlı olarak sağlanır. Her tedarik, lot ve döküm numarasıyla kayıt altına alınır.
+
+#57 [servicePages.ts :: malzeme-kutuphanesi]
+Q: Stokta hangi malzemeler bulunuyor?
+A: Al 6061, Al 7075, SS 304 ve SS 316 sürekli stokta tutulmaktadır. Titanyum ve Inconel gibi özel malzemeler sipariş üzerine tedarik edilir.
+
+#58 [servicePages.ts :: malzeme-kutuphanesi]
+Q: Özel alaşım tedarik edebiliyor musunuz?
+A: Evet. Inconel 718, Hastelloy, Kovar ve Tungsten gibi özel alaşımlar sürekli stokta tutulmaz, sipariş üzerine tedarik edilir. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir.
+
+#59 [servicePages.ts :: malzeme-kutuphanesi]
+Q: Malzeme kalite kontrolü nasıl yapılıyor?
+A: Her malzeme girişinde spektrometre ile kimyasal analiz, boyut kontrolü ve sertifika doğrulaması yapılmaktadır. Klimatik kontrollü depoda lot numarası ile izlenebilirlik sağlanır.
+
+#60 [servicePages.ts :: kalite-kontrol]
+Q: Hangi kalite belgeleriniz var?
+A: ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Belge kapsamı dışında bir standart gerekiyorsa teknik incelemede birlikte değerlendiririz.
+
+#61 [servicePages.ts :: kalite-kontrol]
+Q: Ölçüm raporu veriyor musunuz?
+A: Evet. Kontrol planında tanımlanan koteler ölçülür ve sonuçlar kayıt altına alınır; ölçüm kaydı teslimat dosyasına eklenir.
+
+#62 [servicePages.ts :: kalite-kontrol]
+Q: CMM ölçümü yapılıyor mu?
+A: Koordinat ölçümü, akredite üçüncü taraf tarafından talebe bağlı olarak yapılır. Bu tercih ölçümün üretimden bağımsız olmasını sağlar; ihtiyacınızı teklif aşamasında belirtmeniz yeterlidir.
+
+#63 [servicePages.ts :: kalite-kontrol]
+Q: Kalite kontrol süreci nasıl işliyor?
+A: Teknik inceleme ile kontrol planı oluşturulur; malzeme girişi kaydedilir, ilk parça onaylanır, proses sırasında ara kontroller yapılır ve son kontrol plana göre tamamlanarak kayıt altına alınır.
+
+#64 [servicePages.ts :: kalite-kontrol]
+Q: Malzeme sertifikası alabilir miyim?
+A: Malzeme parti ve döküm kaydı üzerinden izlenir. Malzeme sertifikası talep etmeniz halinde teslimat dosyasına eklenir.
+
+#65 [servicePages.ts :: tolerans-hassasiyet]
+Q: Standart tolerans aralığınız nedir?
+A: ±0.01 mm'dir. Bir parçada daha darına inilip inilemeyeceği geometri, malzeme, parça ölçüsü ve ölçü zincirine bağlıdır ve teknik incelemede belirlenir.
+
+#66 [servicePages.ts :: tolerans-hassasiyet]
+Q: Geometrik tolerans (GD&T) desteğiniz var mı?
+A: Evet. ASME Y14.5 dilinde konum, diklik, eş eksenlilik, düzlem ve dairesellik toleranslarını datum yapısıyla birlikte okur ve kontrol planına yazarız.
+
+#67 [servicePages.ts :: tolerans-hassasiyet]
+Q: Teknik resmimde tolerans belirtilmemiş, ne olur?
+A: Belirtilmemiş ölçüler için ISO 2768 genel tolerans sınıfları kullanılır. Hangi sınıfın geçerli olacağını teklif aşamasında netleştiririz.
+
+#68 [servicePages.ts :: tolerans-hassasiyet]
+Q: Daha dar tolerans istersem ne değişir?
+A: Operasyon sırası, bağlama düzeni ve kontrol yöntemi değişir; süre ve maliyet artar. Fonksiyonu etkilemeyen koteleri gevşetmenizi önerebiliriz.
+
+#69 [servicePages.ts :: tolerans-hassasiyet]
+Q: Toleransın tutulduğunu nasıl gösteriyorsunuz?
+A: Kritik koteler kontrol planına yazılır, ölçülür ve sonuçlar kayıt altına alınır. Koordinat ölçümü gerektiğinde akredite üçüncü taraf ölçümü talebe bağlı olarak sağlanır.
+
+#70 [servicePages.ts :: tasarim-rehberi-dfm]
+Q: DFM analizi ücreti var mı?
+A: İlk DFM değerlendirmesi ücretsizdir. Detaylı analiz raporu ve CAD revizyonları proje kapsamına göre fiyatlandırılır.
+
+#71 [servicePages.ts :: tasarim-rehberi-dfm]
+Q: DFM analizi ne kadar sürer?
+A: Süreç dört aşamadan oluşur: ilk inceleme, detaylı analiz, müşteri görüşmesi ve final rapor. Takvim parçanın karmaşıklığına ve gönderilen dosyanın eksiksizliğine göre değişir. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir.
+
+#72 [servicePages.ts :: tasarim-rehberi-dfm]
+Q: Hangi CAD formatlarını kabul ediyorsunuz?
+A: Teklif akışında STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını doğrudan yükleyebilirsiniz. Listede olmayan bir yerel CAD formatı veya ölçülendirilmiş teknik resim için dosyayı sales@mastechnic.com adresine iletebilirsiniz.
+
+#73 [servicePages.ts :: tasarim-rehberi-dfm]
+Q: DFM analizi ne kadar tasarruf sağlar?
+A: Tasarrufun büyüklüğü parçanın geometrisine ve mevcut üretim planına bağlıdır. DFM analizinde parça sayısı, bağlama sayısı, takım erişimi ve tolerans zinciri değerlendirilir; beklenen etki analiz raporunda parça bazında verilir.
+
+#74 [servicePages.ts :: yuzey-islemleri-muhendislik]
+Q: Hangi yüzey işlemi benim parçama uygun?
+A: Uygulamaya göre değişir: Korozyon koruması için anodizasyon veya nikelaj, sertlik artırma için nitrürleme, estetik için toz boya veya eloksal, elektriksel yalıtım için e-kap öneriyoruz. Mühendislik ekibimiz detaylı analiz yapabilir.
+
+#75 [servicePages.ts :: yuzey-islemleri-muhendislik]
+Q: Yüzey işlemi boyut değişikliğine neden olur mu?
+A: Evet, anodizasyon kalınlık×2 kadar boyut artışı, kumlama 5-20µm boyut azalması yapar. Bu değerler işleme toleranslarında dikkate alınır.
+
+#76 [servicePages.ts :: yuzey-islemleri-muhendislik]
+Q: Ra 0.1µm yüzey kalitesine ulaşabilir misiniz?
+A: Evet, özel takım ve işleme parametreleri ile Ra 0.1µm ayna parlaklığında yüzey kalitesine ulaşabiliyoruz. Optik ve yatak uygulamaları için idealdir.
+
+#77 [servicePages.ts :: dusuk-hacimli-uretim]
+Q: Prototip için hangi yöntem en uygun?
+A: 1-10 adet ve hızlı konsept doğrulaması için 3D baskı, ±0.01mm hassasiyet gereken parçalar için CNC, 10-100 adet plastik parça için silikon kalıplama öneriyoruz. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir.
+
+#78 [servicePages.ts :: dusuk-hacimli-uretim]
+Q: Metal 3D baskı yapabiliyor musunuz?
+A: Evet, EOS M290 DMLS sistemimiz ile alüminyum, paslanmaz çelik ve titanyum malzemelerde metal 3D baskı yapabiliyoruz.
+
+#79 [servicePages.ts :: dusuk-hacimli-uretim]
+Q: Silikon kalıptan kaç parça çıkar?
+A: Bir silikon kalıptan ortalama 20-50 parça üretilebilir. Malzeme ve geometriye göre bu sayı değişebilir.
+
+#80 [servicePages.ts :: dusuk-hacimli-uretim]
+Q: Düşük hacimden seri üretime geçiş nasıl olur?
+A: Prototip ve pilot üretimden sonra onaylanan tasarım için çelik kalıp yatırımı veya otomasyonlu CNC seri üretim planlaması yapılır. Geçiş süreci proje yöneticimiz tarafından koordine edilir.
+
+#81 [servicePages.ts :: seri-imalat]
+Q: Minimum seri üretim adedi nedir?
+A: Tek bir eşik yoktur; yönteme göre değişir. Kalıp yatırımı gerektiren yöntemlerde (basınçlı döküm, enjeksiyon kalıp) eşiği kalıp maliyetinin parça başına dağılımı belirler; CNC seri işlemede kurulum süresi belirleyicidir. Parça geometrisi ve tolerans hedefiyle birlikte teklif aşamasında netleştiririz.
+
+#82 [servicePages.ts :: seri-imalat]
+Q: Teslimat programı düzenlenebiliyor mu?
+A: Evet. Parti büyüklüğü ve teslimat sıklığı kapasite planlamasıyla birlikte kararlaştırılır; periyodik teslimat programları düzenlenebilir.
+
+#83 [servicePages.ts :: seri-imalat]
+Q: Seri üretimde tutarlılığı nasıl koruyorsunuz?
+A: İlk parça onayı, standart kurulum prosedürü ve kontrol planına bağlı ara kontroller ile. Kayma eğilimi olan koteler ayrı bir adımda izlenir ve ölçüm sonuçları kayıt altına alınır.
+
+#84 [servicePages.ts :: seri-imalat]
+Q: Uzun partilerde tezgâh nasıl besleniyor?
+A: Otomatik takım değiştirme ve bar besleme, uzun partilerde kesintisiz işlemeyi mümkün kılar. Hangi yöntemin kullanılacağı parça geometrisi ve parti büyüklüğüne göre planlanır.
+
+#85 [servicePages.ts :: proje-yonetimi]
+Q: Her projeye özel proje yöneticisi atanıyor mu?
+A: Evet, her projede özel bir proje yöneticisi atanır ve tekliften teslimata kadar tek muhatap olarak hizmet verir.
+
+#86 [servicePages.ts :: proje-yonetimi]
+Q: Proje ilerlemesini nasıl takip edebilirim?
+A: Proje toplantıları, müşteri portalı üzerinden durum takibi, kritik aşamaların fotoğraf ve video kayıtları ve üretim dosyası ile her aşamayı takip edebilirsiniz.
+
+#87 [servicePages.ts :: proje-yonetimi]
+Q: Tasarım değişikliği gerektiğinde ne olur?
+A: ECO (Engineering Change Order) prosedürümüz ile kontrollü bir şekilde değişiklik yönetimi yapılır. Maliyet ve süre etkileri analiz edildikten sonra onayınızla revizyon uygulanır.
+
+#88 [servicePages.ts :: tedarik-zinciri]
+Q: Malzeme tedarik süreniz ne kadar?
+A: Malzeme sınıfına göre değişir: standart alüminyum ve paslanmaz çelik kısa sürede temin edilebilir; titanyum ve nikel esaslı alaşımlar sipariş üzerine gelir. Projenizin gerçek tedarik süresini teklifle birlikte veririz.
+
+#89 [servicePages.ts :: tedarik-zinciri]
+Q: Tedarik kesintisi riski nasıl yönetiliyor?
+A: Kritik malzemelerde onaylı ikinci kaynak bulundurulur, sık kullanılan standart malzemelerde emniyet stoğu tutulur ve şartnameyle uyumlu alternatif malzemeler önceden değerlendirilir.
+
+#90 [servicePages.ts :: tedarik-zinciri]
+Q: Malzeme sertifikası alabilir miyim?
+A: Malzeme parti ve döküm kaydı üzerinden izlenir. Malzeme sertifikası talep etmeniz halinde teslimat dosyasına eklenir.
+
+#91 [servicePages.ts :: tedarik-zinciri]
+Q: Malzemeyi ben tedarik edebilir miyim?
+A: Evet. Bu durumda malzemenin şartnameye uygunluğunu ve parti kaydını sizden alır, giriş kontrolünü buna göre planlarız.
+
+#92 [servicePages.ts :: operasyonel-verimlilik]
+Q: Verimlilik çalışması parçamı nasıl etkiler?
+A: Doğrudan iki yerde: kurulum kısaldıkça küçük partiler ekonomik hale gelir, standart kurulum prosedürü ise aynı parçanın partiler arasında aynı çıkmasını kolaylaştırır.
+
+#93 [servicePages.ts :: operasyonel-verimlilik]
+Q: SMED nedir, neden önemli?
+A: Kurulum işlerini tezgâh dururken zorunlu olanlar ve çalışırken hazırlanabilecek olanlar diye ayırır. İkincisini kurulum dışına taşımak, tezgâhın parça üretmediği süreyi kısaltır.
+
+#94 [servicePages.ts :: operasyonel-verimlilik]
+Q: Bakımı nasıl yönetiyorsunuz?
+A: Bakım planlı bir iş adımıdır (TPM). Tezgâh doğruluğu üretimin girdisi olduğu için bakım gecikmesi doğrudan tolerans kaybı riski üretir.
+
+#95 [servicePages.ts :: operasyonel-verimlilik]
+Q: Bir uygunsuzluk çıkarsa ne yapılıyor?
+A: Kaizen ve düzeltici faaliyet süreci işletilir: kök neden bulunmadan aynı kurulumla üretime devam edilmez ve yapılan düzeltme kayıt altına alınır.
+
+#96 [servicePages.ts :: havacilik-uzay]
+Q: Hangi kalite belgeleriniz var?
+A: ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Projeniz farklı bir standart gerektiriyorsa teknik incelemede birlikte değerlendiririz.
+
+#97 [servicePages.ts :: havacilik-uzay]
+Q: Titanyum işleyebiliyor musunuz?
+A: Evet, Ti6Al4V (Grade 5) ve Grade 2 titanyum işleme konusunda uzmanız. Özel takımlar, düşük hız/yüksek ilerleme stratejisi ve soğutma yönetimi ile optimal sonuçlar elde ediyoruz.
+
+#98 [servicePages.ts :: havacilik-uzay]
+Q: İlk parça kontrolü yapıyor musunuz?
+A: Evet. Her yeni parça ve her revizyon için ilk parça kontrolü yapılır ve kayıt altına alınır; belgelendirme formatını şartnamenize göre birlikte belirleriz.
+
+#99 [servicePages.ts :: havacilik-uzay]
+Q: Özel prosesler nasıl yürütülüyor?
+A: Kimyasal işlem, tahribatsız muayene ve ısıl işlem gibi özel prosesler projenin şartnamesine göre planlanır ve tedarik zinciriyle birlikte yürütülür. Parametreler dondurulur; değişiklik yeniden doğrulama gerektirir.
+
+#100 [servicePages.ts :: savunma-sanayi]
+Q: Teknik verim nasıl ele alınıyor?
+A: Teknik verinin nasıl paylaşılacağı ve hangi koşullarla işleneceği proje başında yazılı olarak mutabık kalınır. Şartnamenizin gerektirdiği koşulları teklif aşamasında birlikte değerlendiririz.
+
+#101 [servicePages.ts :: savunma-sanayi]
+Q: Proje şartnamemi karşılayabiliyor musunuz?
+A: Şartnamenizi teknik incelemede satır satır okur, hangi gereksinimleri bugünkü kabiliyetimizle karşılayabildiğimizi ve hangileri için tedarik zinciri gerektiğini açıkça belirtiriz.
+
+#102 [servicePages.ts :: savunma-sanayi]
+Q: Balistik malzeme işleyebiliyor musunuz?
+A: Evet, Armox 500T, Hardox 600 ve 300M gibi yüksek sertlikli balistik çelikleri CNC ile işleyebiliyoruz.
+
+#103 [servicePages.ts :: robotik]
+Q: Robot bileşenlerinde hangi toleransları tutabiliyorsunuz?
+A: Standart çalışma aralığımız ±0.01mm'dir. Eş eksenlilik ve diklik gibi geometrik toleranslar datum yapısıyla birlikte değerlendirilir ve kontrol planına yazılır.
+
+#104 [servicePages.ts :: robotik]
+Q: Hafif malzeme çözümleriniz var mı?
+A: Evet, Al 7075-T6 ile yüksek mukavemet/ağırlık oranı, topoloji optimizasyonu ile ağırlık azaltma ve PEEK gibi yüksek performans plastikler sunuyoruz.
+
+#105 [servicePages.ts :: robotik]
+Q: Seri üretim yapabiliyor musunuz?
+A: Evet. Otomasyonlu CNC seri üretimde bar besleyici ve palet sistemi ile kesintisiz işleme yapılır; parti büyüklüğü ve teslimat programı teklif aşamasında birlikte belirlenir.
+
+#106 [servicePages.ts :: otomotiv]
+Q: Hangi kalite belgeleriniz var?
+A: ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Müşterinizin şartnamesi sektöre özel bir standart gerektiriyorsa bunu teklif aşamasında açıkça değerlendiririz.
+
+#107 [servicePages.ts :: otomotiv]
+Q: Hangi dokümantasyonu teslim ediyorsunuz?
+A: Kontrol planı, ölçüm kayıtları, malzeme parti/döküm kaydı ve numune parçalar standart olarak hazırlanır. Şartnamenizin gerektirdiği ek dokümanları teklif aşamasında birlikte belirleriz.
+
+#108 [servicePages.ts :: otomotiv]
+Q: Partiler arası tutarlılığı nasıl koruyorsunuz?
+A: Standart kurulum prosedürü, ilk parça onayı ve kontrol planına bağlı ara kontroller ile. Takım aşınmasına duyarlı koteler ayrı bir adımda izlenir ve sonuçlar kayıt altına alınır.
+
+#109 [servicePages.ts :: otomotiv]
+Q: Adet aralığınız nedir?
+A: Prototipten seri üretime kadar çalışıyoruz. Parti büyüklüğü ve teslimat programı, kapasite planlaması yapıldıktan sonra teklifle birlikte netleşir.
+
+#110 [servicePages.ts :: medikal]
+Q: Hangi kalite belgeleriniz var?
+A: ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Projeniz sektöre özel bir standart gerektiriyorsa bunu teklif aşamasında açıkça değerlendiririz.
+
+#111 [servicePages.ts :: medikal]
+Q: Hangi biyouyumlu malzemelerle çalışıyorsunuz?
+A: Ti Grade 5 (Ti6Al4V), SS 316L, CoCrMo, PEEK ve UHMWPE malzemelerde işleme yapıyoruz. Malzemenin sertifikası tedarikçiden gelir ve talep etmeniz halinde teslimat dosyasına eklenir.
+
+#112 [servicePages.ts :: medikal]
+Q: Yüzey işlemi yapıyor musunuz?
+A: Elektropolisaj ve pasivasyon uygulanabilir. Hangi işlemin uygun olduğu malzemeye ve şartnamenize göre belirlenir.
+
+#113 [servicePages.ts :: medikal]
+Q: İzlenebilirliği nasıl sağlıyorsunuz?
+A: Malzeme parti ve döküm kaydı üzerinden izlenir; kontrol planında tanımlanan koteler ölçülür ve ölçüm kaydı teslimat dosyasına eklenir.
+
+#114 [servicePages.ts :: medikal]
+Q: Çok küçük parçalar üretebiliyor musunuz?
+A: Evet. Ø0.3mm'den başlayan vidalar, pimler ve konektörler üretiyoruz; uzun ve ince geometrilerde kayar puntalı tornalama tercih edilir.
+
+#115 [servicePages.ts :: yelken-yat-sistemleri]
+Q: Deniz suyu uyumlu hangi malzemeleri işliyorsunuz?
+A: SS 316L, Duplex 2205, bronz (C95400, C95500), Monel 400 ve titanyum Grade 2 gibi deniz suyu uyumlu malzemelerle çalışıyoruz.
+
+#116 [servicePages.ts :: yelken-yat-sistemleri]
+Q: Tuz testi raporu veriyor musunuz?
+A: Evet, ASTM B117 tuz spreyi test yöntemiyle yapılan testin raporunu sağlıyoruz. Test süresi ve kabul kriteri parçanın şartnamesine göre belirlenir.
+
+#117 [servicePages.ts :: hidrolik-pnomatik]
+Q: Kaç bar basınca kadar parça üretebiliyorsunuz?
+A: 350 bar çalışma basıncına kadar parça üretiyoruz. Her parça 1.5× çalışma basıncında test edilmektedir.
+
+#118 [servicePages.ts :: hidrolik-pnomatik]
+Q: Manifold bloklarında iç kanal açabilir misiniz?
+A: Evet, derin delik delme kabiliyetimiz ile L/D 50:1 oranında manifold kanal işleme yapabiliyoruz.
+
+#119 [servicePages.ts :: hidrolik-pnomatik]
+Q: Sızdırmazlık nasıl doğrulanıyor?
+A: O-ring kanalları ve sızdırmazlık yüzeyleri Ra 0.4µm hedefiyle işlenir. Basınç ve sızdırmazlık testinin kapsamı iş bazında kontrol planında tanımlanır ve sonuçlar teslimat dosyasına eklenir.
+
+#120 [servicePages.ts :: boru-baglanti-parcalari]
+Q: Flanş ölçüleri hangi boyut tablolarına göre işleniyor?
+A: Flanş delik düzeni, conta yüzeyi ve çap ölçüleri ANSI B16.5, DIN EN 1092 ve JIS B2220 boyut tablolarına ya da müşterinin verdiği teknik resme göre işlenir.
+
+#121 [servicePages.ts :: boru-baglanti-parcalari]
+Q: Duplex çelik flanş üretebiliyor musunuz?
+A: Evet, Duplex 2205 (F51), Super Duplex 2507 (F53) ve diğer korozyon dirençli alaşımlarda flanş ve bağlantı parçaları üretiyoruz.
+
+#122 [servicePages.ts :: iklim-teknolojileri]
+Q: Helyum sızdırmazlık testi yapıyor musunuz?
+A: Evet, helyum sızdırmazlık testi ile 1×10⁻⁶ mbar·L/s kaçak oranı kontrolü yapıyoruz. Soğutma ve klima sistemleri için kritik olan bu test standarttır.
+
+#123 [servicePages.ts :: iklim-teknolojileri]
+Q: Hangi soğutucularla uyumlu parça üretiyorsunuz?
+A: R-134a, R-410A, R-744 (CO₂) ve R-290 soğutucularla uyumlu malzeme ve yüzey işlemi ile üretim yapıyoruz.
+
+#124 [servicePages.ts :: prototip-uretim]
+Q: En hızlı prototip ne kadar sürede hazır olur?
+A: Yöntem seçimi termini doğrudan etkiler: 3D baskı konsept doğrulamada en hızlı seçenektir, CNC ise gerçek malzeme ve seri üretim eşdeğer tolerans gerektiğinde tercih edilir. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir.
+
+#125 [servicePages.ts :: prototip-uretim]
+Q: Gerçek malzeme ile prototip yapabiliyor musunuz?
+A: Evet, CNC ile Al 6061, SS 304, Ti6Al4V, PEEK gibi gerçek malzemelerde seri üretim eşdeğer toleransta prototip üretiyoruz.
+
+#126 [servicePages.ts :: kucuk-seri]
+Q: Küçük seride birim maliyet yüksek mi?
+A: Birim maliyeti belirleyen asıl kalem kurulumdur ve adede bölünür; hacim arttıkça birim fiyat düşer. Kademeli fiyatlandırmayı ve seri üretime geçiş projeksiyonunu teklifle birlikte veriyoruz.
+
+#127 [servicePages.ts :: kucuk-seri]
+Q: Küçük seriden seri üretime geçiş nasıl olur?
+A: Kalıp yatırım analizi, otomasyon fizibilite ve maliyet projeksiyon raporu ile ölçeklendirme planlaması yapıyoruz.
+
+#128 [servicePages.ts :: seri-uretim]
+Q: Seri üretim için asgari adet var mı?
+A: Sabit bir asgari adet uygulamıyoruz. Parti büyüklüğü, teslimat programı ve fiyatlandırma kapasite planlaması yapıldıktan sonra teklifle birlikte netleşir.
+
+#129 [servicePages.ts :: seri-uretim]
+Q: Teslimat programı nasıl belirleniyor?
+A: Kapasite planlaması sonrasında parti büyüklüğü ve teslimat sıklığı birlikte kararlaştırılır; haftalık veya periyodik teslimat programları düzenlenebilir.
+
+#130 [servicePages.ts :: ozel-projeler]
+Q: Reverse engineering yapabiliyor musunuz?
+A: Evet, 3D tarama (0.02mm hassasiyet) ile mevcut parçanızı dijitalleştiriyor, CAD modeline dönüştürüyor ve üretiyoruz.
+
+#131 [servicePages.ts :: ozel-projeler]
+Q: Teknik verim nasıl ele alınıyor?
+A: Teknik verinin nasıl paylaşılacağı ve fikri mülkiyetin nasıl ele alınacağı proje başında yazılı olarak mutabık kalınır. İhtiyacınızı teklif aşamasında belirtin.
+
+#132 [servicePages.ts :: yenilenebilir-enerji]
+Q: Rüzgar türbini bileşenleri üretebiliyor musunuz?
+A: Evet; hub, pitch sistemi, yaw mekanizması, tower flanşı ve nacelle iç bileşenleri üretiyoruz. Uygulanacak şartname ve kabul kriterleri iş bazında müşteriyle birlikte belirlenir.
+
+#133 [servicePages.ts :: yenilenebilir-enerji]
+Q: Kaç yıl dış ortam dayanımı sağlıyorsunuz?
+A: Hot-dip galvaniz (ISO 1461, 85µm+) ve uygun malzeme seçimi ile 25+ yıl dış ortam ömrü hedefliyoruz.
+
+#134 [servicePages.ts :: petrol-gaz]
+Q: Petrol ve gaz bileşenlerinde hangi kalite kayıtları veriliyor?
+A: Malzeme sertifikası, ısıl işlem kaydı ve tahribatsız muayene raporları, kapsamı kontrol planında tanımlandığı şekilde teslimat dosyasına eklenir.
+
+#135 [servicePages.ts :: petrol-gaz]
+Q: Sour service uyumlu parça üretebiliyor musunuz?
+A: Evet. Sour service uygulamalarında malzeme, ısıl işlem ve sertlik sınırları müşteri şartnamesine göre belirlenir ve kayıt altına alınır.
+
+#136 [servicePages.ts :: guc-dagitim-sistemleri]
+Q: OFE bakır işleyebiliyor musunuz?
+A: Evet, OFE bakır (C10100, IACS %101) ve ETP bakır (C11000, IACS %99.9) işleme kabiliyetimiz bulunmaktadır.
+
+#137 [servicePages.ts :: guc-dagitim-sistemleri]
+Q: Gümüş kaplama yapıyor musunuz?
+A: Evet, kontak parçaları için gümüş kaplama (nikel altlık üzerine) uyguluyoruz. Kaplama kalınlığı ve yapışma testi standart olarak kontrol edilir.
+
+#138 [servicePages.ts :: madencilik-ekipmanlari]
+Q: Hardox işleyebiliyor musunuz?
+A: Evet, Hardox 400, 500 ve 600 serisi aşınma çeliklerini CNC ile işleyebiliyoruz. Özel takım ve ilerleme parametreleri ile optimal sonuç elde ediyoruz.
+
+#139 [servicePages.ts :: madencilik-ekipmanlari]
+Q: 500 kg parça işleyebiliyor musunuz?
+A: Evet, 500 kg'a kadar ağırlık ve 1500mm'ye kadar boyutta parça işleme kapasitemiz bulunmaktadır. Vinçli yükleme ve özel bağlama düzenleri kullanıyoruz.
