@@ -1872,6 +1872,41 @@ terms, and return/warranty guarantees — each with a positive control and each 
 authorised SLA. The gate passing with every one of these in the tree is the same coverage hole as round 1's
 finding that it has no revenue rule, and it is now earned rather than speculative.
 
+#### Phase 09b — scoping notes, gathered read-only while C2 runs
+
+Recorded now so the packet is quick when 09a closes, and because two of these are corrections.
+
+**The auth routes are 528 lines, not three unknowns.** `Login.tsx` 273, `ForgotPassword.tsx` 105,
+`ResetPassword.tsx` 150. **`SifremiUnuttum.tsx` does not exist** — the route `/sifremi-unuttum` is served by
+`ForgotPassword.tsx` (`App.tsx:211`). Every DO_NOT_TOUCH list I have written this phase named the Turkish
+filename, so it protected a file that is not there; no harm followed, because the real file was never in a
+WRITE_ALLOWLIST either, but 09b's packet must name the real one.
+
+**`ChatBot.tsx`'s dead filter is exactly as QA described and the state-keyed fix is available.**
+`pendingAiPrompt` is state at `:179`; `:240` filters the outgoing history against a **string literal** that
+`:273` no longer produces. Because the state is right there, the fix QA prescribed — drop the trailing
+assistant message when `pendingAiPrompt` is set — needs no new mechanism. QA's corollary stands and belongs in
+the packet: the defect is currently *masked* by the legal texts' broad "o ana kadarki yazışma" wording, so
+narrowing that clause later would make it false the same day with no test watching.
+
+**`ScrollToTop.tsx` is 20 lines and already holds what it needs.** It calls `useLocation()` but destructures
+only `pathname`, so `hash` is one word away. The override QA measured is the `requestAnimationFrame(() =>
+window.scrollTo(0, 0))` at the end, plus the Lenis branch above it.
+
+**The security surface, measured:** `src/utils/cadUpload.ts` never calls `getPublicUrl` or `createSignedUrl` —
+it uploads by XHR with `x-upsert: false` — so no public URL is minted client-side. Whether the **bucket** is
+public is a Supabase-side question and belongs to 09b's read-only audit.
+
+**And a finding that shapes what 09b can honestly deliver.** §7 PHASE 09 requires auditing CSP, referrer
+policy, content-type options, permissions policy, frame policy and HSTS. Measured: **no hosting header
+configuration exists anywhere** — no `vercel.json`, `netlify.toml`, `public/_headers`,
+`staticwebapp.config.json`, `firebase.json` or `.htaccess` — and `index.html` carries **no** CSP, referrer or
+content-type meta either. This is the same shape as Phase 08's real-HTTP-404 finding, and the honest outcome is
+the same: the audit will report that none of these headers is set and that most cannot be set from this
+repository at all. What *can* be done from here is the `<meta>`-expressible subset. 09b must not claim a header
+posture it cannot produce, and must not invent a hosting config on a guess — Phase 08 established that adding
+one blind breaks every deep route.
+
 **Still open, and blocking nothing else:** (1) whether to delete the four `rfqs` rows and three `cad-uploads`
 objects — a production mutation only the user can authorise, and the anon role has no DELETE policy so it needs
 service-role access; (2) whether the undeployed rate limiter is fixed now by deploying the repo's function —
