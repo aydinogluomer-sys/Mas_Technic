@@ -1,3 +1,43 @@
+import { LEAD_TIME_SHORT, LEAD_TIME_STATEMENT, QUOTE_RESPONSE_TIME } from "@/content/claims";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BU DOSYA BİR YAYIN YÜZEYİDİR — 09a-C2
+
+   Üç ayrı yol buradan ziyaretçiye çıkar: `ServiceDetail.tsx` sayfayı basar,
+   `CategoryPage.tsx` liste kartlarını üretir ve `chatFaqData.ts`
+   `collectServiceFaqs()` ile buradaki HER `faq` girdisini sohbet botunun
+   yanıt havuzuna taşır. Yani bu dosyadaki bir teslim süresi, aynı anda bir
+   sayfa metni, bir arama sonucu ve bir sohbet yanıtıdır.
+
+   09a-C2 SÜPÜRMESİ — ÜRETİM/TESLİM SÜRELERİ
+   -----------------------------------------
+   `USER_INPUTS.md` §D tolerans, teklif dönüş süresi, malzeme sayısı, CMM
+   kapsamı, zamanında teslim oranı ve dört ölçek rakamı verir. TERMİN,
+   LEAD TIME veya TESLİM SÜRESİ diye bir alan YOKTUR; §J `QUOTE_SLA: 1-3 Days`
+   ise teklifin saati, parçanın değil. Bu dosya on bir sayfada `3-5 iş günü`,
+   `7-15 iş günü`, `24 saat`, `24-72 saat`, `2-3 hafta`, `4-8 hafta` gibi
+   teslim taahhütleri yayımlıyordu; hiçbirinin dayanağı yoktu.
+
+   Kural: SÜRE GEREKTİREN HER YERDE TEK KAYNAK `@/content/claims`.
+     · `QUOTE_RESPONSE_TIME` — yetkili tek süre (teklif dönüşü, §D + §J).
+     · `LEAD_TIME_STATEMENT` / `LEAD_TIME_SHORT` — yetkisiz sürenin yerine
+       geçen mekanizma cümlesi. Yeni bir iddia değil; site zaten bunu diyor.
+     · `PRODUCTION_LEAD_TIME` — açıkça WITHHELD. Geri getirmek tip hatasıdır.
+
+   Rakam olmayan taahhütler de aynı sınıftadır ve aynı sebeple kaldırıldı:
+   "aynı gün teslimat", "ekspres hizmet", "acil tedarik", "gece-gündüz
+   kesintisiz üretim". Bir vardiya düzeni de, bir hizmet kademesi de, sayı
+   içermeden verilmiş bir termin sözüdür.
+
+   TAM SÜTUN KURALI: bir karşılaştırma tablosunun süre SÜTUNUNUN tamamı
+   yetkisizse sütun kaldırılır — beş hücreye "Teklifle birlikte" yazmak bilgi
+   taşımayan bir sütun bırakır. Süre, sınıfları karışık bir satır listesinin
+   içinde tek bir hücreyse nötralize edilir.
+
+   Makine yarısı: `scripts/claims-gate.mjs` → `unverified-production-lead-time`
+   ve `express-service-tier`.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
 export interface ComparisonTable {
   title: string;
   description?: string;
@@ -78,7 +118,7 @@ export const servicePages: ServicePageData[] = [
       "Otomatik takım değiştirme (30-120 takım magazini)",
       "Gerçek zamanlı süreç izleme ve dijital ikiz simülasyonu",
       "Prototipten seri üretime esnek çözümler (min. 1 adet)",
-      "3-5 iş günü prototip, 7-15 iş günü seri üretim teslimatı",
+      "Termin, kapasite planı incelendikten sonra teklifle birlikte verilir",
     ],
     materials: [
       { name: "Alüminyum", grade: "6061-T6 / 7075-T6", properties: "Hafif, korozyona dayanıklı, iyi işlenebilirlik" },
@@ -93,7 +133,7 @@ export const servicePages: ServicePageData[] = [
       { question: "CNC frezeleme tolerans değerleriniz nedir?", answer: "Standart çalışma aralığımız ±0.01mm'dir. Ulaşılabilir tolerans; geometri, malzeme, parça ölçüsü ve ölçü zincirine göre değişir ve her parça için teknik incelemede belirlenir." },
       { question: "Hangi dosya formatlarını kabul ediyorsunuz?", answer: "STEP, IGES, Parasolid, SolidWorks (.sldprt), CATIA (.catpart), NX (.prt) ve PDF/DWG teknik çizim formatlarını destekliyoruz." },
       { question: "Minimum sipariş adedi var mı?", answer: "Hayır, tek parçadan seri üretime kadar her adette üretim yapıyoruz. Prototip siparişleri de kabul ediyoruz." },
-      { question: "Teslimat süreniz ne kadar?", answer: "Standart parçalarda 5-10 iş günü, ekspres üretimde 2 iş gününe kadar inebiliyoruz. Prototip için 3-5 iş günü." },
+      { question: "Teslimat süreniz ne kadar?", answer: LEAD_TIME_STATEMENT },
     ],
     comparisonTables: [
       {
@@ -167,7 +207,7 @@ export const servicePages: ServicePageData[] = [
       "Tek bağlamada komple işleme",
       "Çift milli üretimle %50 setup tasarrufu",
       "Swiss tip mikro tornalama kabiliyeti (0.3-32mm)",
-      "Bar feeder ile gece-gündüz kesintisiz seri üretim",
+      "Bar besleyici ile uzun partilerde operatör müdahalesiz işleme",
       "Turn-mill ile frezeleme ihtiyacını tek operasyonda çözme",
       "C ekseni 0.001° hassasiyet ile hassas pozisyonlama",
     ],
@@ -183,7 +223,7 @@ export const servicePages: ServicePageData[] = [
       { question: "Tornalama mı frezeleme mi seçmeliyim?", answer: "Parçanız silindirik veya dönme simetrisine sahipse tornalama daha ekonomiktir. Prizmatik parçalar için frezeleme tercih edilir." },
       { question: "Karmaşık parçalar tek tezgahta mı yapılır?", answer: "Turn-mill tezgahlarımızda hem tornalama hem frezeleme işlemleri tek bağlamada yapılabilir. Bu hassasiyeti artırır ve maliyeti düşürür." },
       { question: "Swiss tornalama ne zaman gerekir?", answer: "Ø32mm altı çaplarda ve boy/çap oranı yüksek parçalarda (örn: medikal vidalar, pimler) Swiss torna daha hassas sonuç verir." },
-      { question: "Seri üretim için uygun mu?", answer: "Evet, bar besleyicili tezgahlarımızda gece-gündüz kesintisiz seri üretim yapabiliyoruz." },
+      { question: "Seri üretim için uygun mu?", answer: "Evet. Bar besleyicili tezgahlarda çubuk malzeme otomatik ilerlediği için uzun partiler operatör müdahalesi olmadan işlenebilir; parti büyüklüğü ve termin kapasite planıyla birlikte teklifte netleşir." },
       { question: "Hangi çap aralığında tornalama yapabiliyorsunuz?", answer: "Swiss tip torna ile 0.3mm'den başlayarak konvansiyonel torna ile 500mm çapa kadar geniş bir aralıkta tornalama yapabiliyoruz." },
     ],
     comparisonTables: [
@@ -407,7 +447,7 @@ export const servicePages: ServicePageData[] = [
     categoryLabel: "Ön Üretim",
     title: "Enjeksiyon Kalıbı",
     metaTitle: "Enjeksiyon Kalıp İmalatı | Moldflow Simülasyon | Mas Technic",
-    metaDescription: "Alüminyum ve çelik enjeksiyon kalıp üretimi. Moldflow simülasyonu, 1.000.000+ çevrim ömrü. Hızlı prototip kalıplar 2-3 haftada teslimat.",
+    metaDescription: "Alüminyum ve çelik enjeksiyon kalıp üretimi. Moldflow simülasyonu, 1.000.000+ çevrim ömrü. Prototip kalıptan seri üretim kalıbına malzeme seçimi.",
     description:
       "Alüminyum ve çelik kalıp imalatı. Hızlı prototip kalıplarından yüksek hacimli seri üretim kalıplarına kadar tüm ihtiyaçlarınıza çözüm.",
     heroImage: "hero-enjeksiyon-kalibi",
@@ -449,20 +489,26 @@ export const servicePages: ServicePageData[] = [
       { name: "S136 (1.2083)", grade: "48-52 HRC", properties: "Korozyon direnci, optik kalıplar" },
     ],
     faq: [
-      { question: "Kalıp teslimat süresi ne kadar?", answer: "Hızlı alüminyum kalıplar 2-3 hafta, çelik kalıplar 4-8 hafta içinde teslim edilir. Proje karmaşıklığına göre değişebilir." },
+      { question: "Kalıp teslimat süresi ne kadar?", answer: `Kalıp termini malzeme sınıfına, kavite sayısına ve yüzey gereksinimine göre değişir; alüminyum kalıp çelik kalıba göre daha kısa sürede işlenir. ${LEAD_TIME_STATEMENT}` },
       { question: "Moldflow simülasyonu zorunlu mu?", answer: "Zorunlu değildir ancak özellikle karmaşık parçalarda dolum problemlerini, çökme izlerini ve eğilmeyi önlemek için şiddetle tavsiye ederiz." },
       { question: "Alüminyum mı çelik kalıp mı seçmeliyim?", answer: "10.000 adete kadar üretim için alüminyum kalıp ekonomiktir. Daha yüksek hacimler için çelik kalıp uzun vadede maliyet avantajı sağlar." },
     ],
     comparisonTables: [
       {
         title: "Enjeksiyon Kalıp Malzemesi Seçim Matrisi",
-        headers: ["Kalıp Malzemesi", "Sertlik", "Kalıp Ömrü", "Teslimat Süresi", "Maliyet", "Uygulama"],
+        /* 09a-C2: the "Teslimat Süresi" column published five mold lead times
+           (2-3 / 4-6 / 6-8 / 6-8 / 5-7 hafta). No field authorises any of them,
+           and neutralising five cells to "Teklifle birlikte" would leave a
+           column that carries no information. The column is removed; the FAQ
+           on this page states the same fact once, correctly. Mold LIFE
+           (çevrim) is a material property and stays. */
+        headers: ["Kalıp Malzemesi", "Sertlik", "Kalıp Ömrü", "Maliyet", "Uygulama"],
         rows: [
-          ["Al 7075", "150 HB", "10.000+ çevrim", "2-3 hafta", "$", "Prototip, düşük hacim"],
-          ["P20 (1.2311)", "280-320 HB", "500.000+ çevrim", "4-6 hafta", "$$", "Orta hacim, genel amaç"],
-          ["H13 (1.2344)", "45-52 HRC", "1.000.000+ çevrim", "6-8 hafta", "$$$", "Yüksek hacim, sıcak iş"],
-          ["S136 (1.2083)", "48-52 HRC", "1.000.000+ çevrim", "6-8 hafta", "$$$$", "Optik, medikal, korozyon"],
-          ["NAK80", "38-42 HRC", "500.000+ çevrim", "5-7 hafta", "$$$", "Yüksek parlaklık, ön sertleştirilmiş"],
+          ["Al 7075", "150 HB", "10.000+ çevrim", "$", "Prototip, düşük hacim"],
+          ["P20 (1.2311)", "280-320 HB", "500.000+ çevrim", "$$", "Orta hacim, genel amaç"],
+          ["H13 (1.2344)", "45-52 HRC", "1.000.000+ çevrim", "$$$", "Yüksek hacim, sıcak iş"],
+          ["S136 (1.2083)", "48-52 HRC", "1.000.000+ çevrim", "$$$$", "Optik, medikal, korozyon"],
+          ["NAK80", "38-42 HRC", "500.000+ çevrim", "$$$", "Yüksek parlaklık, ön sertleştirilmiş"],
         ],
         highlight: 2,
       },
@@ -554,13 +600,13 @@ export const servicePages: ServicePageData[] = [
     title: "Silikon Kalıplama",
     heroImage: "hero-silikon-kaliplama",
     metaTitle: "Silikon Kalıplama | Vakumlu Döküm | 1-100 Adet | Mas Technic",
-    metaDescription: "Vakumlu silikon kalıplama ile 1-100 adet kısa seri üretim. PU, silikon, epoksi. Master modelden 24 saatte ilk parça teslimatı.",
+    metaDescription: "Vakumlu silikon kalıplama ile 1-100 adet kısa seri üretim. PU, silikon, epoksi. Master modelden gözeneksiz yüzeyli çoğaltma.",
     description:
-      "Vakumlu silikon kalıplama ile 1-100 adet arası kısa seri üretim. Master modelden 24 saatte ilk parçalar.",
+      "Vakumlu silikon kalıplama ile 1-100 adet arası kısa seri üretim. Master modelden gözeneksiz yüzeyli çoğaltma.",
     content: [
       "Vakum altında döküm, kalıp boşluğunda hava hapsini önleyerek gözeneksiz bir yüzey verir. PU, silikon, polyester ve epoksi malzemelerle üretim yapıyor, pigment ile renk seçeneği sunuyoruz.",
       "PU 60A (60 Shore A, esnek ve yırtılmaz), PU 80A (80 Shore A, orta sertlik), PU 90A (90 Shore A, yüksek dayanım) ve Silikon 40A (40 Shore A, yüksek sıcaklık dayanımlı) malzeme seçenekleri ile geniş uygulama yelpazesine hizmet veriyoruz.",
-      "Overmolding ile farklı sertlikte malzemeleri birlikte kullanabiliyoruz. Medikal, otomotiv ve endüstriyel uygulamalar için özel silikon kalıplama çözümleri sunuyoruz. Master modelden 24 saatte ilk parçalar teslim ediyoruz.",
+      "Overmolding ile farklı sertlikte malzemeleri birlikte kullanabiliyoruz. Medikal, otomotiv ve endüstriyel uygulamalar için özel silikon kalıplama çözümleri sunuyoruz. Termin; master modelin hazır olma durumuna, döküm adedine ve finisaj kapsamına göre teklifle birlikte verilir.",
     ],
     features: [
       "Vakumlu Döküm — hava hapsi olmadan gözeneksiz yüzey",
@@ -584,7 +630,7 @@ export const servicePages: ServicePageData[] = [
       "Kalite Kontrol",
     ],
     advantages: [
-      "24 saatte ilk parça teslimatı",
+      "Master model onaylandıktan sonra kalıptan hızlı çoğaltma",
       "1-100 adet kısa seri üretim",
       "4 farklı sertlik seçeneği",
       "Overmolding kapasitesi",
@@ -604,19 +650,22 @@ export const servicePages: ServicePageData[] = [
       },
       {
         title: "Üretim Yöntemi Karşılaştırması (Kısa Seri)",
-        headers: ["Yöntem", "Min. Adet", "Teslimat", "Parça Maliyeti", "Kalıp Maliyeti", "Yüzey Kalitesi"],
+        /* 09a-C1 neutralised ONE cell of this "Teslimat" column — the CNC row's
+           "3-5 gün" — and left "1-3 gün", "1-2 gün", "2-4 hafta" and "1-3 hafta"
+           standing beside it. That was worse than what it replaced: a column in
+           which one supplier row declines to give a number while its four
+           neighbours give one reads as a caveat about CNC, not as a policy.
+           09a-C2 removes the column. Nothing in `USER_INPUTS.md` authorises any
+           of the five, and five identical "Teklifle birlikte" cells would carry
+           no information. The method comparison — adet, maliyet, yüzey — is
+           what this table is for and it survives intact. */
+        headers: ["Yöntem", "Min. Adet", "Parça Maliyeti", "Kalıp Maliyeti", "Yüzey Kalitesi"],
         rows: [
-          ["Vakumlu Döküm", "1", "1-3 gün", "$$", "$", "İyi (master'a bağlı)"],
-          ["3D Baskı (SLA)", "1", "1-2 gün", "$$$", "Yok", "Çok iyi"],
-          /* 09a-C1: the CNC row published "3-5 gün" as a delivery time.
-             `USER_INPUTS.md` has no lead-time, turnaround or delivery field, so
-             nothing authorises a duration here. The row stays; the number is
-             replaced with the phrase the rest of the site already uses for the
-             same fact — `RfqAside.tsx:58`, `rfq-model.ts:82`, `SSS.tsx:138`,
-             `caseStudies.ts:110`. */
-          ["CNC İşleme", "1", "Teklifle birlikte", "$$$$", "Yok", "Mükemmel"],
-          ["Silikon Enjeksiyon", "500+", "2-4 hafta", "$", "$$$", "Mükemmel"],
-          ["Sıkıştırma Kalıplama", "100+", "1-3 hafta", "$$", "$$", "İyi"],
+          ["Vakumlu Döküm", "1", "$$", "$", "İyi (master'a bağlı)"],
+          ["3D Baskı (SLA)", "1", "$$$", "Yok", "Çok iyi"],
+          ["CNC İşleme", "1", "$$$$", "Yok", "Mükemmel"],
+          ["Silikon Enjeksiyon", "500+", "$", "$$$", "Mükemmel"],
+          ["Sıkıştırma Kalıplama", "100+", "$$", "$$", "İyi"],
         ],
       },
     ],
@@ -634,7 +683,7 @@ export const servicePages: ServicePageData[] = [
     content: [
       "Üretim süreçlerinizi hızlandıracak ve hassasiyeti artıracak özel fikstür ve aparatlar tasarlıyoruz. Torna fikstürü (milliyelti ve milliyetsiz), freze fikstürü (vise, vakumlu ve hidrolik), montaj fikstürü (operatör hatalarını önleme), kontrol fikstürü (ölçüm tekrarlanabilirliği) ve kaynak fikstürü (hizalama ve sabitleme) dahil geniş yelpazede çözümler sunuyoruz.",
       "CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans analizi simülasyonu, 3D baskı veya hızlı imalat ile prototip üretimi ve üretim ortamında doğrulama test & onay süreçleri ile profesyonel tasarım hizmeti veriyoruz.",
-      "Çelik, alüminyum ve kompozit malzemelerle ±0.01mm tekrarlanabilirlik sağlayan fikstürler üretiyoruz. Tasarım için 3-5 iş günü, üretim için 5-10 iş günü çalışma süresiyle ilerliyoruz.",
+      "Çelik, alüminyum ve kompozit malzemelerle ±0.01mm tekrarlanabilirlik sağlayan fikstürler üretiyoruz. Tasarım ve üretim termini; fikstür karmaşıklığı, malzeme tedariki ve doğrulama kapsamı incelendikten sonra teklifle birlikte verilir.",
     ],
     features: [
       "Torna Fikstürü — Milliyelti ve milliyetsiz",
@@ -646,8 +695,8 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Tekrarlanabilirlik", value: "±0.01mm" },
       { label: "Malzeme", value: "Çelik, Al, Kompozit" },
-      { label: "Tasarım Süresi", value: "3-5 iş günü" },
-      { label: "Üretim Süresi", value: "5-10 iş günü" },
+      { label: "Termin", value: LEAD_TIME_SHORT },
+      { label: "Doğrulama", value: "Üretim ortamında test" },
     ],
     processSteps: [
       "İhtiyaç Analizi",
@@ -771,7 +820,7 @@ export const servicePages: ServicePageData[] = [
       "Tip I (Kromik Asit) anodizasyon 5-15µm kalınlıkta ince bir oksit tabakası oluşturur; havacılık yapısal parçaları ve boya tutunma alt katmanı olarak tercih edilir. Tip II (Sülfürik Asit) anodizasyon 10-25µm kalınlıkta olup en yaygın kullanılan türdür; korozyon koruması, renkli kaplama ve genel mühendislik uygulamalarında idealdir. Tip III (Sert Anodizasyon) 25-100µm kalınlıkta, 60-70 HRC sertliğe ulaşarak aşınma direnci, elektriksel yalıtım ve yüksek performans gerektiren uygulamalarda kullanılır.",
       "Renklendirme sürecimizde organik ve inorganik boyalar kullanarak siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) renklerde kaplama yapıyoruz; özel RAL ve Pantone eşleştirmesi de mümkündür. Renk homojenliği ΔE ≤ 2.0 toleransında kontrol edilmektedir. Sealing (sızdırmazlık) işlemi ile oksit tabakasının gözenekleri kapatılarak uzun ömürlü koruma sağlanır.",
       "Kalite kontrol sürecimiz: Eddy current veya mikrometre ile kaplama kalınlığı ölçümü, ASTM B117 tuz spreyi testi ile korozyon direnci doğrulaması, Vickers mikrosertlik testi ile sertlik kontrolü ve renk ölçüm cihazı ile ΔE renk homojenliği kontrolü. Her parti için ölçüm kaydı tutulur.",
-      "2000×1000×800mm tank boyutlarımız ile büyük parçalarda da anodizasyon uygulayabiliyoruz. 50 kg/parça maksimum ağırlık kapasitesi, 24-72 saat standart teslimat süresi ve havacılık, otomotiv, medikal, elektronik ve savunma sanayi sektörlerine hizmet veriyoruz.",
+      "2000×1000×800mm tank boyutlarımız ile büyük parçalarda da anodizasyon uygulayabiliyoruz. 50 kg/parça maksimum ağırlık kapasitesi ile havacılık, otomotiv, medikal, elektronik ve savunma sanayi sektörlerine hizmet veriyoruz.",
     ],
     features: [
       "Tip I (Kromik Asit) — 5-15µm, havacılık yapısal parçalar, boya alt katmanı",
@@ -803,7 +852,7 @@ export const servicePages: ServicePageData[] = [
       "ASTM B117 tuz testi ile korozyon direnci doğrulaması",
       "Organik ve inorganik boyalarla dekoratif ve fonksiyonel kaplama",
       "2000×1000×800mm tank boyutu ile büyük parça kapasitesi",
-      "24-72 saat standart teslimat süresi",
+      "Termin, parti büyüklüğü ve kaplama sınıfına göre teklifle birlikte verilir",
       "Kaplama kalınlığı ve sertlik ölçümü ile kalite kontrolü",
       "Havacılık, otomotiv, medikal ve savunma sektörü deneyimi",
     ],
@@ -821,7 +870,7 @@ export const servicePages: ServicePageData[] = [
       { question: "Anodizasyon boyut değişikliğine neden olur mu?", answer: "Evet, oksit tabakasının yaklaşık %50'si malzemeye nüfuz eder, %50'si yüzeyden dışarı büyür. Örneğin 25µm Tip II kaplama ~12.5µm boyut artışı yapar. Bu değer işleme toleranslarında dikkate alınmalıdır." },
       { question: "Hangi renklerde anodizasyon yapabiliyorsunuz?", answer: "Siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) renklerde çalışıyoruz. Özel RAL ve Pantone renk eşleştirmesi de yapabiliyoruz; renk homojenliği ΔE ≤ 2.0 toleransında kontrol edilir." },
       { question: "Kaplama ne kadar dayanıklıdır?", answer: "Kaplamalarımızın korozyon direnci ASTM B117 tuz spreyi testi ile doğrulanır. Sert anodizasyon ile çelik sertliğine yakın aşınma direnci elde edilir." },
-      { question: "Anodizasyon teslimat süreniz ne kadar?", answer: "Standart siparişlerde 24-72 saat, büyük partilerde 3-5 iş günü teslimat süremiz bulunmaktadır. Ekspres hizmet ile aynı gün teslimat da mümkündür." },
+      { question: "Anodizasyon teslimat süreniz ne kadar?", answer: `Termin parti büyüklüğüne, kaplama sınıfına ve renklendirme adımının olup olmamasına göre değişir. ${LEAD_TIME_STATEMENT}` },
     ],
     comparisonTables: [
       {
@@ -1575,8 +1624,8 @@ export const servicePages: ServicePageData[] = [
       { label: "Sertifika", value: "Talebe bağlı" },
       { label: "Sürekli Stok", value: "Al 6061, Al 7075" },
       { label: "Sürekli Stok", value: "SS 304, SS 316" },
-      { label: "Tedarik (Standart)", value: "Stokta / 1-2 hafta" },
-      { label: "Tedarik (Özel)", value: "4-8 hafta" },
+      { label: "Tedarik (Standart)", value: "Sürekli stok" },
+      { label: "Tedarik (Özel)", value: "Sipariş üzerine" },
     ],
     processSteps: [
       "Stok Kontrolü (ERP)",
@@ -1607,7 +1656,7 @@ export const servicePages: ServicePageData[] = [
     faq: [
       { question: "Hangi malzeme sertifikalarını sağlıyorsunuz?", answer: "Malzeme sertifikası ve kimyasal analiz raporu talebe bağlı olarak sağlanır. Her tedarik, lot ve döküm numarasıyla kayıt altına alınır." },
       { question: "Stokta hangi malzemeler bulunuyor?", answer: "Al 6061, Al 7075, SS 304 ve SS 316 sürekli stokta tutulmaktadır. Titanyum ve Inconel gibi özel malzemeler sipariş üzerine tedarik edilir." },
-      { question: "Özel alaşım tedarik edebiliyor musunuz?", answer: "Evet, Inconel 718, Hastelloy, Kovar, Tungsten gibi özel alaşımları 4-8 hafta içinde tedarik edebiliyoruz." },
+      { question: "Özel alaşım tedarik edebiliyor musunuz?", answer: `Evet. Inconel 718, Hastelloy, Kovar ve Tungsten gibi özel alaşımlar sürekli stokta tutulmaz, sipariş üzerine tedarik edilir. ${LEAD_TIME_STATEMENT}` },
       { question: "Malzeme kalite kontrolü nasıl yapılıyor?", answer: "Her malzeme girişinde spektrometre ile kimyasal analiz, boyut kontrolü ve sertifika doğrulaması yapılmaktadır. Klimatik kontrollü depoda lot numarası ile izlenebilirlik sağlanır." },
     ],
     comparisonTables: [
@@ -1621,8 +1670,8 @@ export const servicePages: ServicePageData[] = [
           ["SS 304", "187", "515 MPa", "★★★☆☆", "$$", "Stokta"],
           ["SS 316L", "217", "485 MPa", "★★★☆☆", "$$$", "Stokta"],
           ["Ti6Al4V (Gr5)", "334", "950 MPa", "★★☆☆☆", "$$$$", "Sipariş üzerine"],
-          ["Inconel 718", "363", "1034 MPa", "★☆☆☆☆", "$$$$$", "4-8 hafta"],
-          ["PEEK 450G", "100 (Shore D)", "100 MPa", "★★★★☆", "$$$$", "2-4 hafta"],
+          ["Inconel 718", "363", "1034 MPa", "★☆☆☆☆", "$$$$$", "Sipariş üzerine"],
+          ["PEEK 450G", "100 (Shore D)", "100 MPa", "★★★★☆", "$$$$", "Sipariş üzerine"],
           ["POM (Delrin)", "85 (Shore D)", "70 MPa", "★★★★★", "$", "Stokta"],
         ],
       },
@@ -1635,15 +1684,29 @@ export const servicePages: ServicePageData[] = [
          The column now says what the spec row, the feature bullet and the FAQ
          on this page already say. */
       {
-        title: "Tedarik Süresi ve Sertifika Matrisi",
-        headers: ["Malzeme Grubu", "Standart Tedarik", "Acil Tedarik", "Sertifika", "Min. Sipariş"],
+      /* 09a-C2: this matrix published TWO duration columns. "Standart Tedarik"
+         gave six procurement windows and "Acil Tedarik" promised an EXPRESS
+         TIER on top of them — "Aynı gün" for aluminium and stainless. A same-day
+         supply promise contains no digit at all, so no numeric sweep would ever
+         have found it, and it is the strongest commitment on the page.
+
+         The site already answers this question correctly one page away:
+         `/kabiliyetler/tedarik-zinciri` grades material access qualitatively
+         ("Kısa", "Orta", "Uzun", "Sipariş üzerine") and states that the real
+         figure is given with the quote. Two pages cannot answer the buyer's
+         same question two ways. The vocabulary here is now this page's OWN FAQ
+         ("Al 6061, Al 7075, SS 304 ve SS 316 sürekli stokta tutulmaktadır;
+         özel malzemeler sipariş üzerine tedarik edilir") and the express column
+         is gone. */
+        title: "Tedarik Yaklaşımı ve Sertifika Matrisi",
+        headers: ["Malzeme Grubu", "Tedarik", "Sertifika", "Min. Sipariş"],
         rows: [
-          ["Alüminyum (6061, 7075)", "Stokta", "Aynı gün", "Talebe bağlı", "1 kg"],
-          ["Paslanmaz Çelik (304, 316)", "Stokta", "Aynı gün", "Talebe bağlı", "5 kg"],
-          ["Karbon Çelik (1045, 4140)", "1-2 hafta", "3 iş günü", "Talebe bağlı", "10 kg"],
-          ["Titanyum (Gr2, Gr5)", "4-6 hafta", "2 hafta", "Talebe bağlı", "5 kg"],
-          ["Inconel / Hastelloy", "6-8 hafta", "4 hafta", "Talebe bağlı", "10 kg"],
-          ["PEEK / Yüksek Perf. Plastik", "2-4 hafta", "1 hafta", "Talebe bağlı", "1 kg"],
+          ["Alüminyum (6061, 7075)", "Sürekli stok", "Talebe bağlı", "1 kg"],
+          ["Paslanmaz Çelik (304, 316)", "Sürekli stok", "Talebe bağlı", "5 kg"],
+          ["Karbon Çelik (1045, 4140)", "Sipariş üzerine", "Talebe bağlı", "10 kg"],
+          ["Titanyum (Gr2, Gr5)", "Sipariş üzerine", "Talebe bağlı", "5 kg"],
+          ["Inconel / Hastelloy", "Sipariş üzerine", "Talebe bağlı", "10 kg"],
+          ["PEEK / Yüksek Perf. Plastik", "Sipariş üzerine", "Talebe bağlı", "1 kg"],
         ],
       },
     ],
@@ -1861,13 +1924,13 @@ export const servicePages: ServicePageData[] = [
       "DFM/DFA analizi ile tasarımlarınızı üretilebilirlik açısından optimize ediyoruz. Üretim maliyetlerini düşüren, kaliteyi artıran ve süreyi kısaltan mühendislik desteği.",
     heroImage: "hero-dfm-tasarim",
     content: [
-      "Design for Manufacturing (DFM) analiz sürecimiz 4 aşamadan oluşur: 1. gün — ilk inceleme ve DFM raporu taslağı, 2-3. gün — detaylı analiz ve optimizasyon önerileri, 4. gün — müşteri görüşmesi ve revize CAD modeli, 5. gün — final DFM raporu ve onay. Toplam süreç 5 iş gününde tamamlanır.",
+      "Design for Manufacturing (DFM) analiz sürecimiz 4 aşamadan oluşur: ilk inceleme ve DFM raporu taslağı, detaylı analiz ve optimizasyon önerileri, müşteri görüşmesi ve revize CAD modeli, final DFM raporu ve onay. Sürecin takvimi parçanın karmaşıklığına ve gelen dosyanın eksiksizliğine bağlıdır; teklifle birlikte verilir.",
       "CNC işleme DFM kurallarımız: İç köşe yarıçapı R > 0.5mm (sivri köşelerden kaçının), duvar kalınlığı > 0.8mm (çok ince duvarlardan kaçının), derinlik/çap oranı < 4:1 (çok derin deliklerden kaçının) ve standart boyut kullanımı (özel ölçülerden kaçının). Enjeksiyon kalıp DFM kurallarımız: Duvar kalınlığı 1.5-3mm, çekme payı 0.5-2°, köşe yarıçapı R > 0.5mm ve gate konumu kalın kesimden.",
       "Yaygın CAD formatlarını doğrudan işleyebiliyoruz; katı model ile birlikte ölçülendirilmiş teknik resim gönderilmesi analiz süresini kısaltır. Takım yolları üretim öncesinde simülasyonla doğrulanır ve çarpışma kontrolü yapılır.",
       "DFM analizinde tipik olarak baktığımız kaldıraçlar: montajı tek parçaya indirgemek, bağlama sayısını azaltmak, takım erişimini kolaylaştırmak, gereksiz dar toleransları gevşetmek ve malzemeyi fonksiyona göre yeniden seçmek. Hangisinin ne kadar etki edeceği parçanın geometrisine ve mevcut üretim planına bağlıdır; beklenen etki analiz raporunda parça bazında verilir.",
     ],
     features: [
-      "DFM Analizi — 5 iş günü tamamlanma süresi",
+      "DFM Analizi — 4 aşamalı inceleme, analiz, görüşme ve raporlama",
       "CNC İşleme DFM Kuralları — Köşe, duvar, derinlik optimizasyonu",
       "Enjeksiyon Kalıp DFM — Duvar kalınlığı, çekme payı, gate konumu",
       "CAD/CAM Entegrasyonu — CATIA, SolidWorks, NX, Mastercam",
@@ -1875,7 +1938,7 @@ export const servicePages: ServicePageData[] = [
       "Maliyet Optimizasyonu — Parça sayısı, bağlama ve tolerans kaldıraçları",
     ],
     technicalSpecs: [
-      { label: "Analiz Süresi", value: "5 iş günü" },
+      { label: "Analiz Süresi", value: LEAD_TIME_SHORT },
       { label: "Rapor Formatı", value: "PDF + revize CAD" },
       { label: "Desteklenen CAD", value: "STEP, IGES, CATIA, NX, SW" },
       { label: "Revizyon", value: "2 tur dahil" },
@@ -1884,14 +1947,14 @@ export const servicePages: ServicePageData[] = [
     ],
     processSteps: [
       "CAD Model Yükleme",
-      "İlk İnceleme (1 gün)",
-      "Detaylı Analiz (2-3 gün)",
+      "İlk İnceleme",
+      "Detaylı Analiz",
       "Müşteri Görüşmesi",
       "CAD Revizyon",
       "Final DFM Raporu",
     ],
     advantages: [
-      "5 gün içinde tamamlanan DFM analiz süreci",
+      "Dört aşamalı DFM süreci: inceleme, analiz, görüşme, rapor",
       "CATIA, SolidWorks, NX entegre çalışma",
       "Üretim öncesi takım yolu simülasyonu ve çarpışma kontrolü",
       "Parça sayısı, bağlama sayısı ve işlem adımı azaltma fırsatlarının çıkarılması",
@@ -1900,7 +1963,7 @@ export const servicePages: ServicePageData[] = [
     ],
     faq: [
       { question: "DFM analizi ücreti var mı?", answer: "İlk DFM değerlendirmesi ücretsizdir. Detaylı analiz raporu ve CAD revizyonları proje kapsamına göre fiyatlandırılır." },
-      { question: "DFM analizi ne kadar sürer?", answer: "Standart bir DFM analizi 5 iş gününde tamamlanır: 1 gün inceleme, 2-3 gün detaylı analiz, 1 gün görüşme ve revizyon." },
+      { question: "DFM analizi ne kadar sürer?", answer: `Süreç dört aşamadan oluşur: ilk inceleme, detaylı analiz, müşteri görüşmesi ve final rapor. Takvim parçanın karmaşıklığına ve gönderilen dosyanın eksiksizliğine göre değişir. ${LEAD_TIME_STATEMENT}` },
       { question: "Hangi CAD formatlarını kabul ediyorsunuz?", answer: "Teklif akışında STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını doğrudan yükleyebilirsiniz. Listede olmayan bir yerel CAD formatı veya ölçülendirilmiş teknik resim için dosyayı sales@mastechnic.com adresine iletebilirsiniz." },
       { question: "DFM analizi ne kadar tasarruf sağlar?", answer: "Tasarrufun büyüklüğü parçanın geometrisine ve mevcut üretim planına bağlıdır. DFM analizinde parça sayısı, bağlama sayısı, takım erişimi ve tolerans zinciri değerlendirilir; beklenen etki analiz raporunda parça bazında verilir." },
     ],
@@ -2022,18 +2085,18 @@ export const servicePages: ServicePageData[] = [
     title: "Düşük Hacimli Üretim",
     metaTitle: "Düşük Hacimli Üretim | 1-1000 Adet | 3D Baskı, Silikon Kalıp, CNC | Mas Technic",
     metaDescription:
-      "3D baskı ile 1-3 günde prototip, silikon kalıplama ile 10-100 adet, hızlı alüminyum kalıp ile 1000 adete kadar üretim. FDM, SLA, SLS, DMLS teknolojileri.",
+      "3D baskı ile hızlı prototip, silikon kalıplama ile 10-100 adet, hızlı alüminyum kalıp ile 1000 adete kadar üretim. FDM, SLA, SLS, DMLS teknolojileri.",
     description:
-      "3D baskı, silikon kalıplama, hızlı alüminyum kalıp ve CNC işleme ile 1-1000 adet arası düşük hacimli üretim ihtiyaçlarınıza esnek ve hızlı çözümler sunuyoruz.",
+      "3D baskı, silikon kalıplama, hızlı alüminyum kalıp ve CNC işleme ile 1-1000 adet arası düşük hacimli üretim ihtiyaçlarınıza esnek çözümler sunuyoruz.",
     heroImage: "hero-seri-uretim",
     content: [
-      "Düşük hacimli üretim yöntemlerimizin karşılaştırması: 3D baskı 1-10 adet (1-3 gün, düşük maliyet, ±0.2mm), silikon kalıplama 10-100 adet (5-10 gün, orta maliyet, ±0.1mm), alüminyum kalıp 100-1000 adet (2-3 hafta, orta maliyet, ±0.05mm) ve CNC işleme 1-100 adet (3-10 gün, yüksek maliyet, ±0.01mm). Projenizin adet, süre ve hassasiyet gereksinimlerine göre en uygun yöntemi belirliyoruz.",
+      "Düşük hacimli üretim yöntemlerimizin karşılaştırması: 3D baskı 1-10 adet (düşük maliyet, ±0.2mm), silikon kalıplama 10-100 adet (orta maliyet, ±0.1mm), alüminyum kalıp 100-1000 adet (orta maliyet, ±0.05mm) ve CNC işleme 1-100 adet (yüksek maliyet, ±0.01mm). Projenizin adet, süre ve hassasiyet gereksinimlerine göre en uygun yöntemi belirliyoruz; her yöntemin termini teklifle birlikte verilir.",
       "Eklemeli imalat seçenekleri parçanın işlevine göre ayrışır: FDM (ABS, PLA, naylon) biçim ve montaj denemeleri, SLA (reçine) ince detay ve yüzey, SLS (PA12, TPU) destek yapısı gerektirmeyen fonksiyonel parçalar, DMLS ise metal fonksiyonel prototipler için kullanılır.",
-      "Silikon kalıplama sürecimiz 4 aşamadan oluşur: 1) Master model — 3D baskı veya CNC ile üretim (1-3 gün), 2) Silikon kalıp — vakumlu kalıplama (1-2 gün), 3) Döküm — PU/silikon/EP döküm (1 gün/10 parça), 4) Finisaj — yüzey işlemleri ve kalite kontrol (1 gün). Toplam süreç 5-10 iş gününde tamamlanır.",
+      "Silikon kalıplama sürecimiz 4 aşamadan oluşur: 1) Master model — 3D baskı veya CNC ile üretim, 2) Silikon kalıp — vakumlu kalıplama, 3) Döküm — PU/silikon/EP döküm, 4) Finisaj — yüzey işlemleri ve kalite kontrol. Toplam terminde belirleyici olan master modelin hazırlanması ve döküm adedidir; termin teklifle birlikte verilir.",
       "Alüminyum kalıp çözümü, çelik kalıba göre daha hızlı işlenebildiği için düşük ve orta hacimli işlerde tercih edilir. Basınçlı döküm ve enjeksiyon kalıp pilot üretimlerinde, seri kalıp yatırımı öncesinde tasarımın doğrulanmasını sağlar.",
     ],
     features: [
-      "3D Baskı (FDM/SLA/SLS/DMLS) — 1-3 günde hızlı prototip",
+      "3D Baskı (FDM/SLA/SLS/DMLS) — konsept doğrulama ve hızlı prototip",
       "Silikon Kalıplama — 10-100 adet PU/silikon/EP döküm",
       "Alüminyum Kalıp — pilot üretim ve tasarım doğrulaması için",
       "CNC İşleme — 1-100 adet ±0.01mm hassasiyette",
@@ -2043,10 +2106,8 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Min. Adet", value: "1 adet" },
       { label: "Maks. Adet", value: "1.000 adet" },
-      { label: "3D Baskı Teslim", value: "1-3 iş günü" },
-      { label: "Silikon Kalıp", value: "5-10 iş günü" },
-      { label: "Al Kalıp", value: "2-3 hafta" },
-      { label: "CNC Teslim", value: "3-10 iş günü" },
+      { label: "Yöntemler", value: "3D baskı, silikon kalıp, Al kalıp, CNC" },
+      { label: "Termin", value: LEAD_TIME_SHORT },
     ],
     processSteps: [
       "Yöntem Seçimi",
@@ -2059,14 +2120,14 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "4 farklı yöntem ile her ihtiyaca uygun çözüm",
-      "1 günde başlayan teslimat süreleri",
+      "Yöntem seçimi adet, tolerans ve termin dengesine göre yapılır",
       "Metal ve plastik 3D baskı kapasitesi",
       "Silikon kalıp ile düşük kalıp maliyeti",
       "Seri üretim öncesi pilot doğrulama",
       "Fonksiyonel prototip ile gerçek koşullarda test",
     ],
     faq: [
-      { question: "Prototip için hangi yöntem en uygun?", answer: "1-10 adet ve hızlı teslimat için 3D baskı (1-3 gün), hassas parçalar için CNC (3-10 gün), 10-100 adet plastik parça için silikon kalıplama (5-10 gün) öneriyoruz." },
+      { question: "Prototip için hangi yöntem en uygun?", answer: `1-10 adet ve hızlı konsept doğrulaması için 3D baskı, ±0.01mm hassasiyet gereken parçalar için CNC, 10-100 adet plastik parça için silikon kalıplama öneriyoruz. ${LEAD_TIME_STATEMENT}` },
       { question: "Metal 3D baskı yapabiliyor musunuz?", answer: "Evet, EOS M290 DMLS sistemimiz ile alüminyum, paslanmaz çelik ve titanyum malzemelerde metal 3D baskı yapabiliyoruz." },
       { question: "Silikon kalıptan kaç parça çıkar?", answer: "Bir silikon kalıptan ortalama 20-50 parça üretilebilir. Malzeme ve geometriye göre bu sayı değişebilir." },
       { question: "Düşük hacimden seri üretime geçiş nasıl olur?", answer: "Prototip ve pilot üretimden sonra onaylanan tasarım için çelik kalıp yatırımı veya otomasyonlu CNC seri üretim planlaması yapılır. Geçiş süreci proje yöneticimiz tarafından koordine edilir." },
@@ -2075,14 +2136,19 @@ export const servicePages: ServicePageData[] = [
       {
         title: "Üretim Yöntemi Karşılaştırması (Maliyet vs. Adet)",
         description: "Adet sayısına göre en uygun üretim yöntemini seçin — köprü üretim stratejisi için kritik",
-        headers: ["Yöntem", "Adet Aralığı", "Birim Maliyet", "Teslimat", "Tolerans", "Kalıp Yatırımı"],
+        /* 09a-C2: the "Teslimat" column carried six delivery windows, from
+           "1-3 gün" to "4-8 hafta". The table's stated job — "Maliyet vs. Adet"
+           — is served by adet, maliyet, tolerans and kalıp yatırımı; the
+           duration column was the only unauthorised thing in it and it is
+           removed rather than blanked six times over. */
+        headers: ["Yöntem", "Adet Aralığı", "Birim Maliyet", "Tolerans", "Kalıp Yatırımı"],
         rows: [
-          ["3D Baskı (FDM/SLA)", "1 – 10", "$$$", "1-3 gün", "±0.2mm", "Yok"],
-          ["3D Baskı (SLS/DMLS)", "1 – 50", "$$$$", "2-5 gün", "±0.1mm", "Yok"],
-          ["CNC İşleme", "1 – 100", "$$$", "3-10 gün", "±0.01mm", "Yok"],
-          ["Silikon Kalıplama", "10 – 100", "$$", "5-10 gün", "±0.1mm", "Düşük ($)"],
-          ["Hızlı Al Kalıp", "100 – 1.000", "$", "2-3 hafta", "±0.05mm", "Orta ($$)"],
-          ["Çelik Kalıp (Enjeksiyon)", "1.000+", "$", "4-8 hafta", "±0.03mm", "Yüksek ($$$$$)"],
+          ["3D Baskı (FDM/SLA)", "1 – 10", "$$$", "±0.2mm", "Yok"],
+          ["3D Baskı (SLS/DMLS)", "1 – 50", "$$$$", "±0.1mm", "Yok"],
+          ["CNC İşleme", "1 – 100", "$$$", "±0.01mm", "Yok"],
+          ["Silikon Kalıplama", "10 – 100", "$$", "±0.1mm", "Düşük ($)"],
+          ["Hızlı Al Kalıp", "100 – 1.000", "$", "±0.05mm", "Orta ($$)"],
+          ["Çelik Kalıp (Enjeksiyon)", "1.000+", "$", "±0.03mm", "Yüksek ($$$$$)"],
         ],
         highlight: 4,
       },
@@ -2199,12 +2265,16 @@ export const servicePages: ServicePageData[] = [
       "ECO Yönetimi — Mühendislik değişiklik prosedürü",
     ],
     technicalSpecs: [
-      { label: "Değerlendirme", value: "1-3 gün" },
-      /* 09a-C1: "3-5 gün" was an unverifiable DFM turnaround — no lead-time
-         field exists in `USER_INPUTS.md`. Neutralised, not deleted; the column
-         already carries non-duration values ("Numune onayı sonrası"). */
-      { label: "DFM Analizi", value: "Teklifle birlikte" },
-      { label: "Prototip", value: "1-3 hafta" },
+      /* 09a-C2: this row IS the quote-response SLA — "Değerlendirme" is how
+         long MAS takes to come back with a price, which §D and §J authorise.
+         It was a hand-written literal that happened to agree with the ledger;
+         it now reads from the ledger, so it cannot drift away from it. */
+      { label: "Değerlendirme", value: QUOTE_RESPONSE_TIME },
+      /* 09a-C1 neutralised the DFM row and left "1-3 hafta" in the Prototip row
+         directly beneath it. 09a-C2 finishes the column: the only duration left
+         is the one with a source. */
+      { label: "DFM Analizi", value: LEAD_TIME_SHORT },
+      { label: "Prototip", value: LEAD_TIME_SHORT },
       { label: "Üretim Dosyası", value: "Numune onayı sonrası" },
       { label: "Raporlama", value: "Haftalık + dashboard" },
       { label: "Araçlar", value: "Jira, MS Project, Slack" },
@@ -2247,12 +2317,13 @@ export const servicePages: ServicePageData[] = [
         title: "Proje Aşamaları ve Süreleri",
         headers: ["Aşama", "Süre", "Çıktı", "Müşteri Onayı", "İletişim Kanalı"],
         rows: [
-          ["1. Değerlendirme & Teklif", "1-3 gün", "Detaylı teklif + zaman planı", "Teklif onayı", "E-posta + Video konferans"],
-          /* 09a-C1: same unverifiable DFM turnaround as `technicalSpecs` above.
-             The stage and its outputs are real and stay; only the duration goes.
-             Rows 4 and 5 of this same "Süre" column are already non-durations. */
-          ["2. DFM Analizi", "Teklifle birlikte", "DFM raporu + CAD revizyonu", "DFM onayı", "Portal + Toplantı"],
-          ["3. Prototip Üretimi", "1-3 hafta", "Örnek parça + ölçüm raporu", "Numune onayı", "Fotoğraf/video + rapor"],
+          /* 09a-C2: the "Süre" column now reads — quote SLA (sourced, from the
+             ledger), Teklifle birlikte, Teklifle birlikte, Numune onayı
+             sonrası, Devam eden. Exactly one cell carries a number and it is
+             the only one §D and §J authorise. */
+          ["1. Değerlendirme & Teklif", QUOTE_RESPONSE_TIME, "Detaylı teklif + zaman planı", "Teklif onayı", "E-posta + Video konferans"],
+          ["2. DFM Analizi", LEAD_TIME_SHORT, "DFM raporu + CAD revizyonu", "DFM onayı", "Portal + Toplantı"],
+          ["3. Prototip Üretimi", LEAD_TIME_SHORT, "Örnek parça + ölçüm raporu", "Numune onayı", "Fotoğraf/video + rapor"],
           ["4. Üretim Dosyası", "Numune onayı sonrası", "Kontrol planı + izlenebilirlik kayıtları", "Dosya onayı", "Portal + PDF teslim"],
           ["5. Seri Üretim", "Devam eden", "Parti raporu + SPC verileri", "Periyodik review", "Dashboard + haftalık rapor"],
         ],
@@ -2930,16 +3001,24 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Üretim Çözümleri",
     title: "Prototip Üretim",
-    metaTitle: "Hızlı Prototip Üretimi | 3-5 İş Günü | CNC, 3D Baskı, Silikon Kalıp | Mas Technic",
-    metaDescription: "3-5 iş günü prototip teslimatı. CNC, 3D baskı (FDM/SLA/SLS/DMLS) ve silikon kalıplama. Gerçek malzeme ile fonksiyonel prototip, seri üretim eşdeğer tolerans.",
-    description: "CNC işleme, 3D baskı ve silikon kalıplama ile 3-5 iş günü içinde fonksiyonel prototip teslimatı. Gerçek malzeme ile seri üretim eşdeğer kalite.",
+    /* 09a-C2: all THREE of these carried "3-5 iş günü", and two of them ship
+       into search results rather than the page body — a delivery promise in a
+       `<title>` is quoted by Google beside the domain, where no reader ever
+       sees the page that would qualify it. The route and the "hızlı prototip"
+       positioning stay (§1.3 permits positioning through capability); what
+       goes is the number nobody can substantiate. The page still has its case
+       to make: real material, series-equivalent tolerance, single-unit orders
+       and a three-iteration revision loop. */
+    metaTitle: "Hızlı Prototip Üretimi | CNC, 3D Baskı, Silikon Kalıp | Mas Technic",
+    metaDescription: "CNC, 3D baskı (FDM/SLA/SLS/DMLS) ve silikon kalıplama ile fonksiyonel prototip. Gerçek malzemede seri üretim eşdeğer tolerans, tek adetten üretim.",
+    description: "CNC işleme, 3D baskı ve silikon kalıplama ile fonksiyonel prototip üretimi. Gerçek malzeme ile seri üretim eşdeğer kalite, tek adet sipariş.",
     content: [
-      "Tasarım konseptlerinizi 3-5 iş günü içinde fiziksel ürünlere dönüştürüyoruz. CNC işleme ile gerçek malzemede (Al, SS, Ti, PEEK) seri üretim eşdeğer toleransta prototip, 3D baskı ile hızlı konsept doğrulama ve silikon kalıplama ile 10-50 adet çoklu prototip üretimi sunuyoruz.",
+      "Tasarım konseptlerinizi fiziksel ürünlere dönüştürüyoruz. CNC işleme ile gerçek malzemede (Al, SS, Ti, PEEK) seri üretim eşdeğer toleransta prototip, 3D baskı ile hızlı konsept doğrulama ve silikon kalıplama ile 10-50 adet çoklu prototip üretimi sunuyoruz.",
       "Fonksiyonel prototip ile parçanızı gerçek çalışma koşullarında test edebilirsiniz. DFM analizi ile tasarım iyileştirmesi ve seri üretime geçiş için kontrol planı hazırlığı sürecin parçasıdır. Tek adet sipariş kabul ediyoruz.",
       "Eklemeli imalat seçenekleri: FDM (ABS, PLA, naylon) biçim ve montaj denemeleri, SLA (reçine) ince detay ve yüzey, SLS (PA12) destek gerektirmeyen fonksiyonel parçalar ve DMLS ile metal fonksiyonel prototipler.",
     ],
     features: [
-      "3-5 İş Günü Teslim — Hızlı prototip üretimi",
+      "Tek Adet Sipariş — prototip için asgari adet yok",
       "Gerçek Malzeme — Al, SS, Ti, PEEK ile üretim",
       "3D Baskı — FDM, SLA, SLS, DMLS teknolojileri",
       "Silikon Kalıplama — 10-50 adet çoklu prototip",
@@ -2947,7 +3026,7 @@ export const servicePages: ServicePageData[] = [
       "3 İterasyonlu Revizyon Döngüsü — Tasarım revizyon desteği",
     ],
     technicalSpecs: [
-      { label: "Teslim Süresi", value: "3-5 iş günü" },
+      { label: "Teslim Süresi", value: LEAD_TIME_SHORT },
       { label: "Min. Adet", value: "1 adet" },
       { label: "Tolerans", value: "Seri üretim eşdeğer" },
       { label: "Malzeme", value: "Gerçek malzeme" },
@@ -2955,7 +3034,7 @@ export const servicePages: ServicePageData[] = [
       { label: "İterasyon", value: "3 revizyon dahil" },
     ],
     advantages: [
-      "3-5 iş günü hızlı teslimat",
+      "Termin, yöntem ve malzeme seçildikten sonra teklifle birlikte verilir",
       "Gerçek malzeme ile fonksiyonel test imkanı",
       "4 farklı 3D baskı teknolojisi (metal dahil)",
       "DFM analizi ile tasarım optimizasyonu",
@@ -2963,7 +3042,7 @@ export const servicePages: ServicePageData[] = [
       "Seri üretime sorunsuz geçiş desteği",
     ],
     faq: [
-      { question: "En hızlı prototip ne kadar sürede hazır olur?", answer: "3D baskı ile 1-2 iş günü, CNC ile 3-5 iş günü. Ekspres hizmet ile aynı gün teslimat da mümkündür (ek ücret)." },
+      { question: "En hızlı prototip ne kadar sürede hazır olur?", answer: `Yöntem seçimi termini doğrudan etkiler: 3D baskı konsept doğrulamada en hızlı seçenektir, CNC ise gerçek malzeme ve seri üretim eşdeğer tolerans gerektiğinde tercih edilir. ${LEAD_TIME_STATEMENT}` },
       { question: "Gerçek malzeme ile prototip yapabiliyor musunuz?", answer: "Evet, CNC ile Al 6061, SS 304, Ti6Al4V, PEEK gibi gerçek malzemelerde seri üretim eşdeğer toleransta prototip üretiyoruz." },
     ],
   },
@@ -2983,22 +3062,28 @@ export const servicePages: ServicePageData[] = [
     features: [
       "10-500 Adet — Esnek küçük seri üretim kapasitesi",
       "Hacim İndirimi — Adet arttıkça birim maliyet düşer",
-      "1-3 Hafta Teslim — Hızlı küçük seri üretim",
+      "Termin — kapasite planıyla birlikte teklifte verilir",
       "Kontrol Planı — küçük seride de standart olarak hazırlanır",
       "Pazar Testi — Pre-production ve pilot üretim desteği",
       "Seri Üretim Geçiş Planı — Ölçeklendirme danışmanlığı",
     ],
     technicalSpecs: [
       { label: "Adet Aralığı", value: "10-500 adet" },
-      { label: "Teslim", value: "1-3 hafta" },
+      { label: "Teslim", value: LEAD_TIME_SHORT },
       { label: "Kalite", value: "Kontrol planı + ölçüm kaydı" },
-      { label: "İndirim (50+)", value: "%15-25 hacim indirimi" },
-      { label: "İndirim (200+)", value: "%25-35 hacim indirimi" },
+      /* 09a-C2: "%15-25" and "%25-35 hacim indirimi" are a PRICE POLICY, not a
+         duration — the reader is being told what discount they will get, and
+         `USER_INPUTS.md` authorises no discount schedule. The page's own FAQ
+         two fields below already gives the honest answer ("kademeli
+         fiyatlandırmayı teklifle birlikte veriyoruz"), so the spec rows were
+         contradicting the FAQ on the same page. The DIRECTION — unit cost falls
+         as volume rises — is arithmetic about setup amortisation and stays. */
+      { label: "Hacim İndirimi", value: "Kademeli fiyatlandırma teklifte" },
       { label: "Yöntemler", value: "CNC, Al kalıp, silikon" },
     ],
     advantages: [
       "Hacim indirimi ile maliyet optimizasyonu",
-      "1-3 hafta hızlı teslimat süreleri",
+      "Termin, kurulum ve kapasite planı incelendikten sonra verilir",
       "Kontrol planı ve ölçüm kaydı küçük seride de standarttır",
       "Prototipten küçük seriye sorunsuz geçiş",
       "Seri üretim geçiş planı ve maliyet projeksiyonu",
