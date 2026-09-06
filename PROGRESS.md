@@ -1813,6 +1813,65 @@ the same shape as round 1's finding that it has no revenue rule, and a gate-cove
 **09a-C1 dispatched** to `wt/coder-p09a1` at `3604194`, packet `.work/packets/phase-09a-C1.md`, carrying the
 production-write prohibition forward verbatim.
 
+#### 09a-C1 integrated — and the Coder falsified both fixes I recommended
+
+Two commits picked as `3661e0c`, `0780ac4`. Scope clean, no golden moved, nothing touched the network: both
+submit-path probes seal the context, `abort`/`fulfill` every off-origin request, never call `continue()`, and
+assert a **live canary blocked before any control is touched** — ledger `fulfilled in-browser: 2, forwarded to
+backend: 0`.
+
+**Neither shape QA and I proposed survived measurement.** Both are root-scoped, and one number kills both: a
+`[data-shell-surface="graphite"]` override of `--tl-stamp` leaves `.tl-band[data-band-tone="paper"]` — a
+*descendant* of the graphite root — inheriting the graphite red, which measures **2.23:1 on paper**. It trades
+one serious violation for another. `shell.css:961-970` already documents that exact trap for the `--sf-*`
+roles, and neither of us read it. The fix is a new ground-bound role `--sf-danger`, following the
+`--tl-bronze-light` / `--tl-bronze-ink` precedent Phase 04 introduced for this same two-ground problem. The
+new `--tl-stamp-light: #e18570` was chosen at L=66% and not higher for a reason worth keeping: above that the
+red desaturates to **ΔE 14** from the colour the *caution* label beside it uses, so error and caution stop
+being tellable apart at 9px; at 66% it is ΔE 34. All five notice sites now measure **7.33:1** at 1280 and 375,
+up from 2.69:1, and the `border-left` moved with them so 1.4.11's 3:1 is cleared too. Paper proven unchanged at
+6.93:1, and the case a root override would have broken measures 6.07:1.
+
+One deliberate step beyond the packet, reported rather than smuggled: `.shell-form-error`'s rule moved to
+`--sf-danger` as well, because `shell.css:1884` *promises* field-level and block-level errors are the same red
+— leaving it on `--tl-stamp` would have made that promise true only on paper, and it was at 2.69:1 on graphite
+on `/teklif-al` **and** `/iletisim`.
+
+#### C2 dispatched — I under-scoped C1 twice, and one of my "verified" facts was false
+
+**The Coder was right in C1's KNOWN_RISKS #1.** Neutralising three cells left **one cell of a five-cell
+duration column** reading "Teklifle birlikte" beside four neighbours still publishing `1-3 gün`, `1-2 gün`,
+`2-4 hafta`, `1-3 hafta`. Locally incoherent, and arguably worse than what it replaced.
+
+**And I have to correct a fact I asserted to the user and wrote into a packet as Orchestrator-verified.** I
+said `USER_INPUTS.md` has no lead-time, turnaround or delivery field **at all**. That is false. My grep used
+Turkish terms; the fields are English-named — `QUOTE_RESPONSE_TIME_INTERNAL: 1-3 Days` (§88),
+`ON_TIME_DELIVERY_INTERNAL: 95%` (§94, `PUBLIC_IF_VERIFIED_AND_STRATEGIC`), `QUOTE_SLA: 1-3 Days` (§168). The
+C1 fix still stands, because a *production* turnaround is not a *quote-response* SLA, but it was made for a
+reason that was partly wrong and the record has to say so. `src/content/claims.ts:125-132` had it right all
+along: it publishes `QUOTE_RESPONSE_TIME` as "1-3 iş günü" **citing both fields**. That is the model, and it
+is now the packet's rule.
+
+**The sweep is bigger and worse than a services tidy-up.** 62 matching lines in `servicePages.ts`, 4 in
+`chatFaqData.ts`, 1 in `claims.ts` (the authorised one). The chatbot's are the most serious in the tree,
+because `chatFaqData` is bundled and answered locally, so a visitor is told them as company policy: `:38` and
+`:48` publish production turnarounds, **`:96` promises free return/exchange within 7 working days — a warranty
+commitment** — and **`:119` publishes payment and credit terms ("%50 ön ödeme", "açık hesap ve 30-60 gün
+vade")**. Nothing in `USER_INPUTS.md` authorises any of them. `servicePages.ts:2933`'s
+`metaTitle: "Hızlı Prototip Üretimi | 3-5 İş Günü | …"` ships the claim into search results.
+
+**Two orchestrator rulings in the packet.** A commercial policy claim cannot be neutralised into "with the
+quote" the way a duration can — the reader is being told a policy, not a number — so payment terms, credit and
+the return guarantee are **removed**, not softened. And `/hizmetler/hizli-prototip` **keeps its route**:
+"hızlı prototip" is positioning, which §1.3 permits, while the unverifiable number is what it forbids; the page
+argues from process and capability instead. If that leaves it with nothing to say, that is a finding, not a
+licence to invent.
+
+C1 forbade adding a claims-gate rule; **C2 requires three** — production/delivery durations, payment/credit
+terms, and return/warranty guarantees — each with a positive control and each proven not to fire on the
+authorised SLA. The gate passing with every one of these in the tree is the same coverage hole as round 1's
+finding that it has no revenue rule, and it is now earned rather than speculative.
+
 **Still open, and blocking nothing else:** (1) whether to delete the four `rfqs` rows and three `cad-uploads`
 objects — a production mutation only the user can authorise, and the anon role has no DELETE policy so it needs
 service-role access; (2) whether the undeployed rate limiter is fixed now by deploying the repo's function —
