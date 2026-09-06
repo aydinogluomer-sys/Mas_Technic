@@ -1,4 +1,4 @@
-import { CMM_COVERAGE, MINIMUM_TOLERANCE } from "./claims";
+import { CMM_COVERAGE, LEAD_TIME_STATEMENT, MINIMUM_TOLERANCE } from "./claims";
 
 /* ══════════════════════════════════════════════════════════════════════════
    CASE-STUDY SCHEMA
@@ -105,9 +105,13 @@ const RFQ_CTA = { label: "BU PARÇA İÇİN TEKLİF AL", href: "/teklif-al" } as
 /**
  * Lead-time wording. §D and §J supply a quote SLA (1-3 days) but no production
  * lead time, so the site describes the mechanism instead of promising a number.
+ *
+ * 09a-C2: the string moved to `claims.ts` as `LEAD_TIME_STATEMENT` — byte for
+ * byte the same sentence — because eleven service pages had to start saying it
+ * too, and a wording that lives in one data file is a wording the next one
+ * will contradict. That is exactly how `3-5 iş günü` survived here.
  */
-const LEAD_TIME =
-  "Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir.";
+const LEAD_TIME = LEAD_TIME_STATEMENT;
 
 export const caseStudies: readonly CaseStudy[] = [
   {

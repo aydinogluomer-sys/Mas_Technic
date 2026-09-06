@@ -139,6 +139,65 @@ export const QUOTE_RESPONSE_TIME_DISPLAY = publish({
   source: "USER_INPUTS.md §D QUOTE_RESPONSE_TIME_INTERNAL: 1-3 Days",
 });
 
+/* ── PRODUCTION LEAD TIME — the fact directly above is not this one ────────
+   PHASE 09a CORRECTION #2.
+
+   `QUOTE_RESPONSE_TIME` is how long MAS takes to answer an enquiry. It is
+   authorised twice over (§D QUOTE_RESPONSE_TIME_INTERNAL, §J QUOTE_SLA) and it
+   is the only duration on this site with a source behind it.
+
+   How long MAKING THE PART takes is a different fact, and no field anywhere in
+   `USER_INPUTS.md` supplies it. §D lists tolerance, quote response, material
+   count, CMM coverage, on-time delivery and the four scale figures — there is
+   no lead-time, turnaround, termin or delivery-window entry, and §J's
+   `QUOTE_SLA` is explicitly the quote's clock, not the job's.
+
+   The two were being conflated across the tree: `servicePages.ts` published
+   `3-5 iş günü`, `7-15 iş günü`, `24 saat`, `24-72 saat`, `2-3 hafta` and
+   `4-8 hafta` as delivery commitments on eleven pages, and `chatFaqData.ts`
+   stated two of them to a visitor as company policy. None had an authority.
+   `ON_TIME_DELIVERY` below is the closest §D gets, and it is WITHHELD — a site
+   that may not print its delivery-performance rate cannot print the delivery
+   windows that rate would be measured against.
+
+   `scripts/claims-gate.mjs` `unverified-production-lead-time` is the machine
+   half, and it is written to fire on a delivery duration while staying silent
+   on `QUOTE_RESPONSE_TIME` — both directions proved by its own controls.     */
+export const PRODUCTION_LEAD_TIME = withhold({
+  visibility: "REMOVE_IF_UNVERIFIED",
+  source:
+    "USER_INPUTS.md §D — no lead-time / turnaround / termin field exists; " +
+    "§J QUOTE_SLA: 1-3 Days is the quote's clock, not the part's",
+  reason:
+    "A production or delivery window is a commitment, and §D authorises " +
+    "capability figures rather than commitments. The mechanism is publishable; " +
+    "the number is not. Use LEAD_TIME_STATEMENT or LEAD_TIME_SHORT.",
+});
+
+/**
+ * What the site says in place of a delivery number.
+ *
+ * Not a new claim: this is the sentence `caseStudies.ts` and
+ * `technicalLandingData.ts` already published, promoted to the ledger so the
+ * eleven service pages that used to print a number say the same thing as the
+ * three surfaces that never did.
+ */
+export const LEAD_TIME_STATEMENT = publish({
+  value:
+    "Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir.",
+  visibility: "PUBLIC_SUPPORTING",
+  source:
+    "USER_INPUTS.md §J QUOTE_SLA: 1-3 Days — the quote is where the termin is " +
+    "stated; §D supplies no field that would let the site state it earlier",
+});
+
+/** Cell-sized form, for a table column or a spec row. */
+export const LEAD_TIME_SHORT = publish({
+  value: "Teklifle birlikte",
+  visibility: "PUBLIC_SUPPORTING",
+  source: "USER_INPUTS.md §J QUOTE_SLA: 1-3 Days — same fact, cell-sized",
+});
+
 /**
  * CMM coverage. `%100 CMM RAPORU` was not merely an inflated number — it was
  * qualitatively the wrong claim. Coordinate measurement is third-party

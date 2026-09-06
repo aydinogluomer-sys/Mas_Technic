@@ -1,3 +1,4 @@
+import { LEAD_TIME_STATEMENT, PUBLIC_CITY, QUOTE_RESPONSE_TIME } from "@/content/claims";
 import { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadUpload";
 import { servicePages } from "./servicePages";
 
@@ -16,7 +17,25 @@ export interface FaqEntry {
   keywords: string[];
 }
 
-// ── Sabit şablon yanıtlar ──
+/* ═══════════════════════════════════════════════════════════════════════════
+   BU DOSYA BİR YAYIN YÜZEYİDİR — 09a-C2
+
+   `ChatBot.tsx` `findBestFaqMatch()` sonucunun `answer` alanını doğrudan
+   ekrana yazar ve yanıtlar YERELDİR: hiçbir ağ çağrısı, hiçbir moderasyon
+   katmanı yok. Buradaki bir cümle, ziyaretçiye şirket politikası olarak
+   söylenir. Bu yüzden yayın eşiği bir sayfa metniyle aynıdır, daha düşük
+   değil.
+
+   Aynı sebeple `collectServiceFaqs()` `servicePages.ts` içindeki HER `faq`
+   girdisini buraya taşır: o dosyadaki bir teslim süresi iddiası, düzeltilmemiş
+   bir sohbet yanıtıdır.
+
+   09a-C2'de kaldırılanlar: üretim/teslim süreleri, ödeme ve vade koşulları,
+   iade/değişim taahhüdü, çalışma saatleri ve `İstanbul merkezli` — sonuncusu
+   §A `PUBLIC_CITY: İzmir` ile ve bu dosyanın kendi adres yanıtıyla
+   çelişiyordu. Süre gerektiren yerlerde tek kaynak `@/content/claims`:
+   yetkili olan `QUOTE_RESPONSE_TIME`, olmayan yerde `LEAD_TIME_STATEMENT`.
+   ═══════════════════════════════════════════════════════════════════════════ */
 const staticEntries: FaqEntry[] = [
   {
     question: "Teklif nasıl alabilirim?",
@@ -35,7 +54,7 @@ const staticEntries: FaqEntry[] = [
   },
   {
     question: "Prototip üretimi yapıyor musunuz?",
-    answer: "Evet! Tek parçadan başlayarak prototip üretimi yapıyoruz. 3-5 iş günü içinde prototip teslimatı mümkündür. Detaylar için [Prototip Üretim](/endustriyel/prototip-uretim) sayfamıza bakın.",
+    answer: `Evet! Tek parçadan başlayarak prototip üretimi yapıyoruz. ${LEAD_TIME_STATEMENT} Detaylar için [Prototip Üretim](/endustriyel/prototip-uretim) sayfamıza bakın.`,
     keywords: ["prototip", "numune", "tek parça", "deneme", "örnek", "sample"],
   },
   {
@@ -45,7 +64,7 @@ const staticEntries: FaqEntry[] = [
   },
   {
     question: "Teslimat süreniz ne kadar?",
-    answer: "Prototip siparişlerde 3-5 iş günü, seri üretimde 7-15 iş günü teslimat sürelerimiz bulunmaktadır. Acil siparişler için özel planlama yapılabilir.",
+    answer: `${LEAD_TIME_STATEMENT} Bir işin terminini çoğu zaman tezgâh değil malzemenin gelişi belirler; bu nedenle tedarik durumu üretim planlanmadan önce, teklif aşamasında değerlendirilir.`,
     keywords: ["teslimat", "süre", "zaman", "ne zaman", "kaç gün", "hızlı", "acil", "termin"],
   },
   {
@@ -90,10 +109,22 @@ const staticEntries: FaqEntry[] = [
   // emin ve yanlış bir cevap, cevapsızlıktan kötüdür. `garanti`/`güvence`
   // artık burada ANAHTAR KELİME olarak duruyor: anahtar kelime dizisi
   // eşleştirici girdisidir, yayımlanan metin değil — hiçbir bileşen render
-  // etmez. Yanıtın kendisi değişmedi; yürürlükteki iade/değişim koşuludur.
+  // etmez.
+  //
+  // 09a-C2: yanıtın kendisi de değişti. "Teknik şartnameye uymayan ürünlerde
+  // ÜCRETSİZ İADE/DEĞİŞİM yapılmaktadır. Teslimat sonrası 7 iş günü içinde …"
+  // bir garanti taahhüdüydü — Phase 06'da kaldırılan girdinin aynısı, bu kez
+  // "garanti" kelimesi kullanılmadan yazılmıştı. USER_INPUTS.md'de iade,
+  // değişim veya ayıp bildirimi süresini yetkilendiren bir alan yok; §D
+  // kabiliyet değerleri verir, taahhüt değil. Bir ticari POLİTİKA iddiası
+  // "teklifle birlikte" diye yumuşatılamaz — okuyucuya bir sayı değil bir
+  // politika söyleniyor — bu yüzden iddia kaldırıldı. Yerine, sitenin başka
+  // yerlerinde zaten yayımlanan MEKANİZMA geçti: kontrol planı, ölçüm kaydı
+  // ve koşulların siparişe göre kararlaştırıldığı gerçeği. Soru duruyor;
+  // yalnızca cevap artık verilmemiş bir sözü vermiyor.
   {
     question: "İade veya değişim yapılabiliyor mu?",
-    answer: "Teknik şartnameye uymayan ürünlerde ücretsiz iade/değişim yapılmaktadır. Teslimat sonrası 7 iş günü içinde kalite kontrol raporuyla birlikte bildirim yapmanız yeterlidir.",
+    answer: "Uygunluk, kontrol planında tanımlanan koteler ve teslimat dosyasındaki ölçüm kaydı üzerinden değerlendirilir. Bir uygunsuzluk tespit ederseniz ölçüm sonuçlarıyla birlikte sales@mastechnic.com adresine bildirin; nasıl ilerleneceği siparişin koşullarına göre birlikte kararlaştırılır.",
     keywords: [
       "iade",
       "değişim",
@@ -109,14 +140,22 @@ const staticEntries: FaqEntry[] = [
     ],
   },
   // ── Ödeme ──
+  // 09a-C2: iki yanıt da ödeme ve KREDİ koşulu yayımlıyordu — "açık hesap
+  // (anlaşmalı müşteriler), vadeli ödeme", "%50 ÖN ÖDEME … kalan %50
+  // teslimatta", "AÇIK HESAP ve 30-60 GÜN VADE imkânı sunuyoruz". Bunlar
+  // teslim süresi değil, sözleşme koşuludur ve USER_INPUTS.md'de hiçbir alan
+  // bunları yetkilendirmiyor; §J yalnızca teklif SLA'sını verir. Soruların
+  // ikisi de gerçek ve duruyor: eşleştirici bir soruyu cevapsız bıraktığında
+  // 0.6 eşiğinin altına düşen bir başka yanıta savrulur, ki bu kaldırılan
+  // yanıttan da kötüdür.
   {
     question: "Ödeme yöntemleriniz nelerdir?",
-    answer: "Banka havalesi/EFT, açık hesap (anlaşmalı müşteriler), vadeli ödeme ve kredi kartı ile ödeme kabul ediyoruz. Kurumsal fatura ve e-fatura kesiyoruz.",
+    answer: "Ödeme koşulları siparişe göre teklifte belirlenir; kurumsal fatura ve e-fatura kesiyoruz. Hangi yöntemle ilerleyebileceğimizi teklif aşamasında netleştiriyoruz.",
     keywords: ["ödeme", "havale", "eft", "kredi kartı", "fatura", "e-fatura", "vade", "peşin", "taksit", "banka"],
   },
   {
     question: "Peşin ödeme zorunlu mu?",
-    answer: "İlk siparişlerde %50 ön ödeme talep ediyoruz, kalan %50 teslimatta ödenir. Düzenli müşterilerimize açık hesap ve 30-60 gün vade imkânı sunuyoruz.",
+    answer: "Yayımlanan sabit bir ödeme koşulumuz yok. Koşullar siparişe göre teklifte belirlenir ve teklif aşamasında birlikte netleştirilir.",
     keywords: ["peşin", "ön ödeme", "avans", "vade", "vadeli", "taksit", "ödeme koşulları"],
   },
   // ── Dosya Formatları ──
@@ -126,9 +165,15 @@ const staticEntries: FaqEntry[] = [
     keywords: ["dosya", "format", "cad", "step", "iges", "stl", "obj", "3mf", "çizim", "3d", "model"],
   },
   // ── Çalışma Saatleri ──
+  // 09a-C2: "Pazartesi – Cuma: 08:00 – 18:00" ile "Acil siparişler için hafta
+  // sonu da üretim yapılabilmektedir" kaldırıldı. Phase 07 aynı çalışma saati
+  // bloğunu `/iletisim` sayfasından, "hiçbir alan bunları yetkilendirmiyor"
+  // gerekçesiyle çıkarmıştı; hafta sonu üretimi ise bir kapasite taahhüdüdür.
+  // Bir olguyu bir yüzeyden kaldırıp diğerinde bırakmak, bu fazın düzeltmek
+  // için var olduğu hatanın ta kendisi. Yerine yetkili olan tek süre geçti.
   {
     question: "Çalışma saatleriniz nedir?",
-    answer: "Pazartesi – Cuma: 08:00 – 18:00 arası hizmet veriyoruz. Acil siparişler için hafta sonu da üretim yapılabilmektedir.",
+    answer: `Teklif ve teknik sorularınız için sales@mastechnic.com adresine her zaman yazabilirsiniz; teklif dönüş süremiz ${QUOTE_RESPONSE_TIME}dür. Telefon ve adres bilgisi [İletişim](/iletisim) sayfamızda.`,
     keywords: ["çalışma", "saat", "mesai", "açık", "kapalı", "hafta sonu", "cumartesi", "pazar", "zaman"],
   },
   // ── Yüzey İşlemleri ──
@@ -161,9 +206,12 @@ const staticEntries: FaqEntry[] = [
     keywords: ["müşteri paneli", "panel", "portal", "hesap", "giriş", "login", "sipariş takip", "dashboard"],
   },
   // ── Genel Bilgiler ──
+  // 09a-C2: "İstanbul merkezli" yanlıştı. §A `PUBLIC_CITY: İzmir`, footer,
+  // JSON-LD, `/iletisim` ve bu dosyanın kendi adres yanıtı (Çiğli/İzmir)
+  // hepsi İzmir diyor. Değer artık ledger'dan geliyor.
   {
     question: "MAS Technic nedir?",
-    answer: "MAS Technic, İstanbul merkezli hassas CNC imalat firmasıdır. Prototipten seri üretime, havacılık-savunma-otomotiv-medikal başta olmak üzere birçok sektöre hizmet vermekteyiz. [Hakkımızda](/hakkimizda) sayfamızda detayları bulabilirsiniz.",
+    answer: `MAS Technic, ${PUBLIC_CITY} merkezli hassas CNC imalat firmasıdır. Prototipten seri üretime, havacılık-savunma-otomotiv-medikal başta olmak üzere birçok sektöre hizmet vermekteyiz. [Hakkımızda](/hakkimizda) sayfamızda detayları bulabilirsiniz.`,
     keywords: ["mas technic", "kimsiniz", "firma", "şirket", "hakkında", "nedir", "tanıtım"],
   },
   {
