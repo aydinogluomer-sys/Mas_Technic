@@ -608,7 +608,13 @@ export const servicePages: ServicePageData[] = [
         rows: [
           ["Vakumlu Döküm", "1", "1-3 gün", "$$", "$", "İyi (master'a bağlı)"],
           ["3D Baskı (SLA)", "1", "1-2 gün", "$$$", "Yok", "Çok iyi"],
-          ["CNC İşleme", "1", "3-5 gün", "$$$$", "Yok", "Mükemmel"],
+          /* 09a-C1: the CNC row published "3-5 gün" as a delivery time.
+             `USER_INPUTS.md` has no lead-time, turnaround or delivery field, so
+             nothing authorises a duration here. The row stays; the number is
+             replaced with the phrase the rest of the site already uses for the
+             same fact — `RfqAside.tsx:58`, `rfq-model.ts:82`, `SSS.tsx:138`,
+             `caseStudies.ts:110`. */
+          ["CNC İşleme", "1", "Teklifle birlikte", "$$$$", "Yok", "Mükemmel"],
           ["Silikon Enjeksiyon", "500+", "2-4 hafta", "$", "$$$", "Mükemmel"],
           ["Sıkıştırma Kalıplama", "100+", "1-3 hafta", "$$", "$$", "İyi"],
         ],
@@ -2194,7 +2200,10 @@ export const servicePages: ServicePageData[] = [
     ],
     technicalSpecs: [
       { label: "Değerlendirme", value: "1-3 gün" },
-      { label: "DFM Analizi", value: "3-5 gün" },
+      /* 09a-C1: "3-5 gün" was an unverifiable DFM turnaround — no lead-time
+         field exists in `USER_INPUTS.md`. Neutralised, not deleted; the column
+         already carries non-duration values ("Numune onayı sonrası"). */
+      { label: "DFM Analizi", value: "Teklifle birlikte" },
       { label: "Prototip", value: "1-3 hafta" },
       { label: "Üretim Dosyası", value: "Numune onayı sonrası" },
       { label: "Raporlama", value: "Haftalık + dashboard" },
@@ -2239,7 +2248,10 @@ export const servicePages: ServicePageData[] = [
         headers: ["Aşama", "Süre", "Çıktı", "Müşteri Onayı", "İletişim Kanalı"],
         rows: [
           ["1. Değerlendirme & Teklif", "1-3 gün", "Detaylı teklif + zaman planı", "Teklif onayı", "E-posta + Video konferans"],
-          ["2. DFM Analizi", "3-5 gün", "DFM raporu + CAD revizyonu", "DFM onayı", "Portal + Toplantı"],
+          /* 09a-C1: same unverifiable DFM turnaround as `technicalSpecs` above.
+             The stage and its outputs are real and stay; only the duration goes.
+             Rows 4 and 5 of this same "Süre" column are already non-durations. */
+          ["2. DFM Analizi", "Teklifle birlikte", "DFM raporu + CAD revizyonu", "DFM onayı", "Portal + Toplantı"],
           ["3. Prototip Üretimi", "1-3 hafta", "Örnek parça + ölçüm raporu", "Numune onayı", "Fotoğraf/video + rapor"],
           ["4. Üretim Dosyası", "Numune onayı sonrası", "Kontrol planı + izlenebilirlik kayıtları", "Dosya onayı", "Portal + PDF teslim"],
           ["5. Seri Üretim", "Devam eden", "Parti raporu + SPC verileri", "Periyodik review", "Dashboard + haftalık rapor"],
