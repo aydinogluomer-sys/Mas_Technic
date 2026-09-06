@@ -147,14 +147,32 @@ test("public routes carry no unauthorised duration, payment term or warranty", a
     }
   }
 
-  const outDir = path.join(process.cwd(), "reports", "qa", "phase-09a-r2");
+  /* WHERE THIS RUN'S EVIDENCE GOES — 09a-C4 / R3-5.2.
+     This used to write `reports/qa/phase-09a-r2/sweep.json` unconditionally on
+     every run, so re-running round 2's spec — for a regression check, or by a
+     later round that simply names the file — overwrote round 2's COMMITTED
+     evidence with a different run's numbers. QA reproduced it and had to
+     restore the files.
+
+     Committed evidence is a record of what was true on a date. Writing it is
+     now an explicit act: set `QA_SWEEP_WRITE_EVIDENCE=1` to refresh the
+     round-2 artefact on purpose. Every ordinary run drops its output in
+     `test-results/`, which is scratch and is not committed, so a regression
+     run is still fully inspectable and cannot destroy anything. */
+  const writesEvidence = process.env.QA_SWEEP_WRITE_EVIDENCE === "1";
+  const outDir = writesEvidence
+    ? path.join(process.cwd(), "reports", "qa", "phase-09a-r2")
+    : path.join(process.cwd(), "test-results", "qa-p09a2-claims-sweep");
   mkdirSync(outDir, { recursive: true });
+  const outFile = path.join(outDir, "sweep.json");
   writeFileSync(
-    path.join(outDir, "sweep.json"),
+    outFile,
     JSON.stringify({ routesRequested: ROUTES.length, routesVisited: visited.length, failedRoutes,
       slaRouteCount: slaRoutes.length, slaRoutes, findings, exempted }, null, 2),
     "utf8",
   );
+  console.log(`SWEEP_JSON=${path.relative(process.cwd(), outFile).replace(/\\/g, "/")}` +
+    `${writesEvidence ? " (committed evidence, QA_SWEEP_WRITE_EVIDENCE=1)" : " (scratch)"}`);
 
   console.log(`ROUTES_REQUESTED=${ROUTES.length} ROUTES_VISITED=${visited.length} ` +
     `FAILED=${failedRoutes.length} SLA_ROUTES=${slaRoutes.length} FINDINGS=${findings.length} ` +

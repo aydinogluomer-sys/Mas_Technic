@@ -1,6 +1,7 @@
 import { execFileSync } from "node:child_process";
-import { rmSync, writeFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
 
@@ -49,18 +50,41 @@ test.describe("content truth", () => {
     // scanner a claim USER_INPUTS.md §C records as NONE and requires a
     // non-zero exit, so a future edit that neuters the rules is caught here
     // rather than in production copy.
-    const probe = resolve(REPO_ROOT, "src/content/__claims-gate-probe__.ts");
+    //
+    // THE PROBE LIVES OUTSIDE THE REPOSITORY — 09a-C4 / R3-5.1. It used to be
+    // written to `src/content/__claims-gate-probe__.ts` and removed in
+    // `finally`, which holds for a failing assertion and not for a process
+    // kill; two agents have been killed mid-run in this phase alone, and each
+    // time that would have left a fabricated AS9100D claim sitting in
+    // production source. `finally` is not a crash-safety mechanism.
+    //
+    // So the probe goes to a per-run temp directory and the gate is pointed at
+    // it with `--also-scan=`, a flag that can only ADD a file to the scan. The
+    // test proves exactly what it proved before — that a reintroduced claim
+    // produces a non-zero exit — and the worst a kill can now leave behind is
+    // a directory in the OS temp space.
+    const probeDir = mkdtempSync(join(tmpdir(), "mas-claims-gate-probe-"));
+    const probe = join(probeDir, "probe.ts");
     writeFileSync(probe, 'export const PROBE = "AS9100D sertifikalı üretim";\n', "utf8");
     try {
       let exitCode = 0;
+      let stdout = "";
       try {
-        execFileSync("node", ["scripts/claims-gate.mjs"], { cwd: REPO_ROOT, encoding: "utf8" });
-      } catch {
+        stdout = execFileSync("node", ["scripts/claims-gate.mjs", `--also-scan=${probe}`], {
+          cwd: REPO_ROOT,
+          encoding: "utf8",
+        });
+      } catch (error) {
         exitCode = 1;
+        const err = error as { stdout?: string; stderr?: string };
+        stdout = `${err.stdout ?? ""}${err.stderr ?? ""}`;
       }
       expect(exitCode, "the gate must reject a reintroduced AS9100D claim").toBe(1);
+      // …and reject it BECAUSE of the probe. A gate that failed for an
+      // unrelated reason would satisfy the exit code and prove nothing.
+      expect(stdout, "the failure must name the probe").toContain("AS9100D");
     } finally {
-      rmSync(probe, { force: true });
+      rmSync(probeDir, { recursive: true, force: true });
     }
   });
 });
