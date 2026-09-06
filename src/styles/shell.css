@@ -1486,6 +1486,75 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
 }
 .shell-form-error { margin: 0; }
 
+/* ── CAD drop field (Phase 09) ────────────────────────────────────────────
+   THE ONE THING THE COMPOSITION GENUINELY LACKED. `/iletisim` established the
+   text field, the select and the textarea; nothing in the system described a
+   FILE control, and `/teklif-al` — the site's primary conversion surface — is
+   built around one. So it is here, next to the other field shapes, rather
+   than as page CSS.
+
+   THE ACCESSIBILITY DEFECT IT FIXES. The old drop area was a `<div>` with an
+   `onClick` that forwarded to a `display:none` input: not focusable, not in
+   the tab order, no role, no accessible name. Keyboard and screen-reader
+   users could not attach a file at all, which on this page means they could
+   not request a quote. Here the real `<input type="file">` is in the tab
+   order and carries the accessible name; it is merely moved out of sight,
+   `clip-path` rather than `display:none`, because a hidden input is not
+   focusable. Its `:focus-visible` ring is drawn on the label next to it, so
+   the visible focus indicator and the focused element are the same object as
+   far as the reader is concerned.
+
+   Not dashed, not tinted, no radius: a hairline box on the field ground, the
+   same one `.shell-field` inputs sit on. */
+.shell-dropzone { position: relative; display: grid; gap: var(--tl-s3); }
+.shell-dropzone > input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+.shell-dropzone-area {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--tl-s2);
+  min-height: 168px;
+  padding: var(--tl-s5) var(--tl-s4);
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  border-radius: var(--tl-radius);
+  background: var(--sf-field);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color var(--tl-dur-micro) var(--tl-ease-out),
+    background-color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-dropzone-area:hover { border-color: var(--sf-ink); background: var(--sf-hover); }
+.shell-dropzone > input[type="file"]:focus-visible + .shell-dropzone-area {
+  border-color: var(--sf-ink);
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.shell-dropzone[data-dragging] .shell-dropzone-area {
+  border-color: var(--sf-ink);
+  background: var(--sf-hover);
+}
+.shell-dropzone-title { color: var(--sf-ink); font-size: 15px; font-weight: 600; line-height: 1.4; }
+.shell-dropzone-hint {
+  color: var(--sf-meta);
+  font: 500 11px/1.6 var(--tl-font-mono);
+  letter-spacing: .04em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-dropzone-area { transition-duration: .01ms; }
+}
+
 @media (max-width: 767px) {
   .shell-form-row { grid-template-columns: minmax(0, 1fr); }
 }
