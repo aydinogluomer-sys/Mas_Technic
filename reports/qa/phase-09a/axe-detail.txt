@@ -1,0 +1,22 @@
+
+══ 1280 — step 02 with live field errors ══
+
+color-contrast  impact=serious  nodes=1
+  Elements must meet minimum color contrast ratio thresholds
+  target: [".shell-notice-label"]
+  html:   <p class="shell-notice-label">FORM HATASI</p>
+  check color-contrast: Element has insufficient color contrast of 2.68 (foreground color: #8a4030, background color: #070b0d, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1
+  data:  {"fgColor":"#8a4030","bgColor":"#070b0d","contrastRatio":2.68,"fontSize":"6.8pt (9px)","fontWeight":"normal","messageKey":null,"expectedContrastRatio":"4.5:1"}
+  computed: {"text":"FORM HATASI","color":"rgb(138, 64, 48)","background":"rgba(0, 0, 0, 0)","fontSize":"9px","fontWeight":"600","opacity":"1","disabled":null,"ariaDisabled":null,"rect":{"w":791,"h":13}}
+
+══ 375 — step 02 with live field errors ══
+
+color-contrast  impact=serious  nodes=1
+  Elements must meet minimum color contrast ratio thresholds
+  target: [".shell-notice-label"]
+  html:   <p class="shell-notice-label">FORM HATASI</p>
+  check color-contrast: Element has insufficient color contrast of 2.68 (foreground color: #8a4030, background color: #070b0d, font size: 6.8pt (9px), font weight: normal). Expected contrast ratio of 4.5:1
+  data:  {"fgColor":"#8a4030","bgColor":"#070b0d","contrastRatio":2.68,"fontSize":"6.8pt (9px)","fontWeight":"normal","messageKey":null,"expectedContrastRatio":"4.5:1"}
+  computed: {"text":"FORM HATASI","color":"rgb(138, 64, 48)","background":"rgba(0, 0, 0, 0)","fontSize":"9px","fontWeight":"600","opacity":"1","disabled":null,"ariaDisabled":null,"rect":{"w":315,"h":13}}
+
+blocked off-origin requests: 0

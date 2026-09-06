@@ -1,0 +1,61 @@
+DIST                 dist
+ROUTE CHUNK          TeklifAl-cbGLQH-n.js  28.68 kB
+ENTRY CHUNK          index-6ZUoDXM-.js
+STATIC CLOSURE       18 chunks  816.79 kB
+  of which new to the route (not already in the entry closure):
+MARGINAL CLOSURE     14 chunks  536.02 kB
+
+STATIC CLOSURE MEMBERS (desc):
+      170.01 kB  client-o12DT5yy.js
+      147.65 kB  vendor-react-BtXpvAbk.js   [also in entry]
+      130.58 kB  vendor-framer-BFjs8yyZ.js
+      111.59 kB  index-CCiUkUEJ.js   [also in entry]
+       71.55 kB  materialsData-4ZjHeVr4.js
+       52.17 kB  types-DZutuqau.js
+       36.84 kB  PageShell-6x5STdqy.js
+       32.11 kB  index-eqqiN5ND.js
+       28.68 kB  TeklifAl-cbGLQH-n.js
+       20.54 kB  vendor-utils-CfDMlrKu.js   [also in entry]
+        7.40 kB  ShellComposition-B3E9CsKL.js
+        1.78 kB  cadUpload-1OEzPz3j.js
+        1.54 kB  createLucideIcon-BQUslCWf.js
+        1.21 kB  phone-Bmp1grKV.js
+        0.99 kB  vendor-runtime-D7HrI6pR.js   [also in entry]
+        0.90 kB  useCadHandoff-CI9UkGZm.js
+        0.63 kB  mail-Bzncmp1G.js
+        0.61 kB  arrow-up-right-CaJyQGYD.js
+
+DYNAMIC EDGES REACHABLE FROM THE ROUTE'S STATIC CLOSURE:
+      762.85 kB  AdminDashboard-DtVsCqPo.js   (own static closure beyond the route: 813.84 kB / 16 chunks)
+      139.93 kB  MusteriPaneli-rMpqvqsq.js   (own static closure beyond the route: 190.42 kB / 17 chunks)
+      133.22 kB  ChatBot-qe3s8sgF.js   (own static closure beyond the route: 318.37 kB / 8 chunks)
+       28.68 kB  TeklifAl-cbGLQH-n.js   (own static closure beyond the route: 0.00 kB / 0 chunks)
+       27.80 kB  Login-xqf-Nctl.js   (own static closure beyond the route: 37.97 kB / 13 chunks)
+       25.17 kB  Index-D680tzyR.js   (own static closure beyond the route: 36.84 kB / 11 chunks)
+       18.02 kB  lenis-faqbxiYg.js   (own static closure beyond the route: 18.02 kB / 1 chunks)
+       15.64 kB  GlobalToasts-lgcV6d3Z.js   (own static closure beyond the route: 18.97 kB / 5 chunks)
+       11.28 kB  Malzemeler-PkJwbCX4.js   (own static closure beyond the route: 15.38 kB / 4 chunks)
+       10.73 kB  ServiceDetail-B9r83nWP.js   (own static closure beyond the route: 206.76 kB / 9 chunks)
+        8.46 kB  SSS-Cvi3sOBS.js   (own static closure beyond the route: 194.01 kB / 4 chunks)
+        7.80 kB  CerezPolitikasi-fAubHgnb.js   (own static closure beyond the route: 10.33 kB / 3 chunks)
+        7.73 kB  GizlilikPolitikasi-DhCY5ktO.js   (own static closure beyond the route: 10.26 kB / 3 chunks)
+        7.70 kB  Iletisim-BtWDqaAV.js   (own static closure beyond the route: 11.25 kB / 3 chunks)
+        6.97 kB  KVKK-C32sroTW.js   (own static closure beyond the route: 9.49 kB / 3 chunks)
+        6.22 kB  CadStage-DrCqKIiF.js   (own static closure beyond the route: 837.37 kB / 3 chunks)
+        5.44 kB  Hakkimizda-BJHgEqxf.js   (own static closure beyond the route: 17.98 kB / 4 chunks)
+        5.39 kB  MalzemeKategori-B2N0Am5d.js   (own static closure beyond the route: 6.69 kB / 3 chunks)
+        5.08 kB  KaliteDosyasi-B1HQfDrG.js   (own static closure beyond the route: 5.83 kB / 2 chunks)
+        4.98 kB  KabiliyetProfilDetay-CY9BUae5.js   (own static closure beyond the route: 9.51 kB / 5 chunks)
+        4.83 kB  BlogDetail-DAMjq9cu.js   (own static closure beyond the route: 29.53 kB / 5 chunks)
+        4.21 kB  ResetPassword-DsPg_OBu.js   (own static closure beyond the route: 13.05 kB / 10 chunks)
+        3.86 kB  KabiliyetProfilleri-BthRfCN_.js   (own static closure beyond the route: 8.39 kB / 5 chunks)
+        3.64 kB  CategoryPage-r2k5Z0VQ.js   (own static closure beyond the route: 195.38 kB / 4 chunks)
+        3.43 kB  CustomCursor-Cdk_bz3g.js   (own static closure beyond the route: 115.56 kB / 4 chunks)
+        3.17 kB  Blog-ByfcqOMF.js   (own static closure beyond the route: 27.88 kB / 5 chunks)
+        3.15 kB  ForgotPassword-C-ofxgbt.js   (own static closure beyond the route: 10.96 kB / 8 chunks)
+        3.12 kB  NotFound-iGC_HI5l.js   (own static closure beyond the route: 3.12 kB / 1 chunks)
+        2.54 kB  AdminLogin-DPeOn0Fm.js   (own static closure beyond the route: 3.24 kB / 3 chunks)
+        1.51 kB  ScrollDebugPanel-vIbEdq9r.js   (own static closure beyond the route: 113.32 kB / 3 chunks)
+        0.92 kB  ProtectedRoute-ecJ34Y7j.js   (own static closure beyond the route: 1.24 kB / 2 chunks)
+        0.78 kB  CustomerProtectedRoute-D5AGNaV_.js   (own static closure beyond the route: 1.09 kB / 2 chunks)
+        0.11 kB  use-gsap-BrHoFLjz.js   (own static closure beyond the route: 111.80 kB / 2 chunks)

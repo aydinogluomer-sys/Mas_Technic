@@ -1,0 +1,44 @@
+/teklif-al file inputs: 1
+REACHED STATE(S) after unsupported upload:
+[
+ {
+  "tag": "div",
+  "cls": "shell-notice",
+  "role": "alert",
+  "sonner": false,
+  "text": "DOSYA REDDEDİLDİ Bu format okunamıyor “qa-not-a-cad-file.txt” (.txt) kabul edilen formatlardan biri değil. Kabul edilenl",
+  "background": "rgba(0, 0, 0, 0)",
+  "color": "rgb(243, 240, 232)",
+  "borderRadius": "0px",
+  "border": "",
+  "boxShadow": "none",
+  "fontFamily": "\"Space Grotesk\", system-ui, sans-serif"
+ }
+]
+
+/sss EMPTY state: {
+ "text": "EŞLEŞME YOK Bu aramayla soru bulunamadı Arama terimini kısaltmayı veya başlık seçimini kaldırmayı deneyebilirsiniz. Sorunuz burada yoksa doğrudan sorabilirsiniz. FİLTRELERİ TEMİZLE",
+ "borderRadius": "0px",
+ "background": "rgba(0, 0, 0, 0)",
+ "fontFamily": "\"Space Grotesk\", system-ui, sans-serif"
+}
+
+LOADING state: {
+ "text": "YÜKLENİYOR Sayfa hazırlanıyor.",
+ "borderRadius": "0px",
+ "fontFamily": "\"Space Grotesk\", system-ui, sans-serif"
+}
+
+ROUTE ERROR state: {
+ "shellRouteError": true,
+ "h1Count": 1,
+ "h1": "Bu sayfa yüklenemedi",
+ "body": "Ana içeriğe geç ROTA HATASI Bu sayfa yüklenemedi Sayfa çizilirken beklenmeyen bir hata oluştu. Yeniden deneyebilir, ana sayfaya dönebilir veya bize bildirebilirsiniz. ERR::ROUTE_RENDER_FAILED Yeniden dene Ana sayfa İletişim",
+ "links": [
+  "#main-content",
+  "/",
+  "/iletisim"
+ ],
+ "hasHeader": false,
+ "hasFooter": false
+}
