@@ -1,0 +1,14 @@
+(node:1756) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:19748) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+STABILISED route s=63 neverSettled=0 SLA_ROUTES=57 FINDINGS=0 EXEMPTED=12
+P09A4_JSON=test-results/qa-p09a4-stabilised-sweep/stabilised-sweep-mobile-375.json (scratch)
+  ✓  1 [mobile-375] › e2e\qa-p09a4-stabilised-sweep.spec.ts:126:1 › the round-2 sweep, re-run on settled pages, reaches the same verdict (6.7m)
+
+  Slow test file: [mobile-375] › e2e\qa-p09a4-stabilised-sweep.spec.ts (6.7m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  1 passed (8.0m)

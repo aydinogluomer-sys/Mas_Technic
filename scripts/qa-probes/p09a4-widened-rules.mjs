@@ -66,6 +66,24 @@ const PROBES = [
     text: '"Ölçüm raporunu çeşitli formatlarda gönderebilirsiniz."',
     why: "the report WE deliver, the same distinction the Rapor Formatı control already draws" },
 
+  /* ── THE TWO D4 SITES THE CODER REFUSED, on both rules that could catch
+        them. `expect: "SILENT"` here does NOT mean these strings are fine — it
+        records that the refusal was carried out as described. They are the
+        software-inventory class, deferred to 09b as one decision, and a gate
+        that caught them would have taken that decision by itself. If either
+        starts firing before 09b has ruled, that is a scope breach. */
+  { id: "D4c-cad", rule: "cad-format-list-not-derived", file: "src/data/servicePages.ts", expect: "SILENT",
+    text: '"CATIA, SolidWorks, NX entegre çalışma",', why: "D4c — refused, deferred to 09b" },
+  { id: "D4c-ent", rule: "named-enterprise-system", file: "src/data/servicePages.ts", expect: "SILENT",
+    text: '"CATIA, SolidWorks, NX entegre çalışma",',
+    why: "D4c — names no CAM package, so the Mastercam widening does not reach it" },
+  { id: "D4d-cad", rule: "cad-format-list-not-derived", file: "src/data/servicePages.ts", expect: "SILENT",
+    text: '"Design for Manufacturing (DFM/DFA) analizi ile tasarımlarınızı optimize edin. CNC ve enjeksiyon DFM kuralları, CATIA/SolidWorks/NX entegrasyonu, parça bazında maliyet kaldıraçları.",',
+    why: "D4d — refused, deferred to 09b" },
+  { id: "D4d-ent", rule: "named-enterprise-system", file: "src/data/servicePages.ts", expect: "SILENT",
+    text: '"Design for Manufacturing (DFM/DFA) analizi ile tasarımlarınızı optimize edin. CNC ve enjeksiyon DFM kuralları, CATIA/SolidWorks/NX entegrasyonu, parça bazında maliyet kaldıraçları.",',
+    why: "D4d — same string, the other rule that could have caught it" },
+
   /* ── named-enterprise-system — Mastercam. ────────────────────────────── */
   { id: "M1", rule: "named-enterprise-system", expect: "FIRES",
     text: '"CAD/CAM Entegrasyonu — CATIA, SolidWorks, NX, Mastercam",', why: "the deleted string, restored" },
