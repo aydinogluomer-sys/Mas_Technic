@@ -850,6 +850,24 @@ const CAD_LABEL_VALUE =
 /** The label has to carry the OFFER, not merely the topic. See (C) above. */
 const CAD_LABEL_OFFER = trPattern(/destekl|kabul|yükle|girdi|gelen dosya|alınan dosya/i);
 
+/* (D) THE INTAKE OFFER WITH NO LIST IN IT AT ALL — 09a-C4.
+   `b3ae3c7` removed "Yaygın CAD formatlarını doğrudan işleyebiliyoruz" from
+   the DFM page. QA restored it and the gate stayed green, because every
+   detector above needs a FORMAT TOKEN and this sentence names none. It is
+   nonetheless the same claim and the worse version of it: an unbounded offer
+   sits a few hundred pixels above a derived "Desteklenen CAD" row and quietly
+   overrides it, and no reader can tell which answer is the real one.
+
+   The shape is a vague quantifier attached to a file/format noun inside a
+   sentence that OFFERS. The quantifier is what makes it a claim — "Hangi dosya
+   formatlarını destekliyorsunuz?" carries the same noun and the same verb and
+   asks a question rather than answering one, so it must stay silent — and the
+   offer predicate is what stops it from firing on the ordinary sense of `tüm
+   dosyalarınız`. The two-word gap keeps it inside one noun phrase. */
+const CAD_VAGUE_SCOPE = trPattern(
+  /(?:yaygın|tüm|bütün|her\s+tür(?:lü)?|her\s+çeşit|birçok|pek\s+çok|çoğu|çeşitli|popüler|başlıca|bilinen|piyasadaki|geniş)\s+(?:\S+\s+){0,2}?(?:dosya|format|uzantı)/gi,
+);
+
 /**
  * TWO FILES MAY SPELL THE LIST — AND BOTH ARE PINNED, NOT EXEMPTED.
  *
@@ -1012,6 +1030,17 @@ function* cadFormatScan(text, file) {
     if (!CAD_LABEL_OFFER.test(pair[1])) continue;
     CAD_ANY_TOKEN.lastIndex = 0;
     if (CAD_ANY_TOKEN.exec(pair[2])) yield { index: pair.index, match: pair[0] };
+  }
+
+  // (D) an intake offer with no list in it at all
+  CAD_VAGUE_SCOPE.lastIndex = 0;
+  let vague;
+  while ((vague = CAD_VAGUE_SCOPE.exec(text)) !== null) {
+    if (insideKeywordArray(text, vague.index)) continue;
+    if (!outside(vague.index, vague[0].length)) continue;
+    if (CAD_OFFER_PREDICATE.test(sentenceAt(text, vague.index))) {
+      yield { index: vague.index, match: vague[0] };
+    }
   }
 }
 
@@ -1385,6 +1414,9 @@ const RULES = [
           file: "src/content/claims.ts",
           text: 'const PUBLISHED_CAD_EXTENSIONS = ["step", "stp", "stl", "obj", "iges", "igs", "3mf", "dwg"] as const;',
         },
+        /* 09a-C4 — D4a, detector (D). `b3ae3c7` removed this sentence; QA
+           restored it and the gate stayed green because it names no format. */
+        '"Yaygın CAD formatlarını doğrudan işleyebiliyoruz; katı model ile birlikte ölçülendirilmiş teknik resim gönderilmesi analiz süresini kısaltır.",',
       ],
       silent: [
         /* 09a-C4 / R3-6 — the same tuple in three spellings. The pin PARSES its
@@ -1420,9 +1452,32 @@ const RULES = [
         '"Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz."',
         // A question is not an offer.
         'question: "SolidWorks veya CATIA dosyamı doğrudan yükleyebilir miyim?",',
-        // The CAD software our engineers model IN — a capability, not an intake list.
+        /* 09a-C4 — detector (D)'s two discriminators, each proved by removing
+           one half of the claim. The replacement `b3ae3c7` wrote keeps the
+           offer and drops the vague scope; the landing FAQ question keeps the
+           noun and the verb and asks rather than answers. */
+        '"Analiz, teklif akışına yüklenen katı model üzerinden yürütülür; modelle birlikte ölçülendirilmiş teknik resim gönderilmesi analiz süresini kısaltır.",',
+        '"Yaygın CAD formatları için ölçülendirilmiş teknik resim gönderilmesi analiz süresini kısaltır."',
+        { file: "src/data/technicalLandingData.ts", text: '"Hangi dosya formatlarını destekliyorsunuz?",' },
+        /* The CAD software our engineers model IN — a capability, not an intake
+           list.
+           09a-C4 — RE-AIMED. This slot used to hold `"CAD/CAM Entegrasyonu —
+           CATIA, SolidWorks, NX, Mastercam",`, which `b3ae3c7` had already
+           DELETED. A negative control asserting silence on a string that no
+           longer exists passes vacuously and quietly blesses the whole class,
+           which is the failure mode `runControls` exists to prevent. It is
+           replaced by the two strings in this class that are LIVE, so the
+           control fails the day either of them changes.
+
+           Those two, plus `:774`, `:779`, `:797` and `:804`, are the SOFTWARE
+           INVENTORY class and they are deferred to 09b AS ONE DECISION. Gating
+           them here is not possible without taking that decision: the removed
+           `"CATIA, SolidWorks, NX entegre çalışma"` is the same shape as the
+           live `"3D Modelleme (CATIA/SolidWorks)"` down to the punctuation, so
+           any rule that catches one catches all six. See the return for
+           09a-C4. */
+        { file: "src/data/servicePages.ts", text: '{ label: "CAD", value: "SolidWorks, CATIA, NX" },' },
         '"CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans analizi simülasyonu."',
-        '"CAD/CAM Entegrasyonu — CATIA, SolidWorks, NX, Mastercam",',
         // The report WE deliver, not the file the visitor sends.
         '{ label: "Rapor Formatı", value: "PDF + revize CAD" },',
         // `STL` as an abbreviation for STEEL. One token is not a list.
@@ -2302,7 +2357,25 @@ const RULES = [
   },
   {
     id: "named-enterprise-system",
-    pattern: /SAP\s?(MES|ERP)|\bFastems\b|\bVericut\b|\b3DCS\b/gi,
+    /* 09a-C4 — `Mastercam` appended. `b3ae3c7` deleted "CAD/CAM Entegrasyonu —
+       CATIA, SolidWorks, NX, Mastercam" and QA measured that restoring it left
+       the gate green. Mastercam is a named CAM package and belongs in the list
+       that already holds `Vericut` — the same class, the same authority, and
+       no new judgement: §D supplied no software inventory of any kind.
+
+       It gates that string and stops there, deliberately. The other three
+       names in it are CAD AUTHORING tools and are the class deferred to 09b
+       across six live sites; see the re-aimed control on
+       `cad-format-list-not-derived`. Nothing in the tree names a CAM package
+       today, so this widening moves nothing. */
+    pattern: /SAP\s?(MES|ERP)|\bFastems\b|\bVericut\b|\b3DCS\b|\bMastercam\b/gi,
+    controls: {
+      fires: ['"CAD/CAM Entegrasyonu — CATIA, SolidWorks, NX, Mastercam",'],
+      silent: [
+        // The capability without the product name — what replaced it.
+        '"CAD/CAM Entegrasyonu — katı model, takım yolu ve revizyon tek akışta",',
+      ],
+    },
     authority: "§D — no software or automation-system inventory was supplied",
     remedy: "Named ERP/MES/CAM systems assert an infrastructure nobody verified.",
   },
