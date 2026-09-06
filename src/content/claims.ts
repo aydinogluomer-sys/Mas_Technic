@@ -29,6 +29,74 @@
    build if a forbidden claim is reintroduced anywhere in the public source.
    ══════════════════════════════════════════════════════════════════════════ */
 
+/* ── The published CAD format list ─────────────────────────────────────────
+   09a-C3. `USER_INPUTS.md` §J: `ACCEPTED_CAD_FORMATS:
+   DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION`. The working implementation is
+   `validateCadFile()` in `src/utils/cadUpload.ts`, and five published
+   sentences had drifted from it — two of them offering nine formats the
+   uploader refuses outright.
+
+   WHY THIS IS A TYPE-PINNED LITERAL AND NOT A RUNTIME IMPORT.
+   The obvious fix is `import { CAD_ACCEPTED_EXTENSIONS } from
+   "@/utils/cadUpload"`. It was implemented that way first and it does not
+   work, for a reason worth writing down rather than rediscovering:
+
+     `cadUpload.ts` imports `integrations/supabase/env.ts`, which evaluates
+     `import.meta.env.VITE_SUPABASE_URL` AT MODULE SCOPE. Two Playwright
+     specs — `e2e/landing/navigation-reachability.spec.ts` and
+     `e2e/shared-shell-accessibility.spec.ts` — import `servicePages.ts`
+     directly into the NODE test runtime, where `import.meta.env` is
+     undefined. A runtime edge from the data layer to the validator therefore
+     takes down spec COLLECTION for the whole `critical-1280` project:
+     `TypeError: Cannot read properties of undefined (reading
+     'VITE_SUPABASE_URL')`. Measured, not predicted.
+
+   There is no runtime path from `servicePages.ts` to that constant which does
+   not load `env.ts`. So the list is restated ONCE, here, and PINNED to the
+   validator by the type system: `import type` is erased at compile time and
+   adds no module edge at all, while `CadFormatsArePinnedToValidator` below is
+   a type error the moment the two tuples differ in content, order or length.
+
+   That is stricter than a runtime derivation, not looser. A runtime
+   derivation changes the copy silently when the validator changes; this fails
+   `npx tsc -b`, which the release gate already requires. And
+   `scripts/claims-gate.mjs` re-checks the same equality by reading both files
+   as text, so two independent instruments have to agree — the H6 principle
+   this repository already applies to `WITHHELD_SPEC_CLASSES`.
+
+   Every publication site imports the two strings below; none of them spells a
+   format name. `claims.ts` keeps its no-runtime-imports property.
+   ------------------------------------------------------------------------ */
+/// <reference path="../vite-env.d.ts" />
+import type { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadUpload";
+
+/** The published copy of `CAD_ACCEPTED_EXTENSIONS`. Pinned below. */
+const PUBLISHED_CAD_EXTENSIONS = ["step", "stp", "stl", "obj", "iges", "igs", "3mf"] as const;
+
+type Exact<A, B> = [A] extends [B] ? ([B] extends [A] ? true : false) : false;
+type Assert<T extends true> = T;
+
+/**
+ * A compile-time error the moment the ledger and the validator disagree.
+ *
+ * Exported so it cannot be pruned as unused. If this line goes red, the
+ * VALIDATOR is right and this list is wrong — update the tuple above, never
+ * `cadUpload.ts`. Widening the validator to match the copy would turn a false
+ * sentence into a broken upload.
+ */
+export type CadFormatsArePinnedToValidator = Assert<
+  Exact<typeof PUBLISHED_CAD_EXTENSIONS, typeof CAD_ACCEPTED_EXTENSIONS>
+>;
+
+const joinTurkishList = (parts: readonly string[]): string =>
+  parts.length < 2 ? parts.join("") : `${parts.slice(0, -1).join(", ")} ve ${parts[parts.length - 1]}`;
+
+/** Prose form: `"STEP, STP, STL, OBJ, IGES, IGS ve 3MF"`. */
+export const CAD_UPLOAD_FORMATS = joinTurkishList(PUBLISHED_CAD_EXTENSIONS.map((ext) => ext.toUpperCase()));
+
+/** Extension form: `".step, .stp, .stl, .obj, .iges, .igs, .3mf"`. */
+export const CAD_UPLOAD_EXTENSIONS = PUBLISHED_CAD_EXTENSIONS.map((ext) => `.${ext}`).join(", ");
+
 /** Publication verdicts from `USER_INPUTS.md` §0 "Publication decision rule". */
 export type PublishableVisibility = "PUBLIC_CORE" | "PUBLIC_SUPPORTING";
 export type WithheldVisibility =

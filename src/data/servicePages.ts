@@ -1,14 +1,10 @@
-/* `e2e/shared-shell-accessibility.spec.ts` bu dosyayı doğrudan import eder ve
-   `tsconfig.e2e.json` `"types": ["node"]` diyerek Vite'ın ambient tiplerini o
-   programdan çıkarır; `include` de yalnızca `e2e/**`. 09a-C3'te bu dosya
-   `@/utils/cadUpload` üzerinden `integrations/supabase/env.ts`e ulaşınca orada
-   `import.meta.env` tipsiz kaldı (TS2339). Proje kendi ambient tanımını zaten
-   `src/vite-env.d.ts` içinde tutuyor; aşağıdaki satır yeni bir tip BEYAN
-   ETMEZ, var olanı programa alır. Alternatifi `tsconfig.e2e.json`u
-   değiştirmekti; o dosya bu paketin yazma listesinde yok. */
-/// <reference path="../vite-env.d.ts" />
-import { LEAD_TIME_SHORT, LEAD_TIME_STATEMENT, QUOTE_RESPONSE_TIME } from "@/content/claims";
-import { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadUpload";
+import {
+  CAD_UPLOAD_EXTENSIONS,
+  CAD_UPLOAD_FORMATS,
+  LEAD_TIME_SHORT,
+  LEAD_TIME_STATEMENT,
+  QUOTE_RESPONSE_TIME,
+} from "@/content/claims";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    BU DOSYA BİR YAYIN YÜZEYİDİR — 09a-C2
@@ -78,22 +74,22 @@ import { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadUpload";
        doğrulayıcı değiştiği gün türetilmiş cevap değişir, elle yazılmış olan
        sessizce yanlışa döner. Doğru olan bir sabit, yine de bir sabittir.
 
-   Bu yüzden dört yer de aşağıdaki iki türevden birini kullanır. Kaynakta
-   artık hiçbir format adı YAZILI DEĞİL; bir uzantı eklenip çıkarıldığında
-   dört cümle birden kendiliğinden düzelir.
+   Bu yüzden dört yer de `@/content/claims` içindeki `CAD_UPLOAD_FORMATS` ya da
+   `CAD_UPLOAD_EXTENSIONS` sabitini kullanır. Kaynakta artık hiçbir format adı
+   YAZILI DEĞİL; bir uzantı eklenip çıkarıldığında dört cümle birden
+   kendiliğinden düzelir.
+
+   NEDEN `claims.ts`, NEDEN DOĞRUDAN `cadUpload.ts` DEĞİL: bu dosyayı iki
+   Playwright spec'i (`e2e/landing/navigation-reachability.spec.ts` ve
+   `e2e/shared-shell-accessibility.spec.ts`) doğrudan NODE çalışma zamanına
+   import eder. `cadUpload.ts` → `supabase/env.ts` zinciri modül seviyesinde
+   `import.meta.env` okur ve orada `undefined`tır; çalışma zamanı bağı
+   eklendiğinde `critical-1280` projesinin TAMAMI toplama aşamasında düştü
+   (ölçüldü). `claims.ts` listeyi bir kez yazar ve TİP SİSTEMİYLE
+   doğrulayıcıya sabitler — gerekçesi orada.
 
    Makine yarısı: `scripts/claims-gate.mjs` → `cad-format-list-not-derived`.
    ═══════════════════════════════════════════════════════════════════════════ */
-
-/** `["a","b","c"]` → `"a, b ve c"`. Türkçe bağlaç, listenin uzunluğundan bağımsız. */
-const joinTurkishList = (parts: readonly string[]): string =>
-  parts.length < 2 ? parts.join("") : `${parts.slice(0, -1).join(", ")} ve ${parts[parts.length - 1]}`;
-
-/** Düz metinde okunan biçim: `"STEP, STP, STL, OBJ, IGES, IGS ve 3MF"`. */
-export const CAD_UPLOAD_FORMATS = joinTurkishList(CAD_ACCEPTED_EXTENSIONS.map((ext) => ext.toUpperCase()));
-
-/** Uzantı biçimi: `".step, .stp, .stl, .obj, .iges, .igs, .3mf"`. */
-export const CAD_UPLOAD_EXTENSIONS = CAD_ACCEPTED_EXTENSIONS.map((ext) => `.${ext}`).join(", ");
 
 export interface ComparisonTable {
   title: string;

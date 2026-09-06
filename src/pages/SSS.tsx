@@ -13,8 +13,9 @@ import {
 } from "@/components/shell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePageMeta } from "@/hooks/use-page-meta";
-import { CAD_UPLOAD_FORMATS, servicePages } from "@/data/servicePages";
+import { servicePages } from "@/data/servicePages";
 import {
+  CAD_UPLOAD_FORMATS,
   CERTIFICATION_SENTENCE_LIST,
   CMM_COVERAGE,
   MINIMUM_TOLERANCE,

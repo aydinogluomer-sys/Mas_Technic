@@ -762,27 +762,50 @@ const CAD_LABEL_VALUE =
 const CAD_LABEL_OFFER = trPattern(/destekl|kabul|yükle|girdi|gelen dosya|alınan dosya/i);
 
 /**
- * ONE FILE IS DEFERRED — AND PINNED, NOT EXEMPTED.
+ * TWO FILES MAY SPELL THE LIST — AND BOTH ARE PINNED, NOT EXEMPTED.
  *
- * `src/data/technicalLandingData.ts:130` restates the list ("STEP, STP, STL,
- * OBJ, IGES, IGS ve 3MF … yükleyebilirsiniz"). It is CORRECT TODAY and it is
- * detector (A)'s and (B)'s class exactly — but that file is not on packet
- * 09a-C3's WRITE_ALLOWLIST, and `e2e/technical-landing.spec.ts:167` asserts
- * that exact string is visible.
+ * A path exemption is a hole. A PIN is not: the file may carry the literal
+ * only while that literal equals the derived one character for character.
+ * Change `CAD_ACCEPTED_EXTENSIONS` and the gate fails immediately, which is
+ * exactly the silent drift an exemption would have hidden. Remove the literal
+ * (by deriving it) and the pin dissolves on its own — no accepted-format token
+ * survives, so there is nothing left to check.
  *
- * A path exemption would be a hole, so this is a PIN instead: while the file
- * still restates the list, the restated list must equal the derived one
- * character for character. Change `CAD_ACCEPTED_EXTENSIONS` and this fails
- * immediately, which is the failure the deferral would otherwise have hidden.
- * Derive the file properly and the pin dissolves — no accepted-format literal
- * survives, detector (A) finds nothing, and the entry becomes inert.
+ *   src/content/claims.ts
+ *     The ledger. It restates the list ONCE, as a tuple, because there is no
+ *     runtime path from the data layer to `cadUpload.ts` that does not load
+ *     `supabase/env.ts` and take down Playwright spec collection — the reason
+ *     is written out at that tuple. TypeScript pins it with an exact-tuple
+ *     assertion; this is the second, independent instrument that reads both
+ *     files as text and compares. Two instruments, one class, no disagreement.
  *
- * The one-line fix, for whoever gets the allowlist for it:
- *   `\`${CAD_UPLOAD_FORMATS} dosyalarını teklif akışında doğrudan yükleyebilirsiniz.\``
- * with `CAD_UPLOAD_FORMATS` imported from `@/data/servicePages` — it produces
- * byte-identical output, so the spec and the goldens do not move.
+ *   src/data/technicalLandingData.ts
+ *     Restates the list in prose ("STEP, STP … ve 3MF … yükleyebilirsiniz").
+ *     CORRECT TODAY, and detector (A)/(B)'s class exactly — but that file is
+ *     not on packet 09a-C3's WRITE_ALLOWLIST and
+ *     `e2e/technical-landing.spec.ts:167` asserts the exact string is visible.
+ *     Deferred, pinned, and the one-line fix for whoever gets the allowlist:
+ *       `\`${CAD_UPLOAD_FORMATS} dosyalarını teklif akışında doğrudan yükleyebilirsiniz.\``
+ *     importing `CAD_UPLOAD_FORMATS` from `@/content/claims`. It produces
+ *     byte-identical output, so neither the spec nor the goldens move.
  */
-const CAD_PINNED_FILES = new Map([["src/data/technicalLandingData.ts", () => joinTurkish(ACCEPTED_CAD.map((e) => e.toUpperCase()))]]);
+/* THE EXPECTED STRING IS DELIMITED AT BOTH ENDS, and that is not decoration.
+   The first version of this pin compared with `includes()` against the bare
+   list, and a probe that APPENDED `"dwg"` to the ledger tuple sailed through:
+   the expected text was still a prefix of the longer one. TypeScript caught
+   that probe; this gate did not, which is precisely the "two instruments, one
+   of them asleep" failure the rule exists to prevent. Both expectations now
+   carry their closing delimiter, so nothing can be inserted or appended
+   without breaking the match.
+
+   Folded through `foldTurkishI`, because the scanned text is folded. */
+const CAD_PINNED_FILES = new Map([
+  ["src/content/claims.ts", () => `[${ACCEPTED_CAD.map((e) => `"${e}"`).join(", ")}]`],
+  [
+    "src/data/technicalLandingData.ts",
+    () => foldTurkishI(`"${joinTurkish(ACCEPTED_CAD.map((e) => e.toUpperCase()))} dosyalarını`),
+  ],
+]);
 
 /**
  * Distinct accepted-extension tokens within `span` characters of each other.
@@ -817,23 +840,24 @@ function* cadFormatScan(text, file) {
 
   const pin = CAD_PINNED_FILES.get(file);
   if (pin !== undefined) {
+    // Detectors (A) and (B) are about the literal, and the pin replaces both
+    // for these two files. Detector (C) is a different shape and still runs.
     const restated = [...restatedCadLists(text)];
-    if (restated.length === 0) return; // derived; the deferral is over
-    if (text.includes(pin())) return; // still character-for-character the truth
-    yield { index: restated[0].index, match: restated[0].match };
-    return;
-  }
+    if (restated.length > 0 && !text.includes(pin())) {
+      yield { index: restated[0].index, match: restated[0].match };
+    }
+  } else {
+    // (A) a restated list, in copy-only data files
+    if (file.startsWith("src/data/")) yield* restatedCadLists(text);
 
-  // (A) a restated list, in copy-only data files
-  if (file.startsWith("src/data/")) yield* restatedCadLists(text);
-
-  // (B) a format named inside a sentence that offers it
-  CAD_ANY_TOKEN.lastIndex = 0;
-  let token;
-  while ((token = CAD_ANY_TOKEN.exec(text)) !== null) {
-    if (insideKeywordArray(text, token.index)) continue;
-    if (CAD_OFFER_PREDICATE.test(sentenceAt(text, token.index))) {
-      yield { index: token.index, match: token[0] };
+    // (B) a format named inside a sentence that offers it
+    CAD_ANY_TOKEN.lastIndex = 0;
+    let token;
+    while ((token = CAD_ANY_TOKEN.exec(text)) !== null) {
+      if (insideKeywordArray(text, token.index)) continue;
+      if (CAD_OFFER_PREDICATE.test(sentenceAt(text, token.index))) {
+        yield { index: token.index, match: token[0] };
+      }
     }
   }
 
