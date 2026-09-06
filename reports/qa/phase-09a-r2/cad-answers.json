@@ -1,0 +1,209 @@
+{
+  "accepted": [
+    "step",
+    "stp",
+    "stl",
+    "obj",
+    "iges",
+    "igs",
+    "3mf"
+  ],
+  "cadEntries": [
+    {
+      "i": 15,
+      "question": "Hangi CAD dosya formatlarını kabul ediyorsunuz?",
+      "answer": "Teklif akışında doğrudan yükleyebileceğiniz formatlar: .step, .stp, .stl, .obj, .iges, .igs, .3mf. En çok tercih edilen format STEP'tir. Listede olmayan bir format veya ölçülendirilmiş teknik resim için dosyayı sales@mastechnic.com adresine iletebilirsiniz.",
+      "keywords": [
+        "dosya",
+        "format",
+        "cad",
+        "step",
+        "iges",
+        "stl",
+        "obj",
+        "3mf",
+        "çizim",
+        "3d",
+        "model"
+      ]
+    },
+    {
+      "i": 26,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "answer": "STEP, IGES, Parasolid, SolidWorks (.sldprt), CATIA (.catpart), NX (.prt) ve PDF/DWG teknik çizim formatlarını destekliyoruz.",
+      "keywords": [
+        "hangi",
+        "dosya",
+        "formatlarını",
+        "kabul",
+        "ediyorsunuz",
+        "step",
+        "iges",
+        "parasolid",
+        "solidworks",
+        "sldprt",
+        "catia",
+        "catpart",
+        "teknik",
+        "çizim",
+        "destekliyoruz"
+      ]
+    },
+    {
+      "i": 72,
+      "question": "Hangi CAD formatlarını kabul ediyorsunuz?",
+      "answer": "Teklif akışında STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını doğrudan yükleyebilirsiniz. Listede olmayan bir yerel CAD formatı veya ölçülendirilmiş teknik resim için dosyayı sales@mastechnic.com adresine iletebilirsiniz.",
+      "keywords": [
+        "hangi",
+        "formatlarını",
+        "kabul",
+        "ediyorsunuz",
+        "teklif",
+        "akışında",
+        "step",
+        "iges",
+        "dosyalarını",
+        "doğrudan",
+        "yükleyebilirsiniz",
+        "listede",
+        "olmayan",
+        "yerel",
+        "formatı",
+        "veya",
+        "ölçülendirilmiş",
+        "teknik",
+        "resim",
+        "için",
+        "dosyayı",
+        "sales",
+        "mastechnic",
+        "adresine",
+        "iletebilirsiniz"
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "p": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "idx": 15,
+      "score": 1,
+      "verdict": "ok",
+      "question": "Hangi CAD dosya formatlarını kabul ediyorsunuz?"
+    },
+    {
+      "p": "hangi cad formatlarini kabul ediyorsunuz",
+      "idx": 15,
+      "score": 1,
+      "verdict": "ok",
+      "question": "Hangi CAD dosya formatlarını kabul ediyorsunuz?"
+    },
+    {
+      "p": "dosya formatı",
+      "idx": 15,
+      "score": 1,
+      "verdict": "ok",
+      "question": "Hangi CAD dosya formatlarını kabul ediyorsunuz?"
+    },
+    {
+      "p": "hangi formatlar",
+      "idx": 15,
+      "score": 1,
+      "verdict": "ok",
+      "question": "Hangi CAD dosya formatlarını kabul ediyorsunuz?"
+    },
+    {
+      "p": "catia dosyası",
+      "idx": 26,
+      "score": 1,
+      "verdict": "FALSE (promises parasolid/sldprt/solidworks/catpart/catia/prt/nx/dwg/pdf)",
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?"
+    },
+    {
+      "p": "catia",
+      "idx": 26,
+      "score": 1,
+      "verdict": "FALSE (promises parasolid/sldprt/solidworks/catpart/catia/prt/nx/dwg/pdf)",
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?"
+    },
+    {
+      "p": "catpart",
+      "idx": 26,
+      "score": 1,
+      "verdict": "FALSE (promises parasolid/sldprt/solidworks/catpart/catia/prt/nx/dwg/pdf)",
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?"
+    },
+    {
+      "p": "solidworks",
+      "idx": 26,
+      "score": 1,
+      "verdict": "FALSE (promises parasolid/sldprt/solidworks/catpart/catia/prt/nx/dwg/pdf)",
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?"
+    },
+    {
+      "p": "sldprt",
+      "idx": 26,
+      "score": 1,
+      "verdict": "FALSE (promises parasolid/sldprt/solidworks/catpart/catia/prt/nx/dwg/pdf)",
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?"
+    },
+    {
+      "p": "solidworks dosyası",
+      "idx": 26,
+      "score": 1,
+      "verdict": "FALSE (promises parasolid/sldprt/solidworks/catpart/catia/prt/nx/dwg/pdf)",
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?"
+    },
+    {
+      "p": "nx dosyası",
+      "idx": 15,
+      "score": 1,
+      "verdict": "ok",
+      "question": "Hangi CAD dosya formatlarını kabul ediyorsunuz?"
+    },
+    {
+      "p": "parasolid",
+      "idx": 0,
+      "score": 1,
+      "verdict": "ok",
+      "question": "Teklif nasıl alabilirim?"
+    },
+    {
+      "p": "dwg",
+      "idx": null
+    },
+    {
+      "p": "dwg gönderebilir miyim",
+      "idx": null
+    },
+    {
+      "p": "dxf",
+      "idx": null
+    },
+    {
+      "p": "pdf teknik resim yükleyebilir miyim",
+      "idx": 72,
+      "score": 0.6,
+      "verdict": "ok",
+      "question": "Hangi CAD formatlarını kabul ediyorsunuz?"
+    },
+    {
+      "p": "pdf çizim",
+      "idx": null
+    },
+    {
+      "p": "step dosyası",
+      "idx": 15,
+      "score": 1,
+      "verdict": "ok",
+      "question": "Hangi CAD dosya formatlarını kabul ediyorsunuz?"
+    },
+    {
+      "p": "stl yükleyebilir miyim",
+      "idx": null
+    },
+    {
+      "p": "çizim gönderebilir miyim",
+      "idx": null
+    }
+  ]
+}
