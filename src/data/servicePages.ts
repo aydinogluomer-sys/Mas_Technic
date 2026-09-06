@@ -132,11 +132,25 @@ export const servicePages: ServicePageData[] = [
     metaTitle: "CNC Frezeleme Hizmetleri | 5 Eksen Hassas İşleme | Mas Technic",
     metaDescription:
       /* 09a-C3 — D3 ile aynı sınıf, ikinci yer. "ücretsiz DFM analizi" bir
-         TİCARİ POLİTİKADIR ve `USER_INPUTS.md` hiçbir alanında yer almıyor;
-         üstelik `metaDescription` olduğu için arama sonucuna ve sosyal karta
-         da çıkıyordu. Yumuşatılamaz — okuyucuya bir sayı değil bir taahhüt
-         söyleniyor — o yüzden yerine mekanizma yazıldı. `/sss` aynı soruyu
-         Phase 07'de aynı gerekçeyle yeniden yazmıştı. */
+         TİCARİ POLİTİKADIR ve `USER_INPUTS.md` hiçbir alanında yer almıyor.
+         Yumuşatılamaz — okuyucuya bir sayı değil bir taahhüt söyleniyor — o
+         yüzden yerine mekanizma yazıldı. `/sss` aynı soruyu Phase 07'de aynı
+         gerekçeyle yeniden yazmıştı.
+
+         09a-C4 / R3-4 — DÜZELTME, bu notun ÜÇÜNCÜ kopyası. Burada da
+         "`metaDescription` olduğu için arama sonucuna ve sosyal karta da
+         çıkıyordu" yazıyordu. YANLIŞTI: bu alanı hiçbir şey okumuyor.
+         `ServiceDetail.tsx` :195, :284 ve :306'da `page.description`
+         geçiriyor ve `src/**` içinde bir servis rotasında `metaDescription`
+         okuyan tek bir yer yok — 44 sayfanın hepsinde ölü veri.
+         (`LegalDocument.tsx` aynı adlı bir prop taşır; o BAŞKA bir tipin
+         başka bir prop'udur ve o okunur.)
+
+         KALDIRMA DOĞRUYDU, GEREKÇE YANLIŞTI. Yetkisiz bir iddia ölü bir
+         alanda da yetkisizdir; üstelik bu alan canlı olmaya bir `usePageMeta`
+         çağrısı uzaklıkta ve `claims-gate.mjs` tam bu yüzden onu da tarıyor.
+         Alanın bağlanması gerçek bir SEO bulgusudur ve SEO fazına aittir;
+         bir içerik düzeltmesinde karara bağlanmaz. */
       "3, 4 ve 5 eksenli CNC frezeleme ile ±0.01 mm standart tolerans aralığında üretim. Alüminyum, titanyum ve çelik işleme, teklifle birlikte üretilebilirlik incelemesi.",
     description:
       "5 eksenli CNC frezeleme merkezlerimiz ile karmaşık geometrileri yüksek hassasiyetle işliyoruz. Alüminyumdan titanyuma, plastikten kompozitlere kadar geniş malzeme yelpazesi.",
