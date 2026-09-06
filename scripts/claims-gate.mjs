@@ -1745,13 +1745,21 @@ const RULES = [
            replaced by the two strings in this class that are LIVE, so the
            control fails the day either of them changes.
 
-           Those two, plus `:774`, `:779`, `:797` and `:804`, are the SOFTWARE
-           INVENTORY class and they are deferred to 09b AS ONE DECISION. Gating
-           them here is not possible without taking that decision: the removed
-           `"CATIA, SolidWorks, NX entegre çalışma"` is the same shape as the
-           live `"3D Modelleme (CATIA/SolidWorks)"` down to the punctuation, so
-           any rule that catches one catches all six. See the return for
-           09a-C4. */
+           09a-C5 / R4-3 — AND THE CLASS IS SIX SITES, NOT FIVE, AND IT IS NO
+           LONGER CITED BY LINE NUMBER. This slot used to say "those two, plus
+           `:774`, `:779`, `:797` and `:804`". Both faults were in that one
+           sentence: the four numbers were already stale when they were written
+           (a 14-line comment added in the same batch had moved them to `:788`
+           `:793` `:811` `:818`), and the enumeration resolved to five distinct
+           sites rather than six, because one line was counted twice and
+           `tasarım (SolidWorks, CATIA, NX)` was named nowhere at all.
+
+           The class is enumerated by CONTENT in
+           `DEFERRED_09B_SOFTWARE_INVENTORY`, marker `09b-SOFTWARE-INVENTORY`,
+           and every entry is asserted to still resolve on every invocation. Two
+           of the six are also negative controls here, because they are the two
+           this rule would otherwise be tempted to catch. Grep the marker; do no
+           arithmetic. */
         { file: "src/data/servicePages.ts", text: '{ label: "CAD", value: "SolidWorks, CATIA, NX" },' },
         '"CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans analizi simülasyonu."',
         // The report WE deliver, not the file the visitor sends.
@@ -2881,6 +2889,71 @@ function checkQualityResources(ledgerFile = CAD_LEDGER_FILE, publicDir = "public
   return problems;
 }
 
+/* ── 09b-SOFTWARE-INVENTORY: the deferred class, named by CONTENT ───────
+   09a-C5 / R4-3. Six live sites in `src/data/servicePages.ts` name CAD AUTHORING
+   packages — CATIA, SolidWorks, NX. They are one class and one decision, and
+   09b takes it; §D supplied no software inventory of any kind, but the class
+   cannot be gated here without taking the decision, because the removed
+   "CATIA, SolidWorks, NX entegre çalışma" is the same shape as the live
+   "3D Modelleme (CATIA/SolidWorks)" down to the punctuation and any rule that
+   catches one catches all six.
+
+   C4 recorded the deferral IN A COMMENT, BY LINE NUMBER, and it was wrong
+   before the batch that wrote it had finished: it cited `:774 :779 :797 :804`,
+   and a 14-line comment added at `:132` in the same batch had already moved
+   them to `:788 :793 :811 :818`. It was also short by one — `:793` was counted
+   twice and the `tasarım (SolidWorks, CATIA, NX)` site was named nowhere. Two
+   arithmetic faults in one four-item list is not carelessness, it is the wrong
+   NOTATION: a line number is a fact about a file that any edit invalidates, and
+   nothing tells you when it has.
+
+   So the register names the sites BY THE TEXT THAT IS IN THEM, and asserts that
+   each still occurs exactly once. Grep the marker above to find this list; grep
+   any entry to find its site. No arithmetic, and if a fragment stops resolving
+   the gate says so instead of pointing at the wrong line — which is what makes
+   this a register rather than a second comment.
+
+   WHEN 09b DECIDES THE CLASS, THIS TURNS RED, and that is the intended
+   behaviour: removing a site is exactly the event the register must not sleep
+   through. The remedy is one line — delete the entry — and the failure message
+   says so. */
+const DEFERRED_09B_SOFTWARE_INVENTORY = {
+  marker: "09b-SOFTWARE-INVENTORY",
+  file: "src/data/servicePages.ts",
+  sites: [
+    "CATIA/SolidWorks ile 3D modelleme ve simülasyon.",
+    "CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans analizi",
+    '"3D Modelleme (CATIA/SolidWorks)"',
+    '"CATIA/SolidWorks ile profesyonel tasarım"',
+    "tasarım (SolidWorks, CATIA, NX)",
+    '{ label: "CAD", value: "SolidWorks, CATIA, NX" }',
+  ],
+};
+
+/** Each registered site must still be findable, exactly once, where it is filed. */
+function checkDeferredClassRegister(register = DEFERRED_09B_SOFTWARE_INVENTORY) {
+  const abs = resolve(REPO_ROOT, register.file);
+  if (!existsSync(abs)) {
+    return [{ file: register.file, message: `${register.marker}: the file this class is filed under is gone` }];
+  }
+  const source = readFileSync(abs, "utf8");
+  /** @type {{ file: string, message: string }[]} */
+  const problems = [];
+  for (const site of register.sites) {
+    const found = source.split(site).length - 1;
+    if (found === 1) continue;
+    problems.push({
+      file: register.file,
+      message:
+        `${register.marker}: ${JSON.stringify(site)} occurs ${found} times, expected exactly 1. ` +
+        "If 09b has decided this class, delete the entry from DEFERRED_09B_SOFTWARE_INVENTORY in this " +
+        "file — the register is the enumeration of what is still deferred, and an entry that no longer " +
+        "resolves is a list that has started to rot. If the copy merely moved, update the fragment.",
+    });
+  }
+  return problems;
+}
+
 /* ── the instruments that are not rules, and the controls that watch them ──
    09a-C5 / R4-5. `runControls()` above proves that RULES still fire on the
    strings they were written for. It knew nothing about the two checks that are
@@ -2929,6 +3002,7 @@ function checkQualityResources(ledgerFile = CAD_LEDGER_FILE, publicDir = "public
 const NON_RULE_CHECKS = [
   { id: "derived-cad-copy", run: () => checkDerivedCadCopy() },
   { id: "quality-resources", run: () => checkQualityResources() },
+  { id: "deferred-class-register", run: () => checkDeferredClassRegister() },
 ];
 
 /**
@@ -3054,12 +3128,35 @@ const CHECK_CONTROLS = [
     },
   },
   {
+    id: "deferred-class-register: a site that stopped resolving is reported",
+    run() {
+      const dir = makeTempDir("mas-claims-gate-control-");
+      const file = join(dir, "sites.ts");
+      writeFileSync(file, 'export const A = "kept";\n', "utf8");
+      const problems = checkDeferredClassRegister({ marker: "CONTROL", file, sites: ['"kept"', '"gone"'] });
+      if (problems.length !== 1) {
+        return `checkDeferredClassRegister() reported ${problems.length} problems over a register with exactly one dead entry`;
+      }
+      return problems[0].message.includes("gone") ? null : "it reported a problem but not the entry that had gone";
+    },
+  },
+  {
+    id: "deferred-class-register: and is silent while every site resolves",
+    run() {
+      const dir = makeTempDir("mas-claims-gate-control-");
+      const file = join(dir, "sites.ts");
+      writeFileSync(file, 'export const A = "kept";\nexport const B = "also";\n', "utf8");
+      const problems = checkDeferredClassRegister({ marker: "CONTROL", file, sites: ['"kept"', '"also"'] });
+      return problems.length === 0 ? null : `it complained about a register whose sites all resolve: ${problems[0].message}`;
+    },
+  },
+  {
     id: "registry: every non-rule check is registered and controlled",
     run() {
       /* Written out, not derived, so DELETING a check fails here and ADDING one
          also fails here — which is the point: a new instrument does not get to
          join the verdict until somebody has written controls for it. */
-      const expected = ["derived-cad-copy", "quality-resources"];
+      const expected = ["derived-cad-copy", "quality-resources", "deferred-class-register"];
       const actual = NON_RULE_CHECKS.map((c) => c.id);
       if (actual.length !== expected.length || expected.some((id, i) => actual[i] !== id)) {
         return `NON_RULE_CHECKS is [${actual.join(", ")}] but the controls below cover [${expected.join(", ")}]`;
@@ -3174,7 +3271,10 @@ const controlCount =
   RULES.reduce((n, r) => n + (r.controls?.fires?.length ?? 0) + (r.controls?.silent?.length ?? 0), 0) +
   RULES.length * AUTHORISED_SLA.length +
   CHECK_CONTROLS.length;
-console.log(`# controls: ${controlCount} (${controlFailures.length} failed), of which ${CHECK_CONTROLS.length} watch the two non-rule checks`);
+console.log(
+  `# controls: ${controlCount} (${controlFailures.length} failed), of which ${CHECK_CONTROLS.length} watch the ` +
+    `${NON_RULE_CHECKS.length} checks that are not rules`,
+);
 console.log("");
 
 /* `process.exitCode` rather than `process.exit()`, from the PASS path down.
@@ -3185,7 +3285,7 @@ console.log("");
    the event loop drain removes the race and also guarantees stdout is flushed
    before the process goes away — which matters because the full report IS the
    failure message the Playwright spec prints. */
-const { clean } = verdict({ violations, controlFailures, checkProblems });
+const { clean, failing } = verdict({ violations, controlFailures, checkProblems });
 
 if (clean) {
   console.log(`PASS — 0 unverified claims across ${RULES.length} rules, ${controlCount} controls green.`);
@@ -3264,8 +3364,26 @@ if (derivedDrift.length > 0) {
   for (const p of derivedDrift) console.log(`  ${p.file}: ${p.message}`);
 }
 
+/* Any registered check that has no hand-written section above still prints.
+   The registry is allowed to grow, and a verdict nobody can read is a verdict
+   nobody can act on — `deferred-class-register` turned the run red and said
+   nothing at all until this existed. */
+const CHECKS_WITH_THEIR_OWN_SECTION = new Set(["derived-cad-copy", "quality-resources"]);
+for (const check of NON_RULE_CHECKS) {
+  if (CHECKS_WITH_THEIR_OWN_SECTION.has(check.id)) continue;
+  const problems = checkProblems.get(check.id) ?? [];
+  if (problems.length === 0) continue;
+  console.log("");
+  console.log(`### ${check.id} — ${problems.length}`);
+  for (const p of problems) console.log(`  ${p.file}: ${p.message}`);
+}
+
 if (!clean) {
   console.log("");
+  /* `failing` comes from `verdict()` itself, so the summary line names every
+     instrument that went red — including one added next year whose author
+     forgets to touch the counts below. */
+  console.log(`FAILING: ${failing.join(", ")}`);
   console.log(
     `FAIL — ${violations.length} claim violation(s), ${resourceProblems.length} resource problem(s), ` +
       `${derivedDrift.length} derived-copy problem(s), ${derivedLoadFailures.length} ledger load failure(s), ` +
