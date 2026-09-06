@@ -2023,21 +2023,35 @@ export const servicePages: ServicePageData[] = [
        SSS'i zaten "tasarrufun büyüklüğü parçaya bağlıdır" diyor; meta onunla
        çelişiyordu. Sayı gitti, kaldıraçlar kaldı. */
     metaDescription:
-      "Design for Manufacturing (DFM/DFA) analizi ile tasarımlarınızı optimize edin. CNC ve enjeksiyon DFM kuralları, CATIA/SolidWorks/NX entegrasyonu, parça bazında maliyet kaldıraçları.",
+      "Design for Manufacturing (DFM/DFA) analizi ile tasarımlarınızı optimize edin. CNC ve enjeksiyon DFM kuralları, üretilebilirlik incelemesi, parça bazında maliyet kaldıraçları.",
     description:
       "DFM/DFA analizi ile tasarımlarınızı üretilebilirlik açısından optimize ediyoruz. Üretim maliyetlerini düşüren, kaliteyi artıran ve süreyi kısaltan mühendislik desteği.",
     heroImage: "hero-dfm-tasarim",
     content: [
       "Design for Manufacturing (DFM) analiz sürecimiz 4 aşamadan oluşur: ilk inceleme ve DFM raporu taslağı, detaylı analiz ve optimizasyon önerileri, müşteri görüşmesi ve revize CAD modeli, final DFM raporu ve onay. Sürecin takvimi parçanın karmaşıklığına ve gelen dosyanın eksiksizliğine bağlıdır; teklifle birlikte verilir.",
       "CNC işleme DFM kurallarımız: İç köşe yarıçapı R > 0.5mm (sivri köşelerden kaçının), duvar kalınlığı > 0.8mm (çok ince duvarlardan kaçının), derinlik/çap oranı < 4:1 (çok derin deliklerden kaçının) ve standart boyut kullanımı (özel ölçülerden kaçının). Enjeksiyon kalıp DFM kurallarımız: Duvar kalınlığı 1.5-3mm, çekme payı 0.5-2°, köşe yarıçapı R > 0.5mm ve gate konumu kalın kesimden.",
-      "Yaygın CAD formatlarını doğrudan işleyebiliyoruz; katı model ile birlikte ölçülendirilmiş teknik resim gönderilmesi analiz süresini kısaltır. Takım yolları üretim öncesinde simülasyonla doğrulanır ve çarpışma kontrolü yapılır.",
+      /* 09a-C3 — D1 düzeltmesinin bu sayfadaki YAN ETKİSİ, oluşturulmuş DOM'da
+         görüldü. `technicalSpecs`teki "Desteklenen CAD" satırı artık
+         türetilmiş listeyi basıyor; bu cümle ise birkaç satır aşağıda "yaygın
+         CAD formatlarını doğrudan işleyebiliyoruz" diyordu. Aynı ekranda iki
+         farklı kabul ölçütü. Cümle, gerçekte olan şeye çevrildi: analiz teklif
+         akışına yüklenen modelin üzerinden yürür. */
+      "Analiz, teklif akışına yüklenen katı model üzerinden yürütülür; modelle birlikte ölçülendirilmiş teknik resim gönderilmesi analiz süresini kısaltır. Takım yolları üretim öncesinde simülasyonla doğrulanır ve çarpışma kontrolü yapılır.",
       "DFM analizinde tipik olarak baktığımız kaldıraçlar: montajı tek parçaya indirgemek, bağlama sayısını azaltmak, takım erişimini kolaylaştırmak, gereksiz dar toleransları gevşetmek ve malzemeyi fonksiyona göre yeniden seçmek. Hangisinin ne kadar etki edeceği parçanın geometrisine ve mevcut üretim planına bağlıdır; beklenen etki analiz raporunda parça bazında verilir.",
     ],
     features: [
       "DFM Analizi — 4 aşamalı inceleme, analiz, görüşme ve raporlama",
       "CNC İşleme DFM Kuralları — Köşe, duvar, derinlik optimizasyonu",
       "Enjeksiyon Kalıp DFM — Duvar kalınlığı, çekme payı, gate konumu",
-      "CAD/CAM Entegrasyonu — CATIA, SolidWorks, NX, Mastercam",
+      /* 09a-C3. Oluşturulmuş DOM'da bu madde, türetilmiş "Desteklenen CAD"
+         satırının hemen altında duruyordu: ekranda önce "STEP … 3MF", hemen
+         ardından "CATIA, SolidWorks, NX" okunuyor ve okuyucu bunları tek bir
+         kabul listesi gibi birleştiriyordu. Ayrıca adlandırılmış CAM/CAD
+         yazılımı bir YAZILIM ENVANTERİDİR — `claims-gate.mjs`
+         `named-enterprise-system` kuralının dayanağı: §D "no software or
+         automation-system inventory was supplied". Kabiliyet kalır, envanter
+         gider. */
+      "CAD/CAM Entegrasyonu — katı model, takım yolu ve revizyon tek akışta",
       "Simülasyon — takım yolu doğrulama ve çarpışma kontrolü",
       "Maliyet Optimizasyonu — Parça sayısı, bağlama ve tolerans kaldıraçları",
     ],
@@ -2065,7 +2079,8 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "Dört aşamalı DFM süreci: inceleme, analiz, görüşme, rapor",
-      "CATIA, SolidWorks, NX entegre çalışma",
+      /* 09a-C3 — yukarıdaki `features` maddesiyle aynı gerekçe, aynı sayfa. */
+      "Müşteri modeli üzerinden çalışma: gelen katı model revize edilip geri gönderilir",
       "Üretim öncesi takım yolu simülasyonu ve çarpışma kontrolü",
       "Parça sayısı, bağlama sayısı ve işlem adımı azaltma fırsatlarının çıkarılması",
       "Enjeksiyon kalıp ve CNC işleme özel DFM kuralları",
