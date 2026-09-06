@@ -93,7 +93,7 @@
 
   /* ── ACCENTS (restrained by rule) ───────────────────────────────────────
      Bronze is the only editorial accent; green is semantic status only;
-     stamp red belongs to the quality seal and nothing else.
+     stamp red is the failure signal and the quality seal, nothing else.
      ---------------------------------------------------------------------- */
   /* Three steps of ONE accent, chosen by ground rather than by taste.
      `--tl-bronze` is the mid step: it clears 3:1 and is right for large
@@ -108,7 +108,30 @@
   --tl-bronze-ink: #6f5b45;
   --tl-green: #72e291;
   --tl-green-ink: #8ea56a;
+  /* Stamp red has the SAME two-ground problem bronze has, and it was found the
+     same way: a 9px/600 mono status label. `--tl-stamp` was written for the
+     paper seal — 6.93:1 on `--tl-paper-sunken`, 6.07:1 on `--tl-paper` — and
+     was correct for as long as nothing painted small text with it on graphite.
+     Phase 09a put five `ShellNotice tone="error"` labels on a graphite ground
+     and it measured 2.69:1 on `--tl-black` (2.78:1 on `--tl-void`, 2.58:1 on
+     `--tl-panel`), which axe reported as a serious `color-contrast` violation
+     at 1280 and 375.
+
+     So stamp gets its ground-chosen step too, exactly as bronze did:
+       graphite → `--tl-stamp-light`  7.33:1 on `--tl-black`
+       paper    → `--tl-stamp`        6.93:1 on `--tl-paper-sunken`
+
+     The light step is the SAME HUE, not a different red: `--tl-stamp` is
+     hsl(10.7, 48%, 36.5%) and `--tl-stamp-light` is hsl(11, 65%, 66%). It was
+     chosen at that lightness and not higher on purpose — pushed to ~10:1 the
+     red desaturates into pink and lands ΔE 14 from `--tl-bronze-light`, which
+     is the colour the CAUTION label right beside it uses. At 66% it clears the
+     4.5:1 small-text floor by 63 % on the tightest graphite ground and stays
+     ΔE 34 from bronze-light, so error and caution are still tellable apart at
+     9px. It sits between `--sf-faint` (5.89:1) and `--sf-meta` (8.44:1) in the
+     graphite label ladder, so it signals without out-shouting the title. */
   --tl-stamp: #8a4030;
+  --tl-stamp-light: #e18570;
 
   /* ── SPACING (4px base) ─────────────────────────────────────────────────*/
   --tl-s1: 4px;

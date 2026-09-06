@@ -978,6 +978,14 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   --sf-rule: var(--tl-rule);
   --sf-rule-soft: var(--tl-rule-soft);
   --sf-accent: var(--tl-bronze-light);
+  /* Failure. A role and not `--tl-stamp` directly, because stamp red is
+     ground-dependent for exactly the reason bronze is — see the note beside
+     `--tl-stamp-light` in `design-tokens.css`. Everything that paints a
+     failure — the `.shell-form-error` rule, the `tone="error"` notice edge and
+     its status label — paints from this one name, which is what keeps a
+     field-level error and a block-level one visibly the same object on BOTH
+     grounds rather than only on paper. */
+  --sf-danger: var(--tl-stamp-light);
   --sf-raise: var(--tl-tint-raise);
   --sf-hover: var(--tl-tint-hover);
   --sf-field: var(--tl-panel);
@@ -1000,6 +1008,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   --sf-rule: var(--tl-paper-rule);
   --sf-rule-soft: var(--tl-paper-rule-soft);
   --sf-accent: var(--tl-bronze-ink);
+  --sf-danger: var(--tl-stamp);
   --sf-raise: var(--tl-ink-tint);
   --sf-hover: var(--tl-ink-tint);
   --sf-field: var(--tl-paper-raised);
@@ -1479,7 +1488,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
    something to say: an `aria-live` region inserted at the same moment as its
    message is frequently not announced at all. */
 .shell-form-error:not(:empty) {
-  border-left: 2px solid var(--tl-stamp);
+  border-left: 2px solid var(--sf-danger);
   padding-left: var(--tl-s3);
   color: var(--sf-ink);
   font: 500 13px/1.5 var(--tl-font-sans);
@@ -1872,14 +1881,19 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
 .shell-contents a:hover { color: var(--sf-ink); }
 
 /* ── Notice ───────────────────────────────────────────────────────────────
-   A rule on the leading edge, never a tinted card. `--tl-stamp` is the same
+   A rule on the leading edge, never a tinted card. `--sf-danger` is the same
    red `.shell-form-error` uses, so a field-level error and a block-level one
-   are visibly the same object. */
+   are visibly the same object — and because it is the ROLE and not the raw
+   `--tl-stamp`, that stays true on graphite, on paper, and inside a paper
+   band nested in a graphite root. Keying it off the root instead
+   (`[data-shell-surface="graphite"] { --tl-stamp: … }`) cannot reach that
+   third case: the band inherits the graphite red and the label would measure
+   2.23:1 on `--tl-paper` — one serious violation traded for another. */
 .shell-notice {
   border-left: 2px solid var(--sf-rule);
   padding: var(--tl-s3) 0 var(--tl-s3) var(--tl-s4);
 }
-.shell-notice[data-tone="error"] { border-left-color: var(--tl-stamp); }
+.shell-notice[data-tone="error"] { border-left-color: var(--sf-danger); }
 .shell-notice[data-tone="caution"] { border-left-color: var(--sf-accent); }
 .shell-notice-label {
   margin: 0;
@@ -1888,7 +1902,10 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   letter-spacing: .18em;
   text-transform: uppercase;
 }
-.shell-notice[data-tone="error"] .shell-notice-label { color: var(--tl-stamp); }
+/* The only SMALL TEXT painted with stamp red, which is why the ground matters
+   here and nowhere else it is used: 9px/600 is not large text, so the floor is
+   4.5:1, not 3:1. */
+.shell-notice[data-tone="error"] .shell-notice-label { color: var(--sf-danger); }
 .shell-notice-title {
   margin: var(--tl-s2) 0 0;
   color: var(--sf-ink);
