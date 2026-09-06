@@ -1044,12 +1044,27 @@ function* cadFormatScan(text, file) {
    ordinary technical Turkish and are NOT here. A SURCHARGE is not a benefit
    either: the Ra guide's `+%80-100` under "Ek Maliyet" is a price relativity,
    it makes no claim about performance, and it stays. What fires is a
-   percentage attached to something getting cheaper, faster or better.       */
+   percentage attached to something getting cheaper, faster or better.
+
+   09a-C4 / R3-3 — ONE SOFTENED SUFFIX WALKED THROUGH THE WIDENING. The rule
+   spelt the noun `kazanç` and Turkish softens ç→c before a vowel, so
+   `{ label: "Maliyet Kazancı", value: "%30-50" }` and "%35 zaman kazancı elde
+   edilir" passed the full gate while `Zaman Kazanç` — a form no one writes —
+   fired. The fix is `kazan[çc]`, the consonant-alternation idiom this file
+   already uses for `standar[dt]`, `çeşi[td]` and `niteli[kğ]`.
+
+   It is a LATENT hole, not a live claim: the only `kazan…` forms in the tree
+   are `blogData.ts:102` and `:121` ("Beş eksenin asıl kazancı hız değil,
+   kurulum sayısıdır" / "Asıl kazanç: kurulum sayısı"), and neither carries a
+   percentage, so neither fires before or after. Both are kept as negative
+   controls below, because the discriminator this rule turns on is the NUMBER,
+   not the noun — widening the noun must not start firing on ordinary Turkish
+   that quantifies nothing.                                                   */
 const UNSOURCED_BENEFIT_PCT =
   String.raw`(?:%\s?|yüzde\s+)\d{1,3}(?:[.,]\d+)?(?:\s?[-–]\s?\d{1,3}(?:[.,]\d+)?)?(?:['’]?[a-zçğıöşü]{0,4})?` +
-  String.raw`[^.!?;{}\n"]{0,30}?(?:tasarruf|kazanç|daha hızlı|daha ucuz|daha az maliyet|maliyet düş|maliyet avantaj|verim(?:lilik)?\s+artış|hız\s+artış)`;
+  String.raw`[^.!?;{}\n"]{0,30}?(?:tasarruf|kazan[çc]|daha hızlı|daha ucuz|daha az maliyet|maliyet düş|maliyet avantaj|verim(?:lilik)?\s+artış|hız\s+artış)`;
 const UNSOURCED_BENEFIT_LABEL_VALUE =
-  String.raw`(?:label|title|name|key)\s*:\s*["'\x60][^"'\x60]*(?:tasarruf|kazanç|maliyet düşüşü|verim artışı|hız artışı|iyileşme)[^"'\x60]*["'\x60]` +
+  String.raw`(?:label|title|name|key)\s*:\s*["'\x60][^"'\x60]*(?:tasarruf|kazan[çc]|maliyet düşüşü|verim artışı|hız artışı|iyileşme)[^"'\x60]*["'\x60]` +
   String.raw`\s*,\s*(?:value|val|text|desc)\s*:\s*["'\x60][^"'\x60]*(?:%\s?|yüzde\s+)\d[^"'\x60]*["'\x60]`;
 
 /** @type {Rule[]} */
@@ -1511,7 +1526,7 @@ const RULES = [
     // why the three live claims walked past it is above `UNSOURCED_BENEFIT_PCT`.
     pattern: new RegExp(
       [
-        /(?:%\s?|yüzde\s+)\d{1,3}([.,]\d+)?\s*(zamanında|teslimat oranı|başarı|kalite oranı|verimlilik|doğruluk|ilk seferde|hatasız|fire|hurda|red oranı)|(zamanında teslimat|teslimat oranı|başarı oranı|kalite oranı|hatasız üretim|müşteri memnuniyeti)[^.\n]{0,30}(?:%\s?|yüzde\s+)\d|(zamanında teslimat|teslimat oran|başarı oran|kalite oran|hatasız üretim|müşteri memnuniyet|verimlilik|doğruluk oran)[^.\n]{0,30}yüzde\s+(?:yüz|doksan|seksen|yetmiş|altmış|elli|kırk|otuz|yirmi|on\b|dokuz|sekiz|yedi|altı|beş|dört|üç|iki|bir)|yüzde\s+(?:yüz|doksan|seksen|yetmiş|altmış|elli)[^.\n]{0,30}(zamanında|teslimat oran|başarı oran|kalite oran|hatasız|verimlilik)|(?:%\s?|yüzde\s+)\d{1,3}(\s?-\s?\d{1,3})?(['’]?[a-zçğıöşü]{0,3})?\s*(tasarruf|maliyet|süre|ağırlık|kazanç|iyileş|azalma|artış)|(tasarruf|maliyet düşüşü|verim artışı)[^.\n]{0,20}(?:%\s?|yüzde\s+)\d/
+        /(?:%\s?|yüzde\s+)\d{1,3}([.,]\d+)?\s*(zamanında|teslimat oranı|başarı|kalite oranı|verimlilik|doğruluk|ilk seferde|hatasız|fire|hurda|red oranı)|(zamanında teslimat|teslimat oranı|başarı oranı|kalite oranı|hatasız üretim|müşteri memnuniyeti)[^.\n]{0,30}(?:%\s?|yüzde\s+)\d|(zamanında teslimat|teslimat oran|başarı oran|kalite oran|hatasız üretim|müşteri memnuniyet|verimlilik|doğruluk oran)[^.\n]{0,30}yüzde\s+(?:yüz|doksan|seksen|yetmiş|altmış|elli|kırk|otuz|yirmi|on\b|dokuz|sekiz|yedi|altı|beş|dört|üç|iki|bir)|yüzde\s+(?:yüz|doksan|seksen|yetmiş|altmış|elli)[^.\n]{0,30}(zamanında|teslimat oran|başarı oran|kalite oran|hatasız|verimlilik)|(?:%\s?|yüzde\s+)\d{1,3}(\s?-\s?\d{1,3})?(['’]?[a-zçğıöşü]{0,3})?\s*(tasarruf|maliyet|süre|ağırlık|kazan[çc]|iyileş|azalma|artış)|(tasarruf|maliyet düşüşü|verim artışı)[^.\n]{0,20}(?:%\s?|yüzde\s+)\d/
           .source,
         UNSOURCED_BENEFIT_PCT,
         UNSOURCED_BENEFIT_LABEL_VALUE,
@@ -1534,8 +1549,20 @@ const RULES = [
         // splice above is proved not to have dropped them.
         '"%95 zamanında teslimat oranı"',
         '"yüzde doksan sekiz kalite oranı"',
+        /* 09a-C4 / R3-3 — the softened suffix. Both of these passed the full
+           gate while `Zaman Kazanç`, which nobody writes, fired. */
+        '{ label: "Maliyet Kazancı", value: "%30-50" },',
+        '"%35 zaman kazancı elde edilir"',
+        // The unsoftened form, so the widening is proved not to have replaced
+        // what it was extending.
+        '{ label: "Zaman Kazanç", value: "%30-50" },',
       ],
       silent: [
+        /* 09a-C4 / R3-3 — the two live `kazan…` sentences in the tree. Neither
+           quantifies anything, and the number is what this rule turns on: a
+           wider noun list must not start firing on ordinary Turkish. */
+        { file: "src/data/blogData.ts", text: '"Beş eksenin asıl kazancı hız değil, kurulum sayısıdır: her yeni bağlama yeni bir referans hatası kaynağıdır.",' },
+        { file: "src/data/blogData.ts", text: 'heading: "Asıl kazanç: kurulum sayısı",' },
         // The replacements: capability keeps its substance, loses the number.
         '"HSM stratejisiyle ince cidarlı parçalarda düşük kesme kuvveti ve iyi yüzey kalitesi",',
         '"Çift mil ile parçanın arka yüzü ayrı bir bağlama gerektirmeden tamamlanır",',
