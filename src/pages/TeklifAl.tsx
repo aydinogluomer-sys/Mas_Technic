@@ -324,18 +324,41 @@ export const TeklifAl = () => {
                       Geri
                     </ShellAction>
                   )}
-                  {currentStep < LAST_STEP ? (
-                    <ShellAction variant="primary" onClick={advance}>
-                      İleri
-                    </ShellAction>
-                  ) : (
-                    /* Disabled while a request is in flight AND guarded by a
-                       ref inside `useRfqSubmission`, because `disabled` only
-                       reaches the DOM on the next commit. */
-                    <ShellAction type="submit" variant="primary" disabled={pending}>
-                      {pending ? "Gönderiliyor…" : "Teklif talebini gönder"}
-                    </ShellAction>
-                  )}
+                  {/* ONE PRIMARY CONTROL, ALWAYS `type="submit"`, AND THAT IS
+                      A BUG FIX RATHER THAN A TIDY-UP.
+
+                      The first version of this block rendered a
+                      `type="button"` "İleri" for steps 1–2 and swapped it for
+                      a `type="submit"` on step 3. React reconciles those as
+                      the SAME `<button>` element and only rewrites its
+                      attributes — and it does that synchronously, inside the
+                      dispatch of the very click that advanced the step. So by
+                      the time the browser evaluated the click's default
+                      action, the element it had just dispatched on was a
+                      submit button, and the form posted. Measured (probe
+                      `tmp/probe-leak.mjs`, all non-loopback traffic aborted):
+                      one click on step 2's "İleri" produced
+                      `POST /storage/v1/object/cad-uploads/anonymous/RFQ-…`
+                      with no second click anywhere. It reproduced in two runs
+                      out of three, which is exactly the kind of intermittent
+                      that survives review.
+
+                      A single control whose `type` never changes cannot do
+                      it, and it puts the whole step machine in `handleSubmit`
+                      — the same path implicit submission (Enter) already
+                      takes.
+
+                      `disabled` while in flight is the visible half of the
+                      double-submit guard; the ref in `useRfqSubmission` is the
+                      half that actually holds, because `disabled` only reaches
+                      the DOM on the next commit. */}
+                  <ShellAction type="submit" variant="primary" disabled={pending}>
+                    {pending
+                      ? "Gönderiliyor…"
+                      : currentStep < LAST_STEP
+                        ? "İleri"
+                        : "Teklif talebini gönder"}
+                  </ShellAction>
                 </div>
               )}
             </form>

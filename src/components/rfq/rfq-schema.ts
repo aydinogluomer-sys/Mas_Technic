@@ -4,13 +4,26 @@ import { RFQ_MATERIAL_OTHER, type RfqDraft } from "./rfq-model";
 /* ══════════════════════════════════════════════════════════════════════════
    WHAT A VALID REQUEST IS — client side
 
-   CLIENT VALIDATION IS UX, NOT SECURITY (`mas-security-rfq`). The authority
-   is `supabase/functions/rfq-rate-limit/index.ts`, which re-checks the e-mail,
-   the two required names and every file extension with the service role, and
-   `docs/supabase-full-setup.sql` §4.3, which caps each column in the database
-   itself. The rules below MIRROR those two so the reader is told at the field
-   what the server would otherwise tell them as an opaque 400 — every bound
-   here is copied from one of them, not chosen:
+   CLIENT VALIDATION IS UX, NOT SECURITY (`mas-security-rfq`), and the bounds
+   below are copied from the two places that are supposed to be the authority
+   rather than chosen: `supabase/functions/rfq-rate-limit/index.ts`, whose
+   source re-checks the e-mail, the two required names and every file
+   extension with the service role, and `docs/supabase-full-setup.sql` §4.3,
+   which caps each column in the database.
+
+   MEASURED CAVEAT, AND IT IS A LARGE ONE. The DEPLOYED function does not
+   match that source. Probed against the project this checkout is configured
+   for, with a payload whose `id` already exists so nothing could be written,
+   every guard except the `id` check let the request through to the insert —
+   a missing e-mail, a malformed e-mail, a one-character customer, a missing
+   company and a `.txt` in `files` all returned the duplicate-key 500 rather
+   than the 400 the source would return. Fifteen requests in under a minute
+   from one address produced no 429 either. So as things stand the rules below
+   are not a mirror of a server check; on that project they are currently the
+   ONLY check before the database's own constraints. That is a Phase 09b
+   security finding, not something this file can fix — `supabase/**` is
+   read-only here and deploying is a stop condition — and it is recorded at
+   the point where somebody would otherwise trust the mirror.
 
        name      ≥2   server `customer.trim().length < 2`   · db ≤ 200
        company   ≥2   server `company.trim().length < 2`    · db ≤ 200

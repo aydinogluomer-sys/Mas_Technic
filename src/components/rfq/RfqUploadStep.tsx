@@ -2,7 +2,7 @@ import { ShellAction, ShellMetaRow, ShellNotice, ShellTagRow, ShellTitleBlock } 
 import { CAD_ACCEPT_ATTR, CAD_FORMAT_CHIPS, CAD_FORMAT_HINT } from "@/hooks/useCadHandoff";
 import type { UploadedCadFile } from "@/utils/cadUpload";
 import { CadStageHost } from "./CadStageHost";
-import { CAD_MAX_FILE_SIZE_MB, type Dimensions } from "./rfq-model";
+import { CAD_MAX_FILE_SIZE_MB, formatFileSize, type Dimensions } from "./rfq-model";
 import type { CadSelection, CadSelectionError } from "./useCadSelection";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -24,8 +24,6 @@ import type { CadSelection, CadSelectionError } from "./useCadSelection";
    the same viewer. `RFQCadPreview.tsx:602` in the back office already worked
    this way; this is that pattern on the public route.
    ══════════════════════════════════════════════════════════════════════════ */
-
-const MEGABYTE = 1024 * 1024;
 
 export type RfqUploadStepProps = {
   selection: CadSelection | null;
@@ -134,10 +132,7 @@ export function RfqUploadStep({
         <ShellMetaRow
           items={[
             { label: "Dosya", value: recordName },
-            {
-              label: "Boyut",
-              value: recordSize != null ? `${(recordSize / MEGABYTE).toFixed(2)} MB` : "—",
-            },
+            { label: "Boyut", value: recordSize != null ? formatFileSize(recordSize) : "—" },
             { label: "Format", value: (recordExtension ?? "—").toUpperCase() },
             {
               label: "Ölçü",

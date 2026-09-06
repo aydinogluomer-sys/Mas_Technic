@@ -135,6 +135,14 @@ export function resolveMaterialLabel(materialId: string, customMaterial: string)
 export const CAD_MAX_FILE_SIZE_MB = Math.round(CAD_MAX_FILE_SIZE / (1024 * 1024));
 export const CAD_FORMAT_COUNT = CAD_ACCEPTED_EXTENSIONS.length;
 
+/** `0.00 MB` is not a file size: a small STL is genuinely a few kilobytes. */
+export function formatFileSize(bytes: number): string {
+  if (!Number.isFinite(bytes) || bytes < 0) return "—";
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
 /* ── The record that is sent ──────────────────────────────────────────── */
 
 export type RfqDraft = {

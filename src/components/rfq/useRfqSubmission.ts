@@ -19,7 +19,7 @@ import {
      1  session + profile lookup   optional enrichment — MUST NOT be fatal
      2  CAD upload                 XHR to storage, with progress and a stall
                                    watchdog (`utils/cadUpload.ts`)
-     3  `rfq-rate-limit`           the edge function that validates and writes
+     3  `rfq-rate-limit`           the edge function that writes the row
      4  the reference the server echoed back
 
    ── THE DEAD BRANCH THIS REPLACES ────────────────────────────────────────
@@ -38,12 +38,23 @@ import {
    on 429, "Geçerli bir e-posta adresi zorunludur." on 400, "Talep
    oluşturulamadı." on 500 — landed in `fnError`, was rethrown, and reached
    the reader as the library's own string: "Gönderim hatası: Edge Function
-   returned a non-2xx status code". So the rate limiter has been running for
-   four phases and has never once been able to say so.
+   returned a non-2xx status code". Every one of those sentences has been
+   unreachable for as long as the branch has existed.
 
    `FunctionsHttpError.context` IS the `Response`. Reading its JSON body is
    what surfaces the backend's message; the HTTP status is what decides
    whether retrying is worth suggesting.
+
+   MEASURED, AND NOT WHAT THE SOURCE SAYS. The deployed function on the
+   configured project answers only the `id` guard: a probe with an id that
+   already exists — so no row could be written — got the duplicate-key 500 for
+   a missing e-mail, a malformed e-mail, a one-character customer, a missing
+   company and a `.txt` in `files`, and fifteen requests inside a minute from
+   one address produced no 429. The 429 and 4xx branches below are therefore
+   correct and exercised (`tmp/probe-rfq-form.mjs`, intercepted responses) but
+   currently unreachable in production. `supabase/**` is read-only in this
+   phase and deploying is a stop condition, so this is reported rather than
+   fixed; it belongs to Phase 09b's RLS and backend audit.
 
    ── WHAT IS DELIBERATELY NOT SHOWN ───────────────────────────────────────
    No stack trace, no Supabase error code, no URL, no environment value
