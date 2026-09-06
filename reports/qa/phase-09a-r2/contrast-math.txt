@@ -1,0 +1,16 @@
+  7.33:1  FIXED  stamp-light on tl-black   (C1 says 7.33)  ✓ matches claim
+  7.58:1  FIXED  stamp-light on tl-void
+  7.04:1  FIXED  stamp-light on tl-panel
+  2.69:1  BEFORE stamp on tl-black        (C1 says 2.69)  ✓ matches claim
+  2.78:1  BEFORE stamp on tl-void         (C1 says 2.78)  ✓ matches claim
+  2.58:1  BEFORE stamp on tl-panel        (C1 says 2.58)  ✓ matches claim
+  6.93:1  PAPER  stamp on paper-sunken    (C1 says 6.93)  ✓ matches claim
+  6.07:1  PAPER  stamp on tl-paper        (C1 says 6.07)  ✓ matches claim
+  6.58:1  PAPER  stamp on paper-raised
+  2.23:1  TRAP   stamp-light on tl-paper  (what a ROOT override would have shipped; C1 says 2.23)  ✓ matches claim
+  2.54:1  TRAP   stamp-light on paper-sunken
+
+deltaE76(stamp-light, bronze-light) = 33.8  (C1 says "stays deltaE 34")
+
+4.5:1 small-text floor -> stamp-light/tl-black clears by 63%  (C1 says 63%)
+ALL_NUMERIC_CLAIMS_REPRODUCE
