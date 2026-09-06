@@ -1,0 +1,24 @@
+ANSWER_HITS=7 {"LEAD_TIME":6,"WARRANTY":1}
+QUESTION_ONLY_HITS=2
+
+[LEAD_TIME/duration-numeric] #16 chatFaqData.ts [A]
+    match: "1-3 iş günü"
+    ctx:   ...astechnic.com adresine her zaman yazabilirsiniz; teklif dönüş süremiz 1-3 iş günüdür. Telefon ve adres bilgisi [İletişim](/iletisim) sayfamızda....
+[LEAD_TIME/worded-kisa-surede] #42 servicePages.ts::enjeksiyon-kalibi [A]
+    match: "kısa süre"
+    ctx:   ...ey gereksinimine göre değişir; alüminyum kalıp çelik kalıba göre daha kısa sürede işlenir. Termin; malzeme tedariki, operasyon sayısı ve kapasite pla...
+[LEAD_TIME/worded-clock] #65 servicePages.ts::tolerans-hassasiyet [A]
+    match: "0.01"
+    ctx:   ...±0.01 mm'dir. Bir parçada daha darına inilip inilemeyeceği geometri, malzem...
+[WARRANTY/war-ucretsiz] #70 servicePages.ts::tasarim-rehberi-dfm [A]
+    match: "ücretsiz"
+    ctx:   ...İlk DFM değerlendirmesi ücretsizdir. Detaylı analiz raporu ve CAD revizyonları proje kapsamına göre fi...
+[LEAD_TIME/worded-kesintisiz] #84 servicePages.ts::seri-imalat [A]
+    match: "kesintisiz"
+    ctx:   ...Otomatik takım değiştirme ve bar besleme, uzun partilerde kesintisiz işlemeyi mümkün kılar. Hangi yöntemin kullanılacağı parça geometrisi ...
+[LEAD_TIME/worded-kisa-surede] #88 servicePages.ts::tedarik-zinciri [A]
+    match: "kısa süre"
+    ctx:   ...Malzeme sınıfına göre değişir: standart alüminyum ve paslanmaz çelik kısa sürede temin edilebilir; titanyum ve nikel esaslı alaşımlar sipariş üzerin...
+[LEAD_TIME/worded-kesintisiz] #105 servicePages.ts::robotik [A]
+    match: "kesintisiz"
+    ctx:   ...vet. Otomasyonlu CNC seri üretimde bar besleyici ve palet sistemi ile kesintisiz işleme yapılır; parti büyüklüğü ve teslimat programı teklif aşamasınd...
