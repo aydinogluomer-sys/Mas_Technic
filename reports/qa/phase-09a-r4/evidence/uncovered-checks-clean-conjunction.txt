@@ -1,0 +1,26 @@
+===== MUTATION: drop-derived-from-clean =====
+# CLAIMS GATE
+# roots:    src/pages, src/components, src/data, src/content, src/hooks, src/utils, src/config, src/lib, src/routes, src/App.tsx, index.html, public
+# excluded: admin/, musteri/, AdminDashboard, AdminLogin, MusteriPaneli
+# scanned:  225 files, 28415 non-comment lines
+# controls: 262 (0 failed)
+
+PASS — 0 unverified claims across 31 rules, 262 controls green.
+(node:18212) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "drop-derived-from-clean" applied in memory (disk untouched)
+EXIT=0
+
+===== MUTATION: drop-resources-from-clean =====
+# CLAIMS GATE
+# roots:    src/pages, src/components, src/data, src/content, src/hooks, src/utils, src/config, src/lib, src/routes, src/App.tsx, index.html, public
+# excluded: admin/, musteri/, AdminDashboard, AdminLogin, MusteriPaneli
+# scanned:  225 files, 28415 non-comment lines
+# controls: 262 (0 failed)
+
+PASS — 0 unverified claims across 31 rules, 262 controls green.
+(node:24012) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "drop-resources-from-clean" applied in memory (disk untouched)
+EXIT=0
+
