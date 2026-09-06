@@ -1,0 +1,14 @@
+# CLAIMS GATE
+# roots:    src/pages, src/components, src/data, src/content, src/hooks, src/utils, src/config, src/lib, src/routes, src/App.tsx, index.html, public
+# excluded: admin/, musteri/, AdminDashboard, AdminLogin, MusteriPaneli
+# scanned:  225 files, 28415 non-comment lines
+# controls: 262 (0 failed)
+
+## VIOLATIONS BY RULE
+
+### derived-copy-drift — 1
+authority: USER_INPUTS.md §J ACCEPTED_CAD_FORMATS: DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION
+remedy:    Fix the DERIVATION in src/content/claims.ts, or the tuple it reads. Never widen src/utils/cadUpload.ts to match the copy.
+  src/content/claims.ts: could not be evaluated, so the published CAD strings were checked against nothing: Unknown file extension ".ts" for C:\Users\Trade Bilisim\pdh-wt\qa-p09a4\src\content\claims.ts. The ledger must stay loadable in a bare Node process — that is what keeps it free of runtime imports. Node >= 22.18 is required for the TypeScript type stripping this uses.
+
+FAIL — 0 claim violation(s), 0 resource problem(s), 1 derived-copy problem(s), 0 control failure(s).
