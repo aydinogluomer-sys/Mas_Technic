@@ -23,15 +23,47 @@ import { assertNoSupabaseContact, assertSealed, sealNetwork } from "./fixtures/q
         F3, and F4's column — and does every comparison table still render as
         many header cells as its rows have data cells?
 
-   OUTPUT GOES TO `reports/qa/phase-09a-r3/`, NEVER to `phase-09a-r2/`. The
-   round-2 sweep spec writes into its own round's evidence directory on every
-   run and overwrites the committed record; that is reported as a defect, and
-   this file does not repeat it.
+   WHERE THE OUTPUT GOES — corrected in 09a-C4. This file used to say it did
+   not repeat the round-2 sweep spec's defect because it wrote into its OWN
+   round's directory rather than an earlier one. That distinction is not the
+   defect. `reports/qa/phase-09a-r3/**` is COMMITTED EVIDENCE the moment it is
+   committed, and this spec rewrote `dom-cad-*.json` and `dom-tables-*.json`
+   on every run — so running it again as a required regression check, which
+   09a-C4 did, destroyed the record of the round that produced it. The
+   overwrite was font-request ordering only that time; nothing guarantees the
+   next one is.
+
+   Evidence is a record of what was true on a date, so writing it is now an
+   explicit act: `QA_P09A3_WRITE_EVIDENCE=1` refreshes the committed artefact
+   on purpose. Every ordinary run drops its output in `test-results/`, which is
+   gitignored, and both tests echo the path they wrote, so a regression run is
+   still fully inspectable and cannot destroy anything. See `writeEvidence`.
 
    Read-only. The network is sealed and the seal is proved with a live canary
    before any page is read. No form is submitted and no upload control is
    touched.
    ══════════════════════════════════════════════════════════════════════════ */
+
+/**
+ * Writes one artefact, to scratch unless the committed record is asked for.
+ *
+ * 09a-C4. Both call sites went through `reports/qa/phase-09a-r3/`
+ * unconditionally. One helper now owns the decision, so a third write added
+ * later cannot quietly reintroduce the overwrite.
+ */
+function writeEvidence(name: string, payload: unknown): void {
+  const committed = process.env.QA_P09A3_WRITE_EVIDENCE === "1";
+  const outDir = committed
+    ? path.join(process.cwd(), "reports", "qa", "phase-09a-r3")
+    : path.join(process.cwd(), "test-results", "qa-p09a3-cad-dom");
+  mkdirSync(outDir, { recursive: true });
+  const outFile = path.join(outDir, name);
+  writeFileSync(outFile, JSON.stringify(payload, null, 2), "utf8");
+  console.log(
+    `P09A3_JSON=${path.relative(process.cwd(), outFile).replace(/\\/g, "/")}` +
+      `${committed ? " (committed evidence, QA_P09A3_WRITE_EVIDENCE=1)" : " (scratch)"}`,
+  );
+}
 
 /** `src/utils/cadUpload.ts` — the authority, transcribed for the assertion. */
 const ACCEPTED = ["step", "stp", "stl", "obj", "iges", "igs", "3mf"];
@@ -188,13 +220,13 @@ test.describe("09a-R3 — the C3 corrections in the rendered DOM", () => {
       ).toContain(m.is);
     }
 
-    const outDir = path.join(process.cwd(), "reports", "qa", "phase-09a-r3");
-    mkdirSync(outDir, { recursive: true });
-    writeFileSync(
-      path.join(outDir, `dom-cad-${test.info().project.name}.json`),
-      JSON.stringify({ offers, refusalMentions, metaText, blocked: seal.blocked, passed: seal.passed }, null, 2),
-      "utf8",
-    );
+    writeEvidence(`dom-cad-${test.info().project.name}.json`, {
+      offers,
+      refusalMentions,
+      metaText,
+      blocked: seal.blocked,
+      passed: seal.passed,
+    });
     assertNoSupabaseContact(seal);
   });
 
@@ -232,11 +264,7 @@ test.describe("09a-R3 — the C3 corrections in the rendered DOM", () => {
       "Kavite", "Çevrim/Saat", "Birim Maliyet", "Kalıp Maliyeti", "Önerilen Hacim",
     ]);
 
-    writeFileSync(
-      path.join(process.cwd(), "reports", "qa", "phase-09a-r3", `dom-tables-${test.info().project.name}.json`),
-      JSON.stringify(tables, null, 2),
-      "utf8",
-    );
+    writeEvidence(`dom-tables-${test.info().project.name}.json`, tables);
     assertNoSupabaseContact(seal);
   });
 });
