@@ -56,7 +56,7 @@
  * Comment lines are skipped. A rule may be discussed in a comment (that is how
  * the removals stay explainable) but never rendered.
  */
-import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -886,8 +886,15 @@ const EXPECTED_CAD_COPY = {
   CAD_UPLOAD_EXTENSIONS: ACCEPTED_CAD.map((e) => `.${e}`).join(", "),
 };
 
-/** Temp directories holding transpiled modules. Removed when the run ends. */
-const TRANSPILED_DIRS = [];
+/** Temp directories this run created — emitted modules, control fixtures. */
+const TEMP_DIRS = [];
+
+/** A scratch directory OUTSIDE the repository. The gate never writes to the tree. */
+function makeTempDir(prefix) {
+  const dir = mkdtempSync(join(tmpdir(), prefix));
+  TEMP_DIRS.push(dir);
+  return dir;
+}
 
 /**
  * Evaluate a TypeScript module on ANY Node, with only the parts that are
@@ -918,16 +925,14 @@ async function importTypeScriptModule(abs) {
         .join("; ")}`,
     );
   }
-  const dir = mkdtempSync(join(tmpdir(), "mas-claims-gate-module-"));
-  TRANSPILED_DIRS.push(dir);
-  const file = join(dir, "module.mjs");
+  const file = join(makeTempDir("mas-claims-gate-module-"), "module.mjs");
   writeFileSync(file, emitted.outputText, "utf8");
   return await import(pathToFileURL(file).href);
 }
 
-/** Remove every temp module this run wrote. Best effort; no verdict depends on it. */
-function cleanUpTranspiledModules() {
-  for (const dir of TRANSPILED_DIRS.splice(0)) {
+/** Remove every temp directory this run wrote. Best effort; no verdict depends on it. */
+function cleanUpTempDirs() {
+  for (const dir of TEMP_DIRS.splice(0)) {
     try {
       rmSync(dir, { recursive: true, force: true });
     } catch {
@@ -968,9 +973,25 @@ function compareDerivedCopy(namespace, expected = EXPECTED_CAD_COPY, file = CAD_
  * 09a-C5 / R4-7 — EVERY PROBLEM CARRIES A `kind`. A file that cannot be
  * evaluated at all and a file that evaluates to the wrong strings are different
  * failures with different remedies, and reporting the first as the second sends
- * a reader to correct copy that was never wrong. An `enum` or a `namespace` in
- * the ledger is the concrete case: neither survives an isolated transpile, and
- * the report has to say THAT rather than invent a drift.
+ * a reader to hunt a defect in copy that was never wrong.
+ *
+ * R4-7 named `enum` and `namespace` as the concrete case, because Node's type
+ * stripping refuses both with `ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX`. MEASURED
+ * AGAINST THE LOADER THIS FILE NOW USES, THAT CASE NO LONGER EXISTS: a full
+ * transpile emits both, and a ledger carrying either loads and is compared
+ * normally. The distinction is still built, and still needed, for the failures
+ * that DO remain — and they are the ones that matter more:
+ *
+ *     a value import          `ERR_MODULE_NOT_FOUND`   (the property the
+ *                                                       ledger claims for
+ *                                                       itself, enforced)
+ *     a relative import       `ERR_MODULE_NOT_FOUND`
+ *     `export { SomeType }`   `SyntaxError` at import   (verbatimModuleSyntax)
+ *     unparseable source      a transpile diagnostic
+ *
+ * All four fail CLOSED and all four are now reported as what they are. The
+ * control `derived-cad-copy: a runtime import is a LOAD failure, not drift`
+ * holds the distinction to it on every invocation.
  */
 async function checkDerivedCadCopy(ledgerFile = CAD_LEDGER_FILE, expected = EXPECTED_CAD_COPY) {
   const abs = resolve(REPO_ROOT, ledgerFile);
@@ -2761,21 +2782,28 @@ function walk(path) {
  * `QUALITY_RESOURCES` prints a byte size next to a download link. Before
  * Phase 06 all four sizes were invented for files that were not in the build
  * at all. This re-derives them from disk.
+ *
+ * 09a-C5 / R4-5 — THE TWO PATHS IT READS ARE PARAMETERS. Not for flexibility:
+ * so that a control can point it at a `mkdtempSync(tmpdir())` fixture whose
+ * declared size is known to be wrong, and fail if it stays quiet. Every
+ * ordinary invocation reads the real ledger and the real `public/`, and there
+ * is no command-line flag that changes either — the defaults are the only
+ * values production code ever supplies.
  */
-function checkQualityResources() {
-  const ledgerPath = resolve(REPO_ROOT, "src/content/claims.ts");
+function checkQualityResources(ledgerFile = CAD_LEDGER_FILE, publicDir = "public") {
+  const ledgerPath = resolve(REPO_ROOT, ledgerFile);
   if (!existsSync(ledgerPath)) {
-    return [{ file: "src/content/claims.ts", message: "the claim ledger is missing" }];
+    return [{ file: ledgerFile, message: "the claim ledger is missing" }];
   }
   const source = readFileSync(ledgerPath, "utf8");
   const rows = [...source.matchAll(/href:\s*"(\/belgeler\/[^"]+)"\s*,\s*size:\s*"PDF · (\d+) KB"/g)];
   /** @type {{ file: string, message: string }[]} */
   const problems = [];
   if (rows.length === 0) {
-    problems.push({ file: "src/content/claims.ts", message: "no QUALITY_RESOURCES rows found" });
+    problems.push({ file: ledgerFile, message: "no QUALITY_RESOURCES rows found" });
   }
   for (const [, href, declared] of rows) {
-    const onDisk = resolve(REPO_ROOT, "public", href.replace(/^\//, ""));
+    const onDisk = resolve(REPO_ROOT, publicDir, href.replace(/^\//, ""));
     if (!existsSync(onDisk)) {
       problems.push({ file: `public${href}`, message: "published resource does not exist on disk" });
       continue;
@@ -2789,6 +2817,237 @@ function checkQualityResources() {
     }
   }
   return problems;
+}
+
+/* ── the instruments that are not rules, and the controls that watch them ──
+   09a-C5 / R4-5. `runControls()` above proves that RULES still fire on the
+   strings they were written for. It knew nothing about the two checks that are
+   not rules — `checkDerivedCadCopy` and `checkQualityResources` — and QA
+   demonstrated the consequence four ways: neuter either function, or drop its
+   result from the verdict, and all 262 controls stayed green while the gate
+   reported PASS. One instrument asleep, one level up from where the controls
+   were looking.
+
+   C4 recorded that and gave a reason for not closing it: that a control would
+   have to mutate a source file while the gate is running. THAT REASON WAS
+   FALSE, and it was the only thing holding the finding open. A check is two
+   things bolted together — a READ and a JUDGEMENT — and each half is testable
+   on its own terms:
+
+     the judgement   `compareDerivedCopy(namespace, expected)` is pure. Hand it
+                     `{ CAD_UPLOAD_FORMATS: "… ve DWG" }` and it must complain;
+                     hand it the expected strings and it must not. No file is
+                     read, let alone written.
+     the read        `checkDerivedCadCopy(file)` and
+                     `checkQualityResources(ledger, publicDir)` take the paths
+                     they read. A control points them at a `mkdtempSync(tmpdir())`
+                     fixture — the same pattern `--also-scan=` uses — so the
+                     whole function, not merely its pure half, is exercised.
+
+   THE VERDICT IS COVERED TOO, and that is the half a per-function control does
+   not reach. `verdict()` is computed by iterating `NON_RULE_CHECKS`, so
+   "dropping a check from the conjunction" now means editing a list that has its
+   own control. Four sabotages, four red gates:
+
+     neuter checkDerivedCadCopy      → its fixture controls stop reporting
+     neuter checkQualityResources    → its fixture controls stop reporting
+     remove either from the registry → the registry control names the missing id
+     make verdict() ignore either    → the verdict control stays clean when it
+                                       has been handed a problem
+
+   Every one of these runs on EVERY invocation, for the same reason the rule
+   controls do: a proof you have to remember to run is a proof that stops being
+   true.                                                                       */
+
+/**
+ * Every check that is not a rule. The verdict is computed from this list, so a
+ * check that is not here does not count — which is exactly why the list itself
+ * is controlled.
+ */
+const NON_RULE_CHECKS = [
+  { id: "derived-cad-copy", run: () => checkDerivedCadCopy() },
+  { id: "quality-resources", run: () => checkQualityResources() },
+];
+
+/**
+ * The one place the run decides whether it is clean.
+ *
+ * Pure, and it takes the problem map rather than reaching for module state, so
+ * a control can hand it a fabricated one. It reports WHICH instruments are
+ * unhappy, including any registered check that never produced a result at all.
+ */
+function verdict({ violations, controlFailures, checkProblems }) {
+  const failing = [];
+  if (violations.length > 0) failing.push("violations");
+  if (controlFailures.length > 0) failing.push("controls");
+  for (const check of NON_RULE_CHECKS) {
+    const problems = checkProblems.get(check.id);
+    if (problems === undefined) {
+      failing.push(`${check.id} (registered but never ran)`);
+      continue;
+    }
+    if (problems.length > 0) failing.push(check.id);
+  }
+  return { clean: failing.length === 0, failing };
+}
+
+/** A fixture ledger, written outside the repository. Returns its path. */
+function writeFixtureLedger(source) {
+  const file = join(makeTempDir("mas-claims-gate-control-"), "claims.ts");
+  writeFileSync(file, source, "utf8");
+  return file;
+}
+
+/**
+ * The ledger fixtures spell the two exported strings by hand, because a fixture
+ * that DERIVED them could not disagree with the derivation being tested.
+ */
+const CORRECT_FIXTURE_LEDGER =
+  `export const CAD_UPLOAD_FORMATS = ${JSON.stringify(EXPECTED_CAD_COPY.CAD_UPLOAD_FORMATS)};\n` +
+  `export const CAD_UPLOAD_EXTENSIONS = ${JSON.stringify(EXPECTED_CAD_COPY.CAD_UPLOAD_EXTENSIONS)};\n`;
+const DRIFTED_FIXTURE_LEDGER =
+  `export const CAD_UPLOAD_FORMATS = ${JSON.stringify(`${EXPECTED_CAD_COPY.CAD_UPLOAD_FORMATS} ve DWG`)};\n` +
+  `export const CAD_UPLOAD_EXTENSIONS = ${JSON.stringify(EXPECTED_CAD_COPY.CAD_UPLOAD_EXTENSIONS)};\n`;
+
+/** Each returns `null` when the control holds, or WHY it does not. */
+const CHECK_CONTROLS = [
+  {
+    id: "derived-cad-copy: the comparison catches an appended format",
+    run() {
+      const drifted = { ...EXPECTED_CAD_COPY, CAD_UPLOAD_FORMATS: `${EXPECTED_CAD_COPY.CAD_UPLOAD_FORMATS} ve DWG` };
+      return compareDerivedCopy(drifted).length > 0
+        ? null
+        : "compareDerivedCopy() blessed a namespace publishing a list ending in DWG";
+    },
+  },
+  {
+    id: "derived-cad-copy: the comparison is silent on the derived strings",
+    run() {
+      const hits = compareDerivedCopy({ ...EXPECTED_CAD_COPY });
+      return hits.length === 0 ? null : `compareDerivedCopy() complained about the expected strings: ${hits[0].message}`;
+    },
+  },
+  {
+    id: "derived-cad-copy: the check reads the ledger it is given",
+    async run() {
+      const problems = await checkDerivedCadCopy(writeFixtureLedger(DRIFTED_FIXTURE_LEDGER));
+      return problems.some((p) => p.kind === "drift")
+        ? null
+        : "checkDerivedCadCopy() reported no drift over a fixture ledger publishing '… ve DWG'";
+    },
+  },
+  {
+    id: "derived-cad-copy: and stays silent when that ledger is correct",
+    async run() {
+      const problems = await checkDerivedCadCopy(writeFixtureLedger(CORRECT_FIXTURE_LEDGER));
+      return problems.length === 0
+        ? null
+        : `checkDerivedCadCopy() complained about a correct fixture ledger: ${problems[0].message}`;
+    },
+  },
+  {
+    id: "derived-cad-copy: a runtime import is a LOAD failure, not drift",
+    async run() {
+      /* The property the ledger states about itself, held to it. The emitted
+         module is imported from a temp directory, so a value import cannot
+         resolve — and the report must say "could not load", never "your copy
+         has drifted", because the copy in this fixture is exactly right. */
+      const fixture = writeFixtureLedger(
+        `import { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadUpload";\nvoid CAD_ACCEPTED_EXTENSIONS;\n${CORRECT_FIXTURE_LEDGER}`,
+      );
+      const problems = await checkDerivedCadCopy(fixture);
+      if (problems.length === 0) return "a ledger with a runtime import loaded anyway; the no-module-edge property is gone";
+      if (!problems.every((p) => p.kind === "load")) {
+        return `a ledger that could not be loaded was reported as ${problems.map((p) => p.kind).join("/")}`;
+      }
+      return null;
+    },
+  },
+  {
+    id: "quality-resources: the check catches an invented byte size",
+    run() {
+      const dir = makeTempDir("mas-claims-gate-control-");
+      const ledger = join(dir, "claims.ts");
+      const docs = join(dir, "belgeler");
+      mkdirSync(docs, { recursive: true });
+      writeFileSync(join(docs, "fixture.pdf"), "x".repeat(4096), "utf8");
+      writeFileSync(ledger, 'href: "/belgeler/fixture.pdf", size: "PDF · 999 KB"\n', "utf8");
+      const problems = checkQualityResources(ledger, dir);
+      return problems.length > 0
+        ? null
+        : "checkQualityResources() blessed a row declaring 999 KB for a 4 KB file";
+    },
+  },
+  {
+    id: "quality-resources: and is silent when the size is measured",
+    run() {
+      const dir = makeTempDir("mas-claims-gate-control-");
+      const ledger = join(dir, "claims.ts");
+      const docs = join(dir, "belgeler");
+      mkdirSync(docs, { recursive: true });
+      writeFileSync(join(docs, "fixture.pdf"), "x".repeat(4096), "utf8");
+      writeFileSync(ledger, 'href: "/belgeler/fixture.pdf", size: "PDF · 4 KB"\n', "utf8");
+      const problems = checkQualityResources(ledger, dir);
+      return problems.length === 0 ? null : `checkQualityResources() complained about a true size: ${problems[0].message}`;
+    },
+  },
+  {
+    id: "registry: every non-rule check is registered and controlled",
+    run() {
+      /* Written out, not derived, so DELETING a check fails here and ADDING one
+         also fails here — which is the point: a new instrument does not get to
+         join the verdict until somebody has written controls for it. */
+      const expected = ["derived-cad-copy", "quality-resources"];
+      const actual = NON_RULE_CHECKS.map((c) => c.id);
+      if (actual.length !== expected.length || expected.some((id, i) => actual[i] !== id)) {
+        return `NON_RULE_CHECKS is [${actual.join(", ")}] but the controls below cover [${expected.join(", ")}]`;
+      }
+      return null;
+    },
+  },
+  {
+    id: "verdict: a problem from any registered check fails the run",
+    run() {
+      const empty = () => new Map(NON_RULE_CHECKS.map((c) => [c.id, []]));
+      for (const check of NON_RULE_CHECKS) {
+        const checkProblems = empty();
+        checkProblems.set(check.id, [{ file: "control", message: "a fabricated problem" }]);
+        const { clean } = verdict({ violations: [], controlFailures: [], checkProblems });
+        if (clean) return `verdict() reported clean while ${check.id} was holding a problem`;
+      }
+      const missing = empty();
+      missing.delete(NON_RULE_CHECKS[0].id);
+      if (verdict({ violations: [], controlFailures: [], checkProblems: missing }).clean) {
+        return `verdict() reported clean while ${NON_RULE_CHECKS[0].id} had produced no result at all`;
+      }
+      return null;
+    },
+  },
+  {
+    id: "verdict: and reports clean when nothing is wrong",
+    run() {
+      /* The probe has to be able to go green, or the four above prove nothing. */
+      const checkProblems = new Map(NON_RULE_CHECKS.map((c) => [c.id, []]));
+      return verdict({ violations: [], controlFailures: [], checkProblems }).clean
+        ? null
+        : "verdict() refused to report clean over an empty run";
+    },
+  },
+];
+
+async function runCheckControls() {
+  /** @type {{ scope: string, rule: string, kind: string, text: string }[]} */
+  const failures = [];
+  for (const control of CHECK_CONTROLS) {
+    let why;
+    try {
+      why = await control.run();
+    } catch (error) {
+      why = `the control itself threw: ${error.message}`;
+    }
+    if (why) failures.push({ scope: "check", rule: control.id, kind: "INSTRUMENT CONTROL FAILED", text: why });
+  }
+  return failures;
 }
 
 /* ── run ───────────────────────────────────────────────────────────────── */
@@ -2825,12 +3084,19 @@ if (process.argv.includes("--list")) {
   process.exit(0);
 }
 
-const controlFailures = runControls();
+const controlFailures = [...runControls(), ...(await runCheckControls())];
 
 for (const root of ROOTS) walk(root);
 for (const extra of EXTRA_SCAN_FILES) scanFile(extra, resolve(REPO_ROOT, extra));
-const resourceProblems = checkQualityResources();
-const derivedProblems = await checkDerivedCadCopy();
+
+/* Every non-rule check runs through the registry, and the verdict below is
+   computed from what the registry produced. Nothing here reaches for a check by
+   name in order to decide the exit code — the two lookups that follow are for
+   REPORTING only. */
+const checkProblems = new Map();
+for (const check of NON_RULE_CHECKS) checkProblems.set(check.id, await check.run());
+const resourceProblems = checkProblems.get("quality-resources") ?? [];
+const derivedProblems = checkProblems.get("derived-cad-copy") ?? [];
 
 const byRule = new Map();
 for (const v of violations) {
@@ -2844,8 +3110,9 @@ console.log(`# excluded: admin/, musteri/, AdminDashboard, AdminLogin, MusteriPa
 console.log(`# scanned:  ${filesScanned} files, ${linesScanned} non-comment lines`);
 const controlCount =
   RULES.reduce((n, r) => n + (r.controls?.fires?.length ?? 0) + (r.controls?.silent?.length ?? 0), 0) +
-  RULES.length * AUTHORISED_SLA.length;
-console.log(`# controls: ${controlCount} (${controlFailures.length} failed)`);
+  RULES.length * AUTHORISED_SLA.length +
+  CHECK_CONTROLS.length;
+console.log(`# controls: ${controlCount} (${controlFailures.length} failed), of which ${CHECK_CONTROLS.length} watch the two non-rule checks`);
 console.log("");
 
 /* `process.exitCode` rather than `process.exit()`, from the PASS path down.
@@ -2856,21 +3123,29 @@ console.log("");
    the event loop drain removes the race and also guarantees stdout is flushed
    before the process goes away — which matters because the full report IS the
    failure message the Playwright spec prints. */
-const clean =
-  violations.length === 0 &&
-  resourceProblems.length === 0 &&
-  derivedProblems.length === 0 &&
-  controlFailures.length === 0;
+const { clean } = verdict({ violations, controlFailures, checkProblems });
 
 if (clean) {
   console.log(`PASS — 0 unverified claims across ${RULES.length} rules, ${controlCount} controls green.`);
 }
 
-if (!clean && controlFailures.length > 0) {
+const ruleControlFailures = controlFailures.filter((f) => f.scope !== "check");
+const checkControlFailures = controlFailures.filter((f) => f.scope === "check");
+
+if (!clean && ruleControlFailures.length > 0) {
   console.log("## RULE CONTROL FAILURES");
   console.log("A rule that no longer fires on the claim it was written for reports PASS over live");
   console.log("fabrication, which is worse than having no rule at all. Fix the RULE, not the control.");
-  for (const f of controlFailures) console.log(`  ${f.rule}: ${f.kind}\n    ${f.text}`);
+  for (const f of ruleControlFailures) console.log(`  ${f.rule}: ${f.kind}\n    ${f.text}`);
+  console.log("");
+}
+
+if (!clean && checkControlFailures.length > 0) {
+  console.log("## INSTRUMENT CONTROL FAILURES");
+  console.log("One of the checks that is NOT a rule has stopped detecting what it exists to detect, or has");
+  console.log("stopped counting towards the verdict. Nothing below this line can be trusted until it is fixed:");
+  console.log("a gate whose instrument is asleep reports PASS over exactly the class it was built for.");
+  for (const f of checkControlFailures) console.log(`  ${f.rule}\n    ${f.text}`);
   console.log("");
 }
 
@@ -2937,4 +3212,4 @@ if (!clean) {
   process.exitCode = 1;
 }
 
-cleanUpTranspiledModules();
+cleanUpTempDirs();
