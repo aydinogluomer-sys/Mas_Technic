@@ -88,6 +88,62 @@ const RULES: Rule[] = [
   { id: "w-taahhut", cls: "WARRANTY", re: /taahh[üu]t/giu },
 ];
 
+/* ── WAITING FOR THE PAGE, NOT FOR THE SHELL ── 09a-C5 / R4-4 ────────────
+   This spec used to wait for `main, .shell-root, #root > *` to be ATTACHED and
+   then sleep a fixed 350 ms. On a lazily-imported route that selector is
+   satisfied by the app SHELL, so 350 ms was the entire budget for the route
+   chunk to arrive and mount.
+
+   QA measured the consequence in round 4: 41 of the 63 routes settle more than
+   350 ms after the fastest, the slowest at 4018 ms, and two routes were caught
+   mid-flight with an `innerText` of 88 characters against 5753 and 4891 once
+   settled. The sweep scanned those 88 characters, found nothing, and recorded
+   the route as clean. So `FINDINGS=0 across 63 routes` has always meant
+   "across the routes that happened to have rendered" — in rounds 2 and 3 as
+   well, since both rest on this spec. Which routes those were changed from run
+   to run, which is also why `SLA_ROUTES` wobbled between 56 and 57.
+
+   THE FINDINGS SURVIVE THE BETTER INSTRUMENT. `e2e/qa-p09a4-stabilised-sweep.spec.ts`
+   re-ran the same rules on settled pages and reached `neverSettled=0`,
+   `SLA_ROUTES=57`, `FINDINGS=0` at both desktop-1280 and mobile-375. 57 was
+   right; 56 was the instrument. This spec now waits the same way, so the two
+   agree by construction rather than by luck.
+
+   The RULES, the EXEMPT list and the assertions above and below are untouched.
+   Only the moment of reading changes — and a route that never renders is now a
+   loud failure instead of a silent clean row, which is the whole point: a
+   sweep that cannot tell "no violations here" from "nothing here" reports the
+   same number for both. */
+
+/**
+ * The shell alone. Measured, not chosen: the two routes caught mid-flight both
+ * read exactly 88 characters, and the SHORTEST route that has actually rendered
+ * reads 1889. Anything at or below this is the shell, not a page.
+ */
+const SHELL_ONLY_MAX = 400;
+
+/** Poll until `document.body.innerText` stops growing, or give up loudly. */
+async function settledText(
+  page: import("@playwright/test").Page,
+): Promise<{ text: string; ms: number }> {
+  const started = Date.now();
+  let previous = -1;
+  let stable = 0;
+  let text = "";
+  for (let i = 0; i < 60; i += 1) {
+    text = await page.evaluate(() => document.body.innerText || "");
+    if (text.length === previous && text.length > SHELL_ONLY_MAX) {
+      stable += 1;
+      if (stable >= 3) break;
+    } else {
+      stable = 0;
+      previous = text.length;
+    }
+    await page.waitForTimeout(150);
+  }
+  return { text, ms: Date.now() - started };
+}
+
 type Finding = { route: string; rule: string; cls: string; match: string; ctx: string };
 type Exempted = Finding & { why: string };
 
@@ -96,11 +152,12 @@ const exempted: Exempted[] = [];
 const slaRoutes: string[] = [];
 const visited: string[] = [];
 const failedRoutes: { route: string; reason: string }[] = [];
+const settleTimes: { route: string; len: number; settleMs: number }[] = [];
 
 test.describe.configure({ mode: "serial" });
 
 test("public routes carry no unauthorised duration, payment term or warranty", async ({ page }) => {
-  test.setTimeout(15 * 60 * 1000);
+  test.setTimeout(20 * 60 * 1000);
   const seal = await sealNetwork(page);
 
   await page.goto(ROUTES[0], { waitUntil: "domcontentloaded" });
@@ -108,16 +165,22 @@ test("public routes carry no unauthorised duration, payment term or warranty", a
 
   for (const route of ROUTES) {
     await page.goto(route, { waitUntil: "domcontentloaded" });
-    const ok = await page.locator("main, .shell-root, #root > *").first()
-      .waitFor({ state: "attached", timeout: 15000 }).then(() => true).catch(() => false);
-    if (!ok) {
-      failedRoutes.push({ route, reason: "no main/shell-root mounted" });
+    const settled = await settledText(page);
+    settleTimes.push({ route, len: settled.text.length, settleMs: settled.ms });
+    if (settled.text.length <= SHELL_ONLY_MAX) {
+      // Loudly. A route that never rendered is not a route with no violations.
+      failedRoutes.push({
+        route,
+        reason: `never settled: ${settled.text.length} characters after ${settled.ms} ms — the shell, not the page`,
+      });
       continue;
     }
-    // Let lazy sections settle; these pages hydrate content in effects.
-    await page.waitForTimeout(350);
 
-    const text = (await page.evaluate(() => document.body.innerText || "")).replace(/ /g, " ");
+    /* U+00A0 written as an escape, not as the character. The literal was the
+       file's one `no-irregular-whitespace` error, and an invisible character
+       that lint objects to is a poor thing to leave on the line that decides
+       what gets scanned. Same regex, same behaviour. */
+    const text = settled.text.replace(/\u00a0/g, " ");
 
     // An error boundary would make every route look clean. Catch that.
     if (/bir (şeyler )?ters gitti|something went wrong|error boundary/i.test(text)) {
@@ -168,7 +231,10 @@ test("public routes carry no unauthorised duration, payment term or warranty", a
   writeFileSync(
     outFile,
     JSON.stringify({ routesRequested: ROUTES.length, routesVisited: visited.length, failedRoutes,
-      slaRouteCount: slaRoutes.length, slaRoutes, findings, exempted }, null, 2),
+      slaRouteCount: slaRoutes.length, slaRoutes, findings, exempted,
+      // 09a-C5 / R4-4: so a reader can see nothing was scanned half-rendered.
+      slowestToSettle: [...settleTimes].sort((a, b) => b.settleMs - a.settleMs).slice(0, 5),
+      shortestSettled: [...settleTimes].sort((a, b) => a.len - b.len).slice(0, 5) }, null, 2),
     "utf8",
   );
   console.log(`SWEEP_JSON=${path.relative(process.cwd(), outFile).replace(/\\/g, "/")}` +
@@ -181,11 +247,18 @@ test("public routes carry no unauthorised duration, payment term or warranty", a
   for (const f of findings) {
     console.log(`  [${f.cls}/${f.rule}] ${f.route} :: ${JSON.stringify(f.match)} … ${f.ctx}`);
   }
+  const slowest = [...settleTimes].sort((a, b) => b.settleMs - a.settleMs)[0];
+  const shortest = [...settleTimes].sort((a, b) => a.len - b.len)[0];
+  console.log(
+    `SETTLED slowest=${slowest?.route ?? "-"}@${slowest?.settleMs ?? 0}ms ` +
+      `shortest=${shortest?.route ?? "-"}@${shortest?.len ?? 0}chars neverSettled=${failedRoutes.length}`,
+  );
+
   const noSla = visited.filter((r) => !slaRoutes.includes(r));
   console.log(`ROUTES_WITHOUT_SLA (${noSla.length}): ${noSla.join(", ")}`);
 
   assertNoSupabaseContact(seal);
 
-  expect(failedRoutes, "every public route must render, not an error boundary").toEqual([]);
+  expect(failedRoutes, "every public route must SETTLE and render — an unrendered route is not a clean route").toEqual([]);
   expect(findings, "no unauthorised duration / payment term / warranty on any public route").toEqual([]);
 });
