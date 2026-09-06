@@ -1768,6 +1768,51 @@ already established and it cost four rows. Its return format carries an `UNVERIF
 says plainly that entries there are expected and are worth more than a check run by writing to the customer's
 database.
 
+#### QA 09a — FAIL on one defect, and every number 09a claimed is true
+
+Three QA commits integrated as `b8182da..3604194`; scope clean. 353 tests passed.
+
+**The prohibition held, and QA proved it held rather than asserting it.** Nothing was submitted, invoked,
+uploaded or inserted. Its seal never forwards an off-origin request, and it fires a **live canary to
+example.com to prove the interception works before touching any control** — the discipline I asked for, done
+better than I specified. The `UNVERIFIABLE` field came back with **seven** honest entries, all of them things
+that genuinely need a production write: whether the deployed limiter rejects a malformed e-mail (U1), whether
+the 429 branch is reachable in production (U2), whether a row is written with the fields
+`useRfqSubmission.ts:267-279` sends (U3), whether the object lands at `createCadStoragePath(...)` (U4), the two
+timeout constants under real network conditions (U5), the notification path end to end (U6, a `supabase/**`
+read that belongs to 09b), and the visual-375 font flake (U7).
+
+**Every load-bearing number 09a reported reproduced.** QA built both endpoints itself — `3a89e7c` into a
+scratch `outDir`, `2f6bb3c` into `dist/` — with a static-edge-only walker and `hoistTransitiveImports:false`:
+static closure **1629.48 kB → 816.79 kB**, matching the Coder to the hundredth of a kB. And the trap is worse
+than the packet warned: the route-chunk-only figure moves 41.91 → 28.68 kB, so measuring that alone understates
+the win **61×**, not 20×. Runtime: no heavy chunk on load, none after choosing a file, `CadStage` + `cssVar`
+only after the explicit request, and OCCT still absent for an STL because it is a *second* dynamic boundary
+inside the first. Design 0/0/88 on both routes. Both error states reached without a submission. Focus lands on
+the first invalid field in **document** order, not object-key order. Thirteen submit attempts → one invocation.
+Lead times gone from the rendered DOM at all four steps, and the confirmation reference proved server-echoed
+**both ways** — a sealed response echoing `RFQ-2026-QASEAL` puts that value on screen, and a 2xx with no
+`rfq.id` yields no reference row at all.
+
+**The one defect is 09a's own, and it is the kind only a rendered check finds.** `shell.css:1891` colours
+`.shell-notice[data-tone="error"] .shell-notice-label` with `--tl-stamp`, and `design-tokens.css:111` defines
+that as a single fixed `#8a4030` with no surface variant. On the graphite ground 09a moved `/teklif-al` onto,
+it measures **2.69:1 at 9px/600** against 4.5:1 — axe serious, at 1280 and 375. On paper the identical markup
+measures 6.08:1, so the token was fine until this page used it. A20 recorded `tone="error"` had **zero** usages
+in `src/`; all five it now has are 09a's, and the upload-, chunk- and parse-failure notices carry the same
+label. Nothing caught it because `shell-golden.spec.ts` deliberately does not photograph page bodies and
+`shared-shell-accessibility.spec.ts` audits `/teklif-al` only in its default state, where no notice exists.
+
+**A second content-truth item QA found while checking the first.** `servicePages.ts:611,2197,2242` still
+publish "3-5 gün" as a production/DFM turnaround. Orchestrator-verified: **`USER_INPUTS.md` has no lead-time,
+turnaround or delivery field at all**, so these are unverifiable public claims with no authority, and the run's
+standing instruction to remove or neutralise such a claim is not phase-scoped. Folded into the correction
+rather than carried. `scripts/claims-gate.mjs` **passes** with them in the tree, so it has no turnaround rule —
+the same shape as round 1's finding that it has no revenue rule, and a gate-coverage item for a later phase.
+
+**09a-C1 dispatched** to `wt/coder-p09a1` at `3604194`, packet `.work/packets/phase-09a-C1.md`, carrying the
+production-write prohibition forward verbatim.
+
 **Still open, and blocking nothing else:** (1) whether to delete the four `rfqs` rows and three `cad-uploads`
 objects — a production mutation only the user can authorise, and the anon role has no DELETE policy so it needs
 service-role access; (2) whether the undeployed rate limiter is fixed now by deploying the repo's function —
