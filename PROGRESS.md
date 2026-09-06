@@ -1956,3 +1956,99 @@ wrote this phase said `SifremiUnuttum.tsx`, which does not exist.
 
 `09a-C2r` dispatched to the same worktree, packet `.work/packets/phase-09a-C2-resume.md`, `PARTIAL` explicitly
 permitted and "commit after every step" made a packet rule rather than advice.
+
+#### C2 integrated — the file I called "62 hits" was eleven pages, and two of them were in no list I wrote
+
+Four commits cherry-picked as `bc4ed86`, `0a829d0`, `f757d3d`, `dae15bb`. The integration tree is byte-identical
+to the Coder's on every production and test path; the only difference is `PROGRESS.md` and the two packets,
+which are mine. Working tree clean apart from the `.references/react-bits` submodule that has been dirty all
+run.
+
+**Scope verified by diff, not by summary.** `git diff --name-only 0780ac4..dae15bb` is exactly seven paths:
+`servicePages.ts`, `chatFaqData.ts`, `claims.ts`, `caseStudies.ts`, `claims-gate.mjs`, and two `visual-375`
+PNGs. No spec edited, no `supabase/**` touched, no DO_NOT_TOUCH path touched, and no network write of any
+kind — the RFQ form was never submitted, no edge function invoked, no object uploaded, no row inserted.
+
+**The gate, run by me, in both directions.** On the tree: **PASS, 0 violations, 29 rules, 178 controls, 0
+control failures.** Against `0780ac4`'s two data files, restored into the worktree and then restored back:
+**FAIL, 75 violations** — 69 lead-time, 4 payment, 1 wrong-city, 1 returns. That is the adversarial half
+proved end to end rather than by unit control, and it is the first time this run has had a gate rule whose
+positive controls are the exact strings the same commit removed.
+
+Every residual regex hit left in `servicePages.ts` — seven numeric, two worded — is inside a **comment**. The
+gate blanks comments by design, which is also a known risk the Coder recorded: if anyone ever makes it scan
+comments, four files fail at once because the in-file explanations quote the strings they removed.
+
+**My "62 hits in one file" was the wrong unit, and it hid two whole pages.** Built from the claim instead of
+the regex it is **eleven pages**, and `/kabiliyetler/malzeme-kutuphanesi` and
+`/kabiliyetler/tasarim-rehberi-dfm` were in neither list I wrote. `malzeme-kutuphanesi` was the worse: a
+six-row numeric procurement matrix *plus* an "Acil Tedarik" express column — while `/kabiliyetler/tedarik-zinciri`,
+one page away, grades the same materials qualitatively and says the real figure comes with the quote. Two
+pages answering the buyer's same question two different ways, one of them with numbers nobody set.
+
+**Four whole duration columns removed rather than filled with five identical cells.** Enjeksiyon "Teslimat
+Süresi" (5), silikon "Teslimat" (5, the column C1 half-fixed and the reason C2 existed), dusuk-hacimli
+"Teslimat" (6), and malzeme's two-column "Tedarik Süresi ve Sertifika Matrisi" (6+6), retitled and retabulated
+to say what that page's own FAQ already said. A column of five identical "Teklifle birlikte" cells carries no
+information; the Coder's judgement here is better than the instruction it was given. `proje-yonetimi`'s "Süre"
+column now has **exactly one cell carrying a number** — `1-3 iş günü`, read from `QUOTE_RESPONSE_TIME` — which
+is the only duration on this site §D and §J authorise.
+
+**Two scope expansions, flagged rather than smuggled, both adjudicated ACCEPTED and both verified by me at the
+source.**
+
+- `/hizmetler/cnc-tornalama` published *"Bar feeder ile gece-gündüz kesintisiz seri üretim"* twice. That is a
+  shift-pattern commitment, and it is the same claim Phase 06 removed from the machine-park page as `24/7` —
+  the comment recording that removal is still at `servicePages.ts:1499`, twelve hundred lines from the copy
+  that survived. Neutralised to the mechanism: a bar feeder lets a long batch run without operator
+  intervention, which is true and claims nothing about shifts. It also touches §0
+  `DO_NOT_EMPHASIZE_COMPANY_SCALE`, since a shift pattern is a capacity statement.
+- `/endustriyel/kucuk-seri` published `%15-25` and `%25-35 hacim indirimi` as spec rows. Not a duration — a
+  **price policy**, and its own page FAQ four fields below already said tiered pricing comes with the quote.
+  Now "Kademeli fiyatlandırma teklifte".
+
+Both are removals of unverifiable public claims, which the run brief directs rather than merely permits.
+
+**Two more corrections to me, on top of the regex.** My `rfq-model.ts:82` and `RfqSubmitStep.tsx` line
+references were both wrong: the regex hit `:31` and `:33`, and **both are code comments** quoting strings a
+previous phase already deleted. What `RfqSubmitStep.tsx` actually renders reads `QUOTE_RESPONSE_TIME` from the
+ledger in both places. Neither file needed touching; both are now negative controls in the gate.
+
+**The gate work is the durable half.** Two new rules — `unverified-production-lead-time` (three detectors:
+prose, bare cell, and SEO string, because `metaTitle`/`metaDescription` make the field name the context) and
+`payment-or-credit-terms`, anchored to the term being *granted* rather than to the topic, so "Peşin ödeme
+zorunlu mu?" and its honest answer stay silent and are controls. Two widened — `unconditional-guarantee`,
+which caught "garanti" and "güvence" but not `ÜCRETSİZ İADE/DEĞİŞİM yapılmaktadır`, the strongest form of the
+promise; and `wrong-city`, my finding, whose pattern was `geo.placename` only. Its new negative controls are
+worth recording: `timeZone: "Europe/Istanbul"` is an IANA identifier, and `Login.tsx`'s "İstanbul" placeholder
+is the **customer's** city field, not a claim about ours. And a global invariant now runs on every invocation:
+**four SLA controls × 29 rules**, so no rule added later can quietly start firing on the one authorised
+duration, and a rule that stops firing on the string it was written for fails the gate.
+
+**Goldens: two moved, both explained, none silenced.** `inner-next-service-detail.png` 549→550px and
+`shell-footer-service.png` 742→741px at `visual-375`, both on `/hizmetler/cnc-frezeleme`, because a replaced
+advantages bullet wraps one line further at 375. Controlled: the same two goldens re-run against `0780ac4`'s
+`servicePages.ts` in the same worktree passed 13/13. `--update-snapshots=changed` wrote exactly these two;
+everything else in both spec files was byte-identical, and 768/1280/1440 needed none.
+
+**A coupling that changes what the chatbot fix actually was.** `chatFaqData.ts`'s `collectServiceFaqs()` lifts
+**every** `faq` entry in `servicePages.ts` into the chatbot's answer pool. So `60238c8` — the commit that
+"fixed the chatbot" — reached only the smaller half of what a visitor can be told; the larger half lived in the
+file the killed agent never got to. It is fixed now, but the coupling is load-bearing and was documented
+nowhere. That is the item QA round 2 is most pointedly asked to check independently.
+
+**Four in-scope findings the Coder deliberately did not act on**, because they fall outside the packet's three
+classes and the packet forbids opportunistic cleanup — correct discipline, and all four are cheap for a later
+packet because they sit in files already being edited: `servicePages.ts:77`'s unsourced `%40 daha hızlı
+üretim` against §D `OTHER_PUBLIC_KPIS: NONE`; `tasarim-rehberi-dfm`'s `%70'e kadar maliyet tasarrufu` and
+`Ortalama %30-50`, both contradicted by that page's own already-corrected FAQ; `dusuk-hacimli-uretim`'s named
+machine model `EOS M290`, the same class Phase 06 removed under §D `MACHINE_COUNT:
+PRIVATE_DO_NOT_DISCLOSE`; and `enjeksiyon-kalibi`'s `Parça/Saat` table header, which matches `claims.ts`
+`WITHHELD_SPEC_CLASSES` exactly but escapes it because that filter runs on `technicalSpecs` via `CategoryPage`
+and never on a `comparisonTables` header. **QA R2 is asked to confirm each is still live** so I am not
+carrying a phantom into a later phase.
+
+**QA round 2 dispatched** to a fresh `wt/qa-p09a2` from `dae15bb`, packet `.work/packets/phase-09a-QA-R2.md`,
+carrying the production-write prohibition verbatim and instructing that **U1–U7 stay unattempted** — every one
+of them needs a write to the customer's database, and an honest unverifiable entry is worth more than a check
+bought that way.
