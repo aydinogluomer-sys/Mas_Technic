@@ -1,0 +1,66 @@
+pool size                : 140
+  static                 : 24
+  from servicePages.faq  : 116
+CAD_ACCEPTED_EXTENSIONS  : step, stp, stl, obj, iges, igs, 3mf
+CAD_UPLOAD_FORMATS       : STEP, STP, STL, OBJ, IGES, IGS ve 3MF
+CAD_UPLOAD_EXTENSIONS    : .step, .stp, .stl, .obj, .iges, .igs, .3mf
+
+OFFERS of a refused format : 0
+
+refusal/other mentions     : 10
+  [26] SolidWorks :: Hangi dosya formatlarını kabul ediyorsunuz?
+  [26] .sldprt :: Hangi dosya formatlarını kabul ediyorsunuz?
+  [26] CATIA :: Hangi dosya formatlarını kabul ediyorsunuz?
+  [26] .catpart :: Hangi dosya formatlarını kabul ediyorsunuz?
+  [26] NX :: Hangi dosya formatlarını kabul ediyorsunuz?
+  [26] .prt :: Hangi dosya formatlarını kabul ediyorsunuz?
+  [26] PDF :: Hangi dosya formatlarını kabul ediyorsunuz?
+  [26] DWG :: Hangi dosya formatlarını kabul ediyorsunuz?
+  [101] sat :: Proje şartnamemi karşılayabiliyor musunuz?
+  [101] sat :: Proje şartnamemi karşılayabiliyor musunuz?
+
+── six phrasings ──
+"catia"
+  matched=true score=1 offersRejected=false email=true
+  Q: Hangi dosya formatlarını kabul ediyorsunuz?
+  A: Teklif akışındaki yükleyici şu uzantıları doğrular: .step, .stp, .stl, .obj, .iges, .igs, .3mf — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.
+
+"catia dosyası"
+  matched=true score=1 offersRejected=false email=true
+  Q: Hangi dosya formatlarını kabul ediyorsunuz?
+  A: Teklif akışındaki yükleyici şu uzantıları doğrular: .step, .stp, .stl, .obj, .iges, .igs, .3mf — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.
+
+"catpart"
+  matched=true score=1 offersRejected=false email=true
+  Q: Hangi dosya formatlarını kabul ediyorsunuz?
+  A: Teklif akışındaki yükleyici şu uzantıları doğrular: .step, .stp, .stl, .obj, .iges, .igs, .3mf — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.
+
+"solidworks"
+  matched=true score=1 offersRejected=false email=true
+  Q: Hangi dosya formatlarını kabul ediyorsunuz?
+  A: Teklif akışındaki yükleyici şu uzantıları doğrular: .step, .stp, .stl, .obj, .iges, .igs, .3mf — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.
+
+"sldprt"
+  matched=true score=1 offersRejected=false email=true
+  Q: Hangi dosya formatlarını kabul ediyorsunuz?
+  A: Teklif akışındaki yükleyici şu uzantıları doğrular: .step, .stp, .stl, .obj, .iges, .igs, .3mf — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.
+
+"solidworks dosyası"
+  matched=true score=1 offersRejected=false email=true
+  Q: Hangi dosya formatlarını kabul ediyorsunuz?
+  A: Teklif akışındaki yükleyici şu uzantıları doğrular: .step, .stp, .stl, .obj, .iges, .igs, .3mf — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.
+
+── validator ──
+  a.step     ACCEPTED
+  a.stp      ACCEPTED
+  a.stl      ACCEPTED
+  a.obj      ACCEPTED
+  a.iges     ACCEPTED
+  a.igs      ACCEPTED
+  a.3mf      ACCEPTED
+  a.sldprt   REFUSED
+  a.catpart  REFUSED
+  a.prt      REFUSED
+  a.dwg      REFUSED
+  a.pdf      REFUSED
+  a.x_t      REFUSED

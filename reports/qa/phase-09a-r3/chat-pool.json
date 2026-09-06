@@ -1,0 +1,892 @@
+{
+  "generatedAt": "2026-09-06T13:28:29.262Z",
+  "poolSize": 140,
+  "staticCount": 24,
+  "serviceFaqCount": 116,
+  "CAD_ACCEPTED_EXTENSIONS": [
+    "step",
+    "stp",
+    "stl",
+    "obj",
+    "iges",
+    "igs",
+    "3mf"
+  ],
+  "CAD_UPLOAD_FORMATS": "STEP, STP, STL, OBJ, IGES, IGS ve 3MF",
+  "CAD_UPLOAD_EXTENSIONS": ".step, .stp, .stl, .obj, .iges, .igs, .3mf",
+  "offersOfRejectedFormats": [],
+  "refusalMentionsOfRejectedFormats": [
+    {
+      "i": 26,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "token": "SolidWorks",
+      "sentence": "Yerel CAD kayıtlarınızı (SolidWorks ."
+    },
+    {
+      "i": 26,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "token": ".sldprt",
+      "sentence": ""
+    },
+    {
+      "i": 26,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "token": "CATIA",
+      "sentence": "sldprt, CATIA ."
+    },
+    {
+      "i": 26,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "token": ".catpart",
+      "sentence": ""
+    },
+    {
+      "i": 26,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "token": "NX",
+      "sentence": "catpart, NX ."
+    },
+    {
+      "i": 26,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "token": ".prt",
+      "sentence": ""
+    },
+    {
+      "i": 26,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "token": "PDF",
+      "sentence": "prt) veya PDF/DWG teknik resminizi sales@mastechnic."
+    },
+    {
+      "i": 26,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "token": "DWG",
+      "sentence": "prt) veya PDF/DWG teknik resminizi sales@mastechnic."
+    },
+    {
+      "i": 101,
+      "question": "Proje şartnamemi karşılayabiliyor musunuz?",
+      "token": "sat",
+      "sentence": "Şartnamenizi teknik incelemede satır satır okur, hangi gereksinimleri bugünkü kabiliyetimizle karşılayabildiğimizi ve hangileri için tedarik zinciri gerektiğini açıkça belirtiriz."
+    },
+    {
+      "i": 101,
+      "question": "Proje şartnamemi karşılayabiliyor musunuz?",
+      "token": "sat",
+      "sentence": "Şartnamenizi teknik incelemede satır satır okur, hangi gereksinimleri bugünkü kabiliyetimizle karşılayabildiğimizi ve hangileri için tedarik zinciri gerektiğini açıkça belirtiriz."
+    }
+  ],
+  "phrasingProbes": [
+    {
+      "input": "catia",
+      "matched": true,
+      "score": 1,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "answer": "Teklif akışındaki yükleyici şu uzantıları doğrular: .step, .stp, .stl, .obj, .iges, .igs, .3mf — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.",
+      "offersRejectedFormat": false,
+      "namesEmailRoute": true
+    },
+    {
+      "input": "catia dosyası",
+      "matched": true,
+      "score": 1,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "answer": "Teklif akışındaki yükleyici şu uzantıları doğrular: .step, .stp, .stl, .obj, .iges, .igs, .3mf — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.",
+      "offersRejectedFormat": false,
+      "namesEmailRoute": true
+    },
+    {
+      "input": "catpart",
+      "matched": true,
+      "score": 1,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "answer": "Teklif akışındaki yükleyici şu uzantıları doğrular: .step, .stp, .stl, .obj, .iges, .igs, .3mf — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.",
+      "offersRejectedFormat": false,
+      "namesEmailRoute": true
+    },
+    {
+      "input": "solidworks",
+      "matched": true,
+      "score": 1,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "answer": "Teklif akışındaki yükleyici şu uzantıları doğrular: .step, .stp, .stl, .obj, .iges, .igs, .3mf — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.",
+      "offersRejectedFormat": false,
+      "namesEmailRoute": true
+    },
+    {
+      "input": "sldprt",
+      "matched": true,
+      "score": 1,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "answer": "Teklif akışındaki yükleyici şu uzantıları doğrular: .step, .stp, .stl, .obj, .iges, .igs, .3mf — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.",
+      "offersRejectedFormat": false,
+      "namesEmailRoute": true
+    },
+    {
+      "input": "solidworks dosyası",
+      "matched": true,
+      "score": 1,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "answer": "Teklif akışındaki yükleyici şu uzantıları doğrular: .step, .stp, .stl, .obj, .iges, .igs, .3mf — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.",
+      "offersRejectedFormat": false,
+      "namesEmailRoute": true
+    }
+  ],
+  "validatorVerdicts": [
+    {
+      "file": "a.step",
+      "error": null
+    },
+    {
+      "file": "a.stp",
+      "error": null
+    },
+    {
+      "file": "a.stl",
+      "error": null
+    },
+    {
+      "file": "a.obj",
+      "error": null
+    },
+    {
+      "file": "a.iges",
+      "error": null
+    },
+    {
+      "file": "a.igs",
+      "error": null
+    },
+    {
+      "file": "a.3mf",
+      "error": null
+    },
+    {
+      "file": "a.sldprt",
+      "error": "Desteklenmeyen dosya formatı. Kabul edilen: .step, .stp, .stl, .obj, .iges, .igs, .3mf"
+    },
+    {
+      "file": "a.catpart",
+      "error": "Desteklenmeyen dosya formatı. Kabul edilen: .step, .stp, .stl, .obj, .iges, .igs, .3mf"
+    },
+    {
+      "file": "a.prt",
+      "error": "Desteklenmeyen dosya formatı. Kabul edilen: .step, .stp, .stl, .obj, .iges, .igs, .3mf"
+    },
+    {
+      "file": "a.dwg",
+      "error": "Desteklenmeyen dosya formatı. Kabul edilen: .step, .stp, .stl, .obj, .iges, .igs, .3mf"
+    },
+    {
+      "file": "a.pdf",
+      "error": "Desteklenmeyen dosya formatı. Kabul edilen: .step, .stp, .stl, .obj, .iges, .igs, .3mf"
+    },
+    {
+      "file": "a.x_t",
+      "error": "Desteklenmeyen dosya formatı. Kabul edilen: .step, .stp, .stl, .obj, .iges, .igs, .3mf"
+    }
+  ],
+  "pool": [
+    {
+      "i": 0,
+      "question": "Teklif nasıl alabilirim?",
+      "answer": "Teklif almak için [Teklif Al](/teklif-al) sayfamızı ziyaret edebilirsiniz. CAD dosyanızı yükleyerek hızlı teklif alabilirsiniz. Alternatif olarak sales@mastechnic.com adresine mail atabilirsiniz."
+    },
+    {
+      "i": 1,
+      "question": "İletişim bilgileriniz nelerdir?",
+      "answer": "📞 Telefon: +90 (536) 564 51 94\n📧 E-posta: sales@mastechnic.com\n📍 Adres: Ataşehir Mah., 8287. Sok. No: 4, 35620 Çiğli/İzmir\n\nDetaylı bilgi için [İletişim](/iletisim) sayfamızı ziyaret edin."
+    },
+    {
+      "i": 2,
+      "question": "Hangi sektörlere hizmet veriyorsunuz?",
+      "answer": "Havacılık & uzay, savunma sanayi, otomotiv, medikal, robotik, enerji, denizcilik, hidrolik ve daha birçok sektöre hizmet veriyoruz. Detaylar için [Endüstriyel Çözümler](/endustriyel) sayfamıza bakabilirsiniz."
+    },
+    {
+      "i": 3,
+      "question": "Prototip üretimi yapıyor musunuz?",
+      "answer": "Evet! Tek parçadan başlayarak prototip üretimi yapıyoruz. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir. Detaylar için [Prototip Üretim](/endustriyel/prototip-uretim) sayfamıza bakın."
+    },
+    {
+      "i": 4,
+      "question": "Hangi CNC hizmetleri sunuyorsunuz?",
+      "answer": "CNC frezeleme (3-4-5 eksen), CNC tornalama, hassas mikro işleme, derin delik & raybalama, lazer kazıma, yüzey işlemleri, montaj ve daha fazlası. Tüm hizmetlerimiz için [Hizmetler](/hizmetler) sayfamızı inceleyin."
+    },
+    {
+      "i": 5,
+      "question": "Teslimat süreniz ne kadar?",
+      "answer": "Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir. Bir işin terminini çoğu zaman tezgâh değil malzemenin gelişi belirler; bu nedenle tedarik durumu üretim planlanmadan önce, teklif aşamasında değerlendirilir."
+    },
+    {
+      "i": 6,
+      "question": "Hangi malzemelerle çalışıyorsunuz?",
+      "answer": "Alüminyum (6061, 7075), paslanmaz çelik (304, 316), karbon çelik, titanyum, pirinç, bakır, PEEK ve POM/Delrin gibi mühendislik malzemeleriyle çalışıyoruz. [Malzeme Kütüphanesi](/malzemeler) sayfamızda detayları bulabilirsiniz."
+    },
+    {
+      "i": 7,
+      "question": "Minimum sipariş adedi var mı?",
+      "answer": "Minimum sipariş adedi 1 (tek parça) olarak belirlenmiştir. Prototipten seri üretime kadar esnek üretim planlaması yapıyoruz."
+    },
+    {
+      "i": 8,
+      "question": "Kalite sertifikalarınız nelerdir?",
+      "answer": "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Her iş için kontrol planı oluşturulur; ölçüm kaydı teslimat dosyasına eklenir, akredite üçüncü taraf CMM ölçümü talebe bağlı olarak sağlanır."
+    },
+    {
+      "i": 9,
+      "question": "Tolerans değerleriniz nedir?",
+      "answer": "Standart çalışma aralığımız ±0.01mm olup ulaşılabilir tolerans; geometri, malzeme ve ölçü zincirine göre teknik incelemede belirlenir. Detaylar için [Tolerans & Hassasiyet](/kabiliyetler/tolerans-hassasiyet) sayfamızı inceleyin."
+    },
+    {
+      "i": 10,
+      "question": "Kargo ile gönderim yapıyor musunuz?",
+      "answer": "Evet, Türkiye genelinde anlaşmalı kargo firmalarıyla güvenli gönderim yapıyoruz. Yurt dışı sevkiyat için de DHL, FedEx ve UPS ile çalışıyoruz. Özel paketleme ve sigortalı gönderim seçenekleri mevcuttur."
+    },
+    {
+      "i": 11,
+      "question": "Yurt dışına teslimat yapıyor musunuz?",
+      "answer": "Evet, dünya genelinde ihracat yapıyoruz. Avrupa, Orta Doğu, ABD ve Asya'ya düzenli sevkiyatlarımız bulunmaktadır. İhracat belgeleri ve gümrük işlemlerinde destek sağlıyoruz."
+    },
+    {
+      "i": 12,
+      "question": "İade veya değişim yapılabiliyor mu?",
+      "answer": "Uygunluk, kontrol planında tanımlanan koteler ve teslimat dosyasındaki ölçüm kaydı üzerinden değerlendirilir. Bir uygunsuzluk tespit ederseniz ölçüm sonuçlarıyla birlikte sales@mastechnic.com adresine bildirin; nasıl ilerleneceği siparişin koşullarına göre birlikte kararlaştırılır."
+    },
+    {
+      "i": 13,
+      "question": "Ödeme yöntemleriniz nelerdir?",
+      "answer": "Ödeme koşulları siparişe göre teklifte belirlenir; kurumsal fatura ve e-fatura kesiyoruz. Hangi yöntemle ilerleyebileceğimizi teklif aşamasında netleştiriyoruz."
+    },
+    {
+      "i": 14,
+      "question": "Peşin ödeme zorunlu mu?",
+      "answer": "Yayımlanan sabit bir ödeme koşulumuz yok. Koşullar siparişe göre teklifte belirlenir ve teklif aşamasında birlikte netleştirilir."
+    },
+    {
+      "i": 15,
+      "question": "Hangi CAD dosya formatlarını kabul ediyorsunuz?",
+      "answer": "Teklif akışında doğrudan yükleyebileceğiniz formatlar: .step, .stp, .stl, .obj, .iges, .igs, .3mf. Listede olmayan bir format veya ölçülendirilmiş teknik resim için dosyayı sales@mastechnic.com adresine iletebilirsiniz."
+    },
+    {
+      "i": 16,
+      "question": "Çalışma saatleriniz nedir?",
+      "answer": "Teklif ve teknik sorularınız için sales@mastechnic.com adresine her zaman yazabilirsiniz; teklif dönüş süremiz 1-3 iş günüdür. Telefon ve adres bilgisi [İletişim](/iletisim) sayfamızda."
+    },
+    {
+      "i": 17,
+      "question": "Hangi yüzey işlemlerini yapıyorsunuz?",
+      "answer": "Anodizasyon, kumlama, boyama, krom kaplama, nikel kaplama, siyah oksit, pasivasyon, eloksal ve daha fazlası. [Yüzey İşlemleri](/hizmetler/yuzey-islemleri) sayfamızda detayları bulabilirsiniz."
+    },
+    {
+      "i": 18,
+      "question": "Seri üretim yapıyor musunuz?",
+      "answer": "Evet, tek parçadan seri üretime kadar çalışıyoruz. Seri üretimde birim maliyet avantajı ve tutarlı kalite sağlıyoruz. [Seri Üretim](/kabiliyetler/seri-uretim) sayfamızı inceleyin."
+    },
+    {
+      "i": 19,
+      "question": "Tasarım desteği veriyor musunuz?",
+      "answer": "Evet! DFM (Design for Manufacturing) analizi ile tasarımınızı üretime uygun hale getirmenize yardımcı oluyoruz. Maliyet ve süre optimizasyonu için öneriler sunuyoruz."
+    },
+    {
+      "i": 20,
+      "question": "Teknik çizim yapıyor musunuz?",
+      "answer": "Evet, 3D modelleme ve 2D teknik çizim hizmeti sunuyoruz. Müşterilerimizin taslak çizimlerinden üretime hazır CAD dosyaları oluşturabiliyoruz."
+    },
+    {
+      "i": 21,
+      "question": "Müşteri paneli nedir?",
+      "answer": "Müşteri panelimizden siparişlerinizi takip edebilir, tekliflerinizi görüntüleyebilir, kalite raporlarına erişebilir ve destek talebi oluşturabilirsiniz. [Giriş Yap](/giris) sayfasından hesabınıza erişin."
+    },
+    {
+      "i": 22,
+      "question": "MAS Technic nedir?",
+      "answer": "MAS Technic, İzmir merkezli hassas CNC imalat firmasıdır. Prototipten seri üretime, havacılık-savunma-otomotiv-medikal başta olmak üzere birçok sektöre hizmet vermekteyiz. [Hakkımızda](/hakkimizda) sayfamızda detayları bulabilirsiniz."
+    },
+    {
+      "i": 23,
+      "question": "Makine parkurunuz nedir?",
+      "answer": "3-4-5 eksen CNC freze, CNC torna, EDM, taşlama, CMM ölçüm cihazları ve lazer markalama makineleri dahil geniş bir makine parkurumuz bulunmaktadır. [Makine Parkuru](/kabiliyetler/makine-parkuru) sayfamızı inceleyin."
+    },
+    {
+      "i": 24,
+      "question": "3 eksen mi 5 eksen mi kullanmalıyım?",
+      "answer": "Düz yüzeyler ve basit cep işlemleri için 3 eksen yeterlidir ve daha ekonomiktir. Alttan kesim, eğik yüzeyler veya tek bağlamada çok yüzey işleme gerekiyorsa 5 eksen tercih edilir."
+    },
+    {
+      "i": 25,
+      "question": "CNC frezeleme tolerans değerleriniz nedir?",
+      "answer": "Standart çalışma aralığımız ±0.01mm'dir. Ulaşılabilir tolerans; geometri, malzeme, parça ölçüsü ve ölçü zincirine göre değişir ve her parça için teknik incelemede belirlenir."
+    },
+    {
+      "i": 26,
+      "question": "Hangi dosya formatlarını kabul ediyorsunuz?",
+      "answer": "Teklif akışındaki yükleyici şu uzantıları doğrular: .step, .stp, .stl, .obj, .iges, .igs, .3mf — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz."
+    },
+    {
+      "i": 27,
+      "question": "Minimum sipariş adedi var mı?",
+      "answer": "Hayır, tek parçadan seri üretime kadar her adette üretim yapıyoruz. Prototip siparişleri de kabul ediyoruz."
+    },
+    {
+      "i": 28,
+      "question": "Teslimat süreniz ne kadar?",
+      "answer": "Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir."
+    },
+    {
+      "i": 29,
+      "question": "Tornalama mı frezeleme mi seçmeliyim?",
+      "answer": "Parçanız silindirik veya dönme simetrisine sahipse tornalama daha ekonomiktir. Prizmatik parçalar için frezeleme tercih edilir."
+    },
+    {
+      "i": 30,
+      "question": "Karmaşık parçalar tek tezgahta mı yapılır?",
+      "answer": "Turn-mill tezgahlarımızda hem tornalama hem frezeleme işlemleri tek bağlamada yapılabilir. Bu hassasiyeti artırır ve maliyeti düşürür."
+    },
+    {
+      "i": 31,
+      "question": "Swiss tornalama ne zaman gerekir?",
+      "answer": "Ø32mm altı çaplarda ve boy/çap oranı yüksek parçalarda (örn: medikal vidalar, pimler) Swiss torna daha hassas sonuç verir."
+    },
+    {
+      "i": 32,
+      "question": "Seri üretim için uygun mu?",
+      "answer": "Evet. Bar besleyicili tezgahlarda çubuk malzeme otomatik ilerlediği için uzun partiler operatör müdahalesi olmadan işlenebilir; parti büyüklüğü ve termin kapasite planıyla birlikte teklifte netleşir."
+    },
+    {
+      "i": 33,
+      "question": "Hangi çap aralığında tornalama yapabiliyorsunuz?",
+      "answer": "Swiss tip torna ile 0.3mm'den başlayarak konvansiyonel torna ile 500mm çapa kadar geniş bir aralıkta tornalama yapabiliyoruz."
+    },
+    {
+      "i": 34,
+      "question": "Mikro işleme ne zaman tercih edilmeli?",
+      "answer": "Parça özellikleri 1mm altında veya toleranslar ±0.01mm altında ise mikro işleme gereklidir. Standart CNC bu hassasiyetlere ulaşamaz."
+    },
+    {
+      "i": 35,
+      "question": "Maliyet standart CNC'den yüksek mi?",
+      "answer": "Evet, özel takımlar, yavaş ilerleme hızları ve hassas ölçüm gereksinimleri nedeniyle maliyet daha yüksektir. Ancak bu, standart yöntemlerle elde edilemeyecek sonuçlar içindir."
+    },
+    {
+      "i": 36,
+      "question": "Seri üretim yapabiliyor musunuz?",
+      "answer": "Evet, otomatik besleyicili Swiss torna ve palletli 5 eksen sistemleri ile mikro parçalarda bile seri üretim yapabiliyoruz."
+    },
+    {
+      "i": 37,
+      "question": "Ölçüm raporu veriyor musunuz?",
+      "answer": "Kontrol planında tanımlanan koteler ölçülür ve ölçüm kaydı teslimat dosyasına eklenir. Koordinat ölçümü gerektiğinde akredite üçüncü taraf ölçümü talebe bağlı olarak sağlanır."
+    },
+    {
+      "i": 38,
+      "question": "Derin delik nedir?",
+      "answer": "Boy/çap oranı (L/D) 10:1'den büyük delikler 'derin delik' olarak tanımlanır. Standart matkaplarla bu oranlarda hassas delme mümkün değildir."
+    },
+    {
+      "i": 39,
+      "question": "Gun drill ile BTA arasındaki fark nedir?",
+      "answer": "Gun drill küçük çaplarda (Ø2-20mm) ve yüksek L/D oranlarında kullanılır. BTA daha büyük çaplarda (Ø20mm üstü) ve yüksek talaş kaldırma hızlarında tercih edilir."
+    },
+    {
+      "i": 40,
+      "question": "Doğrusallık nasıl sağlanır?",
+      "answer": "Özel kılavuzlama burs sistemleri, yüksek basınçlı soğutma sıvısı ve optimize edilmiş kesme parametreleri ile sapma minimuma indirilir."
+    },
+    {
+      "i": 41,
+      "question": "İç yüzey kalitesi iyileştirilebilir mi?",
+      "answer": "Evet, raybalama ve honlama işlemleriyle Ra 0.2µm'ye kadar yüzey kalitesi elde edilebilir. H6 toleransında çap hassasiyeti sağlanır."
+    },
+    {
+      "i": 42,
+      "question": "Kalıp teslimat süresi ne kadar?",
+      "answer": "Kalıp termini malzeme sınıfına, kavite sayısına ve yüzey gereksinimine göre değişir; alüminyum kalıp çelik kalıba göre daha kısa sürede işlenir. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir."
+    },
+    {
+      "i": 43,
+      "question": "Moldflow simülasyonu zorunlu mu?",
+      "answer": "Zorunlu değildir ancak özellikle karmaşık parçalarda dolum problemlerini, çökme izlerini ve eğilmeyi önlemek için şiddetle tavsiye ederiz."
+    },
+    {
+      "i": 44,
+      "question": "Alüminyum mı çelik kalıp mı seçmeliyim?",
+      "answer": "10.000 adete kadar üretim için alüminyum kalıp ekonomiktir. Daha yüksek hacimler için çelik kalıp uzun vadede maliyet avantajı sağlar."
+    },
+    {
+      "i": 45,
+      "question": "Anodizasyon hangi metallere uygulanabilir?",
+      "answer": "Temel olarak alüminyum ve alaşımlarına uygulanır. Titanyum ve magnezyum da anodize edilebilir. En yaygın uygulama Al 6061 ve 7075 serisi alaşımlardır."
+    },
+    {
+      "i": 46,
+      "question": "Sert anodizasyon (Tip III) ile normal (Tip II) farkı nedir?",
+      "answer": "Tip III sert anodizasyon 25-100µm kalınlıkta olup 60-70 HRC sertlik sağlar, aşınma direnci ve elektriksel yalıtım gerektiğinde tercih edilir. Tip II 10-25µm olup genel korozyon koruması ve dekoratif kaplama için uygundur."
+    },
+    {
+      "i": 47,
+      "question": "Anodizasyon boyut değişikliğine neden olur mu?",
+      "answer": "Evet, oksit tabakasının yaklaşık %50'si malzemeye nüfuz eder, %50'si yüzeyden dışarı büyür. Örneğin 25µm Tip II kaplama ~12.5µm boyut artışı yapar. Bu değer işleme toleranslarında dikkate alınmalıdır."
+    },
+    {
+      "i": 48,
+      "question": "Hangi renklerde anodizasyon yapabiliyorsunuz?",
+      "answer": "Siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) renklerde çalışıyoruz. Özel RAL ve Pantone renk eşleştirmesi de yapabiliyoruz; renk homojenliği ΔE ≤ 2.0 toleransında kontrol edilir."
+    },
+    {
+      "i": 49,
+      "question": "Kaplama ne kadar dayanıklıdır?",
+      "answer": "Kaplamalarımızın korozyon direnci ASTM B117 tuz spreyi testi ile doğrulanır. Sert anodizasyon ile çelik sertliğine yakın aşınma direnci elde edilir."
+    },
+    {
+      "i": 50,
+      "question": "Anodizasyon teslimat süreniz ne kadar?",
+      "answer": "Termin parti büyüklüğüne, kaplama sınıfına ve renklendirme adımının olup olmamasına göre değişir. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir."
+    },
+    {
+      "i": 51,
+      "question": "Parçam hangi prosesle üretilecek?",
+      "answer": "Kararı geometri verir: erişilmesi gereken yüzeyler, ölçü zinciri, boy/çap oranı ve malzeme. Teknik inceleme sonucunda hangi prosesle ve kaç bağlamada üretileceğini teklifle birlikte paylaşırız."
+    },
+    {
+      "i": 52,
+      "question": "3 eksen mi 5 eksen mi gerekir?",
+      "answer": "Düz yüzeyler ve basit cep işlemleri 3 eksende daha ekonomiktir. Alttan kesim, eğik yüzey veya tek bağlamada çok yüzey gerekiyorsa 5 eksen tercih edilir; bağlama sayısındaki azalma tolerans lehine çalışır."
+    },
+    {
+      "i": 53,
+      "question": "Sert malzemede keskin iç köşe yapılabiliyor mu?",
+      "answer": "Frezeleme ile iç köşe yarıçapı takım çapıyla sınırlıdır. Bu sınırın altındaki köşeler için tel veya dalma erozyon kullanılır."
+    },
+    {
+      "i": 54,
+      "question": "Tezgâh doğruluğunu nasıl teyit ediyorsunuz?",
+      "answer": "Doğruluk periyodik kontrollerle izlenir ve kritik işler öncesinde test parçası ölçümüyle teyit edilir. Ölçüm sonuçları kayıt altına alınır."
+    },
+    {
+      "i": 55,
+      "question": "Uzun ve ince parçalarda ne yapıyorsunuz?",
+      "answer": "Kayar puntalı tornalama desteklenmemiş boyu kısaltarak sehimi sınırlar. Gerekirse operasyon sırası ve destek düzeni parçaya göre yeniden planlanır."
+    },
+    {
+      "i": 56,
+      "question": "Hangi malzeme sertifikalarını sağlıyorsunuz?",
+      "answer": "Malzeme sertifikası ve kimyasal analiz raporu talebe bağlı olarak sağlanır. Her tedarik, lot ve döküm numarasıyla kayıt altına alınır."
+    },
+    {
+      "i": 57,
+      "question": "Stokta hangi malzemeler bulunuyor?",
+      "answer": "Al 6061, Al 7075, SS 304 ve SS 316 sürekli stokta tutulmaktadır. Titanyum ve Inconel gibi özel malzemeler sipariş üzerine tedarik edilir."
+    },
+    {
+      "i": 58,
+      "question": "Özel alaşım tedarik edebiliyor musunuz?",
+      "answer": "Evet. Inconel 718, Hastelloy, Kovar ve Tungsten gibi özel alaşımlar sürekli stokta tutulmaz, sipariş üzerine tedarik edilir. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir."
+    },
+    {
+      "i": 59,
+      "question": "Malzeme kalite kontrolü nasıl yapılıyor?",
+      "answer": "Her malzeme girişinde spektrometre ile kimyasal analiz, boyut kontrolü ve sertifika doğrulaması yapılmaktadır. Klimatik kontrollü depoda lot numarası ile izlenebilirlik sağlanır."
+    },
+    {
+      "i": 60,
+      "question": "Hangi kalite belgeleriniz var?",
+      "answer": "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Belge kapsamı dışında bir standart gerekiyorsa teknik incelemede birlikte değerlendiririz."
+    },
+    {
+      "i": 61,
+      "question": "Ölçüm raporu veriyor musunuz?",
+      "answer": "Evet. Kontrol planında tanımlanan koteler ölçülür ve sonuçlar kayıt altına alınır; ölçüm kaydı teslimat dosyasına eklenir."
+    },
+    {
+      "i": 62,
+      "question": "CMM ölçümü yapılıyor mu?",
+      "answer": "Koordinat ölçümü, akredite üçüncü taraf tarafından talebe bağlı olarak yapılır. Bu tercih ölçümün üretimden bağımsız olmasını sağlar; ihtiyacınızı teklif aşamasında belirtmeniz yeterlidir."
+    },
+    {
+      "i": 63,
+      "question": "Kalite kontrol süreci nasıl işliyor?",
+      "answer": "Teknik inceleme ile kontrol planı oluşturulur; malzeme girişi kaydedilir, ilk parça onaylanır, proses sırasında ara kontroller yapılır ve son kontrol plana göre tamamlanarak kayıt altına alınır."
+    },
+    {
+      "i": 64,
+      "question": "Malzeme sertifikası alabilir miyim?",
+      "answer": "Malzeme parti ve döküm kaydı üzerinden izlenir. Malzeme sertifikası talep etmeniz halinde teslimat dosyasına eklenir."
+    },
+    {
+      "i": 65,
+      "question": "Standart tolerans aralığınız nedir?",
+      "answer": "±0.01 mm'dir. Bir parçada daha darına inilip inilemeyeceği geometri, malzeme, parça ölçüsü ve ölçü zincirine bağlıdır ve teknik incelemede belirlenir."
+    },
+    {
+      "i": 66,
+      "question": "Geometrik tolerans (GD&T) desteğiniz var mı?",
+      "answer": "Evet. ASME Y14.5 dilinde konum, diklik, eş eksenlilik, düzlem ve dairesellik toleranslarını datum yapısıyla birlikte okur ve kontrol planına yazarız."
+    },
+    {
+      "i": 67,
+      "question": "Teknik resmimde tolerans belirtilmemiş, ne olur?",
+      "answer": "Belirtilmemiş ölçüler için ISO 2768 genel tolerans sınıfları kullanılır. Hangi sınıfın geçerli olacağını teklif aşamasında netleştiririz."
+    },
+    {
+      "i": 68,
+      "question": "Daha dar tolerans istersem ne değişir?",
+      "answer": "Operasyon sırası, bağlama düzeni ve kontrol yöntemi değişir; süre ve maliyet artar. Fonksiyonu etkilemeyen koteleri gevşetmenizi önerebiliriz."
+    },
+    {
+      "i": 69,
+      "question": "Toleransın tutulduğunu nasıl gösteriyorsunuz?",
+      "answer": "Kritik koteler kontrol planına yazılır, ölçülür ve sonuçlar kayıt altına alınır. Koordinat ölçümü gerektiğinde akredite üçüncü taraf ölçümü talebe bağlı olarak sağlanır."
+    },
+    {
+      "i": 70,
+      "question": "DFM analizi ücreti var mı?",
+      "answer": "Yayımlanan sabit bir DFM ücret tarifemiz yok. Gelen dosyanın üretilebilirlik incelemesi teklif hazırlığının bir adımıdır; ayrıca talep edilen detaylı DFM raporu ve CAD revizyonları ise kapsamıyla birlikte teklifte fiyatlandırılır."
+    },
+    {
+      "i": 71,
+      "question": "DFM analizi ne kadar sürer?",
+      "answer": "Süreç dört aşamadan oluşur: ilk inceleme, detaylı analiz, müşteri görüşmesi ve final rapor. Takvim parçanın karmaşıklığına ve gönderilen dosyanın eksiksizliğine göre değişir. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir."
+    },
+    {
+      "i": 72,
+      "question": "Hangi CAD formatlarını kabul ediyorsunuz?",
+      "answer": "Teklif akışındaki yükleyici şu uzantıları doğrular: .step, .stp, .stl, .obj, .iges, .igs, .3mf — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kaydınızı veya ölçülendirilmiş teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz."
+    },
+    {
+      "i": 73,
+      "question": "DFM analizi ne kadar tasarruf sağlar?",
+      "answer": "Tasarrufun büyüklüğü parçanın geometrisine ve mevcut üretim planına bağlıdır. DFM analizinde parça sayısı, bağlama sayısı, takım erişimi ve tolerans zinciri değerlendirilir; beklenen etki analiz raporunda parça bazında verilir."
+    },
+    {
+      "i": 74,
+      "question": "Hangi yüzey işlemi benim parçama uygun?",
+      "answer": "Uygulamaya göre değişir: Korozyon koruması için anodizasyon veya nikelaj, sertlik artırma için nitrürleme, estetik için toz boya veya eloksal, elektriksel yalıtım için e-kap öneriyoruz. Mühendislik ekibimiz detaylı analiz yapabilir."
+    },
+    {
+      "i": 75,
+      "question": "Yüzey işlemi boyut değişikliğine neden olur mu?",
+      "answer": "Evet, anodizasyon kalınlık×2 kadar boyut artışı, kumlama 5-20µm boyut azalması yapar. Bu değerler işleme toleranslarında dikkate alınır."
+    },
+    {
+      "i": 76,
+      "question": "Ra 0.1µm yüzey kalitesine ulaşabilir misiniz?",
+      "answer": "Evet, özel takım ve işleme parametreleri ile Ra 0.1µm ayna parlaklığında yüzey kalitesine ulaşabiliyoruz. Optik ve yatak uygulamaları için idealdir."
+    },
+    {
+      "i": 77,
+      "question": "Prototip için hangi yöntem en uygun?",
+      "answer": "1-10 adet ve hızlı konsept doğrulaması için 3D baskı, ±0.01mm hassasiyet gereken parçalar için CNC, 10-100 adet plastik parça için silikon kalıplama öneriyoruz. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir."
+    },
+    {
+      "i": 78,
+      "question": "Metal 3D baskı yapabiliyor musunuz?",
+      "answer": "Evet. DMLS (doğrudan metal lazer sinterleme) ile alüminyum, paslanmaz çelik ve titanyum malzemelerde metal 3D baskı yapıyoruz; parça ölçüsü ve ulaşılabilir tolerans teknik incelemede değerlendirilir."
+    },
+    {
+      "i": 79,
+      "question": "Silikon kalıptan kaç parça çıkar?",
+      "answer": "Bir silikon kalıptan ortalama 20-50 parça üretilebilir. Malzeme ve geometriye göre bu sayı değişebilir."
+    },
+    {
+      "i": 80,
+      "question": "Düşük hacimden seri üretime geçiş nasıl olur?",
+      "answer": "Prototip ve pilot üretimden sonra onaylanan tasarım için çelik kalıp yatırımı veya otomasyonlu CNC seri üretim planlaması yapılır. Geçiş süreci proje yöneticimiz tarafından koordine edilir."
+    },
+    {
+      "i": 81,
+      "question": "Minimum seri üretim adedi nedir?",
+      "answer": "Tek bir eşik yoktur; yönteme göre değişir. Kalıp yatırımı gerektiren yöntemlerde (basınçlı döküm, enjeksiyon kalıp) eşiği kalıp maliyetinin parça başına dağılımı belirler; CNC seri işlemede kurulum süresi belirleyicidir. Parça geometrisi ve tolerans hedefiyle birlikte teklif aşamasında netleştiririz."
+    },
+    {
+      "i": 82,
+      "question": "Teslimat programı düzenlenebiliyor mu?",
+      "answer": "Evet. Parti büyüklüğü ve teslimat sıklığı kapasite planlamasıyla birlikte kararlaştırılır; periyodik teslimat programları düzenlenebilir."
+    },
+    {
+      "i": 83,
+      "question": "Seri üretimde tutarlılığı nasıl koruyorsunuz?",
+      "answer": "İlk parça onayı, standart kurulum prosedürü ve kontrol planına bağlı ara kontroller ile. Kayma eğilimi olan koteler ayrı bir adımda izlenir ve ölçüm sonuçları kayıt altına alınır."
+    },
+    {
+      "i": 84,
+      "question": "Uzun partilerde tezgâh nasıl besleniyor?",
+      "answer": "Otomatik takım değiştirme ve bar besleme, uzun partilerde kesintisiz işlemeyi mümkün kılar. Hangi yöntemin kullanılacağı parça geometrisi ve parti büyüklüğüne göre planlanır."
+    },
+    {
+      "i": 85,
+      "question": "Her projeye özel proje yöneticisi atanıyor mu?",
+      "answer": "Evet, her projede özel bir proje yöneticisi atanır ve tekliften teslimata kadar tek muhatap olarak hizmet verir."
+    },
+    {
+      "i": 86,
+      "question": "Proje ilerlemesini nasıl takip edebilirim?",
+      "answer": "Proje toplantıları, müşteri portalı üzerinden durum takibi, kritik aşamaların fotoğraf ve video kayıtları ve üretim dosyası ile her aşamayı takip edebilirsiniz."
+    },
+    {
+      "i": 87,
+      "question": "Tasarım değişikliği gerektiğinde ne olur?",
+      "answer": "ECO (Engineering Change Order) prosedürümüz ile kontrollü bir şekilde değişiklik yönetimi yapılır. Maliyet ve süre etkileri analiz edildikten sonra onayınızla revizyon uygulanır."
+    },
+    {
+      "i": 88,
+      "question": "Malzeme tedarik süreniz ne kadar?",
+      "answer": "Malzeme sınıfına göre değişir: standart alüminyum ve paslanmaz çelik kısa sürede temin edilebilir; titanyum ve nikel esaslı alaşımlar sipariş üzerine gelir. Projenizin gerçek tedarik süresini teklifle birlikte veririz."
+    },
+    {
+      "i": 89,
+      "question": "Tedarik kesintisi riski nasıl yönetiliyor?",
+      "answer": "Kritik malzemelerde onaylı ikinci kaynak bulundurulur, sık kullanılan standart malzemelerde emniyet stoğu tutulur ve şartnameyle uyumlu alternatif malzemeler önceden değerlendirilir."
+    },
+    {
+      "i": 90,
+      "question": "Malzeme sertifikası alabilir miyim?",
+      "answer": "Malzeme parti ve döküm kaydı üzerinden izlenir. Malzeme sertifikası talep etmeniz halinde teslimat dosyasına eklenir."
+    },
+    {
+      "i": 91,
+      "question": "Malzemeyi ben tedarik edebilir miyim?",
+      "answer": "Evet. Bu durumda malzemenin şartnameye uygunluğunu ve parti kaydını sizden alır, giriş kontrolünü buna göre planlarız."
+    },
+    {
+      "i": 92,
+      "question": "Verimlilik çalışması parçamı nasıl etkiler?",
+      "answer": "Doğrudan iki yerde: kurulum kısaldıkça küçük partiler ekonomik hale gelir, standart kurulum prosedürü ise aynı parçanın partiler arasında aynı çıkmasını kolaylaştırır."
+    },
+    {
+      "i": 93,
+      "question": "SMED nedir, neden önemli?",
+      "answer": "Kurulum işlerini tezgâh dururken zorunlu olanlar ve çalışırken hazırlanabilecek olanlar diye ayırır. İkincisini kurulum dışına taşımak, tezgâhın parça üretmediği süreyi kısaltır."
+    },
+    {
+      "i": 94,
+      "question": "Bakımı nasıl yönetiyorsunuz?",
+      "answer": "Bakım planlı bir iş adımıdır (TPM). Tezgâh doğruluğu üretimin girdisi olduğu için bakım gecikmesi doğrudan tolerans kaybı riski üretir."
+    },
+    {
+      "i": 95,
+      "question": "Bir uygunsuzluk çıkarsa ne yapılıyor?",
+      "answer": "Kaizen ve düzeltici faaliyet süreci işletilir: kök neden bulunmadan aynı kurulumla üretime devam edilmez ve yapılan düzeltme kayıt altına alınır."
+    },
+    {
+      "i": 96,
+      "question": "Hangi kalite belgeleriniz var?",
+      "answer": "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Projeniz farklı bir standart gerektiriyorsa teknik incelemede birlikte değerlendiririz."
+    },
+    {
+      "i": 97,
+      "question": "Titanyum işleyebiliyor musunuz?",
+      "answer": "Evet, Ti6Al4V (Grade 5) ve Grade 2 titanyum işleme konusunda uzmanız. Özel takımlar, düşük hız/yüksek ilerleme stratejisi ve soğutma yönetimi ile optimal sonuçlar elde ediyoruz."
+    },
+    {
+      "i": 98,
+      "question": "İlk parça kontrolü yapıyor musunuz?",
+      "answer": "Evet. Her yeni parça ve her revizyon için ilk parça kontrolü yapılır ve kayıt altına alınır; belgelendirme formatını şartnamenize göre birlikte belirleriz."
+    },
+    {
+      "i": 99,
+      "question": "Özel prosesler nasıl yürütülüyor?",
+      "answer": "Kimyasal işlem, tahribatsız muayene ve ısıl işlem gibi özel prosesler projenin şartnamesine göre planlanır ve tedarik zinciriyle birlikte yürütülür. Parametreler dondurulur; değişiklik yeniden doğrulama gerektirir."
+    },
+    {
+      "i": 100,
+      "question": "Teknik verim nasıl ele alınıyor?",
+      "answer": "Teknik verinin nasıl paylaşılacağı ve hangi koşullarla işleneceği proje başında yazılı olarak mutabık kalınır. Şartnamenizin gerektirdiği koşulları teklif aşamasında birlikte değerlendiririz."
+    },
+    {
+      "i": 101,
+      "question": "Proje şartnamemi karşılayabiliyor musunuz?",
+      "answer": "Şartnamenizi teknik incelemede satır satır okur, hangi gereksinimleri bugünkü kabiliyetimizle karşılayabildiğimizi ve hangileri için tedarik zinciri gerektiğini açıkça belirtiriz."
+    },
+    {
+      "i": 102,
+      "question": "Balistik malzeme işleyebiliyor musunuz?",
+      "answer": "Evet, Armox 500T, Hardox 600 ve 300M gibi yüksek sertlikli balistik çelikleri CNC ile işleyebiliyoruz."
+    },
+    {
+      "i": 103,
+      "question": "Robot bileşenlerinde hangi toleransları tutabiliyorsunuz?",
+      "answer": "Standart çalışma aralığımız ±0.01mm'dir. Eş eksenlilik ve diklik gibi geometrik toleranslar datum yapısıyla birlikte değerlendirilir ve kontrol planına yazılır."
+    },
+    {
+      "i": 104,
+      "question": "Hafif malzeme çözümleriniz var mı?",
+      "answer": "Evet, Al 7075-T6 ile yüksek mukavemet/ağırlık oranı, topoloji optimizasyonu ile ağırlık azaltma ve PEEK gibi yüksek performans plastikler sunuyoruz."
+    },
+    {
+      "i": 105,
+      "question": "Seri üretim yapabiliyor musunuz?",
+      "answer": "Evet. Otomasyonlu CNC seri üretimde bar besleyici ve palet sistemi ile kesintisiz işleme yapılır; parti büyüklüğü ve teslimat programı teklif aşamasında birlikte belirlenir."
+    },
+    {
+      "i": 106,
+      "question": "Hangi kalite belgeleriniz var?",
+      "answer": "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Müşterinizin şartnamesi sektöre özel bir standart gerektiriyorsa bunu teklif aşamasında açıkça değerlendiririz."
+    },
+    {
+      "i": 107,
+      "question": "Hangi dokümantasyonu teslim ediyorsunuz?",
+      "answer": "Kontrol planı, ölçüm kayıtları, malzeme parti/döküm kaydı ve numune parçalar standart olarak hazırlanır. Şartnamenizin gerektirdiği ek dokümanları teklif aşamasında birlikte belirleriz."
+    },
+    {
+      "i": 108,
+      "question": "Partiler arası tutarlılığı nasıl koruyorsunuz?",
+      "answer": "Standart kurulum prosedürü, ilk parça onayı ve kontrol planına bağlı ara kontroller ile. Takım aşınmasına duyarlı koteler ayrı bir adımda izlenir ve sonuçlar kayıt altına alınır."
+    },
+    {
+      "i": 109,
+      "question": "Adet aralığınız nedir?",
+      "answer": "Prototipten seri üretime kadar çalışıyoruz. Parti büyüklüğü ve teslimat programı, kapasite planlaması yapıldıktan sonra teklifle birlikte netleşir."
+    },
+    {
+      "i": 110,
+      "question": "Hangi kalite belgeleriniz var?",
+      "answer": "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Projeniz sektöre özel bir standart gerektiriyorsa bunu teklif aşamasında açıkça değerlendiririz."
+    },
+    {
+      "i": 111,
+      "question": "Hangi biyouyumlu malzemelerle çalışıyorsunuz?",
+      "answer": "Ti Grade 5 (Ti6Al4V), SS 316L, CoCrMo, PEEK ve UHMWPE malzemelerde işleme yapıyoruz. Malzemenin sertifikası tedarikçiden gelir ve talep etmeniz halinde teslimat dosyasına eklenir."
+    },
+    {
+      "i": 112,
+      "question": "Yüzey işlemi yapıyor musunuz?",
+      "answer": "Elektropolisaj ve pasivasyon uygulanabilir. Hangi işlemin uygun olduğu malzemeye ve şartnamenize göre belirlenir."
+    },
+    {
+      "i": 113,
+      "question": "İzlenebilirliği nasıl sağlıyorsunuz?",
+      "answer": "Malzeme parti ve döküm kaydı üzerinden izlenir; kontrol planında tanımlanan koteler ölçülür ve ölçüm kaydı teslimat dosyasına eklenir."
+    },
+    {
+      "i": 114,
+      "question": "Çok küçük parçalar üretebiliyor musunuz?",
+      "answer": "Evet. Ø0.3mm'den başlayan vidalar, pimler ve konektörler üretiyoruz; uzun ve ince geometrilerde kayar puntalı tornalama tercih edilir."
+    },
+    {
+      "i": 115,
+      "question": "Deniz suyu uyumlu hangi malzemeleri işliyorsunuz?",
+      "answer": "SS 316L, Duplex 2205, bronz (C95400, C95500), Monel 400 ve titanyum Grade 2 gibi deniz suyu uyumlu malzemelerle çalışıyoruz."
+    },
+    {
+      "i": 116,
+      "question": "Tuz testi raporu veriyor musunuz?",
+      "answer": "Evet, ASTM B117 tuz spreyi test yöntemiyle yapılan testin raporunu sağlıyoruz. Test süresi ve kabul kriteri parçanın şartnamesine göre belirlenir."
+    },
+    {
+      "i": 117,
+      "question": "Kaç bar basınca kadar parça üretebiliyorsunuz?",
+      "answer": "350 bar çalışma basıncına kadar parça üretiyoruz. Her parça 1.5× çalışma basıncında test edilmektedir."
+    },
+    {
+      "i": 118,
+      "question": "Manifold bloklarında iç kanal açabilir misiniz?",
+      "answer": "Evet, derin delik delme kabiliyetimiz ile L/D 50:1 oranında manifold kanal işleme yapabiliyoruz."
+    },
+    {
+      "i": 119,
+      "question": "Sızdırmazlık nasıl doğrulanıyor?",
+      "answer": "O-ring kanalları ve sızdırmazlık yüzeyleri Ra 0.4µm hedefiyle işlenir. Basınç ve sızdırmazlık testinin kapsamı iş bazında kontrol planında tanımlanır ve sonuçlar teslimat dosyasına eklenir."
+    },
+    {
+      "i": 120,
+      "question": "Flanş ölçüleri hangi boyut tablolarına göre işleniyor?",
+      "answer": "Flanş delik düzeni, conta yüzeyi ve çap ölçüleri ANSI B16.5, DIN EN 1092 ve JIS B2220 boyut tablolarına ya da müşterinin verdiği teknik resme göre işlenir."
+    },
+    {
+      "i": 121,
+      "question": "Duplex çelik flanş üretebiliyor musunuz?",
+      "answer": "Evet, Duplex 2205 (F51), Super Duplex 2507 (F53) ve diğer korozyon dirençli alaşımlarda flanş ve bağlantı parçaları üretiyoruz."
+    },
+    {
+      "i": 122,
+      "question": "Helyum sızdırmazlık testi yapıyor musunuz?",
+      "answer": "Evet, helyum sızdırmazlık testi ile 1×10⁻⁶ mbar·L/s kaçak oranı kontrolü yapıyoruz. Soğutma ve klima sistemleri için kritik olan bu test standarttır."
+    },
+    {
+      "i": 123,
+      "question": "Hangi soğutucularla uyumlu parça üretiyorsunuz?",
+      "answer": "R-134a, R-410A, R-744 (CO₂) ve R-290 soğutucularla uyumlu malzeme ve yüzey işlemi ile üretim yapıyoruz."
+    },
+    {
+      "i": 124,
+      "question": "En hızlı prototip ne kadar sürede hazır olur?",
+      "answer": "Yöntem seçimi termini doğrudan etkiler: 3D baskı konsept doğrulamada en hızlı seçenektir, CNC ise gerçek malzeme ve seri üretim eşdeğer tolerans gerektiğinde tercih edilir. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir."
+    },
+    {
+      "i": 125,
+      "question": "Gerçek malzeme ile prototip yapabiliyor musunuz?",
+      "answer": "Evet, CNC ile Al 6061, SS 304, Ti6Al4V, PEEK gibi gerçek malzemelerde seri üretim eşdeğer toleransta prototip üretiyoruz."
+    },
+    {
+      "i": 126,
+      "question": "Küçük seride birim maliyet yüksek mi?",
+      "answer": "Birim maliyeti belirleyen asıl kalem kurulumdur ve adede bölünür; hacim arttıkça birim fiyat düşer. Kademeli fiyatlandırmayı ve seri üretime geçiş projeksiyonunu teklifle birlikte veriyoruz."
+    },
+    {
+      "i": 127,
+      "question": "Küçük seriden seri üretime geçiş nasıl olur?",
+      "answer": "Kalıp yatırım analizi, otomasyon fizibilite ve maliyet projeksiyon raporu ile ölçeklendirme planlaması yapıyoruz."
+    },
+    {
+      "i": 128,
+      "question": "Seri üretim için asgari adet var mı?",
+      "answer": "Sabit bir asgari adet uygulamıyoruz. Parti büyüklüğü, teslimat programı ve fiyatlandırma kapasite planlaması yapıldıktan sonra teklifle birlikte netleşir."
+    },
+    {
+      "i": 129,
+      "question": "Teslimat programı nasıl belirleniyor?",
+      "answer": "Kapasite planlaması sonrasında parti büyüklüğü ve teslimat sıklığı birlikte kararlaştırılır; haftalık veya periyodik teslimat programları düzenlenebilir."
+    },
+    {
+      "i": 130,
+      "question": "Reverse engineering yapabiliyor musunuz?",
+      "answer": "Evet, 3D tarama (0.02mm hassasiyet) ile mevcut parçanızı dijitalleştiriyor, CAD modeline dönüştürüyor ve üretiyoruz."
+    },
+    {
+      "i": 131,
+      "question": "Teknik verim nasıl ele alınıyor?",
+      "answer": "Teknik verinin nasıl paylaşılacağı ve fikri mülkiyetin nasıl ele alınacağı proje başında yazılı olarak mutabık kalınır. İhtiyacınızı teklif aşamasında belirtin."
+    },
+    {
+      "i": 132,
+      "question": "Rüzgar türbini bileşenleri üretebiliyor musunuz?",
+      "answer": "Evet; hub, pitch sistemi, yaw mekanizması, tower flanşı ve nacelle iç bileşenleri üretiyoruz. Uygulanacak şartname ve kabul kriterleri iş bazında müşteriyle birlikte belirlenir."
+    },
+    {
+      "i": 133,
+      "question": "Kaç yıl dış ortam dayanımı sağlıyorsunuz?",
+      "answer": "Hot-dip galvaniz (ISO 1461, 85µm+) ve uygun malzeme seçimi ile 25+ yıl dış ortam ömrü hedefliyoruz."
+    },
+    {
+      "i": 134,
+      "question": "Petrol ve gaz bileşenlerinde hangi kalite kayıtları veriliyor?",
+      "answer": "Malzeme sertifikası, ısıl işlem kaydı ve tahribatsız muayene raporları, kapsamı kontrol planında tanımlandığı şekilde teslimat dosyasına eklenir."
+    },
+    {
+      "i": 135,
+      "question": "Sour service uyumlu parça üretebiliyor musunuz?",
+      "answer": "Evet. Sour service uygulamalarında malzeme, ısıl işlem ve sertlik sınırları müşteri şartnamesine göre belirlenir ve kayıt altına alınır."
+    },
+    {
+      "i": 136,
+      "question": "OFE bakır işleyebiliyor musunuz?",
+      "answer": "Evet, OFE bakır (C10100, IACS %101) ve ETP bakır (C11000, IACS %99.9) işleme kabiliyetimiz bulunmaktadır."
+    },
+    {
+      "i": 137,
+      "question": "Gümüş kaplama yapıyor musunuz?",
+      "answer": "Evet, kontak parçaları için gümüş kaplama (nikel altlık üzerine) uyguluyoruz. Kaplama kalınlığı ve yapışma testi standart olarak kontrol edilir."
+    },
+    {
+      "i": 138,
+      "question": "Hardox işleyebiliyor musunuz?",
+      "answer": "Evet, Hardox 400, 500 ve 600 serisi aşınma çeliklerini CNC ile işleyebiliyoruz. Özel takım ve ilerleme parametreleri ile optimal sonuç elde ediyoruz."
+    },
+    {
+      "i": 139,
+      "question": "500 kg parça işleyebiliyor musunuz?",
+      "answer": "Evet, 500 kg'a kadar ağırlık ve 1500mm'ye kadar boyutta parça işleme kapasitemiz bulunmaktadır. Vinçli yükleme ve özel bağlama düzenleri kullanıyoruz."
+    }
+  ]
+}
