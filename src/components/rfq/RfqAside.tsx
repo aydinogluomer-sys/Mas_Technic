@@ -66,7 +66,14 @@ export function RfqAside({ draft, fileName }: { draft: RfqDraft; fileName: strin
         <ShellRun
           ariaLabel="Kalite güvencesi"
           items={[
-            { title: CERTIFICATIONS[0].code, detail: "Sertifikalı kalite yönetim sistemi." },
+            /* NO ATTESTATION ADJECTIVE. `scripts/claims-gate.mjs`'s
+               `attestation-adjective` rule exempts "Sertifikalı kalite yönetim
+               sistemi" only when a permitted certificate token is a LITERAL on
+               the same line; the code here reaches the line through the
+               ledger, so the gate cannot see it — and it is right not to,
+               because a variable could name any certificate at all. Naming the
+               standard says the same true thing and needs no exemption. */
+            { title: CERTIFICATIONS[0].code, detail: "Kalite yönetim sistemi standardı." },
             { title: "CMM ölçümü", detail: CMM_COVERAGE },
             {
               title: "Malzeme izlenebilirliği",

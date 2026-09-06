@@ -335,9 +335,9 @@ export const TeklifAl = () => {
                       dispatch of the very click that advanced the step. So by
                       the time the browser evaluated the click's default
                       action, the element it had just dispatched on was a
-                      submit button, and the form posted. Measured (probe
-                      `tmp/probe-leak.mjs`, all non-loopback traffic aborted):
-                      one click on step 2's "İleri" produced
+                      submit button, and the form posted. Measured with every
+                      non-loopback request logged and aborted, so nothing left
+                      the machine: one click on step 2's "İleri" produced
                       `POST /storage/v1/object/cad-uploads/anonymous/RFQ-…`
                       with no second click anywhere. It reproduced in two runs
                       out of three, which is exactly the kind of intermittent

@@ -51,8 +51,9 @@ import {
    a missing e-mail, a malformed e-mail, a one-character customer, a missing
    company and a `.txt` in `files`, and fifteen requests inside a minute from
    one address produced no 429. The 429 and 4xx branches below are therefore
-   correct and exercised (`tmp/probe-rfq-form.mjs`, intercepted responses) but
-   currently unreachable in production. `supabase/**` is read-only in this
+   correct and exercised — each one driven through the real page with the
+   function's response intercepted, so nothing was written — but currently
+   unreachable in production. `supabase/**` is read-only in this
    phase and deploying is a stop condition, so this is reported rather than
    fixed; it belongs to Phase 09b's RLS and backend audit.
 
