@@ -594,8 +594,54 @@ function sentenceAt(text, index) {
    merely find one).                                                          */
 
 /**
- * @typedef {{ id: string, pattern?: RegExp, scan?: (text: string) => Generator<{ index: number, match: string }>, exempt?: (text: string, index: number) => boolean, authority: string, remedy: string }} Rule
+ * A `scan` receives the repo-relative path as well as the text. Two rules need
+ * it: a claim can be authorised in the LEDGER and forbidden everywhere else,
+ * and a rule that cannot tell those apart has to choose between a false
+ * positive on `claims.ts` and a hole everywhere else.
+ *
+ * `controls` is the rule's own proof, and it runs on EVERY invocation rather
+ * than behind a flag — see `runControls()` below.
+ *
+ * @typedef {{ text: string, file?: string }} Control
+ * @typedef {{ id: string, pattern?: RegExp, scan?: (text: string, file: string) => Generator<{ index: number, match: string }>, exempt?: (text: string, index: number) => boolean, controls?: { fires?: (string | Control)[], silent?: (string | Control)[] }, authority: string, remedy: string }} Rule
  */
+
+/* ── shared shapes for the 09a-C2 lead-time rules ──────────────────────────
+   Written once because two detectors and four controls have to agree about
+   what a duration IS. A window is a number, optionally a range, followed by a
+   time unit. The lookbehind refuses a digit or a separator before it, which is
+   what keeps `100.000 saat fiber lazer ömrü` and `2.335 alfanümerik` out; and
+   the absence of `+` in the token is what keeps `500+ saat (ASTM B117)` — salt
+   spray, a MATERIAL PROPERTY — out. A coating's endurance is not a promise
+   about when a part arrives.                                                  */
+/* The trailing boundary is a LOOKAHEAD, not `\b`. JavaScript's `\w` is
+   ASCII-only, so `\b` sees a word boundary between the `n` and the `ü` of
+   `günü` and the token stops one character short of the word it is matching.
+   Measured, not reasoned: `"5 iş günü"` matched `5 iş gün`, which then failed
+   the closing quote of the cell detector, and four positive controls went
+   green-on-red. Turkish suffixes are the whole point of this token, so the
+   boundary has to know about Turkish letters. (`foldTurkishI` will rewrite the
+   ı/İ inside this class; a character class survives that unchanged.)         */
+const NOT_LETTER = String.raw`(?![0-9A-Za-zÇĞİÖŞÜçğıöşü])`;
+const LEAD_TIME_WINDOW =
+  String.raw`(?<![\d.,+])\d{1,3}(?:\s?[-–]\s?\d{1,3})?\s?(?:iş\s?)?(?:gün(?:ü|de|lük|ünde)?|hafta(?:da|lık)?|ay(?:da|lık)?|saat(?:te|lik)?)` +
+  NOT_LETTER;
+
+/** What makes a duration a DELIVERY duration rather than a process parameter. */
+const DELIVERY_VOCAB = String.raw`teslim|teslimat|termin|sevkiyat|üretim sür|imalat sür|tedarik sür|analiz sür|çalışma sür|tamamlan|teslim ed|hazır ol`;
+
+/** The worded half. None of these contains a digit, so no numeric sweep finds
+    them, and they are the strongest commitments in the class: a same-day
+    promise and a priced express tier. */
+/* `acil` and `ekspres` need a LEADING word boundary. Without it `acil` matches
+   inside `havacılık` — which, after the Turkish-I fold turns `havacılık` into
+   `havacilik`, put this rule on four aerospace sentences that promise nothing
+   at all: `Hakkimizda.tsx:119`, `categoryPages.ts:130`, `chatFaqData.ts:214`
+   and the `havacilik-uzay` metaTitle. */
+const WORDED_TIER = String.raw`aynı gün|ertesi gün|\bekspres|\bacil`;
+const WORDED_DELIVERY_TIER =
+  String.raw`(?:${WORDED_TIER})[^.!?;{}\n"]{0,60}?(?:teslim|tedarik|üretim|sevkiyat|hizmet)` +
+  String.raw`|(?:teslim|tedarik|sevkiyat|üretim)[^.!?;{}\n"]{0,60}?(?:${WORDED_TIER})`;
 
 /** @type {Rule[]} */
 const RULES = [
@@ -644,6 +690,236 @@ const RULES = [
     ),
     authority: "§D QUOTE_RESPONSE_TIME_INTERNAL: 1-3 Days · §J QUOTE_SLA: 1-3 Days",
     remedy: "Import QUOTE_RESPONSE_TIME from src/content/claims.ts.",
+    controls: {
+      fires: ['"Teklifinizi 24 saat içinde iletiyoruz."', '"48 saat içinde dönüş"'],
+      silent: ['  value: "1-3 iş günü",', '{ label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },'],
+    },
+  },
+  {
+    id: "unverified-production-lead-time",
+    /* NEW — 09a-C2. The rule directly above ends with a note that says this
+       class exists and is uncovered: "Delivery lead times (`24 saatte ilk
+       parça`) carry no quote vocabulary and do not fire; they are a separate,
+       uncovered class." It stayed uncovered for three more phases, and in that
+       time `servicePages.ts` published `3-5 iş günü`, `7-15 iş günü`,
+       `24 saat`, `24-72 saat`, `5-10 iş günü`, `2-3 hafta`, `4-8 hafta` and
+       `6-8 hafta` as delivery commitments across eleven pages while the gate
+       reported PASS.
+
+       THE TWO FACTS ARE NOT THE SAME FACT. `QUOTE_RESPONSE_TIME` is how long
+       MAS takes to answer an enquiry, authorised twice (§D + §J). How long
+       MAKING THE PART takes has no field anywhere in `USER_INPUTS.md`, and
+       `claims.ts` records it as `PRODUCTION_LEAD_TIME = withhold(...)`.
+
+       This rule does NOT duplicate `quote-sla-overpromise`: that one requires
+       QUOTE vocabulary in the window, this one requires DELIVERY vocabulary.
+       Nor does it duplicate `delivery-or-quality-rate`: that one is about a
+       RATE (`%95 zamanında teslimat`), this one about a DURATION. Three
+       adjacent rules, three different claims.
+
+       TWO DETECTORS, because the class has two shapes and one of them defeats
+       any sentence-scoped pattern:
+
+         (a) PROSE — a duration window and delivery vocabulary in the same
+             sentence, in either order, plus the worded tier promises that
+             carry no digit at all ("aynı gün teslimat", "ekspres hizmet",
+             "acil tedarik"). No numeric sweep would ever have found those
+             three, and they are the strongest commitments in the file.
+
+         (b) BARE CELL — a string literal that is NOTHING BUT a duration.
+             `["Al 7075", "150 HB", "10.000+ çevrim", "2-3 hafta", "$", …]` and
+             `{ label: "Analiz Süresi", value: "5 iş günü" }` carry no delivery
+             vocabulary anywhere a sentence-scoped rule can see, because the
+             word that makes them a delivery claim is in the column HEADER or
+             the LABEL, on the other side of a string boundary. Four whole
+             duration COLUMNS lived in exactly this blind spot. A cell whose
+             entire content is a time window is not a measurement of anything;
+             it is a date somebody promised.
+
+       THE LEDGER EXEMPTION IS NARROW ON PURPOSE. `claims.ts` is where an
+       authorised duration is supposed to live, so `value: "1-3 iş günü"` there
+       must not fire — but exempting the whole file would let a fabricated
+       lead time be laundered through the ledger, which is the one place nobody
+       would think to look. So the exemption requires `QUOTE_RESPONSE_TIME` to
+       be the declaration the hit sits inside. A hypothetical
+       `PRODUCTION_LEAD_TIME = publish({ value: "3-5 iş günü" })` in that same
+       file still fires — and there is a control for it below.                */
+    scan: function* (text, file) {
+      const prose = trPattern(
+        new RegExp(
+          [
+            `(?:${DELIVERY_VOCAB})[^.!?;{}\n"]{0,80}?${LEAD_TIME_WINDOW}`,
+            `${LEAD_TIME_WINDOW}[^.!?;{}\n"]{0,80}?(?:${DELIVERY_VOCAB})`,
+            WORDED_DELIVERY_TIER,
+          ].join("|"),
+          "gi",
+        ),
+      );
+      // A cell is a quoted literal whose whole content is a window — numeric
+      // ("2-3 hafta") or worded ("Aynı gün", the express-supply column). The
+      // quotes are part of the match, so a substring of a longer sentence
+      // cannot satisfy it.
+      const cell = trPattern(
+        new RegExp(String.raw`(["'\`])\s*(?:${LEAD_TIME_WINDOW}|(?:aynı gün|ertesi gün|ekspres|acil)[^"'\`]{0,12})\s*\1`, "gi"),
+      );
+      /* (c) SEARCH RESULT. `metaTitle: "Hızlı Prototip Üretimi | 3-5 İş Günü |
+         CNC, 3D Baskı, Silikon Kalıp | Mas Technic"` carries no delivery
+         vocabulary and is not a bare cell, so neither detector above sees it —
+         and it is the WORST string in the class, because a `<title>` is quoted
+         by a search engine beside the domain, where no reader ever reaches the
+         page that would qualify it. A duration inside an SEO string is a claim
+         with no room for a caveat, so the vocabulary requirement is dropped
+         here: the field name IS the context. */
+      const seo = trPattern(
+        new RegExp(String.raw`(?:metaTitle|metaDescription|ogTitle|ogDescription)\s*:\s*"[^"\n]{0,220}?${LEAD_TIME_WINDOW}`, "gi"),
+      );
+
+      const inQuoteSla = (index) => {
+        if (file !== "src/content/claims.ts") return false;
+        return /QUOTE_RESPONSE_TIME[\s\S]{0,240}$/.test(text.slice(Math.max(0, index - 300), index));
+      };
+
+      for (const re of [prose, cell, seo]) {
+        re.lastIndex = 0;
+        let m;
+        while ((m = re.exec(text)) !== null) {
+          if (!inQuoteSla(m.index)) yield { index: m.index, match: m[0] };
+          if (m[0].length === 0) re.lastIndex += 1;
+        }
+      }
+    },
+    /* `keywords: [ … ]` is MATCHER INPUT, not published copy: nothing renders
+       it and `findBestFaqMatch` is its only reader. `chatFaqData.ts:68` lists
+       "kaç gün", "acil" and "termin" so that a visitor asking about lead time
+       REACHES the answer that declines to give one — removing the words would
+       route the most commercially loaded question on the site to a wrong
+       neighbour above the 0.6 floor, which is the Phase 06 failure this phase
+       exists to stop repeating. Same exemption, same narrowness and same
+       reason as `unconditional-guarantee`: this rule only, that array only.
+       Every other rule still applies inside it, so a scale figure or a
+       certificate cannot be laundered through a keyword list. */
+    exempt: (text, index) => insideKeywordArray(text, index),
+    controls: {
+      fires: [
+        // Every one of these is a string this phase removed, verbatim.
+        '"Standart parçalarda 5-10 iş günü, ekspres üretimde 2 iş gününe kadar inebiliyoruz."',
+        '"Hızlı alüminyum kalıplar 2-3 hafta, çelik kalıplar 4-8 hafta içinde teslim edilir."',
+        '"Master modelden 24 saatte ilk parçalar teslim ediyoruz."',
+        '"24-72 saat standart teslimat süresi",',
+        '"Ekspres hizmet ile aynı gün teslimat da mümkündür."',
+        'answer: "Acil siparişlerde aynı gün teslimat yapıyoruz.",',
+        '"3-5 iş günü prototip, 7-15 iş günü seri üretim teslimatı",',
+        '"Tasarım için 3-5 iş günü, üretim için 5-10 iş günü çalışma süresiyle ilerliyoruz."',
+        '"Toplam süreç 5 iş gününde tamamlanır."',
+        'metaTitle: "Hızlı Prototip Üretimi | 3-5 İş Günü | CNC | Mas Technic",',
+        // bare cells — four whole columns lived here
+        '["Al 7075", "150 HB", "10.000+ çevrim", "2-3 hafta", "$", "Prototip"],',
+        '["Vakumlu Döküm", "1", "1-3 gün", "$$", "$", "İyi"],',
+        '{ label: "Analiz Süresi", value: "5 iş günü" },',
+        '["Alüminyum (6061, 7075)", "Stokta", "Aynı gün", "Talebe bağlı", "1 kg"],',
+        // the ledger exemption is scoped to QUOTE_RESPONSE_TIME, not the file
+        {
+          file: "src/content/claims.ts",
+          text: 'export const PRODUCTION_LEAD_TIME = publish({\n  value: "3-5 iş günü",\n});',
+        },
+      ],
+      silent: [
+        // the authorised SLA, in the ledger and at every site that imports it
+        { file: "src/content/claims.ts", text: 'export const QUOTE_RESPONSE_TIME = publish({\n  value: "1-3 iş günü",\n});' },
+        { file: "src/content/claims.ts", text: 'export const QUOTE_RESPONSE_TIME_DISPLAY = publish({\n  value: "1-3 İŞ GÜNÜ",\n});' },
+        '{ label: "Değerlendirme", value: QUOTE_RESPONSE_TIME },',
+        '["1. Değerlendirme & Teklif", QUOTE_RESPONSE_TIME, "Detaylı teklif"],',
+        // the authorised replacement wording this phase put everywhere
+        '{ label: "Teslim Süresi", value: LEAD_TIME_SHORT },',
+        '"Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir."',
+        // measurements that merely share a unit with a promise
+        '{ label: "Tuz Testi", value: "500+ saat (ASTM B117)" },',
+        '"100.000 saat fiber lazer ömrü ile uzun vadeli güvenilirlik sağlıyoruz.",',
+        '["Korozyon Direnci (Tuz Testi)", "336+ saat", "500+ saat", "500+ saat"],',
+        '["Mekanik Mengene", "10-50 kN", "±0.02mm", "1-2 dk", "$", "Genel frezeleme"],',
+        '"İteratif — 2 haftalık sprint"',
+        // `acil` inside `havacılık`, after the Turkish-I fold — four live
+        // false positives this rule produced on its first run.
+        '"Havacılık ve uzay uygulamaları için hassas parça üretimi."',
+        'metaTitle: "Havacılık & Uzay Parça Üretimi | Ti & Inconel İşleme | Mas Technic",',
+        '"Prototipten seri üretime, havacılık-savunma-otomotiv-medikal başta olmak üzere birçok sektöre hizmet vermekteyiz."',
+        // matcher input, exempted — and the exemption is array-scoped, so the
+        // positive control immediately below still fires on the same words in
+        // published prose.
+        'keywords: ["teslimat", "süre", "zaman", "ne zaman", "kaç gün", "hızlı", "acil", "termin"],',
+      ],
+    },
+    authority:
+      "§D — no lead-time, turnaround, termin or delivery-window field exists · §J QUOTE_SLA: 1-3 Days is the quote's clock, not the part's",
+    remedy:
+      "A process step keeps its step and loses its number: use LEAD_TIME_STATEMENT or LEAD_TIME_SHORT from src/content/claims.ts. If a whole table COLUMN is durations, remove the column — five identical 'Teklifle birlikte' cells carry no information. PRODUCTION_LEAD_TIME is withhold()-typed; publishing it is a type error.",
+  },
+  {
+    id: "payment-or-credit-terms",
+    /* NEW — 09a-C2. `chatFaqData.ts` stated two commercial policies to a
+       visitor as company policy: "İlk siparişlerde %50 ÖN ÖDEME talep
+       ediyoruz, kalan %50 teslimatta ödenir. Düzenli müşterilerimize AÇIK
+       HESAP ve 30-60 GÜN VADE imkânı sunuyoruz." and "açık hesap (anlaşmalı
+       müşteriler), vadeli ödeme".
+
+       This is not a duration and it cannot be softened into "teklifle
+       birlikte" — the reader is not being told a number, they are being told a
+       POLICY. §J supplies the quote SLA and nothing else; no field anywhere
+       authorises a payment term, a credit line or a discount schedule.
+       `/endustriyel/kucuk-seri` published `%15-25` and `%25-35 hacim indirimi`
+       as spec rows while its own FAQ said tiered pricing comes with the quote.
+
+       ANCHORED TO THE OFFER, not the topic. "Peşin ödeme zorunlu mu?" is a
+       QUESTION a visitor asks and it must keep working; the honest answer
+       ("Yayımlanan sabit bir ödeme koşulumuz yok") must not fire either. What
+       fires is a term being GRANTED: an open account, a named credit window, a
+       percentage attached to a deposit, or an offer verb after any of them.
+       `keywords: [...]` is matcher input, exempted the same way and for the
+       same reason as `unconditional-guarantee` — narrowly, this rule only.   */
+    pattern: new RegExp(
+      [
+        String.raw`açık\s+hesap`,
+        String.raw`\d{1,3}(?:\s?[-–]\s?\d{1,3})?\s?(?:gün|ay)\s*vade`,
+        /* NOT a bare `vade…` + offer verb. "uzun vadeli güvenilirlik
+           sağlıyoruz" and "uzun vadede maliyet avantajı sağlar" are ordinary
+           Turkish for LONG-TERM and say nothing about credit; the first of
+           them was a live false positive on `servicePages.ts:1049`. What is
+           a credit term is `vadeli ödeme` or `vade` offered as a facility. */
+        String.raw`vadeli\s+ödeme`,
+        String.raw`\bvade\s*(?:imkan|imkân|olanak|seçenek|farkı|tanı|süresi\s+tanı)`,
+        String.raw`(?:%\s?|yüzde\s+)\d{1,3}(?:\s?[-–]\s?\d{1,3})?\s*(?:ön\s*ödeme|peşinat|avans|peşin)`,
+        String.raw`(?:ön\s*ödeme|peşinat|avans)[^.!?;{}\n"]{0,30}?(?:%\s?|yüzde\s+)\d`,
+        String.raw`(?:ön\s*ödeme|peşinat|avans|kapora)[^.!?;{}\n"]{0,30}?(?:talep ediyoruz|alıyoruz|istiyoruz|zorunludur|şarttır)`,
+        String.raw`taksit[^.!?;{}\n"]{0,30}?(?:imkan|imkân|seçenek|sunuyoruz|yapıyoruz|uyguluyoruz)`,
+        String.raw`(?:%\s?|yüzde\s+)\d{1,3}(?:\s?[-–]\s?\d{1,3})?\s*(?:hacim\s+)?indirim`,
+        String.raw`kredi\s+(?:limiti|imkan|imkânı|hesabı)`,
+      ].join("|"),
+      "gi",
+    ),
+    exempt: (text, index) => insideKeywordArray(text, index),
+    controls: {
+      fires: [
+        '"İlk siparişlerde %50 ÖN ÖDEME talep ediyoruz, kalan %50 teslimatta ödenir."',
+        '"Düzenli müşterilerimize AÇIK HESAP ve 30-60 GÜN VADE imkânı sunuyoruz."',
+        '"Ödeme yöntemleri: havale/EFT, açık hesap (anlaşmalı müşteriler), vadeli ödeme."',
+        '{ label: "İndirim (50+)", value: "%15-25 hacim indirimi" },',
+        '"Taksit imkanı sunuyoruz."',
+      ],
+      silent: [
+        '"Ödeme koşulları siparişe göre teklifte belirlenir; kurumsal fatura ve e-fatura kesiyoruz."',
+        'question: "Peşin ödeme zorunlu mu?",',
+        '"Yayımlanan sabit bir ödeme koşulumuz yok. Koşullar siparişe göre teklifte belirlenir."',
+        'keywords: ["peşin", "ön ödeme", "avans", "vade", "vadeli", "taksit", "ödeme koşulları"],',
+        '{ label: "Hacim İndirimi", value: "Kademeli fiyatlandırma teklifte" },',
+        '"Birim maliyeti belirleyen asıl kalem kurulumdur ve adede bölünür; hacim arttıkça birim fiyat düşer."',
+        // `uzun vadeli` / `uzun vadede` — ordinary Turkish for long-term.
+        '"100.000 saat fiber lazer ömrü ile uzun vadeli güvenilirlik sağlıyoruz."',
+        '"Daha yüksek hacimler için çelik kalıp uzun vadede maliyet avantajı sağlar."',
+      ],
+    },
+    authority: "§J — QUOTE_SLA is the only commercial term supplied; §0 DEFAULT_FACT_VISIBILITY: INTERNAL_ONLY_UNLESS_PUBLIC_OK",
+    remedy:
+      "A payment term, a credit line and a discount schedule are contractual policy, not facts about capability. Say the terms are agreed per order and nothing more specific. Do not soften a policy into 'teklifle birlikte' — that answers a question the reader did not ask.",
   },
   {
     id: "delivery-or-quality-rate",
@@ -965,9 +1241,42 @@ const RULES = [
   },
   {
     id: "wrong-city",
-    pattern: /geo\.placename[^\n]*İstanbul/gi,
+    // WIDENED — 09a-C2. The old pattern matched `geo.placename` and nothing
+    // else, so it walked past `chatFaqData.ts:166`: "MAS Technic, İSTANBUL
+    // merkezli bir hassas imalat firmasıdır." A wrong-city claim in published
+    // PROSE sailed past the rule whose entire purpose is wrong-city claims —
+    // and it was contradicted by the footer, the JSON-LD, `/iletisim` and that
+    // same file's own address answer twenty lines earlier.
+    //
+    // The widened half is anchored to COMPANY-LOCATION vocabulary in either
+    // order, not to the bare city name, because the bare name has innocent
+    // uses that must not fire: `LiveClock.tsx` sets `timeZone:
+    // "Europe/Istanbul"` (an IANA identifier), and `Login.tsx` uses "İstanbul"
+    // as the PLACEHOLDER of a field where the CUSTOMER types their own city.
+    // Neither is a claim about where MAS TECHNIC is. Both are negative
+    // controls below.
+    pattern: new RegExp(
+      [
+        String.raw`geo\.placename[^\n]*İstanbul`,
+        String.raw`İstanbul[^.!?;{}\n]{0,40}?(?:merkez|bulunmakta|bulunuyoruz|yer al|konumlan|fabrika|tesis|şube|ofis|adres)`,
+        String.raw`(?:merkez|merkezimiz|fabrikamız|tesisimiz|adresimiz|ofisimiz|üretim tesisi)[^.!?;{}\n]{0,40}?İstanbul`,
+      ].join("|"),
+      "gi",
+    ),
+    controls: {
+      fires: [
+        'geo.placename" content="İstanbul"',
+        '"MAS Technic, İSTANBUL merkezli bir hassas imalat firmasıdır."',
+        '"Üretim tesisimiz İstanbul Tuzla\'da yer alıyor."',
+      ],
+      silent: [
+        'timeZone: "Europe/Istanbul",',
+        '<Input type="text" value={city} onChange={(e) => setCity(e.target.value)} placeholder="İstanbul" maxLength={50} />',
+        '"Mas Technic, İzmir merkezli bir hassas imalat firmasıdır."',
+      ],
+    },
     authority: "§A PUBLIC_CITY: İzmir",
-    remedy: "The geo meta contradicted the footer, the JSON-LD and the address.",
+    remedy: "The geo meta contradicted the footer, the JSON-LD and the address. Read PUBLIC_CITY from src/content/claims.ts.",
   },
   {
     id: "unconditional-guarantee",
@@ -987,8 +1296,19 @@ const RULES = [
     // — ordinary engineering vocabulary that §0 PUBLIC_POSITIONING_PRIORITY
     // asks for. "Teslimat güvencesi veriyoruz" is a promise GIVEN. The verb is
     // what separates them, so only `ver…`, `alt(ı|i)na al…` and `taahhüt` fire.
+    //
+    // WIDENED — 09a-C2, the RETURNS half. `garanti` and `güvence` cover the
+    // promise when it is called a guarantee. `chatFaqData.ts:96` made the same
+    // promise without either word: "Teknik şartnameye uymayan ürünlerde
+    // ÜCRETSİZ İADE/DEĞİŞİM yapılmaktadır. Teslimat sonrası 7 iş günü içinde
+    // bildirim yapmanız yeterlidir." A free return with a stated window IS an
+    // unconditional guarantee — it is the strongest form of one, because it
+    // names the remedy — and no field authorises it. `iade` is anchored to a
+    // COMMITMENT (ücretsiz / koşulsuz / a return window / an offer verb) so
+    // that ordinary vocabulary survives: an admin-side invoice `iade` row and
+    // the KVKK "verilerin iadesi" of a data-subject right are not offers.
     pattern:
-      /\bgaranti(?:\b|si|sini|siyle|sıyla|li|lidir|liyoruz|yoruz|mizdir)|garanti\s+(?:ed|alt|kapsam|veriyor|sunuyor)|\bgüvence(?:si|sini|leri|lerini|miz|mizi|mi)?\s+(?:ver|alt[ıi]na\s+al|taahhüt|ediyoruz|eder\b|edilir)|taahhüt\s+(?:ediyoruz|eder|edilir)/gi,
+      /\bgaranti(?:\b|si|sini|siyle|sıyla|li|lidir|liyoruz|yoruz|mizdir)|garanti\s+(?:ed|alt|kapsam|veriyor|sunuyor)|\bgüvence(?:si|sini|leri|lerini|miz|mizi|mi)?\s+(?:ver|alt[ıi]na\s+al|taahhüt|ediyoruz|eder\b|edilir)|taahhüt\s+(?:ediyoruz|eder|edilir)|(?:ücretsiz|koşulsuz|şartsız|sorgusuz)\s+(?:iade|değişim|değiştirme|geri ödeme)|\biade(?:si|sini|niz)?\s+(?:hakkı|imkanı|imkânı|politikamız|yapılmakta|yapıyoruz|ediyoruz|edilir|kabul ed)|para\s+iades?i/gi,
     // A `keywords: [...]` array is MATCHER INPUT, not published copy: nothing in
     // `src/` renders it, and `findBestFaqMatch` is the only reader. The Phase 06
     // removal of the fabricated guarantee FAQ was correct and stays; but it left
@@ -999,6 +1319,26 @@ const RULES = [
     // rule only, inside `keywords: [ … ]` only. Every other rule still applies
     // there, so a certificate or a scale figure cannot be laundered through it.
     exempt: (text, index) => insideKeywordArray(text, index),
+    controls: {
+      fires: [
+        '"Ürün kalitesini garanti ediyoruz."',
+        '"Teslimat güvencesi veriyoruz."',
+        '"Teknik şartnameye uymayan ürünlerde ÜCRETSİZ İADE/DEĞİŞİM yapılmaktadır."',
+        '"Beğenmezseniz koşulsuz iade hakkınız vardır."',
+        '"Uygunsuz parçalarda para iadesi yapıyoruz."',
+      ],
+      silent: [
+        '"Kalite güvencesi sağlıyoruz."',
+        'keywords: ["garanti", "iade", "değişim", "kusur"],',
+        '"Uygunsuzlukta etkilenen parti kayıttan belirlenebilir."',
+        /* The QUESTION must keep working. Phase 06 removed the fabricated
+           guarantee ANSWER and left the most commercially loaded question on
+           the site routing to the DFM answer at 0.67 — a confident wrong
+           answer, which is worse than the claim it replaced. The question is
+           published copy and it names the topic; it does not offer a term. */
+        'question: "İade veya değişim yapılabiliyor mu?",',
+      ],
+    },
     authority: "§D — no field authorises a guarantee; §0 NEVER_PUBLISH_JUST_BECAUSE_KNOWN: YES",
     remedy:
       "State the mechanism and its condition. A guarantee is a contractual promise, and no promise in USER_INPUTS.md backs one.",
@@ -1291,6 +1631,83 @@ for (const rule of RULES) {
   if (rule.pattern) rule.pattern = trPattern(rule.pattern);
 }
 
+/* ── controls: the gate has to be gated too ────────────────────────────────
+   09a-C2. Three findings in three consecutive rounds were the SAME finding: a
+   rule existed, reported PASS, and did not cover the claim it was named for.
+   `wrong-city` matched `geo.placename` and walked past "İSTANBUL merkezli" in
+   published prose. `quote-sla-overpromise` demanded `teklif` AFTER `24 saat`
+   and walked past the exact string it was written to stop. `unconditional-
+   guarantee` matched one nominal form and let sixteen inflections through.
+
+   A rule with no control is an assertion. These run on EVERY invocation, not
+   behind a `--self-test` flag, because a proof you have to remember to run is
+   a proof that stops being true. A rule that stops firing on the string it was
+   written for FAILS THE GATE, exactly as a live violation does.
+
+   Controls go through the same `normalise()` the scanned tree does, and the
+   same `exempt()`, so a control wrapped in `keywords: [ … ]` genuinely proves
+   the exemption rather than a regex sitting next to it.                       */
+
+const CONTROL_DEFAULT_FILE = "src/data/servicePages.ts";
+
+/**
+ * Every rule must be silent on the ONE duration this site is allowed to print.
+ * Not a per-rule control: a global invariant, so a rule added next year is
+ * held to it without its author knowing this file's history.
+ */
+const AUTHORISED_SLA = [
+  { file: "src/content/claims.ts", text: 'export const QUOTE_RESPONSE_TIME = publish({\n  value: "1-3 iş günü",\n  visibility: "PUBLIC_CORE",\n});' },
+  { file: "src/content/claims.ts", text: 'export const QUOTE_RESPONSE_TIME_DISPLAY = publish({\n  value: "1-3 İŞ GÜNÜ",\n});' },
+  { text: '{ label: "Değerlendirme", value: QUOTE_RESPONSE_TIME },' },
+  { text: '{ label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },' },
+];
+
+/** Run one rule over one control string and report whether it fired. */
+function fires(rule, control) {
+  const file = control.file ?? CONTROL_DEFAULT_FILE;
+  const { text } = normalise(control.text);
+  /** @type {{ index: number, match: string }[]} */
+  const hits = [];
+  if (rule.scan) {
+    for (const hit of rule.scan(text, file)) hits.push(hit);
+  } else {
+    rule.pattern.lastIndex = 0;
+    let m;
+    while ((m = rule.pattern.exec(text)) !== null) {
+      hits.push({ index: m.index, match: m[0] });
+      if (m[0].length === 0) rule.pattern.lastIndex += 1;
+    }
+  }
+  return hits.filter((h) => !rule.exempt?.(text, h.index));
+}
+
+const asControl = (c) => (typeof c === "string" ? { text: c } : c);
+
+function runControls() {
+  /** @type {{ rule: string, kind: string, text: string }[]} */
+  const failures = [];
+  for (const rule of RULES) {
+    for (const raw of rule.controls?.fires ?? []) {
+      const c = asControl(raw);
+      if (fires(rule, c).length === 0) {
+        failures.push({ rule: rule.id, kind: "POSITIVE CONTROL DID NOT FIRE", text: c.text });
+      }
+    }
+    for (const raw of [...(rule.controls?.silent ?? []), ...AUTHORISED_SLA]) {
+      const c = asControl(raw);
+      const hits = fires(rule, c);
+      if (hits.length > 0) {
+        failures.push({
+          rule: rule.id,
+          kind: `NEGATIVE CONTROL FIRED [${hits[0].match}]`,
+          text: c.text,
+        });
+      }
+    }
+  }
+  return failures;
+}
+
 /* ── file walk ─────────────────────────────────────────────────────────── */
 
 /** @type {{ rule: Rule, file: string, line: number, text: string }[]} */
@@ -1317,7 +1734,7 @@ function scanFile(path, abs) {
     /** @type {{ index: number, match: string }[]} */
     const hits = [];
     if (rule.scan) {
-      for (const hit of rule.scan(text)) hits.push(hit);
+      for (const hit of rule.scan(text, rel)) hits.push(hit);
     } else {
       rule.pattern.lastIndex = 0;
       let m;
@@ -1413,6 +1830,8 @@ if (process.argv.includes("--list")) {
   process.exit(0);
 }
 
+const controlFailures = runControls();
+
 for (const root of ROOTS) walk(root);
 const resourceProblems = checkQualityResources();
 
@@ -1426,11 +1845,23 @@ console.log("# CLAIMS GATE");
 console.log(`# roots:    ${ROOTS.join(", ")}`);
 console.log(`# excluded: admin/, musteri/, AdminDashboard, AdminLogin, MusteriPaneli`);
 console.log(`# scanned:  ${filesScanned} files, ${linesScanned} non-comment lines`);
+const controlCount =
+  RULES.reduce((n, r) => n + (r.controls?.fires?.length ?? 0) + (r.controls?.silent?.length ?? 0), 0) +
+  RULES.length * AUTHORISED_SLA.length;
+console.log(`# controls: ${controlCount} (${controlFailures.length} failed)`);
 console.log("");
 
-if (violations.length === 0 && resourceProblems.length === 0) {
-  console.log(`PASS — 0 unverified claims across ${RULES.length} rules.`);
+if (violations.length === 0 && resourceProblems.length === 0 && controlFailures.length === 0) {
+  console.log(`PASS — 0 unverified claims across ${RULES.length} rules, ${controlCount} controls green.`);
   process.exit(0);
+}
+
+if (controlFailures.length > 0) {
+  console.log("## RULE CONTROL FAILURES");
+  console.log("A rule that no longer fires on the claim it was written for reports PASS over live");
+  console.log("fabrication, which is worse than having no rule at all. Fix the RULE, not the control.");
+  for (const f of controlFailures) console.log(`  ${f.rule}: ${f.kind}\n    ${f.text}`);
+  console.log("");
 }
 
 console.log("## VIOLATIONS BY RULE");
@@ -1455,5 +1886,7 @@ if (resourceProblems.length > 0) {
 }
 
 console.log("");
-console.log(`FAIL — ${violations.length} claim violation(s), ${resourceProblems.length} resource problem(s).`);
+console.log(
+  `FAIL — ${violations.length} claim violation(s), ${resourceProblems.length} resource problem(s), ${controlFailures.length} control failure(s).`,
+);
 process.exit(1);
