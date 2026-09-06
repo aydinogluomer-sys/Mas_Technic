@@ -66,6 +66,26 @@
 
    Every publication site imports the two strings below; none of them spells a
    format name. `claims.ts` keeps its no-runtime-imports property.
+
+   09a-C4 — AND THE TUPLE IS NOT THE THING THAT GETS PUBLISHED. QA attacked
+   the pin above twelve ways. It held on all twelve mutations OF THE TUPLE and
+   was silent on the two that leave the tuple alone and edit the DERIVATION —
+   appending "DWG" to the mapped array, or slicing it to five. `tsc` exits 0,
+   because both are well-typed; all five publication sites then read
+   "… IGS, 3MF ve DWG" against a validator that refuses DWG.
+
+   No type can close that. `Array.prototype.map` is declared `map<U>(…): U[]`,
+   so the element literals are gone before any template-literal type could
+   join them back into `"STEP, … ve 3MF"` and compare it. The binding has to
+   be made on the VALUES, and the third instrument makes it:
+   `scripts/claims-gate.mjs` imports this file — which it can, precisely
+   because the only import here is an `import type` that Node's type stripping
+   erases — reads `CAD_UPLOAD_FORMATS` and `CAD_UPLOAD_EXTENSIONS` as values,
+   and compares them to the canonical rendering of `CAD_ACCEPTED_EXTENSIONS`.
+
+   So DO NOT hand-edit either string below or the expression that builds it.
+   Add a format and the gate names the drift; the tuple is still where the list
+   is decided, and `cadUpload.ts` is still where the list is TRUE.
    ------------------------------------------------------------------------ */
 /// <reference path="../vite-env.d.ts" />
 import type { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadUpload";
