@@ -13,7 +13,7 @@ import {
 } from "@/components/shell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePageMeta } from "@/hooks/use-page-meta";
-import { servicePages } from "@/data/servicePages";
+import { CAD_UPLOAD_FORMATS, servicePages } from "@/data/servicePages";
 import {
   CERTIFICATION_SENTENCE_LIST,
   CMM_COVERAGE,
@@ -128,8 +128,10 @@ const GENERAL_FAQS: FaqEntry[] = [
   },
   {
     question: "Hangi dosya formatlarını kabul ediyorsunuz?",
-    answer:
-      "Teklif akışındaki yükleyici STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını kabul eder. Ölçülendirilmiş 2B teknik resminizi veya listede olmayan bir formatı e-posta ile iletebilirsiniz.",
+    /* 09a-C3: liste doğruydu ama ELLE YAZILMIŞTI — `CAD_ACCEPTED_EXTENSIONS`
+       değiştiği gün bu cümle sessizce yanlışa dönerdi. Türetilmiş hâli
+       BAYT BAYT aynı metni üretir; değişen tek şey, artık türeyebilmesi. */
+    answer: `Teklif akışındaki yükleyici ${CAD_UPLOAD_FORMATS} dosyalarını kabul eder. Ölçülendirilmiş 2B teknik resminizi veya listede olmayan bir formatı e-posta ile iletebilirsiniz.`,
     category: "Genel",
   },
   {

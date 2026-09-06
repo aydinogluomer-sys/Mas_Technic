@@ -1,4 +1,14 @@
+/* `e2e/shared-shell-accessibility.spec.ts` bu dosyayı doğrudan import eder ve
+   `tsconfig.e2e.json` `"types": ["node"]` diyerek Vite'ın ambient tiplerini o
+   programdan çıkarır; `include` de yalnızca `e2e/**`. 09a-C3'te bu dosya
+   `@/utils/cadUpload` üzerinden `integrations/supabase/env.ts`e ulaşınca orada
+   `import.meta.env` tipsiz kaldı (TS2339). Proje kendi ambient tanımını zaten
+   `src/vite-env.d.ts` içinde tutuyor; aşağıdaki satır yeni bir tip BEYAN
+   ETMEZ, var olanı programa alır. Alternatifi `tsconfig.e2e.json`u
+   değiştirmekti; o dosya bu paketin yazma listesinde yok. */
+/// <reference path="../vite-env.d.ts" />
 import { LEAD_TIME_SHORT, LEAD_TIME_STATEMENT, QUOTE_RESPONSE_TIME } from "@/content/claims";
+import { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadUpload";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    BU DOSYA BİR YAYIN YÜZEYİDİR — 09a-C2
@@ -37,6 +47,53 @@ import { LEAD_TIME_SHORT, LEAD_TIME_STATEMENT, QUOTE_RESPONSE_TIME } from "@/con
    Makine yarısı: `scripts/claims-gate.mjs` → `unverified-production-lead-time`
    ve `express-service-tier`.
    ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   KABUL EDİLEN CAD FORMATLARI — TÜRETİLİR, YAZILMAZ — 09a-C3
+
+   TEK YETKİ `src/utils/cadUpload.ts` → `CAD_ACCEPTED_EXTENSIONS`. Ziyaretçinin
+   yüklediği dosyayı kabul eden ya da reddeden kod odur; yayımlanan cümle onun
+   bir kopyası değil, TÜREVİ olmak zorundadır. `USER_INPUTS.md` §J:
+   `ACCEPTED_CAD_FORMATS: DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION`.
+
+   NEDEN ELLE YAZILMIŞ LİSTE — DOĞRU OLANI BİLE — BİR KUSURDUR
+   -----------------------------------------------------------
+   Bu dosya iki ayrı biçimde aynı hatayı taşıyordu:
+
+     · `:134` (cnc-frezeleme SSS) ve `:89` (aynı sayfanın gövde metni)
+       "Parasolid, SolidWorks (.sldprt), CATIA (.catpart), NX (.prt) ve
+       PDF/DWG" diyordu. `validateCadFile()` bunların DOKUZUNU DA reddediyor.
+       QA çalışma anında kanıtladı: bir `.sldprt` yüklendiğinde ekranda
+       "DOSYA REDDEDİLDİ … kabul edilen formatlardan biri değil" çıkıyor.
+       Bu satır aynı zamanda sohbet botunun havuzunda: `chatFaqData.ts`
+       `collectServiceFaqs()` buradaki HER `faq` girdisini oraya taşıyor ve
+       anahtar kelimeleri soru+cevap metninden üretiyor. Yani `catia`,
+       `catpart`, `solidworks`, `sldprt` yazan ziyaretçi — yani tam olarak
+       zarar gören kişi — 1.000 skorla bu yanlış cevaba düşüyordu.
+
+     · `:1943` ("Desteklenen CAD: STEP, IGES, CATIA, NX, SW") aynı sınıf.
+
+     · `:1967` (DFM SSS) BUGÜN DOĞRU bir listeyi elle yazıyordu. Tehlikeli
+       olan da bu: `chatFaqData.ts` aynı listeyi türetiyor, dolayısıyla
+       doğrulayıcı değiştiği gün türetilmiş cevap değişir, elle yazılmış olan
+       sessizce yanlışa döner. Doğru olan bir sabit, yine de bir sabittir.
+
+   Bu yüzden dört yer de aşağıdaki iki türevden birini kullanır. Kaynakta
+   artık hiçbir format adı YAZILI DEĞİL; bir uzantı eklenip çıkarıldığında
+   dört cümle birden kendiliğinden düzelir.
+
+   Makine yarısı: `scripts/claims-gate.mjs` → `cad-format-list-not-derived`.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/** `["a","b","c"]` → `"a, b ve c"`. Türkçe bağlaç, listenin uzunluğundan bağımsız. */
+const joinTurkishList = (parts: readonly string[]): string =>
+  parts.length < 2 ? parts.join("") : `${parts.slice(0, -1).join(", ")} ve ${parts[parts.length - 1]}`;
+
+/** Düz metinde okunan biçim: `"STEP, STP, STL, OBJ, IGES, IGS ve 3MF"`. */
+export const CAD_UPLOAD_FORMATS = joinTurkishList(CAD_ACCEPTED_EXTENSIONS.map((ext) => ext.toUpperCase()));
+
+/** Uzantı biçimi: `".step, .stp, .stl, .obj, .iges, .igs, .3mf"`. */
+export const CAD_UPLOAD_EXTENSIONS = CAD_ACCEPTED_EXTENSIONS.map((ext) => `.${ext}`).join(", ");
 
 export interface ComparisonTable {
   title: string;
@@ -86,7 +143,11 @@ export const servicePages: ServicePageData[] = [
       "5 eksenli CNC freze merkezlerimizde karmaşık geometrileri tek kurulumda tamamlıyoruz. Bağlama sayısını azaltmak yalnızca süreyi kısaltmaz; her yeni bağlama ölçü zincirine yeni bir hata kaynağı eklediği için doğrudan tolerans lehine çalışır.",
       "3 eksen frezeleme ile düz yüzeyler, cep işleme ve standart geometrilerde ekonomik çözümler üretiyoruz. 4 eksen frezeleme ile döner tabla sayesinde silindirik parçalarda kanal açma, delik delme ve profil işleme yapıyoruz. 5 eksen simultane frezeleme ile tek bağlamada en karmaşık parça geometrilerini işleyerek havacılık, medikal ve otomotiv sektörünün taleplerini karşılıyoruz.",
       "Yüksek hızlı işleme (HSM) stratejileriyle ince cidarlı parçalarda kesme kuvvetini düşürüp yüzey kalitesini iyileştiriyoruz. Havacılık, otomotiv, medikal ve savunma gibi kritik sektörlerde standart çalışma aralığımız ±0.01 mm olup ulaşılabilir tolerans her parça için teknik incelemede belirlenir.",
-      "Alüminyum (6061, 7075), paslanmaz çelik (304, 316), karbon çelik, titanyum, PEEK ve POM/Delrin gibi mühendislik malzemelerinde uzmanlaşmış ekibimizle hizmetinizdeyiz. Her projede DFM analizi uygulayarak maliyetleri optimize ediyor, STEP, IGES, SolidWorks, CATIA ve NX formatlarını doğrudan işleyebiliyoruz.",
+      /* 09a-C3 — D1'in ikinci yarısı. Bu cümle SSS'deki yanlış listenin AYNISINI
+         gövde metninde yayımlıyordu ("STEP, IGES, SolidWorks, CATIA ve NX
+         formatlarını doğrudan işleyebiliyoruz"); beş formattan üçünü
+         `validateCadFile()` reddediyor. Liste artık türetiliyor. */
+      `Alüminyum (6061, 7075), paslanmaz çelik (304, 316), karbon çelik, titanyum, PEEK ve POM/Delrin gibi mühendislik malzemelerinde uzmanlaşmış ekibimizle hizmetinizdeyiz. Her projede DFM analizi uygulayarak maliyetleri optimize ediyoruz; teklif akışındaki yükleyici ${CAD_UPLOAD_FORMATS} uzantılarını doğrular, listede olmayan yerel CAD kayıtlarını ve teknik resimleri e-posta ile alıyoruz.`,
     ],
     features: [
       "3 Eksen Frezeleme — Düz yüzeyler ve standart geometrilerde ekonomik çözüm",
@@ -131,7 +192,17 @@ export const servicePages: ServicePageData[] = [
     faq: [
       { question: "3 eksen mi 5 eksen mi kullanmalıyım?", answer: "Düz yüzeyler ve basit cep işlemleri için 3 eksen yeterlidir ve daha ekonomiktir. Alttan kesim, eğik yüzeyler veya tek bağlamada çok yüzey işleme gerekiyorsa 5 eksen tercih edilir." },
       { question: "CNC frezeleme tolerans değerleriniz nedir?", answer: "Standart çalışma aralığımız ±0.01mm'dir. Ulaşılabilir tolerans; geometri, malzeme, parça ölçüsü ve ölçü zincirine göre değişir ve her parça için teknik incelemede belirlenir." },
-      { question: "Hangi dosya formatlarını kabul ediyorsunuz?", answer: "STEP, IGES, Parasolid, SolidWorks (.sldprt), CATIA (.catpart), NX (.prt) ve PDF/DWG teknik çizim formatlarını destekliyoruz." },
+      /* 09a-C3 — D1. Eski cevap dokuz format vaat ediyordu (parasolid, sldprt,
+         solidworks, catpart, catia, prt, nx, dwg, pdf) ve `validateCadFile()`
+         dokuzunu da reddediyor. Reddedilen formatlar cümlede KALIYOR — ama
+         kabul edildikleri için değil, edilmedikleri için: `collectServiceFaqs()`
+         anahtar kelimeleri bu metinden üretir, dolayısıyla `catia`, `catpart`,
+         `solidworks`, `sldprt` yazan ziyaretçi artık DOĞRU cevaba düşer.
+         Kabul edilen listenin kendisi türetilir; kaynakta yazılı değildir. */
+      {
+        question: "Hangi dosya formatlarını kabul ediyorsunuz?",
+        answer: `Teklif akışındaki yükleyici şu uzantıları doğrular: ${CAD_UPLOAD_EXTENSIONS} — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.`,
+      },
       { question: "Minimum sipariş adedi var mı?", answer: "Hayır, tek parçadan seri üretime kadar her adette üretim yapıyoruz. Prototip siparişleri de kabul ediyoruz." },
       { question: "Teslimat süreniz ne kadar?", answer: LEAD_TIME_STATEMENT },
     ],
@@ -1940,7 +2011,8 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Analiz Süresi", value: LEAD_TIME_SHORT },
       { label: "Rapor Formatı", value: "PDF + revize CAD" },
-      { label: "Desteklenen CAD", value: "STEP, IGES, CATIA, NX, SW" },
+      /* 09a-C3 — D1 ile aynı sınıf: "CATIA, NX, SW" hiçbiri kabul edilmiyor. */
+      { label: "Desteklenen CAD", value: CAD_UPLOAD_FORMATS },
       { label: "Revizyon", value: "2 tur dahil" },
       { label: "Maliyet Tasarrufu", value: "Ortalama %30-50" },
       { label: "Simülasyon", value: "Takım yolu doğrulama" },
@@ -1964,7 +2036,13 @@ export const servicePages: ServicePageData[] = [
     faq: [
       { question: "DFM analizi ücreti var mı?", answer: "İlk DFM değerlendirmesi ücretsizdir. Detaylı analiz raporu ve CAD revizyonları proje kapsamına göre fiyatlandırılır." },
       { question: "DFM analizi ne kadar sürer?", answer: `Süreç dört aşamadan oluşur: ilk inceleme, detaylı analiz, müşteri görüşmesi ve final rapor. Takvim parçanın karmaşıklığına ve gönderilen dosyanın eksiksizliğine göre değişir. ${LEAD_TIME_STATEMENT}` },
-      { question: "Hangi CAD formatlarını kabul ediyorsunuz?", answer: "Teklif akışında STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını doğrudan yükleyebilirsiniz. Listede olmayan bir yerel CAD formatı veya ölçülendirilmiş teknik resim için dosyayı sales@mastechnic.com adresine iletebilirsiniz." },
+      /* 09a-C3 — D2. Bu liste BUGÜN DOĞRUYDU ve tam da bu yüzden kaldırıldı:
+         elle yazılmış olduğu için doğrulayıcı değiştiği gün sessizce yanlışa
+         dönerdi. Doğru olan bir sabit, yine de bir sabittir. */
+      {
+        question: "Hangi CAD formatlarını kabul ediyorsunuz?",
+        answer: `Teklif akışındaki yükleyici şu uzantıları doğrular: ${CAD_UPLOAD_EXTENSIONS} — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kaydınızı veya ölçülendirilmiş teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.`,
+      },
       { question: "DFM analizi ne kadar tasarruf sağlar?", answer: "Tasarrufun büyüklüğü parçanın geometrisine ve mevcut üretim planına bağlıdır. DFM analizinde parça sayısı, bağlama sayısı, takım erişimi ve tolerans zinciri değerlendirilir; beklenen etki analiz raporunda parça bazında verilir." },
     ],
     comparisonTables: [
