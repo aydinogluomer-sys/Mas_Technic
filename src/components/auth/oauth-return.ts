@@ -65,10 +65,77 @@
    sign-in page. React escapes it, so it is not script injection — but a
    sign-in page is the one surface where attacker-authored prose in the site's
    own voice is worth something, and "type your password here to continue" is
-   a sentence. So the server's prose is never rendered. The reader gets THIS
-   file's copy, chosen from a whitelist of error identifiers; the raw code is
-   shown only after being reduced to `[a-z0-9_-]` and 48 characters, which is
-   a support reference and cannot hold an instruction.
+   a sentence. So the server's prose is never rendered.
+
+   ── AND THE WHITELIST WAS NOT ENOUGH, BECAUSE CHOOSING IS ALSO WRITING ───
+   The first version of this file concluded that a whitelist settles it: the
+   attacker cannot WRITE the prose, so the prose is ours. That is half true
+   and the missing half is the dangerous one. They cannot write it, but they
+   CHOOSE it — `#error_code=user_banned` used to render "HESAP KAPALI / Bu
+   hesap ile giriş yapılamıyor / Hesabınızın durumunu öğrenmek için bizimle
+   iletişime geçin" to a reader who was never banned and may never have had an
+   account. That is not our sentence about their account; it is their sentence
+   in our voice, and it ends by asking the reader to open a support channel,
+   which is where a pretext gets spent.
+
+   SO THE WHITELIST NOW HAS A RULE, AND IT IS ABOUT WHAT MAY BE ASSERTED:
+
+     a notice raised on the strength of a URL fragment may describe THE
+     ATTEMPT or THE SITE. It may not assert a fact about the READER — their
+     account, their identity, their standing, or what they did.
+
+   The reason is asymmetry, not squeamishness. This site cannot verify any of
+   the three parameters: no session, no exchange, nothing but a string in a
+   fragment. When the claim is about the attempt ("giriş tamamlanamadı",
+   "adım zaman aşımına uğradı") the worst a forged link achieves is a true
+   sentence — the attempt really did not complete, since there was no attempt
+   — followed by advice that works: sign in with e-mail below. When the claim
+   is about the reader ("hesabınız kapalı", "bu e-posta zaten kayıtlı",
+   "adresiniz doğrulanmamış") a forged link manufactures a false belief about
+   the reader's own account, which is leverage, and one of them additionally
+   contradicts this page's own standing policy: `Login.tsx` keeps the sign-in
+   failure generic precisely so the site never says which addresses have
+   accounts, and `identity_already_exists` said it from a fragment.
+
+   Four entries were removed on that rule — `user_banned`,
+   `identity_already_exists`, `email_exists`,
+   `provider_email_needs_verification`. NOTHING DIAGNOSTIC IS LOST: they fall
+   through to `FALLBACK`, whose detail asks the reader to relay the code, and
+   the code itself is still rendered. The assertion is withdrawn; the evidence
+   is not.
+
+   ── WHAT THE REFERENCE IS, AND WHAT IT IS NOT ────────────────────────────
+   The raw code is shown as a support reference. An earlier version of this
+   comment claimed it "cannot hold an instruction". THAT WAS FALSE and QA
+   proved it by rendering `KOD: sifrenizi-yeniden-girin` — lowercase, hyphens,
+   inside the old `[a-z0-9_-]{0,48}` class, and a complete Turkish sentence.
+
+   What is now true, stated as a guarantee and not as a hope. The value is
+   TESTED against the shape GoTrue actually emits rather than stripped down to
+   a permissive class: `^[a-z][a-z0-9]*(_[a-z0-9]+){0,4}$`, at most 40
+   characters. Anything else renders nothing at all. So the reference cannot
+   contain a space, a full stop, a slash, an `@`, a digit-grouped number, a
+   capital letter or a hyphen; it therefore cannot be a URL, an e-mail
+   address, a phone number, a formatted call to action, or the sentence QA
+   rendered, which no longer survives the filter.
+
+   IT CAN STILL BE LOWERCASE WORDS JOINED BY UNDERSCORES, and no character
+   rule fixes that, because "is an instruction" is a property of meaning and
+   this is a filter over characters. That residue is stated rather than
+   claimed away. What actually carries the weight is one line above: the
+   site's own prose no longer varies with the code beyond a whitelist that
+   asserts nothing about the reader, so a token that reads as words sits next
+   to a `KOD:` label in mono and is contradicted by every sentence around it.
+
+   ── AND IT MUST BE ABOUT SOMETHING THAT JUST HAPPENED ────────────────────
+   `PerformanceNavigationTiming.name` is immutable for the life of the
+   document, which is the property that makes the bounce readable at all and
+   is also a way to be wrong. MEASURED by QA: land on `/malzemeler#error=…`,
+   read for twenty seconds, reach `/giris` in the same document, and a
+   twenty-second-old failure is announced with no indication of its age. The
+   genuine bounce is not like that — it is the same document, a few hundred
+   milliseconds, measured in `reports/09b1c2/oauth-age.txt` — so age is what
+   separates them. See `RETURN_MAX_AGE_MS`.
    ══════════════════════════════════════════════════════════════════════════ */
 
 export type OAuthProvider = "google" | "linkedin_oidc";
@@ -92,6 +159,40 @@ const HANDOFF_KEY = "mt.auth.oauth-handoff";
 /** A handoff older than this cannot be trusted to name the provider. */
 const HANDOFF_TTL_MS = 10 * 60 * 1000;
 
+/* HOW OLD A RETURN LEG MAY BE AND STILL BE NEWS.
+
+   `PerformanceNavigationTiming.name` never changes, so without a bound this
+   file answers "was this document fetched with an error?" when the question
+   the reader is owed is "did something just fail?". The two come apart the
+   moment the document outlives the failure, which QA demonstrated with no
+   session at all.
+
+   `performance.now()` IS the age: it counts from this document's navigation
+   start, which is the instant the parameters arrived. The genuine bounce ends
+   inside the same document a fraction of a second later.
+
+   THE NUMBER IS MEASURED, NOT PICKED. `reports/09b1c2/oauth-age.txt` records
+   `performance.now()` at the moment the notice is raised, for the real
+   protected-route bounce and for a direct return, warm and on a 6× CPU
+   throttle with the network at 3G — the slowest first paint this build can be
+   made to produce locally. The bound is set well above the slowest of those
+   and far below anything a reader spends reading a page.
+
+   IT IS DELIBERATELY NOT A TIGHTER ONE. A bound that cannot cover a cold,
+   throttled first load turns a genuine sign-in failure into silence, which is
+   the failure mode this whole file exists to remove. */
+const RETURN_MAX_AGE_MS = 10_000;
+
+/** Milliseconds since this document began navigating. `null` if unavailable. */
+function documentAgeMs(): number | null {
+  try {
+    const now = performance.now();
+    return Number.isFinite(now) ? now : null;
+  } catch {
+    return null;
+  }
+}
+
 /* One document, one report. The parameters that survive in
    `PerformanceNavigationTiming.name` are immutable for the life of the
    document, so without this a reader who signs in with e-mail, uses the
@@ -99,12 +200,32 @@ const HANDOFF_TTL_MS = 10 * 60 * 1000;
    the old OAuth failure a second time on their way past this route. */
 let consumed = false;
 
-/** The copy, keyed by GoTrue's own error identifiers. */
-const COPY: Record<string, { label: string; title: string; detail: string }> = {
+type Copy = { label: string; title: string; detail: string };
+
+/* THE COPY, KEYED BY GOTRUE'S OWN ERROR IDENTIFIERS — AND WHY IT IS A `Map`.
+
+   It was a plain object literal indexed as `COPY[code]`, so every key on
+   `Object.prototype` resolved through it: `#error_code=constructor` — and
+   `__proto__`, `toString`, `valueOf`, `hasOwnProperty` — returned a truthy
+   inherited value, the `|| FALLBACK` was skipped, and the notice rendered
+   with an empty label, no title and an empty body. The fallback that exists
+   for exactly the unknown-code case was bypassed BY the unknown-code case.
+
+   A `Map` is used rather than an `Object.hasOwn` guard at the one call site
+   because a guard is a rule that has to be remembered at every future call
+   site and a `Map` has no prototype chain for string keys to walk at all. The
+   defect class is removed rather than defended against.
+
+   MEMBERSHIP IS GOVERNED BY THE ASSERTION RULE at the top of this file: an
+   entry may describe the attempt or the site, never the reader. */
+const COPY = new Map<string, Copy>(Object.entries({
   access_denied: {
     label: "İZİN VERİLMEDİ",
     title: "Giriş izni verilmediği için işlem tamamlanmadı.",
-    detail: "Sağlayıcı ekranında izni onaylamadınız. Yeniden deneyebilir veya e-posta ve şifrenizle giriş yapabilirsiniz.",
+    /* Was "Sağlayıcı ekranında izni onaylamadınız." — an assertion about what
+       the reader did, and false for every reader who arrived on a crafted
+       link. The next step is the useful half and it is true either way. */
+    detail: "Yeniden deneyebilir veya e-posta ve şifrenizle giriş yapabilirsiniz.",
   },
   provider_disabled: {
     label: "SAĞLAYICI KAPALI",
@@ -126,11 +247,6 @@ const COPY: Record<string, { label: string; title: string; detail: string }> = {
     title: "Bu sağlayıcı ile yeni hesap oluşturulamıyor.",
     detail: "Zaten hesabınız varsa e-posta ve şifrenizle giriş yapın.",
   },
-  provider_email_needs_verification: {
-    label: "E-POSTA DOĞRULANMAMIŞ",
-    title: "Sağlayıcıdaki e-posta adresiniz doğrulanmamış.",
-    detail: "Sağlayıcı hesabınızdaki e-posta adresini doğruladıktan sonra yeniden deneyin.",
-  },
   bad_oauth_state: {
     label: "OTURUM DÜŞTÜ",
     title: "Giriş adımı zaman aşımına uğradı.",
@@ -151,22 +267,25 @@ const COPY: Record<string, { label: string; title: string; detail: string }> = {
     title: "Giriş adımı zaman aşımına uğradı.",
     detail: "Baştan başlamak için butona yeniden basın; bu genellikle sekme uzun süre açık kaldığında olur.",
   },
-  user_banned: {
-    label: "HESAP KAPALI",
-    title: "Bu hesap ile giriş yapılamıyor.",
-    detail: "Hesabınızın durumunu öğrenmek için bizimle iletişime geçin.",
-  },
-  identity_already_exists: {
-    label: "HESAP ZATEN VAR",
-    title: "Bu e-posta adresi başka bir yöntemle kayıtlı.",
-    detail: "Aynı adresle e-posta ve şifrenizi kullanarak giriş yapın.",
-  },
-  email_exists: {
-    label: "HESAP ZATEN VAR",
-    title: "Bu e-posta adresi başka bir yöntemle kayıtlı.",
-    detail: "Aynı adresle e-posta ve şifrenizi kullanarak giriş yapın.",
-  },
-};
+  /* DELIBERATELY ABSENT — `user_banned`, `identity_already_exists`,
+     `email_exists`, `provider_email_needs_verification`. Each asserted a fact
+     about the READER's account on the strength of a fragment this site cannot
+     verify:
+
+       user_banned                        "HESAP KAPALI" + go and contact us
+       identity_already_exists            "bu e-posta zaten kayıtlı"
+       email_exists                       the same sentence
+       provider_email_needs_verification  "adresiniz doğrulanmamış"
+
+     The middle two additionally contradict a policy this page already states
+     and keeps: `Login.tsx` holds the sign-in failure generic so the site never
+     reveals which addresses have accounts — and these said it from a URL.
+
+     They now reach `FALLBACK`, which describes the attempt and asks for the
+     code. A genuine `user_banned` is still fully diagnosable: `KOD:
+     user_banned` is rendered underneath, so support gets the same information
+     the reader was previously told as if it were established fact. */
+}));
 
 const FALLBACK = {
   label: "GİRİŞ TAMAMLANAMADI",
@@ -174,11 +293,26 @@ const FALLBACK = {
   detail: "E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.",
 };
 
-/** Reduce a server-supplied token to something that can only be a reference. */
+/* THE SHAPE GOTRUE ACTUALLY EMITS. Every identifier the SDK and the auth
+   server produce is lowercase `snake_case` with at most four segments — the
+   longest in the whole vocabulary is `provider_email_needs_verification`, 33
+   characters and four segments. So the reference is TESTED against that shape
+   instead of being stripped into a looser one: a value that is not an
+   identifier is not a reference, and renders as nothing.
+
+   The predecessor stripped to `[a-z0-9_-]{0,48}`, which admitted hyphens and
+   therefore admitted `sifrenizi-yeniden-girin`. See the note at the top of
+   this file for what this does and does not guarantee — it is a lexical
+   filter and it is described as one. */
+const REFERENCE_SHAPE = /^[a-z][a-z0-9]*(?:_[a-z0-9]+){0,4}$/;
+const REFERENCE_MAX = 40;
+
+/** A server-supplied token, or `null` when it is not shaped like a reference. */
 function sanitiseReference(value: string | null): string | null {
   if (!value) return null;
-  const cleaned = value.toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 48);
-  return cleaned.length ? cleaned : null;
+  const cleaned = value.trim().toLowerCase();
+  if (cleaned.length > REFERENCE_MAX || !REFERENCE_SHAPE.test(cleaned)) return null;
+  return cleaned;
 }
 
 /** Query first, then fragment — the SDK's own precedence. */
@@ -204,8 +338,12 @@ function describe(params: URLSearchParams) {
   if (!error && !code && !description) return null;
   /* `error_code` is the specific one; `error` is the OAuth-level bucket
      (`access_denied`, `server_error`). Prefer the specific, fall back to the
-     bucket, then to this file's own generic copy. */
-  const copy = (code && COPY[code]) || (error && COPY[error]) || FALLBACK;
+     bucket, then to this file's own generic copy. `Map.get` returns
+     `undefined` for `constructor`, `__proto__` and every other inherited name
+     — which is the whole point of it being a `Map`. */
+  const copy = (code ? COPY.get(code) : undefined)
+    ?? (error ? COPY.get(error) : undefined)
+    ?? FALLBACK;
   return { copy, reference: sanitiseReference(code) ?? sanitiseReference(error) };
 }
 
@@ -284,6 +422,16 @@ export function readOAuthReturn(): OAuthReturn | null {
   const provider = readHandoff();
   clearOAuthHandoff();
   if (fromLive) clearErrorParams();
+
+  /* THE AGE BOUND. Consumed, handed off and cleared ABOVE rather than below,
+     deliberately: a return leg that is too old to report is still spent. The
+     URL is cleaned, the handoff is released, and the latch is closed, so a
+     suppressed notice cannot reappear on a later mount and cannot leave the
+     parameters sitting in the address bar. `null` age means the clock is not
+     available, and then the notice is reported: silence about a real failure
+     is worse than a notice that might be a few seconds old. */
+  const age = documentAgeMs();
+  if (age !== null && age > RETURN_MAX_AGE_MS) return null;
 
   return {
     source: fromLive ? "location" : "document",
