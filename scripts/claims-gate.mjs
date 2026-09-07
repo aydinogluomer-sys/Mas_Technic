@@ -3100,6 +3100,92 @@ const CHECK_CONTROLS = [
     },
   },
   {
+    id: "derived-cad-copy: a .js shadow beside the ledger is a LOAD failure",
+    async run() {
+      /* 09a-C5 / R4-6, held on every invocation rather than asserted in a
+         comment. `claims.js` beside `claims.ts` is what Vite resolves for
+         `from "@/content/claims"`, so it is what the app would BUNDLE while
+         both instruments read the `.ts`. The fixture ledger here is CORRECT, so
+         a drift report would be the wrong answer twice over. */
+      const dir = makeTempDir("mas-claims-gate-control-");
+      writeFileSync(join(dir, "claims.ts"), CORRECT_FIXTURE_LEDGER, "utf8");
+      writeFileSync(join(dir, "claims.js"), 'export const CAD_UPLOAD_FORMATS = "STEP ve DWG";\n', "utf8");
+      const problems = await checkDerivedCadCopy(join(dir, "claims.ts"));
+      if (problems.length === 0) return "a .js shadow beside the ledger was not noticed at all";
+      if (!problems.every((p) => p.kind === "load")) {
+        return `a shadowed ledger was reported as ${problems.map((p) => p.kind).join("/")}`;
+      }
+      return problems[0].message.includes("claims.js") ? null : "it reported a shadow but did not name the file";
+    },
+  },
+  {
+    id: "walk: the file scan covers the JavaScript family, not only .ts",
+    run() {
+      /* The other half of R4-6. Detecting the shadow beside the LEDGER does not
+         help with a `.js` anywhere else in the tree; `EXT` has to walk it. */
+      const mustScan = [
+        "src/content/claims.js",
+        "src/content/claims.mjs",
+        "src/data/servicePages.cjs",
+        "src/pages/SSS.jsx",
+        "src/content/claims.mts",
+        "src/content/claims.ts",
+        "index.html",
+      ];
+      const mustSkip = ["src/index.css", "public/logo.png", "src/styles/tokens.scss"];
+      const missed = mustScan.filter((f) => !EXT.test(f));
+      if (missed.length > 0) return `EXT would not walk ${missed.join(", ")}`;
+      const overreach = mustSkip.filter((f) => EXT.test(f));
+      return overreach.length === 0 ? null : `EXT would walk ${overreach.join(", ")}, which carries no readable string`;
+    },
+  },
+  {
+    id: "derived-cad-copy: an enum in the ledger is compared, not called drift",
+    async run() {
+      /* 09a-C5 / R4-7. R4-7 predicted `enum`/`namespace` would be reported as
+         CAD copy drift, because Node's type stripping refuses both. Under a
+         full transpile they simply EMIT, so the honest result is no problem at
+         all — and this control is what keeps that claim true rather than
+         remembered. The strings in the fixture are correct; a complaint of any
+         kind here is a false report about correct copy. */
+      const fixture = writeFixtureLedger(
+        `export enum LedgerKind { Claim, Withheld }\nexport namespace Ledger { export const v = 1; }\n${CORRECT_FIXTURE_LEDGER}`,
+      );
+      const problems = await checkDerivedCadCopy(fixture);
+      if (problems.length > 0) return `an enum/namespace ledger with CORRECT copy was reported as ${problems[0].kind}: ${problems[0].message}`;
+      /* …and the same file with drifted copy must still be caught, or the
+         control above only proves the check went quiet. */
+      const drifted = writeFixtureLedger(
+        `export enum LedgerKind { Claim, Withheld }\n${DRIFTED_FIXTURE_LEDGER}`,
+      );
+      const hits = await checkDerivedCadCopy(drifted);
+      return hits.some((p) => p.kind === "drift") ? null : "an enum ledger publishing DWG was not reported as drift";
+    },
+  },
+  {
+    id: "derived-cad-copy: an unparseable ledger is a LOAD failure",
+    async run() {
+      /* The failure R4-7 is really about, whichever syntax causes it: the gate
+         must not describe a file it could not read as a file that disagrees.
+
+         IT ALSO ASSERTS THE MESSAGE, and that is not fussiness. Deleting the
+         `reportDiagnostics` branch in `importTypeScriptModule` leaves this
+         fixture failing anyway — the emitted garbage throws a bare SyntaxError
+         when imported — so a kind-only assertion passes over a gate that has
+         stopped reading the compiler at all, and the reader loses "Expression
+         expected." in favour of something opaque. Measured: that mutation is
+         invisible to every other control in this file. */
+      const problems = await checkDerivedCadCopy(writeFixtureLedger("export const CAD_UPLOAD_FORMATS = ;\n"));
+      if (problems.length === 0) return "an unparseable ledger produced no problem at all";
+      if (!problems.every((p) => p.kind === "load")) {
+        return `an unparseable ledger was reported as ${problems.map((p) => p.kind).join("/")}`;
+      }
+      return problems[0].message.includes("does not compile in isolation")
+        ? null
+        : "the transpile diagnostic was not read; the reader gets an opaque import error instead of the syntax error";
+    },
+  },
+  {
     id: "quality-resources: the check catches an invented byte size",
     run() {
       const dir = makeTempDir("mas-claims-gate-control-");
