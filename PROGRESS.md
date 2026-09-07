@@ -2834,3 +2834,93 @@ is touched.
 
 **09b-1 dispatched** to `wt/coder-p09b1` at `fb82ea2`, packet `.work/packets/phase-09b1.md`, `PARTIAL`
 accepted.
+
+#### 09b-1 integrated — PARTIAL, and the part it could not do is the part it proved was not its to do
+
+Seven commits picked as `7ae6eda..56f1642`; twelve source paths plus 64 evidence files, tree identical to the
+Coder's. **No `e2e/`, no golden, no `supabase/`, no `scripts/`** — and no golden moved, which the Coder
+predicted *before* running rather than reported after: no baseline covers an auth route, and all three keep
+`navigation={false} footer={false}`, so the header and footer baselines cannot see them. The agent was killed
+by a network failure (ENOTFOUND) and resumed from its own worktree — the fifth stop in this run and the fifth
+recovery at zero cost.
+
+**The badge is gone from all three routes, and the packet was wrong about where it was.** I located it on
+`/giris`; `LoginLeftPanel` rendered on all three. Nothing replaced it — verified in the rendered DOM at both
+viewports, and the only surviving occurrence of the string in the tree is inside the new `AuthAside.tsx`
+comment explaining the removal. The Coder gave three independent reasons, any one sufficient, and the second
+is the one I had not made: **"256-bit SSL" is not a well-formed claim at all** — SSL was superseded by TLS,
+and a symmetric key length says nothing about the handshake, the certificate or the suite. A softer badge
+would be the same unbacked assurance in a quieter voice, so the slot is empty.
+
+**The migration, one instrument at both ends:**
+
+| route | teal in `<main>` | Radix | shell-* in `<main>` |
+|---|---|---|---|
+| `/giris` | 93 → **0** | 0 → 0 | 0 → **48** |
+| `/sifremi-unuttum` | 94 → **0** | 0 → 0 | 0 → **37** |
+| `/reset-password` | 94 → **0** | 0 → 0 | 0 → **37** |
+
+Document-wide teal is 4 on all three — **byte-identical to the migrated reference route's residue**, the
+cursor overlay and the ChatBot launcher, both global chrome outside the allowlist. The `z-10` I added to
+scope left with `LoginLeftPanel`; the other four auth components carried none. **Twelve states reached and
+screenshotted**, not inferred, including `/reset-password`'s expired branch carrying the auth server's own
+`error_description`. Text contrast minimum **5.89:1**, axe **0 violations** on four surfaces at two widths,
+0 unnamed controls, 0 invisible focus indicators.
+
+**PARTIAL, for one criterion, and the diagnosis is why I accept it.** `.shell-field` inputs draw their
+boundary at **2.16:1** against 1.4.11's 3:1, and the fill does not carry it either at 1.04:1 — so the
+boundary is the only thing identifying the control. The Coder then measured **`/iletisim`, a Phase 07 route
+it does not touch, at the identical 2.16 / 1.04 / 17.35**. The cause is `--tl-rule`
+(`design-tokens.css:81`), outside the allowlist, and changing `.shell-field` from an auth packet would
+repaint `/iletisim` and `/teklif-al` and move their goldens. **Reported, not patched — correctly.** It also
+explains why nothing caught it: axe is silent because 1.4.11 non-text contrast is a manual check.
+
+**The OAuth finding is worse than the class I named, and I verified it at the source.**
+`@supabase/auth-js` `GoTrueClient.js:1868` ends `_handleProviderSignIn` with
+`return { data: { provider, url }, error: null };` — **unconditionally, with no request made**; it builds the
+authorize URL and calls `window.location.assign`. So `Login.tsx`'s `if (error) toast.error(…)` is
+**unreachable code, and the social buttons have no failure path at all** — not "a control that promises what
+it cannot do", but a control that cannot report failure *even if the providers are enabled and something
+else breaks*. A disabled provider navigates the reader to the auth server's error page and this site never
+learns.
+
+**Enablement is honestly unresolved and the buttons are untouched.** `supabase/config.toml` has **no `[auth]`
+block at all**, so the repository has no opinion. The one read that would settle it — `GET /auth/v1/settings`
+— writes nothing and sends no mail, but it is still a network call to the project, which the packet forbids
+outright. Not made. Two questions come back, and the Coder is right that one answer does not cover both: are
+the providers enabled, and is `{origin}/musteri-paneli` an allowed redirect URL.
+
+**Four third-party facts for 09b-2, three of them new.** hCaptcha loads **on page load**, ~400–650 ms, no
+interaction, `/giris` only; cookie `__cf_bm` on `.hcaptcha.com`, 29.9 min; **no localStorage or
+sessionStorage key of its own**. Then:
+
+1. **`sentry.hcaptcha.com` is a fifth host `/cerez-politikasi` does not name.** I checked: `:85-86` lists
+   `js.hcaptcha.com`, `newassets.hcaptcha.com` and the two ephemeral workers, and stops. It is contacted only
+   when the widget **fails** — the flaky-network and content-blocker case a disclosure exists for. Three more
+   hosts appear as *configured* destinations in the widget's own options but were never observed, so 09b-2
+   must decide whether it publishes configured or observed hosts **and say which**.
+2. **`mas-technic-theme` is published with the wrong writer.** `CerezPolitikasi.tsx:167` calls it *"the 3D
+   model viewer's light/dark palette"*; its actual writer is the global `<Toaster>` via `useTheme`, and it is
+   written on all three auth routes, which have no 3D viewer. Gate green, sentence narrow — the same shape as
+   Phase 08's storage-list defect.
+3. **Google Fonts is the first external request on all three routes**, 34–55 ms, including the two with no
+   captcha and no social buttons. A different Google service from OAuth, and my packet's enumeration did not
+   separate them.
+
+**A defect the Coder found in its own work, and the way it found it is the finding.** `.shell-field > label`
+is a **child** combinator, and `AuthField` nests the label inside `.shell-auth-label-row` so the "forgot
+password" link can sit opposite it — so the selector never matched and **every label on all three routes
+rendered at the browser default** instead of the system's 9px uppercase mono. `tsc`, eslint, axe, the
+contrast census (it passed at 8.44:1) and every golden were **all green over a page visibly outside the
+design language**. It was found by opening a screenshot. That is a real gap in what this phase's gates can
+see, and it is worth more than the fix.
+
+**Carried, each routed rather than noted.** The `.shell-field` boundary and the OAuth failure path go to
+**09b-1-C1**, together, because both are things 09b-1 proved and could not fix from its own allowlist. The
+three disclosure gaps go to **09b-2**. The signup path surfacing the auth server's message verbatim — so
+*"User already registered"* is an **account-enumeration disclosure to an unauthenticated visitor**, while
+sign-in stays deliberately generic — goes to **09b-3**, because it is a security decision and not a design
+one; behaviour deliberately unchanged. And `landing-anchors.spec.ts:42` went red once on a 15 s Lenis poll:
+four data points committed **including the failing log**, the Coder's belief that it is load flake stated as
+a belief, and the red left in the tree rather than its conclusion about the red — which is the same
+discipline QA showed at the close of 09a.
