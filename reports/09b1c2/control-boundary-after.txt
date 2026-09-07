@@ -1,0 +1,81 @@
+09b-1-C2 — CONTROL BOUNDARY CENSUS (after)
+
+DISCOVERY, stated to match the code and not the intention:
+  every element is tested for BOTH interactivity and a drawn border, and
+  the four resulting classes are reported separately. The predecessor
+  dropped borderless elements before the interactive test; this does not.
+
+routes    8 (including /, which C1's list did not have)
+viewports 1280, 375
+
+CLASS COUNTS (component × tone × route × viewport rows)
+  control               94   interactive, enclosing border — 1.4.11 applies
+  control-edge           9   interactive, partial rule — not a boundary
+  control-borderless   105   interactive, NO border — the set line 143 dropped
+  decor                306   non-interactive border — not subject to 1.4.11
+
+ENCLOSING CONTROL BOUNDARIES UNDER 3:1 — 10
+   2.164  button.tl-menu-trigger  @1280  /  tone=no-shell-root
+   2.197  button.tl-menu-trigger  @1280  /iletisim  tone=no-shell-root
+   2.197  button.tl-menu-trigger  @1280  /teklif-al  tone=no-shell-root
+   2.197  button.tl-menu-trigger  @1280  /sss  tone=no-shell-root
+   2.197  button.tl-menu-trigger  @1280  /malzemeler  tone=no-shell-root
+   2.197  button.tl-menu-trigger  @375  /  tone=no-shell-root
+   2.197  button.tl-menu-trigger  @375  /iletisim  tone=no-shell-root
+   2.197  button.tl-menu-trigger  @375  /teklif-al  tone=no-shell-root
+   2.197  button.tl-menu-trigger  @375  /sss  tone=no-shell-root
+   2.197  button.tl-menu-trigger  @375  /malzemeler  tone=no-shell-root
+
+THE BORDERLESS INTERACTIVE SET, reported separately as D4 requires.
+A control with no border is not measured by 1.4.11 at its edge; what is
+reported is what CAN identify it — its fill against its ground and its
+ink against its fill.
+  fill/ground       1   ink/fill  17.598   a  tone=no-shell-root  "Ana içeriğe geç"
+  fill/ground  16.322   ink/fill  14.923   a.tl-quote-button  tone=no-shell-root  "TEKLİF AL"
+  fill/ground  16.322   ink/fill  14.923   a  tone=graphite  "TEKLİF AL"
+  fill/ground       1   ink/fill  17.352   a.tl-sector-card  tone=graphite  "ENERJİ & HİDROLİK"
+  fill/ground       1   ink/fill  14.923   summary  tone=graphite  "01Hangi dosya formatlarını"
+  fill/ground  16.322   ink/fill  14.923   a.shell-footer-primary  tone=graphite  "Hemen Teklif Al"
+  fill/ground       1   ink/fill  10.007   a.shell-action.shell-action--quiet.shell-auth-back  tone=graphite  "Ana sayfa"
+  fill/ground       1   ink/fill    8.44   label  tone=graphite  "E-posta"
+  fill/ground       1   ink/fill  10.007   a.shell-action.shell-action--quiet  tone=graphite  "Şifremi unuttum"
+  fill/ground       1   ink/fill    8.44   button.shell-auth-reveal  tone=graphite  ""
+  fill/ground       1   ink/fill  10.007   button.shell-action.shell-action--quiet  tone=graphite  "Hesabınız yok mu? Kayıt ol"
+  fill/ground   4.869   ink/fill   4.869   button  tone=no-shell-root  ""
+  fill/ground       1   ink/fill   6.319   label  tone=paper-band-in-graphite-root  "Ara"
+  fill/ground       1   ink/fill  14.923   summary  tone=paper-band-in-graphite-root  "Minimum sipariş adedi nedi"
+  fill/ground       1   ink/fill   8.515   a  tone=paper-band-in-graphite-root  "01Genel"
+  fill/ground       1   ink/fill  11.323   input.shell-check  tone=graphite  ""
+  fill/ground       1   ink/fill  16.787   a.tl-brand  tone=no-shell-root  "MAS TECHNICPRECISION CNC"
+  fill/ground       1   ink/fill  17.352   button  tone=graphite  "HİZMETLER"
+
+THE LANDING DROP ZONE — the control C1's route list could not see.
+  @1280  /  button.tl-cad-drop
+     border rgba(18, 23, 25, 0.54) → [119,120,116]
+     fill [238,233,222]   ground [238,233,222]
+     vsFill 3.672   vsGround 3.672   BINDING 3.672   PASS
+  @375  /  button.tl-cad-drop
+     border rgba(18, 23, 25, 0.54) → [119,120,116]
+     fill [238,233,222]   ground [238,233,222]
+     vsFill 3.672   vsGround 3.672   BINDING 3.672   PASS
+
+[1280] guard canary: BLOCKED:Failed to fetch
+[1280] /                                              62 rows
+[1280] /giris                                         15 rows
+[1280] /sifremi-unuttum                               10 rows
+[1280] /reset-password#token_hash=probe-no-network    11 rows
+[1280] /iletisim                                      43 rows
+[1280] /teklif-al                                     40 rows
+[1280] /sss                                           41 rows
+[1280] /malzemeler                                    41 rows
+[1280] network — requested 11, blocked 11, allowed 0
+[375] guard canary: BLOCKED:Failed to fetch
+[375] /                                              60 rows
+[375] /giris                                         12 rows
+[375] /sifremi-unuttum                               7 rows
+[375] /reset-password#token_hash=probe-no-network    8 rows
+[375] /iletisim                                      43 rows
+[375] /teklif-al                                     40 rows
+[375] /sss                                           41 rows
+[375] /malzemeler                                    40 rows
+[375] network — requested 11, blocked 11, allowed 0
