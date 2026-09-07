@@ -1,0 +1,19 @@
+# CLAIMS GATE
+# roots:    src/pages, src/components, src/data, src/content, src/hooks, src/utils, src/config, src/lib, src/routes, src/App.tsx, index.html, public
+# excluded: admin/, musteri/, AdminDashboard, AdminLogin, MusteriPaneli
+# scanned:  225 files, 28415 non-comment lines
+# controls: 283 (1 failed), of which 16 watch the 3 checks that are not rules
+
+## RULE CONTROL FAILURES
+A rule that no longer fires on the claim it was written for reports PASS over live
+fabrication, which is worse than having no rule at all. Fix the RULE, not the control.
+  cad-format-list-not-derived: POSITIVE CONTROL DID NOT FIRE
+    export const CAD_UPLOAD_FORMATS = globalThis.window ? "DWG, DXF ve SLDPRT" : DERIVED;
+
+## VIOLATIONS BY RULE
+
+FAILING: controls
+FAIL — 0 claim violation(s), 0 resource problem(s), 0 derived-copy problem(s), 0 ledger load failure(s), 1 control failure(s).
+(node:17636) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)

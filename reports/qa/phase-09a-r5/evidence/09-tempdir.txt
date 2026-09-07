@@ -1,0 +1,20 @@
+# QA 09a-R5 — temp-directory behaviour of the new loader
+# tmpdir: C:\Users\TRADEB~1\AppData\Local\Temp
+
+baseline leftover: 0
+a PASSing run                                        exit=0  leftover=0
+a PASSing run with --no-experimental-strip-types     exit=0  leftover=0
+a FAILing run (a covered rule neutered)              exit=1  leftover=0
+--list (exits before any check runs)                 exit=0  leftover=0
+a run that THROWS mid-evaluation                      exit=1  leftover=16
+   (Error: EISDIR: illegal operation on a directory, read)
+
+## concurrency — four gates at once, do any two share a directory?
+   exits: 0, 0, 0, 0
+   all four PASS: true
+   leftover after all four: 0
+   mkdtempSync creates the directory atomically with six random suffix characters, so two
+   concurrent runs cannot be handed the same path; four clean exits with zero leftovers is
+   the observable form of that.
+
+FINAL leftover after sweep: 0 (existsSync check: true)

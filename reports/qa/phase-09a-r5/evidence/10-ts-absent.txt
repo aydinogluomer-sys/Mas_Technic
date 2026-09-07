@@ -1,0 +1,32 @@
+# CLAIMS GATE
+# roots:    src/pages, src/components, src/data, src/content, src/hooks, src/utils, src/config, src/lib, src/routes, src/App.tsx, index.html, public
+# excluded: admin/, musteri/, AdminDashboard, AdminLogin, MusteriPaneli
+# scanned:  225 files, 28415 non-comment lines
+# controls: 280 (4 failed), of which 16 watch the 3 checks that are not rules
+
+## INSTRUMENT CONTROL FAILURES
+One of the checks that is NOT a rule has stopped detecting what it exists to detect, or has
+stopped counting towards the verdict. Nothing below this line can be trusted until it is fixed:
+a gate whose instrument is asleep reports PASS over exactly the class it was built for.
+  derived-cad-copy: the check reads the ledger it is given
+    checkDerivedCadCopy() reported no drift over a fixture ledger publishing '… ve DWG'
+  derived-cad-copy: and stays silent when that ledger is correct
+    checkDerivedCadCopy() complained about a correct fixture ledger: could not be evaluated, so the published CAD strings were checked against NOTHING: Cannot find package 'typescript' imported from file:///C:/Users/Trade%20Bilisim/pdh-wt/qa-p09a5/scripts/claims-gate.mjs. This is NOT a drift report — the copy may be perfectly correct. The ledger must stay loadable with only `import type` erased and no module edges at all; it is loaded from a temp directory precisely so that no edge can resolve.
+  derived-cad-copy: an enum in the ledger is compared, not called drift
+    an enum/namespace ledger with CORRECT copy was reported as load: could not be evaluated, so the published CAD strings were checked against NOTHING: Cannot find package 'typescript' imported from file:///C:/Users/Trade%20Bilisim/pdh-wt/qa-p09a5/scripts/claims-gate.mjs. This is NOT a drift report — the copy may be perfectly correct. The ledger must stay loadable with only `import type` erased and no module edges at all; it is loaded from a temp directory precisely so that no edge can resolve.
+  derived-cad-copy: an unparseable ledger is a LOAD failure
+    the transpile diagnostic was not read; the reader gets an opaque import error instead of the syntax error
+
+## VIOLATIONS BY RULE
+
+### ledger-not-loadable — 1
+authority: USER_INPUTS.md §J ACCEPTED_CAD_FORMATS: DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION
+remedy:    THIS IS NOT A COPY PROBLEM. The published CAD strings were compared to nothing, so
+           this says nothing at all about whether they are right. Make src/content/claims.ts
+           loadable again: no runtime import, and no syntax that an isolated transpile refuses.
+  src/content/claims.ts: could not be evaluated, so the published CAD strings were checked against NOTHING: Cannot find package 'typescript' imported from file:///C:/Users/Trade%20Bilisim/pdh-wt/qa-p09a5/scripts/claims-gate.mjs. This is NOT a drift report — the copy may be perfectly correct. The ledger must stay loadable with only `import type` erased and no module edges at all; it is loaded from a temp directory precisely so that no edge can resolve.
+
+FAILING: controls, derived-cad-copy
+FAIL — 0 claim violation(s), 0 resource problem(s), 0 derived-copy problem(s), 1 ledger load failure(s), 4 control failure(s).
+(node:6552) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
