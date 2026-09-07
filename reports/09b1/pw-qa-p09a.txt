@@ -1,0 +1,74 @@
+(node:25028) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 27 tests using 1 worker
+
+(node:9292) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   1 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:144:1 › accepted formats and the size ceiling are on screen before a file is chosen (4.3s)
+  ✓   2 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:172:1 › the CAD format error is a persistent announced ShellNotice, not a toast (8.7s)
+  ✓   3 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:201:1 › advancing with no file raises the branded form error and never posts (2.8s)
+  ✓   4 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:225:1 › field errors are associated, announced, focused and cleared on edit (5.1s)
+  ✓   5 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:288:1 › thirteen submit attempts against a slow handler produce exactly one invocation (7.2s)
+  ✓   6 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:343:1 › no production lead time is rendered anywhere in the request, and the reference is the server's (6.6s)
+  ✓   7 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:395:1 › the success state shows no reference at all when the server echoes none (4.5s)
+  ✓   8 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:420:1 › a rejected submission renders a branded announced failure and offers a way out (5.8s)
+  ✓   9 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:457:3 › axe reports no serious or critical violation on /teklif-al at 1280 (16.3s)
+  ✓  10 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:457:3 › axe reports no serious or critical violation on /teklif-al at 375 (11.4s)
+  ✓  11 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:479:1 › the form reflows at 320 with no horizontal overflow (4.0s)
+  ✓  12 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:511:1 › the WebGL stack is fetched only when a preview is explicitly requested (9.0s)
+SWEEP_JSON=test-results/qa-p09a2-claims-sweep/sweep.json (scratch)
+ROUTES_REQUESTED=63 ROUTES_VISITED=63 FAILED=0 SLA_ROUTES=57 FINDINGS=0 EXEMPTED=12
+  (exempt: negated: the legal texts explicitly DISCLAIM a commitment) [WARRANTY/w-taahhut] /kvkk :: "taahhüt"
+  (exempt: negated: the legal texts explicitly DISCLAIM a commitment) [WARRANTY/w-taahhut] /cerez-politikasi :: "taahhüt"
+  (exempt: machine capability (automatic tool change / bar feed), not a shift or hours claim) [LEAD_TIME/w-kesintisiz] /hizmetler/cnc-frezeleme :: "kesintisiz"
+  (exempt: English 'Gun Drilling', not Turkish 'gün') [LEAD_TIME/dur-numeric] /hizmetler/derin-delik-raybalama :: "01\nGun"
+  (exempt: component service life of the laser source, not a delivery window) [LEAD_TIME/dur-numeric] /hizmetler/lazer-kazima :: "000 saat"
+  (exempt: component service life of the laser source, not a delivery window) [LEAD_TIME/dur-numeric] /hizmetler/lazer-kazima :: "000 saat"
+  (exempt: component service life of the laser source, not a delivery window) [LEAD_TIME/dur-numeric] /hizmetler/lazer-kazima :: "000 Saat"
+  (exempt: 'uzun vadeli' = long-term (reliability), not a credit term) [PAYMENT/p-vade] /hizmetler/lazer-kazima :: "vadeli"
+  (exempt: describes when an accuracy check happens, not a shift offered to a customer) [LEAD_TIME/w-vardiya] /kabiliyetler/makine-parkuru :: "Vardiya"
+  (exempt: machine capability (automatic tool change / bar feed), not a shift or hours claim) [LEAD_TIME/w-kesintisiz] /kabiliyetler/seri-imalat :: "kesintisiz"
+  (exempt: machine capability (automatic tool change / bar feed), not a shift or hours claim) [LEAD_TIME/w-kesintisiz] /endustriyel/otomotiv :: "kesintisiz"
+  (exempt: machine capability (automatic tool change / bar feed), not a shift or hours claim) [LEAD_TIME/w-kesintisiz] /endustriyel/seri-uretim :: "kesintisiz"
+SETTLED slowest=/hizmetler@3309ms shortest=/endustriyel@1889chars neverSettled=0
+ROUTES_WITHOUT_SLA (6): /kvkk, /gizlilik-politikasi, /cerez-politikasi, /hizmetler, /kabiliyetler, /endustriyel
+  ✓  13 [desktop-1280] › e2e\qa-p09a2-claims-sweep.spec.ts:159:1 › public routes carry no unauthorised duration, payment term or warranty (2.4m)
+[graphite/1280] notice-label fg=#e18570 bg=#070b0d ratio=7.33 font=9px/600 | edge=#e18570 ratio=7.33
+[graphite/1280] notice text: DOSYA REDDEDİLDİ Bu format okunamıyor “qa-p09a2-probe.sldprt” (.sldprt) kabul edilen formatlardan biri değil. Kabul edilenler: .step, .stp, .stl, .obj, .iges, .igs, .3mf.
+  ✓  14 [desktop-1280] › e2e\qa-p09a2-contrast.spec.ts:104:5 › contrast @ 1280 › graphite: tone="error" notice label + edge @ 1280 (3.0s)
+[/teklif-al/1280] .shell-form-error text=#f3f0e8 bg=#030506 textRatio=17.93 border=#e18570 borderRatio=7.58 font=13px/500 planted=true
+[/iletisim/1280] .shell-form-error text=#f3f0e8 bg=#070b0d textRatio=17.35 border=#e18570 borderRatio=7.33 font=13px/500 planted=false
+  ✓  15 [desktop-1280] › e2e\qa-p09a2-contrast.spec.ts:138:5 › contrast @ 1280 › graphite: .shell-form-error on /teklif-al + /iletisim @ 1280 (4.0s)
+[paper-band-in-graphite/1280] fg=#8a4030 bg=#eee9de ratio=6.07 edge=rgb(138, 64, 48)
+  ✓  16 [desktop-1280] › e2e\qa-p09a2-contrast.spec.ts:194:5 › contrast @ 1280 › paper band inside a graphite root re-binds --sf-danger @ 1280 (3.0s)
+[graphite/375] notice-label fg=#e18570 bg=#070b0d ratio=7.33 font=9px/600 | edge=#e18570 ratio=7.33
+[graphite/375] notice text: DOSYA REDDEDİLDİ Bu format okunamıyor “qa-p09a2-probe.sldprt” (.sldprt) kabul edilen formatlardan biri değil. Kabul edilenler: .step, .stp, .stl, .obj, .iges, .igs, .3mf.
+  ✓  17 [desktop-1280] › e2e\qa-p09a2-contrast.spec.ts:104:5 › contrast @ 375 › graphite: tone="error" notice label + edge @ 375 (1.9s)
+[/teklif-al/375] .shell-form-error text=#f3f0e8 bg=#030506 textRatio=17.93 border=#e18570 borderRatio=7.58 font=13px/500 planted=true
+[/iletisim/375] .shell-form-error text=#f3f0e8 bg=#070b0d textRatio=17.35 border=#e18570 borderRatio=7.33 font=13px/500 planted=false
+  ✓  18 [desktop-1280] › e2e\qa-p09a2-contrast.spec.ts:138:5 › contrast @ 375 › graphite: .shell-form-error on /teklif-al + /iletisim @ 375 (3.0s)
+[paper-band-in-graphite/375] fg=#8a4030 bg=#eee9de ratio=6.07 edge=rgb(138, 64, 48)
+  ✓  19 [desktop-1280] › e2e\qa-p09a2-contrast.spec.ts:194:5 › contrast @ 375 › paper band inside a graphite root re-binds --sf-danger @ 375 (2.2s)
+P09A3_JSON=test-results/qa-p09a3-cad-dom/dom-cad-desktop-1280.json (scratch)
+  ✓  20 [desktop-1280] › e2e\qa-p09a3-cad-dom.spec.ts:144:3 › 09a-R3 — the C3 corrections in the rendered DOM › no page offers a CAD format the validator refuses, and the carried claims are gone (14.5s)
+P09A3_JSON=test-results/qa-p09a3-cad-dom/dom-tables-desktop-1280.json (scratch)
+  ✓  21 [desktop-1280] › e2e\qa-p09a3-cad-dom.spec.ts:233:3 › 09a-R3 — the C3 corrections in the rendered DOM › every comparison table paints as many header cells as its rows have cells (9.3s)
+  ✓  22 [desktop-1280] › e2e\qa-p09a4-evidence-write-guard.spec.ts:125:3 › 09a-R4 — evidence writes › no spec in e2e/** writes into the repository without an explicit flag (154ms)
+  ✓  23 [desktop-1280] › e2e\qa-p09a4-evidence-write-guard.spec.ts:135:3 › 09a-R4 — evidence writes › the set of write destinations is exactly the one that was reviewed (69ms)
+P09A4_JSON=test-results/qa-p09a4-sla-wobble/sla-wobble-unsealed-desktop-1280.json (scratch)
+SLA_WOBBLE arm=unsealed route=/teklif-al attempts=12 earlyMiss=0 settledMiss=0 verdict=NO_WOBBLE_OBSERVED — both reads were stable in this arm
+  ✓  24 [desktop-1280] › e2e\qa-p09a4-sla-wobble.spec.ts:175:1 › unsealed: /teklif-al carries the authorised SLA on every attempt (48.7s)
+P09A4_JSON=test-results/qa-p09a4-sla-wobble/sla-wobble-sealed-desktop-1280.json (scratch)
+SLA_WOBBLE arm=sealed route=/teklif-al attempts=12 earlyMiss=0 settledMiss=0 verdict=NO_WOBBLE_OBSERVED — both reads were stable in this arm
+  ✓  25 [desktop-1280] › e2e\qa-p09a4-sla-wobble.spec.ts:185:1 › sealed: the round-2 harness's own interception is what moves the 350 ms read (55.8s)
+P09A4_JSON=test-results/qa-p09a4-sla-wobble/sla-sweep-replica-desktop-1280.json (scratch)
+SLA_REPLICA passes=57,56 disagreed=["/hizmetler/mekanik-montaj"] misses=13 racedNotAbsent=1 genuinelyAbsent=12
+  ✓  26 [desktop-1280] › e2e\qa-p09a4-sla-wobble.spec.ts:211:1 › sweep replica: which of the 63 routes moves, and what it looks like when it does (4.5m)
+STABILISED route s=63 neverSettled=0 SLA_ROUTES=57 FINDINGS=0 EXEMPTED=12
+P09A4_JSON=test-results/qa-p09a4-stabilised-sweep/stabilised-sweep-desktop-1280.json (scratch)
+  ✓  27 [desktop-1280] › e2e\qa-p09a4-stabilised-sweep.spec.ts:126:1 › the round-2 sweep, re-run on settled pages, reaches the same verdict (2.4m)
+
+  Slow test file: [desktop-1280] › e2e\qa-p09a4-sla-wobble.spec.ts (6.2m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  27 passed (13.4m)
