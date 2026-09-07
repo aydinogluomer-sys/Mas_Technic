@@ -2924,3 +2924,77 @@ one; behaviour deliberately unchanged. And `landing-anchors.spec.ts:42` went red
 four data points committed **including the failing log**, the Coder's belief that it is load flake stated as
 a belief, and the red left in the tree rather than its conclusion about the red — which is the same
 discipline QA showed at the close of 09a.
+
+#### 09b-1-C1 integrated — a control boundary is not a divider, and the shell had one token for both
+
+Five commits picked as `24ef588..cd0e53a`; five source files, four golden PNGs, 48 evidence files. Tree
+identical to the Coder's.
+
+**The mechanism is the 09a lesson applied by construction rather than by care.** New role
+`--sf-control-rule`, backed by `--tl-control-rule` (α .44) and `--tl-paper-control-rule` (α .54), **re-bound
+in the same two ground blocks as `--sf-rule`** — `shell.css:994` and `:1025`, verified by me — and never
+root-scoped. That is what makes the `--sf-danger` trap unreachable: there is no root definition for a nested
+paper band to inherit the wrong way. Values were **solved over all four grounds** rather than picked, and
+measured rendered at 1280 and 375: worst case **3.47:1 against both adjacent colours**, on a paper band
+nested inside a graphite root as well as on graphite.
+
+**It is not a global raise, and the reason is a count.** `--tl-rule` paints **25 rules in `shell.css`, 14 in
+`navigation.css`, 2 in `master-grid.css`** — none of them controls. Raising the shared token would have
+repainted every divider in the design system to satisfy a criterion those dividers are exempt from.
+
+**The sweep discovers rather than obeys.** The probe walks every bordered box and classifies it *control /
+control-with-non-enclosing-rule / decor*, instead of being handed a list — and it found **two controls a hand
+list had missed**, `.tl-social a` and `.shell-footer-secondary`. Eight declarations changed. And the
+non-change was proven as a measurement, not asserted: **216 decor rows and 6 non-enclosing rows byte-identical
+before and after.** 66 failing component/tone rows before, **0 after** except the out-of-allowlist menu
+trigger.
+
+**Two instrument defects were found and fixed before any number was trusted** — a flat settle that silently
+reported zero rows for two routes, and a minimum where the question wants a maximum. A probe that reports
+nothing looks exactly like a probe that finds nothing, which is the failure mode QA round 4 caught in the
+claims sweep. Catching it in one's own instrument before publishing is the same discipline arriving earlier.
+
+**The OAuth return leg, and what was eating the evidence.** Failure arrives in the **fragment**
+(`error`/`error_code`/`error_description`, implicit flow); the SDK **throws it away** before clearing the URL,
+and `CustomerProtectedRoute`'s `<Navigate replace />` then erases what is left — both measured. The recovery
+uses `PerformanceNavigationTiming.name`, which keeps the original landing URL, with **no change to
+`redirectTo`, none to the protected route, and no probe of the project**. Demonstrated four ways: a clean page
+renders 0 notices; a hostile `error_description`/`error_code` leaks **0 of 4 needles and 0 script nodes**;
+re-entry in the same document shows it once; the notice is `role="alert"`, inserted after first paint, and
+placed **before** the buttons it is about.
+
+**One baseline moved, and the reason it moved is the finding.** `waveb-notfound-body` at four viewports,
+392 px each, adjudicated at the DOM: its crop contains exactly one changed element, a 148.297×44
+`.shell-action--ghost`. It moved **while a longer one under a tighter tolerance did not**, because the 404
+body is a **paper** root — delta **1527** against the comparator's 1409 cutoff, versus **615** on graphite.
+That route also carried the defect: **1.94 → 3.85**.
+
+**And the disclosure that matters more than the fix.** Fourteen golden crops **contain changed pixels and
+passed anyway**, because 615 is under pixelmatch's default 1409. All fourteen are named in the commit and in
+`reports/09b1c1/golden-adjudication.txt`. The Coder volunteered this rather than enjoying the green. **A
+suite that passes while its baselines drift under a threshold is a question about the gate, not about this
+change**, and a future tolerance change would surface all fourteen at once — which is worth knowing *before*
+Phase 10 touches art direction. QA is asked to judge it.
+
+**Carried, with the reasoning kept.** `.tl-menu-trigger` measures **2.20:1** and lives in `navigation.css`,
+outside the allowlist; the Coder argues it is not an *identification* failure because its three hamburger bars
+paint at 17.35:1 and "MENÜ" is visible at 1280 — QA is asked to judge that at 375, where the word may not be.
+`.shell-check` on `/malzemeler` is a native checkbox drawn by the UA under `color-scheme: dark`, and the claim
+is that its boundary is **not reachable from CSS** without rebuilding the control — QA is asked to verify the
+unreachability rather than the measurement. A reader already signed in when an attempt fails sees the notice
+at their next `Login` mount: **late, not false**, latched to show once.
+
+**Three things it says it cannot know, and did not fake:** whether `google` and `linkedin_oidc` are enabled,
+whether `{origin}/musteri-paneli` is an allowed redirect URL, and **whether GoTrue serves `/authorize` errors
+itself rather than redirecting back** — because if it does, the reader never returns to this site and the
+return-leg fix is unreachable in exactly the case it was built for. All three need a live call the packet
+forbids. **No assumptions about the project were made and the buttons were left in place.**
+
+**QA dispatched** for 09b-1 and C1 together, to a fresh `wt/qa-p09b1` at `cd0e53a`, packet
+`.work/packets/phase-09b1-QA.md`, citing integration-branch hashes. Its targets: attack the boundary on
+grounds the Coder did **not** name, including nested paper-in-paper and the interaction states; second-opinion
+the two decorative judgement calls, because a control misclassified as decor is a live failure this
+correction walked past; confirm the fourteen crops and say whether the visual suite is a gate or a formality;
+attack the return leg beyond four needles; and answer the question that is worth more than most defects —
+**is there a cheap check that would have caught a selector that never matched**, when `tsc`, eslint, axe, a
+contrast census and every golden stayed green over a page visibly outside the design language?
