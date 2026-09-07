@@ -2756,3 +2756,81 @@ Five correction rounds, five QA rounds. What it cost and what it bought:
 **Still open and still the user's, defaulted safe throughout:** the four `public.rfqs` rows and three
 `cad-uploads` objects are untouched, and nothing has been deployed — so the undeployed rate limiter remains
 live on production.
+
+### Phase 09b — PRIVACY, SECURITY AND THE AUTH ROUTES — IN_PROGRESS
+
+**Scope read from the source, not from my own earlier notes.** `IMPLEMENTATION.md:779-838` PHASE 09 has four
+task blocks; 09a took Architecture/performance and Form behaviour, so **09b takes Privacy/business policy and
+Security**, plus the auth routes Phase 08's criterion 3 failed on and the items carried out of 08, 09a and
+QA round 5.
+
+**`USER_INPUTS.md` §J and §K, read before writing anything — and this time in the right language.** My last
+"no such field exists" claim was false because I grepped Turkish terms against English field names, so I
+checked both:
+
+```
+J.  CAD_RETENTION_PERIOD:        UNKNOWN_REMOVE_IF_UNVERIFIED
+    CAD_DELETE_REQUEST_PROCESS:  UNKNOWN_REMOVE_IF_UNVERIFIED
+    NDA_AVAILABLE:               NO
+    CONFIDENTIALITY_TEXT_APPROVED: NO
+    MAX_UPLOAD_SIZE:             DERIVE_FROM_BACKEND_OR_SHOW_NO_UNVERIFIED_LIMIT
+K.  ANALYTICS_PROVIDER:          NONE      ANALYTICS_PUBLIC_CONFIG:        NONE
+    ERROR_MONITORING_PROVIDER:   NONE      ERROR_MONITORING_PUBLIC_CONFIG: NONE
+    COOKIE_CONSENT_REQUIRED_BY_CURRENT_SETUP: DERIVE_FROM_ACTUAL_SCRIPTS_AND_LEGAL_REQUIREMENTS
+```
+
+**`CONFIDENTIALITY_TEXT_APPROVED: NO` is the load-bearing one** and it settles a whole class in advance: the
+site may not publish a confidentiality assurance at all, in any wording. Together with `NDA_AVAILABLE: NO`
+and two `UNKNOWN_REMOVE_IF_UNVERIFIED` retention fields, the entire "your files are safe with us" register is
+unauthorised. The earlier phases already knew this — `claims.ts:447` records *"there is no NDA, no approved
+confidentiality text and no known retention"*, `RfqAside.tsx:32` documents that the RFQ page's silence about
+encryption is **deliberate and must stay**, and `GizlilikPolitikasi.tsx:94` records losing its *"şifreli
+ortamlarda saklanır"* sentence to the same rule.
+
+**Which makes the one live survivor worth the phase opening on it.**
+`src/components/auth/LoginLeftPanel.tsx:52-56` renders a **shield icon** beside *"256-bit SSL ile korunan
+güvenli bağlantı"* on `/giris`. `IMPLEMENTATION.md` §7 forbids it twice over, independently: *"Do not claim
+encryption/security properties not verified"*, and under **Do not**, *"Add a security badge unless backed by
+reality."* Nobody in this repository can back it — the site does not terminate TLS, a host does, so its
+cipher suite is not ours to state, and "256-bit SSL" names a protocol superseded by TLS. **It is the exact
+claim `RfqAside.tsx` refuses to make, surviving on the one route no phase had touched.**
+
+**A methodological note, because it cost me a minute and would have cost the packet a premise.** My first
+sweep for confidentiality claims returned `AdminSidebar`, `RFQCadPreview` and `App.tsx`. Case-insensitive
+`NDA` matches *cale**nda**r* and *sta**nda**rd*. The finding above only exists because the second sweep used
+word boundaries and Turkish-specific terms. This is the failure QA named at the close of 09a — prose running
+ahead of measurement — appearing in the very next thing I did.
+
+**09b is split into three, deliberately.** 09a's packets were large and all-or-nothing and that cost four
+correction rounds. The split is by collision surface, so no two packets can touch the same file:
+
+- **09b-1** — the three auth routes and the `src/components/auth/**` cluster (676 lines): remove the badge,
+  bring `/giris`, `/sifremi-unuttum` and `/reset-password` into the shell design system, and **establish the
+  third-party facts** the legal copy will be written from.
+- **09b-2** — privacy and legal copy: A26 (`/gizlilik-politikasi` madde 02's "tek yer"), whatever 09b-1's
+  third-party findings require, `ChatBot.tsx`'s dead consent-prompt filter (keyed on state, never a string
+  literal), `ScrollToTop.tsx`'s fragment override, and the **six software-inventory sites as one decision**.
+- **09b-3** — the security audit, which is largely read-only by construction, plus QA round 5's hardening
+  items.
+
+**Starting facts measured for 09b-1, rather than assumed.** `/sifremi-unuttum` is served by
+`ForgotPassword.tsx` (`App.tsx:211`) — there is no `SifremiUnuttum.tsx`, and every DO_NOT_TOUCH list written
+earlier in this phase protected a file that does not exist. `Login.tsx` 273 lines, `ForgotPassword.tsx` 105,
+`ResetPassword.tsx` 150, plus five components under `src/components/auth/`. **hCaptcha is real and
+functional**, not decorative: `Login.tsx:3` imports `@hcaptcha/react-hcaptcha`, `:49` gates submit on a token
+and `:59` passes it to Supabase. **Google and LinkedIn social login are wired to a real
+`supabase.auth.signInWithOAuth`** at `:103` — whether those providers are actually *enabled* on the project
+is a fact 09b-1 must establish rather than assume, because a button that promises what it cannot do is the
+same class of defect as the CAD format list 09a spent two corrections on.
+
+**The packet forbids writing any legal copy**, on purpose: 09b-1 supplies measured facts about hCaptcha's
+origins, storage and timing and about the OAuth providers, and 09b-2 writes the copy from them. Three packets
+in 09a were wrong about a premise I had asserted as verified; this splits the asserting from the writing.
+
+**The auth prohibition is stricter than the RFQ one and the packet says why.** A password-reset request sends
+real mail to a real address and a sign-up creates a real user, so "do not submit" is not sufficient — the
+packet requires the interception-with-canary pattern QA established in this phase, proven before any control
+is touched.
+
+**09b-1 dispatched** to `wt/coder-p09b1` at `fb82ea2`, packet `.work/packets/phase-09b1.md`, `PARTIAL`
+accepted.
