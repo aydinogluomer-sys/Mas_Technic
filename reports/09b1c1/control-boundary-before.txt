@@ -1,0 +1,153 @@
+﻿guard canary: BLOCKED:Failed to fetch
+
+── CONTROLS UNDER 3:1 (84) ──
+1280  /giris                                       .shell-field input             graphite                     fill  2.21  ground   2.3  BINDING   2.3
+1280  /giris                                       .shell-field input             graphite                     fill  2.21  ground   2.3  BINDING   2.3
+1280  /giris                                       .shell-auth-social > button    graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /giris                                       .shell-auth-social > button    graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /sifremi-unuttum                             .shell-field input             graphite                     fill  2.21  ground   2.3  BINDING   2.3
+1280  /reset-password#token_hash=probe-no-network  .shell-field input             graphite                     fill  2.21  ground   2.3  BINDING   2.3
+1280  /reset-password#token_hash=probe-no-network  .shell-field input             graphite                     fill  2.21  ground   2.3  BINDING   2.3
+1280  /iletisim                                    .shell-field input             graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+1280  /iletisim                                    .shell-field input             graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+1280  /iletisim                                    .shell-field input             graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+1280  /iletisim                                    .shell-field input             graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+1280  /iletisim                                    .shell-field select            graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+1280  /iletisim                                    .shell-field select            graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+1280  /iletisim                                    .shell-field textarea          graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+1280  /iletisim                                    .shell-action--ghost           graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /iletisim                                    .shell-action--ghost           paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+1280  /iletisim                                    .shell-action--ghost           paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+1280  /iletisim                                    .shell-action--ghost           graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+1280  /iletisim                                    .tl-menu-trigger               unknown                      fill   2.2  ground   2.2  BINDING   2.2
+1280  /teklif-al                                   .shell-dropzone-area           graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+1280  /teklif-al                                   .shell-action--ghost           graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /teklif-al                                   .shell-action--ghost           graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+1280  /teklif-al                                   .shell-action--ghost           paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+1280  /teklif-al                                   .shell-action--ghost           paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+1280  /teklif-al                                   .tl-menu-trigger               unknown                      fill   2.2  ground   2.2  BINDING   2.2
+1280  /sss                                         .shell-field input             paper-band-in-graphite-root  fill  1.94  ground  1.79  BINDING  1.94
+1280  /sss                                         .shell-field select            paper-band-in-graphite-root  fill  1.94  ground  1.79  BINDING  1.94
+1280  /sss                                         .shell-action--ghost           graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /sss                                         .shell-action--ghost           graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /sss                                         .tl-menu-trigger               unknown                      fill   2.2  ground   2.2  BINDING   2.2
+1280  /malzemeler                                  .shell-field input             graphite                     fill  2.21  ground  2.38  BINDING  2.38
+1280  /malzemeler                                  .shell-field select            graphite                     fill  2.21  ground  2.38  BINDING  2.38
+1280  /malzemeler                                  .shell-segment                 graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+1280  /malzemeler                                  .shell-segment                 graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+1280  /malzemeler                                  .shell-segment                 graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+1280  /malzemeler                                  .shell-row-toggle              graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /malzemeler                                  .shell-row-toggle              graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /malzemeler                                  .shell-row-toggle              graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /malzemeler                                  .shell-row-toggle              graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /malzemeler                                  .shell-action--ghost           graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /malzemeler                                  .shell-action--ghost           graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /malzemeler                                  .tl-menu-trigger               unknown                      fill   2.2  ground   2.2  BINDING   2.2
+ 375  /giris                                       .shell-field input             graphite                     fill  2.21  ground   2.3  BINDING   2.3
+ 375  /giris                                       .shell-field input             graphite                     fill  2.21  ground   2.3  BINDING   2.3
+ 375  /giris                                       .shell-auth-social > button    graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /giris                                       .shell-auth-social > button    graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /sifremi-unuttum                             .shell-field input             graphite                     fill  2.21  ground   2.3  BINDING   2.3
+ 375  /reset-password#token_hash=probe-no-network  .shell-field input             graphite                     fill  2.21  ground   2.3  BINDING   2.3
+ 375  /reset-password#token_hash=probe-no-network  .shell-field input             graphite                     fill  2.21  ground   2.3  BINDING   2.3
+ 375  /iletisim                                    .shell-field input             graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+ 375  /iletisim                                    .shell-field input             graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+ 375  /iletisim                                    .shell-field input             graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+ 375  /iletisim                                    .shell-field input             graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+ 375  /iletisim                                    .shell-field select            graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+ 375  /iletisim                                    .shell-field select            graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+ 375  /iletisim                                    .shell-field textarea          graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+ 375  /iletisim                                    .shell-action--ghost           graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /iletisim                                    .shell-action--ghost           paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+ 375  /iletisim                                    .shell-action--ghost           paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+ 375  /iletisim                                    .shell-action--ghost           graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+ 375  /iletisim                                    .tl-menu-trigger               unknown                      fill   2.2  ground   2.2  BINDING   2.2
+ 375  /teklif-al                                   .shell-dropzone-area           graphite-band-in-graphite-root fill  2.21  ground   2.3  BINDING   2.3
+ 375  /teklif-al                                   .shell-action--ghost           graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /teklif-al                                   .shell-action--ghost           graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+ 375  /teklif-al                                   .shell-action--ghost           paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+ 375  /teklif-al                                   .shell-action--ghost           paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+ 375  /teklif-al                                   .tl-menu-trigger               unknown                      fill   2.2  ground   2.2  BINDING   2.2
+ 375  /sss                                         .shell-field input             paper-band-in-graphite-root  fill  1.94  ground  1.79  BINDING  1.94
+ 375  /sss                                         .shell-field select            paper-band-in-graphite-root  fill  1.94  ground  1.79  BINDING  1.94
+ 375  /sss                                         .shell-action--ghost           graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /sss                                         .shell-action--ghost           graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /sss                                         .tl-menu-trigger               unknown                      fill   2.2  ground   2.2  BINDING   2.2
+ 375  /malzemeler                                  .shell-field input             graphite                     fill  2.21  ground  2.38  BINDING  2.38
+ 375  /malzemeler                                  .shell-field select            graphite                     fill  2.21  ground  2.38  BINDING  2.38
+ 375  /malzemeler                                  .shell-segment                 graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+ 375  /malzemeler                                  .shell-segment                 graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+ 375  /malzemeler                                  .shell-segment                 graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+ 375  /malzemeler                                  .shell-row-toggle              graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /malzemeler                                  .shell-row-toggle              graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /malzemeler                                  .shell-row-toggle              graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /malzemeler                                  .shell-row-toggle              graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /malzemeler                                  .shell-action--ghost           graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /malzemeler                                  .shell-action--ghost           graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /malzemeler                                  .tl-menu-trigger               unknown                      fill   2.2  ground   2.2  BINDING   2.2
+
+── CONTROLS AT OR OVER 3:1 (4) ──
+1280  /teklif-al                                   .shell-segment                 graphite-band-in-graphite-root fill     1  ground 16.32  BINDING 16.32
+1280  /malzemeler                                  .shell-segment                 graphite-band-in-graphite-root fill     1  ground 16.32  BINDING 16.32
+ 375  /teklif-al                                   .shell-segment                 graphite-band-in-graphite-root fill     1  ground 16.32  BINDING 16.32
+ 375  /malzemeler                                  .shell-segment                 graphite-band-in-graphite-root fill     1  ground 16.32  BINDING 16.32
+
+── DECORATIVE RULES (unchanged by contract) ──
+1280  /giris                                       .shell-auth-aside              graphite                     fill  2.08  ground  2.01  BINDING  2.08
+1280  /giris                                       .shell-auth-mark-block         graphite                     fill  2.08  ground  2.08  BINDING  2.08
+1280  /sifremi-unuttum                             .shell-auth-aside              graphite                     fill  2.08  ground  2.01  BINDING  2.08
+1280  /sifremi-unuttum                             .shell-auth-mark-block         graphite                     fill  2.08  ground  2.08  BINDING  2.08
+1280  /reset-password#token_hash=probe-no-network  .shell-auth-aside              graphite                     fill  2.08  ground  2.01  BINDING  2.08
+1280  /reset-password#token_hash=probe-no-network  .shell-auth-mark-block         graphite                     fill  2.08  ground  2.08  BINDING  2.08
+1280  /iletisim                                    .shell-note                    graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+1280  /iletisim                                    .shell-meta-row                graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /iletisim                                    .shell-meta-row                graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /teklif-al                                   .shell-tags > li               graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+1280  /teklif-al                                   .shell-tags > li               graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+1280  /teklif-al                                   .shell-tags > li               graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+1280  /teklif-al                                   .shell-tags > li               graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+1280  /teklif-al                                   .shell-note                    graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+1280  /teklif-al                                   .shell-meta-row                graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /teklif-al                                   .shell-meta-row                graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+1280  /teklif-al                                   .shell-meta-row                graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+1280  /sss                                         .shell-note                    paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+1280  /sss                                         .shell-faq-item                paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+1280  /sss                                         .shell-faq-item                paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+1280  /sss                                         .shell-faq-item                paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+1280  /sss                                         .shell-faq-item                paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+1280  /sss                                         .shell-meta-row                graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /sss                                         .shell-meta-row                graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /malzemeler                                  .shell-table-scroll            graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /malzemeler                                  .shell-gauge > span            graphite                     fill     1  ground 10.01  BINDING 10.01
+1280  /malzemeler                                  .shell-gauge > span            graphite                     fill     1  ground 10.01  BINDING 10.01
+1280  /malzemeler                                  .shell-gauge > span            graphite                     fill     1  ground 10.01  BINDING 10.01
+1280  /malzemeler                                  .shell-gauge > span            graphite                     fill     1  ground 10.01  BINDING 10.01
+1280  /malzemeler                                  .shell-meta-row                graphite                     fill  2.16  ground  2.16  BINDING  2.16
+1280  /malzemeler                                  .shell-meta-row                graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /giris                                       .shell-auth-mark-block         graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /sifremi-unuttum                             .shell-auth-mark-block         graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /reset-password#token_hash=probe-no-network  .shell-auth-mark-block         graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /iletisim                                    .shell-note                    graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+ 375  /iletisim                                    .shell-meta-row                graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /iletisim                                    .shell-meta-row                graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /teklif-al                                   .shell-tags > li               graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+ 375  /teklif-al                                   .shell-tags > li               graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+ 375  /teklif-al                                   .shell-tags > li               graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+ 375  /teklif-al                                   .shell-tags > li               graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+ 375  /teklif-al                                   .shell-note                    graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+ 375  /teklif-al                                   .shell-meta-row                graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /teklif-al                                   .shell-meta-row                graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+ 375  /teklif-al                                   .shell-meta-row                graphite-band-in-graphite-root fill  2.16  ground  2.16  BINDING  2.16
+ 375  /sss                                         .shell-note                    paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+ 375  /sss                                         .shell-faq-item                paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+ 375  /sss                                         .shell-faq-item                paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+ 375  /sss                                         .shell-faq-item                paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+ 375  /sss                                         .shell-faq-item                paper-band-in-graphite-root  fill  1.92  ground  1.92  BINDING  1.92
+ 375  /sss                                         .shell-meta-row                graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /sss                                         .shell-meta-row                graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /malzemeler                                  .shell-table-scroll            graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /malzemeler                                  .shell-meta-row                graphite                     fill  2.16  ground  2.16  BINDING  2.16
+ 375  /malzemeler                                  .shell-meta-row                graphite                     fill  2.16  ground  2.16  BINDING  2.16
+
+canary: BLOCKED:Failed to fetch
+traffic: blocked 18, ALLOWED 0

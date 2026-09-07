@@ -1,0 +1,52 @@
+﻿
+── GRAPHITE  rgba(227,231,225,α) ──
+α 0.24  worst 1.88  |  field    fill 1.93 ground 2.01  |  transp.  fill 1.88 ground 1.88
+α 0.26  worst 2.00  |  field    fill 2.08 ground 2.16  |  transp.  fill 2.00 ground 2.00
+α 0.28  worst 2.16  |  field    fill 2.21 ground 2.30  |  transp.  fill 2.16 ground 2.16
+α 0.30  worst 2.31  |  field    fill 2.36 ground 2.46  |  transp.  fill 2.31 ground 2.31
+α 0.32  worst 2.46  |  field    fill 2.52 ground 2.62  |  transp.  fill 2.46 ground 2.46
+α 0.34  worst 2.65  |  field    fill 2.71 ground 2.82  |  transp.  fill 2.65 ground 2.65
+α 0.36  worst 2.83  |  field    fill 2.88 ground 3.00  |  transp.  fill 2.83 ground 2.83
+α 0.38  worst 3.05  |  field    fill 3.07 ground 3.20  |  transp.  fill 3.05 ground 3.05
+α 0.40  worst 3.24  |  field    fill 3.30 ground 3.44  |  transp.  fill 3.24 ground 3.24
+α 0.42  worst 3.45  |  field    fill 3.50 ground 3.65  |  transp.  fill 3.45 ground 3.45
+α 0.44  worst 3.71  |  field    fill 3.73 ground 3.88  |  transp.  fill 3.71 ground 3.71
+α 0.46  worst 3.94  |  field    fill 3.95 ground 4.11  |  transp.  fill 3.94 ground 3.94
+α 0.48  worst 4.23  |  field    fill 4.23 ground 4.40  |  transp.  fill 4.23 ground 4.23
+α 0.50  worst 4.48  |  field    fill 4.49 ground 4.67  |  transp.  fill 4.48 ground 4.48
+α 0.52  worst 4.74  |  field    fill 4.75 ground 4.94  |  transp.  fill 4.74 ground 4.74
+α 0.54  worst 5.07  |  field    fill 5.06 ground 5.27  |  transp.  fill 5.07 ground 5.07
+α 0.56  worst 5.36  |  field    fill 5.34 ground 5.56  |  transp.  fill 5.36 ground 5.36
+α 0.58  worst 5.72  |  field    fill 5.65 ground 5.88  |  transp.  fill 5.72 ground 5.72
+α 0.60  worst 6.03  |  field    fill 5.95 ground 6.19  |  transp.  fill 6.03 ground 6.03
+α 0.62  worst 6.35  |  field    fill 6.32 ground 6.58  |  transp.  fill 6.35 ground 6.35
+α 0.64  worst 6.76  |  field    fill 6.66 ground 6.93  |  transp.  fill 6.76 ground 6.76
+α 0.66  worst 7.10  |  field    fill 7.00 ground 7.28  |  transp.  fill 7.10 ground 7.10
+α 0.68  worst 7.55  |  field    fill 7.41 ground 7.71  |  transp.  fill 7.55 ground 7.55
+α 0.70  worst 7.92  |  field    fill 7.80 ground 8.11  |  transp.  fill 7.92 ground 7.92
+
+── PAPER  rgba(18,23,25,α) ──
+α 0.24  worst 1.66  |  root-fld fill 1.68 ground 1.77  |  band-fld fill 1.68 ground 1.55  |  root-trn fill 1.68 ground 1.68  |  band-trn fill 1.66 ground 1.66
+α 0.26  worst 1.75  |  root-fld fill 1.76 ground 1.85  |  band-fld fill 1.76 ground 1.62  |  root-trn fill 1.76 ground 1.76  |  band-trn fill 1.75 ground 1.75
+α 0.28  worst 1.83  |  root-fld fill 1.84 ground 1.94  |  band-fld fill 1.84 ground 1.70  |  root-trn fill 1.85 ground 1.85  |  band-trn fill 1.83 ground 1.83
+α 0.30  worst 1.92  |  root-fld fill 1.94 ground 2.04  |  band-fld fill 1.94 ground 1.79  |  root-trn fill 1.94 ground 1.94  |  band-trn fill 1.92 ground 1.92
+α 0.32  worst 2.01  |  root-fld fill 2.04 ground 2.15  |  band-fld fill 2.04 ground 1.88  |  root-trn fill 2.05 ground 2.05  |  band-trn fill 2.01 ground 2.01
+α 0.34  worst 2.12  |  root-fld fill 2.14 ground 2.25  |  band-fld fill 2.14 ground 1.97  |  root-trn fill 2.17 ground 2.17  |  band-trn fill 2.12 ground 2.12
+α 0.36  worst 2.24  |  root-fld fill 2.26 ground 2.38  |  band-fld fill 2.26 ground 2.09  |  root-trn fill 2.28 ground 2.28  |  band-trn fill 2.24 ground 2.24
+α 0.38  worst 2.36  |  root-fld fill 2.38 ground 2.51  |  band-fld fill 2.38 ground 2.20  |  root-trn fill 2.41 ground 2.41  |  band-trn fill 2.36 ground 2.36
+α 0.40  worst 2.48  |  root-fld fill 2.52 ground 2.66  |  band-fld fill 2.52 ground 2.33  |  root-trn fill 2.53 ground 2.53  |  band-trn fill 2.48 ground 2.48
+α 0.42  worst 2.61  |  root-fld fill 2.66 ground 2.80  |  band-fld fill 2.66 ground 2.45  |  root-trn fill 2.69 ground 2.69  |  band-trn fill 2.61 ground 2.61
+α 0.44  worst 2.76  |  root-fld fill 2.80 ground 2.95  |  band-fld fill 2.80 ground 2.58  |  root-trn fill 2.84 ground 2.84  |  band-trn fill 2.76 ground 2.76
+α 0.46  worst 2.93  |  root-fld fill 2.98 ground 3.14  |  band-fld fill 2.98 ground 2.75  |  root-trn fill 3.02 ground 3.02  |  band-trn fill 2.93 ground 2.93
+α 0.48  worst 3.10  |  root-fld fill 3.14 ground 3.31  |  band-fld fill 3.14 ground 2.90  |  root-trn fill 3.19 ground 3.19  |  band-trn fill 3.10 ground 3.10
+α 0.50  worst 3.28  |  root-fld fill 3.36 ground 3.54  |  band-fld fill 3.36 ground 3.10  |  root-trn fill 3.40 ground 3.40  |  band-trn fill 3.28 ground 3.28
+α 0.52  worst 3.46  |  root-fld fill 3.56 ground 3.75  |  band-fld fill 3.56 ground 3.28  |  root-trn fill 3.59 ground 3.59  |  band-trn fill 3.46 ground 3.46
+α 0.54  worst 3.67  |  root-fld fill 3.76 ground 3.96  |  band-fld fill 3.76 ground 3.47  |  root-trn fill 3.85 ground 3.85  |  band-trn fill 3.67 ground 3.67
+α 0.56  worst 3.93  |  root-fld fill 4.03 ground 4.25  |  band-fld fill 4.03 ground 3.72  |  root-trn fill 4.07 ground 4.07  |  band-trn fill 3.93 ground 3.93
+α 0.58  worst 4.18  |  root-fld fill 4.27 ground 4.50  |  band-fld fill 4.27 ground 3.94  |  root-trn fill 4.36 ground 4.36  |  band-trn fill 4.18 ground 4.18
+α 0.60  worst 4.43  |  root-fld fill 4.54 ground 4.78  |  band-fld fill 4.54 ground 4.19  |  root-trn fill 4.64 ground 4.64  |  band-trn fill 4.43 ground 4.43
+α 0.62  worst 4.70  |  root-fld fill 4.86 ground 5.13  |  band-fld fill 4.86 ground 4.49  |  root-trn fill 4.97 ground 4.97  |  band-trn fill 4.70 ground 4.70
+α 0.64  worst 5.01  |  root-fld fill 5.18 ground 5.46  |  band-fld fill 5.18 ground 4.78  |  root-trn fill 5.29 ground 5.29  |  band-trn fill 5.01 ground 5.01
+α 0.66  worst 5.39  |  root-fld fill 5.57 ground 5.87  |  band-fld fill 5.57 ground 5.14  |  root-trn fill 5.71 ground 5.71  |  band-trn fill 5.39 ground 5.39
+α 0.68  worst 5.75  |  root-fld fill 5.94 ground 6.26  |  band-fld fill 5.94 ground 5.49  |  root-trn fill 6.07 ground 6.07  |  band-trn fill 5.75 ground 5.75
+α 0.70  worst 6.12  |  root-fld fill 6.34 ground 6.68  |  band-fld fill 6.34 ground 5.86  |  root-trn fill 6.55 ground 6.55  |  band-trn fill 6.12 ground 6.12
