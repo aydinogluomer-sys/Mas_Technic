@@ -132,10 +132,14 @@
    document, which is the property that makes the bounce readable at all and
    is also a way to be wrong. MEASURED by QA: land on `/malzemeler#error=…`,
    read for twenty seconds, reach `/giris` in the same document, and a
-   twenty-second-old failure is announced with no indication of its age. The
-   genuine bounce is not like that — it is the same document, a few hundred
-   milliseconds, measured in `reports/09b1c2/oauth-age.txt` — so age is what
-   separates them. See `RETURN_MAX_AGE_MS`.
+   twenty-second-old failure is announced with no indication of its age.
+
+   The first answer here was a clock, and MEASURING IT KILLED IT: on 6× CPU
+   with the network at 3G a GENUINE bounce reaches the notice at 14.3 s, so any
+   threshold tight enough to catch QA's twenty seconds also silences a real
+   sign-in failure on a slow phone. The discriminator is not speed, it is
+   SHAPE — where the document entered. See `OAUTH_ENTRY_PATHS` and
+   `RETURN_MAX_AGE_MS`.
    ══════════════════════════════════════════════════════════════════════════ */
 
 export type OAuthProvider = "google" | "linkedin_oidc";
@@ -159,29 +163,73 @@ const HANDOFF_KEY = "mt.auth.oauth-handoff";
 /** A handoff older than this cannot be trusted to name the provider. */
 const HANDOFF_TTL_MS = 10 * 60 * 1000;
 
-/* HOW OLD A RETURN LEG MAY BE AND STILL BE NEWS.
+/* ── BOUNDING THE STALE NOTICE — TWO RULES, AND THE FIRST IS THE REAL ONE ──
 
    `PerformanceNavigationTiming.name` never changes, so without a bound this
-   file answers "was this document fetched with an error?" when the question
-   the reader is owed is "did something just fail?". The two come apart the
-   moment the document outlives the failure, which QA demonstrated with no
-   session at all.
+   file answers "was this document FETCHED with an error?" when the question
+   the reader is owed is "did something just fail?". QA pulled the two apart
+   with no session at all: land on `/malzemeler#error=…`, read for twenty
+   seconds, reach `/giris` in the same document, and a twenty-second-old
+   failure is announced as news.
 
-   `performance.now()` IS the age: it counts from this document's navigation
-   start, which is the instant the parameters arrived. The genuine bounce ends
-   inside the same document a fraction of a second later.
+   RULE 1 — WHERE THE DOCUMENT ENTERED, WHICH IS A SHAPE AND NOT A SPEED.
+   The entry record is consulted ONLY when the document was fetched with the
+   OAuth redirect target. `Login.tsx` asks for `redirectTo:
+   {origin}/musteri-paneli`, a protected route that renders NOTHING and hands
+   an unauthenticated reader straight to `/giris`; that is the entire reason
+   the entry record has to be read in the first place. A document that entered
+   at `/malzemeler` did not come back from a provider — it was READ, and then
+   navigated. Its entry record is not a return leg and is never consulted.
 
-   THE NUMBER IS MEASURED, NOT PICKED. `reports/09b1c2/oauth-age.txt` records
-   `performance.now()` at the moment the notice is raised, for the real
-   protected-route bounce and for a direct return, warm and on a 6× CPU
-   throttle with the network at 3G — the slowest first paint this build can be
-   made to produce locally. The bound is set well above the slowest of those
-   and far below anything a reader spends reading a page.
+   This is stronger than a clock because it does not degrade with the device.
+   A 3G phone on a throttled CPU takes ten seconds to reach the notice and is
+   still unambiguously a return; a fast reader who spends four seconds on
+   `/malzemeler` is unambiguously not, and no threshold separates those two.
+   The entry path does, exactly.
 
-   IT IS DELIBERATELY NOT A TIGHTER ONE. A bound that cannot cover a cold,
-   throttled first load turns a genuine sign-in failure into silence, which is
-   the failure mode this whole file exists to remove. */
-const RETURN_MAX_AGE_MS = 10_000;
+   RULE 2 — AGE, FOR THE ONE CASE RULE 1 CANNOT SEE. A reader who is ALREADY
+   signed in when the crafted or genuine parameters arrive is not bounced: the
+   panel renders, `Login` never mounts, and the entry record — a legitimate
+   `/musteri-paneli` one — waits. If they later sign out, `Login` mounts in
+   that same document and the old failure surfaces. Rule 1 admits it, so age
+   bounds it.
+
+   THE NUMBER IS MEASURED, NOT PICKED. `reports/09b1c2/oauth-notice.txt`
+   records `performance.now()` at DOM insertion of the notice, for the real
+   protected-route bounce and a direct return, on three profiles:
+
+     bounce  warm             409 ms      direct  warm            591 ms
+     bounce  6× CPU + 3G   12 336 ms      direct  6× CPU + 3G  10 935 ms
+     bounce  20× CPU + 2G  inconclusive   direct  20× CPU + 2G  SUPPRESSED
+
+   THE FIRST DRAFT OF THIS CONSTANT WAS 10 000 ms AND THE MEASUREMENT KILLED
+   IT: a genuine return on a throttled phone arrives at 10.9–12.3 s and would
+   have been swallowed in silence — the exact failure mode this file exists to
+   remove. 30 000 ms sits at 2.4× the slowest genuine return measured and well
+   under the time it takes to read a panel and sign out of it.
+
+   AND THE COST IS MEASURED TOO, NOT ASSUMED AWAY. On a deliberately absurd
+   20× CPU / 2G profile the direct case reached a MOUNTED sign-in form with the
+   document 89 s old and the notice was suppressed — a real failure silenced by
+   this rule. That profile is far worse than any phone, but the trade is real
+   and it is stated: past 30 s this file prefers saying nothing to saying
+   something that may not have just happened. */
+const RETURN_MAX_AGE_MS = 30_000;
+
+/* The OAuth redirect target — the only path a document can have ENTERED at
+   and still be a return leg. It must stay in step with `Login.tsx`'s
+   `redirectTo`; `reports/09b1c2/oauth-notice.txt` measures the consequence
+   from four entry paths, of which only this one raises a notice. */
+const OAUTH_ENTRY_PATHS = new Set(["/musteri-paneli"]);
+
+function isOAuthEntry(href: string): boolean {
+  try {
+    const path = new URL(href).pathname.replace(/\/+$/, "");
+    return OAUTH_ENTRY_PATHS.has(path === "" ? "/" : path);
+  } catch {
+    return false;
+  }
+}
 
 /** Milliseconds since this document began navigating. `null` if unavailable. */
 function documentAgeMs(): number | null {
@@ -412,7 +460,11 @@ export function readOAuthReturn(): OAuthReturn | null {
   /* The URL this DOCUMENT was fetched with. It survives the protected-route
      bounce that erases `location.hash`; see the note at the top of the file. */
   const entry = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
-  const entered = entry?.name ? paramsOf(entry.name) : null;
+  /* RULE 1. Only a document fetched with the OAuth redirect target has an
+     entry record that can be a return leg; see the note beside
+     `OAUTH_ENTRY_PATHS`. A document that entered at `/malzemeler` was read,
+     not returned to. */
+  const entered = entry?.name && isOAuthEntry(entry.name) ? paramsOf(entry.name) : null;
   const fromEntry = entered ? describe(entered) : null;
 
   const found = fromLive ?? fromEntry;
