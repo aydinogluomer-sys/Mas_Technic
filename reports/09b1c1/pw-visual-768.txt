@@ -1,129 +1,60 @@
-﻿node.exe : (node:17096) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+﻿node.exe : (node:8440) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
 At line:1 char:1
 + & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
 + ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: ((node:17096) [D...oks()` instead.:String) [], RemoteException
+    + CategoryInfo          : NotSpecified: ((node:8440) [DE...oks()` instead.:String) [], RemoteException
     + FullyQualifiedErrorId : NativeCommandError
  
 (Use `node --trace-deprecation ...` to show where the warning was created)
 
 Running 41 tests using 1 worker
 
-(node:3392) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(node:19372) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 (Use `node --trace-warnings ...` to show where the warning was created)
-(node:3392) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
-(node:3392) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(node:19372) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:19372) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 (Use `node --trace-warnings ...` to show where the warning was created)
   -   1 [visual-768] › e2e\visual\cursor-overlay-guard.spec.ts:157:3 › H4 — CustomCursor's mount condition, measured › the whole (width, pointer) matrix is what the browser does
   -   2 [visual-768] › e2e\visual\cursor-overlay-guard.spec.ts:207:7 › H4 — the goldens are clean, and the reason is measured › visual-1280: the cursor contributes no pixel to landing-golden.spec.ts
   -   3 [visual-768] › e2e\visual\cursor-overlay-guard.spec.ts:207:7 › H4 — the goldens are clean, and the reason is measured › visual-1440: the cursor contributes no pixel to landing-golden.spec.ts
-  ✓   4 [visual-768] › e2e\visual\cursor-overlay-guard.spec.ts:301:3 › H4 — the configuration the safety depends on › the gate project still exists, so the measured half cannot vanish quietly (4ms)
-  ✓   5 [visual-768] › e2e\visual\cursor-overlay-guard.spec.ts:310:3 › H4 — the configuration the safety depends on › only touch-emulating visual projects are exempt from the cursor (5ms)
-  ✓   6 [visual-768] › e2e\visual\cursor-overlay-guard.spec.ts:331:3 › H4 — the configuration the safety depends on › no new page-scoped golden appears without a route to measure it on (15ms)
-  ✓   7 [visual-768] › e2e\visual\cursor-overlay-guard.spec.ts:343:3 › H4 — the configuration the safety depends on › the detector is red on the defect it exists to catch (16ms)
-  ✓   8 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › about opens and closes in the landing's language (3.9s)
-  ✓   9 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › contact opens and closes in the landing's language (3.3s)
-  ✓  10 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › materials opens and closes in the landing's language (3.5s)
-  ✓  11 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › material-family opens and closes in the landing's language (2.8s)
-  ✓  12 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-category opens and closes in the landing's language (2.6s)
-  ✓  13 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-detail opens and closes in the landing's language (3.1s)
-  ✓  14 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › sector-detail opens and closes in the landing's language (2.7s)
-  ✓  15 [visual-768] › e2e\visual\landing-golden.spec.ts:20:3 › landing golden screenshots › matches the committed landing baseline (6.0s)
-  ✓  16 [visual-768] › e2e\visual\navigation-golden.spec.ts:31:3 › global navigation golden screenshots › matches the closed header baseline (3.1s)
-  ✓  17 [visual-768] › e2e\visual\navigation-golden.spec.ts:44:3 › global navigation golden screenshots › matches the open menu baseline (4.0s)
-  ✓  18 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:36:3 › A2 — the foreign-overlay guard is falsifiable › armed: on a route that mounts the launcher it finds and hides it (2.5s)
-  ✓  19 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:48:3 › A2 — the foreign-overlay guard is falsifiable › red: require:true throws when the selector matches nothing (3.0s)
-  ✓  20 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:62:3 › A2 — the foreign-overlay guard is falsifiable › green: require:false is the documented escape and does not throw (2.6s)
-  ✓  21 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:68:3 › A2 — the foreign-overlay guard is falsifiable › red: require:false is refused on a route that DOES mount the launcher (2.2s)
-  ✓  22 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:86:3 › A2 — the foreign-overlay guard is falsifiable › the launcher really does sit inside the captured footer element (2.4s)
-  ✓  23 [visual-768] › e2e\visual\qa-f4-font-guard.spec.ts:36:3 › F4 — the font-retry guard is falsifiable › armed: a real load intercepts on BOTH hosts (2.2s)
-  ✓  24 [visual-768] › e2e\visual\qa-f4-font-guard.spec.ts:49:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.gstatic.com fails with the gstatic reason (2.4s)
-  ✓  25 [visual-768] › e2e\visual\qa-f4-font-guard.spec.ts:65:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.googleapis.com fails with the googleapis reason (2.1s)
-  ✓  26 [visual-768] › e2e\visual\qa-f4-font-guard.spec.ts:79:3 › F4 — the font-retry guard is falsifiable › red: blackholing both hosts fails with the fallback-stack reason (29.1s)
-  ✓  27 [visual-768] › e2e\visual\qa-h4-cursor-independent.spec.ts:59:3 › QA R4 — the two ways the Coder's scan can be walked around › the spec scan is flat, so no visual spec may live in a subdirectory (7ms)
-  ✓  28 [visual-768] › e2e\visual\qa-h4-cursor-independent.spec.ts:78:3 › QA R4 — the two ways the Coder's scan can be walked around › no visual spec renames or aliases the `page` fixture (17ms)
+  ✓   4 [visual-768] › e2e\visual\cursor-overlay-guard.spec.ts:301:3 › H4 — the configuration the safety depends on › the gate project still exists, so the measured half cannot vanish quietly (15ms)
+  ✓   5 [visual-768] › e2e\visual\cursor-overlay-guard.spec.ts:310:3 › H4 — the configuration the safety depends on › only touch-emulating visual projects are exempt from the cursor (11ms)
+  ✓   6 [visual-768] › e2e\visual\cursor-overlay-guard.spec.ts:331:3 › H4 — the configuration the safety depends on › no new page-scoped golden appears without a route to measure it on (74ms)
+  ✓   7 [visual-768] › e2e\visual\cursor-overlay-guard.spec.ts:343:3 › H4 — the configuration the safety depends on › the detector is red on the defect it exists to catch (31ms)
+  ✓   8 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › about opens and closes in the landing's language (8.0s)
+  ✓   9 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › contact opens and closes in the landing's language (4.5s)
+  ✓  10 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › materials opens and closes in the landing's language (5.8s)
+  ✓  11 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › material-family opens and closes in the landing's language (3.4s)
+  ✓  12 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-category opens and closes in the landing's language (3.2s)
+  ✓  13 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-detail opens and closes in the landing's language (3.7s)
+  ✓  14 [visual-768] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › sector-detail opens and closes in the landing's language (4.0s)
+  ✓  15 [visual-768] › e2e\visual\landing-golden.spec.ts:20:3 › landing golden screenshots › matches the committed landing baseline (8.5s)
+  ✓  16 [visual-768] › e2e\visual\navigation-golden.spec.ts:31:3 › global navigation golden screenshots › matches the closed header baseline (4.4s)
+  ✓  17 [visual-768] › e2e\visual\navigation-golden.spec.ts:44:3 › global navigation golden screenshots › matches the open menu baseline (4.5s)
+  ✓  18 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:36:3 › A2 — the foreign-overlay guard is falsifiable › armed: on a route that mounts the launcher it finds and hides it (2.8s)
+  ✓  19 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:48:3 › A2 — the foreign-overlay guard is falsifiable › red: require:true throws when the selector matches nothing (2.9s)
+  ✓  20 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:62:3 › A2 — the foreign-overlay guard is falsifiable › green: require:false is the documented escape and does not throw (2.9s)
+  ✓  21 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:68:3 › A2 — the foreign-overlay guard is falsifiable › red: require:false is refused on a route that DOES mount the launcher (2.0s)
+  ✓  22 [visual-768] › e2e\visual\qa-a2-overlay-guard.spec.ts:86:3 › A2 — the foreign-overlay guard is falsifiable › the launcher really does sit inside the captured footer element (2.7s)
+  ✓  23 [visual-768] › e2e\visual\qa-f4-font-guard.spec.ts:36:3 › F4 — the font-retry guard is falsifiable › armed: a real load intercepts on BOTH hosts (2.4s)
+  ✓  24 [visual-768] › e2e\visual\qa-f4-font-guard.spec.ts:49:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.gstatic.com fails with the gstatic reason (3.0s)
+  ✓  25 [visual-768] › e2e\visual\qa-f4-font-guard.spec.ts:65:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.googleapis.com fails with the googleapis reason (2.6s)
+  ✓  26 [visual-768] › e2e\visual\qa-f4-font-guard.spec.ts:79:3 › F4 — the font-retry guard is falsifiable › red: blackholing both hosts fails with the fallback-stack reason (29.9s)
+  ✓  27 [visual-768] › e2e\visual\qa-h4-cursor-independent.spec.ts:59:3 › QA R4 — the two ways the Coder's scan can be walked around › the spec scan is flat, so no visual spec may live in a subdirectory (14ms)
+  ✓  28 [visual-768] › e2e\visual\qa-h4-cursor-independent.spec.ts:78:3 › QA R4 — the two ways the Coder's scan can be walked around › no visual spec renames or aliases the `page` fixture (22ms)
   -  29 [visual-768] › e2e\visual\radius-census.spec.ts:46:3 › §4 — the radius register is the census › every number in docs/lean/17 §4 comes back out of the browser
   -  30 [visual-768] › e2e\visual\radius-census.spec.ts:108:3 › §4 — the radius register is the census › §4's source column still lands on a radius declaration
   -  31 [visual-768] › e2e\visual\radius-census.spec.ts:120:3 › §4 — the radius register is the census › the citation check is red on a citation that has drifted
-  ✓  32 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › home carries the same shell chrome (2.8s)
-  ✓  33 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › service carries the same shell chrome (2.9s)
-  ✓  34 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › about carries the same shell chrome (2.8s)
-  ✓  35 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › journal carries the same shell chrome (2.3s)
-  ✓  36 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › rfq carries the same shell chrome (2.8s)
-  ✓  37 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › notfound carries the same shell chrome (2.3s)
-  ✘  38 [visual-768] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › notfound-body holds its baseline (4.4s)
-(node:25020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-(Use `node --trace-warnings ...` to show where the warning was created)
-(node:25020) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
-(node:25020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-(Use `node --trace-warnings ...` to show where the warning was created)
-  ✓  39 [visual-768] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › journal-lead holds its baseline (3.6s)
-  ✓  40 [visual-768] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › quality-documents holds its baseline (2.5s)
-  ✓  41 [visual-768] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › profile-scope holds its baseline (2.7s)
+  ✓  32 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › home carries the same shell chrome (3.0s)
+  ✓  33 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › service carries the same shell chrome (3.2s)
+  ✓  34 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › about carries the same shell chrome (2.5s)
+  ✓  35 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › journal carries the same shell chrome (2.7s)
+  ✓  36 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › rfq carries the same shell chrome (2.5s)
+  ✓  37 [visual-768] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › notfound carries the same shell chrome (2.5s)
+  ✓  38 [visual-768] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › notfound-body holds its baseline (2.6s)
+  ✓  39 [visual-768] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › journal-lead holds its baseline (2.8s)
+  ✓  40 [visual-768] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › quality-documents holds its baseline (2.3s)
+  ✓  41 [visual-768] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › profile-scope holds its baseline (2.5s)
 
-
-  1) [visual-768] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › notfound-body holds its baseline 
-
-    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
-
-    Locator: locator('.shell-notfound')
-      392 pixels (ratio 0.01 of all image pixels) are different.
-
-      Snapshot: waveb-notfound-body.png
-
-    Call log:
-    [2m  - Expect "toHaveScreenshot(waveb-notfound-body.png)" with timeout 30000ms[22m
-    [2m    - verifying given screenshot expectation[22m
-    [2m  - waiting for locator('.shell-notfound')[22m
-    [2m    - locator resolved to <div class="shell-notfound">…</div>[22m
-    [2m  - taking element screenshot[22m
-    [2m    - disabled all CSS animations[22m
-    [2m  - waiting for fonts to load...[22m
-    [2m  - fonts loaded[22m
-    [2m  - attempting scroll into view action[22m
-    [2m    - waiting for element to be stable[22m
-    [2m  - 392 pixels (ratio 0.01 of all image pixels) are different.[22m
-    [2m  - waiting 100ms before taking screenshot[22m
-    [2m  - waiting for locator('.shell-notfound')[22m
-    [2m    - locator resolved to <div class="shell-notfound">…</div>[22m
-    [2m  - taking element screenshot[22m
-    [2m    - disabled all CSS animations[22m
-    [2m  - waiting for fonts to load...[22m
-    [2m  - fonts loaded[22m
-    [2m  - attempting scroll into view action[22m
-    [2m    - waiting for element to be stable[22m
-    [2m  - captured a stable screenshot[22m
-    [2m  - 392 pixels (ratio 0.01 of all image pixels) are different.[22m
-
-
-      107 |       const target = page.locator(surface.selector);
-      108 |       await expect(target).toBeVisible();
-    > 109 |       await expect(target).toHaveScreenshot(`waveb-${surface.slug}.png`, {
-          |                            ^
-      110 |         animations: "disabled",
-      111 |         caret: "hide",
-      112 |         maxDiffPixels: 200,
-        at C:\Users\Trade Bilisim\pdh-wt\coder-p09a\e2e\visual\wave-b-golden.spec.ts:109:28
-
-    [31mTest timeout of 60000ms exceeded.[39m
-
-    attachment #1: waveb-notfound-body (image/png) ─────────────────────────────────────────────────
-    Expected: e2e\__golden__\win32\visual-768\waveb-notfound-body.png
-    Received: test-results\visual-wave-b-golden-wave--d796a-und-body-holds-its-baseline-visual-768\waveb-notfound-body-actual.png
-    Diff:     test-results\visual-wave-b-golden-wave--d796a-und-body-holds-its-baseline-visual-768\waveb-notfound-body-diff.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
-    test-results\visual-wave-b-golden-wave--d796a-und-body-holds-its-baseline-visual-768\test-failed-1.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    attachment #3: video (video/webm) ──────────────────────────────────────────────────────────────
-    test-results\visual-wave-b-golden-wave--d796a-und-body-holds-its-baseline-visual-768\video.webm
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    Error Context: test-results\visual-wave-b-golden-wave--d796a-und-body-holds-its-baseline-visual-768\error-context.md
-
-  1 failed
-    [visual-768] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › notfound-body holds its baseline 
   6 skipped
-  34 passed (3.0m)
+  35 passed (2.3m)
