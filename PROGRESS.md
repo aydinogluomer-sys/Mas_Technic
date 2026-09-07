@@ -2998,3 +2998,95 @@ correction walked past; confirm the fourteen crops and say whether the visual su
 attack the return leg beyond four needles; and answer the question that is worth more than most defects —
 **is there a cheap check that would have caught a selector that never matched**, when `tsc`, eslint, axe, a
 contrast census and every golden stayed green over a page visibly outside the design language?
+
+#### QA 09b-1 — PASS, and it proved the check this phase had written off as impossible
+
+Eleven commits integrated as `909b2be..3ba5343`; scope clean, `e2e/`, `reports/qa/**` and
+`scripts/qa-probes/09b1-**` only. **542 passed, 0 failed, 81 skipped** across visual 375/768/1280/1440,
+critical 1280/375, desktop-1280, mobile 320/375, tablet 768, and Firefox and WebKit smoke. No spec edited,
+no `--update-snapshots`, and only the four named baselines differ from `183a323`.
+
+**It measured off painted pixels rather than computed styles**, decoding full-page screenshots in canvas, and
+scored `max(border vs ground, fill vs ground)` — noting that the Coder's *"3:1 against **both** adjacent
+colours"* counts the control's own fill as adjacent and is **stricter than 1.4.11 requires**. Same verdict
+either way here, because these fills sit 1.00–1.08:1 from their ground. 284 control instances: graphite
+3.88–4.00, void 4.01, social 3.72, segment 3.67, paper band 3.46–3.66. **It reached grounds the app cannot
+produce** by injecting shipped band markup — paper-in-paper 3.46–3.66, graphite-in-paper 3.74–3.95, both
+clear — and then explained why the 09a trap cannot recur at all: the paper block's selector list already
+contains `.shell-root .tl-band[data-band-tone="paper"]`, and paper-in-paper is colorimetrically identical to
+paper-in-graphite.
+
+**D1 — a live 1.4.11 failure on the landing page, and the sweep's own probe would have caught it.**
+`.tl-cad-drop` (`technical-landing.css:368`) is a `<button>` with a four-sided `1px dashed #9aa09c` boundary
+over a transparent fill, painted **2.20:1** on `/`. The same shape C1 fixed in `.shell-file`; missed only
+because **`/` was not in the sweep's route list**. I checked it at the source and it is **worse than QA
+said**: `#9aa09c` is a hardcoded hex, which `CLAUDE.md` lists under Forbidden Actions. One line, two rules.
+
+**The crops are seventeen, not fourteen — and the Coder's own commit enumerates 6+1+7+3.** Confirmed at the
+pixel rather than inferred at the DOM: six crops show **0 counted at threshold 0.2 while 374–488 pixels
+changed exactly**, every one the old hairline composite becoming the new one. A fourth ground the adjudication
+never quantified: **paper band 1294**, also invisible.
+
+**And the verdict on the visual suite is the finding of the round.** *"Formality on colour"* — at threshold
+0.2 a neutral grey may move **52 of 255, a fifth of the range, per pixel**, and pass. **It was the colour
+threshold alone that saved the footers**: they predict **410 changed pixels against a `maxDiffPixels` of
+200**, so had the threshold counted them they would have **failed**. The suite remains a real gate for
+geometry and type. **Phase 10 touches the one axis it is blind on**, which is why this is recorded now
+rather than at the point it matters.
+
+**The OAuth attack QA expected to win, lost — and it said so plainly.**
+`PerformanceNavigationTiming.name` keeps the fragment in **Chromium, Firefox and WebKit**, all three render
+the notice, and reload, back, direct paste, hashchange and second-document all behave. **17 hostile prose
+payloads** — script, img, svg, iframe, style, link, phishing prose, RTL, zero-width, CRLF, 4000 characters,
+entities, double-encoding, `data:`, template braces, homoglyph — produced **0 injected nodes, 0 executions**,
+with the needle absent from both `innerHTML` and `textContent`.
+
+**Three things do get through, and the second is the one that matters.** `oauth-return.ts:208`'s `COPY[code]`
+walks `Object.prototype`, so `error_code=constructor` resolves to a truthy inherited value and renders an
+empty notice — **bypassing the `FALLBACK` that exists for exactly that case**. Then: the attacker cannot
+*write* the prose but can **choose** it — `#error_code=user_banned` renders **"HESAP KAPALI", an assertion
+about the reader's account status in this site's voice**, from a crafted link, to someone who was never
+banned and may have no account. And `:70-71`'s "cannot hold an instruction" is false: `KOD:
+sifrenizi-yeniden-girin` renders. The stale-notice deferral is also broader than disclosed — reproduced with
+**no session at all**: land on `/malzemeler#error=…`, wait 20 seconds, reach `/giris` in the same document,
+and a twenty-second-old failure is announced with no age.
+
+**Insurance, not theatre.** GoTrue resolves the provider **after** validating `redirect_to`, and its failure
+for a disabled provider is a 302 back with the fragment — the exact shape the fix handles. It serves its own
+page mainly when `redirect_to` is not allow-listed, which is unknowable #2, and in that case no client-side
+fix could reach the reader at all. Theatre only in the conjunction *buttons dead **and** redirect
+unregistered* — so resolve the two open questions out of band rather than hold the phase for them.
+
+**My suspicion about the menu trigger was right, and the conclusion survives anyway.**
+`.tl-menu-trigger-label` is **`display: none` at 375 and 320** — the box shrinks 89×48 → 44×48 — so half the
+Coder's argument does not hold there and was offered without the caveat. The other half does the work: the
+only visible content is three hairlines at **17.35:1**, and 1.4.11 sets no minimum size for an identifying
+graphic. Not an identification failure. QA's painted figure is 2.13:1 against the Coder's composited 2.20.
+
+**The most valuable output is a falsification of something this phase asserted about itself.** The Coder
+reported its never-matching `.shell-field > label` selector had passed `tsc`, eslint, axe, a contrast census
+and every golden, and I recorded that as a gap in what the gates can see. **QA falsified the "nothing could
+have caught it" half with a running test.** The invariant is one sentence — *a component the design system
+defines must compute the same typography everywhere it appears* — and reverting the four declarations at
+runtime flips `/giris` to `Space Grotesk / 16px / 400`, a split, and it goes red. **Six page visits, 7.3
+seconds, no baseline, no screenshot**, and it needs no advance knowledge that a child combinator was
+involved. It catches the whole class. Promoted to a permanent gate in C2.
+
+**Also found:** `a.tl-brand` and `.shell-faq-source a` confirmed decorative **on evidence the Coder did not
+give** — the first spans a 1214×71 header row's full height, which is what a divider does, and survives
+`border: 0`; the second is inline text at 6.32:1 where 1.4.3 governs. The Coder's probe **does not discover**
+what its header claims — `:143` drops every borderless element before the interactive test — and
+`ShellBand.tsx:50` types `tone: "graphite"` with **no CSS matching it**, a no-op today and a latent
+09a-shaped trap tomorrow.
+
+**QA disclosed a process error against itself**: during lint triage it ran `git checkout 183a323 -- .`, which
+reverted and staged tracked files. Nothing was committed, `git reset --hard` restored it, and it offered
+`git diff --name-only cd0e53a HEAD` as the proof that production and goldens are byte-identical to the
+integration head. Reported rather than quietly cleaned up — the same discipline as its round-4 self-filing in
+09a.
+
+**09b-1-C2 dispatched** to `wt/coder-p09b1c2` at `3ba5343`: the drop zone's boundary and its hardcoded hex,
+the prototype-chain lookup **and a justified answer to what a notice may assert on the strength of a URL
+fragment**, the stale-notice bound, the false comment, the probe's header, the `graphite` band tone, and the
+typography gate. The `.tl-cad-drop` boundary is the **only** thing it may change in `technical-landing.css`;
+the rest of that file stays reserved for Phase 10.
