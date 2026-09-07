@@ -1,0 +1,396 @@
+{
+ "survival": [
+  {
+   "engine": "chromium",
+   "launched": true,
+   "keeps": true,
+   "noticeShown": true,
+   "landedPath": "/giris",
+   "landedHash": "",
+   "navName": "http://localhost:4181/musteri-paneli#error=server_error&error_code=validation_failed&error_description=Unsupported+provider%3A+provider+is+not+enabled",
+   "navType": "navigate",
+   "heading": "Giriş Yapın",
+   "notices": [
+    "SAĞLAYICI KAPALIBu sağlayıcı ile giriş şu anda kullanılamıyor.E-posta ve şifrenizle aşağıd"
+   ],
+   "allowed": 0
+  },
+  {
+   "engine": "firefox",
+   "launched": true,
+   "keeps": true,
+   "noticeShown": true,
+   "landedPath": "/giris",
+   "landedHash": "",
+   "navName": "http://localhost:4181/musteri-paneli#error=server_error&error_code=validation_failed&error_description=Unsupported+provider%3A+provider+is+not+enabled",
+   "navType": "navigate",
+   "heading": "Giriş Yapın",
+   "notices": [
+    "SAĞLAYICI KAPALIBu sağlayıcı ile giriş şu anda kullanılamıyor.E-posta ve şifrenizle aşağıd"
+   ],
+   "allowed": 0
+  },
+  {
+   "engine": "webkit",
+   "launched": true,
+   "keeps": true,
+   "noticeShown": true,
+   "landedPath": "/giris",
+   "landedHash": "",
+   "navName": "http://localhost:4181/musteri-paneli#error=server_error&error_code=validation_failed&error_description=Unsupported+provider%3A+provider+is+not+enabled",
+   "navType": "navigate",
+   "heading": "Giriş Yapın",
+   "notices": [
+    "SAĞLAYICI KAPALIBu sağlayıcı ile giriş şu anda kullanılamıyor.E-posta ve şifrenizle aşağıd"
+   ],
+   "allowed": 0
+  }
+ ],
+ "life": [
+  [
+   "bounce -> reload",
+   1,
+   0,
+   "navName clean"
+  ],
+  [
+   "direct -> reload -> back",
+   1,
+   0,
+   "about:blank n=0"
+  ],
+  [
+   "clean/hashchange/remount",
+   0,
+   0,
+   1
+  ]
+ ],
+ "hostile": [
+  {
+   "name": "script tag",
+   "key": "error_description",
+   "value": "<script>window.__pwn=1</script>",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "img onerror",
+   "key": "error_description",
+   "value": "<img src=x onerror=\"window.__pwn=1\">",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "svg onload",
+   "key": "error_description",
+   "value": "<svg/onload=window.__pwn=1>",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "iframe javascript:",
+   "key": "error_description",
+   "value": "<iframe src=\"javascript:window.__pwn=1\"></iframe>",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "style tag",
+   "key": "error_description",
+   "value": "<style>body{display:none}</style>",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "link stylesheet",
+   "key": "error_description",
+   "value": "<link rel=stylesheet href=\"https://evil.example/x.css\">",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "phishing prose",
+   "key": "error_description",
+   "value": "Guvenlik dogrulamasi icin sifrenizi tekrar girin.",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "RTL override",
+   "key": "error_description",
+   "value": "‮txet desrever‬",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "zero-width",
+   "key": "error_description",
+   "value": "pass​word",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "newline injection",
+   "key": "error_description",
+   "value": "line one\nline two\r\nline three",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "unicode separators",
+   "key": "error_description",
+   "value": "a b c",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "very long",
+   "key": "error_description",
+   "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "html entities",
+   "key": "error_description",
+   "value": "&lt;script&gt;alert(1)&lt;/script&gt;",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "double encoded",
+   "key": "error_description",
+   "value": "%253Cscript%253Ealert(1)%253C%252Fscript%253E",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "data uri",
+   "key": "error_description",
+   "value": "data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "template braces",
+   "key": "error_description",
+   "value": "{{constructor.constructor('window.__pwn=1')()}}",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "homoglyph domain",
+   "key": "error_description",
+   "value": "Devam icin mаs-technic.com adresine gidin",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "proto key: constructor",
+   "key": "error_code",
+   "value": "constructor",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": true,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "KOD: constructor",
+   "emptyLabel": true
+  },
+  {
+   "name": "proto key: __proto__",
+   "key": "error_code",
+   "value": "__proto__",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": true,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "KOD: __proto__",
+   "emptyLabel": true
+  },
+  {
+   "name": "proto key: toString",
+   "key": "error_code",
+   "value": "toString",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "KOD: tostring",
+   "emptyLabel": true
+  },
+  {
+   "name": "proto key: valueOf",
+   "key": "error_code",
+   "value": "valueOf",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "KOD: valueof",
+   "emptyLabel": true
+  },
+  {
+   "name": "proto key: hasOwnProperty",
+   "key": "error_code",
+   "value": "hasOwnProperty",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "KOD: hasownproperty",
+   "emptyLabel": true
+  },
+  {
+   "name": "chosen copy: user_banned",
+   "key": "error_code",
+   "value": "user_banned",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": true,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "HESAP KAPALIBu hesap ile giriş yapılamıyor.Hesabınızın durumunu öğrenmek için bizimle iletişime geçin.KOD: use",
+   "emptyLabel": false
+  },
+  {
+   "name": "reference as instruction",
+   "key": "error_code",
+   "value": "ara-0850-555-1234-destek-icin",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": true,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  },
+  {
+   "name": "script in the CODE",
+   "key": "error_code",
+   "value": "<script>alert(1)</script>",
+   "n": 1,
+   "scriptNodes": 0,
+   "pwn": false,
+   "needle": false,
+   "bodyHidden": false,
+   "externalCss": false,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Soru",
+   "emptyLabel": false
+  }
+ ]
+}
