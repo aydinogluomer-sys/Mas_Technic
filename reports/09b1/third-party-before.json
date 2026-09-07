@@ -1,0 +1,452 @@
+{
+  "base": "http://localhost:4300",
+  "measuredAt": "2026-09-07T13:25:12.792Z",
+  "passA_allBlocked": {
+    "/giris": {
+      "externalRequests": [
+        {
+          "host": "fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@3",
+          "atMs": 120,
+          "type": "stylesheet"
+        },
+        {
+          "host": "js.hcaptcha.com",
+          "url": "https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false",
+          "atMs": 632,
+          "type": "script"
+        },
+        {
+          "host": "js.hcaptcha.com",
+          "url": "https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false",
+          "atMs": 1702,
+          "type": "script"
+        },
+        {
+          "host": "js.hcaptcha.com",
+          "url": "https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false",
+          "atMs": 2710,
+          "type": "script"
+        },
+        {
+          "host": "sentry.hcaptcha.com",
+          "url": "https://sentry.hcaptcha.com/api/6/envelope/?sentry_version=7&sentry_key=d233059272824702afc8c43834c4912d",
+          "atMs": 2730,
+          "type": "fetch"
+        }
+      ],
+      "externalHosts": [
+        "fonts.googleapis.com",
+        "js.hcaptcha.com",
+        "sentry.hcaptcha.com"
+      ],
+      "firstRequestByHost": {
+        "fonts.googleapis.com": 120,
+        "js.hcaptcha.com": 632,
+        "sentry.hcaptcha.com": 2730
+      },
+      "storage": {
+        "local": [
+          "mas-technic-theme"
+        ],
+        "session": [],
+        "documentCookie": "",
+        "iframes": [],
+        "scripts": []
+      },
+      "cookies": [],
+      "oauth": {
+        "note": "no client handle exposed on window; URL derived below instead"
+      }
+    },
+    "/sifremi-unuttum": {
+      "externalRequests": [
+        {
+          "host": "fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@3",
+          "atMs": 56,
+          "type": "stylesheet"
+        }
+      ],
+      "externalHosts": [
+        "fonts.googleapis.com"
+      ],
+      "firstRequestByHost": {
+        "fonts.googleapis.com": 56
+      },
+      "storage": {
+        "local": [
+          "mas-technic-theme"
+        ],
+        "session": [],
+        "documentCookie": "",
+        "iframes": [],
+        "scripts": []
+      },
+      "cookies": [],
+      "oauth": null
+    },
+    "/reset-password": {
+      "externalRequests": [
+        {
+          "host": "fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@3",
+          "atMs": 40,
+          "type": "stylesheet"
+        }
+      ],
+      "externalHosts": [
+        "fonts.googleapis.com"
+      ],
+      "firstRequestByHost": {
+        "fonts.googleapis.com": 40
+      },
+      "storage": {
+        "local": [
+          "mas-technic-theme"
+        ],
+        "session": [],
+        "documentCookie": "",
+        "iframes": [],
+        "scripts": []
+      },
+      "cookies": [],
+      "oauth": null
+    },
+    "__traffic": {
+      "blockedHosts": [
+        "fonts.googleapis.com",
+        "js.hcaptcha.com",
+        "sentry.hcaptcha.com"
+      ],
+      "allowedHosts": [],
+      "blockedCount": 7,
+      "allowedCount": 0
+    },
+    "__canary": "BLOCKED:Failed to fetch"
+  },
+  "passB_hcaptchaAllowed": {
+    "/giris": {
+      "externalRequests": [
+        {
+          "host": "fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@3",
+          "atMs": 46,
+          "type": "stylesheet"
+        },
+        {
+          "host": "js.hcaptcha.com",
+          "url": "https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false",
+          "atMs": 645,
+          "type": "script"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw.woff2",
+          "atMs": 823,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw.woff2",
+          "atMs": 824,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPb94C-s0.woff2",
+          "atMs": 826,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPb94C-s0.woff2",
+          "atMs": 827,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw.woff2",
+          "atMs": 828,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw.woff2",
+          "atMs": 828,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPb94C-s0.woff2",
+          "atMs": 832,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F63fjptAgt5VM-kVkqdyU8n1i8q1w.woff2",
+          "atMs": 833,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3vAOwlBFgg.woff2",
+          "atMs": 834,
+          "type": "font"
+        },
+        {
+          "host": "d0fab5a66e7.w.hcaptcha.com",
+          "url": "https://d0fab5a66e7.w.hcaptcha.com/logo.png",
+          "atMs": 1189,
+          "type": "fetch"
+        },
+        {
+          "host": "newassets.hcaptcha.com",
+          "url": "https://newassets.hcaptcha.com/captcha/v1/80ba88939126ef29d32e1ca12bb3054eb9b51927/static/hcaptcha.html",
+          "atMs": 1290,
+          "type": "document"
+        },
+        {
+          "host": "newassets.hcaptcha.com",
+          "url": "https://newassets.hcaptcha.com/captcha/v1/80ba88939126ef29d32e1ca12bb3054eb9b51927/static/hcaptcha.html",
+          "atMs": 1291,
+          "type": "document"
+        },
+        {
+          "host": "newassets.hcaptcha.com",
+          "url": "https://newassets.hcaptcha.com/captcha/v1/80ba88939126ef29d32e1ca12bb3054eb9b51927/static/i18n/tr.json",
+          "atMs": 1342,
+          "type": "xhr"
+        },
+        {
+          "host": "268a113a08a3.w.hcaptcha.com",
+          "url": "https://268a113a08a3.w.hcaptcha.com/logo.png",
+          "atMs": 2317,
+          "type": "fetch"
+        }
+      ],
+      "externalHosts": [
+        "268a113a08a3.w.hcaptcha.com",
+        "d0fab5a66e7.w.hcaptcha.com",
+        "fonts.googleapis.com",
+        "fonts.gstatic.com",
+        "js.hcaptcha.com",
+        "newassets.hcaptcha.com"
+      ],
+      "firstRequestByHost": {
+        "268a113a08a3.w.hcaptcha.com": 2317,
+        "d0fab5a66e7.w.hcaptcha.com": 1189,
+        "fonts.googleapis.com": 46,
+        "fonts.gstatic.com": 823,
+        "js.hcaptcha.com": 645,
+        "newassets.hcaptcha.com": 1290
+      },
+      "storage": {
+        "local": [
+          "mas-technic-theme"
+        ],
+        "session": [],
+        "documentCookie": "",
+        "iframes": [
+          "https://newassets.hcaptcha.com/captcha/v1/80ba88939126ef29d32e1ca12bb3054eb9b51927/static/hcaptcha.html#frame=checkbox&i",
+          "https://newassets.hcaptcha.com/captcha/v1/80ba88939126ef29d32e1ca12bb3054eb9b51927/static/hcaptcha.html#frame=challenge&"
+        ],
+        "scripts": []
+      },
+      "cookies": [
+        {
+          "name": "__cf_bm",
+          "domain": ".hcaptcha.com",
+          "path": "/",
+          "httpOnly": true,
+          "secure": true,
+          "sameSite": "None",
+          "lifetimeMinutes": 29.9
+        }
+      ],
+      "oauth": {
+        "note": "no client handle exposed on window; URL derived below instead"
+      }
+    },
+    "/sifremi-unuttum": {
+      "externalRequests": [
+        {
+          "host": "fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@3",
+          "atMs": 46,
+          "type": "stylesheet"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw.woff2",
+          "atMs": 313,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPb94C-s0.woff2",
+          "atMs": 315,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw.woff2",
+          "atMs": 317,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPb94C-s0.woff2",
+          "atMs": 320,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F63fjptAgt5VM-kVkqdyU8n1i8q1w.woff2",
+          "atMs": 322,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3vAOwlBFgg.woff2",
+          "atMs": 339,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3vAOwl5FgtIU.woff2",
+          "atMs": 410,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw.woff2",
+          "atMs": 631,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPb94C-s0.woff2",
+          "atMs": 632,
+          "type": "font"
+        }
+      ],
+      "externalHosts": [
+        "fonts.googleapis.com",
+        "fonts.gstatic.com"
+      ],
+      "firstRequestByHost": {
+        "fonts.googleapis.com": 46,
+        "fonts.gstatic.com": 313
+      },
+      "storage": {
+        "local": [
+          "mas-technic-theme"
+        ],
+        "session": [],
+        "documentCookie": "",
+        "iframes": [],
+        "scripts": []
+      },
+      "cookies": [],
+      "oauth": null
+    },
+    "/reset-password": {
+      "externalRequests": [
+        {
+          "host": "fonts.googleapis.com",
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@3",
+          "atMs": 39,
+          "type": "stylesheet"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw.woff2",
+          "atMs": 311,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPb94C-s0.woff2",
+          "atMs": 313,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw.woff2",
+          "atMs": 315,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPb94C-s0.woff2",
+          "atMs": 318,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F63fjptAgt5VM-kVkqdyU8n1i8q1w.woff2",
+          "atMs": 324,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3vAOwlBFgg.woff2",
+          "atMs": 327,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3vAOwl5FgtIU.woff2",
+          "atMs": 428,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPbF4Cw.woff2",
+          "atMs": 751,
+          "type": "font"
+        },
+        {
+          "host": "fonts.gstatic.com",
+          "url": "https://fonts.gstatic.com/s/spacegrotesk/v22/V8mDoQDjQSkFtoMM3T6r8E7mPb94C-s0.woff2",
+          "atMs": 752,
+          "type": "font"
+        }
+      ],
+      "externalHosts": [
+        "fonts.googleapis.com",
+        "fonts.gstatic.com"
+      ],
+      "firstRequestByHost": {
+        "fonts.googleapis.com": 39,
+        "fonts.gstatic.com": 311
+      },
+      "storage": {
+        "local": [
+          "mas-technic-theme"
+        ],
+        "session": [],
+        "documentCookie": "",
+        "iframes": [],
+        "scripts": []
+      },
+      "cookies": [],
+      "oauth": null
+    },
+    "__traffic": {
+      "blockedHosts": [],
+      "allowedHosts": [
+        "268a113a08a3.w.hcaptcha.com",
+        "d0fab5a66e7.w.hcaptcha.com",
+        "fonts.googleapis.com",
+        "fonts.gstatic.com",
+        "js.hcaptcha.com",
+        "newassets.hcaptcha.com"
+      ],
+      "blockedCount": 0,
+      "allowedCount": 36
+    },
+    "__canary": "BLOCKED:Failed to fetch"
+  }
+}
