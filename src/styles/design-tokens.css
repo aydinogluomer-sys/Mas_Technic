@@ -85,6 +85,49 @@
   --tl-paper-rule-strong: rgba(18, 23, 25, .42);
   --tl-paper-rule-soft: rgba(18, 23, 25, .2);
 
+  /* ── CONTROL BOUNDARIES ─────────────────────────────────────────────────
+     A SEPARATE PAIR, AND WHY IT IS NOT A HEAVIER `--tl-rule`.
+
+     A hairline that draws a register, a table, a document clause or a frame
+     is decoration: WCAG 1.4.11 governs "user interface components", and a
+     divider is not one. A hairline that draws the edge of an INPUT is the
+     only thing telling the reader a control is there, and 1.4.11 asks it for
+     3:1 against the colours next to it.
+
+     MEASURED, `reports/09b1c1/control-boundary-before.json`, with the abort
+     guard proven at `allowed 0`: every `.shell-field` input, `select` and
+     `textarea` on `/giris`, `/sifremi-unuttum`, `/reset-password`,
+     `/iletisim`, `/malzemeler` and `/sss` drew its boundary at 2.21–2.38:1 on
+     graphite and 1.79–1.94:1 on paper, with a fill 1.04:1 from its own ground
+     — so the border was the whole of the control and it was under the floor
+     on both grounds. 84 control instances failed; the 4 that passed were all
+     the same pressed `.shell-segment`, which is identified by its fill.
+
+     RAISING `--tl-rule` INSTEAD WOULD HAVE BEEN THE WRONG FIX. That one name
+     paints 25 rules in `shell.css`, 14 in `navigation.css` and 2 in
+     `master-grid.css` — the whole engineering-sheet hairline language. The
+     same report measures them: the auth aside rule at 2.01, the `MT` frame at
+     2.08, the register hairlines, the spec-table frame, the `<details>`
+     separators. None of them is a control, none of them is subject to 1.4.11,
+     and repainting all of them to satisfy a criterion they are not under is a
+     visual regression bought with a compliance number.
+
+     WHY TWO VALUES AND NOT ONE. The same reason bronze and stamp red each
+     have a ground-chosen step: alpha over graphite and alpha over paper are
+     not the same colour. Solved in `reports/09b1c1/solve-control-rule.mjs`
+     over all four grounds a control in this system can sit on — graphite
+     field fill, graphite transparent, paper-root field, and the paper BAND
+     nested in a graphite root that falsified two 09a proposals:
+
+       --tl-control-rule        α .44   worst case 3.71:1  (graphite)
+       --tl-paper-control-rule  α .54   worst case 3.47:1  (paper band ground)
+
+     Both clear 3:1 against BOTH adjacent colours, not merely the friendlier
+     one, and both land at the same perceptual distance from their ground so a
+     control does not change weight when the band under it changes tone. */
+  --tl-control-rule: rgba(227, 231, 225, .44);
+  --tl-paper-control-rule: rgba(18, 23, 25, .54);
+
   /* ── TINTS (state, not palette) ─────────────────────────────────────────*/
   --tl-tint-faint: rgba(255, 255, 255, .02);
   --tl-tint-hover: rgba(255, 255, 255, .035);

@@ -1,98 +1,98 @@
 ﻿guard canary: BLOCKED:Failed to fetch
 
-══ CONTROLS WITH AN ENCLOSING BOUNDARY, UNDER 3:1 — 66 component/tone rows ══
-1280  /giris                                       button                                 graphite                       x2    4side fill  2.16  ground  2.16  BINDING  2.16
-1280  /giris                                       input                                  graphite                       x2    4side fill  2.21  ground   2.3  BINDING   2.3
-1280  /sifremi-unuttum                             input                                  graphite                       x1    4side fill  2.21  ground   2.3  BINDING   2.3
-1280  /reset-password#token_hash=probe-no-network  input                                  graphite                       x2    4side fill  2.21  ground   2.3  BINDING   2.3
+══ CONTROLS WITH AN ENCLOSING BOUNDARY, UNDER 3:1 — 8 component/tone rows ══
 1280  /iletisim                                    button.tl-menu-trigger                 no-shell-root                  x1    4side fill   2.2  ground   2.2  BINDING   2.2
-1280  /iletisim                                    a.shell-action.shell-action--ghost     graphite                       x2    4side fill  2.16  ground  2.16  BINDING  2.16
-1280  /iletisim                                    a.shell-action.shell-action--ghost     paper-band-in-graphite-root    x2    4side fill  1.92  ground  1.92  BINDING  1.92
-1280  /iletisim                                    input                                  graphite-band-in-graphite-root x5    4side fill  2.21  ground   2.3  BINDING   2.3
-1280  /iletisim                                    select                                 graphite-band-in-graphite-root x2    4side fill  2.21  ground   2.3  BINDING   2.3
-1280  /iletisim                                    textarea                               graphite-band-in-graphite-root x1    4side fill  2.21  ground   2.3  BINDING   2.3
-1280  /iletisim                                    a.shell-action.shell-action--ghost     graphite-band-in-graphite-root x1    4side fill  2.16  ground  2.16  BINDING  2.16
-1280  /iletisim                                    a.shell-footer-secondary               graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
-1280  /iletisim                                    a                                      graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
 1280  /teklif-al                                   button.tl-menu-trigger                 no-shell-root                  x1    4side fill   2.2  ground   2.2  BINDING   2.2
-1280  /teklif-al                                   a.shell-action.shell-action--ghost     graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
-1280  /teklif-al                                   label.shell-dropzone-area              graphite-band-in-graphite-root x1    4side fill  2.21  ground   2.3  BINDING   2.3
-1280  /teklif-al                                   a.shell-action.shell-action--ghost     graphite-band-in-graphite-root x1    4side fill  2.16  ground  2.16  BINDING  2.16
-1280  /teklif-al                                   a.shell-action.shell-action--ghost     paper-band-in-graphite-root    x3    4side fill  1.92  ground  1.92  BINDING  1.92
-1280  /teklif-al                                   a.shell-footer-secondary               graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
-1280  /teklif-al                                   a                                      graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
 1280  /sss                                         button.tl-menu-trigger                 no-shell-root                  x1    4side fill   2.2  ground   2.2  BINDING   2.2
-1280  /sss                                         a.shell-action.shell-action--ghost     graphite                       x2    4side fill  2.16  ground  2.16  BINDING  2.16
-1280  /sss                                         input                                  paper-band-in-graphite-root    x1    4side fill  1.94  ground  1.79  BINDING  1.94
-1280  /sss                                         select                                 paper-band-in-graphite-root    x1    4side fill  1.94  ground  1.79  BINDING  1.94
-1280  /sss                                         a.shell-footer-secondary               graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
-1280  /sss                                         a                                      graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
 1280  /malzemeler                                  button.tl-menu-trigger                 no-shell-root                  x1    4side fill   2.2  ground   2.2  BINDING   2.2
-1280  /malzemeler                                  a.shell-action.shell-action--ghost     graphite                       x2    4side fill  2.16  ground  2.16  BINDING  2.16
-1280  /malzemeler                                  input                                  graphite                       x1    4side fill  2.21  ground  2.38  BINDING  2.38
-1280  /malzemeler                                  select                                 graphite                       x1    4side fill  2.21  ground  2.38  BINDING  2.38
-1280  /malzemeler                                  button.shell-row-toggle                graphite                       x87   4side fill  2.16  ground  2.16  BINDING  2.16
-1280  /malzemeler                                  a.shell-footer-secondary               graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
-1280  /malzemeler                                  a                                      graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
- 375  /giris                                       button                                 graphite                       x2    4side fill  2.16  ground  2.16  BINDING  2.16
- 375  /giris                                       input                                  graphite                       x2    4side fill  2.21  ground   2.3  BINDING   2.3
- 375  /sifremi-unuttum                             input                                  graphite                       x1    4side fill  2.21  ground   2.3  BINDING   2.3
- 375  /reset-password#token_hash=probe-no-network  input                                  graphite                       x2    4side fill  2.21  ground   2.3  BINDING   2.3
  375  /iletisim                                    button.tl-menu-trigger                 no-shell-root                  x1    4side fill   2.2  ground   2.2  BINDING   2.2
- 375  /iletisim                                    a.shell-action.shell-action--ghost     graphite                       x2    4side fill  2.16  ground  2.16  BINDING  2.16
- 375  /iletisim                                    a.shell-action.shell-action--ghost     paper-band-in-graphite-root    x2    4side fill  1.92  ground  1.92  BINDING  1.92
- 375  /iletisim                                    input                                  graphite-band-in-graphite-root x5    4side fill  2.21  ground   2.3  BINDING   2.3
- 375  /iletisim                                    select                                 graphite-band-in-graphite-root x2    4side fill  2.21  ground   2.3  BINDING   2.3
- 375  /iletisim                                    textarea                               graphite-band-in-graphite-root x1    4side fill  2.21  ground   2.3  BINDING   2.3
- 375  /iletisim                                    a.shell-action.shell-action--ghost     graphite-band-in-graphite-root x1    4side fill  2.16  ground  2.16  BINDING  2.16
- 375  /iletisim                                    a.shell-footer-secondary               graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
- 375  /iletisim                                    a                                      graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
  375  /teklif-al                                   button.tl-menu-trigger                 no-shell-root                  x1    4side fill   2.2  ground   2.2  BINDING   2.2
- 375  /teklif-al                                   a.shell-action.shell-action--ghost     graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
- 375  /teklif-al                                   label.shell-dropzone-area              graphite-band-in-graphite-root x1    4side fill  2.21  ground   2.3  BINDING   2.3
- 375  /teklif-al                                   a.shell-action.shell-action--ghost     graphite-band-in-graphite-root x1    4side fill  2.16  ground  2.16  BINDING  2.16
- 375  /teklif-al                                   a.shell-action.shell-action--ghost     paper-band-in-graphite-root    x3    4side fill  1.92  ground  1.92  BINDING  1.92
- 375  /teklif-al                                   a.shell-footer-secondary               graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
- 375  /teklif-al                                   a                                      graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
  375  /sss                                         button.tl-menu-trigger                 no-shell-root                  x1    4side fill   2.2  ground   2.2  BINDING   2.2
- 375  /sss                                         a.shell-action.shell-action--ghost     graphite                       x2    4side fill  2.16  ground  2.16  BINDING  2.16
- 375  /sss                                         input                                  paper-band-in-graphite-root    x1    4side fill  1.94  ground  1.79  BINDING  1.94
- 375  /sss                                         select                                 paper-band-in-graphite-root    x1    4side fill  1.94  ground  1.79  BINDING  1.94
- 375  /sss                                         a.shell-footer-secondary               graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
- 375  /sss                                         a                                      graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
  375  /malzemeler                                  button.tl-menu-trigger                 no-shell-root                  x1    4side fill   2.2  ground   2.2  BINDING   2.2
- 375  /malzemeler                                  a.shell-action.shell-action--ghost     graphite                       x2    4side fill  2.16  ground  2.16  BINDING  2.16
- 375  /malzemeler                                  input                                  graphite                       x1    4side fill  2.21  ground  2.38  BINDING  2.38
- 375  /malzemeler                                  select                                 graphite                       x1    4side fill  2.21  ground  2.38  BINDING  2.38
- 375  /malzemeler                                  button.shell-row-toggle                graphite                       x87   4side fill  2.16  ground  2.16  BINDING  2.16
- 375  /malzemeler                                  a.shell-footer-secondary               graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
- 375  /malzemeler                                  a                                      graphite                       x1    4side fill  2.16  ground  2.16  BINDING  2.16
 
-══ CONTROLS WITH AN ENCLOSING BOUNDARY, AT OR OVER 3:1 — 24 ══
+══ CONTROLS WITH AN ENCLOSING BOUNDARY, AT OR OVER 3:1 — 82 ══
+1280  /giris                                       button                                 graphite                       x2    4side fill  3.71  ground  3.71  BINDING  3.71
+1280  /giris                                       input                                  graphite                       x2    4side fill  3.73  ground  3.88  BINDING  3.88
 1280  /giris                                       button.shell-action.shell-action--primary.shell-action--full graphite                       x1    4side fill     1  ground 16.32  BINDING 16.32
+1280  /sifremi-unuttum                             input                                  graphite                       x1    4side fill  3.73  ground  3.88  BINDING  3.88
 1280  /sifremi-unuttum                             button.shell-action.shell-action--primary.shell-action--full graphite                       x1    4side fill     1  ground 16.32  BINDING 16.32
+1280  /reset-password#token_hash=probe-no-network  input                                  graphite                       x2    4side fill  3.73  ground  3.88  BINDING  3.88
 1280  /reset-password#token_hash=probe-no-network  button.shell-action.shell-action--primary.shell-action--full graphite                       x1    4side fill     1  ground 16.32  BINDING 16.32
 1280  /iletisim                                    a.shell-action.shell-action--primary   graphite                       x2    4side fill     1  ground 16.32  BINDING 16.32
+1280  /iletisim                                    a.shell-action.shell-action--ghost     graphite                       x2    4side fill  3.71  ground  3.71  BINDING  3.71
 1280  /iletisim                                    a.shell-action.shell-action--primary   paper-band-in-graphite-root    x1    4side fill     1  ground 14.92  BINDING 14.92
+1280  /iletisim                                    a.shell-action.shell-action--ghost     paper-band-in-graphite-root    x2    4side fill  3.67  ground  3.67  BINDING  3.67
+1280  /iletisim                                    input                                  graphite-band-in-graphite-root x5    4side fill  3.73  ground  3.88  BINDING  3.88
+1280  /iletisim                                    select                                 graphite-band-in-graphite-root x2    4side fill  3.73  ground  3.88  BINDING  3.88
+1280  /iletisim                                    textarea                               graphite-band-in-graphite-root x1    4side fill  3.73  ground  3.88  BINDING  3.88
 1280  /iletisim                                    button.shell-action.shell-action--primary graphite-band-in-graphite-root x1    4side fill     1  ground 16.32  BINDING 16.32
+1280  /iletisim                                    a.shell-action.shell-action--ghost     graphite-band-in-graphite-root x1    4side fill  3.71  ground  3.71  BINDING  3.71
+1280  /iletisim                                    a.shell-footer-secondary               graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
+1280  /iletisim                                    a                                      graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
 1280  /teklif-al                                   a.shell-action.shell-action--primary   graphite                       x1    4side fill     1  ground 16.32  BINDING 16.32
+1280  /teklif-al                                   a.shell-action.shell-action--ghost     graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
 1280  /teklif-al                                   button.shell-segment                   graphite-band-in-graphite-root x3    4side fill     1  ground 16.32  BINDING 16.32
+1280  /teklif-al                                   label.shell-dropzone-area              graphite-band-in-graphite-root x1    4side fill  3.73  ground  3.88  BINDING  3.88
 1280  /teklif-al                                   button.shell-action.shell-action--primary graphite-band-in-graphite-root x1    4side fill     1  ground 16.32  BINDING 16.32
+1280  /teklif-al                                   a.shell-action.shell-action--ghost     graphite-band-in-graphite-root x1    4side fill  3.71  ground  3.71  BINDING  3.71
+1280  /teklif-al                                   a.shell-action.shell-action--ghost     paper-band-in-graphite-root    x3    4side fill  3.67  ground  3.67  BINDING  3.67
+1280  /teklif-al                                   a.shell-footer-secondary               graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
+1280  /teklif-al                                   a                                      graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
 1280  /sss                                         a.shell-action.shell-action--primary   graphite                       x2    4side fill     1  ground 16.32  BINDING 16.32
+1280  /sss                                         a.shell-action.shell-action--ghost     graphite                       x2    4side fill  3.71  ground  3.71  BINDING  3.71
+1280  /sss                                         input                                  paper-band-in-graphite-root    x1    4side fill  3.76  ground  3.47  BINDING  3.76
+1280  /sss                                         select                                 paper-band-in-graphite-root    x1    4side fill  3.76  ground  3.47  BINDING  3.76
+1280  /sss                                         a.shell-footer-secondary               graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
+1280  /sss                                         a                                      graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
 1280  /malzemeler                                  a.shell-action.shell-action--primary   graphite                       x2    4side fill     1  ground 16.32  BINDING 16.32
+1280  /malzemeler                                  a.shell-action.shell-action--ghost     graphite                       x2    4side fill  3.71  ground  3.71  BINDING  3.71
 1280  /malzemeler                                  button.shell-segment                   graphite-band-in-graphite-root x12   4side fill     1  ground 16.32  BINDING 16.32
+1280  /malzemeler                                  input                                  graphite                       x1    4side fill  3.73  ground  4.01  BINDING  4.01
+1280  /malzemeler                                  select                                 graphite                       x1    4side fill  3.73  ground  4.01  BINDING  4.01
+1280  /malzemeler                                  button.shell-row-toggle                graphite                       x87   4side fill  3.71  ground  3.71  BINDING  3.71
+1280  /malzemeler                                  a.shell-footer-secondary               graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
+1280  /malzemeler                                  a                                      graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
+ 375  /giris                                       button                                 graphite                       x2    4side fill  3.71  ground  3.71  BINDING  3.71
+ 375  /giris                                       input                                  graphite                       x2    4side fill  3.73  ground  3.88  BINDING  3.88
  375  /giris                                       button.shell-action.shell-action--primary.shell-action--full graphite                       x1    4side fill     1  ground 16.32  BINDING 16.32
+ 375  /sifremi-unuttum                             input                                  graphite                       x1    4side fill  3.73  ground  3.88  BINDING  3.88
  375  /sifremi-unuttum                             button.shell-action.shell-action--primary.shell-action--full graphite                       x1    4side fill     1  ground 16.32  BINDING 16.32
+ 375  /reset-password#token_hash=probe-no-network  input                                  graphite                       x2    4side fill  3.73  ground  3.88  BINDING  3.88
  375  /reset-password#token_hash=probe-no-network  button.shell-action.shell-action--primary.shell-action--full graphite                       x1    4side fill     1  ground 16.32  BINDING 16.32
  375  /iletisim                                    a.shell-action.shell-action--primary   graphite                       x2    4side fill     1  ground 16.32  BINDING 16.32
+ 375  /iletisim                                    a.shell-action.shell-action--ghost     graphite                       x2    4side fill  3.71  ground  3.71  BINDING  3.71
  375  /iletisim                                    a.shell-action.shell-action--primary   paper-band-in-graphite-root    x1    4side fill     1  ground 14.92  BINDING 14.92
+ 375  /iletisim                                    a.shell-action.shell-action--ghost     paper-band-in-graphite-root    x2    4side fill  3.67  ground  3.67  BINDING  3.67
+ 375  /iletisim                                    input                                  graphite-band-in-graphite-root x5    4side fill  3.73  ground  3.88  BINDING  3.88
+ 375  /iletisim                                    select                                 graphite-band-in-graphite-root x2    4side fill  3.73  ground  3.88  BINDING  3.88
+ 375  /iletisim                                    textarea                               graphite-band-in-graphite-root x1    4side fill  3.73  ground  3.88  BINDING  3.88
  375  /iletisim                                    button.shell-action.shell-action--primary graphite-band-in-graphite-root x1    4side fill     1  ground 16.32  BINDING 16.32
+ 375  /iletisim                                    a.shell-action.shell-action--ghost     graphite-band-in-graphite-root x1    4side fill  3.71  ground  3.71  BINDING  3.71
+ 375  /iletisim                                    a.shell-footer-secondary               graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
+ 375  /iletisim                                    a                                      graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
  375  /teklif-al                                   a.shell-action.shell-action--primary   graphite                       x1    4side fill     1  ground 16.32  BINDING 16.32
+ 375  /teklif-al                                   a.shell-action.shell-action--ghost     graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
  375  /teklif-al                                   button.shell-segment                   graphite-band-in-graphite-root x3    4side fill     1  ground 16.32  BINDING 16.32
+ 375  /teklif-al                                   label.shell-dropzone-area              graphite-band-in-graphite-root x1    4side fill  3.73  ground  3.88  BINDING  3.88
  375  /teklif-al                                   button.shell-action.shell-action--primary graphite-band-in-graphite-root x1    4side fill     1  ground 16.32  BINDING 16.32
+ 375  /teklif-al                                   a.shell-action.shell-action--ghost     graphite-band-in-graphite-root x1    4side fill  3.71  ground  3.71  BINDING  3.71
+ 375  /teklif-al                                   a.shell-action.shell-action--ghost     paper-band-in-graphite-root    x3    4side fill  3.67  ground  3.67  BINDING  3.67
+ 375  /teklif-al                                   a.shell-footer-secondary               graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
+ 375  /teklif-al                                   a                                      graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
  375  /sss                                         a.shell-action.shell-action--primary   graphite                       x2    4side fill     1  ground 16.32  BINDING 16.32
+ 375  /sss                                         a.shell-action.shell-action--ghost     graphite                       x2    4side fill  3.71  ground  3.71  BINDING  3.71
+ 375  /sss                                         input                                  paper-band-in-graphite-root    x1    4side fill  3.76  ground  3.47  BINDING  3.76
+ 375  /sss                                         select                                 paper-band-in-graphite-root    x1    4side fill  3.76  ground  3.47  BINDING  3.76
+ 375  /sss                                         a.shell-footer-secondary               graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
+ 375  /sss                                         a                                      graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
  375  /malzemeler                                  a.shell-action.shell-action--primary   graphite                       x2    4side fill     1  ground 16.32  BINDING 16.32
+ 375  /malzemeler                                  a.shell-action.shell-action--ghost     graphite                       x2    4side fill  3.71  ground  3.71  BINDING  3.71
  375  /malzemeler                                  button.shell-segment                   graphite-band-in-graphite-root x12   4side fill     1  ground 16.32  BINDING 16.32
+ 375  /malzemeler                                  input                                  graphite                       x1    4side fill  3.73  ground  4.01  BINDING  4.01
+ 375  /malzemeler                                  select                                 graphite                       x1    4side fill  3.73  ground  4.01  BINDING  4.01
+ 375  /malzemeler                                  button.shell-row-toggle                graphite                       x87   4side fill  3.71  ground  3.71  BINDING  3.71
+ 375  /malzemeler                                  a.shell-footer-secondary               graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
+ 375  /malzemeler                                  a                                      graphite                       x1    4side fill  3.71  ground  3.71  BINDING  3.71
 
 ══ CONTROLS WHOSE BORDER IS NOT A BOUNDARY (a grid divider, a link underline) — 6 ══
 1280  /iletisim                                    a.tl-brand                             no-shell-root                  x1    1side fill   2.2  ground   2.2  BINDING   2.2   within div.tl-header < header.tl-header-band

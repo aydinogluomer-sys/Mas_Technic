@@ -1,0 +1,29 @@
+{
+  "canary": "BLOCKED:Failed to fetch",
+  "rows": [
+    {
+      "viewport": 1280,
+      "ground": "rgba(7, 11, 13, 0.98)",
+      "borderColor": "rgba(227, 231, 225, 0.28)",
+      "barBackground": "rgb(243, 240, 232)",
+      "barHeight": 1,
+      "barCount": 3,
+      "glyphRatio": 17.35,
+      "labelDisplay": "block",
+      "labelText": "MENÜ",
+      "accessibleName": "Menüyü aç"
+    },
+    {
+      "viewport": 375,
+      "ground": "rgba(7, 11, 13, 0.98)",
+      "borderColor": "rgba(227, 231, 225, 0.28)",
+      "barBackground": "rgb(243, 240, 232)",
+      "barHeight": 1,
+      "barCount": 3,
+      "glyphRatio": 17.35,
+      "labelDisplay": "none",
+      "labelText": "MENÜ",
+      "accessibleName": "Menüyü aç"
+    }
+  ]
+}
