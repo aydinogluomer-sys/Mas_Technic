@@ -1,0 +1,37 @@
+######## the report a reader gets when a site stops resolving (the 09b event) ########
+# CLAIMS GATE
+# roots:    src/pages, src/components, src/data, src/content, src/hooks, src/utils, src/config, src/lib, src/routes, src/App.tsx, index.html, public
+# excluded: admin/, musteri/, AdminDashboard, AdminLogin, MusteriPaneli
+# scanned:  225 files, 28415 non-comment lines
+# controls: 280 (0 failed), of which 16 watch the 3 checks that are not rules
+
+## VIOLATIONS BY RULE
+
+### deferred-class-register — 1
+  src/data/servicePages.ts: 09b-SOFTWARE-INVENTORY: "\"3D Modelleme (CATIA/SolidWorks)\" — REMOVED BY 09b\"," occurs 0 times, expected exactly 1. If 09b has decided this class, delete the entry from DEFERRED_09B_SOFTWARE_INVENTORY in this file — the register is the enumeration of what is still deferred, and an entry that no longer resolves is a list that has started to rot. If the copy merely moved, update the fragment.
+
+FAILING: deferred-class-register
+FAIL — 0 claim violation(s), 0 resource problem(s), 0 derived-copy problem(s), 0 ledger load failure(s), 0 control failure(s).
+(node:25076) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a5: mutation "register-site-removed" applied in memory (disk untouched)
+EXIT=1
+
+######## and when a fragment matches TWICE ########
+# CLAIMS GATE
+# roots:    src/pages, src/components, src/data, src/content, src/hooks, src/utils, src/config, src/lib, src/routes, src/App.tsx, index.html, public
+# excluded: admin/, musteri/, AdminDashboard, AdminLogin, MusteriPaneli
+# scanned:  225 files, 28415 non-comment lines
+# controls: 280 (0 failed), of which 16 watch the 3 checks that are not rules
+
+## VIOLATIONS BY RULE
+
+### deferred-class-register — 1
+  src/data/servicePages.ts: 09b-SOFTWARE-INVENTORY: "SolidWorks, CATIA, NX" occurs 2 times, expected exactly 1. If 09b has decided this class, delete the entry from DEFERRED_09B_SOFTWARE_INVENTORY in this file — the register is the enumeration of what is still deferred, and an entry that no longer resolves is a list that has started to rot. If the copy merely moved, update the fragment.
+
+FAILING: deferred-class-register
+FAIL — 0 claim violation(s), 0 resource problem(s), 0 derived-copy problem(s), 0 ledger load failure(s), 0 control failure(s).
+(node:17772) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a5: mutation "register-site-duplicated" applied in memory (disk untouched)
+EXIT=1

@@ -32,6 +32,7 @@ const EXPOSED = [
   "DEFERRED_09B_SOFTWARE_INVENTORY",
   "TEMP_DIRS",
   "RULES",
+  "blankComments",
 ];
 
 export async function load(url, context, nextLoad) {

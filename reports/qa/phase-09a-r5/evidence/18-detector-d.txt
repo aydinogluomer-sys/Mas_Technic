@@ -1,0 +1,81 @@
+# QA 09a-R5 — detector (D)'s two new discriminators, from the other side
+# `expect` is what claims-gate.mjs's OWN comment says should happen.
+
+id  expect  actual  ok        why
+(node:23848) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+C1  FIRES   FIRES   ok       D1 — the removed sentence; detector (D) exists for it
+(node:16736) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+C2  SILENT  SILENT  ok       R4 over-catch 1 — both halves of (i) present, correctly suppressed
+(node:1884) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+C3  SILENT  SILENT  ok       R4 over-catch 2 — the report we deliver, correctly suppressed
+(node:13760) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+V1  FIRES   FIRES   ok       the comment names this exact string and says it must still fire
+(node:21276) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+V2  FIRES   SILENT  MISMATCH V1 with an unrelated second-person clause after a semicolon. SENTENCE_BREAK does not break on ';', so the second-person test sees a modal attached to a DIFFERENT verb
+(node:22876) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+V3  FIRES   SILENT  MISMATCH the claim verb is first-person; the second-person modal belongs to a different clause entirely
+(node:15864) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+V4  FIRES   SILENT  MISMATCH visitor-owned noun, first-person predicate, no second-person modal — (i) must not reach it
+(node:12168) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+V5  SILENT  SILENT  ok       both halves of (i) genuinely present — this is what (i) is for
+(node:7524) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+G1  FIRES   FIRES   ok       the comment cites this string, at three words, as still firing
+(node:22260) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+G2  FIRES   SILENT  MISMATCH G1 minus one word. A first-person intake claim about an unbounded class — the report noun governs nothing here
+(node:19880) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+G3  FIRES   SILENT  MISMATCH one word between, and the report is a time reference, not the governed object
+(node:25028) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+G4  FIRES   SILENT  MISMATCH zero words between, and `raporlama` is a service name, not a deliverable governing the noun phrase
+(node:24920) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+X1  FIRES   SILENT  MISMATCH the report noun is in the PREVIOUS sentence and has nothing to do with the claim
+(node:7676) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+X2  FIRES   FIRES   ok       same shape, with C1's exact claim as the second sentence — two words in the previous sentence, so this one may hold
+(node:22264) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+Q1  SILENT  SILENT  ok       a question is not an offer — the round-4 D4 control, restated
+(node:25232) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+Q2  SILENT  SILENT  ok       no offer predicate at all
+(node:22968) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+Q3  SILENT  SILENT  ok       vague scope, no offer predicate — round-4 D5
+
+17 probes, 7 mismatch(es).
+  MISMATCH V2: "Tüm dosyalarınızı kabul ediyoruz; dilerseniz e-posta ile de gönderebilirsiniz."
+  MISMATCH V3: "Her türlü dosyanızı işleyebiliriz; süreci panelden takip edebilirsiniz."
+  MISMATCH V4: "Tüm belgelerinizi destekliyoruz."
+  MISMATCH G2: "Kalite raporu ile tüm CAD formatlarını kabul ediyoruz."
+  MISMATCH G3: "Rapor sonrası tüm CAD formatlarını kabul ediyoruz."
+  MISMATCH G4: "Raporlama tüm dosya türlerini destekliyoruz."
+  MISMATCH X1: "Ölçüm raporu hazırlanır. Tüm CAD formatlarını kabul ediyoruz."

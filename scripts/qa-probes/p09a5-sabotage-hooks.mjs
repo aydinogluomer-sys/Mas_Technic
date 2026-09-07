@@ -130,6 +130,19 @@ const MUTATIONS = {
      and the correction packet is one paragraph rather than a research task. */
   "add-production-controls": [["const CHECK_CONTROLS = [", "const CHECK_CONTROLS = [\r\n  ...PRODUCTION_CONTROLS,"]],
 
+  /* ── THE RED-ON-LEGITIMATE-EDIT MESSAGE, AS A READER RECEIVES IT ──────────
+     The packet asks whether an agent who has never read it would do the right
+     thing when 09b removes one of the six sites. That cannot be judged from the
+     template string; it has to be judged from the printed report. This simulates
+     the 09b edit from the register's side — the fragment stops resolving, which
+     is byte-for-byte the state the gate would be in the moment the copy is
+     deleted — and prints what the reader actually gets. */
+  "register-site-removed": [
+    ['    \'"3D Modelleme (CATIA/SolidWorks)"\',', '    \'"3D Modelleme (CATIA/SolidWorks)" — REMOVED BY 09b",\','],
+  ],
+  /* And the OTHER direction: a site that now occurs twice. */
+  "register-site-duplicated": [['"tasarım (SolidWorks, CATIA, NX)",', '"SolidWorks, CATIA, NX",']],
+
   /* ── PROBE POSITIVE CONTROL: this must go red, or nothing above means anything ─ */
   "neuter-a-covered-rule": [
     [
