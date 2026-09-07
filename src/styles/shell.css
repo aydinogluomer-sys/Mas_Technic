@@ -1933,11 +1933,227 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   letter-spacing: .12em;
 }
 
+/* ── The auth family (Phase 09b-1) ────────────────────────────────────────
+   `/giris`, `/sifremi-unuttum` and `/reset-password` were the last three
+   public routes still in the pre-overhaul language: 93, 94 and 94 legacy-teal
+   nodes inside `<main>` and not one shell primitive between them
+   (`reports/09b1/design-membership-before.json`). Everything below is the
+   MINIMUM the shell genuinely lacked; the fields, the actions, the notices,
+   the eyebrow and the hints are all reused unchanged from above.
+
+   WHY THERE IS ANY AUTH CSS AT ALL. Nothing in the system described a
+   FULL-BLEED TWO-COLUMN page. Every other public route is a stack of bands on
+   the master grid, and a credential step is not that: it is one column of
+   controls, held at a readable measure, beside a column that says where the
+   reader has arrived. `.shell-auth .shell-sheet` (line 195) already dropped
+   the sheet's side rules for exactly this composition; this block is the rest
+   of it.
+
+   NO CARD, NO RADIUS, NO SHADOW, NO TINT. The split is carried by one
+   hairline and one ground change — `--sf-ground` against the band ground —
+   which is the same device the surface bands use.
+
+   THE ASIDE IS SECOND IN THE DOM AND FIRST ON THE SCREEN. `grid-column`
+   places it left while the form stays first in source order, so the reader
+   reaches the controls before the marketing column in both the tab order and
+   the accessibility tree, and the page's `<h1>` precedes the aside's `<h2>`
+   instead of following it. */
+.shell-auth .shell-main { display: block; }
+
+.shell-auth-split {
+  display: grid;
+  grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+  min-height: 100vh;
+}
+
+.shell-auth-panel {
+  grid-column: 2;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  padding: var(--tl-s8) var(--tl-s6);
+  min-width: 0;
+}
+
+.shell-auth-body { width: 100%; max-width: 420px; display: grid; gap: var(--tl-s5); }
+
+.shell-auth-aside {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  align-content: center;
+  padding: var(--tl-s8) var(--tl-s7);
+  border-right: var(--tl-rule-size) solid var(--sf-rule);
+  background: var(--sf-ground);
+}
+
+.shell-auth-aside-body { display: grid; gap: var(--tl-s4); max-width: 38ch; }
+
+/* The wordmark, as a block and a label — the header's own device, not a logo
+   lockup invented for this page. */
+.shell-auth-mark { display: flex; align-items: center; gap: var(--tl-s3); }
+.shell-auth-mark-block {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  color: var(--sf-ink);
+  font: 700 14px/1 var(--tl-font-mono);
+  letter-spacing: .08em;
+}
+.shell-auth-mark-name { display: grid; gap: 2px; }
+.shell-auth-mark-name > b { color: var(--sf-ink); font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+.shell-auth-mark-name > small {
+  color: var(--sf-meta);
+  font: 500 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.shell-auth-aside h2 {
+  margin: var(--tl-s4) 0 0;
+  color: var(--sf-ink);
+  font-size: clamp(24px, 2.2vw, 32px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+.shell-auth-aside-lede { margin: 0; color: var(--sf-body); font-size: 14px; line-height: 1.65; }
+
+/* The panel register: what the portal actually contains, one row per section
+   of `/musteri-paneli`, on hairlines. Not a tick list — a tick beside a
+   sentence reads as a promise kept, and these are section names. */
+.shell-auth-list { margin: var(--tl-s2) 0 0; padding: 0; list-style: none; display: grid; }
+.shell-auth-list > li {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  gap: var(--tl-s3);
+  align-items: baseline;
+  padding: var(--tl-s3) 0;
+  border-top: var(--tl-rule-size) solid var(--sf-rule-soft);
+}
+.shell-auth-list > li:last-child { border-bottom: var(--tl-rule-size) solid var(--sf-rule-soft); }
+.shell-auth-list-no { color: var(--sf-accent); font: 500 10px/1.6 var(--tl-font-mono); letter-spacing: .12em; }
+.shell-auth-list-label { color: var(--sf-body); font-size: 13px; line-height: 1.5; }
+
+/* The way out of the flow. `.shell-action--quiet` with the arrow reversed:
+   an arrow that points forward on a link that goes back is worse than none. */
+.shell-auth-back { justify-self: start; }
+.shell-auth-back-mark {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  stroke-width: 1.8;
+  transition: transform var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-auth-back:hover .shell-auth-back-mark { transform: translateX(-3px); }
+@media (prefers-reduced-motion: reduce) {
+  .shell-auth-back-mark { transition-duration: .01ms; }
+}
+
+/* The form column's own furniture. */
+.shell-auth-title { margin: 0; color: var(--sf-ink); font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; }
+.shell-auth-lede { margin: var(--tl-s3) 0 0; max-width: 46ch; color: var(--sf-body); font-size: 14px; line-height: 1.65; }
+.shell-auth-form { display: grid; gap: var(--tl-s4); }
+
+/* The mobile wordmark. The aside is a desktop column; below 1024 the reader
+   gets the mark and nothing else, which is what the page did before. */
+.shell-auth-compact-mark { display: none; }
+
+/* Social sign-in: two hairline boxes, the same shape as `.shell-action--ghost`
+   with room for a brand mark. The marks themselves keep their own colours —
+   a Google "G" recoloured to the site's palette is not the Google mark. */
+.shell-auth-social { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--tl-s3); }
+.shell-auth-social > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--tl-s3);
+  min-height: 48px;
+  padding: 0 var(--tl-s4);
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  color: var(--sf-ink);
+  background: transparent;
+  font: 500 13px/1 var(--tl-font-sans);
+  cursor: pointer;
+  transition: border-color var(--tl-dur-micro) var(--tl-ease-out), background-color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-auth-social > button:hover:not(:disabled) { border-color: var(--sf-ink); background: var(--sf-hover); }
+.shell-auth-social > button:disabled { opacity: .55; cursor: default; }
+.shell-auth-social svg { width: 18px; height: 18px; flex: none; }
+
+/* The "or by e-mail" rule. One hairline with the label sitting on it — the
+   same construction as `.shell-divider`, with a word instead of a reading. */
+.shell-auth-rule {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--tl-s3);
+}
+.shell-auth-rule::before,
+.shell-auth-rule::after { content: ""; height: var(--tl-rule-size); background: var(--sf-rule); }
+.shell-auth-rule > span {
+  color: var(--sf-meta);
+  font: 600 9px/1 var(--tl-font-mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+/* Password field: the reveal toggle sits inside the CONTROL's box — not the
+   field's, which also holds the label row, the hint and the error message and
+   would put the toggle somewhere different depending on whether the field is
+   currently in error. The control keeps its 44px target; the toggle gets its
+   own, inset so the two do not overlap. */
+.shell-auth-control { position: relative; display: grid; min-width: 0; }
+.shell-auth-control > input { padding-right: 54px; }
+.shell-auth-reveal {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  border: 0;
+  color: var(--sf-meta);
+  background: transparent;
+  cursor: pointer;
+}
+.shell-auth-reveal:hover { color: var(--sf-ink); }
+.shell-auth-reveal:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
+
+/* The label row that carries "forgot password" beside the field's own label. */
+.shell-auth-label-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--tl-s3); }
+
+.shell-auth-captcha { display: grid; justify-items: start; min-height: 78px; }
+.shell-auth-foot { display: grid; gap: var(--tl-s3); }
+.shell-auth-legal { margin: 0; max-width: 46ch; color: var(--sf-faint); font-size: 12px; line-height: 1.6; }
+.shell-auth-legal a { color: var(--sf-meta); text-decoration: underline; text-underline-offset: 2px; }
+.shell-auth-legal a:hover { color: var(--sf-ink); }
+
+@media (max-width: 1023px) {
+  .shell-auth-split { grid-template-columns: minmax(0, 1fr); min-height: 100vh; }
+  /* The aside is display:none rather than visually hidden: it is a marketing
+     column, not content the form depends on, and leaving it in the
+     accessibility tree would put a second heading in front of a reader who
+     cannot see the column it belongs to. */
+  .shell-auth-aside { display: none; }
+  .shell-auth-panel { grid-column: 1; padding: var(--tl-s7) var(--tl-s5); align-content: start; }
+  .shell-auth-compact-mark { display: flex; }
+}
+
+@media (max-width: 420px) {
+  .shell-auth-panel { padding: var(--tl-s6) var(--tl-s4); }
+  .shell-auth-social { grid-template-columns: minmax(0, 1fr); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .shell-action,
   .shell-action-mark,
   .shell-index-row,
   .shell-index-mark,
   .shell-contents a,
+  .shell-auth-social > button,
   .shell-segment { transition-duration: .01ms; }
 }

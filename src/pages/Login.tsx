@@ -1,273 +1,374 @@
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
-import {
-  Loader2,
-  Lock,
-  ArrowRight,
-  Eye,
-  EyeOff,
-  AtSign,
-  User,
-  Building2,
-  Phone,
-  MapPin,
-  ChevronLeft,
-} from "lucide-react";
-import { AnimatePresence } from "framer-motion";
-import { motion } from "@/components/shell/motion";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
-import { PageShell } from "@/components/shell/PageShell";
-import { LoginLeftPanel } from "@/components/auth/LoginLeftPanel";
-import { SocialButtons } from "@/components/auth/SocialButtons";
+import { ShellAction, ShellNotice } from "@/components/shell";
+import { AuthLayout } from "@/components/auth/AuthLayout";
+import { AuthField, AuthPasswordField } from "@/components/auth/AuthField";
 import { AuthSeparator } from "@/components/auth/AuthSeparator";
-import { FormField } from "@/components/auth/FormField";
+import { SocialButtons } from "@/components/auth/SocialButtons";
+import {
+  authFieldId,
+  collectAuthErrors,
+  firstInvalidField,
+  loginSchema,
+  signupSchema,
+  type AuthFieldErrors,
+} from "@/components/auth/auth-schema";
+
+/* ══════════════════════════════════════════════════════════════════════════
+   /giris — SIGN IN AND SIGN UP
+
+   PHASE 04 mounted `PageShell` here and left the body alone. PHASE 08 measured
+   this route as one of the last three public surfaces still in the
+   pre-overhaul language; re-measured with this phase's own instrument
+   (`reports/09b1/design-membership-before.json`) it carried 93 legacy-teal
+   `rgb(10,125,138)` nodes inside `<main>` and not one shell primitive. This is
+   that phase.
+
+   ── THE SECURITY BADGE ───────────────────────────────────────────────────
+   Removed. `AuthAside.tsx` carries the three reasons and the decision not to
+   replace it with anything.
+
+   ── EVERY FAILURE IS NOW A NOTICE, NOT A TOAST ───────────────────────────
+   `sonner` was the only feedback channel this page had: a captcha that had
+   not been solved, a rejected credential and a rejected sign-up all became a
+   floating message that named one problem and then left. A message that
+   leaves cannot be re-read, is not next to the control it is about, and is
+   gone by the time a screen-reader user reaches it. Everything is
+   `ShellNotice`/`.shell-form-error` now — the site's one inline message block,
+   already built in Phase 08 and measured by QA at 7.33:1 on graphite. No
+   fourth error idiom was introduced.
+
+   ── THE SUBMIT BUTTON IS NO LONGER DISABLED ON A MISSING CAPTCHA ─────────
+   It used to be `disabled={loading || !captchaToken}`, with the explanation
+   sitting in a `toast.error` behind a click that could not happen. A control
+   disabled for a reason the reader is never told is a dead end: nothing says
+   what is missing, nothing takes focus, and on a page where the captcha
+   widget can simply fail to load there is no way forward and no way to find
+   out why. The button is live; pressing it with no token renders the reason.
+
+   ── WHAT IS DELIBERATELY UNCHANGED ───────────────────────────────────────
+   The sign-in failure message stays GENERIC. "E-posta veya şifre doğrulanamadı"
+   does not say which, on purpose: a message that distinguishes them tells an
+   attacker which addresses have accounts. The sign-up path still surfaces the
+   server's own message, exactly as before — that is a pre-existing
+   account-enumeration disclosure and changing it is a security decision, not
+   a design one, so it is reported rather than quietly altered here.
+   ══════════════════════════════════════════════════════════════════════════ */
 
 const HCAPTCHA_SITE_KEY = "95ae4f14-f512-4a34-ad44-8e04ce323240";
 
+type Mode = "login" | "signup";
+type FormNotice = { label: string; title: string; detail?: string };
+
+const EMPTY = { email: "", password: "", fullName: "", company: "", phone: "", city: "" };
+
 export const Login = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [company, setCompany] = useState("");
-  const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [socialLoading, setSocialLoading] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = useState(false);
+  const [mode, setMode] = useState<Mode>("login");
+  const [values, setValues] = useState(EMPTY);
+  const [errors, setErrors] = useState<AuthFieldErrors>({});
+  const [notice, setNotice] = useState<FormNotice | null>(null);
+  const [confirmSentTo, setConfirmSentTo] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+  const [socialPending, setSocialPending] = useState<"google" | "linkedin_oidc" | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const captchaRef = useRef<HCaptcha>(null);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!captchaToken) {
-      toast.error("Lütfen CAPTCHA doğrulamasını tamamlayın.");
+  const isLogin = mode === "login";
+
+  const set = (field: keyof typeof EMPTY) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setValues((current) => ({ ...current, [field]: value }));
+    /* Clear the field's own message as soon as it is edited: a stale error
+       under a control the reader has just fixed makes a valid form look
+       broken. */
+    setErrors((current) => {
+      if (!current[field as keyof AuthFieldErrors]) return current;
+      const next = { ...current };
+      delete next[field as keyof AuthFieldErrors];
+      return next;
+    });
+  };
+
+  const switchMode = () => {
+    setMode(isLogin ? "signup" : "login");
+    setErrors({});
+    setNotice(null);
+    setConfirmSentTo(null);
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setNotice(null);
+
+    const parsed = (isLogin ? loginSchema : signupSchema).safeParse(values);
+    if (!parsed.success) {
+      const fieldErrors = collectAuthErrors(parsed.error.issues);
+      setErrors(fieldErrors);
+      const first = firstInvalidField(fieldErrors);
+      if (first) document.getElementById(authFieldId(first))?.focus();
       return;
     }
-    setLoading(true);
+    setErrors({});
+
+    if (!captchaToken) {
+      setNotice({
+        label: "DOĞRULAMA EKSİK",
+        title: "CAPTCHA doğrulaması tamamlanmadı.",
+        detail:
+          "Formun altındaki kutuyu işaretleyin. Kutu hiç görünmüyorsa tarayıcınız veya ağınız hCaptcha’yı engelliyor olabilir.",
+      });
+      return;
+    }
+
+    setPending(true);
 
     if (isLogin) {
       const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+        email: values.email.trim(),
+        password: values.password,
         options: { captchaToken },
       });
       setCaptchaToken(null);
       captchaRef.current?.resetCaptcha();
+      setPending(false);
       if (error) {
-        toast.error("Giriş başarısız. Lütfen bilgilerinizi kontrol edin.");
-        setLoading(false);
-        return;
-      }
-      toast.success("Giriş başarılı!");
-      navigate("/musteri-paneli");
-    } else {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          captchaToken,
-          emailRedirectTo: window.location.origin,
-          data: { full_name: fullName },
-        },
-      });
-      setCaptchaToken(null);
-      captchaRef.current?.resetCaptcha();
-      if (error) {
-        toast.error(error.message);
-        setLoading(false);
-        return;
-      }
-      if (data.user) {
-        await supabase.from("profiles").upsert({
-          id: data.user.id,
-          full_name: fullName,
-          company,
-          phone,
-          city,
+        setNotice({
+          label: "GİRİŞ YAPILAMADI",
+          title: "E-posta veya şifre doğrulanamadı.",
+          detail: "Bilgilerinizi kontrol edip yeniden deneyin. Şifrenizi hatırlamıyorsanız sıfırlayabilirsiniz.",
         });
+        return;
       }
-      toast.success("Kayıt başarılı! E-posta adresinizi doğrulayın.");
+      navigate("/musteri-paneli");
+      return;
     }
-    setLoading(false);
+
+    const { data, error } = await supabase.auth.signUp({
+      email: values.email.trim(),
+      password: values.password,
+      options: {
+        captchaToken,
+        emailRedirectTo: window.location.origin,
+        data: { full_name: values.fullName.trim() },
+      },
+    });
+    setCaptchaToken(null);
+    captchaRef.current?.resetCaptcha();
+
+    if (error) {
+      setPending(false);
+      setNotice({ label: "KAYIT TAMAMLANAMADI", title: "Hesap oluşturulamadı.", detail: error.message });
+      return;
+    }
+
+    if (data.user) {
+      await supabase.from("profiles").upsert({
+        id: data.user.id,
+        full_name: values.fullName.trim(),
+        company: values.company.trim(),
+        phone: values.phone.trim(),
+        city: values.city.trim(),
+      });
+    }
+    setPending(false);
+
+    /* WHAT THE COPY SAYS IS DERIVED FROM WHAT THE SERVER ANSWERED, not from an
+       assumption about how the project is configured. A `signUp` that returns
+       a user and NO session is a project with e-mail confirmation switched on:
+       the account exists and the sign-in has not happened yet. One that
+       returns a session has already signed the reader in, and telling them to
+       go and check their inbox would be false. */
+    if (data.session) {
+      navigate("/musteri-paneli");
+      return;
+    }
+    setConfirmSentTo(values.email.trim());
   };
 
-  const handleSocialLogin = async (provider: "google" | "linkedin_oidc") => {
-    setSocialLoading(provider);
-    const { error } = await supabase.auth.signInWithOAuth({
+  const handleSocial = async (provider: "google" | "linkedin_oidc") => {
+    setSocialPending(provider);
+    /* This hands the browser to the auth server; it does not return here on
+       success, and `error` is a literal null on every path (see
+       `SocialButtons.tsx`). Nothing is asserted about the outcome. */
+    await supabase.auth.signInWithOAuth({
       provider,
       options: { redirectTo: `${window.location.origin}/musteri-paneli` },
     });
-    if (error) toast.error("Giriş başarısız: " + error.message);
-    setSocialLoading(null);
   };
 
-  return (
-    /* Shell only (Phase 04). The auth family renders inside the SAME shell as
-       every other public route — root, sheet, tokens, focus ring and
-       `<main id="main-content">`, which this page did not have, so the global
-       skip link had no target here — but with `navigation={false}` and
-       `footer={false}`: a credential step must not offer a menu and a run of
-       exits mid-task, and the header/footer counts for `/giris`,
-       `/sifremi-unuttum` and `/reset-password` are contracts in
-       `e2e/shared-shell-accessibility.spec.ts`. The panel layout below is
-       untouched. */
-    <PageShell navigation={false} footer={false} layout="bands" className="shell-auth">
-      <div className="min-h-screen w-full flex">
-      <LoginLeftPanel isLogin={isLogin} />
-
-      <div className="w-full lg:w-[55%] flex items-center justify-center bg-background px-6 py-12">
-        <motion.div
-          className="w-full max-w-[420px]"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.1 }}
-        >
-          <Link
-            to="/"
-            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ChevronLeft size={14} />
-            Ana Sayfa
-          </Link>
-
-          <div className="lg:hidden flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">MT</span>
-            </div>
-            <div>
-              <div className="font-bold text-sm tracking-tight">MAS TECHNIC</div>
-              <div className="text-[10px] text-muted-foreground uppercase tracking-widest">Müşteri Portalı</div>
-            </div>
-          </div>
-
-          <div className="mb-6">
-            <h1 className="text-[26px] font-bold tracking-tight mb-2">
-              {isLogin ? "Giriş Yapın" : "Hesap Oluşturun"}
-            </h1>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {isLogin
-                ? "Hesabınıza giriş yaparak projelerinizi takip edin."
-                : "Bilgilerinizi doldurarak müşteri portalına erişim sağlayın."}
-            </p>
-          </div>
-
-          <SocialButtons socialLoading={socialLoading} onSocial={handleSocialLogin} />
-          <AuthSeparator />
-
-          <AnimatePresence mode="wait">
-            <motion.form
-              key={isLogin ? "login" : "signup"}
-              onSubmit={handleSubmit}
-              className="space-y-4"
-              initial={{ opacity: 0, x: isLogin ? -10 : 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: isLogin ? 10 : -10 }}
-              transition={{ duration: 0.25 }}
-            >
-              {!isLogin && (
-                <>
-                  <div className="grid grid-cols-2 gap-3">
-                    <FormField label="Ad Soyad" icon={User} required>
-                      <Input type="text" required value={fullName} onChange={(e) => setFullName(e.target.value)} className="pl-10 h-11" placeholder="Ahmet Yılmaz" maxLength={100} />
-                    </FormField>
-                    <FormField label="Firma" icon={Building2}>
-                      <Input type="text" value={company} onChange={(e) => setCompany(e.target.value)} className="pl-10 h-11" placeholder="Firma Adı" maxLength={100} />
-                    </FormField>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <FormField label="Telefon" icon={Phone}>
-                      <Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="pl-10 h-11" placeholder="05XX XXX XX XX" maxLength={20} />
-                    </FormField>
-                    <FormField label="Şehir" icon={MapPin}>
-                      <Input type="text" value={city} onChange={(e) => setCity(e.target.value)} className="pl-10 h-11" placeholder="İstanbul" maxLength={50} />
-                    </FormField>
-                  </div>
-                </>
-              )}
-
-              <FormField label="E-posta" icon={AtSign} required>
-                <Input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="pl-10 h-11" placeholder="ornek@firma.com" />
-              </FormField>
-
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">Şifre</label>
-                  {isLogin && (
-                    <Link to="/sifremi-unuttum" className="text-xs text-primary hover:underline">Şifremi Unuttum</Link>
-                  )}
-                </div>
-                <div className="relative">
-                  <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/60" />
-                  <Input
-                    type={showPassword ? "text" : "password"}
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10 pr-12 h-11"
-                    placeholder="••••••••"
-                    minLength={6}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    aria-label={showPassword ? "Şifreyi gizle" : "Şifreyi göster"}
-                    aria-pressed={showPassword}
-                    className="absolute right-1.5 top-1/2 -translate-y-1/2 grid h-9 w-9 place-items-center text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {showPassword ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex justify-center">
-                <HCaptcha
-                  ref={captchaRef}
-                  sitekey={HCAPTCHA_SITE_KEY}
-                  onVerify={(token) => setCaptchaToken(token)}
-                  onExpire={() => setCaptchaToken(null)}
-                />
-              </div>
-
-              <Button type="submit" disabled={loading || !captchaToken} className="w-full h-12 font-semibold tracking-wider text-sm text-[var(--text-primary)]">
-                {loading ? (
-                  <Loader2 size={16} className="animate-spin" />
-                ) : (
-                  <>
-                    {isLogin ? "Giriş Yap" : "Hesap Oluştur"}
-                    <ArrowRight size={16} className="ml-2" />
-                  </>
-                )}
-              </Button>
-            </motion.form>
-          </AnimatePresence>
-
-          <div className="text-center mt-6">
-            <button onClick={() => setIsLogin(!isLogin)} className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              {isLogin ? (
-                <>Hesabınız yok mu? <span className="font-semibold text-primary">Kayıt Olun</span></>
-              ) : (
-                <>Zaten hesabınız var mı? <span className="font-semibold text-primary">Giriş Yapın</span></>
-              )}
-            </button>
-          </div>
-
-          <p className="text-[11px] text-muted-foreground/50 text-center mt-6 leading-relaxed">
-            Devam ederek{" "}
-            <Link to="/gizlilik-politikasi" className="underline hover:text-primary">Gizlilik Politikası</Link>
-            {"'nı ve "}
-            <Link to="/kvkk" className="underline hover:text-primary">KVKK Aydınlatma Metni</Link>
-            {"'ni kabul etmiş olursunuz."}
+  if (confirmSentTo) {
+    return (
+      <AuthLayout
+        asideTitle="Aramıza Katılın"
+        asideLede="MAS TECHNIC müşteri portalı ile teklif, sipariş ve üretim kayıtlarınızı tek yerden izleyin."
+        back={{ to: "/", label: "Ana sayfa" }}
+      >
+        <div>
+          <p className="shell-eyebrow" role="status">HESAP OLUŞTURULDU</p>
+          <h1 className="shell-auth-title">Hesabınız Oluşturuldu</h1>
+        </div>
+        <ShellNotice tone="note" label="SIRADA NE VAR">
+          <p>
+            <strong>{confirmSentTo}</strong> adresine bir doğrulama bağlantısı gönderildi. Girişi
+            tamamlamak için o bağlantıyı açın.
           </p>
-        </motion.div>
+        </ShellNotice>
+        <ShellAction variant="ghost" full onClick={() => { setConfirmSentTo(null); setMode("login"); }}>
+          Giriş ekranına dön
+        </ShellAction>
+      </AuthLayout>
+    );
+  }
+
+  return (
+    <AuthLayout
+      asideTitle={isLogin ? "Hoş Geldiniz" : "Aramıza Katılın"}
+      asideLede="MAS TECHNIC müşteri portalı ile teklif, sipariş ve üretim kayıtlarınızı tek yerden izleyin."
+      back={{ to: "/", label: "Ana sayfa" }}
+    >
+      <div>
+        {/* The heading string is a measured contract:
+            `e2e/qa-p08-scroll-region-reach.spec.ts:204` reads it as this
+            route's anti-404 surface. */}
+        <h1 className="shell-auth-title">{isLogin ? "Giriş Yapın" : "Hesap Oluşturun"}</h1>
+        <p className="shell-auth-lede">
+          {isLogin
+            ? "Hesabınıza giriş yaparak tekliflerinizi ve siparişlerinizi takip edin."
+            : "Bilgilerinizi doldurarak müşteri portalına erişim sağlayın."}
+        </p>
       </div>
+
+      <SocialButtons pending={socialPending} onSocial={handleSocial} />
+      <AuthSeparator />
+
+      <form className="shell-auth-form" onSubmit={handleSubmit} noValidate>
+        {!isLogin && (
+          <>
+            <div className="shell-form-row">
+              <AuthField
+                name="fullName"
+                label="Ad soyad"
+                errors={errors}
+                type="text"
+                autoComplete="name"
+                value={values.fullName}
+                onChange={set("fullName")}
+                placeholder="Ahmet Yılmaz"
+                maxLength={100}
+              />
+              <AuthField
+                name="company"
+                label="Firma"
+                optional
+                errors={errors}
+                type="text"
+                autoComplete="organization"
+                value={values.company}
+                onChange={set("company")}
+                placeholder="Firma adı"
+                maxLength={100}
+              />
+            </div>
+            <div className="shell-form-row">
+              <AuthField
+                name="phone"
+                label="Telefon"
+                optional
+                errors={errors}
+                type="tel"
+                autoComplete="tel"
+                value={values.phone}
+                onChange={set("phone")}
+                placeholder="05XX XXX XX XX"
+                maxLength={20}
+              />
+              <AuthField
+                name="city"
+                label="Şehir"
+                optional
+                errors={errors}
+                type="text"
+                autoComplete="address-level2"
+                value={values.city}
+                onChange={set("city")}
+                placeholder="İzmir"
+                maxLength={50}
+              />
+            </div>
+          </>
+        )}
+
+        <AuthField
+          name="email"
+          label="E-posta"
+          errors={errors}
+          type="email"
+          autoComplete="email"
+          value={values.email}
+          onChange={set("email")}
+          placeholder="ornek@firma.com"
+          maxLength={255}
+        />
+
+        <AuthPasswordField
+          name="password"
+          label="Şifre"
+          errors={errors}
+          autoComplete={isLogin ? "current-password" : "new-password"}
+          value={values.password}
+          onChange={set("password")}
+          placeholder="••••••••"
+          aside={
+            isLogin ? (
+              <Link className="shell-action shell-action--quiet" to="/sifremi-unuttum">
+                <span>Şifremi unuttum</span>
+              </Link>
+            ) : undefined
+          }
+        />
+
+        <div className="shell-auth-captcha">
+          <HCaptcha
+            ref={captchaRef}
+            sitekey={HCAPTCHA_SITE_KEY}
+            theme="dark"
+            onVerify={(token) => setCaptchaToken(token)}
+            onExpire={() => setCaptchaToken(null)}
+          />
+        </div>
+
+        {notice && (
+          <ShellNotice tone="error" label={notice.label} title={notice.title}>
+            {notice.detail && <p>{notice.detail}</p>}
+          </ShellNotice>
+        )}
+
+        <ShellAction type="submit" variant="primary" full disabled={pending}>
+          {isLogin ? "Giriş yap" : "Hesap oluştur"}
+        </ShellAction>
+
+        {pending && (
+          <p className="shell-field-hint" role="status" data-auth-state="pending">
+            {isLogin ? "GİRİŞ DOĞRULANIYOR…" : "HESAP OLUŞTURULUYOR…"}
+          </p>
+        )}
+      </form>
+
+      <div className="shell-auth-foot">
+        <button type="button" className="shell-action shell-action--quiet" onClick={switchMode}>
+          <span>{isLogin ? "Hesabınız yok mu? Kayıt olun" : "Zaten hesabınız var mı? Giriş yapın"}</span>
+        </button>
+        <p className="shell-auth-legal">
+          Devam ederek{" "}
+          <Link to="/gizlilik-politikasi">Gizlilik Politikası</Link>
+          {"’nı ve "}
+          <Link to="/kvkk">KVKK Aydınlatma Metni</Link>
+          {"’ni kabul etmiş olursunuz."}
+        </p>
       </div>
-    </PageShell>
+    </AuthLayout>
   );
 };
