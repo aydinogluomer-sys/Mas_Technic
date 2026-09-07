@@ -2123,8 +2123,24 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
 .shell-auth-reveal:hover { color: var(--sf-ink); }
 .shell-auth-reveal:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
 
-/* The label row that carries "forgot password" beside the field's own label. */
+/* The label row that carries "forgot password" beside the field's own label.
+
+   IT HAS TO RESTATE THE LABEL TREATMENT, and that is worth a line. The shell's
+   field label rule is `.shell-field > label` — a CHILD combinator — so putting
+   the label inside this row silently drops it out of the system: measured, the
+   labels rendered at the browser default instead of the 9px uppercase mono
+   every other form on the site uses, which is a design-language break that
+   type-checks, lints and passes every test. The declarations below are the
+   same ones, and they are here rather than in `.shell-field > label` because
+   loosening that combinator to a descendant selector would silently restyle
+   any label any page nests for any other reason. */
 .shell-auth-label-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--tl-s3); }
+.shell-auth-label-row > label {
+  color: var(--sf-meta);
+  font: 600 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
 
 .shell-auth-captcha { display: grid; justify-items: start; min-height: 78px; }
 .shell-auth-foot { display: grid; gap: var(--tl-s3); }

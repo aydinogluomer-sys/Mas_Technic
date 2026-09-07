@@ -8,7 +8,7 @@
       rule 2.16:1 —  border-Left
       rule 2.16:1 —  border-Top
       rule 2.16:1 —  border-Right
-  forgot        text 25 min 8.72 (0 fail) · non-text min 1.4 (17 fail) · controls 3 (0 unnamed) · tab stops 5 (0 invisible) · axe 0
+  forgot        text 25 min 8.44 (0 fail) · non-text min 1.4 (17 fail) · controls 3 (0 unnamed) · tab stops 5 (0 invisible) · axe 0
       rule 2.16:1 —  border-Top
       rule 2.16:1 —  border-Right
       rule 2.16:1 —  border-Bottom
@@ -22,7 +22,7 @@
       rule 2.08:1 — shell-auth-mark-block border-Bottom
       rule 2.08:1 — shell-auth-mark-block border-Left
       rule 1.4:1 —  border-Top
-  reset-form    text 26 min 8.72 (0 fail) · non-text min 1.4 (21 fail) · controls 6 (0 unnamed) · tab stops 8 (0 invisible) · axe 0
+  reset-form    text 26 min 8.44 (0 fail) · non-text min 1.4 (21 fail) · controls 6 (0 unnamed) · tab stops 8 (0 invisible) · axe 0
       rule 2.16:1 —  border-Top
       rule 2.16:1 —  border-Right
       rule 2.16:1 —  border-Bottom

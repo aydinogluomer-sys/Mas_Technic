@@ -1,0 +1,40 @@
+
+── 1280 ──
+  guard canary: BLOCKED:Failed to fetch
+  w1280-giris-rest: (none)
+  w1280-giris-empty-submit: auth-email-error, auth-password-error
+  w1280-giris-captcha-missing: error:DOĞRULAMA EKSİK
+  w1280-giris-reveal: error:DOĞRULAMA EKSİK
+  w1280-giris-signup: (none)
+  w1280-forgot-rest: (none)
+  w1280-forgot-empty: auth-email-error
+  w1280-forgot-malformed: auth-email-error
+  w1280-reset-absent: caution:BAĞLANTI GEREKLİ
+  w1280-reset-expired: error:BAĞLANTI GEÇERSİZ
+  w1280-reset-form: (none)
+  w1280-reset-short: auth-password-error
+  w1280-reset-mismatch: auth-confirmPassword-error
+  w1280-reset-session-missing: error:GÜNCELLENEMEDİ
+  w1280-reset-pending-observed: false
+  traffic: blocked 10, ALLOWED 0
+
+── 375 ──
+  guard canary: BLOCKED:Failed to fetch
+  w375-giris-rest: (none)
+  w375-giris-empty-submit: auth-email-error, auth-password-error
+  w375-giris-captcha-missing: error:DOĞRULAMA EKSİK
+  w375-giris-reveal: error:DOĞRULAMA EKSİK
+  w375-giris-signup: (none)
+  w375-forgot-rest: (none)
+  w375-forgot-empty: auth-email-error
+  w375-forgot-malformed: auth-email-error
+  w375-reset-absent: caution:BAĞLANTI GEREKLİ
+  w375-reset-expired: error:BAĞLANTI GEÇERSİZ
+  w375-reset-form: (none)
+  w375-reset-short: auth-password-error
+  w375-reset-mismatch: auth-confirmPassword-error
+  w375-reset-session-missing: error:GÜNCELLENEMEDİ
+  w375-reset-pending-observed: false
+  traffic: blocked 10, ALLOWED 0
+
+wrote reports/09b1/states.json
