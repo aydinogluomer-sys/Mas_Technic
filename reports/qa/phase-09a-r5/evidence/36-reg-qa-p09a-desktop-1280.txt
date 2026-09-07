@@ -1,0 +1,41 @@
+(node:23436) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 20 tests using 1 worker
+
+(node:24028) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   1 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:144:1 › accepted formats and the size ceiling are on screen before a file is chosen (2.9s)
+  ✓   2 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:172:1 › the CAD format error is a persistent announced ShellNotice, not a toast (7.7s)
+  ✓   3 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:201:1 › advancing with no file raises the branded form error and never posts (2.9s)
+  ✓   4 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:225:1 › field errors are associated, announced, focused and cleared on edit (4.2s)
+  ✓   5 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:288:1 › thirteen submit attempts against a slow handler produce exactly one invocation (6.7s)
+  ✓   6 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:343:1 › no production lead time is rendered anywhere in the request, and the reference is the server's (3.2s)
+  ✓   7 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:395:1 › the success state shows no reference at all when the server echoes none (3.1s)
+  ✓   8 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:420:1 › a rejected submission renders a branded announced failure and offers a way out (3.1s)
+  ✓   9 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:457:3 › axe reports no serious or critical violation on /teklif-al at 1280 (7.9s)
+  ✓  10 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:457:3 › axe reports no serious or critical violation on /teklif-al at 375 (7.7s)
+  ✓  11 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:479:1 › the form reflows at 320 with no horizontal overflow (2.7s)
+  ✓  12 [desktop-1280] › e2e\qa-p09a-rfq-form.spec.ts:511:1 › the WebGL stack is fetched only when a preview is explicitly requested (7.0s)
+[graphite/1280] notice-label fg=#e18570 bg=#070b0d ratio=7.33 font=9px/600 | edge=#e18570 ratio=7.33
+[graphite/1280] notice text: DOSYA REDDEDİLDİ Bu format okunamıyor “qa-p09a2-probe.sldprt” (.sldprt) kabul edilen formatlardan biri değil. Kabul edilenler: .step, .stp, .stl, .obj, .iges, .igs, .3mf.
+  ✓  13 [desktop-1280] › e2e\qa-p09a2-contrast.spec.ts:104:5 › contrast @ 1280 › graphite: tone="error" notice label + edge @ 1280 (2.0s)
+[/teklif-al/1280] .shell-form-error text=#f3f0e8 bg=#030506 textRatio=17.93 border=#e18570 borderRatio=7.58 font=13px/500 planted=true
+[/iletisim/1280] .shell-form-error text=#f3f0e8 bg=#070b0d textRatio=17.35 border=#e18570 borderRatio=7.33 font=13px/500 planted=false
+  ✓  14 [desktop-1280] › e2e\qa-p09a2-contrast.spec.ts:138:5 › contrast @ 1280 › graphite: .shell-form-error on /teklif-al + /iletisim @ 1280 (3.2s)
+[paper-band-in-graphite/1280] fg=#8a4030 bg=#eee9de ratio=6.07 edge=rgb(138, 64, 48)
+  ✓  15 [desktop-1280] › e2e\qa-p09a2-contrast.spec.ts:194:5 › contrast @ 1280 › paper band inside a graphite root re-binds --sf-danger @ 1280 (2.6s)
+[graphite/375] notice-label fg=#e18570 bg=#070b0d ratio=7.33 font=9px/600 | edge=#e18570 ratio=7.33
+[graphite/375] notice text: DOSYA REDDEDİLDİ Bu format okunamıyor “qa-p09a2-probe.sldprt” (.sldprt) kabul edilen formatlardan biri değil. Kabul edilenler: .step, .stp, .stl, .obj, .iges, .igs, .3mf.
+  ✓  16 [desktop-1280] › e2e\qa-p09a2-contrast.spec.ts:104:5 › contrast @ 375 › graphite: tone="error" notice label + edge @ 375 (1.9s)
+[/teklif-al/375] .shell-form-error text=#f3f0e8 bg=#030506 textRatio=17.93 border=#e18570 borderRatio=7.58 font=13px/500 planted=true
+[/iletisim/375] .shell-form-error text=#f3f0e8 bg=#070b0d textRatio=17.35 border=#e18570 borderRatio=7.33 font=13px/500 planted=false
+  ✓  17 [desktop-1280] › e2e\qa-p09a2-contrast.spec.ts:138:5 › contrast @ 375 › graphite: .shell-form-error on /teklif-al + /iletisim @ 375 (2.8s)
+[paper-band-in-graphite/375] fg=#8a4030 bg=#eee9de ratio=6.07 edge=rgb(138, 64, 48)
+  ✓  18 [desktop-1280] › e2e\qa-p09a2-contrast.spec.ts:194:5 › contrast @ 375 › paper band inside a graphite root re-binds --sf-danger @ 375 (1.6s)
+P09A3_JSON=test-results/qa-p09a3-cad-dom/dom-cad-desktop-1280.json (scratch)
+  ✓  19 [desktop-1280] › e2e\qa-p09a3-cad-dom.spec.ts:144:3 › 09a-R3 — the C3 corrections in the rendered DOM › no page offers a CAD format the validator refuses, and the carried claims are gone (14.2s)
+P09A3_JSON=test-results/qa-p09a3-cad-dom/dom-tables-desktop-1280.json (scratch)
+  ✓  20 [desktop-1280] › e2e\qa-p09a3-cad-dom.spec.ts:233:3 › 09a-R3 — the C3 corrections in the rendered DOM › every comparison table paints as many header cells as its rows have cells (7.8s)
+
+  20 passed (1.7m)
