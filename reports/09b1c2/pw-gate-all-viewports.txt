@@ -1,0 +1,43 @@
+(node:26060) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 24 tests using 1 worker
+
+(node:24364) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   1 [mobile-320] › e2e\design-system-typography.spec.ts:171:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds (10.2s)
+  ✓   2 [mobile-320] › e2e\design-system-typography.spec.ts:192:3 › design system — one component, one typography › RED on the historical defect: reverting e224364 at runtime splits the label (2.6s)
+  ✓   3 [mobile-320] › e2e\design-system-typography.spec.ts:237:3 › design system — one component, one typography › RED on a defect it has never seen: one instance of any slot pushed off the system (1.9s)
+  ✓   4 [mobile-320] › e2e\design-system-typography.spec.ts:275:3 › design system — one component, one typography › only a band tone the stylesheet binds reaches the DOM (7.5s)
+(node:25456) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   5 [mobile-390] › e2e\design-system-typography.spec.ts:171:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds (10.4s)
+  ✓   6 [mobile-390] › e2e\design-system-typography.spec.ts:192:3 › design system — one component, one typography › RED on the historical defect: reverting e224364 at runtime splits the label (4.2s)
+  ✓   7 [mobile-390] › e2e\design-system-typography.spec.ts:237:3 › design system — one component, one typography › RED on a defect it has never seen: one instance of any slot pushed off the system (1.9s)
+  ✓   8 [mobile-390] › e2e\design-system-typography.spec.ts:275:3 › design system — one component, one typography › only a band tone the stylesheet binds reaches the DOM (8.7s)
+(node:24740) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   9 [tablet-768] › e2e\design-system-typography.spec.ts:171:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds (16.0s)
+  ✓  10 [tablet-768] › e2e\design-system-typography.spec.ts:192:3 › design system — one component, one typography › RED on the historical defect: reverting e224364 at runtime splits the label (5.0s)
+  ✓  11 [tablet-768] › e2e\design-system-typography.spec.ts:237:3 › design system — one component, one typography › RED on a defect it has never seen: one instance of any slot pushed off the system (2.5s)
+  ✓  12 [tablet-768] › e2e\design-system-typography.spec.ts:275:3 › design system — one component, one typography › only a band tone the stylesheet binds reaches the DOM (9.4s)
+(node:26184) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  13 [landscape-844] › e2e\design-system-typography.spec.ts:171:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds (9.7s)
+  ✓  14 [landscape-844] › e2e\design-system-typography.spec.ts:192:3 › design system — one component, one typography › RED on the historical defect: reverting e224364 at runtime splits the label (4.1s)
+  ✓  15 [landscape-844] › e2e\design-system-typography.spec.ts:237:3 › design system — one component, one typography › RED on a defect it has never seen: one instance of any slot pushed off the system (2.4s)
+  ✓  16 [landscape-844] › e2e\design-system-typography.spec.ts:275:3 › design system — one component, one typography › only a band tone the stylesheet binds reaches the DOM (7.7s)
+(node:1548) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  17 [desktop-1440-short] › e2e\design-system-typography.spec.ts:171:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds (10.3s)
+  ✓  18 [desktop-1440-short] › e2e\design-system-typography.spec.ts:192:3 › design system — one component, one typography › RED on the historical defect: reverting e224364 at runtime splits the label (4.3s)
+  ✓  19 [desktop-1440-short] › e2e\design-system-typography.spec.ts:237:3 › design system — one component, one typography › RED on a defect it has never seen: one instance of any slot pushed off the system (2.0s)
+  ✓  20 [desktop-1440-short] › e2e\design-system-typography.spec.ts:275:3 › design system — one component, one typography › only a band tone the stylesheet binds reaches the DOM (9.1s)
+(node:24756) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  21 [desktop-1440] › e2e\design-system-typography.spec.ts:171:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds (13.0s)
+  ✓  22 [desktop-1440] › e2e\design-system-typography.spec.ts:192:3 › design system — one component, one typography › RED on the historical defect: reverting e224364 at runtime splits the label (7.1s)
+  ✓  23 [desktop-1440] › e2e\design-system-typography.spec.ts:237:3 › design system — one component, one typography › RED on a defect it has never seen: one instance of any slot pushed off the system (4.0s)
+  ✓  24 [desktop-1440] › e2e\design-system-typography.spec.ts:275:3 › design system — one component, one typography › only a band tone the stylesheet binds reaches the DOM (14.9s)
+
+  24 passed (3.3m)
