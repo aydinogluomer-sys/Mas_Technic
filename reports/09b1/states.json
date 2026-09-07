@@ -1,0 +1,536 @@
+[
+  {
+    "step": "w1280-giris-rest",
+    "h1": [
+      "Giriş Yapın"
+    ],
+    "notices": [],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w1280-giris-empty-submit",
+    "h1": [
+      "Giriş Yapın"
+    ],
+    "notices": [],
+    "fieldErrors": [
+      {
+        "id": "auth-email-error",
+        "text": "E-posta adresinizi girin.",
+        "describedBy": true,
+        "invalid": true,
+        "edge": "rgb(225, 133, 112)"
+      },
+      {
+        "id": "auth-password-error",
+        "text": "Şifrenizi girin.",
+        "describedBy": true,
+        "invalid": true,
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w1280-giris-captcha-missing",
+    "h1": [
+      "Giriş Yapın"
+    ],
+    "notices": [
+      {
+        "tone": "error",
+        "role": "alert",
+        "label": "DOĞRULAMA EKSİK",
+        "title": "CAPTCHA doğrulaması tamamlanmadı.",
+        "body": "Formun altındaki kutuyu işaretleyin. Kutu hiç görünmüyorsa tarayıcınız veya ağınız hCaptcha’yı engelliyor olabilir.",
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": [
+      {
+        "role": "alert",
+        "text": "DOĞRULAMA EKSİKCAPTCHA doğrulaması tamamlanmadı.Formun altındaki kutuyu işaretle"
+      }
+    ]
+  },
+  {
+    "step": "w1280-giris-reveal",
+    "h1": [
+      "Giriş Yapın"
+    ],
+    "notices": [
+      {
+        "tone": "error",
+        "role": "alert",
+        "label": "DOĞRULAMA EKSİK",
+        "title": "CAPTCHA doğrulaması tamamlanmadı.",
+        "body": "Formun altındaki kutuyu işaretleyin. Kutu hiç görünmüyorsa tarayıcınız veya ağınız hCaptcha’yı engelliyor olabilir.",
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": [
+      {
+        "role": "alert",
+        "text": "DOĞRULAMA EKSİKCAPTCHA doğrulaması tamamlanmadı.Formun altındaki kutuyu işaretle"
+      }
+    ]
+  },
+  {
+    "step": "w1280-giris-signup",
+    "h1": [
+      "Hesap Oluşturun"
+    ],
+    "notices": [],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w1280-forgot-rest",
+    "h1": [
+      "Şifremi Unuttum"
+    ],
+    "notices": [],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w1280-forgot-empty",
+    "h1": [
+      "Şifremi Unuttum"
+    ],
+    "notices": [],
+    "fieldErrors": [
+      {
+        "id": "auth-email-error",
+        "text": "E-posta adresinizi girin.",
+        "describedBy": true,
+        "invalid": true,
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w1280-forgot-malformed",
+    "h1": [
+      "Şifremi Unuttum"
+    ],
+    "notices": [],
+    "fieldErrors": [
+      {
+        "id": "auth-email-error",
+        "text": "Geçerli bir e-posta adresi girin.",
+        "describedBy": true,
+        "invalid": true,
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w1280-reset-absent",
+    "h1": [
+      "Yeni Şifre Belirleyin"
+    ],
+    "notices": [
+      {
+        "tone": "caution",
+        "role": null,
+        "label": "BAĞLANTI GEREKLİ",
+        "title": "Bu sayfa şifre sıfırlama e-postasındaki bağlantıyla açılır.",
+        "body": "Adrese doğrudan geldiyseniz sıfırlanacak bir şey yok. E-posta adresinizi girip yeni bir bağlantı isteyin; bağlantıya tıkladığınızda bu sayfa yeni şifrenizi sora",
+        "edge": "rgb(201, 182, 153)"
+      }
+    ],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w1280-reset-expired",
+    "h1": [
+      "Yeni Şifre Belirleyin"
+    ],
+    "notices": [
+      {
+        "tone": "error",
+        "role": "alert",
+        "label": "BAĞLANTI GEÇERSİZ",
+        "title": "Bu sıfırlama bağlantısı artık kullanılamıyor.",
+        "body": "Bağlantılar tek kullanımlıktır ve bir süre sonra geçerliliğini yitirir. Yeni bir bağlantı isteyip yeniden deneyin.Email link is invalid or has expired",
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": [
+      {
+        "role": "alert",
+        "text": "BAĞLANTI GEÇERSİZBu sıfırlama bağlantısı artık kullanılamıyor.Bağlantılar tek ku"
+      }
+    ]
+  },
+  {
+    "step": "w1280-reset-form",
+    "h1": [
+      "Yeni Şifre Belirleyin"
+    ],
+    "notices": [],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w1280-reset-short",
+    "h1": [
+      "Yeni Şifre Belirleyin"
+    ],
+    "notices": [],
+    "fieldErrors": [
+      {
+        "id": "auth-password-error",
+        "text": "Bu form en az 6 karakter istiyor.",
+        "describedBy": true,
+        "invalid": true,
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w1280-reset-mismatch",
+    "h1": [
+      "Yeni Şifre Belirleyin"
+    ],
+    "notices": [],
+    "fieldErrors": [
+      {
+        "id": "auth-confirmPassword-error",
+        "text": "İki şifre aynı değil.",
+        "describedBy": true,
+        "invalid": true,
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w1280-reset-session-missing",
+    "h1": [
+      "Yeni Şifre Belirleyin"
+    ],
+    "notices": [
+      {
+        "tone": "error",
+        "role": "alert",
+        "label": "GÜNCELLENEMEDİ",
+        "title": "Şifre güncellenemedi.",
+        "body": "Sıfırlama bağlantısı geçerliliğini yitirmiş olabilir. Yeni bir bağlantı isteyip yeniden deneyin.",
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": [
+      {
+        "role": "alert",
+        "text": "GÜNCELLENEMEDİŞifre güncellenemedi.Sıfırlama bağlantısı geçerliliğini yitirmiş o"
+      }
+    ]
+  },
+  {
+    "step": "w1280-reset-pending-observed",
+    "pendingSeen": false
+  },
+  {
+    "step": "w1280-traffic",
+    "blocked": [
+      "canary.example.com",
+      "fonts.googleapis.com",
+      "js.hcaptcha.com",
+      "sentry.hcaptcha.com"
+    ],
+    "blockedCount": 10,
+    "allowedCount": 0
+  },
+  {
+    "step": "w375-giris-rest",
+    "h1": [
+      "Giriş Yapın"
+    ],
+    "notices": [],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w375-giris-empty-submit",
+    "h1": [
+      "Giriş Yapın"
+    ],
+    "notices": [],
+    "fieldErrors": [
+      {
+        "id": "auth-email-error",
+        "text": "E-posta adresinizi girin.",
+        "describedBy": true,
+        "invalid": true,
+        "edge": "rgb(225, 133, 112)"
+      },
+      {
+        "id": "auth-password-error",
+        "text": "Şifrenizi girin.",
+        "describedBy": true,
+        "invalid": true,
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w375-giris-captcha-missing",
+    "h1": [
+      "Giriş Yapın"
+    ],
+    "notices": [
+      {
+        "tone": "error",
+        "role": "alert",
+        "label": "DOĞRULAMA EKSİK",
+        "title": "CAPTCHA doğrulaması tamamlanmadı.",
+        "body": "Formun altındaki kutuyu işaretleyin. Kutu hiç görünmüyorsa tarayıcınız veya ağınız hCaptcha’yı engelliyor olabilir.",
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": [
+      {
+        "role": "alert",
+        "text": "DOĞRULAMA EKSİKCAPTCHA doğrulaması tamamlanmadı.Formun altındaki kutuyu işaretle"
+      }
+    ]
+  },
+  {
+    "step": "w375-giris-reveal",
+    "h1": [
+      "Giriş Yapın"
+    ],
+    "notices": [
+      {
+        "tone": "error",
+        "role": "alert",
+        "label": "DOĞRULAMA EKSİK",
+        "title": "CAPTCHA doğrulaması tamamlanmadı.",
+        "body": "Formun altındaki kutuyu işaretleyin. Kutu hiç görünmüyorsa tarayıcınız veya ağınız hCaptcha’yı engelliyor olabilir.",
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": [
+      {
+        "role": "alert",
+        "text": "DOĞRULAMA EKSİKCAPTCHA doğrulaması tamamlanmadı.Formun altındaki kutuyu işaretle"
+      }
+    ]
+  },
+  {
+    "step": "w375-giris-signup",
+    "h1": [
+      "Hesap Oluşturun"
+    ],
+    "notices": [],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w375-forgot-rest",
+    "h1": [
+      "Şifremi Unuttum"
+    ],
+    "notices": [],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w375-forgot-empty",
+    "h1": [
+      "Şifremi Unuttum"
+    ],
+    "notices": [],
+    "fieldErrors": [
+      {
+        "id": "auth-email-error",
+        "text": "E-posta adresinizi girin.",
+        "describedBy": true,
+        "invalid": true,
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w375-forgot-malformed",
+    "h1": [
+      "Şifremi Unuttum"
+    ],
+    "notices": [],
+    "fieldErrors": [
+      {
+        "id": "auth-email-error",
+        "text": "Geçerli bir e-posta adresi girin.",
+        "describedBy": true,
+        "invalid": true,
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w375-reset-absent",
+    "h1": [
+      "Yeni Şifre Belirleyin"
+    ],
+    "notices": [
+      {
+        "tone": "caution",
+        "role": null,
+        "label": "BAĞLANTI GEREKLİ",
+        "title": "Bu sayfa şifre sıfırlama e-postasındaki bağlantıyla açılır.",
+        "body": "Adrese doğrudan geldiyseniz sıfırlanacak bir şey yok. E-posta adresinizi girip yeni bir bağlantı isteyin; bağlantıya tıkladığınızda bu sayfa yeni şifrenizi sora",
+        "edge": "rgb(201, 182, 153)"
+      }
+    ],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w375-reset-expired",
+    "h1": [
+      "Yeni Şifre Belirleyin"
+    ],
+    "notices": [
+      {
+        "tone": "error",
+        "role": "alert",
+        "label": "BAĞLANTI GEÇERSİZ",
+        "title": "Bu sıfırlama bağlantısı artık kullanılamıyor.",
+        "body": "Bağlantılar tek kullanımlıktır ve bir süre sonra geçerliliğini yitirir. Yeni bir bağlantı isteyip yeniden deneyin.Email link is invalid or has expired",
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": [
+      {
+        "role": "alert",
+        "text": "BAĞLANTI GEÇERSİZBu sıfırlama bağlantısı artık kullanılamıyor.Bağlantılar tek ku"
+      }
+    ]
+  },
+  {
+    "step": "w375-reset-form",
+    "h1": [
+      "Yeni Şifre Belirleyin"
+    ],
+    "notices": [],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w375-reset-short",
+    "h1": [
+      "Yeni Şifre Belirleyin"
+    ],
+    "notices": [],
+    "fieldErrors": [
+      {
+        "id": "auth-password-error",
+        "text": "Bu form en az 6 karakter istiyor.",
+        "describedBy": true,
+        "invalid": true,
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w375-reset-mismatch",
+    "h1": [
+      "Yeni Şifre Belirleyin"
+    ],
+    "notices": [],
+    "fieldErrors": [
+      {
+        "id": "auth-confirmPassword-error",
+        "text": "İki şifre aynı değil.",
+        "describedBy": true,
+        "invalid": true,
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "pending": [],
+    "statuses": []
+  },
+  {
+    "step": "w375-reset-session-missing",
+    "h1": [
+      "Yeni Şifre Belirleyin"
+    ],
+    "notices": [
+      {
+        "tone": "error",
+        "role": "alert",
+        "label": "GÜNCELLENEMEDİ",
+        "title": "Şifre güncellenemedi.",
+        "body": "Sıfırlama bağlantısı geçerliliğini yitirmiş olabilir. Yeni bir bağlantı isteyip yeniden deneyin.",
+        "edge": "rgb(225, 133, 112)"
+      }
+    ],
+    "fieldErrors": [],
+    "pending": [],
+    "statuses": [
+      {
+        "role": "alert",
+        "text": "GÜNCELLENEMEDİŞifre güncellenemedi.Sıfırlama bağlantısı geçerliliğini yitirmiş o"
+      }
+    ]
+  },
+  {
+    "step": "w375-reset-pending-observed",
+    "pendingSeen": false
+  },
+  {
+    "step": "w375-traffic",
+    "blocked": [
+      "canary.example.com",
+      "fonts.googleapis.com",
+      "js.hcaptcha.com",
+      "sentry.hcaptcha.com"
+    ],
+    "blockedCount": 10,
+    "allowedCount": 0
+  }
+]

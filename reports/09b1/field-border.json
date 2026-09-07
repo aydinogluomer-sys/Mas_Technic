@@ -1,0 +1,85 @@
+{
+  "rows": [
+    {
+      "route": "/giris",
+      "selector": "input#auth-email",
+      "found": true,
+      "borderRaw": "rgba(227, 231, 225, 0.28)",
+      "borderFlat": "rgb(69, 73, 72)",
+      "ground": "rgb(7, 11, 13)",
+      "borderRatio": 2.16,
+      "fill": "rgb(12, 17, 20)",
+      "fillRatio": 1.04,
+      "focusRing": {
+        "outlineStyle": "solid",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(243, 240, 232)"
+      },
+      "focusOutlineRatio": 17.35,
+      "focusBorderRatio": 2.16
+    },
+    {
+      "route": "/sifremi-unuttum",
+      "selector": "input#auth-email",
+      "found": true,
+      "borderRaw": "rgba(227, 231, 225, 0.28)",
+      "borderFlat": "rgb(69, 73, 72)",
+      "ground": "rgb(7, 11, 13)",
+      "borderRatio": 2.16,
+      "fill": "rgb(12, 17, 20)",
+      "fillRatio": 1.04,
+      "focusRing": {
+        "outlineStyle": "solid",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(243, 240, 232)"
+      },
+      "focusOutlineRatio": 17.35,
+      "focusBorderRatio": 2.16
+    },
+    {
+      "route": "/reset-password#token_hash=probe-no-network",
+      "selector": "input#auth-password",
+      "found": true,
+      "borderRaw": "rgba(227, 231, 225, 0.28)",
+      "borderFlat": "rgb(69, 73, 72)",
+      "ground": "rgb(7, 11, 13)",
+      "borderRatio": 2.16,
+      "fill": "rgb(12, 17, 20)",
+      "fillRatio": 1.04,
+      "focusRing": {
+        "outlineStyle": "solid",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(243, 240, 232)"
+      },
+      "focusOutlineRatio": 17.35,
+      "focusBorderRatio": 2.16
+    },
+    {
+      "route": "/iletisim",
+      "selector": "main .shell-field input",
+      "found": true,
+      "borderRaw": "rgba(227, 231, 225, 0.28)",
+      "borderFlat": "rgb(69, 73, 72)",
+      "ground": "rgb(7, 11, 13)",
+      "borderRatio": 2.16,
+      "fill": "rgb(12, 17, 20)",
+      "fillRatio": 1.04,
+      "focusRing": {
+        "outlineStyle": "solid",
+        "outlineWidth": "3px",
+        "outlineColor": "rgb(243, 240, 232)"
+      },
+      "focusOutlineRatio": 17.35,
+      "focusBorderRatio": 2.16
+    },
+    {
+      "route": "/teklif-al",
+      "selector": "main .shell-field input",
+      "found": false
+    }
+  ],
+  "traffic": {
+    "blocked": 7,
+    "allowed": 0
+  }
+}
