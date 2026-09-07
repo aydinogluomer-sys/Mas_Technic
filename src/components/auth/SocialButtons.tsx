@@ -20,27 +20,38 @@ import { GoogleIcon, LinkedInIcon } from "./SocialIcons";
      · returns `{ data: { provider, url }, error: null }` — `error` is a
        literal `null` on every path.
 
-   The second point is a defect the caller cannot fix from here and the caller
-   must not pretend to: an `if (error)` branch after this call is unreachable
-   code, so there is no failure these buttons can report. If a provider is not
-   enabled on the project, the reader is navigated away to the auth server's
-   own error page and this site never learns.
+   The second point means an `if (error)` branch after this call is
+   unreachable code, and there is none. It does NOT mean these buttons cannot
+   report failure — it means the outbound leg is the wrong place to look.
 
-   WHETHER THEY ARE ENABLED IS NOT ESTABLISHED. `supabase/config.toml` carries
-   no `[auth]` block at all, so the repository says nothing; the only thing
-   that can answer is the project, and asking it is a network call this phase
-   does not make. The buttons therefore stay exactly as they were — removing a
-   working sign-in path on a guess is the same class of error as leaving a
-   broken one, and the guess would be in the more destructive direction. The
-   question is written up in `reports/09b1/` for whoever is allowed to ask it.
+   ── WHERE THE FAILURE IS NOW REPORTED ────────────────────────────────────
+   `./oauth-return.ts`. An OAuth failure comes back on the redirect with
+   `error`, `error_code` and `error_description`, the SDK throws them away
+   without telling anyone, and until this phase nothing in the app read them.
+   `Login.tsx` now reads them on mount and renders a branded `ShellNotice`
+   above these two buttons — including through the protected-route bounce that
+   erases `location.hash`, which is the path a real failure actually takes.
+   The same notice covers the one failure the return leg cannot describe: a
+   handoff that never leaves this document at all.
+
+   WHETHER THEY ARE ENABLED IS STILL NOT ESTABLISHED. `supabase/config.toml`
+   carries no `[auth]` block at all, so the repository says nothing; the only
+   thing that can answer is the project, and asking it is a network call this
+   phase does not make. The buttons therefore stay — removing a working
+   sign-in path on a guess is the same class of error as leaving a broken one,
+   and the guess would be in the more destructive direction. What has changed
+   is that a reader who presses one and comes back empty-handed is now told
+   so, whichever of the two answers turns out to be true.
 
    `pending` disables BOTH buttons while a redirect is in flight, so a second
    click cannot start a second navigation.
    ══════════════════════════════════════════════════════════════════════════ */
 
+import type { OAuthProvider } from "./oauth-return";
+
 export type SocialButtonsProps = {
-  pending: "google" | "linkedin_oidc" | null;
-  onSocial: (provider: "google" | "linkedin_oidc") => void;
+  pending: OAuthProvider | null;
+  onSocial: (provider: OAuthProvider) => void;
 };
 
 export function SocialButtons({ pending, onSocial }: SocialButtonsProps) {

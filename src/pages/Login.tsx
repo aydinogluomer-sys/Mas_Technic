@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,6 +7,12 @@ import { AuthLayout } from "@/components/auth/AuthLayout";
 import { AuthField, AuthPasswordField } from "@/components/auth/AuthField";
 import { AuthSeparator } from "@/components/auth/AuthSeparator";
 import { SocialButtons } from "@/components/auth/SocialButtons";
+import {
+  markOAuthHandoff,
+  PROVIDER_LABEL,
+  readOAuthReturn,
+  type OAuthProvider,
+} from "@/components/auth/oauth-return";
 import {
   authFieldId,
   collectAuthErrors,
@@ -48,6 +54,17 @@ import {
    widget can simply fail to load there is no way forward and no way to find
    out why. The button is live; pressing it with no token renders the reason.
 
+   ── THE SOCIAL BUTTONS CAN NOW REPORT FAILURE ────────────────────────────
+   They could not before, and not because of a missing branch: read from the
+   installed SDK, `signInWithOAuth` makes no request and returns
+   `error: null` on every path (`@supabase/auth-js` `GoTrueClient.js:1854`),
+   so there is nothing to test on the outbound leg and an `if (error)` after
+   it is unreachable code. The information exists only on the way back, and
+   nothing here read it. `oauth-return.ts` now does — including through the
+   protected-route bounce that erases `location.hash`, which is measured in
+   `reports/09b1c1/` rather than reasoned about. The result lands in the same
+   `ShellNotice` idiom as every other failure on this page.
+
    ── WHAT IS DELIBERATELY UNCHANGED ───────────────────────────────────────
    The sign-in failure message stays GENERIC. "E-posta veya şifre doğrulanamadı"
    does not say which, on purpose: a message that distinguishes them tells an
@@ -61,6 +78,31 @@ const HCAPTCHA_SITE_KEY = "95ae4f14-f512-4a34-ad44-8e04ce323240";
 
 type Mode = "login" | "signup";
 type FormNotice = { label: string; title: string; detail?: string };
+/** What a social sign-in can say about itself: the return leg, or a handoff that never left. */
+type SocialNotice = {
+  label: string;
+  title: string;
+  detail: string;
+  reference: string | null;
+  provider: OAuthProvider | null;
+};
+
+/* THE ONE FAILURE THE RETURN LEG CANNOT REPORT, because the reader never
+   leaves to come back. `window.location.assign` is fire-and-forget: if the
+   browser does not act on it the page simply stays, with both buttons stuck
+   on "Yönlendiriliyor…" and nothing else happening ever. This is not a guess
+   about why — it is the one thing that is certainly true fifteen seconds
+   later, and it is cancelled by `pagehide`, so a reader whose redirect DID
+   start never sees it. */
+const REDIRECT_STALL_MS = 15_000;
+const STALLED: SocialNotice = {
+  label: "YÖNLENDİRME BAŞLAMADI",
+  title: "Sağlayıcı sayfasına yönlendirme başlamadı.",
+  detail:
+    "Bağlantınız yavaş olabilir ya da tarayıcınız yönlendirmeyi engelliyor olabilir. Yeniden deneyebilir veya e-posta ve şifrenizle giriş yapabilirsiniz.",
+  reference: null,
+  provider: null,
+};
 
 const EMPTY = { email: "", password: "", fullName: "", company: "", phone: "", city: "" };
 
@@ -71,12 +113,48 @@ export const Login = () => {
   const [notice, setNotice] = useState<FormNotice | null>(null);
   const [confirmSentTo, setConfirmSentTo] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
-  const [socialPending, setSocialPending] = useState<"google" | "linkedin_oidc" | null>(null);
+  const [socialPending, setSocialPending] = useState<OAuthProvider | null>(null);
+  const [socialNotice, setSocialNotice] = useState<SocialNotice | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const captchaRef = useRef<HCaptcha>(null);
+  const stallTimer = useRef<number | null>(null);
   const navigate = useNavigate();
 
   const isLogin = mode === "login";
+
+  /* READ THE RETURN LEG, ONCE, AFTER MOUNT.
+     After mount and not during render for a reason the codebase already
+     documents beside `.shell-form-error`: a `role="alert"` region that is
+     already in the DOM at first paint is frequently not announced at all.
+     Inserting it in an effect makes it an appearance, which is what gets
+     read out. */
+  useEffect(() => {
+    const returned = readOAuthReturn();
+    if (!returned) return;
+    setSocialNotice({
+      label: returned.label,
+      title: returned.title,
+      detail: returned.detail,
+      reference: returned.reference,
+      provider: returned.provider,
+    });
+  }, []);
+
+  /* `pagehide` is the browser saying the redirect actually happened. Cancelling
+     on it is what keeps the stall notice from being a lie on a slow link. */
+  useEffect(() => {
+    const cancel = () => {
+      if (stallTimer.current !== null) {
+        window.clearTimeout(stallTimer.current);
+        stallTimer.current = null;
+      }
+    };
+    window.addEventListener("pagehide", cancel);
+    return () => {
+      window.removeEventListener("pagehide", cancel);
+      cancel();
+    };
+  }, []);
 
   const set = (field: keyof typeof EMPTY) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -188,15 +266,27 @@ export const Login = () => {
     setConfirmSentTo(values.email.trim());
   };
 
-  const handleSocial = async (provider: "google" | "linkedin_oidc") => {
+  const handleSocial = async (provider: OAuthProvider) => {
+    setSocialNotice(null);
     setSocialPending(provider);
+    /* Written BEFORE the call, synchronously, because the call may never
+       return control to this document. It is the only record of which button
+       was pressed, and the return leg uses it to name the provider. */
+    markOAuthHandoff(provider);
     /* This hands the browser to the auth server; it does not return here on
-       success, and `error` is a literal null on every path (see
-       `SocialButtons.tsx`). Nothing is asserted about the outcome. */
+       success, and `error` is a literal null on every path — so there is
+       still nothing to test HERE. What is asserted is only what can be
+       observed from this document: whether it is still the document fifteen
+       seconds from now. */
     await supabase.auth.signInWithOAuth({
       provider,
       options: { redirectTo: `${window.location.origin}/musteri-paneli` },
     });
+    stallTimer.current = window.setTimeout(() => {
+      stallTimer.current = null;
+      setSocialPending(null);
+      setSocialNotice(STALLED);
+    }, REDIRECT_STALL_MS);
   };
 
   if (confirmSentTo) {
@@ -241,6 +331,26 @@ export const Login = () => {
         </p>
       </div>
 
+      {/* Above the buttons, not floating over the page and not at the bottom
+          of the form: a message about a control belongs next to that control,
+          and this is the first thing after the heading a returning reader
+          meets. The server's own prose is never shown — `oauth-return.ts`
+          carries the reason — so what is here is this site's copy plus a
+          sanitised reference code. */}
+      {socialNotice && (
+        <ShellNotice tone="error" label={socialNotice.label} title={socialNotice.title}>
+          {socialNotice.provider && (
+            <p>
+              <strong>{PROVIDER_LABEL[socialNotice.provider]}</strong> ile başlatılan giriş bu sayfaya
+              geri döndü.
+            </p>
+          )}
+          <p>{socialNotice.detail}</p>
+          {socialNotice.reference && (
+            <p className="shell-field-hint">KOD: {socialNotice.reference}</p>
+          )}
+        </ShellNotice>
+      )}
       <SocialButtons pending={socialPending} onSocial={handleSocial} />
       <AuthSeparator />
 

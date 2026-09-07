@@ -1,0 +1,76 @@
+{
+  "canary": "BLOCKED:Failed to fetch",
+  "traffic": {
+    "blocked": [
+      "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+      "https://canary.example.com/09b1-guard-probe",
+      "https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false",
+      "https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false",
+      "https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false",
+      "https://sentry.hcaptcha.com/api/6/envelope/?sentry_version=7&sentry_key=d233059272824702afc8c43834c4912d",
+      "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+      "https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false",
+      "https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false",
+      "https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false",
+      "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+      "https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false",
+      "https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false",
+      "https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false",
+      "https://sentry.hcaptcha.com/api/6/envelope/?sentry_version=7&sentry_key=d233059272824702afc8c43834c4912d"
+    ],
+    "allowed": []
+  },
+  "rows": [
+    {
+      "case": "panel-fragment",
+      "entered": "/musteri-paneli#error=server_error&error_code=validation_failed&error_description=Unsupported+provider%3A+provider+is+not+enabled",
+      "hops": [
+        "http://localhost:4173/musteri-paneli#error=server_error&error_code=validation_failed&error_description=Unsupported+provider%3A+provider+is+not+enabled",
+        "http://localhost:4173/musteri-paneli#error=server_error&error_code=validation_failed&error_description=Unsupported+provider%3A+provider+is+not+enabled",
+        "http://localhost:4173/giris"
+      ],
+      "href": "http://localhost:4173/giris",
+      "pathname": "/giris",
+      "search": "",
+      "hash": "",
+      "notice": [
+        "SAĞLAYICI KAPALIBu sağlayıcı ile giriş şu anda kullanılamıyor.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse bize bildir"
+      ],
+      "heading": "Giriş Yapın"
+    },
+    {
+      "case": "login-fragment",
+      "entered": "/giris#error=server_error&error_code=validation_failed&error_description=Unsupported+provider%3A+provider+is+not+enabled",
+      "hops": [
+        "http://localhost:4173/giris#error=server_error&error_code=validation_failed&error_description=Unsupported+provider%3A+provider+is+not+enabled",
+        "http://localhost:4173/giris#error=server_error&error_code=validation_failed&error_description=Unsupported+provider%3A+provider+is+not+enabled",
+        "http://localhost:4173/giris"
+      ],
+      "href": "http://localhost:4173/giris",
+      "pathname": "/giris",
+      "search": "",
+      "hash": "",
+      "notice": [
+        "SAĞLAYICI KAPALIBu sağlayıcı ile giriş şu anda kullanılamıyor.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse bize bildir"
+      ],
+      "heading": "Giriş Yapın"
+    },
+    {
+      "case": "login-query",
+      "entered": "/giris?error=access_denied&error_code=provider_email_needs_verification&error_description=Email+not+verified",
+      "hops": [
+        "http://localhost:4173/giris?error=access_denied&error_code=provider_email_needs_verification&error_description=Email+not+verified",
+        "http://localhost:4173/giris?error=access_denied&error_code=provider_email_needs_verification&error_description=Email+not+verified",
+        "http://localhost:4173/giris"
+      ],
+      "href": "http://localhost:4173/giris",
+      "pathname": "/giris",
+      "search": "",
+      "hash": "",
+      "notice": [
+        "E-POSTA DOĞRULANMAMIŞSağlayıcıdaki e-posta adresiniz doğrulanmamış.Sağlayıcı hesabınızdaki e-posta adresini doğruladıktan sonra yeniden dene"
+      ],
+      "heading": "Giriş Yapın"
+    }
+  ]
+}
