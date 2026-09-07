@@ -46,10 +46,44 @@ export type ShellBandProps = {
   id?: string;
   labelledBy?: string;
   ariaLabel?: string;
-  /** `paper` flips the band to the warm evidence ground. */
+  /**
+   * `paper` flips the band to the warm evidence ground. `graphite` is the
+   * field default and names it explicitly at a call site; it reaches no
+   * selector — see `TONE_ATTRIBUTE` below.
+   */
   tone?: "graphite" | "paper";
   children: ReactNode;
 };
+
+/* THE ATTRIBUTE IS NOT THE PROP, AND THIS IS THE 09a TRAP CLOSED BEFORE IT
+   OPENS.
+
+   `data-band-tone="graphite"` used to be written into the DOM by every
+   default `ShellSurfaceBand`, and NO rule anywhere matched it — verified by
+   injection, a no-op today. It was still a loaded selector. `shell.css` binds
+   the whole `--sf-*` role set on `.shell-root .tl-band[data-band-tone="paper"]`
+   because a paper band nested in a graphite root is a ground the ROOT cannot
+   see; the moment a future phase gave the graphite twin a background without
+   binding the roles beside it, that is precisely the nested-ground trap that
+   falsified two 09a `--sf-danger` proposals.
+
+   BINDING THE GRAPHITE ROLES WOULD HAVE BEEN THE WRONG HALF OF THE CHOICE,
+   and the measurement says so rather than taste. `PageShell` defaults
+   `surface = "paper"`, so most inner pages are paper ROOTS whose default
+   bands declare `tone="graphite"` and correctly inherit paper roles, because
+   nothing paints a graphite band background. Binding `--sf-ink: var(--tl-white)`
+   on that selector would put white ink on paper across every one of those
+   bands — the same trap, mirrored, and live rather than latent.
+
+   So the attribute is emitted only for a tone the stylesheet actually binds.
+   `graphite` means "the field default", which is exactly what NO attribute
+   means, and now no selector can be written against it at all. The prop keeps
+   both names because saying `tone="graphite"` at a call site is honest
+   authoring; only the DOM narrows. Enforced, not just described:
+   `e2e/design-system-typography.spec.ts` asserts that no rendered
+   `data-band-tone` carries any value but `paper`. */
+const TONE_ATTRIBUTE = (tone: ShellBandProps["tone"]): "paper" | undefined =>
+  tone === "paper" ? "paper" : undefined;
 
 export function ShellBand({
   as: Component = "section",
@@ -68,7 +102,7 @@ export function ShellBand({
       className={`tl-band ${className}`.trim()}
       aria-labelledby={labelledBy}
       aria-label={ariaLabel}
-      data-band-tone={tone}
+      data-band-tone={TONE_ATTRIBUTE(tone)}
     >
       <div className="tl-band-index" aria-hidden="true">
         <span>{no}</span>
