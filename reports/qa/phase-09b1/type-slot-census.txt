@@ -1,0 +1,14 @@
+QA 09b-1 — DESIGN-SYSTEM SLOT TYPOGRAPHY CENSUS
+
+A slot that resolves more than one treatment across the site is a component
+rendering two ways. That is what `.shell-field > label` did on the three auth
+routes, and it is what this census is for.
+
+.shell-field label   — 1 treatment(s)
+     13x  IBM Plex Mono / 9px / 600 / 1.44px / uppercase             on /giris, /sifremi-unuttum, /iletisim, /malzemeler
+          e.g. E-posta, Şifre
+
+.shell-field input   — 1 treatment(s)
+      9x  Space Grotesk / 14px / 400 / normal / none                 on /giris, /sifremi-unuttum, /iletisim, /malzemeler
+          e.g. email, password
+

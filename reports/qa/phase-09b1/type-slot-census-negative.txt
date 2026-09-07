@@ -1,0 +1,9 @@
+QA 09b-1 — THE NEGATIVE CONTROL
+
+The four declarations `e224364` added are reverted at runtime on /giris.
+
+.shell-field label, fix in place : IBM Plex Mono / 9px / 600 / 1.44px / uppercase
+.shell-field label, fix reverted : Space Grotesk / 16px / 400 / normal / none
+
+The treatment changes, so the cross-route census in the first test reports a
+SPLIT and the defect is caught without a screenshot, a baseline or a guess.

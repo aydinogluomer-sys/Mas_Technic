@@ -1,0 +1,33 @@
+guard canary: BLOCKED:Failed to fetch
+
+── 1. a failure that lands on a document which never mounts `Login` ──
+  entered /malzemeler with the failure fragment
+    notices here: 0  (the reader is told nothing, correctly — this is not the sign-in page)
+    location.hash still: #error=server_error&error_code=user_banned&error_description=x
+    navName: http://localhost:4181/malzemeler#error=server_error&error_code=user_banned&error_description=x
+  ... aging the same document for 20s without reloading ...
+  reached /giris by: pushState + popstate (same document)
+    same document: true   path /giris
+    notices now: HESAP KAPALIBu hesap ile giriş yapılamıyor.Hesabınızın durumunu öğrenmek için bizimle iletişime geçin.KOD: user_banned
+    → a failure 20s old is presented with no age, no timestamp and no "this may be stale".
+
+── 2. what `error_code=constructor` builds ──
+  error_code=constructor
+    role=alert aria-live=null
+    text: "KOD: constructor"
+    html: <div class="shell-notice" data-tone="error" role="alert"><p class="shell-notice-label"></p><div class="shell-notice-body"><p></p><p class="shell-field-hint">KOD: constructor</p></div></div>
+  error_code=__proto__
+    role=alert aria-live=null
+    text: "KOD: __proto__"
+    html: <div class="shell-notice" data-tone="error" role="alert"><p class="shell-notice-label"></p><div class="shell-notice-body"><p></p><p class="shell-field-hint">KOD: __proto__</p></div></div>
+  error_code=unknown_code_not_in_copy
+    role=alert aria-live=null
+    text: "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: unknown_code_not_in_copy"
+    html: <div class="shell-notice" data-tone="error" role="alert"><p class="shell-notice-label">GİRİŞ TAMAMLANAMADI</p><p class="shell-notice-title">Sağlayıcı ile giriş tamamlanamadı.</p><div class="shell-notice-body"><p>E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.</p><p class="shell-field-hint">KO
+
+── 3. `KOD:` is claimed to be a support reference that 'cannot hold an instruction' ──
+  sent "ara-0850-555-1234-destek-icin"  →  rendered "KOD: ara-0850-555-1234-destek-icin"
+  sent "sifrenizi-yeniden-girin"  →  rendered "KOD: sifrenizi-yeniden-girin"
+  sent "mas-technic-destek_444_0_000"  →  rendered "KOD: mas-technic-destek_444_0_000"
+
+traffic: blocked 25, ALLOWED 0
