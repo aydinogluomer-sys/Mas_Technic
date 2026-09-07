@@ -2542,3 +2542,93 @@ authorised, the one QA spec whose defect reaches backwards. **I did not pick the
 CI's Node, or remove the type-stripping dependency — because I have picked the mechanism twice this phase and
 been wrong both times; the packet gives the trade-offs and requires the choice to be proved against a Node
 that lacks stripping.
+
+#### C5 integrated — and the two routes I offered as equals were never equal
+
+Six commits picked as `80b2c87`'s range; two files, `scripts/claims-gate.mjs` and
+`e2e/qa-p09a2-claims-sweep.spec.ts`, tree identical to the Coder's. `.github/workflows/playwright.yml`,
+`package.json` and `package-lock.json` untouched. The agent stopped **twice** mid-run — once on a session
+rate limit, once unexplained — and both times its worktree and commits survived. That is four agent stops in
+this phase and four recoveries at zero cost.
+
+**R4-1 is closed by my own measurement**: `node --no-experimental-strip-types scripts/claims-gate.mjs` →
+**PASS, 31 rules, 280 controls, 0 failed, 16 of them watching the 3 checks that are not rules** — byte-identical
+output to the ordinary run.
+
+**The Coder falsified my framing of the choice, and it is right.** I wrote that I was not picking the
+mechanism between raising CI's Node and removing the type-stripping dependency. **My own acceptance criterion
+1 had already picked**: it required the gate to run and PASS *on a Node without unflagged type stripping,
+proved by running it that way*. Bumping `NODE_VERSION` cannot satisfy that — it moves the blocking jobs onto a
+Node that strips types while leaving the gate unable to run anywhere else. The two routes were never
+symmetric and I presented them as though they were.
+
+Its second argument is better than its first and is the one to keep: **the blast-radius reasoning runs the
+opposite way from my reading.** It can run the gate on this machine; it cannot run GitHub Actions. "Move six
+jobs to a new major" is precisely the change that could not have been verified before landing. And a
+mechanism that works only on the newest major is one CI-image decision, or one contributor on an LTS, away
+from returning to this exact failure **wearing the wrong diagnosis**.
+
+**The mechanism adds no package**, which matters because `CLAUDE.md` forbids one: `ts.transpileModule` from
+the repository's own declared `typescript ^5.8.3` — the same compiler `npm run typecheck` already runs — with
+`verbatimModuleSyntax: true`, emitted to `mkdtempSync(tmpdir())` and imported from there. The "bare Node
+process" property is **tightened rather than traded**: only an explicit `import type` is erased, and any
+surviving import has to resolve from a directory with no `node_modules`, no `@/` alias and no relative
+neighbours, so a value import throws `ERR_MODULE_NOT_FOUND` exactly as it did under stripping. It declined
+`engines.node` with a reason — under this route there is no mismatch left for it to catch, and
+`package-lock.json` is untouchable so the lock could not be kept in step.
+
+**A correction to what I reported.** I told the user the Coder "found a third non-rule check". It did not —
+**it created one**. R4-3's fix turned the 09b deferral from a comment into an assertion, and an assertion
+that decides the exit code *is* an instrument, so `deferred-class-register` had to join `NON_RULE_CHECKS` and
+earn controls. And my figures were a commit stale: at `9261a19` it is **280 controls / 16 instrument
+controls**, not the 276 / 12 I quoted from the `869c38f` state. Both corrected here; the numbers to carry
+forward are 280 and 16.
+
+**The uncovered-instrument gap is closed by construction, not by care.** `compareDerivedCopy()` and
+`verdict()` are pure and take fabricated inputs; the three checks take the paths they read, so controls point
+them at temp fixtures. Instrument controls went **0 → 16**, total 262 → 280. Ten sabotages produced ten red
+gates, each naming the instrument that went quiet — **including a control that asserts `verdict()` reports
+clean when nothing is wrong**, so the probe is not stuck on red. That last one is the difference between a
+sabotage suite and a suite that only ever says no.
+
+**R4-7 was falsified by measurement rather than implemented.** The prediction was that an `enum` or
+`namespace` in `claims.ts` would be misreported as copy drift. Under the new loader **that case no longer
+exists** — a full transpile emits both, so the ledger loads and is compared normally. There is now a control
+asserting an `enum` ledger with correct copy produces *no* problem while the same ledger with drifted copy is
+still caught. The load-versus-drift split is still built and still needed, for the failures that do remain: a
+value import, a relative import, `export { SomeType }`, unparseable source.
+
+**The deferral register cites no line numbers at all**, and the Coder declined to mark `servicePages.ts`
+for a reason worth keeping: inserting markers would shift lines again and re-rot the citations I had just
+corrected. Instead the six sites are named **by content** in `DEFERRED_09B_SOFTWARE_INVENTORY` under the
+grep-able marker `09b-SOFTWARE-INVENTORY`, and asserted to resolve **exactly once each** on every run. It
+re-counted independently and made it **six**, confirming my count and my line numbers against QA round 4's
+five.
+
+**The sweep now agrees with itself three times and with a second instrument.** Three consecutive runs of the
+byte-identical spec: `SLA_ROUTES=57 FINDINGS=0 FAILED=0 neverSettled=0`. QA's independent
+`qa-p09a4-stabilised-sweep` returns the same. And loud failure was *proved*, not asserted — forcing every
+route to look unsettled produced *"every public route must SETTLE and render — an unrendered route is not a
+clean route"*, naming each route with its character count, and **`/` reported 4891 characters, matching QA's
+round-4 measurement exactly**. Two instruments built independently, converging on the same number, is the
+strongest evidence this phase has produced about its own measurements.
+
+**Carried and named, not buried.** Five tests went flaky-then-green under load — landing-anchors, the
+landing-process-flow connector matrix, motion-grammar hover, `qa-p09a3-cad-dom`, `qa-f4-font-guard` — none in
+a file C5 touched, and QA round 4's baseline recorded **none**; the Coder said machine contention is likely
+but that it cannot rule out latent flake, which is the honest form. `deferred-class-register` will turn the
+gate **red when 09b legitimately removes one of the six sites** — deliberate, with a message saying to delete
+the register entry, but a new red-on-legitimate-edit surface 09b must be told about. The gate now loads the
+TypeScript compiler, ~0.7–1.0 s, 2.6 s → ~3.5 s. `npm run lint` is down from 4 pre-existing errors to 3, all
+in DO_NOT_TOUCH files.
+
+**And an out-of-scope finding worth routing.** **Node 20 reached end of life on 2026-04-30**, and CI pins it
+for all six jobs. That is now fully decoupled from this gate — which is the point of the route taken — but an
+EOL runtime on every job is a real hygiene item for a later phase.
+
+**QA round 5 dispatched** — the closing round — to a fresh, pre-provisioned `wt/qa-p09a5` at `80b2c87`,
+packet `.work/packets/phase-09a-QA-R5.md`, **citing integration-branch hashes** after round 4 caught me
+quoting coder-branch ones. Its targets: attack the new loader for a runtime-import escape and for divergence
+from what Vite bundles; re-run its own round-4 sabotage against the new gate and try one C5 did not — making
+an instrument **silently pass** rather than deleting it; count the six sites itself, because two of us
+agreeing is not proof; and argue the flake question rather than assert it.
