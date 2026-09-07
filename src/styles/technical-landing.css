@@ -365,7 +365,16 @@
 .tl-rfq-body>h2{grid-column:1/span 3;padding:0 var(--tl-s6) 0 var(--tl-s4)}
 .tl-cad-drop{grid-column:4/span 4}
 .tl-rfq-body>ol{grid-column:8/-1;padding:0 var(--tl-s4) 0 var(--tl-s6)}
-.tl-cad-drop{width:100%;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--tl-s2);border:1px dashed #9aa09c;padding:var(--tl-s3);color:inherit;background:transparent;font:inherit;text-align:center;cursor:pointer;transition:border-color .3s ease,background .3s ease}
+/* THE BOUNDARY IS THE WHOLE CONTROL, so it is a control rule and not a
+   decorative hairline. This is a `<button>` with a transparent fill on the
+   `--tl-paper` RFQ band: nothing but the dashed edge says a control is there,
+   which is exactly the case WCAG 1.4.11 governs. It was `#9aa09c` — a literal
+   hex, which `CLAUDE.md` forbids, painted at 2.20:1 against the band. It now
+   takes `--tl-paper-control-rule`, the same name every `.shell-field` on a
+   paper ground took in 09b-1-C1; measured 3.67:1 against `--tl-paper` and
+   re-measured rendered at 1280 and 375 in `reports/09b1c2/`. Geometry is
+   untouched: same 1px, same `dashed`, so only the edge's colour moves. */
+.tl-cad-drop{width:100%;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--tl-s2);border:1px dashed var(--tl-paper-control-rule);padding:var(--tl-s3);color:inherit;background:transparent;font:inherit;text-align:center;cursor:pointer;transition:border-color .3s ease,background .3s ease}
 .tl-cad-drop:hover,.tl-cad-drop[data-dragging]{border-color:var(--tl-ink);background:var(--tl-ink-tint)}
 .tl-cad-drop[data-dragging]{border-style:solid}
 .tl-cad-drop:disabled{cursor:wait;opacity:.8}
