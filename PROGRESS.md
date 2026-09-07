@@ -2632,3 +2632,127 @@ quoting coder-branch ones. Its targets: attack the new loader for a runtime-impo
 from what Vite bundles; re-run its own round-4 sabotage against the new gate and try one C5 did not — making
 an instrument **silently pass** rather than deleting it; count the six sites itself, because two of us
 agreeing is not proof; and argue the flake question rather than assert it.
+
+#### QA 09a round 5 — PASS. Phase 09a closes.
+
+Six commits integrated as `edf5c0e..8c07415`; scope clean, `reports/qa/phase-09a-r5/**` and
+`scripts/qa-probes/p09a5-**` only, no spec added, `.env` not committed, nothing submitted or inserted.
+**376 Playwright passed, 280 gate controls, 101 probe assertions**, one failure — `visual-375 journal-lead`
+— green on re-run and in all three sibling viewports.
+
+**VERDICT: PASS. Phase 09a is closed.**
+
+**The loader holds where it matters and the sentence describing it does not.** The ledger as committed is
+clean: **0 surviving import/export-from statements, 0 diagnostics** under the gate's own compiler options,
+and `verbatimModuleSyntax` earns its line — exactly one class, a value-syntax import used only in type
+position, is elided without it. But the universal asserted at `claims-gate.mjs:857-865` is **false**: **6 of
+7 runtime imports resolved with the gate reporting `clean`, and in 5 the imported code executed inside the
+gate process** — `node:*` builtins, bare builtin names, absolute `file:` URLs static and dynamic, and
+`createRequire` with an absolute path. The true statement is narrower and still sufficient: *a specifier that
+resolves relative to the importing module's location cannot resolve* — which covers every form a real
+`claims.ts` could grow. Sharpest detail: the `.ts` absolute-URL escape works on a **stripping** Node and not
+on a non-stripping one, so the escape surface is not runtime-independent even though the loader now is.
+
+**The instrument controls are real and the claim around them is again too wide.** QA re-aimed its own
+round-4 sabotages at the new shapes — the p09a4 probes now throw `search text NOT FOUND`, which is itself
+evidence the code moved — and got **11 red, exactly as C5 claimed, including the registry-drop question,
+answered no**. Then **six sabotages left `PASS — 280 controls green`**. Three are one line:
+`if (ledgerFile === CAD_LEDGER_FILE) return [];` and two siblings. **The parameterisation C5 added so that
+the controls could exist is precisely what makes the production call distinguishable from the control call**,
+and no control invokes any of the three with production defaults. Worse and simpler: `runCheckControls()`
+returning `[]` silences all sixteen **while the header still prints `280 (0 failed) … 16 watch`**, because
+`:3361-3362` reads `CHECK_CONTROLS.length` and `NON_RULE_CHECKS.length` — static array lengths. I verified
+that at the source.
+
+QA also falsified its **own** first remedy: asserting the *absence* of a problem is satisfied by `return []`,
+measured still-green. Its second — demanding a positive disagreement on the production path — goes red. That
+self-correction is worth more than the finding.
+
+**Detector (D): 31/31 with both over-catches closed, and six holes from the other side.** The best of them:
+`"Tüm dosyalarınızı kabul ediyoruz"` — **the string the comment names as one that must fire** — goes silent
+the moment any second-person clause follows it, because `SENTENCE_BREAK` (`:593`,
+`/[\n]|(?<=[^\d\s])[.!?](?=\s)|["'\`]\s*,/g`) does not break on `;`. Verified at the source. All six latent;
+nothing in the tree today.
+
+**The register: 6/6 resolve exactly once, and my count is confirmed — but I owe QA a correction.** I wrote
+that QA had reported the class as five sites and that I was correcting it to six. **QA had it right in round
+4**: it said the *citation's union* was five and explicitly named `:3318` as the omitted sixth. My "correction
+to QA's correction" corrected something QA had not got wrong. The lines stand: `:788 :793 :811 :818 :3318
+:3332`. QA also raised and then **falsified its own by-product finding** — `RestoredLandingSections.tsx:42`
+offers Parasolid/SolidWorks, but `grep Parasolid dist/` is empty; it reaches only the dev-only
+`/legacy-landing`.
+
+**The flake question, argued rather than asserted, and this is the answer three rounds have been circling.**
+None of C5's five reproduced — 163 critical tests green at `retries=0`. QA got a sixth, round 3's. Contention
+triggers it, and the CDN measured **65–303 ms with zero errors** immediately after. **Contention makes a test
+slow, not wrong.** Three properties in `e2e/visual/fonts.ts` convert slow into a *misdiagnosis*: `:169`
+asserts a network side effect with **zero tolerance** immediately before the tolerant `document.fonts` poll;
+the retry budget is 4×15 s against a 60 s test timeout; and there is a live CDN dependency with no local
+fallback. **That is why three rounds have disagreed about whether this is flake** — each was arguing about the
+symptom. Pre-existing, untouched by C5, and now diagnosed.
+
+**The through-line QA drew, which is about this run and not only about the gate.** Three rounds running, the
+finding has been a **comment rather than code**: R4-1 was a comment gone false, R4-2 an over-catch defended by
+a wrong comment, and all six defects here are true narrow behaviour under prose claiming something broader
+than the controls demonstrate. *"The gate's engineering is good; its prose is consistently one step ahead of
+its measurements."*
+
+**That applies to me at least as much as to the gate.** This phase I published a severity reason that was
+false in three places, framed two routes as equals when my own criterion had already chosen, quoted control
+counts a commit stale, cited coder-branch hashes a reader could not resolve, and corrected a correction that
+was not wrong. Every one was prose running ahead of measurement. The discipline that caught all of them was
+the same one: an adversary whose job is to check the claim rather than the intent.
+
+**Carried into 09b as an explicit hardening item — not a note.**
+
+1. **D1/D2 — the loader and instrument prose.** Narrow the `:857-865` universal to what is true; make the
+   three checks fail when guarded by a one-line identity test; make the header count what actually ran rather
+   than an array length.
+2. **Detector (D)'s six holes**, `SENTENCE_BREAK` and the report governor's reach.
+3. **`e2e/visual/fonts.ts:169`** — the zero-tolerance network assertion, the 4×15 s budget against a 60 s
+   timeout, and the absent local fallback. Three rounds of "environmental" end here.
+4. **The six software-inventory sites** — `:788 :793 :811 :818 :3318 :3332`, one decision.
+5. **`deferred-class-register` goes red when 09b legitimately removes one of the six.** Deliberate, message
+   says to delete the register entry; QA judges an unbriefed agent would reach the right action, with two
+   one-line message fixes (`"in this file"` points at `servicePages.ts` while the constant lives in
+   `claims-gate.mjs`; `occurs 2` gets `occurs 0`'s advice).
+6. **`metaDescription` is dead data on all 41 service pages** — SEO phase, not 09b.
+7. **Node 20 is EOL as of 2026-04-30** and CI pins it for six jobs. Decoupled from the gate; hygiene.
+
+---
+
+### Phase 09a closed — PASS
+
+Five correction rounds, five QA rounds. What it cost and what it bought:
+
+- **`TeklifAl.tsx` 1540 → 418 lines** across twelve modules; static route closure **1629.48 → 816.79 kB**
+  (−49.9 %), the WebGL stack behind an explicit request, reproduced by QA to the hundredth of a kB.
+- **A live production exposure found by accident** and disclosed rather than buried: the rate limiter's
+  source has never been deployed, and the deployed function reaches the insert for a missing e-mail, a
+  malformed e-mail, a one-character customer and a `.txt` in `files`, with no 429 after fifteen requests in a
+  minute.
+- **A contrast defect only a rendered check finds** — 2.69:1 on a ground the phase itself created — fixed
+  with a ground-bound role after **both** shapes QA and I proposed were falsified by measurement.
+- **An unauthorised-claim sweep across eleven service pages and the whole 140-entry chatbot pool**, including
+  four whole duration columns removed rather than half-neutralised, a warranty commitment, payment and credit
+  terms, a discount schedule, a shift-pattern claim, and a wrong-city claim contradicted by four other
+  surfaces.
+- **A false CAD-format promise served selectively to exactly the visitors it harmed** — six phrasings scoring
+  1.000 while the generic question reached the honest answer.
+- **The gate: 26 → 31 rules, 178 → 280 controls**, including the first rule whose positive controls are the
+  exact strings its own commit removed, and the first instruments in this repository that watch the checks
+  that are not rules.
+- **Two measurement instruments rebuilt after being found unsound** — the claims sweep that had been scanning
+  routes which had not rendered, and three specs writing over committed evidence, now held by a census
+  control rather than by a promise.
+- **Falsifications, in every direction**: the Coder falsified two of my mandates as unbuildable and one as
+  destructive; QA falsified my packet's criterion, my severity reason, my hashes, my control counts; I
+  falsified two of the Coder's premises and one of QA's; and QA twice falsified itself, once about its own
+  spec and once about its own proposed remedy.
+- **Four agent stops** — two process kills, a rate limit, one unexplained — and **four recoveries at zero
+  cost**, because a stopped agent's worktree is never removed. That rule earned its place more than any
+  other.
+
+**Still open and still the user's, defaulted safe throughout:** the four `public.rfqs` rows and three
+`cad-uploads` objects are untouched, and nothing has been deployed — so the undeployed rate limiter remains
+live on production.
