@@ -1,0 +1,128 @@
+﻿node.exe : (node:22376) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:22376) [D...oks()` instead.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 41 tests using 1 worker
+
+(node:22268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:22268) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:22268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [visual-1280] › e2e\visual\cursor-overlay-guard.spec.ts:157:3 › H4 — CustomCursor's mount condition, measured › the whole (width, pointer) matrix is what the browser does (36.3s)
+  ✓   2 [visual-1280] › e2e\visual\cursor-overlay-guard.spec.ts:207:7 › H4 — the goldens are clean, and the reason is measured › visual-1280: the cursor contributes no pixel to landing-golden.spec.ts (3.7s)
+  ✓   3 [visual-1280] › e2e\visual\cursor-overlay-guard.spec.ts:207:7 › H4 — the goldens are clean, and the reason is measured › visual-1440: the cursor contributes no pixel to landing-golden.spec.ts (3.0s)
+  ✓   4 [visual-1280] › e2e\visual\cursor-overlay-guard.spec.ts:301:3 › H4 — the configuration the safety depends on › the gate project still exists, so the measured half cannot vanish quietly (2ms)
+  ✓   5 [visual-1280] › e2e\visual\cursor-overlay-guard.spec.ts:310:3 › H4 — the configuration the safety depends on › only touch-emulating visual projects are exempt from the cursor (3ms)
+  ✓   6 [visual-1280] › e2e\visual\cursor-overlay-guard.spec.ts:331:3 › H4 — the configuration the safety depends on › no new page-scoped golden appears without a route to measure it on (15ms)
+  ✓   7 [visual-1280] › e2e\visual\cursor-overlay-guard.spec.ts:343:3 › H4 — the configuration the safety depends on › the detector is red on the defect it exists to catch (8ms)
+  ✓   8 [visual-1280] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › about opens and closes in the landing's language (3.2s)
+  ✓   9 [visual-1280] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › contact opens and closes in the landing's language (2.4s)
+  ✓  10 [visual-1280] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › materials opens and closes in the landing's language (3.8s)
+  ✓  11 [visual-1280] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › material-family opens and closes in the landing's language (2.4s)
+  ✓  12 [visual-1280] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-category opens and closes in the landing's language (2.9s)
+  ✓  13 [visual-1280] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-detail opens and closes in the landing's language (3.0s)
+  ✓  14 [visual-1280] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › sector-detail opens and closes in the landing's language (3.3s)
+  ✓  15 [visual-1280] › e2e\visual\landing-golden.spec.ts:20:3 › landing golden screenshots › matches the committed landing baseline (5.2s)
+  ✓  16 [visual-1280] › e2e\visual\navigation-golden.spec.ts:31:3 › global navigation golden screenshots › matches the closed header baseline (2.8s)
+  ✓  17 [visual-1280] › e2e\visual\navigation-golden.spec.ts:44:3 › global navigation golden screenshots › matches the open menu baseline (3.8s)
+  ✓  18 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:36:3 › A2 — the foreign-overlay guard is falsifiable › armed: on a route that mounts the launcher it finds and hides it (2.8s)
+  ✓  19 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:48:3 › A2 — the foreign-overlay guard is falsifiable › red: require:true throws when the selector matches nothing (2.6s)
+  ✓  20 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:62:3 › A2 — the foreign-overlay guard is falsifiable › green: require:false is the documented escape and does not throw (3.0s)
+  ✓  21 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:68:3 › A2 — the foreign-overlay guard is falsifiable › red: require:false is refused on a route that DOES mount the launcher (2.2s)
+  ✓  22 [visual-1280] › e2e\visual\qa-a2-overlay-guard.spec.ts:86:3 › A2 — the foreign-overlay guard is falsifiable › the launcher really does sit inside the captured footer element (2.6s)
+  ✓  23 [visual-1280] › e2e\visual\qa-f4-font-guard.spec.ts:36:3 › F4 — the font-retry guard is falsifiable › armed: a real load intercepts on BOTH hosts (2.7s)
+  ✓  24 [visual-1280] › e2e\visual\qa-f4-font-guard.spec.ts:49:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.gstatic.com fails with the gstatic reason (2.5s)
+  ✓  25 [visual-1280] › e2e\visual\qa-f4-font-guard.spec.ts:65:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.googleapis.com fails with the googleapis reason (2.7s)
+  ✓  26 [visual-1280] › e2e\visual\qa-f4-font-guard.spec.ts:79:3 › F4 — the font-retry guard is falsifiable › red: blackholing both hosts fails with the fallback-stack reason (28.1s)
+  ✓  27 [visual-1280] › e2e\visual\qa-h4-cursor-independent.spec.ts:59:3 › QA R4 — the two ways the Coder's scan can be walked around › the spec scan is flat, so no visual spec may live in a subdirectory (2ms)
+  ✓  28 [visual-1280] › e2e\visual\qa-h4-cursor-independent.spec.ts:78:3 › QA R4 — the two ways the Coder's scan can be walked around › no visual spec renames or aliases the `page` fixture (13ms)
+  ✓  29 [visual-1280] › e2e\visual\radius-census.spec.ts:46:3 › §4 — the radius register is the census › every number in docs/lean/17 §4 comes back out of the browser (49.3s)
+  ✓  30 [visual-1280] › e2e\visual\radius-census.spec.ts:108:3 › §4 — the radius register is the census › §4's source column still lands on a radius declaration (17ms)
+  ✓  31 [visual-1280] › e2e\visual\radius-census.spec.ts:120:3 › §4 — the radius register is the census › the citation check is red on a citation that has drifted (6ms)
+  ✓  32 [visual-1280] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › home carries the same shell chrome (3.5s)
+  ✓  33 [visual-1280] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › service carries the same shell chrome (4.4s)
+  ✓  34 [visual-1280] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › about carries the same shell chrome (2.8s)
+  ✓  35 [visual-1280] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › journal carries the same shell chrome (3.1s)
+  ✓  36 [visual-1280] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › rfq carries the same shell chrome (3.1s)
+  ✓  37 [visual-1280] › e2e\visual\shell-golden.spec.ts:43:5 › shell golden screenshots › notfound carries the same shell chrome (3.0s)
+  ✘  38 [visual-1280] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › notfound-body holds its baseline (5.8s)
+(node:12036) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12036) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:12036) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  39 [visual-1280] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › journal-lead holds its baseline (3.5s)
+  ✓  40 [visual-1280] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › quality-documents holds its baseline (3.1s)
+  ✓  41 [visual-1280] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › profile-scope holds its baseline (2.5s)
+
+
+  1) [visual-1280] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › notfound-body holds its baseline 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveScreenshot[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: locator('.shell-notfound')
+      392 pixels (ratio 0.01 of all image pixels) are different.
+
+      Snapshot: waveb-notfound-body.png
+
+    Call log:
+    [2m  - Expect "toHaveScreenshot(waveb-notfound-body.png)" with timeout 30000ms[22m
+    [2m    - verifying given screenshot expectation[22m
+    [2m  - waiting for locator('.shell-notfound')[22m
+    [2m    - locator resolved to <div class="shell-notfound">…</div>[22m
+    [2m  - taking element screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - attempting scroll into view action[22m
+    [2m    - waiting for element to be stable[22m
+    [2m  - 392 pixels (ratio 0.01 of all image pixels) are different.[22m
+    [2m  - waiting 100ms before taking screenshot[22m
+    [2m  - waiting for locator('.shell-notfound')[22m
+    [2m    - locator resolved to <div class="shell-notfound">…</div>[22m
+    [2m  - taking element screenshot[22m
+    [2m    - disabled all CSS animations[22m
+    [2m  - waiting for fonts to load...[22m
+    [2m  - fonts loaded[22m
+    [2m  - attempting scroll into view action[22m
+    [2m    - waiting for element to be stable[22m
+    [2m  - captured a stable screenshot[22m
+    [2m  - 392 pixels (ratio 0.01 of all image pixels) are different.[22m
+
+
+      107 |       const target = page.locator(surface.selector);
+      108 |       await expect(target).toBeVisible();
+    > 109 |       await expect(target).toHaveScreenshot(`waveb-${surface.slug}.png`, {
+          |                            ^
+      110 |         animations: "disabled",
+      111 |         caret: "hide",
+      112 |         maxDiffPixels: 200,
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p09a\e2e\visual\wave-b-golden.spec.ts:109:28
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: waveb-notfound-body (image/png) ─────────────────────────────────────────────────
+    Expected: e2e\__golden__\win32\visual-1280\waveb-notfound-body.png
+    Received: test-results\visual-wave-b-golden-wave--d796a-und-body-holds-its-baseline-visual-1280\waveb-notfound-body-actual.png
+    Diff:     test-results\visual-wave-b-golden-wave--d796a-und-body-holds-its-baseline-visual-1280\waveb-notfound-body-diff.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\visual-wave-b-golden-wave--d796a-und-body-holds-its-baseline-visual-1280\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\visual-wave-b-golden-wave--d796a-und-body-holds-its-baseline-visual-1280\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\visual-wave-b-golden-wave--d796a-und-body-holds-its-baseline-visual-1280\error-context.md
+
+  1 failed
+    [visual-1280] › e2e\visual\wave-b-golden.spec.ts:59:5 › wave B golden screenshots › notfound-body holds its baseline 
+  40 passed (4.6m)
