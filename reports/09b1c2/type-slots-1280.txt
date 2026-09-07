@@ -1,0 +1,528 @@
+09b-1-C2 — DESIGN-SYSTEM TYPOGRAPHY DISCOVERY @ 1280
+
+routes 11   components seen 256   observations 1730
+  ONE treatment   256
+  SPLIT           0
+
+SPLIT — every component resolving more than one typography across routes
+and grounds at this viewport. A split here is not automatically a defect;
+it is the list from which the gate's slots are chosen, with a reason for
+every one left out.
+
+
+ONE TREATMENT — candidates for the gate
+     8x  header.tl-header-band                                Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds none
+    51x  div.tl-band-index                                    IBM Plex Mono / 16px / 400 / normal / normal / none
+          8 route(s), grounds none, graphite, paper
+     8x  div.tl-header                                        Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds none
+     8x  a.tl-brand                                           Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds none
+     8x  p.tl-header-context                                  IBM Plex Mono / 9px / 500 / normal / 1.62px / none
+          8 route(s), grounds none
+     8x  div.tl-header-actions                                Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds none
+     8x  button.tl-menu-trigger                               Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds none
+     8x  span.tl-menu-trigger-label                           IBM Plex Mono / 10px / 600 / normal / 1.8px / none
+          8 route(s), grounds none
+     8x  span.tl-menu-trigger-rules                           Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds none
+     8x  a.tl-quote-button                                    IBM Plex Mono / 10px / 700 / normal / 1.2px / none
+          8 route(s), grounds none
+     8x  div.tl-header-spacer                                 Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds none
+     1x  div.shell-root.tl-root                               Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+    11x  div.shell-sheet.tl-sheet                             Space Grotesk / 16px / 400 / normal / normal / none
+          11 route(s), grounds graphite, paper
+    11x  main.shell-main                                      Space Grotesk / 16px / 400 / normal / normal / none
+          11 route(s), grounds graphite, paper
+     1x  section.tl-band.tl-hero.tl-inview                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-hero-copy                                     Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-part-stage                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-part-frame                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-part-blend                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-part-ground                                   Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  svg.tl-dimension-lines                               Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  g.tl-dim-line                                        Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  path.tl-dim--bore                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  path.tl-dim--tol                                     Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  path.tl-dim--height.tl-ext                           Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  path.tl-dim--height                                  Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  path.tl-dim--perp                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  path.tl-dim--finish                                  Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  path.tl-dim--datum                                   Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  span.tl-measure.tl-measure-top                       Space Grotesk / 15px / 600 / normal / -0.15px / none
+          1 route(s), grounds graphite
+     1x  span.tl-measure.tl-measure-left                      Space Grotesk / 15px / 600 / normal / -0.15px / none
+          1 route(s), grounds graphite
+     1x  span.tl-measure.tl-measure-finish                    Space Grotesk / 15px / 600 / normal / -0.15px / none
+          1 route(s), grounds graphite
+     1x  span.tl-fcf.tl-fcf-top                               Space Grotesk / 15px / 600 / normal / -0.15px / none
+          1 route(s), grounds graphite
+     1x  span.tl-fcf.tl-fcf-bottom                            Space Grotesk / 15px / 600 / normal / -0.15px / none
+          1 route(s), grounds graphite
+     1x  span.tl-datum                                        Space Grotesk / 15px / 600 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  aside.tl-part-passport                               Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  g.tl-pp-body                                         Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  g.tl-pp-bore                                         Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  g.tl-pp-holes                                        Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  g.tl-pp-dim                                          Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  section.tl-band.tl-inview.tl-proof                   Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-proof-grid                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  p.tl-proof-note                                      IBM Plex Mono / 8px / 500 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  section.tl-band.tl-inview.tl-marquee                 Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-marquee-viewport                              Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-marquee-track                                 Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  section.tl-band.tl-inview.tl-process                 Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-process-body                                  Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-process-intro                                 Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  section.tl-band.tl-inview.tl-nexus                   Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-nexus-body                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-nexus-kpis                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-nexus-app                                     Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-nexus-rail                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  p.tl-nexus-user                                      Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-nexus-main                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-nexus-table-wrap                              Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  caption.tl-visually-hidden                           IBM Plex Mono / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  section.tl-band.tl-inview.tl-projects                Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-projects-body                                 Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     2x  h2.tl-visually-hidden                                Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-project-grid                                  Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  article.tl-project-featured                          Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     3x  p.tl-report-no                                       IBM Plex Mono / 8px / 500 / normal / 0.48px / none
+          1 route(s), grounds graphite
+     1x  p.tl-project-note                                    IBM Plex Mono / 8px / 500 / normal / 0.48px / none
+          1 route(s), grounds graphite
+     1x  section.tl-band.tl-inview.tl-sectors                 Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-sectors-body                                  Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     4x  a.tl-sector-card                                     Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  section.tl-band.tl-inview.tl-manifesto               Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-manifesto-body                                Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-manifesto-copy                                Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  section.tl-band.tl-inview.tl-quality                 Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-quality-body                                  Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-quality-strip                                 Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     3x  article.tl-cert                                      Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     3x  div.tl-cert-sign                                     Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  article.tl-cert.tl-cert-report                       Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-mini-doc                                      Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-doc-foot                                      Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  article.tl-cert.tl-cert-material                     Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     2x  div.tl-cert-table                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  article.tl-cert.tl-cert-verify                       Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  section.tl-band.tl-inview.tl-references              Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  ul.tl-reference-grid                                 Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  section.tl-band.tl-faq-band.tl-inview                Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-faq-body                                      Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  h2.tl-faq-title                                      Newsreader / 25.6px / 400 / normal / -0.256px / none
+          1 route(s), grounds graphite
+     1x  div.tl-faq                                           Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-resource                                      Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  h3.tl-resource-title                                 IBM Plex Mono / 11px / 650 / normal / 1.1px / none
+          1 route(s), grounds graphite
+     1x  ul.tl-resource-list                                  Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  section.tl-band.tl-inview.tl-rfq                     Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.tl-rfq-body                                      Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  input.tl-visually-hidden                             Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  button.tl-cad-drop                                   Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  footer.shell-footer.tl-band.tl-footer.tl-inview      Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     8x  div.tl-footer-body                                   Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds graphite, paper
+     8x  div.tl-footer-brand                                  Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds graphite, paper
+     8x  p.tl-addr-cont                                       IBM Plex Mono / 10px / 500 / normal / normal / none
+          8 route(s), grounds graphite, paper
+     8x  p.tl-tel                                             IBM Plex Mono / 10px / 500 / normal / normal / none
+          8 route(s), grounds graphite, paper
+     8x  p.tl-mail                                            IBM Plex Mono / 10px / 500 / normal / normal / none
+          8 route(s), grounds graphite, paper
+     8x  div.shell-footer-conversion                          Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds graphite, paper
+     8x  div.shell-footer-journal                             Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds graphite, paper
+     8x  span.shell-eyebrow                                   IBM Plex Mono / 10px / 600 / normal / 1.8px / uppercase
+          8 route(s), grounds graphite, paper
+     8x  div.shell-footer-actions                             Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds graphite, paper
+     8x  a.shell-footer-primary                               Space Grotesk / 12px / 700 / normal / 0.72px / none
+          8 route(s), grounds graphite, paper
+     8x  a.shell-footer-secondary                             Space Grotesk / 12px / 600 / normal / 0.72px / none
+          8 route(s), grounds graphite, paper
+     8x  div.tl-title-block                                   Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds graphite, paper
+     8x  div.tl-social                                        Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds graphite, paper
+     8x  p.tl-meta-run                                        Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds graphite, paper
+     8x  p.tl-legal                                           Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds graphite, paper
+     8x  svg.tl-crosshair                                     Space Grotesk / 16px / 400 / normal / normal / none
+          8 route(s), grounds graphite, paper
+     3x  div.shell-auth.shell-root                            Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite
+     3x  div.shell-auth-split                                 Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite
+     3x  div.shell-auth-panel                                 Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite
+     3x  div.shell-auth-body                                  Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite
+     3x  a.shell-action.shell-action--quiet.shell-auth-back   IBM Plex Mono / 11px / 600 / normal / 1.54px / uppercase
+          3 route(s), grounds graphite
+     3x  svg.shell-auth-back-mark                             IBM Plex Mono / 11px / 600 / normal / 1.54px / uppercase
+          3 route(s), grounds graphite
+     3x  h1.shell-auth-title                                  Space Grotesk / 33.28px / 700 / normal / -0.6656px / none
+          3 route(s), grounds graphite
+     2x  p.shell-auth-lede                                    Space Grotesk / 14px / 400 / normal / normal / none
+          2 route(s), grounds graphite
+     1x  div.shell-auth-social                                Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  p.shell-auth-rule                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     2x  form.shell-auth-form                                 Space Grotesk / 16px / 400 / normal / normal / none
+          2 route(s), grounds graphite
+    13x  div.shell-field                                      Space Grotesk / 16px / 400 / normal / normal / none
+          5 route(s), grounds graphite, paper
+     3x  div.shell-auth-label-row                             Space Grotesk / 16px / 400 / normal / normal / none
+          2 route(s), grounds graphite
+     5x  a.shell-action.shell-action--quiet                   IBM Plex Mono / 11px / 600 / normal / 1.54px / uppercase
+          4 route(s), grounds graphite, paper
+     1x  div.shell-auth-control                               Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  button.shell-auth-reveal                             Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.shell-auth-captcha                               Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     2x  button.shell-action.shell-action--full.shell-action--primary IBM Plex Mono / 11px / 600 / normal / 1.54px / uppercase
+          2 route(s), grounds graphite
+    40x  svg.shell-action-mark                                IBM Plex Mono / 11px / 600 / normal / 1.54px / uppercase
+          10 route(s), grounds graphite, paper
+     1x  div.shell-auth-foot                                  Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  button.shell-action.shell-action--quiet              IBM Plex Mono / 11px / 600 / normal / 1.54px / uppercase
+          1 route(s), grounds graphite
+     1x  p.shell-auth-legal                                   Space Grotesk / 12px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     3x  aside.shell-auth-aside                               Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite
+     3x  div.shell-auth-aside-body                            Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite
+    25x  p.shell-eyebrow                                      IBM Plex Mono / 10px / 600 / normal / 1.8px / uppercase
+          10 route(s), grounds graphite, paper
+     3x  div.shell-auth-mark                                  Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite
+     3x  span.shell-auth-mark-block                           IBM Plex Mono / 14px / 700 / normal / 1.12px / none
+          3 route(s), grounds graphite
+     3x  span.shell-auth-mark-name                            Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite
+     3x  p.shell-auth-aside-lede                              Space Grotesk / 14px / 400 / normal / normal / none
+          3 route(s), grounds graphite
+     3x  ul.shell-auth-list                                   Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite
+    21x  span.shell-auth-list-no                              IBM Plex Mono / 10px / 500 / normal / 1.2px / none
+          3 route(s), grounds graphite
+    21x  span.shell-auth-list-label                           Space Grotesk / 13px / 400 / normal / normal / none
+          3 route(s), grounds graphite
+    15x  .shell-field label                                   IBM Plex Mono / 9px / 600 / normal / 1.44px / uppercase
+          5 route(s), grounds graphite, paper
+    10x  .shell-field input                                   Space Grotesk / 14px / 400 / normal / normal / none
+          5 route(s), grounds graphite, paper
+     1x  div.shell-notice                                     Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  p.shell-notice-label                                 IBM Plex Mono / 9px / 600 / normal / 1.62px / uppercase
+          1 route(s), grounds graphite
+     1x  p.shell-notice-title                                 Space Grotesk / 15px / 600 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.shell-notice-body                                Space Grotesk / 13px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  a.shell-action.shell-action--full.shell-action--primary IBM Plex Mono / 11px / 600 / normal / 1.54px / uppercase
+          1 route(s), grounds graphite
+     7x  div.shell-root                                       Space Grotesk / 16px / 400 / normal / normal / none
+          7 route(s), grounds graphite, paper
+     7x  div.shell-rail                                       IBM Plex Mono / 16px / 400 / normal / normal / none
+          7 route(s), grounds graphite, paper
+     6x  section.shell-hero.tl-band                           Space Grotesk / 16px / 400 / normal / normal / none
+          6 route(s), grounds graphite
+     6x  div.shell-hero-body.tl-grid                          Space Grotesk / 16px / 400 / normal / normal / none
+          6 route(s), grounds graphite
+     6x  div.shell-hero-copy                                  Space Grotesk / 16px / 400 / normal / normal / none
+          6 route(s), grounds graphite
+     7x  p.shell-lede                                         Space Grotesk / 16px / 400 / normal / normal / none
+          7 route(s), grounds graphite, paper
+     6x  div.shell-hero-actions                               Space Grotesk / 16px / 400 / normal / normal / none
+          6 route(s), grounds graphite
+    13x  a.shell-action.shell-action--primary                 IBM Plex Mono / 11px / 600 / normal / 1.54px / uppercase
+          7 route(s), grounds graphite, paper
+    18x  a.shell-action.shell-action--ghost                   IBM Plex Mono / 11px / 600 / normal / 1.54px / uppercase
+          7 route(s), grounds graphite, paper
+     6x  dl.shell-hero-meta.shell-meta-row                    Space Grotesk / 16px / 400 / normal / normal / none
+          6 route(s), grounds graphite
+    11x  section.shell-surface-band.tl-band                   Space Grotesk / 16px / 400 / normal / normal / none
+          6 route(s), grounds paper, graphite
+    12x  div.shell-surface-body.tl-grid                       Space Grotesk / 16px / 400 / normal / normal / none
+          6 route(s), grounds paper, graphite
+     5x  div.shell-span-read                                  Space Grotesk / 16px / 400 / normal / normal / none
+          4 route(s), grounds paper, graphite
+    11x  header.shell-title-block                             Space Grotesk / 16px / 400 / normal / normal / none
+          6 route(s), grounds paper, graphite
+    11x  span.shell-title-index                               IBM Plex Mono / 10px / 500 / normal / 1.2px / none
+          6 route(s), grounds paper, graphite
+     5x  ol.shell-run                                         Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds paper, graphite
+    18x  span.shell-run-no                                    IBM Plex Mono / 10px / 500 / normal / 1.2px / none
+          3 route(s), grounds paper, graphite
+    18x  span.shell-run-title                                 Space Grotesk / 14px / 600 / normal / normal / none
+          3 route(s), grounds paper, graphite
+    18x  span.shell-run-detail                                Space Grotesk / 13px / 400 / normal / normal / none
+          3 route(s), grounds paper, graphite
+     6x  span.shell-run-action                                Space Grotesk / 16px / 400 / normal / normal / none
+          2 route(s), grounds paper
+     3x  div.shell-doc                                        Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite, paper
+     3x  div.shell-doc-main                                   Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite, paper
+     1x  form.shell-form                                      Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     2x  div.shell-form-row                                   Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  p.shell-form-error                                   Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     2x  button.shell-action.shell-action--primary            IBM Plex Mono / 11px / 600 / normal / 1.54px / uppercase
+          2 route(s), grounds graphite
+     2x  div.shell-doc-aside                                  Space Grotesk / 16px / 400 / normal / normal / none
+          2 route(s), grounds graphite
+     4x  p.shell-note                                         IBM Plex Mono / 11px / 500 / normal / 0.22px / none
+          4 route(s), grounds graphite, paper
+     5x  section.shell-next.tl-band                           Space Grotesk / 16px / 400 / normal / normal / none
+          5 route(s), grounds graphite
+     5x  div.shell-next-body.tl-grid                          Space Grotesk / 16px / 400 / normal / normal / none
+          5 route(s), grounds graphite
+     5x  div.shell-next-copy                                  Space Grotesk / 16px / 400 / normal / normal / none
+          5 route(s), grounds graphite
+     5x  p.shell-next-lede                                    Space Grotesk / 15px / 400 / normal / normal / none
+          5 route(s), grounds graphite
+     5x  div.shell-next-actions                               Space Grotesk / 16px / 400 / normal / normal / none
+          5 route(s), grounds graphite
+     5x  dl.shell-meta-row.shell-next-detail                  Space Grotesk / 16px / 400 / normal / normal / none
+          5 route(s), grounds graphite
+     7x  footer.shell-footer.tl-band.tl-footer                Space Grotesk / 16px / 400 / normal / normal / none
+          7 route(s), grounds graphite, paper
+     4x  .shell-field select                                  Space Grotesk / 14px / 400 / normal / normal / none
+          3 route(s), grounds graphite, paper
+     1x  .shell-field textarea                                Space Grotesk / 14px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     3x  nav.shell-crumb                                      Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite
+     1x  ol.shell-segments                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+    15x  button.shell-segment                                 IBM Plex Mono / 11px / 500 / normal / 0.88px / none
+          2 route(s), grounds graphite
+    15x  span.shell-segment-code                              IBM Plex Mono / 11px / 700 / normal / 1.32px / none
+          2 route(s), grounds graphite
+     1x  form.shell-stack                                     Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     2x  div.shell-stack                                      Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     2x  ul.shell-tags                                        Space Grotesk / 16px / 400 / normal / normal / none
+          2 route(s), grounds graphite
+     2x  p.shell-field-hint                                   IBM Plex Mono / 11px / 500 / normal / normal / none
+          2 route(s), grounds graphite
+     1x  div.shell-dropzone                                   Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  label.shell-dropzone-area                            Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  span.shell-dropzone-title                            Space Grotesk / 15px / 600 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  span.shell-dropzone-hint                             IBM Plex Mono / 11px / 500 / normal / 0.44px / none
+          1 route(s), grounds graphite
+     1x  div.shell-state-actions                              Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     2x  dl.shell-meta-row                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     3x  div.shell-span-read.shell-stack                      Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite
+     1x  div.shell-span-full.shell-stack                      Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  ul.shell-segments                                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  section.tl-band                                      Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.shell-register-scope.shell-span-full             Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  section.shell-sticky-filter                          Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.shell-filter                                     Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     2x  div.shell-field.shell-filter-search                  Space Grotesk / 16px / 400 / normal / normal / none
+          2 route(s), grounds graphite, paper
+     1x  figure.shell-register.shell-table                    Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  span.shell-table-caption                             IBM Plex Mono / 10px / 600 / normal / 1.6px / uppercase
+          1 route(s), grounds graphite
+     1x  span.shell-table-note                                Space Grotesk / 13px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.shell-table-scroll                               Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+    87x  input.shell-check                                    Space Grotesk / 13px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+    87x  span.shell-gauge                                     Space Grotesk / 13px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+    87x  button.shell-row-toggle                              IBM Plex Mono / 9px / 600 / normal / 1.08px / uppercase
+          1 route(s), grounds graphite
+     1x  section.shell-filter                                 Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds paper
+    11x  h3.shell-faq-group                                   IBM Plex Mono / 10px / 600 / normal / 1.8px / uppercase
+          1 route(s), grounds paper
+    11x  div.shell-faq                                        Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds paper
+   117x  details.shell-faq-item                               Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds paper
+   117x  div.shell-faq-answer                                 Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds paper
+   107x  p.shell-faq-source                                   Space Grotesk / 14px / 400 / normal / normal / none
+          1 route(s), grounds paper
+     1x  aside.shell-doc-aside                                Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds paper
+     1x  nav.shell-contents                                   Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds paper
+     1x  div.shell-prose                                      Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.shell-span-note.shell-stack                      Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     2x  figure.shell-evidence                                Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     2x  span.shell-evidence-kind                             IBM Plex Mono / 9px / 600 / normal / 1.26px / none
+          1 route(s), grounds graphite
+     2x  div.shell-evidence-body                              Space Grotesk / 15px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     2x  figcaption.shell-evidence-source                     IBM Plex Mono / 9px / 500 / normal / 0.9px / none
+          1 route(s), grounds graphite
+     3x  div.shell-span-third.shell-stack                     Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     5x  ol.shell-index                                       Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite, paper
+    28x  a.shell-index-row                                    Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite, paper
+    28x  span.shell-index-no                                  IBM Plex Mono / 11px / 500 / normal / 0.66px / none
+          3 route(s), grounds graphite, paper
+    28x  span.shell-index-body                                Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite, paper
+    28x  span.shell-index-title                               Space Grotesk / 17.28px / 600 / normal / -0.2592px / none
+          3 route(s), grounds graphite, paper
+    28x  svg.shell-index-mark                                 Space Grotesk / 16px / 400 / normal / normal / none
+          3 route(s), grounds graphite, paper
+     1x  ol.shell-lead-sections                               Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.shell-span-note                                  Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  figure.shell-plate                                   Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  div.shell-plate-frame                                Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     4x  span.shell-plate-tick                                Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds graphite
+     1x  span.shell-plate-no                                  IBM Plex Mono / 9px / 600 / normal / 1.62px / none
+          1 route(s), grounds graphite
+     1x  span.shell-plate-caption                             IBM Plex Mono / 11px / 500 / normal / 0.22px / none
+          1 route(s), grounds graphite
+     1x  div.shell-span-full                                  Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds paper
+     5x  span.shell-index-eyebrow                             IBM Plex Mono / 9px / 600 / normal / 1.44px / uppercase
+          1 route(s), grounds paper
+     8x  span.shell-index-desc                                Space Grotesk / 14px / 400 / normal / normal / none
+          2 route(s), grounds paper
+     5x  span.shell-index-meta                                Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds paper
+     1x  div.shell-notfound                                   Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds paper
+     1x  p.shell-notfound-code                                IBM Plex Mono / 204.8px / 500 / normal / -10.24px / none
+          1 route(s), grounds paper
+     1x  h1.shell-notfound-title                              Newsreader / 40.96px / 400 / normal / -0.4096px / none
+          1 route(s), grounds paper
+     1x  dl.shell-meta-row.shell-notfound-meta                Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds paper
+     1x  section.shell-notfound-section                       Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds paper
+     1x  h2.shell-eyebrow                                     IBM Plex Mono / 10px / 600 / normal / 1.8px / uppercase
+          1 route(s), grounds paper
+     1x  div.shell-notfound-actions                           Space Grotesk / 16px / 400 / normal / normal / none
+          1 route(s), grounds paper
+
+guard canary: BLOCKED:Failed to fetch
+network — requested 14, blocked 14, allowed 0
