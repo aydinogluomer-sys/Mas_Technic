@@ -206,40 +206,40 @@
       "id": "bounce",
       "profile": "warm",
       "rendered": true,
-      "ageMs": 409.1,
+      "ageMs": 656.6,
       "landedOn": "/giris",
       "label": "OTURUM DÜŞTÜ",
-      "documentAgeAtReadMs": 2591,
+      "documentAgeAtReadMs": 2681.7,
       "loginMounted": true
     },
     {
       "id": "direct",
       "profile": "warm",
       "rendered": true,
-      "ageMs": 590.7,
+      "ageMs": 534.6,
       "landedOn": "/giris",
       "label": "OTURUM DÜŞTÜ",
-      "documentAgeAtReadMs": 2652.3,
+      "documentAgeAtReadMs": 2627.2,
       "loginMounted": true
     },
     {
       "id": "bounce",
       "profile": "6x CPU + 3G",
       "rendered": true,
-      "ageMs": 12335.8,
+      "ageMs": 12715.8,
       "landedOn": "/giris",
       "label": "OTURUM DÜŞTÜ",
-      "documentAgeAtReadMs": 29299.3,
+      "documentAgeAtReadMs": 29155,
       "loginMounted": true
     },
     {
       "id": "direct",
       "profile": "6x CPU + 3G",
       "rendered": true,
-      "ageMs": 10935,
+      "ageMs": 9102.9,
       "landedOn": "/giris",
       "label": "OTURUM DÜŞTÜ",
-      "documentAgeAtReadMs": 29042.6,
+      "documentAgeAtReadMs": 28786.6,
       "loginMounted": true
     },
     {
@@ -249,7 +249,7 @@
       "ageMs": null,
       "landedOn": null,
       "label": null,
-      "documentAgeAtReadMs": 83508.1,
+      "documentAgeAtReadMs": 85138.8,
       "loginMounted": false
     },
     {
@@ -259,7 +259,7 @@
       "ageMs": null,
       "landedOn": null,
       "label": null,
-      "documentAgeAtReadMs": 89060.4,
+      "documentAgeAtReadMs": 83008,
       "loginMounted": true
     }
   ],
@@ -272,7 +272,7 @@
       "ageMs": null,
       "label": null,
       "hash": "",
-      "documentAgeAtEndMs": 3145.4
+      "documentAgeAtEndMs": 3477.8
     },
     {
       "from": "/malzemeler",
@@ -282,7 +282,7 @@
       "ageMs": null,
       "label": null,
       "hash": "",
-      "documentAgeAtEndMs": 21669.4
+      "documentAgeAtEndMs": 21709.8
     },
     {
       "from": "/sss",
@@ -292,7 +292,7 @@
       "ageMs": null,
       "label": null,
       "hash": "",
-      "documentAgeAtEndMs": 3148.3
+      "documentAgeAtEndMs": 3118.3
     },
     {
       "from": "/",
@@ -302,7 +302,7 @@
       "ageMs": null,
       "label": null,
       "hash": "",
-      "documentAgeAtEndMs": 3146.8
+      "documentAgeAtEndMs": 3146.7
     }
   ]
 }

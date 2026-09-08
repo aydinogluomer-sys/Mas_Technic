@@ -43,24 +43,24 @@ A/B/C — ONE DOCUMENT PER CASE
       GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: provider_email_needs_verification
 
 D — AGE OF A GENUINE RETURN (performance.now() at DOM insertion)
-  bounce   warm              409.1 ms  landed=/giris  OTURUM DÜŞTÜ
-  direct   warm              590.7 ms  landed=/giris  OTURUM DÜŞTÜ
-  bounce   6x CPU + 3G     12335.8 ms  landed=/giris  OTURUM DÜŞTÜ
-  direct   6x CPU + 3G       10935 ms  landed=/giris  OTURUM DÜŞTÜ
-  bounce   20x CPU + 2G       null ms  landed=null  NO NOTICE — login mounted=false, doc 83508.1 ms old
-  direct   20x CPU + 2G       null ms  landed=null  NO NOTICE — login mounted=true, doc 89060.4 ms old
+  bounce   warm              656.6 ms  landed=/giris  OTURUM DÜŞTÜ
+  direct   warm              534.6 ms  landed=/giris  OTURUM DÜŞTÜ
+  bounce   6x CPU + 3G     12715.8 ms  landed=/giris  OTURUM DÜŞTÜ
+  direct   6x CPU + 3G      9102.9 ms  landed=/giris  OTURUM DÜŞTÜ
+  bounce   20x CPU + 2G       null ms  landed=null  NO NOTICE — login mounted=false, doc 85138.8 ms old
+  direct   20x CPU + 2G       null ms  landed=null  NO NOTICE — login mounted=true, doc 83008 ms old
 
 D — THE STALE CASE, NO SESSION, SAME DOCUMENT
-  /malzemeler  waited   1500 ms → /giris=true  notice=false  age=null  label=null  hash=""  docAge=3145.4
-  /malzemeler  waited  20000 ms → /giris=true  notice=false  age=null  label=null  hash=""  docAge=21669.4
-  /sss         waited   1500 ms → /giris=true  notice=false  age=null  label=null  hash=""  docAge=3148.3
-  /            waited   1500 ms → /giris=true  notice=false  age=null  label=null  hash=""  docAge=3146.8
+  /malzemeler  waited   1500 ms → /giris=true  notice=false  age=null  label=null  hash=""  docAge=3477.8
+  /malzemeler  waited  20000 ms → /giris=true  notice=false  age=null  label=null  hash=""  docAge=21709.8
+  /sss         waited   1500 ms → /giris=true  notice=false  age=null  label=null  hash=""  docAge=3118.3
+  /            waited   1500 ms → /giris=true  notice=false  age=null  label=null  hash=""  docAge=3146.7
 
 guard canary: BLOCKED:Failed to fetch
-age bounce (warm) — 409.1 ms on /giris
-age direct (warm) — 590.7 ms on /giris
-age bounce (6x CPU + 3G) — 12335.8 ms on /giris
-age direct (6x CPU + 3G) — 10935 ms on /giris
-age bounce (20x CPU + 2G) — NO NOTICE (document was 83508.1 ms old at read)
-age direct (20x CPU + 2G) — NO NOTICE (document was 89060.4 ms old at read)
-network — requested 75, blocked 75, allowed 0
+age bounce (warm) — 656.6 ms on /giris
+age direct (warm) — 534.6 ms on /giris
+age bounce (6x CPU + 3G) — 12715.8 ms on /giris
+age direct (6x CPU + 3G) — 9102.9 ms on /giris
+age bounce (20x CPU + 2G) — NO NOTICE (document was 85138.8 ms old at read)
+age direct (20x CPU + 2G) — NO NOTICE (document was 83008 ms old at read)
+network — requested 76, blocked 76, allowed 0
