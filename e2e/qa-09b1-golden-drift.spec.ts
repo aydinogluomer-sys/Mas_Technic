@@ -89,7 +89,15 @@ type Verdict = {
 const verdicts: Verdict[] = [];
 
 test.describe("QA 09b-1 — golden drift under the comparator's threshold", () => {
-  test.use({ viewport: { width: 1280, height: 900 }, reducedMotion: "reduce" });
+  /* `reducedMotion` is a CONTEXT option, not a test-fixture option, in
+     Playwright 1.59: it appears nowhere in `playwright/lib/**` and is not in
+     `PlaywrightTestOptions`. At the top level of `test.use()` it was a type
+     error AND a no-op — the intent never reached the browser. Passing it
+     through `contextOptions` puts it where `_combinedContextOptions` reads it
+     (`playwright/lib/index.js:215`, `{ ...contextOptions, ...options }`), so
+     this restores the reduced-motion capture condition rather than removing
+     it. Same viewport, same intent, now actually applied. */
+  test.use({ viewport: { width: 1280, height: 900 }, contextOptions: { reducedMotion: "reduce" } });
   test.describe.configure({ mode: "serial" });
 
   for (const c of CASES) {

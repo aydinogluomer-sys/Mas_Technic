@@ -94,7 +94,15 @@ async function census(page: import("@playwright/test").Page, route: string) {
 }
 
 test.describe("QA 09b-1 — one component, one typography, everywhere", () => {
-  test.use({ viewport: { width: 1280, height: 900 }, reducedMotion: "reduce" });
+  /* `reducedMotion` is a CONTEXT option, not a test-fixture option, in
+     Playwright 1.59: it appears nowhere in `playwright/lib/**` and is not in
+     `PlaywrightTestOptions`. At the top level of `test.use()` it was a type
+     error AND a no-op — the intent never reached the browser. Passing it
+     through `contextOptions` puts it where `_combinedContextOptions` reads it
+     (`playwright/lib/index.js:215`, `{ ...contextOptions, ...options }`), so
+     this restores the reduced-motion census condition rather than removing
+     it. Same viewport, same intent, now actually applied. */
+  test.use({ viewport: { width: 1280, height: 900 }, contextOptions: { reducedMotion: "reduce" } });
   test.describe.configure({ mode: "serial" });
 
   test("every design-system slot resolves one treatment across every route", async ({ page }) => {
