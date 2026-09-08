@@ -141,9 +141,47 @@ const CENSUS = () => {
   return out;
 };
 
-async function censusOf(page: Page, route: string): Promise<Row[]> {
+/* ── TWO PRECONDITIONS, AND THEY EXIST BECAUSE THIS GATE LIED ONCE ────────
+   A stray second Playwright run overlapped this one on an 8 GB machine; the
+   preview server started refusing connections, and this gate reported:
+
+     p.shell-state-label   → IBM Plex Mono / 10px / 600 on /giris+/teklif-al
+                          || Space Grotesk / 16px / 400 on /sifremi-unuttum+/sss
+
+   which reads exactly like a design-system defect and was nothing of the kind.
+   `/sifremi-unuttum` and `/sss` were stuck on `App.tsx`'s `.shell-boot` route
+   fallback with the stylesheet not applied, so the only two elements in the
+   document were the loading state's own label and detail, unstyled. A census
+   cannot tell "this component is outside the system" from "this page never
+   arrived" — unless it is made to, so it is:
+
+     1. THE ROUTE LEFT ITS LOADING STATE. `.shell-boot` is the route-level
+        suspense fallback and nothing else uses it; while it is present the
+        page is not the page.
+     2. THE STYLESHEET IS APPLIED. `--tl-rail` is declared on `:root` in
+        `design-tokens.css` and is `64px` on every public surface. An empty
+        value means the stylesheet did not load, which is a delivery failure
+        and must be named as one rather than counted as a split.
+
+   Both fail with their own message. A gate that reports the wrong cause is
+   worse than one that reports nothing, because the next reader acts on it. */
+async function arriveAt(page: Page, route: string): Promise<void> {
   await gotoAndSettle(page, route);
   await expect(page.locator("#root")).toBeVisible({ timeout: 20_000 });
+  await expect(
+    page.locator(".shell-boot"),
+    `${route} never left its route loading state — a delivery failure, not a typography split`,
+  ).toHaveCount(0, { timeout: 20_000 });
+  const rail = await page.evaluate(() =>
+    getComputedStyle(document.documentElement).getPropertyValue("--tl-rail").trim());
+  expect(
+    rail,
+    `${route} rendered without the stylesheet applied — a delivery failure, not a typography split`,
+  ).not.toEqual("");
+}
+
+async function censusOf(page: Page, route: string): Promise<Row[]> {
+  await arriveAt(page, route);
   return (await page.evaluate(CENSUS)).map((r) => ({ route, ...r }));
 }
 
@@ -203,7 +241,7 @@ test.describe("design system — one component, one typography", () => {
     expect(splits(healthy.filter((r) => r.key === ".shell-field label")), "the tree must be green before it can be broken")
       .toEqual([]);
 
-    await gotoAndSettle(page, "/giris");
+    await arriveAt(page, "/giris");
     /* THE ANCHOR IS ASSERTED, NOT ASSUMED. If a later phase renames
        `.shell-auth-label-row` this control must go red and be re-anchored —
        silently measuring nothing is how the original defect survived. */
@@ -266,6 +304,45 @@ test.describe("design system — one component, one typography", () => {
   });
 
   /* ──────────────────────────────────────────────────────────────────────
+     THE PRECONDITIONS ARE CONTROLS TOO. Both were added after this gate
+     reported a design-system defect that was really a page that never
+     arrived; a guard that has never been seen to fire is a comment. Each is
+     provoked here and must fail with ITS OWN message, not with a split.
+     ────────────────────────────────────────────────────────────────────── */
+  test("a page that never arrives is reported as a delivery failure, not a split", async ({ page }) => {
+    test.setTimeout(120_000);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+
+    /* (2) the stylesheet never lands. `--tl-rail` comes from `:root` in the
+       bundled CSS, so with the stylesheet gone every component in the document
+       reads at the browser default — which is precisely the shape of a split
+       and is not one. */
+    await page.route("**/*.css", (route) => route.abort());
+    await expect(arriveAt(page, "/giris"))
+      .rejects.toThrow(/rendered without the stylesheet applied/);
+    await page.unroute("**/*.css");
+
+    /* (1) the route chunk is HELD, not aborted, and the difference is the
+       whole control. Aborting it was tried first and the guard did NOT fire:
+       the rejected dynamic import reaches an error boundary, `.shell-boot`
+       comes down, and the page "arrives" at an error state. Only a request
+       that never answers leaves `Suspense` pending, which is the condition
+       this precondition exists for — a page that is still loading when the
+       census reads it.
+
+       Named by its own chunk so it cannot silently stop blocking anything: if
+       the build stops emitting a `Login-*.js` chunk the page arrives,
+       `arriveAt` resolves, and this control goes red. */
+    await page.route("**/assets/Login-*.js", async (route) => {
+      await new Promise((resolve) => setTimeout(resolve, 30_000));
+      await route.abort().catch(() => { /* the page is already gone */ });
+    });
+    await expect(arriveAt(page, "/giris"))
+      .rejects.toThrow(/never left its route loading state/);
+    await page.unroute("**/assets/Login-*.js");
+  });
+
+  /* ──────────────────────────────────────────────────────────────────────
      AND THE OTHER HALF OF "A COMPONENT RENDERS ONE WAY": the attribute that
      SELECTS a component's ground. `ShellBand` used to write
      `data-band-tone="graphite"` into the DOM with no rule anywhere matching
@@ -278,7 +355,7 @@ test.describe("design system — one component, one typography", () => {
     const seen = new Set<string>();
     let bands = 0;
     for (const route of ROUTES) {
-      await gotoAndSettle(page, route);
+      await arriveAt(page, route);
       const tones = await page.evaluate(() =>
         Array.from(document.querySelectorAll("[data-band-tone]"))
           .map((el) => el.getAttribute("data-band-tone") ?? ""));

@@ -204,113 +204,300 @@ Running 228 tests using 1 worker
   ✘  183 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:194:5 › contrast @ 1280 › paper band inside a graphite root re-binds --sf-danger @ 1280 (4.0s)
 (node:21836) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-shift or hours claim) [LEAD_TIME/w-kesintisiz] /endustriyel/seri-uretim :: "kesintisiz"
-SETTLED slowest=/hizmetler/tavlama@9981ms shortest=/endustriyel@1467chars neverSettled=0
-ROUTES_WITHOUT_SLA (6): /kvkk, /gizlilik-politikasi, /cerez-politikasi, /hizmetler, /kabiliyetler, /endustriyel
-  ✓  180 [mobile-375] › e2e\qa-p09a2-claims-sweep.spec.ts:159:1 › public routes carry no unauthorised duration, payment term or warranty (3.2m)
-[graphite/1280] notice-label fg=#e18570 bg=#070b0d ratio=7.33 font=9px/600 | edge=#e18570 ratio=7.33
-[graphite/1280] notice text: DOSYA REDDEDİLDİ Bu format okunamıyor “qa-p09a2-probe.sldprt” (.sldprt) kabul edilen formatlardan biri değil. Kabul edilenler: .step, .stp, .stl, .obj, .iges, .igs, .3mf.
-  ✓  181 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:104:5 › contrast @ 1280 › graphite: tone="error" notice label + edge @ 1280 (4.3s)
-[/teklif-al/1280] .shell-form-error text=#f3f0e8 bg=#030506 textRatio=17.93 border=#e18570 borderRatio=7.58 font=13px/500 planted=true
-[/iletisim/1280] .shell-form-error text=#f3f0e8 bg=#070b0d textRatio=17.35 border=#e18570 borderRatio=7.33 font=13px/500 planted=false
-  ✓  182 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:138:5 › contrast @ 1280 › graphite: .shell-form-error on /teklif-al + /iletisim @ 1280 (7.7s)
-[paper-band-in-graphite/1280] fg=#8a4030 bg=#eee9de ratio=6.07 edge=rgb(138, 64, 48)
-  ✓  183 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:194:5 › contrast @ 1280 › paper band inside a graphite root re-binds --sf-danger @ 1280 (3.2s)
-[graphite/375] notice-label fg=#e18570 bg=#070b0d ratio=7.33 font=9px/600 | edge=#e18570 ratio=7.33
-[graphite/375] notice text: DOSYA REDDEDİLDİ Bu format okunamıyor “qa-p09a2-probe.sldprt” (.sldprt) kabul edilen formatlardan biri değil. Kabul edilenler: .step, .stp, .stl, .obj, .iges, .igs, .3mf.
-  ✓  184 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:104:5 › contrast @ 375 › graphite: tone="error" notice label + edge @ 375 (3.5s)
+  ✘  184 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:104:5 › contrast @ 375 › graphite: tone="error" notice label + edge @ 375 (4.8s)
+(node:24156) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
 [/teklif-al/375] .shell-form-error text=#f3f0e8 bg=#030506 textRatio=17.93 border=#e18570 borderRatio=7.58 font=13px/500 planted=true
 [/iletisim/375] .shell-form-error text=#f3f0e8 bg=#070b0d textRatio=17.35 border=#e18570 borderRatio=7.33 font=13px/500 planted=false
-  ✓  185 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:138:5 › contrast @ 375 › graphite: .shell-form-error on /teklif-al + /iletisim @ 375 (7.5s)
+  ✓  185 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:138:5 › contrast @ 375 › graphite: .shell-form-error on /teklif-al + /iletisim @ 375 (6.0s)
 [paper-band-in-graphite/375] fg=#8a4030 bg=#eee9de ratio=6.07 edge=rgb(138, 64, 48)
-  ✓  186 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:194:5 › contrast @ 375 › paper band inside a graphite root re-binds --sf-danger @ 375 (4.2s)
+  ✓  186 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:194:5 › contrast @ 375 › paper band inside a graphite root re-binds --sf-danger @ 375 (3.5s)
 P09A3_JSON=test-results/qa-p09a3-cad-dom/dom-cad-mobile-375.json (scratch)
-  ✓  187 [mobile-375] › e2e\qa-p09a3-cad-dom.spec.ts:144:3 › 09a-R3 — the C3 corrections in the rendered DOM › no page offers a CAD format the validator refuses, and the carried claims are gone (22.1s)
-  ✘  188 [mobile-375] › e2e\qa-p09a3-cad-dom.spec.ts:233:3 › 09a-R3 — the C3 corrections in the rendered DOM › every comparison table paints as many header cells as its rows have cells (20.0s)
-(node:1464) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
-(Use `node --trace-deprecation ...` to show where the warning was created)
-  ✓  189 [mobile-375] › e2e\qa-p09a4-evidence-write-guard.spec.ts:125:3 › 09a-R4 — evidence writes › no spec in e2e/** writes into the repository without an explicit flag (122ms)
-  ✓  190 [mobile-375] › e2e\qa-p09a4-evidence-write-guard.spec.ts:135:3 › 09a-R4 — evidence writes › the set of write destinations is exactly the one that was reviewed (47ms)
+  ✓  187 [mobile-375] › e2e\qa-p09a3-cad-dom.spec.ts:144:3 › 09a-R3 — the C3 corrections in the rendered DOM › no page offers a CAD format the validator refuses, and the carried claims are gone (20.8s)
+P09A3_JSON=test-results/qa-p09a3-cad-dom/dom-tables-mobile-375.json (scratch)
+  ✓  188 [mobile-375] › e2e\qa-p09a3-cad-dom.spec.ts:233:3 › 09a-R3 — the C3 corrections in the rendered DOM › every comparison table paints as many header cells as its rows have cells (13.8s)
+  ✓  189 [mobile-375] › e2e\qa-p09a4-evidence-write-guard.spec.ts:125:3 › 09a-R4 — evidence writes › no spec in e2e/** writes into the repository without an explicit flag (151ms)
+  ✓  190 [mobile-375] › e2e\qa-p09a4-evidence-write-guard.spec.ts:135:3 › 09a-R4 — evidence writes › the set of write destinations is exactly the one that was reviewed (39ms)
 P09A4_JSON=test-results/qa-p09a4-sla-wobble/sla-wobble-unsealed-mobile-375.json (scratch)
 SLA_WOBBLE arm=unsealed route=/teklif-al attempts=12 earlyMiss=0 settledMiss=0 verdict=NO_WOBBLE_OBSERVED — both reads were stable in this arm
-  ✓  191 [mobile-375] › e2e\qa-p09a4-sla-wobble.spec.ts:175:1 › unsealed: /teklif-al carries the authorised SLA on every attempt (60.0s)
+  ✓  191 [mobile-375] › e2e\qa-p09a4-sla-wobble.spec.ts:175:1 › unsealed: /teklif-al carries the authorised SLA on every attempt (58.6s)
 P09A4_JSON=test-results/qa-p09a4-sla-wobble/sla-wobble-sealed-mobile-375.json (scratch)
-SLA_WOBBLE arm=sealed route=/teklif-al attempts=12 earlyMiss=2 settledMiss=0 verdict=MEASUREMENT_RACE — the copy is always in the settled page; the 350 ms read is not
+SLA_WOBBLE arm=sealed route=/teklif-al attempts=12 earlyMiss=3 settledMiss=0 verdict=MEASUREMENT_RACE — the copy is always in the settled page; the 350 ms read is not
   ✓  192 [mobile-375] › e2e\qa-p09a4-sla-wobble.spec.ts:185:1 › sealed: the round-2 harness's own interception is what moves the 350 ms read (1.1m)
 P09A4_JSON=test-results/qa-p09a4-sla-wobble/sla-sweep-replica-mobile-375.json (scratch)
-SLA_REPLICA passes=55,55 disagreed=["/endustriyel/iklim-teknolojileri","/teklif-al"] misses=16 racedNotAbsent=4 genuinelyAbsent=12
+SLA_REPLICA passes=52,49 disagreed=["/hizmetler/cnc-frezeleme","/hizmetler/kimyasal-islemler","/hizmetler/boya-koruyucu-kaplamalar","/hizmetler/mekanik-montaj","/endustriyel/otomotiv","/endustriyel/medikal","/endustriyel/prototip-uretim","/endustriyel/madencilik-ekipmanlari","/iletisim","/hizmetler/cnc-tornalama","/hizmetler/mekanik-yuzey-islemleri","/hizmetler/kitting-paketleme","/kabiliyetler/tasarim-rehberi-dfm"] misses=25 racedNotAbsent=13 genuinelyAbsent=12
   ✓  193 [mobile-375] › e2e\qa-p09a4-sla-wobble.spec.ts:211:1 › sweep replica: which of the 63 routes moves, and what it looks like when it does (5.5m)
 STABILISED route s=63 neverSettled=0 SLA_ROUTES=57 FINDINGS=0 EXEMPTED=12
 P09A4_JSON=test-results/qa-p09a4-stabilised-sweep/stabilised-sweep-mobile-375.json (scratch)
-  ✓  194 [mobile-375] › e2e\qa-p09a4-stabilised-sweep.spec.ts:126:1 › the round-2 sweep, re-run on settled pages, reaches the same verdict (2.1m)
-  ✓  195 [mobile-375] › e2e\scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on / (6.2s)
-  ✓  196 [mobile-375] › e2e\scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on /sss (3.9s)
-  ✓  197 [mobile-375] › e2e\scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on /iletisim (3.7s)
+  ✓  194 [mobile-375] › e2e\qa-p09a4-stabilised-sweep.spec.ts:126:1 › the round-2 sweep, re-run on settled pages, reaches the same verdict (2.9m)
+  ✓  195 [mobile-375] › e2e\scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on / (7.4s)
+  ✓  196 [mobile-375] › e2e\scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on /sss (4.7s)
+  ✓  197 [mobile-375] › e2e\scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on /iletisim (4.7s)
   -  198 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:281:3 › Shared public shell accessibility › keeps the skip link above the closed header and below the modal
   -  199 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:297:3 › Shared public shell accessibility › derives an exhaustive 99-path public route and shell ownership contract
   -  200 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:337:3 › Shared public shell accessibility › keeps all 95 canonical full-shell routes on one header/footer contract
   -  201 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:423:3 › Shared public shell accessibility › keeps declared public and panel shell exceptions explicit
-  ✓  202 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:467:3 › Shared public shell accessibility › keeps the dialog fixed, isolated, keyboard bounded, and restorable (7.8s)
-  ✓  203 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:524:3 › Shared public shell accessibility › makes mobile footer disclosures semantic and removes closed links from Tab order (5.3s)
-  ✓  204 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:561:3 › Shared public shell accessibility › keeps footer CTA and legal controls reachable, stable, and unobscured (6.2s)
+  ✓  202 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:467:3 › Shared public shell accessibility › keeps the dialog fixed, isolated, keyboard bounded, and restorable (7.2s)
+  ✓  203 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:524:3 › Shared public shell accessibility › makes mobile footer disclosures semantic and removes closed links from Tab order (7.7s)
+  ✓  204 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:561:3 › Shared public shell accessibility › keeps footer CTA and legal controls reachable, stable, and unobscured (6.8s)
   -  205 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:589:3 › Shared public shell accessibility › keeps every footer control unobscured in natural forward and reverse keyboard order
   -  206 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:599:3 › Shared public shell accessibility › preserves footer reflow at a 400 percent equivalent CSS viewport
   -  207 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:612:3 › Shared public shell accessibility › supports WCAG text spacing without clipping footer content
   -  208 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:635:3 › Shared public shell accessibility › retains visible footer focus indicators in forced-colors mode
   -  209 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:677:3 › Shared public shell accessibility › honors four-edge safe-area tokens in the closed header, modal and footer
-  ✓  210 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:781:3 › Shared public shell accessibility › renders footer content immediately and uses non-smooth scroll under reduced motion (3.5s)
+  ✓  210 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:781:3 › Shared public shell accessibility › renders footer content immediately and uses non-smooth scroll under reduced motion (3.7s)
   -  211 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:845:3 › Shared public shell accessibility › has no serious or critical axe violations in the closed shared shell
   -  212 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:859:3 › Shared public shell accessibility › records whole-page axe evidence and isolates documented non-shell debt
   -  213 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:956:3 › Shared public shell accessibility › preserves shell reflow and focus access at 200 percent text size
-  ✓  214 [mobile-375] › e2e\technical-landing.spec.ts:13:3 › technical editorial landing phase 1 › renders the frame, hero, annotations and proof strip (4.0s)
-  ✓  215 [mobile-375] › e2e\technical-landing.spec.ts:21:3 › technical editorial landing phase 1 › numbers every band of the drawing sheet in order (3.8s)
-  ✓  216 [mobile-375] › e2e\technical-landing.spec.ts:26:3 › technical editorial landing phase 1 › does not create document-level horizontal overflow (3.7s)
-  ✓  217 [mobile-375] › e2e\technical-landing.spec.ts:31:3 › technical editorial landing phase 1 › keeps the shared sheet rail and viewport column contract (3.6s)
-  ✓  218 [mobile-375] › e2e\technical-landing.spec.ts:68:3 › technical editorial landing phase 1 › renders the capability marquee with its loop copy hidden from assistive tech (9.4s)
-  ✓  219 [mobile-375] › e2e\technical-landing.spec.ts:77:3 › technical editorial landing phase 1 › moves the two visual bands against the scroll without hijacking input (8.7s)
-  ✓  220 [mobile-375] › e2e\technical-landing.spec.ts:104:3 › technical editorial landing phase 1 › renders process, the NEXUS preview and the capability profiles (5.2s)
-  ✓  221 [mobile-375] › e2e\technical-landing.spec.ts:118:3 › technical editorial landing phase 1 › renders sectors, the quality file and the reference band (4.6s)
-  ✓  222 [mobile-375] › e2e\technical-landing.spec.ts:139:3 › technical editorial landing phase 1 › serves the four quality documents as real downloads (5.8s)
-  ✓  223 [mobile-375] › e2e\technical-landing.spec.ts:161:3 › technical editorial landing phase 1 › renders FAQ answers and the RFQ hand-off (5.5s)
+  ✓  214 [mobile-375] › e2e\technical-landing.spec.ts:13:3 › technical editorial landing phase 1 › renders the frame, hero, annotations and proof strip (2.8s)
+  ✓  215 [mobile-375] › e2e\technical-landing.spec.ts:21:3 › technical editorial landing phase 1 › numbers every band of the drawing sheet in order (3.2s)
+  ✓  216 [mobile-375] › e2e\technical-landing.spec.ts:26:3 › technical editorial landing phase 1 › does not create document-level horizontal overflow (6.1s)
+  ✓  217 [mobile-375] › e2e\technical-landing.spec.ts:31:3 › technical editorial landing phase 1 › keeps the shared sheet rail and viewport column contract (3.1s)
+  ✓  218 [mobile-375] › e2e\technical-landing.spec.ts:68:3 › technical editorial landing phase 1 › renders the capability marquee with its loop copy hidden from assistive tech (5.8s)
+  ✓  219 [mobile-375] › e2e\technical-landing.spec.ts:77:3 › technical editorial landing phase 1 › moves the two visual bands against the scroll without hijacking input (5.0s)
+  ✓  220 [mobile-375] › e2e\technical-landing.spec.ts:104:3 › technical editorial landing phase 1 › renders process, the NEXUS preview and the capability profiles (4.5s)
+  ✓  221 [mobile-375] › e2e\technical-landing.spec.ts:118:3 › technical editorial landing phase 1 › renders sectors, the quality file and the reference band (5.0s)
+  ✓  222 [mobile-375] › e2e\technical-landing.spec.ts:139:3 › technical editorial landing phase 1 › serves the four quality documents as real downloads (4.8s)
+  ✓  223 [mobile-375] › e2e\technical-landing.spec.ts:161:3 › technical editorial landing phase 1 › renders FAQ answers and the RFQ hand-off (5.7s)
   -  224 [mobile-375] › e2e\technical-landing.spec.ts:178:3 › technical editorial landing phase 1 › keeps reference proportions for headline, project cards and NEXUS rows
-  ✓  225 [mobile-375] › e2e\technical-landing.spec.ts:381:3 › technical editorial landing phase 1 › has no serious or critical accessibility violations (20.3s)
-  ✓  226 [mobile-375] › e2e\technical-landing.spec.ts:394:3 › technical editorial landing phase 1 › the one global menu traps focus, locks scroll and restores the trigger (9.1s)
-  ✓  227 [mobile-375] › e2e\technical-landing.spec.ts:413:3 › technical editorial landing phase 1 › keeps the global header free of serious accessibility violations (11.8s)
-  ✓  228 [mobile-375] › e2e\technical-landing.spec.ts:441:3 › technical editorial landing phase 1 › reduced motion keeps the complete page visible without active animation (6.0s)
+  ✓  225 [mobile-375] › e2e\technical-landing.spec.ts:381:3 › technical editorial landing phase 1 › has no serious or critical accessibility violations (10.7s)
+  ✓  226 [mobile-375] › e2e\technical-landing.spec.ts:394:3 › technical editorial landing phase 1 › the one global menu traps focus, locks scroll and restores the trigger (6.9s)
+  ✓  227 [mobile-375] › e2e\technical-landing.spec.ts:413:3 › technical editorial landing phase 1 › keeps the global header free of serious accessibility violations (11.0s)
+  ✓  228 [mobile-375] › e2e\technical-landing.spec.ts:441:3 › technical editorial landing phase 1 › reduced motion keeps the complete page visible without active animation (3.6s)
 
 
-  1) [mobile-375] › e2e\qa-p09a3-cad-dom.spec.ts:233:3 › 09a-R3 — the C3 corrections in the rendered DOM › every comparison table paints as many header cells as its rows have cells 
+  1) [mobile-375] › e2e\design-system-typography.spec.ts:171:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds 
 
-    Error: the cavity table must still render
+    Error: a design-system component resolving more than one typography — see the note at the top of this file
 
-    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeTruthy[2m()[22m
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
 
-    Received: [31mundefined[39m
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 4[39m
 
-      260 |
-      261 |     const cavity = tables.find((t) => /Kavite Sayısı/iu.test(t.caption));
-    > 262 |     expect(cavity, "the cavity table must still render").toBeTruthy();
-          |                                                          ^
-      263 |     expect(cavity?.headers, "the cycle-rate column stays; only the parts-per-hour column went").toEqual([
-      264 |       "Kavite", "Çevrim/Saat", "Birim Maliyet", "Kalıp Maliyeti", "Önerilen Hacim",
-      265 |     ]);
-        at C:\Users\Trade Bilisim\pdh-wt\coder-p09a\e2e\qa-p09a3-cad-dom.spec.ts:262:58
+    [32m- Array [][39m
+    [31m+ Array [[39m
+    [31m+   "p.shell-state-label  →  IBM Plex Mono / 10px / 600 / normal / 2px / none (2x on /giris+/teklif-al, grounds none, e.g. \"YÜKLENİYOR\")   ||   Space Grotesk / 16px / 400 / normal / normal / none (2x on /sifremi-unuttum+/sss, grounds none, e.g. \"YÜKLENİYOR\")",[39m
+    [31m+   "p.shell-state-detail  →  Space Grotesk / 14px / 400 / normal / normal / none (2x on /giris+/teklif-al, grounds none, e.g. \"Sayfa hazırlanıyor.\")   ||   Space Grotesk / 16px / 400 / normal / normal / none (2x on /sifremi-unuttum+/sss, grounds none, e.g. \"Sayfa hazırlanıyor.\")",[39m
+    [31m+ ][39m
+
+      182 |       splits(rows),
+      183 |       "a design-system component resolving more than one typography — see the note at the top of this file",
+    > 184 |     ).toEqual([]);
+          |       ^
+      185 |   });
+      186 |
+      187 |   /* ──────────────────────────────────────────────────────────────────────
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p09a\e2e\design-system-typography.spec.ts:184:7
 
     [31mTest timeout of 60000ms exceeded.[39m
 
     attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
-    test-results\qa-p09a3-cad-dom-09a-R3-—--8f6da-ells-as-its-rows-have-cells-mobile-375\test-failed-1.png
+    test-results\design-system-typography-d-5bee9-s-across-routes-and-grounds-mobile-375\test-failed-1.png
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
     attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
-    test-results\qa-p09a3-cad-dom-09a-R3-—--8f6da-ells-as-its-rows-have-cells-mobile-375\video.webm
+    test-results\design-system-typography-d-5bee9-s-across-routes-and-grounds-mobile-375\video.webm
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
-    Error Context: test-results\qa-p09a3-cad-dom-09a-R3-—--8f6da-ells-as-its-rows-have-cells-mobile-375\error-context.md
+    Error Context: test-results\design-system-typography-d-5bee9-s-across-routes-and-grounds-mobile-375\error-context.md
+
+  2) [mobile-375] › e2e\design-system-typography.spec.ts:237:3 › design system — one component, one typography › RED on a defect it has never seen: one instance of any slot pushed off the system 
+
+    Error: /iletisim must render at least two `.shell-field` labels for this control
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mnot[2m.[22mtoBeNull[2m()[22m
+
+    Received: [31mnull[39m
+
+      252 |       return el.textContent?.trim() ?? "";
+      253 |     });
+    > 254 |     expect(target, "/iletisim must render at least two `.shell-field` labels for this control").not.toBeNull();
+          |                                                                                                     ^
+      255 |
+      256 |     await page.addStyleTag({
+      257 |       content: `[data-09b1c2-mutant] { font-size: 13px !important; letter-spacing: normal !important; }`,
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p09a\e2e\design-system-typography.spec.ts:254:101
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\design-system-typography-d-f4dc8--slot-pushed-off-the-system-mobile-375\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\design-system-typography-d-f4dc8--slot-pushed-off-the-system-mobile-375\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\design-system-typography-d-f4dc8--slot-pushed-off-the-system-mobile-375\error-context.md
+
+  3) [mobile-375] › e2e\qa-p09a2-claims-sweep.spec.ts:159:1 › public routes carry no unauthorised duration, payment term or warranty 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:4173/kabiliyetler/makine-parkuru
+    Call log:
+    [2m  - navigating to "http://localhost:4173/kabiliyetler/makine-parkuru", waiting until "domcontentloaded"[22m
+
+
+      165 |
+      166 |   for (const route of ROUTES) {
+    > 167 |     await page.goto(route, { waitUntil: "domcontentloaded" });
+          |                ^
+      168 |     const settled = await settledText(page);
+      169 |     settleTimes.push({ route, len: settled.text.length, settleMs: settled.ms });
+      170 |     if (settled.text.length <= SHELL_ONLY_MAX) {
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p09a\e2e\qa-p09a2-claims-sweep.spec.ts:167:16
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\qa-p09a2-claims-sweep-publ-cb020-on-payment-term-or-warranty-mobile-375\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\qa-p09a2-claims-sweep-publ-cb020-on-payment-term-or-warranty-mobile-375\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\qa-p09a2-claims-sweep-publ-cb020-on-payment-term-or-warranty-mobile-375\error-context.md
+
+  4) [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:104:5 › contrast @ 1280 › graphite: tone="error" notice label + edge @ 1280 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:4173/teklif-al
+    Call log:
+    [2m  - navigating to "http://localhost:4173/teklif-al", waiting until "domcontentloaded"[22m
+
+
+      104 |     test(`graphite: tone="error" notice label + edge @ ${vp.name}`, async ({ page }) => {
+      105 |       const seal = await sealNetwork(page);
+    > 106 |       await page.goto("/teklif-al", { waitUntil: "domcontentloaded" });
+          |                  ^
+      107 |       await assertSealed(page, seal); // BEFORE touching any control
+      108 |
+      109 |       const root = page.locator(".shell-root").first();
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p09a\e2e\qa-p09a2-contrast.spec.ts:106:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\qa-p09a2-contrast-contrast-c30a5-rror-notice-label-edge-1280-mobile-375\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\qa-p09a2-contrast-contrast-c30a5-rror-notice-label-edge-1280-mobile-375\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\qa-p09a2-contrast-contrast-c30a5-rror-notice-label-edge-1280-mobile-375\error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\qa-p09a2-contrast-contrast-c30a5-rror-notice-label-edge-1280-mobile-375\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\qa-p09a2-contrast-contrast-c30a5-rror-notice-label-edge-1280-mobile-375\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:138:5 › contrast @ 1280 › graphite: .shell-form-error on /teklif-al + /iletisim @ 1280 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:4173/teklif-al
+    Call log:
+    [2m  - navigating to "http://localhost:4173/teklif-al", waiting until "domcontentloaded"[22m
+
+
+      140 |
+      141 |       for (const route of ["/teklif-al", "/iletisim"]) {
+    > 142 |         await page.goto(route, { waitUntil: "domcontentloaded" });
+          |                    ^
+      143 |         await assertSealed(page, seal);
+      144 |         // React must have mounted before we can find or plant anything.
+      145 |         await page.locator(".shell-root").first().waitFor({ state: "attached" });
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p09a\e2e\qa-p09a2-contrast.spec.ts:142:20
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\qa-p09a2-contrast-contrast-10d42--on-teklif-al-iletisim-1280-mobile-375\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\qa-p09a2-contrast-contrast-10d42--on-teklif-al-iletisim-1280-mobile-375\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\qa-p09a2-contrast-contrast-10d42--on-teklif-al-iletisim-1280-mobile-375\error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\qa-p09a2-contrast-contrast-10d42--on-teklif-al-iletisim-1280-mobile-375\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\qa-p09a2-contrast-contrast-10d42--on-teklif-al-iletisim-1280-mobile-375\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:194:5 › contrast @ 1280 › paper band inside a graphite root re-binds --sf-danger @ 1280 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:4173/iletisim
+    Call log:
+    [2m  - navigating to "http://localhost:4173/iletisim", waiting until "domcontentloaded"[22m
+
+
+      196 |       // /iletisim carries ShellSurfaceBand tone="paper" (Iletisim.tsx:198)
+      197 |       // inside a graphite shell root: precisely the descendant case.
+    > 198 |       await page.goto("/iletisim", { waitUntil: "domcontentloaded" });
+          |                  ^
+      199 |       await assertSealed(page, seal);
+      200 |
+      201 |       const rootSurface = await page.locator(".shell-root").first().getAttribute("data-shell-surface");
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p09a\e2e\qa-p09a2-contrast.spec.ts:198:18
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\qa-p09a2-contrast-contrast-bd319-t-re-binds---sf-danger-1280-mobile-375\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\qa-p09a2-contrast-contrast-bd319-t-re-binds---sf-danger-1280-mobile-375\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\qa-p09a2-contrast-contrast-bd319-t-re-binds---sf-danger-1280-mobile-375\error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\qa-p09a2-contrast-contrast-bd319-t-re-binds---sf-danger-1280-mobile-375\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\qa-p09a2-contrast-contrast-bd319-t-re-binds---sf-danger-1280-mobile-375\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:104:5 › contrast @ 375 › graphite: tone="error" notice label + edge @ 375 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:4173/teklif-al
+    Call log:
+    [2m  - navigating to "http://localhost:4173/teklif-al", waiting until "domcontentloaded"[22m
+
+
+      104 |     test(`graphite: tone="error" notice label + edge @ ${vp.name}`, async ({ page }) => {
+      105 |       const seal = await sealNetwork(page);
+    > 106 |       await page.goto("/teklif-al", { waitUntil: "domcontentloaded" });
+          |                  ^
+      107 |       await assertSealed(page, seal); // BEFORE touching any control
+      108 |
+      109 |       const root = page.locator(".shell-root").first();
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p09a\e2e\qa-p09a2-contrast.spec.ts:106:18
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\qa-p09a2-contrast-contrast-dad5f-error-notice-label-edge-375-mobile-375\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\qa-p09a2-contrast-contrast-dad5f-error-notice-label-edge-375-mobile-375\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\qa-p09a2-contrast-contrast-dad5f-error-notice-label-edge-375-mobile-375\error-context.md
 
   Slow test file: [mobile-375] › e2e\qa-p09a4-sla-wobble.spec.ts (7.6m)
   Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
-  1 failed
-    [mobile-375] › e2e\qa-p09a3-cad-dom.spec.ts:233:3 › 09a-R3 — the C3 corrections in the rendered DOM › every comparison table paints as many header cells as its rows have cells 
+  7 failed
+    [mobile-375] › e2e\design-system-typography.spec.ts:171:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds 
+    [mobile-375] › e2e\design-system-typography.spec.ts:237:3 › design system — one component, one typography › RED on a defect it has never seen: one instance of any slot pushed off the system 
+    [mobile-375] › e2e\qa-p09a2-claims-sweep.spec.ts:159:1 › public routes carry no unauthorised duration, payment term or warranty 
+    [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:104:5 › contrast @ 1280 › graphite: tone="error" notice label + edge @ 1280 
+    [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:138:5 › contrast @ 1280 › graphite: .shell-form-error on /teklif-al + /iletisim @ 1280 
+    [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:194:5 › contrast @ 1280 › paper band inside a graphite root re-binds --sf-danger @ 1280 
+    [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:104:5 › contrast @ 375 › graphite: tone="error" notice label + edge @ 375 
   69 skipped
-  158 passed (33.2m)
+  152 passed (40.1m)
