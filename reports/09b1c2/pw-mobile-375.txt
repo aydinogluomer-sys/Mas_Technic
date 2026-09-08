@@ -1,0 +1,316 @@
+(node:29208) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 228 tests using 1 worker
+
+(node:5936) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘    1 [mobile-375] › e2e\design-system-typography.spec.ts:171:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds (36.5s)
+(node:26468) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓    2 [mobile-375] › e2e\design-system-typography.spec.ts:192:3 › design system — one component, one typography › RED on the historical defect: reverting e224364 at runtime splits the label (8.5s)
+  ✘    3 [mobile-375] › e2e\design-system-typography.spec.ts:237:3 › design system — one component, one typography › RED on a defect it has never seen: one instance of any slot pushed off the system (9.8s)
+(node:1804) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓    4 [mobile-375] › e2e\design-system-typography.spec.ts:275:3 › design system — one component, one typography › only a band tone the stylesheet binds reaches the DOM (19.2s)
+  ✓    5 [mobile-375] › e2e\footer-reveal.spec.ts:29:3 › complete footer is reachable on / (15.3s)
+  ✓    6 [mobile-375] › e2e\footer-reveal.spec.ts:29:3 › complete footer is reachable on /sss (11.9s)
+  ✓    7 [mobile-375] › e2e\footer-reveal.spec.ts:29:3 › complete footer is reachable on /iletisim (9.3s)
+  ✓    8 [mobile-375] › e2e\footer-reveal.spec.ts:29:3 › complete footer is reachable on /malzemeler (11.0s)
+  ✓    9 [mobile-375] › e2e\footer-reveal.spec.ts:29:3 › complete footer is reachable on /teklif-al (7.8s)
+  -   10 [mobile-375] › e2e\footer-reveal.spec.ts:99:1 › complete shared footer is reachable in a short desktop viewport
+  ✓   11 [mobile-375] › e2e\fullscreen-menu.spec.ts:26:3 › Fullscreen machining navigation › uses one three-line trigger and a viewport-bound takeover (5.9s)
+  -   12 [mobile-375] › e2e\fullscreen-menu.spec.ts:48:3 › Fullscreen machining navigation › places the primary menu trigger before main-page controls
+  ✓   13 [mobile-375] › e2e\fullscreen-menu.spec.ts:83:3 › Fullscreen machining navigation › exposes all three families and five categories per family (6.7s)
+  ✓   14 [mobile-375] › e2e\fullscreen-menu.spec.ts:97:3 › Fullscreen machining navigation › traps focus, closes on Escape, and restores trigger focus (13.6s)
+  ✓   15 [mobile-375] › e2e\fullscreen-menu.spec.ts:125:3 › Fullscreen machining navigation › closes before internal navigation and releases scroll lock (5.6s)
+  -   16 [mobile-375] › e2e\fullscreen-menu.spec.ts:134:3 › Fullscreen machining navigation › preserves a pre-existing stopped Lenis state after closing
+  ✓   17 [mobile-375] › e2e\fullscreen-menu.spec.ts:166:3 › Fullscreen machining navigation › reduced motion opens without a delayed hidden state, and still closes (4.6s)
+  ✓   18 [mobile-375] › e2e\fullscreen-menu.spec.ts:183:3 › Fullscreen machining navigation › preserves 3 families, 15 categories and 48 unique detail routes (24ms)
+  -   19 [mobile-375] › e2e\fullscreen-menu.spec.ts:193:3 › Fullscreen machining navigation › keyboard-only reaches all 48 detail links without hover or programmatic focus
+  ✓   20 [mobile-375] › e2e\fullscreen-menu.spec.ts:288:3 › Fullscreen machining navigation › supports roving keys and valid single-open accordion IDREFs (10.7s)
+  ✓   21 [mobile-375] › e2e\fullscreen-menu.spec.ts:317:3 › Fullscreen machining navigation › has no axe violations inside the open dialog (11.8s)
+  -   22 [mobile-375] › e2e\fullscreen-menu.spec.ts:325:3 › Fullscreen machining navigation › publishes the identical menu on an inner page shell
+  -   23 [mobile-375] › e2e\fullscreen-menu.spec.ts:356:3 › Fullscreen machining navigation › has no serious or critical axe violations with the menu open on an inner page
+  ✓   24 [mobile-375] › e2e\fullscreen-menu.spec.ts:370:3 › Fullscreen machining navigation › remains deterministic through repeated toggle input (7.6s)
+  ✓   25 [mobile-375] › e2e\landing\claims-gate.spec.ts:28:3 › content truth › no unverified claim exists anywhere in the public source (9.1s)
+  ✓   26 [mobile-375] › e2e\landing\claims-gate.spec.ts:48:3 › content truth › the gate can still fail — it is not a rubber stamp (5.8s)
+  ✓   27 [mobile-375] › e2e\landing\dev-routes.spec.ts:16:5 › dev-only routes are absent from the production build › /technical-preview resolves to the 404 page (3.9s)
+  ✓   28 [mobile-375] › e2e\landing\dev-routes.spec.ts:16:5 › dev-only routes are absent from the production build › /legacy-landing resolves to the 404 page (3.5s)
+  ✓   29 [mobile-375] › e2e\landing\dev-routes.spec.ts:16:5 › dev-only routes are absent from the production build › /test resolves to the 404 page (4.0s)
+  ✓   30 [mobile-375] › e2e\landing\landing-accessibility.spec.ts:20:3 › production landing accessibility › has no serious or critical axe violations on the whole document (14.2s)
+  ✓   31 [mobile-375] › e2e\landing\landing-accessibility.spec.ts:32:3 › production landing accessibility › exposes one landmark set and a working skip link target (6.5s)
+  ✓   32 [mobile-375] › e2e\landing\landing-accessibility.spec.ts:43:3 › production landing accessibility › keeps heading order legible: exactly one h1 and no skipped level (5.6s)
+  ✓   33 [mobile-375] › e2e\landing\landing-anchors.spec.ts:20:3 › production landing anchors › every navigation hash link targets a real section anchor (9.4s)
+  ✓   34 [mobile-375] › e2e\landing\landing-anchors.spec.ts:42:3 › production landing anchors › a section link scrolls its band clear of the fixed header (7.5s)
+  ✓   35 [mobile-375] › e2e\landing\landing-anchors.spec.ts:60:3 › production landing anchors › anchor navigation actually reaches every declared section (7.5s)
+  ✓   36 [mobile-375] › e2e\landing\landing-anchors.spec.ts:82:3 › production landing anchors › the drawing footer only links to routes the app actually serves (4.3s)
+  ✓   37 [mobile-375] › e2e\landing\landing-grid-axes.spec.ts:55:3 › master grid axis contract › every landing band edge sits on a master grid boundary (3.8s)
+  ✓   38 [mobile-375] › e2e\landing\landing-grid-axes.spec.ts:128:3 › master grid axis contract › the mobile rail does not consume an excessive share of the viewport (4.6s)
+  ✓   39 [mobile-375] › e2e\landing\landing-process-flow.spec.ts:163:3 › process flow connector contract › the connector matrix holds at every measured width (8.3s)
+  ✓   40 [mobile-375] › e2e\landing\landing-process-flow.spec.ts:196:3 › process flow connector contract › the connector matrix holds at this project's own viewport (4.0s)
+  ✓   41 [mobile-375] › e2e\landing\landing-reduced-motion.spec.ts:14:3 › production landing under reduced motion › renders a complete, static landing and removes the intro shell at once (3.1s)
+  ✓   42 [mobile-375] › e2e\landing\landing-reduced-motion.spec.ts:31:3 › production landing under reduced motion › keeps every band measurable — nothing collapses to zero height (2.5s)
+  ✓   43 [mobile-375] › e2e\landing\landing-structure.spec.ts:27:3 › production landing structure › serves TechnicalLanding on / and numbers all 14 bands in order (3.9s)
+  ✓   44 [mobile-375] › e2e\landing\landing-structure.spec.ts:41:3 › production landing structure › hands the intro shell off and leaves no stale intro state (6.8s)
+  ✓   45 [mobile-375] › e2e\landing\landing-structure.spec.ts:60:3 › production landing structure › preloads exactly one image and it is the hero the page actually renders (4.0s)
+  ✓   46 [mobile-375] › e2e\landing\landing-structure.spec.ts:82:3 › production landing structure › never creates document-level horizontal overflow (7.7s)
+  ✓   47 [mobile-375] › e2e\landing\landing-structure.spec.ts:95:3 › production landing structure › loads without console errors or failed local requests (4.2s)
+  ✓   48 [mobile-375] › e2e\landing\landing-structure.spec.ts:115:3 › production landing structure › an End-key journey reaches the landing footer legal links (5.8s)
+  ✓   49 [mobile-375] › e2e\landing\motion-grammar.spec.ts:40:3 › motion grammar › I4 — scroll position never takes opacity away from the service-detail heading (8.8s)
+  ✓   50 [mobile-375] › e2e\landing\motion-grammar.spec.ts:106:3 › motion grammar › no landing band un-arrives once it has arrived (8.0s)
+  ✓   51 [mobile-375] › e2e\landing\motion-grammar.spec.ts:125:3 › motion grammar › nothing animates while it is off screen (6.3s)
+  ✓   52 [mobile-375] › e2e\landing\motion-grammar.spec.ts:150:3 › motion grammar › mobile arms fewer elements than desktop (16.3s)
+  ✓   53 [mobile-375] › e2e\landing\motion-grammar.spec.ts:184:3 › motion grammar › content types do not share one generic reveal (5.0s)
+  ✓   54 [mobile-375] › e2e\landing\motion-grammar.spec.ts:254:3 › motion grammar › hovering a measurement lights its guide line and its passport counterpart (5.5s)
+  ✓   55 [mobile-375] › e2e\landing\navigation-reachability.spec.ts:88:3 › public navigation reachability › extracts a real route inventory before it claims anything about it (60ms)
+  ✓   56 [mobile-375] › e2e\landing\navigation-reachability.spec.ts:124:3 › public navigation reachability › covers every public route surface by navigation, index page or a recorded exclusion (64ms)
+  ✓   57 [mobile-375] › e2e\landing\navigation-reachability.spec.ts:164:3 › public navigation reachability › the menu on / really publishes the whole route set (13.4s)
+  ✓   58 [mobile-375] › e2e\landing\navigation-reachability.spec.ts:199:3 › public navigation reachability › keeps deep links and history navigation correct (10.8s)
+  -   59 [mobile-375] › e2e\landing\navigation-reachability.spec.ts:240:3 › public navigation reachability › every route the menu links to resolves without a redirect or a not-found shell
+  ✓   60 [mobile-375] › e2e\landing\navigation-teardown.spec.ts:146:7 › global navigation teardown — reduced motion › Escape closes and fully releases on the landing (7.0s)
+  ✓   61 [mobile-375] › e2e\landing\navigation-teardown.spec.ts:156:7 › global navigation teardown — reduced motion › the close button closes and fully releases on the landing (4.4s)
+  ✓   62 [mobile-375] › e2e\landing\navigation-teardown.spec.ts:166:7 › global navigation teardown — reduced motion › a menu link navigates and fully releases on the landing (6.1s)
+  ✓   63 [mobile-375] › e2e\landing\navigation-teardown.spec.ts:146:7 › global navigation teardown — reduced motion › Escape closes and fully releases on the inner page (5.3s)
+  ✓   64 [mobile-375] › e2e\landing\navigation-teardown.spec.ts:156:7 › global navigation teardown — reduced motion › the close button closes and fully releases on the inner page (3.5s)
+  ✓   65 [mobile-375] › e2e\landing\navigation-teardown.spec.ts:166:7 › global navigation teardown — reduced motion › a menu link navigates and fully releases on the inner page (3.1s)
+  ✓   66 [mobile-375] › e2e\landing\navigation-teardown.spec.ts:146:7 › global navigation teardown — full motion › Escape closes and fully releases on the landing (7.7s)
+  ✓   67 [mobile-375] › e2e\landing\navigation-teardown.spec.ts:156:7 › global navigation teardown — full motion › the close button closes and fully releases on the landing (6.8s)
+  ✓   68 [mobile-375] › e2e\landing\navigation-teardown.spec.ts:166:7 › global navigation teardown — full motion › a menu link navigates and fully releases on the landing (9.1s)
+  ✓   69 [mobile-375] › e2e\landing\navigation-teardown.spec.ts:146:7 › global navigation teardown — full motion › Escape closes and fully releases on the inner page (5.8s)
+  ✓   70 [mobile-375] › e2e\landing\navigation-teardown.spec.ts:156:7 › global navigation teardown — full motion › the close button closes and fully releases on the inner page (4.2s)
+  ✓   71 [mobile-375] › e2e\landing\navigation-teardown.spec.ts:166:7 › global navigation teardown — full motion › a menu link navigates and fully releases on the inner page (6.7s)
+  ✓   72 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:73:5 › global public page shell › landing (/) renders inside the one shell (4.6s)
+  ✓   73 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:73:5 › global public page shell › company (/hakkimizda) renders inside the one shell (2.9s)
+  ✓   74 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:73:5 › global public page shell › service detail (/hizmetler/cnc-frezeleme) renders inside the one shell (2.7s)
+  ✓   75 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:73:5 › global public page shell › service category (/hizmetler/kategori/talasli-imalat) renders inside the one shell (5.7s)
+  ✓   76 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:73:5 › global public page shell › material index (/malzemeler) renders inside the one shell (4.2s)
+  ✓   77 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:73:5 › global public page shell › journal index (/blog) renders inside the one shell (3.0s)
+  ✓   78 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:73:5 › global public page shell › faq (/sss) renders inside the one shell (6.6s)
+  ✓   79 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:73:5 › global public page shell › legal (/kvkk) renders inside the one shell (2.2s)
+  ✓   80 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:73:5 › global public page shell › rfq (/teklif-al) renders inside the one shell (3.0s)
+  ✓   81 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:73:5 › global public page shell › 404 (/__phase04-not-a-route__) renders inside the one shell (2.3s)
+  ✓   82 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:101:3 › global public page shell › the 404 is a shell state with a way out, not a dead end (5.0s)
+  ✓   83 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:116:3 › global public page shell › /teklif-al has a footer whose legal links navigate (4.7s)
+  ✓   84 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:132:3 › route transition › survives direct load, client navigation, Back and Forward (6.1s)
+  ✓   85 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:172:3 › route transition › B25 — a history move with the menu open never strands the modal lock (13.7s)
+  ✓   86 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:231:3 › route transition › rapid repeated navigation cannot strand the site in a transition state (10.3s)
+  ✓   87 [mobile-375] › e2e\landing\shell-and-transition.spec.ts:278:3 › route transition › reduced motion renders no curtain at all and still navigates (3.5s)
+  ✓   88 [mobile-375] › e2e\landing\shell-cascade-contract.spec.ts:44:3 › shell sheet — one cascade across chunks › every route resolves the same sheet side rules at this width (6.8s)
+  ✓   89 [mobile-375] › e2e\landing\shell-cascade-contract.spec.ts:81:3 › shell sheet — one cascade across chunks › no shipped stylesheet declares the sheet's side rules without its override (5.5s)
+  ✓   90 [mobile-375] › e2e\landing\shell-cascade-contract.spec.ts:156:3 › shell content field — scrollable regions stay keyboard reachable › axe finds no unreachable scrollable region on a shell-framed page (5.6s)
+  ✓   91 [mobile-375] › e2e\landing\shell-cascade-contract.spec.ts:170:3 › shell content field — scrollable regions stay keyboard reachable › each scrollable region has a real focus stop and a name (3.1s)
+  ✓   92 [mobile-375] › e2e\landing\shell-cascade-contract.spec.ts:230:3 › shell content field — scrollable regions stay keyboard reachable › the shell grants a focus stop to a new scrollable region and takes it back (4.1s)
+  ✓   93 [mobile-375] › e2e\malzemeler-sticky.spec.ts:5:3 › /malzemeler footer release contract › sticky filters release before the footer and legal links stay unobscured (6.4s)
+  ✓   94 [mobile-375] › e2e\material-category-footer.spec.ts:5:3 › /malzemeler/:slug footer overlap regression › hero, local CTA and footer preserve order and usable hit targets (4.7s)
+  -   95 [mobile-375] › e2e\qa-09b1-golden-drift.spec.ts:96:5 › QA 09b-1 — golden drift under the comparator's threshold › shell-footer-home — changed pixels at threshold 0 vs at 0.2
+  -   96 [mobile-375] › e2e\qa-09b1-golden-drift.spec.ts:96:5 › QA 09b-1 — golden drift under the comparator's threshold › shell-footer-about — changed pixels at threshold 0 vs at 0.2
+  -   97 [mobile-375] › e2e\qa-09b1-golden-drift.spec.ts:96:5 › QA 09b-1 — golden drift under the comparator's threshold › shell-footer-notfound — changed pixels at threshold 0 vs at 0.2
+  -   98 [mobile-375] › e2e\qa-09b1-golden-drift.spec.ts:96:5 › QA 09b-1 — golden drift under the comparator's threshold › inner-hero-contact — changed pixels at threshold 0 vs at 0.2
+  -   99 [mobile-375] › e2e\qa-09b1-golden-drift.spec.ts:96:5 › QA 09b-1 — golden drift under the comparator's threshold › inner-hero-about — changed pixels at threshold 0 vs at 0.2
+  -  100 [mobile-375] › e2e\qa-09b1-golden-drift.spec.ts:96:5 › QA 09b-1 — golden drift under the comparator's threshold › inner-next-service-detail — changed pixels at threshold 0 vs at 0.2
+  -  101 [mobile-375] › e2e\qa-09b1-golden-drift.spec.ts:96:5 › QA 09b-1 — golden drift under the comparator's threshold › shell-header-home — changed pixels at threshold 0 vs at 0.2
+  -  102 [mobile-375] › e2e\qa-09b1-golden-drift.spec.ts:96:5 › QA 09b-1 — golden drift under the comparator's threshold › shell-header-about — changed pixels at threshold 0 vs at 0.2
+  -  103 [mobile-375] › e2e\qa-09b1-golden-drift.spec.ts:96:5 › QA 09b-1 — golden drift under the comparator's threshold › waveb-notfound-body — changed pixels at threshold 0 vs at 0.2
+  -  104 [mobile-375] › e2e\qa-09b1-golden-drift.spec.ts:96:5 › QA 09b-1 — golden drift under the comparator's threshold › waveb-quality-documents — changed pixels at threshold 0 vs at 0.2
+  -  105 [mobile-375] › e2e\qa-09b1-type-slot-census.spec.ts:100:3 › QA 09b-1 — one component, one typography, everywhere › every design-system slot resolves one treatment across every route
+  -  106 [mobile-375] › e2e\qa-09b1-type-slot-census.spec.ts:145:3 › QA 09b-1 — one component, one typography, everywhere › the census goes RED when the fix is reverted — so the green above means something
+[qa-p08 table walk] 22 tables — {"/":4,"/sss":0,"/gizlilik-politikasi":0,"/kvkk":0,"/cerez-politikasi":1,"/hakkimizda":0,"/iletisim":0,"/malzemeler":1,"/malzemeler/aluminyum":1,"/blog":0,"/blog/havacilik-parcalarinda-malzeme-secimi":1,"/kabiliyet-profilleri":0,"/kabiliyet-profilleri/ince-cidarli-govde":1,"/kabiliyet-profilleri/titanyum-baglanti-parcasi":1,"/kabiliyet-profilleri/hassas-mil":1,"/kalite-dosyasi":1,"/hizmetler/kategori/talasli-imalat":0,"/hizmetler/cnc-frezeleme":4,"/kabiliyetler/kalite-kontrol":3,"/endustriyel/havacilik-uzay":3,"/giris":0,"/sifremi-unuttum":0,"/reset-password":0,"/teklif-al":0}
+[qa-p08 surfaces] ["/ → HAM GEOMETRİDENDOĞRULANMIŞHASSASİYETE","/sss → Sıkça Sorulan Sorular","/gizlilik-politikasi → Gizlilik Politikası","/kvkk → KVKK Aydınlatma Metni","/cerez-politikasi → Çerez Politikası","/hakkimizda → Hakkımızda","/iletisim → Bize ulaşın","/malzemeler → Malzeme kütüphanesi","/malzemeler/aluminyum → CNC İşleme için Alüminyum Alaşımları","/blog → Teknik Günlük","/blog/havacilik-parcalarinda-malzeme-secimi → Havacılık Parçalarında Malzeme Seçimi","/kabiliyet-profilleri → Kabiliyet Profilleri","/kabiliyet-profilleri/ince-cidarli-govde → İNCE CİDARLI GÖVDE","/kabiliyet-profilleri/titanyum-baglanti-parcasi → TİTANYUM BAĞLANTI PARÇASI","/kabiliyet-profilleri/hassas-mil → HASSAS MİL","/kalite-dosyasi → Kalite Dosyası","/hizmetler/kategori/talasli-imalat → Talaşlı İmalat","/hizmetler/cnc-frezeleme → CNC Frezeleme","/kabiliyetler/kalite-kontrol → Kalite Kontrol","/endustriyel/havacilik-uzay → Havacılık & Uzay","/giris → Giriş Yapın","/sifremi-unuttum → Şifremi Unuttum","/reset-password → Yeni Şifre Belirleyin","/teklif-al → Hassas Fiyat Teklifi Alın"]
+  ✓  107 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:541:3 › QA — every table on a public route is reachable at its viewport › every table fits its viewport or lives in a real, focusable scroll region (47.4s)
+[qa-p08 header reach] 85 header cells over 12 routes
+  ✓  108 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:577:3 › QA — every table on a public route is reachable at its viewport › every table header can be brought fully inside the viewport (41.9s)
+  ✓  109 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:631:3 › QA — every table on a public route is reachable at its viewport › control — the checker accepts what ships and rejects R2-1's own numbers (15ms)
+  ✓  110 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:659:3 › QA — every table on a public route is reachable at its viewport › control — the checker rejects an overflow that is clipped rather than scrolled (17ms)
+  ✓  111 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:676:3 › QA — every table on a public route is reachable at its viewport › control — every walked route declares what it should render (8ms)
+  ✓  112 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:688:3 › QA — every table on a public route is reachable at its viewport › control — the surface checker rejects the two paths that were 404s (20ms)
+[qa-p08 dead routes] ["Bu profil kaydı bulunamadı · 0 tables · 768 chars","Bu sayfa kaydı bulunamadı · 0 tables · 667 chars","Bu koordinatta kayıt yok · 0 tables · 792 chars"]
+  ✓  113 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:718:3 › QA — every table on a public route is reachable at its viewport › live control — a real 404 is rejected by the surface check (8.8s)
+  ✓  114 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:758:3 › QA — every table on a public route is reachable at its viewport › control — the checker rejects a scrolling region no keyboard can reach (8ms)
+  ✓  115 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:802:3 › QA — every table on a public route is reachable at its viewport › live control — build R2-1's geometry on the real page and the guard goes red (6.4s)
+  -  116 [mobile-375] › e2e\qa-p08-storage-disclosure.spec.ts:282:3 › QA — what the browser stores vs what /cerez-politikasi publishes › every stored key over every public route has a row in the published table
+  -  117 [mobile-375] › e2e\qa-p08-storage-disclosure.spec.ts:298:3 › QA — what the browser stores vs what /cerez-politikasi publishes › the rendered table and the STORAGE_ROWS constant are the same list
+  -  118 [mobile-375] › e2e\qa-p08-storage-disclosure.spec.ts:304:3 › QA — what the browser stores vs what /cerez-politikasi publishes › every cookie created on a public route is covered by the published disclosure
+  -  119 [mobile-375] › e2e\qa-p08-storage-disclosure.spec.ts:366:3 › QA — what the browser stores vs what /cerez-politikasi publishes › mas_intro_seen is written on the landing and not under reduced motion
+  -  120 [mobile-375] › e2e\qa-p08-storage-disclosure.spec.ts:398:3 › QA — what the browser stores vs what /cerez-politikasi publishes › the coverage check is red on an observed key nobody published
+  -  121 [mobile-375] › e2e\qa-p08-storage-disclosure.spec.ts:430:3 › QA — what the browser stores vs what /cerez-politikasi publishes › the coverage check is red on a published list that lost a row
+  -  122 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri
+  -  123 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri/ince-cidarli-govde
+  -  124 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri/titanyum-baglanti-parcasi
+  -  125 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri/hassas-mil
+  -  126 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri/__qa-no-such-profile__
+  -  127 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kalite-dosyasi
+  -  128 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /blog
+  -  129 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /blog/5-eksen-cnc-isleme-avantajlari
+  -  130 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /blog/__qa-no-such-post__
+  -  131 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /sss
+  -  132 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kvkk
+  -  133 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /gizlilik-politikasi
+  -  134 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /cerez-politikasi
+  -  135 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kalite-dosyas
+  -  136 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /qa-zzz-nothing
+  ✓  137 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri (9.8s)
+  ✓  138 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri/ince-cidarli-govde (13.1s)
+  ✓  139 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri/titanyum-baglanti-parcasi (9.3s)
+  ✓  140 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri/hassas-mil (7.5s)
+  ✓  141 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri/__qa-no-such-profile__ (10.7s)
+  ✓  142 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kalite-dosyasi (6.9s)
+  ✓  143 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /blog (7.6s)
+  ✓  144 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /blog/5-eksen-cnc-isleme-avantajlari (7.1s)
+  ✓  145 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /blog/__qa-no-such-post__ (7.4s)
+  ✓  146 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /sss (13.4s)
+  ✓  147 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kvkk (7.2s)
+  ✓  148 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /gizlilik-politikasi (7.0s)
+  ✓  149 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /cerez-politikasi (9.6s)
+  ✓  150 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kalite-dosyas (7.7s)
+  ✓  151 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /qa-zzz-nothing (11.6s)
+  -  152 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri
+  -  153 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri/ince-cidarli-govde
+  -  154 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri/titanyum-baglanti-parcasi
+  -  155 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri/hassas-mil
+  -  156 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri/__qa-no-such-profile__
+  -  157 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kalite-dosyasi
+  -  158 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /blog
+  -  159 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /blog/5-eksen-cnc-isleme-avantajlari
+  -  160 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /blog/__qa-no-such-post__
+  -  161 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /sss
+  -  162 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kvkk
+  -  163 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /gizlilik-politikasi
+  -  164 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /cerez-politikasi
+  -  165 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kalite-dosyas
+  -  166 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /qa-zzz-nothing
+  -  167 [mobile-375] › e2e\qa-p08-waveb-contract.spec.ts:140:3 › QA — Phase 08 Wave B surface contract › keeps the /sss register keyboard-operable and free of a focus trap
+  ✓  168 [mobile-375] › e2e\qa-p09a-rfq-form.spec.ts:144:1 › accepted formats and the size ceiling are on screen before a file is chosen (3.7s)
+  ✓  169 [mobile-375] › e2e\qa-p09a-rfq-form.spec.ts:172:1 › the CAD format error is a persistent announced ShellNotice, not a toast (9.6s)
+  ✓  170 [mobile-375] › e2e\qa-p09a-rfq-form.spec.ts:201:1 › advancing with no file raises the branded form error and never posts (4.2s)
+  ✓  171 [mobile-375] › e2e\qa-p09a-rfq-form.spec.ts:225:1 › field errors are associated, announced, focused and cleared on edit (6.6s)
+  ✓  172 [mobile-375] › e2e\qa-p09a-rfq-form.spec.ts:288:1 › thirteen submit attempts against a slow handler produce exactly one invocation (8.1s)
+  ✓  173 [mobile-375] › e2e\qa-p09a-rfq-form.spec.ts:343:1 › no production lead time is rendered anywhere in the request, and the reference is the server's (4.9s)
+  ✓  174 [mobile-375] › e2e\qa-p09a-rfq-form.spec.ts:395:1 › the success state shows no reference at all when the server echoes none (4.7s)
+  ✓  175 [mobile-375] › e2e\qa-p09a-rfq-form.spec.ts:420:1 › a rejected submission renders a branded announced failure and offers a way out (5.1s)
+  ✓  176 [mobile-375] › e2e\qa-p09a-rfq-form.spec.ts:457:3 › axe reports no serious or critical violation on /teklif-al at 1280 (16.2s)
+  ✓  177 [mobile-375] › e2e\qa-p09a-rfq-form.spec.ts:457:3 › axe reports no serious or critical violation on /teklif-al at 375 (12.5s)
+  ✓  178 [mobile-375] › e2e\qa-p09a-rfq-form.spec.ts:479:1 › the form reflows at 320 with no horizontal overflow (3.7s)
+  ✓  179 [mobile-375] › e2e\qa-p09a-rfq-form.spec.ts:511:1 › the WebGL stack is fetched only when a preview is explicitly requested (8.5s)
+  ✘  180 [mobile-375] › e2e\qa-p09a2-claims-sweep.spec.ts:159:1 › public routes carry no unauthorised duration, payment term or warranty (2.2m)
+(node:6804) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  181 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:104:5 › contrast @ 1280 › graphite: tone="error" notice label + edge @ 1280 (3.7s)
+(node:7192) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  182 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:138:5 › contrast @ 1280 › graphite: .shell-form-error on /teklif-al + /iletisim @ 1280 (4.0s)
+(node:15940) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  183 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:194:5 › contrast @ 1280 › paper band inside a graphite root re-binds --sf-danger @ 1280 (4.0s)
+(node:21836) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+shift or hours claim) [LEAD_TIME/w-kesintisiz] /endustriyel/seri-uretim :: "kesintisiz"
+SETTLED slowest=/hizmetler/tavlama@9981ms shortest=/endustriyel@1467chars neverSettled=0
+ROUTES_WITHOUT_SLA (6): /kvkk, /gizlilik-politikasi, /cerez-politikasi, /hizmetler, /kabiliyetler, /endustriyel
+  ✓  180 [mobile-375] › e2e\qa-p09a2-claims-sweep.spec.ts:159:1 › public routes carry no unauthorised duration, payment term or warranty (3.2m)
+[graphite/1280] notice-label fg=#e18570 bg=#070b0d ratio=7.33 font=9px/600 | edge=#e18570 ratio=7.33
+[graphite/1280] notice text: DOSYA REDDEDİLDİ Bu format okunamıyor “qa-p09a2-probe.sldprt” (.sldprt) kabul edilen formatlardan biri değil. Kabul edilenler: .step, .stp, .stl, .obj, .iges, .igs, .3mf.
+  ✓  181 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:104:5 › contrast @ 1280 › graphite: tone="error" notice label + edge @ 1280 (4.3s)
+[/teklif-al/1280] .shell-form-error text=#f3f0e8 bg=#030506 textRatio=17.93 border=#e18570 borderRatio=7.58 font=13px/500 planted=true
+[/iletisim/1280] .shell-form-error text=#f3f0e8 bg=#070b0d textRatio=17.35 border=#e18570 borderRatio=7.33 font=13px/500 planted=false
+  ✓  182 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:138:5 › contrast @ 1280 › graphite: .shell-form-error on /teklif-al + /iletisim @ 1280 (7.7s)
+[paper-band-in-graphite/1280] fg=#8a4030 bg=#eee9de ratio=6.07 edge=rgb(138, 64, 48)
+  ✓  183 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:194:5 › contrast @ 1280 › paper band inside a graphite root re-binds --sf-danger @ 1280 (3.2s)
+[graphite/375] notice-label fg=#e18570 bg=#070b0d ratio=7.33 font=9px/600 | edge=#e18570 ratio=7.33
+[graphite/375] notice text: DOSYA REDDEDİLDİ Bu format okunamıyor “qa-p09a2-probe.sldprt” (.sldprt) kabul edilen formatlardan biri değil. Kabul edilenler: .step, .stp, .stl, .obj, .iges, .igs, .3mf.
+  ✓  184 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:104:5 › contrast @ 375 › graphite: tone="error" notice label + edge @ 375 (3.5s)
+[/teklif-al/375] .shell-form-error text=#f3f0e8 bg=#030506 textRatio=17.93 border=#e18570 borderRatio=7.58 font=13px/500 planted=true
+[/iletisim/375] .shell-form-error text=#f3f0e8 bg=#070b0d textRatio=17.35 border=#e18570 borderRatio=7.33 font=13px/500 planted=false
+  ✓  185 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:138:5 › contrast @ 375 › graphite: .shell-form-error on /teklif-al + /iletisim @ 375 (7.5s)
+[paper-band-in-graphite/375] fg=#8a4030 bg=#eee9de ratio=6.07 edge=rgb(138, 64, 48)
+  ✓  186 [mobile-375] › e2e\qa-p09a2-contrast.spec.ts:194:5 › contrast @ 375 › paper band inside a graphite root re-binds --sf-danger @ 375 (4.2s)
+P09A3_JSON=test-results/qa-p09a3-cad-dom/dom-cad-mobile-375.json (scratch)
+  ✓  187 [mobile-375] › e2e\qa-p09a3-cad-dom.spec.ts:144:3 › 09a-R3 — the C3 corrections in the rendered DOM › no page offers a CAD format the validator refuses, and the carried claims are gone (22.1s)
+  ✘  188 [mobile-375] › e2e\qa-p09a3-cad-dom.spec.ts:233:3 › 09a-R3 — the C3 corrections in the rendered DOM › every comparison table paints as many header cells as its rows have cells (20.0s)
+(node:1464) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  189 [mobile-375] › e2e\qa-p09a4-evidence-write-guard.spec.ts:125:3 › 09a-R4 — evidence writes › no spec in e2e/** writes into the repository without an explicit flag (122ms)
+  ✓  190 [mobile-375] › e2e\qa-p09a4-evidence-write-guard.spec.ts:135:3 › 09a-R4 — evidence writes › the set of write destinations is exactly the one that was reviewed (47ms)
+P09A4_JSON=test-results/qa-p09a4-sla-wobble/sla-wobble-unsealed-mobile-375.json (scratch)
+SLA_WOBBLE arm=unsealed route=/teklif-al attempts=12 earlyMiss=0 settledMiss=0 verdict=NO_WOBBLE_OBSERVED — both reads were stable in this arm
+  ✓  191 [mobile-375] › e2e\qa-p09a4-sla-wobble.spec.ts:175:1 › unsealed: /teklif-al carries the authorised SLA on every attempt (60.0s)
+P09A4_JSON=test-results/qa-p09a4-sla-wobble/sla-wobble-sealed-mobile-375.json (scratch)
+SLA_WOBBLE arm=sealed route=/teklif-al attempts=12 earlyMiss=2 settledMiss=0 verdict=MEASUREMENT_RACE — the copy is always in the settled page; the 350 ms read is not
+  ✓  192 [mobile-375] › e2e\qa-p09a4-sla-wobble.spec.ts:185:1 › sealed: the round-2 harness's own interception is what moves the 350 ms read (1.1m)
+P09A4_JSON=test-results/qa-p09a4-sla-wobble/sla-sweep-replica-mobile-375.json (scratch)
+SLA_REPLICA passes=55,55 disagreed=["/endustriyel/iklim-teknolojileri","/teklif-al"] misses=16 racedNotAbsent=4 genuinelyAbsent=12
+  ✓  193 [mobile-375] › e2e\qa-p09a4-sla-wobble.spec.ts:211:1 › sweep replica: which of the 63 routes moves, and what it looks like when it does (5.5m)
+STABILISED route s=63 neverSettled=0 SLA_ROUTES=57 FINDINGS=0 EXEMPTED=12
+P09A4_JSON=test-results/qa-p09a4-stabilised-sweep/stabilised-sweep-mobile-375.json (scratch)
+  ✓  194 [mobile-375] › e2e\qa-p09a4-stabilised-sweep.spec.ts:126:1 › the round-2 sweep, re-run on settled pages, reaches the same verdict (2.1m)
+  ✓  195 [mobile-375] › e2e\scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on / (6.2s)
+  ✓  196 [mobile-375] › e2e\scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on /sss (3.9s)
+  ✓  197 [mobile-375] › e2e\scroll-snap-regression.spec.ts:25:5 › FinalCTA → footer bottom-bar reachability (mobile) › mobile reaches footer bottom-bar on /iletisim (3.7s)
+  -  198 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:281:3 › Shared public shell accessibility › keeps the skip link above the closed header and below the modal
+  -  199 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:297:3 › Shared public shell accessibility › derives an exhaustive 99-path public route and shell ownership contract
+  -  200 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:337:3 › Shared public shell accessibility › keeps all 95 canonical full-shell routes on one header/footer contract
+  -  201 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:423:3 › Shared public shell accessibility › keeps declared public and panel shell exceptions explicit
+  ✓  202 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:467:3 › Shared public shell accessibility › keeps the dialog fixed, isolated, keyboard bounded, and restorable (7.8s)
+  ✓  203 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:524:3 › Shared public shell accessibility › makes mobile footer disclosures semantic and removes closed links from Tab order (5.3s)
+  ✓  204 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:561:3 › Shared public shell accessibility › keeps footer CTA and legal controls reachable, stable, and unobscured (6.2s)
+  -  205 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:589:3 › Shared public shell accessibility › keeps every footer control unobscured in natural forward and reverse keyboard order
+  -  206 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:599:3 › Shared public shell accessibility › preserves footer reflow at a 400 percent equivalent CSS viewport
+  -  207 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:612:3 › Shared public shell accessibility › supports WCAG text spacing without clipping footer content
+  -  208 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:635:3 › Shared public shell accessibility › retains visible footer focus indicators in forced-colors mode
+  -  209 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:677:3 › Shared public shell accessibility › honors four-edge safe-area tokens in the closed header, modal and footer
+  ✓  210 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:781:3 › Shared public shell accessibility › renders footer content immediately and uses non-smooth scroll under reduced motion (3.5s)
+  -  211 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:845:3 › Shared public shell accessibility › has no serious or critical axe violations in the closed shared shell
+  -  212 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:859:3 › Shared public shell accessibility › records whole-page axe evidence and isolates documented non-shell debt
+  -  213 [mobile-375] › e2e\shared-shell-accessibility.spec.ts:956:3 › Shared public shell accessibility › preserves shell reflow and focus access at 200 percent text size
+  ✓  214 [mobile-375] › e2e\technical-landing.spec.ts:13:3 › technical editorial landing phase 1 › renders the frame, hero, annotations and proof strip (4.0s)
+  ✓  215 [mobile-375] › e2e\technical-landing.spec.ts:21:3 › technical editorial landing phase 1 › numbers every band of the drawing sheet in order (3.8s)
+  ✓  216 [mobile-375] › e2e\technical-landing.spec.ts:26:3 › technical editorial landing phase 1 › does not create document-level horizontal overflow (3.7s)
+  ✓  217 [mobile-375] › e2e\technical-landing.spec.ts:31:3 › technical editorial landing phase 1 › keeps the shared sheet rail and viewport column contract (3.6s)
+  ✓  218 [mobile-375] › e2e\technical-landing.spec.ts:68:3 › technical editorial landing phase 1 › renders the capability marquee with its loop copy hidden from assistive tech (9.4s)
+  ✓  219 [mobile-375] › e2e\technical-landing.spec.ts:77:3 › technical editorial landing phase 1 › moves the two visual bands against the scroll without hijacking input (8.7s)
+  ✓  220 [mobile-375] › e2e\technical-landing.spec.ts:104:3 › technical editorial landing phase 1 › renders process, the NEXUS preview and the capability profiles (5.2s)
+  ✓  221 [mobile-375] › e2e\technical-landing.spec.ts:118:3 › technical editorial landing phase 1 › renders sectors, the quality file and the reference band (4.6s)
+  ✓  222 [mobile-375] › e2e\technical-landing.spec.ts:139:3 › technical editorial landing phase 1 › serves the four quality documents as real downloads (5.8s)
+  ✓  223 [mobile-375] › e2e\technical-landing.spec.ts:161:3 › technical editorial landing phase 1 › renders FAQ answers and the RFQ hand-off (5.5s)
+  -  224 [mobile-375] › e2e\technical-landing.spec.ts:178:3 › technical editorial landing phase 1 › keeps reference proportions for headline, project cards and NEXUS rows
+  ✓  225 [mobile-375] › e2e\technical-landing.spec.ts:381:3 › technical editorial landing phase 1 › has no serious or critical accessibility violations (20.3s)
+  ✓  226 [mobile-375] › e2e\technical-landing.spec.ts:394:3 › technical editorial landing phase 1 › the one global menu traps focus, locks scroll and restores the trigger (9.1s)
+  ✓  227 [mobile-375] › e2e\technical-landing.spec.ts:413:3 › technical editorial landing phase 1 › keeps the global header free of serious accessibility violations (11.8s)
+  ✓  228 [mobile-375] › e2e\technical-landing.spec.ts:441:3 › technical editorial landing phase 1 › reduced motion keeps the complete page visible without active animation (6.0s)
+
+
+  1) [mobile-375] › e2e\qa-p09a3-cad-dom.spec.ts:233:3 › 09a-R3 — the C3 corrections in the rendered DOM › every comparison table paints as many header cells as its rows have cells 
+
+    Error: the cavity table must still render
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeTruthy[2m()[22m
+
+    Received: [31mundefined[39m
+
+      260 |
+      261 |     const cavity = tables.find((t) => /Kavite Sayısı/iu.test(t.caption));
+    > 262 |     expect(cavity, "the cavity table must still render").toBeTruthy();
+          |                                                          ^
+      263 |     expect(cavity?.headers, "the cycle-rate column stays; only the parts-per-hour column went").toEqual([
+      264 |       "Kavite", "Çevrim/Saat", "Birim Maliyet", "Kalıp Maliyeti", "Önerilen Hacim",
+      265 |     ]);
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p09a\e2e\qa-p09a3-cad-dom.spec.ts:262:58
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\qa-p09a3-cad-dom-09a-R3-—--8f6da-ells-as-its-rows-have-cells-mobile-375\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\qa-p09a3-cad-dom-09a-R3-—--8f6da-ells-as-its-rows-have-cells-mobile-375\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\qa-p09a3-cad-dom-09a-R3-—--8f6da-ells-as-its-rows-have-cells-mobile-375\error-context.md
+
+  Slow test file: [mobile-375] › e2e\qa-p09a4-sla-wobble.spec.ts (7.6m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  1 failed
+    [mobile-375] › e2e\qa-p09a3-cad-dom.spec.ts:233:3 › 09a-R3 — the C3 corrections in the rendered DOM › every comparison table paints as many header cells as its rows have cells 
+  69 skipped
+  158 passed (33.2m)
