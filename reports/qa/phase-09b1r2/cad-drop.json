@@ -1,0 +1,450 @@
+[
+ {
+  "label": "1280 rest",
+  "declared": {
+   "borderTop": "rgba(18, 23, 25, 0.54)",
+   "style": "dashed",
+   "width": "1px",
+   "background": "rgba(0, 0, 0, 0)",
+   "outline": "3px none rgb(18, 23, 25) offset 0px",
+   "focusVisible": false,
+   "dragging": null
+  },
+  "w": 437,
+  "h": 90,
+  "ruleY": 16,
+  "ground": [
+   238,
+   233,
+   223
+  ],
+  "outside": [
+   238,
+   233,
+   222
+  ],
+  "fill": [
+   238,
+   233,
+   222
+  ],
+  "ruleDarkest": [
+   119,
+   119,
+   115
+  ],
+  "rulePaintedPct": 79.6,
+  "modal": {
+   "c": [
+    120,
+    120,
+    116
+   ],
+   "n": 127,
+   "of": 397
+  },
+  "darkestRepeated": {
+   "c": [
+    119,
+    119,
+    115
+   ],
+   "n": 13
+  },
+  "crDarkestVsGround": 3.714,
+  "crDarkestVsFill": 3.714,
+  "crFillVsGround": 1
+ },
+ {
+  "label": "1280 hover",
+  "declared": {
+   "borderTop": "rgb(18, 23, 25)",
+   "style": "dashed",
+   "width": "1px",
+   "background": "rgba(18, 23, 25, 0.04)",
+   "outline": "3px none rgb(18, 23, 25) offset 0px",
+   "focusVisible": false,
+   "dragging": null
+  },
+  "w": 437,
+  "h": 90,
+  "ruleY": 16,
+  "ground": [
+   238,
+   233,
+   223
+  ],
+  "outside": [
+   238,
+   233,
+   222
+  ],
+  "fill": [
+   230,
+   225,
+   215
+  ],
+  "ruleDarkest": [
+   18,
+   23,
+   25
+  ],
+  "rulePaintedPct": 100,
+  "modal": {
+   "c": [
+    18,
+    23,
+    25
+   ],
+   "n": 158,
+   "of": 397
+  },
+  "darkestRepeated": {
+   "c": [
+    18,
+    23,
+    25
+   ],
+   "n": 158
+  },
+  "crDarkestVsGround": 14.923,
+  "crDarkestVsFill": 13.865,
+  "crFillVsGround": 1.076
+ },
+ {
+  "label": "1280 dragging",
+  "declared": {
+   "borderTop": "rgb(18, 23, 25)",
+   "style": "solid",
+   "width": "1px",
+   "background": "rgba(18, 23, 25, 0.04)",
+   "outline": "3px none rgb(18, 23, 25) offset 0px",
+   "focusVisible": false,
+   "dragging": "true"
+  },
+  "w": 437,
+  "h": 90,
+  "ruleY": 16,
+  "ground": [
+   238,
+   233,
+   223
+  ],
+  "outside": [
+   238,
+   233,
+   222
+  ],
+  "fill": [
+   230,
+   225,
+   215
+  ],
+  "ruleDarkest": [
+   18,
+   23,
+   25
+  ],
+  "rulePaintedPct": 100,
+  "modal": {
+   "c": [
+    18,
+    23,
+    25
+   ],
+   "n": 397,
+   "of": 397
+  },
+  "darkestRepeated": {
+   "c": [
+    18,
+    23,
+    25
+   ],
+   "n": 397
+  },
+  "crDarkestVsGround": 14.923,
+  "crDarkestVsFill": 13.865,
+  "crFillVsGround": 1.076
+ },
+ {
+  "label": "1280 focus",
+  "declared": {
+   "borderTop": "rgba(18, 23, 25, 0.54)",
+   "style": "dashed",
+   "width": "1px",
+   "background": "rgba(0, 0, 0, 0)",
+   "outline": "2px solid rgb(18, 23, 25) offset 4px",
+   "focusVisible": true,
+   "dragging": null
+  },
+  "w": 437,
+  "h": 90,
+  "ruleY": 10,
+  "ground": [
+   238,
+   233,
+   223
+  ],
+  "outside": [
+   238,
+   233,
+   222
+  ],
+  "fill": [
+   237,
+   232,
+   221
+  ],
+  "ruleDarkest": [
+   18,
+   23,
+   25
+  ],
+  "rulePaintedPct": 100,
+  "modal": {
+   "c": [
+    18,
+    23,
+    25
+   ],
+   "n": 397,
+   "of": 397
+  },
+  "darkestRepeated": {
+   "c": [
+    18,
+    23,
+    25
+   ],
+   "n": 397
+  },
+  "crDarkestVsGround": 14.923,
+  "crDarkestVsFill": 14.787,
+  "crFillVsGround": 1.009
+ },
+ {
+  "label": "375 rest",
+  "declared": {
+   "borderTop": "rgba(18, 23, 25, 0.54)",
+   "style": "dashed",
+   "width": "1px",
+   "background": "rgba(0, 0, 0, 0)",
+   "outline": "3px none rgb(18, 23, 25) offset 0px",
+   "focusVisible": false,
+   "dragging": null
+  },
+  "w": 349,
+  "h": 90,
+  "ruleY": 16,
+  "ground": [
+   238,
+   233,
+   222
+  ],
+  "outside": [
+   238,
+   233,
+   222
+  ],
+  "fill": [
+   238,
+   233,
+   222
+  ],
+  "ruleDarkest": [
+   119,
+   119,
+   115
+  ],
+  "rulePaintedPct": 60.2,
+  "modal": {
+   "c": [
+    120,
+    120,
+    116
+   ],
+   "n": 163,
+   "of": 309
+  },
+  "darkestRepeated": {
+   "c": [
+    119,
+    119,
+    115
+   ],
+   "n": 10
+  },
+  "crDarkestVsGround": 3.714,
+  "crDarkestVsFill": 3.714,
+  "crFillVsGround": 1
+ },
+ {
+  "label": "375 hover",
+  "declared": {
+   "borderTop": "rgb(18, 23, 25)",
+   "style": "dashed",
+   "width": "1px",
+   "background": "rgba(18, 23, 25, 0.04)",
+   "outline": "3px none rgb(18, 23, 25) offset 0px",
+   "focusVisible": false,
+   "dragging": null
+  },
+  "w": 349,
+  "h": 90,
+  "ruleY": 16,
+  "ground": [
+   238,
+   233,
+   222
+  ],
+  "outside": [
+   238,
+   233,
+   222
+  ],
+  "fill": [
+   230,
+   225,
+   214
+  ],
+  "ruleDarkest": [
+   18,
+   23,
+   25
+  ],
+  "rulePaintedPct": 100,
+  "modal": {
+   "c": [
+    18,
+    23,
+    25
+   ],
+   "n": 186,
+   "of": 309
+  },
+  "darkestRepeated": {
+   "c": [
+    18,
+    23,
+    25
+   ],
+   "n": 186
+  },
+  "crDarkestVsGround": 14.923,
+  "crDarkestVsFill": 13.857,
+  "crFillVsGround": 1.077
+ },
+ {
+  "label": "375 dragging",
+  "declared": {
+   "borderTop": "rgb(18, 23, 25)",
+   "style": "solid",
+   "width": "1px",
+   "background": "rgba(18, 23, 25, 0.04)",
+   "outline": "3px none rgb(18, 23, 25) offset 0px",
+   "focusVisible": false,
+   "dragging": "true"
+  },
+  "w": 349,
+  "h": 90,
+  "ruleY": 16,
+  "ground": [
+   238,
+   233,
+   222
+  ],
+  "outside": [
+   238,
+   233,
+   222
+  ],
+  "fill": [
+   230,
+   225,
+   214
+  ],
+  "ruleDarkest": [
+   18,
+   23,
+   25
+  ],
+  "rulePaintedPct": 100,
+  "modal": {
+   "c": [
+    18,
+    23,
+    25
+   ],
+   "n": 309,
+   "of": 309
+  },
+  "darkestRepeated": {
+   "c": [
+    18,
+    23,
+    25
+   ],
+   "n": 309
+  },
+  "crDarkestVsGround": 14.923,
+  "crDarkestVsFill": 13.857,
+  "crFillVsGround": 1.077
+ },
+ {
+  "label": "375 focus",
+  "declared": {
+   "borderTop": "rgba(18, 23, 25, 0.54)",
+   "style": "dashed",
+   "width": "1px",
+   "background": "rgba(0, 0, 0, 0)",
+   "outline": "2px solid rgb(18, 23, 25) offset 4px",
+   "focusVisible": true,
+   "dragging": null
+  },
+  "w": 349,
+  "h": 90,
+  "ruleY": 10,
+  "ground": [
+   238,
+   233,
+   222
+  ],
+  "outside": [
+   238,
+   233,
+   222
+  ],
+  "fill": [
+   238,
+   233,
+   222
+  ],
+  "ruleDarkest": [
+   18,
+   23,
+   25
+  ],
+  "rulePaintedPct": 100,
+  "modal": {
+   "c": [
+    18,
+    23,
+    25
+   ],
+   "n": 309,
+   "of": 309
+  },
+  "darkestRepeated": {
+   "c": [
+    18,
+    23,
+    25
+   ],
+   "n": 309
+  },
+  "crDarkestVsGround": 14.923,
+  "crDarkestVsFill": 14.923,
+  "crFillVsGround": 1
+ }
+]
