@@ -3170,3 +3170,66 @@ allowlist so far.
 **And a near-miss it reported against itself:** its first instinct was that the inert project setting had
 compromised the golden suite. Measuring which visual specs call `emulateMedia` **before** writing it down is
 what stopped a second overclaim in the same round.
+
+#### Orchestrator finding — the evidence-overwrite class has a fourth instance, and the guard built to make it unrepeatable does not see it
+
+Found by noticing three modified files in the Coder's worktree that were on its own DO_NOT_TOUCH list, and
+then run to confirm rather than reasoned about.
+
+**The fourth instance.** `e2e/qa-09b1-golden-drift.spec.ts:267-268` writes `golden-drift.txt` and
+`golden-drift.json` into `reports/qa/phase-09b1/` **unconditionally on every ordinary run** —
+`type-slot-census-negative.txt` likewise. Both are QA's own committed evidence. This is the same defect found
+in `qa-p09a2-claims-sweep`, in `claims-gate.spec.ts` (which wrote into `src/content/`), and in
+`qa-p09a3-cad-dom` — each time described as the last one.
+
+**And `e2e/qa-p09a4-evidence-write-guard.spec.ts`, written in 09a round 4 specifically to close that class,
+passes.** I ran it: **2 passed, 2.3 m**, on a tree where the violation is present.
+
+**The mechanism, read at the source.** `census()` *does* walk `e2e/**` recursively — the discovery half is
+sound. But it identifies a destination only by matching `path.join(process.cwd(), "…")`. The 09b-1 specs
+write to a **bare string constant**:
+
+```ts
+const OUT = "reports/qa/phase-09b1";        // qa-09b1-golden-drift.spec.ts:34
+writeFileSync(`${OUT}/golden-drift.txt`, …) // :267
+```
+
+So the file passes `WRITE_CALL.test(source)`, contributes **zero** sites, and both assertions pass **on an
+empty set**. The unguarded-writes test finds no unguarded write because it found no write; the
+census-equals-`EXPECTED` test matches because nothing was added.
+
+Its own comment says the coarseness is deliberate — *"A coarse check that FAILS LOUD on any new site is worth
+more here than a precise one that has to be argued about, because the failure mode being prevented is a site
+nobody looked at."* It does not fail loud. **It goes silent on a site written a different way**, which is the
+failure mode it names.
+
+**This is the third instance of one shape in this phase, and the shape is worth naming.**
+
+| instrument | walk | classification | consequence |
+|---|---|---|---|
+| `playwright.config.ts` visual projects | — | excess-property checking does not apply **through a variable** built by `.map()` | four specs run believing a declaration that does nothing |
+| the Coder's control-boundary probe | every element | `if (!edge) continue` **before** the interactive test | header claims discovery; three controls never reach it |
+| the evidence-write guard | every file in `e2e/**` | destination recognised only as `path.join(process.cwd(), …)` | a write to a bare string constant is invisible |
+
+In all three the **walk is complete and the classifier is narrower than the claim written above it** — so the
+instrument reports zero and zero reads as clean. This is the same family as QA's finding that a claims sweep
+reporting `FINDINGS=0 across 63 routes` meant *"across the routes that happened to have rendered"*, and as a
+gate control that asserted silence on a string a commit had already deleted.
+
+**The general lesson, which is now a rule for this run:** *an instrument that can return an empty result must
+prove it can return a non-empty one.* Every probe this run has trusted had a positive control except these.
+The two QA rounds that caught the most did exactly this — round 4 of 09a proved its sabotage probe could turn
+red before believing four PASSes, and 09b-1 round 2 proved `tsc` green with a canary that made it red first.
+
+**Routing.** The specs and the guard are QA's. QA round 2 of 09b-1 is already tasked with *"what else in your
+own instruments is inert in the same way, found by looking rather than by luck"* — this is precisely that
+class, so it goes there with the mechanism attached rather than into a new packet. The fix has two halves and
+both matter: gate the two write sites, and make the guard fail loud on a destination it cannot classify
+instead of scoring it zero.
+
+**Also recorded: my parallel dispatch is the likely cause of a stalled agent.** I ran QA round 2 and the
+09b-2 Coder concurrently on disjoint file sets — which the brief permits, since the prohibition is on
+overlapping files — and QA stalled at its build step with no progress for 600 s while the Coder was building.
+Two heavy Vite builds on an 8 GB machine is not a file conflict but it is still contention, and the machine
+constraint written into every packet in this run says one heavy process. **The file-overlap rule was
+satisfied and the machine rule was not.** Resuming serially: the Coder first on a quiet machine, QA after.
