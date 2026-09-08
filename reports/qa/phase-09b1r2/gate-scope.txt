@@ -1,0 +1,250 @@
+guard canary: BLOCKED:Failed to fetch
+
+census parity with the shipped gate, measured on the same document: IDENTICAL
+  probe rows=136  spec rows=136
+
+── Q0. THE GATE'S OWN NUMBERS, REPRODUCED ─────────────────────────────
+components (distinct keys): 256
+observations              : 1730
+splits                    : 0
+
+── Q1. WHAT THE GATE CANNOT SEE: bare text elements inside components ──
+`keyOf` returns null without a shell-*/tl-* class, so these are censused
+ONLY by the single hand-written second pass over `.shell-field`. Every
+other row below is a component whose bare child can diverge in silence —
+which is precisely the shape of the defect this gate was written for.
+
+distinct (component > bare child) buckets: 136
+total bare text observations            : 1973
+
+bucket                                                              n   fps  routes
+div.shell-table-scroll  >  td                                       522    2   1
+div.tl-footer-body  >  a                                            176    1   8
+details.shell-faq-item  >  summary                                  117    1   1
+div.shell-faq-answer  >  p                                          117    1   1
+p.shell-faq-source  >  a                                            107    1   1
+div.shell-table-scroll  >  th                                        95    3   1
+div.tl-band-index  >  span                                           51    2   8
+div.tl-band-index  >  small                                          51    2   8
+div.tl-footer-body  >  h3                                            32    1   8
+p.tl-meta-run  >  span                                               32    1   8
+div.tl-nexus-table-wrap  >  td                                       30    1   1
+p.tl-legal  >  a                                                     24    1   8
+nav.shell-contents  >  span                                          22    2   1
+dl.shell-hero-meta.shell-meta-row  >  dt                             21    1   6
+dl.shell-hero-meta.shell-meta-row  >  dd                             21    1   6
+div.tl-project-grid  >  td                                           18    1   1
+a.shell-action.shell-action--ghost  >  span                          18    1   7
+dl.shell-meta-row.shell-next-detail  >  dt                           15    1   5
+dl.shell-meta-row.shell-next-detail  >  dd                           15    1   5
+button.shell-segment  >  span                                        15    1   2
+span.shell-index-meta  >  span                                       15    1   1
+a.shell-action.shell-action--primary  >  span                        13    1   7
+div.tl-marquee-track  >  li                                          12    1   1
+div.tl-process-body  >  p                                            12    1   1
+(no design-system ancestor)  >  a                                    11    1   11
+main.shell-main  >  span                                             11    5   1
+header.shell-title-block  >  h2                                      10    1   6
+header.shell-title-block  >  p                                       10    1   6
+div.shell-field  >  label                                            10    1   3   (inside .shell-field: COVERED by pass 2)
+ul.shell-tags  >  li                                                 10    1   2
+ol.shell-lead-sections  >  span                                      10    2   1
+article.tl-project-featured  >  td                                    9    1   1
+dl.shell-meta-row  >  dt                                              9    1   1
+dl.shell-meta-row  >  dd                                              9    1   1
+a.tl-brand  >  strong                                                 8    1   8
+a.tl-brand  >  em                                                     8    1   8
+a.tl-brand  >  span                                                   8    1   8
+p.tl-header-context  >  span                                          8    1   8
+div.tl-footer-brand  >  h2                                            8    1   8
+div.tl-footer-brand  >  span                                          8    1   8
+p.tl-addr-cont  >  span                                               8    1   8
+p.tl-tel  >  a                                                        8    1   8
+p.tl-mail  >  a                                                       8    1   8
+div.shell-footer-journal  >  a                                        8    1   8
+div.shell-rail  >  span                                               7    1   7
+div.shell-rail  >  small                                              7    1   7
+div.tl-proof-grid  >  strong                                          6    1   1
+div.tl-proof-grid  >  span                                            6    1   1
+div.tl-nexus-rail  >  li                                              6    1   1
+div.tl-nexus-table-wrap  >  th                                        6    1   1
+div.tl-nexus-table-wrap  >  span                                      6    1   1
+div.tl-project-grid  >  th                                            6    1   1
+ul.tl-reference-grid  >  li                                           6    1   1
+div.shell-hero-copy  >  h1                                            6    1   6
+a.shell-action.shell-action--quiet  >  span                           5    1   4
+div.shell-next-copy  >  h2                                            5    1   5
+aside.tl-part-passport  >  dt                                         4    1   1
+aside.tl-part-passport  >  dd                                         4    1   1
+div.tl-process-body  >  span                                          4    1   1
+div.tl-process-body  >  h3                                            4    1   1
+div.tl-nexus-kpis  >  strong                                          4    1   1
+div.tl-nexus-kpis  >  span                                            4    1   1
+a.tl-sector-card  >  h3                                               4    1   1
+div.tl-faq  >  summary                                                4    1   1
+div.tl-faq  >  span                                                   4    1   1
+div.tl-faq  >  i                                                      4    1   1
+div.tl-faq  >  p                                                      4    1   1
+ul.tl-resource-list  >  span                                          4    1   1
+ul.tl-resource-list  >  em                                            4    1   1
+div.tl-rfq-body  >  b                                                 4    1   1
+div.tl-rfq-body  >  strong                                            4    1   1
+div.tl-rfq-body  >  span                                              4    1   1
+div.shell-prose  >  p                                                 4    2   1
+dl.shell-meta-row.shell-notfound-meta  >  dt                          4    1   1
+dl.shell-meta-row.shell-notfound-meta  >  dd                          4    1   1
+p.tl-report-no  >  a                                                  3    1   1
+article.tl-project-featured  >  th                                    3    1   1
+article.tl-cert  >  h3                                                3    1   1
+article.tl-cert  >  p                                                 3    1   1
+div.tl-cert-sign  >  small                                            3    1   1
+a.shell-action.shell-action--quiet.shell-auth-back  >  span           3    1   3
+div.shell-auth-label-row  >  label                                    3    1   2
+span.shell-auth-mark-name  >  b                                       3    1   3
+span.shell-auth-mark-name  >  small                                   3    1   3
+div.shell-auth-aside-body  >  h2                                      3    1   3
+nav.shell-crumb  >  a                                                 3    1   3
+nav.shell-crumb  >  span                                              3    1   3
+span.tl-measure.tl-measure-left  >  b                                 2    1   1
+span.tl-fcf.tl-fcf-bottom  >  b                                       2    1   1
+div.tl-project-grid  >  h3                                            2    1   1
+div.tl-project-grid  >  span                                          2    1   1
+div.shell-auth-social  >  span                                        2    1   1
+button.shell-action.shell-action--full.shell-action--primary  >  span    2    1   2
+p.shell-auth-legal  >  a                                              2    1   1
+button.shell-action.shell-action--primary  >  span                    2    1   2
+div.shell-field.shell-filter-search  >  label                         2    1   2   (inside .shell-field: COVERED by pass 2)
+div.shell-table-scroll  >  span                                       2    1   1
+div.tl-hero-copy  >  h1                                               1    1   1
+div.tl-hero-copy  >  p                                                1    1   1
+div.tl-hero-copy  >  a                                                1    1   1
+span.tl-fcf.tl-fcf-top  >  i                                          1    1   1
+span.tl-fcf.tl-fcf-top  >  b                                          1    1   1
+span.tl-fcf.tl-fcf-bottom  >  i                                       1    1   1
+aside.tl-part-passport  >  h2                                         1    1   1
+aside.tl-part-passport  >  p                                          1    1   1
+div.tl-process-intro  >  h2                                           1    1   1
+div.tl-process-intro  >  em                                           1    1   1
+div.tl-nexus-body  >  h2                                              1    1   1
+div.tl-nexus-body  >  em                                              1    1   1
+p.tl-nexus-user  >  span                                              1    1   1
+p.tl-nexus-user  >  small                                             1    1   1
+article.tl-project-featured  >  h3                                    1    1   1
+article.tl-project-featured  >  span                                  1    1   1
+div.tl-manifesto-copy  >  h2                                          1    1   1
+div.tl-manifesto-copy  >  strong                                      1    1   1
+div.tl-manifesto-copy  >  p                                           1    1   1
+article.tl-cert.tl-cert-report  >  h3                                 1    1   1
+article.tl-cert.tl-cert-report  >  p                                  1    1   1
+article.tl-cert.tl-cert-material  >  h3                               1    1   1
+article.tl-cert.tl-cert-material  >  p                                1    1   1
+article.tl-cert.tl-cert-verify  >  h3                                 1    1   1
+article.tl-cert.tl-cert-verify  >  p                                  1    1   1
+article.tl-cert.tl-cert-verify  >  small                              1    1   1
+h2.tl-faq-title  >  em                                                1    1   1
+div.tl-rfq-body  >  h2                                                1    1   1
+div.tl-rfq-body  >  em                                                1    1   1
+button.tl-cad-drop  >  span                                           1    1   1
+button.tl-cad-drop  >  small                                          1    1   1
+p.shell-auth-rule  >  span                                            1    1   1
+button.shell-action.shell-action--quiet  >  span                      1    1   1
+div.shell-notice-body  >  p                                           1    1   1
+a.shell-action.shell-action--full.shell-action--primary  >  span      1    1   1
+main.shell-main  >  h2                                                1    1   1
+header.shell-title-block  >  em                                       1    1   1
+header.shell-title-block  >  a                                        1    1   1
+h1.shell-notfound-title  >  em                                        1    1   1
+
+Buckets where the SAME bare child of the SAME component already resolves
+more than one typography today — legitimate variation the gate is blind to,
+and therefore also the exact hiding place a real regression would use:
+  div.shell-table-scroll  >  td
+       261x  Space Grotesk / 13px / 400 / normal / normal / none
+       261x  IBM Plex Mono / 12px / 400 / normal / normal / none
+  div.shell-table-scroll  >  th
+         5x  IBM Plex Mono / 9px / 600 / normal / 1.08px / uppercase
+         3x  IBM Plex Mono / 12px / 600 / normal / 1.44px / uppercase
+        87x  Space Grotesk / 14px / 600 / normal / normal / none
+  div.tl-band-index  >  span
+         8x  IBM Plex Mono / 13px / 400 / normal / 0.26px / none
+        43x  IBM Plex Mono / 15px / 400 / normal / 0.3px / none
+  div.tl-band-index  >  small
+         8x  IBM Plex Mono / 7px / 400 / normal / 0.42px / none
+        43x  IBM Plex Mono / 8px / 400 / normal / 0.48px / none
+  nav.shell-contents  >  span
+        11x  IBM Plex Mono / 10px / 500 / normal / 1px / none
+        11x  Space Grotesk / 13px / 400 / normal / normal / none
+  main.shell-main  >  span
+         1x  IBM Plex Mono / 12px / 400 / normal / 3.6px / uppercase
+         1x  IBM Plex Mono / 10px / 400 / normal / 3px / uppercase
+         1x  IBM Plex Mono / 20px / 700 / normal / normal / none
+         4x  IBM Plex Mono / 10px / 400 / normal / 0.5px / uppercase
+         4x  IBM Plex Mono / 10px / 700 / normal / normal / none
+  ol.shell-lead-sections  >  span
+         5x  IBM Plex Mono / 10px / 500 / normal / 1px / none
+         5x  Space Grotesk / 14px / 400 / normal / normal / none
+  div.shell-prose  >  p
+         1x  Space Grotesk / 20.48px / 400 / normal / -0.2048px / none
+         3x  Space Grotesk / 15px / 400 / normal / normal / none
+total: 8 buckets already carrying >1 treatment, invisible to the gate
+
+── Q2. KEYS THAT MOVE UNDER STATE ──────────────────────────────────────
+The key is tagName + every shell-*/tl-* class, sorted. If a class toggles,
+the element becomes a DIFFERENT component to the gate. That is why it does
+not false-fire on state — and equally why it cannot compare states.
+keys only when OPEN: 34, only when CLOSED: 0, same key different typography across states: 0
+  keys appearing only with the menu open (never censused by the gate): 34
+      div.tl-menu
+      div.tl-menu-sheet
+      div.tl-menu-rail
+      div.tl-menu-body
+      div.tl-menu-top
+      a.tl-menu-brand
+      p.tl-menu-meta
+      div.tl-menu-main
+      nav.tl-menu-primary
+      div.tl-menu-family-rail
+      button.tl-menu-family
+      span.tl-menu-family-index
+      span.tl-menu-family-label
+      span.tl-menu-family-datum
+      div.tl-menu-categories
+      section.tl-menu-category
+      button.tl-menu-category-toggle
+      span.tl-menu-category-index
+      span.tl-menu-category-label
+      span.tl-menu-category-count
+      div.tl-menu-category-details
+      a.tl-menu-category-landing
+      span.tl-menu-tick
+      div.tl-menu-directory-reveal
+      div.tl-menu-directory
+      nav.tl-menu-dir-col
+      p.tl-menu-dir-title
+      a.tl-menu-section-link
+      span.tl-menu-section-index
+      a.tl-menu-route-link
+      div.tl-menu-conversion
+      nav.tl-menu-legal
+      a.tl-menu-account
+      a.tl-menu-cta
+
+── Q3. RELATIVE FONT SIZING IN THE SHIPPED CSS ─────────────────────────
+shipped css files: index-D8TAzPLI.css, Index-DeyKaULr.css, PageShell-DKgzfcuF.css
+`font-size` declarations in `em` (context-relative by design): 1
+  code,kbd,samp,pre { font-size: 1em }
+
+── Q4. ROUTES OUTSIDE THE GATE ─────────────────────────────────────────
+the gate visits 11 routes: / /giris /sifremi-unuttum /reset-password /iletisim /teklif-al /malzemeler /sss /hakkimizda /blog /404-this-route-does-not-exist
+
+network: requested=15 blocked=15 allowed=0
+  blocked https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap
+  blocked https://canary.example.com/09b1-guard-probe
+  blocked https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap
+  blocked https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap
+  blocked https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false
+  blocked https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap
+  blocked https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap
+  blocked https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap
+  blocked https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap
+  blocked https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap

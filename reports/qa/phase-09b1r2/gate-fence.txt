@@ -1,0 +1,56 @@
+guard canary: BLOCKED:Failed to fetch
+── S0  control, nothing blocked
+   preconditions fired on 0/11 routes
+   observations reaching the census: 1730  (the gate's floor is >300)
+   splits reported: 0
+   VERDICT: clean
+
+── S1  every stylesheet blocked (the gate's own control case)
+   preconditions fired on 11/11 routes
+     /: P2 rendered without the stylesheet applied
+     /giris: P2 rendered without the stylesheet applied
+     /sifremi-unuttum: P2 rendered without the stylesheet applied
+     /reset-password: P2 rendered without the stylesheet applied
+   observations reaching the census: 0  (the gate's floor is >300)
+   splits reported: 0
+   VERDICT: a precondition names the real cause
+
+── S2  ONLY index-*.css blocked — the sheet that does NOT declare --tl-rail
+   preconditions fired on 0/11 routes
+   observations reaching the census: 1730  (the gate's floor is >300)
+   splits reported: 0
+   VERDICT: clean
+
+── S3  ONLY PageShell-*.css blocked
+   preconditions fired on 10/11 routes
+     /giris: P2 rendered without the stylesheet applied
+     /sifremi-unuttum: P2 rendered without the stylesheet applied
+     /reset-password: P2 rendered without the stylesheet applied
+     /iletisim: P2 rendered without the stylesheet applied
+   observations reaching the census: 9  (the gate's floor is >300)
+   splits reported: 0
+   VERDICT: a precondition names the real cause
+
+── S4  ONLY Index-*.css blocked (the landing sheet)
+   preconditions fired on 0/11 routes
+   observations reaching the census: 1603  (the gate's floor is >300)
+   splits reported: 0
+   VERDICT: clean
+
+── S5  one route's JS chunk ABORTED (the disclosed error-boundary path)
+   preconditions fired on 0/11 routes: none
+   observations per route:
+     /                                  136
+     /giris                             52
+     /sifremi-unuttum                   39
+     /reset-password                    37
+     /iletisim                          134
+     /teklif-al                         120
+     /malzemeler                        367
+     /sss                               9
+     /hakkimizda                        193
+     /blog                              121
+     /404-this-route-does-not-exist     92
+   total observations: 1300  (gate floor >300 → PASSES the floor)
+   splits: 0
+   VERDICT: *** the gate PASSES while one route was never measured — the floor is a total, not a per-route check ***

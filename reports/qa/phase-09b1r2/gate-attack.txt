@@ -1,0 +1,22 @@
+guard canary: BLOCKED:Failed to fetch
+
+baseline: /hakkimizda census = 193 observations, 73 keys, 0 splits
+CONFIRMED  FN-1  a bare child of a component other than `.shell-field`, pushed off the system on one route, is INVISIBLE to the gate
+    anchor `header.shell-title-block > h2` matched 2 element(s); after the mutation it computes 11px / 300 / 4px / lowercase; the gate reports 0 split(s): []
+
+CONFIRMED  FN-2  CONTROL: the identical push applied to a CLASSED element makes the gate RED, so FN-1's green is the key rule and not a failed mutation
+    key `header.shell-title-block` (present on both routes), 2 element(s) mutated; 2 split(s); first: header.shell-title-block  ->  Space Grotesk / 11px / 300 / normal / 4px / lowercase (2x on /iletisim, grounds paper+graphite, e.g. "02Nasıl ilerleyelim?Elinizde n")   ||   Space Grotesk / 16px / 400 / normal / normal / n
+
+CONFIRMED  FN-3  a split inside the fullscreen menu is invisible to the gate, which never opens it
+    menu closed (what the gate sees): 0 split(s). menu open: 1 split(s) over 7 `a.tl-menu-route-link` observations; first: a.tl-menu-route-link  ->  Space Grotesk / 14px / 500 / normal / normal / none (4x on /, grounds none, e.g. "CNC İşleme Malzemeleri")   ||   Space Grotesk / 27px / 500 / normal / 9px / none (3x on /, g
+
+CONFIRMED  FP-1 /hakkimizda  giving a class to the elements the SHIPPED rule `.shell-prose[data-lead]>p:first-child { font-size: clamp(18px,1.6vw,23px) }` deliberately varies makes the gate call intentional design a violation
+    4 element(s) classed `shell-prose-para`; before: 0 split(s); after: 1 split(s); p.shell-prose-para  ->  Space Grotesk / 20.48px / 400 / normal / -0.2048px / none (1x on /hakkimizda, grounds graphite, e.g. "ISO 9001:2015, ISO 14001:2015 ")   ||   Space Grotesk / 15px / 400 / normal / normal / none (3x on /hakkimizda, grounds graphite, e.g.
+
+CONFIRMED  FP-1 /sss  giving a class to the elements the SHIPPED rule `.shell-contents a>span:first-child { font: 500 10px/1.6 var(--tl-font-mono) }` deliberately varies makes the gate call intentional design a violation
+    22 element(s) classed `shell-contents-part`; before: 0 split(s); after: 1 split(s); span.shell-contents-part  ->  IBM Plex Mono / 10px / 500 / normal / 1px / none (11x on /sss, grounds paper, e.g. "01")   ||   Space Grotesk / 13px / 400 / normal / normal / none (11x on /sss, grounds paper, e.g. "Genel")
+
+CONFIRMED  FP-1 /blog  giving a class to the elements the SHIPPED rule `.shell-lead-sections a>span:first-child { font: 500 10px/1.6 var(--tl-font-mono) }` deliberately varies makes the gate call intentional design a violation
+    10 element(s) classed `shell-lead-part`; before: 0 split(s); after: 1 split(s); span.shell-lead-part  ->  IBM Plex Mono / 10px / 500 / normal / 1px / none (5x on /blog, grounds graphite, e.g. "01")   ||   Space Grotesk / 14px / 400 / normal / normal / none (5x on /blog, grounds graphite, e.g. "Beş eksen ne demek")
+
+RESULT: 6/6 demonstrations confirmed
