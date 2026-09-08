@@ -110,14 +110,25 @@
    proved it by rendering `KOD: sifrenizi-yeniden-girin` — lowercase, hyphens,
    inside the old `[a-z0-9_-]{0,48}` class, and a complete Turkish sentence.
 
-   What is now true, stated as a guarantee and not as a hope. The value is
-   TESTED against the shape GoTrue actually emits rather than stripped down to
-   a permissive class: `^[a-z][a-z0-9]*(_[a-z0-9]+){0,4}$`, at most 40
-   characters. Anything else renders nothing at all. So the reference cannot
-   contain a space, a full stop, a slash, an `@`, a digit-grouped number, a
-   capital letter or a hyphen; it therefore cannot be a URL, an e-mail
-   address, a phone number, a formatted call to action, or the sentence QA
-   rendered, which no longer survives the filter.
+   What is now true, stated exactly, because a comment that rounds up is the
+   defect this paragraph is repairing. The value is `trim()`ed and lowercased,
+   then TESTED against the shape GoTrue actually emits rather than stripped
+   down to a permissive class: `^[a-z][a-z0-9]*(_[a-z0-9]+){0,4}$`, at most 40
+   characters. Anything that fails the test renders nothing at all — not a
+   partial string, nothing.
+
+   So the RENDERED reference cannot contain a space, a full stop, a slash, an
+   `@`, a hyphen or an uppercase letter, and therefore cannot be a URL, an
+   e-mail address, a phone number, a formatted call to action, or
+   `sifrenizi-yeniden-girin`, which QA rendered and which the filter now
+   discards. Measured, every case, in `reports/09b1c2/oauth-notice.txt`.
+
+   TWO THINGS THAT SENTENCE DOES NOT SAY. Capitals are LOWERCASED, not
+   rejected: `#error_code=USER_BANNED` renders `user_banned`, because GoTrue's
+   vocabulary is case-insensitive in practice and rejecting a real code over
+   its case would lose a support reference. And digits survive inside a
+   segment, so a number can be present — it simply cannot be grouped or
+   punctuated into a phone number.
 
    IT CAN STILL BE LOWERCASE WORDS JOINED BY UNDERSCORES, and no character
    rule fixes that, because "is an instruction" is a property of meaning and
