@@ -90,7 +90,33 @@ import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
    those three texts become false the same day.
    ══════════════════════════════════════════════════════════════════════════ */
 
-type Msg = { role: "user" | "assistant"; content: string };
+/**
+ * `kind` EXISTS SO THE OUTBOUND FILTER IS NEVER KEYED ON A STRING — 09b-2.
+ *
+ * THE DEFECT. `send()` stripped the AI-consent prompt out of the conversation
+ * it forwards by comparing `m.content` against a string LITERAL:
+ *
+ *   msgs.filter(m => m.content !== "🤖 … (Günlük limit: " + AI_DAILY_LIMIT + " mesaj)\n\n**Evet** yazarak onaylayabilirsiniz.")
+ *
+ * The prompt the component actually renders had drifted to "(Kalan: N mesaj)
+ * … **Evet** veya **Hayır** yazarak yanıtlayın." The literal therefore matched
+ * nothing, the filter removed nothing, and the bot's own consent question was
+ * forwarded to Google with the conversation.
+ *
+ * IT WAS INVISIBLE BECAUSE THE LEGAL COPY IS BROAD. `/gizlilik-politikasi`
+ * madde 06, `/cerez-politikasi` madde 03 and `/kvkk` madde 04 all say "o ana
+ * kadarki yazışma" — the whole conversation so far — which is TRUE of the
+ * broken filter and true of the fixed one. Narrow that clause by one word and
+ * three legal pages become false the same day, with nothing watching. That is
+ * why the fix is structural and why `e2e/09b2-chat-consent-transfer.spec.ts`
+ * asserts on the request body rather than on the copy.
+ *
+ * WHY A FIELD AND NOT AN INDEX. The prompt is identified by what it IS, in
+ * state, so the filter cannot drift from the renderer: the same `send()` call
+ * that writes the message writes its `kind`. A remembered index would go stale
+ * on any insertion; a literal already did.
+ */
+type Msg = { role: "user" | "assistant"; content: string; kind?: "ai-consent" };
 
 const CHAT_URL = `${SUPABASE_URL}/functions/v1/chat`;
 const AI_DAILY_LIMIT = 5;
@@ -183,8 +209,8 @@ export function ChatBot() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [msgs]);
 
-  const addAssistantMsg = useCallback((content: string) => {
-    setMsgs((prev) => [...prev, { role: "assistant", content }]);
+  const addAssistantMsg = useCallback((content: string, kind?: Msg["kind"]) => {
+    setMsgs((prev) => [...prev, { role: "assistant", content, kind }]);
   }, []);
 
   const callAi = useCallback(
@@ -231,13 +257,20 @@ export function ChatBot() {
 
       // Kullanıcı AI onayına "Evet" dedi
       if (pendingAiPrompt && (text.trim().toLowerCase() === "evet" || text.trim() === "👍")) {
-        const userMsg: Msg = { role: "user", content: pendingAiPrompt };
-        const newMsgs = [...msgs, { role: "user" as const, content: text.trim() }];
-        setMsgs(newMsgs);
+        setMsgs([...msgs, { role: "user" as const, content: text.trim() }]);
         setInput("");
         setPendingAiPrompt(null);
-        // AI'ya orijinal soruyu gönder
-        await callAi(pendingAiPrompt, [...msgs.filter(m => m.content !== "🤖 Bu soruyu daha detaylı yanıtlamak için AI asistanı kullanmamı ister misiniz? (Günlük limit: " + AI_DAILY_LIMIT + " mesaj)\n\n**Evet** yazarak onaylayabilirsiniz."), userMsg]);
+        /* WHAT LEAVES: the conversation up to the moment of consent, minus the
+           bot's own consent questions — which is exactly what the three legal
+           pages describe as "o ana kadarki yazışma".
+
+           `msgs` already ENDS with the reader's original question (it was
+           pushed at the bottom of this same handler on the turn that produced
+           the prompt), so re-appending it here would send it twice. The old
+           code did, because its filter was dead and the duplicate was the only
+           way the question survived at all. The filter is keyed on state now,
+           so the duplicate is not needed and is not sent. */
+        await callAi(pendingAiPrompt, msgs.filter((m) => m.kind !== "ai-consent"));
         return;
       }
 
@@ -270,7 +303,12 @@ export function ChatBot() {
       }
 
       setPendingAiPrompt(text.trim());
-      addAssistantMsg(`🤖 Bu soruyu daha detaylı yanıtlamak için AI asistanı kullanmamı ister misiniz? (Kalan: ${remaining} mesaj)\n\n**Evet** veya **Hayır** yazarak yanıtlayın.`);
+      // The `"ai-consent"` kind is what the outbound filter above reads. Write
+      // one without it and the bot's own question is forwarded to Google.
+      addAssistantMsg(
+        `🤖 Bu soruyu daha detaylı yanıtlamak için AI asistanı kullanmamı ister misiniz? (Kalan: ${remaining} mesaj)\n\n**Evet** veya **Hayır** yazarak yanıtlayın.`,
+        "ai-consent",
+      );
     },
     [msgs, loading, pendingAiPrompt, addAssistantMsg, callAi]
   );
