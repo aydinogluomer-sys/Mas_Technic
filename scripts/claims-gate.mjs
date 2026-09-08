@@ -1236,6 +1236,66 @@ function* restatedCadLists(text, span = 80) {
   }
 }
 
+/* ── 09b-2: a CAD AUTHORING PACKAGE named as tooling ───────────────────────
+   Three regexes and one discriminator, kept beside `cadFormatScan` because
+   they draw the same line from the other side: that rule owns "which formats
+   may a visitor SEND", this one owns "which software do we claim to OPERATE".
+   The rule itself, with its authority and its controls, is `named-cad-package`
+   in `RULES`. */
+const CAD_PACKAGE_HIT = (() => {
+  const PKG = String.raw`(?:CATIA|Solid\s?Works|\bNX\b)`;
+  const GOVERNOR = String.raw`(?:ile|kullanarak|üzerinde|ortamında|entegre|entegrasyon[a-zçğıöşü]*|yazılım[a-zçğıöşü]*|lisans[a-zçğıöşü]*|seat)`;
+  const CAPABILITY = String.raw`(?:modelleme|tasarım|çizim|simülasyon|programlama|CAD|CAM)`;
+  return trPattern(
+    new RegExp(
+      [
+        // (i) an inventory: two packages with only a separator between them
+        `${PKG}\\s*(?:,|/|·|\\s+ve\\s+|\\s+veya\\s+)\\s*${PKG}`,
+        // (ii) one package plus an ownership / operation governor
+        `${PKG}[^.!?;{}\\n"']{0,20}?\\s${GOVERNOR}\\b`,
+        // (iii) one package in a parenthetical after a capability noun
+        `${CAPABILITY}[^.!?;{}\\n"']{0,20}?\\(\\s*${PKG}`,
+      ].join("|"),
+      "gi",
+    ),
+  );
+})();
+
+/** The same governor set, as a standalone word — used by the discriminator. */
+const CAD_PACKAGE_GOVERNOR_WORD = trPattern(
+  /\b(?:ile|kullanarak|üzerinde|ortamında|entegre|entegrasyon[a-zçğıöşü]*|yazılım[a-zçğıöşü]*|lisans[a-zçğıöşü]*|seat)\b/i,
+);
+
+/** `dosyamı`, `dosyanızı`, `kayıtlarınızı` — a file the VISITOR owns or sends. */
+const CAD_PACKAGE_VISITOR_FILE = trPattern(/\b(?:dosya|kayıt)(?:lar|ler)?[ıiuü]?(?:n[ıiuü]z|m)[ıiuü]?\b/i);
+
+/**
+ * THE DISCRIMINATOR, AND IT IS STRUCTURAL RATHER THAN A LIST OF BLESSED
+ * SENTENCES. A package name is allowed to appear when the sentence is about a
+ * FILE THE VISITOR SENDS and claims nothing about software we run — which is
+ * what the live intake answer in `servicePages.ts` does when it names
+ * `.sldprt`, `.catpart` and `.prt` in order to REFUSE them, and what a routing
+ * question like "SolidWorks veya CATIA dosyamı yükleyebilir miyim?" does.
+ *
+ * BOTH HALVES ARE REQUIRED, and the second is what stops this from becoming a
+ * hole: "Dosyalarınızı SolidWorks İLE açıyoruz" carries the visitor-file noun
+ * and still fires, because it also carries an operation governor. Only a
+ * sentence that is about the visitor's file AND asserts no operation is quiet.
+ */
+function* namedCadPackageScan(text) {
+  CAD_PACKAGE_HIT.lastIndex = 0;
+  let m;
+  while ((m = CAD_PACKAGE_HIT.exec(text)) !== null) {
+    if (m[0].length === 0) {
+      CAD_PACKAGE_HIT.lastIndex += 1;
+      continue;
+    }
+    const sentence = sentenceAt(text, m.index);
+    if (CAD_PACKAGE_VISITOR_FILE.test(sentence) && !CAD_PACKAGE_GOVERNOR_WORD.test(sentence)) continue;
+    yield { index: m.index, match: m[0] };
+  }
+}
+
 function* cadFormatScan(text, file) {
   // The authority may — must — spell its own list.
   if (file === CAD_AUTHORITY_FILE) return;
@@ -2679,6 +2739,103 @@ const RULES = [
     remedy: "Named ERP/MES/CAM systems assert an infrastructure nobody verified.",
   },
   {
+    id: "named-cad-package",
+    /* 09b-2 — THE SUCCESSOR TO `DEFERRED_09B_SOFTWARE_INVENTORY`.
+       That register asserted the six deferred sites still RESOLVED. 09b-2 took
+       the decision the register was waiting for and removed all six, so the
+       register's job ends and this rule begins: "still there" becomes "may not
+       come back", which is strictly stronger.
+
+       AUTHORITY, unchanged from `named-enterprise-system`: §D supplied no
+       software inventory of any kind, and §0 sets
+       `DO_NOT_EMPHASIZE_COMPANY_SCALE`. That rule already gates CAM and
+       ERP/MES names on those grounds and its own comment says the three CAD
+       AUTHORING names were the class deferred to 09b. This is that class.
+
+       WHAT IT FIRES ON — the package as TOOLING, in two shapes:
+
+         (i)  two or more packages named side by side, separated by nothing but
+              a comma, a slash or `ve`/`veya`. That is an inventory: nobody
+              writes "SolidWorks, CATIA, NX" to make a point about one file.
+         (ii) one package plus an ownership or operation governor — `ile`,
+              `entegre`, `entegrasyon`, `kullanarak`, `ortamında`, `üzerinde`,
+              `yazılımı`, `lisans` — or one sitting in a parenthetical after a
+              capability noun, which is how four of the six were written.
+
+       WHAT IT MUST NOT FIRE ON, and the discriminator is STRUCTURAL rather
+       than a list of blessed sentences. `servicePages.ts` names all three
+       packages in the live intake answer, and it does so IN ORDER TO REFUSE
+       their native files:
+
+         "(SolidWorks .sldprt, CATIA .catpart, NX .prt)"
+
+       Each name is followed by its own extension, so the separator between two
+       package names is never bare — which is exactly the difference between
+       naming a FILE and listing a TOOL. Shape (i) cannot reach it and shape
+       (ii)'s governors are absent. The refusal is a negative control below and
+       `scripts/qa-probes/p09a3-dist-grep.mjs:49` asserts it survives in `dist`.
+
+       THE `\bNX\b` HALF IS THE RISKY ONE and it is deliberately never alone:
+       two letters cannot carry a rule. It only ever fires beside another
+       package name or a governor.
+
+       OUT OF THIS RULE'S CLASS, ON PURPOSE:
+       `src/components/landing/RestoredLandingSections.tsx:42` offers
+       "STEP, STP, IGES, Parasolid, SolidWorks ve teknik resim formatlarını
+       değerlendirebiliriz" — ONE package name, and the claim is about ACCEPTED
+       FORMATS, which is `cad-format-list-not-derived`'s class and not this
+       one. It is a negative control below so this rule cannot quietly swallow
+       another rule's finding. Recorded rather than fixed here: that string is
+       reachable only from the dev-only `/legacy-landing` route and is measured
+       ABSENT from `dist/`, and the reason the format rule walks past it is
+       that `değerlendirebiliriz` is not in `CAD_OFFER_PREDICATE`. Widening
+       that predicate is the right fix and it belongs to whoever owns that
+       file. */
+    scan: namedCadPackageScan,
+    controls: {
+      fires: [
+        // The six sites 09b-2 removed, restored verbatim. Each must be red.
+        '"CATIA/SolidWorks ile 3D modelleme ve simülasyon.",',
+        '"CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans analizi simülasyonu, 3D baskı veya hızlı imalat ile prototip üretimi",',
+        '"3D Modelleme (CATIA/SolidWorks)",',
+        '"CATIA/SolidWorks ile profesyonel tasarım",',
+        '"Proje yönetimi: fizibilite analizi, tasarım (SolidWorks, CATIA, NX), prototip üretimi",',
+        '{ label: "CAD", value: "SolidWorks, CATIA, NX" },',
+        // The two Phase 09a deleted on the same reasoning, so the decision
+        // covers what came before it as well as what it removed.
+        '"CATIA, SolidWorks, NX entegre çalışma",',
+        '"CAD/CAM Entegrasyonu — CATIA, SolidWorks, NX, Mastercam",',
+        // A single package claimed as tooling — the shape shape (i) misses.
+        '"Parçalarınızı SolidWorks ile modelliyoruz."',
+        '"CATIA lisansımız ile karmaşık yüzeyleri işliyoruz."',
+      ],
+      silent: [
+        /* THE LIVE REFUSAL. All three names, and every one of them followed by
+           the extension it refuses. This is the string the whole rule is
+           shaped around; if it ever goes red the rule is wrong, not the copy. */
+        '"Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz."',
+        // A question is not an inventory — it is matcher routing.
+        'question: "SolidWorks veya CATIA dosyamı doğrudan yükleyebilir miyim?",',
+        // Another rule's class, live in the tree. See the note above.
+        {
+          file: "src/components/landing/RestoredLandingSections.tsx",
+          text: '"STEP, STP, IGES, Parasolid, SolidWorks ve teknik resim formatlarını değerlendirebiliriz."',
+        },
+        // The capability that replaced the six. No package, no inventory.
+        '"3D modelleme, kuvvet ve tolerans analizi simülasyonu",',
+        '"3D Modelleme",',
+        '"Katı model ve imalat resmi tek akışta",',
+        '{ label: "Tasarım", value: "Katı model ve teknik resim" },',
+        // Word boundaries must hold: `NX` is two letters and lives inside words.
+        '{ code: "LNX·7075", name: "Alüminyum 7075", subtitle: "Havacılık · yapısal" },',
+        '"Linux tabanlı ölçüm istasyonu ile kayıt tutulur."',
+      ],
+    },
+    authority: "§D — no software inventory was supplied · §0 DO_NOT_EMPHASIZE_COMPANY_SCALE",
+    remedy:
+      "A named CAD authoring package is inventory, not capability, and it is the class Phase 06 removed named machine models from. State the capability — 3D modelleme, tolerans simülasyonu, katı model ve imalat resmi. A package MAY be named in order to refuse its native file, which is what the intake answer in src/data/servicePages.ts does.",
+  },
+  {
     id: "marketing-filler",
     // A bare `en iyi` is excluded: in `materialsData.ts` it states published
     // machinability rankings ("en iyi işlenebilir paslanmaz"), which is a
@@ -2916,18 +3073,32 @@ function checkQualityResources(ledgerFile = CAD_LEDGER_FILE, publicDir = "public
    WHEN 09b DECIDES THE CLASS, THIS TURNS RED, and that is the intended
    behaviour: removing a site is exactly the event the register must not sleep
    through. The remedy is one line — delete the entry — and the failure message
-   says so. */
+   says so.
+
+   ── 09b-2 DECIDED IT, ALL SIX, SO THE REGISTER IS EMPTY ──────────────────
+   The six entries are gone because the six sites are gone; the reasoning is
+   filed in `src/data/servicePages.ts` above `fikstur-aparat-tasarimi` (grep
+   the marker). The register is EMPTIED RATHER THAN DELETED for two reasons,
+   and neither is sentiment:
+
+     · the mechanism is generic and the next deferred class will want it. What
+       expired is this class, not the notation.
+     · `checkDeferredClassRegister` stays in `NON_RULE_CHECKS`, so the registry
+       control keeps asserting the id is present and the two fixture controls
+       keep proving the function reports a dead entry and stays quiet on a live
+       one. An empty LIVE register does not make the INSTRUMENT untested —
+       which is the distinction 09a-C5/R4-5 drew when it found two checks
+       asleep behind 262 green controls.
+
+   AND THE GUARANTEE DID NOT EVAPORATE, IT MOVED. A register asserts "these are
+   still here"; that question is answered forever once the sites are deleted.
+   Its successor is the `named-cad-package` RULE, whose positive controls are
+   these six strings restored verbatim. "Still there" became "may not come
+   back". If that rule is ever weakened, this comment is the trail back. */
 const DEFERRED_09B_SOFTWARE_INVENTORY = {
   marker: "09b-SOFTWARE-INVENTORY",
   file: "src/data/servicePages.ts",
-  sites: [
-    "CATIA/SolidWorks ile 3D modelleme ve simülasyon.",
-    "CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans analizi",
-    '"3D Modelleme (CATIA/SolidWorks)"',
-    '"CATIA/SolidWorks ile profesyonel tasarım"',
-    "tasarım (SolidWorks, CATIA, NX)",
-    '{ label: "CAD", value: "SolidWorks, CATIA, NX" }',
-  ],
+  sites: [],
 };
 
 /** Each registered site must still be findable, exactly once, where it is filed. */

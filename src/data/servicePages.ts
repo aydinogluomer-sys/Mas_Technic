@@ -778,6 +778,72 @@ export const servicePages: ServicePageData[] = [
       },
     ],
   },
+  /* ══════════════════════════════════════════════════════════════════════
+     09b-SOFTWARE-INVENTORY — THE CLASS IS DECIDED. ALL SIX, NOT NONE.
+
+     Four sites on this page and two on `/endustriyel/ozel-projeler` named
+     CATIA, SolidWorks and NX as the packages work is DESIGNED IN. They are
+     gone; the capability they were attached to — 3D modelling, force and
+     tolerance simulation, fixture design, solid model and manufacturing
+     drawing — is unchanged, because that is what §1.3 permits and what a buyer
+     needs.
+
+     THE AUTHORITY. §D supplies no software inventory of any kind. §0 sets
+     `DO_NOT_EMPHASIZE_COMPANY_SCALE`, and three seat-expensive enterprise CAD
+     suites is a scale claim whatever else it is. Phase 06 removed named
+     MACHINE MODELS under the same authority, and `claims-gate.mjs`'s
+     `named-enterprise-system` rule already cites §D for ERP, MES and CAM.
+     CAD authoring packages are that class; nothing distinguished them but
+     the fact that nobody had taken the decision.
+
+     THE FALSIFICATION THAT WAS INVITED, AND WHY IT DOES NOT SURVIVE
+     ---------------------------------------------------------------
+     It was put like this: a CAD package name is not exactly a machine model,
+     because it tells a buyer something OPERATIONAL about file exchange in a
+     way a machine model does not. That is the strongest argument for keeping
+     them and it fails on this repository's own facts, three times over:
+
+     1. THE OPERATIONAL FACT IS ALREADY PUBLISHED, AND MORE HONESTLY. The FAQ
+        entry above — `question: "Hangi dosya formatlarını kabul ediyorsunuz?"`
+        — derives the accepted list from `CAD_ACCEPTED_EXTENSIONS` and then
+        names `.sldprt`, `.catpart` and `.prt` IN ORDER TO REFUSE THEM, with
+        the email route that does work. A buyer who wants to know what happens
+        to their CATIA file learns the answer there, and it is the true answer.
+        The six sites added nothing to it.
+
+     2. TWO OF THE SIX CONTRADICTED IT. `{ label: "CAD", value: "SolidWorks,
+        CATIA, NX" }` is the same shape as `{ label: "Desteklenen CAD", value:
+        "STEP, IGES, CATIA, NX, SW" }`, which Phase 09a deleted as D1c. A spec
+        row labelled CAD listing three packages, on a page a buyer reads before
+        uploading, reads as SUPPORTED INPUT — and the uploader refuses all
+        three. So for that site the file-exchange argument is not a reason to
+        keep it; it is the reason to remove it fastest.
+
+     3. THE OTHER FOUR SAY NOTHING ABOUT FILE EXCHANGE AT ALL. "…ile 3D
+        modelleme", "3D Modelleme (…)", "…ile profesyonel tasarım", "tasarım
+        (…)" describe what WE model in. What we model in constrains what we can
+        open; it does not tell a buyer what they may send, and on this site it
+        actively misleads about it.
+
+     WHAT IS LOST, STATED PLAINLY. A buyer who works in CATIA loses a signal
+     that the shop is in the same ecosystem. That signal was worth something
+     and it is not free to give up. It is given up because the site cannot
+     support it — §D verifies no seat, no version and no license — and because
+     the reader gets the true operational answer one page over instead.
+
+     ALL SIX OR NONE was the condition, and it is all six: "CATIA, SolidWorks,
+     NX entegre çalışma" and "CAD/CAM Entegrasyonu — CATIA, SolidWorks, NX,
+     Mastercam" were already deleted in Phase 09a on this same reasoning, so
+     keeping any of the six would have left the site saying in one place what
+     it had removed in another.
+
+     THE GUARANTEE MOVED FROM A REGISTER TO A RULE.
+     `DEFERRED_09B_SOFTWARE_INVENTORY` existed only to assert that the deferred
+     sites still resolved. The class is decided, so its successor is the
+     `named-cad-package` rule in `scripts/claims-gate.mjs`, whose positive
+     controls are these six strings restored. "Still there" became "may not
+     come back", which is strictly stronger.
+     ══════════════════════════════════════════════════════════════════════ */
   {
     slug: "fikstur-aparat-tasarimi",
     category: "hizmetler",
@@ -785,12 +851,12 @@ export const servicePages: ServicePageData[] = [
     title: "Fikstür & Aparat Tasarımı",
     heroImage: "hero-fikstur-aparat",
     metaTitle: "Fikstür & Aparat Tasarımı | Özel CNC Fikstür | Mas Technic",
-    metaDescription: "CNC işleme, montaj, kaynak ve kontrol için özel fikstür tasarımı. ±0.01mm tekrarlanabilirlik. CATIA/SolidWorks ile 3D modelleme ve simülasyon.",
+    metaDescription: "CNC işleme, montaj, kaynak ve kontrol için özel fikstür tasarımı. ±0.01mm tekrarlanabilirlik. 3D modelleme, kuvvet ve tolerans simülasyonu.",
     description:
       "CNC işleme, montaj, kaynak ve kontrol operasyonları için özel tasarım fikstür ve aparat çözümleri. Tekrarlanabilirlik ve operatör bağımsızlığı.",
     content: [
       "Üretim süreçlerinizi hızlandıracak ve hassasiyeti artıracak özel fikstür ve aparatlar tasarlıyoruz. Torna fikstürü (milliyelti ve milliyetsiz), freze fikstürü (vise, vakumlu ve hidrolik), montaj fikstürü (operatör hatalarını önleme), kontrol fikstürü (ölçüm tekrarlanabilirliği) ve kaynak fikstürü (hizalama ve sabitleme) dahil geniş yelpazede çözümler sunuyoruz.",
-      "CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans analizi simülasyonu, 3D baskı veya hızlı imalat ile prototip üretimi ve üretim ortamında doğrulama test & onay süreçleri ile profesyonel tasarım hizmeti veriyoruz.",
+      "3D modelleme, kuvvet ve tolerans analizi simülasyonu, 3D baskı veya hızlı imalat ile prototip üretimi ve üretim ortamında doğrulama test & onay süreçleri ile profesyonel tasarım hizmeti veriyoruz.",
       "Çelik, alüminyum ve kompozit malzemelerle ±0.01mm tekrarlanabilirlik sağlayan fikstürler üretiyoruz. Tasarım ve üretim termini; fikstür karmaşıklığı, malzeme tedariki ve doğrulama kapsamı incelendikten sonra teklifle birlikte verilir.",
     ],
     features: [
@@ -808,14 +874,14 @@ export const servicePages: ServicePageData[] = [
     ],
     processSteps: [
       "İhtiyaç Analizi",
-      "3D Modelleme (CATIA/SolidWorks)",
+      "3D Modelleme",
       "Simülasyon (Kuvvet & Tolerans)",
       "Prototip (3D Baskı / Hızlı İmalat)",
       "CNC İşleme & Montaj",
       "Test & Onay",
     ],
     advantages: [
-      "CATIA/SolidWorks ile profesyonel tasarım",
+      "Katı model ve imalat resmi tek akışta",
       "Kuvvet ve tolerans simülasyonu",
       "3D baskı ile hızlı prototipleme",
       "Üretim ortamında doğrulama testi",
@@ -3305,6 +3371,13 @@ export const servicePages: ServicePageData[] = [
       { question: "Teslimat programı nasıl belirleniyor?", answer: "Kapasite planlaması sonrasında parti büyüklüğü ve teslimat sıklığı birlikte kararlaştırılır; haftalık veya periyodik teslimat programları düzenlenebilir." },
     ],
   },
+  /* 09b-SOFTWARE-INVENTORY — sites 5 and 6 of six. `tasarım (SolidWorks,
+     CATIA, NX)` in the content prose and `{ label: "CAD", value: "SolidWorks,
+     CATIA, NX" }` in the spec table. The second is the one the file-exchange
+     argument breaks on: a spec row labelled CAD listing three packages reads
+     as supported INPUT, and the uploader refuses all three. The full reasoning
+     is filed once, above `fikstur-aparat-tasarimi`; grep
+     `09b-SOFTWARE-INVENTORY`. */
   {
     slug: "ozel-projeler",
     category: "endustriyel",
@@ -3315,7 +3388,7 @@ export const servicePages: ServicePageData[] = [
     description: "Standart çözümlerin yetersiz kaldığı özel mühendislik projeleri için anahtar teslim çözümler. Reverse engineering, R&D ve konseptten üretime tam süreç.",
     content: [
       "Standart çözümlerin yetersiz kaldığı özel mühendislik projeleri için anahtar teslim çözümler sunuyoruz. Reverse engineering (3D tarama → CAD → üretim), R&D prototipleme (konsept doğrulama → fonksiyonel test), özel tezgah ve fikstür tasarım-imalat ve çoklu disiplin projeleri (mekanik + elektronik + yazılım) yönetiyoruz.",
-      "Proje yönetimi — konseptten üretime tüm süreçler tek çatı altında: fizibilite analizi, tasarım (SolidWorks, CATIA, NX), prototip üretimi, test ve doğrulama, pilot üretim ve seri üretim geçişi. Her proje özel bir proje mühendisi tarafından yönetilir.",
+      "Proje yönetimi — konseptten üretime tüm süreçler tek çatı altında: fizibilite analizi, katı model tasarımı, prototip üretimi, test ve doğrulama, pilot üretim ve seri üretim geçişi. Her proje özel bir proje mühendisi tarafından yönetilir.",
       "Ürün geliştirme danışmanlığı sürecin parçasıdır. Teknik verinin nasıl paylaşılacağı ve fikri mülkiyetin nasıl ele alınacağı proje başında yazılı olarak mutabık kalınır.",
     ],
     features: [
@@ -3329,7 +3402,7 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Süreç", value: "Konseptten üretime" },
       { label: "3D Tarama", value: "0.02mm hassasiyet" },
-      { label: "CAD", value: "SolidWorks, CATIA, NX" },
+      { label: "Tasarım", value: "Katı model ve teknik resim" },
       { label: "Koşullar", value: "Proje başında yazılı" },
       { label: "Ar-Ge", value: "TÜBİTAK, KOSGEB desteği" },
       { label: "Proje Yönetimi", value: "Özel proje mühendisi" },
