@@ -3090,3 +3090,83 @@ the prototype-chain lookup **and a justified answer to what a notice may assert 
 fragment**, the stale-notice bound, the false comment, the probe's header, the `graphite` band tone, and the
 typography gate. The `.tl-cad-drop` boundary is the **only** thing it may change in `technical-landing.css`;
 the rest of that file stays reserved for Phase 10.
+
+#### 09b-1-C2 integrated — and a QA claim of "tsc clean" was a zero-byte file over a branch that did not compile
+
+Seventeen commits picked as `3a0181a..0d3f905`; nine source/test/probe paths plus 36 evidence files, tree
+identical to the Coder's. **No golden moved.**
+
+**The finding that indicts my own integration, not just QA's round.** `npx tsc -b` **failed with exit 2 on
+the integration head**, on two `TS2353` errors in `qa-09b1-golden-drift.spec.ts:92` and
+`qa-09b1-type-slot-census.spec.ts:97` — **both QA's own files** — and
+`reports/qa/phase-09b1/tsc.txt`, committed as the evidence for "tsc clean", is **0 bytes**. I verified both.
+**The branch had not typechecked since I merged `3ba5343`**, and I merged it on the strength of a claim I did
+not run. Scope and specific findings I checked; the build I took on trust. It exits 0 again as of `0d3f905`.
+
+**And the type error was the smaller half of that defect.** `grep -rn "reducedMotion" node_modules/playwright/lib/`
+returns **0 occurrences** — I confirmed it — so `reducedMotion` is not a Playwright *test* option at all.
+`test.use({ reducedMotion: "reduce" })` was therefore a type error **and a silent no-op**: both specs
+believed they were capturing under reduced motion and were not. The Coder measured all four forms with a
+throwaway config outside the repo and read `matchMedia` in the page:
+
+| form | page sees `reduce` |
+|---|---|
+| `test.use({ reducedMotion })` | **false** |
+| `test.use({ contextOptions: { reducedMotion } })` | **true** |
+| project `use: { reducedMotion }` | **false** |
+| `page.emulateMedia({ reducedMotion })` | **true** |
+
+The intent was **restored rather than preserved** — it had never held. And the proof that the specs still test
+what they were written to test is stronger than a green run: both rewrote their evidence files and
+`git diff reports/qa/phase-09b1/` came back **byte-identical**.
+
+**A consequence disclosed rather than fixed, correctly.** The same measurement makes
+`playwright.config.ts`'s four `visual-*` `reducedMotion` lines **inert**. It is dead weight and not a live
+defect, because every golden-*capturing* visual spec calls `emulateMedia` itself — so no baseline was ever
+taken without reduced motion. `landing-golden.spec.ts` had recorded observing the project setting fail to
+hold and attributed it to spring timing; **this is the actual reason**, and a comment that had been wrong for
+several phases is now explained.
+
+**D1 fixed and D2 answered by removing capability rather than adding validation.** `.tl-cad-drop` takes
+`--tl-paper-control-rule` and measures **3.672:1** against both its fill and its ground, geometry untouched,
+hardcoded hex gone. `COPY` is now a `Map`, so all five inherited names reach `FALLBACK` with a non-empty
+label — and **four reader-asserting entries were removed outright**: `user_banned`,
+`identity_already_exists`, `email_exists`, `provider_email_needs_verification`. That is the right answer to
+the question I deliberately refused to prescribe: **a notice may say an attempt did not complete; it may not
+tell a stranger their account is closed on the strength of a URL fragment.** The diagnostic code still
+renders under each, so nothing debuggable was lost.
+
+**It falsified its own first fix with its own measurement.** The stale-notice bound it reached for first was
+a clock — and it then measured that a genuine return takes **9–13 s on a throttled phone** against QA's
+20 s stale case, so a pure age rule would have silenced real failures. The bound is **shape first** — the
+entry record is read only when the document was fetched at `/musteri-paneli` — with age second at 30 s. That
+is better than what my packet implied, and the reasoning is the part worth keeping.
+
+**The typography gate went universal because the scope was measured, not assumed** — 256 components, 1730
+observations at 1280, **0 splits** — so it holds the invariant everywhere rather than over a slot list. Proved
+red by removing the four historical declarations from `shell.css`, rebuilding, and running against the real
+bundle; five tests, three of them controls, green at all eight regression widths. **Then the gate reported a
+false split of its own** under a corrupted environment, now fixed with two preconditions and two provoked
+controls — and the first version of one control **did not fire**, because an aborted chunk reaches an error
+boundary rather than staying in suspense. A gate that has been made to lie once, deliberately, is worth more
+than one that has only ever been green.
+
+**Its own arithmetic, corrected by itself, and a figure of mine that survives.** Commit `86a3b70` stated the
+pixelmatch cutoff as `35215 × threshold`; it is `35215 × threshold²`, so **1409, not 7043**. The Coder set
+out plainly which conclusions survive: `.tl-cad-drop`'s delta of 752.1 is still under 1409, so the landing
+golden legitimately passed; but its claim that "every golden is blind to any colour change under 7043" **does
+not survive** and was five times too alarming. **The figure I carried downstream — 1409 — was already the
+correct one**, taken from QA, so nothing I reported needs retracting. What still stands is the substance:
+1409 is wide enough to have hidden all three control-boundary changes this phase made — 752, 615 and 1294.
+
+**Two pre-existing failures, both diagnosed rather than shrugged at.** `tablet-768`'s motion-grammar red
+reproduces on the **BASE build** with `src/` checked out at `3ba5343`: `technical-landing.css:516` hides
+`.tl-dimension-lines` on a **width** predicate (`max-width:767px`) while the spec asserts on a **pointer**
+predicate (`(hover:hover) and (pointer:fine)`), and at 768 with touch the two disagree. Phase 10 / A23
+territory, and now understood. `button.tl-menu-trigger` remains an enclosing control boundary at 2.16–2.20:1
+on ten route×viewport rows — C1 disclosed eight, this run adds the two on `/` — and lives outside every
+allowlist so far.
+
+**And a near-miss it reported against itself:** its first instinct was that the inert project setting had
+compromised the golden suite. Measuring which visual specs call `emulateMedia` **before** writing it down is
+what stopped a second overclaim in the same round.
