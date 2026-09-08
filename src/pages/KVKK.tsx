@@ -51,10 +51,18 @@ import { PUBLIC_ADDRESS_LINES, SALES_EMAIL } from "@/content/claims";
    header), and no write to this site's database.
 
    The cross-reference is by clause NUMBER and links to `/gizlilik-politikasi`
-   with no `#` fragment, the way `CerezPolitikasi.tsx` madde 03 already does:
-   `ScrollToTop.tsx` overrides native fragment scrolling, so a hash link would
-   land the reader at the top of a seven-clause document instead of at the
-   clause it names.
+   with no `#` fragment, the way `CerezPolitikasi.tsx` madde 03 already does.
+
+   THE REASON FOR THAT HAS BEEN REMOVED — 09b-2. It used to read: "`ScrollToTop`
+   overrides native fragment scrolling, so a hash link would land the reader at
+   the top of a seven-clause document instead of at the clause it names." That
+   was true and it was a workaround; `ScrollToTop.tsx` now honours the fragment
+   on both entry paths and `e2e/09b2-fragment-navigation.spec.ts` holds it
+   there. The numeric cross-reference is LEFT AS IT IS rather than converted:
+   it is a citation style shared with two other documents, changing it is an IA
+   decision about all three at once, and this packet's business here was the
+   defect and not the convention. Anyone taking that decision should know the
+   constraint is gone.
 
    5. THE LIST WAS CLOSED AND SHORT BY ONE AGAIN — PHASE 08 CORRECTION #5.
       Correction #4 replaced "iki hâlde" with "üç hâlde", which fixed the
@@ -93,8 +101,49 @@ import { PUBLIC_ADDRESS_LINES, SALES_EMAIL } from "@/content/claims";
       only with the customer's knowledge — is unchanged, because it is the
       commitment the clause was already making and nothing here verifies more.
 
+   7. THE LIST WAS CLOSED AND SHORT BY TWO — PHASE 09b-2. Correction #5's fix
+      HOLDS: it was verified rather than assumed, and the enumeration under
+      "Aktarım yalnızca aşağıda tek tek sayılan hâllerde olur" does contain the
+      AI transfer, in its own paragraph, with its own lead. The clause was
+      nevertheless still short, and the two it was short of are instructive
+      because neither is exotic:
+
+      THE FONT CDN. `index.html:265-274` loads the site's typefaces from
+      `fonts.googleapis.com` and `fonts.gstatic.com`. 09b-1 measured that
+      request on EVERY route it tested, before any interaction, and the request
+      necessarily carries the visitor's IP and user agent. That is a transfer
+      to a third party by this clause's own standard — its hCaptcha paragraph
+      says so in as many words about the identical mechanism. Both sibling
+      documents already listed the fonts; the ONE document whose statutory job
+      is to enumerate aktarım did not. It is the most-visited transfer on the
+      site and it was the missing one.
+
+      THE OAUTH REDIRECT. `Login.tsx:281` calls `signInWithOAuth`, which
+      navigates the browser to the auth server and onward to the provider.
+      Whether `google` and `linkedin_oidc` are ENABLED could not be established
+      from this checkout — 09b-1 returned that question unanswered rather than
+      answering it by a workaround — so the paragraph is written to be true
+      either way: it states the hop the source proves and stops at the
+      provider's own page, which is that provider's aydınlatma metni to write,
+      not ours.
+
+      WHY THIS KEEPS HAPPENING, AND THE ONE STRUCTURAL NOTE WORTH LEAVING. A
+      closed list is the right form for an aydınlatma metni and it will go
+      stale again, because it enumerates BEHAVIOUR and nothing in the build
+      compares it against the behaviour. `e2e/qa-p08-storage-disclosure.spec.ts`
+      does exactly that for the storage table and it is why that table has
+      stopped drifting. The equivalent for this clause — walk the public
+      routes, collect the request origins, assert every one is covered by a
+      published case — is the instrument this defect class actually needs. It
+      is QA's to write under §3.3, and it is named here so the next person does
+      not rediscover the need from a sixth correction.
+
    The one thing this page must never grow is a security guarantee — see
-   `GizlilikPolitikasi.tsx`, where one had to be removed.
+   `GizlilikPolitikasi.tsx`, where one had to be removed. §J
+   `CONFIDENTIALITY_TEXT_APPROVED: NO` and `NDA_AVAILABLE: NO` were swept
+   across the whole public tree in 09b-2 and nothing had crept back; clause 05
+   still states the statutory position and commits to no day count and no
+   destruction calendar.
    ══════════════════════════════════════════════════════════════════════════ */
 
 const CLAUSES: LegalClause[] = [
@@ -171,6 +220,15 @@ const CLAUSES: LegalClause[] = [
           barındırma ile veri tabanı altyapısının hizmet sağlayıcısı.
         </p>
         <p>
+          <strong>Yazı tipi dağıtım ağı — her sayfada.</strong> Sitenin yazı tipleri Google’ın
+          yazı tipi dağıtım ağından (<code>fonts.googleapis.com</code>,{" "}
+          <code>fonts.gstatic.com</code>) yüklenir. Tarayıcınız bu sunuculara her sayfada istek
+          gönderir ve bu istekle IP adresiniz ile tarayıcı bilginiz onlara ulaşır. Bu hâl için de
+          onayınız istenmez ve alınmaz: istek, siz bir şey yapmadan sayfa açılırken gönderilir.
+          Aşağıdaki sohbet asistanı hâli de Google’a gider; ikisi Google’ın birbirinden bağımsız
+          iki ayrı servisidir.
+        </p>
+        <p>
           <strong>Giriş sayfasındaki güvenlik bileşeni.</strong>{" "}
           <Link to="/giris">Giriş sayfasını</Link> açtığınızda, formu otomatik giriş denemelerine
           karşı koruyan hCaptcha bileşeni yüklenir; tarayıcınız <code>hcaptcha.com</code> alan
@@ -187,6 +245,14 @@ const CLAUSES: LegalClause[] = [
           gönderilmez, çünkü aradaki sunucu fonksiyonu tarayıcınızın başlıklarını iletmez. Metin
           sitenin veri tabanına da kaydedilmez. Aktarımın adım adım nasıl gerçekleştiği{" "}
           <Link to="/gizlilik-politikasi">Gizlilik Politikası</Link>’nın 06. maddesindedir.
+        </p>
+        <p>
+          <strong>Google veya LinkedIn ile giriş — yalnızca o düğmeye basarsanız.</strong>{" "}
+          <Link to="/giris">Giriş sayfasındaki</Link> “Google” ya da “LinkedIn” düğmesine
+          basarsanız tarayıcınız siteden ayrılır: önce yukarıdaki barındırma ve kimlik doğrulama
+          altyapısına, oradan da seçtiğiniz sağlayıcının kendi giriş sayfasına gider. Düğmeye
+          basmazsanız bu yönlendirme hiç olmaz. Sağlayıcının kendi sayfasında hangi verinin
+          işlendiğini bu metin anlatmaz; orası o sağlayıcının kendi aydınlatma metninin konusudur.
         </p>
         <p>
           <strong>Bir işin tedarikçiye verilmesi — bilginiz dâhilinde.</strong> Bir işin

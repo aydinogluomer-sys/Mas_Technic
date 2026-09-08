@@ -82,9 +82,13 @@ import { SALES_EMAIL } from "@/content/claims";
 
      cookie  __cf_bm   domain .hcaptcha.com   httpOnly  secure  sameSite None
                        expires in 29.9 minutes
-     hosts   js.hcaptcha.com · newassets.hcaptcha.com · two ephemeral
+     hosts   js.hcaptcha.com · newassets.hcaptcha.com · ephemeral
              <id>.w.hcaptcha.com workers   (plus the two font hosts)
-     iframes 2, both newassets.hcaptcha.com/captcha/v1/…/hcaptcha.html
+             — AND `sentry.hcaptcha.com`, added by 09b-1, reached ONLY when
+             the widget fails; the worker count also moved between the two
+             measurements. Both are why nothing published here is keyed to a
+             subdomain or to a count. See the host rule below.
+     iframes both newassets.hcaptcha.com/captcha/v1/…/hcaptcha.html
              (`#frame=checkbox` and `#frame=challenge`)
 
    Every other route measured — `/`, `/kvkk`, `/cerez-politikasi`,
@@ -104,6 +108,47 @@ import { SALES_EMAIL } from "@/content/claims";
    `GizlilikPolitikasi.tsx` madde 06's stance is the model. What IS said is
    what the browser shows: which route, that it mounts on load without
    interaction, which hosts, the cookie's name, domain, flags and lifetime.
+
+   ── 09b-2: THE HOST RULE, WRITTEN DOWN BECAUSE THE TWO LISTS DIFFER ──────
+   THIS DOCUMENT PUBLISHES **OBSERVED** HOSTS, AT REGISTRABLE-DOMAIN
+   GRANULARITY. 09b-1 measured `sentry.hcaptcha.com` as a FIFTH host, reached
+   only when the widget fails — the content-blocker and flaky-network case a
+   disclosure exists for — and read three more out of the widget's own
+   `clientOptions` (`accounts.`, `api.`, `pst-issuer.`) that were NEVER
+   contacted. Both lists are defensible; mixing them silently is not, so:
+
+     published      a host the browser was measured contacting
+     not published  a destination that appears in a vendor's configuration and
+                    was never reached. Writing "your browser sends requests to
+                    api.hcaptcha.com" when it does not is a NEW false sentence
+                    in a document this run has spent itself making true.
+
+   The rule is stated in madde 03 for the reader, not only here, because a list
+   is only checkable if you know what it is a list OF.
+
+   AND THE PUBLISHED COPY NEEDED NO HOST ADDED, WHICH IS WORTH SAYING
+   PLAINLY. 09b-2's packet reported the fifth host as a gap in this page. It is
+   not: the rendered clauses name the registrable domain `hcaptcha.com` and
+   have never enumerated subdomains. `sentry.hcaptcha.com` is inside that
+   domain, so the disclosure already covered it — and it covers the ephemeral
+   `<id>.w.hcaptcha.com` workers, whose NUMBER changed between Phase 08's
+   measurement and 09b-1's, for the same reason. The list at the top of this
+   comment is the MEASUREMENT RECORD, which `blankComments()` keeps out of the
+   gate and which no reader sees; it was short by one and is corrected above.
+
+   THE FRAME COUNT IS GONE FROM BOTH DOCUMENTS, and this is correction #5's
+   lesson applied one level down. "iki çerçeve" is a closed count over a third
+   party's implementation: nothing in this repository controls it, nothing
+   tests it, and the neighbouring worker count has already been observed to
+   move. A numeral that a vendor can falsify without telling anyone does not
+   belong in a legal document — what belongs is the fact that survives, which
+   is where the frames come from.
+
+   WIDGET FAILURE IS ITS OWN SENTENCE in madde 03. Every published sentence
+   about hCaptcha described the SUCCESS path. The reader most likely to be
+   reading a cookie policy is the one running a content blocker, and that is
+   precisely the reader for whom the widget fails and reports its own failure
+   onward. Saying so costs a clause and is the honest half of the measurement.
 
    MADDE 01'S SECOND SENTENCE IS UNTOUCHED AND STILL TRUE. `__cf_bm` is a
    bot-management cookie; it is not an ad cookie, an analytics cookie, a tag
@@ -164,7 +209,7 @@ const STORAGE_ROWS: string[][] = [
   [
     "mas-technic-theme",
     "localStorage",
-    "3B model görüntüleyicisinin açık/koyu paletini hatırlar.",
+    "Arayüzün açık/koyu paletini tutar. Bildirim katmanı her sayfada yüklendiği için bu kayıt yalnızca 3B görüntüleyici bulunan sayfalarda değil, açtığınız her sayfada yazılır.",
     "Siz silene kadar",
   ],
 ];
@@ -308,11 +353,17 @@ const CLAUSES: LegalClause[] = [
             about what any of these parties does after receipt. */}
         <p>
           Tarayıcınızın bu sitenin dışına istek gönderdiği yerler aşağıda tek tek sayılıdır.
+          Buradaki alan adları ölçülerek yazıldı: tarayıcınızın gerçekten istek gönderdiği yerler
+          yazılıyor, bir bileşenin ayarlarında geçmekle birlikte hiç çağrılmayan adresler
+          yazılmıyor.
         </p>
         <p>
-          <strong>Yazı tipleri — her sayfada.</strong> Yazı tipleri harici bir yazı tipi dağıtım
-          ağından yüklenir; tarayıcınız o sunucuya bir istek gönderir ve sunucu bu isteğe bağlı
-          olarak IP adresinizi görür. Bu istek çerez oluşturmaz.
+          <strong>Yazı tipleri — her sayfada.</strong> Yazı tipleri Google’ın yazı tipi dağıtım
+          ağından (<code>fonts.googleapis.com</code>, <code>fonts.gstatic.com</code>) yüklenir. Bu
+          istek her sayfada, siz bir şey yapmadan ve onayınız istenmeden gönderilir; sunucu bu
+          isteğe bağlı olarak IP adresinizi ve tarayıcı bilginizi görür. Bu istek çerez oluşturmaz.
+          06. maddedeki sohbet aktarımı da Google’a gider, ama ikisi Google’ın birbirinden bağımsız
+          iki ayrı servisidir.
         </p>
         <p>
           <strong>
@@ -320,8 +371,10 @@ const CLAUSES: LegalClause[] = [
           </strong>{" "}
           Form, otomatik giriş denemelerine karşı hCaptcha ile korunuyor. Bileşen sayfa açılır
           açılmaz yükleniyor — siz bir şey yapmadan ve onayınız istenmeden — tarayıcınız{" "}
-          <code>hcaptcha.com</code> alan adındaki sunuculara istek gönderir, sayfaya oradan iki
-          çerçeve gömülür ve 01. maddede anlatılan <code>__cf_bm</code> çerezi oluşur. İsteği alan
+          <code>hcaptcha.com</code> alan adındaki sunuculara istek gönderir, sayfaya oradan
+          çerçeveler gömülür ve 01. maddede anlatılan <code>__cf_bm</code> çerezi oluşur. Bileşen
+          yüklenemezse — örneğin bir içerik engelleyici ya da kopuk bir bağlantı yüzünden — hata
+          kaydı yine aynı alan adına gönderilir; yani başarısız durumda da istek çıkar. İsteği alan
           sunucular, her istekte olduğu gibi, IP adresinizi ve tarayıcı bilginizi görür. Bundan
           sonrasını — orada ne olduğunu — bu metin anlatmıyor; göremediğimiz bir yer için sizin
           adınıza bir şey taahhüt etmiyoruz.
@@ -334,6 +387,16 @@ const CLAUSES: LegalClause[] = [
           giriş yaptıysanız oturumunuzu açık tutmak için. 02. maddedeki oturum anahtarı bu
           isteklere eklenir; sayfayı yalnızca okuyorsanız eklenecek bir anahtar da olmaz. Bu hâl{" "}
           <Link to="/kvkk">KVKK Aydınlatma Metni</Link>’nin 04. maddesinde de sayılıdır.
+        </p>
+        <p>
+          <strong>
+            Google veya LinkedIn ile giriş — yalnızca o düğmeye basarsanız.
+          </strong>{" "}
+          <Link to="/giris">Giriş sayfasındaki</Link> “Google” ya da “LinkedIn” düğmesine
+          basarsanız tarayıcınız bu siteden ayrılır: önce bir önceki paragraftaki barındırma ve
+          kimlik doğrulama altyapısına, oradan da seçtiğiniz sağlayıcının kendi giriş sayfasına
+          gider. Basmazsanız bu istekler hiç olmaz. Sağlayıcının kendi sayfasında ne olduğu bu
+          metnin kapsamı dışındadır.
         </p>
         <p>
           <strong>Sohbet asistanı — yalnızca yapay zekâ onayı verirseniz.</strong> Onay verirseniz

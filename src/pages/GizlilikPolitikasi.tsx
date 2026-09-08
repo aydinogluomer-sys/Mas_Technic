@@ -129,6 +129,46 @@ import { SALES_EMAIL } from "@/content/claims";
    doğrulayamayacağımız bir şeyi burada yazmıyoruz" — is the model the new
    hCaptcha paragraph follows and cites rather than restates. Nothing here says
    what hCaptcha or Cloudflare do with a request after it arrives.
+
+   ── PHASE 09b-2 ─────────────────────────────────────────────────────────
+   MADDE 02's "TEK YER" WAS FALSE, AND IT WAS THE WORSE KIND OF FALSE. It
+   said the chat is "sitede yazdığınız bir metnin dışarı çıktığı TEK YER" —
+   the only place text you write on this site leaves. Read against the actual
+   flow rather than argued about:
+
+     `/iletisim`   `Iletisim.tsx:151` inserts `topic` and `notes` — the
+                   visitor's own free text — into `meetings`
+     `/teklif-al`  `useRfqSubmission.ts:265` invokes `rfq-rate-limit` with
+                   `notes` built from the draft, plus name, company and phone
+     `/giris` etc. the address and password the reader types
+
+   All three go to the hosting and database provider, which madde 05, madde 02
+   of `/cerez-politikasi` and `/kvkk` madde 04 all correctly enumerate as a
+   THIRD PARTY. A processor is a third party; this document says so elsewhere
+   and contradicted itself here. And a claim that CLOSES an enumeration is
+   worse than one that omits — Phase 08's D3 turned on exactly that — because
+   it does not merely fail to mention the form path, it denies it.
+
+   The replacement makes no superlative at all. It says what is true and
+   useful: the form path is madde 05's, the chat transfer is separate from it,
+   it happens only with consent, and that is why it has its own clause.
+
+   GOOGLE FONTS IS NAMED NOW. The "describe, don't name" convention this
+   repository follows was set for the HOSTING AND DATABASE PROVIDER, whose
+   identity is a commercial relationship nothing in `USER_INPUTS.md` publishes.
+   It was never a rule about a CDN whose hostnames are hardcoded in
+   `index.html:265-274` and visible to any reader who opens the page source.
+   09b-1 measured them as the first external request on every route it tested.
+   The reason to name them is madde 06: this document already tells the reader
+   the chat sends text to GOOGLE, and a reader who is told "Google" once and
+   "harici bir yazı tipi dağıtım ağı" the other time cannot learn that both are
+   the same company — which is precisely the fact `/kvkk` madde 06 publishes a
+   statutory right to know.
+
+   THE FRAME COUNT IS GONE. "iki çerçeve" was a closed count over a third
+   party's implementation, of the same shape as the "iki hâlde" this phase has
+   already removed twice. `/cerez-politikasi`'s header carries the measurement
+   and the host rule; this page cites it rather than keeping a second copy.
    ══════════════════════════════════════════════════════════════════════════ */
 
 const CLAUSES: LegalClause[] = [
@@ -162,9 +202,10 @@ const CLAUSES: LegalClause[] = [
           pazarlama kaydı tutulmaz.
         </p>
         <p>
-          Sohbet kutusuna yazdıklarınız da kaydedilmez; ama onay verirseniz bir yapay zekâ
-          servisine iletilir. Bu, sitede yazdığınız bir metnin dışarı çıktığı tek yer olduğu için
-          ayrı bir maddede — 06. maddede — anlatılıyor.
+          Sohbet kutusuna yazdıklarınız kaydedilmez; ama onay verirseniz bir yapay zekâ servisine
+          iletilir. Formlara yazdıklarınız 05. maddedeki yolu izler; sohbet aktarımı o yoldan ayrı
+          olduğu ve yalnızca sizin onayınızla gerçekleştiği için ayrı bir maddede — 06. maddede —
+          anlatılıyor.
         </p>
       </div>
     ),
@@ -209,10 +250,13 @@ const CLAUSES: LegalClause[] = [
     body: (
       <div className="shell-prose">
         <p>
-          Sayfa yazı tipleri harici bir yazı tipi dağıtım ağından yüklenir. Bu, tarayıcınızın o
-          sunucuya bir istek göndermesi anlamına gelir ve ilgili sunucu bu isteğe bağlı olarak IP
-          adresinizi ve tarayıcı bilginizi görür. Yazı tipi dosyalarının dışında bu istekle veri
-          gönderilmez.
+          Sayfa yazı tipleri Google’ın yazı tipi dağıtım ağından —{" "}
+          <code>fonts.googleapis.com</code> ve <code>fonts.gstatic.com</code> — yüklenir. Bu,
+          tarayıcınızın her sayfada, siz bir şey yapmadan o sunuculara bir istek göndermesi anlamına
+          gelir ve ilgili sunucu bu isteğe bağlı olarak IP adresinizi ve tarayıcı bilginizi görür.
+          Yazı tipi dosyalarının dışında bu istekle veri gönderilmez. 06. maddedeki sohbet aktarımı
+          da Google’a gider; ikisi Google’ın birbirinden bağımsız iki ayrı servisidir ve burada
+          ayrı ayrı yazılmalarının sebebi budur.
         </p>
         <p>
           Teklif akışını kullandığınızda form verisi ve yüklediğiniz dosya, sitenin barındırma ve
@@ -222,7 +266,7 @@ const CLAUSES: LegalClause[] = [
           Sayfalara gömülü tek üçüncü taraf bileşeni <Link to="/giris">giriş sayfasındadır</Link>:
           form, otomatik giriş denemelerine karşı hCaptcha ile korunuyor. Bu bileşen sayfa açılır
           açılmaz yükleniyor — bir şeye tıklamanız gerekmiyor ve onayınız istenmiyor — sayfaya{" "}
-          <code>hcaptcha.com</code> alan adından iki çerçeve gömülüyor, tarayıcınız o sunuculara
+          <code>hcaptcha.com</code> alan adından çerçeveler gömülüyor, tarayıcınız o sunuculara
           istek gönderdiği için sunucular IP adresinizi ve tarayıcı bilginizi görüyor ve
           tarayıcınızda ömrü otuz dakika olan <code>__cf_bm</code> adında bir çerez oluşuyor.
           Çerezin bütün alanları <Link to="/cerez-politikasi">Çerez Politikası</Link>’nın 01.
@@ -265,8 +309,9 @@ const CLAUSES: LegalClause[] = [
         <p>
           Bu istekle yalnızca yazışma metni gönderilir: IP adresiniz, oturum bilginiz veya sizi
           tanımlayan başka bir veri Google’a aktarılmaz. Yazdıklarınız sitenin veri tabanına da
-          kaydedilmez — aradaki fonksiyon mesajı iletir, tutmaz. Tarayıcınızda kalan tek kayıt,
-          günde en fazla 5 mesajlık sınırı sayan <code>mas_chat_ai_count</code>’tur ve{" "}
+          kaydedilmez — aradaki fonksiyon mesajı iletir, tutmaz. Sohbet kutusunun tarayıcınızda
+          bıraktığı tek kayıt, günde en fazla 5 mesajlık sınırı sayan{" "}
+          <code>mas_chat_ai_count</code>’tur ve{" "}
           <Link to="/cerez-politikasi">Çerez Politikası</Link>’nın 02. maddesinde listelenmiştir.
         </p>
         <p>
