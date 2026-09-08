@@ -157,16 +157,24 @@ const run = async () => {
     const B = flatten(report.after.borderColor);
     const ya = yiqOf(...A); const yb = yiqOf(...B);
     const dy = ya.y - yb.y; const di = ya.i - yb.i; const dq = ya.q - yb.q;
+    /* THE CUTOFF IS `35215 * threshold^2`, NOT `35215 * threshold`. Read from
+       the installed comparator rather than from memory:
+       `playwright-core/lib/third_party/pixelmatch.js:64`
+         const maxDelta = 35215 * options.threshold * options.threshold;
+       The first version of this probe used the linear form and reported a
+       cutoff of 7043 where the real one is 1409 — a factor of five, and the
+       error made the blind spot look five times wider than it is. */
+    const THRESHOLD = 0.2;
     const yiq = {
       delta: 0.5053 * dy * dy + 0.299 * di * di + 0.1957 * dq * dq,
-      cutoff: 0.2 * 35215,
+      cutoff: 35215 * THRESHOLD * THRESHOLD,
       lines: [
         `  pre-fix  #9aa09c \u2192 rgb(${A.join(",")})`,
         `  shipped  --tl-paper-control-rule over --tl-paper \u2192 rgb(${B.join(",")})`,
         `  dY ${dy.toFixed(2)}   dI ${di.toFixed(2)}   dQ ${dq.toFixed(2)}`,
       ],
     };
-    yiq.breakEven = yiq.delta / 35215;
+    yiq.breakEven = Math.sqrt(yiq.delta / 35215);
 
     const inside = report.rect.y + report.rect.h <= baseline.height
       && report.rect.x + report.rect.w <= baseline.width;
@@ -198,12 +206,13 @@ const run = async () => {
       "",
       "THE PER-PIXEL THRESHOLD, WHICH NOTHING IN THIS REPO HAD EXAMINED.",
       "`toHaveScreenshot` compares in YIQ and defaults `threshold` to 0.2",
-      "(`playwright/types/test.d.ts:195`). Neither `playwright.config.ts` nor",
-      "`landing-golden.spec.ts` overrides it. pixelmatch counts a pixel only when",
-      "its YIQ delta exceeds `threshold * 35215`:",
+      "(`playwright/types/test.d.ts:195`). Neither `playwright.config.ts` nor any",
+      "spec in `e2e/visual/**` overrides it. pixelmatch counts a pixel only when",
+      "its YIQ delta exceeds `35215 * threshold^2`",
+      "(`playwright-core/lib/third_party/pixelmatch.js:64`):",
       ...yiq.lines,
       "",
-      `  cutoff at threshold 0.2   ${yiq.cutoff.toFixed(1)}`,
+      `  cutoff at threshold 0.2   ${yiq.cutoff.toFixed(1)}   (= 35215 x 0.2^2)`,
       `  this change's delta       ${yiq.delta.toFixed(1)}`,
       `  counted as different?     ${yiq.delta > yiq.cutoff ? "YES" : "NO"}`,
       `  it would start counting below threshold ${yiq.breakEven.toFixed(4)}`,

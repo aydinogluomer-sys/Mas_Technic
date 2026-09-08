@@ -1,0 +1,27 @@
+(node:23600) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 12 tests using 1 worker
+
+(node:2664) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   1 [smoke-firefox-390] › e2e\smoke\cross-browser-smoke.spec.ts:17:3 › cross-browser smoke › renders the complete landing and hands off the intro shell (25.2s)
+  ✓   2 [smoke-firefox-390] › e2e\smoke\cross-browser-smoke.spec.ts:28:3 › cross-browser smoke › serves an inner page with the shared shell (3.8s)
+  ✓   3 [smoke-firefox-390] › e2e\smoke\cross-browser-smoke.spec.ts:35:3 › cross-browser smoke › keeps the primary conversion route reachable (5.8s)
+(node:14160) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   4 [smoke-firefox-1440] › e2e\smoke\cross-browser-smoke.spec.ts:17:3 › cross-browser smoke › renders the complete landing and hands off the intro shell (10.5s)
+  ✓   5 [smoke-firefox-1440] › e2e\smoke\cross-browser-smoke.spec.ts:28:3 › cross-browser smoke › serves an inner page with the shared shell (3.4s)
+  ✓   6 [smoke-firefox-1440] › e2e\smoke\cross-browser-smoke.spec.ts:35:3 › cross-browser smoke › keeps the primary conversion route reachable (5.8s)
+(node:25924) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   7 [smoke-webkit-390] › e2e\smoke\cross-browser-smoke.spec.ts:17:3 › cross-browser smoke › renders the complete landing and hands off the intro shell (5.7s)
+  ✓   8 [smoke-webkit-390] › e2e\smoke\cross-browser-smoke.spec.ts:28:3 › cross-browser smoke › serves an inner page with the shared shell (3.2s)
+  ✓   9 [smoke-webkit-390] › e2e\smoke\cross-browser-smoke.spec.ts:35:3 › cross-browser smoke › keeps the primary conversion route reachable (4.9s)
+(node:30044) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  10 [smoke-webkit-1440] › e2e\smoke\cross-browser-smoke.spec.ts:17:3 › cross-browser smoke › renders the complete landing and hands off the intro shell (9.1s)
+  ✓  11 [smoke-webkit-1440] › e2e\smoke\cross-browser-smoke.spec.ts:28:3 › cross-browser smoke › serves an inner page with the shared shell (4.4s)
+  ✓  12 [smoke-webkit-1440] › e2e\smoke\cross-browser-smoke.spec.ts:35:3 › cross-browser smoke › keeps the primary conversion route reachable (12.4s)
+
+  12 passed (2.1m)

@@ -22,17 +22,18 @@ landing-fullpage.png budget: maxDiffPixels 200 (e2e/visual/landing-golden.spec.t
 
 THE PER-PIXEL THRESHOLD, WHICH NOTHING IN THIS REPO HAD EXAMINED.
 `toHaveScreenshot` compares in YIQ and defaults `threshold` to 0.2
-(`playwright/types/test.d.ts:195`). Neither `playwright.config.ts` nor
-`landing-golden.spec.ts` overrides it. pixelmatch counts a pixel only when
-its YIQ delta exceeds `threshold * 35215`:
+(`playwright/types/test.d.ts:195`). Neither `playwright.config.ts` nor any
+spec in `e2e/visual/**` overrides it. pixelmatch counts a pixel only when
+its YIQ delta exceeds `35215 * threshold^2`
+(`playwright-core/lib/third_party/pixelmatch.js:64`):
   pre-fix  #9aa09c → rgb(154,160,156)
   shipped  --tl-paper-control-rule over --tl-paper → rgb(119,120,116)
   dY 38.51   dI -2.98   dQ -1.06
 
-  cutoff at threshold 0.2   7043.0
+  cutoff at threshold 0.2   1408.6   (= 35215 x 0.2^2)
   this change's delta       752.1
   counted as different?     NO
-  it would start counting below threshold 0.0214
+  it would start counting below threshold 0.1461
 
 So `maxDiffPixels: 200` was never reached — not because 708 px is small,
 but because ZERO of those 708 px are counted at all. The argued absolute
@@ -40,4 +41,4 @@ budget in that spec's comment governs a number the threshold had already
 reduced to zero.
 
 guard canary: BLOCKED:Failed to fetch
-network — requested 3, blocked 3, allowed 0
+network — requested 4, blocked 4, allowed 0
