@@ -3357,3 +3357,21 @@ Closed by the Orchestrator without a further QA round, per the 2026-09-14 brief.
 **User decisions 2026-09-14:** probe rows/objects — user deletes; rate limiter — not deployed; CATIA/SolidWorks/NX removal — approved. `mas-qa` model set to `sonnet` (authorised).
 
 **Skipped:** 09b-3 hardening items above; the stopped 09b-3 agent was not resumed.
+
+### Phase 10–16 execution map (full scope, 2026-09-14 — supersedes the rejected pruning)
+
+Contract: every requirement ID 1–739 ends as PASS / N/A / BLOCKED / DEFERRED_BY_USER_POLICY in
+`reports/baseline/requirements-traceability.md` (Status column added; 00–09 backfilled with an Exceptions table).
+No phase may be skipped or reduced for score reasons. Loop: Orchestrator → Coder (small sequential packets) →
+Orchestrator verification (`tsc`, build, gate, `critical-1280`, `critical-375`) → `mas-qa` (sonnet) at phase close →
+next phase without approval. Stop only on IMPLEMENTATION.md §1.4.
+
+| Phase | IDs | Packets (planned) |
+|---|---|---|
+| 10 Assets & typography | 239–257, 670–679, 707–715, 716–725 (visual) | P10-1 asset inventory/governance/duplicates/naming · P10-2 responsive markup + dimensions + fallback · P10-3 alt text · P10-4 typography engineering (weights, synthesis, tabular nums, wrap, fallback metrics) · P10-5 glyph fixture + campaign consistency audit |
+| 11 SEO & metadata | 294–316, 481/486–489, 564–574 | P11-1 canonical/host + İzmir/İstanbul + availableLanguage · P11-2 per-route meta + OG assets · P11-3 structured data (org/service/article/breadcrumb, content-supported only) · P11-4 sitemap/robots/noindex/soft-404/redirects · P11-5 internal-linking + orphan audit |
+| 12 Performance | 317–352, 481–485, 590–602 (build/cache) | P12-1 Lighthouse baseline mobile+desktop · P12-2 LCP preload + font strategy · P12-3 >500 KB chunks + lazy specialist libs · P12-4 images/dimensions/CLS · P12-5 npm audit + three-mesh-bvh + caniuse + externalization warnings · P12-6 local perf-budget command/report (CI part classified separately) · P12-7 cache policy |
+| 13 A11y/responsive/x-browser | 372–390, 411–423, 716–725 | P13-1 install Firefox/WebKit, run smoke · P13-2 axe key routes/states + keyboard + focus + dialog · P13-3 NEXUS non-controls, download rows, decorative SVG, touch targets · P13-4 table overflow + reduced motion · P13-5 viewport matrix 320/375/390/768/844L/1280/1440s/1600 + zoom · P13-6 Safari fallbacks + OS rendering (BLOCKED per-item if impossible) |
+| 14 Analytics & infra | 575–602 | P14-1 measurement plan + provider N/A per item + consent · P14-2 runtime-error/failed-request visibility without external service · P14-3 env separation, canonical host, cache/source-map policy, rollback doc, post-deploy smoke script |
+| 15 Awwwards polish | 490–500, 726–737, 391–410, 739 | P15-1 console/network/links/downloads/placeholders · P15-2 visual-language + typography optical + grid/rail audit · P15-3 motion/transition/menu/404 consistency + preloader/first-interaction · P15-4 responsive polish + content-credibility review |
+| 16 RC freeze | closure of 1–739 | P16-1 full gate (build/typecheck/lint/e2e/a11y/visual/x-browser/responsive/perf/links) · P16-2 traceability final report · mas-qa release run · push (no tag unless authorised; no merge; no deploy) |
