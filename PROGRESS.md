@@ -3233,3 +3233,41 @@ overlapping files — and QA stalled at its build step with no progress for 600 
 Two heavy Vite builds on an 8 GB machine is not a file conflict but it is still contention, and the machine
 constraint written into every packet in this run says one heavy process. **The file-overlap rule was
 satisfied and the machine rule was not.** Resuming serially: the Coder first on a quiet machine, QA after.
+
+#### 09b-2 integrated — a premise of mine and 09b-1's did not survive, and the verification is folded into one QA round
+
+Five commits picked as `5592122`'s range; nine allowlisted paths, two new specs, one report, **no golden
+moved**. Verified by me before integrating: `npx tsc -b` exit 0; gate **PASS, 32 rules, 303 controls** —
+one rule and 23 controls added.
+
+**The Coder was cut off twice mid-verification** — a weekly limit, then a session limit — with the build and
+gate green and the regression matrix unfinished. The user asked for Phase 9 closed as fast as possible.
+Rather than resume it a third time, I verified the load-bearing claims myself and **folded its verification
+into the QA round already in flight**: the stalled 09b-1 round-2 branch was rebased cleanly onto the new
+head — its five commits live in disjoint directories — and its remit widened to close both 09b-1 and 09b-2.
+One QA round instead of two, on a quiet machine.
+
+**The premise that fell was mine, inherited from 09b-1, and it is a clean falsification.** My packet named
+`sentry.hcaptcha.com` as *"a fifth host `/cerez-politikasi` does not name"*, citing `CerezPolitikasi.tsx:85-86`.
+**Those lines are inside the file's header comment.** `blankComments()` keeps them from the gate and no
+reader sees them. The rendered clauses name the registrable domain **`hcaptcha.com`** in all three legal
+documents and have never enumerated subdomains — so Sentry was already covered, the comment was wrong, and
+**no host was added to any page**. 09b-1 read a comment as the published list; I repeated it as a finding.
+Same shape as my own three-times-repeated `metaDescription` sentence: a claim about what a reader sees, made
+from the source rather than the render. QA is asked to confirm it in the rendered DOM.
+
+**The host rule decided:** OBSERVED, by registrable domain — which is why Google Fonts is now named and why
+hCaptcha's three configured-but-never-contacted hosts are not. **Phase 08's D3 fix verified holding, and the
+same enumeration was short by two** — closed in `93dc126` with the clause it was in.
+
+**Item 6 — my ruling survived the attack it was invited to face.** All six named CAD packages removed, the
+capability kept. The Coder took the falsification seriously and the reasoning is in `5592122`; QA is asked
+to judge whether anything false was introduced in their place.
+
+**Environment change between sessions, handled without loss.** The entire `pdh-wt/` directory — 46 worktrees
+from every phase — was moved from beside the repository into it. Git's back-pointers went stale and all
+eight active worktrees showed `prunable`. Nothing was lost: every commit is on a branch and the `.git` pointer
+files inside each directory were still correct. `git worktree repair` on the four in use, non-destructive;
+`pdh-wt/` added to `.git/info/exclude`, local-only, no tracked file touched. Same principle as Phase 08's
+pruned worktrees: the user's environment changed, and the response is to make git agree with it rather than
+to reverse it.
