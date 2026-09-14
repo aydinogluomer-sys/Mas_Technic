@@ -150,7 +150,9 @@ export function coverSizes(
   boxHeight: string,
   entries: readonly (readonly [media: string | null, width: string, height?: string])[],
 ): string {
-  const need = (width: string, height: string) => `max(${width}, calc(${height} * ${aspect.toFixed(3)}))`;
+  // The height expression may be a sum ("252px + 96px"); parenthesise it, or
+  // `*` binds to its last term and the size silently comes out ~150px short.
+  const need = (width: string, height: string) => `max(${width}, calc((${height}) * ${aspect.toFixed(3)}))`;
   return entries
     .map(([media, width, height]) => {
       const size = need(width, height ?? boxHeight);
