@@ -58,6 +58,9 @@ const SOURCES = [
   "cnc-workshop", "service-cnc-freze",
   // Capability-profile plate (`/kabiliyet-profilleri/:slug`).
   "industry-defense", "industry-medical",
+  // Landing 09 manifesto, <= 767px `<source>` (10-2b): the caliper cut out of
+  // `hero-tolerans-hassasiyet` as a 800x1342 portrait (crop=800:1342:1360:0).
+  "hero-tolerans-hassasiyet-portrait",
 ];
 
 const args = process.argv.slice(2);

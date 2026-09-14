@@ -234,6 +234,28 @@ const PLATE_FULL_WIDTHS = [
   [null, "min(calc(100vw - 68px), 1532px)"],
 ] as const;
 
+/* PHASE 10-2b — 375 ART DIRECTION. Cover-fitted by height, a 16:9 source
+   shows only its central 58% of width in the 331×318 plate box at 375 (x
+   21–79%), 81% at 768, all of it from 1181 up. `object-position` moves that
+   window without touching the picture; a subject that is off-centre is
+   recovered by sliding the window towards it. Set only where the inventory
+   (`reports/10/asset-inventory.md` §5.2) found a MARGINAL crop that a shift
+   actually fixes; the others are recorded, with the reason a shift cannot
+   help, in `reports/10/art-direction.md`. Vertical position is left at 50%:
+   at 375 the box already shows the source's full height, so only the frame's
+   own 200-of-318 window and the parallax decide what is seen. */
+const PLATE_POSITION: Record<string, string> = {
+  /* Caliper sits at x 55–95% of the 2400px source; 90% puts the window at
+     x 38–96%: both jaws, the pin and the scale numerals. */
+  "hero-tolerans-hassasiyet": "90% 50%",
+  /* Bracket spans x 15–77%; 40% centres it (x 17–75%) instead of cutting
+     its left foot. */
+  "hero-havacilik": "40% 50%",
+  /* Centred, the window showed a grid of parts and no case; 0% (x 0–58%)
+     keeps the case wall, hinge and latch so it reads as a kit in a case. */
+  "hero-kitting-paketleme": "0% 50%",
+};
+
 const FAMILY = {
   hizmetler: { label: "Hizmetler", rail: { no: "03", label: "HİZMET" } },
   kabiliyetler: { label: "Kabiliyetler", rail: { no: "04", label: "KABİLİYET" } },
@@ -417,7 +439,7 @@ export const ServiceDetail = () => {
                 height={heroImage.height}
                 alt={page.title}
                 loading="eager"
-                style={{ y: plateY }}
+                style={{ y: plateY, objectPosition: page.heroImage ? PLATE_POSITION[page.heroImage] : undefined }}
                 initial={{ scale: 1.08, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
