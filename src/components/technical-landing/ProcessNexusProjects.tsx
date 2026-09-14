@@ -65,7 +65,7 @@ export function TechnicalProcess() {
               src={processFigure.src}
               srcSet={processFigure.srcSet}
               sizes={PROCESS_SIZES}
-              alt="CNC tezgâhında işlenen metal parça"
+              alt="Soğutma sıvısı altında prizmatik metal bloğu işleyen CNC freze iş mili ve kesici takım"
               width={processFigure.width}
               height={processFigure.height}
               loading="lazy"
@@ -191,11 +191,16 @@ export function MeasuredProjects() {
             const figure = caseStudyImages[study.gallery[0].image];
             return (
             <article className={index === 0 ? "tl-project-featured" : ""} key={study.slug}>
+              {/* PHASE 10-3 — `alt=""`: each tile's picture sits over an
+                  `<h3>` that names the part family and its material, and the
+                  render illustrates that family rather than adding to it.
+                  `study.gallery[0].alt` is still the plate caption on
+                  `/kabiliyet-profilleri/:slug`. */}
               <img
                 src={figure.src}
                 srcSet={index === 0 ? figure.srcSet : undefined}
                 sizes={index === 0 ? FEATURED_SIZES : undefined}
-                alt={study.gallery[0].alt}
+                alt=""
                 width={figure.width}
                 height={figure.height}
                 loading="lazy"

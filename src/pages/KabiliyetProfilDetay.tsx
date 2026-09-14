@@ -171,13 +171,17 @@ export const KabiliyetProfilDetay = () => {
             caption={figure.alt}
             media={
               /* The route's first picture: eager, no `fetchpriority` (Phase 12 owns LCP). */
+              /* PHASE 10-3 — the description is the visible figcaption
+                 (`caption={figure.alt}` above); the `<img>` used to repeat it
+                 verbatim as its alt, so a screen reader read the same sentence
+                 twice under an `<h1>` that already names the part. */
               <img
                 src={plate.src}
                 srcSet={plate.srcSet}
                 sizes={coverSizes(plate.width / plate.height, PLATE_IMAGE_HEIGHT, PLATE_NOTE_WIDTHS)}
                 width={plate.width}
                 height={plate.height}
-                alt={figure.alt}
+                alt=""
               />
             }
           />

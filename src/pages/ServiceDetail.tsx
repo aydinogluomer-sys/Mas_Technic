@@ -431,13 +431,23 @@ export const ServiceDetail = () => {
             plate={`PLAKA · ${page.title.toLocaleUpperCase("tr")}`}
             caption={page.categoryLabel}
             media={
+              /* PHASE 10-3 — `alt=""`, not `alt={page.title}`. The plate sits
+                 directly under the `<h1>` that carries `page.title`, and the
+                 figcaption prints it a second time in the plate designation;
+                 a third reading of the same words was the "title, twice"
+                 failure. What the picture shows is the page's own subject
+                 (the milling spindle under "CNC Frezeleme", the caliper under
+                 "Tolerans ve Hassasiyet") or, for the fifteen sector pages on
+                 the shared fallback, a mood plate with no sector content at
+                 all — decorative under the Phase 10-3 rule either way.
+                 `reports/10/alt-text.md` lists all 47 routes. */
               <motion.img
                 src={heroImage.src}
                 srcSet={heroImage.srcSet}
                 sizes={coverSizes(heroImage.width / heroImage.height, PLATE_IMAGE_HEIGHT, PLATE_FULL_WIDTHS)}
                 width={heroImage.width}
                 height={heroImage.height}
-                alt={page.title}
+                alt=""
                 loading="eager"
                 style={{ y: plateY, objectPosition: page.heroImage ? PLATE_POSITION[page.heroImage] : undefined }}
                 initial={{ scale: 1.08, opacity: 0 }}

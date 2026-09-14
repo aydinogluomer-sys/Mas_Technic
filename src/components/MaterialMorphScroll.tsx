@@ -184,9 +184,11 @@ export const MaterialMorphScroll = () => {
           viewport={{ once: true }}
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
+          {/* PHASE 10-3 — `alt=""`: a 30% backdrop behind the eyebrow that
+              literally reads "Malzeme Dönüşümü"; the alt repeated it. */}
           <img
             src="/sequence-material/frame_0001.webp"
-            alt="Malzeme Dönüşümü" width="1280" height="720"
+            alt="" width="1280" height="720"
             className="w-full h-full object-cover opacity-30"
             loading="lazy" decoding="async"
           />
@@ -263,9 +265,12 @@ export const MaterialMorphScroll = () => {
         />
 
         {showFallback && !ready && (
+          /* PHASE 10-3 — `alt=""`: the canvas above already carries
+             `role="img"` + "Malzeme dönüşüm animasyonu"; this still is its
+             40% stand-in while frames load, under the same title. */
           <img
             src="/sequence-material/frame_0001.webp"
-            alt="Malzeme Dönüşümü" width="1280" height="720"
+            alt="" width="1280" height="720"
             className="absolute inset-0 w-full h-full object-cover opacity-40" loading="lazy" decoding="async"
           />
         )}
