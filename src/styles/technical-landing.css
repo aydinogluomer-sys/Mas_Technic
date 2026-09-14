@@ -117,7 +117,7 @@
    `span 2` sabit olduğu için hücre sayısı kırılıma göre kendiliğinden
    düşüyor: 12 sütunda 6/satır, 6 sütunda 3/satır, 4 sütunda 2/satır. Tek
    kural, üç kırılım, hepsinde master hatlarda. */
-.tl-proof article{grid-column:span 2;min-height:136px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-right:1px solid var(--tl-rule);text-align:center}.tl-proof article svg{width:28px;stroke-width:1.2}.tl-proof article strong{margin-top:var(--tl-s3);font:650 clamp(16px,1.4vw,23px)/1 var(--tl-font-mono)}.tl-proof article span{margin-top:var(--tl-s2);color:#c1c6c3;font:500 9px/1 var(--tl-font-mono);letter-spacing:.06em}.tl-proof-note{grid-column:2/-1;border-top:1px solid var(--tl-rule);padding:var(--tl-s2) var(--tl-s4);color:#a6adaa;font:500 8px/1.4 var(--tl-font-mono);text-align:right}
+.tl-proof article{grid-column:span 2;min-height:136px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-right:1px solid var(--tl-rule);text-align:center}.tl-proof article svg{width:28px;stroke-width:1.2}.tl-proof article strong{margin-top:var(--tl-s3);font:700 clamp(16px,1.4vw,23px)/1 var(--tl-font-mono);font-variant-numeric:tabular-nums}.tl-proof article span{margin-top:var(--tl-s2);color:#c1c6c3;font:500 9px/1 var(--tl-font-mono);letter-spacing:.06em}.tl-proof-note{grid-column:2/-1;border-top:1px solid var(--tl-rule);padding:var(--tl-s2) var(--tl-s4);color:#a6adaa;font:500 8px/1.4 var(--tl-font-mono);text-align:right}
 
 /* 04 — marquee */
 .tl-marquee{background:var(--tl-panel)}
@@ -180,7 +180,7 @@
 .tl-nexus-kpis div{position:relative;display:grid;grid-template-columns:46px minmax(0,1fr);grid-template-rows:auto auto;align-content:center;min-height:72px;padding:var(--tl-s2) var(--tl-s4)}
 /* Ayraclar kutu yuksekliginin tamamini kaplamaz; referansta ust/alttan iceridir. */
 .tl-nexus-kpis div+div::before{content:"";position:absolute;top:22%;bottom:22%;left:0;width:1px;background:var(--tl-rule)}
-.tl-nexus-kpis svg{grid-row:1/span 2;align-self:center;width:34px;height:auto;stroke-width:1.1}.tl-nexus-kpis strong{grid-column:2;grid-row:1;font:650 21px/1 var(--tl-font-mono)}
+.tl-nexus-kpis svg{grid-row:1/span 2;align-self:center;width:34px;height:auto;stroke-width:1.1}.tl-nexus-kpis strong{grid-column:2;grid-row:1;font:700 21px/1 var(--tl-font-mono);font-variant-numeric:tabular-nums}
 /* Referansta yalnizca "7 URETIMDE" yesil vurgulu. */
 .tl-nexus-kpis div[data-tone="green"] strong,.tl-nexus-kpis div[data-tone="green"] span{color:var(--tl-green-ink)}
 .tl-nexus-kpis span{grid-column:2;grid-row:2;margin-top:6px;color:var(--tl-muted);font:500 9px/1 var(--tl-font-mono)}
@@ -234,7 +234,7 @@
 .tl-project-grid>.tl-project-featured>div{grid-column:7/-1;padding:0 0 0 var(--tl-s5)}
 .tl-project-grid img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05)}
 .tl-project-grid article>div{display:flex;min-width:0;min-height:0;flex-direction:column;justify-content:center;padding:var(--tl-s4)}
-.tl-project-grid h3{font:650 13px/1.2 var(--tl-font-mono)}.tl-project-grid h3 span{font-weight:500}
+.tl-project-grid h3{font:700 13px/1.2 var(--tl-font-mono)}.tl-project-grid h3 span{font-weight:500}
 .tl-report-no{margin:6px 0 var(--tl-s3);color:var(--tl-ink-soft);font:500 8px/1 var(--tl-font-mono);letter-spacing:.06em}
 .tl-project-grid table{table-layout:fixed}
 .tl-project-grid th,.tl-project-grid td{height:27px;border:1px solid var(--tl-paper-rule);padding-inline:var(--tl-s2);font-size:9px;text-align:center}
@@ -270,7 +270,7 @@
 .tl-manifesto-body::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,8,10,.97) 0 42%,rgba(4,8,10,.22))}
 .tl-manifesto-copy{grid-column:1/span 7;position:relative;z-index:2;padding:var(--tl-s8) var(--tl-s6)}
 .tl-manifesto h2{max-width:720px;font-size:clamp(48px,6vw,86px);font-weight:700;line-height:.9;letter-spacing:-.035em}
-.tl-manifesto h2 strong{color:var(--tl-paper)}.tl-manifesto p{margin-top:var(--tl-s5);color:#d2d5d2}
+.tl-manifesto h2 strong{color:var(--tl-paper);font-weight:700}.tl-manifesto p{margin-top:var(--tl-s5);color:#d2d5d2}
 
 /* 10 — kalite dosyası: 6 kanıt kartı × 2 master sütun = 12.
    ÖNCESİ: `repeat(6,minmax(0,1fr)) 132px` — yedinci track SAHTE bir master
@@ -285,7 +285,7 @@
 .tl-quality-strip{grid-column:1/-1;align-items:stretch}
 .tl-cert{grid-column:span 2;position:relative;display:flex;min-height:166px;flex-direction:column;align-items:center;border:1px solid var(--tl-paper-rule);border-left:0;padding:var(--tl-s3);background:var(--tl-paper-raised);text-align:center}
 .tl-cert:first-child{border-left:1px solid var(--tl-paper-rule)}
-.tl-cert h3{font:650 12px/1.25 var(--tl-font-mono);letter-spacing:.04em}
+.tl-cert h3{font:700 12px/1.25 var(--tl-font-mono);letter-spacing:.04em}
 .tl-cert>p{margin-top:var(--tl-s2);color:var(--tl-ink-soft);font:500 9px/1.5 var(--tl-font-mono);letter-spacing:.05em}
 /* Referansta imza solda, kabartma mühür yalnızca ilk sertifikada sağda. */
 .tl-cert-sign{display:flex;width:100%;margin-top:auto;padding-top:var(--tl-s3);align-items:flex-end;justify-content:space-between;gap:var(--tl-s2)}
@@ -310,7 +310,7 @@
 .tl-cert-table i{height:3px;background:var(--tl-paper-rule-soft)}
 .tl-cert-table span:first-child i{background:var(--tl-paper-rule-strong)}
 /* Yuvarlaklık burada da biçim: 3.1 rozeti bir daire pulu. */
-.tl-grade-badge{position:absolute;right:-9px;bottom:-15px;display:grid;width:38px;height:38px;place-items:center;border:1px solid var(--tl-paper-rule);border-radius:var(--tl-radius-round);background:var(--tl-paper-raised);font:650 12px/1 var(--tl-font-mono)}
+.tl-grade-badge{position:absolute;right:-9px;bottom:-15px;display:grid;width:38px;height:38px;place-items:center;border:1px solid var(--tl-paper-rule);border-radius:var(--tl-radius-round);background:var(--tl-paper-raised);font:700 12px/1 var(--tl-font-mono)}
 .tl-cert-material .tl-signature{align-self:flex-start;margin-top:auto;padding-top:var(--tl-s4)}
 .tl-qr{width:88px;margin-top:var(--tl-s3);fill:var(--tl-ink)}
 .tl-cert-verify small{margin-top:var(--tl-s2);color:#5f6562;font:600 7px/1.4 var(--tl-font-mono);letter-spacing:.06em}
@@ -327,8 +327,13 @@
 .tl-reference-grid{list-style:none}
 .tl-reference-grid li{grid-column:span 2;min-height:82px;display:grid;place-items:center;border-right:1px solid var(--tl-rule);padding:var(--tl-s3);color:#aeb5b1;font-size:clamp(13px,1.15vw,17px);font-weight:600;letter-spacing:.14em;text-align:center;transition:color var(--tl-dur-short) ease}
 .tl-reference-grid li:last-child{border-right:0}.tl-reference-grid li:hover{color:var(--tl-white)}
-.tl-reference-grid li[data-brand="serif"]{font-family:var(--tl-font-serif);font-size:clamp(17px,1.55vw,23px);font-style:italic;font-weight:600;letter-spacing:.02em}
-.tl-reference-grid li[data-brand="italic"]{font-size:clamp(16px,1.45vw,22px);font-style:italic;font-weight:700;letter-spacing:0}
+/* PHASE 10-4 — both brand variants request faces that EXIST. `serif` was italic 600 with only
+   Newsreader italic 400 loaded (a synthetic bold); `italic` asked Space Grotesk for an italic it
+   does not ship (a synthetic oblique). With `font-synthesis: none` at the root neither fake can
+   be painted, so the declarations now say what renders: Newsreader italic 400, Space Grotesk 700
+   upright. No reference in `REFERENCE_LOGOS` sets `brand` today, so nothing on screen moves. */
+.tl-reference-grid li[data-brand="serif"]{font-family:var(--tl-font-serif);font-size:clamp(17px,1.55vw,23px);font-style:italic;font-weight:400;letter-spacing:.02em}
+.tl-reference-grid li[data-brand="italic"]{font-size:clamp(16px,1.45vw,22px);font-weight:700;letter-spacing:0}
 
 /* 12 — SSS: 7 / 5, master hatlarda.
    ÖNCESİ: `minmax(0,7fr) minmax(0,5fr)` + `gap:0 var(--tl-s6)`. Oran doğru
@@ -342,7 +347,7 @@
    sağındaydı). Ölçü artık yazılmış satır kırılımı + sütun alanı. */
 .tl-faq-title{grid-column:1/span 7;grid-row:1;margin-bottom:var(--tl-s3);padding:0 var(--tl-s6) 0 var(--tl-s4);font-size:clamp(25px,2vw,29px)}
 .tl-resource{grid-column:8/-1;grid-row:1/span 2;display:flex;min-height:0;flex-direction:column;border-left:1px solid var(--tl-paper-rule);padding-inline:var(--tl-s6) var(--tl-s4)}
-.tl-resource-title{margin:3px 0 var(--tl-s3);font:650 11px/1 var(--tl-font-mono);letter-spacing:.1em}
+.tl-resource-title{margin:3px 0 var(--tl-s3);font:700 11px/1 var(--tl-font-mono);letter-spacing:.1em}
 .tl-resource-title small{margin-left:var(--tl-s2);color:var(--tl-ink-soft);font:600 7px/1 var(--tl-font-mono)}
 .tl-faq{grid-column:1/span 7;grid-row:2;padding:0 var(--tl-s6) 0 var(--tl-s4)}
 .tl-faq details{border-top:1px solid var(--tl-paper-rule)}.tl-faq details:last-of-type{border-bottom:1px solid var(--tl-paper-rule)}
@@ -381,13 +386,13 @@
 .tl-spin{animation:tl-spin 1s linear infinite}
 @keyframes tl-spin{to{transform:rotate(360deg)}}
 .tl-cad-drop>svg{width:38px;height:auto;flex:none;stroke-width:1.4}
-.tl-cad-drop>span{font:650 11px/1.4 var(--tl-font-mono);letter-spacing:.06em}
+.tl-cad-drop>span{font:700 11px/1.4 var(--tl-font-mono);letter-spacing:.06em}
 .tl-cad-drop small{display:block;margin-top:var(--tl-s2);color:var(--tl-ink-soft);font-size:9px;font-weight:500;letter-spacing:.04em}
 /* Dört eşit adım, 5 sütunluk bloğun kendi iç bölümü. */
 .tl-rfq-body>ol{display:grid;grid-template-columns:repeat(4,1fr);align-content:center;list-style:none}
 .tl-rfq-body>ol li{position:relative;padding-right:var(--tl-s5)}
 .tl-rfq-body>ol b{display:block;font:400 19px/1 var(--tl-font-mono)}
-.tl-rfq-body>ol strong{display:block;margin-top:7px;font:650 11px/1 var(--tl-font-mono);letter-spacing:.08em}
+.tl-rfq-body>ol strong{display:block;margin-top:7px;font:700 11px/1 var(--tl-font-mono);letter-spacing:.08em}
 .tl-rfq-body>ol span{display:block;margin-top:6px;color:var(--tl-ink-faint);font:500 9px/1.5 var(--tl-font-mono)}
 .tl-rfq-body>ol li::after{content:">";position:absolute;top:50%;right:var(--tl-s3);transform:translateY(-50%);color:#8b918e;font:400 16px/1 var(--tl-font-mono)}
 .tl-rfq-body>ol li:last-child::after{display:none}

@@ -420,6 +420,18 @@
   html {
     overflow-x: clip;
     /* scroll-behavior removed — Lenis handles smooth scroll */
+    /* PHASE 10-4 — NO SYNTHETIC FACES. The three families are requested from
+       Google at exactly the weights and styles the stylesheets use
+       (`index.html`): Space Grotesk 400/500/600/700 upright, Newsreader 400
+       upright + 400 italic, IBM Plex Mono 400/500/600/700 upright. With
+       synthesis off, a future `font-weight: 800` or an italic on Space
+       Grotesk (which ships no italic) renders as the nearest REAL face and
+       shows up in `reports/10/probes/font-faces.probe.mjs` as a mismatch,
+       instead of Blink emboldening or skewing an outline that was never
+       drawn. Measured before this rule: every Newsreader heading on 87
+       routes was set upright but painted with the italic face, because only
+       the italic was loaded. */
+    font-synthesis: none;
   }
 
   a,

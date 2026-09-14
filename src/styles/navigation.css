@@ -321,7 +321,7 @@
 .tl-menu-family-label {
   min-width: 0;
   font-size: clamp(30px, 3.4vw, 52px);
-  font-weight: 650;
+  font-weight: 700;
   line-height: .94;
   letter-spacing: -.03em;
 }
