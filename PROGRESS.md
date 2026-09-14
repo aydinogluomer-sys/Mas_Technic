@@ -3271,3 +3271,75 @@ files inside each directory were still correct. `git worktree repair` on the fou
 `pdh-wt/` added to `.git/info/exclude`, local-only, no tracked file touched. Same principle as Phase 08's
 pruned worktrees: the user's environment changed, and the response is to make git agree with it rather than
 to reverse it.
+
+#### QA 09b-1 round 2 (closing) + 09b-2 — 09b-1 PASS, 09b-2 FAIL on two narrow criteria, and the guard is red-then-green
+
+Ten commits integrated as `2bfb160`'s range (one picked separately after a range boundary omitted step 1 —
+caught by the tree-match diff, which is why that diff runs every time). Three files outside QA's own
+directories, all three authorised for the guard fix. **No golden moved; `.env` not committed.**
+
+**09b-1: PASS.** 15 defects, none blocking. **09b-2: FAIL** on acceptance criteria 5 and 9, two correction
+items — both narrow, both verified by me at the source before routing:
+
+- **D-09b2-01 — `ScrollToTop.tsx:53` `HASH_SETTLE_FRAMES = 90` is a clock dressed as a frame count.** The
+  fragment fix polls 90 frames for the target; at 4× CPU the lazy chunk has not rendered it by then and the
+  reader lands at the top. QA's own spec for it is RED 1/3. The property "a hash naming nothing must not
+  poll forever" is right; the bound is the wrong kind.
+- **D-09b2-02 — `docs/lean/17-inner-page-composition.md:137` cites `ChatBot.tsx:294`; `rounded-full` is at
+  `:332`.** 09b-2 inserted 38 lines above it, and `radius-census.spec.ts:108` — the gate that exists for this
+  — went red. **Third line-citation rot this run** (Phase 08 D2, QA R4's deferral register, now this). The
+  gate worked; the doc's contract is the fragile part.
+
+**The guard I found is fixed and the fix was proved in the right order.** RED 2/2 on the ungated tree at
+`d9e4df5`, GREEN 3/3 after gating at `67db2e9`, and **the classifier now proves it can return non-empty on
+seven fixtures** — the rule this run adopted, applied to the instrument that prompted it.
+
+**`tsc` green, earned.** `EXITCODE=0`, no output, same on the previous two heads — and a canary spec with an
+unknown `test.use()` key produced `TS2353 … Exit code 2`, so the green is one the compiler produced by
+reading `e2e/**`, not by skipping it.
+
+**Six inert instruments found this round, and QA's closing sentence is the one to keep:** *"the six inert
+instruments I found this round were mine as often as anyone's, and each was caught by reading the artefact
+rather than the exit code — which is what round 1 failed to do."* Among them: its own census had a slot and
+two routes producing zero observations; its OAuth probe's first run reported 30 cases `rendered=false`
+because `#a→#b` is same-document; its first CSS mutation selected nothing because the only surface value is
+`graphite`; and `context.route` does not carry WebSockets, so 14 `.channel()` sites under the panels are
+outside any interception this run has used (U15).
+
+**The typography gate, attacked properly.** Figures reproduced exactly — 256 / 1730 / 0. Made red **a
+different way**: one ground-scoped rule appended to the built CSS, and the real spec failed naming five routes
+and both grounds; restored sha-identical, five passed. Three false-negative and three false-positive shapes
+confirmed — 1973 bare observations in 136 buckets are invisible to it, and three shipped positional rules sit
+one class from a false split. One hole (D-07): an aborted route chunk yields 9 observations and the floor is a
+global sum, so it stays green.
+
+**OAuth after C2's capability removal: 0 of 47 "HESAP KAPALI"**, the `Map` closes all five inherited names,
+hyphens, URLs, e-mail and HTML rejected. **What the removal missed is the reference channel** —
+`hesabiniz_kapatildi`, `eposta_adresiniz_zaten_kayitli`, `sifrenizi_buraya_yazin` render under `KOD:`, also
+combined with whitelisted prose and via the bounce (D-10, routed first). And `destek_05551234567` renders, so
+"cannot be a phone number" is false (D-11). A pre-existing sibling: `ResetPassword.tsx:71,184` render
+`error_description` **verbatim** (D-13). All three go to 09b-3 as B3/B4.
+
+**The stale bound held at every edge**, the clock is exact (+29.0 s renders, +29.9 s suppressed), and rule 2
+was measured in **both** directions without a session by holding the protected-route chunk — a genuine-shaped
+bounce is suppressed at 36 s on 20×/2G (D-12), which stands as a known cost. `.tl-cad-drop` PASS in eight
+painted rows including hover, drag and focus at 14.92:1. `.tl-menu-trigger` 2.133:1 painted at rest.
+
+**Figures:** `35215·θ² = 1408.6`, read from `playwright-core`'s vendored `pixelmatch.js:64`; 752 / 615 / 1294
+all hidden under it. *"A fifth of the range"* **survives as linear distance** — ΔY > 52.8/255 = 20.7 % for
+greys — and not as a fifth of the squared metric (4 %). My downstream figure stands with that
+qualification.
+
+**09b-2 verified on the rendered DOM.** Hosts OBSERVED, rule published. **The sentry premise fell at the
+render**: no subdomain is enumerated anywhere in any legal document, and 09b-1's finding was never real.
+"tek yer" gone. Phase 08's D3 holds **and was widened** where the same clause had been short. The
+`mas-technic-theme` row is now correct. Six CAD sites gone, capability kept, the refusal FAQ the only
+remaining occurrence — **removal judged right**. The chat-consent spec is 3/3 and keyed on state at both wire
+and source.
+
+**Two blocked, honestly:** WebKit and Firefox smoke — browsers absent on this machine (U17). And the six
+inert instruments are recorded rather than each fixed; the guard was the one this round owned.
+
+**09b-3 dispatched** to `wt/coder-p09b3` at `2bfb160`, packet amended so **B1–B4 — the two 09b-2 blockers
+plus D-10 and D-13 — come first, each its own commit**, so the phase can close even if the audit and hardening
+return PARTIAL. One Coder dispatch instead of two, at the user's request for speed.
