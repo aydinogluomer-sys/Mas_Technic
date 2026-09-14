@@ -440,7 +440,7 @@ export const ServiceDetail = () => {
                  "Tolerans ve Hassasiyet") or, for the fifteen sector pages on
                  the shared fallback, a mood plate with no sector content at
                  all — decorative under the Phase 10-3 rule either way.
-                 `reports/10/alt-text.md` lists all 47 routes. */
+                 `reports/10/alt-text.md` lists all 48 routes. */
               <motion.img
                 src={heroImage.src}
                 srcSet={heroImage.srcSet}
