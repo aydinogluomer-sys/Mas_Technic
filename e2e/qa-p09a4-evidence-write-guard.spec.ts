@@ -171,11 +171,18 @@ function censusOf(source: string, rel: string): Site[] {
   return sites;
 }
 
+/** This file. It reads and writes nothing, and its third test carries write
+ *  calls as FIXTURE STRINGS — which the classifier, correctly, would census as
+ *  writes. That it does so is the proof the third test exists to give; it is
+ *  not a site, and so this one file is excluded from the walk by name. */
+const SELF = "e2e/qa-p09a4-evidence-write-guard.spec.ts";
+
 function census(): Site[] {
   const sites: Site[] = [];
   for (const abs of walk(E2E_DIR)) {
-    const source = readFileSync(abs, "utf8");
     const rel = path.relative(process.cwd(), abs).replace(/\\/g, "/");
+    if (rel === SELF) continue;
+    const source = readFileSync(abs, "utf8");
     sites.push(...censusOf(source, rel));
   }
   return sites.sort((a, b) => `${a.file}${a.destination}`.localeCompare(`${b.file}${b.destination}`));
@@ -202,6 +209,12 @@ const EXPECTED: Site[] = [
   { file: "e2e/qa-p09a4-sla-wobble.spec.ts", destination: "test-results", guarded: true },
   { file: "e2e/qa-p09a4-stabilised-sweep.spec.ts", destination: "reports", guarded: true },
   { file: "e2e/qa-p09a4-stabilised-sweep.spec.ts", destination: "test-results", guarded: true },
+  // 09b-1's two measurement specs, gated in 09b-1 R2 behind
+  // QA_09B1_WRITE_EVIDENCE after this guard was found to be scoring them zero.
+  { file: "e2e/qa-09b1-golden-drift.spec.ts", destination: "reports", guarded: true },
+  { file: "e2e/qa-09b1-golden-drift.spec.ts", destination: "test-results", guarded: true },
+  { file: "e2e/qa-09b1-type-slot-census.spec.ts", destination: "reports", guarded: true },
+  { file: "e2e/qa-09b1-type-slot-census.spec.ts", destination: "test-results", guarded: true },
 ].sort((a, b) => `${a.file}${a.destination}`.localeCompare(`${b.file}${b.destination}`));
 
 test.describe("09a-R4 — evidence writes", () => {
@@ -221,5 +234,70 @@ test.describe("09a-R4 — evidence writes", () => {
     expect(census(), "a write site appeared or lost its flag; review it and update EXPECTED").toEqual(
       EXPECTED,
     );
+  });
+  /* ────────────────────────────────────────────────────────────────────────
+     THE CLASSIFIER PROVES IT CAN RETURN A NON-EMPTY RESULT. Both assertions
+     above pass on an empty census, and an empty census is exactly what this
+     guard produced for two files it had walked. So each shape the classifier
+     claims to see is fed to it as a fixture string and must come back as a
+     site — and a write it cannot place must come back as an UNGUARDED site,
+     not as nothing. A guard that has never been seen to fire is a comment.
+     ──────────────────────────────────────────────────────────────────────── */
+  test("the classifier returns a site for every shape it claims to see, and an unguarded one for a shape it does not", () => {
+    const T = "`";
+    const cases: { name: string; src: string; want: Site[] }[] = [
+      {
+        name: "path.join(process.cwd(), …) direct, unguarded",
+        src: 'writeFileSync(path.join(process.cwd(), "reports", "x.txt"), "");\n',
+        want: [{ file: "fixture", destination: "reports", guarded: false }],
+      },
+      {
+        name: "path.join(process.cwd(), …) via two consts, guarded by an env flag — the 09a-R4 shape",
+        src: [
+          'const committed = process.env.QA_X === "1";',
+          'const outDir = committed ? path.join(process.cwd(), "reports", "a") : path.join(process.cwd(), "test-results", "a");',
+          'const outFile = path.join(outDir, "b.json");',
+          'writeFileSync(outFile, "");',
+          "",
+        ].join("\n"),
+        want: [
+          { file: "fixture", destination: "reports", guarded: true },
+          { file: "fixture", destination: "test-results", guarded: true },
+        ],
+      },
+      {
+        name: "bare literal via a const and a template — the 09b-1 shape — UNGUARDED",
+        src: `const OUT = "reports/qa/phase-x";\nwriteFileSync(${T}\${OUT}/a.txt${T}, "");\n`,
+        want: [{ file: "fixture", destination: "reports", guarded: false }],
+      },
+      {
+        name: "the same shape, gated",
+        src: `const OUT = process.env.QA_X === "1" ? "reports/qa/phase-x" : "test-results/x";\nwriteFileSync(${T}\${OUT}/a.txt${T}, "");\n`,
+        want: [
+          { file: "fixture", destination: "reports", guarded: true },
+          { file: "fixture", destination: "test-results", guarded: true },
+        ],
+      },
+      {
+        name: "os tmpdir through mkdtempSync — the claims-gate probe's shape",
+        src: 'const dir = mkdtempSync(join(tmpdir(), "probe-"));\nwriteFileSync(join(dir, "p.ts"), "");\n',
+        want: [{ file: "fixture", destination: "<os-tmpdir>", guarded: true }],
+      },
+      {
+        name: "a write whose destination the classifier cannot place is NOT zero sites",
+        src: 'writeFileSync(somethingComputedElsewhere(), "");\n',
+        want: [{ file: "fixture", destination: "<unclassified write>", guarded: false }],
+      },
+      {
+        name: "no write call at all is genuinely no site",
+        src: 'const x = readFileSync("reports/qa/in.json", "utf8");\n',
+        want: [],
+      },
+    ];
+    for (const c of cases) {
+      const got = censusOf(c.src, "fixture").sort((a, b) => a.destination.localeCompare(b.destination));
+      const want = [...c.want].sort((a, b) => a.destination.localeCompare(b.destination));
+      expect(got, c.name).toEqual(want);
+    }
   });
 });

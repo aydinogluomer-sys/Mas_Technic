@@ -38,7 +38,16 @@ import { gotoAndSettle } from "./helpers";
    the answer to the question.
    ══════════════════════════════════════════════════════════════════════════ */
 
-const OUT = "reports/qa/phase-09b1";
+/* WRITTEN BEHIND A FLAG, SINCE 09b-1 R2. This spec rewrote the committed
+   evidence under `reports/qa/phase-09b1/` on every ordinary run, and the
+   evidence-write guard (`qa-p09a4-evidence-write-guard.spec.ts`) did not see it,
+   because it recognised a destination only as `path.join(process.cwd(), …)`
+   and this file spelt it as a bare literal. Committed evidence is a record of
+   what was true on a date; a regression run must not overwrite it. Scratch by
+   default under `test-results/`, the committed path only when asked for. */
+const OUT = process.env.QA_09B1_WRITE_EVIDENCE === "1"
+  ? "reports/qa/phase-09b1"
+  : "test-results/qa-09b1-type-slot-census";
 
 /* Routes chosen so the component appears on BOTH sides of the defect: three
    auth routes where the label is nested, three shell routes where it is not. */

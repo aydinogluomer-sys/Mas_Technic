@@ -31,7 +31,16 @@ import { hideForeignOverlays } from "./visual/overlays";
    below is pixelmatch's own (`pixelmatch/index.js`, `colorDelta`).
    ══════════════════════════════════════════════════════════════════════════ */
 
-const OUT = "reports/qa/phase-09b1";
+/* WRITTEN BEHIND A FLAG, SINCE 09b-1 R2. This spec rewrote the committed
+   evidence under `reports/qa/phase-09b1/` on every ordinary run, and the
+   evidence-write guard (`qa-p09a4-evidence-write-guard.spec.ts`) did not see it,
+   because it recognised a destination only as `path.join(process.cwd(), …)`
+   and this file spelt it as a bare literal. Committed evidence is a record of
+   what was true on a date; a regression run must not overwrite it. Scratch by
+   default under `test-results/`, the committed path only when asked for. */
+const OUT = process.env.QA_09B1_WRITE_EVIDENCE === "1"
+  ? "reports/qa/phase-09b1"
+  : "test-results/qa-09b1-golden-drift";
 const GOLDEN_DIR = "e2e/__golden__/win32/visual-1280";
 
 /* The crops the Coder's adjudication names as changed-but-passing, plus two it
