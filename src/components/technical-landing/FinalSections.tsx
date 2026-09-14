@@ -6,7 +6,11 @@ import defense from "@/assets/industry-defense.webp";
 import medical from "@/assets/industry-medical.webp";
 import hydraulic from "@/assets/industry-hydraulic.webp";
 import manifesto from "@/assets/hero-tolerans-hassasiyet.webp";
+import manifesto640 from "@/assets/hero-tolerans-hassasiyet-640.webp";
+import manifesto960 from "@/assets/hero-tolerans-hassasiyet-960.webp";
+import manifesto1600 from "@/assets/hero-tolerans-hassasiyet-1600.webp";
 import reportPart from "@/assets/technical-landing/hero-manifold-v1.webp";
+import { coverSizes, responsive } from "@/components/BlurImage";
 import {
   qualityCertificates, referenceLogos,
   rfqSteps, technicalFaqs, technicalResources,
@@ -23,6 +27,23 @@ const sectors = [
 ] as const;
 
 const DRAFT_RFQ_ID = "RFQ-DRAFT-LANDING";
+
+/* The manifesto picture is the one 2400-wide source on the site, so it carries
+   a 640/960/1600 ladder under it (`scripts/assets/make-derivatives.mjs`).
+   `.tl-manifesto-body` is a full-band box, `min-height` 440px (520 on mobile),
+   overscanned 72px top and bottom by `ReverseScrollSection` — 584px / 664px of
+   image box — and the image is `object-fit: cover`, so on anything narrower
+   than ~1108px the HEIGHT decides the source width the browser needs
+   (664 x 1.787 = 1187px at 375, where only the central 333px are visible).
+   That is why the mobile entry is not `100vw - 42px`. Band widths measured:
+   333 at 375, 710 at 768, 1214 at 1280, 1374 at 1440, 1534 at the 1600 sheet.
+   The 375 crop itself is 10-2b's (it is the inventory's one CUT verdict). */
+const manifestoImage = responsive(2400, 1343, manifesto, [manifesto640, 640], [manifesto960, 960], [manifesto1600, 1600]);
+const MANIFESTO_SIZES = coverSizes(2400 / 1343, "440px + 144px", [
+  ["(max-width: 767px)", "calc(100vw - 42px)", "520px + 144px"],
+  ["(max-width: 1180px)", "calc(100vw - 58px)"],
+  [null, "min(calc(100vw - 66px), 1534px)"],
+]);
 
 /* ══════════════════════════════════════════════════════════════════════════
    WHAT THIS FILE NO LONGER DRAWS
@@ -52,7 +73,7 @@ export function TechnicalSectors() {
       <div className="tl-sectors-body">
         {sectors.map(([title, image, href]) => (
           <Link to={href} key={title} className="tl-sector-card">
-            <img src={image} alt="" width="1024" height="1024" loading="lazy" />
+            <img src={image} alt="" width="1200" height="1200" loading="lazy" decoding="async" />
             <div><h3>{title}</h3></div>
           </Link>
         ))}
@@ -67,7 +88,16 @@ export function MeasurementManifesto() {
     <TechnicalSectionFrame no="09" label="MANİFESTO" className="tl-manifesto" labelledBy="tl-manifesto-title">
       <div className="tl-manifesto-body">
         <ReverseScrollSection>
-          <img src={manifesto} alt="Kumpasla ölçülen hassas işlenmiş metal parça" width="1920" height="1080" loading="lazy" />
+          <img
+            src={manifestoImage.src}
+            srcSet={manifestoImage.srcSet}
+            sizes={MANIFESTO_SIZES}
+            alt="Kumpasla ölçülen hassas işlenmiş metal parça"
+            width={manifestoImage.width}
+            height={manifestoImage.height}
+            loading="lazy"
+            decoding="async"
+          />
         </ReverseScrollSection>
         <div className="tl-manifesto-copy">
           <h2 id="tl-manifesto-title">HASSASİYET<br />İDDİA EDİLMEZ.<br /><strong>ÖLÇÜLÜR.</strong></h2>
@@ -102,7 +132,7 @@ export function QualityFile() {
             <h3>ÖLÇÜM KAYDI</h3>
             <p>Kontrol planına göre</p>
             <div className="tl-mini-doc" aria-hidden="true">
-              <img src={reportPart} alt="" loading="lazy" />
+              <img src={reportPart} alt="" width="1672" height="941" loading="lazy" decoding="async" />
               <div>
                 {Array.from({ length: 6 }, (_, row) => (
                   <span key={row}><i /><i /></span>

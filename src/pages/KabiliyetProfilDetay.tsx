@@ -16,6 +16,13 @@ import {
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { caseStudies } from "@/content/caseStudies";
 import { caseStudyImages, profileMeta, profileRowMeta } from "@/components/pages/case-study-figures";
+import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
+import type { CaseStudyImageKey } from "@/content/caseStudies";
+import industryDefense640 from "@/assets/industry-defense-640.webp";
+import industryDefense960 from "@/assets/industry-defense-960.webp";
+import industryMedical640 from "@/assets/industry-medical-640.webp";
+import industryMedical960 from "@/assets/industry-medical-960.webp";
+import heroCncTornalama640 from "@/assets/hero-cnc-tornalama-640.webp";
 import { CMM_COVERAGE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -44,6 +51,28 @@ import { CMM_COVERAGE, QUOTE_RESPONSE_TIME } from "@/content/claims";
    decision `CategoryPage.tsx` records for Phase 07's F3. The `<h1>` stays;
    only the string avoids the sentinel.
    ══════════════════════════════════════════════════════════════════════════ */
+
+/* The 1x source stays in `case-study-figures.ts` (shared with the landing band);
+   this record adds each key's intrinsic size and its 640/960 ladder
+   (`scripts/assets/make-derivatives.mjs`). `Record<CaseStudyImageKey, …>` so a
+   new key without a ladder fails `npm run typecheck`, as the figure map does. */
+const plateSources: Record<CaseStudyImageKey, ResponsiveImage> = {
+  defense: responsive(1200, 1200, caseStudyImages.defense, [industryDefense640, 640], [industryDefense960, 960]),
+  medical: responsive(1200, 1200, caseStudyImages.medical, [industryMedical640, 640], [industryMedical960, 960]),
+  turning: responsive(900, 504, caseStudyImages.turning, [heroCncTornalama640, 640]),
+};
+
+/* `.shell-plate-frame` image box (`src/styles/shell.css`): `clamp(200px, 33vw,
+   420px)` + 120px parallax overscan - 2px border; `object-fit: cover`, so the
+   browser needs max(width, height x aspect) of source — see `coverSizes`.
+   The plate sits in `.shell-span-note`: full width up to 1180, then master
+   columns 9-12. Measured: 331px at 375, 708 at 768, 403 at 1280, 456 at 1440. */
+const PLATE_IMAGE_HEIGHT = "clamp(200px, 33vw, 420px) + 118px";
+const PLATE_NOTE_WIDTHS = [
+  ["(max-width: 767px)", "calc(100vw - 44px)"],
+  ["(max-width: 1180px)", "calc(100vw - 60px)"],
+  [null, "min(calc((100vw - 66px) / 3 - 2px), 509px)"],
+] as const;
 
 export const KabiliyetProfilDetay = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -91,6 +120,7 @@ export const KabiliyetProfilDetay = () => {
   }
 
   const figure = study.gallery[0];
+  const plate = plateSources[figure.image];
   const others = caseStudies.filter((entry) => entry.slug !== study.slug);
 
   return (
@@ -139,7 +169,17 @@ export const KabiliyetProfilDetay = () => {
           <ShellPlate
             plate="PLAKA 01"
             caption={figure.alt}
-            media={<img src={caseStudyImages[figure.image]} alt={figure.alt} width="1024" height="1024" loading="lazy" />}
+            media={
+              /* The route's first picture: eager, no `fetchpriority` (Phase 12 owns LCP). */
+              <img
+                src={plate.src}
+                srcSet={plate.srcSet}
+                sizes={coverSizes(plate.width / plate.height, PLATE_IMAGE_HEIGHT, PLATE_NOTE_WIDTHS)}
+                width={plate.width}
+                height={plate.height}
+                alt={figure.alt}
+              />
+            }
           />
         </div>
       </ShellSurfaceBand>

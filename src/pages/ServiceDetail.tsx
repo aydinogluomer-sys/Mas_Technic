@@ -21,39 +21,106 @@ import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
+import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
 import cncWorkshop from "@/assets/cnc-workshop.webp";
+import cncWorkshop640 from "@/assets/cnc-workshop-640.webp";
+import cncWorkshop960 from "@/assets/cnc-workshop-960.webp";
 import qualityControl from "@/assets/quality-control.webp";
+import qualityControl640 from "@/assets/quality-control-640.webp";
+import qualityControl960 from "@/assets/quality-control-960.webp";
 import heroCncFrezeleme from "@/assets/hero-cnc-frezeleme.webp";
+import heroCncFrezeleme640 from "@/assets/hero-cnc-frezeleme-640.webp";
+import heroCncFrezeleme960 from "@/assets/hero-cnc-frezeleme-960.webp";
 import heroCncTornalama from "@/assets/hero-cnc-tornalama.webp";
+import heroCncTornalama640 from "@/assets/hero-cnc-tornalama-640.webp";
 import heroMikroIsleme from "@/assets/hero-mikro-isleme.webp";
+import heroMikroIsleme640 from "@/assets/hero-mikro-isleme-640.webp";
+import heroMikroIsleme960 from "@/assets/hero-mikro-isleme-960.webp";
 import heroDerinDelik from "@/assets/hero-derin-delik.webp";
+import heroDerinDelik640 from "@/assets/hero-derin-delik-640.webp";
+import heroDerinDelik960 from "@/assets/hero-derin-delik-960.webp";
 import heroEnjeksiyonKalibi from "@/assets/hero-enjeksiyon-kalibi.webp";
+import heroEnjeksiyonKalibi640 from "@/assets/hero-enjeksiyon-kalibi-640.webp";
+import heroEnjeksiyonKalibi960 from "@/assets/hero-enjeksiyon-kalibi-960.webp";
 import heroAnodizasyon from "@/assets/hero-anodizasyon.webp";
+import heroAnodizasyon640 from "@/assets/hero-anodizasyon-640.webp";
+import heroAnodizasyon960 from "@/assets/hero-anodizasyon-960.webp";
 import heroLazerKazima from "@/assets/hero-lazer-kazima.webp";
+import heroLazerKazima640 from "@/assets/hero-lazer-kazima-640.webp";
+import heroLazerKazima960 from "@/assets/hero-lazer-kazima-960.webp";
 import heroHavacilik from "@/assets/hero-havacilik.webp";
+import heroHavacilik640 from "@/assets/hero-havacilik-640.webp";
+import heroHavacilik960 from "@/assets/hero-havacilik-960.webp";
 import heroBasincliDokum from "@/assets/hero-basincli-dokum.webp";
+import heroBasincliDokum640 from "@/assets/hero-basincli-dokum-640.webp";
+import heroBasincliDokum960 from "@/assets/hero-basincli-dokum-960.webp";
 import heroFiksturAparat from "@/assets/hero-fikstur-aparat.webp";
+import heroFiksturAparat640 from "@/assets/hero-fikstur-aparat-640.webp";
+import heroFiksturAparat960 from "@/assets/hero-fikstur-aparat-960.webp";
 import heroSilikonKaliplama from "@/assets/hero-silikon-kaliplama.webp";
+import heroSilikonKaliplama640 from "@/assets/hero-silikon-kaliplama-640.webp";
+import heroSilikonKaliplama960 from "@/assets/hero-silikon-kaliplama-960.webp";
 import heroMekanikYuzey from "@/assets/hero-mekanik-yuzey.webp";
+import heroMekanikYuzey640 from "@/assets/hero-mekanik-yuzey-640.webp";
+import heroMekanikYuzey960 from "@/assets/hero-mekanik-yuzey-960.webp";
 import heroKimyasalIslemler from "@/assets/hero-kimyasal-islemler.webp";
+import heroKimyasalIslemler640 from "@/assets/hero-kimyasal-islemler-640.webp";
+import heroKimyasalIslemler960 from "@/assets/hero-kimyasal-islemler-960.webp";
 import heroBoyaKaplama from "@/assets/hero-boya-kaplama.webp";
+import heroBoyaKaplama640 from "@/assets/hero-boya-kaplama-640.webp";
+import heroBoyaKaplama960 from "@/assets/hero-boya-kaplama-960.webp";
 import heroTavlama from "@/assets/hero-tavlama.webp";
+import heroTavlama640 from "@/assets/hero-tavlama-640.webp";
+import heroTavlama960 from "@/assets/hero-tavlama-960.webp";
 import heroQrDatamatrix from "@/assets/hero-qr-datamatrix.webp";
+import heroQrDatamatrix640 from "@/assets/hero-qr-datamatrix-640.webp";
+import heroQrDatamatrix960 from "@/assets/hero-qr-datamatrix-960.webp";
 import heroLogoMarkalama from "@/assets/hero-logo-markalama.webp";
+import heroLogoMarkalama640 from "@/assets/hero-logo-markalama-640.webp";
+import heroLogoMarkalama960 from "@/assets/hero-logo-markalama-960.webp";
 import heroInsertUygulama from "@/assets/hero-insert-uygulama.webp";
+import heroInsertUygulama640 from "@/assets/hero-insert-uygulama-640.webp";
+import heroInsertUygulama960 from "@/assets/hero-insert-uygulama-960.webp";
 import heroMekanikMontaj from "@/assets/hero-mekanik-montaj.webp";
+import heroMekanikMontaj640 from "@/assets/hero-mekanik-montaj-640.webp";
+import heroMekanikMontaj960 from "@/assets/hero-mekanik-montaj-960.webp";
 import heroKittingPaketleme from "@/assets/hero-kitting-paketleme.webp";
+import heroKittingPaketleme640 from "@/assets/hero-kitting-paketleme-640.webp";
+import heroKittingPaketleme960 from "@/assets/hero-kitting-paketleme-960.webp";
 import heroKaynakliImalat from "@/assets/hero-kaynakli-imalat.webp";
+import heroKaynakliImalat640 from "@/assets/hero-kaynakli-imalat-640.webp";
+import heroKaynakliImalat960 from "@/assets/hero-kaynakli-imalat-960.webp";
 import heroMakineParkuru from "@/assets/hero-makine-parkuru.webp";
+import heroMakineParkuru640 from "@/assets/hero-makine-parkuru-640.webp";
+import heroMakineParkuru960 from "@/assets/hero-makine-parkuru-960.webp";
 import heroKaliteKontrol from "@/assets/hero-kalite-kontrol.webp";
+import heroKaliteKontrol640 from "@/assets/hero-kalite-kontrol-640.webp";
+import heroKaliteKontrol960 from "@/assets/hero-kalite-kontrol-960.webp";
 import heroDfmTasarim from "@/assets/hero-dfm-tasarim.webp";
+import heroDfmTasarim640 from "@/assets/hero-dfm-tasarim-640.webp";
+import heroDfmTasarim960 from "@/assets/hero-dfm-tasarim-960.webp";
 import heroYuzeyIslemleri from "@/assets/hero-yuzey-islemleri.webp";
+import heroYuzeyIslemleri640 from "@/assets/hero-yuzey-islemleri-640.webp";
+import heroYuzeyIslemleri960 from "@/assets/hero-yuzey-islemleri-960.webp";
 import heroToleransHassasiyet from "@/assets/hero-tolerans-hassasiyet.webp";
+import heroToleransHassasiyet640 from "@/assets/hero-tolerans-hassasiyet-640.webp";
+import heroToleransHassasiyet960 from "@/assets/hero-tolerans-hassasiyet-960.webp";
+import heroToleransHassasiyet1600 from "@/assets/hero-tolerans-hassasiyet-1600.webp";
 import heroMalzemeKutuphanesi from "@/assets/hero-malzeme-kutuphanesi.webp";
+import heroMalzemeKutuphanesi640 from "@/assets/hero-malzeme-kutuphanesi-640.webp";
+import heroMalzemeKutuphanesi960 from "@/assets/hero-malzeme-kutuphanesi-960.webp";
 import heroProjeYonetimi from "@/assets/hero-proje-yonetimi.webp";
+import heroProjeYonetimi640 from "@/assets/hero-proje-yonetimi-640.webp";
+import heroProjeYonetimi960 from "@/assets/hero-proje-yonetimi-960.webp";
 import heroTedarikZinciri from "@/assets/hero-tedarik-zinciri.webp";
+import heroTedarikZinciri640 from "@/assets/hero-tedarik-zinciri-640.webp";
+import heroTedarikZinciri960 from "@/assets/hero-tedarik-zinciri-960.webp";
 import heroOperasyonelVerimlilik from "@/assets/hero-operasyonel-verimlilik.webp";
+import heroOperasyonelVerimlilik640 from "@/assets/hero-operasyonel-verimlilik-640.webp";
+import heroOperasyonelVerimlilik960 from "@/assets/hero-operasyonel-verimlilik-960.webp";
 import heroSeriUretim from "@/assets/hero-seri-uretim.webp";
+import heroSeriUretim640 from "@/assets/hero-seri-uretim-640.webp";
+import heroSeriUretim960 from "@/assets/hero-seri-uretim-960.webp";
 
 /* ══════════════════════════════════════════════════════════════════════════
    SERVICE · CAPABILITY · SECTOR DETAIL
@@ -113,39 +180,60 @@ import heroSeriUretim from "@/assets/hero-seri-uretim.webp";
    evidence and a route into it, rather than in more sector links.
    ══════════════════════════════════════════════════════════════════════════ */
 
-const heroImageMap: Record<string, string> = {
-  "hero-cnc-frezeleme": heroCncFrezeleme,
-  "hero-cnc-tornalama": heroCncTornalama,
-  "hero-mikro-isleme": heroMikroIsleme,
-  "hero-derin-delik": heroDerinDelik,
-  "hero-enjeksiyon-kalibi": heroEnjeksiyonKalibi,
-  "hero-anodizasyon": heroAnodizasyon,
-  "hero-lazer-kazima": heroLazerKazima,
-  "hero-havacilik": heroHavacilik,
-  "hero-basincli-dokum": heroBasincliDokum,
-  "hero-fikstur-aparat": heroFiksturAparat,
-  "hero-silikon-kaliplama": heroSilikonKaliplama,
-  "hero-mekanik-yuzey": heroMekanikYuzey,
-  "hero-kimyasal-islemler": heroKimyasalIslemler,
-  "hero-boya-kaplama": heroBoyaKaplama,
-  "hero-tavlama": heroTavlama,
-  "hero-qr-datamatrix": heroQrDatamatrix,
-  "hero-logo-markalama": heroLogoMarkalama,
-  "hero-insert-uygulama": heroInsertUygulama,
-  "hero-mekanik-montaj": heroMekanikMontaj,
-  "hero-kitting-paketleme": heroKittingPaketleme,
-  "hero-kaynakli-imalat": heroKaynakliImalat,
-  "hero-makine-parkuru": heroMakineParkuru,
-  "hero-kalite-kontrol": heroKaliteKontrol,
-  "hero-dfm-tasarim": heroDfmTasarim,
-  "hero-yuzey-islemleri": heroYuzeyIslemleri,
-  "hero-tolerans-hassasiyet": heroToleransHassasiyet,
-  "hero-malzeme-kutuphanesi": heroMalzemeKutuphanesi,
-  "hero-proje-yonetimi": heroProjeYonetimi,
-  "hero-tedarik-zinciri": heroTedarikZinciri,
-  "hero-operasyonel-verimlilik": heroOperasyonelVerimlilik,
-  "hero-seri-uretim": heroSeriUretim,
+/* Every plate source with its 640/960(/1600) ladder from
+   `scripts/assets/make-derivatives.mjs`. `responsive()` keeps the source as the
+   widest candidate, so a 900-wide source (`hero-cnc-tornalama`) never upscales. */
+const cncWorkshopHero = responsive(1600, 682, cncWorkshop, [cncWorkshop640, 640], [cncWorkshop960, 960]);
+const qualityControlHero = responsive(1600, 682, qualityControl, [qualityControl640, 640], [qualityControl960, 960]);
+
+const heroImageMap: Record<string, ResponsiveImage> = {
+  "hero-cnc-frezeleme": responsive(1600, 896, heroCncFrezeleme, [heroCncFrezeleme640, 640], [heroCncFrezeleme960, 960]),
+  "hero-cnc-tornalama": responsive(900, 504, heroCncTornalama, [heroCncTornalama640, 640]),
+  "hero-mikro-isleme": responsive(1600, 896, heroMikroIsleme, [heroMikroIsleme640, 640], [heroMikroIsleme960, 960]),
+  "hero-derin-delik": responsive(1600, 896, heroDerinDelik, [heroDerinDelik640, 640], [heroDerinDelik960, 960]),
+  "hero-enjeksiyon-kalibi": responsive(1600, 896, heroEnjeksiyonKalibi, [heroEnjeksiyonKalibi640, 640], [heroEnjeksiyonKalibi960, 960]),
+  "hero-anodizasyon": responsive(1600, 896, heroAnodizasyon, [heroAnodizasyon640, 640], [heroAnodizasyon960, 960]),
+  "hero-lazer-kazima": responsive(1600, 896, heroLazerKazima, [heroLazerKazima640, 640], [heroLazerKazima960, 960]),
+  "hero-havacilik": responsive(1600, 896, heroHavacilik, [heroHavacilik640, 640], [heroHavacilik960, 960]),
+  "hero-basincli-dokum": responsive(1600, 896, heroBasincliDokum, [heroBasincliDokum640, 640], [heroBasincliDokum960, 960]),
+  "hero-fikstur-aparat": responsive(1600, 896, heroFiksturAparat, [heroFiksturAparat640, 640], [heroFiksturAparat960, 960]),
+  "hero-silikon-kaliplama": responsive(1600, 896, heroSilikonKaliplama, [heroSilikonKaliplama640, 640], [heroSilikonKaliplama960, 960]),
+  "hero-mekanik-yuzey": responsive(1600, 896, heroMekanikYuzey, [heroMekanikYuzey640, 640], [heroMekanikYuzey960, 960]),
+  "hero-kimyasal-islemler": responsive(1600, 900, heroKimyasalIslemler, [heroKimyasalIslemler640, 640], [heroKimyasalIslemler960, 960]),
+  "hero-boya-kaplama": responsive(1600, 896, heroBoyaKaplama, [heroBoyaKaplama640, 640], [heroBoyaKaplama960, 960]),
+  "hero-tavlama": responsive(1600, 896, heroTavlama, [heroTavlama640, 640], [heroTavlama960, 960]),
+  "hero-qr-datamatrix": responsive(1600, 896, heroQrDatamatrix, [heroQrDatamatrix640, 640], [heroQrDatamatrix960, 960]),
+  "hero-logo-markalama": responsive(1600, 896, heroLogoMarkalama, [heroLogoMarkalama640, 640], [heroLogoMarkalama960, 960]),
+  "hero-insert-uygulama": responsive(1600, 896, heroInsertUygulama, [heroInsertUygulama640, 640], [heroInsertUygulama960, 960]),
+  "hero-mekanik-montaj": responsive(1600, 896, heroMekanikMontaj, [heroMekanikMontaj640, 640], [heroMekanikMontaj960, 960]),
+  "hero-kitting-paketleme": responsive(1600, 896, heroKittingPaketleme, [heroKittingPaketleme640, 640], [heroKittingPaketleme960, 960]),
+  "hero-kaynakli-imalat": responsive(1600, 896, heroKaynakliImalat, [heroKaynakliImalat640, 640], [heroKaynakliImalat960, 960]),
+  "hero-makine-parkuru": responsive(1600, 896, heroMakineParkuru, [heroMakineParkuru640, 640], [heroMakineParkuru960, 960]),
+  "hero-kalite-kontrol": responsive(1600, 896, heroKaliteKontrol, [heroKaliteKontrol640, 640], [heroKaliteKontrol960, 960]),
+  "hero-dfm-tasarim": responsive(1600, 896, heroDfmTasarim, [heroDfmTasarim640, 640], [heroDfmTasarim960, 960]),
+  "hero-yuzey-islemleri": responsive(1600, 896, heroYuzeyIslemleri, [heroYuzeyIslemleri640, 640], [heroYuzeyIslemleri960, 960]),
+  "hero-tolerans-hassasiyet": responsive(2400, 1343, heroToleransHassasiyet, [heroToleransHassasiyet640, 640], [heroToleransHassasiyet960, 960], [heroToleransHassasiyet1600, 1600]),
+  "hero-malzeme-kutuphanesi": responsive(1600, 896, heroMalzemeKutuphanesi, [heroMalzemeKutuphanesi640, 640], [heroMalzemeKutuphanesi960, 960]),
+  "hero-proje-yonetimi": responsive(1600, 896, heroProjeYonetimi, [heroProjeYonetimi640, 640], [heroProjeYonetimi960, 960]),
+  "hero-tedarik-zinciri": responsive(1600, 896, heroTedarikZinciri, [heroTedarikZinciri640, 640], [heroTedarikZinciri960, 960]),
+  "hero-operasyonel-verimlilik": responsive(1600, 896, heroOperasyonelVerimlilik, [heroOperasyonelVerimlilik640, 640], [heroOperasyonelVerimlilik960, 960]),
+  "hero-seri-uretim": responsive(1600, 896, heroSeriUretim, [heroSeriUretim640, 640], [heroSeriUretim960, 960]),
 };
+
+/* `.shell-plate-frame` geometry (`src/styles/shell.css`): a 1px-bordered box
+   `clamp(200px, 33vw, 420px)` tall whose image is overscanned by 60px top and
+   bottom for the parallax, so the image box is that height + 118px. The plate
+   sits in `.shell-span-full` here: full band width at every viewport, which
+   measures 100vw - 44px at 375, 100vw - 60px at 768, 100vw - 68px from 1181
+   up, capped by the 1600px sheet. The browser needs max(width, height x aspect)
+   of source because the image is `object-fit: cover` — at 375 that is 568px
+   for a 16:9 source, not 331. Measured in `reports/10/responsive-images.md`. */
+const PLATE_IMAGE_HEIGHT = "clamp(200px, 33vw, 420px) + 118px";
+const PLATE_FULL_WIDTHS = [
+  ["(max-width: 767px)", "calc(100vw - 44px)"],
+  ["(max-width: 1180px)", "calc(100vw - 60px)"],
+  [null, "min(calc(100vw - 68px), 1532px)"],
+] as const;
 
 const FAMILY = {
   hizmetler: { label: "Hizmetler", rail: { no: "03", label: "HİZMET" } },
@@ -268,7 +356,7 @@ export const ServiceDetail = () => {
   const materialRows = page.materials ?? [];
   const heroImage = page.heroImage && heroImageMap[page.heroImage]
     ? heroImageMap[page.heroImage]
-    : page.category === "kabiliyetler" ? qualityControl : cncWorkshop;
+    : page.category === "kabiliyetler" ? qualityControlHero : cncWorkshopHero;
 
   /* Band numbers are assigned in render order, so a page without comparison
      tables does not leave a hole in the sheet numbering. JSX evaluates its
@@ -323,7 +411,11 @@ export const ServiceDetail = () => {
             caption={page.categoryLabel}
             media={
               <motion.img
-                src={heroImage}
+                src={heroImage.src}
+                srcSet={heroImage.srcSet}
+                sizes={coverSizes(heroImage.width / heroImage.height, PLATE_IMAGE_HEIGHT, PLATE_FULL_WIDTHS)}
+                width={heroImage.width}
+                height={heroImage.height}
                 alt={page.title}
                 loading="eager"
                 style={{ y: plateY }}

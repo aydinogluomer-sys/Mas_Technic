@@ -427,7 +427,7 @@ export function LandingFlow() {
   return (
     <div ref={rootRef} className="lf-root">
       <section id="top" className="lf-hero" data-surface="dark">
-        <img className="lf-hero-media" src={cncImage} alt="" width="1920" height="1088" fetchPriority="high" decoding="async" />
+        <img className="lf-hero-media" src={cncImage} alt="" width="1600" height="896" fetchPriority="high" decoding="async" />
         <div className="lf-hero-shade" />
         <div className="lf-hero-top">
           <span>PRECISION MANUFACTURING · 2026</span>
@@ -482,8 +482,8 @@ export function LandingFlow() {
                     data-src={storyIndex === 0 ? undefined : story.image}
                     data-lf-deferred={storyIndex === 0 ? undefined : ""}
                     alt={`${story.title} üretim süreci`}
-                    width="1920"
-                    height="1080"
+                    width="1600"
+                    height="896"
                     loading={storyIndex === 0 ? "eager" : "lazy"}
                     decoding="async"
                   />
@@ -528,7 +528,7 @@ export function LandingFlow() {
           <div ref={industryTrackRef} className="lf-industry-track">
             {industries.map((industry, index) => (
               <Link to={industry.path} className="lf-industry-card" aria-hidden={pinnedLayout && index > 0 ? "true" : undefined} tabIndex={pinnedLayout && index > 0 ? -1 : undefined} data-active={index === 0 ? "" : undefined} data-cursor="open" key={industry.path}>
-                <img src={index === 0 ? industry.image : undefined} data-src={index === 0 ? undefined : industry.image} data-lf-deferred={index === 0 ? undefined : ""} alt={`${industry.title} üretimi`} width="800" height="640" loading="lazy" decoding="async" />
+                <img src={index === 0 ? industry.image : undefined} data-src={index === 0 ? undefined : industry.image} data-lf-deferred={index === 0 ? undefined : ""} alt={`${industry.title} üretimi`} width="1200" height="1200" loading="lazy" decoding="async" />
                 <span>{industry.index}</span>
                 <div><small>{industry.meta}</small><h3>{industry.title}</h3></div>
               </Link>

@@ -261,7 +261,7 @@ export function ProcessProofCinema({
               data-process-media-index={index}
               data-active={index === 0 ? "" : undefined}
             >
-              <img data-ppc-src={stage.media} alt="" width="1920" height="1080" loading="lazy" decoding="async" />
+              <img data-ppc-src={stage.media} alt="" width="1600" height="896" loading="lazy" decoding="async" />
               {/* Kıvılcım yalnız "Kontrollü imalat" sahnesinde ve o sahne
                   aktifken yanar; canvas kendi IntersectionObserver'ı ile
                   ekran dışında tamamen durur. */}
@@ -333,7 +333,7 @@ export function ProcessProofCinema({
                       Kıvılcım burada host bulamayınca "görünürse çalış" moduna
                       düşer; mobilde tüm aşamalar zaten akış içinde açık. */}
                   <figure className="ppc-stage-mobile-media" data-lf-reveal="cut">
-                    <img data-ppc-src={stage.media} alt={stage.mediaAlt} width="1920" height="1080" loading="lazy" decoding="async" />
+                    <img data-ppc-src={stage.media} alt={stage.mediaAlt} width="1600" height="896" loading="lazy" decoding="async" />
                     {stage.id === "machining" && <SparkParticles />}
                   </figure>
                   <aside

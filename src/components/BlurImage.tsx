@@ -107,13 +107,40 @@ export const BlurImage = forwardRef<HTMLDivElement, BlurImageProps>(
 
 BlurImage.displayName = "BlurImage";
 
+/** One raster asset with its width ladder: the `src`, `srcSet`, `width` and `height` an image element takes. */
+export interface ResponsiveImage {
+  /** The full-size source — also the largest `srcSet` candidate. */
+  src: string;
+  srcSet: string;
+  /** Intrinsic pixels of `src`. */
+  width: number;
+  height: number;
+}
+
+/**
+ * Builds a `ResponsiveImage` from the source and its smaller derivatives
+ * (`scripts/assets/make-derivatives.mjs`). The source is always the last and
+ * widest candidate, so nothing is ever upscaled.
+ */
+export function responsive(
+  width: number,
+  height: number,
+  src: string,
+  ...smaller: readonly (readonly [url: string, w: number])[]
+): ResponsiveImage {
+  const candidates = [...smaller.map(([url, w]) => `${url} ${w}w`), `${src} ${width}w`];
+  return { src, srcSet: candidates.join(", "), width, height };
+}
+
 /**
  * A `sizes` attribute for an `object-fit: cover` image.
  *
  * @param aspect     source width / height (e.g. 1600 / 896)
  * @param boxHeight  CSS length expression for the image box's height
- * @param widths     `[mediaCondition | null, boxWidthExpression]` in source order;
- *                   the `null` condition is the unconditioned last entry
+ * @param entries    `[mediaCondition | null, boxWidthExpression, boxHeightExpression?]`
+ *                   in source order; the `null` condition is the unconditioned
+ *                   last entry; a third element overrides `boxHeight` for
+ *                   breakpoints where the box is a different height
  *
  * Each entry becomes `max(<width>, <height> × aspect)` so the candidate the
  * browser picks is wide enough on whichever axis cover actually scales by.
@@ -121,8 +148,13 @@ BlurImage.displayName = "BlurImage";
 export function coverSizes(
   aspect: number,
   boxHeight: string,
-  widths: readonly (readonly [media: string | null, width: string])[],
+  entries: readonly (readonly [media: string | null, width: string, height?: string])[],
 ): string {
-  const need = (width: string) => `max(${width}, calc(${boxHeight} * ${aspect.toFixed(3)}))`;
-  return widths.map(([media, width]) => (media ? `${media} ${need(width)}` : need(width))).join(", ");
+  const need = (width: string, height: string) => `max(${width}, calc(${height} * ${aspect.toFixed(3)}))`;
+  return entries
+    .map(([media, width, height]) => {
+      const size = need(width, height ?? boxHeight);
+      return media ? `${media} ${size}` : size;
+    })
+    .join(", ");
 }

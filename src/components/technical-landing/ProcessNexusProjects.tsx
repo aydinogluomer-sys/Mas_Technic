@@ -3,16 +3,51 @@ import {
   LayoutGrid, PackageCheck, Radar, Settings, ShieldCheck, UserRound,
 } from "lucide-react";
 import processImage from "@/assets/hero-cnc-frezeleme.webp";
+import processImage640 from "@/assets/hero-cnc-frezeleme-640.webp";
+import processImage960 from "@/assets/hero-cnc-frezeleme-960.webp";
 import projectDefense from "@/assets/industry-defense.webp";
+import projectDefense640 from "@/assets/industry-defense-640.webp";
+import projectDefense960 from "@/assets/industry-defense-960.webp";
 import projectMedical from "@/assets/industry-medical.webp";
 import projectTurning from "@/assets/hero-cnc-tornalama.webp";
+import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
 import { Link } from "react-router-dom";
 import { ReverseScrollSection } from "@/components/ReverseScrollSection";
-import { caseStudies } from "@/content/caseStudies";
+import { caseStudies, type CaseStudyImageKey } from "@/content/caseStudies";
 import { nexusKpis, nexusOrders, nexusPanels, nexusRedactionNote, technicalProcess } from "@/data/technicalLandingData";
 import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
 
-const caseStudyImages = { defense: projectDefense, medical: projectMedical, turning: projectTurning } as const;
+/* Intrinsic sizes per key so each tile reserves the right box; only the
+   featured tile (index 0, `defense`) renders at more than one ladder width
+   across the matrix — 332 / 355 / 607 / 687px — so only it carries a
+   `srcSet`. The two small tiles stay inside one bucket (201–331px) and keep
+   the plain source; see `reports/10/responsive-images.md`. */
+const caseStudyImages: Record<CaseStudyImageKey, ResponsiveImage> = {
+  defense: responsive(1200, 1200, projectDefense, [projectDefense640, 640], [projectDefense960, 960]),
+  medical: responsive(1200, 1200, projectMedical),
+  turning: responsive(900, 504, projectTurning),
+};
+
+/* `.tl-project-featured` is 264px tall (216 on mobile) and its image spans
+   master columns 1-6 of 12 (1-3 of 6 on tablet, full width on mobile). The
+   source is square, so the box is always the wider axis. */
+const FEATURED_SIZES = coverSizes(1, "264px", [
+  ["(max-width: 767px)", "calc(100vw - 43px)", "216px"],
+  ["(max-width: 1180px)", "calc((100vw - 56px) / 2 - 1px)"],
+  [null, "min(calc((100vw - 66px) / 2), 767px)"],
+]);
+
+/* `.tl-process figure` is 252px tall (216 on mobile) plus a 48px reverse-scroll
+   overscan each way, spanning master columns 5-12 (4-6 on tablet, full on
+   mobile) with an `object-fit: cover` 16:9 image: on mobile and tablet the
+   height decides the source width (312 x 1.786 = 557px, 348 x 1.786 = 621px).
+   Measured band widths: 333 at 375, 355 at 768, 809 at 1280, 916 at 1440. */
+const processFigure = responsive(1600, 896, processImage, [processImage640, 640], [processImage960, 960]);
+const PROCESS_SIZES = coverSizes(1600 / 896, "252px + 96px", [
+  ["(max-width: 767px)", "calc(100vw - 42px)", "216px + 96px"],
+  ["(max-width: 1180px)", "calc((100vw - 56px) / 2)"],
+  [null, "min(calc((100vw - 66px) * 2 / 3), 1023px)"],
+]);
 const kpiIcons = { box: Box, flow: Factory, stack: PackageCheck, chart: ChartNoAxesCombined } as const;
 const panelIcons = [LayoutGrid, ClipboardList, Radar, FileBarChart2, ShieldCheck, Settings] as const;
 
@@ -26,7 +61,16 @@ export function TechnicalProcess() {
         </div>
         <figure>
           <ReverseScrollSection distance={48}>
-            <img src={processImage} alt="CNC tezgâhında işlenen metal parça" width="1920" height="1080" loading="lazy" />
+            <img
+              src={processFigure.src}
+              srcSet={processFigure.srcSet}
+              sizes={PROCESS_SIZES}
+              alt="CNC tezgâhında işlenen metal parça"
+              width={processFigure.width}
+              height={processFigure.height}
+              loading="lazy"
+              decoding="async"
+            />
           </ReverseScrollSection>
         </figure>
         <ol>
@@ -143,9 +187,20 @@ export function MeasuredProjects() {
             için duruyor. */}
         <h2 id="tl-projects-title" className="tl-visually-hidden">KABİLİYET PROFİLLERİ</h2>
         <div className="tl-project-grid">
-          {caseStudies.map((study, index) => (
+          {caseStudies.map((study, index) => {
+            const figure = caseStudyImages[study.gallery[0].image];
+            return (
             <article className={index === 0 ? "tl-project-featured" : ""} key={study.slug}>
-              <img src={caseStudyImages[study.gallery[0].image]} alt={study.gallery[0].alt} width="1024" height="1024" loading="lazy" />
+              <img
+                src={figure.src}
+                srcSet={index === 0 ? figure.srcSet : undefined}
+                sizes={index === 0 ? FEATURED_SIZES : undefined}
+                alt={study.gallery[0].alt}
+                width={figure.width}
+                height={figure.height}
+                loading="lazy"
+                decoding="async"
+              />
               <div>
                 <h3>{study.title} — <span>{study.material}</span></h3>
                 <p className="tl-report-no">
@@ -167,7 +222,8 @@ export function MeasuredProjects() {
                 </table>
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
         <p className="tl-project-note">
           KABİLİYET PROFİLLERİ — ÜRETİM VE KONTROL YAKLAŞIMIMIZI TANIMLAR

@@ -39,7 +39,7 @@ export const TestimonialsColumn = React.forwardRef<HTMLDivElement, TestimonialsC
                     <p className="text-sm leading-relaxed text-foreground/80">{text}</p>
                     <div className="mt-4 flex items-center gap-3">
                       {image ? (
-                        <img src={image} alt={name} className="h-10 w-10 rounded-full object-cover shrink-0" />
+                        <img src={image} alt={name} width="40" height="40" loading="lazy" decoding="async" className="h-10 w-10 rounded-full object-cover shrink-0" />
                       ) : (
                         <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                           <span className="text-xs font-bold text-primary">{name.charAt(0)}</span>
