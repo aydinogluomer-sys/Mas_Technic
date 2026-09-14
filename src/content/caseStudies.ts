@@ -75,6 +75,15 @@ type CaseStudyBase = {
   outcome: string;
   /** The control plan a buyer would receive. */
   controlPlan: readonly ControlPlanRow[];
+  /**
+   * `alt` is the picture DESCRIBED — what is physically in the frame, not the
+   * part family the profile is named after. Both renderers (`/` band 07 and
+   * `/kabiliyet-profilleri/:slug`) place the picture directly under a heading
+   * that already names the part, so the `<img>` itself carries `alt=""` there
+   * and this string is printed as the plate's visible `<figcaption>` instead
+   * (Phase 10-3, `reports/10/alt-text.md`). Nothing in it may name a material
+   * the photograph cannot show.
+   */
   gallery: readonly { image: CaseStudyImageKey; alt: string }[];
   relatedCapability: { label: string; href: string };
   rfq: { label: string; href: string };
@@ -133,7 +142,7 @@ export const caseStudies: readonly CaseStudy[] = [
       { feature: "Cidar kalınlığı", method: "Ara kontrol", record: "Operasyon kaydı" },
       { feature: "Düzlem / form", method: "Akredite 3. taraf CMM (talebe bağlı)", record: "Ölçüm raporu" },
     ],
-    gallery: [{ image: "defense", alt: "İnce cidarlı işlenmiş metal gövde parçası" }],
+    gallery: [{ image: "defense", alt: "Rulman yuvası ve bağlantı delikleri işlenmiş metal gövde, ölçüm masası üzerinde" }],
     relatedCapability: { label: "5 EKSEN CNC FREZELEME", href: "/hizmetler/cnc-frezeleme" },
     rfq: RFQ_CTA,
   },
@@ -156,7 +165,7 @@ export const caseStudies: readonly CaseStudy[] = [
       { feature: "Takım ömrü", method: "Operasyon içi izleme", record: "Proses kaydı" },
       { feature: "Malzeme kimliği", method: "Parti / döküm takibi", record: "İzlenebilirlik kaydı" },
     ],
-    gallery: [{ image: "medical", alt: "Hassas işlenmiş titanyum bağlantı parçası" }],
+    gallery: [{ image: "medical", alt: "Yüzeyi parlatılmış, eğik kanalı ve delikleri işlenmiş dik duran metal bağlantı parçası" }],
     relatedCapability: { label: "TOLERANS VE HASSASİYET", href: "/kabiliyetler/tolerans-hassasiyet" },
     rfq: RFQ_CTA,
   },
@@ -179,7 +188,7 @@ export const caseStudies: readonly CaseStudy[] = [
       { feature: "Salgı / eş eksenlilik", method: "Datum üzerinden kontrol", record: "Ölçüm kaydı" },
       { feature: "Sertlik sonrası ölçü", method: "Ara kontrol", record: "Operasyon kaydı" },
     ],
-    gallery: [{ image: "turning", alt: "CNC tornada işlenmiş hassas mil" }],
+    gallery: [{ image: "turning", alt: "Torna aynasına bağlı metal mil, taret takımı ve soğutma sıvısı altında tornalanırken" }],
     relatedCapability: { label: "CNC TORNALAMA", href: "/hizmetler/cnc-tornalama" },
     rfq: RFQ_CTA,
   },

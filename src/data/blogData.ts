@@ -104,7 +104,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "8 dk okuma",
     category: "Teknik",
     image: blog5eksen,
-    imageAlt: "Beş eksenli işleme merkezinde bağlanmış alüminyum parça ve kesici takım",
+    imageAlt: "İş milindeki kesici takım, soğutma sıvısı altında parlak metal bir gövdenin eğik yüzeyini işlerken",
     imageCaption: "Tek bağlamada birden fazla yüzeye erişen kesici takım",
     featured: true,
     sections: [
@@ -159,7 +159,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "6 dk okuma",
     category: "Malzeme",
     image: blogMalzeme,
-    imageAlt: "Yan yana duran işlenmiş alüminyum ve titanyum numuneler",
+    imageAlt: "Siyah zemin üzerinde yan yana dört silindirik metal numune; uç yüzleri kesilmiş, taşlanmış ve fırçalanmış",
     imageCaption: "Aynı geometrinin iki alaşımda işlenmiş numuneleri",
     featured: true,
     sections: [
@@ -233,7 +233,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "10 dk okuma",
     category: "Mühendislik",
     image: blogDfm,
-    imageAlt: "Ekranda açık CAD modeli ve yanında ölçülendirilmiş teknik resim",
+    imageAlt: "Delikli ve flanşlı işlenmiş metal gövde, kendi ölçülendirilmiş teknik resminin üzerinde duruyor",
     imageCaption: "Model ve teknik resim, üretilebilirlik incelemesinde yan yana",
     featured: false,
     sections: [
@@ -288,7 +288,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "7 dk okuma",
     category: "Teknik",
     image: heroCncFrezeleme,
-    imageAlt: "CNC freze tezgâhında işlenen prizmatik metal parça",
+    imageAlt: "Soğutma sıvısı altında prizmatik metal bloğu işleyen CNC freze iş mili ve kesici takım",
     imageCaption: "Prizmatik geometri: takım döner, parça sabit kalır",
     featured: false,
     sections: [
@@ -343,7 +343,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "9 dk okuma",
     category: "Kalite",
     image: qualityControl,
-    imageAlt: "Ölçüm masasında probla kontrol edilen işlenmiş metal parça",
+    imageAlt: "Karanlık ölçüm odasında, granit tabla üzerindeki silindirik parçayı problayan köprü tipi CMM",
     imageCaption: "Kontrol planında tanımlı kotelerin doğrulanması",
     featured: false,
     sections: [
@@ -398,7 +398,7 @@ export const blogPosts: BlogPost[] = [
     readTime: "12 dk okuma",
     category: "Rehber",
     image: heroYuzeyIslemleri,
-    imageAlt: "Farklı yüzey işlemleri uygulanmış metal parçaların bir arada görünümü",
+    imageAlt: "Makro çekim: kumlanmış, fırçalanmış ve parlatılmış metal yüzeylerin yan yana duran kenarları",
     imageCaption: "Aynı alaşımda dört farklı yüzey bitişi",
     featured: false,
     sections: [
