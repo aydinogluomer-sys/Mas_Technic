@@ -186,12 +186,9 @@ export const MaterialMorphScroll = () => {
         >
           <img
             src="/sequence-material/frame_0001.webp"
-            alt="Malzeme Dönüşümü"
-            width="1280"
-            height="720"
+            alt="Malzeme Dönüşümü" width="1280" height="720"
             className="w-full h-full object-cover opacity-30"
-            loading="lazy"
-            decoding="async"
+            loading="lazy" decoding="async"
           />
         </motion.div>
         {/* A1: the mobile still had no scrim either — the same gradient, so
@@ -268,12 +265,8 @@ export const MaterialMorphScroll = () => {
         {showFallback && !ready && (
           <img
             src="/sequence-material/frame_0001.webp"
-            alt="Malzeme Dönüşümü"
-            width="1280"
-            height="720"
-            className="absolute inset-0 w-full h-full object-cover opacity-40"
-            loading="lazy"
-            decoding="async"
+            alt="Malzeme Dönüşümü" width="1280" height="720"
+            className="absolute inset-0 w-full h-full object-cover opacity-40" loading="lazy" decoding="async"
           />
         )}
 
