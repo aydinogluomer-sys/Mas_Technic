@@ -150,7 +150,7 @@ export const RADIUS_SOURCES: {
     matches: (signature) => signature.startsWith("button.fixed.z-50.")
       && signature.includes(".rounded-full."),
     file: "src/components/ChatBot.tsx",
-    lines: "294",
+    lines: "332",
   },
   {
     label: "cursor dot",
