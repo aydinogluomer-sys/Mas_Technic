@@ -434,6 +434,24 @@
     font-synthesis: none;
   }
 
+  /* PHASE 10-4 — HEADINGS BALANCE. One declaration at the heading ROLE, so
+     a two-line title distributes its words instead of stranding the last
+     one. Measured before (reports/10/probes/heading-widows-before.md): the
+     project-grid `h3` at 768 ended on "7075-T6" alone and the RFQ
+     continuation `h2` on `/blog` at 1280 ended on "çıktı?" alone. Authored
+     `<br>` stanzas (the hero, the manifesto) are untouched: balance works
+     inside each forced segment. `white-space: nowrap` on a heading still
+     wins — `text-wrap-mode` is the part of this shorthand it shares with
+     `white-space`, and an unlayered rule beats this base-layer one. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+
   a,
   button,
   [role="button"] {

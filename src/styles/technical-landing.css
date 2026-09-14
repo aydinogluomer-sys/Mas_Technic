@@ -405,6 +405,9 @@
    shorthands it ties with on specificity, so it wins on order; the header sheet count is in
    `navigation.css` with its own shorthand and declares it there. */
 .tl-process li>span,.tl-faq summary span,.tl-rfq-body>ol b{font-variant-numeric:tabular-nums}
+/* PHASE 10-4 — the landing's prose roles wrap `pretty` (inherited; progressive — an engine that
+   does not know the value keeps `wrap`). Headings balance at the root (`src/index.css`). */
+.tl-hero-copy>p,.tl-process li p,.tl-manifesto p,.tl-faq details p,.tl-cert>p,.tl-rfq-body>ol span{text-wrap:pretty}
 .tl-rfq-body>ol li:last-child::after{display:none}
 
 

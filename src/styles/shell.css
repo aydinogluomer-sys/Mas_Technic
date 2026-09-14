@@ -912,6 +912,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   font-weight: 400;
   line-height: 1.12;
   letter-spacing: -.01em;
+  text-wrap: balance;
 }
 .shell-notfound-title em { font-style: italic; color: var(--tl-bronze); }
 
@@ -1149,11 +1150,16 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   font-weight: 400;
   line-height: 1.1;
   letter-spacing: -.02em;
+  text-wrap: balance;
 }
 .shell-statement em { color: var(--tl-bronze); font-style: italic; }
 
 /* A margin note: mono, narrow, on the note column. */
 .shell-note {
+  /* Measured at 768 on `/kvkk` (heading-widows-before.md): the aside goes
+     full-width there and this note could set a 107ch line. Capped in its
+     own `ch` so the margin note stays a margin note at every width. */
+  max-width: 72ch;
   margin: 0;
   border-top: var(--tl-rule-size) solid var(--sf-rule);
   padding-top: var(--tl-s3);
@@ -2196,6 +2202,30 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   .shell-auth-panel { padding: var(--tl-s6) var(--tl-s4); }
   .shell-auth-social { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* ── PHASE 10-4 — PROSE ROLES WRAP `pretty` ───────────────────────────────
+   `text-wrap: pretty` asks the line breaker to look at the last lines of a
+   paragraph and avoid a short orphan; it is inherited, so it is declared on
+   the prose CONTAINERS and reaches every paragraph, list item and definition
+   inside them. Browsers that do not know the value drop the declaration and
+   keep `wrap` — progressive by construction, no fallback needed. Headings
+   are `balance` at the root (`src/index.css`) and win by being nearer. */
+.shell-prose,
+.shell-lede,
+.shell-title-block > p,
+.shell-faq-answer,
+.shell-index-desc,
+.shell-run-detail,
+.shell-detail-lede,
+.shell-detail-list,
+.shell-table-note,
+.shell-next-lede,
+.shell-notice-body,
+.shell-state-detail,
+.shell-evidence-body,
+.shell-doc-section-body,
+.shell-note,
+.shell-auth-legal { text-wrap: pretty; }
 
 /* ── PHASE 10-4 — THE NUMERIC REGISTER ────────────────────────────────────
    Every surface where figures sit in a column or change under the eye takes
