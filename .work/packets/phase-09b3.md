@@ -2,13 +2,44 @@
 
 PHASE_ID: 09b-3
 PHASE_TITLE: The security audit, documented rather than invented — and the hardening this phase owes itself
-BASE_COMMIT: to be stated at dispatch (after QA closes 09b-1/09b-2)
+BASE_COMMIT: `2bfb160`
 WORKTREE: `C:\Users\Trade Bilisim\precision-dynamics-hub-main\pdh-wt\coder-p09a` — **note the path has moved
 into the main checkout**; the old `C:\Users\Trade Bilisim\pdh-wt\` no longer exists.
 
 The user has asked for Phase 9 to close as fast as possible. **This packet is scoped to what closes the
 phase honestly.** `PARTIAL` is accepted; prefer a clean partial with the audit complete over a full sweep that
 does not return.
+
+
+## FIRST — the four items that block 09b-2, before anything else in this packet
+
+QA closed 09b-1 PASS and **09b-2 FAIL** on two narrow criteria. These come first, each its own commit, so
+the phase can close even if the rest returns PARTIAL.
+
+**B1 — `ScrollToTop.tsx:53` `HASH_SETTLE_FRAMES = 90` is a clock dressed as a frame count.** At 4× CPU the
+lazy route chunk has not rendered the target when 90 frames elapse, and the reader lands at the top —
+QA's `09b2-fragment-navigation` spec is RED 1/3 for exactly this. Bound the poll by **the target appearing**
+(a `MutationObserver` or a wall-clock cap that tolerates a slow chunk), not by a frame count. Keep the
+"a hash naming nothing must not poll forever" property. `src/components/ScrollToTop.tsx` is added to your
+allowlist for this item only.
+
+**B2 — `docs/lean/17-inner-page-composition.md:137` cites `ChatBot.tsx:294`; `rounded-full` is at `:332`.**
+`radius-census.spec.ts:108` is red because 09b-2 inserted 38 lines above it. Same drift as Phase 08's D2
+and QA R4's deferral register. `:193` cites `:345, 357, 369, 395` and `18-document-surfaces.md:303` cites
+`:235-239` — check all of them. **Fix the citations, and where the doc's own contract allows, cite by a
+grep-able marker rather than a line**, the way C5 rebuilt the register. `docs/lean/17-inner-page-composition.md`
+and `docs/lean/18-document-surfaces.md` are added to your allowlist for this item only.
+
+**B3 — D-10, the reference channel.** QA: `hesabiniz_kapatildi`, `eposta_adresiniz_zaten_kayitli`,
+`sifrenizi_buraya_yazin` render under `KOD:` — attacker-chosen Turkish prose through the reference slot that
+C2 closed for the `COPY` slot. Also `destek_05551234567` renders, so "cannot be a phone number" is false.
+Close the channel: the reference may show a code the app **recognises**, or nothing.
+
+**B4 — D-13, pre-existing but the same class.** `ResetPassword.tsx:71,184` render `error_description`
+**verbatim**. Apply the C2 rule: an attempt may be reported as failed; the server's prose is not shown to
+the reader on the strength of a URL.
+
+Prove B1 and B3/B4 without a live auth call, the way C2 did.
 
 ## ⚠ THE PROHIBITION — ABSOLUTE, AND THIS PACKET IS ABOUT SECURITY, SO IT IS TEMPTING TO BREAK
 
@@ -104,6 +135,9 @@ src/components/rfq/**  src/pages/TeklifAl.tsx   (only what the audit's fixes req
 src/pages/Login.tsx                 (the signup enumeration only)
 src/components/auth/**              (only what the signup fix requires)
 src/styles/navigation.css           (.tl-menu-trigger only)
+src/components/ScrollToTop.tsx      (B1 only)
+src/pages/ResetPassword.tsx         (B4 only)
+docs/lean/17-inner-page-composition.md  docs/lean/18-document-surfaces.md   (B2 only)
 scripts/claims-gate.mjs
 e2e/visual/fonts.ts
 index.html                          (ONLY <meta> security headers, and ONLY with proof deep routes survive)
@@ -120,7 +154,7 @@ supabase/**  docs/supabase-full-setup.sql   ← and no network call, no migratio
 src/utils/cadUpload.ts CAD_ACCEPTED_EXTENSIONS and CAD_MAX_FILE_SIZE VALUES
 src/content/claims.ts CAD block  src/data/technicalLandingData.ts
 src/pages/KVKK.tsx  GizlilikPolitikasi.tsx  CerezPolitikasi.tsx   ← 09b-2 just closed these
-src/data/servicePages.ts  src/components/ChatBot.tsx  src/components/ScrollToTop.tsx   ← 09b-2
+src/data/servicePages.ts  src/components/ChatBot.tsx   ← 09b-2 (ScrollToTop is allowlisted for B1 only)
 src/styles/technical-landing.css  e2e/landing/motion-grammar.spec.ts   ← Phase 10 (A23)
 /admin/*  /musteri-paneli/*  and their components   ← the avatars bucket being public is THEIRS; document only
 every pre-existing spec except e2e/visual/fonts.ts;  scripts/qa-probes/**;  reports/qa/**
