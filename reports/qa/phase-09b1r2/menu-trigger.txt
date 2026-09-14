@@ -1,0 +1,10 @@
+guard canary: BLOCKED:Failed to fetch
+
+1280 rest   declared 1px solid rgba(227, 231, 225, 0.28) on bg rgba(0, 0, 0, 0)
+     painted ground rgb(7,11,13) fill rgb(7,11,13) rule rgb(68,72,72) @y=12   rule vs ground 2.133:1   rule vs fill 2.133:1   BELOW 3:1
+1280 hover  declared 1px solid rgba(226, 230, 225, 0.42) on bg rgba(255, 255, 255, 0.035)
+     painted ground rgb(7,11,13) fill rgb(16,20,22) rule rgb(104,108,106) @y=12   rule vs ground 3.709:1   rule vs fill 3.477:1   PASS
+375 rest   declared 1px solid rgba(227, 231, 225, 0.28) on bg rgba(0, 0, 0, 0)
+     painted ground rgb(7,11,13) fill rgb(7,11,13) rule rgb(68,72,72) @y=8   rule vs ground 2.133:1   rule vs fill 2.133:1   BELOW 3:1
+375 hover  declared 1px solid rgba(226, 230, 225, 0.42) on bg rgba(255, 255, 255, 0.035)
+     painted ground rgb(7,11,13) fill rgb(16,20,22) rule rgb(104,109,107) @y=8   rule vs ground 3.753:1   rule vs fill 3.518:1   PASS

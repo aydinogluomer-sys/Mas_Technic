@@ -1,0 +1,86 @@
+(node:15088) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:30696) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  1 [smoke-webkit-1440] › e2e\smoke\cross-browser-smoke.spec.ts:17:3 › cross-browser smoke › renders the complete landing and hands off the intro shell (3ms)
+(node:11032) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  2 [smoke-webkit-1440] › e2e\smoke\cross-browser-smoke.spec.ts:28:3 › cross-browser smoke › serves an inner page with the shared shell (3ms)
+(node:29204) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  3 [smoke-webkit-1440] › e2e\smoke\cross-browser-smoke.spec.ts:35:3 › cross-browser smoke › keeps the primary conversion route reachable (2ms)
+
+
+  1) [smoke-webkit-1440] › e2e\smoke\cross-browser-smoke.spec.ts:17:3 › cross-browser smoke › renders the complete landing and hands off the intro shell 
+
+    Error: browserType.launch: Executable doesn't exist at C:\Users\Trade Bilisim\AppData\Local\ms-playwright\webkit-2272\Playwright.exe
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results\smoke-cross-browser-smoke--abb46-d-hands-off-the-intro-shell-smoke-webkit-1440\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\smoke-cross-browser-smoke--abb46-d-hands-off-the-intro-shell-smoke-webkit-1440\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\smoke-cross-browser-smoke--abb46-d-hands-off-the-intro-shell-smoke-webkit-1440\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [smoke-webkit-1440] › e2e\smoke\cross-browser-smoke.spec.ts:28:3 › cross-browser smoke › serves an inner page with the shared shell 
+
+    Error: browserType.launch: Executable doesn't exist at C:\Users\Trade Bilisim\AppData\Local\ms-playwright\webkit-2272\Playwright.exe
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results\smoke-cross-browser-smoke--2445b--page-with-the-shared-shell-smoke-webkit-1440\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\smoke-cross-browser-smoke--2445b--page-with-the-shared-shell-smoke-webkit-1440\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\smoke-cross-browser-smoke--2445b--page-with-the-shared-shell-smoke-webkit-1440\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [smoke-webkit-1440] › e2e\smoke\cross-browser-smoke.spec.ts:35:3 › cross-browser smoke › keeps the primary conversion route reachable 
+
+    Error: browserType.launch: Executable doesn't exist at C:\Users\Trade Bilisim\AppData\Local\ms-playwright\webkit-2272\Playwright.exe
+    ╔════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright was just installed or updated.       ║
+    ║ Please run the following command to download new browsers: ║
+    ║                                                            ║
+    ║     npx playwright install                                 ║
+    ║                                                            ║
+    ║ <3 Playwright Team                                         ║
+    ╚════════════════════════════════════════════════════════════╝
+
+    Error Context: test-results\smoke-cross-browser-smoke--0845f--conversion-route-reachable-smoke-webkit-1440\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\smoke-cross-browser-smoke--0845f--conversion-route-reachable-smoke-webkit-1440\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\smoke-cross-browser-smoke--0845f--conversion-route-reachable-smoke-webkit-1440\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [smoke-webkit-1440] › e2e\smoke\cross-browser-smoke.spec.ts:17:3 › cross-browser smoke › renders the complete landing and hands off the intro shell 
+    [smoke-webkit-1440] › e2e\smoke\cross-browser-smoke.spec.ts:28:3 › cross-browser smoke › serves an inner page with the shared shell 
+    [smoke-webkit-1440] › e2e\smoke\cross-browser-smoke.spec.ts:35:3 › cross-browser smoke › keeps the primary conversion route reachable 
