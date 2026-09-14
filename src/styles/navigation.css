@@ -133,6 +133,7 @@
   padding-inline: var(--tl-s5);
   color: var(--tl-on-dark-faint);
   font: 500 9px/1 var(--tl-font-mono);
+  font-variant-numeric: tabular-nums;
   letter-spacing: .18em;
 }
 .tl-header-context span {

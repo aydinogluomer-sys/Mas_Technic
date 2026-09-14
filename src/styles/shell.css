@@ -1327,7 +1327,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
 
 .shell-table-scroll { overflow-x: auto; border: var(--tl-rule-size) solid var(--sf-rule); }
 .shell-table-scroll:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
-.shell-table table { width: 100%; border-collapse: collapse; }
+.shell-table table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .shell-table :is(th, td) {
   padding: var(--tl-s3) var(--tl-s4);
   border-bottom: var(--tl-rule-size) solid var(--sf-rule-soft);
@@ -1338,6 +1338,9 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   border-bottom-color: var(--sf-rule);
   color: var(--sf-meta);
   font: 600 9px/1.4 var(--tl-font-mono);
+  /* `font:` is a shorthand and resets `font-variant-numeric` to `normal`, so
+     the table-level declaration above does not reach this cell. Restated. */
+  font-variant-numeric: tabular-nums;
   letter-spacing: .12em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -2193,6 +2196,45 @@ body:has(.tl-footer:focus-within) [data-chat-launcher] {
   .shell-auth-panel { padding: var(--tl-s6) var(--tl-s4); }
   .shell-auth-social { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* ── PHASE 10-4 — THE NUMERIC REGISTER ────────────────────────────────────
+   Every surface where figures sit in a column or change under the eye takes
+   tabular numerals, declared ONCE here rather than element by element:
+
+     tables          `.shell-table table` (+ `thead th`, restated above)
+     measurement     `.shell-meta-row dd`, `.shell-detail-figures dd`
+     counters        title / sheet / step / plate / section / list numbers
+     in-place        `.shell-field-hint` (the "0/4" selection count),
+                     `.shell-index-meta > span` and `.shell-tags > li` (dates,
+                     read-time, sizes on register rows)
+
+   MEASURED (reports/10/probes/font-faces-before.md, "Numeric surfaces"): the
+   two proportional-figure faces behave differently. Space Grotesk ships
+   proportional figures by default — "1111" 66.9px against "0000" 102.6px at
+   40px — and `tnum` sets both to 99.2px. IBM Plex Mono is monospaced, so its
+   figures are tabular whatever the property says; it is listed here so the
+   register is complete and the DOM probe reads one value everywhere.
+
+   WHY THIS SITS AT THE END OF THE FILE. Nearly every counter above is set
+   with the `font:` shorthand, which resets `font-variant-numeric`; the
+   grouped rule ties those selectors on specificity and wins on order. A
+   `:is()` list would tie the same way; the position is the mechanism. */
+.shell-title-index,
+.shell-index-no,
+.shell-index-meta > span,
+.shell-run-no,
+.shell-plate-no,
+.shell-segment-code,
+.shell-doc-section-no,
+.shell-auth-list-no,
+.shell-contents a > span:first-child,
+.shell-lead-sections a > span:first-child,
+.shell-detail-figures dd,
+.shell-field-hint,
+.shell-tags > li,
+.shell-rail,
+.tl-band-index,
+.tl-meta-run span { font-variant-numeric: tabular-nums; }
 
 @media (prefers-reduced-motion: reduce) {
   .shell-action,

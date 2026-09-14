@@ -395,6 +395,16 @@
 .tl-rfq-body>ol strong{display:block;margin-top:7px;font:700 11px/1 var(--tl-font-mono);letter-spacing:.08em}
 .tl-rfq-body>ol span{display:block;margin-top:6px;color:var(--tl-ink-faint);font:500 9px/1.5 var(--tl-font-mono)}
 .tl-rfq-body>ol li::after{content:">";position:absolute;top:50%;right:var(--tl-s3);transform:translateY(-50%);color:#8b918e;font:400 16px/1 var(--tl-font-mono)}
+/* PHASE 10-4 — THE LANDING'S NUMERIC REGISTER. The shell's register (end of `shell.css`)
+   carries the band index, the meta run and every register row; this one carries the landing's
+   own figures — the step numbers, the FAQ indices, the RFQ step numerals — so a figure that
+   sits in a column or changes under the eye is tabular by ONE rule, not by a declaration on
+   each element. Tables (`.tl-nexus table`, `.tl-projects table`), the part passport, the
+   measurement labels, the proof strip and the nexus KPIs already declare it where they set
+   their own `font:` shorthand, which would otherwise reset it. This rule sits AFTER the
+   shorthands it ties with on specificity, so it wins on order; the header sheet count is in
+   `navigation.css` with its own shorthand and declares it there. */
+.tl-process li>span,.tl-faq summary span,.tl-rfq-body>ol b{font-variant-numeric:tabular-nums}
 .tl-rfq-body>ol li:last-child::after{display:none}
 
 
