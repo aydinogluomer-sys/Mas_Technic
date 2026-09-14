@@ -61,39 +61,122 @@ function walk(dir: string, out: string[] = []): string[] {
  * FAILS LOUD on any new site is worth more here than a precise one that has to
  * be argued about, because the failure mode being prevented is a site nobody
  * looked at.
+ *
+ * ── 09b-1 R2: THE WALK WAS COMPLETE AND THE CLASSIFIER WAS NOT ─────────────
+ * This guard passed, 2/2, on a tree where `qa-09b1-golden-drift.spec.ts` and
+ * `qa-09b1-type-slot-census.spec.ts` wrote into `reports/qa/phase-09b1/` on
+ * every ordinary run. It walked both files. It saw the `writeFileSync`. It
+ * then recognised a destination ONLY as `path.join(process.cwd(), "…")`, and
+ * those two specs spell theirs `const OUT = "reports/qa/phase-09b1"` with a
+ * template literal — so each contributed ZERO sites, and both assertions
+ * passed on the empty set. The comment above promised to fail loud on any new
+ * site; it went silent on two. Fourth instance of the class in this phase.
+ *
+ * The classifier now starts from the WRITE CALL and resolves its destination
+ * argument, rather than starting from one spelling of a path and hoping the
+ * write uses it:
+ *
+ *   1. the first argument of every write call is read;
+ *   2. a literal or template head rooted in the repository classifies it;
+ *      `path.join(process.cwd(), "root", …)` classifies it;
+ *   3. otherwise every identifier in the argument is resolved through its
+ *      `const` declaration, transitively, to a depth of three — which is the
+ *      `outFile → outDir → path.join(…)` shape the 09a-R4 specs use;
+ *   4. a write call whose destination cannot be classified by 1–3 is recorded
+ *      as `<unclassified write>`, UNGUARDED, and fails the first assertion.
+ *
+ * (4) is the half that was missing: an instrument that can return an empty
+ * result must be able to return a non-empty one, and a write it does not
+ * understand is not "no site" — it is the site nobody has looked at, which is
+ * the one this control exists to refuse. The third test below proves each
+ * branch on a fixture string, so the classifier cannot quietly lose a shape
+ * again.
  */
+const ROOT_LITERAL = /["'`]((?:reports|src|public|e2e|docs|scripts|supabase|test-results))\//g;
+const CWD_JOIN = /path\.join\(\s*process\.cwd\(\)\s*,\s*"([^"]+)"/g;
+const WRITE_HEAD = /\b(?:writeFileSync|appendFileSync|createWriteStream|renameSync|cpSync|copyFileSync|mkdtempSync|writeFile)\s*\(/g;
+
+/** The FIRST argument of a call whose "(" is at `open`, read with balanced
+ *  brackets and quotes so `path.join(process.cwd(), "reports", …)` comes back whole
+ *  instead of being cut at its first comma. Returns the text and its index. */
+function firstArg(src: string, open: number): { text: string; at: number } {
+  let depth = 0;
+  let quote: string | null = null;
+  for (let i = open + 1; i < src.length; i++) {
+    const c = src[i];
+    if (quote) { if (c === "\\") i++; else if (c === quote) quote = null; continue; }
+    if (c === '"' || c === "'" || c === "`") { quote = c; continue; }
+    if (c === "(" || c === "[" || c === "{") depth++;
+    else if (c === ")" || c === "]" || c === "}") { if (depth === 0) return { text: src.slice(open + 1, i), at: open + 1 }; depth--; }
+    else if (c === "," && depth === 0) return { text: src.slice(open + 1, i), at: open + 1 };
+  }
+  return { text: src.slice(open + 1), at: open + 1 };
+}
+
+function censusOf(source: string, rel: string): Site[] {
+  const sites: Site[] = [];
+  if (!WRITE_CALL.test(source)) return sites;
+  const seen = new Set<string>();
+  const push = (destination: string, guarded: boolean) => {
+    const key = `${destination}|${guarded}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+    sites.push({ file: rel, destination, guarded });
+  };
+  const guardedAt = (index: number) =>
+    /process\.env\.[A-Z0-9_]+/.test(source.slice(Math.max(0, index - 400), index));
+
+  /* Roots named by an expression TEXT, with the source index the expression
+     was found at (for the environment-gate lookback). */
+  const rootsIn = (expr: string, at: number): { root: string; at: number }[] => {
+    const out: { root: string; at: number }[] = [];
+    for (const m of expr.matchAll(ROOT_LITERAL)) out.push({ root: m[1], at: at + (m.index ?? 0) });
+    for (const m of expr.matchAll(CWD_JOIN)) out.push({ root: m[1], at: at + (m.index ?? 0) });
+    if (/\btmpdir\s*\(/.test(expr)) out.push({ root: "<os-tmpdir>", at });
+    return out;
+  };
+
+  /* `const NAME = <expr>;` — the declaration text and where it sits. */
+  const declOf = (name: string): { expr: string; at: number } | null => {
+    const m = new RegExp(String.raw`\bconst\s+${name}\s*=\s*([\s\S]*?);\s*\n`).exec(source);
+    return m ? { expr: m[1], at: m.index } : null;
+  };
+
+  const resolve = (expr: string, at: number, depth: number): { root: string; at: number }[] => {
+    const direct = rootsIn(expr, at);
+    if (direct.length || depth === 0) return direct;
+    const out: { root: string; at: number }[] = [];
+    for (const id of new Set(expr.match(/[A-Za-z_$][\w$]*/g) ?? [])) {
+      const d = declOf(id);
+      if (d) out.push(...resolve(d.expr, d.at, depth - 1));
+    }
+    return out;
+  };
+
+  for (const call of source.matchAll(WRITE_HEAD)) {
+    const { text, at } = firstArg(source, (call.index ?? 0) + call[0].length - 1);
+    const found = resolve(text, at, 3);
+    if (found.length === 0) { push("<unclassified write>", false); continue; }
+    for (const { root, at: where } of found) {
+      if (root === "<os-tmpdir>") { push(root, true); continue; }
+      if (!REPO_ROOTS.includes(root)) {
+        // `test-results` and anything else outside the repo-tracked roots is
+        // scratch; gitignored, and destroying it destroys nothing.
+        push(root, true);
+        continue;
+      }
+      push(root, guardedAt(where));
+    }
+  }
+  return sites;
+}
+
 function census(): Site[] {
   const sites: Site[] = [];
   for (const abs of walk(E2E_DIR)) {
     const source = readFileSync(abs, "utf8");
-    if (!WRITE_CALL.test(source)) continue;
     const rel = path.relative(process.cwd(), abs).replace(/\\/g, "/");
-
-    // `tmpdir()` is outside the repository entirely — the shape 09a-C4 moved
-    // the claims-gate probe to. Recorded as its own destination.
-    if (/\btmpdir\s*\(\s*\)/.test(source)) {
-      sites.push({ file: rel, destination: "<os-tmpdir>", guarded: true });
-    }
-
-    for (const m of source.matchAll(/path\.join\(\s*process\.cwd\(\)\s*,\s*"([^"]+)"/g)) {
-      const root = m[1];
-      /* A READ of a path is not a write of it. Three specs load
-         `reports/qa/phase-09a-r2/routes.json` as INPUT, and counting those as
-         write sites made this control fire on files that write nothing there —
-         a guard whose first act is a false positive is a guard people switch
-         off. Only `path.join` calls that are not the argument of a read are
-         censused. */
-      if (/read(?:File|dir)Sync\s*\(\s*$/.test(source.slice(0, m.index))) continue;
-      if (!REPO_ROOTS.includes(root)) {
-        // `test-results` and anything else outside the repo-tracked roots is
-        // scratch; gitignored, and destroying it destroys nothing.
-        sites.push({ file: rel, destination: root, guarded: true });
-        continue;
-      }
-      // Look back over the enclosing expression for an environment gate.
-      const region = source.slice(Math.max(0, m.index - 400), m.index);
-      sites.push({ file: rel, destination: root, guarded: /process\.env\.[A-Z0-9_]+/.test(region) });
-    }
+    sites.push(...censusOf(source, rel));
   }
   return sites.sort((a, b) => `${a.file}${a.destination}`.localeCompare(`${b.file}${b.destination}`));
 }

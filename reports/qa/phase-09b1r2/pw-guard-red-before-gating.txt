@@ -1,0 +1,108 @@
+(node:7236) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:328) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  1 [desktop-1280] › e2e\qa-p09a4-evidence-write-guard.spec.ts:208:3 › 09a-R4 — evidence writes › no spec in e2e/** writes into the repository without an explicit flag (103ms)
+(node:27708) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  2 [desktop-1280] › e2e\qa-p09a4-evidence-write-guard.spec.ts:218:3 › 09a-R4 — evidence writes › the set of write destinations is exactly the one that was reviewed (93ms)
+
+
+  1) [desktop-1280] › e2e\qa-p09a4-evidence-write-guard.spec.ts:208:3 › 09a-R4 — evidence writes › no spec in e2e/** writes into the repository without an explicit flag 
+
+    Error: a spec writes into a tracked directory on every ordinary run; committed evidence is a record of what was true on a date and must not be overwritten by a regression run
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  -  1[39m
+    [31m+ Received  + 12[39m
+
+    [32m- Array [][39m
+    [31m+ Array [[39m
+    [31m+   Object {[39m
+    [31m+     "destination": "reports",[39m
+    [31m+     "file": "e2e/qa-09b1-golden-drift.spec.ts",[39m
+    [31m+     "guarded": false,[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "destination": "reports",[39m
+    [31m+     "file": "e2e/qa-09b1-type-slot-census.spec.ts",[39m
+    [31m+     "guarded": false,[39m
+    [31m+   },[39m
+    [31m+ ][39m
+
+      213 |       "a spec writes into a tracked directory on every ordinary run; committed evidence " +
+      214 |         "is a record of what was true on a date and must not be overwritten by a regression run",
+    > 215 |     ).toEqual([]);
+          |       ^
+      216 |   });
+      217 |
+      218 |   test("the set of write destinations is exactly the one that was reviewed", () => {
+        at C:\Users\Trade Bilisim\precision-dynamics-hub-main\pdh-wt\qa-p09b1r2\e2e\qa-p09a4-evidence-write-guard.spec.ts:215:7
+
+    Error Context: test-results\qa-p09a4-evidence-write-gu-a9ee2-ry-without-an-explicit-flag-desktop-1280\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\qa-p09a4-evidence-write-gu-a9ee2-ry-without-an-explicit-flag-desktop-1280\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\qa-p09a4-evidence-write-gu-a9ee2-ry-without-an-explicit-flag-desktop-1280\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [desktop-1280] › e2e\qa-p09a4-evidence-write-guard.spec.ts:218:3 › 09a-R4 — evidence writes › the set of write destinations is exactly the one that was reviewed 
+
+    Error: a write site appeared or lost its flag; review it and update EXPECTED
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  -  0[39m
+    [31m+ Received  + 10[39m
+
+    [33m@@ -4,10 +4,20 @@[39m
+    [2m      "file": "e2e/landing/claims-gate.spec.ts",[22m
+    [2m      "guarded": true,[22m
+    [2m    },[22m
+    [2m    Object {[22m
+    [2m      "destination": "reports",[22m
+    [31m+     "file": "e2e/qa-09b1-golden-drift.spec.ts",[39m
+    [31m+     "guarded": false,[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "destination": "reports",[39m
+    [31m+     "file": "e2e/qa-09b1-type-slot-census.spec.ts",[39m
+    [31m+     "guarded": false,[39m
+    [31m+   },[39m
+    [31m+   Object {[39m
+    [31m+     "destination": "reports",[39m
+    [2m      "file": "e2e/qa-p09a2-claims-sweep.spec.ts",[22m
+    [2m      "guarded": true,[22m
+    [2m    },[22m
+    [2m    Object {[22m
+    [2m      "destination": "test-results",[22m
+
+      219 |     // A new destination is not necessarily wrong — it is un-reviewed, and this
+      220 |     // defect was found three times precisely because nobody reviewed it.
+    > 221 |     expect(census(), "a write site appeared or lost its flag; review it and update EXPECTED").toEqual(
+          |                                                                                               ^
+      222 |       EXPECTED,
+      223 |     );
+      224 |   });
+        at C:\Users\Trade Bilisim\precision-dynamics-hub-main\pdh-wt\qa-p09b1r2\e2e\qa-p09a4-evidence-write-guard.spec.ts:221:95
+
+    Error Context: test-results\qa-p09a4-evidence-write-gu-0f3a3-y-the-one-that-was-reviewed-desktop-1280\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\qa-p09a4-evidence-write-gu-0f3a3-y-the-one-that-was-reviewed-desktop-1280\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\qa-p09a4-evidence-write-gu-0f3a3-y-the-one-that-was-reviewed-desktop-1280\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop-1280] › e2e\qa-p09a4-evidence-write-guard.spec.ts:208:3 › 09a-R4 — evidence writes › no spec in e2e/** writes into the repository without an explicit flag 
+    [desktop-1280] › e2e\qa-p09a4-evidence-write-guard.spec.ts:218:3 › 09a-R4 — evidence writes › the set of write destinations is exactly the one that was reviewed 
