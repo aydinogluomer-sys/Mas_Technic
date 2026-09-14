@@ -25,14 +25,9 @@ import blogMalzeme960 from "@/assets/blog-malzeme-960.webp";
 import blogDfm from "@/assets/blog-dfm.webp";
 import blogDfm640 from "@/assets/blog-dfm-640.webp";
 import blogDfm960 from "@/assets/blog-dfm-960.webp";
-import serviceCncFreze from "@/assets/service-cnc-freze.webp";
-import serviceCncFreze640 from "@/assets/service-cnc-freze-640.webp";
 import qualityControl from "@/assets/quality-control.webp";
 import qualityControl640 from "@/assets/quality-control-640.webp";
 import qualityControl960 from "@/assets/quality-control-960.webp";
-import cncWorkshop from "@/assets/cnc-workshop.webp";
-import cncWorkshop640 from "@/assets/cnc-workshop-640.webp";
-import cncWorkshop960 from "@/assets/cnc-workshop-960.webp";
 
 /* ══════════════════════════════════════════════════════════════════════════
    TEKNİK GÜNLÜK — THE INDEX, AS A PUBLICATION FRONT PAGE
@@ -96,9 +91,7 @@ const plateSources = new Map<string, ResponsiveImage>([
   [blog5eksen, responsive(1600, 896, blog5eksen, [blog5eksen640, 640], [blog5eksen960, 960])],
   [blogMalzeme, responsive(1600, 896, blogMalzeme, [blogMalzeme640, 640], [blogMalzeme960, 960])],
   [blogDfm, responsive(1600, 896, blogDfm, [blogDfm640, 640], [blogDfm960, 960])],
-  [serviceCncFreze, responsive(800, 544, serviceCncFreze, [serviceCncFreze640, 640])],
   [qualityControl, responsive(1600, 682, qualityControl, [qualityControl640, 640], [qualityControl960, 960])],
-  [cncWorkshop, responsive(1600, 682, cncWorkshop, [cncWorkshop640, 640], [cncWorkshop960, 960])],
 ]);
 
 /* `.shell-plate-frame` image box (`src/styles/shell.css`): `clamp(200px, 33vw,

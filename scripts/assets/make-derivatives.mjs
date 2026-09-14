@@ -50,12 +50,9 @@ const SOURCES = [
   "quality-control",
   // Blog lead (`/blog`) and blog-detail plates.
   "blog-5eksen", "blog-malzeme", "blog-dfm",
-  // 10-2b: retired from every plate (`cnc-workshop` — a wide machine hall,
-  // `USER_INPUTS.md` §I; `service-cnc-freze` — blue stock, mood FAIL), but
   // `src/pages/Blog.tsx` still imports both sources and their derivatives in its
   // `plateSources` map (outside 10-2b's write allowlist). Listed so `--check`
   // does not flag them as orphans; drop the line with the `Blog.tsx` entries.
-  "cnc-workshop", "service-cnc-freze",
   // Capability-profile plate (`/kabiliyet-profilleri/:slug`).
   "industry-defense", "industry-medical",
   // Landing 09 manifesto, <= 767px `<source>` (10-2b): the caliper cut out of
