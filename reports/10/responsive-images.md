@@ -201,8 +201,9 @@ is not reachable from a public route yet; it is the primitive future plates shou
 | `npm run build` | exit 0 (built in 37–46 s; 82 derivative files in `dist/assets`) |
 | `node scripts/claims-gate.mjs` | PASS — 0 unverified claims across 32 rules, 303 controls green |
 | `img-probe.mjs` at 375/768/1280/1440 × DPR 1/2 over 12 routes, base and after | 85 + 170 + 170 rows; tables in §3.1 / §4 |
-| `npx playwright test --project=critical-1280` (preview-only on the built tree) | see the packet return |
-| `git rev-parse HEAD:e2e/__golden__` | unchanged — no golden touched |
+| `npx playwright test --project=critical-1280` (preview-only on the built tree) | **82 passed, 1 skipped** (`landing-grid-axes.spec.ts:133`, `test.skip(width >= 768)` — the mobile-rail contract, by design at 1280), exit 0 |
+| `npx playwright test --project=visual-1280` (extra signal, not required) | 39 passed, 2 failed — both `radius-census.spec.ts`. First run also listed `MaterialMorphScroll.tsx:228/357/359`: the new attributes had pushed the cited radius lines down; fixed in `f7874dd` by folding the attributes onto existing lines (file length unchanged). The remaining failure is `ChatBot.tsx:294` — pre-existing at `c2f0596` (`e2e/visual/radius-census.ts` cites 294, `docs/lean/17 §4` cites 332, line 294 is `addAssistantMsg(...)`); both files are outside this allowlist. No screenshot golden failed. |
+| `git rev-parse HEAD:e2e/__golden__` | `576c3a488f99d57e33edcb5f1fe5adfde52304a7` before and after — no golden moved |
 
 Probe method: `vite preview` of the production build; a Playwright script (local Chrome,
 `reducedMotion: reduce`) visits each route at each viewport/DPR, scrolls the document to
@@ -222,3 +223,5 @@ what the "resolves to" column prints.
 - Manifesto mobile art direction (portrait crop) — 10-2b; it also removes the 1186 px need at 375.
 - Landing hero `srcset` requires `imagesrcset`/`imagesizes` on the preload — Phase 12.
 - Sector cards / small tiles / mini-doc: a single smaller source each — asset-choice, 10-2b.
+- Found, not actioned: the radius register's `ChatBot.tsx:294` citation has drifted (the launcher is at 332); `e2e/visual/radius-census.ts` and `docs/lean/17` need the same one-line correction, by whoever owns them.
+- `src/components/BlurImage.tsx` now exports `responsive()` / `coverSizes()` beside the component; ESLint's `react-refresh/only-export-components` warns (2 warnings, 0 errors). A `src/lib/responsive-image.ts` home would silence it — a new file, outside this allowlist.
