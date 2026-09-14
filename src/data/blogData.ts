@@ -3,7 +3,7 @@ import blogMalzeme from "@/assets/blog-malzeme.webp";
 import blogDfm from "@/assets/blog-dfm.webp";
 import heroYuzeyIslemleri from "@/assets/hero-yuzey-islemleri.webp";
 import qualityControl from "@/assets/quality-control.webp";
-import serviceCncFreze from "@/assets/service-cnc-freze.webp";
+import heroCncFrezeleme from "@/assets/hero-cnc-frezeleme.webp";
 import { CMM_COVERAGE, MINIMUM_TOLERANCE, MINIMUM_TOLERANCE_COMPACT } from "@/content/claims";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -287,7 +287,7 @@ export const blogPosts: BlogPost[] = [
     date: "25 Aralık 2023",
     readTime: "7 dk okuma",
     category: "Teknik",
-    image: serviceCncFreze,
+    image: heroCncFrezeleme,
     imageAlt: "CNC freze tezgâhında işlenen prizmatik metal parça",
     imageCaption: "Prizmatik geometri: takım döner, parça sabit kalır",
     featured: false,

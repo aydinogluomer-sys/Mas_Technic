@@ -1096,7 +1096,7 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "Yüzey İşlemleri",
     title: "Kimyasal İşlemler",
-    heroImage: "hero-kimyasal-islemler",
+    heroImage: "hero-anodizasyon",
     metaTitle: "Kimyasal Yüzey İşlemleri | Pasivasyon & Fosfatlama | Mas Technic",
     metaDescription: "Endüstriyel yağ giderme, pasivasyon, fosfatlama ve elektropolish. ASTM B117 tuz spreyi ve ASTM A967 pasivasyon test yöntemleri ile doğrulama.",
     description:

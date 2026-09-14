@@ -60,9 +60,6 @@ import heroSilikonKaliplama960 from "@/assets/hero-silikon-kaliplama-960.webp";
 import heroMekanikYuzey from "@/assets/hero-mekanik-yuzey.webp";
 import heroMekanikYuzey640 from "@/assets/hero-mekanik-yuzey-640.webp";
 import heroMekanikYuzey960 from "@/assets/hero-mekanik-yuzey-960.webp";
-import heroKimyasalIslemler from "@/assets/hero-kimyasal-islemler.webp";
-import heroKimyasalIslemler640 from "@/assets/hero-kimyasal-islemler-640.webp";
-import heroKimyasalIslemler960 from "@/assets/hero-kimyasal-islemler-960.webp";
 import heroBoyaKaplama from "@/assets/hero-boya-kaplama.webp";
 import heroBoyaKaplama640 from "@/assets/hero-boya-kaplama-640.webp";
 import heroBoyaKaplama960 from "@/assets/hero-boya-kaplama-960.webp";
@@ -202,7 +199,6 @@ const heroImageMap: Record<string, ResponsiveImage> = {
   "hero-fikstur-aparat": responsive(1600, 896, heroFiksturAparat, [heroFiksturAparat640, 640], [heroFiksturAparat960, 960]),
   "hero-silikon-kaliplama": responsive(1600, 896, heroSilikonKaliplama, [heroSilikonKaliplama640, 640], [heroSilikonKaliplama960, 960]),
   "hero-mekanik-yuzey": responsive(1600, 896, heroMekanikYuzey, [heroMekanikYuzey640, 640], [heroMekanikYuzey960, 960]),
-  "hero-kimyasal-islemler": responsive(1600, 900, heroKimyasalIslemler, [heroKimyasalIslemler640, 640], [heroKimyasalIslemler960, 960]),
   "hero-boya-kaplama": responsive(1600, 896, heroBoyaKaplama, [heroBoyaKaplama640, 640], [heroBoyaKaplama960, 960]),
   "hero-tavlama": responsive(1600, 896, heroTavlama, [heroTavlama640, 640], [heroTavlama960, 960]),
   "hero-qr-datamatrix": responsive(1600, 896, heroQrDatamatrix, [heroQrDatamatrix640, 640], [heroQrDatamatrix960, 960]),
