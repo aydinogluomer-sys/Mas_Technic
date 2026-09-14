@@ -213,14 +213,15 @@ local Chrome as the Chromium executable, B08).
 
 | Command | Result |
 |---|---|
-| `npx tsc --noEmit -p tsconfig.app.json` after each step | exit 0 ×3 |
-| `npx tsc -b` (final tree) | exit 0 — no output (pasted in the packet return) |
+| `npx tsc --noEmit -p tsconfig.app.json` after each step | exit 0 ×4 |
+| `npx tsc -b` (final tree) | exit 0 — no output (pasted in the packet return; the `*.tsbuildinfo` it rewrote were restored, not committed) |
 | `npx eslint` on the seven edited TS/TSX files | exit 0 |
-| `npm run build` | exit 0, `✓ built in 38.20s` |
+| `npm run build` | exit 0, `✓ built in 38.20s` (first tree), `✓ built in 35.09s` (final tree) |
 | `node scripts/claims-gate.mjs` | `PASS — 0 unverified claims across 32 rules, 303 controls green` |
-| `npx vite preview --port 4194` + `PROBE_BASE=http://localhost:4194 node reports/10/probes/alt-probe.mjs` | `256 rows over 101 loads … failures: 0`, exit 0 |
-| `npx playwright test e2e/shared-shell-accessibility.spec.ts` (all 8 regression viewports, `PLAYWRIGHT_BASE_URL=http://localhost:4194`) | see packet return |
-| `npx playwright test --project=visual-375 --project=visual-768 --project=visual-1280 --project=visual-1440` against the unchanged goldens | see packet return |
+| `npx vite preview --port 4194` + `PROBE_BASE=http://localhost:4194 node reports/10/probes/alt-probe.mjs` | `256 rows over 101 loads … failures: 0`, exit 0 (three runs; the only run-to-run difference is the srcset candidate the browser picked for the manifesto, 2400 vs 1600) |
+| `npx playwright test e2e/shared-shell-accessibility.spec.ts` (all 8 regression viewports, `PLAYWRIGHT_BASE_URL=http://localhost:4194`) | **36 passed, 92 skipped**, exit 0 (2.8 min); skips are the spec's own single-lane guards |
+| `npx playwright test --project=visual-375 --project=visual-768 --project=visual-1280 --project=visual-1440` against the unchanged goldens, first tree | 145 passed, 18 skipped, **1 failed — not a screenshot**: `radius-census.spec.ts:108` reads `MaterialMorphScroll.tsx:228/357/359` by line number and my two comment blocks had pushed those lines down five rows. Fixed in `146ee7b` by folding the notes onto the `alt` lines (file back to 374 lines — the same fix 10-2a applied in `f7874dd`). Every `toHaveScreenshot` passed: **no golden moved** |
+| same four lanes, final tree | **146 passed, 18 skipped**, exit 0 (6.2 min) — the 10-2b baseline count exactly; `e2e/__golden__/**` untouched |
 | `git diff --check` before every commit | clean |
 
 ## 7. Handoff / not done here
