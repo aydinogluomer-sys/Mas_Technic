@@ -31,7 +31,7 @@ import heroEnjeksiyonKalibi from "@/assets/hero-enjeksiyon-kalibi.webp";
 import heroAnodizasyon from "@/assets/hero-anodizasyon.webp";
 import heroLazerKazima from "@/assets/hero-lazer-kazima.webp";
 import heroHavacilik from "@/assets/hero-havacilik.webp";
-import heroBasincliDokum from "@/assets/hero-basinçli-dokum.webp";
+import heroBasincliDokum from "@/assets/hero-basincli-dokum.webp";
 import heroFiksturAparat from "@/assets/hero-fikstur-aparat.webp";
 import heroSilikonKaliplama from "@/assets/hero-silikon-kaliplama.webp";
 import heroMekanikYuzey from "@/assets/hero-mekanik-yuzey.webp";
