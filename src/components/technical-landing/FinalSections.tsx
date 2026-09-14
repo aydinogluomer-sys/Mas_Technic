@@ -21,11 +21,17 @@ import { ReverseScrollSection } from "@/components/ReverseScrollSection";
 import { CAD_ACCEPT_ATTR, CAD_FORMAT_HINT, useCadHandoff } from "@/hooks/useCadHandoff";
 import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
 
+/* Intrinsic size per asset, measured from the file headers
+   (`reports/10/asset-inventory.md` §1; `industry-hydraulic` is the 10-2b
+   `crop=750:750:180:450`). One shared `1200×1200` literal was wrong for the
+   hydraulic card after that crop — the aspect (1:1) happened to stay exact,
+   which is why nothing moved, but the attribute is a statement about the
+   file and has to be true per file. */
 const sectors = [
-  ["HAVACILIK & UZAY", aerospace, "/endustriyel/havacilik-uzay"],
-  ["SAVUNMA SANAYİ", defense, "/endustriyel/savunma-sanayi"],
-  ["MEDİKAL", medical, "/endustriyel/medikal"],
-  ["ENERJİ & HİDROLİK", hydraulic, "/endustriyel/hidrolik-pnomatik"],
+  ["HAVACILIK & UZAY", aerospace, "/endustriyel/havacilik-uzay", 1200, 1200],
+  ["SAVUNMA SANAYİ", defense, "/endustriyel/savunma-sanayi", 1200, 1200],
+  ["MEDİKAL", medical, "/endustriyel/medikal", 1200, 1200],
+  ["ENERJİ & HİDROLİK", hydraulic, "/endustriyel/hidrolik-pnomatik", 750, 750],
 ] as const;
 
 const DRAFT_RFQ_ID = "RFQ-DRAFT-LANDING";
@@ -89,9 +95,9 @@ export function TechnicalSectors() {
   return (
     <TechnicalSectionFrame no="08" id="sektorler" label="SEKTÖRLER" className="tl-sectors" ariaLabel="Çalıştığımız sektörler">
       <div className="tl-sectors-body">
-        {sectors.map(([title, image, href]) => (
+        {sectors.map(([title, image, href, width, height]) => (
           <Link to={href} key={title} className="tl-sector-card">
-            <img src={image} alt="" width="1200" height="1200" loading="lazy" decoding="async" />
+            <img src={image} alt="" width={width} height={height} loading="lazy" decoding="async" />
             <div><h3>{title}</h3></div>
           </Link>
         ))}
@@ -114,11 +120,16 @@ export function MeasurementManifesto() {
               width={manifestoPortraitImage.width}
               height={manifestoPortraitImage.height}
             />
+            {/* PHASE 10-3 — `alt=""`. The picture is the band's ground: it
+                sits behind a 97%-opaque scrim under a headline whose whole
+                subject is measuring ("HASSASİYET İDDİA EDİLMEZ. ÖLÇÜLÜR."),
+                and a caliper on a pin is that sentence drawn, not new
+                information. The old alt said so a second time. */}
             <img
               src={manifestoImage.src}
               srcSet={manifestoImage.srcSet}
               sizes={MANIFESTO_SIZES}
-              alt="Kumpasla ölçülen hassas işlenmiş metal parça"
+              alt=""
               width={manifestoImage.width}
               height={manifestoImage.height}
               loading="lazy"
