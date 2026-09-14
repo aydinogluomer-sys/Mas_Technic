@@ -1913,7 +1913,7 @@ export const servicePages: ServicePageData[] = [
       "Her iş için kontrol planı, proses içi ara kontrol ve kontrol planına göre son kontrol. Akredite üçüncü taraf CMM ölçümü talebe bağlı. ISO 9001:2015.",
     description:
       "Kalite kontrol, üretimden sonra yapılan bir muayene değil, üretimden önce yazılan bir plandır. Hangi ölçünün nasıl ve hangi aşamada kontrol edileceği, parça tezgâha bağlanmadan belirlenir.",
-    heroImage: "hero-kalite-kontrol",
+    heroImage: "quality-control",
     content: [
       "Her iş için bir kontrol planı oluşturulur. Plan; teknik resimdeki hangi kotelerin kritik olduğunu, her birinin hangi yöntemle ve hangi aşamada kontrol edileceğini ve kontrolün hangi kaydı bırakacağını tanımlar. Bu plan teklif aşamasındaki teknik incelemenin çıktısıdır.",
       "Ara kontroller proses sırasında yapılır. Amaç, hatayı son kontrolde yakalamak değil, bir sonraki operasyona hatalı parça göndermemektir. İlk parça onayı, ısıl işlem gibi ölçü kaydıran adımların sonrası ve bağlama değişimleri, ara kontrolün doğal duraklarıdır.",
@@ -2114,7 +2114,7 @@ export const servicePages: ServicePageData[] = [
       "Design for Manufacturing (DFM/DFA) analizi ile tasarımlarınızı optimize edin. CNC ve enjeksiyon DFM kuralları, üretilebilirlik incelemesi, parça bazında maliyet kaldıraçları.",
     description:
       "DFM/DFA analizi ile tasarımlarınızı üretilebilirlik açısından optimize ediyoruz. Üretim maliyetlerini düşüren, kaliteyi artıran ve süreyi kısaltan mühendislik desteği.",
-    heroImage: "hero-dfm-tasarim",
+    heroImage: "blog-dfm",
     content: [
       "Design for Manufacturing (DFM) analiz sürecimiz 4 aşamadan oluşur: ilk inceleme ve DFM raporu taslağı, detaylı analiz ve optimizasyon önerileri, müşteri görüşmesi ve revize CAD modeli, final DFM raporu ve onay. Sürecin takvimi parçanın karmaşıklığına ve gelen dosyanın eksiksizliğine bağlıdır; teklifle birlikte verilir.",
       "CNC işleme DFM kurallarımız: İç köşe yarıçapı R > 0.5mm (sivri köşelerden kaçının), duvar kalınlığı > 0.8mm (çok ince duvarlardan kaçının), derinlik/çap oranı < 4:1 (çok derin deliklerden kaçının) ve standart boyut kullanımı (özel ölçülerden kaçının). Enjeksiyon kalıp DFM kurallarımız: Duvar kalınlığı 1.5-3mm, çekme payı 0.5-2°, köşe yarıçapı R > 0.5mm ve gate konumu kalın kesimden.",

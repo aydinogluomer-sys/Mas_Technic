@@ -44,7 +44,7 @@ const SOURCES = [
   "hero-basincli-dokum", "hero-fikstur-aparat", "hero-silikon-kaliplama", "hero-mekanik-yuzey",
   "hero-kimyasal-islemler", "hero-boya-kaplama", "hero-tavlama", "hero-qr-datamatrix",
   "hero-logo-markalama", "hero-insert-uygulama", "hero-mekanik-montaj", "hero-kitting-paketleme",
-  "hero-kaynakli-imalat", "hero-cnc", "hero-kalite-kontrol", "hero-dfm-tasarim",
+  "hero-kaynakli-imalat", "hero-cnc",
   "hero-yuzey-islemleri", "hero-tolerans-hassasiyet", "hero-malzeme-kutuphanesi", "hero-proje-yonetimi",
   "hero-tedarik-zinciri", "hero-operasyonel-verimlilik", "hero-seri-uretim",
   "quality-control",

@@ -90,12 +90,9 @@ import heroKaynakliImalat960 from "@/assets/hero-kaynakli-imalat-960.webp";
 import heroCnc from "@/assets/hero-cnc.webp";
 import heroCnc640 from "@/assets/hero-cnc-640.webp";
 import heroCnc960 from "@/assets/hero-cnc-960.webp";
-import heroKaliteKontrol from "@/assets/hero-kalite-kontrol.webp";
-import heroKaliteKontrol640 from "@/assets/hero-kalite-kontrol-640.webp";
-import heroKaliteKontrol960 from "@/assets/hero-kalite-kontrol-960.webp";
-import heroDfmTasarim from "@/assets/hero-dfm-tasarim.webp";
-import heroDfmTasarim640 from "@/assets/hero-dfm-tasarim-640.webp";
-import heroDfmTasarim960 from "@/assets/hero-dfm-tasarim-960.webp";
+import blogDfm from "@/assets/blog-dfm.webp";
+import blogDfm640 from "@/assets/blog-dfm-640.webp";
+import blogDfm960 from "@/assets/blog-dfm-960.webp";
 import heroYuzeyIslemleri from "@/assets/hero-yuzey-islemleri.webp";
 import heroYuzeyIslemleri640 from "@/assets/hero-yuzey-islemleri-640.webp";
 import heroYuzeyIslemleri960 from "@/assets/hero-yuzey-islemleri-960.webp";
@@ -211,18 +208,18 @@ const heroImageMap: Record<string, ResponsiveImage> = {
   "hero-qr-datamatrix": responsive(1600, 896, heroQrDatamatrix, [heroQrDatamatrix640, 640], [heroQrDatamatrix960, 960]),
   "hero-logo-markalama": responsive(1600, 896, heroLogoMarkalama, [heroLogoMarkalama640, 640], [heroLogoMarkalama960, 960]),
   "hero-insert-uygulama": responsive(1600, 896, heroInsertUygulama, [heroInsertUygulama640, 640], [heroInsertUygulama960, 960]),
-  "hero-mekanik-montaj": responsive(1600, 896, heroMekanikMontaj, [heroMekanikMontaj640, 640], [heroMekanikMontaj960, 960]),
+  "hero-mekanik-montaj": responsive(1400, 476, heroMekanikMontaj, [heroMekanikMontaj640, 640], [heroMekanikMontaj960, 960]),
   "hero-kitting-paketleme": responsive(1600, 896, heroKittingPaketleme, [heroKittingPaketleme640, 640], [heroKittingPaketleme960, 960]),
   "hero-kaynakli-imalat": responsive(1600, 896, heroKaynakliImalat, [heroKaynakliImalat640, 640], [heroKaynakliImalat960, 960]),
   "hero-cnc": responsive(1260, 708, heroCnc, [heroCnc640, 640], [heroCnc960, 960]),
-  "hero-kalite-kontrol": responsive(1600, 896, heroKaliteKontrol, [heroKaliteKontrol640, 640], [heroKaliteKontrol960, 960]),
-  "hero-dfm-tasarim": responsive(1600, 896, heroDfmTasarim, [heroDfmTasarim640, 640], [heroDfmTasarim960, 960]),
+  "quality-control": qualityControlHero,
+  "blog-dfm": responsive(1600, 896, blogDfm, [blogDfm640, 640], [blogDfm960, 960]),
   "hero-yuzey-islemleri": responsive(1600, 896, heroYuzeyIslemleri, [heroYuzeyIslemleri640, 640], [heroYuzeyIslemleri960, 960]),
   "hero-tolerans-hassasiyet": responsive(2400, 1343, heroToleransHassasiyet, [heroToleransHassasiyet640, 640], [heroToleransHassasiyet960, 960], [heroToleransHassasiyet1600, 1600]),
   "hero-malzeme-kutuphanesi": responsive(1600, 896, heroMalzemeKutuphanesi, [heroMalzemeKutuphanesi640, 640], [heroMalzemeKutuphanesi960, 960]),
   "hero-proje-yonetimi": responsive(1600, 896, heroProjeYonetimi, [heroProjeYonetimi640, 640], [heroProjeYonetimi960, 960]),
   "hero-tedarik-zinciri": responsive(1600, 896, heroTedarikZinciri, [heroTedarikZinciri640, 640], [heroTedarikZinciri960, 960]),
-  "hero-operasyonel-verimlilik": responsive(1600, 896, heroOperasyonelVerimlilik, [heroOperasyonelVerimlilik640, 640], [heroOperasyonelVerimlilik960, 960]),
+  "hero-operasyonel-verimlilik": responsive(1020, 574, heroOperasyonelVerimlilik, [heroOperasyonelVerimlilik640, 640], [heroOperasyonelVerimlilik960, 960]),
   "hero-seri-uretim": responsive(1600, 896, heroSeriUretim, [heroSeriUretim640, 640], [heroSeriUretim960, 960]),
 };
 
