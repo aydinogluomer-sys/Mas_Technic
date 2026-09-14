@@ -300,7 +300,7 @@ and stops there. The function does not answer:
 
 | step | where it is written |
 | --- | --- |
-| local FAQ first, no network on a match | `ChatBot.tsx:235-239` over the bundled `chatFaqData` |
+| local FAQ first, no network on a match | `ChatBot.tsx:291-295` over the bundled `chatFaqData` |
 | opt-in gate — typed `Evet` or the button | `:209`, `:384`; `:216` is the only call site of `callAi()` |
 | browser → the site's own function | `:71`, `:98` |
 | function → **Google Gemini** | `chat/index.ts:32` builds `generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent`, `:34` fetches it, `:22-30` remaps to `role`/`parts` |

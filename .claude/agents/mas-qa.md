@@ -2,7 +2,7 @@
 name: mas-qa
 description: Independently verifies one integrated MAS TECHNIC autonomous-plan phase against its acceptance criteria. Production code is read-only; QA may write only explicitly allowed test, fixture, golden, and report paths.
 tools: Read, Grep, Glob, Bash, PowerShell, Edit, Write, Skill
-model: inherit
+model: sonnet
 permissionMode: bypassPermissions
 isolation: worktree
 effort: high

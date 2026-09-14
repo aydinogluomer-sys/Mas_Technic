@@ -3343,3 +3343,17 @@ inert instruments are recorded rather than each fixed; the guard was the one thi
 **09b-3 dispatched** to `wt/coder-p09b3` at `2bfb160`, packet amended so **B1–B4 — the two 09b-2 blockers
 plus D-10 and D-13 — come first, each its own commit**, so the phase can close even if the audit and hardening
 return PARTIAL. One Coder dispatch instead of two, at the user's request for speed.
+
+### Phase 09 closed — PASS (2026-09-14, under the revised brief)
+
+Closed by the Orchestrator without a further QA round, per the 2026-09-14 brief.
+
+**Changed in closing:** `ScrollToTop.tsx` hash landing bound by `MutationObserver` + 8 s cap, not 90 frames; three rotted `ChatBot.tsx` citations in `docs/lean/17` and `18` corrected; `oauth-return.ts` reference renders only a recognised code (`KNOWN_REFERENCES`); `ResetPassword.tsx` no longer renders `error_description`, only a recognised `error_code`. Security audit written from the deployed state: `reports/09b3/security-audit.md`.
+
+**Verified by the Orchestrator:** `npx tsc -b` exit 0 · `claims-gate` PASS 32 rules / 303 controls · `critical-1280` 82 passed, 1 skipped.
+
+**Known issues carried (not fixed):** rate limiter undeployed (user decision); 50 MB is client-side only, bucket has no limit; filename in storage key; signup enumeration; `.tl-menu-trigger` 2.13:1; 17 golden crops under pixelmatch cutoff; `fonts.ts:169`; detector-D `SENTENCE_BREAK`; gate prose at `claims-gate.mjs:857-865`; Firefox/WebKit smoke unrun (browsers absent); Node 20 EOL in CI; 41 dead `metaDescription` fields.
+
+**User decisions 2026-09-14:** probe rows/objects — user deletes; rate limiter — not deployed; CATIA/SolidWorks/NX removal — approved. `mas-qa` model set to `sonnet` (authorised).
+
+**Skipped:** 09b-3 hardening items above; the stopped 09b-3 agent was not resumed.

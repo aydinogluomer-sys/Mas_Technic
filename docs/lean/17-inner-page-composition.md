@@ -134,7 +134,7 @@ afterwards, by looking up what the measurement had already found.
 | `step meter` | 20 | – | – | `9999px` | 375: 21×6 | `MaterialMorphScroll.tsx:228` |
 | `property-meter track` | – | 4 | 4 | `9999px` | 768: 238×4 · 1280: 238×4 | `MaterialMorphScroll.tsx:357` |
 | `property-meter fill` | – | 4 | 4 | `9999px` | 768: 143×4, 190×4, 238×4 · 1280: 143×4, 190×4, 238×4 | `MaterialMorphScroll.tsx:359` |
-| `chat launcher` | 6 | 6 | 6 | `9999px` | 375: 48×48 · 768: 56×56 · 1280: 56×56 | `ChatBot.tsx:294` |
+| `chat launcher` | 6 | 6 | 6 | `9999px` | 375: 48×48 · 768: 56×56 · 1280: 56×56 | `ChatBot.tsx:332` |
 | `cursor dot` | – | 6 | 6 | `50%` | 768: 6×6 · 1280: 6×6 | `CustomCursor.tsx:194-207` |
 | `cursor ring` | – | 6 | 6 | `50%` | 768: 44×44 · 1280: 44×44 | `CustomCursor.tsx:209-221` |
 
@@ -190,8 +190,8 @@ that used it to vouch for a DECLARATION had to be split in two.
 **Excluded, as a decision rather than a miss:** two further radius sites exist
 in the same components but paint in states this census does not enter — the
 `w-10 h-10 rounded-full` loading spinner at `MaterialMorphScroll.tsx:278`, and
-the avatar/chip radii inside the chat panel (`ChatBot.tsx:345, 357, 369, 395,
-428, 434` — six declarations, not the one range the earlier text implied), which
+the avatar/chip radii inside the chat panel (`ChatBot.tsx:383, 395, 407, 433,
+466, 472` — six declarations, not the one range the earlier text implied), which
 require the panel to be open. Neither is reachable at rest on any of the six
 routes; if a future phase makes either reachable at rest, it belongs in the
 table.

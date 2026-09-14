@@ -123,20 +123,14 @@
    `sifrenizi-yeniden-girin`, which QA rendered and which the filter now
    discards. Measured, every case, in `reports/09b1c2/oauth-notice.txt`.
 
-   TWO THINGS THAT SENTENCE DOES NOT SAY. Capitals are LOWERCASED, not
-   rejected: `#error_code=USER_BANNED` renders `user_banned`, because GoTrue's
-   vocabulary is case-insensitive in practice and rejecting a real code over
-   its case would lose a support reference. And digits survive inside a
-   segment, so a number can be present — it simply cannot be grouped or
-   punctuated into a phone number.
-
-   IT CAN STILL BE LOWERCASE WORDS JOINED BY UNDERSCORES, and no character
-   rule fixes that, because "is an instruction" is a property of meaning and
-   this is a filter over characters. That residue is stated rather than
-   claimed away. What actually carries the weight is one line above: the
-   site's own prose no longer varies with the code beyond a whitelist that
-   asserts nothing about the reader, so a token that reads as words sits next
-   to a `KOD:` label in mono and is contradicted by every sentence around it.
+   09b-3 CLOSED THE RESIDUE THE PARAGRAPH ABOVE ADMITTED. The character
+   filter is now only the first test; the second is membership in
+   `KNOWN_REFERENCES`. QA 09b-1 R2 rendered `hesabiniz_kapatildi`,
+   `sifrenizi_buraya_yazin` and `destek_05551234567` under `KOD:` — lowercase
+   words joined by underscores, and digits inside a segment, both of which the
+   shape admits. Neither is a code the app recognises, so neither renders now.
+   Capitals are still lowercased before the lookup, so `#error_code=USER_BANNED`
+   still yields the support reference `user_banned`.
 
    ── AND IT MUST BE ABOUT SOMETHING THAT JUST HAPPENED ────────────────────
    `PerformanceNavigationTiming.name` is immutable for the life of the
@@ -366,12 +360,30 @@ const FALLBACK = {
 const REFERENCE_SHAPE = /^[a-z][a-z0-9]*(?:_[a-z0-9]+){0,4}$/;
 const REFERENCE_MAX = 40;
 
-/** A server-supplied token, or `null` when it is not shaped like a reference. */
+/* 09b-3 (QA 09b-1 R2, D-10/D-11): a lexical shape is not enough. Any
+   `snake_case` string passes it, so `hesabiniz_kapatildi` and
+   `destek_05551234567` rendered under `KOD:` — attacker-chosen prose through
+   the reference slot that the `COPY` slot had already closed. The reference
+   is now a RECOGNISED code or nothing: the identifiers this file has copy
+   for, the four reader-asserting codes removed from `COPY` (still worth
+   surfacing to support), and the OAuth-level buckets GoTrue forwards. */
+const KNOWN_REFERENCES = new Set<string>([
+  ...COPY.keys(),
+  "user_banned",
+  "identity_already_exists",
+  "email_exists",
+  "provider_email_needs_verification",
+  "server_error",
+  "temporarily_unavailable",
+  "invalid_request",
+]);
+
+/** A server-supplied token the app recognises, or `null`. */
 function sanitiseReference(value: string | null): string | null {
   if (!value) return null;
   const cleaned = value.trim().toLowerCase();
   if (cleaned.length > REFERENCE_MAX || !REFERENCE_SHAPE.test(cleaned)) return null;
-  return cleaned;
+  return KNOWN_REFERENCES.has(cleaned) ? cleaned : null;
 }
 
 /** Query first, then fragment — the SDK's own precedence. */

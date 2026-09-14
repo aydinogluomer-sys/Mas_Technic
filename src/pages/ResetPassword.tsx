@@ -64,11 +64,27 @@ type Access = "checking" | "ready" | "expired" | "absent";
  * `?code=…`, and a link the server has already rejected as
  * `#error=…&error_code=…`. Read once, synchronously, before the first paint.
  */
+/* 09b-3 (QA 09b-1 R2, D-13): `error_description` is server prose an
+   unauthenticated third party can put in a link, and it was rendered
+   verbatim. The rule from `oauth-return.ts` applies: an attempt may be
+   reported as failed; the server's sentence is never shown on the strength
+   of a URL. Only a RECOGNISED `error_code` renders, as a support reference. */
+const KNOWN_RECOVERY_CODES = new Set([
+  "otp_expired",
+  "access_denied",
+  "invalid_request",
+  "flow_state_expired",
+  "flow_state_not_found",
+  "bad_code_verifier",
+  "validation_failed",
+]);
+
 function readUrlAuthParams() {
   if (typeof window === "undefined") return { hasToken: false, error: null as string | null };
   const raw = `${window.location.hash.replace(/^#/, "")}&${window.location.search.replace(/^\?/, "")}`;
   const params = new URLSearchParams(raw);
-  const error = params.get("error_description") ?? params.get("error_code") ?? params.get("error");
+  const code = (params.get("error_code") ?? params.get("error") ?? "").trim().toLowerCase();
+  const error = KNOWN_RECOVERY_CODES.has(code) ? code : null;
   const hasToken = ["access_token", "code", "token_hash", "refresh_token"].some((key) => params.has(key));
   return { hasToken, error };
 }
@@ -181,7 +197,7 @@ export const ResetPassword = () => {
             Bağlantılar tek kullanımlıktır ve bir süre sonra geçerliliğini yitirir. Yeni bir
             bağlantı isteyip yeniden deneyin.
           </p>
-          {urlState.error && <p className="shell-state-reason">{urlState.error}</p>}
+          {urlState.error && <p className="shell-state-reason">KOD: {urlState.error}</p>}
         </ShellNotice>
         <ShellAction to="/sifremi-unuttum" variant="primary" full>
           Yeni bağlantı iste

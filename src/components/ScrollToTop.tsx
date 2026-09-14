@@ -2,55 +2,35 @@ import { useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 /* ══════════════════════════════════════════════════════════════════════════
-   THE FRAGMENT OVERRIDE — PHASE 09b-2, ITEM 5
+   FRAGMENT-AWARE SCROLL RESET — PHASE 09b-2 ITEM 5, BOUND FIXED IN 09b-3
 
-   WHAT WAS WRONG
-   --------------
-   This component destructured only `pathname` and depended only on
-   `[pathname]`, then finished with
-   `requestAnimationFrame(() => window.scrollTo(0, 0))`. That last line runs
-   AFTER the browser's own fragment scroll, so it overrode it — on both entry
-   paths, measured in Phase 08 at 2115 px below a 900 px viewport: after an SPA
-   click and after a full navigation to a pasted URL.
+   Without a hash: reset to the top on every route change (the pre-09b-2
+   behaviour). With a hash: land on the clause it names, on both entry paths.
 
-   It broke the only cross-route hash link in the app, and that link is in a
-   privacy affordance: `ChatBot.tsx` renders
-   `/gizlilik-politikasi#sohbet-asistani` INSIDE the AI-consent block, so a
-   reader deciding whether to send their message to a third party clicked
-   "madde 06" and arrived at the top of a seven-clause document.
-
-   The damage reached further than the link. `KVKK.tsx`'s header records that
-   its cross-reference to `/gizlilik-politikasi` deliberately carries NO `#`
-   fragment "because `ScrollToTop.tsx` overrides native fragment scrolling" —
-   an accessibility and IA compromise taken to work around this file.
-
-   WHY IT NEEDS MORE THAN `[pathname, hash]`
-   -----------------------------------------
-   Restoring the browser's native behaviour is not enough for either path:
-
-     full navigation  the browser resolves the fragment at parse time. Routes
-                      are `lazy()` in `src/App.tsx`, so at that moment the
-                      clause element does not exist and the native scroll is a
-                      no-op. Nothing later re-tries it.
+     full navigation  routes are `lazy()`, so the clause element does not
+                      exist when the browser resolves the fragment; the
+                      native scroll is a no-op and nothing retries it.
      SPA click        react-router pushes history; the browser never performs
                       a fragment scroll for a pushState at all.
 
-   So the target is resolved on a bounded `requestAnimationFrame` poll that
-   stops the instant the element appears, and falls back to the top if it never
-   does — a hash naming nothing must not leave the reader at the previous
-   route's scroll offset.
+   The target is therefore awaited, not polled. A `MutationObserver` on
+   `document.body` lands the reader the moment the element appears, and a
+   wall-clock cap falls back to the top if it never does — a hash naming
+   nothing must not leave the reader at the previous route's offset.
 
-   AND IT MUST GO THROUGH LENIS WHEN LENIS IS RUNNING.
-   `SmoothScrollProvider` installs `window.__lenis` on desktop widths outside
-   `prefers-reduced-motion`, and it owns the scroll position: a native
-   `scrollIntoView()` under a running Lenis is corrected back on the next
-   frame. `{ immediate: true }` is deliberate — this is a navigation landing,
-   not a scroll gesture, so it must not animate, and it behaves identically
-   under reduced motion where Lenis is absent.
+   09b-3 replaced a 90-frame `requestAnimationFrame` poll: a frame count is a
+   clock in disguise, and at 4× CPU the lazy chunk had not rendered the target
+   before it ran out. The observer is bound by the event, not by time.
+
+   Lenis owns the scroll position on desktop outside `prefers-reduced-motion`
+   (`window.__lenis`), and a native `scrollIntoView()` under it is corrected
+   back on the next frame — so landings go through Lenis with
+   `{ immediate: true }`: a navigation landing, not a gesture.
    ══════════════════════════════════════════════════════════════════════════ */
 
-/** ~1.5 s at 60 Hz. Bounded: a hash that names nothing must not poll forever. */
-const HASH_SETTLE_FRAMES = 90;
+/** Wall-clock cap for a hash whose target never appears. Generous by design:
+ *  it is a fallback for a missing element, not a budget for a slow chunk. */
+const HASH_SETTLE_TIMEOUT_MS = 8000;
 
 export const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
@@ -70,35 +50,49 @@ export const ScrollToTop = () => {
       }
     };
 
-    let frame = 0;
     const targetId = hash ? decodeURIComponent(hash.slice(1)) : "";
 
     if (!targetId) {
       toTop();
-      frame = requestAnimationFrame(() => window.scrollTo(0, 0));
+      const frame = requestAnimationFrame(() => window.scrollTo(0, 0));
       return () => cancelAnimationFrame(frame);
     }
 
-    let frames = 0;
-    const settle = () => {
-      const target = document.getElementById(targetId);
-      if (target) {
-        if (window.__lenis) {
-          window.__lenis.scrollTo(target, { immediate: true });
-        } else {
-          target.scrollIntoView();
-        }
-        return;
+    const land = (target: HTMLElement) => {
+      if (window.__lenis) {
+        window.__lenis.scrollTo(target, { immediate: true });
+      } else {
+        target.scrollIntoView();
       }
-      frames += 1;
-      if (frames < HASH_SETTLE_FRAMES) {
-        frame = requestAnimationFrame(settle);
-        return;
-      }
-      toTop();
     };
-    frame = requestAnimationFrame(settle);
-    return () => cancelAnimationFrame(frame);
+
+    const tryLand = (): boolean => {
+      const target = document.getElementById(targetId);
+      if (!target) return false;
+      land(target);
+      return true;
+    };
+
+    if (tryLand()) return;
+
+    let observer: MutationObserver | null = null;
+    let timer = 0;
+    const cleanup = () => {
+      observer?.disconnect();
+      observer = null;
+      window.clearTimeout(timer);
+    };
+
+    observer = new MutationObserver(() => {
+      if (tryLand()) cleanup();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    timer = window.setTimeout(() => {
+      cleanup();
+      toTop();
+    }, HASH_SETTLE_TIMEOUT_MS);
+
+    return cleanup;
   }, [pathname, hash]);
 
   return null;
