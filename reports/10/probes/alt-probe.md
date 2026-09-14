@@ -15,7 +15,7 @@ Base `http://localhost:4194`; 101 page loads over 99 public routes (99 at 1280×
 | `/` | 1280 | img | industry-defense-CeliYO2F.webp | `""` | h3: SAVUNMA SANAYİ | — | 303×304 | no |
 | `/` | 1280 | img | industry-medical-BIVAP-Gq.webp | `""` | h3: MEDİKAL | — | 303×304 | no |
 | `/` | 1280 | img | industry-hydraulic-SQGcPZcZ.webp | `""` | h3: ENERJİ & HİDROLİK | — | 304×304 | no |
-| `/` | 1280 | img | hero-tolerans-hassasiyet-Wc62OP5H.webp | `""` | h2: HASSASİYETİDDİA EDİLMEZ.ÖLÇÜLÜR. | — | 1214×584 | no |
+| `/` | 1280 | img | hero-tolerans-hassasiyet-1600-BlYCWHmN.webp | `""` | h2: HASSASİYETİDDİA EDİLMEZ.ÖLÇÜLÜR. | — | 1214×584 | no |
 | `/` | 1280 | img | hero-manifold-v1-DjyYu6ON.webp | `""` | h3: ÖLÇÜM KAYDI | — | 56×56 | yes |
 | `/malzemeler` | 1280 | canvas[role=img] |  | Malzeme dönüşüm animasyonu | h2: Yüzey Mükemmelliği | — | 1214×800 | no |
 | `/blog` | 1280 | img | blog-5eksen-BwSIm3tw.webp | İş milindeki kesici takım, soğutma sıvısı altında parlak metal bir gövdenin eğik yüzeyini işlerken | h2: 5 Eksen CNC İşleme Avantajları | PLAKA 01Tek bağlamada birden fazla yüzeye erişen kesici takım | 403×538 | no |
