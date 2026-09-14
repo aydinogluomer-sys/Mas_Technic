@@ -22,9 +22,6 @@ import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
-import cncWorkshop from "@/assets/cnc-workshop.webp";
-import cncWorkshop640 from "@/assets/cnc-workshop-640.webp";
-import cncWorkshop960 from "@/assets/cnc-workshop-960.webp";
 import qualityControl from "@/assets/quality-control.webp";
 import qualityControl640 from "@/assets/quality-control-640.webp";
 import qualityControl960 from "@/assets/quality-control-960.webp";
@@ -90,9 +87,9 @@ import heroKittingPaketleme960 from "@/assets/hero-kitting-paketleme-960.webp";
 import heroKaynakliImalat from "@/assets/hero-kaynakli-imalat.webp";
 import heroKaynakliImalat640 from "@/assets/hero-kaynakli-imalat-640.webp";
 import heroKaynakliImalat960 from "@/assets/hero-kaynakli-imalat-960.webp";
-import heroMakineParkuru from "@/assets/hero-makine-parkuru.webp";
-import heroMakineParkuru640 from "@/assets/hero-makine-parkuru-640.webp";
-import heroMakineParkuru960 from "@/assets/hero-makine-parkuru-960.webp";
+import heroCnc from "@/assets/hero-cnc.webp";
+import heroCnc640 from "@/assets/hero-cnc-640.webp";
+import heroCnc960 from "@/assets/hero-cnc-960.webp";
 import heroKaliteKontrol from "@/assets/hero-kalite-kontrol.webp";
 import heroKaliteKontrol640 from "@/assets/hero-kalite-kontrol-640.webp";
 import heroKaliteKontrol960 from "@/assets/hero-kalite-kontrol-960.webp";
@@ -182,8 +179,17 @@ import heroSeriUretim960 from "@/assets/hero-seri-uretim-960.webp";
 
 /* Every plate source with its 640/960(/1600) ladder from
    `scripts/assets/make-derivatives.mjs`. `responsive()` keeps the source as the
-   widest candidate, so a 900-wide source (`hero-cnc-tornalama`) never upscales. */
-const cncWorkshopHero = responsive(1600, 682, cncWorkshop, [cncWorkshop640, 640], [cncWorkshop960, 960]);
+   widest candidate, so a 900-wide source (`hero-cnc-tornalama`) never upscales.
+
+   PHASE 10-2b — `USER_INPUTS.md` §I (`FACILITY_PHOTOS: NONE`, `MACHINE_PHOTOS:
+   NONE`, `TEAM_PHOTOS: NONE`, "never falsify the facility"): no plate may show a
+   hall or legible staff as MAS's own. `cnc-workshop` (a wide empty machine hall,
+   the fallback hero of every sector page) and `hero-makine-parkuru` (a hall with
+   rows of machining centres and people, under a page titled "Makine Parkuru")
+   are retired from this route; the sector fallback is `hero-seri-uretim` (rows
+   of identical parts on black, no room implied) and Makine Parkuru carries
+   `hero-cnc` (spindle and coolant, cropped so the operator is out of frame).
+   Mapping and crops: `reports/10/art-direction.md`. */
 const qualityControlHero = responsive(1600, 682, qualityControl, [qualityControl640, 640], [qualityControl960, 960]);
 
 const heroImageMap: Record<string, ResponsiveImage> = {
@@ -208,7 +214,7 @@ const heroImageMap: Record<string, ResponsiveImage> = {
   "hero-mekanik-montaj": responsive(1600, 896, heroMekanikMontaj, [heroMekanikMontaj640, 640], [heroMekanikMontaj960, 960]),
   "hero-kitting-paketleme": responsive(1600, 896, heroKittingPaketleme, [heroKittingPaketleme640, 640], [heroKittingPaketleme960, 960]),
   "hero-kaynakli-imalat": responsive(1600, 896, heroKaynakliImalat, [heroKaynakliImalat640, 640], [heroKaynakliImalat960, 960]),
-  "hero-makine-parkuru": responsive(1600, 896, heroMakineParkuru, [heroMakineParkuru640, 640], [heroMakineParkuru960, 960]),
+  "hero-cnc": responsive(1260, 708, heroCnc, [heroCnc640, 640], [heroCnc960, 960]),
   "hero-kalite-kontrol": responsive(1600, 896, heroKaliteKontrol, [heroKaliteKontrol640, 640], [heroKaliteKontrol960, 960]),
   "hero-dfm-tasarim": responsive(1600, 896, heroDfmTasarim, [heroDfmTasarim640, 640], [heroDfmTasarim960, 960]),
   "hero-yuzey-islemleri": responsive(1600, 896, heroYuzeyIslemleri, [heroYuzeyIslemleri640, 640], [heroYuzeyIslemleri960, 960]),
@@ -356,7 +362,7 @@ export const ServiceDetail = () => {
   const materialRows = page.materials ?? [];
   const heroImage = page.heroImage && heroImageMap[page.heroImage]
     ? heroImageMap[page.heroImage]
-    : page.category === "kabiliyetler" ? qualityControlHero : cncWorkshopHero;
+    : page.category === "kabiliyetler" ? qualityControlHero : heroImageMap["hero-seri-uretim"];
 
   /* Band numbers are assigned in render order, so a page without comparison
      tables does not leave a hole in the sheet numbering. JSX evaluates its

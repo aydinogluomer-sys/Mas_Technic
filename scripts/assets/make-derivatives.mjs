@@ -44,12 +44,17 @@ const SOURCES = [
   "hero-basincli-dokum", "hero-fikstur-aparat", "hero-silikon-kaliplama", "hero-mekanik-yuzey",
   "hero-kimyasal-islemler", "hero-boya-kaplama", "hero-tavlama", "hero-qr-datamatrix",
   "hero-logo-markalama", "hero-insert-uygulama", "hero-mekanik-montaj", "hero-kitting-paketleme",
-  "hero-kaynakli-imalat", "hero-makine-parkuru", "hero-kalite-kontrol", "hero-dfm-tasarim",
+  "hero-kaynakli-imalat", "hero-cnc", "hero-kalite-kontrol", "hero-dfm-tasarim",
   "hero-yuzey-islemleri", "hero-tolerans-hassasiyet", "hero-malzeme-kutuphanesi", "hero-proje-yonetimi",
   "hero-tedarik-zinciri", "hero-operasyonel-verimlilik", "hero-seri-uretim",
-  "cnc-workshop", "quality-control",
+  "quality-control",
   // Blog lead (`/blog`) and blog-detail plates.
   "blog-5eksen", "blog-malzeme", "blog-dfm", "service-cnc-freze",
+  // 10-2b: retired from every plate (`USER_INPUTS.md` §I — a wide machine hall),
+  // but `src/pages/Blog.tsx` still imports the source and both derivatives in its
+  // `plateSources` map (outside 10-2b's write allowlist). Listed so `--check`
+  // does not flag them as orphans; drop the line with the `Blog.tsx` entry.
+  "cnc-workshop",
   // Capability-profile plate (`/kabiliyet-profilleri/:slug`).
   "industry-defense", "industry-medical",
 ];

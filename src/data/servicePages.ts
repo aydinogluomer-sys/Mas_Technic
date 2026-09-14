@@ -1692,7 +1692,7 @@ export const servicePages: ServicePageData[] = [
       "5 eksen CNC frezeleme, C/Y eksenli tornalama, Swiss tornalama, derin delik işleme ve tel erozyon kabiliyetleri. Parça geometrisine göre proses seçimi.",
     description:
       "Bir parçanın hangi tezgâhta üretileceği, geometrisi ve tolerans zinciri tarafından belirlenir. Proses ailelerimiz, bu kararı parçanın gereksinimine göre verebilmek üzere birlikte planlanır.",
-    heroImage: "hero-makine-parkuru",
+    heroImage: "hero-cnc",
     content: [
       "Üretim planlaması bir tezgâh listesiyle değil, parçanın kendisiyle başlar. Bağlama sayısı, erişilmesi gereken yüzeyler, ölçü zinciri ve malzemenin davranışı; hangi proses ailesinin kullanılacağını ve hangi sırayla işleneceğini belirler.",
       "5 eksen simültane frezeleme, tek bağlamada birden fazla yüzeye erişim gerektiren geometrilerde kullanılır. Bağlama sayısını azaltmak yalnızca süreyi kısaltmaz; her yeni bağlama ölçü zincirine yeni bir hata kaynağı eklediği için doğrudan tolerans lehine çalışır.",

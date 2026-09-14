@@ -32,9 +32,9 @@ import serviceCncFreze640 from "@/assets/service-cnc-freze-640.webp";
 import qualityControl from "@/assets/quality-control.webp";
 import qualityControl640 from "@/assets/quality-control-640.webp";
 import qualityControl960 from "@/assets/quality-control-960.webp";
-import cncWorkshop from "@/assets/cnc-workshop.webp";
-import cncWorkshop640 from "@/assets/cnc-workshop-640.webp";
-import cncWorkshop960 from "@/assets/cnc-workshop-960.webp";
+import heroYuzeyIslemleri from "@/assets/hero-yuzey-islemleri.webp";
+import heroYuzeyIslemleri640 from "@/assets/hero-yuzey-islemleri-640.webp";
+import heroYuzeyIslemleri960 from "@/assets/hero-yuzey-islemleri-960.webp";
 
 /* ══════════════════════════════════════════════════════════════════════════
    ARTICLE
@@ -109,7 +109,11 @@ const plateSources = new Map<string, ResponsiveImage>([
   [blogDfm, responsive(1600, 896, blogDfm, [blogDfm640, 640], [blogDfm960, 960])],
   [serviceCncFreze, responsive(800, 544, serviceCncFreze, [serviceCncFreze640, 640])],
   [qualityControl, responsive(1600, 682, qualityControl, [qualityControl640, 640], [qualityControl960, 960])],
-  [cncWorkshop, responsive(1600, 682, cncWorkshop, [cncWorkshop640, 640], [cncWorkshop960, 960])],
+  /* 10-2b: the surface-treatment guide no longer opens on `cnc-workshop` (a wide
+     machine hall — a facility implication `USER_INPUTS.md` §I forbids, and a
+     picture its own caption "dört farklı yüzey bitişi" did not describe); it
+     opens on the bead-blasted / brushed macro the caption is about. */
+  [heroYuzeyIslemleri, responsive(1600, 896, heroYuzeyIslemleri, [heroYuzeyIslemleri640, 640], [heroYuzeyIslemleri960, 960])],
 ]);
 
 /* `.shell-plate-frame` image box (`src/styles/shell.css`): `clamp(200px, 33vw,

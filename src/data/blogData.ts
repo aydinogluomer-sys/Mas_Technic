@@ -1,7 +1,7 @@
 import blog5eksen from "@/assets/blog-5eksen.webp";
 import blogMalzeme from "@/assets/blog-malzeme.webp";
 import blogDfm from "@/assets/blog-dfm.webp";
-import cncWorkshop from "@/assets/cnc-workshop.webp";
+import heroYuzeyIslemleri from "@/assets/hero-yuzey-islemleri.webp";
 import qualityControl from "@/assets/quality-control.webp";
 import serviceCncFreze from "@/assets/service-cnc-freze.webp";
 import { CMM_COVERAGE, MINIMUM_TOLERANCE, MINIMUM_TOLERANCE_COMPACT } from "@/content/claims";
@@ -397,7 +397,7 @@ export const blogPosts: BlogPost[] = [
     date: "10 Aralık 2023",
     readTime: "12 dk okuma",
     category: "Rehber",
-    image: cncWorkshop,
+    image: heroYuzeyIslemleri,
     imageAlt: "Farklı yüzey işlemleri uygulanmış metal parçaların bir arada görünümü",
     imageCaption: "Aynı alaşımda dört farklı yüzey bitişi",
     featured: false,
