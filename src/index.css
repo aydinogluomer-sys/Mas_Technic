@@ -411,6 +411,11 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    /* PHASE 10-4 — the token stack, so text outside `.tl-root`/`.shell-root`
+       (the page loader, the header before the shell mounts) falls back through
+       the metric-matched face too. The second value is the same stack
+       written out, for a route that has not loaded `design-tokens.css`. */
+    font-family: var(--tl-font-sans, "Space Grotesk", system-ui, sans-serif);
     overflow-x: clip;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;

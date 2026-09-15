@@ -43,9 +43,13 @@
        mono  — technical data: labels, measurements, codes, tables, units,
                indexes, metadata. Never body copy.
      ---------------------------------------------------------------------- */
-  --tl-font-sans: "Space Grotesk", system-ui, sans-serif;
-  --tl-font-serif: "Newsreader", Georgia, "Times New Roman", serif;
-  --tl-font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  /* PHASE 10-4 — each stack names its metric-matched fallback face second
+     (declared below), so the `display=swap` flash is set in a local font
+     scaled and re-metricated to the webfont's advance and vertical metrics,
+     and the swap moves the text as little as the two designs allow. */
+  --tl-font-sans: "Space Grotesk", "Space Grotesk Fallback", system-ui, sans-serif;
+  --tl-font-serif: "Newsreader", "Newsreader Fallback", Georgia, "Times New Roman", serif;
+  --tl-font-mono: "IBM Plex Mono", "IBM Plex Mono Fallback", ui-monospace, monospace;
 
   /* ── SURFACES ───────────────────────────────────────────────────────────
      Graphite/charcoal field, warm technical-paper evidence bands.
@@ -220,6 +224,69 @@
   --tl-dur-short: .35s;
   --tl-in: .62s;
   --tl-step: 65ms;
+}
+
+/* ── PHASE 10-4 — METRIC-MATCHED FALLBACK FACES ─────────────────────────────
+   Three `@font-face` rules over local system fonts, each carrying
+   `size-adjust`, `ascent-override`, `descent-override` and `line-gap-override`
+   computed from the REAL font files by `scripts/fonts/metrics.mjs` (a small
+   WOFF2/sfnt table reader — no package; `reports/10/probes/font-metrics.json`
+   is its output). The fallback is what paints during the `display=swap`
+   window; matched, the swap moves the text by the residual design difference
+   and not by the difference in em-box and average advance.
+
+   HOW EACH NUMBER IS DERIVED
+     size-adjust        avg advance(webfont) / avg advance(fallback), both in
+                        em, over a TURKISH letter-frequency table plus the
+                        space — the site's text is Turkish, and an English
+                        table would weight `w x q` that Turkish barely uses.
+     ascent-override    hhea.ascender  / unitsPerEm / size-adjust
+     descent-override   |hhea.descender| / unitsPerEm / size-adjust
+     line-gap-override  hhea.lineGap   / unitsPerEm / size-adjust
+   (every one of the three webfonts sets USE_TYPO_METRICS with typo == hhea,
+   so hhea is the box every engine agrees on.)
+
+   WHICH LOCAL FACES, AND WHY ONE EACH
+     Arial / Georgia / Courier New are on Windows and macOS, and Linux ships
+     Liberation Sans/Serif/Mono as their metric-compatible twins, so the same
+     four numbers are right on all three. `system-ui` would be Segoe UI here
+     and SF there — two faces, two sets of metrics, one declaration; a single
+     named face is the only way the arithmetic holds.
+
+   MEASURED (reports/10/probes/font-swap-before.md → font-swap-after.md, the
+   packet's before/after): see `reports/10/typography.md` §4 for the numbers.
+   ────────────────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: "Space Grotesk Fallback";
+  src: local("Arial"), local("Liberation Sans");
+  /* Space Grotesk 400: upm 1000, hhea 984/−292/0, avg advance .4733em ·
+     Arial: upm 2048, hhea 1854/−434/67, avg advance .4405em */
+  size-adjust: 107.44%;
+  ascent-override: 91.59%;
+  descent-override: 27.18%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Newsreader Fallback";
+  src: local("Georgia"), local("Liberation Serif");
+  /* Newsreader 400 (opsz var): upm 2000, hhea 1470/−530/0, avg advance
+     .4024em · Georgia: upm 2048, hhea 1878/−449/0, avg advance .4412em */
+  size-adjust: 91.22%;
+  ascent-override: 80.57%;
+  descent-override: 29.05%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "IBM Plex Mono Fallback";
+  src: local("Courier New"), local("Liberation Mono");
+  /* IBM Plex Mono 400: upm 1000, hhea 1025/−275/0, advance .600em ·
+     Courier New: upm 2048, hhea 1705/−615/0, advance .6001em — the advance
+     already matches; the overrides fix the em-box, which is 1.13em tall in
+     Courier New and 1.30em in Plex Mono */
+  size-adjust: 99.98%;
+  ascent-override: 102.52%;
+  descent-override: 27.50%;
+  line-gap-override: 0%;
 }
 
 /* Tablet — six master columns. The rail narrows but stays continuous. */
