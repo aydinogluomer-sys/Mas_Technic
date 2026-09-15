@@ -110,8 +110,9 @@ for (const lane of LANES) for (const route of ROUTES) {
   const geo = {};
   for (const mode of ["blocked", "loaded"]) {
     const { ctx, page } = await newPage(lane, mode);
-    await page.goto(base + route, { waitUntil: "networkidle" });
-    await page.evaluate(async () => { await document.fonts.ready; await new Promise((r) => setTimeout(r, 400)); });
+    await page.goto(base + route, { waitUntil: "load", timeout: 60_000 });
+    await page.waitForLoadState("networkidle", { timeout: 15_000 }).catch(() => {});
+    await page.evaluate(async () => { await document.fonts.ready; await new Promise((r) => setTimeout(r, 600)); });
     geo[mode] = await page.evaluate(readGeometry);
     if (mode === "loaded") geo.overlay = await page.evaluate(readOverlay, [
       { web: "Space Grotesk", fallback: `"Space Grotesk Fallback", Arial`, weight: 400 },
@@ -141,7 +142,8 @@ for (const lane of LANES) for (const route of ROUTES) {
   const cls = {};
   for (const mode of ["blocked", "held"]) {
     const { ctx, page } = await newPage(lane, mode);
-    await page.goto(base + route, { waitUntil: "networkidle" });
+    await page.goto(base + route, { waitUntil: "load", timeout: 60_000 });
+    await page.waitForLoadState("networkidle", { timeout: 15_000 }).catch(() => {});
     await page.waitForTimeout(HOLD_MS + 800);
     await page.evaluate(async () => { await document.fonts.ready; });
     cls[mode] = await page.evaluate(() => ({ cls: Math.round(window.__cls * 10000) / 10000, entries: window.__clsEntries, fontsLoaded: Array.from(document.fonts).filter((f) => f.status === "loaded").length }));
