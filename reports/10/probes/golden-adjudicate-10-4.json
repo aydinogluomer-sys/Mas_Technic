@@ -1,0 +1,1803 @@
+[
+ {
+  "golden": "inner-hero-service-detail",
+  "project": "visual-1280",
+  "route": "/hizmetler/cnc-frezeleme",
+  "selector": ".shell-hero",
+  "differingPixels": 651,
+  "imageSize": [
+   1278,
+   389
+  ],
+  "dpr": 1,
+  "captureHeight": 387,
+  "changedElements": 1,
+  "firstReflow": "p.shell-lede [pretty] @179",
+  "bands": [
+   {
+    "cssRows": [
+     236,
+     246
+    ],
+    "pixels": 170,
+    "hits": [
+     "p.shell-lede [pretty] “5 eksenli CNC frezeleme merkezlerimiz il”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     260,
+     273
+    ],
+    "pixels": 481,
+    "hits": [
+     "p.shell-lede [pretty] “5 eksenli CNC frezeleme merkezlerimiz il”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "inner-hero-service-detail",
+  "project": "visual-1440",
+  "route": "/hizmetler/cnc-frezeleme",
+  "selector": ".shell-hero",
+  "differingPixels": 650,
+  "imageSize": [
+   1438,
+   394
+  ],
+  "dpr": 1,
+  "captureHeight": 393,
+  "changedElements": 1,
+  "firstReflow": "p.shell-lede [pretty] @185",
+  "bands": [
+   {
+    "cssRows": [
+     241,
+     251
+    ],
+    "pixels": 170,
+    "hits": [
+     "p.shell-lede [pretty] “5 eksenli CNC frezeleme merkezlerimiz il”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     266,
+     279
+    ],
+    "pixels": 480,
+    "hits": [
+     "p.shell-lede [pretty] “5 eksenli CNC frezeleme merkezlerimiz il”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "inner-hero-service-detail",
+  "project": "visual-768",
+  "route": "/hizmetler/cnc-frezeleme",
+  "selector": ".shell-hero",
+  "differingPixels": 658,
+  "imageSize": [
+   766,
+   450
+  ],
+  "dpr": 1,
+  "captureHeight": 449,
+  "changedElements": 1,
+  "firstReflow": "p.shell-lede [pretty] @165",
+  "bands": [
+   {
+    "cssRows": [
+     222,
+     232
+    ],
+    "pixels": 173,
+    "hits": [
+     "p.shell-lede [pretty] “5 eksenli CNC frezeleme merkezlerimiz il”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     246,
+     259
+    ],
+    "pixels": 485,
+    "hits": [
+     "p.shell-lede [pretty] “5 eksenli CNC frezeleme merkezlerimiz il”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "inner-hero-service-category",
+  "project": "visual-375",
+  "route": "/hizmetler/kategori/talasli-imalat",
+  "selector": ".shell-hero",
+  "differingPixels": 1540,
+  "imageSize": [
+   375,
+   526
+  ],
+  "dpr": 1,
+  "captureHeight": 525,
+  "changedElements": 1,
+  "firstReflow": "p.shell-lede [pretty] @165",
+  "bands": [
+   {
+    "cssRows": [
+     172,
+     182
+    ],
+    "pixels": 85,
+    "hits": [
+     "p.shell-lede [pretty] “CNC frezeleme, tornalama ve hassas mikro”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     197,
+     210
+    ],
+    "pixels": 1072,
+    "hits": [
+     "p.shell-lede [pretty] “CNC frezeleme, tornalama ve hassas mikro”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     222,
+     235
+    ],
+    "pixels": 383,
+    "hits": [
+     "p.shell-lede [pretty] “CNC frezeleme, tornalama ve hassas mikro”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "inner-hero-contact",
+  "project": "visual-375",
+  "route": "/iletisim",
+  "selector": ".shell-hero",
+  "differingPixels": 1539,
+  "imageSize": [
+   375,
+   545
+  ],
+  "dpr": 1,
+  "captureHeight": 544,
+  "changedElements": 1,
+  "firstReflow": "p.shell-lede [pretty] @125",
+  "bands": [
+   {
+    "cssRows": [
+     157,
+     170
+    ],
+    "pixels": 61,
+    "hits": [
+     "p.shell-lede [pretty] “Teknik resminizi göndermek, bir görüşme ”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     182,
+     195
+    ],
+    "pixels": 1219,
+    "hits": [
+     "p.shell-lede [pretty] “Teknik resminizi göndermek, bir görüşme ”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     206,
+     219
+    ],
+    "pixels": 259,
+    "hits": [
+     "p.shell-lede [pretty] “Teknik resminizi göndermek, bir görüşme ”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "inner-hero-sector-detail",
+  "project": "visual-375",
+  "route": "/endustriyel/havacilik-uzay",
+  "selector": ".shell-hero",
+  "differingPixels": 498,
+  "imageSize": [
+   375,
+   614
+  ],
+  "dpr": 1,
+  "captureHeight": 613,
+  "changedElements": 1,
+  "firstReflow": "p.shell-lede [pretty] @187",
+  "bands": [
+   {
+    "cssRows": [
+     268,
+     278
+    ],
+    "pixels": 196,
+    "hits": [
+     "p.shell-lede [pretty] “Havacılık ve uzay sanayi için motor bile”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     293,
+     303
+    ],
+    "pixels": 302,
+    "hits": [
+     "p.shell-lede [pretty] “Havacılık ve uzay sanayi için motor bile”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "landing-fullpage",
+  "project": "visual-1280",
+  "route": "/",
+  "selector": "html",
+  "differingPixels": 7504,
+  "imageSize": [
+   1280,
+   3918
+  ],
+  "dpr": 1,
+  "captureHeight": 3918,
+  "changedElements": 40,
+  "firstReflow": "h1 [balance] @141",
+  "bands": [
+   {
+    "cssRows": [
+     291,
+     298
+    ],
+    "pixels": 39,
+    "hits": [
+     "p [pretty] “MAS TECHNIC, 5 eksen CNC teknolojileri v”",
+     "b [tabular] “72.000”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     313,
+     327
+    ],
+    "pixels": 1097,
+    "hits": [
+     "p [pretty] “MAS TECHNIC, 5 eksen CNC teknolojileri v”",
+     "b [tabular] “72.000”",
+     "b [tabular] “±0.010”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     338,
+     352
+    ],
+    "pixels": 1160,
+    "hits": [
+     "p [pretty] “MAS TECHNIC, 5 eksen CNC teknolojileri v”",
+     "b [tabular] “±0.010”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     364,
+     378
+    ],
+    "pixels": 514,
+    "hits": [
+     "p [pretty] “MAS TECHNIC, 5 eksen CNC teknolojileri v”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     805,
+     834
+    ],
+    "pixels": 1257,
+    "hits": [
+     "h2 [newsreader,balance] “Karardan parçaya,”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     1134,
+     1138
+    ],
+    "pixels": 54,
+    "hits": [
+     "li [symbol(::after)] “[generated] →”",
+     "li [symbol(::after)] “[generated] →”",
+     "li [symbol(::after)] “[generated] →”",
+     "li [symbol(::after)] “[generated] →”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     1247,
+     1278
+    ],
+    "pixels": 782,
+    "hits": [
+     "h2 [newsreader,balance] “Üretiminiz,”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     3253,
+     3280
+    ],
+    "pixels": 1159,
+    "hits": [
+     "h2.tl-faq-title [newsreader,balance] “Üretime geçmeden önce,”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     3516,
+     3545
+    ],
+    "pixels": 1442,
+    "hits": [
+     "p [pretty] “Termin; malzeme tedariki, operasyon sayı”",
+     "h2 [newsreader,balance] “Bir sonraki parçanız”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "landing-fullpage",
+  "project": "visual-1440",
+  "route": "/",
+  "selector": "html",
+  "differingPixels": 5911,
+  "imageSize": [
+   1440,
+   3973
+  ],
+  "dpr": 1,
+  "captureHeight": 3973,
+  "changedElements": 40,
+  "firstReflow": "h1 [balance] @146",
+  "bands": [
+   {
+    "cssRows": [
+     804,
+     838
+    ],
+    "pixels": 1461,
+    "hits": [
+     "h2 [newsreader,balance] “Karardan parçaya,”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     1134,
+     1138
+    ],
+    "pixels": 54,
+    "hits": [
+     "li [symbol(::after)] “[generated] →”",
+     "li [symbol(::after)] “[generated] →”",
+     "li [symbol(::after)] “[generated] →”",
+     "li [symbol(::after)] “[generated] →”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     1247,
+     1281
+    ],
+    "pixels": 956,
+    "hits": [
+     "h2 [newsreader,balance] “Üretiminiz,”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     3018,
+     3038
+    ],
+    "pixels": 507,
+    "hits": [
+     "small [balance] “KALİTE DOSYASI”",
+     "p [pretty] “İŞ SAĞLIĞI VE GÜVENLİĞİ YÖNETİM SİSTEMİ”",
+     "p [pretty] “Kalite politikası · Ölçüm ekipmanları · ”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     3301,
+     3332
+    ],
+    "pixels": 1379,
+    "hits": [
+     "h2.tl-faq-title [newsreader,balance] “Üretime geçmeden önce,”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     3567,
+     3600
+    ],
+    "pixels": 1554,
+    "hits": [
+     "p [pretty] “Termin; malzeme tedariki, operasyon sayı”",
+     "h2 [newsreader,balance] “Bir sonraki parçanız”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "landing-fullpage",
+  "project": "visual-375",
+  "route": "/",
+  "selector": "html",
+  "differingPixels": 5604,
+  "imageSize": [
+   375,
+   8830
+  ],
+  "dpr": 1,
+  "captureHeight": 8830,
+  "changedElements": 36,
+  "firstReflow": "h1 [balance] @112",
+  "bands": [
+   {
+    "cssRows": [
+     1411,
+     1435
+    ],
+    "pixels": 911,
+    "hits": [
+     "h2 [newsreader,balance] “Karardan parçaya,”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     2368,
+     2393
+    ],
+    "pixels": 585,
+    "hits": [
+     "h2 [newsreader,balance] “Üretiminiz,”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     2688,
+     2692
+    ],
+    "pixels": 123,
+    "hits": [
+     "div.tl-scroll-cue [symbol IBM Plex Mono SemiBold] “TABLOYU YATAY KAYDIR →”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     3203,
+     3230
+    ],
+    "pixels": 724,
+    "hits": [
+     "h3 [balance] “İNCE CİDARLI GÖVDE —”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     3655,
+     3682
+    ],
+    "pixels": 452,
+    "hits": [
+     "h3 [balance] “TİTANYUM BAĞLANTI PARÇASI —”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     5854,
+     5864
+    ],
+    "pixels": 216,
+    "hits": [
+     "p [pretty] “Ölçer, kaydeder, raporlar ve teslim eder”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     5878,
+     5888
+    ],
+    "pixels": 500,
+    "hits": [
+     "p [pretty] “Ölçer, kaydeder, raporlar ve teslim eder”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     7079,
+     7106
+    ],
+    "pixels": 1081,
+    "hits": [
+     "h2.tl-faq-title [newsreader,balance] “Üretime geçmeden önce,”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     7553,
+     7577
+    ],
+    "pixels": 1012,
+    "hits": [
+     "h2 [newsreader,balance] “Bir sonraki parçanız”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "landing-fullpage",
+  "project": "visual-768",
+  "route": "/",
+  "selector": "html",
+  "differingPixels": 8082,
+  "imageSize": [
+   768,
+   6167
+  ],
+  "dpr": 1,
+  "captureHeight": 6167,
+  "changedElements": 39,
+  "firstReflow": "h1 [balance] @182",
+  "bands": [
+   {
+    "cssRows": [
+     321,
+     327
+    ],
+    "pixels": 41,
+    "hits": [
+     "p [pretty] “MAS TECHNIC, 5 eksen CNC teknolojileri v”",
+     "b [tabular] “72.000”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     341,
+     353
+    ],
+    "pixels": 952,
+    "hits": [
+     "p [pretty] “MAS TECHNIC, 5 eksen CNC teknolojileri v”",
+     "b [tabular] “72.000”",
+     "b [tabular] “±0.010”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     363,
+     375
+    ],
+    "pixels": 983,
+    "hits": [
+     "p [pretty] “MAS TECHNIC, 5 eksen CNC teknolojileri v”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     386,
+     398
+    ],
+    "pixels": 447,
+    "hits": [
+     "p [pretty] “MAS TECHNIC, 5 eksen CNC teknolojileri v”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     1081,
+     1105
+    ],
+    "pixels": 911,
+    "hits": [
+     "h2 [newsreader,balance] “Karardan parçaya,”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     1411,
+     1415
+    ],
+    "pixels": 18,
+    "hits": [
+     "li [symbol(::after)] “[generated] →”",
+     "li [symbol(::after)] “[generated] →”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     1548,
+     1552
+    ],
+    "pixels": 18,
+    "hits": [
+     "li [symbol(::after)] “[generated] →”",
+     "li [symbol(::after)] “[generated] →”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     1662,
+     1687
+    ],
+    "pixels": 585,
+    "hits": [
+     "h2 [newsreader,balance] “Üretiminiz,”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     2205,
+     2232
+    ],
+    "pixels": 792,
+    "hits": [
+     "small [balance] “KABİLİYET PROFİLLERİ”",
+     "h3 [balance] “İNCE CİDARLI GÖVDE —”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     4166,
+     4186
+    ],
+    "pixels": 486,
+    "hits": [
+     "p [pretty] “İŞ SAĞLIĞI VE GÜVENLİĞİ YÖNETİM SİSTEMİ”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     4346,
+     4369
+    ],
+    "pixels": 452,
+    "hits": [
+     "p [pretty] “Kalite politikası · Ölçüm ekipmanları · ”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     4697,
+     4724
+    ],
+    "pixels": 1081,
+    "hits": [
+     "h2.tl-faq-title [newsreader,balance] “Üretime geçmeden önce,”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     5155,
+     5179
+    ],
+    "pixels": 1012,
+    "hits": [
+     "h2 [newsreader,balance] “Bir sonraki parçanız”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     5414,
+     5420
+    ],
+    "pixels": 109,
+    "hits": [
+     "span [pretty] “Net teklif ve teslim tarihi”",
+     "span [pretty] “Kalite ve teslim süreci başlar”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     5428,
+     5437
+    ],
+    "pixels": 195,
+    "hits": [
+     "span [pretty] “Net teklif ve teslim tarihi”",
+     "span [pretty] “Kalite ve teslim süreci başlar”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "shell-footer-service",
+  "project": "visual-375",
+  "route": "/hizmetler/cnc-frezeleme",
+  "selector": "footer.tl-footer",
+  "differingPixels": 210,
+  "imageSize": [
+   375,
+   742
+  ],
+  "dpr": 1,
+  "captureHeight": 740,
+  "changedElements": 1,
+  "firstReflow": "h2 [balance] @24",
+  "bands": [
+   {
+    "cssRows": [
+     46,
+     70
+    ],
+    "pixels": 210,
+    "hits": [
+     "h2 [balance] “HASSAS ÜRETİM.İZLENEBİLİR TESLİM.”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-journal-lead",
+  "project": "visual-1280",
+  "route": "/blog",
+  "selector": ".tl-band.shell-surface-band",
+  "differingPixels": 2197,
+  "imageSize": [
+   1278,
+   701
+  ],
+  "dpr": 1,
+  "captureHeight": 701,
+  "changedElements": 2,
+  "firstReflow": "p [pretty] @154",
+  "bands": [
+   {
+    "cssRows": [
+     101,
+     134
+    ],
+    "pixels": 2197,
+    "hits": [
+     "a [newsreader] “5 Eksen CNC İşleme Avantajları”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-journal-lead",
+  "project": "visual-1440",
+  "route": "/blog",
+  "selector": ".tl-band.shell-surface-band",
+  "differingPixels": 2555,
+  "imageSize": [
+   1438,
+   706
+  ],
+  "dpr": 1,
+  "captureHeight": 705,
+  "changedElements": 2,
+  "firstReflow": "p [pretty] @158",
+  "bands": [
+   {
+    "cssRows": [
+     100,
+     137
+    ],
+    "pixels": 2555,
+    "hits": [
+     "a [newsreader] “5 Eksen CNC İşleme Avantajları”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-journal-lead",
+  "project": "visual-375",
+  "route": "/blog",
+  "selector": ".tl-band.shell-surface-band",
+  "differingPixels": 1710,
+  "imageSize": [
+   375,
+   979
+  ],
+  "dpr": 1,
+  "captureHeight": 978,
+  "changedElements": 2,
+  "firstReflow": "p [pretty] @146",
+  "bands": [
+   {
+    "cssRows": [
+     101,
+     126
+    ],
+    "pixels": 1535,
+    "hits": [
+     "a [newsreader] “5 Eksen CNC İşleme Avantajları”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     669,
+     678
+    ],
+    "pixels": 18,
+    "hits": [],
+    "downstreamOf": "raster jitter inside untouched img blog-5eksen-640-2Cu1WebU.webp (18 px)",
+    "explained": true
+   },
+   {
+    "cssRows": [
+     695,
+     697
+    ],
+    "pixels": 3,
+    "hits": [],
+    "downstreamOf": "raster jitter inside untouched img blog-5eksen-640-2Cu1WebU.webp (3 px)",
+    "explained": true
+   },
+   {
+    "cssRows": [
+     709,
+     712
+    ],
+    "pixels": 2,
+    "hits": [],
+    "downstreamOf": "raster jitter inside untouched img blog-5eksen-640-2Cu1WebU.webp (2 px)",
+    "explained": true
+   },
+   {
+    "cssRows": [
+     722,
+     805
+    ],
+    "pixels": 144,
+    "hits": [],
+    "downstreamOf": "raster jitter inside untouched img blog-5eksen-640-2Cu1WebU.webp (144 px)",
+    "explained": true
+   },
+   {
+    "cssRows": [
+     820,
+     826
+    ],
+    "pixels": 2,
+    "hits": [],
+    "downstreamOf": "raster jitter inside untouched img blog-5eksen-640-2Cu1WebU.webp (2 px)",
+    "explained": true
+   },
+   {
+    "cssRows": [
+     842,
+     857
+    ],
+    "pixels": 6,
+    "hits": [],
+    "downstreamOf": "raster jitter inside untouched img blog-5eksen-640-2Cu1WebU.webp (6 px)",
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-journal-lead",
+  "project": "visual-768",
+  "route": "/blog",
+  "selector": ".tl-band.shell-surface-band",
+  "differingPixels": 1532,
+  "imageSize": [
+   766,
+   972
+  ],
+  "dpr": 1,
+  "captureHeight": 971,
+  "changedElements": 2,
+  "firstReflow": "p [pretty] @146",
+  "bands": [
+   {
+    "cssRows": [
+     102,
+     127
+    ],
+    "pixels": 1531,
+    "hits": [
+     "a [newsreader] “5 Eksen CNC İşleme Avantajları”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     767,
+     767
+    ],
+    "pixels": 1,
+    "hits": [],
+    "downstreamOf": "raster jitter inside untouched img blog-5eksen-960-_6-_tXQD.webp (1 px)",
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-profile-scope",
+  "project": "visual-1280",
+  "route": "/kabiliyet-profilleri",
+  "selector": ".tl-band.shell-surface-band",
+  "differingPixels": 3223,
+  "imageSize": [
+   1278,
+   466
+  ],
+  "dpr": 1,
+  "captureHeight": 465,
+  "changedElements": 6,
+  "firstReflow": "p [pretty,symbol] @110",
+  "bands": [
+   {
+    "cssRows": [
+     105,
+     134
+    ],
+    "pixels": 2980,
+    "hits": [
+     "h2 [newsreader] “Bunlar müşteri projesi”",
+     "em [newsreader] “değildir”",
+     "p [pretty,symbol Space Grotesk Light] “Bir nominal → ölçülen → uygun tablosu, a”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     157,
+     165
+    ],
+    "pixels": 33,
+    "hits": [
+     "p [pretty,symbol Space Grotesk Light] “Bir nominal → ölçülen → uygun tablosu, a”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     177,
+     188
+    ],
+    "pixels": 210,
+    "hits": [
+     "p [pretty,symbol Space Grotesk Light] “Bir nominal → ölçülen → uygun tablosu, a”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-profile-scope",
+  "project": "visual-1440",
+  "route": "/kabiliyet-profilleri",
+  "selector": ".tl-band.shell-surface-band",
+  "differingPixels": 3686,
+  "imageSize": [
+   1438,
+   486
+  ],
+  "dpr": 1,
+  "captureHeight": 485,
+  "changedElements": 6,
+  "firstReflow": "p [pretty,symbol] @110",
+  "bands": [
+   {
+    "cssRows": [
+     106,
+     138
+    ],
+    "pixels": 3686,
+    "hits": [
+     "h2 [newsreader] “Bunlar müşteri projesi”",
+     "em [newsreader] “değildir”",
+     "p [pretty,symbol Space Grotesk Light] “Bir nominal → ölçülen → uygun tablosu, a”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-profile-scope",
+  "project": "visual-375",
+  "route": "/kabiliyet-profilleri",
+  "selector": ".tl-band.shell-surface-band",
+  "differingPixels": 4043,
+  "imageSize": [
+   375,
+   867
+  ],
+  "dpr": 1,
+  "captureHeight": 866,
+  "changedElements": 6,
+  "firstReflow": "p [pretty] @186",
+  "bands": [
+   {
+    "cssRows": [
+     104,
+     126
+    ],
+    "pixels": 1395,
+    "hits": [
+     "h2 [newsreader] “Bunlar müşteri projesi”",
+     "em [newsreader] “değildir”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     508,
+     517
+    ],
+    "pixels": 89,
+    "hits": [
+     "p [pretty] “Yayımlanabilir bir işin ne zaman eklenec”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     533,
+     545
+    ],
+    "pixels": 1306,
+    "hits": [
+     "p [pretty] “Yayımlanabilir bir işin ne zaman eklenec”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     559,
+     571
+    ],
+    "pixels": 321,
+    "hits": [
+     "p [pretty] “Yayımlanabilir bir işin ne zaman eklenec”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     644,
+     655
+    ],
+    "pixels": 673,
+    "hits": [
+     "p [pretty,symbol Space Grotesk Light] “Bir nominal → ölçülen → uygun tablosu, a”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     785,
+     814
+    ],
+    "pixels": 259,
+    "hits": [
+     "p.shell-note [pretty,measure-cap] “İzinli ve anonimleştirilmiş bir iş eklen”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-profile-scope",
+  "project": "visual-768",
+  "route": "/kabiliyet-profilleri",
+  "selector": ".tl-band.shell-surface-band",
+  "differingPixels": 18236,
+  "imageSize": [
+   766,
+   598
+  ],
+  "dpr": 1,
+  "captureHeight": 597,
+  "changedElements": 6,
+  "firstReflow": "p [pretty] @186",
+  "bands": [
+   {
+    "cssRows": [
+     105,
+     127
+    ],
+    "pixels": 1396,
+    "hits": [
+     "h2 [newsreader] “Bunlar müşteri projesi”",
+     "em [newsreader] “değildir”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     435,
+     446
+    ],
+    "pixels": 1749,
+    "hits": [
+     "p [pretty,symbol Space Grotesk Light] “Bir nominal → ölçülen → uygun tablosu, a”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     499,
+     499
+    ],
+    "pixels": 144,
+    "hits": [
+     "p.shell-note [pretty,measure-cap] “İzinli ve anonimleştirilmiş bir iş eklen”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     516,
+     545
+    ],
+    "pixels": 725,
+    "hits": [
+     "p.shell-note [pretty,measure-cap] “İzinli ve anonimleştirilmiş bir iş eklen”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     579,
+     597
+    ],
+    "pixels": 14222,
+    "hits": [],
+    "downstreamOf": "p.shell-note [pretty,measure-cap] @498–548 “İzinli ve anonimleştiril”",
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-quality-documents",
+  "project": "visual-1280",
+  "route": "/kalite-dosyasi",
+  "selector": ".tl-band.shell-surface-band",
+  "differingPixels": 1832,
+  "imageSize": [
+   1278,
+   832
+  ],
+  "dpr": 1,
+  "captureHeight": 831,
+  "changedElements": 2,
+  "firstReflow": "p [pretty] @154",
+  "bands": [
+   {
+    "cssRows": [
+     106,
+     133
+    ],
+    "pixels": 1832,
+    "hits": [
+     "h2 [newsreader] “Yayımlanan dokümanlar”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-quality-documents",
+  "project": "visual-1440",
+  "route": "/kalite-dosyasi",
+  "selector": ".tl-band.shell-surface-band",
+  "differingPixels": 2133,
+  "imageSize": [
+   1438,
+   849
+  ],
+  "dpr": 1,
+  "captureHeight": 849,
+  "changedElements": 2,
+  "firstReflow": "p [pretty] @158",
+  "bands": [
+   {
+    "cssRows": [
+     106,
+     137
+    ],
+    "pixels": 2133,
+    "hits": [
+     "h2 [newsreader] “Yayımlanan dokümanlar”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-quality-documents",
+  "project": "visual-375",
+  "route": "/kalite-dosyasi",
+  "selector": ".tl-band.shell-surface-band",
+  "differingPixels": 2234,
+  "imageSize": [
+   375,
+   929
+  ],
+  "dpr": 1,
+  "captureHeight": 929,
+  "changedElements": 6,
+  "firstReflow": "p [pretty] @146",
+  "bands": [
+   {
+    "cssRows": [
+     104,
+     126
+    ],
+    "pixels": 1170,
+    "hits": [
+     "h2 [newsreader] “Yayımlanan dokümanlar”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     181,
+     182
+    ],
+    "pixels": 10,
+    "hits": [
+     "p [pretty] “Dört doküman indirilebilir. Yanlarındaki”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     199,
+     211
+    ],
+    "pixels": 259,
+    "hits": [
+     "p [pretty] “Dört doküman indirilebilir. Yanlarındaki”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     623,
+     631
+    ],
+    "pixels": 94,
+    "hits": [
+     "span.shell-index-desc [pretty] “Sevkiyat öncesi paketleme ve koruma kura”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     645,
+     654
+    ],
+    "pixels": 248,
+    "hits": [
+     "span.shell-index-desc [pretty] “Sevkiyat öncesi paketleme ve koruma kura”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     783,
+     794
+    ],
+    "pixels": 123,
+    "hits": [
+     "span.shell-index-desc [pretty] “Tedarikçilerimizden beklenen davranış ku”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     804,
+     816
+    ],
+    "pixels": 330,
+    "hits": [
+     "span.shell-index-desc [pretty] “Tedarikçilerimizden beklenen davranış ku”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-quality-documents",
+  "project": "visual-768",
+  "route": "/kalite-dosyasi",
+  "selector": ".tl-band.shell-surface-band",
+  "differingPixels": 1181,
+  "imageSize": [
+   766,
+   817
+  ],
+  "dpr": 1,
+  "captureHeight": 816,
+  "changedElements": 2,
+  "firstReflow": "p [pretty] @146",
+  "bands": [
+   {
+    "cssRows": [
+     105,
+     127
+    ],
+    "pixels": 1181,
+    "hits": [
+     "h2 [newsreader] “Yayımlanan dokümanlar”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-notfound-body",
+  "project": "visual-1280",
+  "route": "/__phase04-not-a-route__",
+  "selector": ".shell-notfound",
+  "differingPixels": 5988,
+  "imageSize": [
+   1214,
+   1627
+  ],
+  "dpr": 1,
+  "captureHeight": 1377,
+  "changedElements": 4,
+  "firstReflow": "p.shell-lede [pretty] @342",
+  "bands": [
+   {
+    "cssRows": [
+     275,
+     313
+    ],
+    "pixels": 2434,
+    "hits": [
+     "h1.shell-notfound-title [newsreader] “Bu koordinatta”",
+     "em [newsreader] “kayıt yok”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     348,
+     361
+    ],
+    "pixels": 139,
+    "hits": [
+     "p.shell-lede [pretty] “İstenen yol bu sitenin sayfa dizininde b”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     373,
+     386
+    ],
+    "pixels": 1631,
+    "hits": [
+     "p.shell-lede [pretty] “İstenen yol bu sitenin sayfa dizininde b”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     398,
+     411
+    ],
+    "pixels": 1538,
+    "hits": [
+     "p.shell-lede [pretty] “İstenen yol bu sitenin sayfa dizininde b”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     422,
+     432
+    ],
+    "pixels": 246,
+    "hits": [
+     "p.shell-lede [pretty] “İstenen yol bu sitenin sayfa dizininde b”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-notfound-body",
+  "project": "visual-1440",
+  "route": "/__phase04-not-a-route__",
+  "selector": ".shell-notfound",
+  "differingPixels": 6233,
+  "imageSize": [
+   1374,
+   1665
+  ],
+  "dpr": 1,
+  "captureHeight": 1409,
+  "changedElements": 4,
+  "firstReflow": "p.shell-lede [pretty] @348",
+  "bands": [
+   {
+    "cssRows": [
+     278,
+     319
+    ],
+    "pixels": 2697,
+    "hits": [
+     "h1.shell-notfound-title [newsreader] “Bu koordinatta”",
+     "em [newsreader] “kayıt yok”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     354,
+     367
+    ],
+    "pixels": 139,
+    "hits": [
+     "p.shell-lede [pretty] “İstenen yol bu sitenin sayfa dizininde b”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     379,
+     392
+    ],
+    "pixels": 1627,
+    "hits": [
+     "p.shell-lede [pretty] “İstenen yol bu sitenin sayfa dizininde b”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     404,
+     417
+    ],
+    "pixels": 1532,
+    "hits": [
+     "p.shell-lede [pretty] “İstenen yol bu sitenin sayfa dizininde b”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     428,
+     438
+    ],
+    "pixels": 238,
+    "hits": [
+     "p.shell-lede [pretty] “İstenen yol bu sitenin sayfa dizininde b”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-notfound-body",
+  "project": "visual-375",
+  "route": "/__phase04-not-a-route__",
+  "selector": ".shell-notfound",
+  "differingPixels": 1258,
+  "imageSize": [
+   333,
+   1729
+  ],
+  "dpr": 1,
+  "captureHeight": 1482,
+  "changedElements": 6,
+  "firstReflow": "p.shell-lede [pretty] @233",
+  "bands": [
+   {
+    "cssRows": [
+     182,
+     205
+    ],
+    "pixels": 1258,
+    "hits": [
+     "h1.shell-notfound-title [newsreader] “Bu koordinatta”",
+     "em [newsreader] “kayıt yok”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ },
+ {
+  "golden": "waveb-notfound-body",
+  "project": "visual-768",
+  "route": "/__phase04-not-a-route__",
+  "selector": ".shell-notfound",
+  "differingPixels": 4806,
+  "imageSize": [
+   710,
+   1521
+  ],
+  "dpr": 1,
+  "captureHeight": 1275,
+  "changedElements": 4,
+  "firstReflow": "p.shell-lede [pretty] @256",
+  "bands": [
+   {
+    "cssRows": [
+     204,
+     227
+    ],
+    "pixels": 1260,
+    "hits": [
+     "h1.shell-notfound-title [newsreader] “Bu koordinatta”",
+     "em [newsreader] “kayıt yok”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     262,
+     275
+    ],
+    "pixels": 140,
+    "hits": [
+     "p.shell-lede [pretty] “İstenen yol bu sitenin sayfa dizininde b”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     286,
+     299
+    ],
+    "pixels": 1632,
+    "hits": [
+     "p.shell-lede [pretty] “İstenen yol bu sitenin sayfa dizininde b”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     311,
+     324
+    ],
+    "pixels": 1531,
+    "hits": [
+     "p.shell-lede [pretty] “İstenen yol bu sitenin sayfa dizininde b”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   },
+   {
+    "cssRows": [
+     336,
+     346
+    ],
+    "pixels": 243,
+    "hits": [
+     "p.shell-lede [pretty] “İstenen yol bu sitenin sayfa dizininde b”"
+    ],
+    "downstreamOf": null,
+    "explained": true
+   }
+  ],
+  "unexplainedPixels": 0,
+  "verdict": "EXPLAINED"
+ }
+]

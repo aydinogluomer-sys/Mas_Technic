@@ -13,7 +13,9 @@
 //        balance      a heading that now computes `text-wrap: balance` and sets ≥ 2 lines;
 //        pretty       prose that now computes `text-wrap: pretty` and sets ≥ 2 lines;
 //        tabular      Space Grotesk text with digits that now computes `tabular-nums`;
-//        symbol       text containing → ← ↑ ↓ ↻ ≤ ≥ ≈ — now painted in-family (CDP);
+//        symbol       text (or ::before/::after content) containing → ← ↑ ↓ ↻ ≤ ≥ ≈ — now
+//                     painted in-family (CDP), a different advance, so a paragraph can re-wrap;
+//        measure-cap  a `.shell-note` that sets ≥ 2 lines — it gained `max-width: 72ch`;
 //   3. rules: a band is EXPLAINED when it intersects an element carrying one of those, OR when
 //      it lies below the first such element that sets ≥ 2 lines inside the same capture (a
 //      re-wrapped multi-line block moves everything under it). Otherwise UNEXPLAINED.
@@ -81,8 +83,8 @@ const bandsOf = async (page, b64) => page.evaluate(async (b64) => {
   return { image: [c.width, c.height], total, bands: merged.map(([y0, y1]) => { let n = 0; for (let y = y0; y <= y1; y++) n += rowHits[y]; return [y0, y1, n]; }) };
 }, b64);
 
-const SYMBOLS = /[→←↑↓↻≤≥≈]/;
 const readTexts = (selector) => {
+  const SYMBOLS = /[→←↑↓↻≤≥≈]/;
   const rootEl = document.querySelector(selector);
   const rb = rootEl.getBoundingClientRect();
   const originY = selector === "html" ? 0 : rb.top + window.scrollY;
@@ -92,7 +94,11 @@ const readTexts = (selector) => {
   let id = 0;
   for (const el of rootEl.querySelectorAll("*")) {
     if (["SCRIPT", "STYLE", "SVG", "PATH"].includes(el.tagName)) continue;
-    const own = norm(Array.from(el.childNodes).filter((n) => n.nodeType === 3).map((n) => n.nodeValue).join(""));
+    let own = norm(Array.from(el.childNodes).filter((n) => n.nodeType === 3).map((n) => n.nodeValue).join(""));
+    // Generated content counts as text the packet changed when it is a symbol glyph
+    // (`.tl-process li::after { content: "→" }` is painted by the symbol subset now).
+    const pseudo = ["::before", "::after"].map((ps) => getComputedStyle(el, ps).content).filter((c) => c && c !== "none" && c !== "normal").map((c) => c.replace(/^"|"$/g, "")).join("");
+    if (!own && SYMBOLS.test(pseudo)) own = `[generated] ${pseudo}`;
     if (!own) continue;
     const s = getComputedStyle(el);
     if (s.display === "none" || s.visibility === "hidden") continue;
@@ -105,10 +111,14 @@ const readTexts = (selector) => {
     if (s.textWrap === "balance" && lines >= 2) flags.push("balance");
     if (s.textWrap === "pretty" && lines >= 2) flags.push("pretty");
     if (family === "Space Grotesk" && /\d/.test(own) && /tabular-nums/.test(s.fontVariantNumeric)) flags.push("tabular");
-    if (SYMBOLS.test(own)) { flags.push("symbol"); el.setAttribute("data-adj", String(id)); }
+    if (el.classList.contains("shell-note") && lines >= 2) flags.push("measure-cap"); // `.shell-note` gained `max-width: 72ch`
+    if (SYMBOLS.test(own)) { flags.push(own.startsWith("[generated]") ? "symbol(::after)" : "symbol"); el.setAttribute("data-adj", String(id)); }
     rows.push({ id: id++, key: `${el.tagName.toLowerCase()}${el.className && typeof el.className === "string" ? "." + el.className.split(" ").filter((c) => /^(shell-|tl-)/.test(c)).join(".") : ""}`, top: Math.round(b.top + window.scrollY - originY), bottom: Math.round(b.bottom + window.scrollY - originY), family, lines, flags, text: own.slice(0, 40) });
   }
-  return { width: rb.width, height: selector === "html" ? document.documentElement.scrollHeight : rb.height, rows };
+  // Untouched pictures inside the capture: a few differing pixels inside one is raster jitter
+  // (the 10-2b adjudication measured the same class), not a typography change.
+  const pictures = Array.from(rootEl.querySelectorAll("img")).map((img) => { const b = img.getBoundingClientRect(); return { key: `img ${(img.currentSrc || img.src).split("/").pop().split("?")[0]}`, top: Math.round(b.top + window.scrollY - originY), bottom: Math.round(b.bottom + window.scrollY - originY) }; }).filter((x) => x.bottom > x.top);
+  return { width: rb.width, height: selector === "html" ? document.documentElement.scrollHeight : rb.height, rows, pictures };
 };
 
 const browser = await chromium.launch({ executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe" });
@@ -133,12 +143,15 @@ for (const d of diffs) {
     try { const { nodeId } = await cdp.send("DOM.querySelector", { nodeId: docRoot.nodeId, selector: `[data-adj="${r.id}"]` }); const { fonts } = await cdp.send("CSS.getPlatformFontsForNode", { nodeId }); r.painter = fonts.map((f) => `${f.familyName}${f.isCustomFont ? "" : " (sys)"}`).join(" + "); } catch { r.painter = "?"; }
   }
   const changed = dom.rows.filter((r) => r.flags.length);
-  const firstReflow = changed.filter((r) => r.lines >= 2 && (r.flags.includes("balance") || r.flags.includes("pretty") || r.flags.includes("newsreader"))).sort((a, b) => a.top - b.top)[0];
+  const reflowCandidates = changed.filter((r) => r.lines >= 2 && (r.flags.includes("balance") || r.flags.includes("pretty") || r.flags.includes("newsreader") || r.flags.includes("symbol") || r.flags.includes("measure-cap"))).sort((a, b) => a.top - b.top);
+  const firstReflow = reflowCandidates[0];
   const judged = bands.bands.map(([y0, y1, px]) => {
     const top = y0 / dpr, bottom = y1 / dpr;
     const hits = changed.filter((r) => r.bottom >= top - 3 && r.top <= bottom + 3);
-    const downstream = firstReflow && top >= firstReflow.top - 3;
-    return { cssRows: [Math.round(top), Math.round(bottom)], pixels: px, hits: hits.slice(0, 6).map((h) => `${h.key} [${h.flags.join(",")}${h.painter ? " " + h.painter : ""}] “${h.text}”`), downstreamOf: !hits.length && downstream ? `${firstReflow.key} [${firstReflow.flags.join(",")}] @${firstReflow.top}` : null, explained: hits.length > 0 || !!downstream };
+    // The nearest re-wrappable changed block ABOVE the band is the one that moved it.
+    const above = reflowCandidates.filter((r) => r.top <= top + 3).sort((a, b) => b.top - a.top)[0];
+    const picture = !hits.length && px <= 200 ? dom.pictures.find((pic) => top >= pic.top - 2 && bottom <= pic.bottom + 2) : null;
+    return { cssRows: [Math.round(top), Math.round(bottom)], pixels: px, hits: hits.slice(0, 6).map((h) => `${h.key} [${h.flags.join(",")}${h.painter ? " " + h.painter : ""}] “${h.text}”`), downstreamOf: picture ? `raster jitter inside untouched ${picture.key} (${px} px)` : !hits.length && above ? `${above.key} [${above.flags.join(",")}] @${above.top}–${above.bottom} “${above.text.slice(0, 24)}”` : null, explained: hits.length > 0 || !!above || !!picture };
   });
   const unexplained = judged.filter((j) => !j.explained).reduce((n, j) => n + j.pixels, 0);
   const verdict = unexplained <= 120 ? "EXPLAINED" : "UNEXPLAINED";

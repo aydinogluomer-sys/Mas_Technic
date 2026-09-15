@@ -79,8 +79,8 @@ authored `<br>` stanzas — reported as `authored (br)`, not failed; the markup 
 outside this packet. A two-word heading on two lines is a `split` (nothing to pull down).
 
 **Before** (`heading-widows-before.md`): project-grid `h3` at 768 ended on "7075-T6";
-`.shell-next-copy h2` on `/blog` at 1280 ended on "çıktı?". 15 of 80 headings per width
-computed `balance`, the rest `wrap`.
+`.shell-next-copy h2` on `/blog` at 1280 ended on "çıktı?". 32 of 80 headings per width
+computed `balance`, 48 `wrap`.
 
 **After** (`heading-widows.md`): `h1–h6 { text-wrap: balance }` at the base layer in
 `src/index.css` (the heading ROLE; `white-space: nowrap` on any heading still wins because an
@@ -194,12 +194,44 @@ family that lacks a glyph falls through. File sizes: Space Grotesk 1988 B per we
 which the probe saw on 0 of 99 routes). On a typical route two to three of these load (`→` in
 Space Grotesk 400/600, Plex 400/500): ~4–8 KB.
 
+**Loading mechanics, measured.** A second `preload → stylesheet` swap a few milliseconds after
+the first restarts the face loads still in flight (Playwright trace: the same WOFF2 requested in
+three waves 20 ms apart), and the visual suite's F4 retry guard (`e2e/visual/fonts.ts`) reports a
+load cancelled mid-`route.fetch()` as `Route is already handled`. Measured on the F4 spec: naive
+second swap **2 failures / 56 runs**; no symbol link **0 / 40**; one shared flip for both sheets
+**worse** (6 / 10 "armed" runs never flipped); symbol sheet applied after the main link has
+flipped + one frame + `document.fonts.ready` **0 / 40**. The last is what ships: symbols set
+before that moment paint in the fallback face and swap once, like every other glyph under
+`display=swap`; if the main sheet never flips, the symbol sheet flips alone after 5 s.
+
 **Findings that need a substitution outside this packet** (the family has no glyph; system
 fallback is Cambria Math / Segoe UI Symbol on Windows, and on Android there may be no font at
 all): the GD&T symbol column in `src/data/servicePages.ts` (`⌖ ⊥ ◎ ▱ ○ ↻` — `↻` now in-family),
 the `⊥` in the hero FCF (`TechnicalHero.tsx`), `★☆` machinability ratings (24 rows in
 servicePages), `∪`. Recommended: GD&T as inline SVG symbols (they are drawn characters in ASME
 Y14.5, not typographic), ratings as "5/5" in the mono register, `⊥` on the hero as an SVG path.
+
+## 6 · Goldens — 27 moved, every one adjudicated at the DOM
+
+`reports/10/probes/golden-adjudicate-10-4.mjs` decodes each `*-diff.png`, groups the differing
+pixels into row bands in the captured element's own coordinate space, opens the same route at the
+same viewport, and lists every text-owning element (and `::before/::after` content) that
+intersects each band together with the properties this packet changed and the renderer's answer
+for them. Result (`golden-adjudicate-10-4.md`): **27/27 EXPLAINED, 0 unexplained pixels**, 119
+goldens unchanged.
+
+| what moved the pixels | goldens | evidence at the band |
+|---|---|---|
+| Newsreader headings now upright (were painted italic) | landing-fullpage ×4, waveb-notfound-body ×4, waveb-journal-lead (title link) | `h2 [newsreader,balance]`, `h1.shell-notfound-title [newsreader]` |
+| `text-wrap: pretty` re-breaking the lede / prose | inner-hero-service-detail ×3, inner-hero-contact/-sector-detail/-service-category @375, waveb-quality-documents ×4, waveb-profile-scope ×4, waveb-journal-lead ×4, waveb-notfound-body | `p.shell-lede [pretty]`, `p [pretty]` with ≥ 2 lines |
+| `text-wrap: balance` on a two-line footer / band title | shell-footer-service @375, landing hero `h1` | `h2 [balance]`, `h1 [balance]` |
+| tabular figures in the hero measurement labels | landing-fullpage | `b [tabular] "72.000"`, `"±0.010"` |
+| `→` painted by the webfont (text and `li::after`) | landing-fullpage (process-step arrows, 54 px), waveb-profile-scope (notice paragraph 3 → 2 lines) | `li [symbol(::after)]`, `p [pretty,symbol]` |
+| `.shell-note` measure cap (31 → 49 px at 768) | waveb-profile-scope @768 (capture 580 → 598 px tall) | `p.shell-note [pretty,measure-cap]` |
+| raster jitter inside an untouched picture | waveb-journal-lead @375/@768 — 176 px and 1 px inside `blog-5eksen-*.webp` | under the golden's own 200-px class, no text involved |
+
+The 27 baselines were replaced with the run's `-actual.png` captures and the suite re-run green
+(see the packet return).
 
 ## Commands
 
