@@ -188,10 +188,19 @@ const readPage = async (WEBFONTS) => {
       });
     }
   }
+  // Numeric rows are aggregated per (selector, family, weight, fvn): the count and one sample
+  // carry the same evidence as one row per element at a fraction of the file size.
+  const numAgg = new Map();
+  for (const n of numeric) {
+    const k = `${n.key}|${n.tag}|${n.inTable}|${n.family}|${n.weight}|${n.fvn}`;
+    const a = numAgg.get(k) ?? { ...n, count: 0 };
+    a.count++;
+    numAgg.set(k, a);
+  }
   return {
     faces,
     combos: Array.from(combos.values()).map((c) => ({ ...c, keys: Array.from(c.keys).sort().slice(0, 12), keyCount: c.keys.size })),
-    numeric,
+    numeric: Array.from(numAgg.values()),
     rootSynthesis: getComputedStyle(document.documentElement).fontSynthesis ?? null,
   };
 };
@@ -269,6 +278,18 @@ for (const a of Array.from(numAgg.values()).filter((n) => !/tabular-nums/.test(n
   lines.push(`| \`${a.key}\` | ${a.inTable ? "yes" : "no"} | ${a.family} | ${a.weight} | ${a.fvn} | ${a.routes.size} | ${a.sample.replace(/\|/g, "\\|")} |`);
 }
 writeFileSync(md, lines.join("\n") + "\n");
-writeFileSync(out, JSON.stringify({ base, routes: routes.length, badTotal, results }, null, 1));
+// Faces are written once as a table; each route keeps only its per-face status vector.
+const faceTable = [];
+const faceIndex = new Map();
+const slim = results.map((r) => ({
+  ...r,
+  faces: undefined,
+  faceStatus: r.faces.map((f) => {
+    const k = `${f.family}|${f.weight}|${f.style}|${f.unicodeRange}`;
+    if (!faceIndex.has(k)) { faceIndex.set(k, faceTable.length); faceTable.push({ family: f.family, weight: f.weight, style: f.style, unicodeRange: f.unicodeRange }); }
+    return [faceIndex.get(k), f.status];
+  }),
+}));
+writeFileSync(out, JSON.stringify({ base, routes: routes.length, badTotal, faceTable, results: slim }, null, 1));
 console.log(`\nwritten ${md}\nwritten ${out}\nmismatched combos: ${badTotal}`);
 process.exit(badTotal ? 1 : 0);

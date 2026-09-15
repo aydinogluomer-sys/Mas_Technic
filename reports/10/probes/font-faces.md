@@ -6,44 +6,57 @@ Base: http://localhost:4197  ·  root font-synthesis: `none`  ·  mismatched com
 
 | family | weight | style | unicode-range | statuses |
 |---|---|---|---|---|
+| IBM Plex Mono | 400 | normal | `U+2190-2193, U+21BB, U+2205, U+2225, U…` | unloaded:28 loaded:71 |
 | IBM Plex Mono | 400 | normal | `U+460-52F, U+1C80-1C8A, U+20B4, U+2DE0…` | unloaded:99 |
 | IBM Plex Mono | 400 | normal | `U+301, U+400-45F, U+490-491, U+4B0-4B1…` | unloaded:99 |
 | IBM Plex Mono | 400 | normal | `U+102-103, U+110-111, U+128-129, U+168…` | unloaded:99 |
 | IBM Plex Mono | 400 | normal | `U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE…` | loaded:99 |
 | IBM Plex Mono | 400 | normal | `U+0-FF, U+131, U+152-153, U+2BB-2BC, U…` | loaded:99 |
+| IBM Plex Mono | 500 | normal | `U+2190-2193, U+21BB, U+2205, U+2225, U…` | loaded:99 |
 | IBM Plex Mono | 500 | normal | `U+460-52F, U+1C80-1C8A, U+20B4, U+2DE0…` | unloaded:99 |
 | IBM Plex Mono | 500 | normal | `U+301, U+400-45F, U+490-491, U+4B0-4B1…` | unloaded:99 |
 | IBM Plex Mono | 500 | normal | `U+102-103, U+110-111, U+128-129, U+168…` | unloaded:99 |
 | IBM Plex Mono | 500 | normal | `U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE…` | loaded:99 |
 | IBM Plex Mono | 500 | normal | `U+0-FF, U+131, U+152-153, U+2BB-2BC, U…` | loaded:99 |
+| IBM Plex Mono | 600 | normal | `U+2190-2193, U+21BB, U+2205, U+2225, U…` | unloaded:99 |
 | IBM Plex Mono | 600 | normal | `U+460-52F, U+1C80-1C8A, U+20B4, U+2DE0…` | unloaded:99 |
 | IBM Plex Mono | 600 | normal | `U+301, U+400-45F, U+490-491, U+4B0-4B1…` | unloaded:99 |
 | IBM Plex Mono | 600 | normal | `U+102-103, U+110-111, U+128-129, U+168…` | unloaded:99 |
 | IBM Plex Mono | 600 | normal | `U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE…` | loaded:99 |
 | IBM Plex Mono | 600 | normal | `U+0-FF, U+131, U+152-153, U+2BB-2BC, U…` | loaded:99 |
+| IBM Plex Mono | 700 | normal | `U+2190-2193, U+21BB, U+2205, U+2225, U…` | unloaded:99 |
 | IBM Plex Mono | 700 | normal | `U+460-52F, U+1C80-1C8A, U+20B4, U+2DE0…` | unloaded:99 |
 | IBM Plex Mono | 700 | normal | `U+301, U+400-45F, U+490-491, U+4B0-4B1…` | unloaded:99 |
 | IBM Plex Mono | 700 | normal | `U+102-103, U+110-111, U+128-129, U+168…` | unloaded:99 |
 | IBM Plex Mono | 700 | normal | `U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE…` | loaded:99 |
 | IBM Plex Mono | 700 | normal | `U+0-FF, U+131, U+152-153, U+2BB-2BC, U…` | loaded:99 |
+| IBM Plex Mono Fallback | normal | normal | `U+0-10FFFF` | loaded:10 unloaded:90 |
+| Newsreader | 400 | italic | `U+2190-2193, U+21BB, U+2205, U+2225, U…` | unloaded:99 |
 | Newsreader | 400 | italic | `U+102-103, U+110-111, U+128-129, U+168…` | unloaded:99 |
 | Newsreader | 400 | italic | `U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE…` | unloaded:98 loaded:1 |
 | Newsreader | 400 | italic | `U+0-FF, U+131, U+152-153, U+2BB-2BC, U…` | loaded:3 unloaded:96 |
+| Newsreader | 400 | normal | `U+2190-2193, U+21BB, U+2205, U+2225, U…` | unloaded:99 |
 | Newsreader | 400 | normal | `U+102-103, U+110-111, U+128-129, U+168…` | unloaded:99 |
 | Newsreader | 400 | normal | `U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE…` | unloaded:14 loaded:85 |
 | Newsreader | 400 | normal | `U+0-FF, U+131, U+152-153, U+2BB-2BC, U…` | loaded:87 unloaded:12 |
+| Newsreader Fallback | normal | normal | `U+0-10FFFF` | loaded:4 unloaded:96 |
+| Space Grotesk | 400 | normal | `U+2190-2193, U+21BB, U+2205, U+2225, U…` | unloaded:1 loaded:98 |
 | Space Grotesk | 400 | normal | `U+102-103, U+110-111, U+128-129, U+168…` | unloaded:99 |
 | Space Grotesk | 400 | normal | `U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE…` | loaded:99 |
 | Space Grotesk | 400 | normal | `U+0-FF, U+131, U+152-153, U+2BB-2BC, U…` | loaded:99 |
+| Space Grotesk | 500 | normal | `U+2190-2193, U+21BB, U+2205, U+2225, U…` | loaded:8 unloaded:91 |
 | Space Grotesk | 500 | normal | `U+102-103, U+110-111, U+128-129, U+168…` | unloaded:99 |
 | Space Grotesk | 500 | normal | `U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE…` | unloaded:99 |
 | Space Grotesk | 500 | normal | `U+0-FF, U+131, U+152-153, U+2BB-2BC, U…` | loaded:8 unloaded:91 |
+| Space Grotesk | 600 | normal | `U+2190-2193, U+21BB, U+2205, U+2225, U…` | loaded:99 |
 | Space Grotesk | 600 | normal | `U+102-103, U+110-111, U+128-129, U+168…` | unloaded:99 |
 | Space Grotesk | 600 | normal | `U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE…` | loaded:99 |
 | Space Grotesk | 600 | normal | `U+0-FF, U+131, U+152-153, U+2BB-2BC, U…` | loaded:99 |
+| Space Grotesk | 700 | normal | `U+2190-2193, U+21BB, U+2205, U+2225, U…` | unloaded:99 |
 | Space Grotesk | 700 | normal | `U+102-103, U+110-111, U+128-129, U+168…` | unloaded:99 |
 | Space Grotesk | 700 | normal | `U+100-2BA, U+2BD-2C5, U+2C7-2CC, U+2CE…` | loaded:99 |
 | Space Grotesk | 700 | normal | `U+0-FF, U+131, U+152-153, U+2BB-2BC, U…` | loaded:99 |
+| Space Grotesk Fallback | normal | normal | `U+0-10FFFF` | loaded:7 unloaded:93 |
 
 ## Requested (family, weight, style) combinations across the DOM
 
@@ -65,5 +78,3 @@ Base: http://localhost:4197  ·  root font-synthesis: `none`  ·  mismatched com
 | selector | in table | family | weight | font-variant-numeric | routes | sample |
 |---|---|---|---|---|---|---|
 | `dt < .shell-hero-meta` | no | IBM Plex Mono | 500 | normal | 2 | Maks. Parça Boyutu (3 Eksen) |
-| `td < .shell-table-scroll` | yes | Space Grotesk | 400 | normal | 10 | Arayüzün açık/koyu paletini tutar. Bildi |
-| `th < .shell-table-scroll` | yes | Space Grotesk | 600 | normal | 32 | Alüminyum 2014 |
