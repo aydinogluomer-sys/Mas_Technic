@@ -460,10 +460,10 @@
   min-height: 64px;
   padding-inline: var(--tl-s5);
   font-size: 14px;
-  transition: background .35s var(--pl-ease), color .35s ease, border-color .35s ease, padding .45s var(--pl-ease);
+  transition: background .35s var(--pl-ease), color .35s ease, border-color .35s ease;
 }
-.shell-root .shell-footer-primary:hover,
-.shell-root .shell-footer-secondary:hover { padding-inline: var(--tl-s6) var(--tl-s5); }
+.shell-root .shell-footer-primary svg { transition: transform .45s var(--pl-ease); }
+.shell-root .shell-footer-primary:hover svg { transform: translateX(6px); }
 .shell-root .shell-footer-secondary:hover { color: var(--tl-ink); background: var(--tl-white); }
 
 /* Brand + links, legible. */
