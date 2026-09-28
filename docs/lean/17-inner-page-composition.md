@@ -127,22 +127,23 @@ a zero box. Counts are instances summed over the six routes; `–` means the
 element does not paint at that width at all. Source lines are attached
 afterwards, by looking up what the measurement had already found.
 
-**Six sources, three components.** Not one of them belongs to a page file:
+**Five sources, two components** (polish run, 2026-09-28 — the PAGES changed,
+not the register: the chat launcher lost its `rounded-full` and is now a square
+graphite stamp, so its row is gone; the inner-band gutter narrowed the 375 step
+meter from 21 to 17 px wide, re-measured by `e2e/visual/radius-census.spec.ts`).
+Not one of them belongs to a page file:
 
 | element | 375 | 768 | 1280 | radius | box | source |
 |---|---|---|---|---|---|---|
-| `step meter` | 20 | – | – | `9999px` | 375: 21×6 | `MaterialMorphScroll.tsx:228` |
+| `step meter` | 20 | – | – | `9999px` | 375: 17×6 | `MaterialMorphScroll.tsx:228` |
 | `property-meter track` | – | 4 | 4 | `9999px` | 768: 238×4 · 1280: 238×4 | `MaterialMorphScroll.tsx:357` |
 | `property-meter fill` | – | 4 | 4 | `9999px` | 768: 143×4, 190×4, 238×4 · 1280: 143×4, 190×4, 238×4 | `MaterialMorphScroll.tsx:359` |
-| `chat launcher` | 6 | 6 | 6 | `9999px` | 375: 48×48 · 768: 56×56 · 1280: 56×56 | `ChatBot.tsx:332` |
 | `cursor dot` | – | 6 | 6 | `50%` | 768: 6×6 · 1280: 6×6 | `CustomCursor.tsx:194-207` |
 | `cursor ring` | – | 6 | 6 | `50%` | 768: 44×44 · 1280: 44×44 | `CustomCursor.tsx:209-221` |
 
 The three meters are `/malzemeler` only, and they are two different meters
 rather than one that resizes: the step meter is the narrow layout and the
-property meters are the wide one, and the switch is between 375 and 768. The
-launcher is on all six routes at all three widths (six routes × three widths =
-18). Both cursor layers are on all six routes at 768 and at 1280, and on none
+property meters are the wide one, and the switch is between 375 and 768. Both cursor layers are on all six routes at 768 and at 1280, and on none
 at 375.
 
 **768 was missing from v3, and its absence was not neutral — it moved four of

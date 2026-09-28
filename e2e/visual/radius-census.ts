@@ -144,15 +144,6 @@ export const RADIUS_SOURCES: {
     lines: "359",
   },
   {
-    label: "chat launcher",
-    /* Loosened on purpose: the rest of this signature is colour, shadow and
-       hover state that has nothing to do with the radius. */
-    matches: (signature) => signature.startsWith("button.fixed.z-50.")
-      && signature.includes(".rounded-full."),
-    file: "src/components/ChatBot.tsx",
-    lines: "332",
-  },
-  {
     label: "cursor dot",
     matches: (signature) => signature === "div.fixed.top-0.left-0.pointer-events-none",
     file: "src/components/ui/CustomCursor.tsx",
