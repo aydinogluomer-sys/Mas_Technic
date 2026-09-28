@@ -305,7 +305,23 @@ test.describe("technical editorial landing phase 1", () => {
     // This assertion runs at `critical-1280`, where the model is the right one;
     // the note is here so the next person does not carry the 1280 number to a
     // width where the band is built differently.
-    expect(footer.bantOrani).toBeLessThan(0.26);
+    // POLISH RUN (2026-09-28) — 0.26 → 0.75, a change of JOB again, not a
+    // relaxation. The footer is now the site's closing scene: a display-scale
+    // closing statement with the conversion pair as its first row, then the
+    // title block above, then the MAS TECHNIC wordmark at full measure (it
+    // used to be a cropped watermark colliding with the CTA buttons and the
+    // legal run). Measured: 0.714 at 1280, 0.679 at 1440. The bound still
+    // catches a fifth nav column or a wrapped conversion row (each > +0.04),
+    // and the new invariant below guards the defect the redesign removed.
+    expect(footer.bantOrani).toBeLessThan(0.75);
+    const wordmark = await page.evaluate(() => {
+      const box = document.querySelector(".pl-wordmark")!;
+      const word = box.querySelector("p")!;
+      const legal = document.querySelector(".tl-legal")!.getBoundingClientRect();
+      return { overflow: word.scrollWidth - box.clientWidth, bottom: word.getBoundingClientRect().bottom, legalTop: legal.top };
+    });
+    expect(wordmark.overflow, "the wordmark spans the sheet without being cropped").toBeLessThanOrEqual(0);
+    expect(wordmark.bottom, "the wordmark never runs under the legal run").toBeLessThanOrEqual(wordmark.legalTop + 1);
     // Nav sütunu marka sütunu genişlerse kaymamalı.
     //
     // Phase 02: beklenen aralık ~%41'den ~%37'ye taşındı çünkü ALTINDAKİ

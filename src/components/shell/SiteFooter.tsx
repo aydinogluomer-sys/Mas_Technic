@@ -186,7 +186,7 @@ export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label
                 Toleransı siz yazın, <em>gerisini ölçelim.</em>
               </p>
               <Link to="/blog">
-                Teknik günlüğü incele
+                Yazıları incele
                 <ArrowRight aria-hidden="true" />
               </Link>
             </div>

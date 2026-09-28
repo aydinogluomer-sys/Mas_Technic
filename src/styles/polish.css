@@ -20,8 +20,12 @@
    Every direct child of an inner band body now carries the gutter on both
    sides, so adjacent spans read as columns with an alley between them.
    Subgrids are excluded — padding on a subgrid shortens its outer tracks. */
-.shell-root .shell-main[data-shell-layout="band"] .tl-band > .tl-grid > :not(.tl-subgrid),
-.shell-root .shell-main[data-shell-layout="band"] > :not(.tl-band):not(.shell-rail) {
+.shell-root .shell-main[data-shell-layout="band"] .tl-band > .tl-grid > :not(.tl-subgrid, .shell-doc, .shell-run),
+.shell-root .shell-main[data-shell-layout="band"] > :not(.tl-band, .shell-rail),
+/* Subgridded containers pass the gutter one level down instead. */
+.shell-root .shell-doc-main > *,
+.shell-root .shell-doc-aside > *,
+.shell-root .shell-run > * {
   padding-inline: var(--pl-gutter);
 }
 
@@ -54,18 +58,18 @@
 
 /* ── P1 · CHAT LAUNCHER ───────────────────────────────────────────────────
    Was a teal `bg-primary` pill with a drop shadow — the one off-palette
-   object on every inner page. Now a square paper stamp with an ink glyph,
-   the same object as the primary CTA. */
+   object on every inner page. Now a square graphite stamp with a paper glyph
+   and hairline — it reads on both the graphite and the paper grounds. */
 .chat-launcher {
-  border: 1px solid var(--tl-control-rule);
+  border: 1px solid var(--tl-label-rule);
   border-radius: 0;
-  color: var(--tl-ink);
-  background: var(--tl-paper);
+  color: var(--tl-white);
+  background: var(--tl-black);
   box-shadow: none;
   transition: background .3s var(--pl-ease, ease), color .3s ease;
 }
-.chat-launcher:hover { color: var(--tl-paper); background: var(--tl-ink); border-color: var(--tl-paper); }
-.chat-launcher:focus-visible { outline: 2px solid var(--tl-paper); outline-offset: 3px; }
+.chat-launcher:hover { color: var(--tl-ink); background: var(--tl-paper); border-color: var(--tl-ink); }
+.chat-launcher:focus-visible { outline: 2px solid var(--tl-bronze); outline-offset: 3px; }
 
 /* ── P2 · INNER HERO — THE PAGE TITLE AS A DRAWING TITLE ───────────────────
    The inner hero was one quiet master row: a 30–52px heading in 7/12 of the
@@ -105,7 +109,7 @@
   letter-spacing: -.02em;
   color: var(--tl-bronze-light);
 }
-.shell-root .shell-hero-copy .shell-eyebrow { margin-bottom: var(--tl-s5); font-size: 11px; }
+.shell-root .shell-hero-copy .shell-eyebrow { margin-bottom: var(--tl-s5); }
 
 /* Ghost numeral — the page's sheet code, outlined, bleeding off the top right. */
 .shell-root .shell-hero-ghost {
@@ -203,8 +207,10 @@
     }
   }
 }
-@keyframes pl-rise { from { opacity: 0; transform: translateY(18px); } }
-@keyframes pl-fade { from { opacity: 0; } }
+/* No keyframe touches opacity: text stays at full contrast in every frame
+   (axe measures mid-entrance), and the reveal is carried by a mask + offset. */
+@keyframes pl-rise { from { clip-path: inset(0 0 100% 0); transform: translateY(18px); } to { clip-path: inset(-10% -2% -10% -2%); transform: none; } }
+@keyframes pl-fade { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(-10% -2% -10% -2%); } }
 @keyframes pl-draw { from { transform: scaleX(0); } }
 @keyframes pl-mask {
   from { clip-path: inset(0 0 100% 0); transform: translateY(.35em); }
@@ -221,8 +227,7 @@
 .shell-root .shell-title-block h2,
 .shell-root .tl-process-intro h2,
 .shell-root .tl-nexus-body h2,
-.shell-root .tl-faq-title,
-.shell-root .tl-rfq h2 {
+.shell-root .tl-faq-title {
   font-size: clamp(34px, 3.9vw, 66px);
   line-height: 1.0;
   letter-spacing: -.028em;
@@ -247,7 +252,6 @@
 /* Legibility floor. Awwwards scores usability; 7–9px mono labels were the
    single largest readability loss on the sheet. Nothing informational drops
    under 10px now; decorative drawing marks may. */
-.shell-root .tl-band-index small { font-size: 9px; }
 .shell-root .tl-proof article span { font-size: 10px; }
 .shell-root .tl-marquee-track li { font-size: 11px; }
 .shell-root .tl-process li p { font-size: 12px; line-height: 1.65; }
@@ -284,7 +288,7 @@
   cursor: crosshair;
 }
 .nf-top { display: flex; justify-content: space-between; align-items: baseline; gap: var(--tl-s5); }
-.nf-top .shell-eyebrow { margin: 0; font-size: 11px; }
+.nf-top .shell-eyebrow { margin: 0; }
 .nf-path { display: flex; gap: var(--tl-s3); margin: 0; color: var(--tl-on-dark-faint); font: 500 11px/1 var(--tl-font-mono); letter-spacing: .12em; }
 .nf-path code { color: var(--tl-white); font: inherit; letter-spacing: .02em; overflow-wrap: anywhere; }
 
@@ -432,7 +436,6 @@
   gap: var(--tl-s5);
   padding: clamp(56px, 8vw, 128px) var(--pl-gutter) clamp(40px, 5vw, 72px);
 }
-.shell-root .shell-footer-journal .shell-eyebrow { font-size: 11px; }
 .pl-close-statement {
   margin: 0;
   max-width: 13ch;
@@ -462,9 +465,6 @@
 .shell-root .shell-footer-primary:hover,
 .shell-root .shell-footer-secondary:hover { padding-inline: var(--tl-s6) var(--tl-s5); }
 .shell-root .shell-footer-secondary:hover { color: var(--tl-ink); background: var(--tl-white); }
-@media (min-width: 768px) {
-  body:has([data-chat-launcher]) .shell-root .shell-footer-actions { padding-right: var(--pl-gutter); }
-}
 
 /* Brand + links, legible. */
 .shell-root .tl-footer-brand { padding: var(--tl-s7) var(--pl-gutter) var(--tl-s6); }
@@ -543,3 +543,8 @@
 @media (max-width: 767px) {
   .shell-root .tl-hero-copy h1 { width: auto; max-width: none; font-size: clamp(38px, 11vw, 52px); }
 }
+
+/* Process runs: more air per step, titles at reading size. */
+.shell-root .shell-run > li { padding-block: var(--tl-s6); gap: var(--tl-s3); }
+.shell-root .shell-run-no { font-size: 11px; }
+.shell-root .shell-run-title { font-size: clamp(16px, 1.2vw, 19px); letter-spacing: -.01em; }
