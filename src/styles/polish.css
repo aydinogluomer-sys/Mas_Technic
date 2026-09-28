@@ -1,0 +1,545 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   AWWWARDS POLISH LAYER  (docs/awwwards-polish/PLAN.md)
+
+   Loaded after `shell.css` by `PageShell`, so every public route — landing
+   included — receives it. Selectors carry a `.shell-root` prefix so the
+   landing chunk (injected last on `/`) cannot win on source order alone.
+   Tokens only: no hex outside `design-tokens.css`, no z-index outside `Z`.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.shell-root {
+  /* The inner gutter every band body breathes with. The master grid itself
+     keeps gap 0 (subgrid contract); the gutter lives on children. */
+  --pl-gutter: clamp(20px, 2.6vw, 44px);
+  --pl-ease: cubic-bezier(.16, 1, .3, 1);
+}
+
+/* ── P1 · GRID GUTTER ─────────────────────────────────────────────────────
+   Inner pages dropped their content straight onto the rail hairline: the
+   title, lede, index lists and tables all started at 0px from the rule.
+   Every direct child of an inner band body now carries the gutter on both
+   sides, so adjacent spans read as columns with an alley between them.
+   Subgrids are excluded — padding on a subgrid shortens its outer tracks. */
+.shell-root .shell-main[data-shell-layout="band"] .tl-band > .tl-grid > :not(.tl-subgrid),
+.shell-root .shell-main[data-shell-layout="band"] > :not(.tl-band):not(.shell-rail) {
+  padding-inline: var(--pl-gutter);
+}
+
+/* The hero now owns its own breathing room; the page-top padding only left
+   a gap in the rail hairline between the header and the first band. */
+.shell-root .shell-main[data-shell-layout="band"]:has(> .shell-hero) { padding-top: 0; }
+/* Same gap at the bottom: the rail stopped short of the footer. Bands and the
+   404 body carry their own closing space. */
+.shell-root .shell-main[data-shell-layout="band"] { padding-bottom: 0; }
+
+/* ── P1 · ONE INDEX PER RAIL ──────────────────────────────────────────────
+   A page rail (`C1 KURUMSAL`) and the first band's own index (`01`) stacked in
+   the same 64px column. When the page is built from bands the bands own the
+   rail; the page code moves into the hero as its ghost numeral (P2). The rail
+   column and its hairline stay, so the vertical datum is continuous. */
+.shell-root .shell-main[data-shell-layout="band"]:has(> .tl-band) > .shell-rail > * {
+  visibility: hidden;
+}
+
+/* The mobile index box was a 24px square with its numeral pinned to the top
+   left corner. Centre it and give it a legible size. */
+@media (max-width: 767px) {
+  .shell-root .tl-band-index span {
+    display: grid;
+    place-items: center;
+    font-size: 10px;
+  }
+  .shell-root .shell-rail small { display: none; }
+}
+
+/* ── P1 · CHAT LAUNCHER ───────────────────────────────────────────────────
+   Was a teal `bg-primary` pill with a drop shadow — the one off-palette
+   object on every inner page. Now a square paper stamp with an ink glyph,
+   the same object as the primary CTA. */
+.chat-launcher {
+  border: 1px solid var(--tl-control-rule);
+  border-radius: 0;
+  color: var(--tl-ink);
+  background: var(--tl-paper);
+  box-shadow: none;
+  transition: background .3s var(--pl-ease, ease), color .3s ease;
+}
+.chat-launcher:hover { color: var(--tl-paper); background: var(--tl-ink); border-color: var(--tl-paper); }
+.chat-launcher:focus-visible { outline: 2px solid var(--tl-paper); outline-offset: 3px; }
+
+/* ── P2 · INNER HERO — THE PAGE TITLE AS A DRAWING TITLE ───────────────────
+   The inner hero was one quiet master row: a 30–52px heading in 7/12 of the
+   field with the right half empty. It is now the page's title block at
+   display scale — the title set across the whole sheet, the page code as a
+   ghost numeral behind it, a datum rule under it, and the lede / actions /
+   measured facts resolved into one bottom row on master lines. Still no
+   image stage and no scroll choreography: the landing keeps the climax. */
+.shell-root .shell-hero { position: relative; overflow: clip; }
+.shell-root .shell-hero-body {
+  position: relative;
+  align-items: end;
+  row-gap: 0;
+  align-content: end;
+  min-height: min(72vh, 720px);
+  padding-block: clamp(56px, 9vh, 120px) clamp(32px, 5vh, 56px);
+}
+.shell-root .shell-hero-copy {
+  position: relative;
+  z-index: 1;
+  grid-column: 1 / -1;
+  padding-right: var(--pl-gutter);
+  align-self: end;
+}
+.shell-root .shell-hero-copy h1 {
+  max-width: 16ch;
+  font-size: clamp(46px, 7.6vw, 136px);
+  font-weight: 700;
+  line-height: .9;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+.shell-root .shell-hero-copy h1 em {
+  font-family: var(--tl-font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -.02em;
+  color: var(--tl-bronze-light);
+}
+.shell-root .shell-hero-copy .shell-eyebrow { margin-bottom: var(--tl-s5); font-size: 11px; }
+
+/* Ghost numeral — the page's sheet code, outlined, bleeding off the top right. */
+.shell-root .shell-hero-ghost {
+  position: absolute;
+  top: clamp(20px, 4vh, 48px);
+  right: calc(-.04em);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 0 !important;
+  pointer-events: none;
+  user-select: none;
+}
+.shell-root .shell-hero-ghost span {
+  color: transparent;
+  font: 700 clamp(140px, 24vw, 400px)/.8 var(--tl-font-sans);
+  letter-spacing: -.06em;
+  -webkit-text-stroke: 1px var(--tl-rule);
+}
+.shell-root .shell-hero-ghost small {
+  margin: var(--tl-s3) var(--pl-gutter) 0 0;
+  color: var(--tl-on-dark-faint);
+  font: 500 11px/1 var(--tl-font-mono);
+  letter-spacing: .24em;
+}
+
+/* Datum rule: a measured line from the title to the sheet edge. */
+.shell-root .shell-hero-datum {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: var(--tl-s4);
+  margin-top: clamp(28px, 4vh, 48px);
+  color: var(--tl-on-dark-faint);
+  font: 500 11px/1 var(--tl-font-mono);
+  letter-spacing: .14em;
+}
+.shell-root .shell-hero-datum i {
+  flex: 1;
+  height: 1px;
+  background:
+    repeating-linear-gradient(90deg, var(--tl-rule) 0 1px, transparent 1px 48px) 0 100% / 100% 7px no-repeat,
+    linear-gradient(var(--tl-rule), var(--tl-rule));
+  transform-origin: left;
+}
+
+.shell-root .shell-hero-foot {
+  grid-column: 1 / span 7;
+  align-self: start;
+  padding-top: var(--tl-s6);
+}
+.shell-root .shell-hero-foot .shell-lede { margin-top: 0; max-width: 52ch; font-size: clamp(16px, 1.15vw, 19px); }
+.shell-root .shell-hero-meta {
+  grid-column: 8 / -1;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-self: start;
+  margin: var(--tl-s6) var(--pl-gutter) 0;
+  padding-inline: 0 !important;
+}
+.shell-root .shell-hero-meta dt { font-size: 10px; }
+.shell-root .shell-hero-meta dd { font-size: 14px; }
+
+@media (max-width: 1180px) {
+  .shell-root .shell-hero-foot { grid-column: 1 / -1; }
+  .shell-root .shell-hero-meta { grid-column: 1 / -1; }
+}
+@media (max-width: 767px) {
+  .shell-root .shell-hero-body { min-height: 0; padding-block: 48px 32px; }
+  .shell-root .shell-hero-copy h1 { font-size: clamp(40px, 12.4vw, 64px); letter-spacing: -.04em; }
+  .shell-root .shell-hero-ghost { top: 16px; opacity: .55; }
+  .shell-root .shell-hero-ghost span { font-size: 38vw; }
+  .shell-root .shell-hero-ghost small { display: none; }
+  .shell-root .shell-hero-meta dt { overflow-wrap: anywhere; }
+  .shell-root .shell-hero-datum { margin-top: var(--tl-s5); }
+}
+
+/* Entrance: the title rises out of a mask, the datum draws, the rest settles.
+   CSS only — the hero is above the fold, so no observer is needed, and the
+   final state is the resting state (no-JS and reduced motion get it at once). */
+@media (prefers-reduced-motion: no-preference) {
+  .shell-root .shell-hero-copy > * { animation: pl-rise .9s var(--pl-ease) both; }
+  .shell-root .shell-hero-copy > :nth-child(2) { animation-delay: .06s; }
+  .shell-root .shell-hero-copy h1 { animation: pl-mask 1.1s var(--pl-ease) .12s both; }
+  .shell-root .shell-hero-datum i { animation: pl-draw 1.4s var(--pl-ease) .3s both; }
+  .shell-root .shell-hero-datum span,
+  .shell-root .shell-hero-foot,
+  .shell-root .shell-hero-meta { animation: pl-rise .9s var(--pl-ease) .45s both; }
+  .shell-root .shell-hero-ghost { animation: pl-fade 1.6s ease .2s both; }
+
+  @supports (animation-timeline: view()) {
+    .shell-root .shell-hero-ghost span {
+      animation: pl-ghost linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+@keyframes pl-rise { from { opacity: 0; transform: translateY(18px); } }
+@keyframes pl-fade { from { opacity: 0; } }
+@keyframes pl-draw { from { transform: scaleX(0); } }
+@keyframes pl-mask {
+  from { clip-path: inset(0 0 100% 0); transform: translateY(.35em); }
+  to { clip-path: inset(-.2em 0 -.2em 0); transform: none; }
+}
+@keyframes pl-ghost { to { transform: translateY(-18%); } }
+
+/* ── P3 · EDITORIAL TYPE SCALE ────────────────────────────────────────────
+   Band openers were 24–37px serif on a 1440 sheet: every section read at the
+   same volume as its own body copy. They now open at display scale, with the
+   italic bronze second clause carrying the voice. Scale contrast between the
+   serif statements and the 10–12px mono data is the system's rhythm. */
+.shell-root .shell-title-block { padding-block: clamp(40px, 6vw, 96px) clamp(24px, 3vw, 40px); }
+.shell-root .shell-title-block h2,
+.shell-root .tl-process-intro h2,
+.shell-root .tl-nexus-body h2,
+.shell-root .tl-faq-title,
+.shell-root .tl-rfq h2 {
+  font-size: clamp(34px, 3.9vw, 66px);
+  line-height: 1.0;
+  letter-spacing: -.028em;
+}
+.shell-root .shell-title-block h2 { max-width: 20ch; }
+.shell-root .shell-title-index {
+  display: flex;
+  align-items: center;
+  gap: var(--tl-s3);
+  margin-bottom: var(--tl-s5);
+  font-size: 11px;
+}
+.shell-root .shell-title-index::after {
+  content: "";
+  width: 48px;
+  height: 1px;
+  background: currentColor;
+  opacity: .6;
+}
+.shell-root .shell-title-block > p { font-size: clamp(15px, 1.05vw, 17px); max-width: 58ch; }
+
+/* Legibility floor. Awwwards scores usability; 7–9px mono labels were the
+   single largest readability loss on the sheet. Nothing informational drops
+   under 10px now; decorative drawing marks may. */
+.shell-root .tl-band-index small { font-size: 9px; }
+.shell-root .tl-proof article span { font-size: 10px; }
+.shell-root .tl-marquee-track li { font-size: 11px; }
+.shell-root .tl-process li p { font-size: 12px; line-height: 1.65; }
+.shell-root .tl-process li h3 { font-size: 15px; }
+.shell-root .tl-cert > p { font-size: 10.5px; }
+.shell-root .tl-proof-note,
+.shell-root .tl-project-note,
+.shell-root .tl-report-no { font-size: 10px; }
+.shell-root .tl-sector-card h3 { font-size: 12px; }
+.shell-root .tl-nexus-kpis span { font-size: 10px; }
+.shell-root .shell-meta-row dt { font-size: 10px; }
+
+/* ── P4 · 404 — OFF THE DATUM ──────────────────────────────────────────────
+   The 404 was the only paper page on the site and used half the sheet. It is
+   now a graphite stage: the code set edge to edge, its zero drawn as the one
+   feature that was never machined — an empty bore with a dimension leader
+   that reads ÖLÇÜLEMEDİ — and, on a fine pointer, a drafting crosshair with
+   a live X/Y readout from datum A. The recovery registers sit below, on two
+   master halves. */
+.shell-root .shell-notfound { padding: 0 0 var(--tl-s8) !important; }
+.shell-root.shell-notfound-bare { color: var(--tl-white); background: var(--tl-black); padding-inline: 0; }
+
+.nf-stage {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: calc(100svh - 72px);
+  overflow: clip;
+  border-bottom: var(--tl-rule-size) solid var(--tl-rule);
+  padding: var(--tl-s6) var(--pl-gutter) clamp(32px, 5vh, 64px);
+  background:
+    linear-gradient(var(--tl-rule-soft) 1px, transparent 1px) 0 0 / 100% 12.5%,
+    linear-gradient(90deg, var(--tl-rule-soft) 1px, transparent 1px) 0 0 / calc(100% / 12) 100%;
+  cursor: crosshair;
+}
+.nf-top { display: flex; justify-content: space-between; align-items: baseline; gap: var(--tl-s5); }
+.nf-top .shell-eyebrow { margin: 0; font-size: 11px; }
+.nf-path { display: flex; gap: var(--tl-s3); margin: 0; color: var(--tl-on-dark-faint); font: 500 11px/1 var(--tl-font-mono); letter-spacing: .12em; }
+.nf-path code { color: var(--tl-white); font: inherit; letter-spacing: .02em; overflow-wrap: anywhere; }
+
+.nf-code {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 calc(-.02em);
+  color: var(--tl-white);
+  font: 700 clamp(150px, 31vw, 520px)/.78 var(--tl-font-sans);
+  letter-spacing: -.07em;
+  user-select: none;
+}
+.nf-digit { position: relative; display: block; }
+.nf-hole {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--tl-bronze-light);
+}
+/* Centre mark of the missing bore. */
+.nf-hole::before,
+.nf-hole::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: var(--tl-bronze-light);
+}
+.nf-hole::before { width: .34em; height: 1px; transform: translate(-50%, -50%); }
+.nf-hole::after { width: 1px; height: .34em; transform: translate(-50%, -50%); }
+.nf-hole-dim {
+  position: absolute;
+  left: 62%;
+  top: 14%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  -webkit-text-stroke: 0;
+}
+.nf-hole-dim i {
+  display: block;
+  width: clamp(40px, 7vw, 120px);
+  height: 1px;
+  background: var(--tl-bronze-light);
+  transform: rotate(-28deg);
+  transform-origin: left;
+}
+.nf-hole-dim b {
+  color: var(--tl-bronze-light);
+  font: 600 clamp(10px, .85vw, 13px)/1 var(--tl-font-mono);
+  letter-spacing: .16em;
+  white-space: nowrap;
+  transform: translateY(-1.6em);
+}
+
+.nf-copy {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: end;
+  gap: var(--tl-s5) var(--pl-gutter);
+}
+.shell-root .nf-copy .shell-notfound-title {
+  grid-column: 1 / span 7;
+  max-width: 14ch;
+  margin: 0;
+  font-size: clamp(40px, 5vw, 88px);
+  line-height: .98;
+  letter-spacing: -.03em;
+}
+.shell-root .nf-copy .shell-notfound-title em { color: var(--tl-bronze-light); }
+.nf-copy-side { grid-column: 8 / -1; }
+.nf-copy-side .shell-lede { margin: 0; }
+.nf-copy-side .shell-notfound-actions { margin-top: var(--tl-s5); }
+
+/* Crosshair — two hairlines through the pointer and a coordinate stamp. */
+.nf-cross { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .3s ease; }
+.nf-stage[data-tracking] .nf-cross { opacity: 1; }
+.nf-cross-x,
+.nf-cross-y { position: absolute; display: block; background: var(--tl-label-rule); }
+.nf-cross-x { left: 0; right: 0; top: var(--nf-y, 50%); height: 1px; }
+.nf-cross-y { top: 0; bottom: 0; left: var(--nf-x, 50%); width: 1px; }
+.nf-cross-read {
+  position: absolute;
+  left: calc(var(--nf-x, 50%) + 12px);
+  top: calc(var(--nf-y, 50%) + 12px);
+  padding: 5px 7px;
+  color: var(--tl-ink);
+  background: var(--tl-paper);
+  font: 600 10px/1 var(--tl-font-mono);
+  letter-spacing: .08em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.shell-root .shell-notfound-meta {
+  max-width: none;
+  margin: 0;
+  padding-inline: var(--pl-gutter);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 0;
+}
+.nf-registers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--tl-s7) var(--pl-gutter);
+  padding-inline: var(--pl-gutter);
+}
+.shell-root .nf-registers .shell-notfound-section { max-width: none; }
+.nf-registers:not(:has(> :nth-child(2))) > .shell-notfound-section { grid-column: 1 / -1; }
+.nf-report { padding: var(--tl-s6) var(--pl-gutter) 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .nf-digit { animation: pl-rise 1s var(--pl-ease) both; }
+  .nf-digit:nth-child(2) { animation-delay: .08s; }
+  .nf-digit:nth-child(3) { animation-delay: .16s; }
+  .nf-hole-dim { animation: pl-fade .8s ease .9s both; }
+  .nf-copy { animation: pl-rise .9s var(--pl-ease) .35s both; }
+}
+
+@media (max-width: 900px) {
+  .shell-root .nf-copy .shell-notfound-title,
+  .nf-copy-side { grid-column: 1 / -1; }
+  .nf-registers { grid-template-columns: minmax(0, 1fr); }
+  .shell-root .shell-notfound-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 767px) {
+  .nf-stage { min-height: 0; gap: var(--tl-s6); padding-top: var(--tl-s5); }
+  .nf-top { flex-direction: column; gap: var(--tl-s3); }
+  .nf-code { font-size: 33vw; }
+  .nf-hole-dim b { font-size: 9px; letter-spacing: .1em; }
+}
+
+/* ── P5 · FOOTER — THE CLOSING SCENE ──────────────────────────────────────
+   Order: closing statement + actions → brand / address / link columns →
+   the wordmark at full measure → the title-block meta line. The old cropped
+   watermark (two pseudo-element copies, one blurred) collided with the CTA
+   buttons and the legal run; it is retired for a real, fully visible word. */
+.shell-root .tl-footer-body::before,
+.shell-root .tl-title-block::before { content: none; }
+
+.shell-root .shell-footer-conversion { border-top: 0; border-bottom: var(--tl-rule-size) solid var(--tl-rule); }
+.shell-root .shell-footer-journal {
+  grid-column: 1 / span 8;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--tl-s5);
+  padding: clamp(56px, 8vw, 128px) var(--pl-gutter) clamp(40px, 5vw, 72px);
+}
+.shell-root .shell-footer-journal .shell-eyebrow { font-size: 11px; }
+.pl-close-statement {
+  margin: 0;
+  max-width: 13ch;
+  color: var(--tl-white);
+  font: 400 clamp(44px, 6.2vw, 112px)/.96 var(--tl-font-serif);
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.pl-close-statement em { color: var(--tl-bronze-light); font-style: italic; }
+.shell-root .shell-footer-journal a { font-size: 13px; letter-spacing: .02em; }
+.shell-root .shell-footer-actions {
+  grid-column: 9 / -1;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-end;
+  gap: var(--tl-s3);
+  padding: var(--tl-s6) var(--pl-gutter) clamp(40px, 5vw, 72px);
+}
+.shell-root .shell-footer-primary,
+.shell-root .shell-footer-secondary {
+  justify-content: space-between;
+  min-height: 64px;
+  padding-inline: var(--tl-s5);
+  font-size: 14px;
+  transition: background .35s var(--pl-ease), color .35s ease, border-color .35s ease, padding .45s var(--pl-ease);
+}
+.shell-root .shell-footer-primary:hover,
+.shell-root .shell-footer-secondary:hover { padding-inline: var(--tl-s6) var(--tl-s5); }
+.shell-root .shell-footer-secondary:hover { color: var(--tl-ink); background: var(--tl-white); }
+@media (min-width: 768px) {
+  body:has([data-chat-launcher]) .shell-root .shell-footer-actions { padding-right: var(--pl-gutter); }
+}
+
+/* Brand + links, legible. */
+.shell-root .tl-footer-brand { padding: var(--tl-s7) var(--pl-gutter) var(--tl-s6); }
+.shell-root .tl-footer h2 { font-size: clamp(22px, 1.9vw, 30px); }
+.shell-root .tl-footer address { margin-top: var(--tl-s5); gap: var(--tl-s3) var(--tl-s6); }
+.shell-root .tl-footer address p { font-size: 12px; }
+.shell-root .tl-footer nav { padding-block: var(--tl-s7) var(--tl-s6); }
+.shell-root .tl-footer nav h3 { margin-bottom: var(--tl-s4); font-size: 10px; color: var(--tl-on-dark-faint); }
+.shell-root .tl-footer nav a { margin-top: 10px; font-size: 14px; line-height: 1.3; }
+.shell-root .tl-footer nav a:hover { color: var(--tl-bronze-light); }
+
+/* The wordmark: sized to the content field with container units, so it
+   always spans the sheet exactly — no crop at any width. */
+.pl-wordmark {
+  grid-column: 1 / -1;
+  container-type: inline-size;
+  overflow: clip;
+  border-top: var(--tl-rule-size) solid var(--tl-rule);
+  padding: clamp(20px, 3vw, 40px) var(--pl-gutter) 0;
+}
+.pl-wordmark p {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding-bottom: .06em;
+  color: var(--tl-white);
+  font: 700 15.6cqi/.86 var(--tl-font-sans);
+  letter-spacing: -.05em;
+  white-space: nowrap;
+  user-select: none;
+}
+.pl-wordmark span {
+  display: inline-block;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--tl-label-rule);
+  transition: color .5s var(--pl-ease), -webkit-text-stroke-color .5s ease, transform .6s var(--pl-ease);
+}
+.pl-wordmark p:hover span { -webkit-text-stroke-color: var(--tl-rule); }
+.pl-wordmark span:hover { color: var(--tl-white); -webkit-text-stroke-color: var(--tl-white); transform: translateY(-.04em); }
+.pl-wordmark span[data-space] { width: .12em; }
+
+@media (max-width: 1180px) {
+  .shell-root .shell-footer-conversion { order: 0; }
+  .shell-root .shell-footer-disclosures { order: 3; }
+  .pl-wordmark { order: 8; }
+  .shell-root .tl-title-block { order: 9; }
+  .shell-root .shell-footer-journal { grid-column: 1 / -1; padding-bottom: var(--tl-s5); }
+  .shell-root .shell-footer-actions { grid-column: 1 / -1; border-left: 0; flex-direction: row; flex-wrap: wrap; padding-top: 0; }
+  .shell-root .shell-footer-actions > a { flex: 1 1 240px; }
+}
+@media (max-width: 767px) {
+  .pl-close-statement { font-size: clamp(38px, 11vw, 56px); }
+  .shell-root .tl-footer-brand { padding-block: var(--tl-s6) var(--tl-s5); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pl-wordmark span,
+  .shell-root .shell-footer-primary,
+  .shell-root .shell-footer-secondary { transition-duration: .01ms; }
+}
+
+/* ── P7 · LANDING HERO SCALE ───────────────────────────────────────────────
+   The first sentence of the site was set at 44px inside four master columns
+   — smaller than the photograph's dimension stamps next to it. It now reads
+   at display scale and is allowed to cross into the dark flank of the part
+   stage (the copy already sits above it, z 4 over a black-to-clear wash):
+   the type and the part share the frame instead of standing in two boxes.
+   Block edges stay on the master axes the grid contract measures. */
+.shell-root .tl-hero-copy h1 {
+  width: max-content;
+  max-width: calc(100% + 34vw);
+  font-size: clamp(38px, 4.5vw, 78px);
+  line-height: .92;
+  letter-spacing: -.035em;
+}
+.shell-root .tl-hero-copy > p { font-size: clamp(16px, 1.2vw, 19px); }
+@media (max-width: 767px) {
+  .shell-root .tl-hero-copy h1 { width: auto; max-width: none; font-size: clamp(38px, 11vw, 52px); }
+}

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { ShellBand } from "./ShellBand";
+import { usePageRail } from "./rail-context";
 
 /* ══════════════════════════════════════════════════════════════════════════
    SHARED PUBLIC PRIMITIVES
@@ -64,13 +65,27 @@ export function ShellPageHero({
   actions?: ReactNode;
   id?: string;
 }) {
+  const pageRail = usePageRail();
   return (
     <ShellBand no={no} label={label} className="shell-hero" id={id} labelledBy="shell-page-title">
       <div className="tl-grid shell-hero-body">
+        {pageRail && (
+          <div className="shell-hero-ghost" aria-hidden="true">
+            <span>{pageRail.no}</span>
+            <small>{pageRail.label}</small>
+          </div>
+        )}
         <div className="shell-hero-copy">
           {crumb}
           {eyebrow && <p className="shell-eyebrow">{eyebrow}</p>}
           <h1 id="shell-page-title">{title}</h1>
+        </div>
+        <div className="shell-hero-datum" aria-hidden="true">
+          <span>0.000</span>
+          <i />
+          <span>DATUM A</span>
+        </div>
+        <div className="shell-hero-foot">
           {lede && <p className="shell-lede">{lede}</p>}
           {actions && <div className="shell-hero-actions">{actions}</div>}
         </div>

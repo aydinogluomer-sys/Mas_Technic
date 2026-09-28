@@ -174,6 +174,31 @@ export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label
         {/* The subgrid is attached by class in `shell.css`, never in markup —
             a band body does not get to half-adopt the master grid. */}
         <div className="tl-footer-body">
+          {/* THE CLOSING SCENE (polish run). The conversion rule used to be a
+              thin strip squeezed between the link columns and the legal line;
+              it is now the footer's first row and the last statement a reader
+              meets on every page. `data-footer-newsletter` / `data-footer-cta`
+              are unchanged contract markers — neither element animates. */}
+          <div className="shell-footer-conversion">
+            <div className="shell-footer-journal" data-footer-newsletter>
+              <span className="shell-eyebrow">SONRAKİ ADIM</span>
+              <p className="pl-close-statement">
+                Toleransı siz yazın, <em>gerisini ölçelim.</em>
+              </p>
+              <Link to="/blog">
+                Teknik günlüğü incele
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </div>
+            <div className="shell-footer-actions" data-footer-cta>
+              <Link className="shell-footer-primary" to={rfqLink.path}>
+                Hemen Teklif Al
+                <ArrowRight aria-hidden="true" />
+              </Link>
+              <Link className="shell-footer-secondary" to="/iletisim">Bize Ulaşın</Link>
+            </div>
+          </div>
+
           <div className="tl-footer-brand">
             {/* `KANITLANMIŞ TESLİM.` iddiası kaldırıldı: §G CASE_STUDIES:
                 NONE_PROVIDED_YET — "kanıtlanmış" var olmayan bir kanıta atıf
@@ -213,26 +238,14 @@ export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label
             ))}
           </div>
 
-          {/* The conversion rule. `data-footer-newsletter` / `data-footer-cta`
-              are the same contract markers the mega footer's two glass slabs
-              carried; the guarantee they encode (no entrance animation under
-              reduced motion) is now trivially true, because neither element
-              animates at all. */}
-          <div className="shell-footer-conversion">
-            <div className="shell-footer-journal" data-footer-newsletter>
-              <span className="shell-eyebrow">TEKNİK GÜNLÜK</span>
-              <Link to="/blog">
-                Yazıları incele
-                <ArrowRight aria-hidden="true" />
-              </Link>
-            </div>
-            <div className="shell-footer-actions" data-footer-cta>
-              <Link className="shell-footer-primary" to={rfqLink.path}>
-                Hemen Teklif Al
-                <ArrowRight aria-hidden="true" />
-              </Link>
-              <Link className="shell-footer-secondary" to="/iletisim">Bize Ulaşın</Link>
-            </div>
+          {/* The wordmark, resolved: full measure, never cropped by a rule or
+              covered by a control. Each letter fills on hover. */}
+          <div className="pl-wordmark" aria-hidden="true">
+            <p>
+              {"MAS TECHNIC".split("").map((ch, i) => (
+                <span key={i} data-space={ch === " " || undefined}>{ch === " " ? " " : ch}</span>
+              ))}
+            </p>
           </div>
 
           <div className="tl-title-block">

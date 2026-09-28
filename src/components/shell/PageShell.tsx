@@ -1,8 +1,10 @@
 import { useRef, type ReactNode, type RefObject } from "react";
+import { PageRailContext } from "./rail-context";
 import { Header } from "@/components/Header";
 import { SiteFooter } from "./SiteFooter";
 import { useScrollableRegionAccess } from "./useScrollableRegionAccess";
 import "@/styles/shell.css";
+import "@/styles/polish.css";
 
 /* ══════════════════════════════════════════════════════════════════════════
    THE GLOBAL PUBLIC PAGE SHELL
@@ -92,6 +94,7 @@ export function PageShell({
   useScrollableRegionAccess(sheetRef);
 
   return (
+    <PageRailContext.Provider value={rail}>
     <div
       ref={rootRef}
       className={`shell-root ${className}`.trim()}
@@ -112,5 +115,6 @@ export function PageShell({
         {footer && <SiteFooter />}
       </div>
     </div>
+    </PageRailContext.Provider>
   );
 }

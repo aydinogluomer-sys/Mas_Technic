@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { PageShell } from "@/components/shell/PageShell";
 import { ShellMetaRow } from "@/components/shell/ShellPrimitives";
 import { ShellAction, ShellIndexList } from "@/components/shell/ShellComposition";
@@ -189,17 +189,85 @@ export const NotFound = ({ shell = true }: { shell?: boolean }) => {
     console.error("404 Error:", requested);
   }, [requested]);
 
+  /* The off-datum readout. Pointer position is written straight to CSS custom
+     properties and two text nodes — never React state — so a pointer move
+     costs one style write, not a render. Coarse pointers never get it. */
+  const stageRef = useRef<HTMLElement>(null);
+  const readX = useRef<HTMLSpanElement>(null);
+  const readY = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || !window.matchMedia("(pointer: fine)").matches) return;
+    let frame = 0;
+    const onMove = (event: PointerEvent) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const rect = stage.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        stage.style.setProperty("--nf-x", `${x}px`);
+        stage.style.setProperty("--nf-y", `${y}px`);
+        stage.dataset.tracking = "";
+        /* Sheet coordinates in millimetres from datum A (bottom-left), 1px = 0.1mm. */
+        if (readX.current) readX.current.textContent = (x / 10).toFixed(3);
+        if (readY.current) readY.current.textContent = ((rect.height - y) / 10).toFixed(3);
+      });
+    };
+    const onLeave = () => { delete stage.dataset.tracking; };
+    stage.addEventListener("pointermove", onMove);
+    stage.addEventListener("pointerleave", onLeave);
+    return () => {
+      cancelAnimationFrame(frame);
+      stage.removeEventListener("pointermove", onMove);
+      stage.removeEventListener("pointerleave", onLeave);
+    };
+  }, []);
+
   const body = (
     <div className="shell-notfound">
-      <p className="shell-eyebrow">ERR::PAGE_NOT_FOUND</p>
-      <p className="shell-notfound-code" aria-hidden="true">404</p>
-      <h1 className="shell-notfound-title">
-        Bu koordinatta <em>kayıt yok</em>
-      </h1>
-      <p className="shell-lede">
-        İstenen yol bu sitenin sayfa dizininde bir konuma karşılık gelmiyor. Adres değişmiş, yanlış
-        yazılmış veya bağlantı eskimiş olabilir. Aşağıdaki kayıtlar sizi tekrar bir datuma oturtur.
-      </p>
+      <section ref={stageRef} className="nf-stage" aria-labelledby="nf-title">
+        <div className="nf-cross" aria-hidden="true">
+          <i className="nf-cross-x" />
+          <i className="nf-cross-y" />
+          <span className="nf-cross-read">X <span ref={readX}>0.000</span> · Y <span ref={readY}>0.000</span></span>
+        </div>
+
+        <header className="nf-top">
+          <p className="shell-eyebrow">ERR::PAGE_NOT_FOUND</p>
+          <p className="nf-path" aria-hidden="true">
+            <span>İSTENEN</span>
+            <code>{requested}</code>
+          </p>
+        </header>
+
+        <p className="nf-code" aria-hidden="true">
+          <span className="nf-digit">4</span>
+          <span className="nf-digit nf-hole">
+            0
+            <span className="nf-hole-dim">
+              <i />
+              <b>Ø — ÖLÇÜLEMEDİ</b>
+            </span>
+          </span>
+          <span className="nf-digit">4</span>
+        </p>
+
+        <div className="nf-copy">
+          <h1 id="nf-title" className="shell-notfound-title">
+            Bu koordinatta <em>kayıt yok.</em>
+          </h1>
+          <div className="nf-copy-side">
+            <p className="shell-lede">
+              İstenen yol bu sitenin sayfa dizininde bir konuma karşılık gelmiyor. Adres değişmiş, yanlış
+              yazılmış veya bağlantı eskimiş olabilir. Aşağıdaki kayıtlar sizi tekrar bir datuma oturtur.
+            </p>
+            <div className="shell-notfound-actions">
+              <ShellAction to="/" variant="primary">Ana sayfa</ShellAction>
+              <ShellAction to="/teklif-al" variant="ghost">Teklif al</ShellAction>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <ShellMetaRow
         className="shell-notfound-meta"
@@ -211,37 +279,37 @@ export const NotFound = ({ shell = true }: { shell?: boolean }) => {
         ]}
       />
 
-      {/* Rendered only when something really scored. An empty "did you mean"
-          block is a worse answer than no block at all. */}
-      {suggestions.length > 0 && (
-        <section className="shell-notfound-section" aria-labelledby="notfound-near">
-          <h2 id="notfound-near" className="shell-eyebrow">YAKIN KAYITLAR</h2>
-          <ShellIndexList
-            compact
-            ariaLabel="İstenen adrese en yakın sayfalar"
-            items={suggestions.map((path, index) => ({
-              to: path,
-              title: labelFor(path),
-              description: path,
-              index: `Y${index + 1}`,
-            }))}
-          />
+      <div className="nf-registers">
+        {/* Rendered only when something really scored. An empty "did you mean"
+            block is a worse answer than no block at all. */}
+        {suggestions.length > 0 && (
+          <section className="shell-notfound-section" aria-labelledby="notfound-near">
+            <h2 id="notfound-near" className="shell-eyebrow">YAKIN KAYITLAR</h2>
+            <ShellIndexList
+              compact
+              ariaLabel="İstenen adrese en yakın sayfalar"
+              items={suggestions.map((path, index) => ({
+                to: path,
+                title: labelFor(path),
+                description: path,
+                index: `Y${index + 1}`,
+              }))}
+            />
+          </section>
+        )}
+
+        <section className="shell-notfound-section" aria-labelledby="notfound-directory">
+          <h2 id="notfound-directory" className="shell-eyebrow">SAYFA DİZİNİ</h2>
+          <ShellIndexList compact ariaLabel="Sayfa dizini" items={DIRECTORY} />
         </section>
-      )}
+      </div>
 
-      <section className="shell-notfound-section" aria-labelledby="notfound-directory">
-        <h2 id="notfound-directory" className="shell-eyebrow">SAYFA DİZİNİ</h2>
-        <ShellIndexList compact ariaLabel="Sayfa dizini" items={DIRECTORY} />
-      </section>
-
-      <div className="shell-notfound-actions">
-        <ShellAction to="/" variant="primary">Ana sayfa</ShellAction>
-        <ShellAction to="/teklif-al" variant="ghost">Teklif al</ShellAction>
+      <div className="nf-report">
         <ShellAction to="/iletisim" variant="quiet">Bu bağlantıyı bize bildirin</ShellAction>
       </div>
     </div>
   );
 
-  if (!shell) return <div className="shell-root shell-notfound-bare" data-shell-surface="paper">{body}</div>;
-  return <PageShell rail={{ no: "404", label: "HATA" }}>{body}</PageShell>;
+  if (!shell) return <div className="shell-root shell-notfound-bare" data-shell-surface="graphite">{body}</div>;
+  return <PageShell surface="graphite" rail={{ no: "404", label: "HATA" }}>{body}</PageShell>;
 };

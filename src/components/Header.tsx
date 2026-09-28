@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { prefetchMenuRoutes } from "@/utils/routePrefetch";
 import { HERO_SHELL_TEARDOWN_FALLBACK_MS, INTRO_DONE_EVENT, isHeroIntroActive } from "@/lib/hero-shell";
-import { landingSections, navigationItems, rfqLink } from "./navigation/ia";
+import { companyLinks, landingSections, legalLinks, navigationItems, resourceLinks, rfqLink } from "./navigation/ia";
 import { NavCategoryPanel } from "./navigation/NavCategoryPanel";
 import { NavConversion } from "./navigation/NavConversion";
 import { NavDirectory } from "./navigation/NavDirectory";
@@ -470,9 +470,20 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
     ? activeSectionEntry
       ? `§${activeSectionEntry.index} ${activeSectionEntry.label.toLocaleUpperCase("tr-TR")}`
       : "PAFTA 01/14"
-    : currentFamily >= 0
-      ? groups[currentFamily].label.toLocaleUpperCase("tr-TR")
-      : "MAS TECHNIC";
+    : (() => {
+        /* The page being read, not the brand the bar already shows at left:
+           family › entry on deep routes, the resource/company name elsewhere. */
+        const path = location.pathname;
+        const flat = [...resourceLinks, ...companyLinks, ...legalLinks, rfqLink];
+        const direct = flat.find((link) => path === link.path || path.startsWith(`${link.path}/`));
+        if (currentFamily >= 0) {
+          const family = groups[currentFamily];
+          const category = family.children?.find((item) => item.path === path || item.links.some((link) => link.path === path));
+          const entry = category?.links.find((link) => link.path === path) ?? category;
+          return `${family.label}${entry ? ` › ${entry.label}` : ""}`.toLocaleUpperCase("tr-TR");
+        }
+        return (direct?.label ?? "Pafta dışı").toLocaleUpperCase("tr-TR");
+      })();
 
   return (
     <>

@@ -329,7 +329,7 @@ export function ChatBot() {
             whileTap={reducedMotion ? undefined : { scale: 0.9 }}
             transition={reducedMotion ? { duration: 0 } : undefined}
             onClick={() => setOpen(true)}
-            className="fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-shadow hover:shadow-xl md:h-14 md:w-14"
+            className="chat-launcher fixed z-50 flex h-12 w-12 items-center justify-center md:h-14 md:w-14"
             style={{
               bottom: "calc(5.75rem + var(--shell-safe-bottom))",
               right: "max(1rem, var(--shell-safe-right))",
