@@ -231,12 +231,14 @@ test.describe("design system — one component, one typography", () => {
     test.setTimeout(120_000);
     await page.emulateMedia({ reducedMotion: "reduce" });
 
-    /* `/giris` renders the nested label the defect lived in; `/iletisim`
-       renders the same design-system slot un-nested. Two routes are the
+    /* `/giris` renders the nested label the defect lived in; `/sss`
+       renders the same design-system slot un-nested. (ROUND 2: was
+       `/iletisim`, whose meeting form was replaced by the Google booking
+       dialog and no longer renders `.shell-field` labels.) Two routes are the
        minimum that can show a SPLIT rather than merely a change. */
     const healthy = [
       ...await censusOf(page, "/giris"),
-      ...await censusOf(page, "/iletisim"),
+      ...await censusOf(page, "/sss"),
     ];
     expect(splits(healthy.filter((r) => r.key === ".shell-field label")), "the tree must be green before it can be broken")
       .toEqual([]);
@@ -263,7 +265,7 @@ test.describe("design system — one component, one typography", () => {
     await settleRendering(page);
     const broken = [
       ...(await page.evaluate(CENSUS)).map((r) => ({ route: "/giris", ...r })),
-      ...healthy.filter((r) => r.route === "/iletisim"),
+      ...healthy.filter((r) => r.route === "/sss"),
     ];
 
     expect(
@@ -280,8 +282,8 @@ test.describe("design system — one component, one typography", () => {
        catches the defect we already know about; this one proves it catches a
        divergence introduced somewhere it has never looked, with no selector
        from history in it. */
-    const control = await censusOf(page, "/iletisim");
-    expect(splits(control), "/iletisim must be green before it is broken").toEqual([]);
+    const control = await censusOf(page, "/sss");
+    expect(splits(control), "/sss must be green before it is broken").toEqual([]);
 
     const target = await page.evaluate(() => {
       const el = document.querySelectorAll(".shell-field label")[1] as HTMLElement | undefined;
@@ -289,13 +291,13 @@ test.describe("design system — one component, one typography", () => {
       el.setAttribute("data-09b1c2-mutant", "");
       return el.textContent?.trim() ?? "";
     });
-    expect(target, "/iletisim must render at least two `.shell-field` labels for this control").not.toBeNull();
+    expect(target, "/sss must render at least two `.shell-field` labels for this control").not.toBeNull();
 
     await page.addStyleTag({
       content: `[data-09b1c2-mutant] { font-size: 13px !important; letter-spacing: normal !important; }`,
     });
     await settleRendering(page);
-    const mutated = (await page.evaluate(CENSUS)).map((r) => ({ route: "/iletisim", ...r }));
+    const mutated = (await page.evaluate(CENSUS)).map((r) => ({ route: "/sss", ...r }));
 
     expect(
       splits(mutated),

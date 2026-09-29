@@ -26,6 +26,9 @@ export const Z = {
      the fullscreen menu (`--gnav-menu-z` 10010, `src/styles/navigation.css`),
      so over both the pointer vanished while the native one stayed hidden.
      `CustomCursor` now portals to `body` at this value, above the menu. */
+  /* Page-owned modal dialogs (the /iletisim booking dialog). Above the fixed
+     header (`--gnav-z` 10000) and the menu (10010), below the pointer. */
+  dialog: 10015,
   cursor: 10020,
 } satisfies Record<string, number>;
 

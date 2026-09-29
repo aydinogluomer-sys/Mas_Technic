@@ -65,9 +65,14 @@ const STATIC_FULL_SHELL_ROUTES = [
      render etmiyordu; sitenin birincil dönüşüm sayfasının footer'ı, yasal
      bağlantısı ve ikincil navigasyonu yoktu — görsel olarak da doğrulanmıştı
      (`reports/baseline/visual/teklif-al-1440.png`). `PageShell` ile artık her
-     rota gibi tek kabuğu basıyor, dolayısıyla istisna değil sözleşme. */
-  "/teklif-al",
+     rota gibi tek kabuğu basıyor, dolayısıyla istisna değil sözleşme.
+     ROUND 2 (2026-09-30) — `/teklif-al` bu kümeden GÖREV YÜZEYİ kümesine
+     taşındı: kullanıcı kararıyla teklif stüdyosu footer basmıyor. Yasal
+     bağlantılar stüdyonun sol rayında; bkz. TASK_SURFACE_ROUTES. */
 ] as const;
+
+/** Header'ı basan, footer'ı bilinçli olarak basmayan görev yüzeyleri. */
+const TASK_SURFACE_ROUTES = ["/teklif-al"] as const;
 
 /**
  * Paylaşılan header'ı VE footer'ı basmayan halka açık yüzeyler.
@@ -323,18 +328,19 @@ test.describe("Shared public shell accessibility", () => {
     // `/kalite-dosyasi`) ve `caseStudies`ten türetilen ÜÇ profil detayı
     // EKLEDİ. Önceki iki değişiklikten farkı: onlar rotayı bir kümeden
     // diğerine TAŞIMIŞTI, bu beşi sözleşmeye YENİ yüzey ekliyor.
-    expect(new Set(FULL_SHELL_ROUTES).size).toBe(95);
+    // ROUND 2: 95 → 94, `/teklif-al` taşındı (silinmedi) — TASK_SURFACE_ROUTES.
+    expect(new Set(FULL_SHELL_ROUTES).size).toBe(94);
     expect(FULL_SHELL_ROUTES).toContain("/");
-    expect(FULL_SHELL_ROUTES).toContain("/teklif-al");
+    expect(TASK_SURFACE_ROUTES).toContain("/teklif-al");
     expect(FULL_SHELL_ROUTES).toContain("/kabiliyet-profilleri");
     expect(FULL_SHELL_ROUTES).toContain("/kalite-dosyasi");
     // Toplam 94 → 99: istisna kümesinden HİÇBİR ŞEY çıkmadı; tam kabuk
     // kümesine beş yeni rota girdi. Sayı büyüdü, sözleşmeden hiçbir rota
     // düşmedi.
-    expect(new Set([...FULL_SHELL_ROUTES, ...NON_SHELL_PUBLIC_ROUTES]).size).toBe(99);
+    expect(new Set([...FULL_SHELL_ROUTES, ...TASK_SURFACE_ROUTES, ...NON_SHELL_PUBLIC_ROUTES]).size).toBe(99);
   });
 
-  test("keeps all 95 canonical full-shell routes on one header/footer contract", async ({ page }, testInfo) => {
+  test("keeps all 94 canonical full-shell routes on one header/footer contract", async ({ page }, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical all-route shell lane");
     test.setTimeout(600_000);
     const runtimeErrors: string[] = [];
@@ -434,7 +440,10 @@ test.describe("Shared public shell accessibility", () => {
       { route: "/technical-preview", finalPaths: ["/technical-preview"], header: 1, footer: 1 },
       { route: "/legacy-landing", finalPaths: ["/legacy-landing"], header: 1, footer: 1 },
       { route: "/test", finalPaths: ["/test"], header: 1, footer: 1 },
-      { route: "/cad-dashboard", finalPaths: ["/teklif-al"], header: 1, footer: 1 },
+      /* ROUND 2 — the quote studio is a task surface: header, no footer. Its
+         legal links live in the studio rail (asserted below). */
+      { route: "/teklif-al", finalPaths: ["/teklif-al"], header: 1, footer: 0 },
+      { route: "/cad-dashboard", finalPaths: ["/teklif-al"], header: 1, footer: 0 },
       { route: "/giris", finalPaths: ["/giris"], header: 0, footer: 0 },
       { route: "/sifremi-unuttum", finalPaths: ["/sifremi-unuttum"], header: 0, footer: 0 },
       { route: "/reset-password", finalPaths: ["/reset-password"], header: 0, footer: 0 },
@@ -461,6 +470,11 @@ test.describe("Shared public shell accessibility", () => {
       await expect.poll(() => expectation.finalPaths.some((path) => path === new URL(page.url()).pathname)).toBe(true);
       await expect(page.locator("[data-fullscreen-header]"), expectation.route).toHaveCount(expectation.header);
       await expect(page.getByRole("contentinfo"), expectation.route).toHaveCount(expectation.footer);
+    }
+
+    await page.goto("/teklif-al", { waitUntil: "domcontentloaded" });
+    for (const name of ["KVKK", "Gizlilik Politikası", "Çerez Politikası"]) {
+      await expect(page.locator(".rfq-legal").getByRole("link", { name }), `/teklif-al keeps ${name} without a footer`).toHaveCount(1);
     }
   });
 

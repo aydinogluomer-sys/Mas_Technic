@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { legalLinks } from "@/components/navigation/ia";
 import {
   PageShell,
   ShellAction,
   ShellBreadcrumb,
   ShellNotice,
-  ShellPageHero,
-  ShellRun,
-  ShellSurfaceBand,
-  ShellTitleBlock,
 } from "@/components/shell";
 import {
   MINIMUM_TOLERANCE,
@@ -231,188 +229,160 @@ export const TeklifAl = () => {
     [],
   );
 
+  /* ROUND 2 — THE QUOTE STUDIO. The page no longer reads as a stack of
+     inner-page bands ending in the site footer: it is one task surface.
+     Left, the step rail (where you are, what is left, and the other ways in);
+     centre, the one thing to do now; right, the live record of what will be
+     sent. No footer — a form that asks for a drawing should not end in a
+     site map. The form, its hooks and every field id are unchanged. */
   return (
-    <PageShell surface="graphite" rail={{ no: "13", label: "TEKLİF" }}>
-      <ShellPageHero
-        no="01"
-        label="TEKLİF"
-        crumb={<ShellBreadcrumb trail={[{ label: "Ana sayfa", to: "/" }, { label: "Teklif al" }]} />}
-        eyebrow="Teklif"
-        /* The heading string is a measured contract: `e2e/qa-p08-scroll-region
-           -reach.spec.ts:207` reads it as this route's anti-404 surface. */
-        title="Hassas Fiyat Teklifi Alın"
-        lede="Teknik resminizi veya 3B modelinizi yükleyin, üretim tercihlerinizi bırakın. Dosyayı üretilebilirlik açısından inceleyip fiyat ve termin ile döneriz."
-        meta={heroMeta}
-        actions={
-          <>
-            <ShellAction href="#talep" variant="primary">
-              Dosya yükle
-            </ShellAction>
-            <ShellAction href={SALES_EMAIL_HREF} variant="ghost">
-              {SALES_EMAIL}
-            </ShellAction>
-          </>
-        }
-      />
+    <PageShell surface="graphite" footer={false} className="rfq-page" rail={{ no: "13", label: "TEKLİF" }}>
+      <section className="rfq-studio" id="talep" aria-labelledby="shell-page-title">
+        <header className="rfq-head">
+          <ShellBreadcrumb trail={[{ label: "Ana sayfa", to: "/" }, { label: "Teklif al" }]} />
+          <p className="shell-eyebrow">TEKLİF · 3 ADIM · {QUOTE_RESPONSE_TIME.toLocaleUpperCase("tr-TR")} DÖNÜŞ</p>
+          {/* The heading string is a measured contract: `e2e/qa-p08-scroll-region
+             -reach.spec.ts:207` reads it as this route's anti-404 surface. */}
+          <h1 id="shell-page-title">Hassas Fiyat Teklifi Alın</h1>
+          <dl className="rfq-head-meta">
+            {heroMeta.map((item) => (
+              <div key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>
+            ))}
+          </dl>
+        </header>
 
-      <ShellSurfaceBand no="02" label="TALEP" id="talep" ariaLabel="Teklif talebi formu">
-        <div className="shell-doc">
-          <div className="shell-doc-main">
+        <div className="rfq-grid">
+          <aside className="rfq-rail" aria-label="İlerleme ve alternatif yollar">
             <RfqStepper current={currentStep} furthest={furthestStep} onSelect={goToStep} />
+            <div className="rfq-progress" aria-hidden="true">
+              <i style={{ transform: `scaleY(${currentStep / LAST_STEP})` }} />
+            </div>
+            <div className="rfq-alt">
+              <p className="shell-eyebrow">DOSYA HAZIR DEĞİLSE</p>
+              <ul>
+                <li><a href="/iletisim#toplanti">Teknik görüşme planla <span aria-hidden="true">↗</span></a></li>
+                <li><a href="/sss">Sık sorulan sorular <span aria-hidden="true">↗</span></a></li>
+                <li><a href={PUBLIC_PHONE_HREF}>{PUBLIC_PHONE}</a></li>
+                <li><a href={SALES_EMAIL_HREF}>{SALES_EMAIL}</a></li>
+              </ul>
+              {/* No site footer on this task surface, so the legal texts the
+                  form's data handling refers to stay one click away here. */}
+              <p className="rfq-legal">
+                {legalLinks.map((link) => <Link key={link.path} to={link.path}>{link.label}</Link>)}
+              </p>
+            </div>
+          </aside>
 
-            <form className="shell-stack" onSubmit={handleSubmit} aria-busy={pending} noValidate>
-              {currentStep === 1 && (
-                <RfqUploadStep
-                  selection={cad.selection}
-                  handoff={cad.handoff}
-                  error={cad.error}
-                  isDragging={cad.isDragging}
-                  dragHandlers={cad.dragHandlers}
-                  onSelectFile={(file) => {
-                    setDimensions(null);
-                    setParseError(null);
-                    setPreviewOpen(false);
-                    setFormError(null);
-                    cad.select(file);
-                  }}
-                  onClear={() => {
-                    cad.clear();
-                    setDimensions(null);
-                    setParseError(null);
-                    setPreviewOpen(false);
-                  }}
-                  previewOpen={previewOpen}
-                  onOpenPreview={() => setPreviewOpen(true)}
-                  onClosePreview={() => setPreviewOpen(false)}
-                  dimensions={dimensions}
-                  onDimensions={setDimensions}
-                  parseError={parseError}
-                  onParseError={setParseError}
-                  stageAttempt={stageAttempt}
-                  onStageRetry={() => setStageAttempt((value) => value + 1)}
-                />
-              )}
+          <div className="rfq-canvas">
+              <form className="shell-stack rfq-form" onSubmit={handleSubmit} aria-busy={pending} noValidate>
+                {currentStep === 1 && (
+                  <RfqUploadStep
+                    selection={cad.selection}
+                    handoff={cad.handoff}
+                    error={cad.error}
+                    isDragging={cad.isDragging}
+                    dragHandlers={cad.dragHandlers}
+                    onSelectFile={(file) => {
+                      setDimensions(null);
+                      setParseError(null);
+                      setPreviewOpen(false);
+                      setFormError(null);
+                      cad.select(file);
+                    }}
+                    onClear={() => {
+                      cad.clear();
+                      setDimensions(null);
+                      setParseError(null);
+                      setPreviewOpen(false);
+                    }}
+                    previewOpen={previewOpen}
+                    onOpenPreview={() => setPreviewOpen(true)}
+                    onClosePreview={() => setPreviewOpen(false)}
+                    dimensions={dimensions}
+                    onDimensions={setDimensions}
+                    parseError={parseError}
+                    onParseError={setParseError}
+                    stageAttempt={stageAttempt}
+                    onStageRetry={() => setStageAttempt((value) => value + 1)}
+                  />
+                )}
 
-              {currentStep === 2 && (
-                <RfqSpecStep draft={draft} errors={errors} onChange={setField} />
-              )}
+                {currentStep === 2 && (
+                  <RfqSpecStep draft={draft} errors={errors} onChange={setField} />
+                )}
 
-              {currentStep === 3 && (
-                <RfqSubmitStep
-                  draft={draft}
-                  fileName={fileName}
-                  dimensions={dimensions}
-                  state={submission.state}
-                  onEdit={goToStep}
-                  onRestart={restart}
-                />
-              )}
+                {currentStep === 3 && (
+                  <RfqSubmitStep
+                    draft={draft}
+                    fileName={fileName}
+                    dimensions={dimensions}
+                    state={submission.state}
+                    onEdit={goToStep}
+                    onRestart={restart}
+                  />
+                )}
 
-              {/* A20 — the form-level failure. Persistent, announced
-                  (`role="alert"` via `tone="error"`), square, Space Grotesk;
-                  it was a `sonner` toast that named one problem and vanished. */}
-              {formError && !sent && (
-                <ShellNotice tone="error" label="FORM HATASI" title={formError.title}>
-                  <p>{formError.detail}</p>
-                </ShellNotice>
-              )}
+                {/* A20 — the form-level failure. Persistent, announced
+                    (`role="alert"` via `tone="error"`), square, Space Grotesk;
+                    it was a `sonner` toast that named one problem and vanished. */}
+                {formError && !sent && (
+                  <ShellNotice tone="error" label="FORM HATASI" title={formError.title}>
+                    <p>{formError.detail}</p>
+                  </ShellNotice>
+                )}
 
-              {!sent && (
-                <div className="shell-state-actions">
-                  {currentStep > 1 && (
-                    <ShellAction variant="quiet" onClick={() => goToStep(currentStep - 1)}>
-                      Geri
+                {!sent && (
+                  <div className="shell-state-actions">
+                    {currentStep > 1 && (
+                      <ShellAction variant="quiet" onClick={() => goToStep(currentStep - 1)}>
+                        Geri
+                      </ShellAction>
+                    )}
+                    {/* ONE PRIMARY CONTROL, ALWAYS `type="submit"`, AND THAT IS
+                        A BUG FIX RATHER THAN A TIDY-UP.
+
+                        The first version of this block rendered a
+                        `type="button"` "İleri" for steps 1–2 and swapped it for
+                        a `type="submit"` on step 3. React reconciles those as
+                        the SAME `<button>` element and only rewrites its
+                        attributes — and it does that synchronously, inside the
+                        dispatch of the very click that advanced the step. So by
+                        the time the browser evaluated the click's default
+                        action, the element it had just dispatched on was a
+                        submit button, and the form posted. Measured with every
+                        non-loopback request logged and aborted, so nothing left
+                        the machine: one click on step 2's "İleri" produced
+                        `POST /storage/v1/object/cad-uploads/anonymous/RFQ-…`
+                        with no second click anywhere. It reproduced in two runs
+                        out of three, which is exactly the kind of intermittent
+                        that survives review.
+
+                        A single control whose `type` never changes cannot do
+                        it, and it puts the whole step machine in `handleSubmit`
+                        — the same path implicit submission (Enter) already
+                        takes.
+
+                        `disabled` while in flight is the visible half of the
+                        double-submit guard; the ref in `useRfqSubmission` is the
+                        half that actually holds, because `disabled` only reaches
+                        the DOM on the next commit. */}
+                    <ShellAction type="submit" variant="primary" disabled={pending}>
+                      {pending
+                        ? "Gönderiliyor…"
+                        : currentStep < LAST_STEP
+                          ? "İleri"
+                          : "Teklif talebini gönder"}
                     </ShellAction>
-                  )}
-                  {/* ONE PRIMARY CONTROL, ALWAYS `type="submit"`, AND THAT IS
-                      A BUG FIX RATHER THAN A TIDY-UP.
-
-                      The first version of this block rendered a
-                      `type="button"` "İleri" for steps 1–2 and swapped it for
-                      a `type="submit"` on step 3. React reconciles those as
-                      the SAME `<button>` element and only rewrites its
-                      attributes — and it does that synchronously, inside the
-                      dispatch of the very click that advanced the step. So by
-                      the time the browser evaluated the click's default
-                      action, the element it had just dispatched on was a
-                      submit button, and the form posted. Measured with every
-                      non-loopback request logged and aborted, so nothing left
-                      the machine: one click on step 2's "İleri" produced
-                      `POST /storage/v1/object/cad-uploads/anonymous/RFQ-…`
-                      with no second click anywhere. It reproduced in two runs
-                      out of three, which is exactly the kind of intermittent
-                      that survives review.
-
-                      A single control whose `type` never changes cannot do
-                      it, and it puts the whole step machine in `handleSubmit`
-                      — the same path implicit submission (Enter) already
-                      takes.
-
-                      `disabled` while in flight is the visible half of the
-                      double-submit guard; the ref in `useRfqSubmission` is the
-                      half that actually holds, because `disabled` only reaches
-                      the DOM on the next commit. */}
-                  <ShellAction type="submit" variant="primary" disabled={pending}>
-                    {pending
-                      ? "Gönderiliyor…"
-                      : currentStep < LAST_STEP
-                        ? "İleri"
-                        : "Teklif talebini gönder"}
-                  </ShellAction>
-                </div>
-              )}
-            </form>
+                  </div>
+                )}
+              </form>
           </div>
 
-          <div className="shell-doc-aside">
+          <div className="rfq-summary">
             <RfqAside draft={draft} fileName={fileName} />
           </div>
         </div>
-      </ShellSurfaceBand>
-
-      <ShellSurfaceBand no="03" label="ALTERNATİF" tone="paper" labelledBy="rfq-alternatif">
-        <div className="shell-span-read">
-          <ShellTitleBlock
-            id="rfq-alternatif"
-            index="03"
-            title="Dosya hazır değilse"
-            standfirst="Teklif formu bir CAD dosyasıyla çalışır. Elinizde henüz model yoksa iki yol daha var."
-          />
-        </div>
-        <ShellRun
-          ariaLabel="Alternatif yollar"
-          items={[
-            {
-              title: "Teknik görüşme",
-              detail:
-                "Ekran paylaşımlı bir görüşme planlayın; geometriyi birlikte netleştirip sonra dosya açalım.",
-              action: (
-                <ShellAction to="/iletisim" variant="ghost">
-                  Toplantı planla
-                </ShellAction>
-              ),
-            },
-            {
-              title: "Süreçle ilgili sorular",
-              detail: "Tolerans, malzeme ve yüzey işlemi seçimleri hakkında sık sorulanlar.",
-              action: (
-                <ShellAction to="/sss" variant="ghost">
-                  Sık sorulan sorular
-                </ShellAction>
-              ),
-            },
-            {
-              title: "Doğrudan hat",
-              detail: `Kısa bir soru için telefon veya e-posta. Teklif dönüşü ${QUOTE_RESPONSE_TIME}.`,
-              action: (
-                <ShellAction href={PUBLIC_PHONE_HREF} variant="ghost">
-                  {PUBLIC_PHONE}
-                </ShellAction>
-              ),
-            },
-          ]}
-        />
-      </ShellSurfaceBand>
+      </section>
     </PageShell>
   );
 };

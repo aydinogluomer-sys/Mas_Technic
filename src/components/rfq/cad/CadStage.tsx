@@ -10,6 +10,7 @@ import {
 } from "react";
 import { Canvas, useLoader, useThree } from "@react-three/fiber";
 import { Center, Grid, OrbitControls } from "@react-three/drei";
+import { loadOcct } from "@/lib/occt";
 import * as THREE from "three";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
@@ -216,8 +217,7 @@ function StepPart({
    moves here so the WASM module is a sibling of the renderer that needs it
    rather than a dependency of the form. */
 async function tessellateStep(file: File): Promise<THREE.BufferGeometry> {
-  const occtimportjs = (await import("occt-import-js")).default;
-  const occt = await occtimportjs();
+  const occt = await loadOcct();
   const buffer = new Uint8Array(await file.arrayBuffer());
   const result = occt.ReadStepFile(buffer, null);
 

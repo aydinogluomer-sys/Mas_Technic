@@ -1,3 +1,4 @@
+import { loadOcct } from "@/lib/occt";
 import { Canvas, useThree, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls, Center, Grid, GizmoHelper, GizmoViewport } from "@react-three/drei";
 import { Suspense, useEffect, useMemo, useState, useCallback } from "react";
@@ -36,8 +37,7 @@ const parseStepFromUrl = async (url: string, ext: string): Promise<THREE.BufferG
     const response = await fetch(url);
     const arrayBuffer = await response.arrayBuffer();
     const fileBuffer = new Uint8Array(arrayBuffer);
-    const occtimportjs = (await import("occt-import-js")).default;
-    const occt = await occtimportjs();
+    const occt = await loadOcct();
     const isStep = ext === "step" || ext === "stp";
     const result = isStep
       ? occt.ReadStepFile(fileBuffer, null)

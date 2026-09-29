@@ -23,7 +23,10 @@ import {
  *
  * Kapsam GENİŞLEDİ, gevşemedi: aynı iddialar üç yerine beş rotada koşuyor.
  */
-const ROUTES = ["/", "/sss", "/iletisim", "/malzemeler", "/teklif-al"] as const;
+/* ROUND 2 (2026-09-30): `/teklif-al` left this list by decision — the quote
+   studio is a task surface without the site footer; its legal links sit in
+   the studio rail and are asserted in shared-shell-accessibility.spec.ts. */
+const ROUTES = ["/", "/sss", "/iletisim", "/malzemeler"] as const;
 
 for (const route of ROUTES) {
   test(`complete footer is reachable on ${route}`, async ({ page }, testInfo) => {

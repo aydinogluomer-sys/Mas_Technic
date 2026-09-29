@@ -1,3 +1,4 @@
+import { loadOcct } from "@/lib/occt";
 import { useState, useCallback, Suspense, useEffect, useMemo, useRef } from "react";
 import { Canvas, useThree, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls, Grid, Center, GizmoHelper, GizmoViewport } from "@react-three/drei";
@@ -239,8 +240,7 @@ export const CADDashboard = () => {
       setFileUrl(null);
       setStepLoading(true);
       try {
-        const occtimportjs = (await import("occt-import-js")).default;
-        const occt = await occtimportjs();
+        const occt = await loadOcct();
         const buffer = await file.arrayBuffer();
         const fileBuffer = new Uint8Array(buffer);
         const result = occt.ReadStepFile(fileBuffer, null);

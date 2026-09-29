@@ -1,18 +1,11 @@
-import { useState } from "react";
-import { z } from "zod";
-import { toast } from "sonner";
-import {
-  PageShell,
-  ShellAction,
-  ShellNextStep,
-  ShellPageHero,
-  ShellRun,
-  ShellSurfaceBand,
-  ShellTitleBlock,
-} from "@/components/shell";
+import { useCallback, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { ArrowRight, ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
+import { PageShell, ShellBreadcrumb } from "@/components/shell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
+import { BookingDialog, BOOKING_LINK } from "@/components/contact/BookingDialog";
 import { usePageMeta } from "@/hooks/use-page-meta";
-import { supabase } from "@/integrations/supabase/client";
+import "@/styles/contact-studio.css";
 import {
   PUBLIC_ADDRESS_LINES,
   PUBLIC_PHONE,
@@ -73,52 +66,25 @@ import {
    while a request is in flight.
    ══════════════════════════════════════════════════════════════════════════ */
 
-const meetingSchema = z.object({
-  name: z.string().trim().min(2, "Ad en az 2 karakter olmalı").max(100, "Ad en fazla 100 karakter olabilir"),
-  email: z.string().trim().email("Geçerli bir e-posta adresi girin").max(255),
-  company: z.string().max(100).optional().or(z.literal("")),
-  phone: z.string().max(20).optional().or(z.literal("")),
-  date: z.string().min(1, "Tarih seçin"),
-  time: z.string().min(1, "Saat seçin"),
-  topic: z.string().min(1, "Konu seçin").max(200),
-  notes: z.string().max(1000, "Notlar en fazla 1000 karakter olabilir").optional().or(z.literal("")),
-});
+/* ROUND 2 — THE BOOKING STUDIO. The meeting form wrote a `meetings` row and
+   promised a Meet invite that staff then had to send by hand. Availability,
+   the invite and the reminders now come from the owner's Google Calendar
+   appointment schedule, embedded in `BookingDialog`; the page is one
+   composition — booking on the left, the direct line and the quote route on
+   the right — instead of hero + three bands + next-step. */
 
-const TIME_SLOTS = [
-  "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-  "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00",
-];
+const NEXT_DAYS = 7;
 
-const TOPICS = [
-  "CNC Frezeleme Teklifi",
-  "CNC Tornalama Teklifi",
-  "Prototip Üretim",
-  "Seri Üretim Görüşmesi",
-  "Kalıp & Aparat Projesi",
-  "Malzeme & Yüzey İşlemi Danışmanlık",
-  "Genel Bilgi",
-];
-
-/* What the booking mechanism actually does. No duration, no price, no report:
-   none of the three is a fact anybody supplied. */
-const MEETING_SEQUENCE = [
-  {
-    title: "Talep kaydedilir",
-    detail: "Formu gönderdiğinizde tarih, saat ve konu tercihiniz kayda alınır.",
-  },
-  {
-    title: "Davet iletilir",
-    detail: "Google Meet davet bağlantısı verdiğiniz e-posta adresine gönderilir.",
-  },
-  {
-    title: "Görüşme",
-    detail: "CAD dosyanızı ekran paylaşımıyla birlikte inceler, teknik soruları görüşürüz.",
-  },
-];
-
-const emptyForm = {
-  name: "", email: "", company: "", phone: "", date: "", time: "", topic: "", notes: "",
-};
+function upcomingWorkdays(count: number) {
+  const days: Date[] = [];
+  const cursor = new Date();
+  while (days.length < count) {
+    cursor.setDate(cursor.getDate() + 1);
+    const weekday = cursor.getDay();
+    if (weekday !== 0 && weekday !== 6) days.push(new Date(cursor));
+  }
+  return days;
+}
 
 export const Iletisim = () => {
   usePageMeta({
@@ -126,244 +92,105 @@ export const Iletisim = () => {
     description: "CNC işleme, teklif talebi ve mühendislik desteği için Mas Technic ile iletişime geçin.",
   });
 
-  const [form, setForm] = useState(emptyForm);
-  const [error, setError] = useState<string | null>(null);
-  const [pending, setPending] = useState(false);
+  const location = useLocation();
+  const [bookingOpen, setBookingOpen] = useState(false);
+  const openBooking = useCallback(() => setBookingOpen(true), []);
+  const closeBooking = useCallback(() => setBookingOpen(false), []);
 
-  const set = (field: keyof typeof emptyForm) => (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-  ) => setForm((current) => ({ ...current, [field]: event.target.value }));
+  /* `/iletisim?randevu` opens the dialog directly — the menu, the quote
+     studio and the landing link here. `#toplanti` keeps landing on the card. */
+  useEffect(() => {
+    if (new URLSearchParams(location.search).has("randevu")) setBookingOpen(true);
+  }, [location.search]);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    if (pending) return;
-
-    const parsed = meetingSchema.safeParse(form);
-    if (!parsed.success) {
-      const message = parsed.error.errors[0]?.message || "Geçersiz giriş.";
-      setError(message);
-      toast.error(message);
-      return;
-    }
-    setError(null);
-    setPending(true);
-    try {
-      const value = parsed.data;
-      const { error: insertError } = await supabase.from("meetings").insert({
-        name: value.name,
-        email: value.email,
-        company: value.company || null,
-        phone: value.phone || null,
-        meeting_date: value.date,
-        meeting_time: value.time,
-        topic: value.topic,
-        notes: value.notes || null,
-      });
-      if (insertError) throw insertError;
-      toast.success("Toplantı talebiniz alındı. Google Meet davet bağlantısı e-posta ile iletilecek.");
-      setForm(emptyForm);
-    } catch {
-      const message = "Talep gönderilemedi. Lütfen tekrar deneyin veya doğrudan e-posta gönderin.";
-      setError(message);
-      toast.error(message);
-    } finally {
-      setPending(false);
-    }
-  };
+  const days = upcomingWorkdays(NEXT_DAYS);
+  const dayFormat = new Intl.DateTimeFormat("tr-TR", { weekday: "short" });
 
   return (
-    <PageShell surface="graphite" rail={{ no: "C2", label: "İLETİŞİM" }}>
+    <PageShell surface="graphite" className="contact-page" rail={{ no: "C2", label: "İLETİŞİM" }}>
       <JsonLdSchema type="contact" />
 
-      <ShellPageHero
-        no="01"
-        label="İLETİŞİM"
-        eyebrow="İletişim"
-        title="Bize ulaşın"
-        lede="Teknik resminizi göndermek, bir görüşme planlamak veya doğrudan konuşmak için üç yol var. Hangisi işinize uyuyorsa onu seçin."
-        meta={[
-          { label: "Telefon", value: PUBLIC_PHONE },
-          { label: "E-posta", value: SALES_EMAIL },
-          { label: "Merkez", value: PUBLIC_ADDRESS_LINES.join(" ") },
-          { label: "Teklif dönüşü", value: QUOTE_RESPONSE_TIME },
-        ]}
-        actions={
-          <>
-            <ShellAction to="/teklif-al" variant="primary">Teklif Al</ShellAction>
-            <ShellAction href="#toplanti" variant="ghost">Toplantı planla</ShellAction>
-          </>
-        }
-      />
+      <section className="contact-studio" aria-labelledby="shell-page-title">
+        <header className="contact-head">
+          <ShellBreadcrumb trail={[{ label: "Ana sayfa", to: "/" }, { label: "İletişim" }]} />
+          <p className="shell-eyebrow">İLETİŞİM · İZMİR · TEKLİF DÖNÜŞÜ {QUOTE_RESPONSE_TIME.toLocaleUpperCase("tr-TR")}</p>
+          <h1 id="shell-page-title">Bize ulaşın</h1>
+          <p className="contact-lede">
+            Geometriyi birlikte okumak için bir görüşme planlayın ya da doğrudan yazın. Teknik resminiz hazırsa en
+            hızlı yol teklif dosyasıdır.
+          </p>
+        </header>
 
-      <ShellSurfaceBand no="02" label="YÖNLENDİRME" tone="paper" labelledBy="iletisim-yon">
-        <div className="shell-span-read">
-          <ShellTitleBlock
-            id="iletisim-yon"
-            index="02"
-            title="Nasıl ilerleyelim?"
-            standfirst="Elinizde ne olduğuna göre değişir. Teknik resim varsa birinci yol en hızlısıdır."
-          />
-        </div>
-        <ShellRun
-          ariaLabel="İletişim yolları"
-          items={[
-            {
-              title: "Teknik teklif",
-              detail: `Teknik resim veya 3B modelinizi yükleyin; üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım. Dönüş süresi ${QUOTE_RESPONSE_TIME}.`,
-              action: <ShellAction to="/teklif-al" variant="primary">Teklif Al</ShellAction>,
-            },
-            {
-              title: "Teknik görüşme",
-              detail: "Dosya henüz netleşmediyse mühendislik ekibiyle ekran paylaşımlı bir görüşme planlayın.",
-              action: <ShellAction href="#toplanti" variant="ghost">Toplantı planla</ShellAction>,
-            },
-            {
-              title: "Doğrudan hat",
-              detail: `Kısa bir soru için telefon veya e-posta. ${PUBLIC_ADDRESS_LINES.join(" ")}.`,
-              action: <ShellAction href={PUBLIC_PHONE_HREF} variant="ghost">{PUBLIC_PHONE}</ShellAction>,
-            },
-          ]}
-        />
-      </ShellSurfaceBand>
-
-      <ShellSurfaceBand no="03" label="TOPLANTI" id="toplanti" labelledBy="iletisim-toplanti">
-        <div className="shell-doc">
-          <div className="shell-doc-main">
-            <ShellTitleBlock
-              id="iletisim-toplanti"
-              index="03"
-              title="Online toplantı planlayın"
-              standfirst="Tercih ettiğiniz tarih ve saati bırakın; uygunluk teyidiyle birlikte davet bağlantısını gönderelim."
-            />
-            <form className="shell-form" onSubmit={handleSubmit} noValidate>
-              <div className="shell-form-row">
-                <div className="shell-field">
-                  <label htmlFor="toplanti-ad">Ad soyad *</label>
-                  <input
-                    id="toplanti-ad"
-                    name="name"
-                    type="text"
-                    required
-                    autoComplete="name"
-                    value={form.name}
-                    onChange={set("name")}
-                    placeholder="Adınız Soyadınız"
-                  />
-                </div>
-                <div className="shell-field">
-                  <label htmlFor="toplanti-eposta">E-posta *</label>
-                  <input
-                    id="toplanti-eposta"
-                    name="email"
-                    type="email"
-                    required
-                    autoComplete="email"
-                    value={form.email}
-                    onChange={set("email")}
-                    placeholder="ornek@firma.com"
-                  />
-                </div>
-                <div className="shell-field">
-                  <label htmlFor="toplanti-firma">Firma</label>
-                  <input
-                    id="toplanti-firma"
-                    name="company"
-                    type="text"
-                    autoComplete="organization"
-                    value={form.company}
-                    onChange={set("company")}
-                    placeholder="Firma adı"
-                  />
-                </div>
-                <div className="shell-field">
-                  <label htmlFor="toplanti-telefon">Telefon</label>
-                  <input
-                    id="toplanti-telefon"
-                    name="phone"
-                    type="tel"
-                    autoComplete="tel"
-                    value={form.phone}
-                    onChange={set("phone")}
-                    placeholder="+90 5XX XXX XX XX"
-                  />
-                </div>
-              </div>
-
-              <div className="shell-field">
-                <label htmlFor="toplanti-konu">Toplantı konusu *</label>
-                <select id="toplanti-konu" name="topic" required value={form.topic} onChange={set("topic")}>
-                  <option value="">Konu seçin</option>
-                  {TOPICS.map((topic) => <option key={topic} value={topic}>{topic}</option>)}
-                </select>
-              </div>
-
-              <div className="shell-form-row">
-                <div className="shell-field">
-                  <label htmlFor="toplanti-tarih">Tercih edilen tarih *</label>
-                  <input
-                    id="toplanti-tarih"
-                    name="date"
-                    type="date"
-                    required
-                    value={form.date}
-                    onChange={set("date")}
-                    min={new Date().toISOString().split("T")[0]}
-                  />
-                </div>
-                <div className="shell-field">
-                  <label htmlFor="toplanti-saat">Tercih edilen saat *</label>
-                  <select id="toplanti-saat" name="time" required value={form.time} onChange={set("time")}>
-                    <option value="">Saat seçin</option>
-                    {TIME_SLOTS.map((slot) => <option key={slot} value={slot}>{slot}</option>)}
-                  </select>
-                </div>
-              </div>
-
-              <div className="shell-field">
-                <label htmlFor="toplanti-not">Ek notlar</label>
-                <textarea
-                  id="toplanti-not"
-                  name="notes"
-                  rows={4}
-                  value={form.notes}
-                  onChange={set("notes")}
-                  placeholder="Görüşmek istediğiniz konuları kısaca yazın."
-                />
-              </div>
-
-              {/* The error was a toast only. A toast is transient and is not
-                  attached to the form, so a screen-reader user who missed it
-                  had no way back to the reason. */}
-              <p className="shell-form-error" role="alert">{error}</p>
-
-              <ShellAction type="submit" variant="primary" disabled={pending}>
-                {pending ? "Gönderiliyor…" : "Toplantı talep et"}
-              </ShellAction>
-            </form>
-          </div>
-
-          <div className="shell-doc-aside">
-            <p className="shell-eyebrow">Ne oluyor?</p>
-            <ShellRun ariaLabel="Toplantı akışı" items={MEETING_SEQUENCE} />
-            <p className="shell-note">
-              Teknik resminiz hazırsa toplantıyı beklemeden teklif dosyası açabilirsiniz.
+        <div className="contact-grid">
+          <article className="booking-card" id="toplanti" aria-labelledby="booking-card-title">
+            <p className="booking-card-code">01 · TEKNİK GÖRÜŞME</p>
+            <h2 id="booking-card-title">
+              Parçanızı <em>ekranda birlikte</em> okuyalım.
+            </h2>
+            <p className="booking-card-lede">
+              Google Meet üzerinden ekran paylaşımlı görüşme. Uygun saati takvimden seçin; davet ve hatırlatma
+              e-postanıza otomatik gelir.
             </p>
-            <ShellAction href={SALES_EMAIL_HREF} variant="ghost">{SALES_EMAIL}</ShellAction>
-          </div>
-        </div>
-      </ShellSurfaceBand>
 
-      <ShellNextStep
-        no="04"
-        title="Teknik resminiz hazır mı?"
-        body="Teklif dosyası, görüşmeye göre daha hızlı ilerler: dosyayı yükleyin, üretilebilirlik incelemesiyle birlikte dönelim."
-        detail={[
-          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
-          { label: "E-posta", value: SALES_EMAIL },
-          { label: "Telefon", value: PUBLIC_PHONE },
-        ]}
-        secondary={{ label: "Toplantı planla", href: "#toplanti" }}
-      />
+            <button type="button" className="booking-days" onClick={openBooking} aria-label="Takvimi aç ve saat seç">
+              {days.map((day) => (
+                <span key={day.toISOString()} className="booking-day">
+                  <small>{dayFormat.format(day).toLocaleUpperCase("tr-TR")}</small>
+                  <b>{String(day.getDate()).padStart(2, "0")}</b>
+                </span>
+              ))}
+              <span className="booking-days-hint">Takvimi aç →</span>
+            </button>
+
+            <ol className="booking-steps">
+              <li><span>01</span>Takvimden uygun saati seçin.</li>
+              <li><span>02</span>Google Meet daveti e-postanıza gelir.</li>
+              <li><span>03</span>Görüşmede dosyanızı ve toleranslarınızı birlikte inceleriz.</li>
+            </ol>
+
+            <div className="booking-card-actions">
+              <button type="button" className="booking-primary" onClick={openBooking} data-testid="booking-open">
+                Randevu saatini seç
+                <ArrowRight aria-hidden="true" />
+              </button>
+              <a className="booking-newtab" href={BOOKING_LINK} target="_blank" rel="noopener noreferrer">
+                Randevuyu yeni sekmede aç
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+            </div>
+          </article>
+
+          <aside className="contact-lines" aria-label="Doğrudan hat">
+            <p className="booking-card-code">02 · DOĞRUDAN HAT</p>
+            <a className="contact-line" href={PUBLIC_PHONE_HREF}>
+              <Phone aria-hidden="true" />
+              <span><small>TELEFON</small>{PUBLIC_PHONE}</span>
+            </a>
+            <a className="contact-line" href={SALES_EMAIL_HREF}>
+              <Mail aria-hidden="true" />
+              <span><small>E-POSTA</small>{SALES_EMAIL}</span>
+            </a>
+            <p className="contact-line contact-line--static">
+              <MapPin aria-hidden="true" />
+              <span><small>MERKEZ</small>{PUBLIC_ADDRESS_LINES.join(" ")}</span>
+            </p>
+
+            <div className="contact-quote">
+              <p className="booking-card-code">03 · TEKNİK TEKLİF</p>
+              <p className="contact-quote-title">Teknik resminiz hazır mı?</p>
+              <p>Dosyayı yükleyin; üretilebilirlik incelemesiyle birlikte {QUOTE_RESPONSE_TIME} içinde dönelim.</p>
+              <Link className="booking-primary booking-primary--paper" to="/teklif-al">
+                Teklif al
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <BookingDialog open={bookingOpen} onClose={closeBooking} />
     </PageShell>
   );
 };
+
+export default Iletisim;
