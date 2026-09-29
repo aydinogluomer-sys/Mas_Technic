@@ -548,3 +548,48 @@
 .shell-root .shell-run > li { padding-block: var(--tl-s6); gap: var(--tl-s3); }
 .shell-root .shell-run-no { font-size: 11px; }
 .shell-root .shell-run-title { font-size: clamp(16px, 1.2vw, 19px); letter-spacing: -.01em; }
+
+/* ── P7b · LANDING READING SIZES (second pass) ────────────────────────────
+   The middle of the sheet was still set for a drawing viewed at 50%: 9px
+   centred table cells, 10px mono FAQ questions, 9px resource and RFQ lines.
+   Each band keeps its composition and its measured proportions (the
+   technical-landing contract pins card heights and the RFQ band ratio); only
+   the reading sizes and the alignment move. */
+
+/* 07 — capability profiles: left-set register, legible cells, and the
+   featured table no longer runs into the sheet edge. */
+.shell-root .tl-project-grid h3 { font-size: 14px; letter-spacing: -.01em; }
+.shell-root .tl-project-grid th,
+.shell-root .tl-project-grid td { font-size: 11px; text-align: left; padding-inline: var(--tl-s3); }
+.shell-root .tl-project-grid th { font-size: 10px; letter-spacing: .1em; color: var(--tl-ink-soft); }
+.shell-root .tl-project-grid td:first-child { font-weight: 600; }
+.shell-root .tl-project-grid > .tl-project-featured > div { padding-right: var(--pl-gutter); }
+.shell-root .tl-project-grid h3 + p,
+.shell-root .tl-report-no { font-size: 10px; }
+
+/* 09 — manifesto: Turkish capitals carry dots and cedillas above and below
+   the cap height; at line-height .9 the İ of one line struck the Ş of the
+   line above. One full line of leading keeps the block tight and legible. */
+.shell-root .tl-manifesto h2 { line-height: 1; letter-spacing: -.04em; }
+.shell-root .tl-manifesto p { font-size: clamp(16px, 1.2vw, 19px); }
+
+/* 10 — quality file: titles and captions at reading size. */
+.shell-root .tl-cert h3 { font-size: 14px; letter-spacing: .02em; }
+.shell-root .tl-cert > p { font-size: 11px; line-height: 1.55; }
+
+/* 12 — FAQ + resources: questions are sentences, so they are set as
+   sentences in the interface face, not as 10px code. */
+.shell-root .tl-faq summary {
+  min-height: 52px;
+  font: 500 clamp(14px, 1.05vw, 16px)/1.35 var(--tl-font-sans);
+  letter-spacing: -.005em;
+}
+.shell-root .tl-faq summary span { font: 500 11px/1 var(--tl-font-mono); }
+.shell-root .tl-faq details p { font-size: 14px; }
+.shell-root .tl-resource-title { font-size: 11px; }
+.shell-root .tl-resource-list li { font-size: 11px; }
+.shell-root .tl-resource-list em { font-size: 10px; }
+
+/* 13 — RFQ run: step captions readable, band ratio unchanged. */
+.shell-root .tl-rfq-body > ol strong { font-size: 12px; }
+.shell-root .tl-rfq-body > ol span { font-size: 11px; }
