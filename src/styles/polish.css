@@ -595,3 +595,60 @@
 .shell-root .tl-resource-list a:hover svg,
 .shell-root .tl-resource-list a:focus-visible svg { color: var(--tl-molten); transform: translateY(3px); }
 .shell-root .tl-resource-list a:hover em { color: var(--tl-molten-ink); }
+
+/* ── R2 · HERO — THE PART SITS ON THE SHEET, NOT IN A BOX ─────────────────
+   Reference: public/ChatGPT Image 18 Ağu 2026 12_04_16.png (hero only). The
+   photograph kept a hard rectangle: a top-only feather, a side wash that
+   ended in a straight edge, and the stage's overflow clip. The image now
+   fades to the band's black on every side through one elliptical mask
+   centred on the part, so the part and its granite plate read as standing on
+   the sheet. Block edges (stage, copy, card) do not move — the master-grid
+   contract measures those, not the paint. */
+.shell-root .tl-part-stage::after { content: none; }
+/* `closest-side` puts the fully transparent stop ON the nearest edge in each
+   axis, so every edge of the frame is transparent — no residual rectangle.
+   The procedural granite plate takes the same mask, or its noise draws the
+   box the photograph no longer does. */
+.shell-root .tl-part-stage img,
+.shell-root .tl-part-ground {
+  -webkit-mask-image: radial-gradient(closest-side at 58% 54%, #000 62%, rgba(0, 0, 0, .5) 82%, transparent 100%);
+  mask-image: radial-gradient(closest-side at 58% 54%, #000 62%, rgba(0, 0, 0, .5) 82%, transparent 100%);
+}
+.shell-root .tl-part-ground {
+  -webkit-mask-image: radial-gradient(closest-side at 58% 100%, #000 40%, rgba(0, 0, 0, .45) 70%, transparent 100%);
+  mask-image: radial-gradient(closest-side at 58% 100%, #000 40%, rgba(0, 0, 0, .45) 70%, transparent 100%);
+}
+/* The measured labels read like the reference: squarer boxes, finer rule. */
+.shell-root .tl-measure,
+.shell-root .tl-fcf i,
+.shell-root .tl-fcf b,
+.shell-root .tl-datum { border-color: var(--tl-label-rule); }
+.shell-root .tl-measure { padding: 6px 11px; font-size: 14px; }
+
+/* Part card — reference hierarchy: eyebrow, title, five readings, drawing. */
+.shell-root .tl-part-passport { padding: var(--tl-s5) var(--tl-s4) var(--tl-s4); }
+.shell-root .tl-pp-eyebrow {
+  margin: 0 0 var(--tl-s2);
+  color: var(--tl-bronze-light);
+  font: 600 10px/1.3 var(--tl-font-mono);
+  letter-spacing: .12em;
+}
+.shell-root .tl-part-passport h2 { font-size: 13px; letter-spacing: .08em; }
+.shell-root .tl-part-passport dl { margin-top: var(--tl-s4); }
+.shell-root .tl-part-passport dl div + div { margin-top: 10px; }
+.shell-root .tl-part-passport dt { font-size: 10px; letter-spacing: .1em; }
+.shell-root .tl-part-passport dd { margin-top: 3px; font: 500 12px/1.35 var(--tl-font-mono); }
+.shell-root .tl-part-passport .tl-pp-drawing {
+  margin-top: var(--tl-s5);
+  border-top: var(--tl-rule-size) solid var(--tl-rule-soft);
+  padding-top: var(--tl-s3);
+}
+.shell-root .tl-part-passport .tl-pp-center { stroke: var(--tl-steel-light); stroke-dasharray: 10 3 2 3; opacity: .7; }
+.shell-root .tl-part-passport .tl-pp-hidden { stroke: var(--tl-on-dark-faint); stroke-dasharray: 3 3; }
+.shell-root .tl-part-passport .tl-pp-text text {
+  fill: var(--tl-on-dark-soft);
+  stroke: none;
+  font: 500 8px var(--tl-font-mono);
+  letter-spacing: .04em;
+}
+.shell-root .tl-part-passport > p { font-size: 10px; }

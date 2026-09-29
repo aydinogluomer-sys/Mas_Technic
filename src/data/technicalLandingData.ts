@@ -71,11 +71,17 @@ export const marqueeItems = [
  * MEASUREMENT_IS_THE_INTERACTION_MODEL`). Every value here is printed on the
  * drawing beside it, so the panel cannot be wrong about anything.
  */
+/* The hero's part card reads an EXAMPLE drawing (it is captioned so). Every
+   value is drawing vocabulary for that example: the tolerance is the site's
+   verified floor (`src/content/claims.ts` §D ±0.01 mm), and the drawing number
+   is explicitly an example code, never a report number (`claims-gate` blocks
+   `MT-20xx-nnnn`, the fabricated-record shape). */
 export const heroPartFacts = [
-  ["NOMİNAL ÖLÇÜ", "72.000 mm"],
+  ["ÖLÇÜLER", "120.00 × 72.00 × 68.00 mm"],
   ["TOLERANS", "±0.010 mm"],
-  ["FORM & KONUM", "⊥ 0.010 A"],
-  ["DATUM", "A · B"],
+  ["YÜZEY", "Ra 0.4 µm"],
+  ["MALZEME", "17-4 PH Paslanmaz Çelik"],
+  ["ÇİZİM NO", "MT-ÖRNEK-01"],
 ] as const;
 
 export const technicalProcess = [

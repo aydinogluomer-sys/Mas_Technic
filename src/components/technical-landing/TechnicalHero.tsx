@@ -106,7 +106,7 @@ export function TechnicalHero() {
               feature: drawing vocabulary, asserting nothing about capability. */}
           <span className="tl-measure tl-measure-top" data-dim="bore">Ø 28.000 ±0.010</span>
           <span className="tl-measure tl-measure-left" data-dim="height"><b>72.000</b><b>±0.010</b></span>
-          <span className="tl-measure tl-measure-finish" data-dim="finish">DATUM B</span>
+          <span className="tl-measure tl-measure-finish" data-dim="finish">Ra 0.4 µm</span>
 
           {/* Tolerans çerçeveleri: referansta hücrelere bölünmüş kutular */}
           {/* U+2300 ⌀ IBM Plex Mono'da yok ve minik bir yedeğe düşüyordu;
@@ -117,40 +117,54 @@ export function TechnicalHero() {
         </div>
       </div>
 
-      {/* The panel reads the drawing next to it rather than describing a part.
-          It used to list dimensions, material and an inspection report number
-          for a specific component — none of it verified, all of it captioned
-          as illustrative, which is a disclaimer where a fact should be. */}
-      <aside className="tl-part-passport" aria-label="Çizim lejandı">
-        <h2>ÇİZİM OKUMA</h2>
+      {/* PART CARD — after the reference sheet: a title-block card that reads
+          the example part on the left (dimensions, tolerance, surface,
+          material, drawing number) above its own orthographic drawing. It is
+          captioned as an example, so no value in it reads as a record. The
+          four `tl-pp-*` groups are the hover-correlation keys the motion
+          grammar pins (e2e/landing/motion-grammar.spec.ts). */}
+      <aside className="tl-part-passport" aria-label="Örnek parça bilgisi">
+        <p className="tl-pp-eyebrow">ÖRNEK PARÇA — ÇİZİM OKUMASI</p>
+        <h2>PARÇA BİLGİSİ</h2>
         <dl>{heroPartFacts.map(([term, value]) => <div key={term}><dt>{term}</dt><dd>{value}</dd></div>)}</dl>
-        {/* Parçanın ortografik ön görünüşü — referansta soyut bir nişangâh
-            değil, gövde hattı, ana delik ve bağlantı delikleri okunuyor. */}
-        <svg viewBox="0 0 240 150" aria-hidden="true">
+        <svg className="tl-pp-drawing" viewBox="0 0 240 176" aria-hidden="true">
+          {/* FRONT VIEW (left) and RIGHT VIEW (right), third-angle, 1:2 */}
+          <g className="tl-pp-center">
+            <path d="M16 70H150M83 22V128M186 70H232M209 30V120" />
+          </g>
           <g className="tl-pp-body">
-            <path d="M44 34h152v82H44z" />
-            <path d="M56 46h128v58H56z" />
-            <path d="M30 52h14v46H30zM196 46h16v58h-16z" />
-            <path d="M60 116h120v10H60zM74 126h18v6H74zM148 126h18v6h-18z" />
+            <path d="M28 34H138V112H28Z" />
+            <path d="M28 46H138M28 100H138" />
+            <path d="M44 112V124H122V112" />
+            <path d="M190 34H228V112H190Z" />
+            <path d="M190 46H228M190 100H228" />
+          </g>
+          <g className="tl-pp-hidden">
+            <path d="M190 58H228M190 82H228M200 34V112M218 34V112" />
           </g>
           <g className="tl-pp-bore">
-            <circle cx="112" cy="75" r="27" />
-            <circle cx="112" cy="75" r="21" />
-            <circle cx="163" cy="90" r="14" />
-            <circle cx="163" cy="90" r="9" />
+            <circle cx="83" cy="70" r="22" />
+            <circle cx="83" cy="70" r="16" />
+            <circle cx="121" cy="92" r="9" />
           </g>
           <g className="tl-pp-holes">
-            <circle cx="74" cy="52" r="7" /><circle cx="74" cy="52" r="3.4" />
-            <circle cx="150" cy="52" r="7" /><circle cx="150" cy="52" r="3.4" />
-            <circle cx="74" cy="100" r="7" /><circle cx="74" cy="100" r="3.4" />
-            <circle cx="112" cy="44" r="4.6" /><circle cx="186" cy="60" r="4.6" />
-            <circle cx="112" cy="108" r="4.6" /><circle cx="136" cy="108" r="4.6" />
+            <circle cx="42" cy="44" r="4" /><circle cx="124" cy="44" r="4" />
+            <circle cx="42" cy="102" r="4" /><circle cx="124" cy="102" r="4" />
+            <circle cx="62" cy="40" r="2.6" /><circle cx="104" cy="40" r="2.6" />
           </g>
           <g className="tl-pp-dim">
-            <path d="M18 34v82M14 40h8M14 110h8" />
+            <path d="M28 146H138M28 140V152M138 140V152" />
+            <path d="M12 34V112M6 34H18M6 112H18" />
+            <path d="M190 146H228M190 140V152M228 140V152" />
+          </g>
+          <g className="tl-pp-text">
+            <text x="83" y="162" textAnchor="middle">120.00</text>
+            <text x="209" y="162" textAnchor="middle">68.00</text>
+            <text x="8" y="76" textAnchor="middle" transform="rotate(-90 8 73)">72.00</text>
+            <text x="83" y="16" textAnchor="middle">Ø 28.000</text>
           </g>
         </svg>
-        <p>ÖLÇÜ · TOLERANS · DATUM</p>
+        <p>ÖN · YAN GÖRÜNÜŞ · ÖLÇEK 1:2</p>
       </aside>
     </TechnicalSectionFrame>
   );
