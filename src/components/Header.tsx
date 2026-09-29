@@ -13,6 +13,7 @@ import { NavFamilyRail } from "./navigation/NavFamilyRail";
 import { NavTrigger } from "./navigation/NavTrigger";
 import { NAV_MOTION, navRevealVariants, navSheetVariants } from "./navigation/motion";
 import "@/styles/navigation.css";
+import "@/styles/menu-round2.css";
 
 /* ══════════════════════════════════════════════════════════════════════════
    THE SITE'S ONE PUBLIC NAVIGATION

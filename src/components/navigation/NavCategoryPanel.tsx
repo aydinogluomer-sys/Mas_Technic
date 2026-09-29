@@ -39,6 +39,11 @@ export function NavCategoryPanel({
         exit={reducedMotion ? { opacity: 0 } : { opacity: 0, clipPath: "inset(0 0 100% 0)" }}
         transition={reducedMotion ? NAV_MOTION.reduced : NAV_MOTION.close}
       >
+        <header className="tl-menu-panel-head" aria-hidden="true">
+          <span>{group.index}</span>
+          <strong>{group.label}</strong>
+          <small>{String(group.children?.length ?? 0).padStart(2, "0")} KATEGORİ</small>
+        </header>
         {group.children?.map((category, index) => {
           const open = activeCategory === index;
           const panelId = `nav-panel-${group.index}-${index}`;
