@@ -150,17 +150,20 @@ export const TekliflerimTab = () => {
     setLoadingMore(false);
   };
 
+  /* The approval used to be a direct `rfqs` UPDATE. Customers only hold a
+     SELECT policy on `rfqs`, so RLS matched zero rows, returned no error, and
+     the tab announced "Teklif onaylandı!" for a write that never happened.
+     It is now `approve_rfq(_rfq_id)` — a SECURITY DEFINER function that
+     approves only the caller's own quoted request and returns its id — and
+     success is shown only when that id comes back. */
   const handleApprove = async (rfqId: string) => {
     setApproving(rfqId);
-    const { error } = await supabase.from("rfqs").update({
-      customer_approved: true,
-      customer_approved_at: new Date().toISOString(),
-      status: "Onaylandı",
-    }).eq("id", rfqId);
-    if (error) {
-      toast.error("Onaylama başarısız oldu.");
+    const { data, error } = await supabase.rpc("approve_rfq", { _rfq_id: rfqId });
+    if (error || data !== rfqId) {
+      toast.error("Onaylama kaydedilemedi. Lütfen tekrar deneyin veya bizimle iletişime geçin.");
     } else {
-      toast.success("Teklif onaylandı! Siparişe dönüştürülecek.");
+      setRfqs((prev) => prev.map((r) => (r.id === rfqId ? { ...r, status: "Onaylandı" } : r)));
+      toast.success("Teklif onaylandı. Siparişe dönüştürülecek.");
     }
     setApproving(null);
   };
@@ -190,6 +193,9 @@ export const TekliflerimTab = () => {
             }
           }
         }
+      }
+      if (Object.keys(urls).length === 0) {
+        toast.error("Dosyalara şu an erişilemiyor. Dosya ekibimizde güvende; gerekirse e-posta ile isteyin.");
       }
       setSignedUrls((prev) => ({ ...prev, [rfq.id]: "loaded", ...Object.fromEntries(Object.entries(urls).map(([k, v]) => [`${rfq.id}:${k}`, v])) }));
     };

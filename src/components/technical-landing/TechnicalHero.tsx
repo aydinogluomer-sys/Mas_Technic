@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import heroPart from "@/assets/technical-landing/hero-manifold-v1.webp";
 import { heroPartFacts } from "@/data/technicalLandingData";
+import { accountLink } from "@/components/navigation/ia";
 import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
 
 /**
@@ -22,6 +23,9 @@ export function TechnicalHero() {
         <Link to="/teklif-al" data-testid="technical-hero-cta">
           TEKLİF AL
           <svg viewBox="0 0 40 12" aria-hidden="true"><path d="M0 6h37M31 1l6 5-6 5" /></svg>
+        </Link>
+        <Link to={accountLink.path} className="tl-hero-nexus" data-testid="hero-nexus-login">
+          <span>NEXUS</span> Müşteri girişi →
         </Link>
       </div>
 

@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { prefetchMenuRoutes } from "@/utils/routePrefetch";
 import { HERO_SHELL_TEARDOWN_FALLBACK_MS, INTRO_DONE_EVENT, isHeroIntroActive } from "@/lib/hero-shell";
-import { companyLinks, landingSections, legalLinks, navigationItems, resourceLinks, rfqLink } from "./navigation/ia";
+import { accountLink, companyLinks, landingSections, legalLinks, navigationItems, resourceLinks, rfqLink } from "./navigation/ia";
 import { NavCategoryPanel } from "./navigation/NavCategoryPanel";
 import { NavConversion } from "./navigation/NavConversion";
 import { NavDirectory } from "./navigation/NavDirectory";
@@ -506,6 +506,10 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
               {!modalActive && (
                 <NavTrigger open={false} reducedMotion={reducedMotion} onToggle={requestOpen} triggerRef={triggerRef} />
               )}
+              <Link className="tl-nexus-header-link" to={accountLink.path} aria-label="NEXUS müşteri girişi">
+                <span aria-hidden="true">NEXUS</span>
+                <small aria-hidden="true">GİRİŞ</small>
+              </Link>
               <Link className="tl-quote-button" to={rfqLink.path}>
                 {rfqLink.label.toLocaleUpperCase("tr-TR")}
               </Link>

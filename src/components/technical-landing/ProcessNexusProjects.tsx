@@ -12,6 +12,8 @@ import projectMedical from "@/assets/industry-medical.webp";
 import projectTurning from "@/assets/hero-cnc-tornalama.webp";
 import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { accountLink } from "@/components/navigation/ia";
 import { ReverseScrollSection } from "@/components/ReverseScrollSection";
 import { caseStudies, type CaseStudyImageKey } from "@/content/caseStudies";
 import { nexusKpis, nexusOrders, nexusPanels, nexusRedactionNote, technicalProcess } from "@/data/technicalLandingData";
@@ -104,6 +106,16 @@ export function NexusEvidence() {
       <div className="tl-nexus-body">
         <header>
           <h2 id="tl-nexus-title">Üretiminiz,<br /><em>siz sormadan görünür.</em></h2>
+          {/* The band described the customer portal and offered no way into
+              it. The entry is the existing sign-in route; accounts are
+              opened with the first quote request. */}
+          <div className="tl-nexus-cta">
+            <Link to={accountLink.path} className="tl-nexus-login" data-testid="nexus-login">
+              NEXUS'A GİRİŞ YAP
+              <ArrowRight aria-hidden="true" />
+            </Link>
+            <p>Hesap ilk teklif talebinizle açılır.</p>
+          </div>
           <div className="tl-nexus-kpis">
             {nexusKpis.map((kpi) => {
               const Icon = kpiIcons[kpi.icon];
@@ -129,10 +141,10 @@ export function NexusEvidence() {
                 );
               })}
             </ul>
-            <p className="tl-nexus-user">
+            <Link to={accountLink.path} className="tl-nexus-user" aria-label="Müşteri hesabı — NEXUS girişi">
               <UserRound aria-hidden="true" />
-              <span>MÜŞTERİ HESABI<small>Yetkili kullanıcı</small></span>
-            </p>
+              <span>MÜŞTERİ HESABI<small>Giriş yap →</small></span>
+            </Link>
           </div>
           <div className="tl-nexus-main">
             <div className="tl-scroll-cue" aria-hidden="true">TABLOYU YATAY KAYDIR →</div>

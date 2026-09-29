@@ -947,6 +947,9 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      /* Added by supabase/migrations/20260930090000_nexus_integrity.sql —
+         not yet applied to the live project (deploy is the owner's call). */
+      approve_rfq: { Args: { _rfq_id: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

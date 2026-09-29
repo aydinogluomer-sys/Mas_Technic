@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { Save } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const tabs = ["Üretim Parametreleri", "İş Akışı", "Roller", "API"];
 
@@ -15,6 +16,59 @@ const defaultParams = {
 const defaultApiSettings = {
   emailNotifications: true,
   realtimeSync: true,
+};
+
+/* The "Roller" tab printed a static matrix (Yönetici/Operatör/Müşteri/
+   Tedarikçi) that had nothing to do with `user_roles`. It now reads the real
+   table. `ProtectedRoute` admits ANY `user_roles` row to the whole panel and
+   no view gates by role, so every role is shown with full panel access —
+   the truthful matrix until per-role gating exists. */
+const ROLE_LABELS: Record<string, string> = {
+  admin: "Yönetici",
+  staff: "Personel",
+  production: "Üretim",
+  quality: "Kalite",
+};
+
+const RoleRegister = () => {
+  const [counts, setCounts] = useState<Record<string, number> | null>(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+    supabase.from("user_roles").select("role").then(({ data, error }) => {
+      if (!alive) return;
+      if (error) { setFailed(true); return; }
+      const next: Record<string, number> = {};
+      for (const row of data ?? []) next[row.role] = (next[row.role] ?? 0) + 1;
+      setCounts(next);
+    });
+    return () => { alive = false; };
+  }, []);
+
+  if (failed) return <p className="text-sm text-red-400">Roller okunamadı.</p>;
+  if (!counts) return <p className="text-sm text-slate-400">Roller yükleniyor…</p>;
+
+  return (
+    <table className="w-full text-sm">
+      <thead>
+        <tr className="text-[10px] font-black text-slate-500 uppercase tracking-widest dark:border-[#334155] border-slate-200 border-b">
+          <th className="text-left pb-3">Rol</th>
+          <th className="text-left pb-3">Kullanıcı</th>
+          <th className="text-left pb-3">Panel erişimi</th>
+        </tr>
+      </thead>
+      <tbody>
+        {Object.entries(ROLE_LABELS).map(([role, label]) => (
+          <tr key={role} className="dark:border-[#334155]/50 border-slate-100 border-b">
+            <td className="py-3 font-bold dark:text-white text-slate-800">{label}</td>
+            <td className="py-3 font-mono dark:text-slate-300 text-slate-600">{counts[role] ?? 0}</td>
+            <td className="py-3 text-xs dark:text-slate-300 text-slate-600">Tüm görünümler (rol bazlı kısıtlama tanımlı değil)</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
 };
 
 export const SettingsView = () => {
@@ -110,36 +164,7 @@ export const SettingsView = () => {
           <div>
             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Rol Yönetimi</h3>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-[10px] font-black text-slate-500 uppercase tracking-widest dark:border-[#334155] border-slate-200 border-b">
-                    <th className="text-left pb-3">Rol</th>
-                    <th className="text-left pb-3">Dashboard</th>
-                    <th className="text-left pb-3">RFQ</th>
-                    <th className="text-left pb-3">Üretim</th>
-                    <th className="text-left pb-3">CRM</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { role: "Yönetici", d: true, r: true, u: true, c: true },
-                    { role: "Operatör", d: true, r: false, u: true, c: false },
-                    { role: "Müşteri", d: false, r: true, u: false, c: false },
-                    { role: "Tedarikçi", d: false, r: false, u: false, c: false },
-                  ].map((r) => (
-                    <tr key={r.role} className="dark:border-[#334155]/50 border-slate-100 border-b">
-                      <td className="py-3 font-bold dark:text-white text-slate-800">{r.role}</td>
-                      {[r.d, r.r, r.u, r.c].map((v, i) => (
-                        <td key={i} className="py-3">
-                          <span className={`text-xs px-2 py-0.5 rounded ${v ? "bg-emerald-500/20 text-emerald-400" : "bg-red-500/20 text-red-400"}`}>
-                            {v ? "Erişim" : "Kısıtlı"}
-                          </span>
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <RoleRegister />
             </div>
           </div>
         )}

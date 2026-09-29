@@ -39,23 +39,6 @@ export const useChartTheme = () => {
 
 export const RADIAN = Math.PI / 180;
 
-/* ── Static OEE data ── */
-export const oeeHistory = [
-  { month: "Eyl", oee: 76, availability: 85, performance: 90, quality: 97 },
-  { month: "Eki", oee: 78, availability: 87, performance: 91, quality: 97 },
-  { month: "Kas", oee: 80, availability: 88, performance: 92, quality: 98 },
-  { month: "Ara", oee: 79, availability: 86, performance: 93, quality: 97 },
-  { month: "Oca", oee: 82, availability: 90, performance: 93, quality: 98 },
-  { month: "Şub", oee: 84, availability: 91, performance: 95, quality: 98 },
-];
-
-export const oeeMetrics = [
-  { label: "Genel OEE", value: "84.2%", icon: Gauge, color: "text-[#0AA2CD]", bg: "bg-[#0AA2CD]/10", trend: "+2.1%", up: true, bars: [60, 70, 65, 80, 75, 85, 78, 84, 82, 84] },
-  { label: "Kullanılabilirlik", value: "91.5%", icon: Power, color: "text-[#F97316]", bg: "bg-[#F97316]/10", trend: "+0.8%", up: true, bars: [85, 88, 90, 87, 91, 89, 92, 90, 91, 92] },
-  { label: "Performans", value: "94.8%", icon: Zap, color: "text-amber-400", bg: "bg-amber-400/10", trend: "+1.2%", up: true, bars: [90, 92, 91, 93, 94, 92, 95, 93, 94, 95] },
-  { label: "Kalite Oranı", value: "98.1%", icon: ShieldCheck, color: "text-emerald-400", bg: "bg-emerald-400/10", trend: "-0.2%", up: false, bars: [97, 98, 99, 98, 97, 98, 99, 98, 98, 98] },
-];
-
 /* ── Custom Tooltip ── */
 export const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null;
