@@ -46,6 +46,7 @@
  */
 
 import { useEffect, useRef, useCallback, useState } from "react";
+import { createPortal } from "react-dom";
 import { gsap } from "@/hooks/use-gsap";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -75,15 +76,18 @@ const SELECTORS: Array<{ selector: string; label: CursorLabel }> = [
 ];
 
 /**
- * `Z.cursor` is 90, which sits BELOW `Z.pageTransition` (95) and `Z.preloader`
- * (100). Since the native cursor is hidden, a replacement that disappears
- * behind the route curtain is a pointer the user has lost for the length of
- * the transition. So it is derived above the top layer, the way
- * `PageTransition` already derives `Z.pageTransition + 1`. `Z.cursor` itself
- * is referenced by nothing and wants correcting in the file that owns it;
- * `src/styles/z-index.ts` is outside this packet's write allowlist.
+ * The pointer is the topmost thing on the screen. It used to sit at 101 inside
+ * `#root`, BELOW the fixed header (10000) and the fullscreen menu (10010,
+ * portaled to `body`) — while `src/index.css` kept the native cursor hidden,
+ * so over the header and the menu there was no pointer at all. The layers are
+ * now portaled to `body` at `Z.cursor`, above both.
+ *
+ * Being on top, the layers must not paint before a pointer exists: they start
+ * transparent and arm on the first `pointermove`, and disarm when the pointer
+ * leaves the document. A page captured with no pointer moved therefore contains
+ * no cursor pixel — see `e2e/visual/cursor-overlay-guard.spec.ts`.
  */
-const CURSOR_Z = Z.preloader + 1;
+const CURSOR_Z = Z.cursor;
 
 export const CustomCursor = () => {
   const dotRef = useRef<HTMLDivElement>(null);
@@ -107,8 +111,18 @@ export const CustomCursor = () => {
     return () => query.removeEventListener("change", sync);
   }, []);
 
+  const armed = useRef(false);
+  const setArmed = useCallback((next: boolean) => {
+    if (armed.current === next) return;
+    armed.current = next;
+    for (const node of [dotRef.current, ringRef.current]) {
+      if (node) node.dataset.armed = next ? "true" : "false";
+    }
+  }, []);
+
   const handlePointerMove = useCallback(
     (event: PointerEvent) => {
+      setArmed(true);
       if (prefersReduced) {
         // No easing, no trail: the ring IS the pointer, written directly.
         const place = (node: HTMLElement | null) => {
@@ -126,7 +140,7 @@ export const CustomCursor = () => {
       ringQuickToX.current?.(event.clientX);
       ringQuickToY.current?.(event.clientY);
     },
-    [prefersReduced],
+    [prefersReduced, setArmed],
   );
 
   const handlePointerOver = useCallback(
@@ -172,36 +186,41 @@ export const CustomCursor = () => {
       ringQuickToY.current = gsap.quickTo(ring, "y", { duration: MOTION_LEVEL.micro, ease: "power2.out" });
     }
 
+    const disarm = () => setArmed(false);
     document.addEventListener("pointermove", handlePointerMove);
     document.addEventListener("pointerover", handlePointerOver);
+    document.documentElement.addEventListener("pointerleave", disarm);
 
     return () => {
       document.removeEventListener("pointermove", handlePointerMove);
       document.removeEventListener("pointerover", handlePointerOver);
+      document.documentElement.removeEventListener("pointerleave", disarm);
+      armed.current = false;
       gsap.killTweensOf([dot, ring, label].filter(Boolean) as Element[]);
       quickToX.current = null;
       quickToY.current = null;
       ringQuickToX.current = null;
       ringQuickToY.current = null;
     };
-  }, [prefersReduced, isMobile, finePointer, handlePointerMove, handlePointerOver]);
+  }, [prefersReduced, isMobile, finePointer, handlePointerMove, handlePointerOver, setArmed]);
 
   if (isMobile || !finePointer) return null;
 
-  return (
+  return createPortal(
     <>
       {/* The dot: where the pointer actually is. */}
       <div
         ref={dotRef}
         data-custom-cursor="dot"
+        data-armed="false"
         aria-hidden="true"
-        className="fixed top-0 left-0 pointer-events-none"
+        className="mas-cursor fixed top-0 left-0 pointer-events-none"
         style={{
           zIndex: CURSOR_Z,
           width: 6,
           height: 6,
           borderRadius: "50%",
-          backgroundColor: "hsl(var(--primary))",
+          backgroundColor: "var(--tl-bronze)",
           transform: "translate(-50%, -50%)",
         }}
       />
@@ -209,23 +228,25 @@ export const CustomCursor = () => {
       <div
         ref={ringRef}
         data-custom-cursor="ring"
+        data-armed="false"
         aria-hidden="true"
-        className="fixed top-0 left-0 pointer-events-none flex items-center justify-center"
+        className="mas-cursor fixed top-0 left-0 pointer-events-none flex items-center justify-center"
         style={{
           zIndex: CURSOR_Z - 1,
           width: 44,
           height: 44,
           borderRadius: "50%",
-          border: "1px solid hsl(var(--primary) / 0.4)",
+          border: "1px solid var(--tl-bronze)",
           transform: "translate(-50%, -50%)",
         }}
       >
         <span
           ref={labelRef}
           className="text-[7px] uppercase tracking-[0.12em] font-mono font-semibold select-none"
-          style={{ color: "hsl(var(--primary))", opacity: 0 }}
+          style={{ color: "var(--tl-bronze)", opacity: 0 }}
         />
       </div>
-    </>
+    </>,
+    document.body,
   );
 };

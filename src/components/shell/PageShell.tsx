@@ -1,7 +1,7 @@
 import { useRef, type ReactNode, type RefObject } from "react";
-import { PageRailContext } from "./rail-context";
 import { Header } from "@/components/Header";
 import { SiteFooter } from "./SiteFooter";
+import { railLabel } from "./rail-labels";
 import { useScrollableRegionAccess } from "./useScrollableRegionAccess";
 import "@/styles/shell.css";
 import "@/styles/polish.css";
@@ -94,7 +94,6 @@ export function PageShell({
   useScrollableRegionAccess(sheetRef);
 
   return (
-    <PageRailContext.Provider value={rail}>
     <div
       ref={rootRef}
       className={`shell-root ${className}`.trim()}
@@ -107,7 +106,7 @@ export function PageShell({
           {layout === "band" && (
             <div className="shell-rail" aria-hidden="true">
               <span>{rail?.no ?? "02"}</span>
-              <small>{rail?.label ?? "SAYFA"}</small>
+              <small>{railLabel(rail?.label ?? "PAGE")}</small>
             </div>
           )}
           {children}
@@ -115,6 +114,5 @@ export function PageShell({
         {footer && <SiteFooter />}
       </div>
     </div>
-    </PageRailContext.Provider>
   );
 }

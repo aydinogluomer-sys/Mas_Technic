@@ -63,7 +63,8 @@ export const NATIVE_CURSOR_HIDDEN_MIN_WIDTH = 901;
 
 /**
  * The parked geometry, before any pointer has moved: the dot is 6×6 centred on
- * the viewport origin and the ring is 44×44 centred on it, both `opacity: 1`.
+ * the viewport origin and the ring is 44×44 centred on it, both `opacity: 0` until the first
+ * pointermove arms them (polish run: the layers now sit above the header and menu).
  * A capture whose frame includes (0,0) therefore includes up to 22×22 px of
  * cursor unless something paints over it.
  */

@@ -557,7 +557,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
               onAnimationComplete={handleSheetAnimationComplete}
             >
               <div className="tl-menu-sheet">
-                <div className="tl-menu-rail" aria-hidden="true"><span>00</span><small>MENÜ</small></div>
+                <div className="tl-menu-rail" aria-hidden="true"><span>00</span><small>MENU</small></div>
                 <div className="tl-menu-body">
                   <div className="tl-menu-top">
                     <Link

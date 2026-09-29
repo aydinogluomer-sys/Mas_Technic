@@ -111,31 +111,6 @@
 }
 .shell-root .shell-hero-copy .shell-eyebrow { margin-bottom: var(--tl-s5); }
 
-/* Ghost numeral — the page's sheet code, outlined, bleeding off the top right. */
-.shell-root .shell-hero-ghost {
-  position: absolute;
-  top: clamp(20px, 4vh, 48px);
-  right: calc(-.04em);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  padding: 0 !important;
-  pointer-events: none;
-  user-select: none;
-}
-.shell-root .shell-hero-ghost span {
-  color: transparent;
-  font: 700 clamp(140px, 24vw, 400px)/.8 var(--tl-font-sans);
-  letter-spacing: -.06em;
-  -webkit-text-stroke: 1px var(--tl-rule);
-}
-.shell-root .shell-hero-ghost small {
-  margin: var(--tl-s3) var(--pl-gutter) 0 0;
-  color: var(--tl-on-dark-faint);
-  font: 500 11px/1 var(--tl-font-mono);
-  letter-spacing: .24em;
-}
-
 /* Datum rule: a measured line from the title to the sheet edge. */
 .shell-root .shell-hero-datum {
   grid-column: 1 / -1;
@@ -179,9 +154,6 @@
 @media (max-width: 767px) {
   .shell-root .shell-hero-body { min-height: 0; padding-block: 48px 32px; }
   .shell-root .shell-hero-copy h1 { font-size: clamp(40px, 12.4vw, 64px); letter-spacing: -.04em; }
-  .shell-root .shell-hero-ghost { top: 16px; opacity: .55; }
-  .shell-root .shell-hero-ghost span { font-size: 38vw; }
-  .shell-root .shell-hero-ghost small { display: none; }
   .shell-root .shell-hero-meta dt { overflow-wrap: anywhere; }
   .shell-root .shell-hero-datum { margin-top: var(--tl-s5); }
 }
@@ -197,15 +169,7 @@
   .shell-root .shell-hero-datum span,
   .shell-root .shell-hero-foot,
   .shell-root .shell-hero-meta { animation: pl-rise .9s var(--pl-ease) .45s both; }
-  .shell-root .shell-hero-ghost { animation: pl-fade 1.6s ease .2s both; }
 
-  @supports (animation-timeline: view()) {
-    .shell-root .shell-hero-ghost span {
-      animation: pl-ghost linear both;
-      animation-timeline: view();
-      animation-range: exit 0% exit 100%;
-    }
-  }
 }
 /* No keyframe touches opacity: text stays at full contrast in every frame
    (axe measures mid-entrance), and the reveal is carried by a mask + offset. */
@@ -216,7 +180,6 @@
   from { clip-path: inset(0 0 100% 0); transform: translateY(.35em); }
   to { clip-path: inset(-.2em 0 -.2em 0); transform: none; }
 }
-@keyframes pl-ghost { to { transform: translateY(-18%); } }
 
 /* ── P3 · EDITORIAL TYPE SCALE ────────────────────────────────────────────
    Band openers were 24–37px serif on a 1440 sheet: every section read at the
@@ -593,3 +556,42 @@
 /* 13 — RFQ run: step captions readable, band ratio unchanged. */
 .shell-root .tl-rfq-body > ol strong { font-size: 12px; }
 .shell-root .tl-rfq-body > ol span { font-size: 11px; }
+
+/* ── R2 · CURSOR ARMING ───────────────────────────────────────────────────
+   The cursor now sits above the header and the menu (`Z.cursor`), so it must
+   not paint until a pointer exists. Opacity only — no layout property. */
+.mas-cursor { opacity: 0; transition: opacity .2s ease; }
+.mas-cursor[data-armed="true"] { opacity: 1; }
+
+/* ── R2 · FOOTER LINKS UNDERLINE ON HOVER ─────────────────────────────────*/
+.shell-root .tl-footer nav a,
+.shell-root .shell-footer-disclosure a {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color .25s ease, text-decoration-color .25s ease;
+}
+.shell-root .tl-footer nav a:hover,
+.shell-root .tl-footer nav a:focus-visible,
+.shell-root .shell-footer-disclosure a:hover,
+.shell-root .shell-footer-disclosure a:focus-visible { text-decoration-color: currentColor; }
+
+/* ── R2 · FAQ RESOURCES — DOWNLOAD HOVER IN MOLTEN ────────────────────────
+   The four PDFs downloaded on click with no hover state at all. */
+.shell-root .tl-resource-list a { transition: color .25s ease; }
+.shell-root .tl-resource-list a > span {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition: text-decoration-color .25s ease;
+}
+.shell-root .tl-resource-list a svg,
+.shell-root .tl-resource-list a em { transition: transform .35s var(--pl-ease), color .25s ease; }
+.shell-root .tl-resource-list a:hover,
+.shell-root .tl-resource-list a:focus-visible { color: var(--tl-molten-ink); }
+.shell-root .tl-resource-list a:hover > span,
+.shell-root .tl-resource-list a:focus-visible > span { text-decoration-color: var(--tl-molten); }
+.shell-root .tl-resource-list a:hover svg,
+.shell-root .tl-resource-list a:focus-visible svg { color: var(--tl-molten); transform: translateY(3px); }
+.shell-root .tl-resource-list a:hover em { color: var(--tl-molten-ink); }

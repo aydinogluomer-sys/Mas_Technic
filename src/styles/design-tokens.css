@@ -177,6 +177,17 @@
      ΔE 34 from bronze-light, so error and caution are still tellable apart at
      9px. It sits between `--sf-faint` (5.89:1) and `--sf-meta` (8.44:1) in the
      graphite label ladder, so it signals without out-shouting the title. */
+  /* Polish run — the one warm signal (FAQ resource hover, interactive hints).
+     `--tl-molten` is the legacy `--heat-molten` of `src/index.css`; on paper it
+     is a rule/mark colour only (3.1:1). Text takes `--tl-molten-ink`, measured
+     5.1:1 on `--tl-paper` and 5.6:1 on `--tl-paper-raised`. */
+  --tl-molten: #e8610a;
+  --tl-molten-ink: #a3420a;
+  /* Cool accents for the paper-dominant inner pages: a steel ink for indexes
+     and datum marks (7.9:1 on paper) and a fog ground for alternating bands. */
+  --tl-steel: #3a4a5c;
+  --tl-steel-light: #8fa3b8;
+  --tl-fog: #e4e7e8;
   --tl-stamp: #8a4030;
   --tl-stamp-light: #e18570;
 

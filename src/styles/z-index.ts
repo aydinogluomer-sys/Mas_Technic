@@ -22,7 +22,11 @@ export const Z = {
      `CustomCursor` had already independently put it — that file derives
      `Z.preloader + 1` locally because it could not edit this one, and 101 is
      that same number, so the two now agree instead of merely coinciding. */
-  cursor: 101,
+  /* Polish run: 101 was still BELOW the fixed header (`--gnav-z` 10000) and
+     the fullscreen menu (`--gnav-menu-z` 10010, `src/styles/navigation.css`),
+     so over both the pointer vanished while the native one stayed hidden.
+     `CustomCursor` now portals to `body` at this value, above the menu. */
+  cursor: 10020,
 } satisfies Record<string, number>;
 
 export type ZLayer = keyof typeof Z;

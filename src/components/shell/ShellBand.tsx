@@ -1,4 +1,5 @@
 import type { ElementType, ReactNode } from "react";
+import { railLabel } from "./rail-labels";
 
 /* ══════════════════════════════════════════════════════════════════════════
    THE BAND — the public site's one horizontal unit
@@ -106,7 +107,7 @@ export function ShellBand({
     >
       <div className="tl-band-index" aria-hidden="true">
         <span>{no}</span>
-        <small>{label}</small>
+        <small>{railLabel(label)}</small>
       </div>
       {children}
     </Component>

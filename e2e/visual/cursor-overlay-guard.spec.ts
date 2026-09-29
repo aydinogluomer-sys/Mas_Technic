@@ -241,9 +241,14 @@ test.describe("H4 — the goldens are clean, and the reason is measured", () => 
                 rect: [Math.round(rect.x), Math.round(rect.y), Math.round(rect.width), Math.round(rect.height)],
               };
             }));
-          expect(parked, "both layers are opaque and parked over the viewport origin").toEqual([
-            { opacity: "1", rect: [-3, -3, 6, 6] },
-            { opacity: "1", rect: [-22, -22, 44, 44] },
+          /* POLISH RUN (2026-09-29): the layers now sit ABOVE the header and the
+             menu (`Z.cursor` 10020, portaled to body) so the pointer never
+             vanishes over them. The goldens therefore stay clean for a new
+             reason: an unarmed cursor is transparent until the first
+             `pointermove`, and no capture moves the pointer. */
+          expect(parked, "both layers are parked over the viewport origin, unarmed and transparent").toEqual([
+            { opacity: "0", rect: [-3, -3, 6, 6] },
+            { opacity: "0", rect: [-22, -22, 44, 44] },
           ]);
 
           const shot = () => page.screenshot({
@@ -277,7 +282,7 @@ test.describe("H4 — the goldens are clean, and the reason is measured", () => 
              must stop being identical — otherwise the scan has gone blind and
              the assertion above is a no-op that looks like success. */
           await page.addStyleTag({
-            content: `header { display: none !important; } ${CURSOR_SELECTOR} { display: revert !important; }`,
+            content: `${CURSOR_SELECTOR} { display: revert !important; opacity: 1 !important; }`,
           });
           await settleRendering(page);
           const unoccludedWithCursor = await shot();
@@ -286,8 +291,8 @@ test.describe("H4 — the goldens are clean, and the reason is measured", () => 
           });
           expect(
             (await shot()).equals(unoccludedWithCursor),
-            "CONTROL: with the header occluder removed the cursor MUST change the corner. It did "
-              + "not, so this test cannot see the cursor at all and its green above is worthless",
+            "CONTROL: with the cursor forced opaque it MUST change the corner — it is above the "
+              + "header now. It did not, so this test cannot see the cursor and its green is worthless",
           ).toBe(false);
         } finally {
           await context.close();
