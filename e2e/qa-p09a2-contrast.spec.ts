@@ -193,9 +193,10 @@ for (const vp of VIEWPORTS) {
 
     test(`paper band inside a graphite root re-binds --sf-danger @ ${vp.name}`, async ({ page }) => {
       const seal = await sealNetwork(page);
-      // /iletisim carries ShellSurfaceBand tone="paper" (Iletisim.tsx:198)
-      // inside a graphite shell root: precisely the descendant case.
-      await page.goto("/iletisim", { waitUntil: "domcontentloaded" });
+      // ROUND 2: /iletisim became the booking studio (no bands). /hakkimizda
+      // carries paper ShellSurfaceBands (paper is now the default body tone)
+      // inside a graphite shell root: the same descendant case.
+      await page.goto("/hakkimizda", { waitUntil: "domcontentloaded" });
       await assertSealed(page, seal);
 
       const rootSurface = await page.locator(".shell-root").first().getAttribute("data-shell-surface");
@@ -213,7 +214,7 @@ for (const vp of VIEWPORTS) {
         band.appendChild(wrap);
         return true;
       });
-      expect(planted, "/iletisim must carry a paper band for this check").toBe(true);
+      expect(planted, "/hakkimizda must carry a paper band for this check").toBe(true);
 
       const m = await page.locator('[data-qa-p09a2-paper="1"]').first().evaluate(measure);
       const edge = await page.locator('[data-qa-p09a2-paper="1"]').first()

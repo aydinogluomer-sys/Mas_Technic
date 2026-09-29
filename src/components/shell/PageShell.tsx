@@ -3,8 +3,11 @@ import { Header } from "@/components/Header";
 import { SiteFooter } from "./SiteFooter";
 import { railLabel } from "./rail-labels";
 import { useScrollableRegionAccess } from "./useScrollableRegionAccess";
+import { useProseReveal } from "@/hooks/useProseReveal";
 import "@/styles/shell.css";
 import "@/styles/polish.css";
+import "@/styles/polish-round2-surfaces.css";
+import "@/styles/polish-round2-landing.css";
 
 /* ══════════════════════════════════════════════════════════════════════════
    THE GLOBAL PUBLIC PAGE SHELL
@@ -92,6 +95,8 @@ export function PageShell({
      stop and a name — see `useScrollableRegionAccess.ts`. */
   const sheetRef = useRef<HTMLDivElement>(null);
   useScrollableRegionAccess(sheetRef);
+  /* Inner pages only: the landing (`layout="bands"`) owns its own motion. */
+  useProseReveal(layout === "band");
 
   return (
     <div

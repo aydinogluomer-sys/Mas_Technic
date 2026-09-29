@@ -1,0 +1,127 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   ROUND 2 · LANDING BANDS  (items 12 and 15)
+   Loaded after polish.css by PageShell. Tokens only.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 08 · Sectors — all thirteen, one master column-set per card ──────────
+   The track spans the band's 12 columns; four cards fill it exactly, so the
+   cards on screen at rest sit on master lines. Arrows page by one screen. */
+.shell-root .tl-sector-track {
+  grid-column: 1 / -1;
+  display: flex;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.shell-root .tl-sector-track::-webkit-scrollbar { display: none; }
+.shell-root .tl-sector-track:focus-visible { outline: 2px solid var(--tl-paper); outline-offset: -2px; }
+.shell-root .tl-sector-track > .tl-sector-card {
+  flex: 0 0 25%;
+  min-width: 0;
+  scroll-snap-align: start;
+  border-right: 1px solid var(--tl-rule);
+}
+.shell-root .tl-sector-card h3 { font-size: 12px; }
+
+/* Sectors without a photograph: a numbered drawing-sheet card, never a
+   borrowed image. */
+.shell-root .tl-sector-card[data-typographic] {
+  display: grid;
+  background:
+    linear-gradient(var(--tl-rule-soft) 1px, transparent 1px) 0 0 / 100% 25%,
+    linear-gradient(90deg, var(--tl-rule-soft) 1px, transparent 1px) 0 0 / 25% 100%,
+    var(--tl-panel);
+}
+.shell-root .tl-sector-card[data-typographic]::after { background: none; }
+.tl-sector-no {
+  align-self: start;
+  padding: var(--tl-s4);
+  color: transparent;
+  font: 700 clamp(64px, 6vw, 104px)/.9 var(--tl-font-sans);
+  letter-spacing: -.05em;
+  -webkit-text-stroke: 1px var(--tl-steel-light);
+  transition: color .5s var(--pl-ease, ease);
+}
+.shell-root .tl-sector-card[data-typographic]:hover .tl-sector-no { color: var(--tl-steel-light); }
+
+.tl-sector-controls {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tl-s4);
+  border-top: 1px solid var(--tl-rule);
+  padding: var(--tl-s3) var(--tl-s4);
+}
+.tl-sector-controls p { margin: 0; color: var(--tl-on-dark-meta); font: 600 11px/1 var(--tl-font-mono); letter-spacing: .12em; }
+.tl-sector-controls p span { color: var(--tl-white); }
+.tl-sector-controls div { display: flex; gap: var(--tl-s2); }
+.tl-sector-controls button {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 1px solid var(--tl-control-rule);
+  color: var(--tl-white);
+  background: none;
+  cursor: pointer;
+  transition: background .25s ease, color .25s ease, border-color .25s ease;
+}
+.tl-sector-controls button svg { width: 18px; height: 18px; }
+.tl-sector-controls button:not(:disabled):is(:hover, :focus-visible) { color: var(--tl-ink); background: var(--tl-paper); border-color: var(--tl-paper); }
+.tl-sector-controls button:disabled { opacity: .35; cursor: default; }
+
+@media (max-width: 1180px) {
+  .shell-root .tl-sector-track > .tl-sector-card { flex-basis: 50%; }
+}
+@media (max-width: 767px) {
+  /* Three of the four mobile master columns: the card lands on C3 and the
+     next one peeks in the fourth, which is the swipe cue. */
+  .shell-root .tl-sector-track > .tl-sector-card { flex-basis: 75%; min-height: 220px; border-bottom: 0; }
+}
+
+/* ── 10 · Quality file — one wireframe for all six cards ──────────────────
+   Code line → title → subtitle → the same document frame → footer line. The
+   certificates used to be text-only while the three records carried three
+   different drawings; now every card carries the same document frame, filled
+   with the same row rhythm, so the strip reads as one set. */
+.shell-root .tl-quality-strip > .tl-cert {
+  display: grid;
+  /* Fixed title (2 lines) and subtitle (3 lines) rows, so every document
+     frame starts on the same line whatever the copy length. */
+  grid-template-rows: auto calc(2 * 1.25 * 14px) calc(3 * 1.55 * 11px + 8px) 1fr auto;
+  align-items: start;
+  justify-items: stretch;
+  min-height: 300px;
+  gap: 0;
+  padding: var(--tl-s4);
+  text-align: left;
+}
+.shell-root .tl-cert-code {
+  margin: 0 0 var(--tl-s3);
+  color: var(--tl-steel);
+  font: 600 10px/1 var(--tl-font-mono);
+  letter-spacing: .14em;
+}
+.shell-root .tl-cert h3 { margin: 0; font-size: 14px; line-height: 1.25; }
+.shell-root .tl-cert > p { margin: var(--tl-s2) 0 0; }
+.shell-root .tl-cert-doc {
+  display: grid;
+  align-self: stretch;
+  gap: 5px;
+  margin-top: var(--tl-s4);
+  border: 1px solid var(--tl-paper-rule);
+  padding: var(--tl-s3);
+  background: var(--tl-paper-sunken);
+}
+.shell-root .tl-cert-doc i { display: block; height: 3px; background: var(--tl-paper-rule-soft); }
+.shell-root .tl-cert-doc i:nth-child(1) { width: 62%; background: var(--tl-paper-rule-strong); }
+.shell-root .tl-cert-doc i:nth-child(3n) { width: 78%; }
+.shell-root .tl-cert-doc i:nth-child(4n) { width: 88%; }
+.shell-root .tl-cert-foot {
+  margin: var(--tl-s3) 0 0;
+  color: var(--tl-ink-soft);
+  font: 500 10px/1.4 var(--tl-font-mono);
+  letter-spacing: .1em;
+}

@@ -231,6 +231,14 @@ export default defineConfig({
     : [["html", { open: "never" }], ["list"]],
   use: {
     baseURL: BASE_URL,
+    /* Round 2: inner-page prose waits dimmed below the fold until scrolled to
+       (src/hooks/useProseReveal.ts). Audits and goldens measure text at its
+       resting contrast, so every lane starts with the reveal off;
+       e2e/polish/prose-reveal.spec.ts switches it back on and measures it. */
+    storageState: {
+      cookies: [],
+      origins: [{ origin: new URL(BASE_URL).origin, localStorage: [{ name: "mas_prose_reveal", value: "off" }] }],
+    },
     trace: CAPTURE_ARTIFACTS ? "retain-on-failure" : "off",
     screenshot: CAPTURE_ARTIFACTS ? "only-on-failure" : "off",
     video: CAPTURE_ARTIFACTS ? "retain-on-failure" : "off",

@@ -399,7 +399,7 @@ export function ShellNextStep({
   id?: string;
 }) {
   return (
-    <ShellBand no={no} label={label} className="shell-next" id={id} ariaLabel={title}>
+    <ShellBand no={no} label={label} tone="paper" className="shell-next" id={id} ariaLabel={title}>
       <div className="tl-grid shell-next-body">
         <div className="shell-next-copy">
           <p className="shell-eyebrow">{eyebrow}</p>

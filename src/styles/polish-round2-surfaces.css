@@ -1,0 +1,54 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   ROUND 2 · SURFACES AND READING  (items 8 and 10)
+   Loaded after polish.css by PageShell. Tokens only.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Paper-dominant inner pages ───────────────────────────────────────────
+   Body bands now default to paper (`ShellSurfaceBand`), so consecutive paper
+   bands alternate with a cool fog ground instead of stacking identical
+   slabs. `:nth-child(… of S)` counts only paper bands, so the graphite hero
+   never shifts the rhythm. */
+.shell-root .shell-main > .tl-band[data-band-tone="paper"]:nth-child(even of .tl-band[data-band-tone="paper"]) {
+  --sf-ground: var(--tl-fog);
+  background: var(--tl-fog);
+}
+
+/* Light cool accents on paper: the sheet codes and step numbers take the
+   steel ink instead of a warm grey, and the index rule under band openers is
+   steel. Bronze keeps the headline italics and eyebrows. */
+.shell-root .tl-band[data-band-tone="paper"] > .tl-band-index span { color: var(--tl-steel); }
+.shell-root .tl-band[data-band-tone="paper"] :is(.shell-title-index, .shell-index-no, .shell-run-no) { color: var(--tl-steel); }
+.shell-root .tl-band[data-band-tone="paper"] .shell-index-row:is(:hover, :focus-visible) .shell-index-title { color: var(--tl-steel); }
+.shell-root .shell-hero-datum i {
+  background:
+    repeating-linear-gradient(90deg, var(--tl-steel-light) 0 1px, transparent 1px 48px) 0 100% / 100% 7px no-repeat,
+    linear-gradient(var(--tl-rule), var(--tl-rule));
+}
+
+/* ── Prose reveal ─────────────────────────────────────────────────────────
+   Dim only while the hook is running (`html[data-prose-reveal="on"]`) and
+   only for text that has not yet been reached (`:not([data-read])`). */
+:is(.shell-prose p, .shell-prose li, .shell-lede, .shell-title-block > p, .shell-index-desc,
+    .shell-faq-answer, .shell-run-detail, .shell-doc-section-body p, .shell-next-lede, .shell-detail-lede) {
+  transition: opacity .9s var(--pl-ease, ease);
+}
+html[data-prose-reveal="on"] :is(.shell-prose p, .shell-prose li, .shell-lede, .shell-title-block > p,
+    .shell-index-desc, .shell-faq-answer, .shell-run-detail, .shell-doc-section-body p, .shell-next-lede,
+    .shell-detail-lede):not([data-read]) {
+  opacity: .28;
+}
+
+/* Fallbacks: no script, or reduced motion — always full strength. */
+@media (scripting: none) {
+  :is(.shell-prose p, .shell-prose li, .shell-lede, .shell-title-block > p, .shell-index-desc,
+      .shell-faq-answer, .shell-run-detail, .shell-doc-section-body p, .shell-next-lede, .shell-detail-lede) {
+    opacity: 1 !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.shell-prose p, .shell-prose li, .shell-lede, .shell-title-block > p, .shell-index-desc,
+      .shell-faq-answer, .shell-run-detail, .shell-doc-section-body p, .shell-next-lede, .shell-detail-lede) {
+    opacity: 1 !important;
+    transition: none;
+  }
+}

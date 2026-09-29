@@ -94,6 +94,15 @@ test.describe("master grid axis contract", () => {
             if (getComputedStyle(node).display === "none") return;
             const rect = node.getBoundingClientRect();
             if (rect.width === 0 && rect.height === 0) return;
+            /* ROUND 2 — the sector band is a horizontal track of 13 cards.
+               A card that is not wholly inside its scroll port is cropped by
+               the port (whose own edges are measured as the band body), so
+               only the cards fully inside the port are held to the lines. */
+            const port = node.parentElement?.closest(".tl-sector-track");
+            if (port) {
+              const box = port.getBoundingClientRect();
+              if (rect.right > box.right + 1 || rect.left < box.left - 1) return;
+            }
             const left = nearest(axes, rect.left);
             const right = nearest(axes, rect.right);
             out.push({

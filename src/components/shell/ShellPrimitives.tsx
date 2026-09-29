@@ -176,7 +176,11 @@ export function ShellDivider({ reading }: { reading?: string }) {
 export function ShellSurfaceBand({
   no,
   label,
-  tone = "graphite",
+  /* ROUND 2 — paper by default. Inner pages read as consecutive graphite
+     slabs (hero + bands + next step + footer); the body bands are now the
+     warm paper ground, the hero and the footer keep the graphite frame, and a
+     band that must stay dark says `tone="graphite"` at its call site. */
+  tone = "paper",
   className = "",
   id,
   labelledBy,

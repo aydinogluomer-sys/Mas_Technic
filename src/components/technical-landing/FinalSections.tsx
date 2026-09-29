@@ -1,17 +1,18 @@
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowDown, Loader2, UploadCloud } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, Loader2, UploadCloud } from "lucide-react";
 import aerospace from "@/assets/industry-aerospace.webp";
 import defense from "@/assets/industry-defense.webp";
 import medical from "@/assets/industry-medical.webp";
 import hydraulic from "@/assets/industry-hydraulic.webp";
+import automotive from "@/assets/industry-automotive.webp";
+import robotics from "@/assets/industry-robotics.webp";
 import manifesto from "@/assets/hero-tolerans-hassasiyet.webp";
 import manifesto640 from "@/assets/hero-tolerans-hassasiyet-640.webp";
 import manifesto960 from "@/assets/hero-tolerans-hassasiyet-960.webp";
 import manifesto1600 from "@/assets/hero-tolerans-hassasiyet-1600.webp";
 import manifestoPortrait from "@/assets/hero-tolerans-hassasiyet-portrait.webp";
 import manifestoPortrait640 from "@/assets/hero-tolerans-hassasiyet-portrait-640.webp";
-import reportPart from "@/assets/technical-landing/hero-manifold-v1.webp";
 import { coverSizes, responsive } from "@/components/BlurImage";
 import {
   qualityCertificates, referenceLogos,
@@ -27,12 +28,27 @@ import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
    hydraulic card after that crop — the aspect (1:1) happened to stay exact,
    which is why nothing moved, but the attribute is a statement about the
    file and has to be true per file. */
-const sectors = [
-  ["HAVACILIK & UZAY", aerospace, "/endustriyel/havacilik-uzay", 1200, 1200],
-  ["SAVUNMA SANAYİ", defense, "/endustriyel/savunma-sanayi", 1200, 1200],
-  ["MEDİKAL", medical, "/endustriyel/medikal", 1200, 1200],
-  ["ENERJİ & HİDROLİK", hydraulic, "/endustriyel/hidrolik-pnomatik", 750, 750],
-] as const;
+/* ROUND 2 — every sector, not four. The list is the Endüstriyel family's own
+   sector routes (`src/components/navigation/ia.ts`), minus the "Üretim
+   Çözümleri" group, which lists production modes rather than industries.
+   Six sectors have a photograph; the rest get a typographic card rather than
+   an image borrowed from another industry. */
+type Sector = { title: string; href: string; image?: string; width?: number; height?: number };
+const sectors: Sector[] = [
+  { title: "HAVACILIK & UZAY", href: "/endustriyel/havacilik-uzay", image: aerospace, width: 1200, height: 1200 },
+  { title: "SAVUNMA SANAYİ", href: "/endustriyel/savunma-sanayi", image: defense, width: 1200, height: 1200 },
+  { title: "MEDİKAL", href: "/endustriyel/medikal", image: medical, width: 1200, height: 1200 },
+  { title: "HİDROLİK & PNÖMATİK", href: "/endustriyel/hidrolik-pnomatik", image: hydraulic, width: 750, height: 750 },
+  { title: "OTOMOTİV", href: "/endustriyel/otomotiv", image: automotive, width: 1200, height: 1200 },
+  { title: "ROBOTİK", href: "/endustriyel/robotik", image: robotics, width: 1200, height: 1200 },
+  { title: "YELKEN & YAT SİSTEMLERİ", href: "/endustriyel/yelken-yat-sistemleri" },
+  { title: "BORU & BAĞLANTI PARÇALARI", href: "/endustriyel/boru-baglanti-parcalari" },
+  { title: "İKLİM TEKNOLOJİLERİ", href: "/endustriyel/iklim-teknolojileri" },
+  { title: "YENİLENEBİLİR ENERJİ", href: "/endustriyel/yenilenebilir-enerji" },
+  { title: "PETROL & GAZ", href: "/endustriyel/petrol-gaz" },
+  { title: "GÜÇ DAĞITIM SİSTEMLERİ", href: "/endustriyel/guc-dagitim-sistemleri" },
+  { title: "MADENCİLİK EKİPMANLARI", href: "/endustriyel/madencilik-ekipmanlari" },
+];
 
 const DRAFT_RFQ_ID = "RFQ-DRAFT-LANDING";
 
@@ -92,21 +108,88 @@ const MANIFESTO_PORTRAIT_SIZES = coverSizes(800 / 1342, "520px + 144px", [[null,
 
 /** 08 — Hizmet verilen sektörler. */
 export function TechnicalSectors() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [edge, setEdge] = useState({ start: true, end: false, first: 1, last: 4 });
+
+  /* Position is read back from the scroll port, so swipe, trackpad, keyboard
+     and the arrows all report the same state. */
+  const measure = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const card = track.firstElementChild as HTMLElement | null;
+    const step = card?.getBoundingClientRect().width || 1;
+    const visible = Math.max(1, Math.round(track.clientWidth / step));
+    const first = Math.round(track.scrollLeft / step) + 1;
+    setEdge({
+      start: track.scrollLeft <= 1,
+      end: track.scrollLeft + track.clientWidth >= track.scrollWidth - 1,
+      first,
+      last: Math.min(sectors.length, first + visible - 1),
+    });
+  }, []);
+
+  useEffect(() => {
+    measure();
+    const track = trackRef.current;
+    if (!track) return;
+    track.addEventListener("scroll", measure, { passive: true });
+    window.addEventListener("resize", measure);
+    return () => {
+      track.removeEventListener("scroll", measure);
+      window.removeEventListener("resize", measure);
+    };
+  }, [measure]);
+
+  const page = (direction: 1 | -1) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    track.scrollBy({ left: direction * track.clientWidth, behavior: reduce ? "auto" : "smooth" });
+  };
+
+  const pad = (value: number) => String(value).padStart(2, "0");
+
   return (
     <TechnicalSectionFrame no="08" id="sektorler" label="SEKTÖRLER" className="tl-sectors" ariaLabel="Çalıştığımız sektörler">
       <div className="tl-sectors-body">
-        {sectors.map(([title, image, href, width, height]) => (
-          <Link to={href} key={title} className="tl-sector-card">
-            <img src={image} alt="" width={width} height={height} loading="lazy" decoding="async" />
-            <div><h3>{title}</h3></div>
-          </Link>
-        ))}
+        <div
+          ref={trackRef}
+          id="tl-sector-track"
+          className="tl-sector-track"
+          role="region"
+          aria-label="Sektör listesi — yatay kaydırılabilir"
+          tabIndex={0}
+          data-lenis-prevent-horizontal
+        >
+          {sectors.map((sector, index) => (
+            <Link to={sector.href} key={sector.href} className="tl-sector-card" data-typographic={sector.image ? undefined : ""}>
+              {sector.image ? (
+                <img src={sector.image} alt="" width={sector.width} height={sector.height} loading="lazy" decoding="async" />
+              ) : (
+                <span className="tl-sector-no" aria-hidden="true">{pad(index + 1)}</span>
+              )}
+              <div><h3>{sector.title}</h3></div>
+            </Link>
+          ))}
+        </div>
+        <div className="tl-sector-controls">
+          <p aria-live="polite">
+            <span>{pad(edge.first)}–{pad(edge.last)}</span> / {pad(sectors.length)} SEKTÖR
+          </p>
+          <div>
+            <button type="button" onClick={() => page(-1)} disabled={edge.start} aria-controls="tl-sector-track" aria-label="Önceki sektörler">
+              <ArrowLeft aria-hidden="true" />
+            </button>
+            <button type="button" onClick={() => page(1)} disabled={edge.end} aria-controls="tl-sector-track" aria-label="Sonraki sektörler">
+              <ArrowRight aria-hidden="true" />
+            </button>
+          </div>
+        </div>
       </div>
     </TechnicalSectionFrame>
   );
 }
 
-/** 09 — Manifesto. */
 export function MeasurementManifesto() {
   return (
     <TechnicalSectionFrame no="09" label="MANİFESTO" className="tl-manifesto" labelledBy="tl-manifesto-title">
@@ -152,57 +235,30 @@ export function QualityFile() {
     <TechnicalSectionFrame no="10" id="kalite" label="KALİTE DOSYASI" className="tl-quality" labelledBy="tl-quality-title">
       <div className="tl-quality-body">
         <h2 id="tl-quality-title" className="tl-visually-hidden">Kalite dosyası</h2>
+        {/* ROUND 2 — ONE WIREFRAME. Every card: code line, title, subtitle,
+            the same document frame, footer line. The three certificates were
+            text-only and the three records carried three different drawings,
+            so the strip read as six unrelated tiles. Three certificates, and
+            only three: `USER_INPUTS.md` §C records AS9100D and IATF 16949 as
+            NONE. The documents behind card 06 are the four real PDFs in §H,
+            downloadable from the KAYNAKLAR list in band 12. */}
         <div className="tl-quality-strip">
-          {/* Three certificates, and only three: `USER_INPUTS.md` §C records
-              AS9100D and IATF 16949 as NONE. The card count is unchanged
-              because OHSAS 18001 was permitted and simply missing. */}
-          {qualityCertificates.map(({ code, name }) => (
-            <article className="tl-cert" key={code}>
-              <h3>{code}</h3>
-              <p>{name}</p>
-              <div className="tl-cert-sign">
-                <span><small>YÖNETİM SİSTEMİ BELGESİ</small></span>
+          {[
+            ...qualityCertificates.map(({ code, name }) => ({ title: code, sub: name, foot: "YÖNETİM SİSTEMİ BELGESİ" })),
+            { title: "ÖLÇÜM KAYDI", sub: "Kontrol planına göre", foot: "ÜRETİM KAYDI" },
+            { title: "MALZEME İZLENEBİLİRLİĞİ", sub: "Parti ve döküm kaydı", foot: "ÜRETİM KAYDI" },
+            { title: "KALİTE DOSYASI", sub: "Kalite politikası · Ölçüm ekipmanları · Paketleme · Tedarikçi kuralları", foot: "KAYNAKLAR BÖLÜMÜNDEN İNDİRİLEBİLİR" },
+          ].map((card, index) => (
+            <article className="tl-cert" key={card.title}>
+              <p className="tl-cert-code" aria-hidden="true">Q-{String(index + 1).padStart(2, "0")}</p>
+              <h3>{card.title}</h3>
+              <p>{card.sub}</p>
+              <div className="tl-cert-doc" aria-hidden="true">
+                {Array.from({ length: 9 }, (_, row) => <i key={row} />)}
               </div>
+              <p className="tl-cert-foot">{card.foot}</p>
             </article>
           ))}
-
-          <article className="tl-cert tl-cert-report">
-            <h3>ÖLÇÜM KAYDI</h3>
-            <p>Kontrol planına göre</p>
-            <div className="tl-mini-doc" aria-hidden="true">
-              <img src={reportPart} alt="" width="1672" height="941" loading="lazy" decoding="async" />
-              <div>
-                {Array.from({ length: 6 }, (_, row) => (
-                  <span key={row}><i /><i /></span>
-                ))}
-              </div>
-            </div>
-            <div className="tl-doc-foot" aria-hidden="true"><i /><i /></div>
-          </article>
-
-          <article className="tl-cert tl-cert-material">
-            <h3>MALZEME İZLENEBİLİRLİĞİ</h3>
-            <p>Parti ve döküm kaydı</p>
-            <div className="tl-cert-table" aria-hidden="true">
-              {Array.from({ length: 7 }, (_, row) => (
-                <span key={row}><i /><i /><i /><i /></span>
-              ))}
-            </div>
-          </article>
-
-          {/* Where the fake verification QR stood. The documents named here are
-              the four real PDFs in §H; they are downloadable from the KAYNAKLAR
-              list in band 12. */}
-          <article className="tl-cert tl-cert-verify">
-            <h3>KALİTE DOSYASI</h3>
-            <p>Kalite politikası · Ölçüm ekipmanları · Paketleme · Tedarikçi kuralları</p>
-            <div className="tl-cert-table" aria-hidden="true">
-              {Array.from({ length: 7 }, (_, row) => (
-                <span key={row}><i /><i /><i /><i /></span>
-              ))}
-            </div>
-            <small>KAYNAKLAR BÖLÜMÜNDEN İNDİRİLEBİLİR</small>
-          </article>
         </div>
       </div>
     </TechnicalSectionFrame>
