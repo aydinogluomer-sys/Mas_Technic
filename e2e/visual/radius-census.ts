@@ -143,19 +143,9 @@ export const RADIUS_SOURCES: {
     file: "src/components/MaterialMorphScroll.tsx",
     lines: "359",
   },
-  {
-    label: "cursor dot",
-    matches: (signature) => signature === "div.fixed.top-0.left-0.pointer-events-none",
-    file: "src/components/ui/CustomCursor.tsx",
-    lines: "194-207",
-  },
-  {
-    label: "cursor ring",
-    matches: (signature) =>
-      signature === "div.fixed.top-0.left-0.pointer-events-none.flex.items-center.justify-center",
-    file: "src/components/ui/CustomCursor.tsx",
-    lines: "209-221",
-  },
+  /* The cursor dot and ring (`CustomCursor.tsx:212-225`, `228-241`) left
+     the register in round 2: parked at opacity 0 until the first
+     pointermove, they paint nothing for the census's unmoved pointer. */
 ];
 
 export type RegisterRow = {

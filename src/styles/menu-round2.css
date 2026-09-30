@@ -136,7 +136,7 @@
 
 /* ── Directory under the index ────────────────────────────────────────────*/
 .tl-menu .tl-menu-directory { gap: var(--tl-s5); padding-top: var(--tl-s4); }
-.tl-menu .tl-menu-dir-title { font-size: 10px; }
+.tl-menu .tl-menu-dir-title { align-items: baseline; font-size: 10px; line-height: 1.4; }
 .tl-menu .tl-menu-route-link { font-size: 15px; }
 .tl-menu .tl-menu-dir-col li a:is(:hover, :focus-visible) { color: var(--tl-bronze-light); }
 

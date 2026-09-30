@@ -34,9 +34,11 @@ const SURFACES = [
   { slug: "service", path: "/hizmetler/cnc-frezeleme" },
   { slug: "about", path: "/hakkimizda" },
   { slug: "journal", path: "/blog" },
-  { slug: "rfq", path: "/teklif-al" },
+  /* Round 2 (item 5): the quote studio is footerless by design; its header is
+     still the shared chrome and is captured. */
+  { slug: "rfq", path: "/teklif-al", footer: false },
   { slug: "notfound", path: "/__phase04-not-a-route__" },
-] as const;
+] as { slug: string; path: string; footer?: false }[];
 
 test.describe("shell golden screenshots", () => {
   for (const surface of SURFACES) {
@@ -61,6 +63,10 @@ test.describe("shell golden screenshots", () => {
       });
 
       const footer = page.locator("footer.tl-footer");
+      if (surface.footer === false) {
+        await expect(footer).toHaveCount(0);
+        return;
+      }
       await footer.scrollIntoViewIfNeeded();
       await expect(footer).toBeVisible();
       await expect(footer).toHaveScreenshot(`shell-footer-${surface.slug}.png`, {

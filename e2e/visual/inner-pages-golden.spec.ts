@@ -57,13 +57,15 @@ import { hideForeignOverlays } from "./overlays";
 
 const ROUTES = [
   { slug: "about", path: "/hakkimizda" },
-  { slug: "contact", path: "/iletisim" },
+  /* Round 2 (item 18): the contact page is a booking studio; its opening is
+     `.contact-studio`, not the shared `.shell-hero` band. */
+  { slug: "contact", path: "/iletisim", hero: ".contact-studio" },
   { slug: "materials", path: "/malzemeler" },
   { slug: "material-family", path: "/malzemeler/aluminyum" },
   { slug: "service-category", path: "/hizmetler/kategori/talasli-imalat" },
   { slug: "service-detail", path: "/hizmetler/cnc-frezeleme" },
   { slug: "sector-detail", path: "/endustriyel/havacilik-uzay" },
-] as const;
+] as { slug: string; path: string; hero?: string }[];
 
 /** The routes whose acceptance criterion is about the next step itself. */
 const NEXT_STEP = new Set(["service-category", "service-detail", "sector-detail"]);
@@ -103,7 +105,7 @@ test.describe("inner-page golden screenshots", () => {
          the picture level: on the two detail routes this element carries the
          `<h1>`, and at 375 the previous hero clipped that `<h1>` away
          entirely. A golden of an empty band would be visible at a glance. */
-      const hero = page.locator(".shell-hero");
+      const hero = page.locator(route.hero ?? ".shell-hero");
       await expect(hero).toHaveCount(1);
       await expect(hero).toBeVisible();
       await expect(hero).toHaveScreenshot(`inner-hero-${route.slug}.png`, {

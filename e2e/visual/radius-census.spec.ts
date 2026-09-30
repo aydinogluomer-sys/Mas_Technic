@@ -128,7 +128,7 @@ test.describe("§4 — the radius register is the census", () => {
         + "accepts them it accepts anything",
     ).toBe(false);
     expect(
-      citationDeclaresRadius(repoRoot, "src/components/ui/CustomCursor.tsx", "194-207"),
+      citationDeclaresRadius(repoRoot, "src/components/ui/CustomCursor.tsx", "212-225"),
       "and it must still accept the real one",
     ).toBe(true);
   });

@@ -131,20 +131,26 @@ afterwards, by looking up what the measurement had already found.
 not the register: the chat launcher lost its `rounded-full` and is now a square
 graphite stamp, so its row is gone; the inner-band gutter narrowed the 375 step
 meter from 21 to 17 px wide, re-measured by `e2e/visual/radius-census.spec.ts`).
-Not one of them belongs to a page file:
+
+**Three sources, one component** (round 2, 2026-09-30 — the PAGES changed, not
+the register: the cursor layers now live in `<body>` and stay parked at
+`opacity: 0` until the first `pointermove` arms them, which fixed the cursor
+vanishing over the header and the menu. The census never moves the pointer, so
+an unarmed cursor paints nothing and both cursor rows are gone. Their radius is
+still `borderRadius: "50%"` inline in `CustomCursor.tsx`; it is simply not
+painted by an unmoved pointer any more.) Not one of them belongs to a page file:
 
 | element | 375 | 768 | 1280 | radius | box | source |
 |---|---|---|---|---|---|---|
 | `step meter` | 20 | – | – | `9999px` | 375: 17×6 | `MaterialMorphScroll.tsx:228` |
 | `property-meter track` | – | 4 | 4 | `9999px` | 768: 238×4 · 1280: 238×4 | `MaterialMorphScroll.tsx:357` |
 | `property-meter fill` | – | 4 | 4 | `9999px` | 768: 143×4, 190×4, 238×4 · 1280: 143×4, 190×4, 238×4 | `MaterialMorphScroll.tsx:359` |
-| `cursor dot` | – | 6 | 6 | `50%` | 768: 6×6 · 1280: 6×6 | `CustomCursor.tsx:194-207` |
-| `cursor ring` | – | 6 | 6 | `50%` | 768: 44×44 · 1280: 44×44 | `CustomCursor.tsx:209-221` |
 
 The three meters are `/malzemeler` only, and they are two different meters
 rather than one that resizes: the step meter is the narrow layout and the
-property meters are the wide one, and the switch is between 375 and 768. Both cursor layers are on all six routes at 768 and at 1280, and on none
-at 375.
+property meters are the wide one, and the switch is between 375 and 768. Both cursor layers
+mount on all six routes at 768 and at 1280 (none at 375), but since round 2
+they paint only after the pointer has moved.
 
 **768 was missing from v3, and its absence was not neutral — it moved four of
 the six rows.** The property meters were recorded as 1280-only when they have
@@ -168,8 +174,10 @@ meters are absent at 375 as well.
 **The two cursor layers are the ones v2 missed, and the reason it missed them
 is worth keeping.** Their radius is `borderRadius: "50%"` as an **inline
 style**, so no stylesheet audit and no `rounded-` class grep can see them; and
-they are at `opacity: 1` from mount, merely parked at (-3,-3) and (-22,-22), so
-"the cursor has not moved yet" does not mean "the cursor has not painted yet".
+until round 2 they were at `opacity: 1` from mount, merely parked at (-3,-3)
+and (-22,-22), so "the cursor has not moved yet" did not mean "the cursor has
+not painted yet". Since round 2 it does: the layers carry `data-armed="false"`
+at `opacity: 0` until the first `pointermove`.
 `e2e/visual/overlays.ts` gave that as its reason for excluding them, and has
 been corrected twice since.
 
@@ -186,7 +194,9 @@ declaration is character-for-character the same one; only its address moved.
 `MaterialMorphScroll.tsx` changed in Phase 07 but in none of its three lines.
 So every version of this register has been the register being wrong, never the
 pages — and a file hash is evidence about a FILE, which is why the sentence
-that used it to vouch for a DECLARATION had to be split in two.
+that used it to vouch for a DECLARATION had to be split in two. (Round 2 edited `CustomCursor.tsx` — portal, arming — and moved the two
+declarations to lines 212-225 and 228-241; they are no longer in the table
+because they no longer paint for an unmoved pointer.)
 
 **Excluded, as a decision rather than a miss:** two further radius sites exist
 in the same components but paint in states this census does not enter — the
