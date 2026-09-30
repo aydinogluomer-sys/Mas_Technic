@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { upper } from "@/i18n/upper";
 import { Link, useLocation } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { PageShell, ShellBreadcrumb } from "@/components/shell";
@@ -87,6 +89,7 @@ function upcomingWorkdays(count: number) {
 }
 
 export const Iletisim = () => {
+  const { t, i18n } = useTranslation();
   usePageMeta({
     title: "İletişim",
     description: "CNC işleme, teklif talebi ve mühendislik desteği için Mas Technic ile iletişime geçin.",
@@ -104,7 +107,8 @@ export const Iletisim = () => {
   }, [location.search]);
 
   const days = upcomingWorkdays(NEXT_DAYS);
-  const dayFormat = new Intl.DateTimeFormat("tr-TR", { weekday: "short" });
+  const lang = i18n.resolvedLanguage ?? "tr";
+  const dayFormat = new Intl.DateTimeFormat(lang === "zh" ? "zh-Hans" : lang, { weekday: "short" });
 
   return (
     <PageShell surface="graphite" className="contact-page" rail={{ no: "C2", label: "İLETİŞİM" }}>
@@ -113,74 +117,72 @@ export const Iletisim = () => {
       <section className="contact-studio" aria-labelledby="shell-page-title">
         <header className="contact-head">
           <ShellBreadcrumb trail={[{ label: "Ana sayfa", to: "/" }, { label: "İletişim" }]} />
-          <p className="shell-eyebrow">İLETİŞİM · İZMİR · TEKLİF DÖNÜŞÜ {QUOTE_RESPONSE_TIME.toLocaleUpperCase("tr-TR")}</p>
-          <h1 id="shell-page-title">Bize ulaşın</h1>
+          <p className="shell-eyebrow">{upper(t("İLETİŞİM · İZMİR · TEKLİF DÖNÜŞÜ {{time}}", { time: t(QUOTE_RESPONSE_TIME) }), lang)}</p>
+          <h1 id="shell-page-title">{t("Bize ulaşın")}</h1>
           <p className="contact-lede">
-            Geometriyi birlikte okumak için bir görüşme planlayın ya da doğrudan yazın. Teknik resminiz hazırsa en
-            hızlı yol teklif dosyasıdır.
+            {t("Geometriyi birlikte okumak için bir görüşme planlayın ya da doğrudan yazın. Teknik resminiz hazırsa en hızlı yol teklif dosyasıdır.")}
           </p>
         </header>
 
         <div className="contact-grid">
           <article className="booking-card" id="toplanti" aria-labelledby="booking-card-title">
-            <p className="booking-card-code">01 · TEKNİK GÖRÜŞME</p>
+            <p className="booking-card-code">{t("01 · TEKNİK GÖRÜŞME")}</p>
             <h2 id="booking-card-title">
-              Parçanızı <em>ekranda birlikte</em> okuyalım.
+              {t("Parçanızı")} <em>{t("ekranda birlikte")}</em> {t("okuyalım.")}
             </h2>
             <p className="booking-card-lede">
-              Google Meet üzerinden ekran paylaşımlı görüşme. Uygun saati takvimden seçin; davet ve hatırlatma
-              e-postanıza otomatik gelir.
+              {t("Google Meet üzerinden ekran paylaşımlı görüşme. Uygun saati takvimden seçin; davet ve hatırlatma e-postanıza otomatik gelir.")}
             </p>
 
-            <button type="button" className="booking-days" onClick={openBooking} aria-label="Takvimi aç ve saat seç">
+            <button type="button" className="booking-days" onClick={openBooking} aria-label={t("Takvimi aç ve saat seç")}>
               {days.map((day) => (
                 <span key={day.toISOString()} className="booking-day">
-                  <small>{dayFormat.format(day).toLocaleUpperCase("tr-TR")}</small>
+                  <small>{upper(dayFormat.format(day), lang)}</small>
                   <b>{String(day.getDate()).padStart(2, "0")}</b>
                 </span>
               ))}
-              <span className="booking-days-hint">Takvimi aç →</span>
+              <span className="booking-days-hint">{t("Takvimi aç →")}</span>
             </button>
 
             <ol className="booking-steps">
-              <li><span>01</span>Takvimden uygun saati seçin.</li>
-              <li><span>02</span>Google Meet daveti e-postanıza gelir.</li>
-              <li><span>03</span>Görüşmede dosyanızı ve toleranslarınızı birlikte inceleriz.</li>
+              <li><span>01</span>{t("Takvimden uygun saati seçin.")}</li>
+              <li><span>02</span>{t("Google Meet daveti e-postanıza gelir.")}</li>
+              <li><span>03</span>{t("Görüşmede dosyanızı ve toleranslarınızı birlikte inceleriz.")}</li>
             </ol>
 
             <div className="booking-card-actions">
               <button type="button" className="booking-primary" onClick={openBooking} data-testid="booking-open">
-                Randevu saatini seç
+                {t("Randevu saatini seç")}
                 <ArrowRight aria-hidden="true" />
               </button>
               <a className="booking-newtab" href={BOOKING_LINK} target="_blank" rel="noopener noreferrer">
-                Randevuyu yeni sekmede aç
+                {t("Randevuyu yeni sekmede aç")}
                 <ArrowUpRight aria-hidden="true" />
               </a>
             </div>
           </article>
 
-          <aside className="contact-lines" aria-label="Doğrudan hat">
-            <p className="booking-card-code">02 · DOĞRUDAN HAT</p>
+          <aside className="contact-lines" aria-label={t("Doğrudan hat")}>
+            <p className="booking-card-code">{t("02 · DOĞRUDAN HAT")}</p>
             <a className="contact-line" href={PUBLIC_PHONE_HREF}>
               <Phone aria-hidden="true" />
-              <span><small>TELEFON</small>{PUBLIC_PHONE}</span>
+              <span><small>{t("TELEFON")}</small>{PUBLIC_PHONE}</span>
             </a>
             <a className="contact-line" href={SALES_EMAIL_HREF}>
               <Mail aria-hidden="true" />
-              <span><small>E-POSTA</small>{SALES_EMAIL}</span>
+              <span><small>{t("E-POSTA")}</small>{SALES_EMAIL}</span>
             </a>
             <p className="contact-line contact-line--static">
               <MapPin aria-hidden="true" />
-              <span><small>MERKEZ</small>{PUBLIC_ADDRESS_LINES.join(" ")}</span>
+              <span><small>{t("MERKEZ")}</small>{PUBLIC_ADDRESS_LINES.join(" ")}</span>
             </p>
 
             <div className="contact-quote">
-              <p className="booking-card-code">03 · TEKNİK TEKLİF</p>
-              <p className="contact-quote-title">Teknik resminiz hazır mı?</p>
-              <p>Dosyayı yükleyin; üretilebilirlik incelemesiyle birlikte {QUOTE_RESPONSE_TIME} içinde dönelim.</p>
+              <p className="booking-card-code">{t("03 · TEKNİK TEKLİF")}</p>
+              <p className="contact-quote-title">{t("Teknik resminiz hazır mı?")}</p>
+              <p>{t("Dosyayı yükleyin; üretilebilirlik incelemesiyle birlikte {{time}} içinde dönelim.", { time: t(QUOTE_RESPONSE_TIME) })}</p>
               <Link className="booking-primary booking-primary--paper" to="/teklif-al">
-                Teklif al
+                {t("Teklif al")}
                 <ArrowRight aria-hidden="true" />
               </Link>
             </div>

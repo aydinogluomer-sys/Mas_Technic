@@ -75,6 +75,8 @@ export type RfqSubmissionError = {
   label: string;
   title: string;
   detail: string;
+  /** Interpolation values for `detail`, which doubles as its translation key. */
+  detailVars?: Record<string, string>;
   /** `true` when trying the same request again is a sensible next action. */
   retryable: boolean;
 };
@@ -145,9 +147,8 @@ async function readFunctionError(error: unknown): Promise<RfqSubmissionError> {
       return {
         label: "ÇOK FAZLA TALEP",
         title: "Kısa sürede çok fazla talep gönderildi",
-        detail:
-          backendMessage ??
-          `Lütfen ${retryAfterSeconds ?? 60} saniye bekleyip tekrar deneyin.`,
+        detail: backendMessage ?? "Lütfen {{seconds}} saniye bekleyip tekrar deneyin.",
+        detailVars: backendMessage ? undefined : { seconds: String(retryAfterSeconds ?? 60) },
         retryable: true,
       };
     }

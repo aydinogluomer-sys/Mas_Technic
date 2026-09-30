@@ -19,7 +19,8 @@ import { gotoAndSettle, landingReady } from "../helpers";
    3. blocker B25 — a history move with the menu open cannot strand the modal
       lock — including the `--repeat-each` shape that used to fail 7 of 8;
    4. no stuck transition state is reachable by rapid repeated clicks;
-   5. `/teklif-al` has a footer whose legal links actually navigate;
+   5. `/teklif-al` — a footerless quote studio since round 2 (item 5, the
+      owner's call) — still carries legal links that actually navigate;
    6. the 404 is a shell state, not a chrome-less dead end.
    ══════════════════════════════════════════════════════════════════════════ */
 
@@ -33,9 +34,9 @@ const SHELL_ROUTES = [
   { path: "/blog", name: "journal index" },
   { path: "/sss", name: "faq" },
   { path: "/kvkk", name: "legal" },
-  { path: "/teklif-al", name: "rfq" },
+  { path: "/teklif-al", name: "rfq", footer: false },
   { path: "/__phase04-not-a-route__", name: "404" },
-] as const;
+] as { path: string; name: string; footer?: false }[];
 
 async function shellShape(page: Page) {
   return page.evaluate(() => {
@@ -78,7 +79,8 @@ test.describe("global public page shell", () => {
       expect(shape.shellRoots, "exactly one shell root").toBe(1);
       expect(shape.headers, "one global navigation").toBe(1);
       expect(shape.triggers, "one menu trigger").toBe(1);
-      expect(shape.contentinfo, "one footer").toBe(1);
+      expect(shape.contentinfo, route.footer === false ? "the quote studio has no footer" : "one footer")
+        .toBe(route.footer === false ? 0 : 1);
       expect(shape.mains, "one main landmark").toBe(1);
       expect(shape.mainIsShell, "main is the shell's main, not a page-local one").toBe(true);
       expect(shape.transitionNodes, "one route-transition node").toBe(1);
@@ -86,7 +88,9 @@ test.describe("global public page shell", () => {
       // The same rail/grid contract is AVAILABLE to every page: the footer band
       // resolves to rail + `--tl-cols` tracks at every width, from the same
       // tokens the landing uses.
-      expect(shape.bandTracks, "rail + --tl-cols master tracks").toBe(shape.cols + 1);
+      if (route.footer !== false) {
+        expect(shape.bandTracks, "rail + --tl-cols master tracks").toBe(shape.cols + 1);
+      }
       expect(shape.sheetMax, "one sheet token").toBe("1600px");
       expect(shape.sheetWidth, "sheet never exceeds the token")
         .toBeLessThanOrEqual(Math.min(1600, page.viewportSize()!.width));
@@ -113,16 +117,16 @@ test.describe("global public page shell", () => {
     await expect(page.locator("main#main-content")).toBeVisible();
   });
 
-  test("/teklif-al has a footer whose legal links navigate", async ({ page }) => {
-    // `src/pages/TeklifAl.tsx:54` imported `Footer` and never rendered it, so
-    // the primary conversion page had no legal links and no exit path at all.
+  test("/teklif-al keeps legal links that navigate, without a footer", async ({ page }) => {
+    // Before Phase 04 the page had no legal links and no exit path at all. The
+    // round-2 quote studio drops the footer on purpose; its rail carries them.
     await gotoAndSettle(page, "/teklif-al");
-    const footer = page.getByRole("contentinfo");
-    await expect(footer).toHaveCount(1);
+    await expect(page.getByRole("contentinfo")).toHaveCount(0);
+    const legal = page.locator(".rfq-legal");
     for (const name of [/^KVKK/i, /Gizlilik Politikası/i, /Çerez Politikası/i]) {
-      await expect(footer.getByRole("link", { name })).toHaveCount(1);
+      await expect(legal.getByRole("link", { name })).toHaveCount(1);
     }
-    await footer.getByRole("link", { name: /^KVKK/i }).click();
+    await legal.getByRole("link", { name: /^KVKK/i }).click();
     await expect(page).toHaveURL(/\/kvkk$/);
     await expect(page.getByRole("heading", { level: 1, name: "KVKK Aydınlatma Metni" })).toBeVisible();
   });
@@ -240,7 +244,9 @@ test.describe("route transition", () => {
        legal run — so the stress is the same at 375 as at 1280. The link
        columns are not used here: they collapse into disclosures below 768px
        and the journey would quietly become a no-op there. */
-    const hammer = [/Hemen Teklif Al/i, /Bize Ulaşın/i, /Yazıları incele/i, /^KVKK/i];
+    /* Every target keeps the footer: the footerless quote studio would turn
+       the rest of the round into clicks on nothing. */
+    const hammer = [/Gizlilik Politikası/i, /Bize Ulaşın/i, /Yazıları incele/i, /^KVKK/i];
     for (let round = 0; round < 3; round += 1) {
       for (const name of hammer) {
         // No `await expect(page).toHaveURL()` between clicks on purpose: the

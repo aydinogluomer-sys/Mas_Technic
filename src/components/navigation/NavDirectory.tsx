@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { companyLinks, landingSections, resourceLinks } from "./ia";
 
 interface NavDirectoryProps {
@@ -19,12 +20,13 @@ interface NavDirectoryProps {
  * page". Same rule system, same rhythm — two clearly different objects.
  */
 export function NavDirectory({ currentPath, activeSection, onNavigate, onSection }: NavDirectoryProps) {
+  const { t } = useTranslation();
   const onHome = currentPath === "/";
   return (
     <div className="tl-menu-directory">
       <nav className="tl-menu-dir-col" aria-labelledby="nav-dir-sections" data-nav-sections>
         <p className="tl-menu-dir-title" id="nav-dir-sections">
-          ANA SAYFA BÖLÜMLERİ
+          {t("ANA SAYFA BÖLÜMLERİ")}
           <span aria-hidden="true">{String(landingSections.length).padStart(2, "0")}</span>
         </p>
         <ul>
@@ -37,7 +39,7 @@ export function NavDirectory({ currentPath, activeSection, onNavigate, onSection
                 onClick={(event) => { event.preventDefault(); onSection(section.id); }}
               >
                 <span className="tl-menu-section-index" aria-hidden="true">§{section.index}</span>
-                {section.label}
+                {t(section.label)}
               </Link>
             </li>
           ))}
@@ -46,7 +48,7 @@ export function NavDirectory({ currentPath, activeSection, onNavigate, onSection
 
       <nav className="tl-menu-dir-col" aria-labelledby="nav-dir-resources">
         <p className="tl-menu-dir-title" id="nav-dir-resources">
-          KAYNAKLAR
+          {t("KAYNAKLAR")}
           <span aria-hidden="true">{String(resourceLinks.length).padStart(2, "0")}</span>
         </p>
         <ul>
@@ -58,7 +60,7 @@ export function NavDirectory({ currentPath, activeSection, onNavigate, onSection
                 aria-current={currentPath === link.path ? "page" : undefined}
                 onClick={(event) => { event.preventDefault(); onNavigate(link.path); }}
               >
-                {link.label}
+                {t(link.label)}
               </Link>
             </li>
           ))}
@@ -67,7 +69,7 @@ export function NavDirectory({ currentPath, activeSection, onNavigate, onSection
 
       <nav className="tl-menu-dir-col" aria-labelledby="nav-dir-company">
         <p className="tl-menu-dir-title" id="nav-dir-company">
-          KURUMSAL
+          {t("KURUMSAL")}
           <span aria-hidden="true">{String(companyLinks.length).padStart(2, "0")}</span>
         </p>
         <ul>
@@ -79,7 +81,7 @@ export function NavDirectory({ currentPath, activeSection, onNavigate, onSection
                 aria-current={currentPath === link.path ? "page" : undefined}
                 onClick={(event) => { event.preventDefault(); onNavigate(link.path); }}
               >
-                {link.label}
+                {t(link.label)}
               </Link>
             </li>
           ))}

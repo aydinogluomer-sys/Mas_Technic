@@ -170,7 +170,7 @@ test.describe("public navigation reachability", () => {
     await expect(menu).toBeVisible();
 
     // Open every family and every category so the whole tree is in the DOM.
-    const families = menu.locator("button[aria-pressed]");
+    const families = menu.locator("button[aria-pressed]:not([lang])");
     const published = new Set<string>();
     const collect = async () => {
       for (const href of await menu.locator("a[href]").evaluateAll((links) =>

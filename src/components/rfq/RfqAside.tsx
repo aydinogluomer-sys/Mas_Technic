@@ -1,4 +1,5 @@
 import { ShellAction, ShellMetaRow, ShellRun } from "@/components/shell";
+import { useTranslation } from "react-i18next";
 import {
   CERTIFICATIONS,
   CMM_COVERAGE,
@@ -34,37 +35,38 @@ import {
    ══════════════════════════════════════════════════════════════════════════ */
 
 export function RfqAside({ draft, fileName }: { draft: RfqDraft; fileName: string | null }) {
+  const { t } = useTranslation();
   return (
     <>
       <div>
-        <p className="shell-eyebrow">CANLI KAYIT</p>
+        <p className="shell-eyebrow">{t("CANLI KAYIT")}</p>
         <ShellMetaRow
           items={[
-            { label: "Dosya", value: fileName ?? "Henüz yüklenmedi" },
-            { label: "Hizmet", value: optionLabel(RFQ_SERVICES, draft.service) },
-            { label: "Malzeme", value: resolveMaterialLabel(draft.material, draft.customMaterial) },
-            { label: "Yüzey", value: optionLabel(RFQ_SURFACE_FINISHES, draft.finish) },
-            { label: "Miktar", value: Number.isFinite(draft.quantity) ? `${draft.quantity} adet` : "—" },
-            { label: "Öncelik", value: optionLabel(RFQ_PRIORITIES, draft.priority) },
+            { label: t("Dosya"), value: fileName ?? "Henüz yüklenmedi" },
+            { label: t("Hizmet"), value: t(optionLabel(RFQ_SERVICES, draft.service)) },
+            { label: t("Malzeme"), value: t(resolveMaterialLabel(draft.material, draft.customMaterial)) },
+            { label: t("Yüzey"), value: t(optionLabel(RFQ_SURFACE_FINISHES, draft.finish)) },
+            { label: t("Miktar"), value: Number.isFinite(draft.quantity) ? `${draft.quantity} adet` : "—" },
+            { label: t("Öncelik"), value: t(optionLabel(RFQ_PRIORITIES, draft.priority)) },
           ]}
         />
       </div>
 
       <div>
-        <p className="shell-eyebrow">TEKLİF VE TERMİN</p>
+        <p className="shell-eyebrow">{t("TEKLİF VE TERMİN")}</p>
         <ShellMetaRow
           items={[
-            { label: "Teklif dönüşü", value: QUOTE_RESPONSE_TIME_DISPLAY },
-            { label: "Termin", value: "Teklifle birlikte" },
-            { label: "Ölçüm kaydı", value: "Teslimat dosyasında" },
+            { label: t("Teklif dönüşü"), value: t(QUOTE_RESPONSE_TIME_DISPLAY) },
+            { label: t("Termin"), value: t("Teklifle birlikte") },
+            { label: t("Ölçüm kaydı"), value: t("Teslimat dosyasında") },
           ]}
         />
       </div>
 
       <div>
-        <p className="shell-eyebrow">KALİTE</p>
+        <p className="shell-eyebrow">{t("KALİTE")}</p>
         <ShellRun
-          ariaLabel="Kalite güvencesi"
+          ariaLabel={t("Kalite güvencesi")}
           items={[
             /* NO ATTESTATION ADJECTIVE. `scripts/claims-gate.mjs`'s
                `attestation-adjective` rule exempts "Sertifikalı kalite yönetim
@@ -73,18 +75,18 @@ export function RfqAside({ draft, fileName }: { draft: RfqDraft; fileName: strin
                ledger, so the gate cannot see it — and it is right not to,
                because a variable could name any certificate at all. Naming the
                standard says the same true thing and needs no exemption. */
-            { title: CERTIFICATIONS[0].code, detail: "Kalite yönetim sistemi standardı." },
-            { title: "CMM ölçümü", detail: CMM_COVERAGE },
+            { title: CERTIFICATIONS[0].code, detail: t("Kalite yönetim sistemi standardı.") },
+            { title: t("CMM ölçümü"), detail: t(CMM_COVERAGE) },
             {
-              title: "Malzeme izlenebilirliği",
-              detail: "Parti ve döküm kaydı; malzeme sertifikası talebe bağlı.",
+              title: t("Malzeme izlenebilirliği"),
+              detail: t("Parti ve döküm kaydı; malzeme sertifikası talebe bağlı."),
             },
           ]}
         />
       </div>
 
       <div>
-        <p className="shell-eyebrow">DOĞRUDAN HAT</p>
+        <p className="shell-eyebrow">{t("DOĞRUDAN HAT")}</p>
         <p className="shell-note">
           Dosya hazır değilse veya form yerine konuşmayı tercih ediyorsanız doğrudan yazın.
         </p>

@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { upper } from "@/i18n/upper";
 import { Link } from "react-router-dom";
 import { legalLinks } from "@/components/navigation/ia";
 import {
@@ -83,6 +85,7 @@ import { useRfqSubmission } from "@/components/rfq/useRfqSubmission";
 const LAST_STEP = RFQ_STEPS.length;
 
 export const TeklifAl = () => {
+  const { t, i18n } = useTranslation();
   const [currentStep, setCurrentStep] = useState(1);
   const [furthestStep, setFurthestStep] = useState(1);
   const [draft, setDraft] = useState<RfqDraft>(EMPTY_RFQ_DRAFT);
@@ -221,12 +224,12 @@ export const TeklifAl = () => {
 
   const heroMeta = useMemo(
     () => [
-      { label: "Teklif dönüşü", value: QUOTE_RESPONSE_TIME },
-      { label: "Kabul edilen format", value: CAD_FORMAT_CHIPS.join(", ") },
-      { label: "Maksimum dosya", value: `${CAD_MAX_FILE_SIZE_MB} MB` },
-      { label: "Tolerans", value: MINIMUM_TOLERANCE },
+      { label: t("Teklif dönüşü"), value: t(QUOTE_RESPONSE_TIME) },
+      { label: t("Kabul edilen format"), value: CAD_FORMAT_CHIPS.join(", ") },
+      { label: t("Maksimum dosya"), value: `${CAD_MAX_FILE_SIZE_MB} MB` },
+      { label: t("Tolerans"), value: MINIMUM_TOLERANCE },
     ],
-    [],
+    [t],
   );
 
   /* ROUND 2 — THE QUOTE STUDIO. The page no longer reads as a stack of
@@ -239,11 +242,11 @@ export const TeklifAl = () => {
     <PageShell surface="graphite" footer={false} className="rfq-page" rail={{ no: "13", label: "TEKLİF" }}>
       <section className="rfq-studio" id="talep" aria-labelledby="shell-page-title">
         <header className="rfq-head">
-          <ShellBreadcrumb trail={[{ label: "Ana sayfa", to: "/" }, { label: "Teklif al" }]} />
-          <p className="shell-eyebrow">TEKLİF · 3 ADIM · {QUOTE_RESPONSE_TIME.toLocaleUpperCase("tr-TR")} DÖNÜŞ</p>
+          <ShellBreadcrumb trail={[{ label: t("Ana sayfa"), to: "/" }, { label: t("Teklif al") }]} />
+          <p className="shell-eyebrow">{upper(t("TEKLİF · 3 ADIM · {{time}} DÖNÜŞ", { time: t(QUOTE_RESPONSE_TIME) }), i18n.resolvedLanguage)}</p>
           {/* The heading string is a measured contract: `e2e/qa-p08-scroll-region
              -reach.spec.ts:207` reads it as this route's anti-404 surface. */}
-          <h1 id="shell-page-title">Hassas Fiyat Teklifi Alın</h1>
+          <h1 id="shell-page-title">{t("Hassas Fiyat Teklifi Alın")}</h1>
           <dl className="rfq-head-meta">
             {heroMeta.map((item) => (
               <div key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>
@@ -252,23 +255,23 @@ export const TeklifAl = () => {
         </header>
 
         <div className="rfq-grid">
-          <aside className="rfq-rail" aria-label="İlerleme ve alternatif yollar">
+          <aside className="rfq-rail" aria-label={t("İlerleme ve alternatif yollar")}>
             <RfqStepper current={currentStep} furthest={furthestStep} onSelect={goToStep} />
             <div className="rfq-progress" aria-hidden="true">
               <i style={{ transform: `scaleY(${currentStep / LAST_STEP})` }} />
             </div>
             <div className="rfq-alt">
-              <p className="shell-eyebrow">DOSYA HAZIR DEĞİLSE</p>
+              <p className="shell-eyebrow">{t("DOSYA HAZIR DEĞİLSE")}</p>
               <ul>
-                <li><a href="/iletisim#toplanti">Teknik görüşme planla <span aria-hidden="true">↗</span></a></li>
-                <li><a href="/sss">Sık sorulan sorular <span aria-hidden="true">↗</span></a></li>
+                <li><a href="/iletisim#toplanti">{t("Teknik görüşme planla")} <span aria-hidden="true">↗</span></a></li>
+                <li><a href="/sss">{t("Sık sorulan sorular")} <span aria-hidden="true">↗</span></a></li>
                 <li><a href={PUBLIC_PHONE_HREF}>{PUBLIC_PHONE}</a></li>
                 <li><a href={SALES_EMAIL_HREF}>{SALES_EMAIL}</a></li>
               </ul>
               {/* No site footer on this task surface, so the legal texts the
                   form's data handling refers to stay one click away here. */}
               <p className="rfq-legal">
-                {legalLinks.map((link) => <Link key={link.path} to={link.path}>{link.label}</Link>)}
+                {legalLinks.map((link) => <Link key={link.path} to={link.path}>{t(link.label)}</Link>)}
               </p>
             </div>
           </aside>
@@ -326,8 +329,8 @@ export const TeklifAl = () => {
                     (`role="alert"` via `tone="error"`), square, Space Grotesk;
                     it was a `sonner` toast that named one problem and vanished. */}
                 {formError && !sent && (
-                  <ShellNotice tone="error" label="FORM HATASI" title={formError.title}>
-                    <p>{formError.detail}</p>
+                  <ShellNotice tone="error" label={t("FORM HATASI")} title={t(formError.title)}>
+                    <p>{t(formError.detail)}</p>
                   </ShellNotice>
                 )}
 

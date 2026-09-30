@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import heroPart from "@/assets/technical-landing/hero-manifold-v1.webp";
 import { heroPartFacts } from "@/data/technicalLandingData";
 import { accountLink } from "@/components/navigation/ia";
+import { useTranslation } from "react-i18next";
 import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
 
 /**
@@ -15,27 +16,28 @@ const VIEW_W = 1000;
 const VIEW_H = 563;
 
 export function TechnicalHero() {
+  const { t } = useTranslation();
   return (
     <TechnicalSectionFrame no="02" label="HERO" className="tl-hero" labelledBy="tl-hero-title">
       <div className="tl-hero-copy">
-        <h1 id="tl-hero-title" data-testid="technical-hero-title">HAM GEOMETRİDEN<br />DOĞRULANMIŞ<br />HASSASİYETE</h1>
-        <p>MAS TECHNIC, 5 eksen CNC teknolojileri ve sıkı kalite kontrol süreçleriyle ham geometriden doğrulanmış hassasiyete ulaştırır.</p>
+        <h1 id="tl-hero-title" data-testid="technical-hero-title">{t("HAM GEOMETRİDEN")}<br />{t("DOĞRULANMIŞ")}<br />{t("HASSASİYETE")}</h1>
+        <p>{t("MAS TECHNIC, 5 eksen CNC teknolojileri ve sıkı kalite kontrol süreçleriyle ham geometriden doğrulanmış hassasiyete ulaştırır.")}</p>
         <Link to="/teklif-al" data-testid="technical-hero-cta">
-          TEKLİF AL
+          {t("TEKLİF AL")}
           <svg viewBox="0 0 40 12" aria-hidden="true"><path d="M0 6h37M31 1l6 5-6 5" /></svg>
         </Link>
         <Link to={accountLink.path} className="tl-hero-nexus" data-testid="hero-nexus-login">
-          <span>NEXUS</span> Müşteri girişi →
+          <span>NEXUS</span> {t("Müşteri girişi")} →
         </Link>
       </div>
 
-      <div className="tl-part-stage" aria-label="Ölçülendirilmiş CNC manifold parçası çizimi">
+      <div className="tl-part-stage" aria-label={t("Ölçülendirilmiş CNC manifold parçası çizimi")}>
         {/* Çerçeve görselin en-boy oranını birebir taşır: parça kırpılmaz ve
             ölçü etiketleri her ekran genişliğinde parçanın üstünde kalır. */}
         <div className="tl-part-frame">
           <img
             src={heroPart}
-            alt="Koyu bir ölçüm masası üzerindeki hassas işlenmiş metal hidrolik manifold"
+            alt={t("Koyu bir ölçüm masası üzerindeki hassas işlenmiş metal hidrolik manifold")}
             width="1672"
             height="941"
             fetchPriority="high"
@@ -127,10 +129,10 @@ export function TechnicalHero() {
           captioned as an example, so no value in it reads as a record. The
           four `tl-pp-*` groups are the hover-correlation keys the motion
           grammar pins (e2e/landing/motion-grammar.spec.ts). */}
-      <aside className="tl-part-passport" aria-label="Örnek parça bilgisi">
-        <p className="tl-pp-eyebrow">ÖRNEK PARÇA — ÇİZİM OKUMASI</p>
-        <h2>PARÇA BİLGİSİ</h2>
-        <dl>{heroPartFacts.map(([term, value]) => <div key={term}><dt>{term}</dt><dd>{value}</dd></div>)}</dl>
+      <aside className="tl-part-passport" aria-label={t("Örnek parça bilgisi")}>
+        <p className="tl-pp-eyebrow">{t("ÖRNEK PARÇA — ÇİZİM OKUMASI")}</p>
+        <h2>{t("PARÇA BİLGİSİ")}</h2>
+        <dl>{heroPartFacts.map(([term, value]) => <div key={term}><dt>{t(term)}</dt><dd>{t(value)}</dd></div>)}</dl>
         <svg className="tl-pp-drawing" viewBox="0 0 240 176" aria-hidden="true">
           {/* FRONT VIEW (left) and RIGHT VIEW (right), third-angle, 1:2 */}
           <g className="tl-pp-center">
@@ -168,7 +170,7 @@ export function TechnicalHero() {
             <text x="83" y="16" textAnchor="middle">Ø 28.000</text>
           </g>
         </svg>
-        <p>ÖN · YAN GÖRÜNÜŞ · ÖLÇEK 1:2</p>
+        <p>{t("ÖN · YAN GÖRÜNÜŞ · ÖLÇEK 1:2")}</p>
       </aside>
     </TechnicalSectionFrame>
   );

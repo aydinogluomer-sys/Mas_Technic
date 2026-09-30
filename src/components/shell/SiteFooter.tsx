@@ -2,6 +2,7 @@ import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArrowLeft, ArrowRight, ChevronDown, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { legalLinks, rfqLink } from "@/components/navigation/ia";
 import {
@@ -83,6 +84,7 @@ const SOCIAL = [
    carries a real `hidden` attribute — so a closed column is out of the tab
    order and out of the accessibility tree, not merely invisible. */
 function FooterDisclosure({ group }: { group: FooterLinkGroup }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const base = useId().replace(/:/g, "");
   const triggerId = `shell-footer-${base}-trigger`;
@@ -98,7 +100,7 @@ function FooterDisclosure({ group }: { group: FooterLinkGroup }) {
           aria-controls={panelId}
           onClick={() => setOpen((current) => !current)}
         >
-          <span>{group.title}</span>
+          <span>{t(group.title)}</span>
           <ChevronDown aria-hidden="true" data-open={open || undefined} />
         </button>
       </h2>
@@ -106,7 +108,7 @@ function FooterDisclosure({ group }: { group: FooterLinkGroup }) {
         <ul>
           {group.items.map((item) => (
             <li key={item.href + item.label}>
-              <Link to={item.href}>{item.label}</Link>
+              <Link to={item.href}>{t(item.label)}</Link>
             </li>
           ))}
         </ul>
@@ -122,6 +124,7 @@ function FooterDisclosure({ group }: { group: FooterLinkGroup }) {
    covered footer text). Never shown on `/`, where it used to cover the pinned
    proof rail. */
 function BackToTop() {
+  const { t } = useTranslation();
   const reducedMotion = usePrefersReducedMotion();
   const isLanding = useLocation().pathname === "/";
   const [visible, setVisible] = useState(false);
@@ -152,7 +155,7 @@ function BackToTop() {
         type="button"
         onClick={() => window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" })}
         className="floating-scroll-top"
-        aria-label="Yukarı çık"
+        aria-label={t("Yukarı çık")}
       >
         <ArrowLeft className="h-4 w-4 rotate-90" aria-hidden="true" />
       </button>
@@ -162,6 +165,7 @@ function BackToTop() {
 }
 
 export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label?: string }) {
+  const { t } = useTranslation();
   return (
     <>
       <ShellBand
@@ -181,21 +185,21 @@ export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label
               are unchanged contract markers — neither element animates. */}
           <div className="shell-footer-conversion">
             <div className="shell-footer-journal" data-footer-newsletter>
-              <span className="shell-eyebrow">SONRAKİ ADIM</span>
+              <span className="shell-eyebrow">{t("SONRAKİ ADIM")}</span>
               <p className="pl-close-statement">
-                Toleransı siz yazın, <em>gerisini ölçelim.</em>
+                {t("Toleransı siz yazın,")} <em>{t("gerisini ölçelim.")}</em>
               </p>
               <Link to="/blog">
-                Yazıları incele
+                {t("Yazıları incele")}
                 <ArrowRight aria-hidden="true" />
               </Link>
             </div>
             <div className="shell-footer-actions" data-footer-cta>
               <Link className="shell-footer-primary" to={rfqLink.path}>
-                Hemen Teklif Al
+                {t("Hemen Teklif Al")}
                 <ArrowRight aria-hidden="true" />
               </Link>
-              <Link className="shell-footer-secondary" to="/iletisim">Bize Ulaşın</Link>
+              <Link className="shell-footer-secondary" to="/iletisim">{t("Bize Ulaşın")}</Link>
             </div>
           </div>
 
@@ -206,7 +210,7 @@ export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label
                 TRACEABILITY'yi karşılar, sitenin başka yerinde anlatılan lot
                 ve ölçüm kaydı mekanizmasıyla birebir örtüşür ve aynı karakter
                 sayısındadır, dolayısıyla satır kırılımı değişmez. */}
-            <h2>HASSAS ÜRETİM.<br />İZLENEBİLİR TESLİM.</h2>
+            <h2>{t("HASSAS ÜRETİM.")}<br />{t("İZLENEBİLİR TESLİM.")}</h2>
             {/* DOM order is address–address–phone–mail so a screen reader reads
                 the postal address as one block. The two visual columns are
                 built with explicit placement in CSS, which does not disturb
@@ -219,12 +223,12 @@ export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label
             </address>
           </div>
 
-          <nav aria-label="Altbilgi navigasyonu">
+          <nav aria-label={t("Altbilgi navigasyonu")}>
             {footerGroups.map((group) => (
               <div key={group.title}>
-                <h3>{group.title}</h3>
+                <h3>{t(group.title)}</h3>
                 {group.items.map((item) => (
-                  <Link key={item.href + item.label} to={item.href}>{item.label}</Link>
+                  <Link key={item.href + item.label} to={item.href}>{t(item.label)}</Link>
                 ))}
               </div>
             ))}
@@ -263,13 +267,13 @@ export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label
                 nothing about the company. */}
             <p className="tl-meta-run">
               <span>© {new Date().getFullYear()} MAS TECHNIC</span>
-              <span>ÇİZEN: MAS TECHNIC</span>
-              <span>ÖLÇEK: 1:1</span>
-              <span>PAFTA: 01/14</span>
+              <span>{t("ÇİZEN")}: MAS TECHNIC</span>
+              <span>{t("ÖLÇEK")}: 1:1</span>
+              <span>{t("PAFTA")}: 01/14</span>
             </p>
             <p className="tl-legal">
               {legalLinks.map((link) => (
-                <Link key={link.path} to={link.path}>{link.label}</Link>
+                <Link key={link.path} to={link.path}>{t(link.label)}</Link>
               ))}
               <svg className="tl-crosshair" viewBox="0 0 24 24" aria-hidden="true">
                 <circle cx="12" cy="12" r="7" />

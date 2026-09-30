@@ -1,6 +1,8 @@
 import { ArrowUpRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { accountLink, legalLinks, rfqCtaLabel, rfqLink } from "./ia";
+import { LanguageSwitch } from "./LanguageSwitch";
 
 interface NavConversionProps {
   currentPath: string;
@@ -15,9 +17,10 @@ interface NavConversionProps {
  * it read as the conversion path without a coloured accent or a glow.
  */
 export function NavConversion({ currentPath, onNavigate }: NavConversionProps) {
+  const { t } = useTranslation();
   return (
     <div className="tl-menu-conversion">
-      <nav className="tl-menu-legal" aria-label="Yasal bağlantılar">
+      <nav className="tl-menu-legal" aria-label={t("Yasal bağlantılar")}>
         {legalLinks.map((link) => (
           <Link
             key={link.path}
@@ -25,17 +28,18 @@ export function NavConversion({ currentPath, onNavigate }: NavConversionProps) {
             aria-current={currentPath === link.path ? "page" : undefined}
             onClick={(event) => { event.preventDefault(); onNavigate(link.path); }}
           >
-            {link.label}
+            {t(link.label)}
           </Link>
         ))}
       </nav>
+      <LanguageSwitch className="lang-switch--menu" />
       <Link
         className="tl-menu-account"
         to={accountLink.path}
         aria-current={currentPath === accountLink.path ? "page" : undefined}
         onClick={(event) => { event.preventDefault(); onNavigate(accountLink.path); }}
       >
-        {accountLink.label}
+        {t(accountLink.label)}
       </Link>
       <Link
         className="tl-menu-cta"
@@ -43,7 +47,7 @@ export function NavConversion({ currentPath, onNavigate }: NavConversionProps) {
         aria-current={currentPath === rfqLink.path ? "page" : undefined}
         onClick={(event) => { event.preventDefault(); onNavigate(rfqLink.path); }}
       >
-        {rfqCtaLabel}
+        {t(rfqCtaLabel)}
         <ArrowUpRight aria-hidden="true" />
       </Link>
     </div>

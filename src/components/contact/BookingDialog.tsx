@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { createPortal } from "react-dom";
 import { ArrowUpRight, X } from "lucide-react";
 import { Z } from "@/styles/z-index";
@@ -30,6 +31,7 @@ const LOAD_TIMEOUT_MS = 8000;
 type FrameState = "loading" | "ready" | "fallback";
 
 export function BookingDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { t } = useTranslation();
   const [state, setState] = useState<FrameState>("loading");
   const closeRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -83,15 +85,15 @@ export function BookingDialog({ open, onClose }: { open: boolean; onClose: () =>
       >
         <header className="booking-dialog-bar">
           <div>
-            <p className="booking-dialog-code">TEKNİK GÖRÜŞME · GOOGLE MEET</p>
-            <h2 id="booking-dialog-title">Uygun bir saat seçin</h2>
+            <p className="booking-dialog-code">{t("TEKNİK GÖRÜŞME · GOOGLE MEET")}</p>
+            <h2 id="booking-dialog-title">{t("Uygun bir saat seçin")}</h2>
           </div>
           <div className="booking-dialog-actions">
             <a className="booking-newtab" href={BOOKING_LINK} target="_blank" rel="noopener noreferrer">
-              Randevuyu yeni sekmede aç
+              {t("Randevuyu yeni sekmede aç")}
               <ArrowUpRight aria-hidden="true" />
             </a>
-            <button ref={closeRef} type="button" className="booking-close" onClick={onClose} aria-label="Kapat">
+            <button ref={closeRef} type="button" className="booking-close" onClick={onClose} aria-label={t("Kapat")}>
               <X aria-hidden="true" />
             </button>
           </div>
@@ -102,7 +104,7 @@ export function BookingDialog({ open, onClose }: { open: boolean; onClose: () =>
             <iframe
               className="booking-frame"
               src={BOOKING_EMBED_URL}
-              title="MAS Technic teknik görüşme randevu takvimi"
+              title={t("MAS Technic teknik görüşme randevu takvimi")}
               loading="eager"
               onLoad={() => setState("ready")}
               onError={() => setState("fallback")}
@@ -110,20 +112,19 @@ export function BookingDialog({ open, onClose }: { open: boolean; onClose: () =>
           )}
           {state === "loading" && (
             <div className="booking-skeleton" aria-live="polite">
-              <span>TAKVİM YÜKLENİYOR</span>
+              <span>{t("TAKVİM YÜKLENİYOR")}</span>
               <i />
             </div>
           )}
           {state === "fallback" && (
             <div className="booking-fallback" role="status">
-              <p className="booking-dialog-code">TAKVİM BURADA AÇILAMADI</p>
-              <p className="booking-fallback-title">Randevu sayfasını yeni sekmede açın.</p>
+              <p className="booking-dialog-code">{t("TAKVİM BURADA AÇILAMADI")}</p>
+              <p className="booking-fallback-title">{t("Randevu sayfasını yeni sekmede açın.")}</p>
               <p>
-                Tarayıcınız gömülü takvimi engelledi. Aynı takvim Google Calendar üzerinde açılır; saat seçtiğinizde
-                Google Meet daveti e-postanıza gelir.
+                {t("Tarayıcınız gömülü takvimi engelledi. Aynı takvim Google Calendar üzerinde açılır; saat seçtiğinizde Google Meet daveti e-postanıza gelir.")}
               </p>
               <a className="booking-newtab booking-newtab--primary" href={BOOKING_LINK} target="_blank" rel="noopener noreferrer">
-                Randevuyu yeni sekmede aç
+                {t("Randevuyu yeni sekmede aç")}
                 <ArrowUpRight aria-hidden="true" />
               </a>
             </div>

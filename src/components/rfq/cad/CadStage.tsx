@@ -11,6 +11,7 @@ import {
 import { Canvas, useLoader, useThree } from "@react-three/fiber";
 import { Center, Grid, OrbitControls } from "@react-three/drei";
 import { loadOcct } from "@/lib/occt";
+import { useTranslation } from "react-i18next";
 import * as THREE from "three";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
@@ -262,6 +263,7 @@ class StageErrorBoundary extends Component<
 }
 
 export default function CadStage({ file, kind, onDimensions, onParseError, onClose }: CadStageProps) {
+  const { t } = useTranslation();
   const { theme } = useTheme();
   const [showGrid, setShowGrid] = useState(true);
   const [wireframe, setWireframe] = useState(false);
@@ -347,7 +349,7 @@ export default function CadStage({ file, kind, onDimensions, onParseError, onClo
 
   return (
     <div className="shell-stack" data-gap="sm">
-      <ul className="shell-segments" aria-label="Görünüm denetimleri">
+      <ul className="shell-segments" aria-label={t("Görünüm denetimleri")}>
         <li>
           <button
             type="button"
@@ -355,7 +357,7 @@ export default function CadStage({ file, kind, onDimensions, onParseError, onClo
             aria-pressed={showGrid}
             onClick={() => setShowGrid((value) => !value)}
           >
-            <span className="shell-segment-code">IZGARA</span>
+            <span className="shell-segment-code">{t("IZGARA")}</span>
           </button>
         </li>
         <li>
@@ -365,12 +367,12 @@ export default function CadStage({ file, kind, onDimensions, onParseError, onClo
             aria-pressed={wireframe}
             onClick={() => setWireframe((value) => !value)}
           >
-            <span className="shell-segment-code">TEL KAFES</span>
+            <span className="shell-segment-code">{t("TEL KAFES")}</span>
           </button>
         </li>
         <li>
           <button type="button" className="shell-segment" onClick={onClose}>
-            <span className="shell-segment-code">ÖNİZLEMEYİ KAPAT</span>
+            <span className="shell-segment-code">{t("ÖNİZLEMEYİ KAPAT")}</span>
           </button>
         </li>
       </ul>
@@ -379,8 +381,8 @@ export default function CadStage({ file, kind, onDimensions, onParseError, onClo
         <div className="shell-plate-frame">
           {parsing ? (
             <ShellLoading
-              label="STEP ÇÖZÜMLENİYOR"
-              detail="Dosya tarayıcıda tesselasyona çevriliyor."
+              label={t("STEP ÇÖZÜMLENİYOR")}
+              detail={t("Dosya tarayıcıda tesselasyona çevriliyor.")}
               fullHeight={false}
             />
           ) : (
@@ -457,7 +459,7 @@ export default function CadStage({ file, kind, onDimensions, onParseError, onClo
           )}
         </div>
         <figcaption>
-          <span className="shell-plate-no">PLAKA 3B</span>
+          <span className="shell-plate-no">{t("PLAKA 3B")}</span>
           <span className="shell-plate-caption">
             {dimensions
               ? `X ${dimensions.x} · Y ${dimensions.y} · Z ${dimensions.z} mm (sınırlayıcı kutu)`

@@ -30,6 +30,8 @@ export type CadSelectionError = {
   label: string;
   title: string;
   detail: string;
+  /** Interpolation values for `detail`, which doubles as its translation key. */
+  detailVars?: Record<string, string>;
 };
 
 export type CadSelection = {
@@ -63,8 +65,10 @@ export function useCadSelection() {
         title: isSizeProblem ? "Dosya boyutu sınırı aşıyor" : "Bu format okunamıyor",
         detail: isSizeProblem
           ? validationError
-          : `“${file.name}”${extension ? ` (.${extension})` : ""} kabul edilen formatlardan biri değil. ` +
-            `Kabul edilenler: ${ACCEPTED_LIST}.`,
+          : "“{{name}}”{{extension}} kabul edilen formatlardan biri değil. Kabul edilenler: {{list}}.",
+        detailVars: isSizeProblem
+          ? undefined
+          : { name: file.name, extension: extension ? ` (.${extension})` : "", list: ACCEPTED_LIST },
       });
       return false;
     }

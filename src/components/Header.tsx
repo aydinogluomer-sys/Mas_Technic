@@ -14,6 +14,10 @@ import { NavTrigger } from "./navigation/NavTrigger";
 import { NAV_MOTION, navRevealVariants, navSheetVariants } from "./navigation/motion";
 import "@/styles/navigation.css";
 import "@/styles/menu-round2.css";
+import "@/styles/i18n.css";
+import { useTranslation } from "react-i18next";
+import { upper } from "@/i18n/upper";
+import { LanguageSwitch } from "./navigation/LanguageSwitch";
 
 /* ══════════════════════════════════════════════════════════════════════════
    THE SITE'S ONE PUBLIC NAVIGATION
@@ -172,6 +176,8 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
   const pendingSectionScroll = useRef<string | null>(null);
   const restoreFocus = useRef(false);
   const location = useLocation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.resolvedLanguage ?? i18n.language;
   const navigate = useNavigate();
   const reducedMotion = usePrefersReducedMotion();
   /* The sheet is mounted for every phase but "closed" — including "closing",
@@ -469,7 +475,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
   const activeSectionEntry = landingSections.find((section) => section.id === activeSection);
   const context = onLanding
     ? activeSectionEntry
-      ? `§${activeSectionEntry.index} ${activeSectionEntry.label.toLocaleUpperCase("tr-TR")}`
+      ? `§${activeSectionEntry.index} ${upper(t(activeSectionEntry.label), lang)}`
       : "PAFTA 01/14"
     : (() => {
         /* The page being read, not the brand the bar already shows at left:
@@ -481,9 +487,9 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
           const family = groups[currentFamily];
           const category = family.children?.find((item) => item.path === path || item.links.some((link) => link.path === path));
           const entry = category?.links.find((link) => link.path === path) ?? category;
-          return `${family.label}${entry ? ` › ${entry.label}` : ""}`.toLocaleUpperCase("tr-TR");
+          return upper(`${t(family.label)}${entry ? ` › ${t(entry.label)}` : ""}`, lang);
         }
-        return (direct?.label ?? "Pafta dışı").toLocaleUpperCase("tr-TR");
+        return upper(t(direct?.label ?? "Pafta dışı"), lang);
       })();
 
   return (
@@ -498,7 +504,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
         >
           <div className="tl-band-index" aria-hidden="true"><span>01</span><small>HEADER</small></div>
           <div className="tl-header">
-            <Link className="tl-brand" to="/" aria-label="MAS Technic ana sayfa">
+            <Link className="tl-brand" to="/" aria-label={t("MAS Technic ana sayfa")}>
               <strong>MAS <em>TECHNIC</em></strong>
               <span>PRECISION CNC</span>
             </Link>
@@ -507,12 +513,13 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
               {!modalActive && (
                 <NavTrigger open={false} reducedMotion={reducedMotion} onToggle={requestOpen} triggerRef={triggerRef} />
               )}
-              <Link className="tl-nexus-header-link" to={accountLink.path} aria-label="NEXUS müşteri girişi">
+              <LanguageSwitch className="lang-switch--header" />
+              <Link className="tl-nexus-header-link" to={accountLink.path} aria-label={t("NEXUS müşteri girişi")}>
                 <span aria-hidden="true">NEXUS</span>
-                <small aria-hidden="true">GİRİŞ</small>
+                <small aria-hidden="true">{t("GİRİŞ")}</small>
               </Link>
               <Link className="tl-quote-button" to={rfqLink.path}>
-                {rfqLink.label.toLocaleUpperCase("tr-TR")}
+                {upper(t(rfqLink.label), lang)}
               </Link>
             </div>
           </div>
@@ -548,7 +555,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
               id="fullscreen-navigation"
               role="dialog"
               aria-modal="true"
-              aria-label="Ana menü"
+              aria-label={t("Ana menü")}
               data-fullscreen-menu
               className="tl-menu"
               variants={navSheetVariants}
@@ -569,12 +576,12 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
                       to="/"
                       onClick={(event) => { event.preventDefault(); requestNavigate("/"); }}
                       className="tl-menu-brand"
-                      aria-label="MAS Technic ana sayfa"
+                      aria-label={t("MAS Technic ana sayfa")}
                     >
                       <strong>MAS <em>TECHNIC</em></strong>
                     </Link>
                     <p className="tl-menu-meta" aria-hidden="true">
-                      <span>NAVİGASYON</span>
+                      <span>{t("NAVİGASYON")}</span>
                       <span>PAFTA 00/14</span>
                     </p>
                     <NavTrigger
@@ -586,7 +593,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
                   </div>
 
                   <div className="tl-menu-main">
-                    <nav className="tl-menu-primary" aria-label="Birincil navigasyon">
+                    <nav className="tl-menu-primary" aria-label={t("Birincil navigasyon")}>
                       <NavFamilyRail
                         groups={groups}
                         activeIndex={activeGroup}

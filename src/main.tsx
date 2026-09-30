@@ -3,6 +3,7 @@ import { App } from "./App.tsx";
 import { ErrorBoundary } from "./components/ErrorBoundary.tsx";
 import { installHeroShellTeardown } from "./lib/hero-shell.ts";
 import "./index.css";
+import "./i18n";
 
 // `index.html` app-shell hero'sunun tek teardown sahibi. Eskiden bu iş
 // `LandingFlow`'daydı ve o bileşen yalnız dev-only `/legacy-landing`'de render

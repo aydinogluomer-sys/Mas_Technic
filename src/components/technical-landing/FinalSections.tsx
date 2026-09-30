@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowDown, ArrowLeft, ArrowRight, Loader2, UploadCloud } from "lucide-react";
 import aerospace from "@/assets/industry-aerospace.webp";
 import defense from "@/assets/industry-defense.webp";
@@ -108,6 +109,7 @@ const MANIFESTO_PORTRAIT_SIZES = coverSizes(800 / 1342, "520px + 144px", [[null,
 
 /** 08 — Hizmet verilen sektörler. */
 export function TechnicalSectors() {
+  const { t } = useTranslation();
   const trackRef = useRef<HTMLDivElement>(null);
   const [edge, setEdge] = useState({ start: true, end: false, first: 1, last: 4 });
 
@@ -150,14 +152,14 @@ export function TechnicalSectors() {
   const pad = (value: number) => String(value).padStart(2, "0");
 
   return (
-    <TechnicalSectionFrame no="08" id="sektorler" label="SEKTÖRLER" className="tl-sectors" ariaLabel="Çalıştığımız sektörler">
+    <TechnicalSectionFrame no="08" id="sektorler" label="SEKTÖRLER" className="tl-sectors" ariaLabel={t("Çalıştığımız sektörler")}>
       <div className="tl-sectors-body">
         <div
           ref={trackRef}
           id="tl-sector-track"
           className="tl-sector-track"
           role="region"
-          aria-label="Sektör listesi — yatay kaydırılabilir"
+          aria-label={t("Sektör listesi — yatay kaydırılabilir")}
           tabIndex={0}
           data-lenis-prevent-horizontal
         >
@@ -168,19 +170,19 @@ export function TechnicalSectors() {
               ) : (
                 <span className="tl-sector-no" aria-hidden="true">{pad(index + 1)}</span>
               )}
-              <div><h3>{sector.title}</h3></div>
+              <div><h3>{t(sector.title)}</h3></div>
             </Link>
           ))}
         </div>
         <div className="tl-sector-controls">
           <p aria-live="polite">
-            <span>{pad(edge.first)}–{pad(edge.last)}</span> / {pad(sectors.length)} SEKTÖR
+            <span>{pad(edge.first)}–{pad(edge.last)}</span> / {pad(sectors.length)} {t("SEKTÖR")}
           </p>
           <div>
-            <button type="button" onClick={() => page(-1)} disabled={edge.start} aria-controls="tl-sector-track" aria-label="Önceki sektörler">
+            <button type="button" onClick={() => page(-1)} disabled={edge.start} aria-controls="tl-sector-track" aria-label={t("Önceki sektörler")}>
               <ArrowLeft aria-hidden="true" />
             </button>
-            <button type="button" onClick={() => page(1)} disabled={edge.end} aria-controls="tl-sector-track" aria-label="Sonraki sektörler">
+            <button type="button" onClick={() => page(1)} disabled={edge.end} aria-controls="tl-sector-track" aria-label={t("Sonraki sektörler")}>
               <ArrowRight aria-hidden="true" />
             </button>
           </div>
@@ -191,6 +193,7 @@ export function TechnicalSectors() {
 }
 
 export function MeasurementManifesto() {
+  const { t } = useTranslation();
   return (
     <TechnicalSectionFrame no="09" label="MANİFESTO" className="tl-manifesto" labelledBy="tl-manifesto-title">
       <div className="tl-manifesto-body">
@@ -221,8 +224,8 @@ export function MeasurementManifesto() {
           </picture>
         </ReverseScrollSection>
         <div className="tl-manifesto-copy">
-          <h2 id="tl-manifesto-title">HASSASİYET<br />İDDİA EDİLMEZ.<br /><strong>ÖLÇÜLÜR.</strong></h2>
-          <p>Ölçer, kaydeder, raporlar ve teslim ederiz.</p>
+          <h2 id="tl-manifesto-title">{t("HASSASİYET")}<br />{t("İDDİA EDİLMEZ.")}<br /><strong>{t("ÖLÇÜLÜR.")}</strong></h2>
+          <p>{t("Ölçer, kaydeder, raporlar ve teslim ederiz.")}</p>
         </div>
       </div>
     </TechnicalSectionFrame>
@@ -231,10 +234,11 @@ export function MeasurementManifesto() {
 
 /** 10 — Kalite dosyası: sertifikalar, ölçüm raporu ve doğrulama. */
 export function QualityFile() {
+  const { t } = useTranslation();
   return (
     <TechnicalSectionFrame no="10" id="kalite" label="KALİTE DOSYASI" className="tl-quality" labelledBy="tl-quality-title">
       <div className="tl-quality-body">
-        <h2 id="tl-quality-title" className="tl-visually-hidden">Kalite dosyası</h2>
+        <h2 id="tl-quality-title" className="tl-visually-hidden">{t("Kalite dosyası")}</h2>
         {/* ROUND 2 — ONE WIREFRAME. Every card: code line, title, subtitle,
             the same document frame, footer line. The three certificates were
             text-only and the three records carried three different drawings,
@@ -251,12 +255,12 @@ export function QualityFile() {
           ].map((card, index) => (
             <article className="tl-cert" key={card.title}>
               <p className="tl-cert-code" aria-hidden="true">Q-{String(index + 1).padStart(2, "0")}</p>
-              <h3>{card.title}</h3>
-              <p>{card.sub}</p>
+              <h3>{t(card.title)}</h3>
+              <p>{t(card.sub)}</p>
               <div className="tl-cert-doc" aria-hidden="true">
                 {Array.from({ length: 9 }, (_, row) => <i key={row} />)}
               </div>
-              <p className="tl-cert-foot">{card.foot}</p>
+              <p className="tl-cert-foot">{t(card.foot)}</p>
             </article>
           ))}
         </div>
@@ -267,8 +271,9 @@ export function QualityFile() {
 
 /** 11 — Referans bandı. */
 export function ReferenceBand() {
+  const { t } = useTranslation();
   return (
-    <TechnicalSectionFrame no="11" label="REFERANSLAR" className="tl-references" ariaLabel="Referanslar">
+    <TechnicalSectionFrame no="11" label="REFERANSLAR" className="tl-references" ariaLabel={t("Referanslar")}>
       <ul className="tl-reference-grid">
         {referenceLogos.map(({ name, brand }) => (
           <li key={name} data-brand={brand}>{name}</li>
@@ -280,17 +285,18 @@ export function ReferenceBand() {
 
 /** 12 — SSS + kaynak dizini. */
 export function FaqSection() {
+  const { t } = useTranslation();
   return (
     <TechnicalSectionFrame no="12" id="sss" label="SSS" className="tl-faq-band" labelledBy="tl-faq-title">
       {/* Başlıklar 1. satırda, listeler 2. satırda: iki sütun referanstaki gibi
           aynı hizadan başlar, başlık uzunluğu değişse bile hiza bozulmaz. */}
       <div className="tl-faq-body">
-        <h2 id="tl-faq-title" className="tl-faq-title">Üretime geçmeden önce,<br /><em>kritik dört yanıt.</em></h2>
+        <h2 id="tl-faq-title" className="tl-faq-title">{t("Üretime geçmeden önce,")}<br /><em>{t("kritik dört yanıt.")}</em></h2>
         <div className="tl-faq">
           {technicalFaqs.map(([question, answer], index) => (
             <details key={question}>
-              <summary><span>{String(index + 1).padStart(2, "0")}</span>{question}<i aria-hidden="true">+</i></summary>
-              <p>{answer}</p>
+              <summary><span>{String(index + 1).padStart(2, "0")}</span>{t(question)}<i aria-hidden="true">+</i></summary>
+              <p>{t(answer)}</p>
             </details>
           ))}
         </div>
@@ -304,7 +310,7 @@ export function FaqSection() {
             layout in `technical-landing.css`, which this phase may not edit, so
             the anchor has to become the row rather than sit inside it. */}
         <div className="tl-resource">
-          <h3 className="tl-resource-title">KAYNAKLAR</h3>
+          <h3 className="tl-resource-title">{t("KAYNAKLAR")}</h3>
           <ul className="tl-resource-list">
             {technicalResources.map(({ title, href, size }) => (
               <li key={href}>
@@ -320,7 +326,7 @@ export function FaqSection() {
                     color: "inherit",
                   }}
                 >
-                  <span>{title}</span><em>{size}</em><ArrowDown aria-hidden="true" />
+                  <span>{t(title)}</span><em>{size}</em><ArrowDown aria-hidden="true" />
                 </a>
               </li>
             ))}
@@ -333,6 +339,7 @@ export function FaqSection() {
 
 /** 13 — Teklif çağrısı. Dosya gerçekten sürükle-bırak ile alınır ve teklif formuna devredilir. */
 export function RfqSection() {
+  const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const { handleFile, isUploading, progress, fileName } = useCadHandoff(DRAFT_RFQ_ID);
@@ -340,12 +347,12 @@ export function RfqSection() {
   return (
     <TechnicalSectionFrame no="13" id="iletisim" label="RFQ" className="tl-rfq" labelledBy="tl-rfq-title">
       <div className="tl-rfq-body">
-        <h2 id="tl-rfq-title">Bir sonraki parçanız<br /><em>üretime hazır mı?</em></h2>
+        <h2 id="tl-rfq-title">{t("Bir sonraki parçanız")}<br /><em>{t("üretime hazır mı?")}</em></h2>
         <input
           ref={inputRef}
           type="file"
           className="tl-visually-hidden"
-          aria-label="Çizim dosyası seç"
+          aria-label={t("Çizim dosyası seç")}
           accept={CAD_ACCEPT_ATTR}
           onChange={(event) => {
             const file = event.target.files?.[0];
@@ -359,7 +366,7 @@ export function RfqSection() {
           data-testid="technical-cad-drop"
           disabled={isUploading}
           data-dragging={isDragging ? "true" : undefined}
-          aria-label="Çizim dosyası yükle: dosyayı sürükleyip bırakın veya seçmek için tıklayın"
+          aria-label={t("Çizim dosyası yükle: dosyayı sürükleyip bırakın veya seçmek için tıklayın")}
           onClick={() => inputRef.current?.click()}
           onDragOver={(event) => {
             event.preventDefault();
@@ -375,13 +382,13 @@ export function RfqSection() {
         >
           {isUploading ? <Loader2 className="tl-spin" aria-hidden="true" /> : <UploadCloud aria-hidden="true" />}
           <span>
-            {isUploading ? `YÜKLENİYOR · %${progress}` : "ÇİZİM DOSYANIZI SÜRÜKLEYİN"}
-            <small>{fileName || CAD_FORMAT_HINT}</small>
+            {isUploading ? `${t("YÜKLENİYOR")} · %${progress}` : t("ÇİZİM DOSYANIZI SÜRÜKLEYİN")}
+            <small>{fileName || t(CAD_FORMAT_HINT)}</small>
           </span>
         </button>
         <ol>
           {rfqSteps.map((step) => (
-            <li key={step.no}><b>{step.no}</b><strong>{step.title}</strong><span>{step.line}</span></li>
+            <li key={step.no}><b>{step.no}</b><strong>{t(step.title)}</strong><span>{t(step.line)}</span></li>
           ))}
         </ol>
       </div>

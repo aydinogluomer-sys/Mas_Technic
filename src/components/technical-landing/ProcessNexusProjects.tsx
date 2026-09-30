@@ -12,6 +12,7 @@ import projectMedical from "@/assets/industry-medical.webp";
 import projectTurning from "@/assets/hero-cnc-tornalama.webp";
 import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import { accountLink } from "@/components/navigation/ia";
 import { ReverseScrollSection } from "@/components/ReverseScrollSection";
@@ -55,11 +56,12 @@ const panelIcons = [LayoutGrid, ClipboardList, Radar, FileBarChart2, ShieldCheck
 
 /** 05 — Karardan parçaya: dört adımlı üretim akışı. */
 export function TechnicalProcess() {
+  const { t } = useTranslation();
   return (
     <TechnicalSectionFrame id="surec" no="05" label="SÜREÇ" className="tl-process" labelledBy="tl-process-title">
       <div className="tl-process-body">
         <div className="tl-process-intro">
-          <h2 id="tl-process-title">Karardan parçaya,<br /><em>kanıtla ilerleyen üretim.</em></h2>
+          <h2 id="tl-process-title">{t("Karardan parçaya,")}<br /><em>{t("kanıtla ilerleyen üretim.")}</em></h2>
         </div>
         <figure>
           <ReverseScrollSection distance={48}>
@@ -67,7 +69,7 @@ export function TechnicalProcess() {
               src={processFigure.src}
               srcSet={processFigure.srcSet}
               sizes={PROCESS_SIZES}
-              alt="Soğutma sıvısı altında prizmatik metal bloğu işleyen CNC freze iş mili ve kesici takım"
+              alt={t("Soğutma sıvısı altında prizmatik metal bloğu işleyen CNC freze iş mili ve kesici takım")}
               width={processFigure.width}
               height={processFigure.height}
               loading="lazy"
@@ -79,8 +81,8 @@ export function TechnicalProcess() {
           {technicalProcess.map((step) => (
             <li key={step.no}>
               <span>{step.no}</span>
-              <h3>{step.title}</h3>
-              {step.lines.map((line) => <p key={line}>{line}</p>)}
+              <h3>{t(step.title)}</h3>
+              {step.lines.map((line) => <p key={line}>{t(line)}</p>)}
             </li>
           ))}
         </ol>
@@ -101,20 +103,21 @@ export function TechnicalProcess() {
  * columns are masked the way a screenshot of the live portal would have to be.
  */
 export function NexusEvidence() {
+  const { t } = useTranslation();
   return (
     <TechnicalSectionFrame id="nexus" no="06" label="NEXUS" className="tl-nexus" labelledBy="tl-nexus-title">
       <div className="tl-nexus-body">
         <header>
-          <h2 id="tl-nexus-title">Üretiminiz,<br /><em>siz sormadan görünür.</em></h2>
+          <h2 id="tl-nexus-title">{t("Üretiminiz,")}<br /><em>{t("siz sormadan görünür.")}</em></h2>
           {/* The band described the customer portal and offered no way into
               it. The entry is the existing sign-in route; accounts are
               opened with the first quote request. */}
           <div className="tl-nexus-cta">
             <Link to={accountLink.path} className="tl-nexus-login" data-testid="nexus-login">
-              NEXUS'A GİRİŞ YAP
+              {t("NEXUS'A GİRİŞ YAP")}
               <ArrowRight aria-hidden="true" />
             </Link>
-            <p>Hesap ilk teklif talebinizle açılır.</p>
+            <p>{t("Hesap ilk teklif talebinizle açılır.")}</p>
           </div>
           <div className="tl-nexus-kpis">
             {nexusKpis.map((kpi) => {
@@ -122,43 +125,43 @@ export function NexusEvidence() {
               return (
                 <div key={kpi.label} data-tone={"tone" in kpi ? kpi.tone : undefined}>
                   <Icon aria-hidden="true" />
-                  <strong>{kpi.value}</strong>
-                  <span>{kpi.label}</span>
+                  <strong>{t(kpi.value)}</strong>
+                  <span>{t(kpi.label)}</span>
                 </div>
               );
             })}
           </div>
         </header>
         <div className="tl-nexus-app">
-          <div className="tl-nexus-rail" aria-label="NEXUS panel önizlemesi" role="group" tabIndex={0}>
+          <div className="tl-nexus-rail" aria-label={t("NEXUS panel önizlemesi")} role="group" tabIndex={0}>
             <ul>
               {nexusPanels.map((panel, index) => {
                 const Icon = panelIcons[index];
                 return (
                   <li key={panel} aria-current={index === 0 ? "true" : undefined}>
-                    <Icon aria-hidden="true" />{panel}
+                    <Icon aria-hidden="true" />{t(panel)}
                   </li>
                 );
               })}
             </ul>
-            <Link to={accountLink.path} className="tl-nexus-user" aria-label="Müşteri hesabı — NEXUS girişi">
+            <Link to={accountLink.path} className="tl-nexus-user" aria-label={t("Müşteri hesabı — NEXUS girişi")}>
               <UserRound aria-hidden="true" />
-              <span>MÜŞTERİ HESABI<small>Giriş yap →</small></span>
+              <span>{t("MÜŞTERİ HESABI")}<small>{t("Giriş yap")} →</small></span>
             </Link>
           </div>
           <div className="tl-nexus-main">
-            <div className="tl-scroll-cue" aria-hidden="true">TABLOYU YATAY KAYDIR →</div>
-            <div className="tl-nexus-table-wrap" role="region" aria-label={`NEXUS iş emri görünümü — ${nexusRedactionNote}`} tabIndex={0}>
+            <div className="tl-scroll-cue" aria-hidden="true">{t("TABLOYU YATAY KAYDIR")} →</div>
+            <div className="tl-nexus-table-wrap" role="region" aria-label={`${t("NEXUS iş emri görünümü")} — ${t(nexusRedactionNote)}`} tabIndex={0}>
               <table>
-                <caption className="tl-visually-hidden">{nexusRedactionNote}</caption>
+                <caption className="tl-visually-hidden">{t(nexusRedactionNote)}</caption>
                 <thead>
-                  <tr><th>SİPARİŞ NO</th><th>PARÇA</th><th>MALZEME</th><th>ADET</th><th>TESLİMAT</th><th>DURUM</th></tr>
+                  <tr><th>{t("SİPARİŞ NO")}</th><th>{t("PARÇA")}</th><th>{t("MALZEME")}</th><th>{t("ADET")}</th><th>{t("TESLİMAT")}</th><th>{t("DURUM")}</th></tr>
                 </thead>
                 <tbody>
                   {nexusOrders.map((row) => (
                     <tr key={row[0]}>
                       {row.map((cell, index) => (
-                        <td key={`${row[0]}-${index}`}>{index === 5 ? <span data-status={cell}>{cell}</span> : cell}</td>
+                        <td key={`${row[0]}-${index}`}>{index === 5 ? <span data-status={cell}>{t(cell)}</span> : t(cell)}</td>
                       ))}
                     </tr>
                   ))}
@@ -191,13 +194,14 @@ export function NexusEvidence() {
  * `measuredResults`; nothing here has to be rewritten.
  */
 export function MeasuredProjects() {
+  const { t } = useTranslation();
   return (
     <TechnicalSectionFrame id="projeler" no="07" label="KABİLİYET PROFİLLERİ" className="tl-projects" labelledBy="tl-projects-title">
       <div className="tl-projects-body">
         {/* Referansta bant başlığı yok; bandı sol raydaki "07 / KABİLİYET
             PROFİLLERİ" etiketi adlandırıyor, başlık yalnızca erişilebilirlik
             için duruyor. */}
-        <h2 id="tl-projects-title" className="tl-visually-hidden">KABİLİYET PROFİLLERİ</h2>
+        <h2 id="tl-projects-title" className="tl-visually-hidden">{t("KABİLİYET PROFİLLERİ")}</h2>
         <div className="tl-project-grid">
           {caseStudies.map((study, index) => {
             const figure = caseStudyImages[study.gallery[0].image];
@@ -219,20 +223,20 @@ export function MeasuredProjects() {
                 decoding="async"
               />
               <div>
-                <h3>{study.title} — <span>{study.material}</span></h3>
+                <h3>{t(study.title)} — <span>{t(study.material)}</span></h3>
                 <p className="tl-report-no">
                   <Link to={study.relatedCapability.href} style={{ color: "inherit" }}>
-                    {study.relatedCapability.label} →
+                    {t(study.relatedCapability.label)} →
                   </Link>
                 </p>
                 <table>
-                  <thead><tr><th>ÖZELLİK</th><th>KONTROL</th><th>KAYIT</th></tr></thead>
+                  <thead><tr><th>{t("ÖZELLİK")}</th><th>{t("KONTROL")}</th><th>{t("KAYIT")}</th></tr></thead>
                   <tbody>
                     {study.controlPlan.map((row) => (
                       <tr key={row.feature}>
-                        <td>{row.feature}</td>
-                        <td>{row.method}</td>
-                        <td>{row.record}</td>
+                        <td>{t(row.feature)}</td>
+                        <td>{t(row.method)}</td>
+                        <td>{t(row.record)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -243,7 +247,7 @@ export function MeasuredProjects() {
           })}
         </div>
         <p className="tl-project-note">
-          KABİLİYET PROFİLLERİ — ÜRETİM VE KONTROL YAKLAŞIMIMIZI TANIMLAR
+          {t("KABİLİYET PROFİLLERİ — ÜRETİM VE KONTROL YAKLAŞIMIMIZI TANIMLAR")}
         </p>
       </div>
     </TechnicalSectionFrame>

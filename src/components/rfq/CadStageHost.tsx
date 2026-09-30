@@ -1,4 +1,6 @@
 import { Component, Suspense, lazy, type ErrorInfo, type ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 import { ShellAction, ShellLoading, ShellNotice } from "@/components/shell";
 import type { CadPreviewKind, Dimensions } from "./rfq-model";
 
@@ -37,8 +39,8 @@ class ChunkBoundary extends Component<{ children: ReactNode; onRetry: () => void
     return (
       <ShellNotice
         tone="error"
-        label="ÖNİZLEME YÜKLENEMEDİ"
-        title="3B görüntüleyici indirilemedi"
+        label={i18n.t("ÖNİZLEME YÜKLENEMEDİ")}
+        title={i18n.t("3B görüntüleyici indirilemedi")}
         action={
           <ShellAction
             variant="ghost"
@@ -72,13 +74,14 @@ export type CadStageHostProps = {
 };
 
 export function CadStageHost({ attempt, onRetry, ...stage }: CadStageHostProps) {
+  const { t } = useTranslation();
   return (
     <ChunkBoundary key={attempt} onRetry={onRetry}>
       <Suspense
         fallback={
           <ShellLoading
-            label="GÖRÜNTÜLEYİCİ YÜKLENİYOR"
-            detail="3B görüntüleyici ilk açılışta indiriliyor."
+            label={t("GÖRÜNTÜLEYİCİ YÜKLENİYOR")}
+            detail={t("3B görüntüleyici ilk açılışta indiriliyor.")}
             fullHeight={false}
           />
         }

@@ -1,4 +1,5 @@
 import { ShellAction, ShellMetaRow, ShellNotice, ShellTagRow, ShellTitleBlock } from "@/components/shell";
+import { useTranslation } from "react-i18next";
 import { CAD_ACCEPT_ATTR, CAD_FORMAT_CHIPS, CAD_FORMAT_HINT } from "@/hooks/useCadHandoff";
 import type { UploadedCadFile } from "@/utils/cadUpload";
 import { CadStageHost } from "./CadStageHost";
@@ -66,6 +67,7 @@ export function RfqUploadStep({
   stageAttempt,
   onStageRetry,
 }: RfqUploadStepProps) {
+  const { t } = useTranslation();
   const recordName = selection?.file.name ?? handoff?.name ?? null;
   const recordSize = selection?.file.size ?? handoff?.size ?? null;
   const recordExtension = selection?.extension ?? handoff?.extension ?? null;
@@ -75,13 +77,13 @@ export function RfqUploadStep({
       <ShellTitleBlock
         id="rfq-step-cad"
         index="01"
-        title="CAD dosyanızı yükleyin"
-        standfirst="Teknik resim yerine 3B model gönderin; üretilebilirlik incelemesi doğrudan geometri üzerinden yapılır."
+        title={t("CAD dosyanızı yükleyin")}
+        standfirst={t("Teknik resim yerine 3B model gönderin; üretilebilirlik incelemesi doğrudan geometri üzerinden yapılır.")}
       />
 
       <div className="shell-stack" data-gap="sm">
-        <p className="shell-eyebrow">KABUL EDİLEN FORMATLAR</p>
-        <ShellTagRow items={[...CAD_FORMAT_CHIPS]} ariaLabel="Kabul edilen CAD formatları" />
+        <p className="shell-eyebrow">{t("KABUL EDİLEN FORMATLAR")}</p>
+        <ShellTagRow items={[...CAD_FORMAT_CHIPS]} ariaLabel={t("Kabul edilen CAD formatları")} />
         <p className="shell-field-hint" id="rfq-cad-hint">
           Tek dosya · en fazla {CAD_MAX_FILE_SIZE_MB} MB · {CAD_FORMAT_HINT}
         </p>
@@ -110,11 +112,11 @@ export function RfqUploadStep({
           {recordName ? (
             <>
               <span className="shell-dropzone-title">{recordName}</span>
-              <span className="shell-dropzone-hint">Başka bir dosya seçmek için tıklayın</span>
+              <span className="shell-dropzone-hint">{t("Başka bir dosya seçmek için tıklayın")}</span>
             </>
           ) : (
             <>
-              <span className="shell-dropzone-title">CAD dosyanızı sürükleyin veya seçin</span>
+              <span className="shell-dropzone-title">{t("CAD dosyanızı sürükleyin veya seçin")}</span>
               <span className="shell-dropzone-hint">{CAD_FORMAT_HINT}</span>
             </>
           )}
@@ -123,19 +125,19 @@ export function RfqUploadStep({
 
       {/* A20 — the CAD error is a persistent, announced block, not a toast. */}
       {error && (
-        <ShellNotice tone="error" label={error.label} title={error.title}>
-          <p>{error.detail}</p>
+        <ShellNotice tone="error" label={t(error.label)} title={t(error.title)}>
+          <p>{t(error.detail, error.detailVars)}</p>
         </ShellNotice>
       )}
 
       {recordName && (
         <ShellMetaRow
           items={[
-            { label: "Dosya", value: recordName },
-            { label: "Boyut", value: recordSize != null ? formatFileSize(recordSize) : "—" },
-            { label: "Format", value: (recordExtension ?? "—").toUpperCase() },
+            { label: t("Dosya"), value: recordName },
+            { label: t("Boyut"), value: recordSize != null ? formatFileSize(recordSize) : "—" },
+            { label: t("Format"), value: (recordExtension ?? "—").toUpperCase() },
             {
-              label: "Ölçü",
+              label: t("Ölçü"),
               value: dimensions
                 ? `${dimensions.x} × ${dimensions.y} × ${dimensions.z} mm`
                 : "Önizlemede okunur",
@@ -158,7 +160,7 @@ export function RfqUploadStep({
       {selection && !selection.previewKind && (
         <ShellNotice
           tone="note"
-          label="ÖNİZLEME YOK"
+          label={t("ÖNİZLEME YOK")}
           title={`${selection.extension.toUpperCase()} için tarayıcı önizlemesi bulunmuyor`}
         >
           <p>
@@ -183,8 +185,8 @@ export function RfqUploadStep({
       {!selection && handoff && (
         <ShellNotice
           tone="note"
-          label="ANA SAYFADAN AKTARILDI"
-          title="Dosyanız yüklendi ve talebe eklenecek"
+          label={t("ANA SAYFADAN AKTARILDI")}
+          title={t("Dosyanız yüklendi ve talebe eklenecek")}
         >
           <p>
             Bu dosya ana sayfadaki bırakma alanından yüklendi. Tarayıcıda önizlemek isterseniz aynı dosyayı
@@ -194,7 +196,7 @@ export function RfqUploadStep({
       )}
 
       {parseError && !error && (
-        <ShellNotice tone="error" label="ÇÖZÜMLEME HATASI" title="Dosya çizilemedi">
+        <ShellNotice tone="error" label={t("ÇÖZÜMLEME HATASI")} title={t("Dosya çizilemedi")}>
           <p>{parseError}</p>
         </ShellNotice>
       )}

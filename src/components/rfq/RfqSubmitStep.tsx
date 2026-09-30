@@ -1,4 +1,5 @@
 import { ShellAction, ShellMetaRow, ShellNotice, ShellTitleBlock } from "@/components/shell";
+import { useTranslation } from "react-i18next";
 import { QUOTE_RESPONSE_TIME, SALES_EMAIL, SALES_EMAIL_HREF } from "@/content/claims";
 import {
   optionLabel,
@@ -52,6 +53,7 @@ export function RfqSubmitStep({
   onEdit,
   onRestart,
 }: RfqSubmitStepProps) {
+  const { t } = useTranslation();
   if (state.status === "sent") {
     return (
       <div className="shell-stack">
@@ -61,18 +63,18 @@ export function RfqSubmitStep({
         <ShellTitleBlock
           id="rfq-step-sent"
           index="03"
-          title="Teklif talebiniz kaydedildi"
-          standfirst={`Mühendislik ekibimiz dosyanızı inceleyip ${QUOTE_RESPONSE_TIME} içinde fiyat ve termin ile dönecek.`}
+          title={t("Teklif talebiniz kaydedildi")}
+          standfirst={t("Mühendislik ekibimiz dosyanızı inceleyip {{time}} içinde fiyat ve termin ile dönecek.", { time: t(QUOTE_RESPONSE_TIME) })}
         />
         <ShellMetaRow
           items={[
-            ...(state.reference ? [{ label: "Talep numarası", value: state.reference }] : []),
-            { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
-            { label: "Yanıt adresi", value: draft.email.trim() },
-            { label: "Bize ulaşın", value: SALES_EMAIL },
+            ...(state.reference ? [{ label: t("Talep numarası"), value: state.reference }] : []),
+            { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
+            { label: t("Yanıt adresi"), value: draft.email.trim() },
+            { label: t("Bize ulaşın"), value: SALES_EMAIL },
           ]}
         />
-        <ShellNotice tone="note" label="BUNDAN SONRA NE OLUYOR">
+        <ShellNotice tone="note" label={t("BUNDAN SONRA NE OLUYOR")}>
           <p>
             Talebiniz teklif kaydına düştü ve ekibimiz orada görüyor. Dönüş, formda verdiğiniz e-posta
             adresine yapılır; otomatik bir onay e-postası gönderilmez.
@@ -94,19 +96,19 @@ export function RfqSubmitStep({
   }
 
   const summary: { label: string; value: string }[] = [
-    { label: "Dosya", value: fileName ?? "Yüklenmedi" },
-    { label: "Yetkili", value: draft.name.trim() || "—" },
-    { label: "Firma", value: draft.company.trim() || "—" },
-    { label: "E-posta", value: draft.email.trim() || "—" },
-    { label: "Hizmet", value: optionLabel(RFQ_SERVICES, draft.service) },
-    { label: "Malzeme", value: resolveMaterialLabel(draft.material, draft.customMaterial) },
-    { label: "Yüzey", value: optionLabel(RFQ_SURFACE_FINISHES, draft.finish) },
-    { label: "Tolerans", value: draft.tolerance },
-    { label: "Miktar", value: Number.isFinite(draft.quantity) ? `${draft.quantity} adet` : "—" },
-    { label: "Öncelik", value: optionLabel(RFQ_PRIORITIES, draft.priority) },
-    { label: "Parça / rev.", value: draft.drawingNumber.trim() || "Belirtilmedi" },
+    { label: t("Dosya"), value: fileName ?? "Yüklenmedi" },
+    { label: t("Yetkili"), value: draft.name.trim() || "—" },
+    { label: t("Firma"), value: draft.company.trim() || "—" },
+    { label: t("E-posta"), value: draft.email.trim() || "—" },
+    { label: t("Hizmet"), value: t(optionLabel(RFQ_SERVICES, draft.service)) },
+    { label: t("Malzeme"), value: t(resolveMaterialLabel(draft.material, draft.customMaterial)) },
+    { label: t("Yüzey"), value: t(optionLabel(RFQ_SURFACE_FINISHES, draft.finish)) },
+    { label: t("Tolerans"), value: draft.tolerance },
+    { label: t("Miktar"), value: Number.isFinite(draft.quantity) ? `${draft.quantity} adet` : "—" },
+    { label: t("Öncelik"), value: t(optionLabel(RFQ_PRIORITIES, draft.priority)) },
+    { label: t("Parça / rev."), value: draft.drawingNumber.trim() || "Belirtilmedi" },
     ...(dimensions
-      ? [{ label: "Sınırlayıcı kutu", value: `${dimensions.x} × ${dimensions.y} × ${dimensions.z} mm` }]
+      ? [{ label: t("Sınırlayıcı kutu"), value: `${dimensions.x} × ${dimensions.y} × ${dimensions.z} mm` }]
       : []),
   ];
 
@@ -115,8 +117,8 @@ export function RfqSubmitStep({
       <ShellTitleBlock
         id="rfq-step-send"
         index="03"
-        title="Talebinizi kontrol edin ve gönderin"
-        standfirst="Aşağıdaki kayıt ekibimize bu haliyle iletilir. Bir şey eksikse ilgili adıma dönüp düzeltebilirsiniz."
+        title={t("Talebinizi kontrol edin ve gönderin")}
+        standfirst={t("Aşağıdaki kayıt ekibimize bu haliyle iletilir. Bir şey eksikse ilgili adıma dönüp düzeltebilirsiniz.")}
       />
 
       <ShellMetaRow items={summary} />
@@ -134,7 +136,7 @@ export function RfqSubmitStep({
         <p
           className="shell-field-hint"
           role="progressbar"
-          aria-label="CAD dosyası yükleniyor"
+          aria-label={t("CAD dosyası yükleniyor")}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={state.percent}
@@ -152,15 +154,15 @@ export function RfqSubmitStep({
       {state.status === "failed" && (
         <ShellNotice
           tone="error"
-          label={state.error.label}
-          title={state.error.title}
+          label={t(state.error.label)}
+          title={t(state.error.title)}
           action={
             <ShellAction href={SALES_EMAIL_HREF} variant="ghost">
               Dosyayı e-posta ile gönderin
             </ShellAction>
           }
         >
-          <p>{state.error.detail}</p>
+          <p>{t(state.error.detail, state.error.detailVars)}</p>
         </ShellNotice>
       )}
     </div>

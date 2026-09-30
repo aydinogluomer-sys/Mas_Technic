@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import type { RefObject } from "react";
 import { NAV_MOTION } from "./motion";
 
@@ -22,6 +23,7 @@ interface NavTriggerProps {
  * open they cross into a datum mark.
  */
 export function NavTrigger({ open, reducedMotion, onToggle, triggerRef }: NavTriggerProps) {
+  const { t } = useTranslation();
   return (
     <button
       ref={triggerRef}
@@ -29,11 +31,11 @@ export function NavTrigger({ open, reducedMotion, onToggle, triggerRef }: NavTri
       onClick={onToggle}
       aria-expanded={open}
       aria-controls="fullscreen-navigation"
-      aria-label={open ? "Menüyü kapat" : "Menüyü aç"}
+      aria-label={open ? t("Menüyü kapat") : t("Menüyü aç")}
       className="tl-menu-trigger"
       data-menu-trigger
     >
-      <span className="tl-menu-trigger-label">{open ? "KAPAT" : "MENÜ"}</span>
+      <span className="tl-menu-trigger-label">{open ? t("KAPAT") : t("MENÜ")}</span>
       <span className="tl-menu-trigger-rules" aria-hidden="true">
         {[0, 1, 2].map((line) => (
           <motion.span

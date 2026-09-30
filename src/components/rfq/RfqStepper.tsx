@@ -1,4 +1,5 @@
 import { RFQ_STEPS } from "./rfq-model";
+import { useTranslation } from "react-i18next";
 
 /* ══════════════════════════════════════════════════════════════════════════
    THE STEP RUN
@@ -26,8 +27,9 @@ export function RfqStepper({
   furthest: number;
   onSelect: (step: number) => void;
 }) {
+  const { t } = useTranslation();
   return (
-    <nav aria-label="Teklif adımları">
+    <nav aria-label={t("Teklif adımları")}>
       <ol className="shell-segments">
         {RFQ_STEPS.map((step, index) => {
           const position = index + 1;
@@ -44,7 +46,7 @@ export function RfqStepper({
                 onClick={() => reachable && onSelect(position)}
               >
                 <span className="shell-segment-code">{step.no}</span>
-                <span>{step.label}</span>
+                <span>{t(step.label)}</span>
               </button>
             </li>
           );

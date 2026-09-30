@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import type { NavigationItem } from "./ia";
 import { NAV_MOTION } from "./motion";
@@ -28,6 +29,7 @@ export function NavCategoryPanel({
   onNavigate,
   reducedMotion,
 }: NavCategoryPanelProps) {
+  const { t } = useTranslation();
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
@@ -41,8 +43,8 @@ export function NavCategoryPanel({
       >
         <header className="tl-menu-panel-head" aria-hidden="true">
           <span>{group.index}</span>
-          <strong>{group.label}</strong>
-          <small>{String(group.children?.length ?? 0).padStart(2, "0")} KATEGORİ</small>
+          <strong>{t(group.label)}</strong>
+          <small>{String(group.children?.length ?? 0).padStart(2, "0")} {t("KATEGORİ")}</small>
         </header>
         {group.children?.map((category, index) => {
           const open = activeCategory === index;
@@ -64,7 +66,7 @@ export function NavCategoryPanel({
                 data-nav-category={category.label}
               >
                 <span className="tl-menu-category-index">{pad(index)}</span>
-                <span className="tl-menu-category-label">{category.label}</span>
+                <span className="tl-menu-category-label">{t(category.label)}</span>
                 <span className="tl-menu-category-count" aria-hidden="true">
                   {String(category.links.length).padStart(2, "0")}
                 </span>
@@ -80,7 +82,7 @@ export function NavCategoryPanel({
                       onClick={(event) => { event.preventDefault(); onNavigate(category.path); }}
                     >
                       <span aria-hidden="true">↳</span>
-                      {category.label} kategorisi
+                      {t("{{name}} kategorisi", { name: t(category.label) })}
                     </Link>
                     <ul data-nav-detail-list>
                       {category.links.map((link) => (
@@ -91,7 +93,7 @@ export function NavCategoryPanel({
                             onClick={(event) => { event.preventDefault(); onNavigate(link.path); }}
                           >
                             <span className="tl-menu-tick" aria-hidden="true" />
-                            {link.label}
+                            {t(link.label)}
                           </Link>
                         </li>
                       ))}

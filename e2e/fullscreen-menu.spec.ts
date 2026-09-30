@@ -84,7 +84,8 @@ test.describe("Fullscreen machining navigation", () => {
     await gotoAndSettle(page, MENU_HOST_ROUTE);
     await page.locator("[data-menu-trigger]").click();
     const menu = page.locator("[data-fullscreen-menu]");
-    const families = menu.locator("button[aria-pressed]");
+    // `:not([lang])`: the language switch (round 2) also uses aria-pressed toggles.
+    const families = menu.locator("button[aria-pressed]:not([lang])");
     await expect(families).toHaveCount(3);
     for (const family of await families.all()) {
       await family.click();
@@ -203,7 +204,7 @@ test.describe("Fullscreen machining navigation", () => {
     await page.keyboard.press("Enter");
 
     const menu = page.locator("[data-fullscreen-menu]");
-    const families = menu.locator("button[aria-pressed]");
+    const families = menu.locator("button[aria-pressed]:not([lang])");
     await expect(menu.getByRole("button", { name: "Menüyü kapat" })).toBeFocused();
     for (let tabIndex = 0; tabIndex < 10 && !await families
       .evaluateAll((elements) => elements.some((element) => element === document.activeElement)); tabIndex += 1) {
@@ -289,7 +290,7 @@ test.describe("Fullscreen machining navigation", () => {
     await gotoAndSettle(page, MENU_HOST_ROUTE);
     await page.locator("[data-menu-trigger]").click();
     const menu = page.locator("[data-fullscreen-menu]");
-    const families = menu.locator("button[aria-pressed]");
+    const families = menu.locator("button[aria-pressed]:not([lang])");
     await families.first().focus();
     await page.keyboard.press("ArrowRight");
     await expect(families.nth(1)).toBeFocused();
@@ -334,7 +335,7 @@ test.describe("Fullscreen machining navigation", () => {
       const menu = page.locator("[data-fullscreen-menu]");
       await expect(menu).toBeVisible();
       const shape = await menu.evaluate((element) => ({
-        families: [...element.querySelectorAll("button[aria-pressed]")].map((node) => node.getAttribute("aria-label")),
+        families: [...element.querySelectorAll("button[aria-pressed]:not([lang])")].map((node) => node.getAttribute("aria-label")),
         categories: [...element.querySelectorAll("[data-nav-category]")].map((node) => node.getAttribute("data-nav-category")),
         sections: [...element.querySelectorAll("[data-nav-sections] a[href]")].map((node) => node.getAttribute("href")),
         directory: [...element.querySelectorAll("nav[aria-labelledby] a[href]")].map((node) => node.getAttribute("href")),
