@@ -288,40 +288,10 @@
 .tl-cert h3{font:700 12px/1.25 var(--tl-font-mono);letter-spacing:.04em}
 .tl-cert>p{margin-top:var(--tl-s2);color:var(--tl-ink-soft);font:500 9px/1.5 var(--tl-font-mono);letter-spacing:.05em}
 /* Referansta imza solda, kabartma mühür yalnızca ilk sertifikada sağda. */
-.tl-cert-sign{display:flex;width:100%;margin-top:auto;padding-top:var(--tl-s3);align-items:flex-end;justify-content:space-between;gap:var(--tl-s2)}
-.tl-cert-sign>span{display:block;min-width:0;text-align:left}
-.tl-cert-sign small{display:block;margin-top:3px;color:#666c69;font:500 7px/1.4 var(--tl-font-mono);letter-spacing:.12em}
-.tl-cert-sign .tl-signature{margin-top:0}
-.tl-signature{display:block;width:84px;margin-top:auto;fill:none;stroke:#3d4441;stroke-width:1.4;stroke-linecap:round}
-.tl-signature-rule{stroke:var(--tl-paper-rule);stroke-width:1}
-.tl-emboss{width:34px;flex:none;fill:none;stroke:var(--tl-ink);stroke-width:1;opacity:.58}
-.tl-emboss-teeth{stroke-width:2.6}
-.tl-mini-doc{width:100%;margin-top:var(--tl-s3);display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--tl-s3);align-items:center;border:1px solid var(--tl-paper-rule);padding:var(--tl-s3);background:var(--tl-paper-sunken)}
-.tl-mini-doc img{width:56px;height:56px;object-fit:cover;filter:grayscale(1) contrast(1.15) brightness(1.5)}
-.tl-mini-doc>div{display:grid;gap:4px}
-.tl-mini-doc span{display:grid;grid-template-columns:2fr 1fr;gap:4px}
-.tl-mini-doc i{height:3px;background:rgba(18,23,25,.22)}.tl-mini-doc span:first-child i{background:rgba(18,23,25,.4)}
-.tl-doc-foot{display:flex;width:100%;margin-top:auto;padding-top:var(--tl-s4);align-items:center;justify-content:space-between;gap:var(--tl-s3)}
-.tl-doc-foot i{height:3px;background:var(--tl-paper-rule-soft)}
-.tl-doc-foot i:first-child{width:46%}.tl-doc-foot i:last-child{width:28%}
 /* Malzeme sertifikası: referanstaki yoğun döküm tablosu + köşeye taşan 3.1 rozeti. */
-.tl-cert-table{position:relative;display:grid;width:100%;margin-top:var(--tl-s3);gap:4px;border:1px solid var(--tl-paper-rule);padding:var(--tl-s3);background:var(--tl-paper-sunken)}
-.tl-cert-table span{display:grid;grid-template-columns:1.7fr 1fr 1fr .7fr;gap:4px}
-.tl-cert-table i{height:3px;background:var(--tl-paper-rule-soft)}
-.tl-cert-table span:first-child i{background:var(--tl-paper-rule-strong)}
 /* Yuvarlaklık burada da biçim: 3.1 rozeti bir daire pulu. */
-.tl-grade-badge{position:absolute;right:-9px;bottom:-15px;display:grid;width:38px;height:38px;place-items:center;border:1px solid var(--tl-paper-rule);border-radius:var(--tl-radius-round);background:var(--tl-paper-raised);font:700 12px/1 var(--tl-font-mono)}
-.tl-cert-material .tl-signature{align-self:flex-start;margin-top:auto;padding-top:var(--tl-s4)}
-.tl-qr{width:88px;margin-top:var(--tl-s3);fill:var(--tl-ink)}
-.tl-cert-verify small{margin-top:var(--tl-s2);color:#5f6562;font:600 7px/1.4 var(--tl-font-mono);letter-spacing:.06em}
-.tl-cert-verify>p{margin-top:var(--tl-s2)}
 /* Mühür kendi satırında, master 11–12 aralığında ve sağa yaslı: pafta
    köşesindeki imza bloğu gibi. Hiçbir yapısal track tüketmiyor. */
-.tl-stamp{grid-column:11/-1;justify-self:end;position:relative;display:grid;place-items:center;margin-top:var(--tl-s5);width:132px;height:132px;color:var(--tl-stamp)}
-.tl-stamp svg{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.4;opacity:.74}
-.tl-stamp text{fill:currentColor;stroke:none}
-.tl-stamp-arc{font:600 8.2px/1 var(--tl-font-mono);letter-spacing:.22em;text-anchor:middle}
-.tl-stamp span{position:relative;font:700 11px/1.34 var(--tl-font-mono);letter-spacing:.1em;text-align:center;opacity:.9}
 
 /* 11 — referanslar: 6 hücre × 2 master sütun. */
 .tl-reference-grid{list-style:none}
@@ -491,7 +461,6 @@
   .tl-cert:nth-child(3n+1){border-left:1px solid var(--tl-paper-rule)}
   /* Cok kolonlu duzende ORNEK ICERIK rozeti ilk satirin son kartiyla cakisiyordu. */
   .tl-quality-body{padding-top:var(--tl-s7)}
-  .tl-stamp{grid-column:5/-1}
   .tl-reference-grid li:nth-child(3n){border-right:0}.tl-reference-grid li:nth-child(-n+3){border-bottom:1px solid var(--tl-rule)}
   .tl-faq-body{grid-template-rows:none;row-gap:var(--tl-s6)}.tl-faq-title,.tl-faq,.tl-resource{grid-column:1/-1;grid-row:auto}.tl-resource{border-left:0;padding-inline:var(--tl-s4)}.tl-faq-title,.tl-faq{padding-inline:var(--tl-s4)}.tl-resource-list li{flex:none}.tl-faq-title{margin-bottom:0}
   .tl-rfq-body{row-gap:var(--tl-s5)}.tl-rfq-body>h2,.tl-cad-drop,.tl-rfq-body>ol{grid-column:1/-1;padding-inline:var(--tl-s4)}
@@ -558,7 +527,7 @@
   .tl-project-grid>article,.tl-project-grid>article.tl-project-featured{grid-column:1/-1;display:block;height:auto;overflow:visible;margin-top:var(--tl-s2);border-left:1px solid var(--tl-paper-rule)}.tl-project-grid img{height:216px}.tl-project-grid article>div{padding:var(--tl-s3)}
   .tl-sector-card{grid-column:span 4;min-height:200px;border-right:0;border-bottom:1px solid var(--tl-rule)}.tl-sector-card:last-child{border-bottom:0}
   .tl-manifesto-body{min-height:520px}.tl-manifesto-body::after{background:linear-gradient(180deg,rgba(4,8,10,.96),rgba(4,8,10,.2))}.tl-manifesto-copy{grid-column:1/-1;padding:var(--tl-s7) var(--tl-s4)}.tl-manifesto h2{font-size:clamp(38px,11.5vw,58px)}
-  .tl-cert{min-height:180px}.tl-cert:nth-child(2n+1){border-left:1px solid var(--tl-paper-rule)}.tl-stamp{grid-column:1/-1;justify-self:center;width:118px;height:118px}
+  .tl-cert{min-height:180px}.tl-cert:nth-child(2n+1){border-left:1px solid var(--tl-paper-rule)}
   .tl-reference-grid li{min-height:76px;border-bottom:1px solid var(--tl-rule)}.tl-reference-grid li:nth-child(2n){border-right:0}.tl-reference-grid li:nth-child(3n){border-right:1px solid var(--tl-rule)}.tl-reference-grid li:nth-last-child(-n+2){border-bottom:0}
   .tl-faq-body{padding-block:var(--tl-s5);row-gap:var(--tl-s6)}.tl-faq-title,.tl-faq,.tl-resource{padding-inline:var(--tl-s3)}.tl-faq details p{padding:0 0 var(--tl-s4) 36px}
   .tl-rfq-body{padding-block:var(--tl-s5)}.tl-rfq-body>h2,.tl-cad-drop,.tl-rfq-body>ol{padding-inline:var(--tl-s3)}.tl-rfq-body>ol{grid-template-columns:1fr;gap:var(--tl-s5)}.tl-rfq-body>ol li{padding:0}.tl-rfq-body>ol li::after{content:"⌄";top:auto;right:auto;bottom:calc(var(--tl-s5) * -0.8);left:0;transform:none}
@@ -969,15 +938,6 @@
 
   /* `stroke-dasharray` en uzun imza yolundan uzun seçildi; kısa yollarda
      fazlalık görünmez, tek etkisi çizimin daha erken bitmesidir. */
-  .tl-root[data-motion="ready"] .tl-signature path:not(.tl-signature-rule){
-    stroke-dasharray:220;stroke-dashoffset:220}
-  .tl-root[data-motion="ready"] .tl-quality.tl-inview .tl-signature path:not(.tl-signature-rule){
-    animation:tl-draw-signature .95s .42s var(--tl-ease-out) forwards}
-
-  .tl-root[data-motion="ready"] .tl-stamp{opacity:0;transform:scale(1.14) rotate(-5deg)}
-  .tl-root[data-motion="ready"] .tl-quality.tl-inview .tl-stamp{
-    opacity:1;transform:none;
-    transition:opacity .42s .62s var(--tl-ease-out),transform .55s .62s var(--tl-ease-out)}
 
   /* 12 — SSS soruları: G6, ama masaüstünde sırayla okunur. */
   .tl-root[data-motion="ready"] .tl-faq details{opacity:0;transition:opacity var(--tl-dur-short) var(--tl-ease-out)}
@@ -1009,7 +969,6 @@
 }
 
 /* Hareket katmanının kare dizileri, tek yerde. */
-@keyframes tl-draw-signature{to{stroke-dashoffset:0}}
 @keyframes tl-manifest-line{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 -8% 0)}}
 
 /* ── İşaretçi mikro etkileşimleri: hareket eden şey sayfa değil, okuyucu ─── */

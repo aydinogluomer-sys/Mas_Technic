@@ -65,7 +65,7 @@ function writeEvidence(name: string, payload: unknown): void {
   );
 }
 
-/** `src/utils/cadUpload.ts` — the authority, transcribed for the assertion. */
+/** `src/utils/cadFiles.ts` — the authority, transcribed for the assertion. */
 const ACCEPTED = ["step", "stp", "stl", "obj", "iges", "igs", "3mf"];
 const PROSE_LIST = "STEP, STP, STL, OBJ, IGES, IGS ve 3MF";
 const EXT_LIST = ".step, .stp, .stl, .obj, .iges, .igs, .3mf";

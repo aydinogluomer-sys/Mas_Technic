@@ -1,6 +1,6 @@
 import { MINIMUM_TOLERANCE } from "@/content/claims";
 import { materialCategories, materialsData } from "@/data/materialsData";
-import { CAD_ACCEPTED_EXTENSIONS, CAD_MAX_FILE_SIZE } from "@/utils/cadUpload";
+import { CAD_ACCEPTED_EXTENSIONS, CAD_MAX_FILE_SIZE } from "@/utils/cadFiles";
 
 /* ══════════════════════════════════════════════════════════════════════════
    RFQ MODEL — the choices the form offers and the record it sends

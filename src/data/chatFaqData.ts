@@ -1,5 +1,5 @@
 import { LEAD_TIME_STATEMENT, PUBLIC_CITY, QUOTE_RESPONSE_TIME } from "@/content/claims";
-import { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadUpload";
+import { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadFiles";
 import { servicePages } from "./servicePages";
 
 /**

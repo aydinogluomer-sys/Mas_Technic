@@ -1,6 +1,4 @@
 import { Suspense, lazy, useMemo, useEffect, useState } from "react";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { PageTransition } from "@/components/PageTransition";
 import { ScrollToTop } from "@/components/ScrollToTop";
@@ -19,12 +17,6 @@ import { ShellLoading, ShellRouteBoundary } from "@/components/shell/ShellStates
        through a spring plus a velocity sampler.
 
    The divergence is resolved by removing the outlier, not by spreading it. */
-// `useSoundEngine` was imported here and never called. The sound and theme
-// toggles that used to sit in the public header are gone with Phase 03 — a CNC
-// manufacturer's navigation has no product or brand reason to carry them — so
-// this dead import goes with them. The hook itself stays: `CustomCursor`,
-// `MagneticButton`, `BracketButton` and `HeroSection` still call it.
-import { useAmbientGlow } from "@/hooks/useAmbientGlow";
 import { isHeroIntroActive } from "@/lib/hero-shell";
 
 const Index = lazy(() => import("./pages/Index").then((m) => ({ default: m.Index })));
@@ -130,7 +122,6 @@ const PublicRouteLoader = () => {
   return <PageLoader />;
 };
 
-const queryClient = new QueryClient();
 
 // Page transition handled by PageTransition component
 
@@ -224,7 +215,6 @@ const AnimatedRoutes = () => {
 
 const AppContent = () => {
   const location = useLocation();
-  useAmbientGlow();
 
   // Konami Code easter egg
   useEffect(() => {
@@ -305,15 +295,13 @@ const AppContent = () => {
   return isPanel ? content : <SmoothScrollProvider>{content}</SmoothScrollProvider>;
 };
 
+/* No QueryClient or Tooltip provider: nothing in the app uses React Query or
+   the Radix tooltip, and both sat in the entry chunk of every page. */
 export const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <BrowserRouter>
-        <PointerCursor />
-        <AppContent />
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <BrowserRouter>
+    <PointerCursor />
+    <AppContent />
+  </BrowserRouter>
 );
 
 const PointerCursor = () => {

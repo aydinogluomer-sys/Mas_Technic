@@ -4,7 +4,7 @@ import {
   getCadFileExtension,
   validateCadFile,
   type UploadedCadFile,
-} from "@/utils/cadUpload";
+} from "@/utils/cadFiles";
 import { cadPreviewKind, type CadPreviewKind } from "./rfq-model";
 
 /* ══════════════════════════════════════════════════════════════════════════

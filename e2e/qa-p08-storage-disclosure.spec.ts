@@ -143,8 +143,12 @@ const PUBLIC_ROUTES = [
 ] as const;
 
 /** The one comparison both the real assertions and the controls go through. */
+/* Keys the test harness itself seeds (`playwright.config.ts` storageState),
+   not the site: `mas_prose_reveal` is only ever READ by the page. */
+const HARNESS_KEYS = new Set(["mas_prose_reveal"]);
+
 function uncovered(observed: readonly string[], published: readonly string[]) {
-  return observed.filter((key) => !published.includes(key)).sort();
+  return observed.filter((key) => !HARNESS_KEYS.has(key) && !published.includes(key)).sort();
 }
 
 /** What `/cerez-politikasi` publishes about cookies, read out of the rendered page. */

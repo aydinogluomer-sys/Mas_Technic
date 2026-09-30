@@ -88,7 +88,7 @@
    is decided, and `cadUpload.ts` is still where the list is TRUE.
    ------------------------------------------------------------------------ */
 /// <reference path="../vite-env.d.ts" />
-import type { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadUpload";
+import type { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadFiles";
 
 /** The published copy of `CAD_ACCEPTED_EXTENSIONS`. Pinned below. */
 const PUBLISHED_CAD_EXTENSIONS = ["step", "stp", "stl", "obj", "iges", "igs", "3mf"] as const;

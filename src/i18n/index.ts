@@ -1,10 +1,6 @@
 import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
-import en from "./locales/en";
-import de from "./locales/de";
-import ru from "./locales/ru";
-import zh from "./locales/zh";
 
 /* ══════════════════════════════════════════════════════════════════════════
    ONE-TAP LOCALISATION (round 2, item 14) — TR · EN · DE · RU · ZH
@@ -57,13 +53,11 @@ void i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    resources: {
-      tr: { translation: {} },
-      en: { translation: en },
-      de: { translation: de },
-      ru: { translation: ru },
-      zh: { translation: zh },
-    },
+    /* Only Turkish ships with the app, and it is empty (keys are the Turkish
+       text). Each other dictionary is its own chunk, fetched when that
+       language is chosen — see `loadLanguage`. */
+    resources: { tr: { translation: {} } },
+    partialBundledLanguages: true,
     supportedLngs: LANGUAGES.map((language) => language.code),
     nonExplicitSupportedLngs: true,
     fallbackLng: "tr",
@@ -76,20 +70,53 @@ void i18n
     detection: {
       order: ["localStorage"],
       lookupLocalStorage: "mas_lang",
-      caches: ["localStorage"],
+      /* Nothing is written on load: `mas_lang` exists only once a visitor has
+         tapped a language (see `loadLanguage`), as /cerez-politikasi says. */
+      caches: [],
     },
-    react: { useSuspense: false },
+    /* Re-render when a dictionary arrives after the language was set (a
+       returning visitor whose choice was remembered). */
+    react: { useSuspense: false, bindI18nStore: "added" },
     saveMissing: auditMissing,
     missingKeyHandler: auditMissing
       ? (_languages, _namespace, key) => {
-          if ((i18n.language ?? "tr").startsWith("tr")) return;
+          const code = (i18n.language ?? "tr").split("-")[0];
+          /* Before its dictionary has arrived every key is "missing"; only a
+             key the loaded dictionary lacks is a real gap. */
+          if (code === "tr" || !i18n.hasResourceBundle(code, "translation")) return;
           const bag = ((window as unknown as { __i18nMissing?: Set<string> }).__i18nMissing ??= new Set<string>());
           bag.add(key);
         }
       : undefined,
   });
 
+const DICTIONARIES: Record<Exclude<LanguageCode, "tr">, () => Promise<{ default: Record<string, string> }>> = {
+  en: () => import("./locales/en"),
+  de: () => import("./locales/de"),
+  ru: () => import("./locales/ru"),
+  zh: () => import("./locales/zh"),
+};
+
+async function ensureDictionary(language: string) {
+  const code = language.split("-")[0] as LanguageCode;
+  if (code === "tr" || !(code in DICTIONARIES) || i18n.hasResourceBundle(code, "translation")) return;
+  const { default: dictionary } = await DICTIONARIES[code as Exclude<LanguageCode, "tr">]();
+  i18n.addResourceBundle(code, "translation", dictionary, true, true);
+}
+
+/* The switch waits for the dictionary so a tap goes straight from one
+   language to the other, without a Turkish frame in between. */
+export async function loadLanguage(language: LanguageCode) {
+  await ensureDictionary(language);
+  await i18n.changeLanguage(language);
+  try { window.localStorage.setItem("mas_lang", language); } catch { /* storage blocked: the choice lasts this visit */ }
+}
+
 syncDocument(i18n.language || "tr");
-i18n.on("languageChanged", syncDocument);
+void ensureDictionary(i18n.language || "tr");
+i18n.on("languageChanged", (language) => {
+  syncDocument(language);
+  void ensureDictionary(language);
+});
 
 export default i18n;

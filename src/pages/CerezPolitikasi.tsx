@@ -207,6 +207,12 @@ const STORAGE_ROWS: string[][] = [
     "Sekme kapanana kadar",
   ],
   [
+    "mas_lang",
+    "localStorage",
+    "Seçtiğiniz arayüz dilini (TR, EN, DE, RU, ZH) hatırlar. Yalnızca dil düğmelerinden birine bastığınızda yazılır; dil seçmezseniz hiç yazılmaz.",
+    "Siz silene kadar",
+  ],
+  [
     "mas-technic-theme",
     "localStorage",
     "Arayüzün açık/koyu paletini tutar. Bildirim katmanı her sayfada yüklendiği için bu kayıt yalnızca 3B görüntüleyici bulunan sayfalarda değil, açtığınız her sayfada yazılır.",

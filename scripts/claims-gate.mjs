@@ -664,7 +664,7 @@ const WORDED_DELIVERY_TIER =
    DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION`. A gate that hard-coded the
    accepted list would be the very defect it is checking for, one directory
    over — so it parses `CAD_ACCEPTED_EXTENSIONS` out of
-   `src/utils/cadUpload.ts` on every run and fails loudly if it cannot.
+   `src/utils/cadFiles.ts` on every run and fails loudly if it cannot.
 
    WHAT WENT WRONG, AND WHY A "CORRECT" LIST IS STILL A VIOLATION
    -------------------------------------------------------------
@@ -717,7 +717,7 @@ const WORDED_DELIVERY_TIER =
          or `format` alone this fires on `{ label: "Rapor Formatı", value:
          "PDF + revize CAD" }`, which describes the report WE deliver.
 
-   `src/utils/cadUpload.ts` is the one file allowed to spell the list. It is
+   `src/utils/cadFiles.ts` is the one file allowed to spell the list. It is
    the authority; asking it to derive from itself is incoherent.            */
 
 /* 09a-C5 / R4-6 — A `.js` SHADOW WOULD BE INVISIBLE TO BOTH INSTRUMENTS.
@@ -747,7 +747,7 @@ function resolutionShadowsOf(relFile) {
     .map((abs) => relative(REPO_ROOT, abs).replace(/\\/g, "/"));
 }
 
-const CAD_AUTHORITY_FILE = "src/utils/cadUpload.ts";
+const CAD_AUTHORITY_FILE = "src/utils/cadFiles.ts";
 
 /** `["A","B","C"]` → `"A, B ve C"` — the Turkish join the copy actually uses. */
 const joinTurkish = (parts) =>
@@ -1830,11 +1830,8 @@ const RULES = [
         // there is so a visitor who types one REACHES the derived answer.
         'keywords: ["dosya", "format", "cad", "step", "iges", "stl", "obj", "3mf", "çizim", "3d", "model"],',
         // The authority itself, and the derivations that read it.
-        { file: "src/utils/cadUpload.ts", text: 'export const CAD_ACCEPTED_EXTENSIONS = ["step", "stp", "stl", "obj", "iges", "igs", "3mf"] as const;' },
+        { file: "src/utils/cadFiles.ts", text: 'export const CAD_ACCEPTED_EXTENSIONS = ["step", "stp", "stl", "obj", "iges", "igs", "3mf"] as const;' },
         'const CAD_EXTENSION_LIST = CAD_ACCEPTED_EXTENSIONS.map((ext) => `.${ext}`).join(", ");',
-        // A local file-type check is code, not published copy.
-        { file: "src/pages/CADDashboard.tsx", text: 'if (ext !== "stl" && ext !== "obj" && ext !== "step" && ext !== "stp") return;' },
-        { file: "src/pages/CADDashboard.tsx", text: '<input type="file" accept=".stl,.obj,.step,.stp" onChange={handleFileUpload} className="hidden" />' },
       ],
     },
     authority: "§J ACCEPTED_CAD_FORMATS: DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION · §0 DEFAULT_FACT_VISIBILITY: INTERNAL_ONLY_UNLESS_PUBLIC_OK",
@@ -3260,7 +3257,7 @@ const CHECK_CONTROLS = [
          resolve — and the report must say "could not load", never "your copy
          has drifted", because the copy in this fixture is exactly right. */
       const fixture = writeFixtureLedger(
-        `import { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadUpload";\nvoid CAD_ACCEPTED_EXTENSIONS;\n${CORRECT_FIXTURE_LEDGER}`,
+        `import { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadFiles";\nvoid CAD_ACCEPTED_EXTENSIONS;\n${CORRECT_FIXTURE_LEDGER}`,
       );
       const problems = await checkDerivedCadCopy(fixture);
       if (problems.length === 0) return "a ledger with a runtime import loaded anyway; the no-module-edge property is gone";
@@ -3616,7 +3613,7 @@ if (derivedDrift.length > 0) {
     "authority: USER_INPUTS.md §J ACCEPTED_CAD_FORMATS: DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION",
   );
   console.log(
-    "remedy:    Fix the DERIVATION in src/content/claims.ts, or the tuple it reads. Never widen src/utils/cadUpload.ts to match the copy.",
+    "remedy:    Fix the DERIVATION in src/content/claims.ts, or the tuple it reads. Never widen src/utils/cadFiles.ts to match the copy.",
   );
   for (const p of derivedDrift) console.log(`  ${p.file}: ${p.message}`);
 }

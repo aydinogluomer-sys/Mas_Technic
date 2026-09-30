@@ -1,7 +1,7 @@
 import { ShellAction, ShellMetaRow, ShellNotice, ShellTagRow, ShellTitleBlock } from "@/components/shell";
 import { useTranslation } from "react-i18next";
 import { CAD_ACCEPT_ATTR, CAD_FORMAT_CHIPS, CAD_FORMAT_HINT } from "@/hooks/useCadHandoff";
-import type { UploadedCadFile } from "@/utils/cadUpload";
+import type { UploadedCadFile } from "@/utils/cadFiles";
 import { CadStageHost } from "./CadStageHost";
 import { CAD_MAX_FILE_SIZE_MB, formatFileSize, type Dimensions } from "./rfq-model";
 import type { CadSelection, CadSelectionError } from "./useCadSelection";

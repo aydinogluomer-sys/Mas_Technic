@@ -130,8 +130,9 @@ function BackToTop() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    /* No listener at all on `/`: the control never shows there. */
+    if (isLanding) { setVisible(false); return; }
     const onScroll = () => {
-      if (isLanding) { setVisible(false); return; }
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const footer = document.querySelector("footer.tl-footer");
       const footerBelowViewport = (footer?.getBoundingClientRect().top ?? Infinity) > window.innerHeight;

@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { LANGUAGES } from "@/i18n";
+import { LANGUAGES, loadLanguage } from "@/i18n";
 
 /* One tap per language, no menu to open: the five codes sit in a row and the
    current one is marked. Switching re-renders in place — no reload, no route
@@ -16,7 +16,7 @@ export function LanguageSwitch({ className = "" }: { className?: string }) {
           lang={language.code}
           aria-pressed={current === language.code}
           aria-label={language.name}
-          onClick={() => { void i18n.changeLanguage(language.code); }}
+          onClick={() => { void loadLanguage(language.code); }}
         >
           {language.label}
         </button>
