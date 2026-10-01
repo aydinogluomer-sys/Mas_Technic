@@ -39,7 +39,8 @@ import { gotoAndSettle, waitForHeroShellTeardown } from "../helpers";
 const LANDING = "/";
 const INNER = "/hakkimizda";
 /** Distinct from both shells, so "it navigated" is unambiguous either way. */
-const DESTINATION = { label: "Sık Sorulanlar", path: "/sss" } as const;
+/* Revision 4: reached through the flat 04 Kurumsal family (4th rail entry). */
+const DESTINATION = { label: "Sık Sorulan Sorular", path: "/sss" } as const;
 
 const ROUTES = [
   { name: "landing", path: LANDING },
@@ -166,6 +167,7 @@ for (const motion of [
       test(`a menu link navigates and fully releases on the ${route.name}`, async ({ page }) => {
         const before = await arrive(page, route.path);
         const menu = await openMenu(page);
+        await menu.locator("button[aria-pressed]:not([lang])").nth(3).click();
         await menu.getByRole("link", { name: DESTINATION.label, exact: true }).click();
         await expect(page).toHaveURL(new RegExp(`${DESTINATION.path}$`));
         await expectFullyReleased(page, before);

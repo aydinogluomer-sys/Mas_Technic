@@ -196,8 +196,13 @@ export function useRfqSubmission() {
    * visible and announced.
    */
   const inFlight = useRef(false);
-  /** A storage object already written, so a retry does not upload it twice. */
-  const uploadedRef = useRef<UploadedCadFile | null>(null);
+  /**
+   * A storage object already written, so a retry does not upload it twice.
+   * Keyed by the `File` it came from: if the reader replaces the CAD file
+   * between a failed send and the retry, the cached object belongs to the old
+   * geometry and must not be sent under the new file's name.
+   */
+  const uploadedRef = useRef<{ source: File; stored: UploadedCadFile } | null>(null);
 
   const reset = useCallback(() => {
     setState({ status: "idle" });
@@ -208,6 +213,7 @@ export function useRfqSubmission() {
     inFlight.current = true;
 
     const reference = createRfqReference();
+    if (uploadedRef.current && uploadedRef.current.source !== file) uploadedRef.current = null;
     setState(file && !uploadedRef.current && !handoff ? { status: "uploading", percent: 0 } : { status: "sending" });
 
     try {
@@ -235,7 +241,7 @@ export function useRfqSubmission() {
       }
 
       /* 2 — the file. */
-      let storedFile = uploadedRef.current ?? handoff;
+      let storedFile = uploadedRef.current?.stored ?? handoff;
       if (!storedFile && file) {
         try {
           storedFile = await uploadCadFile(
@@ -243,7 +249,7 @@ export function useRfqSubmission() {
             createCadStoragePath(file, reference, userId),
             (progress) => setState({ status: "uploading", percent: progress.percent }),
           );
-          uploadedRef.current = storedFile;
+          uploadedRef.current = { source: file, stored: storedFile };
         } catch (uploadError) {
           setState({
             status: "failed",

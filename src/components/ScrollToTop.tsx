@@ -50,7 +50,15 @@ export const ScrollToTop = () => {
       }
     };
 
-    const targetId = hash ? decodeURIComponent(hash.slice(1)) : "";
+    /* A malformed escape (`#%`, `#%E0%A4`) makes `decodeURIComponent` throw,
+       and this component sits outside the route boundary — so it is treated
+       as a fragment with no target instead of taking the whole site down. */
+    let targetId = "";
+    try {
+      targetId = hash ? decodeURIComponent(hash.slice(1)) : "";
+    } catch {
+      targetId = "";
+    }
 
     if (!targetId) {
       toTop();

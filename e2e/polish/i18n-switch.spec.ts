@@ -50,7 +50,7 @@ test.describe("language switch", () => {
       await expect(header.locator('[role="listbox"]')).toHaveCount(0);
       await expect(page.locator("html")).toHaveAttribute("lang", expected.lang);
       await expect(button).toContainText(code.toUpperCase());
-      await expect(page.getByText(new RegExp(`^\s*${expected.quote}\s*$`, "i")).first()).toBeAttached();
+      await expect(page.getByText(new RegExp(`^\\s*${expected.quote}\\s*$`, "i")).first()).toBeAttached();
     }
 
     await page.reload();

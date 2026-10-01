@@ -284,3 +284,6 @@ a.contact-line:is(:hover, :focus-visible) { color: var(--tl-bronze-light); }
 @media (prefers-reduced-motion: reduce) {
   .booking-skeleton i::after { animation: none; transform: scaleX(.5); }
 }
+
+/* Focus guards around the booking sheet: focusable, never visible. */
+.booking-focus-guard { position: fixed; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }

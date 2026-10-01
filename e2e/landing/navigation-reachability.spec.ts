@@ -178,6 +178,8 @@ test.describe("public navigation reachability", () => {
     };
     for (let familyIndex = 0; familyIndex < await families.count(); familyIndex += 1) {
       await families.nth(familyIndex).click();
+      // A flat family (04 Kurumsal) has no categories: its pages are rows.
+      await collect();
       const categories = menu.locator("[data-nav-category]");
       for (let index = 0; index < await categories.count(); index += 1) {
         await categories.nth(index).click();
@@ -209,6 +211,8 @@ test.describe("public navigation reachability", () => {
 
     // 2) Navigating from the menu pushes history; Back returns to the landing.
     await page.locator("[data-menu-trigger]").click();
+    // Revision 4: company pages live in the flat 04 Kurumsal family.
+    await page.locator("[data-fullscreen-menu] button[aria-pressed]:not([lang])").nth(3).click();
     await page.locator("[data-fullscreen-menu]").getByRole("link", { name: "Hakkımızda" }).click();
     await expect(page).toHaveURL(/\/hakkimizda$/);
     await page.goBack();

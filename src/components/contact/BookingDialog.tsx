@@ -35,7 +35,16 @@ export function BookingDialog({ open, onClose }: { open: boolean; onClose: () =>
   const [state, setState] = useState<FrameState>("loading");
   const closeRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const hostRef = useRef<HTMLDivElement>(null);
   const returnFocus = useRef<Element | null>(null);
+
+  const focusables = () =>
+    [...(dialogRef.current?.querySelectorAll<HTMLElement>("a[href], button:not([disabled]), iframe") ?? [])];
+  /* Focus guards: key events typed inside the cross-origin calendar never
+     reach this document, so Tab out of the iframe is caught by a sentinel on
+     either side of the sheet and sent back round. */
+  const wrapToFirst = () => focusables()[0]?.focus();
+  const wrapToLast = () => focusables().at(-1)?.focus();
 
   useEffect(() => {
     if (!open) return;
@@ -46,6 +55,15 @@ export function BookingDialog({ open, onClose }: { open: boolean; onClose: () =>
     root.style.overflow = "hidden";
     closeRef.current?.focus();
 
+    /* Everything behind the modal is inert, so focus cannot land there even
+       when it leaves the iframe by a route the guards do not see. */
+    const inerted: HTMLElement[] = [];
+    for (const node of [...document.body.children]) {
+      if (node === hostRef.current || !(node instanceof HTMLElement) || node.hasAttribute("inert")) continue;
+      node.setAttribute("inert", "");
+      inerted.push(node);
+    }
+
     const timer = window.setTimeout(() => {
       setState((current) => (current === "loading" ? "fallback" : current));
     }, LOAD_TIMEOUT_MS);
@@ -53,7 +71,7 @@ export function BookingDialog({ open, onClose }: { open: boolean; onClose: () =>
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") { onClose(); return; }
       if (event.key !== "Tab" || !dialogRef.current) return;
-      const focusable = dialogRef.current.querySelectorAll<HTMLElement>("a[href], button:not([disabled]), iframe");
+      const focusable = focusables();
       if (focusable.length === 0) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
@@ -65,6 +83,7 @@ export function BookingDialog({ open, onClose }: { open: boolean; onClose: () =>
     return () => {
       window.clearTimeout(timer);
       document.removeEventListener("keydown", onKey);
+      for (const node of inerted) node.removeAttribute("inert");
       root.style.overflow = previousOverflow;
       if (returnFocus.current instanceof HTMLElement) returnFocus.current.focus();
     };
@@ -73,8 +92,9 @@ export function BookingDialog({ open, onClose }: { open: boolean; onClose: () =>
   if (!open) return null;
 
   return createPortal(
-    <div className="booking-dialog" style={{ zIndex: Z.dialog }} data-lenis-prevent>
+    <div ref={hostRef} className="booking-dialog" style={{ zIndex: Z.dialog }} data-lenis-prevent>
       <div className="booking-dialog-scrim" onClick={onClose} aria-hidden="true" />
+      <span tabIndex={0} className="booking-focus-guard" aria-hidden="true" onFocus={wrapToLast} />
       <div
         ref={dialogRef}
         className="booking-dialog-sheet"
@@ -131,6 +151,7 @@ export function BookingDialog({ open, onClose }: { open: boolean; onClose: () =>
           )}
         </div>
       </div>
+      <span tabIndex={0} className="booking-focus-guard" aria-hidden="true" onFocus={wrapToFirst} />
     </div>,
     document.body,
   );

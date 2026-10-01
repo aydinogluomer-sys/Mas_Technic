@@ -162,7 +162,14 @@ export const TekliflerimTab = () => {
     if (error || data !== rfqId) {
       toast.error("Onaylama kaydedilemedi. Lütfen tekrar deneyin veya bizimle iletişime geçin.");
     } else {
-      setRfqs((prev) => prev.map((r) => (r.id === rfqId ? { ...r, status: "Onaylandı" } : r)));
+      /* The whole row the RPC wrote, then the active tab's filter: the quote
+         leaves "Fiyat Verildi" at once and its button cannot be pressed
+         again, whether or not the Realtime update ever arrives. */
+      setRfqs((prev) => prev
+        .map((r) => (r.id === rfqId
+          ? { ...r, status: "Onaylandı", customer_approved: true }
+          : r))
+        .filter((r) => matchesFilter(r, activeFilter)));
       toast.success("Teklif onaylandı. Siparişe dönüştürülecek.");
     }
     setApproving(null);

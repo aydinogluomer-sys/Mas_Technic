@@ -33,20 +33,34 @@ const ROLE_LABELS: Record<string, string> = {
 const RoleRegister = () => {
   const [counts, setCounts] = useState<Record<string, number> | null>(null);
   const [failed, setFailed] = useState(false);
+  const [notAdmin, setNotAdmin] = useState(false);
 
+  /* Only admins hold the RLS policy that exposes every `user_roles` row; for
+     staff, production and quality the same query returns their own row
+     alone, which would read as a census with every other role at zero. So
+     the register is shown to admins only. */
   useEffect(() => {
     let alive = true;
-    supabase.from("user_roles").select("role").then(({ data, error }) => {
+    (async () => {
+      const { data: auth } = await supabase.auth.getUser();
+      const uid = auth.user?.id;
+      if (!uid) { if (alive) setNotAdmin(true); return; }
+      const { data: isAdmin, error: roleError } = await supabase.rpc("has_role", { _user_id: uid, _role: "admin" });
+      if (!alive) return;
+      if (roleError) { setFailed(true); return; }
+      if (!isAdmin) { setNotAdmin(true); return; }
+      const { data, error } = await supabase.from("user_roles").select("role");
       if (!alive) return;
       if (error) { setFailed(true); return; }
       const next: Record<string, number> = {};
       for (const row of data ?? []) next[row.role] = (next[row.role] ?? 0) + 1;
       setCounts(next);
-    });
+    })();
     return () => { alive = false; };
   }, []);
 
   if (failed) return <p className="text-sm text-red-400">Roller okunamadı.</p>;
+  if (notAdmin) return <p className="text-sm text-slate-400">Rol sayımı yalnızca yöneticilere gösterilir.</p>;
   if (!counts) return <p className="text-sm text-slate-400">Roller yükleniyor…</p>;
 
   return (

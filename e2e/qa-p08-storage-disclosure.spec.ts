@@ -273,6 +273,8 @@ async function sweep(context: BrowserContext, page: Page) {
 }
 
 test.describe("QA — what the browser stores vs what /cerez-politikasi publishes", () => {
+  // Playwright requires the fixtures argument to be a destructuring pattern.
+  // eslint-disable-next-line no-empty-pattern
   test.beforeEach(({}, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical storage lane");
   });

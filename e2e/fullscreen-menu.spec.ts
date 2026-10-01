@@ -20,7 +20,9 @@ import { navigationItems } from "../src/components/navigation/ia";
  */
 const MENU_HOST_ROUTE = "/";
 /** İç sayfa karşılığı: aynı menü, farklı kabuk. */
-const INNER_HOST_ROUTE = "/sss";
+/* Revision 4: `/sss` now belongs to the 04 Kurumsal family, so the menu opens
+   on that family there. The parity lane uses a page outside every family. */
+const INNER_HOST_ROUTE = "/kvkk";
 
 test.describe("Fullscreen machining navigation", () => {
   test("uses one three-line trigger and a viewport-bound takeover", async ({ page }) => {
@@ -84,17 +86,27 @@ test.describe("Fullscreen machining navigation", () => {
     expect(order.main).toBeGreaterThan(order.trigger);
   });
 
-  test("exposes all three families and five categories per family", async ({ page }) => {
+  test("exposes three category families of five and the flat 04 Kurumsal family", async ({ page }) => {
     await gotoAndSettle(page, MENU_HOST_ROUTE);
     await page.locator("[data-menu-trigger]").click();
     const menu = page.locator("[data-fullscreen-menu]");
     // `:not([lang])`: the language switch (round 2) also uses aria-pressed toggles.
     const families = menu.locator("button[aria-pressed]:not([lang])");
-    await expect(families).toHaveCount(3);
-    for (const family of await families.all()) {
+    await expect(families).toHaveCount(4);
+    for (const family of (await families.all()).slice(0, 3)) {
       await family.click();
       await expect(menu.locator("[data-menu-group] section")).toHaveCount(5);
     }
+    /* Revision 4: Kurumsal is a family of plain pages, listed flat; the old
+       directory columns ("Ana sayfa bölümleri", "Kaynaklar") are gone. */
+    await families.nth(3).click();
+    const pages = menu.locator("[data-nav-page-list] a");
+    await expect(pages).toHaveCount(7);
+    await expect(pages).toHaveText([
+      "01Hakkımızda↗", "02İletişim↗", "03CNC İşleme Malzemeleri↗", "04Kalite Dosyası↗",
+      "05Teknik Günlük↗", "06Sık Sorulan Sorular↗", "07Kabiliyet Profilleri↗",
+    ]);
+    await expect(menu.locator("[data-nav-sections]")).toHaveCount(0);
     await expect(menu.getByRole("link", { name: "Projeni Yükle" })).toBeVisible();
     await expect(menu.getByRole("link", { name: "Hakkımızda" })).toHaveCount(1);
   });
@@ -185,7 +197,7 @@ test.describe("Fullscreen machining navigation", () => {
     await expect(trigger).toBeFocused();
   });
 
-  test("preserves 3 families, 15 categories and 48 unique detail routes", async () => {
+  test("preserves 3 category families, 15 categories and 48 unique detail routes", async () => {
     const families = navigationItems.filter((item) => item.children?.length);
     const categories = families.flatMap((item) => item.children ?? []);
     const details = categories.flatMap((category) => category.links);
@@ -341,7 +353,6 @@ test.describe("Fullscreen machining navigation", () => {
       const shape = await menu.evaluate((element) => ({
         families: [...element.querySelectorAll("button[aria-pressed]:not([lang])")].map((node) => node.getAttribute("aria-label")),
         categories: [...element.querySelectorAll("[data-nav-category]")].map((node) => node.getAttribute("data-nav-category")),
-        sections: [...element.querySelectorAll("[data-nav-sections] a[href]")].map((node) => node.getAttribute("href")),
         directory: [...element.querySelectorAll("nav[aria-labelledby] a[href]")].map((node) => node.getAttribute("href")),
         cta: element.querySelector(".tl-menu-cta")?.getAttribute("href") ?? null,
       }));
@@ -351,9 +362,8 @@ test.describe("Fullscreen machining navigation", () => {
     };
     const landing = await read(MENU_HOST_ROUTE);
     const inner = await read(INNER_HOST_ROUTE);
-    expect(landing.families).toHaveLength(3);
+    expect(landing.families).toHaveLength(4);
     expect(landing.categories).toHaveLength(5);
-    expect(landing.sections).toHaveLength(7);
     expect(landing.cta).toBe("/teklif-al");
     expect(inner).toEqual(landing);
   });

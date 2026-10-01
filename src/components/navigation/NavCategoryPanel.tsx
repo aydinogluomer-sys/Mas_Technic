@@ -63,7 +63,7 @@ export function NavCategoryPanel({
                   aria-current={currentPath === link.path ? "page" : undefined}
                   onClick={(event) => { event.preventDefault(); onNavigate(link.path); }}
                 >
-                  <span className="tl-menu-category-index">{pad(index)}</span>
+                  <span className="tl-menu-category-index" aria-hidden="true">{pad(index)}</span>
                   <span className="tl-menu-category-label">{t(link.label)}</span>
                   <span className="tl-menu-category-count" aria-hidden="true">↗</span>
                 </Link>

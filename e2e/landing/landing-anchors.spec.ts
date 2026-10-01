@@ -17,37 +17,26 @@ test.describe("production landing anchors", () => {
     await landingReady(page);
   });
 
-  test("every navigation hash link targets a real section anchor", async ({ page }) => {
-    // The six hash items used to live in the landing-only `.tl-header .tl-nav`
-    // strip, which was ALL the navigation `/` had (B14). They are now the
-    // section block of the one global menu, addressed as `/#id` so the same
-    // control works from an inner page. The contract is unchanged and one
-    // anchor wider: every hash a user can click must land on a real band.
+  test("the menu carries no section links; every declared anchor is a real band", async ({ page }) => {
+    // Revision 4 removed the menu's "Ana sayfa bölümleri" column at the
+    // owner's request: the sheet counter in the header now names every band.
+    // The anchors themselves stay published for deep links (`/#kalite`).
     await page.locator("[data-menu-trigger]").click();
     const menu = page.locator("[data-fullscreen-menu]");
     await expect(menu).toBeVisible();
-    const hrefs = await menu.locator("[data-nav-sections] a[href*='#']").evaluateAll((links) =>
-      links.map((link) => link.getAttribute("href")!.split("#")[1]));
-    expect(hrefs).toHaveLength(LANDING_SCENE_IDS.length);
-
-    for (const id of hrefs) {
-      expect(LANDING_SCENE_IDS as readonly string[], `#${id} must be a declared landing anchor`)
-        .toContain(id);
-      await expect(page.locator(`#${id}`), `#${id} must exist exactly once`).toHaveCount(1);
-    }
+    await expect(menu.locator("[data-nav-sections]")).toHaveCount(0);
+    await expect(menu.locator("a[href*='#']")).toHaveCount(0);
     await page.keyboard.press("Escape");
     await expect(menu).toHaveCount(0);
+    for (const id of LANDING_SCENE_IDS) {
+      await expect(page.locator(`#${id}`), `#${id} must exist exactly once`).toHaveCount(1);
+    }
   });
 
-  test("a section link scrolls its band clear of the fixed header", async ({ page }) => {
-    // Anchor navigation and route navigation are two different objects in one
-    // menu. This proves the anchor half actually moves the page AND that the
-    // fixed bar does not cover the band it just navigated to.
-    await page.locator("[data-menu-trigger]").click();
-    const menu = page.locator("[data-fullscreen-menu]");
-    await expect(menu).toBeVisible();
-    await menu.locator('[data-nav-sections] a[href$="#kalite"]').click();
-    await expect(menu).toHaveCount(0);
+  test("a deep link scrolls its band clear of the fixed header", async ({ page }) => {
+    // The anchor half of navigation now arrives by URL (shared links, the
+    // footer); the fixed bar must not cover the band it lands on.
+    await gotoAndSettle(page, "/#kalite");
     const headerHeight = await page.locator("[data-fullscreen-header]")
       .evaluate((element) => element.getBoundingClientRect().height);
     await expect.poll(async () => {

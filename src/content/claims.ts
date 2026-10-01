@@ -87,6 +87,9 @@
    Add a format and the gate names the drift; the tuple is still where the list
    is decided, and `cadUpload.ts` is still where the list is TRUE.
    ------------------------------------------------------------------------ */
+// This module is also loaded by the Node test runtime, which does not see the
+// app tsconfig's `types`; the reference keeps `import.meta.env` typed there.
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../vite-env.d.ts" />
 import type { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadFiles";
 

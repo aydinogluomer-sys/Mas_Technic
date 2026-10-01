@@ -47,6 +47,8 @@ const UNMATCHABLE_QUESTION = "zzzqqq wwwvvv xxxyyy";
 type OutboundBody = { messages?: { role?: string; content?: string; kind?: string }[] };
 
 test.describe("09b-2 — the AI consent filter is keyed on state", () => {
+  // Playwright requires the fixtures argument to be a destructuring pattern.
+  // eslint-disable-next-line no-empty-pattern
   test.beforeEach(async ({}, testInfo) => {
     test.skip(testInfo.project.name !== "desktop-1280", "one canonical transfer lane");
   });

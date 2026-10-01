@@ -61,10 +61,14 @@ jobs:
       - run: npm ci
       # Supabase degerleri publishable (anon key, RLS ile korunuyor) ama artik
       # kaynakta gomulu degil; uretim derlemesi bunlari ortamdan alir.
+      # Repo secret'lari tanimli degilse `src/integrations/supabase/env.ts`
+      # modul yuklenirken hata firlatir ve dist hic acilmaz (tum E2E isleri
+      # bos sayfa gorur). Bu derleme yalnizca testler icindir ve backend
+      # cagrilari testlerde taklit edilir; secret yoksa yer tutucu kullanilir.
       - name: Build once
         env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://ci-placeholder.supabase.co' }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY || 'ci-placeholder-anon-key' }}
         run: npm run build
       - name: Assert dev-only surfaces are absent from dist
         run: |

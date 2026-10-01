@@ -530,6 +530,8 @@ async function collectHeaderReach(page: Page, route: string) {
 }
 
 test.describe("QA — every table on a public route is reachable at its viewport", () => {
+  // Playwright requires the fixtures argument to be a destructuring pattern.
+  // eslint-disable-next-line no-empty-pattern
   test.beforeEach(({}, testInfo) => {
     test.skip(!LANES.has(testInfo.project.name), "narrow-reach lanes plus one wide control");
   });

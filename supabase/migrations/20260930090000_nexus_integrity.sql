@@ -79,6 +79,7 @@ BEGIN
          status               = 'Onaylandı'
    WHERE id = _rfq_id
      AND user_id = auth.uid()
+     AND status = 'Fiyat Verildi'          -- a rejected or withdrawn quote keeps its price; it must not be approvable
      AND quoted_price IS NOT NULL
      AND coalesce(customer_approved, false) = false
      AND (price_valid_until IS NULL OR price_valid_until >= current_date)

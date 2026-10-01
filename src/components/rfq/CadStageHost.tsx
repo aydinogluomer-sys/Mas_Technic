@@ -1,4 +1,4 @@
-import { Component, Suspense, lazy, type ErrorInfo, type ReactNode } from "react";
+import { Component, Suspense, lazy, useMemo, type ErrorInfo, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
 import { ShellAction, ShellLoading, ShellNotice } from "@/components/shell";
@@ -19,7 +19,12 @@ import type { CadPreviewKind, Dimensions } from "./rfq-model";
    including everything the reader has typed — because a viewer would not load.
    ══════════════════════════════════════════════════════════════════════════ */
 
-const CadStage = lazy(() => import("./cad/CadStage"));
+/* `React.lazy` caches the import promise — a REJECTED one included — so a
+   retry that only remounted the boundary threw the same cached failure again
+   even after the network came back. Each attempt therefore gets a fresh lazy
+   loader (see `CadStageHost`); the first attempt reuses this one. */
+const loadCadStage = () => lazy(() => import("./cad/CadStage"));
+const InitialCadStage = loadCadStage();
 
 type ChunkBoundaryState = { failed: boolean };
 
@@ -75,6 +80,7 @@ export type CadStageHostProps = {
 
 export function CadStageHost({ attempt, onRetry, ...stage }: CadStageHostProps) {
   const { t } = useTranslation();
+  const CadStage = useMemo(() => (attempt === 0 ? InitialCadStage : loadCadStage()), [attempt]);
   return (
     <ChunkBoundary key={attempt} onRetry={onRetry}>
       <Suspense
