@@ -187,7 +187,12 @@
      and datum marks (7.9:1 on paper) and a fog ground for alternating bands. */
   --tl-steel: #3a4a5c;
   --tl-steel-light: #8fa3b8;
-  --tl-fog: #e4e7e8;
+  /* Revision 3: inner pages drop the steel blue for neutral greys. The fog
+     ground is the solid form of the Related rows' hover (4% ink over paper),
+     and `--tl-fog-hover` one step deeper for rows sitting on it. Steel stays
+     for the landing's certificate/sector marks only. */
+  --tl-fog: #e5e1d6;
+  --tl-fog-hover: #dcd7cb;
   --tl-stamp: #8a4030;
   --tl-stamp-light: #e18570;
 

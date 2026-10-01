@@ -96,7 +96,7 @@
 }
 .tl-menu-panel-head span,
 .tl-menu-panel-head small {
-  color: var(--tl-steel);
+  color: var(--tl-ink-soft);
   font: 600 11px/1 var(--tl-font-mono);
   letter-spacing: .14em;
 }
@@ -115,7 +115,7 @@
 .tl-menu .tl-menu-category.is-open .tl-menu-category-toggle { color: var(--tl-ink); }
 .tl-menu .tl-menu-category-index,
 .tl-menu .tl-menu-category-count { color: var(--tl-ink-soft); font-size: 11px; }
-.tl-menu .tl-menu-category.is-open .tl-menu-category-index { color: var(--tl-steel); }
+.tl-menu .tl-menu-category.is-open .tl-menu-category-index { color: var(--tl-ink-soft); }
 .tl-menu .tl-menu-category-label {
   font: 400 clamp(22px, 1.9vw, 32px)/1.1 var(--tl-font-serif);
   letter-spacing: -.015em;
@@ -123,7 +123,7 @@
 }
 .tl-menu .tl-menu-category-toggle:is(:hover, :focus-visible) .tl-menu-category-label { transform: translateX(6px); }
 .tl-menu .tl-menu-category-details { padding: 0 0 var(--tl-s5) 40px; }
-.tl-menu .tl-menu-category-landing { color: var(--tl-steel); font-size: 11px; }
+.tl-menu .tl-menu-category-landing { color: var(--tl-ink-soft); font-size: 11px; }
 .tl-menu .tl-menu-category-details li a {
   border-top-color: var(--tl-paper-rule-soft);
   color: var(--tl-ink-muted);

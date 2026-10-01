@@ -33,18 +33,23 @@ async function missingKeys(page: Page) {
 test.describe("language switch", () => {
   test.skip(({ isMobile }) => isMobile, "header switch is a desktop control; mobile is covered below");
 
-  test("one tap switches the header in place and is remembered", async ({ page }) => {
+  test("the header language dropdown switches in place and is remembered", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await gotoAndSettle(page, "/");
     await expect(page.locator("html")).toHaveAttribute("lang", "tr");
 
     const header = page.locator(".lang-switch--header");
-    await expect(header).toBeVisible();
+    const button = header.locator(".lang-dropdown-button");
+    await expect(button).toBeVisible();
+    await expect(button).toHaveAttribute("aria-expanded", "false");
 
     for (const [code, expected] of Object.entries(EXPECT)) {
-      await header.locator(`button[lang="${code}"]`).click();
+      await button.click();
+      await expect(button).toHaveAttribute("aria-expanded", "true");
+      await header.locator(`[role="option"][lang="${code}"]`).click();
+      await expect(header.locator('[role="listbox"]')).toHaveCount(0);
       await expect(page.locator("html")).toHaveAttribute("lang", expected.lang);
-      await expect(header.locator(`button[lang="${code}"]`)).toHaveAttribute("aria-pressed", "true");
+      await expect(button).toContainText(code.toUpperCase());
       await expect(page.getByText(new RegExp(`^\s*${expected.quote}\s*$`, "i")).first()).toBeAttached();
     }
 
@@ -52,9 +57,40 @@ test.describe("language switch", () => {
     await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans");
     await expect(page.locator("#mas-font-noto-sc")).toHaveCount(1);
 
-    await page.locator('.lang-switch--header button[lang="tr"]').click();
+    /* Keyboard: open with ArrowDown, move with ArrowUp, choose with Enter
+       (zh is current, so one step up is ru); Escape closes without choosing. */
+    await button.focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(header.locator('[role="listbox"]')).toBeFocused();
+    await page.keyboard.press("ArrowUp");
+    await page.keyboard.press("Enter");
+    await expect(page.locator("html")).toHaveAttribute("lang", "ru");
+    await expect(button).toBeFocused();
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Escape");
+    await expect(header.locator('[role="listbox"]')).toHaveCount(0);
+    await expect(page.locator("html")).toHaveAttribute("lang", "ru");
+
+    await button.click();
+    await header.locator('[role="option"][lang="tr"]').click();
     await expect(page.locator("html")).toHaveAttribute("lang", "tr");
     await expect(page.getByText(/TEKLİF AL|Teklif al/).first()).toBeAttached();
+  });
+
+  test("header actions read language ▾ · NEXUS · quote · menu on one axis", async ({ page }) => {
+    for (const width of [1440, 1024, 768]) {
+      await page.setViewportSize({ width, height: 900 });
+      await gotoAndSettle(page, "/hakkimizda");
+      const boxes = await page.evaluate(() =>
+        [".lang-switch--header", ".tl-nexus-header-link", ".tl-quote-button", "[data-menu-trigger]"].map((selector) => {
+          const box = document.querySelector(selector)!.getBoundingClientRect();
+          return { left: box.left, right: box.right, middle: box.top + box.height / 2 };
+        }));
+      for (let index = 1; index < boxes.length; index += 1) {
+        expect(boxes[index].left, `order at ${width}`).toBeGreaterThan(boxes[index - 1].right - 1);
+        expect(Math.abs(boxes[index].middle - boxes[0].middle), `vertical centre at ${width}`).toBeLessThan(1.5);
+      }
+    }
   });
 
   for (const code of Object.keys(EXPECT) as (keyof typeof EXPECT)[]) {

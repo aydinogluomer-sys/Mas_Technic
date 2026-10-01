@@ -509,18 +509,19 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
               <span>PRECISION CNC</span>
             </Link>
             <p className="tl-header-context" aria-hidden="true"><span>{context}</span></p>
+            {/* Revision 4 order, left to right: language ▾ · NEXUS sign-in
+                (ghost) · quote (primary) · menu. */}
             <div className="tl-header-actions">
-              {!modalActive && (
-                <NavTrigger open={false} reducedMotion={reducedMotion} onToggle={requestOpen} triggerRef={triggerRef} />
-              )}
-              <LanguageSwitch className="lang-switch--header" />
+              <LanguageSwitch variant="dropdown" className="lang-switch--header" />
               <Link className="tl-nexus-header-link" to={accountLink.path} aria-label={t("NEXUS müşteri girişi")}>
-                <span aria-hidden="true">NEXUS</span>
-                <small aria-hidden="true">{t("GİRİŞ")}</small>
+                {t("NEXUS GİRİŞ")}
               </Link>
               <Link className="tl-quote-button" to={rfqLink.path}>
                 {upper(t(rfqLink.label), lang)}
               </Link>
+              {!modalActive && (
+                <NavTrigger open={false} reducedMotion={reducedMotion} onToggle={requestOpen} triggerRef={triggerRef} />
+              )}
             </div>
           </div>
         </header>

@@ -187,6 +187,7 @@ const dictionary: Record<string, string> = {
   "gerisini ölçelim.": "wir messen den Rest.",
   "GİRİŞ": "ANMELDEN",
   "Giriş yap": "Anmelden",
+  "NEXUS GİRİŞ": "NEXUS LOGIN",
   "Giriş Yap": "Anmelden",
   "Gizlilik Politikası": "Datenschutzerklärung",
   "Google Meet daveti e-postanıza gelir.": "Die Google-Meet-Einladung kommt per E-Mail.",

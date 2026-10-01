@@ -10,18 +10,19 @@
    never shifts the rhythm. */
 .shell-root .shell-main > .tl-band[data-band-tone="paper"]:nth-child(even of .tl-band[data-band-tone="paper"]) {
   --sf-ground: var(--tl-fog);
+  --sf-hover: var(--tl-fog-hover);
   background: var(--tl-fog);
 }
 
-/* Light cool accents on paper: the sheet codes and step numbers take the
-   steel ink instead of a warm grey, and the index rule under band openers is
-   steel. Bronze keeps the headline italics and eyebrows. */
-.shell-root .tl-band[data-band-tone="paper"] > .tl-band-index span { color: var(--tl-steel); }
-.shell-root .tl-band[data-band-tone="paper"] :is(.shell-title-index, .shell-index-no, .shell-run-no) { color: var(--tl-steel); }
-.shell-root .tl-band[data-band-tone="paper"] .shell-index-row:is(:hover, :focus-visible) .shell-index-title { color: var(--tl-steel); }
+/* Neutral accents on paper: sheet codes, step numbers and the hovered index
+   title take the soft ink grey (5.1:1 on paper, 4.8:1 on fog). Bronze keeps
+   the headline italics and eyebrows. */
+.shell-root .tl-band[data-band-tone="paper"] > .tl-band-index span { color: var(--tl-ink-soft); }
+.shell-root .tl-band[data-band-tone="paper"] :is(.shell-title-index, .shell-index-no, .shell-run-no) { color: var(--tl-ink-soft); }
+.shell-root .tl-band[data-band-tone="paper"] .shell-index-row:is(:hover, :focus-visible) .shell-index-title { color: var(--tl-ink-soft); }
 .shell-root .shell-hero-datum i {
   background:
-    repeating-linear-gradient(90deg, var(--tl-steel-light) 0 1px, transparent 1px 48px) 0 100% / 100% 7px no-repeat,
+    repeating-linear-gradient(90deg, var(--tl-on-dark-faint) 0 1px, transparent 1px 48px) 0 100% / 100% 7px no-repeat,
     linear-gradient(var(--tl-rule), var(--tl-rule));
 }
 

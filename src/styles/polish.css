@@ -712,20 +712,21 @@ a.tl-nexus-user:is(:hover, :focus-visible) { background: var(--tl-tint-raise); }
 .tl-hero-nexus span { color: var(--tl-bronze-light); font: 700 11px/1 var(--tl-font-mono); letter-spacing: .14em; }
 .tl-hero-nexus:is(:hover, :focus-visible) { color: var(--tl-white); text-decoration-color: currentColor; }
 
+/* Revision 1: one line, a ghost control beside the filled quote button —
+   same 44px height, same mono label size, so the row centres on one axis. */
 .tl-nexus-header-link {
-  display: inline-grid;
-  min-height: 48px;
-  align-content: center;
-  justify-items: start;
-  gap: 3px;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
   border: var(--tl-rule-size) solid var(--tl-control-rule);
   padding-inline: var(--tl-s4);
   color: var(--tl-white);
+  font: 700 10px/1 var(--tl-font-mono);
+  letter-spacing: .14em;
+  white-space: nowrap;
   text-decoration: none;
   transition: border-color .25s ease, background .25s ease;
 }
-.tl-nexus-header-link span { font: 700 11px/1 var(--tl-font-mono); letter-spacing: .14em; }
-.tl-nexus-header-link small { color: var(--tl-bronze-light); font: 600 9px/1 var(--tl-font-mono); letter-spacing: .14em; }
 .tl-nexus-header-link:is(:hover, :focus-visible) { border-color: var(--tl-white); background: var(--tl-tint-hover); }
 
 @media (max-width: 1180px) {

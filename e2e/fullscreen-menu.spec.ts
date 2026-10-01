@@ -56,13 +56,17 @@ test.describe("Fullscreen machining navigation", () => {
     });
 
     let tabCount = 0;
-    while (tabCount < 10 && !(await trigger.evaluate((element) => element === document.activeElement))) {
+    while (tabCount < 12 && !(await trigger.evaluate((element) => element === document.activeElement))) {
       await page.keyboard.press("Tab");
       tabCount += 1;
     }
 
     await expect(trigger).toBeFocused();
-    expect(tabCount, "primary menu trigger should be reached before main-page controls").toBeLessThanOrEqual(3);
+    /* Revision 4 puts the trigger last in the header's action row (language ▾ ·
+       NEXUS · quote · menu), and the Tab order follows what is seen: skip link,
+       brand, the three actions, then the trigger. The contract that matters is
+       below — it still comes before every control in <main>. */
+    expect(tabCount, "primary menu trigger should be reached within the header").toBeLessThanOrEqual(6);
 
     const order = await page.evaluate(() => {
       const selector = 'a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])';

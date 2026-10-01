@@ -574,9 +574,11 @@
      Three equal cells (two rows) plus a centred account line gives back ~90px
      and keeps every target at 44px. */
   .tl-menu-conversion { flex-wrap: wrap; align-items: center; gap: var(--tl-s2); padding: var(--tl-s2) var(--tl-s4); }
-  .tl-menu-cta { order: 1; flex: 1 1 100%; min-height: 52px; }
+  /* Revision 4 priority on mobile: language · NEXUS sign-in · quote · legal. */
+  .tl-menu-account { order: 1; flex: 1 1 100%; justify-content: center; }
+  .tl-menu-cta { order: 2; flex: 1 1 100%; min-height: 52px; }
   .tl-menu-legal {
-    order: 2;
+    order: 3;
     flex: 1 1 100%;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -591,7 +593,6 @@
     line-height: 1.25;
     text-align: center;
   }
-  .tl-menu-account { order: 3; margin-inline: auto; }
 }
 
 @media (max-width: 359px) {

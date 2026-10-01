@@ -39,7 +39,7 @@ export function NavConversion({ currentPath, onNavigate }: NavConversionProps) {
         aria-current={currentPath === accountLink.path ? "page" : undefined}
         onClick={(event) => { event.preventDefault(); onNavigate(accountLink.path); }}
       >
-        {t(accountLink.label)}
+        {t("NEXUS GİRİŞ")}
       </Link>
       <Link
         className="tl-menu-cta"

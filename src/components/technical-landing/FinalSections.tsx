@@ -8,6 +8,13 @@ import medical from "@/assets/industry-medical.webp";
 import hydraulic from "@/assets/industry-hydraulic.webp";
 import automotive from "@/assets/industry-automotive.webp";
 import robotics from "@/assets/industry-robotics.webp";
+import marine from "@/assets/industry-marine.webp";
+import piping from "@/assets/industry-piping.webp";
+import hvac from "@/assets/industry-hvac.webp";
+import renewable from "@/assets/industry-renewable.webp";
+import oilgas from "@/assets/industry-oilgas.webp";
+import power from "@/assets/industry-power.webp";
+import mining from "@/assets/industry-mining.webp";
 import manifesto from "@/assets/hero-tolerans-hassasiyet.webp";
 import manifesto640 from "@/assets/hero-tolerans-hassasiyet-640.webp";
 import manifesto960 from "@/assets/hero-tolerans-hassasiyet-960.webp";
@@ -32,8 +39,10 @@ import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
 /* ROUND 2 — every sector, not four. The list is the Endüstriyel family's own
    sector routes (`src/components/navigation/ia.ts`), minus the "Üretim
    Çözümleri" group, which lists production modes rather than industries.
-   Six sectors have a photograph; the rest get a typographic card rather than
-   an image borrowed from another industry. */
+   Every sector has its own photograph (1200×1200, one aspect for the whole
+   track). hvac, renewable and mining are cropped from their sources so no
+   staff, facility hall or branded machine survives (§I); a sector added
+   without an image still falls back to the typographic card. */
 type Sector = { title: string; href: string; image?: string; width?: number; height?: number };
 const sectors: Sector[] = [
   { title: "HAVACILIK & UZAY", href: "/endustriyel/havacilik-uzay", image: aerospace, width: 1200, height: 1200 },
@@ -42,13 +51,13 @@ const sectors: Sector[] = [
   { title: "HİDROLİK & PNÖMATİK", href: "/endustriyel/hidrolik-pnomatik", image: hydraulic, width: 750, height: 750 },
   { title: "OTOMOTİV", href: "/endustriyel/otomotiv", image: automotive, width: 1200, height: 1200 },
   { title: "ROBOTİK", href: "/endustriyel/robotik", image: robotics, width: 1200, height: 1200 },
-  { title: "YELKEN & YAT SİSTEMLERİ", href: "/endustriyel/yelken-yat-sistemleri" },
-  { title: "BORU & BAĞLANTI PARÇALARI", href: "/endustriyel/boru-baglanti-parcalari" },
-  { title: "İKLİM TEKNOLOJİLERİ", href: "/endustriyel/iklim-teknolojileri" },
-  { title: "YENİLENEBİLİR ENERJİ", href: "/endustriyel/yenilenebilir-enerji" },
-  { title: "PETROL & GAZ", href: "/endustriyel/petrol-gaz" },
-  { title: "GÜÇ DAĞITIM SİSTEMLERİ", href: "/endustriyel/guc-dagitim-sistemleri" },
-  { title: "MADENCİLİK EKİPMANLARI", href: "/endustriyel/madencilik-ekipmanlari" },
+  { title: "YELKEN & YAT SİSTEMLERİ", href: "/endustriyel/yelken-yat-sistemleri", image: marine, width: 1200, height: 1200 },
+  { title: "BORU & BAĞLANTI PARÇALARI", href: "/endustriyel/boru-baglanti-parcalari", image: piping, width: 1200, height: 1200 },
+  { title: "İKLİM TEKNOLOJİLERİ", href: "/endustriyel/iklim-teknolojileri", image: hvac, width: 1200, height: 1200 },
+  { title: "YENİLENEBİLİR ENERJİ", href: "/endustriyel/yenilenebilir-enerji", image: renewable, width: 1200, height: 1200 },
+  { title: "PETROL & GAZ", href: "/endustriyel/petrol-gaz", image: oilgas, width: 1200, height: 1200 },
+  { title: "GÜÇ DAĞITIM SİSTEMLERİ", href: "/endustriyel/guc-dagitim-sistemleri", image: power, width: 1200, height: 1200 },
+  { title: "MADENCİLİK EKİPMANLARI", href: "/endustriyel/madencilik-ekipmanlari", image: mining, width: 1200, height: 1200 },
 ];
 
 const DRAFT_RFQ_ID = "RFQ-DRAFT-LANDING";

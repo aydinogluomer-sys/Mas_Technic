@@ -87,7 +87,7 @@
   display: grid;
   place-items: center;
   padding-inline: var(--tl-s4);
-  color: var(--tl-steel);
+  color: var(--tl-ink-soft);
   font: 600 11px/1 var(--tl-font-mono);
   letter-spacing: .1em;
   white-space: nowrap;
@@ -110,7 +110,7 @@
   padding: var(--tl-s3) 0;
   font-size: 15px;
 }
-.booking-steps span { color: var(--tl-steel); font: 600 11px/1.8 var(--tl-font-mono); }
+.booking-steps span { color: var(--tl-ink-soft); font: 600 11px/1.8 var(--tl-font-mono); }
 .booking-card-actions { display: flex; flex-wrap: wrap; gap: var(--tl-s3) var(--tl-s5); align-items: center; }
 .booking-primary {
   display: inline-flex;
