@@ -199,6 +199,30 @@ export function ChatBot() {
   const { pathname } = useLocation();
   const reducedMotion = usePrefersReducedMotion();
   const [open, setOpen] = useState(false);
+  /* Below 768px the launcher sits over the lower part of the screen, which is
+     exactly where the footer's conversion buttons pass while scrolling. It
+     steps aside while that row is on screen (same as on footer focus), so it
+     never covers "Hemen Teklif Al" / "Bize Ulaşın". */
+  const [yieldToFooter, setYieldToFooter] = useState(false);
+  useEffect(() => {
+    let observer: IntersectionObserver | null = null;
+    let tries = 0;
+    let timer = 0;
+    const attach = () => {
+      const target = document.querySelector(".shell-footer-actions");
+      if (!target) {
+        if (tries++ < 20) timer = window.setTimeout(attach, 250);
+        return;
+      }
+      observer = new IntersectionObserver(([entry]) => {
+        setYieldToFooter(entry.isIntersecting && window.innerWidth < 768);
+      });
+      observer.observe(target);
+    };
+    setYieldToFooter(false);
+    attach();
+    return () => { window.clearTimeout(timer); observer?.disconnect(); };
+  }, [pathname]);
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -320,6 +344,7 @@ export function ChatBot() {
         {!open && (
           <motion.button
             data-chat-launcher
+            data-yield={yieldToFooter || undefined}
             initial={reducedMotion ? false : { scale: 0 }}
             animate={{ scale: 1 }}
             exit={reducedMotion ? undefined : { scale: 0 }}

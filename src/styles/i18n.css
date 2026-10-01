@@ -107,3 +107,10 @@ html[lang="ru"] .shell-root .tl-hero-copy h1 { font-size: clamp(34px, 3.7vw, 64p
 @media (min-width: 768px) and (max-width: 1023px) {
   .tl-header-context { visibility: hidden; }
 }
+
+/* The menu's language row is five 44px targets (220px) plus padding; at 320
+   that is wider than the menu body and pushed the whole sheet — close button
+   included — past the right safe area. The row wraps instead, and no body row
+   may widen its grid track. */
+.tl-menu-body > * { min-width: 0; }
+.tl-menu-conversion .lang-switch--menu { flex-wrap: wrap; justify-content: center; max-width: 100%; }

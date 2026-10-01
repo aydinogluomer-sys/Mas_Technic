@@ -153,7 +153,14 @@
   .tl-menu .tl-menu-family { min-height: 48px; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; }
   .tl-menu .tl-menu-family-label { grid-column: 1; font: 600 11px/1.1 var(--tl-font-mono); letter-spacing: .04em; transform: none; }
   .tl-menu .tl-menu-family:is(:hover, :focus-visible) .tl-menu-family-label { transform: none; }
-  .tl-menu-panel-head strong { font-size: 30px; }
+  /* Index and count on one line, the family name on its own below — at 320
+     the three in one row overlapped ("04 07 SAYFA Kurumsal"). */
+  .tl-menu .tl-menu-panel-head { grid-template-columns: auto minmax(0, 1fr); row-gap: var(--tl-s2); }
+  .tl-menu .tl-menu-panel-head small { justify-self: end; }
+  .tl-menu-panel-head strong { grid-column: 1 / -1; grid-row: 2; font-size: 30px; }
+  /* Four families (revision 4) do not fit one row of tabs at 320–375:
+     two rows of two, labels whole. */
+  .tl-menu .tl-menu-family-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tl-menu .tl-menu-category-toggle { min-height: 56px; grid-template-columns: 28px minmax(0, 1fr) 28px; }
   .tl-menu .tl-menu-category-label { font-size: 20px; }
   .tl-menu .tl-menu-category-details { padding-left: 28px; }

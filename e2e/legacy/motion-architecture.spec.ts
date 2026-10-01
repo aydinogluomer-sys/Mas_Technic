@@ -17,6 +17,8 @@ test.describe("Awwwards motion architecture", () => {
     });
 
     await page.locator("[data-menu-trigger]").click();
+    // Revision 4: company pages are the flat 04 Kurumsal family.
+    await page.locator("[data-fullscreen-menu] button[aria-pressed]:not([lang])").nth(3).click();
     const target = page.locator("[data-fullscreen-menu]").getByRole("link", { name: "Hakkımızda" });
     await expect(target).toBeVisible();
     const targetPath = new URL((await target.getAttribute("href"))!, "http://localhost").pathname;

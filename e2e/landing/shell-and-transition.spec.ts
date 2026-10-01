@@ -196,6 +196,8 @@ test.describe("route transition", () => {
     await landingReady(page);
 
     await page.locator("[data-menu-trigger]").click();
+    // Revision 4: company pages are the flat 04 Kurumsal family.
+    await page.locator("[data-fullscreen-menu] button[aria-pressed]:not([lang])").nth(3).click();
     await page.locator("[data-fullscreen-menu]").getByRole("link", { name: "Hakkımızda" }).click();
     await expect(page).toHaveURL(/\/hakkimizda$/);
     await expect(page.locator("[data-fullscreen-header]")).toHaveCount(1);
