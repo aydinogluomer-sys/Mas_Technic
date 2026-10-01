@@ -56,6 +56,8 @@ export interface NavigationItem {
   index: string;
   path: string;
   children?: NavigationColumn[];
+  /** A family of plain pages (04 Kurumsal) lists them directly, no categories. */
+  links?: NavigationLink[];
 }
 
 /** A section of the landing sheet. `id` is the real DOM anchor on `/`. */
@@ -232,6 +234,23 @@ export const navigationItems: NavigationItem[] = [
       },
     ],
   },
+  /* Revision 4: the company and reference pages are a family of their own,
+     listed flat — they have no categories. They replace the menu's former
+     "Ana sayfa bölümleri" / "Kaynaklar" / "Kurumsal" directory columns. */
+  {
+    label: "Kurumsal",
+    index: "04",
+    path: "/hakkimizda",
+    links: [
+      { label: "Hakkımızda", path: "/hakkimizda" },
+      { label: "İletişim", path: "/iletisim" },
+      { label: "CNC İşleme Malzemeleri", path: "/malzemeler" },
+      { label: "Kalite Dosyası", path: "/kalite-dosyasi" },
+      { label: "Teknik Günlük", path: "/blog" },
+      { label: "Sık Sorulan Sorular", path: "/sss" },
+      { label: "Kabiliyet Profilleri", path: "/kabiliyet-profilleri" },
+    ],
+  },
 ];
 
 /* ── SECTIONS — the landing sheet's own anchors ───────────────────────────
@@ -329,6 +348,7 @@ export function navigationTargets(): string[] {
       category.path,
       ...category.links.map((link) => link.path),
     ]),
+    ...(item.links ?? []).map((link) => link.path),
   ]);
   return [...new Set([
     homeLink.path,

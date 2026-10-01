@@ -104,6 +104,7 @@ export function ShellBand({
       aria-labelledby={labelledBy}
       aria-label={ariaLabel}
       data-band-tone={TONE_ATTRIBUTE(tone)}
+      data-sheet-no={no}
     >
       <div className="tl-band-index" aria-hidden="true">
         <span>{no}</span>

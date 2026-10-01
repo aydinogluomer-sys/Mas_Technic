@@ -51,7 +51,7 @@ test.describe("shell golden screenshots", () => {
       await awaitRealFaces(page);
       /* A2: the launcher is a foreign fixed overlay and does not belong in a
          page-content baseline. `/` legitimately mounts none. */
-      await hideForeignOverlays(page, { require: surface.path !== "/" });
+      await hideForeignOverlays(page);
 
       const header = page.locator("[data-fullscreen-header]");
       await expect(header).toBeVisible();

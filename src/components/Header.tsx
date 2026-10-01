@@ -8,7 +8,6 @@ import { HERO_SHELL_TEARDOWN_FALLBACK_MS, INTRO_DONE_EVENT, isHeroIntroActive } 
 import { accountLink, companyLinks, landingSections, legalLinks, navigationItems, resourceLinks, rfqLink } from "./navigation/ia";
 import { NavCategoryPanel } from "./navigation/NavCategoryPanel";
 import { NavConversion } from "./navigation/NavConversion";
-import { NavDirectory } from "./navigation/NavDirectory";
 import { NavFamilyRail } from "./navigation/NavFamilyRail";
 import { NavTrigger } from "./navigation/NavTrigger";
 import { NAV_MOTION, navRevealVariants, navSheetVariants } from "./navigation/motion";
@@ -149,8 +148,17 @@ type MenuPhase = "closed" | "opening" | "open" | "closing";
 /** Longest sheet transition is `NAV_MOTION.open`'s 620ms; this is that + 45%. */
 const MENU_SETTLE_FALLBACK_MS = 900;
 
-const groups = navigationItems.filter((item) => item.children?.length);
+const groups = navigationItems.filter((item) => item.children?.length || item.links?.length);
+/* The landing's sheet register: every band carries its number on
+   `data-sheet-no` (ShellBand; the footer is 14), and the header names it.
+   Revision 4: all fourteen are read, in order, so the counter never skips. */
 const SECTION_IDS: string[] = landingSections.map((section) => section.id);
+const SHEET_TOTAL = 14;
+const SHEET_LABELS: Record<string, string> = {
+  "02": "Açılış", "03": "Kanıtlar", "04": "Hizmet şeridi", "05": "Süreç",
+  "06": "Nexus", "07": "Projeler", "08": "Sektörler", "09": "Manifesto",
+  "10": "Kalite", "11": "Referanslar", "12": "SSS", "13": "Teklif", "14": "Alt bilgi",
+};
 const shouldCollapseCategories = () =>
   typeof window !== "undefined" && (window.innerWidth < 768 || window.innerHeight <= 680);
 
@@ -212,9 +220,15 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
       frame = 0;
       const line = (headerRef.current?.getBoundingClientRect().height ?? 0) + 8;
       let current: string | null = null;
-      for (const id of SECTION_IDS) {
-        const node = document.getElementById(id);
-        if (node && node.getBoundingClientRect().top <= line) current = id;
+      const sheets = document.querySelectorAll<HTMLElement>("main [data-sheet-no], footer[data-sheet-no]");
+      for (const node of sheets) {
+        if (node.getBoundingClientRect().top <= line) current = node.dataset.sheetNo ?? current;
+      }
+      /* A short last sheet never reaches the header line: at the foot of the
+         page the last one is the one being read. */
+      const root = document.documentElement;
+      if (sheets.length && window.scrollY + window.innerHeight >= root.scrollHeight - 2) {
+        current = sheets[sheets.length - 1].dataset.sheetNo ?? current;
       }
       setActiveSection((previous) => (previous === current ? previous : current));
     };
@@ -230,8 +244,10 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
   }, [onLanding, location.key]);
 
   /* ── Which family owns the current route ──────────────────────────────── */
-  const currentFamily = groups.findIndex((group) => group.children?.some((item) =>
-    location.pathname === item.path || item.links.some((link) => location.pathname === link.path)));
+  const currentFamily = groups.findIndex((group) =>
+    group.children?.some((item) =>
+      location.pathname === item.path || item.links.some((link) => location.pathname === link.path))
+    || group.links?.some((link) => location.pathname === link.path || location.pathname.startsWith(`${link.path}/`)));
 
   useEffect(() => {
     if (currentFamily < 0) return;
@@ -472,11 +488,9 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
     if (phaseRef.current === "opening") setPhase("open");
   };
 
-  const activeSectionEntry = landingSections.find((section) => section.id === activeSection);
+  const sheetNo = activeSection ?? "02";
   const context = onLanding
-    ? activeSectionEntry
-      ? `§${activeSectionEntry.index} ${upper(t(activeSectionEntry.label), lang)}`
-      : "PAFTA 01/14"
+    ? `${t("PAFTA")} ${sheetNo}/${SHEET_TOTAL} · ${upper(t(SHEET_LABELS[sheetNo] ?? ""), lang)}`
     : (() => {
         /* The page being read, not the brand the bar already shows at left:
            family › entry on deep routes, the resource/company name elsewhere. */
@@ -485,8 +499,9 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
         const direct = flat.find((link) => path === link.path || path.startsWith(`${link.path}/`));
         if (currentFamily >= 0) {
           const family = groups[currentFamily];
+          const page = family.links?.find((link) => path === link.path || path.startsWith(`${link.path}/`));
           const category = family.children?.find((item) => item.path === path || item.links.some((link) => link.path === path));
-          const entry = category?.links.find((link) => link.path === path) ?? category;
+          const entry = page ?? category?.links.find((link) => link.path === path) ?? category;
           return upper(`${t(family.label)}${entry ? ` › ${t(entry.label)}` : ""}`, lang);
         }
         return upper(t(direct?.label ?? "Pafta dışı"), lang);
@@ -616,20 +631,6 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
                       />
                     </nav>
 
-                    <motion.div
-                      className="tl-menu-directory-reveal"
-                      custom={NAV_MOTION.step * 3}
-                      variants={navRevealVariants}
-                      initial={reducedMotion ? false : "hidden"}
-                      animate="visible"
-                    >
-                      <NavDirectory
-                        currentPath={location.pathname}
-                        activeSection={activeSection}
-                        onNavigate={requestNavigate}
-                        onSection={requestSection}
-                      />
-                    </motion.div>
                   </div>
 
                   <NavConversion currentPath={location.pathname} onNavigate={requestNavigate} />

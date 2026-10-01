@@ -76,6 +76,7 @@ export function TechnicalProcess() {
               decoding="async"
             />
           </ReverseScrollSection>
+          <Link className="tl-image-link" to="/hizmetler/cnc-frezeleme" aria-label={t("CNC Frezeleme")} />
         </figure>
         <ol>
           {technicalProcess.map((step) => (
@@ -212,16 +213,18 @@ export function MeasuredProjects() {
                   render illustrates that family rather than adding to it.
                   `study.gallery[0].alt` is still the plate caption on
                   `/kabiliyet-profilleri/:slug`. */}
-              <img
-                src={figure.src}
-                srcSet={index === 0 ? figure.srcSet : undefined}
-                sizes={index === 0 ? FEATURED_SIZES : undefined}
-                alt=""
-                width={figure.width}
-                height={figure.height}
-                loading="lazy"
-                decoding="async"
-              />
+              <Link className="tl-project-media" to={`/kabiliyet-profilleri/${study.slug}`} aria-label={t(study.title)}>
+                <img
+                  src={figure.src}
+                  srcSet={index === 0 ? figure.srcSet : undefined}
+                  sizes={index === 0 ? FEATURED_SIZES : undefined}
+                  alt=""
+                  width={figure.width}
+                  height={figure.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </Link>
               <div>
                 <h3>{t(study.title)} — <span>{t(study.material)}</span></h3>
                 <p className="tl-report-no">

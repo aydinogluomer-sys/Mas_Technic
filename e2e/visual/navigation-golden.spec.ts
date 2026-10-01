@@ -25,7 +25,7 @@ test.describe("global navigation golden screenshots", () => {
     await freezeVisualState(page);
     await awaitRealFaces(page);
     /* A2: see landing-golden — `/` mounts no launcher today. */
-    await hideForeignOverlays(page, { require: false });
+    await hideForeignOverlays(page);
   });
 
   test("matches the closed header baseline", async ({ page }) => {

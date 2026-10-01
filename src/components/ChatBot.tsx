@@ -313,8 +313,6 @@ export function ChatBot() {
     [msgs, loading, pendingAiPrompt, addAssistantMsg, callAi]
   );
 
-  if (pathname === "/") return null;
-
   return (
     <>
       {/* Floating button */}

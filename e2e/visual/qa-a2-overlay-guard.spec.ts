@@ -7,9 +7,9 @@
    it got into 25 baselines" (e2e/visual/overlays.ts). So it has to be shown
    failing, not asserted to fail.
 
-   `/` is the one route `App.tsx` does not mount `ChatBot` on, so navigating
-   there and calling with the DEFAULT options reproduces a drifted selector
-   exactly: the locator matches nothing, and the guard must go red.
+   Revision 4 (2026-10-01) mounts `ChatBot` on every route, `/` included, so
+   the drifted selector is now reproduced by removing the launcher node before
+   the call, and the `/` waiver described below is refused everywhere.
 
    Also pinned here: the three production call sites pass `require: false` only
    for `/` (landing-golden and navigation-golden visit `/` only;
@@ -46,9 +46,12 @@ test.describe("A2 — the foreign-overlay guard is falsifiable", () => {
   });
 
   test("red: require:true throws when the selector matches nothing", async ({ page }) => {
-    // `/` mounts no launcher, which is behaviourally identical to a selector
-    // that has drifted — the exact condition the guard exists to catch.
+    // Revision 4 mounts the launcher on `/` too, so there is no longer a route
+    // without it. A drifted selector is reproduced by taking the node out of
+    // the paint: the locator then matches nothing and the guard must go red.
     await gotoAndSettle(page, "/");
+    await expect(page.locator("[data-chat-launcher]")).toHaveCount(1);
+    await page.evaluate(() => document.querySelectorAll("[data-chat-launcher]").forEach((node) => node.remove()));
     await expect(page.locator("[data-chat-launcher]")).toHaveCount(0);
 
     const err = await hideForeignOverlays(page).then(
@@ -59,10 +62,13 @@ test.describe("A2 — the foreign-overlay guard is falsifiable", () => {
     expect(err).toContain("no [data-chat-launcher] was found to hide");
   });
 
-  test("green: require:false is the documented escape and does not throw", async ({ page }) => {
+  test("red: require:false is refused on `/` as well, now that it mounts the launcher", async ({ page }) => {
     await gotoAndSettle(page, "/");
-    const found = await hideForeignOverlays(page, { require: false });
-    expect(found).toBe(0);
+    const err = await hideForeignOverlays(page, { require: false }).then(
+      () => null,
+      (e: Error) => e.message,
+    );
+    expect(err).toContain("no longer legal on any route");
   });
 
   test("red: require:false is refused on a route that DOES mount the launcher", async ({ page }) => {
@@ -78,9 +84,9 @@ test.describe("A2 — the foreign-overlay guard is falsifiable", () => {
     );
     expect(
       err,
-      "require:false must be refused anywhere but `/` — otherwise the waiver is an honour system",
+      "require:false must be refused — otherwise the waiver is an honour system",
     ).not.toBeNull();
-    expect(err).toContain("is only legal on `/`");
+    expect(err).toContain("no longer legal on any route");
   });
 
   test("the launcher really does sit inside the captured footer element", async ({ page }) => {

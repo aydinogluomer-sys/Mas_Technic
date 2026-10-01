@@ -1,5 +1,13 @@
 /* Generated from the round-2 translation tables. Keys are the Turkish source strings. */
 const dictionary: Record<string, string> = {
+  "Kurumsal": "О компании",
+  "Sık Sorulan Sorular": "Частые вопросы",
+  "Açılış": "Начало",
+  "Kanıtlar": "Подтверждения",
+  "Hizmet şeridi": "Лента услуг",
+  "Manifesto": "Манифест",
+  "Teklif": "Запрос",
+  "Alt bilgi": "Подвал",
   "“{{name}}”{{extension}} kabul edilen formatlardan biri değil. Kabul edilenler: {{list}}.": "«{{name}}»{{extension}} — неподдерживаемый формат. Допустимые: {{list}}.",
   "{{name}} kategorisi": "Категория «{{name}}»",
   "••": "••",

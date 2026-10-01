@@ -209,8 +209,9 @@ test.describe("technical editorial landing phase 1", () => {
       document.querySelector(".tl-nexus-table-wrap tbody tr")!.getBoundingClientRect().height);
     expect(nexusRow).toBeLessThanOrEqual(44);
 
-    // 13 RFQ referans düzeni: numara kutusuz ve başlığın üstünde, ayraç chevron,
-    // dikey çizgi yok, bant kompakt.
+    // 13 RFQ: numara kutusuz ve başlığın üstünde; revizyon 4'ten beri adımlar
+    // arasında Process bandıyla aynı ayırıcı (dikey çizgi + "→"), son adımda
+    // ikisi de yok; bant kompakt.
     const rfq = await page.evaluate(() => {
       const li = document.querySelector(".tl-rfq-body>ol li")!;
       const b = li.querySelector("b")!;
@@ -219,15 +220,20 @@ test.describe("technical editorial landing phase 1", () => {
       return {
         numaraKutulu: getComputedStyle(b).borderTopWidth !== "0px",
         numaraUstte: b.getBoundingClientRect().bottom <= strong.getBoundingClientRect().top + 1,
-        dikeyCizgi: cs.borderLeftWidth !== "0px",
+        dikeyCizgi: cs.borderRightWidth !== "0px",
         ayrac: getComputedStyle(li, "::after").content.replace(/"/g, ""),
+        sonAdim: (() => {
+          const last = document.querySelector(".tl-rfq-body>ol li:last-child")!;
+          return { cizgi: getComputedStyle(last).borderRightWidth, ok: getComputedStyle(last, "::after").display };
+        })(),
         bantOrani: document.querySelector(".tl-rfq")!.getBoundingClientRect().height / window.innerWidth,
       };
     });
     expect(rfq.numaraKutulu).toBe(false);
     expect(rfq.numaraUstte).toBe(true);
-    expect(rfq.dikeyCizgi).toBe(false);
-    expect(rfq.ayrac).toBe(">");
+    expect(rfq.dikeyCizgi).toBe(true);
+    expect(rfq.ayrac).toBe("→");
+    expect(rfq.sonAdim).toEqual({ cizgi: "0px", ok: "none" });
     expect(rfq.bantOrani).toBeLessThan(0.115);
 
     // 14 footer referans düzeni: başlık dolu (kontursuz), nav sütunları dikey

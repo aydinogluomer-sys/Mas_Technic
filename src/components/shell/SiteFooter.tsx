@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
-import { ArrowLeft, ArrowRight, ChevronDown, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
@@ -71,12 +71,14 @@ const CONTACT = {
   mailHref: SALES_EMAIL_HREF,
 } as const;
 
-/* `USER_INPUTS.md` §L lists LINKEDIN as the only permitted channel; INSTAGRAM,
-   YOUTUBE and X_TWITTER are all `NONE`. The footer linked to an Instagram and a
-   YouTube handle that were never supplied — a dead icon is a promise the brand
-   does not keep, and if the handle belongs to someone else it is worse. */
+/* `USER_INPUTS.md` §L: LinkedIn, Instagram and Facebook are the permitted
+   channels (Instagram and Facebook supplied by the owner on 2026-10-01);
+   YouTube and X stay `NONE`. Only a supplied handle gets an icon — a dead icon
+   is a promise the brand does not keep. */
 const SOCIAL = [
   { label: "LinkedIn", href: "https://www.linkedin.com/company/mas-technic", Icon: Linkedin },
+  { label: "Instagram", href: "https://www.instagram.com/mastechnic", Icon: Instagram },
+  { label: "Facebook", href: "https://www.facebook.com/mastechnic", Icon: Facebook },
 ] as const;
 
 /* ── Mobile disclosure ────────────────────────────────────────────────────
@@ -174,6 +176,7 @@ export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label
         no={no}
         label={label}
         className="tl-footer shell-footer"
+        data-sheet-no="14"
         ariaLabel="Site altbilgisi"
       >
         {/* The subgrid is attached by class in `shell.css`, never in markup —

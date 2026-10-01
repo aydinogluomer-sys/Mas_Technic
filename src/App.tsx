@@ -266,24 +266,17 @@ const AppContent = () => {
             so there is no cost to mounting it everywhere and a real defect in
             not doing so.
 
-          ChatBot — every public route EXCEPT `/`, and this difference is
-            deliberate rather than inherited. The landing already answers the
-            same need in its own language and in its own bands: `12 SSS`
-            carries the FAQ the bot searches, and `13 RFQ` carries the CAD
-            hand-off. A floating launcher on top of the landing's pinned
-            choreography would cover it, and the launcher's own visual
-            language is owned by Phases 09/13, not by this shell phase. It
-            stays where it earns its place: the long reference pages.
+          ChatBot — every public route, the landing included (revision 4:
+            the owner wants the launcher on `/` as well). It hides while a
+            footer control has focus (`shell.css`).
 
           ScrollProgress — removed from every route. See the import block. */}
       <Suspense fallback={null}>
         <GlobalToasts />
       </Suspense>
-      {location.pathname !== "/" && (
-        <Suspense fallback={null}>
-          <ChatBot />
-        </Suspense>
-      )}
+      <Suspense fallback={null}>
+        <ChatBot />
+      </Suspense>
       {import.meta.env.DEV && (
         <Suspense fallback={null}>
           <ScrollDebugPanel />

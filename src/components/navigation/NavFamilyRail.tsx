@@ -72,8 +72,12 @@ export function NavFamilyRail({
             <span className="tl-menu-family-index">{item.index}</span>
             <span className="tl-menu-family-label">{t(item.label)}</span>
             <span className="tl-menu-family-meta" aria-hidden="true">
-              {String(item.children?.length ?? 0).padStart(2, "0")} {t("KATEGORİ")} ·{" "}
-              {String(item.children?.reduce((total, category) => total + category.links.length, 0) ?? 0).padStart(2, "0")} {t("SAYFA")}
+              {item.links
+                ? <>{String(item.links.length).padStart(2, "0")} {t("SAYFA")}</>
+                : <>
+                    {String(item.children?.length ?? 0).padStart(2, "0")} {t("KATEGORİ")} ·{" "}
+                    {String(item.children?.reduce((total, category) => total + category.links.length, 0) ?? 0).padStart(2, "0")} {t("SAYFA")}
+                  </>}
             </span>
             {currentIndex === index && (
               <span className="tl-menu-here">{t("BURADASINIZ")}</span>

@@ -88,9 +88,17 @@
    with the same row rhythm, so the strip reads as one set. */
 .shell-root .tl-quality-strip > .tl-cert {
   display: grid;
-  /* Fixed title (2 lines) and subtitle (3 lines) rows, so every document
-     frame starts on the same line whatever the copy length. */
-  grid-template-rows: auto calc(2 * 1.25 * 14px) calc(3 * 1.55 * 11px + 8px) 1fr auto;
+  /* Revision 4: every row is fixed — code, title (2 lines), subtitle (4
+     lines, the capitalised KALİTE DOSYASI list is the longest), the document
+     frame (one height) and the footer (2 lines) — so the six cards are the
+     same box, the same frame and the same rhythm whatever their copy. */
+  grid-template-rows:
+    auto
+    calc(2 * 1.25 * 14px)
+    calc(4 * 1.55 * 11px + 8px)
+    var(--tl-cert-doc-h)
+    calc(2 * 1.4 * 10px + var(--tl-s3));
+  --tl-cert-doc-h: 104px;
   align-items: start;
   justify-items: stretch;
   min-height: 300px;
@@ -109,6 +117,9 @@
 .shell-root .tl-cert-doc {
   display: grid;
   align-self: stretch;
+  height: var(--tl-cert-doc-h);
+  box-sizing: border-box;
+  align-content: start;
   gap: 5px;
   margin-top: var(--tl-s4);
   border: 1px solid var(--tl-paper-rule);
@@ -125,3 +136,75 @@
   font: 500 10px/1.4 var(--tl-font-mono);
   letter-spacing: .1em;
 }
+
+/* ── REVISION 4 · RFQ STEP DIVIDERS ──────────────────────────────────────
+   The RFQ run speaks the Process band's language: a hairline between steps
+   and an arrow sitting on it, cut out of the line by the band ground
+   (`technical-landing.css` .tl-process li / ::after). Last step: neither.
+   Mobile: the run stacks, the hairline turns horizontal and the arrow ↓. */
+.shell-root .tl-rfq-body > ol { column-gap: 0; }
+.shell-root .tl-rfq-body > ol li {
+  border-right: 1px solid var(--tl-paper-rule);
+  padding: var(--tl-s3) var(--tl-s4);
+}
+.shell-root .tl-rfq-body > ol li:first-child { padding-left: 0; }
+.shell-root .tl-rfq-body > ol li::after {
+  content: "→";
+  top: 50%;
+  right: -13px;
+  width: 26px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  background: var(--tl-paper);
+  color: var(--tl-ink);
+  font: 500 15px/1 var(--tl-font-mono);
+}
+.shell-root .tl-rfq-body > ol li:last-child { border-right: 0; }
+.shell-root .tl-rfq-body > ol li:last-child::after { display: none; }
+@media (max-width: 767px) {
+  .shell-root .tl-rfq-body > ol { gap: 0; }
+  .shell-root .tl-rfq-body > ol li {
+    border-right: 0;
+    border-bottom: 1px solid var(--tl-paper-rule);
+    padding: var(--tl-s4) var(--tl-s3);
+  }
+  .shell-root .tl-rfq-body > ol li:first-child { padding-left: var(--tl-s3); }
+  .shell-root .tl-rfq-body > ol li:last-child { border-bottom: 0; }
+  .shell-root .tl-rfq-body > ol li::after {
+    content: "↓";
+    top: auto;
+    right: auto;
+    bottom: -10px;
+    left: var(--tl-s5);
+    transform: none;
+  }
+}
+
+/* ── REVISION 4 · EVERY PICTURE LEADS SOMEWHERE ───────────────────────────
+   A transparent link laid over a picture's box (hero part, process figure,
+   manifesto ground, journal plate), so the image keeps its own selectors,
+   masks and grid axes. Text that must stay readable above it (the manifesto
+   copy) is already a later positioned sibling. Project tiles wrap the image
+   itself in `.tl-project-media`. */
+.tl-image-link {
+  position: absolute;
+  inset: 0;
+  display: block;
+  cursor: pointer;
+}
+.tl-image-link:focus-visible { outline: 2px solid var(--tl-bronze-light); outline-offset: -4px; }
+.shell-plate-frame:has(> .tl-image-link) { position: relative; }
+.tl-project-media { display: block; min-width: 0; height: 100%; overflow: hidden; }
+.tl-project-media img { transition: transform .6s var(--tl-ease-out, ease), filter .4s ease; }
+.tl-project-media:is(:hover, :focus-visible) img { transform: scale(1.03); filter: grayscale(.6) contrast(1.05); }
+.tl-project-media:focus-visible { outline: 2px solid var(--tl-bronze-light); outline-offset: -4px; }
+@media (prefers-reduced-motion: reduce) {
+  .tl-project-media img { transition: none; }
+  .tl-project-media:is(:hover, :focus-visible) img { transform: none; }
+}
+/* Drawing layers over a linked picture are paint only: the hero's dimension
+   lines and the manifesto scrim pass the pointer through to the link. */
+.tl-part-frame .tl-dimension-lines,
+.tl-manifesto-body::after { pointer-events: none; }

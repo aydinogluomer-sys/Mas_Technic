@@ -163,3 +163,8 @@
   .tl-menu .tl-menu-family-label,
   .tl-menu .tl-menu-category-label { transition: none; }
 }
+
+/* Revision 4 · 04 Kurumsal: a flat page list drawn as category rows. */
+.tl-menu .tl-menu-pages { margin: 0; padding: 0; list-style: none; }
+.tl-menu a.tl-menu-page { color: inherit; text-decoration: none; }
+.tl-menu a.tl-menu-page[aria-current="page"] .tl-menu-category-label { text-decoration: underline; text-underline-offset: 6px; }

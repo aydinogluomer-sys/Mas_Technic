@@ -44,8 +44,33 @@ export function NavCategoryPanel({
         <header className="tl-menu-panel-head" aria-hidden="true">
           <span>{group.index}</span>
           <strong>{t(group.label)}</strong>
-          <small>{String(group.children?.length ?? 0).padStart(2, "0")} {t("KATEGORİ")}</small>
+          <small>
+            {group.links
+              ? `${String(group.links.length).padStart(2, "0")} ${t("SAYFA")}`
+              : `${String(group.children?.length ?? 0).padStart(2, "0")} ${t("KATEGORİ")}`}
+          </small>
         </header>
+        {/* A flat family (04 Kurumsal): its pages are the rows themselves,
+            drawn like category rows so the panel keeps one rhythm. */}
+        {group.links && (
+          <ul className="tl-menu-pages" data-nav-page-list>
+            {group.links.map((link, index) => (
+              <li key={link.path} className="tl-menu-category">
+                <Link
+                  to={link.path}
+                  className="tl-menu-category-toggle tl-menu-page"
+                  data-nav-page={link.label}
+                  aria-current={currentPath === link.path ? "page" : undefined}
+                  onClick={(event) => { event.preventDefault(); onNavigate(link.path); }}
+                >
+                  <span className="tl-menu-category-index">{pad(index)}</span>
+                  <span className="tl-menu-category-label">{t(link.label)}</span>
+                  <span className="tl-menu-category-count" aria-hidden="true">↗</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
         {group.children?.map((category, index) => {
           const open = activeCategory === index;
           const panelId = `nav-panel-${group.index}-${index}`;

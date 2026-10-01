@@ -198,21 +198,14 @@ export async function hideForeignOverlays(
   page: Page,
   { require = true }: { require?: boolean } = {},
 ): Promise<number> {
-  if (!require) {
-    let pathname = page.url();
-    try {
-      pathname = new URL(page.url()).pathname;
-    } catch {
-      /* about:blank and friends: fall through to the assertion with the raw URL. */
-    }
-    expect(
-      pathname.replace(/\/+$/, "") || "/",
-      "hideForeignOverlays({ require: false }) is only legal on `/`, the one route "
-        + "App.tsx does not mount ChatBot on. On any other route the launcher IS "
-        + "there, and waiving the requirement is how it got baked into 25 goldens "
-        + "(see e2e/visual/overlays.ts)",
-    ).toBe("/");
-  }
+  /* Revision 4 mounts ChatBot on `/` as well, so no route is exempt any more:
+     the waiver that used to be legal on `/` alone is now refused everywhere. */
+  expect(
+    require,
+    "hideForeignOverlays({ require: false }) is no longer legal on any route: App.tsx "
+      + "mounts ChatBot everywhere, and waiving the requirement is how the launcher got "
+      + "baked into 25 goldens (see e2e/visual/overlays.ts)",
+  ).toBe(true);
 
   let found = 0;
   for (const selector of FOREIGN_OVERLAYS) found += await page.locator(selector).count();

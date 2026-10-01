@@ -28,6 +28,7 @@ import {
 } from "@/data/technicalLandingData";
 import { ReverseScrollSection } from "@/components/ReverseScrollSection";
 import { CAD_ACCEPT_ATTR, CAD_FORMAT_HINT, useCadHandoff } from "@/hooks/useCadHandoff";
+import { upper } from "@/i18n/upper";
 import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
 
 /* Intrinsic size per asset, measured from the file headers
@@ -232,6 +233,7 @@ export function MeasurementManifesto() {
             />
           </picture>
         </ReverseScrollSection>
+        <Link className="tl-image-link" to="/kabiliyetler/tolerans-hassasiyet" aria-label={t("Tolerans & Hassasiyet")} />
         <div className="tl-manifesto-copy">
           <h2 id="tl-manifesto-title">{t("HASSASİYET")}<br />{t("İDDİA EDİLMEZ.")}<br /><strong>{t("ÖLÇÜLÜR.")}</strong></h2>
           <p>{t("Ölçer, kaydeder, raporlar ve teslim ederiz.")}</p>
@@ -243,7 +245,9 @@ export function MeasurementManifesto() {
 
 /** 10 — Kalite dosyası: sertifikalar, ölçüm raporu ve doğrulama. */
 export function QualityFile() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  /* Revision 4: the whole strip is set in capitals, language-aware (İ/ı). */
+  const caps = (text: string) => upper(t(text), i18n.language);
   return (
     <TechnicalSectionFrame no="10" id="kalite" label="KALİTE DOSYASI" className="tl-quality" labelledBy="tl-quality-title">
       <div className="tl-quality-body">
@@ -264,12 +268,12 @@ export function QualityFile() {
           ].map((card, index) => (
             <article className="tl-cert" key={card.title}>
               <p className="tl-cert-code" aria-hidden="true">Q-{String(index + 1).padStart(2, "0")}</p>
-              <h3>{t(card.title)}</h3>
-              <p>{t(card.sub)}</p>
+              <h3>{caps(card.title)}</h3>
+              <p>{caps(card.sub)}</p>
               <div className="tl-cert-doc" aria-hidden="true">
                 {Array.from({ length: 9 }, (_, row) => <i key={row} />)}
               </div>
-              <p className="tl-cert-foot">{t(card.foot)}</p>
+              <p className="tl-cert-foot">{caps(card.foot)}</p>
             </article>
           ))}
         </div>

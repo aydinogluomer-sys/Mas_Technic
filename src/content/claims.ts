@@ -510,9 +510,15 @@ export const PUBLIC_ADDRESS_LINES: readonly string[] = publish({
 });
 
 export const SOCIAL_LINKS: readonly { label: string; href: string }[] = publish({
-  value: [{ label: "LINKEDIN", href: "https://www.linkedin.com/company/mas-technic" }] as const,
+  value: [
+    { label: "LINKEDIN", href: "https://www.linkedin.com/company/mas-technic" },
+    { label: "INSTAGRAM", href: "https://www.instagram.com/mastechnic" },
+    { label: "FACEBOOK", href: "https://www.facebook.com/mastechnic" },
+  ] as const,
   visibility: "PUBLIC_SUPPORTING",
-  source: "USER_INPUTS.md §L LINKEDIN: PUBLIC_OK (INSTAGRAM / YOUTUBE / X_TWITTER: NONE)",
+  source:
+    "USER_INPUTS.md §L LINKEDIN / INSTAGRAM / FACEBOOK: PUBLIC_OK (owner, 2026-10-01); " +
+    "YOUTUBE / X_TWITTER: NONE",
 });
 
 export const ENGLISH_SITE = withhold({

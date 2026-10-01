@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import heroPart from "@/assets/technical-landing/hero-manifold-v1.webp";
 import { heroPartFacts } from "@/data/technicalLandingData";
-import { accountLink } from "@/components/navigation/ia";
 import { useTranslation } from "react-i18next";
 import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
 
@@ -26,9 +25,6 @@ export function TechnicalHero() {
           {t("TEKLİF AL")}
           <svg viewBox="0 0 40 12" aria-hidden="true"><path d="M0 6h37M31 1l6 5-6 5" /></svg>
         </Link>
-        <Link to={accountLink.path} className="tl-hero-nexus" data-testid="hero-nexus-login">
-          <span>NEXUS</span> {t("Müşteri girişi")} →
-        </Link>
       </div>
 
       <div className="tl-part-stage" aria-label={t("Ölçülendirilmiş CNC manifold parçası çizimi")}>
@@ -42,6 +38,9 @@ export function TechnicalHero() {
             height="941"
             fetchPriority="high"
           />
+          {/* Revision 4: every picture leads somewhere — the sample part
+              opens the capability profiles, where parts like it are read. */}
+          <Link className="tl-image-link" to="/kabiliyet-profilleri" aria-label={t("Kabiliyet Profilleri")} />
 
           {/* Fotoğrafın siyahı rgb(1,1,2), bandın zemini rgb(7,11,13) — arada
               ton farkı olduğu için görsel bir dikdörtgen gibi duruyordu.

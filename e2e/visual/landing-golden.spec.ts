@@ -32,7 +32,7 @@ test.describe("landing golden screenshots", () => {
     await awaitRealFaces(page);
     /* A2: `/` mounts no launcher today; wired anyway so a future mount cannot
        be baked into the landing baseline unnoticed. */
-    await hideForeignOverlays(page, { require: false });
+    await hideForeignOverlays(page);
 
     // Belirlenimlilik ön koşulu, sessiz bir varsayım değil ölçülen bir iddia:
     // ters-scroll katmanları reduced-motion altında kapalı ve dönüşümsüz

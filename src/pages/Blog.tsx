@@ -173,18 +173,22 @@ export const Blog = () => {
             caption={LEAD.imageCaption}
             media={
               /* The route's first picture: eager, no `fetchpriority` (Phase 12 owns LCP). */
-              leadPlate ? (
-                <img
-                  src={leadPlate.src}
-                  srcSet={leadPlate.srcSet}
-                  sizes={coverSizes(leadPlate.width / leadPlate.height, PLATE_IMAGE_HEIGHT, PLATE_NOTE_WIDTHS)}
-                  width={leadPlate.width}
-                  height={leadPlate.height}
-                  alt={LEAD.imageAlt}
-                />
-              ) : (
-                <img src={LEAD.image} alt={LEAD.imageAlt} />
-              )
+              <>
+                {leadPlate ? (
+                  <img
+                    src={leadPlate.src}
+                    srcSet={leadPlate.srcSet}
+                    sizes={coverSizes(leadPlate.width / leadPlate.height, PLATE_IMAGE_HEIGHT, PLATE_NOTE_WIDTHS)}
+                    width={leadPlate.width}
+                    height={leadPlate.height}
+                    alt={LEAD.imageAlt}
+                  />
+                ) : (
+                  <img src={LEAD.image} alt={LEAD.imageAlt} />
+                )}
+                {/* The plate opens the post it illustrates. */}
+                <Link className="tl-image-link" to={`/blog/${LEAD.slug}`} aria-label={LEAD.title} />
+              </>
             }
           />
         </div>

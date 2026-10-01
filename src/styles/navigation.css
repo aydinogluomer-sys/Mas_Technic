@@ -525,7 +525,7 @@
   .tl-menu-primary { grid-template-columns: minmax(0, 1fr); gap: var(--tl-s5); }
   .tl-menu-family { min-height: 72px; }
   .tl-menu-family-label { font-size: clamp(24px, 4vw, 34px); }
-  .tl-menu-family-rail { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tl-menu-family-rail { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .tl-menu-family-datum { left: 0; }
   .tl-menu-family { grid-template-columns: minmax(0, 1fr); align-content: center; padding-inline: var(--tl-s3); }
   .tl-menu-here { grid-column: 1; }
@@ -557,7 +557,7 @@
   .tl-menu-meta { display: none; }
   .tl-menu-brand strong { font-size: 15px; }
   .tl-menu-main { gap: var(--tl-s5); padding: var(--tl-s4); }
-  .tl-menu-family-rail { position: sticky; top: 0; z-index: 2; grid-template-columns: repeat(3, minmax(0, 1fr)); background: var(--tl-black); }
+  .tl-menu-family-rail { position: sticky; top: 0; z-index: 2; grid-template-columns: repeat(4, minmax(0, 1fr)); background: var(--tl-black); }
   .tl-menu-family { min-height: 48px; padding-inline: var(--tl-s1); text-align: center; }
   .tl-menu-family-label { font: 600 11px/1.1 var(--tl-font-mono); letter-spacing: .04em; }
   .tl-menu-family-index, .tl-menu-here { display: none; }

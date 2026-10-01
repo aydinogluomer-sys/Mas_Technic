@@ -184,7 +184,8 @@ Never place secret API keys in this file.
 ## L. Social links
 
 - LINKEDIN: `PUBLIC_OK`
-- INSTAGRAM: `NONE`
+- INSTAGRAM: `PUBLIC_OK` — https://www.instagram.com/mastechnic (owner, 2026-10-01)
+- FACEBOOK: `PUBLIC_OK` — https://www.facebook.com/mastechnic (owner, 2026-10-01)
 - YOUTUBE: `NONE`
 - X_TWITTER: `NONE`
 - OTHER: `NONE`

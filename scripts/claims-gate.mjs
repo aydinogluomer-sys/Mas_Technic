@@ -2334,10 +2334,12 @@ const RULES = [
     // Profile URLs and the `twitter:site` handle only. A share INTENT link
     // (`twitter.com/intent/tweet?...`) claims no account and stays legal;
     // `@MasTechnic` case-insensitively also matched `sales@mastechnic.com`.
+    // Instagram and Facebook are permitted for the one handle the owner
+    // supplied (`mastechnic`, 2026-10-01); any other handle is still a claim.
     pattern:
-      /instagram\.com\/[\w.]|youtube\.com\/@?[\w.]|(?:twitter|x)\.com\/(?!intent)[\w.]|twitter:site/gi,
-    authority: "§L INSTAGRAM: NONE · YOUTUBE: NONE · X_TWITTER: NONE",
-    remedy: "LinkedIn is the only permitted channel. See SOCIAL_LINKS in src/content/claims.ts.",
+      /instagram\.com\/(?!mastechnic\b)[\w.]|facebook\.com\/(?!mastechnic\b)[\w.]|youtube\.com\/@?[\w.]|(?:twitter|x)\.com\/(?!intent)[\w.]|twitter:site/gi,
+    authority: "§L INSTAGRAM / FACEBOOK: PUBLIC_OK (mastechnic only) · YOUTUBE: NONE · X_TWITTER: NONE",
+    remedy: "Permitted channels: LinkedIn, instagram.com/mastechnic, facebook.com/mastechnic. See SOCIAL_LINKS in src/content/claims.ts.",
   },
   {
     id: "english-availability",

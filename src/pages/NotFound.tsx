@@ -155,7 +155,7 @@ function labelFor(path: string): string {
 
 /** The three route families plus the reference surfaces, in IA order. */
 const DIRECTORY = [
-  ...navigationItems.map((family) => ({
+  ...navigationItems.filter((family) => family.children?.length).map((family) => ({
     to: family.children?.[0]?.path ?? "/",
     title: family.label,
     description: (family.children ?? []).map((category) => category.label).join(" · "),
@@ -164,7 +164,7 @@ const DIRECTORY = [
   ...resourceLinks.map((link, offset) => ({
     to: link.path,
     title: link.label,
-    index: String(navigationItems.length + offset + 1).padStart(2, "0"),
+    index: String(navigationItems.filter((family) => family.children?.length).length + offset + 1).padStart(2, "0"),
   })),
 ];
 
