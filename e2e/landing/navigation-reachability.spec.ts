@@ -178,6 +178,12 @@ test.describe("public navigation reachability", () => {
     };
     for (let familyIndex = 0; familyIndex < await families.count(); familyIndex += 1) {
       await families.nth(familyIndex).click();
+      // The panel swap is exit-then-enter (one panel in the DOM throughout), so
+      // wait for THIS family's panel, not merely for a single panel: during the
+      // exit the previous family's categories are still there to be counted.
+      const label = (await families.nth(familyIndex).locator(".tl-menu-family-label").textContent())!.trim();
+      await expect(menu.locator(`[data-menu-group="${label}"]`)).toBeVisible();
+      await expect(menu.locator("[data-menu-group]")).toHaveCount(1);
       // A flat family (04 Kurumsal) has no categories: its pages are rows.
       await collect();
       const categories = menu.locator("[data-nav-category]");

@@ -143,9 +143,11 @@
    (`technical-landing.css` .tl-process li / ::after). Last step: neither.
    Mobile: the run stacks, the hairline turns horizontal and the arrow ↓. */
 .shell-root .tl-rfq-body > ol { column-gap: 0; }
+/* No vertical padding: the band keeps its compact reference ratio
+   (technical-landing.spec, height/width < 0.115); the hairline spans the step. */
 .shell-root .tl-rfq-body > ol li {
   border-right: 1px solid var(--tl-paper-rule);
-  padding: var(--tl-s3) var(--tl-s4);
+  padding: 0 var(--tl-s4);
 }
 .shell-root .tl-rfq-body > ol li:first-child { padding-left: 0; }
 .shell-root .tl-rfq-body > ol li::after {
