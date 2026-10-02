@@ -38,7 +38,7 @@ export const categoryPages: CategoryPageData[] = [
     title: "Yüzey İşlemleri",
     description: "Anodizasyon, boya, kaplama ve kimyasal işlemler ile parçalarınıza üstün yüzey kalitesi.",
     links: [
-      { label: "Mekanik Yüzey İşlemleri", path: "/hizmetler/mekanik-yuzey-islemleri", description: "Kumlama, polisaj ve taşlama ile yüzey hazırlığı." },
+      { label: "Mekanik Yüzey İşlemleri", path: "/hizmetler/mekanik-yuzey-islemleri", description: "Kumlama, vibrasyonlu yüzey bitirme, parlatma ve fırçalama ile yüzey hazırlığı." },
       { label: "Anodizasyon", path: "/hizmetler/anodizasyon", description: "Alüminyum parçalara korozyon direnci ve estetik görünüm." },
       { label: "Kimyasal İşlemler", path: "/hizmetler/kimyasal-islemler", description: "Pasivizasyon, fosfatlama ve kimyasal kaplama." },
       { label: "Boya & Koruyucu Kaplamalar", path: "/hizmetler/boya-koruyucu-kaplamalar", description: "Toz boya, astar ve özel kaplama çözümleri." },
@@ -51,7 +51,7 @@ export const categoryPages: CategoryPageData[] = [
     description: "Lazer kazıma, QR kodları ve markalama ile parça izlenebilirliği ve tanımlama çözümleri.",
     links: [
       { label: "Lazer Kazıma", path: "/hizmetler/lazer-kazima", description: "Kalıcı lazer işaretleme ile parça tanımlama." },
-      { label: "Tavlama", path: "/hizmetler/tavlama", description: "Lazer tavlama ile renk değişimi bazlı işaretleme." },
+      { label: "Lazer Tavlama ile Markalama", path: "/hizmetler/tavlama", description: "Malzeme kaldırmadan, ısıl renk değişimiyle işaretleme." },
       { label: "QR & DataMatrix Kodları", path: "/hizmetler/qr-datamatrix-kodlari", description: "Endüstriyel standartlarda 2D kod uygulamaları." },
       { label: "Logo & Markalama", path: "/hizmetler/logo-markalama", description: "Logo, seri numarası ve özel tasarım işaretleme." },
     ],

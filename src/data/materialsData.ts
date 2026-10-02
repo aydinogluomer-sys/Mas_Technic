@@ -439,11 +439,11 @@ export const materialsData: Material[] = [
     name: "Alüminyum MIC-6",
     category: "metal",
     subcategory: "aluminum",
-    description: "Hassas döküm alüminyum plaka. İşleme sonrası gerilme giderme gerektirmez, çarpılmaz.",
+    description: "Hassas döküm alüminyum plaka. İşleme sonrası gerilim giderme gerektirmez, çarpılmaz.",
     density: 2.8, tensileStrength: 165, hardness: "65 HB", maxTemperature: 100,
     thermalConductivity: 151, machinability: 4, corrosionResistance: 3, priceCategory: "medium",
     applications: ["Fikstür plakaları", "Yazıcı tablaları", "Mastarlar"],
-    advantages: ["Çarpılmaz", "Gerilme giderme gerektirmez"],
+    advantages: ["Çarpılmaz", "Gerilim giderme gerektirmez"],
     limitations: ["Düşük mukavemet"],
   },
   {

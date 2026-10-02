@@ -531,7 +531,7 @@ const dictionary: Record<string, string> = {
   "TASARIM": "设计",
   "Tasarım Rehberi (DFM)": "设计指南（DFM）",
   "Taşlama": "磨削",
-  "Tavlama": "退火",
+  "Lazer Tavlama ile Markalama": "激光退火标记",
   "Tedarik Zinciri": "供应链",
   "TEDARİKÇİ DAVRANIŞ KURALLARI": "供应商行为准则",
   "TEKLİF": "报价",

@@ -261,31 +261,29 @@ export const servicePages: ServicePageData[] = [
     categoryLabel: "Talaşlı İmalat",
     title: "CNC Tornalama",
     metaTitle: "CNC Tornalama Hizmetleri | Çift Milli & Swiss Torna | Mas Technic",
-    metaDescription: "CNC torna ile Ø0.5-500mm çap aralığında hassas tornalama. Canlı takımlı, Y eksenli ve kayar puntalı torna. ±0.01 mm standart tolerans.",
+    metaDescription: "CNC torna ile hassas tornalama: canlı takımlı, Y eksenli ve kayar puntalı (Swiss tip) torna. ±0.01 mm standart tolerans; çalışma aralığı teklifte belirtilir.",
     description:
       "Çok eksenli torna merkezlerimiz ile mil, somun, gövde ve karmaşık döner parçaları tek kurulumda tamamlayabilme kapasitesi.",
     heroImage: "hero-cnc-tornalama",
     content: [
       "CNC tornalama, silindirik ve dönme simetrisine sahip parçalar için en verimli üretim yöntemidir. C eksenli ve Y eksenli CNC torna tezgahlarımız sayesinde frezeleme operasyonlarını entegre ediyor, off-center delik ve kanal açma işlemlerini tek bağlamada gerçekleştiriyoruz.",
       "2 eksen tornalama ile miller, burçlar ve basit silindirik parçalar üretirken, canlı takımlı tornalama ile Y ekseni üzerinden torna tezgahında frezeleme, delme ve diş açma işlemleri yapıyoruz. Turn-Mill (torna-freze) kabiliyetimiz ile tek bağlamada hem tornalama hem frezeleme yaparak karmaşık parçalarda yüksek hassasiyet ve verimlilik elde ediyoruz.",
-      "Kayar puntalı (Swiss tip) tornalama ile Ø0.3mm'den başlayan çaplarda medikal vida, saat pimi ve konektör pini gibi küçük çaplı, uzun parçalar üretiyoruz: desteklenmemiş boyun kısalması sehimi sınırlar. Çift milli torna merkezlerinde ön ve arka yüzey işleme operasyonları tek kurulumda tamamlanır.",
-      "380mm maksimum torna çapı, 1000mm torna boyu ve 65mm mil deliği kapasitemiz ile geniş bir parça yelpazesine hizmet veriyoruz. Otomatik bar feeder sistemi ile 3m çapa kadar sürekli üretim kapasitemiz mevcuttur.",
+      "Kayar puntalı (Swiss tip) tornalama ile vida, pim ve konektör pini gibi küçük çaplı, uzun parçalar üretiyoruz: desteklenmemiş boyun kısalması sehimi sınırlar. Çift milli torna merkezlerinde ön ve arka yüzey işleme operasyonları tek kurulumda tamamlanır.",
+      "Bar besleyicili tezgahlarda çubuk malzeme otomatik ilerlediği için uzun partiler sürekli işlenebilir. Çalışma aralığı, parçanın geometrisi ve proses planı incelendikten sonra teklifte belirtilir.",
     ],
     features: [
       "2 Eksen Tornalama — Miller, burçlar ve silindirik parçalar",
       "Canlı Takımlı Torna — Y ekseni ile frezeleme, delme, diş açma",
       "Turn-Mill (Torna-Freze) — Tek bağlamada komple işleme",
-      "Swiss Tornalama — Ø0.3mm'den başlayan çaplarda kayar punta",
-      "Otomatik Bar Feeder — Sürekli üretim için 3m çapa kadar",
+      "Swiss Tornalama — Küçük çaplı, uzun parçalar için kayar punta",
+      "Otomatik Bar Besleyici — Uzun partilerde sürekli üretim",
       "Çift Milli Torna — Ön ve arka yüzey tek kurulumda",
     ],
     technicalSpecs: [
-      { label: "Maks. Torna Çapı", value: "Ø500mm (standart), Ø32mm (Swiss)" },
-      { label: "Maks. Torna Boyu", value: "1000mm (standart), 300mm (Swiss)" },
+      { label: "Çalışma aralığı (çap / boy)", value: "Parça geometrisi ve proses planına göre teklifte belirtilir" },
       { label: "Standart Tolerans", value: "±0.01mm" },
-      { label: "Yüzey Kalitesi", value: "Ra 0.4µm'ye kadar" },
-      { label: "Canlı Takım", value: "12 istasyonlu, Y ekseni ±50mm" },
-      { label: "Bar Besleyici", value: "Ø65mm'ye kadar otomatik" },
+      { label: "Torna tipleri", value: "2 eksen, canlı takımlı (C/Y), turn-mill, Swiss tip" },
+      { label: "Bar Besleyici", value: "Otomatik; çap aralığı teklifte belirtilir" },
     ],
     processSteps: [
       "Teknik Çizim İnceleme",
@@ -300,10 +298,9 @@ export const servicePages: ServicePageData[] = [
          kaynaksız; §D `OTHER_PUBLIC_KPIS: NONE`. Kabiliyetin kendisi —
          parçanın arka yüzünün ikinci bağlama olmadan tamamlanması — kalır. */
       "Çift mil ile parçanın arka yüzü ayrı bir bağlama gerektirmeden tamamlanır",
-      "Swiss tip mikro tornalama kabiliyeti (0.3-32mm)",
+      "Swiss tip tornalama ile küçük çaplı, uzun parçalar",
       "Bar besleyici ile uzun partilerde operatör müdahalesiz işleme",
       "Turn-mill ile frezeleme ihtiyacını tek operasyonda çözme",
-      "C ekseni 0.001° hassasiyet ile hassas pozisyonlama",
     ],
     materials: [
       { name: "Alüminyum", grade: "6061 / 2024 / 7075", properties: "Otomat kalite, serbest kesim, hafif" },
@@ -316,19 +313,16 @@ export const servicePages: ServicePageData[] = [
     faq: [
       { question: "Tornalama mı frezeleme mi seçmeliyim?", answer: "Parçanız silindirik veya dönme simetrisine sahipse tornalama daha ekonomiktir. Prizmatik parçalar için frezeleme tercih edilir." },
       { question: "Karmaşık parçalar tek tezgahta mı yapılır?", answer: "Turn-mill tezgahlarımızda hem tornalama hem frezeleme işlemleri tek bağlamada yapılabilir. Bu hassasiyeti artırır ve maliyeti düşürür." },
-      { question: "Swiss tornalama ne zaman gerekir?", answer: "Ø32mm altı çaplarda ve boy/çap oranı yüksek parçalarda (örn: medikal vidalar, pimler) Swiss torna daha hassas sonuç verir." },
+      { question: "Swiss tornalama ne zaman gerekir?", answer: "Küçük çaplı ve boy/çap oranı yüksek parçalarda (örn. vidalar, pimler) Swiss torna, kesme noktasını burca yakın tuttuğu için sehimi sınırlar. Parçanın Swiss tipe uygunluğu teknik resim incelemesinde belirlenir." },
       { question: "Seri üretim için uygun mu?", answer: "Evet. Bar besleyicili tezgahlarda çubuk malzeme otomatik ilerlediği için uzun partiler operatör müdahalesi olmadan işlenebilir; parti büyüklüğü ve termin kapasite planıyla birlikte teklifte netleşir." },
-      { question: "Hangi çap aralığında tornalama yapabiliyorsunuz?", answer: "Swiss tip torna ile 0.3mm'den başlayarak konvansiyonel torna ile 500mm çapa kadar geniş bir aralıkta tornalama yapabiliyoruz." },
+      { question: "Hangi çap aralığında tornalama yapabiliyorsunuz?", answer: "Çalışma aralığı, parçanın geometrisi ve proses planı incelendikten sonra teklifte belirtilir." },
     ],
     comparisonTables: [
       {
         title: "CNC Torna Konfigürasyon Karşılaştırması",
         headers: ["Özellik", "2 Eksen Torna", "Canlı Takımlı (C/Y)", "Turn-Mill", "Swiss Torna"],
         rows: [
-          ["Çap Aralığı", "Ø10-500mm", "Ø10-380mm", "Ø10-300mm", "Ø0.3-32mm"],
           ["İşleme Tipi", "Sadece tornalama", "Torna + delme/freze", "Torna + freze komple", "Uzun/ince parçalar"],
-          ["Tolerans", "±0.05mm", "±0.02mm", "±0.02mm", "±0.01mm"],
-          ["Yüzey Kalitesi", "Ra 0.8µm", "Ra 0.4µm", "Ra 0.4µm", "Ra 0.2µm"],
           ["Setup Süresi", "Kısa", "Orta", "Uzun", "Orta"],
           ["Birim Maliyet", "$", "$$", "$$$", "$$"],
           ["Tipik Parça", "Mil, burç", "Flanş, valf gövde", "Karmaşık gövde", "Pin, vida, konektör"],
@@ -448,32 +442,32 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "Talaşlı İmalat",
     title: "Derin Delik & Raybalama",
-    metaTitle: "Derin Delik Delme & Raybalama | L/D 100:1 | Gun Drill & BTA | Mas Technic",
-    metaDescription: "Ø2-200mm çap aralığında 2000mm derinliğe kadar derin delik delme. Gun drilling, BTA ve honlama ile Ra 0.2µm yüzey kalitesi. Hidrolik, kalıp ve savunma sektörü.",
+    metaTitle: "Derin Delik Delme & Raybalama | Gun Drill & BTA | Mas Technic",
+    metaDescription: "Boy/çap oranı yüksek delikler için gun drilling, BTA delme, raybalama ve honlama. Çalışma aralığı ve tolerans sınıfı teknik resme göre teklifte belirtilir.",
     description:
       "Boy/çap oranı yüksek deliklerde hassas ve doğrusal işleme. Hidrolik silindir, kalıp soğutma kanalları ve makina parçaları için uzman çözümler.",
     heroImage: "hero-derin-delik",
+    /* T01 — the gun-drill range was published as Ø2-20 in three places and
+       Ø2-100 in the spec table, and the page equated H6/H7 with "±0.01mm".
+       An ISO hole class is not a fixed ± value: its limits depend on the
+       nominal size. Ranges, depths, L/D ratios and Ra values are withdrawn
+       until the capacity is confirmed (owner input O02). */
     content: [
-      "Derin delik delme, boy/çap oranı (L/D) 10:1'den büyük delikler için gerekli olan özel bir işleme sürecidir. Standart matkaplarla bu oranlarda hassas delme mümkün değildir. Özel derin delik delme tezgahlarımız ile Ø2-200mm çap aralığında ve 2000mm derinliğe kadar hassas delik delme imkânı sunuyoruz.",
-      "Gun drilling teknolojimiz ile tek dudaklı matkap kullanarak Ø2-20mm çap aralığında L/D oranı 100:1'e kadar derin delikler işliyoruz. Yağ kanalları ve soğutma delikleri için idealdir. BTA (Boring and Trepanning Association) delme sistemi ile Ø20-200mm aralığında büyük çaplı derin deliklerde yüksek talaş kaldırma hızı elde ediyoruz.",
-      "Hassas raybalama ile H6/H7 toleranslarında iç çap hassasiyeti sağlıyoruz. Hidrolik silindir ve rulman yatakları için ideal olan bu işlemde standart çalışma aralığımız ±0.01mm çap toleransıdır. Honlama işlemi ile iç yüzeylerde Ra 0.2µm'ye kadar yüzey kalitesi elde ederek silindir gömlekleri ve valfler için mükemmel sonuçlar üretiyoruz.",
-      "Hidrolik sistemlerde silindir gövdeleri, valf blokları ve manifold delikleri; kalıp & takım sektöründe enjeksiyon kalıplarında soğutma kanalları ve ejektör delikleri; enerji & makina sektöründe türbin şaftları ve kompresör pistonları; savunma sektöründe silah namluları ve optik tüpleri üretiminde uzmanlaşmış deneyimimiz bulunmaktadır.",
+      "Derin delik delme, boy/çap oranı (L/D) yüksek delikler için gereken özel bir işleme sürecidir; standart matkaplarla bu oranlarda doğrusal ve hassas delik elde etmek zordur.",
+      "Gun drilling tek dudaklı matkapla, talaşı yüksek basınçlı soğutma sıvısıyla dışarı taşıyarak küçük çaplı, uzun delikler açar; yağ kanalları ve soğutma delikleri tipik uygulamalardır. BTA delme ise talaşı takımın içinden tahliye ettiği için daha büyük çaplı derin deliklerde tercih edilir.",
+      "Raybalama ve honlama, delinmiş deliğin çapını, formunu ve yüzeyini son ölçüye getirir. Delik tolerans sınıfı ve alt/üst sınırlar, nominal ölçü ve teknik resme göre belirlenir.",
+      "Hidrolik silindir gövdeleri, valf blokları, manifold delikleri ve kalıp soğutma kanalları bu yöntemlerin tipik uygulama alanlarıdır. Çalışma aralığı, parçanın geometrisi ve proses planı incelendikten sonra teklifte belirtilir.",
     ],
     features: [
-      "Gun Drilling — Ø2-20mm, L/D 100:1, yağ kanalları",
-      "BTA Delme — Ø20-200mm, yüksek talaş kaldırma",
-      "Hassas Raybalama — H6/H7 tolerans, ±0.01mm çap",
-      "Honlama — İç yüzeylerde Ra 0.2µm kalite",
-      "2000mm Derinlik — Uzun parçalarda doğrusal delme",
-      "500kg Parça Kapasitesi — Ağır iş parçaları",
+      "Gun Drilling — Küçük çaplı, uzun delikler ve yağ kanalları",
+      "BTA Delme — Büyük çaplı derin deliklerde iç talaş tahliyesi",
+      "Hassas Raybalama — Çap ve form son ölçüye getirilir",
+      "Honlama — İç yüzey iyileştirme",
     ],
     technicalSpecs: [
-      { label: "Delik Çapı (Gun Drill)", value: "Ø2-100mm" },
-      { label: "Delik Çapı (BTA)", value: "Ø20-200mm" },
-      { label: "Maks. Delik Derinliği", value: "2000mm" },
-      { label: "Doğrusallık", value: "0.05mm/100mm sapma" },
-      { label: "Çap Toleransı", value: "H6/H7 (±0.01mm)" },
-      { label: "Yüzey Kalitesi", value: "Ra 0.4µm (delme), Ra 0.2µm (honlama)" },
+      { label: "Yöntemler", value: "Gun drilling, BTA delme, raybalama, honlama" },
+      { label: "Çalışma aralığı (çap / derinlik)", value: "Parça geometrisi ve proses planına göre teklifte belirtilir" },
+      { label: "Delik toleransı", value: "Tolerans sınıfı ve alt/üst sınırlar nominal ölçü ve teknik resme göre" },
     ],
     processSteps: [
       "Teknik Analiz",
@@ -483,12 +477,9 @@ export const servicePages: ServicePageData[] = [
       "Ölçüm & Rapor",
     ],
     advantages: [
-      "100:1 L/D oranı kapasitesi",
-      "Gun drill ve BTA teknolojileri",
-      "Honlama ile Ra 0.2µm yüzey iyileştirme",
-      "Özel kılavuzlama burs sistemleri ile sapma minimizasyonu",
-      "Yüksek basınçlı soğutma sıvısı ile optimize edilmiş kesme",
-      "Hidrolik, enerji, kalıp ve savunma sektörü deneyimi",
+      "Gun drill ve BTA yöntemleri",
+      "Raybalama ve honlama ile son ölçü ve yüzey",
+      "Kılavuz burç ve yüksek basınçlı soğutma ile sapmanın sınırlanması",
     ],
     materials: [
       { name: "Çelik", grade: "1045 / 4140 / 42CrMo4", properties: "Yüksek mukavemet, ısıl işleme uygun" },
@@ -499,37 +490,21 @@ export const servicePages: ServicePageData[] = [
       { name: "Bronz", grade: "CuSn8 / CuAl10", properties: "Aşınma direnci, sürtünme azaltma" },
     ],
     faq: [
-      { question: "Derin delik nedir?", answer: "Boy/çap oranı (L/D) 10:1'den büyük delikler 'derin delik' olarak tanımlanır. Standart matkaplarla bu oranlarda hassas delme mümkün değildir." },
-      { question: "Gun drill ile BTA arasındaki fark nedir?", answer: "Gun drill küçük çaplarda (Ø2-20mm) ve yüksek L/D oranlarında kullanılır. BTA daha büyük çaplarda (Ø20mm üstü) ve yüksek talaş kaldırma hızlarında tercih edilir." },
+      { question: "Derin delik nedir?", answer: "Boy/çap oranı yüksek delikler 'derin delik' olarak adlandırılır; standart matkaplarla bu oranlarda doğrusal ve hassas delik elde etmek zordur." },
+      { question: "Gun drill ile BTA arasındaki fark nedir?", answer: "Gun drill küçük çaplarda ve yüksek boy/çap oranlarında kullanılır; talaş soğutma sıvısıyla dışarı taşınır. BTA daha büyük çaplarda tercih edilir; talaş takımın içinden tahliye edilir. Hangi yöntemin kullanılacağı parça ve teknik resim incelemesinde belirlenir." },
       { question: "Doğrusallık nasıl sağlanır?", answer: "Özel kılavuzlama burs sistemleri, yüksek basınçlı soğutma sıvısı ve optimize edilmiş kesme parametreleri ile sapma minimuma indirilir." },
-      { question: "İç yüzey kalitesi iyileştirilebilir mi?", answer: "Evet, raybalama ve honlama işlemleriyle Ra 0.2µm'ye kadar yüzey kalitesi elde edilebilir. H6 toleransında çap hassasiyeti sağlanır." },
+      { question: "İç yüzey kalitesi iyileştirilebilir mi?", answer: "Evet, raybalama ve honlama işlemleri iç yüzeyi ve çapı son ölçüye getirir. Delik tolerans sınıfı ve alt/üst sınırlar, nominal ölçü ve teknik resme göre belirlenir." },
     ],
     comparisonTables: [
       {
         title: "Derin Delik Delme Yöntemleri Karşılaştırması",
-        headers: ["Parametre", "Gun Drilling", "BTA Delme", "Trepan Delme", "Konvansiyonel Matkap"],
+        headers: ["Parametre", "Gun Drilling", "BTA Delme", "Konvansiyonel Matkap"],
         rows: [
-          ["Çap Aralığı", "Ø2-20mm", "Ø20-200mm", "Ø50-300mm", "Ø1-50mm"],
-          ["Maks. L/D Oranı", "100:1", "50:1", "30:1", "5:1"],
-          ["Doğrusallık", "0.02mm/100mm", "0.05mm/100mm", "0.1mm/100mm", "0.5mm/100mm"],
-          ["Yüzey Kalitesi", "Ra 0.4-0.8µm", "Ra 0.8-1.6µm", "Ra 1.6-3.2µm", "Ra 3.2-6.3µm"],
-          ["Talaş Kontrolü", "Harici soğutma", "İç talaş tahliye", "Halka talaş", "Manuel"],
-          ["Maliyet", "$$$", "$$", "$$", "$"],
-          ["Tipik Uygulama", "Yağ kanalı, namlu", "Silindir gövde", "Büyük boru", "Standart delik"],
+          ["Talaş Kontrolü", "Soğutma sıvısıyla dış tahliye", "İç talaş tahliye", "Matkap kanalları"],
+          ["Tipik Çap", "Küçük çap", "Büyük çap", "Genel"],
+          ["Tipik Uygulama", "Yağ kanalı, soğutma deliği", "Silindir gövde", "Standart delik"],
         ],
         highlight: 0,
-      },
-      {
-        title: "Raybalama ve Honlama Tolerans Seviyeleri",
-        headers: ["İşlem", "Çap Toleransı", "Yüzey Kalitesi (Ra)", "Silindiriklik", "Uygulama"],
-        rows: [
-          ["Standart Delme", "H11 (±0.1mm)", "Ra 3.2-6.3µm", "0.05mm", "Cıvata deliği"],
-          ["Hassas Raybalama", "H7 (±0.01mm)", "Ra 0.8-1.6µm", "0.01mm", "Pim yatağı, burç"],
-          ["İnce Raybalama", "H7", "Ra 0.4-0.8µm", "0.02mm", "Rulman yatağı"],
-          ["Honlama", "H7", "Ra 0.1-0.4µm", "0.01mm", "Hidrolik silindir"],
-          ["Süper Finiş Honlama", "H6", "Ra 0.05-0.1µm", "0.01mm", "Motor silindir"],
-        ],
-        highlight: 3,
       },
     ],
   },
@@ -572,7 +547,7 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "Moldflow akış simülasyonu dahil",
-      "DFM analizi ve çekme payı optimizasyonu",
+      "DFM analizi; kalıptan çıkış açısı ve çekme telafisi ayrı değerlendirilir",
       "Hot runner sistemi desteği",
       "4 farklı kalıp malzemesi seçeneği (Al 7075, P20, H13, S136)",
     ],
@@ -855,12 +830,12 @@ export const servicePages: ServicePageData[] = [
     description:
       "CNC işleme, montaj, kaynak ve kontrol operasyonları için özel tasarım fikstür ve aparat çözümleri. Tekrarlanabilirlik ve operatör bağımsızlığı.",
     content: [
-      "Üretim süreçlerinizi hızlandıracak ve hassasiyeti artıracak özel fikstür ve aparatlar tasarlıyoruz. Torna fikstürü (milliyelti ve milliyetsiz), freze fikstürü (vise, vakumlu ve hidrolik), montaj fikstürü (operatör hatalarını önleme), kontrol fikstürü (ölçüm tekrarlanabilirliği) ve kaynak fikstürü (hizalama ve sabitleme) dahil geniş yelpazede çözümler sunuyoruz.",
+      "Üretim süreçlerinizi hızlandıracak ve hassasiyeti artıracak özel fikstür ve aparatlar tasarlıyoruz. Torna fikstürü (parçayı dönme eksenine göre konumlayan ve tutan özel bağlama aparatları), freze fikstürü (vise, vakumlu ve hidrolik), montaj fikstürü (operatör hatalarını önleme), kontrol fikstürü (ölçüm tekrarlanabilirliği) ve kaynak fikstürü (hizalama ve sabitleme) dahil geniş yelpazede çözümler sunuyoruz.",
       "3D modelleme, kuvvet ve tolerans analizi simülasyonu, 3D baskı veya hızlı imalat ile prototip üretimi ve üretim ortamında doğrulama test & onay süreçleri ile profesyonel tasarım hizmeti veriyoruz.",
       "Çelik, alüminyum ve kompozit malzemelerle ±0.01mm tekrarlanabilirlik sağlayan fikstürler üretiyoruz. Tasarım ve üretim termini; fikstür karmaşıklığı, malzeme tedariki ve doğrulama kapsamı incelendikten sonra teklifle birlikte verilir.",
     ],
     features: [
-      "Torna Fikstürü — Milliyelti ve milliyetsiz",
+      "Torna Fikstürü — Parçayı dönme eksenine göre konumlama ve tutma",
       "Freze Fikstürü — Vise, vakumlu ve hidrolik",
       "Montaj Fikstürü — Operatör hatalarını önleme",
       "Kontrol Fikstürü — Ölçüm tekrarlanabilirliği",
@@ -911,17 +886,17 @@ export const servicePages: ServicePageData[] = [
     title: "Mekanik Yüzey İşlemleri",
     heroImage: "hero-mekanik-yuzey",
     metaTitle: "Mekanik Yüzey İşlemleri | Kumlama & Parlatma | Mas Technic",
-    metaDescription: "Kumlama, vibrasyonlu yüzme, parlatma ve pasivasyon. Ra 0.05µm yüzey kalitesi. Ayna parlaklığından satine yüzeye kadar geniş seçenek.",
+    metaDescription: "Kumlama, vibrasyonlu yüzey bitirme, parlatma ve fırçalama. Ra 0.05µm yüzey kalitesi. Ayna parlaklığından satine yüzeye kadar geniş seçenek.",
     description:
-      "Kumlama, vibrasyonlu yüzme, parlatma ve pasivasyon ile yüzey kalitesini iyileştirme ve montaja hazır hale getirme.",
+      "Kumlama, vibrasyonlu yüzey bitirme, parlatma ve fırçalama ile yüzey kalitesini iyileştirme ve montaja hazır hale getirme. Pasivasyon kimyasal bir işlemdir ve Kimyasal İşlemler sayfasında anlatılır.",
     content: [
-      "Mekanik yüzey işlemleri ile parçalarınızın yüzey kalitesini istenen seviyeye getiriyoruz. Kumlama (shot blasting) ile temizleme ve yüzey pürüzlendirme, vibrasyonlu yüzme (tumbling) ile köşeli kısımları kırma, merkezsiz parlatma ile yuvarlak parçalar için yüzey iyileştirme, yüzey parlatma ile ayna parlaklığı ve fırçalama ile satine yüzey efekti elde ediyoruz.",
+      "Mekanik yüzey işlemleri ile parçalarınızın yüzey kalitesini istenen seviyeye getiriyoruz. Kumlama (shot blasting) ile temizleme ve yüzey pürüzlendirme, vibrasyonlu yüzey bitirme (tumbling) ile köşeli kısımları kırma, merkezsiz parlatma ile yuvarlak parçalar için yüzey iyileştirme, yüzey parlatma ile ayna parlaklığı ve fırçalama ile satine yüzey efekti elde ediyoruz.",
       "Cam kumu (0.1-0.5mm) ile hassas temizlik, alüminyum oksit (0.2-1.0mm) ile yüzey hazırlık, çelik grit (0.2-2.0mm) ile ağır temizlik ve soda (0.1-0.3mm) ile yumuşak temizlik gibi farklı abrasive malzemelerle çalışıyoruz.",
       "Ra 0.05µm'e kadar yüzey kalitesi, 2-8 bar kumlama basıncı ve 1500×800mm'ye kadar parça boyutu kapasitemiz ile geniş bir hizmet yelpazesi sunuyoruz.",
     ],
     features: [
       "Kumlama (Shot Blasting) — Temizleme ve yüzey pürüzlendirme",
-      "Vibrasyonlu Yüzme (Tumbling) — Köşeli kısımları kırma",
+      "Vibrasyonlu Yüzey Bitirme (Tumbling) — Köşeli kısımları kırma",
       "Merkezsiz Parlatma — Yuvarlak parçalar için",
       "Yüzey Parlatma — Ayna parlaklığı",
       "Fırçalama — Satine yüzey efekti",
@@ -952,7 +927,7 @@ export const servicePages: ServicePageData[] = [
         rows: [
           ["Kumlama (Cam Kumu)", "Ra 1.6-3.2µm", "5-15 dk", "1500×800mm", "$", "Temizleme, pürüzlendirme"],
           ["Kumlama (Al₂O₃)", "Ra 2.0-4.0µm", "5-15 dk", "1500×800mm", "$", "Boya öncesi hazırlık"],
-          ["Vibrasyonlu Yüzme", "Ra 0.4-1.6µm", "30-120 dk", "Küçük parçalar", "$", "Çapak alma, köşe kırma"],
+          ["Vibrasyonlu Yüzey Bitirme", "Ra 0.4-1.6µm", "30-120 dk", "Küçük parçalar", "$", "Çapak alma, köşe kırma"],
           ["Merkezsiz Parlatma", "Ra 0.1-0.4µm", "10-30 dk", "Ø5-100mm", "$$", "Mil, pim parlatma"],
           ["Mekanik Parlatma", "Ra 0.05-0.2µm", "15-60 dk", "Değişken", "$$$", "Ayna parlaklığı"],
           ["Fırçalama", "Ra 0.4-1.2µm", "5-10 dk", "Düz yüzeyler", "$", "Satine efekt, dekoratif"],
@@ -1277,55 +1252,49 @@ export const servicePages: ServicePageData[] = [
     ],
   },
   {
+    /* T01 — one process. The record used to mix furnace stress relief,
+       soft/full annealing, normalising, carburising and induction hardening
+       (with temperatures and HRC values) into the laser-marking family, then
+       described laser annealing in a second paragraph. Only the laser
+       annealing marking method is published here; no heat-treatment capacity
+       is claimed. The URL stays `/hizmetler/tavlama`. */
     slug: "tavlama",
     category: "hizmetler",
     categoryLabel: "İşaretleme & Tanımlama",
-    title: "Tavlama",
+    title: "Lazer Tavlama ile Markalama",
+    metaTitle: "Lazer Tavlama ile Markalama | Mas Technic",
+    metaDescription:
+      "Paslanmaz çelik ve titanyum parçalarda yüzeyden malzeme kaldırmadan, ısıl renk değişimiyle okunabilir işaretleme. Kapsam parça ve malzemeye göre teklifte belirtilir.",
     heroImage: "hero-tavlama",
     description:
-      "Stress giderme, yumuşatma, sertleştirme ve normalizasyon tavlama işlemleri ile malzeme mekanik özelliklerinin optimize edilmesi.",
+      "Lazer tavlama, yüzeyden malzeme kaldırmadan ısıl renk değişimiyle yapılan bir lazer işaretleme yöntemidir; özellikle paslanmaz çelik ve titanyum parçalarda kullanılır.",
     content: [
-      "Stress giderme tavlaması (550-650°C, gerilme giderme), yumuşatma tavlaması (680-720°C, işlenebilirlik artırma), sertleştirme tavlaması (800-900°C, sertlik artışı) ve normalizasyon tavlaması (850-950°C, tane inceltme) olmak üzere 4 farklı tavlama türü sunuyoruz.",
-      "Özellikle paslanmaz çelik ve titanyum parçalarda tercih edilen lazer tavlama yöntemimiz ile yüzeyde malzeme çıkarmadan renk değişimi yaparak işaretleme gerçekleştiriyoruz. Yüzey bütünlüğü korunarak altın, mavi ve siyah tonlarında renk değişimi sağlıyoruz.",
+      "Lazer tavlama ile markalamada lazer yüzeyi kazımaz; yüzeyi yerel olarak ısıtır ve oluşan ince oksit tabakası işareti koyu ya da renkli bir ton olarak görünür kılar. Yüzeyden malzeme kaldırılmadığı için yüzey bütünlüğü korunur.",
+      "Yöntem, özellikle paslanmaz çelik ve titanyum parçalarda seri numarası, parti kodu, logo ve okunabilir kod işaretlemesi için tercih edilir. Elde edilen ton malzemeye ve yüzey durumuna göre değişir.",
+      "Çalışma aralığı, parçanın geometrisi ve proses planı incelendikten sonra teklifte belirtilir.",
     ],
     features: [
-      "Stress Giderme — 550-650°C, gerilme giderme",
-      "Yumuşatma — 680-720°C, işlenebilirlik artırma",
-      "Sertleştirme — 800-900°C, sertlik artışı",
-      "Normalizasyon — 850-950°C, tane inceltme",
+      "Malzeme kaldırmadan işaretleme — Yüzey kazınmaz, ısıl renk değişimi oluşur",
+      "Paslanmaz çelik ve titanyum — Yöntemin tipik uygulama alanı",
+      "İzlenebilirlik işaretleri — Seri numarası, parti kodu, logo ve okunabilir kod",
     ],
     technicalSpecs: [
-      { label: "Yüzey Etkisi", value: "Sıfır derinlik" },
-      { label: "Renk Aralığı", value: "Altın-Mavi-Siyah" },
-      { label: "Uygunluk", value: "Medikal parça" },
-      { label: "Dayanıklılık", value: "Kalıcı" },
+      { label: "Yöntem", value: "Lazer ile ısıl renk değişimi (tavlama)" },
+      { label: "Yüzey etkisi", value: "Malzeme kaldırılmaz" },
+      { label: "Tipik malzeme", value: "Paslanmaz çelik, titanyum" },
+      { label: "Çalışma aralığı", value: "Parça geometrisi ve proses planına göre teklifte belirtilir" },
     ],
     processSteps: [
-      "Malzeme Analizi",
-      "Tavlama Türü Seçimi",
-      "Fırın / Lazer İşlemi",
-      "Soğutma Kontrolü",
-      "Sertlik & Mikro Yapı Testi",
+      "Malzeme ve Yüzey Kontrolü",
+      "İşaret İçeriği ve Konum Onayı",
+      "Parametre Denemesi",
+      "Lazer Tavlama İşaretlemesi",
+      "Okunabilirlik Kontrolü",
     ],
     advantages: [
-      "4 farklı tavlama türü",
-      "Lazer tavlama ile yüzey bütünlüğü koruması",
-      "Medikal parça uygunluğu",
-      "Kalıcı ve aşınmaz renk değişimi",
-    ],
-    comparisonTables: [
-      {
-        title: "Tavlama Türleri ve Parametreleri",
-        headers: ["Tavlama Türü", "Sıcaklık Aralığı", "Soğutma", "Sertlik Değişimi", "Amaç", "Uygulama"],
-        rows: [
-          ["Stress Giderme", "550-650°C", "Fırında yavaş", "Değişmez", "İç gerilme giderme", "CNC sonrası, kaynak sonrası"],
-          ["Yumuşatma", "680-720°C", "Fırında çok yavaş", "Düşer (150-200 HB)", "İşlenebilirlik artırma", "Sert çeliklerin işlenmesi"],
-          ["Normalizasyon", "850-950°C", "Havada", "Homojenleşir", "Tane inceltme", "Döküm, dövme sonrası"],
-          ["Tam Tavlama", "800-900°C", "Fırında yavaş", "Düşer (min.)", "Tam yumuşatma", "Soğuk şekillendirme öncesi"],
-          ["Sementasyon", "880-940°C", "Yağ/su", "Yüzey 58-62 HRC", "Yüzey sertleştirme", "Dişli, mil, kam"],
-          ["İndüksiyon", "850-1000°C", "Su/polimer", "Yüzey 50-60 HRC", "Lokal sertleştirme", "Mil yatağı, kam yüzeyi"],
-        ],
-      },
+      "Yüzey bütünlüğü korunur",
+      "Kazıma olmadan okunabilir işaret",
+      "Paslanmaz çelik ve titanyumda uygulanabilir",
     ],
   },
   {
@@ -1502,7 +1471,7 @@ export const servicePages: ServicePageData[] = [
     description:
       "Vida, somun, perçin ve klips montajı. Tork kontrollü sıkma ve otomatik besleme sistemleri ile yüksek verimlilik.",
     content: [
-      "Vida ve somun montajı (tork kontrollü), pervane/pernos montajı (hidrolik presle), klips ve segman montajı (otomatik besleme), bearing montajı (özel fikstürlerle) ve O-ring/conta montajı (yağ ve toz korumalı) hizmetleri sunuyoruz.",
+      "Vida ve somun montajı (tork kontrollü), perçin montajı, klips ve segman montajı (otomatik besleme), rulman montajı (özel fikstürlerle) ve O-ring/conta montajı (yağ ve toz korumalı) hizmetleri sunuyoruz.",
       /* F2: `1000+ ünite/gün` is a daily production volume — §D
          REVENUE_OR_ORDER_VOLUME. The torque values and the ±5% band are
          process specification and stay. */
@@ -1510,9 +1479,9 @@ export const servicePages: ServicePageData[] = [
     ],
     features: [
       "Vida & Somun Montajı — Tork kontrollü",
-      "Pervane/Pernos Montajı — Hidrolik presle",
+      "Perçin Montajı — Kalıcı bağlantılar",
       "Klips & Segman Montajı — Otomatik besleme",
-      "Bearing & O-ring Montajı — Özel fikstürlerle",
+      "Rulman & O-ring Montajı — Özel fikstürlerle",
     ],
     technicalSpecs: [
       { label: "Tork Kontrolü", value: "±5% hassasiyet" },
@@ -2117,7 +2086,7 @@ export const servicePages: ServicePageData[] = [
     heroImage: "blog-dfm",
     content: [
       "Design for Manufacturing (DFM) analiz sürecimiz 4 aşamadan oluşur: ilk inceleme ve DFM raporu taslağı, detaylı analiz ve optimizasyon önerileri, müşteri görüşmesi ve revize CAD modeli, final DFM raporu ve onay. Sürecin takvimi parçanın karmaşıklığına ve gelen dosyanın eksiksizliğine bağlıdır; teklifle birlikte verilir.",
-      "CNC işleme DFM kurallarımız: İç köşe yarıçapı R > 0.5mm (sivri köşelerden kaçının), duvar kalınlığı > 0.8mm (çok ince duvarlardan kaçının), derinlik/çap oranı < 4:1 (çok derin deliklerden kaçının) ve standart boyut kullanımı (özel ölçülerden kaçının). Enjeksiyon kalıp DFM kurallarımız: Duvar kalınlığı 1.5-3mm, çekme payı 0.5-2°, köşe yarıçapı R > 0.5mm ve gate konumu kalın kesimden.",
+      "CNC işleme DFM kurallarımız: İç köşe yarıçapı R > 0.5mm (sivri köşelerden kaçının), duvar kalınlığı > 0.8mm (çok ince duvarlardan kaçının), derinlik/çap oranı < 4:1 (çok derin deliklerden kaçının) ve standart boyut kullanımı (özel ölçülerden kaçının). Enjeksiyon kalıp DFM'inde duvar kalınlığı, köşe yarıçapları ve gate konumu değerlendirilir (gate kalın kesimden). Kalıptan çıkış açısı ve çekme telafisi ayrı değerlendirilir; değerler proses ve malzemeye göre belirlenir.",
       /* 09a-C3 — D1 düzeltmesinin bu sayfadaki YAN ETKİSİ, oluşturulmuş DOM'da
          görüldü. `technicalSpecs`teki "Desteklenen CAD" satırı artık
          türetilmiş listeyi basıyor; bu cümle ise birkaç satır aşağıda "yaygın
@@ -2130,7 +2099,7 @@ export const servicePages: ServicePageData[] = [
     features: [
       "DFM Analizi — 4 aşamalı inceleme, analiz, görüşme ve raporlama",
       "CNC İşleme DFM Kuralları — Köşe, duvar, derinlik optimizasyonu",
-      "Enjeksiyon Kalıp DFM — Duvar kalınlığı, çekme payı, gate konumu",
+      "Enjeksiyon Kalıp DFM — Duvar kalınlığı, kalıptan çıkış açısı, çekme telafisi, gate konumu",
       /* 09a-C3. Oluşturulmuş DOM'da bu madde, türetilmiş "Desteklenen CAD"
          satırının hemen altında duruyordu: ekranda önce "STEP … 3MF", hemen
          ardından "CATIA, SolidWorks, NX" okunuyor ve okuyucu bunları tek bir
@@ -2408,26 +2377,29 @@ export const servicePages: ServicePageData[] = [
          DO_NOT_PUBLISH_REVENUE_OR_ORDER_VOLUME: YES and §D
          REVENUE_OR_ORDER_VOLUME: PRIVATE_DO_NOT_DISCLOSE withhold that class,
          and nothing in `USER_INPUTS.md` verifies the figures. KEPT is the
-         process-specification half — ±0.01 mm and the CT casting-tolerance
-         classes — the same class Phase 06 kept alongside MIL-A-8625 and
-         ISO 2768-m, and the one §0 PUBLIC_POSITIONING_PRIORITY leads with. */
-      "Seri üretimde yöntem, parça geometrisi ve tolerans hedefine göre seçilir: CNC seri işleme ±0.01mm, basınçlı döküm CT4-CT6 ve enjeksiyon kalıp CT5-CT7 kalıp toleransı aralığında çalışır.",
+         process-specification half — ±0.01 mm — the one §0
+         PUBLIC_POSITIONING_PRIORITY leads with.
+         T01: the CT classes went too. Die casting was CT4-CT6 here and
+         CT6-CT8 in the table below, and injection moulding was given ISO 8062
+         casting classes at all. The mould, the as-moulded/as-cast part and
+         the machined faces are now described as three separate requirements. */
+      "Seri üretimde yöntem, parça geometrisi ve tolerans hedefine göre seçilir. CNC seri işlemede standart tolerans ±0.01mm'dir. Döküm veya kalıplanmış parçalarda üç gereksinim ayrı ele alınır: kalıbın kendi işleme toleransı, ham (döküm ya da kalıp çıkışı) parçanın tolerans sınıfı ve sonradan işlenen yüzeylerin teknik resimdeki toleransı. Ham parçanın tolerans sınıfı proses ve malzemeye göre teklifte belirtilir.",
       "Seri işlerde kurulum bir kez yapılıp unutulmaz: standart kurulum prosedürü, sabit referans yüzeyleri ve otomatik takım değiştirme, partiler arası sapmayı sınırlar. İlk parça onaylanmadan seri başlamaz.",
       "Üretim takibi, stok ve kapasite planlaması tek bir kayıt üzerinden yürütülür; hangi partinin nerede olduğu ve hangi kontrolden geçtiği her an kayıtlıdır. Tedarik ihtiyacı bu kayıt üzerinden planlanır, müşteri portalından sipariş durumu görülebilir.",
       "Parti içi tutarlılık, ara kontrollerin plana bağlanmasıyla korunur. Kayma eğilimi olan koteler — takım aşınmasına duyarlı çaplar, ısıl işlem sonrası ölçüler — ayrı bir kontrol adımıyla izlenir ve sonuçlar kayıt altına alınır.",
     ],
     features: [
       "CNC Seri İşleme — ±0.01mm tolerans, sabit referans yüzeyleri",
-      "Basınçlı Döküm — CT4-CT6 kalıp toleransı",
-      "Enjeksiyon Kalıp — CT5-CT7 kalıp toleransı",
+      "Basınçlı Döküm — Ham parça ve işlenen yüzey toleransı ayrı değerlendirilir",
+      "Enjeksiyon Kalıp — Kalıp, kalıplanmış parça ve işlenen yüzey ayrı değerlendirilir",
       "Otomatik Takım Değiştirme — uzun partilerde kesintisiz işleme",
       "Otomatik Palet Değiştirme — kurulumun üretimden ayrılması",
       "Üretim Takibi — parti durumunun kayıt altında olması",
     ],
     technicalSpecs: [
       { label: "CNC Seri İşleme", value: "±0.01mm tolerans" },
-      { label: "Basınçlı Döküm", value: "CT4-CT6 kalıp toleransı" },
-      { label: "Enjeksiyon Kalıp", value: "CT5-CT7 kalıp toleransı" },
+      { label: "Basınçlı Döküm", value: "Ham parça tolerans sınıfı teklifte belirtilir" },
+      { label: "Enjeksiyon Kalıp", value: "Kalıplanmış parça toleransı teklifte belirtilir" },
       { label: "Kurulum", value: "Standart prosedür" },
       { label: "Kontrol", value: "Kontrol planına göre" },
       { label: "Teslimat", value: "JIT uyumlu" },
@@ -2466,8 +2438,8 @@ export const servicePages: ServicePageData[] = [
         headers: ["Üretim Yöntemi", "Tipik Kullanım", "Tolerans", "Kurulum", "Kontrol Yaklaşımı"],
         rows: [
           ["CNC Seri İşleme", "Dar toleranslı metal parçalar", "±0.01mm", "Standart prosedür + sabit referans", "İlk parça + ara kontrol"],
-          ["Basınçlı Döküm", "Karmaşık formlu yüksek hacim", "CT6-CT8", "Kalıp ve döküm parametresi", "Görsel + boyutsal kontrol"],
-          ["Enjeksiyon Kalıp", "Plastik yüksek hacim", "CT6-CT8", "Kalıp ve proses penceresi", "İlk parça + periyodik kontrol"],
+          ["Basınçlı Döküm", "Karmaşık formlu yüksek hacim", "Ham parça: teklifte · İşlenen yüzey: teknik resme göre", "Kalıp ve döküm parametresi", "Görsel + boyutsal kontrol"],
+          ["Enjeksiyon Kalıp", "Plastik yüksek hacim", "Kalıplanmış parça: teklifte · İşlenen yüzey: teknik resme göre", "Kalıp ve proses penceresi", "İlk parça + periyodik kontrol"],
         ],
       },
     ],

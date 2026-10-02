@@ -531,7 +531,7 @@ const dictionary: Record<string, string> = {
   "TASARIM": "KONSTRUKTION",
   "Tasarım Rehberi (DFM)": "Konstruktionsleitfaden (DFM)",
   "Taşlama": "Schleifen",
-  "Tavlama": "Glühen",
+  "Lazer Tavlama ile Markalama": "Lasermarkierung durch Anlassen",
   "Tedarik Zinciri": "Lieferkette",
   "TEDARİKÇİ DAVRANIŞ KURALLARI": "VERHALTENSKODEX FÜR LIEFERANTEN",
   "TEKLİF": "ANGEBOT",

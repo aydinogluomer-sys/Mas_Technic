@@ -111,7 +111,7 @@ export const navigationItems: NavigationItem[] = [
         path: "/hizmetler/kategori/isaretleme-tanimlama",
         links: [
           { label: "Lazer Kazıma", path: "/hizmetler/lazer-kazima" },
-          { label: "Tavlama", path: "/hizmetler/tavlama" },
+          { label: "Lazer Tavlama ile Markalama", path: "/hizmetler/tavlama" },
           { label: "QR & DataMatrix Kodları", path: "/hizmetler/qr-datamatrix-kodlari" },
           { label: "Logo & Markalama", path: "/hizmetler/logo-markalama" },
         ],
