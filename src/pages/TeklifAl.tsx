@@ -245,7 +245,7 @@ export const TeklifAl = () => {
       <section className="rfq-studio" id="talep" aria-labelledby="shell-page-title">
         <header className="rfq-head">
           <ShellBreadcrumb trail={[{ label: t("Ana sayfa"), to: "/" }, { label: t("Teklif al") }]} />
-          <p className="shell-eyebrow">{upper(t("TEKLİF · 3 ADIM · {{time}} DÖNÜŞ", { time: t(QUOTE_RESPONSE_TIME) }), i18n.resolvedLanguage)}</p>
+          <p className="shell-eyebrow">{upper(t("TEKLİF · 3 ADIM · {{time}} DÖNÜŞ", { time: t(QUOTE_RESPONSE_TIME) }), i18n.language)}</p>
           {/* The heading string is a measured contract: `e2e/qa-p08-scroll-region
              -reach.spec.ts:207` reads it as this route's anti-404 surface. */}
           <h1 id="shell-page-title">{t("Hassas Fiyat Teklifi Alın")}</h1>
@@ -340,7 +340,7 @@ export const TeklifAl = () => {
                   <div className="shell-state-actions">
                     {currentStep > 1 && (
                       <ShellAction variant="quiet" onClick={() => goToStep(currentStep - 1)}>
-                        Geri
+                        {t("Geri")}
                       </ShellAction>
                     )}
                     {/* ONE PRIMARY CONTROL, ALWAYS `type="submit"`, AND THAT IS
@@ -372,11 +372,11 @@ export const TeklifAl = () => {
                         half that actually holds, because `disabled` only reaches
                         the DOM on the next commit. */}
                     <ShellAction type="submit" variant="primary" disabled={pending}>
-                      {pending
+                      {t(pending
                         ? "Gönderiliyor…"
                         : currentStep < LAST_STEP
                           ? "İleri"
-                          : "Teklif talebini gönder"}
+                          : "Teklif talebini gönder")}
                     </ShellAction>
                   </div>
                 )}

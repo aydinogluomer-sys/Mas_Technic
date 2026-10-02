@@ -54,13 +54,12 @@ class ChunkBoundary extends Component<{ children: ReactNode; onRetry: () => void
               this.props.onRetry();
             }}
           >
-            Tekrar dene
+            {i18n.t("Tekrar dene")}
           </ShellAction>
         }
       >
         <p>
-          Görüntüleyici bileşeni yüklenemedi. Bu, teklif talebinizi etkilemez — dosyanız formda kalır ve
-          önizleme olmadan da gönderebilirsiniz.
+          {i18n.t("Görüntüleyici bileşeni yüklenemedi. Bu, teklif talebinizi etkilemez — dosyanız formda kalır ve önizleme olmadan da gönderebilirsiniz.")}
         </p>
       </ShellNotice>
     );

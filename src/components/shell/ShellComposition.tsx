@@ -537,10 +537,11 @@ export function ShellNotice({
   children?: ReactNode;
   action?: ReactNode;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="shell-notice" data-tone={tone} role={tone === "error" ? "alert" : undefined}>
-      <p className="shell-notice-label">{label}</p>
-      {title && <p className="shell-notice-title">{title}</p>}
+      <p className="shell-notice-label">{t(label)}</p>
+      {title && <p className="shell-notice-title">{t(title)}</p>}
       {children && <div className="shell-notice-body">{children}</div>}
       {action && <div className="shell-notice-actions">{action}</div>}
     </div>

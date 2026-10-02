@@ -11,10 +11,11 @@ import {
 } from "@/components/shell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePageMeta } from "@/hooks/use-page-meta";
-import { categoryPages } from "@/data/categoryPages";
+import { useTranslation } from "react-i18next";
+import { useSiteData } from "@/i18n/data";
+import { joinList } from "@/i18n/format";
 import {
   CERTIFICATIONS,
-  CERTIFICATION_SENTENCE_LIST,
   CMM_COVERAGE,
   MINIMUM_TOLERANCE,
   PUBLIC_CITY,
@@ -82,7 +83,7 @@ const WORKFLOW = [
   },
   {
     title: "Boyutsal doğrulama",
-    detail: `Kontrol planında tanımlanan koteler ölçülür. ${CMM_COVERAGE} olarak eklenir.`,
+    detail: "Kontrol planında tanımlanan koteler ölçülür. {{cmm}} olarak eklenir.",
   },
   {
     title: "Teslim dosyası",
@@ -97,10 +98,13 @@ const SCOPE_FAMILIES = [
 ] as const;
 
 export const Hakkimizda = () => {
+  const { t, i18n } = useTranslation();
+  const { categoryPages } = useSiteData();
+  const certificationList = joinList(CERTIFICATIONS.map((certification) => certification.code), i18n.language);
+  const cmm = t(CMM_COVERAGE);
   usePageMeta({
-    title: "Hakkımızda",
-    description:
-      "Mas Technic — hassas CNC işleme, talaşlı imalat ve mühendislik çözümleri sunan güvenilir üretim partneri.",
+    title: t("Hakkımızda"),
+    description: t("Mas Technic — hassas CNC işleme, talaşlı imalat ve mühendislik çözümleri sunan güvenilir üretim partneri."),
   });
 
   const certificationRun = CERTIFICATIONS.map((certification) => certification.code).join(" · ");
@@ -114,19 +118,19 @@ export const Hakkimizda = () => {
       <ShellPageHero
         no="01"
         label="KURUMSAL"
-        eyebrow="Kurumsal dosya"
-        title="Hakkımızda"
-        lede="Mas Technic, CNC freze, torna ve talaşlı imalat alanında yüksek hassasiyetli üretim çözümleri sunan bir mühendislik firmasıdır. Havacılık, otomotiv, medikal ve robotik gibi kritik sektörlere hizmet vermekteyiz."
+        eyebrow={t("Kurumsal dosya")}
+        title={t("Hakkımızda")}
+        lede={t("Mas Technic, CNC freze, torna ve talaşlı imalat alanında yüksek hassasiyetli üretim çözümleri sunan bir mühendislik firmasıdır. Havacılık, otomotiv, medikal ve robotik gibi kritik sektörlere hizmet vermekteyiz.")}
         meta={[
-          { label: "Merkez", value: `${PUBLIC_CITY} · Çiğli` },
-          { label: "Standart tolerans", value: MINIMUM_TOLERANCE },
-          { label: "Teklif dönüşü", value: QUOTE_RESPONSE_TIME },
-          { label: "Yönetim sistemleri", value: certificationRun },
+          { label: t("Merkez"), value: `${PUBLIC_CITY} · Çiğli` },
+          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Teklif dönüşü"), value: t(QUOTE_RESPONSE_TIME) },
+          { label: t("Yönetim sistemleri"), value: certificationRun },
         ]}
         actions={
           <>
-            <ShellAction to="/teklif-al" variant="primary">Teklif Al</ShellAction>
-            <ShellAction to="/iletisim" variant="ghost">İletişim</ShellAction>
+            <ShellAction to="/teklif-al" variant="primary">{t("Teklif Al")}</ShellAction>
+            <ShellAction to="/iletisim" variant="ghost">{t("İletişim")}</ShellAction>
           </>
         }
       />
@@ -137,27 +141,20 @@ export const Hakkimizda = () => {
           <ShellTitleBlock
             id="hakkimizda-yaklasim"
             index="02"
-            title={<>Hassasiyeti iddia etmek kolay. <em>Ölçmek</em> zor.</>}
+            title={<>{t("Hassasiyeti iddia etmek kolay.")} <em>{t("Ölçmek")}</em> {t("zor.")}</>}
           />
           <div className="shell-prose" data-lead>
             <p>
-              {CERTIFICATION_SENTENCE_LIST} yönetim sistemleriyle çalışıyoruz. Standart tolerans
-              aralığımız {MINIMUM_TOLERANCE}; her iş için kontrol planı oluşturulur ve ölçüm
-              kayıtları teslimat dosyasına eklenir. {CMM_COVERAGE} olarak sağlanır.
+              {t("{{list}} yönetim sistemleriyle çalışıyoruz. Standart tolerans aralığımız {{tolerance}}; her iş için kontrol planı oluşturulur ve ölçüm kayıtları teslimat dosyasına eklenir. {{cmm}} olarak sağlanır.", { list: certificationList, tolerance: MINIMUM_TOLERANCE, cmm })}
             </p>
             <p>
-              Teknik resim bizim için bir talep listesi değil, bir sözleşmedir. Bir kotenin hangi
-              yöntemle ve hangi aşamada doğrulanacağı imalat başlamadan önce kararlaştırılır ve
-              kontrol planına yazılır.
+              {t("Teknik resim bizim için bir talep listesi değil, bir sözleşmedir. Bir kotenin hangi yöntemle ve hangi aşamada doğrulanacağı imalat başlamadan önce kararlaştırılır ve kontrol planına yazılır.")}
             </p>
             <p>
-              Bir toleransın maliyeti, o toleransı gerçekten gerektiren işlev kadar anlamlıdır.
-              Gerektirmiyorsa bunu söylemeyi tercih ederiz; üretilebilirlik incelemesi bu yüzden
-              teklif aşamasının parçasıdır, sonradan gelen bir revizyon değil.
+              {t("Bir toleransın maliyeti, o toleransı gerçekten gerektiren işlev kadar anlamlıdır. Gerektirmiyorsa bunu söylemeyi tercih ederiz; üretilebilirlik incelemesi bu yüzden teklif aşamasının parçasıdır, sonradan gelen bir revizyon değil.")}
             </p>
             <p>
-              Ölçüm kaydı olmayan bir hassasiyet açıklaması yalnızca bir cümledir. Teslim ettiğimiz
-              dosya, parçanın neye göre ölçüldüğünü de içerir.
+              {t("Ölçüm kaydı olmayan bir hassasiyet açıklaması yalnızca bir cümledir. Teslim ettiğimiz dosya, parçanın neye göre ölçüldüğünü de içerir.")}
             </p>
           </div>
         </div>
@@ -166,12 +163,12 @@ export const Hakkimizda = () => {
             the source line is something a reader can open — not a mood. */}
         <div className="shell-span-note shell-stack" data-gap="sm">
           <ShellEvidence kind="BELGE" source={qualityPolicy.title}>
-            {CERTIFICATION_SENTENCE_LIST} yönetim sistemleri kapsamında çalışıyoruz.
+            {t("{{list}} yönetim sistemleri kapsamında çalışıyoruz.", { list: certificationList })}
             <ShellAction href={qualityPolicy.href} variant="quiet">{qualityPolicy.size}</ShellAction>
           </ShellEvidence>
 
           <ShellEvidence kind="ÖLÇÜM" source={measurementList.title}>
-            Standart tolerans aralığı {MINIMUM_TOLERANCE}. {CMM_COVERAGE}.
+            {t("Standart tolerans aralığı {{tolerance}}. {{cmm}}.", { tolerance: MINIMUM_TOLERANCE, cmm })}
             <ShellAction href={measurementList.href} variant="quiet">{measurementList.size}</ShellAction>
           </ShellEvidence>
 
@@ -184,11 +181,11 @@ export const Hakkimizda = () => {
           <ShellTitleBlock
             id="hakkimizda-surec"
             index="03"
-            title="Bir iş nasıl ilerler"
-            standfirst="Talepten teslim dosyasına altı adım. Sıralama işten işe değişmez; içeriği parçaya göre yazılır."
+            title={t("Bir iş nasıl ilerler")}
+            standfirst={t("Talepten teslim dosyasına altı adım. Sıralama işten işe değişmez; içeriği parçaya göre yazılır.")}
           />
         </div>
-        <ShellRun items={WORKFLOW} ariaLabel="Üretim akışı" />
+        <ShellRun items={WORKFLOW.map((step) => ({ title: t(step.title), detail: t(step.detail, { cmm }) }))} ariaLabel={t("Üretim akışı")} />
       </ShellSurfaceBand>
 
       {/* ── 04 — scope, as a real index into the three route families ── */}
@@ -197,16 +194,16 @@ export const Hakkimizda = () => {
           <ShellTitleBlock
             id="hakkimizda-kapsam"
             index="04"
-            title="Üretim kapsamı"
-            standfirst="Aşağıdaki başlıkların her biri kendi sayfasında teknik ayrıntısıyla açılır."
+            title={t("Üretim kapsamı")}
+            standfirst={t("Aşağıdaki başlıkların her biri kendi sayfasında teknik ayrıntısıyla açılır.")}
           />
         </div>
         {SCOPE_FAMILIES.map((family) => (
           <div className="shell-span-third shell-stack" data-gap="sm" key={family.prefix}>
-            <p className="shell-eyebrow">{family.label} — {family.caption}</p>
+            <p className="shell-eyebrow">{t(family.label)} — {t(family.caption)}</p>
             <ShellIndexList
               compact
-              ariaLabel={`${family.label} kategorileri`}
+              ariaLabel={t("{{name}} kategorileri", { name: t(family.label) })}
               items={categoryPages
                 .filter((category) => category.prefix === family.prefix)
                 .map((category) => ({
@@ -220,14 +217,14 @@ export const Hakkimizda = () => {
 
       <ShellNextStep
         no="05"
-        title="Parçanızı inceleyelim"
-        body="Teknik resim veya 3B model gönderin; üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım."
+        title={t("Parçanızı inceleyelim")}
+        body={t("Teknik resim veya 3B model gönderin; üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım.")}
         detail={[
-          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
-          { label: "Gönderilecek", value: "Teknik resim veya 3B model" },
-          { label: "Alternatif", value: "Online teknik görüşme" },
+          { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
+          { label: t("Gönderilecek"), value: t("Teknik resim veya 3B model") },
+          { label: t("Alternatif"), value: t("Online teknik görüşme") },
         ]}
-        secondary={{ label: "İletişim", to: "/iletisim" }}
+        secondary={{ label: t("İletişim"), to: "/iletisim" }}
       />
     </PageShell>
   );

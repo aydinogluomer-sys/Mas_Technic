@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "@/i18n/LocaleLink";
 import { ArrowLeft } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { PageShell } from "@/components/shell";
 import { AuthAside } from "./AuthAside";
 
@@ -35,6 +36,7 @@ export type AuthLayoutProps = {
 };
 
 export function AuthLayout({ asideTitle, asideLede, back, children }: AuthLayoutProps) {
+  const { t } = useTranslation();
   return (
     <PageShell navigation={false} footer={false} layout="bands" className="shell-auth" surface="graphite">
       <div className="shell-auth-split">
@@ -42,14 +44,14 @@ export function AuthLayout({ asideTitle, asideLede, back, children }: AuthLayout
           <div className="shell-auth-body">
             <Link className="shell-action shell-action--quiet shell-auth-back" to={back.to}>
               <ArrowLeft className="shell-auth-back-mark" aria-hidden="true" />
-              <span>{back.label}</span>
+              <span>{t(back.label)}</span>
             </Link>
 
             <div className="shell-auth-mark shell-auth-compact-mark">
               <span className="shell-auth-mark-block" aria-hidden="true">MT</span>
               <span className="shell-auth-mark-name">
                 <b>MAS TECHNIC</b>
-                <small>Müşteri Portalı</small>
+                <small>{t("Müşteri Portalı")}</small>
               </span>
             </div>
 

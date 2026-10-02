@@ -42,11 +42,11 @@ export function RfqAside({ draft, fileName }: { draft: RfqDraft; fileName: strin
         <p className="shell-eyebrow">{t("CANLI KAYIT")}</p>
         <ShellMetaRow
           items={[
-            { label: t("Dosya"), value: fileName ?? "Henüz yüklenmedi" },
+            { label: t("Dosya"), value: fileName ?? t("Henüz yüklenmedi") },
             { label: t("Hizmet"), value: t(optionLabel(RFQ_SERVICES, draft.service)) },
             { label: t("Malzeme"), value: t(resolveMaterialLabel(draft.material, draft.customMaterial)) },
             { label: t("Yüzey"), value: t(optionLabel(RFQ_SURFACE_FINISHES, draft.finish)) },
-            { label: t("Miktar"), value: Number.isFinite(draft.quantity) ? `${draft.quantity} adet` : "—" },
+            { label: t("Miktar"), value: Number.isFinite(draft.quantity) ? t("{{count}} adet", { count: draft.quantity }) : "—" },
             { label: t("Öncelik"), value: t(optionLabel(RFQ_PRIORITIES, draft.priority)) },
           ]}
         />
@@ -88,7 +88,7 @@ export function RfqAside({ draft, fileName }: { draft: RfqDraft; fileName: strin
       <div>
         <p className="shell-eyebrow">{t("DOĞRUDAN HAT")}</p>
         <p className="shell-note">
-          Dosya hazır değilse veya form yerine konuşmayı tercih ediyorsanız doğrudan yazın.
+          {t("Dosya hazır değilse veya form yerine konuşmayı tercih ediyorsanız doğrudan yazın.")}
         </p>
         <ShellAction href={SALES_EMAIL_HREF} variant="ghost">
           {SALES_EMAIL}

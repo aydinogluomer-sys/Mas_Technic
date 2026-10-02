@@ -246,7 +246,7 @@ export function RfqSpecStep({ draft, errors, onChange }: RfqSpecStepProps) {
               >
                 {RFQ_TOLERANCES.map((tolerance) => (
                   <option key={tolerance} value={tolerance}>
-                    {tolerance}
+                    {t(tolerance)}
                   </option>
                 ))}
               </select>

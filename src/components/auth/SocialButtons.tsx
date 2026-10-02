@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { GoogleIcon, LinkedInIcon } from "./SocialIcons";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -55,6 +56,7 @@ export type SocialButtonsProps = {
 };
 
 export function SocialButtons({ pending, onSocial }: SocialButtonsProps) {
+  const { t } = useTranslation();
   return (
     <div className="shell-auth-social">
       <button
@@ -64,7 +66,7 @@ export function SocialButtons({ pending, onSocial }: SocialButtonsProps) {
         data-pending={pending === "google" || undefined}
       >
         <GoogleIcon aria-hidden="true" focusable="false" />
-        <span>{pending === "google" ? "Yönlendiriliyor…" : "Google"}</span>
+        <span>{pending === "google" ? t("Yönlendiriliyor…") : "Google"}</span>
       </button>
       <button
         type="button"
@@ -73,7 +75,7 @@ export function SocialButtons({ pending, onSocial }: SocialButtonsProps) {
         data-pending={pending === "linkedin_oidc" || undefined}
       >
         <LinkedInIcon aria-hidden="true" focusable="false" />
-        <span>{pending === "linkedin_oidc" ? "Yönlendiriliyor…" : "LinkedIn"}</span>
+        <span>{pending === "linkedin_oidc" ? t("Yönlendiriliyor…") : "LinkedIn"}</span>
       </button>
     </div>
   );

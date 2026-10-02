@@ -70,6 +70,7 @@ const RAIL_EN: Record<string, string> = {
   "SEKTÖR": "SECTOR",
   "SONRAKİ ADIM": "NEXT STEP",
   "HATA": "ERROR",
+  "PAFTA": "SHEET",
   "SAYFA": "PAGE",
   "MENÜ": "MENU",
   "GİZLİLİK": "PRIVACY",

@@ -92,8 +92,8 @@ function upcomingWorkdays(count: number) {
 export const Iletisim = () => {
   const { t, i18n } = useTranslation();
   usePageMeta({
-    title: "İletişim",
-    description: "CNC işleme, teklif talebi ve mühendislik desteği için Mas Technic ile iletişime geçin.",
+    title: t("İletişim"),
+    description: t("CNC işleme, teklif talebi ve mühendislik desteği için Mas Technic ile iletişime geçin."),
   });
 
   const location = useLocation();
@@ -108,7 +108,7 @@ export const Iletisim = () => {
   }, [location.search]);
 
   const days = upcomingWorkdays(NEXT_DAYS);
-  const lang = i18n.resolvedLanguage ?? "tr";
+  const lang = i18n.language ?? "tr";
   const dayFormat = new Intl.DateTimeFormat(lang === "zh" ? "zh-Hans" : lang, { weekday: "short" });
 
   return (

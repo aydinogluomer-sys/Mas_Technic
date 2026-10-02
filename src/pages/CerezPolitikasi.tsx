@@ -2,6 +2,8 @@ import { Link } from "@/i18n/LocaleLink";
 import { ShellSpecTable } from "@/components/shell";
 import { LegalDocument, type LegalClause } from "@/components/pages/LegalDocument";
 import { SALES_EMAIL } from "@/content/claims";
+import { COOKIES_EN } from "@/content/en/legal/cookies";
+import { useLocale } from "@/i18n/hooks";
 
 /* ══════════════════════════════════════════════════════════════════════════
    ÇEREZ POLİTİKASI — THE ONE THAT WAS SIMPLY NOT TRUE
@@ -209,7 +211,7 @@ const STORAGE_ROWS: string[][] = [
   [
     "mas_lang",
     "localStorage",
-    "Seçtiğiniz arayüz dilini (TR, EN, DE, RU, ZH) hatırlar. Yalnızca dil düğmelerinden birine bastığınızda yazılır; dil seçmezseniz hiç yazılmaz.",
+    "Seçtiğiniz arayüz dilini (TR, EN) hatırlar. Yalnızca dil düğmelerinden birine bastığınızda yazılır; dil seçmezseniz hiç yazılmaz. Herkese açık sayfalarda dili adres belirler (İngilizce sayfalar /en ile başlar); bu kayıt yalnızca müşteri ve yönetim panelinin dilini seçer.",
     "Siz silene kadar",
   ],
   [
@@ -458,14 +460,15 @@ const CLAUSES: LegalClause[] = [
   },
 ];
 
-export const CerezPolitikasi = () => (
-  <LegalDocument
-    rail={{ no: "L3", label: "ÇEREZ" }}
-    selfPath="/cerez-politikasi"
-    eyebrow="Yasal metin"
-    title="Çerez Politikası"
-    lede="Bu sitenin kendi sayfaları çerez oluşturmuyor; giriş sayfasındaki güvenlik bileşeni bir tane oluşturuyor. Tarayıcınızda tutulan kayıtların tamamı madde 02’de tek tek listelenmiştir."
-    metaDescription="Mas Technic çerez politikası — sitenin kendi sayfaları çerez oluşturmaz, giriş sayfasındaki hCaptcha bileşeni bir çerez oluşturur; tarayıcınızda tutulan yerel depo kayıtları, süreleri ve nasıl silinecekleri."
-    clauses={CLAUSES}
-  />
-);
+const COOKIES_TR = {
+  eyebrow: "Yasal metin",
+  title: "Çerez Politikası",
+  lede: "Bu sitenin kendi sayfaları çerez oluşturmuyor; giriş sayfasındaki güvenlik bileşeni bir tane oluşturuyor. Tarayıcınızda tutulan kayıtların tamamı madde 02’de tek tek listelenmiştir.",
+  metaDescription: "Mas Technic çerez politikası — sitenin kendi sayfaları çerez oluşturmaz, giriş sayfasındaki hCaptcha bileşeni bir çerez oluşturur; tarayıcınızda tutulan yerel depo kayıtları, süreleri ve nasıl silinecekleri.",
+  clauses: CLAUSES,
+};
+
+export const CerezPolitikasi = () => {
+  const text = useLocale() === "en" ? COOKIES_EN : COOKIES_TR;
+  return <LegalDocument rail={{ no: "L3", label: "ÇEREZ" }} selfPath="/cerez-politikasi" {...text} />;
+};

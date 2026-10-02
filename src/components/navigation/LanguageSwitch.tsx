@@ -31,7 +31,7 @@ type LanguageSwitchProps = {
 export function LanguageSwitch({ className = "", variant = "inline" }: LanguageSwitchProps) {
   const { i18n, t } = useTranslation();
   const choose = useChooseLanguage();
-  const current = (i18n.resolvedLanguage ?? i18n.language ?? "tr").split("-")[0] as LanguageCode;
+  const current = (i18n.language ?? "tr").split("-")[0] as LanguageCode;
 
   if (variant === "dropdown") {
     return <LanguageDropdown className={className} current={current} label={t("Dil seçimi")} />;

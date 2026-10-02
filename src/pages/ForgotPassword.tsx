@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ShellAction, ShellNotice } from "@/components/shell";
@@ -37,6 +38,7 @@ import {
    ══════════════════════════════════════════════════════════════════════════ */
 
 export const ForgotPassword = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState<AuthFieldErrors>({});
   const [notice, setNotice] = useState<{ title: string; detail?: string } | null>(null);
@@ -82,21 +84,19 @@ export const ForgotPassword = () => {
         back={{ to: "/giris", label: "Giriş sayfası" }}
       >
         <div>
-          <p className="shell-eyebrow" role="status">İSTEK ALINDI</p>
-          <h1 className="shell-auth-title">Şifremi Unuttum</h1>
+          <p className="shell-eyebrow" role="status">{t("İSTEK ALINDI")}</p>
+          <h1 className="shell-auth-title">{t("Şifremi Unuttum")}</h1>
         </div>
         <ShellNotice tone="note" label="SIRADA NE VAR">
           <p>
-            <strong>{requestedFor}</strong> için sıfırlama isteği alındı. Bu adrese bağlı bir hesap
-            varsa şifre sıfırlama bağlantısı o adrese gider.
+            {t("{{email}} için sıfırlama isteği alındı. Bu adrese bağlı bir hesap varsa şifre sıfırlama bağlantısı o adrese gider.", { email: requestedFor })}
           </p>
           <p>
-            Birkaç dakika içinde bir şey gelmezse spam klasörünü kontrol edin ve adresi doğru
-            yazdığınızdan emin olarak yeniden deneyin.
+            {t("Birkaç dakika içinde bir şey gelmezse spam klasörünü kontrol edin ve adresi doğru yazdığınızdan emin olarak yeniden deneyin.")}
           </p>
         </ShellNotice>
         <ShellAction variant="ghost" full onClick={() => setRequestedFor(null)}>
-          Başka bir adres dene
+          {t("Başka bir adres dene")}
         </ShellAction>
       </AuthLayout>
     );
@@ -110,9 +110,9 @@ export const ForgotPassword = () => {
     >
       <div>
         {/* Measured contract: `e2e/qa-p08-scroll-region-reach.spec.ts:205`. */}
-        <h1 className="shell-auth-title">Şifremi Unuttum</h1>
+        <h1 className="shell-auth-title">{t("Şifremi Unuttum")}</h1>
         <p className="shell-auth-lede">
-          Hesabınızın e-posta adresini girin, şifre sıfırlama bağlantısını oraya gönderelim.
+          {t("Hesabınızın e-posta adresini girin, şifre sıfırlama bağlantısını oraya gönderelim.")}
         </p>
       </div>
 
@@ -134,17 +134,17 @@ export const ForgotPassword = () => {
 
         {notice && (
           <ShellNotice tone="error" label="GÖNDERİLEMEDİ" title={notice.title}>
-            {notice.detail && <p>{notice.detail}</p>}
+            {notice.detail && <p>{t(notice.detail)}</p>}
           </ShellNotice>
         )}
 
         <ShellAction type="submit" variant="primary" full disabled={pending}>
-          Sıfırlama bağlantısı iste
+          {t("Sıfırlama bağlantısı iste")}
         </ShellAction>
 
         {pending && (
           <p className="shell-field-hint" role="status" data-auth-state="pending">
-            İSTEK GÖNDERİLİYOR…
+            {t("İSTEK GÖNDERİLİYOR…")}
           </p>
         )}
       </form>

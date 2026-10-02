@@ -191,7 +191,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
   /* L01: menu state is decided on the locale-free path (`/en/sss` is `/sss`). */
   const barePath = stripLocale(location.pathname);
   const { t, i18n } = useTranslation();
-  const lang = i18n.resolvedLanguage ?? i18n.language;
+  const lang = i18n.language;
   const navigate = useNavigate();
   const reducedMotion = usePrefersReducedMotion();
   /* The sheet is mounted for every phase but "closed" — including "closing",
@@ -604,7 +604,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
                     </Link>
                     <p className="tl-menu-meta" aria-hidden="true">
                       <span>{t("NAVİGASYON")}</span>
-                      <span>PAFTA 00/14</span>
+                      <span>{t("PAFTA")} 00/14</span>
                     </p>
                     <NavTrigger
                       open

@@ -89,12 +89,19 @@ const DICTIONARIES: Record<Exclude<LanguageCode, "tr">, () => Promise<{ default:
     (`./content`), so no Turkish frame shows in between. */
 export async function applyLanguage(language: PublicLocale) {
   await Promise.all([ensureDictionary(language), language === "en" ? loadEnContent() : null]);
-  if (normalizeLocale(i18n.language) !== language) await i18n.changeLanguage(language);
+  /* `resolvedLanguage` too: on a direct `/en` load i18next starts in `en`
+     before the dictionary exists and resolves to the Turkish fallback; the
+     bundle arriving later does not re-resolve it, so the language is set
+     again once the dictionary is in. */
+  if (normalizeLocale(i18n.language) !== language || normalizeLocale(i18n.resolvedLanguage) !== language) {
+    await i18n.changeLanguage(language);
+  }
 }
 
 /** True once the language the page needs is rendered with its dictionary. */
 export function isLanguageReady(language: PublicLocale): boolean {
   return normalizeLocale(i18n.language) === language
+    && normalizeLocale(i18n.resolvedLanguage) === language
     && (language === "tr" || (i18n.hasResourceBundle(language, "translation") && isEnContentLoaded()));
 }
 

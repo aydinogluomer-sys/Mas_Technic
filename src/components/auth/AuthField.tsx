@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { authErrorId, authFieldId, type AuthFieldErrors, type AuthFieldName } from "./auth-schema";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -37,6 +38,7 @@ export function AuthField({
   optional,
   ...input
 }: AuthFieldProps) {
+  const { t } = useTranslation();
   const message = errors[name];
   const id = authFieldId(name);
   const hintId = hint ? `${id}-hint` : undefined;
@@ -46,13 +48,14 @@ export function AuthField({
     <div className="shell-field">
       <div className="shell-auth-label-row">
         <label htmlFor={id}>
-          {label}
-          {optional && " (opsiyonel)"}
+          {t(label)}
+          {optional && ` ${t("(opsiyonel)")}`}
         </label>
         {aside}
       </div>
       <input
         {...input}
+        placeholder={input.placeholder ? t(input.placeholder) : undefined}
         id={id}
         name={name}
         aria-invalid={message ? true : undefined}
@@ -60,12 +63,12 @@ export function AuthField({
       />
       {hint && (
         <p className="shell-field-hint" id={hintId}>
-          {hint}
+          {t(hint)}
         </p>
       )}
       {message && (
         <p className="shell-form-error" id={authErrorId(name)}>
-          {message}
+          {t(message)}
         </p>
       )}
     </div>
@@ -89,6 +92,7 @@ export function AuthPasswordField({
   ...input
 }: Omit<AuthFieldProps, "optional" | "type">) {
   const [revealed, setRevealed] = useState(false);
+  const { t } = useTranslation();
   const message = errors[name];
   const id = authFieldId(name);
   const hintId = hint ? `${id}-hint` : undefined;
@@ -97,12 +101,13 @@ export function AuthPasswordField({
   return (
     <div className="shell-field">
       <div className="shell-auth-label-row">
-        <label htmlFor={id}>{label}</label>
+        <label htmlFor={id}>{t(label)}</label>
         {aside}
       </div>
       <div className="shell-auth-control">
         <input
           {...input}
+          placeholder={input.placeholder ? t(input.placeholder) : undefined}
           id={id}
           name={name}
           type={revealed ? "text" : "password"}
@@ -113,7 +118,7 @@ export function AuthPasswordField({
           type="button"
           className="shell-auth-reveal"
           onClick={() => setRevealed((current) => !current)}
-          aria-label={revealed ? "Şifreyi gizle" : "Şifreyi göster"}
+          aria-label={t(revealed ? "Şifreyi gizle" : "Şifreyi göster")}
           aria-pressed={revealed}
           aria-controls={id}
         >
@@ -122,12 +127,12 @@ export function AuthPasswordField({
       </div>
       {hint && (
         <p className="shell-field-hint" id={hintId}>
-          {hint}
+          {t(hint)}
         </p>
       )}
       {message && (
         <p className="shell-form-error" id={authErrorId(name)}>
-          {message}
+          {t(message)}
         </p>
       )}
     </div>
