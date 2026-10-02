@@ -325,7 +325,7 @@ const dictionary: Record<string, string> = {
   "MALZEME İZLENEBİLİRLİĞİ": "WERKSTOFF-RÜCKVERFOLGBARKEIT",
   "Malzeme kimliği": "Werkstoffidentität",
   "Malzeme Kütüphanesi": "Werkstoffbibliothek",
-  "MAS TECHNIC, 5 eksen CNC teknolojileri ve sıkı kalite kontrol süreçleriyle ham geometriden doğrulanmış hassasiyete ulaştırır.": "MAS TECHNIC führt rohe Geometrie mit 5-Achs-CNC-Technik und strenger Qualitätskontrolle zu geprüfter Präzision.",
+  "MAS TECHNIC; CNC frezeleme, tornalama ve tamamlayıcı işlemler için parçanızı teknik resimden üretim ve kontrol planına taşır. Geometri ve tolerans gereksinimleri incelendikten sonra üretim teklifi hazırlanır.": "MAS TECHNIC führt Ihr Teil für CNC-Fräsen, -Drehen und ergänzende Prozesse von der technischen Zeichnung zu einem Fertigungs- und Prüfplan. Nach Prüfung der Geometrie- und Toleranzanforderungen wird ein Fertigungsangebot erstellt.",
   "MAS Technic ana sayfa": "MAS Technic Startseite",
   "MAS Technic teknik görüşme randevu takvimi": "MAS Technic Terminkalender für technische Gespräche",
   "Mat yüzey": "Matte Oberfläche",

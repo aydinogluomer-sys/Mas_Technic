@@ -15,6 +15,7 @@ import "@/styles/navigation.css";
 import "@/styles/menu-round2.css";
 import "@/styles/i18n.css";
 import { useTranslation } from "react-i18next";
+import { railLabel } from "@/components/shell/rail-labels";
 import { upper } from "@/i18n/upper";
 import { LanguageSwitch } from "./navigation/LanguageSwitch";
 
@@ -517,7 +518,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
           data-fullscreen-header
           className={`tl-header-band${modalActive ? " is-behind-modal" : ""}`}
         >
-          <div className="tl-band-index" aria-hidden="true"><span>01</span><small>HEADER</small></div>
+          <div className="tl-band-index" aria-hidden="true"><span>01</span><small>{railLabel("HEADER", i18n.language)}</small></div>
           <div className="tl-header">
             <Link className="tl-brand" to="/" aria-label={t("MAS Technic ana sayfa")}>
               <strong>MAS <em>TECHNIC</em></strong>

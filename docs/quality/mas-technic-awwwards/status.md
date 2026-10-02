@@ -67,6 +67,34 @@ WebGL hata probe'u (`/teklif-al`, desktop-1280): iki senaryoda da sayfa boşalm�
 - Host seviyesinde 301 (R01'in istemci yönlendirmesinin karşılığı): RELEASE01.
 - Font ölçümü: Google Fonts erişilebilir bir ağda tekrarlanmalı.
 
+## Paket 2 — T01 → T02 → T03 → COPY01 (+ D2)
+
+- HEAD doğrulaması: paket 2 başında `origin/claude/documentation-roadmap-nwV4C` = `5ec6ce7` ve `main` = `4618e71` (paket 1 merge edilmemişti); paket 2 aynı dalın üstüne eklendi.
+- D2 (kullanıcı kararı): M01 caption "…yukarıdaki kayıt…" oldu; claims-gate sabitlemesi aynı commit'te güncellendi (`328db88`).
+
+| İş | Durum | Bağımlılık | Değişen dosyalar | Son kanıt |
+|---|---|---|---|---|
+| T01 | PASS_LOCAL · onay `BLOCKED_DATA` (O02) | O02 | `src/data/servicePages.ts`, `categoryPages.ts`, `materialsData.ts`, `navigation/ia.ts`, `i18n/locales/*` | Tablodaki 9 satırın hepsi uygulandı. Kaldırılan ifadeler public veride, meta'da ve türetilmiş SSS/chatbot havuzunda yok (`grep`). Genel ±0.01 mm korundu. |
+| T02 | PASS_LOCAL · sertifika yayın kabulü `BLOCKED_DATA` (O03) | O02, O03 | `servicePages.ts`, `chatFaqData.ts`, `claims.ts`, `KaliteDosyasi.tsx`, `FinalSections.tsx`, `technical-landing.css`, `scripts/quality/claims-scan.ts` | `claims-inventory.json`: 620 → 263 sayısal ifade, tablo dışı 274 → 81, sınıflandırılmamış 0. OHSAS vitrinden çıktı. Landing kalite şeridi 5 kartla 12/6/4 ızgarada kapanıyor (`evidence/screens/t02/`). |
+| T03 | PASS_LOCAL · kaynaklandırma `BLOCKED_DATA` (O05) | O05 | `materialsData.ts`, `material-figures.ts`, `MaterialRegister.tsx`, `Malzemeler.tsx`, `MalzemeKategori.tsx`, `shell.css`, `e2e/material-data-contract.spec.ts` | 87/87 kayıt yeni alanları taşıyor; kaynaklı kayıt 0. Public'te sayısal malzeme özelliği yok ("Veri doğrulanmadı"). Puan ve fiyat public'ten kalktı. `evidence/screens/t03/` |
+| COPY01 | PASS_LOCAL (TR) · EN metin turu L01'e bağlı | L01 | `rail-labels.ts`, `ShellBand.tsx`, `PageShell.tsx`, `Header.tsx`, `TechnicalHero.tsx`, `caseStudies.ts`, `Hakkimizda.tsx`, `SSS.tsx`, `KaliteDosyasi.tsx`, `KabiliyetProfilleri.tsx`, `KabiliyetProfilDetay.tsx`, `i18n/locales/*`, `e2e/copy-user-language.spec.ts` | Yasaklı iç denetim cümleleri 8 rotada yok. Ray TR'de anlamlı Türkçe etiket basıyor. Profil etiketi sözleşmedeki tek cümle. Hero açıklaması sözleşme metni. `evidence/screens/copy01/` |
+
+COPY01'in kabul maddesinde "iki dil ekran görüntüsü" var. EN public yüzey L01'de kurulacağı için bu paket yalnız TR'yi kanıtlıyor. Yeni hero ve ray metinlerinin EN/DE/RU/ZH sözlük karşılıkları eklendi; EN sayfa turu L01'de yapılacak.
+
+### Paket 2 test sonuçları
+
+| Komut | Sonuç |
+|---|---|
+| `npm run typecheck` | geçti |
+| `npm run lint` | 0 hata, 2 uyarı (tabanla aynı) |
+| `npm run build` (envsiz ve placeholder env) | geçti |
+| `node scripts/claims-gate.mjs` | PASS: 0 ihlal, 306 kontrol |
+| `critical-1280` + `critical-375` (son koşu) | 160 geçti, 3 hata, 3 atlandı. Hatalar tabandaki 3 `FAIL_INFRA` testiyle birebir aynı (Google Fonts sertifika hatası / font fallback oranı). Sertifika testi (OHSAS yok, ISO 45001 yok) geçti. |
+| Regresyon seti (`shared-shell-accessibility`, `navigation-reachability`, `qa-p08-waveb-contract`, `qa-p09a2-claims-sweep`, `qa-p09a2-contrast`, `design-system-typography`, `fullscreen-menu`, `detail-route-family`, `material-data-contract`, `copy-user-language`; desktop-1280 + tablet-768 + mobile-375) | 183 geçti, 0 hata, 174 atlandı (tek projeye bağlı testler) |
+| Malzeme ve tablo seti (`malzemeler-static-plate`, `malzemeler-sticky`, `material-category-footer`, `qa-p08-scroll-region-reach`, `material-data-contract`; 3 görünüm) | 41 geçti, 0 hata |
+
+Ara bulgu (düzeltildi): T02 tablo notundaki "taahhüt değildir" ifadesi `qa-p09a2-claims-sweep` garanti taramasına takıldı. Not, bu kelime olmadan yeniden yazıldı (karar C7).
+
 ## Sonraki iş
 
-Paket 2: **T01 → T02 → T03 → COPY01**. Sözleşme gereği bu paketin diff/kanıt değerlendirmesi ve HEAD'in yeniden doğrulanmasından sonra başlar.
+Paket 3: **L01 → SEO01**. Sözleşme gereği paket 2'nin diff/kanıt değerlendirmesi ve HEAD'in yeniden doğrulanmasından sonra başlar.

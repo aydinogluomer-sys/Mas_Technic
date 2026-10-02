@@ -296,7 +296,7 @@ export const SSS = () => {
         crumb={<ShellBreadcrumb trail={[{ label: "Ana sayfa", to: "/" }, { label: "Sık sorulanlar" }]} />}
         eyebrow="Soru kaydı"
         title="Sıkça Sorulan Sorular"
-        lede="Üretim, malzeme, tolerans, kalite ve teslimat başlıklarında en çok sorulanlar. Her yanıt, ilgili teknik sayfanın kendi metniyle aynı kaynaktan gelir."
+        lede="Üretim, malzeme, tolerans, kalite ve teslimat başlıklarında sık sorulan sorular. Her yanıttan ilgili teknik sayfaya geçebilirsiniz."
         meta={[
           { label: "Kapsam", value: "Üretim · Malzeme · Kalite · Teslimat" },
           { label: "Standart tolerans", value: MINIMUM_TOLERANCE },

@@ -67,7 +67,7 @@ import {
    is authorised to make.
 
    ── SEARCH/FILTER: OMITTED ───────────────────────────────────────────────
-   Four documents and three certificates. Nothing to search.
+   Four documents and two active certificates. Nothing to search.
 
    ── THE ROUTE IS `/kalite-dosyasi`, NOT `/kalite` ────────────────────────
    `kalite` is already a published landing anchor (`landingSections` in
@@ -157,7 +157,7 @@ export const KaliteDosyasi = () => {
             id="kalite-dokuman"
             index="02"
             title="Yayımlanan dokümanlar"
-            standfirst="Dört doküman indirilebilir. Yanlarındaki boyutlar, sunulan dosyadan ölçülür — yazılmaz."
+            standfirst="Dört doküman PDF olarak açılabilir ve indirilebilir."
           />
         </div>
         <div className="shell-span-full">
@@ -186,7 +186,7 @@ export const KaliteDosyasi = () => {
           />
           <ShellSpecTable
             caption="Yönetim sistemleri"
-            note="Bu üç belge dışında bir yönetim sistemi belgesi bulunmamaktadır. Belge kapsamı dışında bir standart gerekiyorsa teknik incelemede birlikte değerlendiririz."
+            note="Belge kapsamı dışında bir standart gerekiyorsa teknik incelemede birlikte değerlendiririz."
             headers={["STANDART", "KAPSAM"]}
             numericFrom={2}
             rows={CERTIFICATIONS.map((item) => [item.code, item.name])}
@@ -195,13 +195,6 @@ export const KaliteDosyasi = () => {
         </div>
 
         <div className="shell-span-note shell-stack" data-gap="sm">
-          <ShellNotice tone="caution" label="YAYIMLANMAYAN" title="Belge numarası ve kuruluş">
-            <p>
-              Bu sayfada belge numarası, belgelendirme kuruluşu veya bir doğrulama bağlantısı
-              yayımlanmaz. Bunlar doğrulanabilir bir kaynağa dayanmadan yazılırsa, belge değil
-              belge görüntüsü olur.
-            </p>
-          </ShellNotice>
           <ShellEvidence kind="BELGE" source={QUALITY_RESOURCES[0].title}>
             Kalite politikasının yazılı beyanı, yukarıdaki dokümanlar arasında indirilebilir
             durumdadır.

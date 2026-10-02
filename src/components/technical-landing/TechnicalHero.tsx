@@ -20,7 +20,7 @@ export function TechnicalHero() {
     <TechnicalSectionFrame no="02" label="HERO" className="tl-hero" labelledBy="tl-hero-title">
       <div className="tl-hero-copy">
         <h1 id="tl-hero-title" data-testid="technical-hero-title">{t("HAM GEOMETRİDEN")}<br />{t("DOĞRULANMIŞ")}<br />{t("HASSASİYETE")}</h1>
-        <p>{t("MAS TECHNIC, 5 eksen CNC teknolojileri ve sıkı kalite kontrol süreçleriyle ham geometriden doğrulanmış hassasiyete ulaştırır.")}</p>
+        <p>{t("MAS TECHNIC; CNC frezeleme, tornalama ve tamamlayıcı işlemler için parçanızı teknik resimden üretim ve kontrol planına taşır. Geometri ve tolerans gereksinimleri incelendikten sonra üretim teklifi hazırlanır.")}</p>
         <Link to="/teklif-al" data-testid="technical-hero-cta">
           {t("TEKLİF AL")}
           <svg viewBox="0 0 40 12" aria-hidden="true"><path d="M0 6h37M31 1l6 5-6 5" /></svg>

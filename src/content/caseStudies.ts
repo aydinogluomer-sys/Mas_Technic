@@ -193,3 +193,10 @@ export const caseStudies: readonly CaseStudy[] = [
     rfq: RFQ_CTA,
   },
 ];
+
+/* COPY01 — the one sentence that tells a reader what a profile is. Stated
+   once, here, and used verbatim by the index and every detail page. */
+export const PROFILE_LABEL =
+  "Bu sayfa bir kabiliyet profilidir; tamamlanmış müşteri projesi veya ölçüm raporu değildir.";
+export const PROFILE_INDEX_LABEL =
+  "Bu sayfadaki her kayıt bir kabiliyet profilidir; tamamlanmış müşteri projesi veya ölçüm raporu değildir.";

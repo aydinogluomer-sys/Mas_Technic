@@ -10,7 +10,7 @@ import {
   ShellTitleBlock,
 } from "@/components/shell";
 import { usePageMeta } from "@/hooks/use-page-meta";
-import { caseStudies } from "@/content/caseStudies";
+import { caseStudies, PROFILE_INDEX_LABEL } from "@/content/caseStudies";
 import { profileRowMeta } from "@/components/pages/case-study-figures";
 import { CMM_COVERAGE, MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 
@@ -84,39 +84,22 @@ export const KabiliyetProfilleri = () => {
           <ShellTitleBlock
             id="profiller-kapsam"
             index="02"
-            title={<>Bunlar müşteri projesi <em>değildir</em></>}
+            title="Bir profilde ne bulursunuz"
           />
           <div className="shell-prose" data-lead>
             <p>
-              Bu sayfadaki kayıtlar bir müşteri projesinin anlatımı değil, bir parça ailesinin
-              nasıl ele alındığının tarifidir. Bir isim, bir sipariş numarası veya bir ölçüm
-              sonucu bulamazsınız — çünkü yayımlanması için izin alınmış bir proje henüz yok.
-            </p>
-            <p>
-              Yayımlanabilir bir işin ne zaman ekleneceğine dair bir tarih vermek yerine, şu anda
-              gerçekten söyleyebileceğimiz şeyi söylüyoruz: bir parça sınıfında hangi özelliğin
-              neden kritik olduğunu, hangi aşamada nasıl kontrol edildiğini ve arkasında hangi
-              kaydın kaldığını.
+              Her profil, bir parça ailesinde hangi özelliğin neden kritik olduğunu, hangi
+              aşamada nasıl kontrol edildiğini ve kontrolün arkasında hangi kaydın kaldığını
+              anlatır. Kendi parçanızın kontrol planı, teklif aşamasında teknik resminiz
+              üzerinden hazırlanır.
             </p>
           </div>
         </div>
 
         <div className="shell-span-note shell-stack" data-gap="sm">
-          <ShellNotice
-            tone="caution"
-            label="KAYIT DURUMU"
-            title="Ölçüm sonucu yayımlanmıyor"
-          >
-            <p>
-              Bir nominal → ölçülen → uygun tablosu, ancak gerçek bir muayene kaydı ve müşteri
-              izniyle yayımlanabilir. İkisi de olmadan yayımlanan böyle bir tablo ölçüm değil,
-              yazılmış bir sayıdır.
-            </p>
+          <ShellNotice tone="note" label="PROFİL">
+            <p>{PROFILE_INDEX_LABEL}</p>
           </ShellNotice>
-          <p className="shell-note">
-            İzinli ve anonimleştirilmiş bir iş eklendiğinde aynı sayfalar onu taşır; şablon değil,
-            içerik değişir.
-          </p>
         </div>
       </ShellSurfaceBand>
 

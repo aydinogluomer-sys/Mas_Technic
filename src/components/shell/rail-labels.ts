@@ -1,13 +1,28 @@
 /* ══════════════════════════════════════════════════════════════════════════
-   RAIL LABELS — ONE LANGUAGE FOR THE SHEET INDEX
+   RAIL LABELS — ONE LANGUAGE PER PAGE, AND IT IS THE READER'S
 
-   The rail caption under each band number is a drawing-sheet code, not page
-   copy. It was half Turkish, half English (`HERO`, `PROOF STRIP` next to
-   `SÜREÇ`, `SEKTÖRLER`). Call sites keep passing the label they always did;
-   the band renders the English sheet code from this one table, so a new band
-   cannot reintroduce the mix, and the rail stays English in every UI language.
-   Unknown labels pass through unchanged (already English, or a proper noun).
+   The rail caption under each band number names the section. Phase 04 made it
+   an English sheet code in every UI language, which put `HEADER`, `PROOF
+   STRIP`, `DEFINITION`, `REGISTER` and `NEXT STEP` on Turkish pages — developer
+   vocabulary the reader had to decode (COPY01, implementation contract §7).
+
+   Call sites keep passing the key they always did (mostly Turkish already).
+   `railLabel(key, language)` renders a meaningful section name in the page
+   language: Turkish keys stand as they are, the few English-only keys get a
+   Turkish name, and an English page reads `RAIL_EN`. Unknown keys pass through
+   unchanged. Names stay short enough for the 56/64px rail (mobile hides it).
    ══════════════════════════════════════════════════════════════════════════ */
+
+/** Keys that were English sheet codes, given a Turkish section name. */
+const RAIL_TR: Record<string, string> = {
+  "HEADER": "MENÜ",
+  "HERO": "AÇILIŞ",
+  "PROOF STRIP": "KABİLİYET ÖZETİ",
+  "MARQUEE": "HİZMETLER",
+  "RFQ": "TEKLİF",
+  "PAGE": "SAYFA",
+};
+
 const RAIL_EN: Record<string, string> = {
   "SÜREÇ": "PROCESS",
   "KABİLİYET PROFİLLERİ": "CAPABILITY PROFILES",
@@ -60,8 +75,16 @@ const RAIL_EN: Record<string, string> = {
   "GİZLİLİK": "PRIVACY",
   "ÇEREZ": "COOKIES",
   "KVKK": "KVKK",
+  "HEADER": "MENU",
+  "HERO": "OPENING",
+  "PROOF STRIP": "CAPABILITY SUMMARY",
+  "MARQUEE": "SERVICES",
+  "RFQ": "RFQ",
+  "PAGE": "PAGE",
 };
 
-export function railLabel(label: string): string {
-  return RAIL_EN[label.trim().toLocaleUpperCase("tr-TR")] ?? label;
+export function railLabel(label: string, language = "tr"): string {
+  const key = label.trim().toLocaleUpperCase("tr-TR");
+  if (language.toLowerCase().startsWith("en")) return RAIL_EN[key] ?? label;
+  return RAIL_TR[key] ?? label;
 }

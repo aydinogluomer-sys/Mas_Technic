@@ -14,7 +14,7 @@ import {
   ShellTitleBlock,
 } from "@/components/shell";
 import { usePageMeta } from "@/hooks/use-page-meta";
-import { caseStudies } from "@/content/caseStudies";
+import { caseStudies, PROFILE_LABEL } from "@/content/caseStudies";
 import { caseStudyImages, profileMeta, profileRowMeta } from "@/components/pages/case-study-figures";
 import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
 import type { CaseStudyImageKey } from "@/content/caseStudies";
@@ -238,11 +238,10 @@ export const KabiliyetProfilDetay = () => {
               rowKey={(row) => String(row[0])}
             />
           ) : (
-            <ShellNotice tone="caution" label="ÖLÇÜM KAYDI">
+            <ShellNotice tone="note" label="PROFİL">
+              <p>{PROFILE_LABEL}</p>
               <p>
-                Bu profil için yayımlanmış bir nominal → ölçülen tablosu yoktur; böyle bir tablo
-                ancak gerçek bir muayene kaydına ve müşteri iznine dayanarak yayımlanabilir.
-                Sizin işinizde ölçüm kayıtları teslim dosyasına eklenir. {CMM_COVERAGE} olarak
+                Sizin işinizde ölçüm kayıtları teslim dosyasına eklenir; {CMM_COVERAGE} olarak
                 sağlanır.
               </p>
             </ShellNotice>

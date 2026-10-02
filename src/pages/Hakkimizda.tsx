@@ -175,10 +175,6 @@ export const Hakkimizda = () => {
             <ShellAction href={measurementList.href} variant="quiet">{measurementList.size}</ShellAction>
           </ShellEvidence>
 
-          <p className="shell-note">
-            Bu sayfadaki teknik ifadeler tek bir kaynaktan gelir ve sitenin geri kalanında aynı
-            değerlerle tekrarlanır.
-          </p>
         </div>
       </ShellSurfaceBand>
 

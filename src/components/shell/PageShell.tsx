@@ -1,6 +1,7 @@
 import { useRef, type ReactNode, type RefObject } from "react";
 import { Header } from "@/components/Header";
 import { SiteFooter } from "./SiteFooter";
+import { useTranslation } from "react-i18next";
 import { railLabel } from "./rail-labels";
 import { useScrollableRegionAccess } from "./useScrollableRegionAccess";
 import { useProseReveal } from "@/hooks/useProseReveal";
@@ -89,6 +90,7 @@ export function PageShell({
   testId,
   mainData,
 }: PageShellProps) {
+  const { i18n } = useTranslation();
   /* The shell spends a rail column, so the field it hands a page body is
      narrower than the body was written against and boxes that used to fit can
      overflow. Every scrollable region inside the sheet therefore gets a focus
@@ -111,7 +113,7 @@ export function PageShell({
           {layout === "band" && (
             <div className="shell-rail" aria-hidden="true">
               <span>{rail?.no ?? "02"}</span>
-              <small>{railLabel(rail?.label ?? "PAGE")}</small>
+              <small>{railLabel(rail?.label ?? "PAGE", i18n.language)}</small>
             </div>
           )}
           {children}
