@@ -490,7 +490,7 @@ function keywordArraySpans(text) {
    IMG01, PROOF01). Add a label here only when the contract gives its text
    verbatim; the `demo-placeholder-badge` rule fires on every other use. */
 const CONTRACT_HONESTY_LABELS = [
-  "Temsili malzeme görünümü; teknik seçim aşağıdaki kayıt ve çalışma koşullarına göre yapılır.",
+  "Temsili malzeme görünümü; teknik seçim yukarıdaki kayıt ve çalışma koşullarına göre yapılır.",
 ];
 const foldForLabel = (value) => value.replace(/[İIıi]/g, "i").toLowerCase();
 const onContractHonestyLabel = (text, index) => {
@@ -2303,9 +2303,11 @@ const RULES = [
         '"TEMSİLİ İÇERİK"',
         '<span>Temsili veri</span>',
         '"Temsili malzeme görünümü"',
+        // The pre-D2 wording is no longer pinned.
+        '"Temsili malzeme görünümü; teknik seçim aşağıdaki kayıt ve çalışma koşullarına göre yapılır.";',
       ],
       silent: [
-        '"Temsili malzeme görünümü; teknik seçim aşağıdaki kayıt ve çalışma koşullarına göre yapılır.";',
+        '"Temsili malzeme görünümü; teknik seçim yukarıdaki kayıt ve çalışma koşullarına göre yapılır.";',
       ],
     },
     // `HAZIRLANIYOR` is matched UPPERCASE-ONLY, and only as a shouted heading.

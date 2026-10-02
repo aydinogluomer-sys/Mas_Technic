@@ -335,7 +335,7 @@ export const Malzemeler = () => {
 };
 
 const REFERENCE_CAPTION =
-  "Temsili malzeme görünümü; teknik seçim aşağıdaki kayıt ve çalışma koşullarına göre yapılır.";
+  "Temsili malzeme görünümü; teknik seçim yukarıdaki kayıt ve çalışma koşullarına göre yapılır.";
 
 /* One still image, sized by `--shell-reference-plate-h` (≤480px desktop,
    ≤280px mobile). If it fails to load the frame is replaced by a note that

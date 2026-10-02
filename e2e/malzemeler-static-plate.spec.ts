@@ -6,7 +6,7 @@ import { gotoAndSettle, measureHorizontalOverflow } from "./helpers";
    leaves an explanatory note instead of an empty frame, and filter / compare /
    no-results still work. */
 
-const CAPTION = "Temsili malzeme görünümü; teknik seçim aşağıdaki kayıt ve çalışma koşullarına göre yapılır.";
+const CAPTION = "Temsili malzeme görünümü; teknik seçim yukarıdaki kayıt ve çalışma koşullarına göre yapılır.";
 
 async function openMaterials(page: Page) {
   const frameRequests: string[] = [];
