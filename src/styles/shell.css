@@ -1365,6 +1365,13 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   text-align: right;
   white-space: nowrap;
 }
+/* T03: an unsourced material figure is a status, not a value — set it as a
+   quiet mono label so it reads differently from a measured number. */
+.shell-table [data-unverified] {
+  color: var(--sf-meta);
+  font: 500 10px/1.4 var(--tl-font-mono);
+  letter-spacing: .04em;
+}
 .shell-table tbody tr:last-child :is(th, td) { border-bottom: 0; }
 .shell-table tbody tr[data-reference] { background: var(--sf-raise); }
 

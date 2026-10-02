@@ -14,7 +14,7 @@ import {
 } from "@/components/shell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { MaterialRegister } from "@/components/pages/MaterialRegister";
-import { PRICE_BAND } from "@/components/pages/material-figures";
+import { compareFigure, familyName, figure, hardness, UNVERIFIED_FIGURE } from "@/components/pages/material-figures";
 import { materialCategories, materialsData, type Material } from "@/data/materialsData";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
@@ -74,27 +74,28 @@ import referencePlate960 from "@/assets/hero-malzeme-kutuphanesi-960.webp";
       until another route is proven not to need them.
    ══════════════════════════════════════════════════════════════════════════ */
 
+/* T03: sorting by the undocumented 1–5 machinability score and by price band
+   is gone. Numeric sorts put records without a source LAST in either
+   direction (`compareFigure`) — an unknown value is never treated as 0. */
 const SORT_OPTIONS = [
   { id: "name", label: "İsim (A→Z)" },
   { id: "density", label: "Yoğunluk (düşük → yüksek)" },
   { id: "tensileStrength", label: "Mukavemet (yüksek → düşük)" },
-  { id: "machinability", label: "İşlenebilirlik (yüksek → düşük)" },
-  { id: "priceCategory", label: "Fiyat bandı (düşük → yüksek)" },
 ];
 
-const PRICE_ORDER: Record<Material["priceCategory"], number> = { low: 1, medium: 2, high: 3 };
 const MAX_COMPARE = 4;
 
 const COMPARISON_ROWS: { label: string; read: (material: Material) => string }[] = [
-  { label: "Aile", read: (m) => m.subcategory },
-  { label: "Yoğunluk (g/cm³)", read: (m) => String(m.density) },
-  { label: "Çekme mukavemeti (MPa)", read: (m) => String(m.tensileStrength) },
-  { label: "Sertlik", read: (m) => m.hardness },
-  { label: "Maks. sıcaklık (°C)", read: (m) => String(m.maxTemperature) },
-  { label: "Isı iletkenliği (W/m·K)", read: (m) => String(m.thermalConductivity) },
-  { label: "İşlenebilirlik", read: (m) => `${m.machinability}/5` },
-  { label: "Korozyon direnci", read: (m) => `${m.corrosionResistance}/5` },
-  { label: "Fiyat bandı", read: (m) => PRICE_BAND[m.priceCategory] },
+  { label: "Aile", read: (m) => familyName(m) },
+  { label: "Grade / temper", read: (m) => m.gradeTemper ?? "Belirtilmedi" },
+  { label: "Ürün formu", read: (m) => m.productForm ?? "Belirtilmedi" },
+  { label: "Yoğunluk (g/cm³)", read: (m) => figure(m, "density") },
+  { label: "Çekme mukavemeti (MPa)", read: (m) => figure(m, "tensileStrength") },
+  { label: "Sertlik", read: (m) => hardness(m) },
+  { label: "Maks. sıcaklık (°C)", read: (m) => figure(m, "maxTemperature") },
+  { label: "Isı iletkenliği (W/m·K)", read: (m) => figure(m, "thermalConductivity") },
+  { label: "Değer koşulu", read: (m) => m.propertyConditions },
+  { label: "Kaynak", read: (m) => m.source?.document ?? UNVERIFIED_FIGURE },
 ];
 
 export const Malzemeler = () => {
@@ -124,10 +125,8 @@ export const Malzemeler = () => {
     }
     result.sort((a, b) => {
       switch (sortBy) {
-        case "density": return a.density - b.density;
-        case "tensileStrength": return b.tensileStrength - a.tensileStrength;
-        case "machinability": return b.machinability - a.machinability;
-        case "priceCategory": return PRICE_ORDER[a.priceCategory] - PRICE_ORDER[b.priceCategory];
+        case "density": return compareFigure("density", "asc")(a, b);
+        case "tensileStrength": return compareFigure("tensileStrength", "desc")(a, b);
         default: return a.name.localeCompare(b.name, "tr");
       }
     });
@@ -263,7 +262,7 @@ export const Malzemeler = () => {
               <div className="shell-compare">
                 <ShellSpecTable
                   caption="Karşılaştırma"
-                  note="Seçilen malzemeler yan yana. Değerler malzeme standardının tipik aralıklarıdır."
+                  note="Seçilen malzemeler yan yana. Kaynağı doğrulanmamış değerler “Veri doğrulanmadı” olarak gösterilir; teknik seçimde malzeme sertifikası esas alınır."
                   headers={["Özellik", ...compare.map((material) => material.name)]}
                   rows={COMPARISON_ROWS.map((row) => [
                     row.label,
@@ -281,7 +280,7 @@ export const Malzemeler = () => {
               <MaterialRegister
                 materials={filtered}
                 caption="Malzeme kaydı"
-                note="Satırı açtığınızda malzemenin öne çıkan tarafı, dikkat edilecek noktaları ve uygulama alanları görünür."
+                note="Sayısal değerler, kaynağı doğrulanan kayıtlarda gösterilir; diğerlerinde “Veri doğrulanmadı” yazar. Satırı açtığınızda grade/temper, değer koşulu, öne çıkan taraf ve dikkat edilecek noktalar görünür."
                 selected={compare.map((material) => material.id)}
                 onToggleSelect={toggleCompare}
                 maxSelected={MAX_COMPARE}

@@ -12,7 +12,7 @@ import {
   ShellTitleBlock,
 } from "@/components/shell";
 import { materialsData, materialCategories, findMaterialCategory } from "@/data/materialsData";
-import { familyRanges } from "@/components/pages/material-figures";
+import { familyRanges, figure, hardness } from "@/components/pages/material-figures";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 
@@ -31,10 +31,10 @@ import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 
    THE ONE STRUCTURAL ADDITION
    ---------------------------
-   The hero now carries the family's property ENVELOPE — density, tensile,
-   maximum temperature and machinability, each as a range — and every one of
-   those four numbers is computed from the alloy table further down the same
-   page (`familyRanges()`). It is the strictest form of evidence available
+   The hero now carries the family's property ENVELOPE — density, tensile and
+   maximum temperature, each as a range — and every one of those numbers is
+   computed from the SOURCED rows of the alloy table further down the same page
+   (`familyRanges()`, T03); with no sourced row it reads "Veri doğrulanmadı". It is the strictest form of evidence available
    here: the page cannot state a figure it does not also show. The old hero
    carried an emoji and a sentence.
    ══════════════════════════════════════════════════════════════════════════ */
@@ -134,7 +134,8 @@ export const MalzemeKategori = () => {
           <p className="shell-eyebrow">Aile özellikleri</p>
           <ShellTagRow items={category.advantages} ariaLabel={`${category.name} aile özellikleri`} />
           <p className="shell-note">
-            Bu sayfadaki sayısal aralıklar, aşağıdaki alaşım kaydından hesaplanır.
+            Bu sayfadaki sayısal aralıklar, aşağıdaki alaşım kaydında kaynağı doğrulanmış
+            değerlerden hesaplanır; doğrulanmamış değerler aralığa katılmaz.
           </p>
         </div>
       </ShellSurfaceBand>
@@ -151,16 +152,16 @@ export const MalzemeKategori = () => {
         <div className="shell-span-full">
           <ShellSpecTable
             caption={`${category.name} alaşım kaydı`}
-            note="Değerler malzeme standardının tipik aralıklarıdır; parçaya özgü kabul kriteri kontrol planında belirlenir."
-            headers={["Alaşım", "Yoğunluk g/cm³", "Çekme MPa", "Sertlik", "Maks. °C", "İşlenebilirlik"]}
+            note={`${materials[0]?.propertyConditions ?? ""}. Kaynağı doğrulanmamış değerler “Veri doğrulanmadı” olarak gösterilir; parçaya özgü kabul kriteri kontrol planında belirlenir.`}
+            headers={["Alaşım", "Yoğunluk g/cm³", "Çekme MPa", "Sertlik", "Maks. °C", "Kaynak"]}
             rowKey={(_, index) => materials[index]?.id ?? String(index)}
             rows={materials.map((material) => [
               material.name,
-              material.density,
-              material.tensileStrength,
-              material.hardness,
-              material.maxTemperature,
-              `${material.machinability}/5`,
+              figure(material, "density"),
+              figure(material, "tensileStrength"),
+              hardness(material),
+              figure(material, "maxTemperature"),
+              material.source?.document ?? "—",
             ])}
           />
         </div>

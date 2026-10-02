@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { ShellAction, ShellTagRow } from "@/components/shell";
 import type { Material } from "@/data/materialsData";
-import { PRICE_BAND } from "./material-figures";
+import { familyName, figure, hardness, isSourced, UNVERIFIED_FIGURE } from "./material-figures";
 
 /* ══════════════════════════════════════════════════════════════════════════
    THE MATERIAL REGISTER
@@ -32,21 +32,19 @@ import { PRICE_BAND } from "./material-figures";
    row in place, keeps the ground, and is `aria-expanded` / `aria-controls` all
    the way down.
 
-   Columns marked `data-col="secondary"` are hidden below 768px with
+   Columns marked `data-col="secondary"` (T03: every figure column) are hidden below 768px with
    `display:none`, not with a clip: the value stays available in the disclosure
    panel, and `display:none` removes the cell from the accessibility tree too,
    so a screen reader is not read a column the layout has dropped.
-   ══════════════════════════════════════════════════════════════════════════ */
 
-function Gauge({ value, max = 5, label }: { value: number; max?: number; label: string }) {
-  return (
-    <span className="shell-gauge" role="img" aria-label={`${label}: ${value}/${max}`}>
-      {Array.from({ length: max }, (_, index) => (
-        <span key={index} data-on={index < value || undefined} />
-      ))}
-    </span>
-  );
-}
+   T03 — NO SCORES, NO PRICE, NO UNSOURCED FIGURES
+   -----------------------------------------------
+   The 1–5 machinability gauge and the price-band column are gone: neither had
+   a documented rubric, and price belongs to the quotation. Every numeric cell
+   goes through `figure()`, which prints "Veri doğrulanmadı" for a record with
+   no `source`; the disclosure names the grade/temper, product form, test
+   conditions and source the figures depend on.
+   ══════════════════════════════════════════════════════════════════════════ */
 
 export type MaterialRegisterProps = {
   materials: Material[];
@@ -82,12 +80,10 @@ export function MaterialRegister({
               <th scope="col"><span className="sr-only">Karşılaştırmaya ekle</span></th>
               <th scope="col">Malzeme</th>
               <th scope="col" data-col="secondary">Aile</th>
-              <th scope="col" data-numeric>Yoğunluk g/cm³</th>
-              <th scope="col" data-numeric>Çekme MPa</th>
+              <th scope="col" data-numeric data-col="secondary">Yoğunluk g/cm³</th>
+              <th scope="col" data-numeric data-col="secondary">Çekme MPa</th>
               <th scope="col" data-col="secondary">Sertlik</th>
               <th scope="col" data-numeric data-col="secondary">Maks. °C</th>
-              <th scope="col" data-col="secondary">İşlenebilirlik</th>
-              <th scope="col" data-col="secondary">Fiyat bandı</th>
               <th scope="col"><span className="sr-only">Ayrıntı</span></th>
             </tr>
           </thead>
@@ -110,15 +106,11 @@ export function MaterialRegister({
                       />
                     </td>
                     <th scope="row">{material.name}</th>
-                    <td data-col="secondary">{material.subcategory}</td>
-                    <td data-numeric>{material.density}</td>
-                    <td data-numeric>{material.tensileStrength}</td>
-                    <td data-col="secondary">{material.hardness}</td>
-                    <td data-numeric data-col="secondary">{material.maxTemperature}</td>
-                    <td data-col="secondary">
-                      <Gauge value={material.machinability} label="İşlenebilirlik" />
-                    </td>
-                    <td data-col="secondary">{PRICE_BAND[material.priceCategory]}</td>
+                    <td data-col="secondary">{familyName(material)}</td>
+                    <td data-numeric data-col="secondary" data-unverified={!isSourced(material) || undefined}>{figure(material, "density")}</td>
+                    <td data-numeric data-col="secondary" data-unverified={!isSourced(material) || undefined}>{figure(material, "tensileStrength")}</td>
+                    <td data-col="secondary" data-unverified={!isSourced(material) || undefined}>{hardness(material)}</td>
+                    <td data-numeric data-col="secondary" data-unverified={!isSourced(material) || undefined}>{figure(material, "maxTemperature")}</td>
                     <td>
                       <button
                         type="button"
@@ -133,34 +125,46 @@ export function MaterialRegister({
                   </tr>
                   {isOpen && (
                     <tr id={panelId}>
-                      <td colSpan={10} className="shell-disclosure-panel">
+                      <td colSpan={8} className="shell-disclosure-panel">
                         <div className="shell-detail">
                           <p className="shell-detail-lede">{material.description}</p>
 
                           <dl className="shell-detail-figures">
                             <div>
+                              <dt>Grade / temper</dt>
+                              <dd>{material.gradeTemper ?? "Belirtilmedi"}</dd>
+                            </div>
+                            <div>
+                              <dt>Ürün formu</dt>
+                              <dd>{material.productForm ?? "Belirtilmedi"}</dd>
+                            </div>
+                            <div>
+                              <dt>Yoğunluk</dt>
+                              <dd>{figure(material, "density", "g/cm³")}</dd>
+                            </div>
+                            <div>
+                              <dt>Çekme mukavemeti</dt>
+                              <dd>{figure(material, "tensileStrength", "MPa")}</dd>
+                            </div>
+                            <div>
                               <dt>Sertlik</dt>
-                              <dd>{material.hardness}</dd>
+                              <dd>{hardness(material)}</dd>
                             </div>
                             <div>
                               <dt>Maks. sıcaklık</dt>
-                              <dd>{material.maxTemperature} °C</dd>
+                              <dd>{figure(material, "maxTemperature", "°C")}</dd>
                             </div>
                             <div>
                               <dt>Isı iletkenliği</dt>
-                              <dd>{material.thermalConductivity} W/m·K</dd>
+                              <dd>{figure(material, "thermalConductivity", "W/m·K")}</dd>
                             </div>
                             <div>
-                              <dt>Fiyat bandı</dt>
-                              <dd>{PRICE_BAND[material.priceCategory]}</dd>
+                              <dt>Değer koşulu</dt>
+                              <dd>{material.propertyConditions}</dd>
                             </div>
                             <div>
-                              <dt>İşlenebilirlik</dt>
-                              <dd><Gauge value={material.machinability} label="İşlenebilirlik" /></dd>
-                            </div>
-                            <div>
-                              <dt>Korozyon direnci</dt>
-                              <dd><Gauge value={material.corrosionResistance} label="Korozyon direnci" /></dd>
+                              <dt>Kaynak</dt>
+                              <dd>{material.source ? material.source.document : UNVERIFIED_FIGURE}</dd>
                             </div>
                           </dl>
 

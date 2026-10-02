@@ -84,3 +84,44 @@ Değerler silinmedi: T02 öncesi metinleriyle `evidence/t02-claims-inventory-bef
 | MAT-SCORE-TABLE | `/malzemeler` karşılaştırma ve sıralama | `n/5` puanlar, fiyat bandı sıralaması | T03 |
 | SLA-QUOTE | `QUOTE_RESPONSE_TIME` | 1–3 iş günü | Yayında (`USER_INPUTS.md` `QUOTE_SLA`) |
 | REF-PLATE-MALZEME | `/malzemeler` 04 PAFTA | Temsili malzeme görünümü | Caption yayında (D2 ile "yukarıdaki") |
+
+## T03 — Malzeme verisi
+
+| Ölçü | Değer |
+|---|---|
+| Kayıt sayısı (`src/data/materialsData.ts`) | 87, 11 ailenin hepsinde kayıt var |
+| Kaynağı (`source`) olan kayıt | **0**. Kaynak ve uzman onayı bekleniyor (O05, `BLOCKED_DATA`). |
+| Public'te yayımlanan sayısal malzeme özelliği | 0. Yoğunluk, çekme, sertlik, maks. sıcaklık ve ısı iletkenliği "Veri doğrulanmadı" gösteriyor. |
+
+Her kayda eklenen alanlar:
+- `gradeTemper`: metallerde isimden çıkarıldı (ör. `6061-T6`, `17-4 PH`); polimer ve laminat ailelerinde `null`.
+- `productForm`: `null` ("Belirtilmedi").
+- `source`: `null`.
+- `propertyConditions`: aileye göre koşul cümlesi. Metal: oda sıcaklığı ve temper/ısıl işlem. Polimer: 23 °C, kuru. Kompozit: elyaf doğrultusunda.
+
+| Kural | Uygulama |
+|---|---|
+| Kaynaksız sayısal özellik | Kayıt tablosunda, karşılaştırmada, aile tablosunda ve ayrıntı panelinde "Veri doğrulanmadı" |
+| Sıralama | Kaynaksız kayıt her iki yönde de sona gider; 0 gibi davranmaz (`compareFigure`) |
+| Aile aralıkları (hero) | Yalnız kaynaklı kayıtlardan hesaplanır; hiç yoksa "Veri doğrulanmadı" |
+| 1–5 işlenebilirlik / korozyon puanı | Public'ten kaldırıldı (gösterge, sütun, sıralama, aile hero'su). Alan yalnız iç veri olarak duruyor. |
+| Fiyat bandı | Public'ten kaldırıldı (sütun, ayrıntı, sıralama). Metinlerdeki "Ekonomik / Pahalı" ifadeleri de çıkarıldı. Fiyat yalnız RFQ'da. |
+| Koşullar | Değer koşulu karşılaştırmada, ayrıntı panelinde ve aile tablosu notunda görünüyor |
+| "Aile" sütunu | Ham veri anahtarı (`composite`) yerine Türkçe aile adı |
+
+Teknik doğruluk düzeltmeleri (kayıt metinleri):
+- PC: "darbe dayanımı çeliğin 200 katı" (yanlış) çıkarıldı.
+- ETP bakır için "elektrolitik sert zift" yanlış çevirisi düzeltildi.
+- 304: kendi içindeki çelişki giderildi ("mükemmel işlenebilirlik" / "düşük işlenebilirlik"); "manyetik olmaz" sınırlama olarak listelenmiyor.
+- 6060: "iyi mukavemet" / "düşük mukavemet" çelişkisi giderildi.
+- Mutlak ifadeler yumuşatıldı: MIC-6 "çarpılmaz", HDPE/PET/PSU "FDA onaylı" (kaliteye bağlı), PP "en hafif plastik".
+- 303 ve 7075 için "kaynak yapılamaz" yerine "önerilmez".
+- Metin içindeki kaynaksız sayılar çıkarıldı: 980 / 700 / 260 / 250 / 300 / 170 °C, %93 IACS, %60 ağırlık, 1000+ otoklav.
+- Medikal uygulamalarda "implant" yerine "medikal bileşen / cihaz".
+- Yazım düzeltmeleri: Fittingsler, Rivetler, Exhaust manifold, kasnaklari, standartı.
+
+Aile sayfası metinleri:
+- "Özellikler" paragraflarındaki kaynaksız yoğunluk/MPa/°C/kesme hızı sayıları nitel anlatıma çevrildi.
+- "Antibakteriyel" (kaynaksız sağlık iddiası), "FDA onaylı" ve "implant" ifadeleri çıkarıldı.
+- Nikel alaşımları için "kontrol çubukları" yerine "reaktör iç bileşenleri" yazıldı.
+- Paslanmaz çelik tanımı (en az %10,5 krom) EN 10088'e atıfla kaldı.
