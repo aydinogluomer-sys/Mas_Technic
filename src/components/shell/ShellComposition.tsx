@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { ShellBand } from "./ShellBand";
 import { ShellMetaRow } from "./ShellPrimitives";

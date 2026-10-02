@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { upper } from "@/i18n/upper";
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
+import { useLocalizedPath } from "@/i18n/hooks";
 import { legalLinks } from "@/components/navigation/ia";
 import {
   PageShell,
@@ -86,6 +87,7 @@ const LAST_STEP = RFQ_STEPS.length;
 
 export const TeklifAl = () => {
   const { t, i18n } = useTranslation();
+  const localized = useLocalizedPath();
   const [currentStep, setCurrentStep] = useState(1);
   const [furthestStep, setFurthestStep] = useState(1);
   const [draft, setDraft] = useState<RfqDraft>(EMPTY_RFQ_DRAFT);
@@ -263,8 +265,8 @@ export const TeklifAl = () => {
             <div className="rfq-alt">
               <p className="shell-eyebrow">{t("DOSYA HAZIR DEĞİLSE")}</p>
               <ul>
-                <li><a href="/iletisim#toplanti">{t("Teknik görüşme planla")} <span aria-hidden="true">↗</span></a></li>
-                <li><a href="/sss">{t("Sık sorulan sorular")} <span aria-hidden="true">↗</span></a></li>
+                <li><a href={localized("/iletisim#toplanti")}>{t("Teknik görüşme planla")} <span aria-hidden="true">↗</span></a></li>
+                <li><a href={localized("/sss")}>{t("Sık sorulan sorular")} <span aria-hidden="true">↗</span></a></li>
                 <li><a href={PUBLIC_PHONE_HREF}>{PUBLIC_PHONE}</a></li>
                 <li><a href={SALES_EMAIL_HREF}>{SALES_EMAIL}</a></li>
               </ul>

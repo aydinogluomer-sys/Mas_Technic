@@ -345,13 +345,13 @@ export const servicePages: ServicePageData[] = [
     metaTitle: "Hassas Mikro İşleme | Küçük Çaplı Takımlar | Medikal & Elektronik | Mas Technic",
     metaDescription: "Mikro frezeleme, mikro tornalama ve mikro delme. Elektronik konektör, optik ve medikal bileşenlerde küçük ölçekli hassas işleme; çalışma aralığı teklifte belirtilir.",
     description:
-      "Milimetrenin altında toleranslarla, mikron seviyesinde hassasiyet gerektiren parçalar için özel çözümler. Medikal, elektronik ve optik sektörlerine özel ultra-hassas işleme.",
+      "Standart takımların ulaşamadığı küçük özelliklere sahip parçalar için mikro işleme. Medikal, elektronik ve optik bileşenler tipik uygulama alanlarıdır.",
     heroImage: "hero-mikro-isleme",
     content: [
       "Mikro işleme, standart takımların ulaşamadığı küçük özellikleri — dar kanallar, küçük delikler, ince duvarlar — küçük çaplı takımlar ve yüksek iş mili devriyle işler. Optik, elektronik ve medikal bileşenler tipik uygulama alanlarıdır.",
       "Mikro frezeleme, Swiss tip mikro tornalama ve mikro delme ile pim, vida, konektör pini, nozul ve akış kontrol parçaları gibi küçük parçalar üretilir. Çalışma aralığı, parçanın geometrisi ve proses planı incelendikten sonra teklifte belirtilir.",
       "Mikro parçalarda kontrol yöntemi de parçanın ölçeğine göre seçilir: temaslı ölçüm parçayı deforme edebileceği için optik yöntemler tercih edilir. Kontrol planında hangi kotenin hangi yöntemle ölçüleceği önceden tanımlanır ve sonuçlar kayıt altına alınır.",
-      "Medikal sektöründe implantlar, cerrahi aletler, kemik vidaları ve stentler; havacılık sektöründe yakıt enjektörleri, sensör muhafazaları ve mikro valfler; elektronik sektöründe konektör pinleri, fiber optik bileşenler ve yarı iletken test aparatları; saat & optik sektöründe saat mekanizma parçaları, lens tutucular ve kamera bileşenleri üretiyoruz.",
+      "Tipik uygulamalar: medikal sektöründe cerrahi alet ve cihaz bileşenleri; havacılıkta yakıt enjektörleri, sensör muhafazaları ve mikro valfler; elektronikte konektör pinleri, fiber optik bileşenler ve yarı iletken test aparatları; saat ve optikte mekanizma parçaları, lens tutucular ve kamera bileşenleri.",
     ],
     features: [
       "Mikro Frezeleme — Küçük çaplı takımlarla 5 eksen işleme",
@@ -373,7 +373,7 @@ export const servicePages: ServicePageData[] = [
     advantages: [
       "Küçük ölçekli geometrilerde kontrollü işleme",
       "Küçük çaplı takımlar ve yüksek devirli iş mili ile işleme",
-      "Kontaminasyonsuz üretim ortamı",
+      "Parça temizliği ve paketleme kontrol planına göre",
       "Optik büyütme altında kontrol",
       "Medikal, havacılık ve elektronik sektör deneyimi",
       "Otomatik besleyicili Swiss torna ile mikro seri üretim",
@@ -389,7 +389,7 @@ export const servicePages: ServicePageData[] = [
     faq: [
       { question: "Mikro işleme ne zaman tercih edilmeli?", answer: "Özellikler standart takımların ulaşamayacağı kadar küçükse — dar kanallar, küçük delikler, ince duvarlar — mikro işleme gerekir. Parçanın mikro işleme gerektirip gerektirmediği teknik resim incelemesinde belirlenir." },
       { question: "Maliyet standart CNC'den yüksek mi?", answer: "Evet, özel takımlar, yavaş ilerleme hızları ve hassas ölçüm gereksinimleri nedeniyle maliyet daha yüksektir. Ancak bu, standart yöntemlerle elde edilemeyecek sonuçlar içindir." },
-      { question: "Seri üretim yapabiliyor musunuz?", answer: "Evet, otomatik besleyicili Swiss torna ve palletli 5 eksen sistemleri ile mikro parçalarda bile seri üretim yapabiliyoruz." },
+      { question: "Seri üretim yapabiliyor musunuz?", answer: "Evet. Otomatik besleyicili Swiss torna ile mikro parçalarda da seri üretim yapılabilir; parti büyüklüğü teklif aşamasında planlanır." },
       { question: "Ölçüm raporu veriyor musunuz?", answer: "Kontrol planında tanımlanan koteler ölçülür ve ölçüm kaydı teslimat dosyasına eklenir. Koordinat ölçümü gerektiğinde akredite üçüncü taraf ölçümü talebe bağlı olarak sağlanır." },
     ],
     comparisonTables: [
@@ -911,17 +911,17 @@ export const servicePages: ServicePageData[] = [
     content: [
       "Anodizasyon, alüminyum yüzeyinde elektrokimyasal yöntemle oluşturulan alüminyum oksit (Al₂O₃) tabakasıdır. Bu tabaka, parçanın korozyon direncini, aşınma dayanımını ve estetik görünümünü önemli ölçüde artırır. Mas Technic olarak havacılık ve medikal uygulamalar için Tip I, Tip II ve Tip III anodizasyon hizmeti sunuyoruz.",
       "MIL-A-8625'e göre Tip I (kromik asit) ince bir oksit tabakası oluşturur; boya tutunma alt katmanı olarak tercih edilir. Tip II (sülfürik asit) en yaygın kullanılan türdür; korozyon koruması, renkli kaplama ve genel mühendislik uygulamalarında kullanılır. Tip III (sert anodizasyon) daha kalın ve daha sert bir tabaka oluşturur; aşınma direnci ve elektriksel yalıtım gerektiren yüzeylerde kullanılır. Tabaka kalınlığı ve sertlik alaşıma ve şartnameye göre belirlenir; kaplama sertliği Vickers (HV) ile ifade edilir — HRC ana malzemenin sertliği içindir.",
-      "Renklendirme sürecimizde organik ve inorganik boyalar kullanarak siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) renklerde kaplama yapıyoruz; özel RAL ve Pantone eşleştirmesi de mümkündür. Renk homojenliği ΔE ≤ 2.0 toleransında kontrol edilmektedir. Sealing (sızdırmazlık) işlemi ile oksit tabakasının gözenekleri kapatılarak uzun ömürlü koruma sağlanır.",
-      "Kalite kontrol sürecimiz: Eddy current veya mikrometre ile kaplama kalınlığı ölçümü, ASTM B117 tuz spreyi testi ile korozyon direnci doğrulaması, Vickers mikrosertlik testi ile sertlik kontrolü ve renk ölçüm cihazı ile ΔE renk homojenliği kontrolü. Her parti için ölçüm kaydı tutulur.",
+      "Renklendirme sürecimizde organik ve inorganik boyalar kullanarak siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) renklerde kaplama yapıyoruz; özel RAL ve Pantone eşleştirmesi de mümkündür. Renk toleransı şartnameye göre tanımlanır. Sealing (sızdırmazlık) işlemi ile oksit tabakasının gözenekleri kapatılarak koruma artırılır.",
+      "Kaplama kalınlığı, sertlik ve renk kontrolünün yöntemi ve kabul kriteri kontrol planında tanımlanır; korozyon testi (ör. ASTM B117) şartnamede isteniyorsa uygulanır. Her parti için ölçüm kaydı tutulur.",
       "Parça boyutu ve ağırlığına göre uygulanabilirlik teklif aşamasında belirlenir. Çalışma aralığı, parçanın geometrisi ve proses planı incelendikten sonra teklifte belirtilir.",
     ],
     features: [
       "Tip I (Kromik Asit) — İnce oksit tabakası, boya alt katmanı",
       "Tip II (Sülfürik Asit) — Korozyon koruması, renkli kaplama",
       "Tip III (Sert Anodizasyon) — Kalın ve sert tabaka, aşınma direnci",
-      "Renklendirme — Organik ve inorganik boyalar, ΔE ≤ 2.0 homojenlik",
+      "Renklendirme — Organik ve inorganik boyalar",
       "Tip I / II / III — MIL-A-8625 kaplama sınıfları",
-      "ASTM B117 Tuz Testi — Korozyon direnci doğrulaması",
+      "ASTM B117 Tuz Testi — Şartnamede isteniyorsa",
     ],
     technicalSpecs: [
       { label: "Tabaka kalınlığı", value: "Şartnameye göre" },
@@ -929,7 +929,7 @@ export const servicePages: ServicePageData[] = [
       { label: "Tuz Testi", value: "ASTM B117; şartnameye göre" },
       { label: "Kaplama Sınıfı", value: "MIL-A-8625 Tip I / II / III" },
       { label: "Çalışma aralığı", value: "Teklifte belirtilir" },
-      { label: "Renk Homojenliği", value: "ΔE ≤ 2.0" },
+      { label: "Renk Toleransı", value: "Şartnameye göre" },
     ],
     processSteps: [
       "Yüzey Temizliği & Yağ Giderme",
@@ -942,7 +942,7 @@ export const servicePages: ServicePageData[] = [
     advantages: [
       "4 farklı anodizasyon tipi (Tip I, II, III ve dekoratif)",
       "Tip I, Tip II ve Tip III kaplama sınıfları",
-      "ASTM B117 tuz testi ile korozyon direnci doğrulaması",
+      "Şartnamede isteniyorsa ASTM B117 tuz testi",
       "Organik ve inorganik boyalarla dekoratif ve fonksiyonel kaplama",
       "Termin, parti büyüklüğü ve kaplama sınıfına göre teklifle birlikte verilir",
       "Kaplama kalınlığı ve sertlik ölçümü ile kalite kontrolü",
@@ -960,8 +960,8 @@ export const servicePages: ServicePageData[] = [
       { question: "Anodizasyon hangi metallere uygulanabilir?", answer: "Temel olarak alüminyum ve alaşımlarına uygulanır. Titanyum ve magnezyum da anodize edilebilir. En yaygın uygulama Al 6061 ve 7075 serisi alaşımlardır." },
       { question: "Sert anodizasyon (Tip III) ile normal (Tip II) farkı nedir?", answer: "Tip III sert anodizasyon, Tip II'ye göre daha kalın ve daha sert bir tabaka oluşturur; aşınma direnci ve elektriksel yalıtım gerektiğinde tercih edilir. Tip II genel korozyon koruması ve dekoratif kaplama için uygundur. Kalınlık ve sertlik değerleri şartname ve alaşıma göre belirlenir." },
       { question: "Anodizasyon boyut değişikliğine neden olur mu?", answer: "Evet. Sülfürik anodizasyonda oksit tabakasının yaklaşık yarısı malzemeye nüfuz eder, yarısı yüzeyden dışarı büyür; sert anodizasyonda oran farklıdır. Bu nedenle her yüzeyde tabaka kalınlığının bir kısmı kadar, bir çapta ise bunun iki katı kadar ölçü artışı olur. Kesin pay, maskeleme ve tolerans planıyla birlikte işlem öncesinde belirlenir." },
-      { question: "Hangi renklerde anodizasyon yapabiliyorsunuz?", answer: "Siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) renklerde çalışıyoruz. Özel RAL ve Pantone renk eşleştirmesi de yapabiliyoruz; renk homojenliği ΔE ≤ 2.0 toleransında kontrol edilir." },
-      { question: "Kaplama ne kadar dayanıklıdır?", answer: "Kaplamalarımızın korozyon direnci ASTM B117 tuz spreyi testi ile doğrulanır. Sert anodizasyon ile çelik sertliğine yakın aşınma direnci elde edilir." },
+      { question: "Hangi renklerde anodizasyon yapabiliyorsunuz?", answer: "Siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) renklerde çalışıyoruz. Özel RAL ve Pantone renk eşleştirmesi de yapabiliyoruz; renk toleransı şartnameye göre tanımlanır." },
+      { question: "Kaplama ne kadar dayanıklıdır?", answer: "Dayanım; anodizasyon tipine, tabaka kalınlığına ve sealing işlemine bağlıdır. Korozyon testi (ör. ASTM B117) ve kabul kriteri şartnameye göre belirlenir; sert anodizasyon aşınma direnci gereken yüzeyler için tercih edilir." },
       { question: "Anodizasyon teslimat süreniz ne kadar?", answer: `Termin parti büyüklüğüne, kaplama sınıfına ve renklendirme adımının olup olmamasına göre değişir. ${LEAD_TIME_STATEMENT}` },
     ],
     comparisonTables: [
@@ -1076,7 +1076,6 @@ export const servicePages: ServicePageData[] = [
     ],
     technicalSpecs: [
       { label: "Kaplama kalınlığı", value: "Şartnameye göre" },
-      { label: "Sürtünme Katsayısı", value: "0.05 (PTFE)" },
       { label: "Tuz Testi", value: "ASTM B117; şartnameye göre" },
     ],
     processSteps: [
@@ -1298,7 +1297,6 @@ export const servicePages: ServicePageData[] = [
       "Etiket — Geçici, değiştirilebilir",
     ],
     technicalSpecs: [
-      { label: "Çözünürlük", value: "1200 DPI" },
       { label: "Çalışma aralığı", value: "Teklifte belirtilir" },
       { label: "Kontrol", value: "Numune onayı sonrası seri" },
     ],
@@ -1311,7 +1309,7 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "4 farklı markalama yöntemi",
-      "1200 DPI yüksek çözünürlük",
+      "Çözünürlük ve işaret detayı malzemeye göre",
       "Kavisli yüzeylerde pad printing",
       "Numune onayından sonra tekrarlanabilir seri işaretleme",
     ],
@@ -1352,8 +1350,6 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Yöntem", value: "Ultrasonik / Isıl / Pres" },
       { label: "Çekme dayanımı", value: "Insert tipine göre" },
-      { label: "Insert Çapı", value: "M2-M12" },
-      { label: "Çevrim Süresi", value: "<3 saniye" },
     ],
     processSteps: [
       "Insert Türü Seçimi",
@@ -1366,7 +1362,7 @@ export const servicePages: ServicePageData[] = [
       "4 farklı insert uygulama yöntemi",
       "3 farklı insert malzeme seçeneği",
       "Çekme testi ile doğrulanan insert bağlantısı",
-      "<3 saniye çevrim süresi",
+      "Çevrim süresi insert tipine ve yönteme göre",
     ],
     comparisonTables: [
       {
@@ -1502,7 +1498,7 @@ export const servicePages: ServicePageData[] = [
       "TIG, MIG/MAG ve direnç kaynağı ile metal parçaların birleştirilmesi. Yazılı kaynak prosedürü ve tahribatsız muayene ile kalite kontrol.",
     content: [
       "TIG kaynak (Al, çelik, Ti; hassas uygulamalar), MIG/MAG kaynak (çelik, Al; hızlı üretim) ve direnç kaynağı (çelik; nokta kaynak) yöntemleri ile metal parçaların birleştirilmesini gerçekleştiriyoruz. Kaynaklanabilir kalınlık malzemeye ve birleşim tasarımına göre belirlenir.",
-      "Kaynak işlemleri yazılı kaynak prosedürü (WPS) ile yürütülür; kullanılan parametreler ve sarf malzemeleri iş bazında kayıt altına alınır. RT, UT, PT ve MT tahribatsız muayene yöntemleri ile kaynak dikişleri kontrol edilir ve sonuçlar teslimat dosyasına eklenir.",
+      "Kaynak işlemleri yazılı kaynak prosedürü (WPS) ile yürütülür; kullanılan parametreler ve sarf malzemeleri iş bazında kayıt altına alınır. Şartnamede isteniyorsa kaynak dikişleri RT, UT, PT veya MT tahribatsız muayene yöntemleriyle kontrol edilir ve sonuçlar teslimat dosyasına eklenir.",
     ],
     features: [
       "TIG Kaynak — Al, çelik, Ti; hassas uygulamalar",
@@ -1513,7 +1509,7 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Prosedür", value: "WPS ile kaynak" },
       { label: "Kalınlık", value: "Birleşim tasarımına göre" },
-      { label: "NDT", value: "RT, UT, PT, MT" },
+      { label: "NDT", value: "RT, UT, PT, MT (şartnameye göre)" },
       { label: "Malzemeler", value: "Al, SS, Ti, Ni" },
     ],
     processSteps: [
@@ -1525,7 +1521,7 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "Yazılı kaynak prosedürü (WPS) ile üretim",
-      "4 farklı NDT muayene yöntemi",
+      "Şartnameye göre NDT muayenesi",
       "Kaynak dikişlerinde muayene ve ölçüm kaydı",
       "TIG, MIG/MAG ve direnç kaynağı kapasitesi",
     ],
@@ -1675,12 +1671,12 @@ export const servicePages: ServicePageData[] = [
       "Mas Technic malzeme kütüphanesi metal, plastik, kompozit ve özel alaşımları kapsar. Havacılık sınıfı alüminyumdan medikal sınıfı titanyuma, yüksek performans plastiklerden süper alaşımlara kadar geniş bir yelpazede hizmet veriyoruz.",
       "Metal malzemelerimiz arasında Alüminyum (6061, 7075, 5083 — 95-150 HB), Paslanmaz Çelik (304, 316, 17-4PH — 150-350 HB), Karbon Çelik (1045, 4140, 4340 — 200-350 HB), Titanyum (Gr2, Gr5 Ti6Al4V — 250-350 HB) ve Pirinç/Bronz (C360, C932 — 60-150 HB) bulunmaktadır.",
       "Plastik ve kompozit malzemelerimiz arasında Asetal (POM — düşük sürtünme), Nylon (PA6, PA66 — aşınma direnci), Teflon (PTFE — kimyasal dirençi), PEEK (yüksek sıcaklık — havacılık/medikal), Polikarbonat (PC — şeffaflık) yer almaktadır. Özel alaşımlardan Inconel 718 (yüksek sıcaklık — türbin), Hastelloy (korozyon — kimya endüstrisi), Kovar (termal genleşme — elektronik) ve Tungsten (yüksek yoğunluk — radyasyon koruması) tedarik edebiliyoruz.",
-      "Malzeme tedarik sürecimiz beş aşamadan oluşur: anlık stok kontrolü, malzeme sertifikası doğrulama, kimyasal analiz ve boyut kontrolü ile giriş kontrolü, klimatik kontrollü depolama ve lot numarası ile izlenebilirlik. Sık kullanılan alüminyum ve paslanmaz çelik kaliteleri sürekli stokta tutulmaktadır.",
+      "Malzeme girişinde sertifika ve malzeme kimliği kontrol edilir, boyut kontrolü yapılır ve malzeme parti ve döküm numarasıyla kayda alınır. Tedarik yaklaşımı ve süresi malzeme sınıfına göre değişir; teklifte belirtilir.",
     ],
     features: [
       "Geniş Malzeme Yelpazesi — metal, plastik, kompozit ve özel alaşımlar",
       "Malzeme Sertifikası — Talebe bağlı olarak sağlanır",
-      "Klimatik Kontrollü Depo — Sıcaklık ve nem kontrollü depolama",
+      "Giriş Kontrolü — Sertifika, kimlik ve boyut kontrolü",
       "Lot Bazlı İzlenebilirlik — Hammaddeden nihai ürüne tam takip",
       "Stok Takibi — Malzeme ve parti kaydı",
       "Havacılık & Medikal Sınıf — şartnameye göre malzeme seçimi",
@@ -1688,23 +1684,21 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Malzeme Grupları", value: "Metal, plastik, kompozit, özel alaşım" },
       { label: "Sertifika", value: "Talebe bağlı" },
-      { label: "Sürekli Stok", value: "Al 6061, Al 7075" },
-      { label: "Sürekli Stok", value: "SS 304, SS 316" },
-      { label: "Tedarik (Standart)", value: "Sürekli stok" },
-      { label: "Tedarik (Özel)", value: "Sipariş üzerine" },
+      { label: "Tedarik", value: "Malzeme sınıfına göre" },
+      { label: "Tedarik süresi", value: "Teklifte belirtilir" },
     ],
     processSteps: [
       "Stok Kontrolü",
       "Sertifika Doğrulama",
-      "Kimyasal Analiz",
+      "Kimlik Kontrolü",
       "Boyut Kontrolü",
-      "Klimatik Depolama",
+      "Depolama",
       "Lot Takibi",
     ],
     advantages: [
       "Her projeye uygun malzeme seçimi için mühendislik desteği",
-      "Kritik malzemeler (Al, SS) sürekli stokta",
-      "Kimyasal analiz ve spektrometre ile giriş kontrolü",
+      "Tedarik süresi malzeme sınıfına göre planlanır",
+      "Sertifika ve kimlik kontrolü ile giriş kontrolü",
       "Malzeme ve parti kaydı ile stok ve tedarik takibi",
       "Çoklu tedarikçi ile tedarik güvencesi",
       "Havacılık ve medikal uygulamalar için şartnameye göre malzeme seçimi",
@@ -1721,9 +1715,9 @@ export const servicePages: ServicePageData[] = [
     ],
     faq: [
       { question: "Hangi malzeme sertifikalarını sağlıyorsunuz?", answer: "Malzeme sertifikası ve kimyasal analiz raporu talebe bağlı olarak sağlanır. Her tedarik, lot ve döküm numarasıyla kayıt altına alınır." },
-      { question: "Stokta hangi malzemeler bulunuyor?", answer: "Al 6061, Al 7075, SS 304 ve SS 316 sürekli stokta tutulmaktadır. Titanyum ve Inconel gibi özel malzemeler sipariş üzerine tedarik edilir." },
-      { question: "Özel alaşım tedarik edebiliyor musunuz?", answer: `Evet. Inconel 718, Hastelloy, Kovar ve Tungsten gibi özel alaşımlar sürekli stokta tutulmaz, sipariş üzerine tedarik edilir. ${LEAD_TIME_STATEMENT}` },
-      { question: "Malzeme kalite kontrolü nasıl yapılıyor?", answer: "Her malzeme girişinde spektrometre ile kimyasal analiz, boyut kontrolü ve sertifika doğrulaması yapılmaktadır. Klimatik kontrollü depoda lot numarası ile izlenebilirlik sağlanır." },
+      { question: "Malzeme tedariki ne kadar sürer?", answer: "Tedarik süresi malzeme sınıfına göre değişir; titanyum ve Inconel gibi özel malzemeler sipariş üzerine tedarik edilir. Süre teklifte belirtilir." },
+      { question: "Özel alaşım tedarik edebiliyor musunuz?", answer: `Evet. Inconel 718, Hastelloy, Kovar ve Tungsten gibi özel alaşımlar sipariş üzerine tedarik edilir. ${LEAD_TIME_STATEMENT}` },
+      { question: "Malzeme kalite kontrolü nasıl yapılıyor?", answer: "Malzeme girişinde sertifika ve malzeme kimliği doğrulanır, boyut kontrolü yapılır; malzeme parti ve döküm numarasıyla izlenir." },
     ],
     comparisonTables: [
       {
@@ -1753,8 +1747,8 @@ export const servicePages: ServicePageData[] = [
         title: "Tedarik Yaklaşımı ve Sertifika Matrisi",
         headers: ["Malzeme Grubu", "Tedarik", "Sertifika"],
         rows: [
-          ["Alüminyum (6061, 7075)", "Sürekli stok", "Talebe bağlı"],
-          ["Paslanmaz Çelik (304, 316)", "Sürekli stok", "Talebe bağlı"],
+          ["Alüminyum (6061, 7075)", "Malzeme sınıfına göre", "Talebe bağlı"],
+          ["Paslanmaz Çelik (304, 316)", "Malzeme sınıfına göre", "Talebe bağlı"],
           ["Karbon Çelik (1045, 4140)", "Sipariş üzerine", "Talebe bağlı"],
           ["Titanyum (Gr2, Gr5)", "Sipariş üzerine", "Talebe bağlı"],
           ["Inconel / Hastelloy", "Sipariş üzerine", "Talebe bağlı"],
@@ -2026,7 +2020,7 @@ export const servicePages: ServicePageData[] = [
       { label: "Rapor Formatı", value: "PDF + revize CAD" },
       /* 09a-C3 — D1 ile aynı sınıf: "CATIA, NX, SW" hiçbiri kabul edilmiyor. */
       { label: "Desteklenen CAD", value: CAD_UPLOAD_FORMATS },
-      { label: "Revizyon", value: "2 tur dahil" },
+      { label: "Revizyon", value: "Kapsamı teklifte belirtilir" },
       /* 09a-C3 — F2b. "Ortalama %30-50" kaynaksızdı ve bu sayfanın kendi
          SSS'i tarafından yalanlanıyordu ("tasarrufun büyüklüğü parçanın
          geometrisine ve mevcut üretim planına bağlıdır"). Satır bir ORTALAMA
@@ -2125,7 +2119,7 @@ export const servicePages: ServicePageData[] = [
       "Ra Pürüzlülük Rehberi — Ayna parlaklığından pürüzlü yüzeye",
       "Kaplama Kalınlık Kontrolü — Anodizasyon, toz boya, nikelaj",
       "Tolerans Etki Analizi — İşlem sonrası boyut değişimi hesaplama",
-      "Korozyon Analizi — Tuz spreyi ve çevresel test desteği",
+      "Korozyon Gereksinimi — Tuz spreyi şartı kaplama seçiminde dikkate alınır",
       "Renk ve Estetik Çözümler — RAL/Pantone renk eşleştirme",
     ],
     technicalSpecs: [
@@ -2299,7 +2293,7 @@ export const servicePages: ServicePageData[] = [
       { label: "Enjeksiyon Kalıp", value: "Teklifte belirtilir" },
       { label: "Kurulum", value: "Standart prosedür" },
       { label: "Kontrol", value: "Kontrol planına göre" },
-      { label: "Teslimat", value: "JIT uyumlu" },
+      { label: "Teslimat", value: "Programa göre" },
     ],
     processSteps: [
       "Parti Kaydı",
@@ -2308,12 +2302,12 @@ export const servicePages: ServicePageData[] = [
       "Otomasyon Kurulumu",
       "Seri Üretim Başlangıcı",
       "SPC & Kalite Takibi",
-      "JIT Teslimat",
+      "Programlı Teslimat",
     ],
     advantages: [
       "Standart kurulum prosedürü ile partiler arası tutarlılık",
       "Parti durumu üretim boyunca kayıt altında tutulur",
-      "JIT teslimat ve Kanban sistemi entegrasyonu",
+      "Parti büyüklüğü ve teslimat sıklığı programa bağlanır",
       "Kayma eğilimi olan koteler ara kontrolle izlenir",
       "Lot bazlı tam izlenebilirlik",
       "İlk parça onaylanmadan seri üretim başlamaz",
@@ -2641,7 +2635,7 @@ export const servicePages: ServicePageData[] = [
     ],
     technicalSpecs: [
       { label: "Yönetim Sistemi", value: "ISO 9001:2015" },
-      { label: "NDT", value: "RT, UT, PT, MT, ET" },
+      { label: "NDT", value: "Şartnameye göre planlanır" },
       { label: "İzlenebilirlik", value: "Parti ve döküm kaydı" },
       { label: "Malzemeler", value: "Ti6Al4V, Inconel 718, Al 7075" },
       { label: "Standart Tolerans", value: "±0.01mm" },
@@ -2716,7 +2710,7 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Yönetim Sistemi", value: "ISO 9001:2015" },
       { label: "Şartname", value: "Proje bazında okunur" },
-      { label: "NDT", value: "RT, UT, PT, MT" },
+      { label: "NDT", value: "RT, UT, PT, MT (şartnameye göre)" },
       { label: "Malzemeler", value: "Armox, Ti, 4340, 300M" },
       { label: "Koşullar", value: "Proje başında yazılı" },
       { label: "İzlenebilirlik", value: "Parti ve döküm kaydı" },
@@ -2781,7 +2775,7 @@ export const servicePages: ServicePageData[] = [
       "Referans yüzeyler tek bağlamada işlenir, ölçüm aynı datumdan yapılır",
       "DFM analizi ile ağırlık ve maliyet optimizasyonu",
       "Prototipten seri üretime sorunsuz geçiş",
-      "Endüstriyel robot ve cobot bileşenlerinde yedek parça deneyimi",
+      "Eş eksenlilik ve diklik kontrol planında tanımlanır",
     ],
     faq: [
       { question: "Robot bileşenlerinde hangi toleransları tutabiliyorsunuz?", answer: "Standart çalışma aralığımız ±0.01mm'dir. Eş eksenlilik ve diklik gibi geometrik toleranslar datum yapısıyla birlikte değerlendirilir ve kontrol planına yazılır." },
@@ -2837,7 +2831,7 @@ export const servicePages: ServicePageData[] = [
       "Takım aşınmasına duyarlı koteler ara kontrolle izlenir",
       "Standart kurulum prosedürü ile partiler arası tutarlılık",
       "8D problem çözme ve Poka-Yoke hata önleme",
-      "Otomotiv tedarik zincirinde çalışma deneyimi",
+      "Kontrol planı, ölçüm ve parti kayıtları teslim dosyasında",
     ],
     faq: [
       { question: "Hangi kalite belgeleriniz var?", answer: "ISO 9001:2015 ve ISO 14001:2015 yönetim sistemi belgelerimiz bulunmaktadır. Müşterinizin şartnamesi sektöre özel bir standart gerektiriyorsa bunu teklif aşamasında açıkça değerlendiririz." },
@@ -2928,7 +2922,7 @@ export const servicePages: ServicePageData[] = [
     content: [
       "Yelken ve yat sistemleri için SS 316L, Duplex 2205, bronz (C95400) ve özel denizcilik alaşımları ile korozyona dayanıklı parçalar üretiyoruz. Makaralar, vinçler, baş kösteği bağlantıları, dümen sistemi komponentleri ve pervane milleri konusunda uzmanız.",
       "Deniz suyu ortamında parçayı bitiren şey çoğu zaman yük değil korozyondur. Malzeme seçimi galvanik uyum gözetilerek yapılır — birbirine temas eden farklı metaller, tek başına doğru seçilmiş bir alaşımı bile hızla tüketebilir. Elektropolisaj ve pasivasyon, yüzeydeki serbest demiri gidererek korozyon davranışını iyileştirir.",
-      "Superyacht ve yarış yelkenciliği segmentlerinde hafif ve yüksek mukavemetli bileşenler — titanyum bağlantı elemanları, karbon fiber takviyeli parçalar ve özel alaşım pervane milleri üretiyoruz.",
+      "Ağırlığın kritik olduğu uygulamalarda titanyum bağlantı elemanları ve özel alaşım pervane milleri, şartnameye ve galvanik uyuma göre birlikte değerlendirilir.",
     ],
     features: [
       "Galvanik Uyum — temas eden malzemeler birlikte değerlendirilir",
@@ -2946,10 +2940,10 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "Malzeme seçimi galvanik uyum gözetilerek yapılır",
-      "ASTM B117 tuz spreyi testi ile korozyon direnci doğrulaması",
+      "Tuz spreyi gereksinimi (ASTM B117) şartnameye göre planlanır",
       "SS 316L, Duplex ve bronz işleme uzmanlığı",
-      "Superyacht ve yarış yelkenciliği deneyimi",
-      "Elektropolisaj ile ultra-pürüzsüz yüzey",
+      "Elektropolisaj ve pasivasyon şartnameye göre uygulanır",
+      "Elektropolisaj ile düşük pürüzlülük ve iyileşen korozyon davranışı",
       "Katodik koruma uyumlu malzeme danışmanlığı",
     ],
     faq: [
@@ -2964,7 +2958,7 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Endüstriyel Sistemler",
     title: "Hidrolik & Pnömatik",
-    metaTitle: "Hidrolik & Pnömatik Parça Üretimi | 350 Bar | Sızdırmazlık | Mas Technic",
+    metaTitle: "Hidrolik & Pnömatik Parça Üretimi | Sızdırmazlık Yüzeyleri | Mas Technic",
     metaDescription: "Hidrolik ve pnömatik sistem bileşenleri: valf gövdesi, silindir, manifold blok. 42CrMo4, C45 çelik; çalışma basıncı ve sızdırmazlık yüzeyi gereksinimi şartnameye göre.",
     description: "Hidrolik ve pnömatik sistem bileşenleri: valf gövdeleri, silindir parçaları, manifold blokları ve özel akışkan güç komponentleri.",
     content: [
@@ -2976,7 +2970,7 @@ export const servicePages: ServicePageData[] = [
       "Valf Gövdesi — Yönlendirme, basınç ve akış kontrol valfleri",
       "Silindir Parçası — Piston, gövde, kapak, mil",
       "Manifold Blok — Çok portlu, derin delik kanallı",
-      "350 Bar Basınç — Yüksek basınç dayanımlı üretim",
+      "Çalışma Basıncı — şartnamedeki basınca göre üretim",
       "Sızdırmazlık Yüzeyi — O-ring kanalları conta gereksinimine göre",
       "Basınç Testi — Kontrol planına göre sızdırmazlık kontrolü",
     ],
@@ -3000,7 +2994,7 @@ export const servicePages: ServicePageData[] = [
       "Sızdırmazlık yüzeylerinin conta gereksinimine göre işlenmesi",
       "Derin delik kabiliyeti ile manifold kanal işleme",
       "Kontrol planına göre basınç ve sızdırmazlık testi",
-      "BoschRexroth, Parker uyumlu bağlantı geometrileri",
+      "ISO 4401 delik düzeninde valf montaj yüzeyleri",
       "42CrMo4 ve SS 316 malzeme uzmanlığı",
     ],
     faq: [
@@ -3044,7 +3038,7 @@ export const servicePages: ServicePageData[] = [
       "Duplex ve süper alaşım işleme kabiliyeti",
       "Talebe bağlı malzeme sertifikası ve lot kaydı",
       "ASME B16.5 geometrisinde sızdırmazlık yüzeyleri",
-      "Isıl işlem ve NDT muayene dahil",
+      "Isıl işlem ve NDT kaydı talebe bağlı",
     ],
     faq: [
       { question: "Flanş ölçüleri hangi boyut tablolarına göre işleniyor?", answer: "Flanş delik düzeni, conta yüzeyi ve çap ölçüleri ANSI B16.5, DIN EN 1092 ve JIS B2220 boyut tablolarına ya da müşterinin verdiği teknik resme göre işlenir." },
@@ -3081,10 +3075,8 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "Çalışma koşullarına göre malzeme seçimi",
-      "Helyum sızdırmazlık testi ile kaçak doğrulaması",
+      "Sızdırmazlık testi yöntemi şartnameye göre tanımlanır",
       "Soğutucu ile uyumlu malzeme seçimi",
-      "Termal şok testi ile uzun ömür doğrulaması",
-      "HVAC ve endüstriyel soğutma sektör deneyimi",
     ],
     faq: [
       { question: "Sızdırmazlık testi nasıl tanımlanıyor?", answer: "Sızdırmazlık testinin yöntemi (ör. helyum kaçak testi) ve kabul edilebilir kaçak oranı müşteri şartnamesine göre kontrol planında tanımlanır; test kapsamı teklif aşamasında netleştirilir." },
@@ -3120,7 +3112,7 @@ export const servicePages: ServicePageData[] = [
       "3D Baskı — FDM, SLA, SLS, DMLS teknolojileri",
       "Silikon Kalıplama — Çoklu prototip",
       "DFM Analizi — Tasarım optimizasyonu dahil",
-      "3 İterasyonlu Revizyon Döngüsü — Tasarım revizyon desteği",
+      "Revizyon Döngüsü — iterasyon sayısı teklifte belirtilir",
     ],
     technicalSpecs: [
       { label: "Teslim Süresi", value: LEAD_TIME_SHORT },
@@ -3135,7 +3127,7 @@ export const servicePages: ServicePageData[] = [
       "Gerçek malzeme ile fonksiyonel test imkanı",
       "4 farklı 3D baskı teknolojisi (metal dahil)",
       "DFM analizi ile tasarım optimizasyonu",
-      "3 iterasyonlu revizyon döngüsü ile risk azaltma",
+      "Revizyon döngüsü ile tasarım riskinin azaltılması",
       "Seri üretime sorunsuz geçiş desteği",
     ],
     faq: [
@@ -3202,7 +3194,7 @@ export const servicePages: ServicePageData[] = [
     content: [
       "Seri üretimde tezgâhın hızı değil kurulumun tekrarlanabilirliği belirleyicidir. Sabit referans yüzeyleri, standart kurulum prosedürü ve otomatik takım değiştirme, aynı parçanın partiler arasında aynı çıkmasını sağlar.",
       "Her partide, kontrol planında tanımlanan koteler ölçülür ve sonuçlar kayıt altına alınır. Takım aşınmasına duyarlı ölçüler ayrı bir ara kontrol adımıyla izlenir; sapma eğilimi görüldüğünde parça değil proses düzeltilir.",
-      "Seri üretim müşterilerimize yıllık kontrat, JIT teslimat programı, Kanban stok yönetimi, haftalık kapasite raporlaması ve sürekli iyileştirme (Kaizen) programları sunuyoruz.",
+      "Parti büyüklüğü ve teslimat programı kapasite planlamasıyla birlikte kararlaştırılır; periyodik teslimat ve çerçeve sipariş seçenekleri teklif aşamasında değerlendirilir.",
     ],
     features: [
       "Standart Kurulum — sabit referans ve tekrarlanabilir bağlama",
@@ -3210,14 +3202,14 @@ export const servicePages: ServicePageData[] = [
       "İlk Parça Onayı — seri, onay alınmadan başlamaz",
       "Parti Kaydı — döküm ve parti bazlı izlenebilirlik",
       "Ara Kontrol — kayma eğilimi olan koteler izlenir",
-      "JIT Teslimat — Kanban entegreli stok yönetimi",
+      "Programlı Teslimat — parti büyüklüğü ve sıklık kapasiteyle birlikte",
     ],
     technicalSpecs: [
       { label: "Kurulum", value: "Standart prosedür" },
       { label: "Onay", value: "İlk parça onayı" },
       { label: "Kontrol", value: "Kontrol planına göre" },
       { label: "Ara Kontrol", value: "Kayma eğilimli koteler" },
-      { label: "Teslimat", value: "JIT / Kanban" },
+      { label: "Teslimat", value: "Programa göre" },
       { label: "İzlenebilirlik", value: "Parti ve döküm kaydı" },
     ],
     advantages: [
@@ -3225,7 +3217,7 @@ export const servicePages: ServicePageData[] = [
       "Standart kurulum prosedürü ile partiler arası tutarlılık",
       "Ölçüm sonuçları parti bazında kayıt altına alınır",
       "Kayma eğilimi olan koteler ara kontrolle izlenir",
-      "JIT ve Kanban ile esnek teslimat",
+      "Teslimat programı kapasite planına bağlanır",
       "Parti durumu üretim boyunca kayıt altında tutulur",
     ],
     faq: [
@@ -3266,7 +3258,6 @@ export const servicePages: ServicePageData[] = [
       { label: "3D Tarama", value: "Parça ölçüsüne göre" },
       { label: "Tasarım", value: "Katı model ve teknik resim" },
       { label: "Koşullar", value: "Proje başında yazılı" },
-      { label: "Ar-Ge", value: "TÜBİTAK, KOSGEB desteği" },
       { label: "Proje Yönetimi", value: "Özel proje mühendisi" },
     ],
     advantages: [
@@ -3274,7 +3265,6 @@ export const servicePages: ServicePageData[] = [
       "Reverse engineering ile yedek parça üretimi",
       "R&D prototipleme ve fonksiyonel test desteği",
       "Teknik veri ve fikri mülkiyet koşulları proje başında netleşir",
-      "TÜBİTAK ve KOSGEB proje danışmanlığı",
       "Özel proje mühendisi ile tek muhatap",
     ],
     faq: [
@@ -3295,7 +3285,6 @@ export const servicePages: ServicePageData[] = [
     content: [
       "Rüzgar türbini bileşenleri (hub, nacelle, pitch sistemi, yaw sistemi, tower flanşı), güneş paneli montaj sistemleri (tracker, sabit montaj, rail, klamp) ve enerji depolama parçaları (batarya muhafazası, soğutma bileşenleri) üretiyoruz.",
       "Malzeme ve kaplama dış ortam koşullarına göre seçilir. Hot-dip galvaniz (ISO 1461), Dacromet kaplama ve SS 316L malzeme ile korozyon koruması sağlanır; kaplama kalınlığı ve beklenen ömür ortam sınıfına ve şartnameye göre belirlenir. GGG-40, GGG-50 küresel grafitli dökme demir ve yüksek mukavemetli çeliklerle ağır yük bileşenleri üretiyoruz.",
-      "Offshore ve onshore rüzgar enerjisi projeleri, utility-scale güneş enerjisi santralleri ve endüstriyel enerji depolama sistemleri için parça tedarik ediyoruz.",
     ],
     features: [
       "Rüzgar Türbini — Hub, pitch, yaw, tower flanşı",
@@ -3310,14 +3299,13 @@ export const servicePages: ServicePageData[] = [
       { label: "Korozyon Koruması", value: "Hot-dip galvaniz (ISO 1461)" },
       { label: "Dayanım", value: "Şartnameye göre" },
       { label: "Kapsam", value: "Rüzgar, güneş, depolama" },
-      { label: "NDT", value: "UT, MT zorunlu" },
+      { label: "NDT", value: "Şartnameye göre" },
     ],
     advantages: [
       "Dış ortam koşullarına göre malzeme ve kaplama seçimi",
       "Hot-dip galvaniz ile korozyon koruması",
-      "Offshore ve onshore proje deneyimi",
       "GGG-40/50 dökme demir işleme uzmanlığı",
-      "NDT muayene dahil kalite güvence",
+      "NDT kapsamı şartnameye göre kontrol planında",
     ],
     faq: [
       { question: "Rüzgar türbini bileşenleri üretebiliyor musunuz?", answer: "Evet; hub, pitch sistemi, yaw mekanizması, tower flanşı ve nacelle iç bileşenleri üretiyoruz. Uygulanacak şartname ve kabul kriterleri iş bazında müşteriyle birlikte belirlenir." },
@@ -3356,7 +3344,6 @@ export const servicePages: ServicePageData[] = [
       "Sour service için şartnameye göre malzeme seçimi",
       "Inconel ve Super Duplex işleme uzmanlığı",
       "Tahribatsız muayene kapsamı kontrol planında tanımlanır",
-      "Offshore ve onshore proje deneyimi",
     ],
     faq: [
       { question: "Petrol ve gaz bileşenlerinde hangi kalite kayıtları veriliyor?", answer: "Malzeme sertifikası, ısıl işlem kaydı ve tahribatsız muayene raporları, kapsamı kontrol planında tanımlandığı şekilde teslimat dosyasına eklenir." },
@@ -3390,17 +3377,16 @@ export const servicePages: ServicePageData[] = [
       { label: "Gerilim sınıfı", value: "Proje gereksinimi (şartname)" },
       { label: "Kapsam", value: "Bara, kontak, izolator montaj" },
       { label: "Kaplama", value: "Ag (gümüş), Ni altlık" },
-      { label: "Test", value: "Ark direnci, kısa devre" },
+      { label: "Test", value: "Şartnameye göre" },
     ],
     advantages: [
       "Yüksek iletkenlikli bakır işleme",
-      "Gümüş kaplama ile minimum kontak direnci",
+      "Gümüş kaplama ile düşük kontak direnci",
       "Şartnamedeki ısıl ve elektriksel gereksinimlere göre üretim",
-      "Kısa devre ve ark direnci test desteği",
     ],
     faq: [
       { question: "OFE bakır işleyebiliyor musunuz?", answer: "Evet, OFE bakır (C10100) ve ETP bakır (C11000) işlenir; iletkenlik değeri malzeme sertifikasıyla teyit edilir." },
-      { question: "Gümüş kaplama yapıyor musunuz?", answer: "Evet, kontak parçaları için gümüş kaplama (nikel altlık üzerine) uyguluyoruz. Kaplama kalınlığı ve yapışma testi standart olarak kontrol edilir." },
+      { question: "Gümüş kaplama yapıyor musunuz?", answer: "Evet, kontak parçaları için gümüş kaplama (nikel altlık üzerine) uygulanır. Kaplama kalınlığı ve yapışma kontrolü şartnameye göre kontrol planında tanımlanır." },
     ],
   },
   {
@@ -3427,14 +3413,14 @@ export const servicePages: ServicePageData[] = [
       { label: "Sertlik", value: "Şartnameye göre" },
       { label: "Malzeme", value: "Hardox, Mn13, 42CrMo4" },
       { label: "Çalışma aralığı", value: "Teklifte belirtilir" },
-      { label: "NDT", value: "UT, MT zorunlu" },
+      { label: "NDT", value: "Şartnameye göre" },
     ],
     advantages: [
       "Hardox 400/500/600 aşınma çeliği uzmanlığı",
       "Aşınmaya dayanıklı malzeme seçimi",
       "Manganez çeliği ile darbe direnci",
-      "İndüksiyon sertleştirme ve karbürizasyon",
-      "UT ve MT ile NDT muayene dahil",
+      "Isıl işlem (indüksiyon, sementasyon) şartnameye göre",
+      "NDT kapsamı şartnameye göre tanımlanır",
     ],
     faq: [
       { question: "Hardox işleyebiliyor musunuz?", answer: "Evet, Hardox 400, 500 ve 600 serisi aşınma çeliklerini CNC ile işleyebiliyoruz. Özel takım ve ilerleme parametreleri ile optimal sonuç elde ediyoruz." },

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
+import { useLocaleNavigate as useNavigate } from "@/i18n/hooks";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { supabase } from "@/integrations/supabase/client";
 import { ShellAction, ShellNotice } from "@/components/shell";

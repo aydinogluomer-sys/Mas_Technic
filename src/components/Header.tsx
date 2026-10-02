@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useLayoutEffect, useReducer, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
+import { useLocaleNavigate as useNavigate } from "@/i18n/hooks";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { prefetchMenuRoutes } from "@/utils/routePrefetch";
 import { HERO_SHELL_TEARDOWN_FALLBACK_MS, INTRO_DONE_EVENT, isHeroIntroActive } from "@/lib/hero-shell";
@@ -16,6 +18,7 @@ import "@/styles/menu-round2.css";
 import "@/styles/i18n.css";
 import { useTranslation } from "react-i18next";
 import { railLabel } from "@/components/shell/rail-labels";
+import { stripLocale } from "@/i18n/locale";
 import { upper } from "@/i18n/upper";
 import { LanguageSwitch } from "./navigation/LanguageSwitch";
 
@@ -185,6 +188,8 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
   const pendingSectionScroll = useRef<string | null>(null);
   const restoreFocus = useRef(false);
   const location = useLocation();
+  /* L01: menu state is decided on the locale-free path (`/en/sss` is `/sss`). */
+  const barePath = stripLocale(location.pathname);
   const { t, i18n } = useTranslation();
   const lang = i18n.resolvedLanguage ?? i18n.language;
   const navigate = useNavigate();
@@ -194,7 +199,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
      unmount decision to a presence library. */
   const modalActive = phase !== "closed";
   const active = groups[activeGroup];
-  const onLanding = location.pathname === "/";
+  const onLanding = barePath === "/";
 
   useLayoutEffect(() => {
     setHeaderHost(document.getElementById("shared-header-host"));
@@ -247,16 +252,16 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
   /* ── Which family owns the current route ──────────────────────────────── */
   const currentFamily = groups.findIndex((group) =>
     group.children?.some((item) =>
-      location.pathname === item.path || item.links.some((link) => location.pathname === link.path))
-    || group.links?.some((link) => location.pathname === link.path || location.pathname.startsWith(`${link.path}/`)));
+      barePath === item.path || item.links.some((link) => barePath === link.path))
+    || group.links?.some((link) => barePath === link.path || barePath.startsWith(`${link.path}/`)));
 
   useEffect(() => {
     if (currentFamily < 0) return;
     setActiveGroup(currentFamily);
     const categoryIndex = groups[currentFamily].children?.findIndex((item) =>
-      location.pathname === item.path || item.links.some((link) => location.pathname === link.path)) ?? 0;
+      barePath === item.path || item.links.some((link) => barePath === link.path)) ?? 0;
     setActiveCategory(Math.max(0, categoryIndex));
-  }, [currentFamily, location.pathname]);
+  }, [currentFamily, barePath]);
 
   const requestOpen = useCallback(() => {
     pendingHref.current = null;
@@ -495,7 +500,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
     : (() => {
         /* The page being read, not the brand the bar already shows at left:
            family › entry on deep routes, the resource/company name elsewhere. */
-        const path = location.pathname;
+        const path = barePath;
         const flat = [...resourceLinks, ...companyLinks, ...legalLinks, rfqLink];
         const direct = flat.find((link) => path === link.path || path.startsWith(`${link.path}/`));
         if (currentFamily >= 0) {
@@ -625,7 +630,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
                       <NavCategoryPanel
                         group={active}
                         activeCategory={activeCategory}
-                        currentPath={location.pathname}
+                        currentPath={barePath}
                         onCategoryChange={setActiveCategory}
                         onNavigate={requestNavigate}
                         reducedMotion={reducedMotion}
@@ -634,7 +639,7 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
 
                   </div>
 
-                  <NavConversion currentPath={location.pathname} onNavigate={requestNavigate} />
+                  <NavConversion currentPath={barePath} onNavigate={requestNavigate} />
                 </div>
               </div>
             </motion.div>

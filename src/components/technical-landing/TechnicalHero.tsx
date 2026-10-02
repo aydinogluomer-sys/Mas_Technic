@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import heroPart from "@/assets/technical-landing/hero-manifold-v1.webp";
 import { heroPartFacts } from "@/data/technicalLandingData";
 import { useTranslation } from "react-i18next";

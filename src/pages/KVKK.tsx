@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import { LegalDocument, type LegalClause } from "@/components/pages/LegalDocument";
 import { PUBLIC_ADDRESS_LINES, SALES_EMAIL } from "@/content/claims";
 

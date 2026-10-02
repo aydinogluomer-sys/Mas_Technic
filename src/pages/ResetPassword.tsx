@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocaleNavigate as useNavigate } from "@/i18n/hooks";
 import { supabase } from "@/integrations/supabase/client";
 import { ShellAction, ShellNotice } from "@/components/shell";
 import { AuthLayout } from "@/components/auth/AuthLayout";

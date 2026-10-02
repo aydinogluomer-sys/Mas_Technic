@@ -1,4 +1,5 @@
 import { useLocation, useParams } from "react-router-dom";
+import { stripLocale } from "@/i18n/locale";
 import {
   PageShell,
   ShellAction,
@@ -85,7 +86,7 @@ function entryMeta(path: string): string[] {
 
 export const CategoryPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { pathname } = useLocation();
+  const pathname = stripLocale(useLocation().pathname);
   const prefix: CategoryPageData["prefix"] = pathname.startsWith("/hizmetler")
     ? "hizmetler"
     : pathname.startsWith("/kabiliyetler")

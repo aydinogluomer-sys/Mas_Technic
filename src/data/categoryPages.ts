@@ -65,7 +65,7 @@ export const categoryPages: CategoryPageData[] = [
       { label: "Insert Uygulama", path: "/hizmetler/insert-uygulama", description: "Ultrasonik ve ısıl insert yerleştirme." },
       { label: "Mekanik Montaj", path: "/hizmetler/mekanik-montaj", description: "Alt montaj ve komple ürün montajı." },
       { label: "Kitting & Paketleme", path: "/hizmetler/kitting-paketleme", description: "Kit hazırlama ve özel paketleme çözümleri." },
-      { label: "Kaynaklı İmalat", path: "/hizmetler/kaynakli-imalat", description: "TIG, MIG ve lazer kaynak uygulamaları." },
+      { label: "Kaynaklı İmalat", path: "/hizmetler/kaynakli-imalat", description: "TIG, MIG/MAG ve direnç kaynağı uygulamaları." },
     ],
   },
   // ── Kabiliyetler ──
@@ -128,7 +128,7 @@ export const categoryPages: CategoryPageData[] = [
     description: "Havacılık, savunma ve robotik gibi kritik sektörlere yönelik yüksek hassasiyetli üretim.",
     links: [
       { label: "Havacılık & Uzay", path: "/endustriyel/havacilik-uzay", description: "Havacılık ve uzay uygulamaları için hassas parça üretimi." },
-      { label: "Savunma Sanayi", path: "/endustriyel/savunma-sanayi", description: "Askeri standartlarda hassas üretim." },
+      { label: "Savunma Sanayi", path: "/endustriyel/savunma-sanayi", description: "Şartnameye bağlı, izlenebilir hassas üretim." },
       { label: "Robotik", path: "/endustriyel/robotik", description: "Robot bileşenleri ve otomasyon parçaları." },
     ],
   },

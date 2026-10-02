@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { Navigate } from "@/i18n/LocaleLink";
 import { useScroll, useTransform } from "framer-motion";
 import { motion } from "@/components/shell/motion";
 import {

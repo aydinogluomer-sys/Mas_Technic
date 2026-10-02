@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocaleNavigate as useNavigate } from "@/i18n/hooks";
 import { CAD_ACCEPTED_EXTENSIONS, CAD_MAX_FILE_SIZE, validateCadFile } from "@/utils/cadFiles";
 
 /* Toasts are only ever raised after a file is chosen, so sonner is fetched then

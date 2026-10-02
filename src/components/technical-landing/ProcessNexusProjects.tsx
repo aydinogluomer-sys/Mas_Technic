@@ -11,7 +11,7 @@ import projectDefense960 from "@/assets/industry-defense-960.webp";
 import projectMedical from "@/assets/industry-medical.webp";
 import projectTurning from "@/assets/hero-cnc-tornalama.webp";
 import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import { accountLink } from "@/components/navigation/ia";

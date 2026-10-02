@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { upper } from "@/i18n/upper";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import { ArrowRight, ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { PageShell, ShellBreadcrumb } from "@/components/shell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";

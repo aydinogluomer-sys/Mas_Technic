@@ -1,5 +1,8 @@
-import { Suspense, lazy, useMemo, useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Suspense, lazy, useMemo, useEffect, useState, type ReactNode } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { Navigate } from "@/i18n/LocaleLink";
+import { applyLanguage, isLanguageReady } from "@/i18n";
+import { isPanelPath, localeFromPath } from "@/i18n/locale";
 import { PageTransition } from "@/components/PageTransition";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
@@ -125,6 +128,54 @@ const PublicRouteLoader = () => {
 
 // Page transition handled by PageTransition component
 
+const LOCALE_PREFIXES = ["", "/en"] as const;
+
+/* The public route table, authored once with Turkish paths. */
+const PUBLIC_PAGES: { path: string; element: ReactNode }[] = [
+  { path: "/", element: <Index /> },
+  { path: "/sss", element: <SSS /> },
+  { path: "/gizlilik-politikasi", element: <GizlilikPolitikasi /> },
+  { path: "/kvkk", element: <KVKK /> },
+  { path: "/cerez-politikasi", element: <CerezPolitikasi /> },
+  { path: "/hakkimizda", element: <Hakkimizda /> },
+  { path: "/iletisim", element: <Iletisim /> },
+  { path: "/malzemeler", element: <Malzemeler /> },
+  { path: "/malzemeler/:slug", element: <MalzemeKategori /> },
+  { path: "/blog", element: <Blog /> },
+  { path: "/blog/:slug", element: <BlogDetail /> },
+  { path: "/kabiliyet-profilleri", element: <KabiliyetProfilleri /> },
+  { path: "/kabiliyet-profilleri/:slug", element: <KabiliyetProfilDetay /> },
+  { path: "/kalite-dosyasi", element: <KaliteDosyasi /> },
+  { path: "/hizmetler/kategori/:slug", element: <CategoryPage /> },
+  { path: "/kabiliyetler/kategori/:slug", element: <CategoryPage /> },
+  { path: "/endustriyel/kategori/:slug", element: <CategoryPage /> },
+  { path: "/hizmetler/:slug", element: <ServiceDetail /> },
+  { path: "/kabiliyetler/:slug", element: <ServiceDetail /> },
+  { path: "/endustriyel/:slug", element: <ServiceDetail /> },
+  { path: "/giris", element: <Login /> },
+  { path: "/sifremi-unuttum", element: <ForgotPassword /> },
+  { path: "/reset-password", element: <ResetPassword /> },
+  { path: "/teklif-al", element: <TeklifAl /> },
+  { path: "/cad-dashboard", element: <Navigate to="/teklif-al" replace /> },
+];
+
+/* L01 — the page waits for its language. On a public route the URL names the
+   locale; until that locale is active with its dictionary loaded, the route
+   shows the shell loader instead of a Turkish frame of an English page. */
+function useRouteLanguageReady(pathname: string): boolean {
+  const locale = isPanelPath(pathname) ? null : localeFromPath(pathname);
+  const [ready, setReady] = useState(() => (locale ? isLanguageReady(locale) : true));
+  useEffect(() => {
+    if (!locale) { setReady(true); return; }
+    if (isLanguageReady(locale)) { setReady(true); return; }
+    let live = true;
+    setReady(false);
+    void applyLanguage(locale).finally(() => { if (live) setReady(true); });
+    return () => { live = false; };
+  }, [locale]);
+  return ready;
+}
+
 const AnimatedRoutes = () => {
   const location = useLocation();
 
@@ -171,7 +222,6 @@ const AnimatedRoutes = () => {
       <ShellRouteBoundary resetKey={location.pathname}>
       <Suspense fallback={<PublicRouteLoader />}>
         <Routes location={location}>
-          <Route path="/" element={<Index />} />
           {/* DEV_ONLY_ROUTES:START — üretim derlemesinde `DevRoute` null olur,
               üç <Route> de hiç oluşturulmaz ve istekler `*` üzerinden 404'e
               düşer. Sözleşme e2e/shared-shell-accessibility.spec.ts'te. */}
@@ -179,30 +229,13 @@ const AnimatedRoutes = () => {
           {DevRoute && <Route path="/legacy-landing" element={<DevRoute view="legacy-landing" />} />}
           {DevRoute && <Route path="/test" element={<DevRoute view="test" />} />}
           {/* DEV_ONLY_ROUTES:END */}
-          <Route path="/sss" element={<SSS />} />
-          <Route path="/gizlilik-politikasi" element={<GizlilikPolitikasi />} />
-          <Route path="/kvkk" element={<KVKK />} />
-          <Route path="/cerez-politikasi" element={<CerezPolitikasi />} />
-          <Route path="/hakkimizda" element={<Hakkimizda />} />
-          <Route path="/iletisim" element={<Iletisim />} />
-          <Route path="/malzemeler" element={<Malzemeler />} />
-          <Route path="/malzemeler/:slug" element={<MalzemeKategori />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogDetail />} />
-          <Route path="/kabiliyet-profilleri" element={<KabiliyetProfilleri />} />
-          <Route path="/kabiliyet-profilleri/:slug" element={<KabiliyetProfilDetay />} />
-          <Route path="/kalite-dosyasi" element={<KaliteDosyasi />} />
-          <Route path="/hizmetler/kategori/:slug" element={<CategoryPage />} />
-          <Route path="/kabiliyetler/kategori/:slug" element={<CategoryPage />} />
-          <Route path="/endustriyel/kategori/:slug" element={<CategoryPage />} />
-          <Route path="/hizmetler/:slug" element={<ServiceDetail />} />
-          <Route path="/kabiliyetler/:slug" element={<ServiceDetail />} />
-          <Route path="/endustriyel/:slug" element={<ServiceDetail />} />
-          <Route path="/giris" element={<Login />} />
-          <Route path="/sifremi-unuttum" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/teklif-al" element={<TeklifAl />} />
-          <Route path="/cad-dashboard" element={<Navigate to="/teklif-al" replace />} />
+          {/* L01 — every public page is registered twice: as it always was
+              (Turkish) and under `/en` with the same slug (English). One
+              table, so the two locales cannot drift apart. */}
+          {LOCALE_PREFIXES.flatMap((prefix) =>
+            PUBLIC_PAGES.map(({ path, element }) => (
+              <Route key={`${prefix}${path}`} path={path === "/" ? prefix || "/" : `${prefix}${path}`} element={element} />
+            )))}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
@@ -215,6 +248,7 @@ const AnimatedRoutes = () => {
 
 const AppContent = () => {
   const location = useLocation();
+  const languageReady = useRouteLanguageReady(location.pathname);
 
   // Konami Code easter egg
   useEffect(() => {
@@ -285,6 +319,7 @@ const AppContent = () => {
     </>
   );
 
+  if (!languageReady) return <PageLoader />;
   return isPanel ? content : <SmoothScrollProvider>{content}</SmoothScrollProvider>;
 };
 

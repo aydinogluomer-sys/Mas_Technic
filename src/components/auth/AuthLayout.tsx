@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import { ArrowLeft } from "lucide-react";
 import { PageShell } from "@/components/shell";
 import { AuthAside } from "./AuthAside";

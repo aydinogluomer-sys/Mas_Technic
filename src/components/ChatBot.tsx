@@ -5,7 +5,8 @@ import { motion } from "@/components/shell/motion";
 import ReactMarkdown from "react-markdown";
 import { findBestFaqMatch } from "@/data/chatFaqData";
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/integrations/supabase/env";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 
 /* ══════════════════════════════════════════════════════════════════════════

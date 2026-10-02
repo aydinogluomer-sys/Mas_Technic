@@ -1,9 +1,11 @@
 import i18n from "i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
+import { isPanelPath, localeFromPath, normalizeLocale, type PublicLocale } from "./locale";
 
 /* ══════════════════════════════════════════════════════════════════════════
-   ONE-TAP LOCALISATION (round 2, item 14) — TR · EN · DE · RU · ZH
+   LOCALISATION — TR · EN (L01; DE / RU / ZH dictionaries are kept on disk
+   but no longer offered or loaded: a language is offered only when the whole
+   public surface exists in it)
 
    Keys are the Turkish source strings themselves (`keySeparator: false`,
    `nsSeparator: false`), so a component wraps its existing copy in `t()` and
@@ -18,28 +20,13 @@ import { initReactI18next } from "react-i18next";
 export const LANGUAGES = [
   { code: "tr", label: "TR", name: "Türkçe" },
   { code: "en", label: "EN", name: "English" },
-  { code: "de", label: "DE", name: "Deutsch" },
-  { code: "ru", label: "RU", name: "Русский" },
-  { code: "zh", label: "ZH", name: "中文" },
 ] as const;
 
 export type LanguageCode = (typeof LANGUAGES)[number]["code"];
 
-const CJK_FONT_ID = "mas-font-noto-sc";
-
 function syncDocument(language: string) {
   if (typeof document === "undefined") return;
-  const code = language.split("-")[0];
-  document.documentElement.lang = code === "zh" ? "zh-Hans" : code;
-  /* Chinese needs a CJK face the Latin families do not carry. It is fetched
-     only when Chinese is chosen, so no other visitor pays for it. */
-  if (code === "zh" && !document.getElementById(CJK_FONT_ID)) {
-    const link = document.createElement("link");
-    link.id = CJK_FONT_ID;
-    link.rel = "stylesheet";
-    link.href = "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap";
-    document.head.appendChild(link);
-  }
+  document.documentElement.lang = normalizeLocale(language);
 }
 
 /* Translation audit: with `localStorage.mas_i18n_debug = "1"` every key a
@@ -49,10 +36,21 @@ function syncDocument(language: string) {
 let auditMissing = false;
 try { auditMissing = typeof window !== "undefined" && window.localStorage.getItem("mas_i18n_debug") === "1"; } catch { /* blocked */ }
 
+/* The language a page opens in. Public route: the URL (`/en…` → en, else
+   tr) — a stored preference never overrides an address. Panel / admin
+   route: the remembered choice, normalised so an old DE / RU / ZH value
+   falls back to Turkish. */
+export function initialLanguage(): PublicLocale {
+  if (typeof window === "undefined") return "tr";
+  const { pathname } = window.location;
+  if (!isPanelPath(pathname)) return localeFromPath(pathname);
+  try { return normalizeLocale(window.localStorage.getItem("mas_lang")); } catch { return "tr"; }
+}
+
 void i18n
-  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
+    lng: initialLanguage(),
     /* Only Turkish ships with the app, and it is empty (keys are the Turkish
        text). Each other dictionary is its own chunk, fetched when that
        language is chosen — see `loadLanguage`. */
@@ -65,15 +63,6 @@ void i18n
     nsSeparator: false,
     returnEmptyString: false,
     interpolation: { escapeValue: false },
-    /* Turkish is the site's language; another language is a visitor's
-       explicit choice, remembered — never inferred from the browser. */
-    detection: {
-      order: ["localStorage"],
-      lookupLocalStorage: "mas_lang",
-      /* Nothing is written on load: `mas_lang` exists only once a visitor has
-         tapped a language (see `loadLanguage`), as /cerez-politikasi says. */
-      caches: [],
-    },
     /* Re-render when a dictionary arrives after the language was set (a
        returning visitor whose choice was remembered). */
     react: { useSuspense: false, bindI18nStore: "added" },
@@ -92,10 +81,20 @@ void i18n
 
 const DICTIONARIES: Record<Exclude<LanguageCode, "tr">, () => Promise<{ default: Record<string, string> }>> = {
   en: () => import("./locales/en"),
-  de: () => import("./locales/de"),
-  ru: () => import("./locales/ru"),
-  zh: () => import("./locales/zh"),
 };
+
+/** Switch the rendered language WITHOUT remembering it — what a route change
+    does. Waits for the dictionary so no Turkish frame shows in between. */
+export async function applyLanguage(language: PublicLocale) {
+  await ensureDictionary(language);
+  if (normalizeLocale(i18n.language) !== language) await i18n.changeLanguage(language);
+}
+
+/** True once the language the page needs is rendered with its dictionary. */
+export function isLanguageReady(language: PublicLocale): boolean {
+  return normalizeLocale(i18n.language) === language
+    && (language === "tr" || i18n.hasResourceBundle(language, "translation"));
+}
 
 async function ensureDictionary(language: string) {
   const code = language.split("-")[0] as LanguageCode;

@@ -1,7 +1,24 @@
 import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { ChevronDown } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { LANGUAGES, loadLanguage, type LanguageCode } from "@/i18n";
+import { isPanelPath, normalizeLocale, switchLocalePath } from "@/i18n/locale";
+
+/* L01: on a public route a language is an ADDRESS — choosing EN opens the same
+   record under `/en`, choosing TR opens it without the prefix; the URL then
+   drives the rendered language (see `useRouteLanguageReady` in App.tsx). On a
+   panel route the address has no locale, so the choice only re-renders. The
+   choice is remembered either way (`mas_lang`), for the panel. */
+function useChooseLanguage() {
+  const navigate = useNavigate();
+  const { pathname, search, hash } = useLocation();
+  return (code: LanguageCode) => {
+    if (isPanelPath(pathname)) { void loadLanguage(code); return; }
+    try { window.localStorage.setItem("mas_lang", code); } catch { /* storage blocked */ }
+    navigate(switchLocalePath(pathname, search, hash, normalizeLocale(code)));
+  };
+}
 
 type LanguageSwitchProps = {
   className?: string;
@@ -10,10 +27,10 @@ type LanguageSwitchProps = {
   variant?: "inline" | "dropdown";
 };
 
-/* Switching re-renders in place — no reload, no route change — and is
-   remembered (`localStorage.mas_lang`, written by `loadLanguage`). */
+/* TR · EN only (L01). See `useChooseLanguage` above for what a choice does. */
 export function LanguageSwitch({ className = "", variant = "inline" }: LanguageSwitchProps) {
   const { i18n, t } = useTranslation();
+  const choose = useChooseLanguage();
   const current = (i18n.resolvedLanguage ?? i18n.language ?? "tr").split("-")[0] as LanguageCode;
 
   if (variant === "dropdown") {
@@ -29,7 +46,7 @@ export function LanguageSwitch({ className = "", variant = "inline" }: LanguageS
           lang={language.code}
           aria-pressed={current === language.code}
           aria-label={language.name}
-          onClick={() => { void loadLanguage(language.code); }}
+          onClick={() => choose(language.code)}
         >
           {language.label}
         </button>
@@ -56,10 +73,11 @@ function LanguageDropdown({ className, current, label }: { className: string; cu
     if (restoreFocus) buttonRef.current?.focus();
   }, []);
 
+  const chooseLanguage = useChooseLanguage();
   const choose = useCallback((index: number) => {
-    void loadLanguage(LANGUAGES[index].code);
+    chooseLanguage(LANGUAGES[index].code);
     close(true);
-  }, [close]);
+  }, [close, chooseLanguage]);
 
   useEffect(() => {
     if (!open) return;

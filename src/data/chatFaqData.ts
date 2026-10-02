@@ -36,7 +36,7 @@ export interface FaqEntry {
    çelişiyordu. Süre gerektiren yerlerde tek kaynak `@/content/claims`:
    yetkili olan `QUOTE_RESPONSE_TIME`, olmayan yerde `LEAD_TIME_STATEMENT`.
    ═══════════════════════════════════════════════════════════════════════════ */
-const staticEntries: FaqEntry[] = [
+export const staticEntries: FaqEntry[] = [
   {
     question: "Teklif nasıl alabilirim?",
     answer: "Teklif almak için [Teklif Al](/teklif-al) sayfamızı ziyaret edebilirsiniz. CAD dosyanızı yükleyerek hızlı teklif alabilirsiniz. Alternatif olarak sales@mastechnic.com adresine mail atabilirsiniz.",
@@ -88,14 +88,17 @@ const staticEntries: FaqEntry[] = [
     keywords: ["tolerans", "hassasiyet", "doğruluk", "precision", "accuracy"],
   },
   // ── Kargo & Teslimat ──
+  // L01: anlaşmalı kargo firması, DHL/FedEx/UPS ilişkisi, sigortalı gönderim ve
+  // "düzenli sevkiyat" bölgeleri USER_INPUTS.md'de yetkilendirilmemişti;
+  // yanıtlar mekanizmaya (teklifte belirlenen sevkiyat koşulu) indirildi.
   {
     question: "Kargo ile gönderim yapıyor musunuz?",
-    answer: "Evet, Türkiye genelinde anlaşmalı kargo firmalarıyla güvenli gönderim yapıyoruz. Yurt dışı sevkiyat için de DHL, FedEx ve UPS ile çalışıyoruz. Özel paketleme ve sigortalı gönderim seçenekleri mevcuttur.",
+    answer: "Sevkiyat yöntemi ve ambalaj siparişin koşullarına göre teklifte belirlenir; yurt içi ve yurt dışı gönderim seçenekleri teklif aşamasında birlikte netleştirilir.",
     keywords: ["kargo", "gönderim", "sevkiyat", "gönderi", "paket", "ulaştırma", "dhl", "fedex", "ups", "nakliye"],
   },
   {
     question: "Yurt dışına teslimat yapıyor musunuz?",
-    answer: "Evet, dünya genelinde ihracat yapıyoruz. Avrupa, Orta Doğu, ABD ve Asya'ya düzenli sevkiyatlarımız bulunmaktadır. İhracat belgeleri ve gümrük işlemlerinde destek sağlıyoruz.",
+    answer: "Yurt dışı teslimat talepleri teklif aşamasında değerlendirilir; teslim şekli (ör. DDP / FCA) ve gerekli ihracat belgeleri siparişin koşullarına göre birlikte belirlenir.",
     keywords: ["yurt dışı", "ihracat", "export", "uluslararası", "avrupa", "amerika", "gümrük"],
   },
   // ── İade ──

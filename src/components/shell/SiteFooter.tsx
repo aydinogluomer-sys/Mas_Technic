@@ -1,7 +1,9 @@
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArrowLeft, ArrowRight, ChevronDown, Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { stripLocale } from "@/i18n/locale";
+import { Link } from "@/i18n/LocaleLink";
 import { useTranslation } from "react-i18next";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { legalLinks, rfqLink } from "@/components/navigation/ia";
@@ -128,7 +130,7 @@ function FooterDisclosure({ group }: { group: FooterLinkGroup }) {
 function BackToTop() {
   const { t } = useTranslation();
   const reducedMotion = usePrefersReducedMotion();
-  const isLanding = useLocation().pathname === "/";
+  const isLanding = stripLocale(useLocation().pathname) === "/";
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
