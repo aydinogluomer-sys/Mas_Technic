@@ -486,6 +486,27 @@ function keywordArraySpans(text) {
   keywordSpanCache = { text, spans };
   return spans;
 }
+/* Exact honesty labels mandated by the implementation contract (§3 / M01,
+   IMG01, PROOF01). Add a label here only when the contract gives its text
+   verbatim; the `demo-placeholder-badge` rule fires on every other use. */
+const CONTRACT_HONESTY_LABELS = [
+  "Temsili malzeme görünümü; teknik seçim aşağıdaki kayıt ve çalışma koşullarına göre yapılır.",
+];
+const foldForLabel = (value) => value.replace(/[İIıi]/g, "i").toLowerCase();
+const onContractHonestyLabel = (text, index) => {
+  const start = text.lastIndexOf("\n", index) + 1;
+  const end = text.indexOf("\n", index);
+  const line = foldForLabel(text.slice(start, end === -1 ? text.length : end));
+  const column = index - start;
+  return CONTRACT_HONESTY_LABELS.some((label) => {
+    const folded = foldForLabel(label);
+    for (let at = line.indexOf(folded); at !== -1; at = line.indexOf(folded, at + 1)) {
+      if (column >= at && column < at + folded.length) return true;
+    }
+    return false;
+  });
+};
+
 const insideKeywordArray = (text, index) => keywordArraySpans(text).some(([a, b]) => index > a && index < b);
 
 /**
@@ -2270,6 +2291,23 @@ const RULES = [
   },
   {
     id: "demo-placeholder-badge",
+    // Contract-mandated honesty labels are PINNED, not exempted by pattern.
+    // The 2 Oct 2026 implementation contract (`docs/quality/mas-technic-
+    // awwwards/decisions.md` C5) REQUIRES the word "Temsili" in exact captions
+    // that tell the reader an image is representative rather than a company
+    // photograph or report. That is the opposite of a placeholder badge, so
+    // only those exact strings pass; any other "temsili" still fires.
+    exempt: (text, index) => onContractHonestyLabel(text, index),
+    controls: {
+      fires: [
+        '"TEMSİLİ İÇERİK"',
+        '<span>Temsili veri</span>',
+        '"Temsili malzeme görünümü"',
+      ],
+      silent: [
+        '"Temsili malzeme görünümü; teknik seçim aşağıdaki kayıt ve çalışma koşullarına göre yapılır.";',
+      ],
+    },
     // `HAZIRLANIYOR` is matched UPPERCASE-ONLY, and only as a shouted heading.
     // Lower-case "hazırlanıyor" is a transient progress message — "Rapor
     // hazırlanıyor…", "Sayfa hazırlanıyor." — which is a loading state, not a

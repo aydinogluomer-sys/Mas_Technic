@@ -1,12 +1,13 @@
-import { lazy, Suspense, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   PageShell,
   ShellAction,
   ShellBand,
   ShellEmpty,
-  ShellLoading,
   ShellNextStep,
+  ShellNotice,
   ShellPageHero,
+  ShellPlate,
   ShellSpecTable,
   ShellSurfaceBand,
   ShellTitleBlock,
@@ -17,9 +18,9 @@ import { PRICE_BAND } from "@/components/pages/material-figures";
 import { materialCategories, materialsData, type Material } from "@/data/materialsData";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
-
-const MaterialMorphScroll = lazy(() =>
-  import("@/components/MaterialMorphScroll").then((module) => ({ default: module.MaterialMorphScroll })));
+import referencePlate from "@/assets/hero-malzeme-kutuphanesi.webp";
+import referencePlate640 from "@/assets/hero-malzeme-kutuphanesi-640.webp";
+import referencePlate960 from "@/assets/hero-malzeme-kutuphanesi-960.webp";
 
 /* ══════════════════════════════════════════════════════════════════════════
    MALZEMELER — the material register
@@ -62,10 +63,15 @@ const MaterialMorphScroll = lazy(() =>
       typed — because that is a response to a query rather than a statement
       about the company.
 
-   `MaterialMorphScroll` is kept and stays where it was. It is a real piece of
-   the site's creative work, it already paints on the graphite ground, and on
-   this page it now sits between two surfaces of the same family instead of
-   between a teal gradient and a grid of white cards.
+   4. NO IMAGE SEQUENCE (M01). `MaterialMorphScroll` — a 300vh scroll-scrubbed
+      canvas over an 80-frame sequence with 1–5 "score" bars — used to sit
+      between the hero and the register. It made the reader scroll past three
+      screens of motion before reaching the data the page exists for, it
+      eagerly fetched frames on first paint, and its score bars were exactly
+      the kind of undocumented rating the material contract now forbids. The
+      page order is hero → families → register/compare → one static reference
+      plate → next step. The component and the sequence files stay on disk
+      until another route is proven not to need them.
    ══════════════════════════════════════════════════════════════════════════ */
 
 const SORT_OPTIONS = [
@@ -160,10 +166,6 @@ export const Malzemeler = () => {
           </>
         }
       />
-
-      <Suspense fallback={<ShellLoading label="GÖRSEL DİZİ YÜKLENİYOR" />}>
-        <MaterialMorphScroll />
-      </Suspense>
 
       <ShellSurfaceBand no="02" label="AİLE" labelledBy="malzeme-aile">
         <div className="shell-span-read shell-stack">
@@ -303,8 +305,22 @@ export const Malzemeler = () => {
         </div>
       </ShellBand>
 
+      <ShellSurfaceBand no="04" label="PAFTA" labelledBy="malzeme-pafta">
+        <div className="shell-span-read shell-stack">
+          <ShellTitleBlock
+            id="malzeme-pafta"
+            index="04"
+            title="Referans görünüm"
+            standfirst="Kayıttaki değerleri okuduktan sonra yüzey ve form hakkında genel bir fikir için."
+          />
+        </div>
+        <div className="shell-span-full">
+          <MaterialReferencePlate />
+        </div>
+      </ShellSurfaceBand>
+
       <ShellNextStep
-        no="04"
+        no="05"
         title="Malzeme seçimini birlikte netleştirelim"
         body="Parçanın işlevi, çalışma sıcaklığı ve ortamı belliyse alaşım seçimi teknik bir karardır. Teknik resminizi gönderin, seçeneği gerekçesiyle birlikte yazalım."
         detail={[
@@ -317,3 +333,43 @@ export const Malzemeler = () => {
     </PageShell>
   );
 };
+
+const REFERENCE_CAPTION =
+  "Temsili malzeme görünümü; teknik seçim aşağıdaki kayıt ve çalışma koşullarına göre yapılır.";
+
+/* One still image, sized by `--shell-reference-plate-h` (≤480px desktop,
+   ≤280px mobile). If it fails to load the frame is replaced by a note that
+   says what was meant to be there — an empty bordered box would read as a
+   broken page, and text is never placed inside the plate frame (I4). */
+function MaterialReferencePlate() {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <ShellNotice label="GÖRSEL" title="Referans görsel yüklenemedi">
+        <p>{REFERENCE_CAPTION}</p>
+      </ShellNotice>
+    );
+  }
+
+  return (
+    <ShellPlate
+      size="reference"
+      plate="PAFTA 04"
+      caption={REFERENCE_CAPTION}
+      media={
+        <img
+          src={referencePlate}
+          srcSet={`${referencePlate640} 640w, ${referencePlate960} 960w, ${referencePlate} 1600w`}
+          sizes="(max-width: 767px) 100vw, 1200px"
+          width={1600}
+          height={896}
+          alt="Farklı metal ve plastik yarı mamullerin yan yana görünümü"
+          loading="lazy"
+          decoding="async"
+          onError={() => setFailed(true)}
+        />
+      }
+    />
+  );
+}

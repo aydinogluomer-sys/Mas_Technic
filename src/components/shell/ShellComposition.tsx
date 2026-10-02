@@ -328,9 +328,13 @@ export function ShellPlate({
   plate,
   caption,
   style,
+  size,
 }: {
   /** The image element. Usually a `motion.img` so the page owns its parallax. */
   media: ReactNode;
+  /** `reference`: a static still capped by `--shell-reference-plate-h`, no
+      parallax overscan. Default is the detail-page hero plate. */
+  size?: "reference";
   /** Mono plate designation printed under the frame, e.g. `PLAKA 01`. */
   plate?: string;
   /** One line of description under the frame. Never inside it. */
@@ -338,7 +342,7 @@ export function ShellPlate({
   style?: CSSProperties;
 }) {
   return (
-    <figure className="shell-plate" style={style}>
+    <figure className="shell-plate" data-size={size} style={style}>
       <div className="shell-plate-frame">
         {media}
         <span className="shell-plate-tick" data-corner="tl" aria-hidden="true" />

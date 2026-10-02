@@ -32,12 +32,16 @@
      vertical rhythm sat 64–72px below the landing's. */
   --shell-page-top: 56px;
   --shell-page-bottom: 96px;
+  /* Static reference plate (Malzemeler, M01): a still image, never a
+     cinematic band. Upper bound only; the plate scales down with width. */
+  --shell-reference-plate-h: 480px;
 }
 
 @media (max-width: 767px) {
   :root {
     --shell-page-top: 32px;
     --shell-page-bottom: 64px;
+    --shell-reference-plate-h: 280px;
   }
 }
 
@@ -1440,6 +1444,14 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   width: 100%;
   height: calc(100% + 120px);
   object-fit: cover;
+}
+.shell-plate[data-size="reference"] .shell-plate-frame {
+  height: clamp(180px, 36vw, var(--shell-reference-plate-h));
+}
+/* No parallax on a reference plate, so no overscan: the whole still shows. */
+.shell-plate[data-size="reference"] .shell-plate-frame > img {
+  inset: 0;
+  height: 100%;
 }
 .shell-plate-tick {
   position: absolute;
