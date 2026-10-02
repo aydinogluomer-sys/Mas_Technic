@@ -255,9 +255,10 @@ export function QualityFile() {
         {/* ROUND 2 — ONE WIREFRAME. Every card: code line, title, subtitle,
             the same document frame, footer line. The three certificates were
             text-only and the three records carried three different drawings,
-            so the strip read as six unrelated tiles. Three certificates, and
-            only three: `USER_INPUTS.md` §C records AS9100D and IATF 16949 as
-            NONE. The documents behind card 06 are the four real PDFs in §H,
+            so the strip read as six unrelated tiles. Two active certificates:
+            `USER_INPUTS.md` §C records AS9100D and IATF 16949 as NONE, and
+            OHSAS 18001 is withheld from the showcase (T02, `claims.ts`). The
+            documents behind the last card are the four real PDFs in §H,
             downloadable from the KAYNAKLAR list in band 12. */}
         <div className="tl-quality-strip">
           {[

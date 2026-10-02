@@ -118,11 +118,13 @@ test.describe("technical editorial landing phase 1", () => {
   test("renders sectors, the quality file and the reference band", async ({ page }) => {
     await expect(page.getByRole("region", { name: "Çalıştığımız sektörler" })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: /İDDİA EDİLMEZ/ })).toBeVisible();
-    // The permitted set, and ONLY the permitted set (USER_INPUTS.md §C).
-    for (const code of ["ISO 9001:2015", "ISO 14001:2015", "OHSAS 18001"]) {
+    // The active showcase (USER_INPUTS.md §C, implementation contract T02):
+    // OHSAS 18001 keeps its permission record but is not shown as an active
+    // certificate, and ISO 45001 is not added in its place.
+    for (const code of ["ISO 9001:2015", "ISO 14001:2015"]) {
       await expect(page.getByRole("heading", { name: code, exact: true })).toBeVisible();
     }
-    for (const code of ["AS9100D", "IATF 16949", "ISO 13485"]) {
+    for (const code of ["AS9100D", "IATF 16949", "ISO 13485", "OHSAS", "ISO 45001"]) {
       await expect(page.getByText(code, { exact: false })).toHaveCount(0);
     }
     await expect(page.getByRole("region", { name: "Referanslar" })).toBeVisible();

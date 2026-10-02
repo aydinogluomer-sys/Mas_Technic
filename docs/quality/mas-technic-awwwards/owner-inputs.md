@@ -5,7 +5,7 @@ Yalnız gerçekten gerekli veri ve belgeler. Bunlar gelmeden teknik iş durmaz: 
 | Kimlik | Gerekli gerçek veri | Hangi işler bekliyor | Veri yokken uygulanan davranış | Durum |
 |---|---|---|---|---|
 | O01 | Aday origin/hosting ve deployment erişimi | S01 (candidate-host ölçümü), SEO01, RELEASE01 | Ölçümler yerel `vite preview` ile, `LOCAL_FIXTURE` etiketli | Açık |
-| O02 | Torna / derin delik ve diğer kapasite kapsam onayı | T01, T02 | Çelişkili veya koşulsuz sayı public'te kullanılmaz | Açık |
+| O02 | Kapasite kapsam onayı. Öncelikli kalemler: torna çap/boy/bar (Ø500 mı 380 mi, Ø65, 3 m); derin delik gun drill / BTA aralıkları ve derinlik; mikro işleme takım çapı ve iş mili devri; basınçlı döküm kilitleme kuvveti ve min. duvar; anodizasyon tank boyutu ve ağırlık; lazer alanı; parça ağırlık/boyut sınırı. T02 öncesi metinlerin tam listesi: `claims-register.md` ve `evidence/t02-claims-inventory-before.json` | T01, T02 | Çelişkili veya koşulsuz sayı public'te kullanılmaz; kapsam metni kullanılır | Açık |
 | O03 | ISO 9001 / 14001 için issuer, kapsam ve geçerlilik belgesi; OHSAS'ın güncel durumu | T02, UX03 | ISO 45001 eklenmez; OHSAS aktif rozet olarak gösterilmez; aktif belge doğrulaması açık kalır | Açık |
 | O04 | Bir gerçek demo kuponu: çizim + revizyon, proses/bağlama görseli, kritik koteler, gerçek ölçüm çıktısı, izin, teknik gözden geçiren | PROOF02 | Temsili etkileşim çalışır; measured panel yayımlanmaz | Açık |
 | O05 | Malzeme property kaynakları ve koşulları | T03 | Kaynaksız sayı yerine `Veri doğrulanmadı` | Açık |

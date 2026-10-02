@@ -173,15 +173,29 @@ export const CERTIFICATIONS: readonly Certification[] = publish({
   value: [
     { code: "ISO 9001:2015", name: "KALİTE YÖNETİM SİSTEMİ" },
     { code: "ISO 14001:2015", name: "ÇEVRE YÖNETİM SİSTEMİ" },
-    { code: "OHSAS 18001", name: "İŞ SAĞLIĞI VE GÜVENLİĞİ YÖNETİM SİSTEMİ" },
   ] as const,
   visibility: "PUBLIC_CORE",
   source:
     "USER_INPUTS.md §C — ISO_9001_VALUE: VERIFIED / PUBLIC_OK; " +
-    "ISO_14001_VALUE: VERIFIED / PUBLIC_OK; OTHER_CERTIFICATIONS: OHSAS 18001 (PUBLIC_OK)",
+    "ISO_14001_VALUE: VERIFIED / PUBLIC_OK",
 });
 
-/** `ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001` — for running prose. */
+/**
+ * T02 (implementation contract §3): OHSAS 18001 is NOT shown as an active
+ * certificate. The permission in `USER_INPUTS.md` §C (`OHSAS 18001
+ * (PUBLIC_OK)`) is left exactly as it is; this is a publication decision, not
+ * a change to the permission. ISO 45001 is not added in its place.
+ */
+export const OHSAS_18001 = withhold({
+  visibility: "REMOVE_IF_UNVERIFIED",
+  source: "USER_INPUTS.md §C — OTHER_CERTIFICATIONS: OHSAS 18001 (PUBLIC_OK); no issuer, scope or validity supplied",
+  reason:
+    /* The standard was withdrawn in 2018 and replaced by ISO 45001. */
+    "OHSAS 18001 is a withdrawn standard. Without a current validity document it would read as an active " +
+    "certificate the company may not hold. Restore only with a current certificate (owner input O03).",
+});
+
+/** `ISO 9001:2015 ve ISO 14001:2015` — for running prose. */
 export const CERTIFICATION_SENTENCE_LIST = CERTIFICATIONS.map((c) => c.code)
   .slice(0, -1)
   .join(", ") + " ve " + CERTIFICATIONS[CERTIFICATIONS.length - 1].code;

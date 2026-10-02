@@ -285,6 +285,11 @@
 .tl-quality-strip{grid-column:1/-1;align-items:stretch}
 .tl-cert{grid-column:span 2;position:relative;display:flex;min-height:166px;flex-direction:column;align-items:center;border:1px solid var(--tl-paper-rule);border-left:0;padding:var(--tl-s3);background:var(--tl-paper-raised);text-align:center}
 .tl-cert:first-child{border-left:1px solid var(--tl-paper-rule)}
+/* T02: OHSAS 18001 left the active showcase, so the strip has five cards.
+   The last one (KALİTE DOSYASI) takes two tracks' worth, which closes the row
+   on the 12-, 6- and 4-column master grids alike
+   (12: 2+2+2+2+4 · 6: 2+2+2 / 2+4 · 4: 2+2 / 2+2 / 4). */
+.tl-cert:nth-child(5):last-child{grid-column:span 4}
 .tl-cert h3{font:700 12px/1.25 var(--tl-font-mono);letter-spacing:.04em}
 .tl-cert>p{margin-top:var(--tl-s2);color:var(--tl-ink-soft);font:500 9px/1.5 var(--tl-font-mono);letter-spacing:.05em}
 /* Referansta imza solda, kabartma mühür yalnızca ilk sertifikada sağda. */

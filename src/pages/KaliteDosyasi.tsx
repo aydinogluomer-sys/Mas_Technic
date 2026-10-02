@@ -41,8 +41,9 @@ import {
        from `public/belgeler/`. Their printed sizes are re-measured from disk
        by `scripts/claims-gate.mjs`, so a size on this page cannot drift from
        the file a reader downloads.
-     · §C — ISO 9001:2015, ISO 14001:2015, OHSAS 18001. Three, and only three:
-       AS9100D and IATF 16949 are `NONE`.
+     · §C — ISO 9001:2015 and ISO 14001:2015. AS9100D and IATF 16949 are
+       `NONE`; OHSAS 18001 is withheld from the active showcase (T02, see
+       `claims.ts` `OHSAS_18001`).
      · §D — the tolerance and the measurement-coverage statement, through
        `claims.ts`.
 

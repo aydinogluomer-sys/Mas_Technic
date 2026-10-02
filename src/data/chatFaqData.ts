@@ -49,7 +49,7 @@ const staticEntries: FaqEntry[] = [
   },
   {
     question: "Hangi sektörlere hizmet veriyorsunuz?",
-    answer: "Havacılık & uzay, savunma sanayi, otomotiv, medikal, robotik, enerji, denizcilik, hidrolik ve daha birçok sektöre hizmet veriyoruz. Detaylar için [Endüstriyel Çözümler](/endustriyel) sayfamıza bakabilirsiniz.",
+    answer: "Havacılık & uzay, savunma sanayi, otomotiv, medikal, robotik, enerji, denizcilik, hidrolik ve daha birçok sektöre hizmet veriyoruz. Detaylar için [Yüksek Teknoloji](/endustriyel/kategori/yuksek-teknoloji) ve diğer sektör sayfalarımıza bakabilirsiniz.",
     keywords: ["sektör", "endüstri", "havacılık", "otomotiv", "medikal", "savunma", "hangi sektör"],
   },
   {
@@ -59,7 +59,7 @@ const staticEntries: FaqEntry[] = [
   },
   {
     question: "Hangi CNC hizmetleri sunuyorsunuz?",
-    answer: "CNC frezeleme (3-4-5 eksen), CNC tornalama, hassas mikro işleme, derin delik & raybalama, lazer kazıma, yüzey işlemleri, montaj ve daha fazlası. Tüm hizmetlerimiz için [Hizmetler](/hizmetler) sayfamızı inceleyin.",
+    answer: "CNC frezeleme (3-4-5 eksen), CNC tornalama, hassas mikro işleme, derin delik & raybalama, lazer kazıma, yüzey işlemleri, montaj ve daha fazlası. Talaşlı imalat hizmetlerimiz için [Talaşlı İmalat](/hizmetler/kategori/talasli-imalat) sayfamızı inceleyin.",
     keywords: ["cnc", "hizmet", "servis", "ne yapıyorsunuz", "neler sunuyorsunuz", "frezeleme", "tornalama"],
   },
   {
@@ -79,7 +79,7 @@ const staticEntries: FaqEntry[] = [
   },
   {
     question: "Kalite sertifikalarınız nelerdir?",
-    answer: "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Her iş için kontrol planı oluşturulur; ölçüm kaydı teslimat dosyasına eklenir, akredite üçüncü taraf CMM ölçümü talebe bağlı olarak sağlanır.",
+    answer: "ISO 9001:2015 ve ISO 14001:2015 yönetim sistemi belgelerimiz bulunmaktadır. Her iş için kontrol planı oluşturulur; ölçüm kaydı teslimat dosyasına eklenir, akredite üçüncü taraf CMM ölçümü talebe bağlı olarak sağlanır.",
     keywords: ["kalite", "sertifika", "iso", "standart", "belge", "rapor"],
   },
   {
@@ -187,13 +187,13 @@ const staticEntries: FaqEntry[] = [
   // ── Yüzey İşlemleri ──
   {
     question: "Hangi yüzey işlemlerini yapıyorsunuz?",
-    answer: "Anodizasyon, kumlama, boyama, krom kaplama, nikel kaplama, siyah oksit, pasivasyon, eloksal ve daha fazlası. [Yüzey İşlemleri](/hizmetler/yuzey-islemleri) sayfamızda detayları bulabilirsiniz.",
+    answer: "Anodizasyon, mekanik yüzey işlemleri (kumlama, vibrasyonlu yüzey bitirme, parlatma), kimyasal işlemler (pasivasyon, fosfatlama) ile boya ve koruyucu kaplamalar. [Yüzey İşlemleri](/hizmetler/kategori/yuzey-islemleri) sayfamızda detayları bulabilirsiniz.",
     keywords: ["yüzey", "anodizasyon", "kaplama", "boyama", "krom", "nikel", "kumlama", "eloksal", "pasivasyon", "finishing"],
   },
   // ── Seri Üretim ──
   {
     question: "Seri üretim yapıyor musunuz?",
-    answer: "Evet, tek parçadan seri üretime kadar çalışıyoruz. Seri üretimde birim maliyet avantajı ve tutarlı kalite sağlıyoruz. [Seri Üretim](/kabiliyetler/seri-uretim) sayfamızı inceleyin.",
+    answer: "Evet, tek parçadan seri üretime kadar çalışıyoruz. Seri üretimde birim maliyet avantajı ve tutarlı kalite sağlıyoruz. [Seri İmalat](/kabiliyetler/seri-imalat) sayfamızı inceleyin.",
     keywords: ["seri", "seri üretim", "toplu", "adet", "büyük sipariş", "volume", "mass production"],
   },
   // ── Teknik Destek ──
@@ -224,7 +224,7 @@ const staticEntries: FaqEntry[] = [
   },
   {
     question: "Makine parkurunuz nedir?",
-    answer: "3-4-5 eksen CNC freze, CNC torna, EDM, taşlama, CMM ölçüm cihazları ve lazer markalama makineleri dahil geniş bir makine parkurumuz bulunmaktadır. [Makine Parkuru](/kabiliyetler/makine-parkuru) sayfamızı inceleyin.",
+    answer: "3, 4 ve 5 eksen frezeleme, C/Y eksenli ve kayar puntalı tornalama, derin delik işleme ile tel ve dalma erozyon proses ailelerimiz vardır; hangisinin kullanılacağı parçanın geometrisine göre belirlenir. Akredite üçüncü taraf CMM ölçümü talebe bağlıdır. [Makine Parkuru](/kabiliyetler/makine-parkuru) sayfamızı inceleyin.",
     keywords: ["makine", "parkur", "tezgah", "ekipman", "kapasite", "eksen", "freze", "torna"],
   },
 ];
