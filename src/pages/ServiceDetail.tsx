@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useScroll, useTransform } from "framer-motion";
 import { motion } from "@/components/shell/motion";
 import {
@@ -16,6 +16,7 @@ import {
   ShellTitleBlock,
 } from "@/components/shell";
 import { getPageBySlug, getPagesByCategory } from "@/data/servicePages";
+import { resolveDetailRoute } from "@/lib/detail-route";
 import { categoryPages } from "@/data/categoryPages";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
@@ -277,31 +278,28 @@ function splitFeature(feature: string) {
 }
 
 export const ServiceDetail = () => {
-  const { slug } = useParams<{ category: string; slug: string }>();
-  const { pathname } = useLocation();
-  const page = slug ? getPageBySlug(slug) : undefined;
+  const { pathname, search, hash } = useLocation();
   const prefersReduced = usePrefersReducedMotion();
 
-  /* PHASE 07 CORRECTION #1 — F3.
-     The not-found branch hard-coded `{ no: "03", label: "HİZMET" }`, so
-     `/endustriyel/<unknown>` told the reader it was in the services family.
-     These routes carry no `:category` param (`/hizmetler/:slug`,
-     `/kabiliyetler/:slug`, `/endustriyel/:slug`), so the family is derived
-     from the path — the same derivation `CategoryPage` uses. */
-  const pathFamily: keyof typeof FAMILY = pathname.startsWith("/kabiliyetler")
-    ? "kabiliyetler"
-    : pathname.startsWith("/endustriyel")
-      ? "endustriyel"
-      : "hizmetler";
+  /* R01 — family + slug, not slug alone. A known slug under the wrong family
+     redirects to its canonical address; an unknown slug gets the not-found
+     view below. The family for that view (PHASE 07 F3: never hard-coded to
+     services) comes from the same parse. See `src/lib/detail-route.ts`. */
+  const resolution = resolveDetailRoute(pathname, getPageBySlug);
+  const page = resolution.kind === "found" ? resolution.record : undefined;
+  const pathFamily: keyof typeof FAMILY = resolution.family;
 
   /* And the title: an unknown slug fell back to the SITE DEFAULT, which reads
      to a crawler and to a tab strip as though the page had resolved.
      `usePageMeta` cannot be called conditionally, so the found branch gets a
      real title too — an improvement, and the reason the argument is computed
-     rather than the hook skipped. */
+     rather than the hook skipped. During a wrong-family redirect the meta is
+     the destination record's, so the one render before `<Navigate>` never
+     writes a "not found" title. */
+  const metaRecord = resolution.kind === "not-found" ? undefined : resolution.record;
   usePageMeta(
-    page
-      ? { title: page.title, description: page.description }
+    metaRecord
+      ? { title: metaRecord.title, description: metaRecord.description }
       : {
           title: `${FAMILY[pathFamily].label} — sayfa bulunamadı`,
           description:
@@ -320,6 +318,10 @@ export const ServiceDetail = () => {
      exposed the box at the bottom of the range. Zero under reduced motion:
      a scroll-linked transform is motion whatever drives it. */
   const plateY = useTransform(scrollYProgress, [0, 1], prefersReduced ? [0, 0] : [-60, 60]);
+
+  if (resolution.kind === "redirect") {
+    return <Navigate to={`${resolution.to}${search}${hash}`} replace />;
+  }
 
   if (!page) {
     /* F3: one `<h1>`, from the same primitive the found branch uses. The
