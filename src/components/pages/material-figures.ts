@@ -1,4 +1,4 @@
-import { materialCategories, type Material } from "@/data/materialsData";
+import { materialCategories, type Material, type MaterialCategoryPage } from "@/data/materialsData";
 
 /* ══════════════════════════════════════════════════════════════════════════
    MATERIAL FIGURES — the shared reading of `materialsData.ts`
@@ -33,8 +33,8 @@ export const UNVERIFIED_FIGURE = "Veri doğrulanmadı";
 export const isSourced = (material: Material): boolean => material.source !== null;
 
 /** The family name a reader sees (`Kompozitler`), never the data key (`composite`). */
-export function familyName(material: Material): string {
-  return materialCategories.find((family) => family.subcategoryKey === material.subcategory)?.name ?? material.subcategory;
+export function familyName(material: Material, families: readonly MaterialCategoryPage[] = materialCategories): string {
+  return families.find((family) => family.subcategoryKey === material.subcategory)?.name ?? material.subcategory;
 }
 
 type NumericKey = "density" | "tensileStrength" | "maxTemperature" | "thermalConductivity";

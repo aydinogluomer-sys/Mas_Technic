@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { ShellBand } from "./ShellBand";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -149,11 +150,12 @@ export function ShellEvidence({
   source: string;
   children: ReactNode;
 }) {
+  const { t } = useTranslation();
   return (
     <figure className="shell-evidence">
-      <span className="shell-evidence-kind" aria-hidden="true">{kind}</span>
+      <span className="shell-evidence-kind" aria-hidden="true">{t(kind)}</span>
       <div className="shell-evidence-body">{children}</div>
-      <figcaption className="shell-evidence-source">KAYNAK: {source}</figcaption>
+      <figcaption className="shell-evidence-source">{t("KAYNAK")}: {t(source)}</figcaption>
     </figure>
   );
 }

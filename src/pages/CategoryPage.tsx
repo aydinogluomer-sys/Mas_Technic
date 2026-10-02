@@ -10,8 +10,10 @@ import {
   ShellSurfaceBand,
   ShellTitleBlock,
 } from "@/components/shell";
-import { categoryPages, type CategoryPageData } from "@/data/categoryPages";
-import { getPageBySlug } from "@/data/servicePages";
+import { useTranslation } from "react-i18next";
+import type { CategoryPageData } from "@/data/categoryPages";
+import type { ServicePageData } from "@/data/servicePages";
+import { useSiteData } from "@/i18n/data";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME, publishableSpecValues } from "@/content/claims";
 
@@ -78,7 +80,7 @@ const FAMILY = {
 } as const;
 
 /** Up to two PUBLISHABLE measured facts belonging to the entry itself. */
-function entryMeta(path: string): string[] {
+function entryMeta(path: string, getPageBySlug: (slug: string) => ServicePageData | undefined): string[] {
   const slug = path.split("/").filter(Boolean).pop();
   const page = slug ? getPageBySlug(slug) : undefined;
   return publishableSpecValues(page?.technicalSpecs, 2);
@@ -86,6 +88,8 @@ function entryMeta(path: string): string[] {
 
 export const CategoryPage = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { t } = useTranslation();
+  const { categoryPages, getPageBySlug } = useSiteData();
   const pathname = stripLocale(useLocation().pathname);
   const prefix: CategoryPageData["prefix"] = pathname.startsWith("/hizmetler")
     ? "hizmetler"
@@ -96,7 +100,7 @@ export const CategoryPage = () => {
   const family = FAMILY[prefix];
 
   usePageMeta({
-    title: category ? category.title : `${family.label} — kategori bulunamadı`,
+    title: category ? category.title : t("{{family}} — kategori bulunamadı", { family: t(family.label) }),
     description: category?.description,
   });
 
@@ -120,23 +124,23 @@ export const CategoryPage = () => {
           label={family.rail.label}
           crumb={
             <ShellBreadcrumb
-              trail={[{ label: "Ana sayfa", to: "/" }, { label: family.label }]}
+              trail={[{ label: "Ana sayfa", to: "/" }, { label: t(family.label) }]}
             />
           }
-          eyebrow="KATEGORİ YOK"
-          title="Bu kategori kaydı bulunamadı"
-          lede="Bağlantı değişmiş olabilir. Aşağıdaki listeden ilgili başlığa geçebilirsiniz."
-          actions={<ShellAction to="/" variant="ghost">Ana sayfa</ShellAction>}
+          eyebrow={t("KATEGORİ YOK")}
+          title={t("Bu kategori kaydı bulunamadı")}
+          lede={t("Bağlantı değişmiş olabilir. Aşağıdaki listeden ilgili başlığa geçebilirsiniz.")}
+          actions={<ShellAction to="/" variant="ghost">{t("Ana sayfa")}</ShellAction>}
         />
         <ShellSurfaceBand
           no="02"
           label={family.rail.label}
-          ariaLabel={`${family.label} kategorileri`}
+          ariaLabel={t("{{name}} kategorileri", { name: t(family.label) })}
         >
           <div className="shell-span-full">
             <ShellIndexList
               compact
-              ariaLabel={`${family.label} kategorileri`}
+              ariaLabel={t("{{name}} kategorileri", { name: t(family.label) })}
               items={categoryPages
                 .filter((item) => item.prefix === prefix)
                 .map((item) => ({
@@ -164,23 +168,23 @@ export const CategoryPage = () => {
           <ShellBreadcrumb
             trail={[
               { label: "Ana sayfa", to: "/" },
-              { label: family.label },
+              { label: t(family.label) },
               { label: category.title },
             ]}
           />
         }
-        eyebrow={family.label}
+        eyebrow={t(family.label)}
         title={category.title}
         lede={category.description}
         meta={[
-          { label: "Aile", value: family.label },
-          { label: "Standart tolerans", value: MINIMUM_TOLERANCE },
-          { label: "Teklif dönüşü", value: QUOTE_RESPONSE_TIME },
+          { label: t("Aile"), value: t(family.label) },
+          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Teklif dönüşü"), value: t(QUOTE_RESPONSE_TIME) },
         ]}
         actions={
           <>
-            <ShellAction to="/teklif-al" variant="primary">Teklif Al</ShellAction>
-            <ShellAction to="/iletisim" variant="ghost">Teknik görüşme</ShellAction>
+            <ShellAction to="/teklif-al" variant="primary">{t("Teklif Al")}</ShellAction>
+            <ShellAction to="/iletisim" variant="ghost">{t("Teknik görüşme")}</ShellAction>
           </>
         }
       />
@@ -190,18 +194,18 @@ export const CategoryPage = () => {
           <ShellTitleBlock
             id="kategori-icindekiler"
             index="02"
-            title="Bu başlık altında"
-            standfirst="Her satır kendi sayfasına açılır; sağdaki değerler o sayfanın kendi teknik kaydından gelir."
+            title={t("Bu başlık altında")}
+            standfirst={t("Her satır kendi sayfasına açılır; sağdaki değerler o sayfanın kendi teknik kaydından gelir.")}
           />
         </div>
         <div className="shell-span-full">
           <ShellIndexList
-            ariaLabel={`${category.title} sayfaları`}
+            ariaLabel={t("{{title}} sayfaları", { title: category.title })}
             items={category.links.map((link) => ({
               to: link.path,
               title: link.label,
               description: link.description,
-              meta: entryMeta(link.path),
+              meta: entryMeta(link.path, getPageBySlug),
             }))}
           />
         </div>
@@ -213,14 +217,14 @@ export const CategoryPage = () => {
             <ShellTitleBlock
               id="kategori-aile"
               index="03"
-              title={`${family.label} — diğer başlıklar`}
-              standfirst="Aradığınız iş bu kategoride değilse, aynı ailenin geri kalanı burada."
+              title={t("{{family}} — diğer başlıklar", { family: t(family.label) })}
+              standfirst={t("Aradığınız iş bu kategoride değilse, aynı ailenin geri kalanı burada.")}
             />
           </div>
           <div className="shell-span-full">
             <ShellIndexList
               compact
-              ariaLabel={`${family.label} ailesindeki diğer kategoriler`}
+              ariaLabel={t("{{family}} ailesindeki diğer kategoriler", { family: t(family.label) })}
               items={siblings.map((item) => ({
                 to: `/${item.prefix}/kategori/${item.slug}`,
                 title: item.title,
@@ -233,14 +237,14 @@ export const CategoryPage = () => {
 
       <ShellNextStep
         no="04"
-        title={`${category.title} için teklif`}
-        body="Teknik resim veya 3B model gönderin; üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım."
+        title={t("{{title}} için teklif", { title: category.title })}
+        body={t("Teknik resim veya 3B model gönderin; üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım.")}
         detail={[
-          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
-          { label: "Standart tolerans", value: MINIMUM_TOLERANCE },
-          { label: "Alternatif", value: "Online teknik görüşme" },
+          { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
+          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Alternatif"), value: t("Online teknik görüşme") },
         ]}
-        secondary={{ label: "İletişim", to: "/iletisim" }}
+        secondary={{ label: t("İletişim"), to: "/iletisim" }}
       />
     </PageShell>
   );

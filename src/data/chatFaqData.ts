@@ -1,6 +1,6 @@
 import { LEAD_TIME_STATEMENT, PUBLIC_CITY, QUOTE_RESPONSE_TIME } from "@/content/claims";
 import { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadFiles";
-import { servicePages } from "./servicePages";
+import { servicePages, type ServicePageData } from "./servicePages";
 
 /**
  * ".step, .stp, .stl, .obj, .iges, .igs, .3mf"
@@ -233,9 +233,9 @@ export const staticEntries: FaqEntry[] = [
 ];
 
 // ── servicePages FAQ'larından otomatik toplama ──
-function collectServiceFaqs(): FaqEntry[] {
+export function collectServiceFaqs(pages: readonly ServicePageData[] = servicePages): FaqEntry[] {
   const entries: FaqEntry[] = [];
-  for (const page of servicePages) {
+  for (const page of pages) {
     if (!page.faq) continue;
     for (const f of page.faq) {
       // Soru ve cevaptan otomatik keyword çıkar
@@ -275,6 +275,8 @@ const QUESTION_FORM_WORDS = new Set([
   "musunuz", "misiniz", "mısınız", "müsünüz", "mudur", "mıdır", "midir", "müdür",
   // "…yapıyor musunuz / veriyor musunuz / var mı" kalıbı
   "veriyor", "veriyorsunuz", "yapıyor", "yapıyorsunuz", "var", "yok",
+  // L01 — the same pattern words of the English matcher ("do you offer …")
+  "you", "your", "does", "can", "the", "what", "which", "how", "are", "have",
 ]);
 
 // ── Basit TF-IDF benzeri skor hesaplama ──
@@ -293,13 +295,13 @@ export interface MatchResult {
   score: number;
 }
 
-export function findBestFaqMatch(userInput: string): MatchResult | null {
+export function findBestFaqMatch(userInput: string, entries: readonly FaqEntry[] = allFaqEntries): MatchResult | null {
   const inputWords = normalize(userInput);
   if (inputWords.length === 0) return null;
 
   let bestMatch: MatchResult | null = null;
 
-  for (const entry of allFaqEntries) {
+  for (const entry of entries) {
     // Hem keywords hem de soru metninde arama yap
     const questionWords = normalize(entry.question);
     const allTargetWords = [...entry.keywords, ...questionWords];

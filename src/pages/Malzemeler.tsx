@@ -1,4 +1,7 @@
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
+import { useSiteData } from "@/i18n/data";
 import {
   PageShell,
   ShellAction,
@@ -15,7 +18,7 @@ import {
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { MaterialRegister } from "@/components/pages/MaterialRegister";
 import { compareFigure, familyName, figure, hardness, UNVERIFIED_FIGURE } from "@/components/pages/material-figures";
-import { materialCategories, materialsData, type Material } from "@/data/materialsData";
+import type { Material, MaterialCategoryPage } from "@/data/materialsData";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 import referencePlate from "@/assets/hero-malzeme-kutuphanesi.webp";
@@ -85,24 +88,31 @@ const SORT_OPTIONS = [
 
 const MAX_COMPARE = 4;
 
-const COMPARISON_ROWS: { label: string; read: (material: Material) => string }[] = [
-  { label: "Aile", read: (m) => familyName(m) },
-  { label: "Grade / temper", read: (m) => m.gradeTemper ?? "Belirtilmedi" },
-  { label: "Ürün formu", read: (m) => m.productForm ?? "Belirtilmedi" },
-  { label: "Yoğunluk (g/cm³)", read: (m) => figure(m, "density") },
-  { label: "Çekme mukavemeti (MPa)", read: (m) => figure(m, "tensileStrength") },
-  { label: "Sertlik", read: (m) => hardness(m) },
-  { label: "Maks. sıcaklık (°C)", read: (m) => figure(m, "maxTemperature") },
-  { label: "Isı iletkenliği (W/m·K)", read: (m) => figure(m, "thermalConductivity") },
-  { label: "Değer koşulu", read: (m) => m.propertyConditions },
-  { label: "Kaynak", read: (m) => m.source?.document ?? UNVERIFIED_FIGURE },
+/* Labels and the "not stated / not verified" words are i18n keys; the
+   figures themselves are never translated. */
+const comparisonRows = (
+  t: TFunction,
+  families: readonly MaterialCategoryPage[],
+): { label: string; read: (material: Material) => string }[] => [
+  { label: t("Aile"), read: (m) => familyName(m, families) },
+  { label: t("Grade / temper"), read: (m) => m.gradeTemper ?? t("Belirtilmedi") },
+  { label: t("Ürün formu"), read: (m) => (m.productForm ? t(m.productForm) : t("Belirtilmedi")) },
+  { label: t("Yoğunluk (g/cm³)"), read: (m) => t(figure(m, "density")) },
+  { label: t("Çekme mukavemeti (MPa)"), read: (m) => t(figure(m, "tensileStrength")) },
+  { label: t("Sertlik"), read: (m) => t(hardness(m)) },
+  { label: t("Maks. sıcaklık (°C)"), read: (m) => t(figure(m, "maxTemperature")) },
+  { label: t("Isı iletkenliği (W/m·K)"), read: (m) => t(figure(m, "thermalConductivity")) },
+  { label: t("Değer koşulu"), read: (m) => m.propertyConditions },
+  { label: t("Kaynak"), read: (m) => m.source?.document ?? t(UNVERIFIED_FIGURE) },
 ];
 
 export const Malzemeler = () => {
+  const { t, i18n } = useTranslation();
+  const { materialCategories, materialsData } = useSiteData();
+  const COMPARISON_ROWS = comparisonRows(t, materialCategories);
   usePageMeta({
-    title: "Malzemeler",
-    description:
-      "CNC işlemede kullanılan alüminyum, çelik, titanyum ve mühendislik plastikleri — teknik özellikler ve karşılaştırma.",
+    title: t("Malzemeler"),
+    description: t("CNC işlemede kullanılan alüminyum, çelik, titanyum ve mühendislik plastikleri — teknik özellikler ve karşılaştırma."),
   });
 
   const [activeFamily, setActiveFamily] = useState("all");
@@ -127,11 +137,11 @@ export const Malzemeler = () => {
       switch (sortBy) {
         case "density": return compareFigure("density", "asc")(a, b);
         case "tensileStrength": return compareFigure("tensileStrength", "desc")(a, b);
-        default: return a.name.localeCompare(b.name, "tr");
+        default: return a.name.localeCompare(b.name, i18n.language);
       }
     });
     return result;
-  }, [activeFamily, query, sortBy]);
+  }, [activeFamily, query, sortBy, materialsData, materialCategories, i18n.language]);
 
   const activeFamilyPage = materialCategories.find((item) => item.slug === activeFamily);
   const toggleCompare = (material: Material) =>
@@ -143,25 +153,25 @@ export const Malzemeler = () => {
     <PageShell surface="graphite" rail={{ no: "R1", label: "MALZEME" }}>
       <JsonLdSchema
         type="productCatalog"
-        name="Malzeme Kütüphanesi"
-        description="CNC işleme için alüminyum, çelik, titanyum, pirinç, bakır ve mühendislik plastikleri. Teknik özellikler ve karşılaştırma."
+        name={t("Malzeme Kütüphanesi")}
+        description={t("CNC işleme için alüminyum, çelik, titanyum, pirinç, bakır ve mühendislik plastikleri. Teknik özellikler ve karşılaştırma.")}
       />
 
       <ShellPageHero
         no="01"
         label="MALZEME"
-        eyebrow="Teknik referans"
-        title="Malzeme kütüphanesi"
-        lede="CNC işlemede sık kullanılan metaller, mühendislik plastikleri ve kompozitler için karşılaştırmalı teknik kayıt. Aileyi seçin, değerleri yan yana okuyun, seçtiğiniz malzemeyle teklif dosyası açın."
+        eyebrow={t("Teknik referans")}
+        title={t("Malzeme kütüphanesi")}
+        lede={t("CNC işlemede sık kullanılan metaller, mühendislik plastikleri ve kompozitler için karşılaştırmalı teknik kayıt. Aileyi seçin, değerleri yan yana okuyun, seçtiğiniz malzemeyle teklif dosyası açın.")}
         meta={[
-          { label: "Kayıt türü", value: "Karşılaştırmalı teknik referans" },
-          { label: "Standart tolerans", value: MINIMUM_TOLERANCE },
-          { label: "Teklif dönüşü", value: QUOTE_RESPONSE_TIME },
+          { label: t("Kayıt türü"), value: t("Karşılaştırmalı teknik referans") },
+          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Teklif dönüşü"), value: t(QUOTE_RESPONSE_TIME) },
         ]}
         actions={
           <>
-            <ShellAction to="/teklif-al" variant="primary">Teklif Al</ShellAction>
-            <ShellAction href="#kayit" variant="ghost">Kayda geç</ShellAction>
+            <ShellAction to="/teklif-al" variant="primary">{t("Teklif Al")}</ShellAction>
+            <ShellAction href="#kayit" variant="ghost">{t("Kayda geç")}</ShellAction>
           </>
         }
       />
@@ -171,8 +181,8 @@ export const Malzemeler = () => {
           <ShellTitleBlock
             id="malzeme-aile"
             index="02"
-            title="Malzeme aileleri"
-            standfirst="Bir aile seçtiğinizde kayıt daralır; ailenin kendi teknik sayfasına da buradan geçebilirsiniz."
+            title={t("Malzeme aileleri")}
+            standfirst={t("Bir aile seçtiğinizde kayıt daralır; ailenin kendi teknik sayfasına da buradan geçebilirsiniz.")}
           />
         </div>
         {/* Same `shell-span-full shell-stack` shape that lost a column on ten
@@ -194,7 +204,7 @@ export const Malzemeler = () => {
                 onClick={() => setActiveFamily("all")}
               >
                 <span className="shell-segment-code">ALL</span>
-                <span>Tümü</span>
+                <span>{t("Tümü")}</span>
               </button>
             </li>
             {materialCategories.map((family) => (
@@ -213,47 +223,47 @@ export const Malzemeler = () => {
           </ul>
           {activeFamilyPage && (
             <ShellAction to={`/malzemeler/${activeFamilyPage.slug}`} variant="quiet">
-              {activeFamilyPage.name} teknik sayfası
+              {t("{{name}} teknik sayfası", { name: activeFamilyPage.name })}
             </ShellAction>
           )}
         </div>
       </ShellSurfaceBand>
 
-      <ShellBand no="03" label="KAYIT" id="kayit" ariaLabel="Malzeme kaydı">
+      <ShellBand no="03" label="KAYIT" id="kayit" ariaLabel={t("Malzeme kaydı")}>
         <div className="tl-grid shell-surface-body">
           {/* One block container, so the sticky bar travels the register's
               whole height and releases before the next band — the contract
               `e2e/malzemeler-sticky.spec.ts` measures. A grid item cannot do
               this: its containing block is its own grid area, one row tall. */}
           <div className="shell-span-full shell-register-scope">
-            <section className="sticky shell-sticky-filter" aria-label="Kayıt filtreleri">
+            <section className="sticky shell-sticky-filter" aria-label={t("Kayıt filtreleri")}>
               <div className="shell-filter">
                 <div className="shell-field shell-filter-search">
-                  <label htmlFor="malzeme-arama">Ara</label>
+                  <label htmlFor="malzeme-arama">{t("Ara")}</label>
                   <input
                     id="malzeme-arama"
                     type="search"
                     value={query}
-                    placeholder="7075, PEEK, titanyum…"
+                    placeholder={t("7075, PEEK, titanyum…")}
                     onChange={(event) => setQuery(event.target.value)}
                   />
                 </div>
                 <div className="shell-field">
-                  <label htmlFor="malzeme-sirala">Sırala</label>
+                  <label htmlFor="malzeme-sirala">{t("Sırala")}</label>
                   <select
                     id="malzeme-sirala"
                     value={sortBy}
                     onChange={(event) => setSortBy(event.target.value)}
                   >
                     {SORT_OPTIONS.map((option) => (
-                      <option key={option.id} value={option.id}>{option.label}</option>
+                      <option key={option.id} value={option.id}>{t(option.label)}</option>
                     ))}
                   </select>
                 </div>
                 <p className="shell-field-hint" role="status">
                   {query.trim()
-                    ? `“${query.trim()}” için ${filtered.length} kayıt`
-                    : `Karşılaştırma seçimi ${compare.length}/${MAX_COMPARE}`}
+                    ? t("“{{query}}” için {{count}} kayıt", { query: query.trim(), count: filtered.length })
+                    : t("Karşılaştırma seçimi {{selected}}/{{max}}", { selected: compare.length, max: MAX_COMPARE })}
                 </p>
               </div>
             </section>
@@ -261,9 +271,9 @@ export const Malzemeler = () => {
             {compare.length >= 2 && (
               <div className="shell-compare">
                 <ShellSpecTable
-                  caption="Karşılaştırma"
-                  note="Seçilen malzemeler yan yana. Kaynağı doğrulanmamış değerler “Veri doğrulanmadı” olarak gösterilir; teknik seçimde malzeme sertifikası esas alınır."
-                  headers={["Özellik", ...compare.map((material) => material.name)]}
+                  caption={t("Karşılaştırma")}
+                  note={t("Seçilen malzemeler yan yana. Kaynağı doğrulanmamış değerler “Veri doğrulanmadı” olarak gösterilir; teknik seçimde malzeme sertifikası esas alınır.")}
+                  headers={[t("Özellik"), ...compare.map((material) => material.name)]}
                   rows={COMPARISON_ROWS.map((row) => [
                     row.label,
                     ...compare.map((material) => row.read(material)),
@@ -271,7 +281,7 @@ export const Malzemeler = () => {
                   rowKey={(_, index) => COMPARISON_ROWS[index].label}
                 />
                 <ShellAction variant="ghost" onClick={() => setCompare([])}>
-                  Seçimi temizle
+                  {t("Seçimi temizle")}
                 </ShellAction>
               </div>
             )}
@@ -279,8 +289,8 @@ export const Malzemeler = () => {
             {filtered.length > 0 ? (
               <MaterialRegister
                 materials={filtered}
-                caption="Malzeme kaydı"
-                note="Sayısal değerler, kaynağı doğrulanan kayıtlarda gösterilir; diğerlerinde “Veri doğrulanmadı” yazar. Satırı açtığınızda grade/temper, değer koşulu, öne çıkan taraf ve dikkat edilecek noktalar görünür."
+                caption={t("Malzeme kaydı")}
+                note={t("Sayısal değerler, kaynağı doğrulanan kayıtlarda gösterilir; diğerlerinde “Veri doğrulanmadı” yazar. Satırı açtığınızda grade/temper, değer koşulu, öne çıkan taraf ve dikkat edilecek noktalar görünür.")}
                 selected={compare.map((material) => material.id)}
                 onToggleSelect={toggleCompare}
                 maxSelected={MAX_COMPARE}
@@ -288,14 +298,14 @@ export const Malzemeler = () => {
             ) : (
               <ShellEmpty
                 label="EŞLEŞME YOK"
-                title="Bu filtreyle kayıt bulunamadı"
-                detail="Arama terimini kısaltmayı veya aile seçimini kaldırmayı deneyin."
+                title={t("Bu filtreyle kayıt bulunamadı")}
+                detail={t("Arama terimini kısaltmayı veya aile seçimini kaldırmayı deneyin.")}
                 action={
                   <ShellAction
                     variant="ghost"
                     onClick={() => { setQuery(""); setActiveFamily("all"); }}
                   >
-                    Filtreleri temizle
+                    {t("Filtreleri temizle")}
                   </ShellAction>
                 }
               />
@@ -309,8 +319,8 @@ export const Malzemeler = () => {
           <ShellTitleBlock
             id="malzeme-pafta"
             index="04"
-            title="Referans görünüm"
-            standfirst="Kayıttaki değerleri okuduktan sonra yüzey ve form hakkında genel bir fikir için."
+            title={t("Referans görünüm")}
+            standfirst={t("Kayıttaki değerleri okuduktan sonra yüzey ve form hakkında genel bir fikir için.")}
           />
         </div>
         <div className="shell-span-full">
@@ -320,14 +330,14 @@ export const Malzemeler = () => {
 
       <ShellNextStep
         no="05"
-        title="Malzeme seçimini birlikte netleştirelim"
-        body="Parçanın işlevi, çalışma sıcaklığı ve ortamı belliyse alaşım seçimi teknik bir karardır. Teknik resminizi gönderin, seçeneği gerekçesiyle birlikte yazalım."
+        title={t("Malzeme seçimini birlikte netleştirelim")}
+        body={t("Parçanın işlevi, çalışma sıcaklığı ve ortamı belliyse alaşım seçimi teknik bir karardır. Teknik resminizi gönderin, seçeneği gerekçesiyle birlikte yazalım.")}
         detail={[
-          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
-          { label: "Standart tolerans", value: MINIMUM_TOLERANCE },
-          { label: "Alternatif", value: "Online teknik görüşme" },
+          { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
+          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Alternatif"), value: t("Online teknik görüşme") },
         ]}
-        secondary={{ label: "İletişim", to: "/iletisim" }}
+        secondary={{ label: t("İletişim"), to: "/iletisim" }}
       />
     </PageShell>
   );
@@ -342,11 +352,12 @@ const REFERENCE_CAPTION =
    broken page, and text is never placed inside the plate frame (I4). */
 function MaterialReferencePlate() {
   const [failed, setFailed] = useState(false);
+  const { t } = useTranslation();
 
   if (failed) {
     return (
-      <ShellNotice label="GÖRSEL" title="Referans görsel yüklenemedi">
-        <p>{REFERENCE_CAPTION}</p>
+      <ShellNotice label={t("GÖRSEL")} title={t("Referans görsel yüklenemedi")}>
+        <p>{t(REFERENCE_CAPTION)}</p>
       </ShellNotice>
     );
   }
@@ -354,8 +365,8 @@ function MaterialReferencePlate() {
   return (
     <ShellPlate
       size="reference"
-      plate="PAFTA 04"
-      caption={REFERENCE_CAPTION}
+      plate={`${t("PAFTA")} 04`}
+      caption={t(REFERENCE_CAPTION)}
       media={
         <img
           src={referencePlate}
@@ -363,7 +374,7 @@ function MaterialReferencePlate() {
           sizes="(max-width: 767px) 100vw, 1200px"
           width={1600}
           height={896}
-          alt="Farklı metal ve plastik yarı mamullerin yan yana görünümü"
+          alt={t("Farklı metal ve plastik yarı mamullerin yan yana görünümü")}
           loading="lazy"
           decoding="async"
           onError={() => setFailed(true)}

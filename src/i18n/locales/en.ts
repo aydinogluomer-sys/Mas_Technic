@@ -1,5 +1,7 @@
 /* Generated from the round-2 translation tables. Keys are the Turkish source strings. */
-const dictionary: Record<string, string> = {
+import pages from "./en-pages";
+
+const base: Record<string, string> = {
   "Kurumsal": "Company",
   "Sık Sorulan Sorular": "Frequently asked questions",
   "Açılış": "Opening",
@@ -623,5 +625,8 @@ const dictionary: Record<string, string> = {
   "YÜZEY İŞLEMLERİ": "SURFACE TREATMENTS",
   "ZAMAN AŞIMI": "TIMEOUT"
 };
+
+/* L01 page strings win over the round-2 table on a shared key. */
+const dictionary: Record<string, string> = { ...base, ...pages };
 
 export default dictionary;

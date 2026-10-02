@@ -16,9 +16,10 @@ import {
   ShellSurfaceBand,
   ShellTitleBlock,
 } from "@/components/shell";
-import { getPageBySlug, getPagesByCategory } from "@/data/servicePages";
 import { resolveDetailRoute } from "@/lib/detail-route";
-import { categoryPages } from "@/data/categoryPages";
+import { useTranslation } from "react-i18next";
+import { useSiteData } from "@/i18n/data";
+import { upper } from "@/i18n/upper";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { usePageMeta } from "@/hooks/use-page-meta";
@@ -281,6 +282,8 @@ function splitFeature(feature: string) {
 export const ServiceDetail = () => {
   const { pathname, search, hash } = useLocation();
   const prefersReduced = usePrefersReducedMotion();
+  const { t, i18n } = useTranslation();
+  const { getPageBySlug, getPagesByCategory, categoryPages } = useSiteData();
 
   /* R01 — family + slug, not slug alone. A known slug under the wrong family
      redirects to its canonical address; an unknown slug gets the not-found
@@ -302,9 +305,8 @@ export const ServiceDetail = () => {
     metaRecord
       ? { title: metaRecord.title, description: metaRecord.description }
       : {
-          title: `${FAMILY[pathFamily].label} — sayfa bulunamadı`,
-          description:
-            "Aradığınız kayıt bulunamadı. Hizmet ve sektör başlıklarına ana sayfadan ulaşabilirsiniz.",
+          title: t("{{family}} — sayfa bulunamadı", { family: t(FAMILY[pathFamily].label) }),
+          description: t("Aradığınız kayıt bulunamadı. Hizmet ve sektör başlıklarına ana sayfadan ulaşabilirsiniz."),
         },
   );
 
@@ -338,23 +340,23 @@ export const ServiceDetail = () => {
           label={notFoundFamily.rail.label}
           crumb={
             <ShellBreadcrumb
-              trail={[{ label: "Ana sayfa", to: "/" }, { label: notFoundFamily.label }]}
+              trail={[{ label: t("Ana sayfa"), to: "/" }, { label: t(notFoundFamily.label) }]}
             />
           }
-          eyebrow="KAYIT YOK"
-          title="Bu sayfa kaydı bulunamadı"
-          lede="Bağlantı değişmiş olabilir. Aşağıdaki başlıklardan devam edebilirsiniz."
-          actions={<ShellAction to="/" variant="ghost">Ana sayfa</ShellAction>}
+          eyebrow={t("KAYIT YOK")}
+          title={t("Bu sayfa kaydı bulunamadı")}
+          lede={t("Bağlantı değişmiş olabilir. Aşağıdaki başlıklardan devam edebilirsiniz.")}
+          actions={<ShellAction to="/" variant="ghost">{t("Ana sayfa")}</ShellAction>}
         />
         <ShellSurfaceBand
           no="02"
           label={notFoundFamily.rail.label}
-          ariaLabel={`${notFoundFamily.label} kategorileri`}
+          ariaLabel={t("{{name}} kategorileri", { name: t(notFoundFamily.label) })}
         >
           <div className="shell-span-full">
             <ShellIndexList
               compact
-              ariaLabel={`${notFoundFamily.label} kategorileri`}
+              ariaLabel={t("{{name}} kategorileri", { name: t(notFoundFamily.label) })}
               items={categoryPages
                 .filter((item) => item.prefix === pathFamily)
                 .map((item) => ({
@@ -404,8 +406,8 @@ export const ServiceDetail = () => {
         crumb={
           <ShellBreadcrumb
             trail={[
-              { label: "Ana sayfa", to: "/" },
-              { label: family.label },
+              { label: t("Ana sayfa"), to: "/" },
+              { label: t(family.label) },
               ...(parent
                 ? [{ label: parent.title, to: `/${parent.prefix}/kategori/${parent.slug}` }]
                 : []),
@@ -422,8 +424,8 @@ export const ServiceDetail = () => {
         }))}
         actions={
           <>
-            <ShellAction to="/teklif-al" variant="primary">Teklif Al</ShellAction>
-            <ShellAction to="/iletisim" variant="ghost">Teknik görüşme</ShellAction>
+            <ShellAction to="/teklif-al" variant="primary">{t("Teklif Al")}</ShellAction>
+            <ShellAction to="/iletisim" variant="ghost">{t("Teknik görüşme")}</ShellAction>
           </>
         }
       />
@@ -431,7 +433,7 @@ export const ServiceDetail = () => {
       <ShellSurfaceBand no={no()} label="TANIM" labelledBy="detay-tanim">
         <div className="shell-span-full" ref={plateRef}>
           <ShellPlate
-            plate={`PLAKA · ${page.title.toLocaleUpperCase("tr")}`}
+            plate={`${t("PLAKA")} · ${upper(page.title, i18n.language)}`}
             caption={page.categoryLabel}
             media={
               /* PHASE 10-3 — `alt=""`, not `alt={page.title}`. The plate sits
@@ -465,7 +467,7 @@ export const ServiceDetail = () => {
           <ShellTitleBlock
             id="detay-tanim"
 
-            title={isSector ? "Bu sektörde ne üretiyoruz" : "Kapsam"}
+            title={t(isSector ? "Bu sektörde ne üretiyoruz" : "Kapsam")}
           />
           <div className="shell-prose" data-lead>
             {page.content.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
@@ -474,7 +476,7 @@ export const ServiceDetail = () => {
 
         {page.advantages && page.advantages.length > 0 && (
           <div className="shell-span-note shell-stack" data-gap="sm">
-            <p className="shell-eyebrow">{isSector ? "Sektöre uygunluk" : "Öne çıkan"}</p>
+            <p className="shell-eyebrow">{t(isSector ? "Sektöre uygunluk" : "Öne çıkan")}</p>
             <ul className="shell-detail-list">
               {page.advantages.map((advantage) => <li key={advantage}>{advantage}</li>)}
             </ul>
@@ -489,16 +491,16 @@ export const ServiceDetail = () => {
             <div className="shell-doc-main">
               <ShellTitleBlock
                 id="detay-kabiliyet"
-                title={isSector ? "Sektör kabiliyet kaydı" : "Kabiliyet kaydı"}
-                standfirst={
+                title={t(isSector ? "Sektör kabiliyet kaydı" : "Kabiliyet kaydı")}
+                standfirst={t(
                   isSector
                     ? "Bu sektörün parçalarında hangi kabiliyetin devreye girdiği ve neyin kayda geçtiği."
-                    : "Hizmetin kapsadığı kabiliyetler ve çalışma aralıkları."
-                }
+                    : "Hizmetin kapsadığı kabiliyetler ve çalışma aralıkları.",
+                )}
               />
               {page.features && page.features.length > 0 && (
                 <ShellRun
-                  ariaLabel={`${page.title} kabiliyetleri`}
+                  ariaLabel={t("{{title}} kabiliyetleri", { title: page.title })}
                   items={page.features.map(splitFeature)}
                 />
               )}
@@ -507,12 +509,12 @@ export const ServiceDetail = () => {
             {page.technicalSpecs && page.technicalSpecs.length > 0 && (
               <div className="shell-doc-aside" data-sticky>
                 <ShellSpecTable
-                  caption="Teknik kayıt"
-                  headers={["Başlık", "Değer"]}
+                  caption={t("Teknik kayıt")}
+                  headers={[t("Başlık"), t("Değer")]}
                   rows={page.technicalSpecs.map((spec) => [spec.label, spec.value])}
                   rowKey={(_, index) => specs[index].label}
                 />
-                <ShellAction to="/teklif-al" variant="primary" full>Teklif Al</ShellAction>
+                <ShellAction to="/teklif-al" variant="primary" full>{t("Teklif Al")}</ShellAction>
               </div>
             )}
           </div>
@@ -525,12 +527,12 @@ export const ServiceDetail = () => {
             <ShellTitleBlock
               id="detay-surec"
 
-              title={isSector ? "Sektör akışı" : "Süreç akışı"}
-              standfirst={`Sıra sabittir; içerik parçaya göre yazılır. Standart çalışma aralığımız ${MINIMUM_TOLERANCE}.`}
+              title={t(isSector ? "Sektör akışı" : "Süreç akışı")}
+              standfirst={t("Sıra sabittir; içerik parçaya göre yazılır. Standart çalışma aralığımız {{value}}.", { value: MINIMUM_TOLERANCE })}
             />
           </div>
           <ShellRun
-            ariaLabel={`${page.title} süreç adımları`}
+            ariaLabel={t("{{title}} süreç adımları", { title: page.title })}
             items={page.processSteps.map((step) => ({ title: step }))}
           />
         </ShellSurfaceBand>
@@ -542,8 +544,8 @@ export const ServiceDetail = () => {
             <ShellTitleBlock
               id="detay-malzeme"
 
-              title="İşlenebilir malzemeler"
-              standfirst="Bu sayfada sık kullanılan malzemeler. Ailenin tamamı malzeme kaydındadır."
+              title={t("İşlenebilir malzemeler")}
+              standfirst={t("Bu sayfada sık kullanılan malzemeler. Ailenin tamamı malzeme kaydındadır.")}
             />
           </div>
           {/* R3-1's SURFACE, AND THE TRACK IS THE FIX — PHASE 08 CORRECTION #5.
@@ -589,8 +591,8 @@ export const ServiceDetail = () => {
               which carried the identical defect. */}
           <div className="shell-span-full shell-stack grid-cols-[minmax(0,1fr)]" data-gap="sm">
             <ShellSpecTable
-              caption={`${page.title} — malzeme kaydı`}
-              headers={["Malzeme", "Kalite", "Özellik"]}
+              caption={t("{{title}} — malzeme kaydı", { title: page.title })}
+              headers={[t("Malzeme"), t("Kalite"), t("Özellik")]}
               numericFrom={99}
               rows={page.materials.map((material) => [
                 material.name,
@@ -599,7 +601,7 @@ export const ServiceDetail = () => {
               ])}
               rowKey={(_, index) => `${materialRows[index].name}-${index}`}
             />
-            <ShellAction to="/malzemeler" variant="quiet">Malzeme kaydının tamamı</ShellAction>
+            <ShellAction to="/malzemeler" variant="quiet">{t("Malzeme kaydının tamamı")}</ShellAction>
           </div>
         </ShellSurfaceBand>
       )}
@@ -610,8 +612,8 @@ export const ServiceDetail = () => {
             <ShellTitleBlock
               id="detay-karsilastirma"
 
-              title="Teknik karşılaştırma"
-              standfirst="Seçenekler yan yana; hangisinin hangi koşulda anlamlı olduğu tabloların kendi notlarında."
+              title={t("Teknik karşılaştırma")}
+              standfirst={t("Seçenekler yan yana; hangisinin hangi koşulda anlamlı olduğu tabloların kendi notlarında.")}
             />
           </div>
           {page.comparisonTables.map((table, index) => (
@@ -632,7 +634,7 @@ export const ServiceDetail = () => {
       {page.faq && page.faq.length > 0 && (
         <ShellSurfaceBand no={no()} label="SORULAR" tone="paper" labelledBy="detay-sorular">
           <div className="shell-span-read">
-            <ShellTitleBlock id="detay-sorular" title="Sık sorulan sorular" />
+            <ShellTitleBlock id="detay-sorular" title={t("Sık sorulan sorular")} />
           </div>
           <div className="shell-span-full">
             <div className="shell-faq">
@@ -652,19 +654,19 @@ export const ServiceDetail = () => {
           <ShellTitleBlock
             id="detay-ilgili"
 
-            title={isSector ? "Bu sektörün yakınındaki sayfalar" : "İlgili sayfalar"}
-            standfirst={
+            title={t(isSector ? "Bu sektörün yakınındaki sayfalar" : "İlgili sayfalar")}
+            standfirst={t(
               isSector
                 ? "Aynı sektör ailesindeki diğer başlıklar ve bu parçaların üretildiği hizmet aileleri."
-                : "Aynı aileden, birlikte sorulan başlıklar."
-            }
+                : "Aynı aileden, birlikte sorulan başlıklar.",
+            )}
           />
         </div>
         {related.length > 0 && (
           <div className="shell-span-full">
             <ShellIndexList
               compact
-              ariaLabel={`${family.label} ailesindeki diğer sayfalar`}
+              ariaLabel={t("{{family}} ailesindeki diğer sayfalar", { family: t(family.label) })}
               items={related.slice(0, 8).map((item) => ({
                 to: `/${item.category}/${item.slug}`,
                 eyebrow: item.categoryLabel,
@@ -686,10 +688,10 @@ export const ServiceDetail = () => {
              (`e2e/qa-p08-scroll-region-reach.spec.ts`) only walks tables, so
              this one would need its own measurement. */
           <div className="shell-span-full shell-stack" data-gap="sm">
-            <p className="shell-eyebrow">Bu parçalar hangi hizmetlerle üretiliyor</p>
+            <p className="shell-eyebrow">{t("Bu parçalar hangi hizmetlerle üretiliyor")}</p>
             <ShellIndexList
               compact
-              ariaLabel="Hizmet aileleri"
+              ariaLabel={t("Hizmet aileleri")}
               items={serviceFamilies.map((category) => ({
                 to: `/${category.prefix}/kategori/${category.slug}`,
                 title: category.title,
@@ -702,18 +704,18 @@ export const ServiceDetail = () => {
 
       <ShellNextStep
         no={no()}
-        title={`${page.title} için teklif`}
+        title={t("{{title}} için teklif", { title: page.title })}
         /* The title is NOT lower-cased. `toLocaleLowerCase("tr")` turned
            "CNC Frezeleme" into "cnc frezeleme" mid-sentence, which reads as a
            typo for an acronym and is wrong for every page whose title carries
            one (CNC, QR, DFM, NDT). */
-        body={`Teknik resim veya 3B model gönderin; ${page.title} kapsamında üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım.`}
+        body={t("Teknik resim veya 3B model gönderin; {{title}} kapsamında üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım.", { title: page.title })}
         detail={[
-          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
-          { label: "Standart tolerans", value: MINIMUM_TOLERANCE },
-          { label: family.label, value: page.categoryLabel },
+          { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
+          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t(family.label), value: page.categoryLabel },
         ]}
-        secondary={{ label: "Teknik görüşme", to: "/iletisim" }}
+        secondary={{ label: t("Teknik görüşme"), to: "/iletisim" }}
       />
     </PageShell>
   );

@@ -1,5 +1,6 @@
 import { Suspense, lazy, useMemo, useEffect, useState, type ReactNode } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Navigate } from "@/i18n/LocaleLink";
 import { applyLanguage, isLanguageReady } from "@/i18n";
 import { isPanelPath, localeFromPath } from "@/i18n/locale";
@@ -249,6 +250,7 @@ const AnimatedRoutes = () => {
 const AppContent = () => {
   const location = useLocation();
   const languageReady = useRouteLanguageReady(location.pathname);
+  const { t } = useTranslation();
 
   // Konami Code easter egg
   useEffect(() => {
@@ -284,7 +286,7 @@ const AppContent = () => {
         href="#main-content"
         className="shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semibold text-foreground shadow-lg focus:translate-y-0"
       >
-        Ana içeriğe geç
+        {t("Ana içeriğe geç")}
       </a>
       <div id="shared-header-host" />
       <ScrollToTop />

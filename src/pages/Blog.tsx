@@ -1,4 +1,7 @@
+import { useTranslation } from "react-i18next";
 import { Link } from "@/i18n/LocaleLink";
+import { useSiteData } from "@/i18n/data";
+import { localDate } from "@/i18n/format";
 import {
   PageShell,
   ShellAction,
@@ -13,7 +16,7 @@ import {
 } from "@/components/shell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePageMeta } from "@/hooks/use-page-meta";
-import { blogCategories, blogPosts } from "@/data/blogData";
+import { blogPosts as turkishPosts } from "@/data/blogData";
 import { QUOTE_RESPONSE_TIME } from "@/content/claims";
 import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
 import blog5eksen from "@/assets/blog-5eksen.webp";
@@ -80,7 +83,6 @@ import qualityControl960 from "@/assets/quality-control-960.webp";
    ══════════════════════════════════════════════════════════════════════════ */
 
 /** The lead is the corpus's first entry — its most recent article. */
-const [LEAD, ...REST] = blogPosts;
 
 /* The corpus (`blogData.ts`) stores a bundled URL per post; this map adds the
    asset's intrinsic size and its 640/960 ladder (`scripts/assets/make-derivatives.mjs`),
@@ -105,34 +107,39 @@ const PLATE_NOTE_WIDTHS = [
   ["(max-width: 1180px)", "calc(100vw - 60px)"],
   [null, "min(calc((100vw - 66px) / 3 - 2px), 509px)"],
 ] as const;
-const leadPlate = plateSources.get(LEAD.image);
+const leadPlate = plateSources.get(turkishPosts[0].image);
 
 export const Blog = () => {
+  const { t, i18n } = useTranslation();
+  const { blogPosts } = useSiteData();
+  const [LEAD, ...REST] = blogPosts;
+  /** The categories the corpus actually contains, in first-appearance order. */
+  const blogCategories = [...new Set(blogPosts.map((post) => post.category))];
+  const date = (value: string) => localDate(value, i18n.language);
   usePageMeta({
-    title: "Teknik Günlük",
-    description:
-      "CNC işleme, malzeme seçimi, üretilebilirlik ve kalite kontrol üzerine teknik yazılar. Ölçüye ve yönteme dayalı, kısa bir yayın dizisi.",
+    title: t("Teknik Günlük"),
+    description: t("CNC işleme, malzeme seçimi, üretilebilirlik ve kalite kontrol üzerine teknik yazılar. Ölçüye ve yönteme dayalı, kısa bir yayın dizisi."),
   });
 
   return (
     <PageShell surface="graphite" rail={{ no: "R2", label: "GÜNLÜK" }}>
       <JsonLdSchema
         type="blog"
-        name="Mas Technic Teknik Günlük"
-        description="CNC işleme, talaşlı imalat, malzeme bilimi ve kalite kontrol üzerine teknik yazılar."
+        name={t("Mas Technic Teknik Günlük")}
+        description={t("CNC işleme, talaşlı imalat, malzeme bilimi ve kalite kontrol üzerine teknik yazılar.")}
       />
 
       <ShellPageHero
         no="01"
         label="GÜNLÜK"
         crumb={<ShellBreadcrumb trail={[{ label: "Ana sayfa", to: "/" }, { label: "Teknik günlük" }]} />}
-        eyebrow="Yayın dizisi"
-        title="Teknik Günlük"
-        lede="Üretim yöntemi, malzeme davranışı ve ölçüm üzerine yazılar. Her yazı bir soruyu, o sorunun mekanizmasıyla birlikte yanıtlar; sayı vermek yerine sayının nereden geldiğini anlatır."
+        eyebrow={t("Yayın dizisi")}
+        title={t("Teknik Günlük")}
+        lede={t("Üretim yöntemi, malzeme davranışı ve ölçüm üzerine yazılar. Her yazı bir soruyu, o sorunun mekanizmasıyla birlikte yanıtlar; sayı vermek yerine sayının nereden geldiğini anlatır.")}
         meta={[
-          { label: "Konu", value: blogCategories.join(" · ") },
-          { label: "Yazı sayısı", value: String(blogPosts.length) },
-          { label: "Teklif dönüşü", value: QUOTE_RESPONSE_TIME },
+          { label: t("Konu"), value: blogCategories.join(" · ") },
+          { label: t("Yazı sayısı"), value: String(blogPosts.length) },
+          { label: t("Teklif dönüşü"), value: t(QUOTE_RESPONSE_TIME) },
         ]}
       />
 
@@ -146,8 +153,8 @@ export const Blog = () => {
             standfirst={LEAD.excerpt}
           />
           <ShellTagRow
-            ariaLabel="Yazı künyesi"
-            items={[LEAD.category, LEAD.date, LEAD.readTime]}
+            ariaLabel={t("Yazı künyesi")}
+            items={[LEAD.category, date(LEAD.date), LEAD.readTime]}
           />
           {/* The lead's own section headings. A reader decides to open an
               article by what is inside it, and this is the only place the
@@ -163,13 +170,13 @@ export const Blog = () => {
             ))}
           </ol>
           <div className="shell-hero-actions">
-            <ShellAction to={`/blog/${LEAD.slug}`} variant="primary">Yazıyı oku</ShellAction>
+            <ShellAction to={`/blog/${LEAD.slug}`} variant="primary">{t("Yazıyı oku")}</ShellAction>
           </div>
         </div>
 
         <div className="shell-span-note">
           <ShellPlate
-            plate="PLAKA 01"
+            plate={`${t("PLAKA")} 01`}
             caption={LEAD.imageCaption}
             media={
               /* The route's first picture: eager, no `fetchpriority` (Phase 12 owns LCP). */
@@ -200,20 +207,20 @@ export const Blog = () => {
           <ShellTitleBlock
             id="blog-index"
             index="03"
-            title="Yazı dizini"
-            standfirst="Her satır yazının konusunu, yayın tarihini ve okuma süresini taşır."
+            title={t("Yazı dizini")}
+            standfirst={t("Her satır yazının konusunu, yayın tarihini ve okuma süresini taşır.")}
           />
         </div>
         <div className="shell-span-full">
           <ShellIndexList
-            ariaLabel="Teknik günlük yazıları"
+            ariaLabel={t("Teknik günlük yazıları")}
             items={REST.map((post, index) => ({
               to: `/blog/${post.slug}`,
               index: String(index + 2).padStart(2, "0"),
               eyebrow: post.category,
               title: post.title,
               description: post.excerpt,
-              meta: [post.date, post.readTime, `${post.sections.length} bölüm`],
+              meta: [date(post.date), post.readTime, t("{{count}} bölüm", { count: post.sections.length })],
             }))}
           />
         </div>
@@ -221,12 +228,12 @@ export const Blog = () => {
 
       <ShellNextStep
         no="04"
-        title="Yazıdaki bir konu sizin parçanızda mı çıktı?"
-        body="Teknik resim veya 3B model gönderin; konuyu genel bir yazı üzerinden değil, kendi parçanız üzerinden konuşalım."
+        title={t("Yazıdaki bir konu sizin parçanızda mı çıktı?")}
+        body={t("Teknik resim veya 3B model gönderin; konuyu genel bir yazı üzerinden değil, kendi parçanız üzerinden konuşalım.")}
         detail={[
-          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
-          { label: "Gönderilecek", value: "Teknik resim veya 3B model" },
-          { label: "Alternatif", value: "Sık sorulan sorular" },
+          { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
+          { label: t("Gönderilecek"), value: t("Teknik resim veya 3B model") },
+          { label: t("Alternatif"), value: t("Sık sorulan sorular") },
         ]}
         secondary={{ label: "Sık sorulanlar", to: "/sss" }}
       />

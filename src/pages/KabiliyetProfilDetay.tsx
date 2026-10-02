@@ -14,7 +14,9 @@ import {
   ShellTitleBlock,
 } from "@/components/shell";
 import { usePageMeta } from "@/hooks/use-page-meta";
-import { caseStudies, PROFILE_LABEL } from "@/content/caseStudies";
+import { useTranslation } from "react-i18next";
+import { PROFILE_LABEL } from "@/content/caseStudies";
+import { useSiteData } from "@/i18n/data";
 import { caseStudyImages, profileMeta, profileRowMeta } from "@/components/pages/case-study-figures";
 import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
 import type { CaseStudyImageKey } from "@/content/caseStudies";
@@ -76,10 +78,12 @@ const PLATE_NOTE_WIDTHS = [
 
 export const KabiliyetProfilDetay = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { t } = useTranslation();
+  const { caseStudies } = useSiteData();
   const study = caseStudies.find((entry) => entry.slug === slug);
 
   usePageMeta({
-    title: study ? study.title : "Profil bulunamadı",
+    title: study ? study.title : t("Profil bulunamadı"),
     description: study?.challenge,
   });
 
@@ -97,15 +101,15 @@ export const KabiliyetProfilDetay = () => {
               ]}
             />
           }
-          eyebrow="KAYIT YOK"
-          title="Bu profil kaydı bulunamadı"
-          lede="Bu adreste bir kabiliyet profili yok. Bağlantı değişmiş olabilir; dizinden ilgili başlığa geçebilirsiniz."
-          actions={<ShellAction to="/kabiliyet-profilleri" variant="primary">Profil dizini</ShellAction>}
+          eyebrow={t("KAYIT YOK")}
+          title={t("Bu profil kaydı bulunamadı")}
+          lede={t("Bu adreste bir kabiliyet profili yok. Bağlantı değişmiş olabilir; dizinden ilgili başlığa geçebilirsiniz.")}
+          actions={<ShellAction to="/kabiliyet-profilleri" variant="primary">{t("Profil dizini")}</ShellAction>}
         />
-        <ShellSurfaceBand no="02" label="DİZİN" tone="paper" ariaLabel="Profil dizini">
+        <ShellSurfaceBand no="02" label="DİZİN" tone="paper" ariaLabel={t("Profil dizini")}>
           <div className="shell-span-full">
             <ShellIndexList
-              ariaLabel="Kabiliyet profilleri"
+              ariaLabel={t("Kabiliyet profilleri")}
               items={caseStudies.map((entry) => ({
                 to: `/kabiliyet-profilleri/${entry.slug}`,
                 title: entry.title,
@@ -137,10 +141,10 @@ export const KabiliyetProfilDetay = () => {
             ]}
           />
         }
-        eyebrow={study.kind === "anonymised-project" ? `${study.sector} · anonimleştirilmiş` : "Kabiliyet profili"}
+        eyebrow={study.kind === "anonymised-project" ? `${study.sector} · ${t("anonimleştirilmiş")}` : t("Kabiliyet profili")}
         title={study.title}
         lede={study.challenge}
-        meta={profileMeta(study)}
+        meta={profileMeta(study).map((row) => ({ label: t(row.label), value: row.value }))}
         actions={
           <>
             <ShellAction to={study.rfq.href} variant="primary">{study.rfq.label}</ShellAction>
@@ -154,20 +158,20 @@ export const KabiliyetProfilDetay = () => {
       {/* ── 02 — the approach, with the part on the plate beside it ─────── */}
       <ShellSurfaceBand no="02" label="YAKLAŞIM" labelledBy="profil-yaklasim">
         <div className="shell-span-read shell-stack">
-          <ShellTitleBlock id="profil-yaklasim" index="02" title="Yaklaşım" />
+          <ShellTitleBlock id="profil-yaklasim" index="02" title={t("Yaklaşım")} />
           <div className="shell-prose" data-lead>
             <p>{study.outcome}</p>
             <p>{study.leadTime}</p>
           </div>
           <ShellRun
-            ariaLabel={`${study.title} — operasyon sırası`}
+            ariaLabel={t("{{title}} — operasyon sırası", { title: study.title })}
             items={study.process.map((step) => ({ title: step }))}
           />
         </div>
 
         <div className="shell-span-note">
           <ShellPlate
-            plate="PLAKA 01"
+            plate={`${t("PLAKA")} 01`}
             caption={figure.alt}
             media={
               /* The route's first picture: eager, no `fetchpriority` (Phase 12 owns LCP). */
@@ -194,8 +198,8 @@ export const KabiliyetProfilDetay = () => {
           <ShellTitleBlock
             id="profil-kontrol"
             index="03"
-            title="Kontrol planı"
-            standfirst="Hangi özelliğin hangi yöntemle doğrulandığı ve arkasında hangi kaydın kaldığı. Bu plan imalat başlamadan önce yazılır."
+            title={t("Kontrol planı")}
+            standfirst={t("Hangi özelliğin hangi yöntemle doğrulandığı ve arkasında hangi kaydın kaldığı. Bu plan imalat başlamadan önce yazılır.")}
           />
         </div>
         {/* THE SECOND INSTANCE OF R3-1, AND THE ONE NO TEST WAS LOOKING AT.
@@ -217,9 +221,9 @@ export const KabiliyetProfilDetay = () => {
             The route-list slug is QA's to correct; the spec is not ours. */}
         <div className="shell-span-full shell-stack grid-cols-[minmax(0,1fr)]" data-gap="sm">
           <ShellSpecTable
-            caption={`${study.title} — kontrol planı`}
-            note="Sütunlar sırasıyla: kontrol edilen özellik, kontrol yöntemi ve kontrolün bıraktığı kayıt. Bir işe özel plan, parçanın kendi teknik resmine göre bu şablon üzerinden kurulur."
-            headers={["ÖZELLİK", "KONTROL YÖNTEMİ", "KAYIT"]}
+            caption={t("{{title}} — kontrol planı", { title: study.title })}
+            note={t("Sütunlar sırasıyla: kontrol edilen özellik, kontrol yöntemi ve kontrolün bıraktığı kayıt. Bir işe özel plan, parçanın kendi teknik resmine göre bu şablon üzerinden kurulur.")}
+            headers={[t("ÖZELLİK"), t("KONTROL YÖNTEMİ"), t("KAYIT")]}
             numericFrom={3}
             rows={study.controlPlan.map((row) => [row.feature, row.method, row.record])}
             rowKey={(row) => String(row[0])}
@@ -231,18 +235,17 @@ export const KabiliyetProfilDetay = () => {
               without a rewrite. */}
           {study.kind === "anonymised-project" && study.measuredResults ? (
             <ShellSpecTable
-              caption={study.reportNo ? `Ölçüm kaydı · ${study.reportNo}` : "Ölçüm kaydı"}
-              note="Gerçek bir muayene kaydından alınmıştır. Müşteri ve parça tanımlayıcıları anonimleştirilmiştir."
-              headers={["ÖZELLİK", "NOMİNAL", "ÖLÇÜLEN", "SONUÇ"]}
+              caption={study.reportNo ? `${t("Ölçüm kaydı")} · ${study.reportNo}` : t("Ölçüm kaydı")}
+              note={t("Gerçek bir muayene kaydından alınmıştır. Müşteri ve parça tanımlayıcıları anonimleştirilmiştir.")}
+              headers={[t("ÖZELLİK"), t("NOMİNAL"), t("ÖLÇÜLEN"), t("SONUÇ")]}
               rows={study.measuredResults.map((row) => [row.feature, row.nominal, row.measured, row.verdict])}
               rowKey={(row) => String(row[0])}
             />
           ) : (
-            <ShellNotice tone="note" label="PROFİL">
-              <p>{PROFILE_LABEL}</p>
+            <ShellNotice tone="note" label={t("PROFİL")}>
+              <p>{t(PROFILE_LABEL)}</p>
               <p>
-                Sizin işinizde ölçüm kayıtları teslim dosyasına eklenir; {CMM_COVERAGE} olarak
-                sağlanır.
+                {t("Sizin işinizde ölçüm kayıtları teslim dosyasına eklenir; {{cmm}} olarak sağlanır.", { cmm: t(CMM_COVERAGE) })}
               </p>
             </ShellNotice>
           )}
@@ -251,12 +254,12 @@ export const KabiliyetProfilDetay = () => {
 
       {/* ── 04 — the other profiles ─────────────────────────────────────── */}
       {others.length > 0 && (
-        <ShellSurfaceBand no="04" label="DİĞER" ariaLabel="Diğer kabiliyet profilleri">
+        <ShellSurfaceBand no="04" label="DİĞER" ariaLabel={t("Diğer kabiliyet profilleri")}>
           <div className="shell-span-full">
-            <p className="shell-eyebrow">DİĞER PROFİLLER</p>
+            <p className="shell-eyebrow">{t("DİĞER PROFİLLER")}</p>
             <ShellIndexList
               compact
-              ariaLabel="Diğer kabiliyet profilleri"
+              ariaLabel={t("Diğer kabiliyet profilleri")}
               items={others.map((entry, index) => ({
                 to: `/kabiliyet-profilleri/${entry.slug}`,
                 index: `P${index + 1}`,
@@ -271,13 +274,13 @@ export const KabiliyetProfilDetay = () => {
 
       <ShellNextStep
         no="05"
-        title="Bu parça ailesinde bir işiniz mi var?"
-        body="Teknik resim veya 3B model gönderin; üretilebilirlik incelemesiyle birlikte, parçanız için kontrol planının nasıl kurulacağını da yazalım."
+        title={t("Bu parça ailesinde bir işiniz mi var?")}
+        body={t("Teknik resim veya 3B model gönderin; üretilebilirlik incelemesiyle birlikte, parçanız için kontrol planının nasıl kurulacağını da yazalım.")}
         primary={{ label: study.rfq.label, to: study.rfq.href }}
         detail={[
-          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
-          { label: "Standart tolerans", value: study.tolerance },
-          { label: "Ölçüm", value: study.inspection },
+          { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
+          { label: t("Standart tolerans"), value: study.tolerance },
+          { label: t("Ölçüm"), value: study.inspection },
         ]}
         secondary={{ label: study.relatedCapability.label, to: study.relatedCapability.href }}
       />

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   PageShell,
   ShellAction,
@@ -13,9 +14,9 @@ import {
   ShellTitleBlock,
 } from "@/components/shell";
 import { usePageMeta } from "@/hooks/use-page-meta";
+import { joinList } from "@/i18n/format";
 import {
   CERTIFICATIONS,
-  CERTIFICATION_SENTENCE_LIST,
   CMM_COVERAGE,
   MINIMUM_TOLERANCE,
   QUALITY_RESOURCES,
@@ -122,10 +123,10 @@ const CONTROL_CHAIN = [
 ];
 
 export const KaliteDosyasi = () => {
+  const { t, i18n } = useTranslation();
   usePageMeta({
-    title: "Kalite Dosyası",
-    description:
-      "Yönetim sistemi belgeleri, yayımlanan kalite dokümanları ve bir işin kontrol zinciri: hangi kayıt hangi aşamada oluşur.",
+    title: t("Kalite Dosyası"),
+    description: t("Yönetim sistemi belgeleri, yayımlanan kalite dokümanları ve bir işin kontrol zinciri: hangi kayıt hangi aşamada oluşur."),
   });
 
   return (
@@ -134,18 +135,18 @@ export const KaliteDosyasi = () => {
         no="01"
         label="KALİTE"
         crumb={<ShellBreadcrumb trail={[{ label: "Ana sayfa", to: "/" }, { label: "Kalite dosyası" }]} />}
-        eyebrow="Belge ve kayıt"
-        title="Kalite Dosyası"
-        lede="Yayımlanan dokümanlar, yönetim sistemi belgelerimiz ve bir işin hangi aşamasında hangi kaydın oluştuğu. Buradaki her doküman açılabilir bir dosyadır."
+        eyebrow={t("Belge ve kayıt")}
+        title={t("Kalite Dosyası")}
+        lede={t("Yayımlanan dokümanlar, yönetim sistemi belgelerimiz ve bir işin hangi aşamasında hangi kaydın oluştuğu. Buradaki her doküman açılabilir bir dosyadır.")}
         meta={[
-          { label: "Yönetim sistemleri", value: CERTIFICATIONS.map((item) => item.code).join(" · ") },
-          { label: "Standart tolerans", value: MINIMUM_TOLERANCE },
-          { label: "Ölçüm", value: CMM_COVERAGE },
+          { label: t("Yönetim sistemleri"), value: CERTIFICATIONS.map((item) => item.code).join(" · ") },
+          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Ölçüm"), value: t(CMM_COVERAGE) },
         ]}
         actions={
           <>
-            <ShellAction to="/teklif-al" variant="primary">Teklif Al</ShellAction>
-            <ShellAction to="/kabiliyet-profilleri" variant="ghost">Kabiliyet profilleri</ShellAction>
+            <ShellAction to="/teklif-al" variant="primary">{t("Teklif Al")}</ShellAction>
+            <ShellAction to="/kabiliyet-profilleri" variant="ghost">{t("Kabiliyet profilleri")}</ShellAction>
           </>
         }
       />
@@ -156,19 +157,19 @@ export const KaliteDosyasi = () => {
           <ShellTitleBlock
             id="kalite-dokuman"
             index="02"
-            title="Yayımlanan dokümanlar"
-            standfirst="Dört doküman PDF olarak açılabilir ve indirilebilir."
+            title={t("Yayımlanan dokümanlar")}
+            standfirst={t("Dört doküman PDF olarak açılabilir ve indirilebilir.")}
           />
         </div>
         <div className="shell-span-full">
           <ShellIndexList
-            ariaLabel="Yayımlanan kalite dokümanları"
+            ariaLabel={t("Yayımlanan kalite dokümanları")}
             items={QUALITY_RESOURCES.map((resource, index) => ({
               href: resource.href,
               download: true,
               index: `D${index + 1}`,
-              title: resource.title,
-              description: DOCUMENT_SUBJECTS[resource.title],
+              title: t(resource.title),
+              description: t(DOCUMENT_SUBJECTS[resource.title]),
               meta: [resource.size],
             }))}
           />
@@ -181,23 +182,22 @@ export const KaliteDosyasi = () => {
           <ShellTitleBlock
             id="kalite-belge"
             index="03"
-            title="Yönetim sistemi belgeleri"
-            standfirst={`${CERTIFICATION_SENTENCE_LIST} kapsamında çalışıyoruz.`}
+            title={t("Yönetim sistemi belgeleri")}
+            standfirst={t("{{list}} kapsamında çalışıyoruz.", { list: joinList(CERTIFICATIONS.map((item) => item.code), i18n.language) })}
           />
           <ShellSpecTable
-            caption="Yönetim sistemleri"
-            note="Belge kapsamı dışında bir standart gerekiyorsa teknik incelemede birlikte değerlendiririz."
-            headers={["STANDART", "KAPSAM"]}
+            caption={t("Yönetim sistemleri")}
+            note={t("Belge kapsamı dışında bir standart gerekiyorsa teknik incelemede birlikte değerlendiririz.")}
+            headers={[t("STANDART"), t("KAPSAM")]}
             numericFrom={2}
-            rows={CERTIFICATIONS.map((item) => [item.code, item.name])}
+            rows={CERTIFICATIONS.map((item) => [item.code, t(item.name)])}
             rowKey={(row) => String(row[0])}
           />
         </div>
 
         <div className="shell-span-note shell-stack" data-gap="sm">
           <ShellEvidence kind="BELGE" source={QUALITY_RESOURCES[0].title}>
-            Kalite politikasının yazılı beyanı, yukarıdaki dokümanlar arasında indirilebilir
-            durumdadır.
+            {t("Kalite politikasının yazılı beyanı, yukarıdaki dokümanlar arasında indirilebilir durumdadır.")}
             <ShellAction href={QUALITY_RESOURCES[0].href} variant="quiet">
               {QUALITY_RESOURCES[0].size}
             </ShellAction>
@@ -211,15 +211,14 @@ export const KaliteDosyasi = () => {
           <ShellTitleBlock
             id="kalite-zincir"
             index="04"
-            title="Bir kayıt nasıl oluşur"
-            standfirst="Kalite bir aşama değil, bir zincirdir. Aşağıdaki altı adımın her biri arkasında bir kayıt bırakır ve teslim dosyası bu kayıtlardan oluşur."
+            title={t("Bir kayıt nasıl oluşur")}
+            standfirst={t("Kalite bir aşama değil, bir zincirdir. Aşağıdaki altı adımın her biri arkasında bir kayıt bırakır ve teslim dosyası bu kayıtlardan oluşur.")}
           />
         </div>
-        <ShellRun items={CONTROL_CHAIN} ariaLabel="Kontrol zinciri" />
+        <ShellRun items={CONTROL_CHAIN.map((step) => ({ title: t(step.title), detail: t(step.detail) }))} ariaLabel={t("Kontrol zinciri")} />
         <div className="shell-span-full">
           <ShellEvidence kind="ÖLÇÜM" source={QUALITY_RESOURCES[1].title}>
-            Doğrulamada kullanılan ölçüm ekipmanlarının listesi yayımlanmıştır. Standart tolerans
-            aralığı {MINIMUM_TOLERANCE}; {CMM_COVERAGE}.
+            {t("Doğrulamada kullanılan ölçüm ekipmanlarının listesi yayımlanmıştır. Standart tolerans aralığı {{tolerance}}; {{cmm}}.", { tolerance: MINIMUM_TOLERANCE, cmm: t(CMM_COVERAGE) })}
             <ShellAction href={QUALITY_RESOURCES[1].href} variant="quiet">
               {QUALITY_RESOURCES[1].size}
             </ShellAction>
@@ -229,12 +228,12 @@ export const KaliteDosyasi = () => {
 
       <ShellNextStep
         no="05"
-        title="Sizin işiniz için kontrol planı"
-        body="Teknik resim veya 3B model gönderin; hangi kotenin hangi aşamada ve hangi yöntemle doğrulanacağını teklifle birlikte yazalım."
+        title={t("Sizin işiniz için kontrol planı")}
+        body={t("Teknik resim veya 3B model gönderin; hangi kotenin hangi aşamada ve hangi yöntemle doğrulanacağını teklifle birlikte yazalım.")}
         detail={[
-          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
-          { label: "Gönderilecek", value: "Teknik resim veya 3B model" },
-          { label: "Ölçüm", value: CMM_COVERAGE },
+          { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
+          { label: t("Gönderilecek"), value: t("Teknik resim veya 3B model") },
+          { label: t("Ölçüm"), value: t(CMM_COVERAGE) },
         ]}
         secondary={{ label: "Sık sorulanlar", to: "/sss" }}
       />

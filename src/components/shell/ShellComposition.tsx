@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "@/i18n/LocaleLink";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { ShellBand } from "./ShellBand";
@@ -47,15 +48,16 @@ import { ShellMetaRow } from "./ShellPrimitives";
 export type ShellCrumb = { label: string; to?: string };
 
 export function ShellBreadcrumb({ trail }: { trail: ShellCrumb[] }) {
+  const { t } = useTranslation();
   return (
-    <nav className="shell-crumb" aria-label="Sayfa yolu">
+    <nav className="shell-crumb" aria-label={t("Sayfa yolu")}>
       <ol>
         {trail.map((crumb, i) => (
           <li key={`${crumb.label}-${i}`}>
             {crumb.to ? (
-              <Link to={crumb.to}>{crumb.label}</Link>
+              <Link to={crumb.to}>{t(crumb.label)}</Link>
             ) : (
-              <span aria-current="page">{crumb.label}</span>
+              <span aria-current="page">{t(crumb.label)}</span>
             )}
           </li>
         ))}
@@ -402,18 +404,19 @@ export function ShellNextStep({
   secondary?: { label: string; to?: string; href?: string };
   id?: string;
 }) {
+  const { t } = useTranslation();
   return (
     <ShellBand no={no} label={label} tone="paper" className="shell-next" id={id} ariaLabel={title}>
       <div className="tl-grid shell-next-body">
         <div className="shell-next-copy">
-          <p className="shell-eyebrow">{eyebrow}</p>
+          <p className="shell-eyebrow">{t(eyebrow)}</p>
           <h2>{title}</h2>
           <p className="shell-next-lede">{body}</p>
           <div className="shell-next-actions">
-            <ShellAction to={primary.to} variant="primary">{primary.label}</ShellAction>
+            <ShellAction to={primary.to} variant="primary">{t(primary.label)}</ShellAction>
             {secondary && (
               <ShellAction to={secondary.to} href={secondary.href} variant="ghost">
-                {secondary.label}
+                {t(secondary.label)}
               </ShellAction>
             )}
           </div>
@@ -488,9 +491,10 @@ export function ShellContents({
   label?: string;
   ariaLabel?: string;
 }) {
+  const { t } = useTranslation();
   return (
-    <nav className="shell-contents" aria-label={ariaLabel}>
-      <p className="shell-eyebrow">{label}</p>
+    <nav className="shell-contents" aria-label={t(ariaLabel)}>
+      <p className="shell-eyebrow">{t(label)}</p>
       <ol>
         {items.map((item) => (
           <li key={item.id}>
