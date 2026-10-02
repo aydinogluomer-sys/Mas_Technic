@@ -1,0 +1,32 @@
+# CLAIMS GATE
+# roots:    src/pages, src/components, src/data, src/content, src/hooks, src/utils, src/config, src/lib, src/routes, src/App.tsx, index.html, public
+# excluded: admin/, musteri/, AdminDashboard, AdminLogin, MusteriPaneli
+# scanned:  225 files, 28415 non-comment lines
+# controls: 280 (0 failed), of which 16 watch the 3 checks that are not rules
+
+PASS — 0 unverified claims across 31 rules, 280 controls green.
+# QA 09a-R5 — can a runtime import ESCAPE the temp-dir loader?
+# node v26.3.0  execArgv=["--import=./scripts/qa-probes/p09a5-expose.mjs"]
+# 'reached' means the imported code ACTUALLY RAN inside the gate process.
+
+RESOLVED E1  absolute file: URL, static import of a .mjs helper   (code actually ran: YES)
+         gate verdict on the ledger: clean
+RESOLVED E2  absolute file: URL, dynamic import of a .mjs helper   (code actually ran: YES)
+         gate verdict on the ledger: clean
+RESOLVED E3  absolute file: URL of a .ts helper  (type stripping decides this one)   (code actually ran: YES)
+         gate verdict on the ledger: clean
+blocked  E4  absolute file: URL of a REAL repository module   (code actually ran: n/a)
+         gate verdict on the ledger: load
+         could not be evaluated, so the published CAD strings were checked against NOTHING: Cannot find package '@/integrations' imported from C:\Users\Trade Bilisim\pdh-wt\qa-p09a5\src\uti
+RESOLVED E5  createRequire + require of an absolute path  (CJS, sidesteps ESM resolution)   (code actually ran: YES)
+         gate verdict on the ledger: clean
+RESOLVED E6  node:fs at module scope, reading the repository   (code actually ran: YES)
+         gate verdict on the ledger: clean
+RESOLVED E7  process.binding-free arbitrary side effect: child_process is importable   (code actually ran: n/a)
+         gate verdict on the ledger: clean
+
+RESOLVED (no ERR_MODULE_NOT_FOUND, gate saw no problem): 6/7
+CODE ACTUALLY EXECUTED inside the gate process: 5/7
+LOADED CLEAN (gate saw no problem at all): E1, E2, E3, E5, E6, E7
+(node:19328) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)

@@ -21,7 +21,12 @@ export interface Material {
 export interface MaterialCategoryPage {
   slug: string;
   name: string;
-  icon: string;
+  /** Short technical designation shown in the mono face — the emoji glyph
+      this replaces (🔩 ⚙️ 🛡️ 🚀 🔔 ⚡ 🔥 🪶 🧪 💎 🧬) was the only pictographic
+      element left on the public site and read as consumer UI, not as a
+      material register. `AL`, `CRNI`, `CUZN` and `FRP` are the designations an
+      engineer already uses for these families. */
+  code: string;
   shortDescription: string;
   heroTitle: string;
   heroDescription: string;
@@ -44,10 +49,10 @@ export const materialCategories: MaterialCategoryPage[] = [
   {
     slug: "aluminyum",
     name: "Alüminyum",
-    icon: "🔩",
+    code: "AL",
     shortDescription: "Hafif, işlenebilir, korozyona dirençli",
     heroTitle: "CNC İşleme için Alüminyum Alaşımları",
-    heroDescription: "Havacılıktan otomotive, 6061'den 7075'e kadar 15+ alüminyum alaşımı ile hassas CNC parça üretimi.",
+    heroDescription: "Havacılıktan otomotive, 6061-T6'dan 7075-T6'ya alüminyum alaşımlarıyla hassas CNC parça üretimi.",
     seoTitle: "Alüminyum CNC İşleme | 6061, 7075, 2024 Alaşımları",
     seoDescription: "CNC frezeleme ve tornalama için alüminyum alaşımları. 6061-T6, 7075-T6, 2024-T3 ve daha fazlası. Hafif, korozyona dirençli, mükemmel işlenebilirlik.",
     subcategoryKey: "aluminum",
@@ -65,7 +70,7 @@ export const materialCategories: MaterialCategoryPage[] = [
   {
     slug: "celik",
     name: "Çelik",
-    icon: "⚙️",
+    code: "FE",
     shortDescription: "Yüksek mukavemet, ekonomik, ısıl işlem",
     heroTitle: "CNC İşleme için Çelik Alaşımları",
     heroDescription: "1045, 4140, 4340 ve daha fazlası. Ağır sanayi uygulamaları için yüksek mukavemetli çelik CNC işleme.",
@@ -86,7 +91,7 @@ export const materialCategories: MaterialCategoryPage[] = [
   {
     slug: "paslanmaz-celik",
     name: "Paslanmaz Çelik",
-    icon: "🛡️",
+    code: "CRNI",
     shortDescription: "Korozyona dirençli, hijyenik, dayanıklı",
     heroTitle: "CNC İşleme için Paslanmaz Çelik",
     heroDescription: "304, 316L, 17-4 PH ve daha fazlası. Gıda, medikal ve kimya endüstrisi için paslanmaz çelik CNC işleme.",
@@ -107,7 +112,7 @@ export const materialCategories: MaterialCategoryPage[] = [
   {
     slug: "titanyum",
     name: "Titanyum",
-    icon: "🚀",
+    code: "TI",
     shortDescription: "Havacılık sınıfı, biyouyumlu, hafif",
     heroTitle: "CNC İşleme için Titanyum Alaşımları",
     heroDescription: "Grade 2, Grade 5 (Ti-6Al-4V) ve Grade 9. Havacılık ve medikal sektörün premium malzemesi.",
@@ -128,7 +133,7 @@ export const materialCategories: MaterialCategoryPage[] = [
   {
     slug: "pirinc-bronz",
     name: "Pirinç & Bronz",
-    icon: "🔔",
+    code: "CUZN",
     shortDescription: "İşlenebilirlik şampiyonu, düşük sürtünme",
     heroTitle: "CNC İşleme için Pirinç ve Bronz Alaşımları",
     heroDescription: "C360, C932, C954 ve daha fazlası. Valfler, yataklar ve bağlantı elemanları için mükemmel işlenebilirlik.",
@@ -149,7 +154,7 @@ export const materialCategories: MaterialCategoryPage[] = [
   {
     slug: "bakir",
     name: "Bakır",
-    icon: "⚡",
+    code: "CU",
     shortDescription: "En yüksek iletkenlik, ısı transferi",
     heroTitle: "CNC İşleme için Bakır",
     heroDescription: "C101, C110 ve C122. Elektronik, ısı değiştiriciler ve elektrik sistemleri için saf bakır işleme.",
@@ -170,7 +175,7 @@ export const materialCategories: MaterialCategoryPage[] = [
   {
     slug: "nikel",
     name: "Nikel Süperalaşımlar",
-    icon: "🔥",
+    code: "NI",
     shortDescription: "Ekstrem sıcaklık, korozyon direnci",
     heroTitle: "CNC İşleme için Nikel Süperalaşımları",
     heroDescription: "Inconel 625, 718 ve Monel. Jet motorları, nükleer ve kimyasal proses ekipmanları için.",
@@ -191,7 +196,7 @@ export const materialCategories: MaterialCategoryPage[] = [
   {
     slug: "magnezyum",
     name: "Magnezyum",
-    icon: "🪶",
+    code: "MG",
     shortDescription: "En hafif yapısal metal, EMI kalkanı",
     heroTitle: "CNC İşleme için Magnezyum Alaşımları",
     heroDescription: "AZ31B, AZ61A, AZ80A. Yapısal metallerin en hafifi ile ağırlık kritik uygulamalar.",
@@ -212,7 +217,7 @@ export const materialCategories: MaterialCategoryPage[] = [
   {
     slug: "termoplastikler",
     name: "Termoplastikler",
-    icon: "🧪",
+    code: "TP",
     shortDescription: "Hafif, korozyona dirençli, yalıtkan",
     heroTitle: "CNC İşleme için Mühendislik Plastikleri",
     heroDescription: "ABS, Delrin, Naylon, PTFE, PVC ve daha fazlası. Metal alternatifi hafif ve korozyona dirençli parçalar.",
@@ -233,7 +238,7 @@ export const materialCategories: MaterialCategoryPage[] = [
   {
     slug: "yuksek-performans-plastikler",
     name: "Yüksek Performans Plastikler",
-    icon: "💎",
+    code: "HP",
     shortDescription: "Metal alternatifi, yüksek sıcaklık, havacılık",
     heroTitle: "CNC İşleme için Yüksek Performans Polimerleri",
     heroDescription: "PEEK, Ultem (PEI), Torlon (PAI), Vespel. Havacılık ve medikal sektörde metal yerine geçen polimerler.",
@@ -254,7 +259,7 @@ export const materialCategories: MaterialCategoryPage[] = [
   {
     slug: "kompozitler",
     name: "Kompozitler",
-    icon: "🧬",
+    code: "FRP",
     shortDescription: "Ultra hafif, ultra güçlü, çok bileşenli",
     heroTitle: "CNC İşleme için Kompozit Malzemeler",
     heroDescription: "G-10/FR-4, karbon fiber takviyeli polimerler ve fenol laminatlar. İleri mühendislik uygulamaları.",

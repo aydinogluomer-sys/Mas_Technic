@@ -1,0 +1,83 @@
+/* QA PHASE 02 — NEGATIVE CONTROL B  (read-only experiment asset)
+ *
+ * PURPOSE
+ * -------
+ * `scripts/grid-axis-probe.mjs` reports 0 off-grid edges at HEAD. That number
+ * is worthless unless the probe can be shown to FAIL when a band is genuinely
+ * off the master grid. This file re-injects the *verbatim* pre-Phase-02
+ * declarations, copied out of `git show 9133415:src/styles/technical-landing.css`
+ * (line numbers noted), on top of an unmodified production `dist/`.
+ *
+ * It is never imported by the app. It is pasted into a COPY of dist/index.html
+ * inside the scratch directory; the real dist/ and all of src/ are untouched.
+ *
+ * Expected result: the probe must report a large, non-zero off-grid count.
+ */
+
+/* base line 136 — process body rebuilt 12 tracks inside a padded box */
+.tl-process-body {
+  grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+  padding: var(--tl-s5) var(--tl-s4) var(--tl-s6) !important;
+}
+
+/* base line 147/148/157 — nexus 23.8% / 19.2% + 4.6% gap */
+.tl-nexus-body { padding: var(--tl-s5) var(--tl-s4) var(--tl-s6) !important; }
+.tl-nexus-body > header {
+  display: grid !important;
+  grid-template-columns: 23.8% minmax(0, 1fr) !important;
+}
+.tl-nexus-app {
+  display: grid !important;
+  grid-template-columns: 19.2% minmax(0, 1fr) !important;
+  column-gap: 4.6% !important;
+}
+
+/* base line 179/182/183 — projects 35%/65% and 48%/52% plus 6px card padding */
+.tl-projects-body { padding: var(--tl-s5) var(--tl-s4) var(--tl-s6) !important; }
+.tl-project-grid > article {
+  display: grid !important;
+  grid-template-columns: 35% 65% !important;
+  padding: 6px !important;
+}
+.tl-project-grid > article.tl-project-featured {
+  grid-template-columns: 48% 52% !important;
+  padding: 0 !important;
+}
+
+/* base line 197 — sectors 4 tracks in a padded box with a gap */
+.tl-sectors-body {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: var(--tl-s2) !important;
+  padding: var(--tl-s3) !important;
+}
+
+/* base line 220/221 — quality: the fake 132px seventh track */
+.tl-quality-body { padding: var(--tl-s5) var(--tl-s4) var(--tl-s6) !important; }
+.tl-quality-strip {
+  display: grid !important;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) 132px !important;
+  gap: var(--tl-s3) !important;
+}
+
+/* base line 266 — FAQ 7fr/5fr plus a column gap */
+.tl-faq-body {
+  display: grid !important;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr) !important;
+  gap: 0 var(--tl-s6) !important;
+  padding: var(--tl-s4) var(--tl-s4) !important;
+}
+
+/* base line 285 — RFQ 4fr/5fr/5fr = fourteen units for a twelve-unit grid */
+.tl-rfq-body {
+  display: grid !important;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 5fr) !important;
+  gap: var(--tl-s6) !important;
+  padding: var(--tl-s4) !important;
+}
+
+/* base line 305 — footer 43fr/77fr, a bespoke 120-unit system */
+.tl-footer-body {
+  display: grid !important;
+  grid-template-columns: minmax(0, 43fr) minmax(0, 77fr) !important;
+}

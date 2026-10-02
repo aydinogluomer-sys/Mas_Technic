@@ -1,0 +1,2278 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   MAS TECHNIC — GLOBAL PUBLIC SHELL
+
+   The frame every public route renders inside. It consumes the same tokens
+   and the same master grid as the landing; it does not define a second
+   geometry, a second type scale or a second colour system.
+
+       design-tokens.css   the tokens
+       master-grid.css     sheet / band / subgrid
+       navigation.css      band 01, the fixed bar and its in-flow spacer
+       shell.css           this file: sheet surface, rail, page rhythm,
+                           inner-page primitives, footer additions, states
+
+   THE ONE RULE THAT KEEPS THE GRID HONEST (master-grid.css, restated)
+   -------------------------------------------------------------------
+   A subgridded element must carry no horizontal padding, border or margin.
+   Breathing room lives on children. Every `subgrid` below obeys it.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+@import "./design-tokens.css";
+@import "./master-grid.css";
+
+:root {
+  /* The shell's ONE editorial space above the first band. The fixed bar is
+     reserved separately and exactly once by `.tl-header-spacer`; this value
+     is rhythm, not clearance.
+
+     MEASURED DEFECT THIS REPLACES: every inner page carried
+     `<main class="pt-24 pb-16">` — 96px — from before Phase 03 put the bar in
+     flow. After the spacer landed, those pages had 96px of clearance for a bar
+     that was already accounted for, and the landing had none, so inner-page
+     vertical rhythm sat 64–72px below the landing's. */
+  --shell-page-top: 56px;
+  --shell-page-bottom: 96px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --shell-page-top: 32px;
+    --shell-page-bottom: 64px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   BAND PRIMITIVE — moved here from `technical-landing.css` in Phase 04
+
+   `.tl-band` itself lives in `master-grid.css`. The rail mark and the content
+   stamp used to live in the landing's stylesheet, which only `/` loads. Every
+   public route mounts bands now (the footer is one; `ShellBand` is what
+   Phases 07–08 compose with), so they belong to the shell.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Rail işareti referansta çerçevesiz: yalnız numara ve altında bant adı. */
+.tl-band-index {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  border-right: var(--tl-rule-size) solid var(--tl-rule);
+  padding: var(--tl-s5) 4px 0;
+  font-family: var(--tl-font-mono);
+}
+.tl-band-index span { font-size: 15px; line-height: 1; letter-spacing: .02em; }
+.tl-band-index small { font-size: 8px; line-height: 1.35; letter-spacing: .06em; text-align: center; text-wrap: balance; }
+
+.tl-status-badge {
+  position: absolute;
+  z-index: 8;
+  top: var(--tl-s3);
+  right: var(--tl-s4);
+  border: 1px solid currentColor;
+  padding: 5px 7px;
+  font: 700 8px/1 var(--tl-font-mono);
+  letter-spacing: .08em;
+}
+
+@media (max-width: 1180px) {
+  .tl-band-index small { font-size: 7px; letter-spacing: .02em; }
+}
+
+/* At 42px a 7px mono caption such as "SEÇİLMİŞ PROJELER" wrapped into five
+   stacked fragments. The numeral is the index; the name is desktop detail. */
+@media (max-width: 767px) {
+  /* `.tl-sheet { border-inline: 0 }`: MOVED to `src/styles/master-grid.css`,
+     directly under the `.tl-sheet` declaration it overrides. That file is
+     `@import`ed by this one AND by `technical-landing.css`, so its rules are
+     inlined into two chunk stylesheets; an override that lived only here
+     shipped in one of them, and the landing chunk — injected last on `/` —
+     re-asserted the base hairline. See the OWNERSHIP RULE in `master-grid.css`.
+     `.tl-band-index` and `.tl-status-badge` are declared in THIS file, so their
+     overrides correctly stay here. */
+  .tl-band-index { padding-top: var(--tl-s2); gap: var(--tl-s1); }
+  .tl-band-index span { width: 24px; height: 24px; font-size: 8px; }
+  .tl-band-index small { display: none; }
+  .tl-status-badge { top: var(--tl-s2); right: var(--tl-s2); font-size: 7px; }
+}
+
+/* ── Root and sheet ───────────────────────────────────────────────────────*/
+
+.shell-root {
+  min-height: 100vh;
+  overflow-x: clip;
+  font-family: var(--tl-font-sans);
+}
+
+.shell-root[data-shell-surface="graphite"] {
+  color: var(--tl-white);
+  background: var(--tl-void);
+}
+
+/* Paper is the evidence ground. It is deliberately the LIGHTEST paper step:
+   inner-page bodies still resolve their text from the shadcn light theme, and
+   a darker ground would move dozens of body pairs toward their contrast floor
+   in bodies this phase does not own. */
+.shell-root[data-shell-surface="paper"] {
+  color: var(--tl-ink);
+  background: var(--tl-paper-sunken);
+}
+
+.shell-root[data-shell-surface="paper"] .shell-sheet {
+  border-inline-color: var(--tl-paper-rule);
+  background: var(--tl-paper-sunken);
+}
+
+.shell-root ::selection { color: var(--tl-black); background: var(--tl-paper); }
+
+/* Focus is visible on both grounds: `currentColor` inverts with the surface,
+   so one rule covers graphite and paper without a second token. */
+.shell-root a:focus-visible,
+.shell-root button:focus-visible,
+.shell-root summary:focus-visible,
+.shell-root [tabindex]:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+.shell-sheet {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.shell-main { flex: 1 1 auto; }
+
+/* ── `layout="band"` — the master grid for a page that does not know it ───
+   A body written as plain blocks lands on the master content field, and the
+   rail is a real grid column rather than a painted margin. */
+.shell-main[data-shell-layout="band"] {
+  display: grid;
+  grid-template-columns: var(--tl-rail) repeat(var(--tl-cols), minmax(0, 1fr));
+  gap: var(--tl-gap);
+  align-content: start;
+  padding-block: var(--shell-page-top) var(--shell-page-bottom);
+}
+
+.shell-main[data-shell-layout="band"] > * { grid-column: 2 / -1; min-width: 0; }
+
+/* Anything that already declares itself a band keeps its own rail. */
+.shell-main[data-shell-layout="band"] > .tl-band { grid-column: 1 / -1; }
+
+.shell-rail {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  border-right: var(--tl-rule-size) solid var(--tl-rule);
+  padding: 0 4px;
+  color: var(--tl-on-dark-meta);
+  font-family: var(--tl-font-mono);
+}
+
+.shell-main[data-shell-layout="band"] > .shell-rail { grid-column: 1; }
+
+.shell-rail span { font-size: 15px; line-height: 1; letter-spacing: .02em; }
+.shell-rail small { font-size: 8px; line-height: 1.35; letter-spacing: .06em; text-align: center; }
+
+.shell-root[data-shell-surface="paper"] .shell-rail {
+  border-right-color: var(--tl-paper-rule);
+  color: var(--tl-ink-soft);
+}
+
+/* `layout="bands"` — the landing. `<main>` stays a plain block because every
+   child is already a band with its own rail. */
+.shell-main[data-shell-layout="bands"] { display: block; }
+
+/* The auth family: the shell without navigation or footer. Its split panel is
+   a full-bleed composition, so the sheet's side rules and centring would draw
+   a frame around a page that is deliberately edge-to-edge. */
+.shell-auth .shell-sheet { width: 100%; max-width: none; border-inline: 0; }
+
+/* ── Band tone ────────────────────────────────────────────────────────────*/
+
+.tl-band[data-band-tone="paper"] {
+  color: var(--tl-ink);
+  background: var(--tl-paper);
+  border-bottom-color: var(--tl-paper-rule);
+}
+.tl-band[data-band-tone="paper"] > .tl-band-index {
+  border-right-color: var(--tl-paper-rule);
+  color: var(--tl-ink-soft);
+}
+
+/* ── Inner-page hero ──────────────────────────────────────────────────────
+   One master row. Related to the landing hero — same band, same rail, same
+   eyebrow, same hairline — and deliberately much quieter: no reserved
+   viewport height, no image stage, no dimension overlay, no scroll effect. */
+.shell-hero { border-bottom: var(--tl-rule-size) solid var(--tl-rule); }
+.shell-root[data-shell-surface="paper"] .shell-hero { border-bottom-color: var(--tl-paper-rule); }
+
+.shell-hero-body { align-items: end; padding-block: var(--tl-s7) var(--tl-s6); }
+.shell-hero-copy { grid-column: 1 / span 7; padding-right: var(--tl-s6); }
+
+/* Small mono accent labels take the bronze step their ground can carry —
+   `--tl-bronze` itself measures 4.32:1 at this size and axe flags it. */
+.shell-eyebrow {
+  margin: 0 0 var(--tl-s3);
+  color: var(--tl-bronze-light);
+  font: 600 10px/1 var(--tl-font-mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.shell-root[data-shell-surface="paper"] .shell-eyebrow { color: var(--tl-bronze-ink); }
+/* The footer keeps the graphite ground on paper pages, so its labels keep the
+   graphite step too. */
+.shell-root[data-shell-surface="paper"] .tl-footer .shell-eyebrow { color: var(--tl-bronze-light); }
+
+.shell-hero-copy h1 {
+  margin: 0;
+  font-size: clamp(30px, 3.4vw, 52px);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+
+.shell-lede {
+  max-width: 46ch;
+  margin: var(--tl-s5) 0 0;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.shell-root[data-shell-surface="paper"] .shell-lede { color: var(--tl-ink-muted); }
+.shell-root[data-shell-surface="graphite"] .shell-lede { color: var(--tl-on-dark-body); }
+
+.shell-hero-actions { display: flex; flex-wrap: wrap; gap: var(--tl-s4); margin-top: var(--tl-s6); }
+.shell-hero-meta { grid-column: 8 / -1; }
+
+@media (max-width: 1180px) {
+  .shell-hero-copy { grid-column: 1 / -1; padding-right: 0; }
+  .shell-hero-meta { grid-column: 1 / -1; margin-top: var(--tl-s5); }
+}
+
+/* ── Technical metadata row ───────────────────────────────────────────────*/
+
+.shell-meta-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  margin: 0;
+  border-top: var(--tl-rule-size) solid var(--tl-rule);
+}
+.shell-root[data-shell-surface="paper"] .shell-meta-row { border-top-color: var(--tl-paper-rule); }
+
+.shell-meta-row > div {
+  padding: var(--tl-s3) var(--tl-s4) var(--tl-s3) 0;
+  border-bottom: var(--tl-rule-size) solid var(--tl-rule-soft);
+}
+.shell-root[data-shell-surface="paper"] .shell-meta-row > div { border-bottom-color: var(--tl-paper-rule-soft); }
+
+.shell-meta-row dt {
+  font: 500 9px/1.2 var(--tl-font-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.shell-root[data-shell-surface="paper"] .shell-meta-row dt { color: var(--tl-ink-faint); }
+.shell-root[data-shell-surface="graphite"] .shell-meta-row dt { color: var(--tl-on-dark-faint); }
+
+.shell-meta-row dd {
+  margin: 5px 0 0;
+  font: 500 13px/1.3 var(--tl-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Editorial title block ────────────────────────────────────────────────*/
+
+.shell-title-block { position: relative; padding-block: var(--tl-s6) var(--tl-s5); }
+.shell-title-index {
+  display: block;
+  margin-bottom: var(--tl-s3);
+  font: 500 10px/1 var(--tl-font-mono);
+  letter-spacing: .12em;
+}
+.shell-root[data-shell-surface="paper"] .shell-title-index { color: var(--tl-ink-faint); }
+.shell-root[data-shell-surface="graphite"] .shell-title-index { color: var(--tl-on-dark-faint); }
+
+.shell-title-block h2 {
+  margin: 0;
+  font-family: var(--tl-font-serif);
+  font-size: clamp(24px, 2.4vw, 36px);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.shell-title-block h2 em { font-style: italic; color: var(--tl-bronze); }
+
+.shell-title-block > p {
+  max-width: 54ch;
+  margin: var(--tl-s4) 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.shell-root[data-shell-surface="paper"] .shell-title-block > p { color: var(--tl-ink-muted); }
+.shell-root[data-shell-surface="graphite"] .shell-title-block > p { color: var(--tl-on-dark-body); }
+
+/* ── Evidence block ───────────────────────────────────────────────────────
+   A framed reading with a mandatory source line. No card, no shadow: three
+   hairlines and a bronze kind-stamp. */
+.shell-evidence {
+  position: relative;
+  margin: 0;
+  border: var(--tl-rule-size) solid var(--tl-rule);
+  padding: var(--tl-s5) var(--tl-s5) var(--tl-s4);
+}
+.shell-root[data-shell-surface="paper"] .shell-evidence { border-color: var(--tl-paper-rule); background: var(--tl-paper-raised); }
+
+.shell-evidence-kind {
+  position: absolute;
+  top: calc(-1 * var(--tl-s2));
+  left: var(--tl-s4);
+  padding-inline: var(--tl-s2);
+  color: var(--tl-bronze-light);
+  font: 600 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .14em;
+}
+.shell-root[data-shell-surface="paper"] .shell-evidence-kind { color: var(--tl-bronze-ink); }
+.shell-root[data-shell-surface="graphite"] .shell-evidence-kind { background: var(--tl-black); }
+.shell-root[data-shell-surface="paper"] .shell-evidence-kind { background: var(--tl-paper-raised); }
+
+.shell-evidence-body { font-size: 15px; line-height: 1.6; }
+
+.shell-evidence-source {
+  margin-top: var(--tl-s4);
+  padding-top: var(--tl-s3);
+  border-top: var(--tl-rule-size) solid var(--tl-rule-soft);
+  font: 500 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .1em;
+}
+.shell-root[data-shell-surface="paper"] .shell-evidence-source { border-top-color: var(--tl-paper-rule-soft); color: var(--tl-ink-faint); }
+.shell-root[data-shell-surface="graphite"] .shell-evidence-source { color: var(--tl-on-dark-faint); }
+
+/* ── Measured divider ─────────────────────────────────────────────────────*/
+
+.shell-divider {
+  position: relative;
+  height: var(--tl-s6);
+  border-top: var(--tl-rule-size) solid var(--tl-rule);
+}
+.shell-root[data-shell-surface="paper"] .shell-divider { border-top-color: var(--tl-paper-rule); }
+
+.shell-divider-tick {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--tl-rule-size);
+  height: 9px;
+  background: var(--tl-bronze);
+}
+
+.shell-divider-reading {
+  position: absolute;
+  top: var(--tl-s2);
+  left: var(--tl-s3);
+  font: 500 9px/1 var(--tl-font-mono);
+  letter-spacing: .12em;
+}
+.shell-root[data-shell-surface="paper"] .shell-divider-reading { color: var(--tl-ink-faint); }
+.shell-root[data-shell-surface="graphite"] .shell-divider-reading { color: var(--tl-on-dark-faint); }
+
+/* ── Surface band body ────────────────────────────────────────────────────*/
+
+.shell-surface-body { padding-block: var(--tl-s7); }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   FOOTER — the drawing title block, moved here from `technical-landing.css`
+
+   Everything from `/* 14 — footer *\/` down to `.tl-crosshair` came across
+   unchanged: the same 4/8 master split, the same two-column address, the same
+   watermark geometry (centred and shifted a measured 163px, so the mask lands
+   between the meta run and the legal run at every width), the same hairlines.
+   The only additions are the conversion rule and the mobile disclosures,
+   further down, and they sit BETWEEN the nav and the title block so the
+   watermark's relationship to the block edge is untouched.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* The footer body is a subgrid of the band, and its nav republishes those
+   tracks — the two declarations that used to sit in `technical-landing.css`'s
+   subgrid lists. */
+.tl-footer-body {
+  grid-column: 2 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  column-gap: var(--tl-gap);
+  padding-inline: 0;
+  border-inline-width: 0;
+  margin-inline: 0;
+}
+.tl-footer-body > nav {
+  display: grid;
+  grid-template-columns: subgrid;
+  column-gap: var(--tl-gap);
+  padding-inline: 0;
+  border-inline-width: 0;
+  margin-inline: 0;
+}
+
+@supports not (grid-template-columns: subgrid) {
+  .tl-footer-body { grid-template-columns: repeat(var(--tl-cols), minmax(0, 1fr)); }
+  .tl-footer-body > nav { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+}
+
+.tl-footer { --wm-size: clamp(62px, 9.12vw, 130px); --wm-shift: 163px; --wm-bottom: calc(26px - .48 * var(--wm-size)); --wm-ton: rgba(238, 233, 222, .22); }
+
+/* Rows are implicit: brand+nav, then (mobile only) the disclosures, then the
+   conversion rule, then the title block. */
+.tl-footer-body { position: relative; overflow: hidden; }
+.tl-footer-brand { grid-column: 1 / span 4; padding: var(--tl-s4) var(--tl-s6) var(--tl-s5) var(--tl-s4); }
+.tl-footer h2 { font-size: clamp(26px, 2.6vw, 38px); font-weight: 700; line-height: .95; letter-spacing: -.025em; }
+.tl-footer address { display: grid; grid-template-columns: auto auto; justify-content: start; gap: var(--tl-s2) var(--tl-s7); margin-top: var(--tl-s2); font-style: normal; }
+.tl-footer address p { display: flex; align-items: start; gap: var(--tl-s2); color: #c3c8c5; font: 500 10px/1.5 var(--tl-font-mono); }
+/* Address is two lines; phone and mail align to the SAME two lines on the
+   right. Explicit placement, because DOM order (address–address–phone–mail)
+   is the correct reading order and the visual order is line by line. */
+.tl-footer address .tl-tel { grid-column: 2; grid-row: 1; }
+.tl-footer address .tl-mail { grid-column: 2; grid-row: 2; }
+/* The indent goes on the inner span, not the `<p>`: the paragraph's left edge
+   must not move, or the address stops measuring as two columns. */
+.tl-footer address .tl-addr-cont span { margin-left: calc(14px + var(--tl-s2)); }
+.tl-footer address svg { width: 14px; flex: none; margin-top: 2px; stroke-width: 1.4; }
+.tl-footer address a { color: inherit; text-decoration: none; }
+.tl-footer address a:hover { text-decoration: underline; text-underline-offset: 3px; }
+/* Four link columns, two master columns each, over master columns 5–12. */
+.tl-footer nav { grid-column: 5 / -1; align-content: start; padding-block: var(--tl-s4) var(--tl-s5); }
+.tl-footer nav div { grid-column: span 2; min-width: 0; border-left: 1px solid var(--tl-rule); padding-left: var(--tl-s4); }
+.tl-footer nav div:last-child { padding-right: var(--tl-s4); }
+.tl-footer nav h3 { margin-bottom: var(--tl-s3); font: 600 9px/1 var(--tl-font-mono); letter-spacing: .1em; }
+.tl-footer nav a { display: block; margin-top: 6px; color: #c5cac7; font-size: 11px; text-decoration: none; transition: color .25s ease; }
+.tl-footer nav a:hover { color: var(--tl-white); }
+/* The watermark is centred on the gap between "TARİH" in the meta run and the
+   legal run on the right. That gap's centre is exactly 163px right of the
+   body's centre at every width (measured at 1280/1336/1440/1600), because the
+   date is left-locked and the legal link right-locked, so the gap centre moves
+   at half the band's rate. Right-aligning it instead drifted 79px at 1600. */
+.tl-footer-body::before,
+.tl-title-block::before {
+  content: "MAS TECHNIC";
+  position: absolute;
+  left: 50%;
+  transform: translateX(calc(-50% + var(--wm-shift)));
+  bottom: var(--wm-bottom);
+  z-index: 0;
+  color: var(--wm-ton);
+  font-size: var(--wm-size);
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: .8;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+/* Below the rule the same word is a blurred copy, aligned to the title block. */
+.tl-title-block::before {
+  color: rgba(238, 233, 222, .154);
+  filter: blur(1.6px);
+  -webkit-mask-image: linear-gradient(180deg, #000 0, #000 58%, transparent 94%);
+  mask-image: linear-gradient(180deg, #000 0, #000 58%, transparent 94%);
+}
+.tl-title-block {
+  position: relative;
+  z-index: 1;
+  grid-column: 1 / -1;
+  overflow: hidden;
+  background: var(--tl-black);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  border-top: 1px solid var(--tl-rule);
+}
+.tl-title-block > * { position: relative; z-index: 1; }
+.tl-social { display: flex; height: 100%; align-items: center; gap: var(--tl-s4); border-right: 1px solid var(--tl-rule); padding-inline: var(--tl-s4); }
+/* `--tl-control-rule` and not the `--sf-` role: the footer sits outside the
+   `--sf-*` re-binding on the landing, and it is always graphite
+   (`--tl-black`), so the graphite token is the right one and is always
+   defined. These are 26px icon-only links — the box IS the target, and it
+   measured 2.16:1 in `reports/09b1c1/control-boundary-before.json`. */
+.tl-social a { display: grid; width: 26px; height: 26px; place-items: center; border: 1px solid var(--tl-control-rule); color: #b9bfbc; transition: color .25s ease, border-color .25s ease; }
+.tl-social a:hover { border-color: var(--tl-white); color: var(--tl-white); }
+.tl-social svg { width: 15px; stroke-width: 1.5; }
+.tl-meta-run { display: flex; flex-wrap: wrap; align-items: center; gap: var(--tl-s5); min-height: 32px; padding-inline: var(--tl-s4); }
+.tl-meta-run span { color: var(--tl-on-dark-meta); font: 500 9px/1 var(--tl-font-mono); letter-spacing: .06em; }
+.tl-legal { display: flex; height: 100%; align-items: center; gap: var(--tl-s4); border-left: 1px solid var(--tl-rule); padding-inline: var(--tl-s4); }
+.tl-legal a { color: var(--tl-on-dark-meta); font: 500 9px/1 var(--tl-font-mono); letter-spacing: .06em; text-decoration: none; }
+.tl-legal a:hover { color: var(--tl-white); }
+.tl-crosshair { width: 16px; fill: none; stroke: #5f6764; stroke-width: 1; }
+
+/* The footer keeps the graphite ground on every route, including the paper
+   inner pages: it is the drawing's title block, and a title block is not on
+   the same sheet surface as the drawing body. */
+.shell-root[data-shell-surface="paper"] .tl-footer {
+  color: var(--tl-white);
+  background: var(--tl-black);
+  border-top: var(--tl-rule-size) solid var(--tl-paper-rule-strong);
+}
+.shell-root[data-shell-surface="paper"] .tl-footer > .tl-band-index {
+  border-right-color: var(--tl-rule);
+  color: var(--tl-on-dark-meta);
+}
+
+/* Four-edge safe area. The mega footer did this through
+   `.footer-industrial .container-industrial`; the title block does it on the
+   band itself, so the hairline side rules stay on the sheet edge and only the
+   CONTENT is inset. */
+.tl-footer {
+  padding-left: var(--shell-safe-left, 0px);
+  padding-right: var(--shell-safe-right, 0px);
+  padding-bottom: var(--shell-safe-bottom, 0px);
+}
+
+.tl-footer :is(a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])) {
+  scroll-margin-block: calc(5rem + var(--shell-safe-top));
+}
+
+/* A fixed support launcher must not cover the footer control that currently
+   has keyboard focus. Opacity rather than `display`, so the launcher keeps its
+   own sequential focus stop; it returns the moment focus advances to it.
+
+   THIS RULE LIVES HERE, NOT IN `index.css`, ON PURPOSE. It used to read
+   `body:has(.footer-industrial:focus-within)` inside `@layer components`.
+   Tailwind prunes layered rules whose class candidates are not in the scanned
+   content, and `footer-industrial` existed only in the deleted
+   `src/components/Footer.tsx` — so the moment that file went, the rule
+   vanished from `dist/` and the launcher stopped yielding. Verified by
+   grepping the build output. Outside a Tailwind layer it cannot be pruned. */
+body:has(.tl-footer:focus-within) [data-chat-launcher],
+[data-chat-launcher][data-yield] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 1180px) {
+  .tl-footer-brand { grid-column: 1 / -1; order: 1; }
+  .tl-footer nav { grid-column: 1 / -1; order: 2; border-top: 1px solid var(--tl-rule); row-gap: var(--tl-s5); }
+  .tl-footer nav div { grid-column: span 3; }
+  .tl-footer nav div:nth-child(2n) { padding-right: var(--tl-s4); }
+  .tl-title-block::before { display: none; }
+  /* order 4, not 3: the conversion rule takes 3 so it stays attached to the
+     link columns instead of being split from them by the static watermark. */
+  .tl-footer-body::before {
+    position: static;
+    order: 4;
+    grid-column: 1 / -1;
+    inset: auto;
+    transform: none;
+    padding-inline: var(--tl-s4);
+    font-size: clamp(40px, 11vw, 92px);
+    line-height: .85;
+    text-align: right;
+    overflow: hidden;
+  }
+  .tl-title-block { order: 5; }
+}
+
+/* ── Forced colors ────────────────────────────────────────────────────────
+   The footer STATES the system palette instead of leaving it to the UA
+   override. Two reasons, one of them measured:
+
+   1. Correctness. Everything in this band is drawn from `--tl-*` tokens on a
+      graphite ground. When the reader has chosen their own palette, the band
+      must hand every one of those decisions back, and saying so is more
+      honest than hoping the override reaches each declaration.
+   2. It is verifiable. Under `forced-colors: active`, axe measured this
+      footer's foregrounds as the AUTHORED `#f3f0e8` / `#c3c8c5` / `#a4aba8`
+      against a Canvas-white background — a pair that corresponds to nothing
+      on screen (`getComputedStyle` reports black on white there), but which
+      is a real failure of the tool's oracle and therefore of the gate. With
+      the system colours declared, tool and browser agree.
+
+   Only colour is restated. Geometry, rules and spacing are untouched, so the
+   band reads the same; `forced-color-adjust` stays `auto` everywhere, which
+   `e2e/shared-shell-accessibility.spec.ts` asserts on every focus target. */
+/* `!important` on purpose and only here. These declarations exist to REPLACE
+   every authored colour in the band with the reader's own, which is what the
+   UA override does anyway; without it the band's own more specific rules
+   (`.tl-footer address p`, `.shell-root[data-shell-surface="paper"]
+   .tl-footer .shell-eyebrow`) win the cascade and the restatement is
+   incomplete — measured. */
+@media (forced-colors: active) {
+  .tl-footer,
+  .tl-footer * { color: CanvasText !important; }
+  .tl-footer,
+  .tl-title-block { background: Canvas !important; }
+  .tl-footer :is(a, button) { color: LinkText !important; }
+  .tl-footer .shell-footer-primary,
+  .tl-footer .shell-footer-secondary {
+    color: ButtonText !important;
+    background: ButtonFace !important;
+    border: 1px solid ButtonBorder !important;
+  }
+  .tl-footer-body::before,
+  .tl-title-block::before { color: GrayText !important; }
+}
+
+@media (max-width: 767px) {
+  .tl-footer-brand { padding: var(--tl-s5) var(--tl-s4); }
+  .tl-footer nav { padding-block: var(--tl-s5); }
+  .tl-footer nav div { grid-column: span 2; }
+  .tl-footer nav div:nth-child(2n) { padding-right: var(--tl-s3); }
+  .tl-footer address { grid-template-columns: 1fr; gap: var(--tl-s3); }
+  .tl-footer address :is(.tl-tel, .tl-mail) { grid-column: auto; grid-row: auto; }
+  .tl-title-block { grid-template-columns: 1fr; }
+  .tl-social { border-right: 0; border-bottom: 1px solid var(--tl-rule); padding-block: var(--tl-s3); }
+  .tl-meta-run { gap: var(--tl-s3); padding-block: var(--tl-s3); }
+  .tl-legal { border-top: 1px solid var(--tl-rule); border-left: 0; padding-block: var(--tl-s3); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   FOOTER — the parts the title block gained when it became the site's footer
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* The conversion rule. One row, two cells on master lines, hairlines only:
+   the two `rounded-2xl` glass slabs it replaces are gone. */
+.shell-footer-conversion {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  column-gap: var(--tl-gap);
+  padding-inline: 0;
+  border-inline-width: 0;
+  margin-inline: 0;
+  border-top: var(--tl-rule-size) solid var(--tl-rule);
+}
+
+@supports not (grid-template-columns: subgrid) {
+  .shell-footer-conversion { grid-template-columns: repeat(var(--tl-cols), minmax(0, 1fr)); }
+}
+
+.shell-footer-journal {
+  grid-column: 1 / span 6;
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--tl-s2) var(--tl-s5);
+  padding: var(--tl-s4);
+}
+
+.shell-footer-journal .shell-eyebrow { margin: 0; }
+
+.shell-footer-journal a {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  gap: var(--tl-s2);
+  color: var(--tl-on-dark-body);
+  font-size: 12px;
+  text-decoration: none;
+}
+.shell-footer-journal a svg { width: 14px; height: 14px; stroke-width: 1.5; }
+.shell-footer-journal a:hover { color: var(--tl-white); }
+
+.shell-footer-actions {
+  grid-column: 7 / -1;
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--tl-s4);
+  border-left: var(--tl-rule-size) solid var(--tl-rule);
+  padding: var(--tl-s4);
+}
+
+.shell-footer-primary,
+.shell-footer-secondary {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: var(--tl-s3);
+  padding-inline: var(--tl-s5);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.shell-footer-primary { color: var(--tl-ink); background: var(--tl-paper); }
+.shell-footer-primary svg { width: 16px; height: 16px; stroke-width: 1.6; }
+.shell-footer-primary:hover { background: var(--tl-paper-raised); }
+
+.shell-footer-secondary {
+  /* The footer's own ghost action. Same shape, same reason, same token as
+     `.shell-action--ghost`; graphite-only because the footer is. */
+  border: var(--tl-rule-size) solid var(--tl-control-rule);
+  color: var(--tl-white);
+  font-weight: 600;
+}
+.shell-footer-secondary:hover { border-color: var(--tl-white); }
+
+/* Room for the fixed support launcher, and ONLY where one exists.
+
+   MEASURED: the launcher is 56px wide at `right: max(1rem, safe)` and
+   `bottom: calc(5.75rem + safe)` (`src/components/ChatBot.tsx`), so with the
+   footer scrolled to the bottom of a 1280x800 viewport its band lands on the
+   conversion rule's right edge — axe-free but real: `Bize Ulaşın` was
+   measured obscured by it. The mega footer solved the same collision with
+   `md:pr-20` on its bottom bar; this is that reservation, on the one cell it
+   actually affects, so the master tracks are untouched.
+
+   `:has()` keeps it honest: the landing does not mount a launcher (see the
+   per-route chrome note in `src/App.tsx`), so the landing's footer keeps its
+   full measure. Below 768 the launcher sits far above the conversion rule —
+   the footer is 741px tall there — and the buttons stay full-width. */
+@media (min-width: 768px) {
+  body:has([data-chat-launcher]) .shell-footer-actions { padding-right: 88px; }
+}
+
+/* Tablet has six master columns, so `1/span 6` + `7/-1` cannot both fit and
+   the actions cell wrapped to a second row (measured: the conversion rule was
+   193px tall at 768). Halves of the six-column field instead. */
+@media (max-width: 1180px) {
+  .shell-footer-journal { grid-column: 1 / span 3; }
+  .shell-footer-actions { grid-column: 4 / -1; }
+}
+
+/* Mobile disclosures. Hidden above 767px; the four nav columns are hidden
+   below it. Two renderings of one derived list — see `footer-groups.ts`. */
+.shell-footer-disclosures { display: none; }
+
+@media (max-width: 767px) {
+  .shell-footer-disclosures {
+    display: block;
+    grid-column: 1 / -1;
+    order: 2;
+    border-top: var(--tl-rule-size) solid var(--tl-rule);
+  }
+  /* Two class levels so this beats `.tl-footer nav` in
+     `technical-landing.css` regardless of which stylesheet the bundler emits
+     first — the two files are imported from different entry points. */
+  .shell-footer .tl-footer-body > nav { display: none; }
+  .shell-footer-conversion { order: 3; grid-template-columns: 1fr; }
+  .shell-footer-journal,
+  .shell-footer-actions { grid-column: 1 / -1; padding: var(--tl-s3) var(--tl-s4); }
+  .shell-footer-journal { justify-content: space-between; gap: var(--tl-s3); }
+  .shell-footer-actions {
+    flex-wrap: nowrap;
+    justify-content: stretch;
+    gap: var(--tl-s3);
+    border-left: 0;
+    border-top: var(--tl-rule-size) solid var(--tl-rule);
+  }
+  /* Two buttons on ONE row: stacked they cost a second 44px target plus a gap
+     for no reading benefit (measured: the rule was 202px tall at 375). */
+  .shell-footer-primary,
+  .shell-footer-secondary { flex: 1 1 0; justify-content: center; min-height: 44px; padding-inline: var(--tl-s3); }
+}
+
+.shell-footer-disclosure { border-bottom: var(--tl-rule-size) solid var(--tl-rule); }
+.shell-footer-disclosure h2 { margin: 0; }
+.shell-footer-disclosure > h2 > button {
+  display: flex;
+  width: 100%;
+  min-height: 48px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tl-s3);
+  padding-inline: var(--tl-s4);
+  color: var(--tl-white);
+  font: 600 10px/1 var(--tl-font-mono);
+  letter-spacing: .12em;
+  text-align: left;
+}
+.shell-footer-disclosure > h2 > button svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  color: var(--tl-on-dark-meta);
+  transition: transform var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-footer-disclosure > h2 > button svg[data-open] { transform: rotate(180deg); }
+.shell-footer-disclosure ul { margin: 0; padding: 0 var(--tl-s4) var(--tl-s4); list-style: none; }
+.shell-footer-disclosure li a {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  color: var(--tl-on-dark-body);
+  font-size: 13px;
+  text-decoration: none;
+}
+.shell-footer-disclosure li a:hover { color: var(--tl-white); }
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-footer-disclosure > h2 > button svg { transition-duration: .01ms; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   SHELL STATES
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.shell-state {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: var(--tl-s3);
+  padding: var(--tl-s7) 0;
+}
+.shell-state[data-full] { min-height: 60vh; padding-inline: var(--tl-s6); }
+
+.shell-state-label {
+  margin: 0;
+  color: var(--tl-bronze-light);
+  font: 600 10px/1 var(--tl-font-mono);
+  letter-spacing: .2em;
+}
+.shell-root[data-shell-surface="paper"] .shell-state-label { color: var(--tl-bronze-ink); }
+
+.shell-state-title { margin: 0; font-size: clamp(20px, 2vw, 28px); font-weight: 700; letter-spacing: -.015em; }
+
+.shell-state-detail { max-width: 46ch; margin: 0; font-size: 14px; line-height: 1.6; }
+.shell-root[data-shell-surface="paper"] .shell-state-detail { color: var(--tl-ink-muted); }
+.shell-root[data-shell-surface="graphite"] .shell-state-detail { color: var(--tl-on-dark-body); }
+
+/* The datum sweep: a rule with a bronze index travelling along it. Geometry
+   never changes — only `transform` on the index. */
+.shell-state-scan {
+  position: relative;
+  display: block;
+  width: min(320px, 100%);
+  height: var(--tl-rule-size);
+  overflow: hidden;
+  background: var(--tl-rule);
+}
+.shell-root[data-shell-surface="paper"] .shell-state-scan { background: var(--tl-paper-rule); }
+
+.shell-state-scan i {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  width: 28%;
+  background: var(--tl-bronze);
+  animation: shell-datum-sweep 1.4s var(--tl-ease-out) infinite;
+}
+
+@keyframes shell-datum-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(357%); }
+}
+
+.shell-state-actions { display: flex; flex-wrap: wrap; gap: var(--tl-s3); }
+
+.shell-state-action {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  padding-inline: var(--tl-s5);
+  border: var(--tl-rule-size) solid currentColor;
+  font: 600 12px/1 var(--tl-font-mono);
+  letter-spacing: .1em;
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-state-scan i { animation: none; width: 100%; opacity: .55; }
+}
+
+/* The panel branch's 404: the same body, no public navigation and no site
+   footer, because `/admin*` and `/musteri-paneli` own their own chrome. */
+.shell-notfound-bare {
+  min-height: 100vh;
+  padding-inline: clamp(24px, 6vw, 96px);
+  color: var(--tl-ink);
+  background: var(--tl-paper-sunken);
+}
+
+/* ── 404 ──────────────────────────────────────────────────────────────────
+   The route-error state as a page. Same eyebrow, same lede, same metadata
+   row and the same measured rules as every other shell surface; the numeral
+   is the only large gesture, and it is an outline the way a sheet number is. */
+.shell-notfound { padding-block: var(--tl-s7) var(--tl-s8); }
+
+.shell-notfound-code {
+  margin: var(--tl-s4) 0 0;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--tl-paper-rule-strong);
+  font-family: var(--tl-font-mono);
+  font-size: clamp(6rem, 16vw, 13rem);
+  font-weight: 500;
+  line-height: .85;
+  letter-spacing: -.05em;
+}
+.shell-root[data-shell-surface="graphite"] .shell-notfound-code { -webkit-text-stroke-color: var(--tl-rule); }
+
+.shell-notfound-title {
+  max-width: 20ch;
+  margin: var(--tl-s5) 0 0;
+  font-family: var(--tl-font-serif);
+  font-size: clamp(26px, 3.2vw, 44px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.shell-notfound-title em { font-style: italic; color: var(--tl-bronze); }
+
+.shell-notfound-meta { max-width: 640px; margin-top: var(--tl-s7); }
+
+/* PHASE 08 — `.shell-notfound-links` IS GONE, not restyled.
+   It was a `repeat(auto-fit, minmax(160px, 1fr))` grid of four hand-picked
+   destinations behind four lucide icons: four of ~90 routes, chosen by
+   somebody, in an order nobody can defend, and structurally the "four icon
+   cards" template §PHASE 07 forbids. Its replacement is two `ShellIndexList`s
+   — the nearest real routes to what the reader typed, then the site's own
+   directory — which are register rows and already own their styling. What
+   remains here is the rhythm around them. */
+.shell-notfound-section { max-width: 760px; margin-top: var(--tl-s7); }
+.shell-notfound-section > .shell-eyebrow { margin: 0 0 var(--tl-s3); }
+
+.shell-notfound-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--tl-s3);
+  margin-top: var(--tl-s7);
+}
+
+/* The pre-route loader lives outside any shell (it renders while the route
+   module is still resolving), so it carries its own ground. */
+.shell-boot {
+  display: grid;
+  min-height: 100vh;
+  align-content: center;
+  justify-items: start;
+  gap: var(--tl-s3);
+  padding-inline: clamp(24px, 6vw, 96px);
+  color: var(--tl-white);
+  background: var(--tl-void);
+  font-family: var(--tl-font-sans);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PAGE COMPOSITION — PHASE 07
+
+   Phase 04 built the shell FRAME. Everything below is what the commercial
+   inner pages are BUILT FROM, and it exists because those pages were not:
+   `/hakkimizda`, `/iletisim`, `/malzemeler`, `/malzemeler/:slug`,
+   `/{hizmetler|kabiliyetler|endustriyel}/kategori/:slug` and
+   `/{...}/:slug` all composed their bodies out of the same device —
+   `border border-border bg-card p-6 hover:-translate-y-1 hover:shadow-lg` —
+   plus, on the two material pages, `rounded-lg/xl/full`, a `⭐` glyph,
+   `ring-2 ring-primary/20`, colour-coded `bg-emerald-100/amber-100/rose-100`
+   price pills and two full-bleed
+   `linear-gradient(135deg, hsl(var(--primary)) → hsl(var(--forge-navy)))`
+   bands. `--forge-navy` is the superseded forge palette; the gradients went
+   with it.
+
+   ONE GROUND SWITCH, NOT TWO STYLESHEETS
+   --------------------------------------
+   Everything here paints from `--sf-*` — semantic roles, not colours. The
+   roles are re-bound once per ground, so a `tone="paper"` band works
+   identically inside a graphite root and inside a paper one, and a new
+   component needs no second colour block. Before this, ground-dependent
+   colour was written as `.shell-root[data-shell-surface="paper"] .x { … }`
+   pairs, which cannot express "a paper band inside the graphite field" at all
+   — the descendant selector never matches — and that alternation is exactly
+   what the landing is built on.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.shell-root {
+  --sf-ink: var(--tl-white);
+  --sf-body: var(--tl-on-dark-body);
+  --sf-meta: var(--tl-on-dark-meta);
+  --sf-faint: var(--tl-on-dark-faint);
+  --sf-rule: var(--tl-rule);
+  --sf-rule-soft: var(--tl-rule-soft);
+  /* The boundary of a CONTROL, which is a different job from the boundary of
+     a register, a table or a frame — see the note beside `--tl-control-rule`
+     in `design-tokens.css`. It is re-bound in the paper block below and
+     NOWHERE ELSE, which is what makes a paper band inside a graphite root
+     work: the 09a `--sf-danger` trap was a ROOT-scoped override of a shared
+     role, and `.shell-root .tl-band[data-band-tone="paper"]` is the only
+     selector that can reach that third case. */
+  --sf-control-rule: var(--tl-control-rule);
+  --sf-accent: var(--tl-bronze-light);
+  /* Failure. A role and not `--tl-stamp` directly, because stamp red is
+     ground-dependent for exactly the reason bronze is — see the note beside
+     `--tl-stamp-light` in `design-tokens.css`. Everything that paints a
+     failure — the `.shell-form-error` rule, the `tone="error"` notice edge and
+     its status label — paints from this one name, which is what keeps a
+     field-level error and a block-level one visibly the same object on BOTH
+     grounds rather than only on paper. */
+  --sf-danger: var(--tl-stamp-light);
+  --sf-raise: var(--tl-tint-raise);
+  --sf-hover: var(--tl-tint-hover);
+  --sf-field: var(--tl-panel);
+  --sf-ground: var(--tl-void);
+  --sf-invert: var(--tl-paper);
+  --sf-on-invert: var(--tl-black);
+}
+
+/* Graphite gets the dark UA form controls too: a native date/time picker on a
+   graphite field is otherwise painted white by the browser, and that widget is
+   the one surface a stylesheet cannot reach. */
+.shell-root[data-shell-surface="graphite"] { color-scheme: dark; }
+
+.shell-root[data-shell-surface="paper"],
+.shell-root .tl-band[data-band-tone="paper"] {
+  --sf-ink: var(--tl-ink);
+  --sf-body: var(--tl-ink-muted);
+  --sf-meta: var(--tl-ink-faint);
+  --sf-faint: var(--tl-ink-soft);
+  --sf-rule: var(--tl-paper-rule);
+  --sf-rule-soft: var(--tl-paper-rule-soft);
+  --sf-control-rule: var(--tl-paper-control-rule);
+  --sf-accent: var(--tl-bronze-ink);
+  --sf-danger: var(--tl-stamp);
+  --sf-raise: var(--tl-ink-tint);
+  --sf-hover: var(--tl-ink-tint);
+  --sf-field: var(--tl-paper-raised);
+  --sf-ground: var(--tl-paper-sunken);
+  --sf-invert: var(--tl-ink);
+  --sf-on-invert: var(--tl-paper);
+}
+.shell-root .tl-band[data-band-tone="paper"] {
+  color-scheme: light;
+  /* A paper BAND paints `--tl-paper`, one step darker than a paper ROOT. */
+  --sf-ground: var(--tl-paper);
+}
+
+/* The Phase 04 primitives were written before the roles existed and key their
+   ground off the ROOT, so they cannot see a paper band inside a graphite
+   field. These five lines finish the job for them rather than restyling them. */
+.shell-root .tl-band[data-band-tone="paper"] :is(.shell-eyebrow, .shell-state-label) { color: var(--tl-bronze-ink); }
+.shell-root .tl-band[data-band-tone="paper"] :is(.shell-lede, .shell-title-block > p, .shell-state-detail) { color: var(--tl-ink-muted); }
+.shell-root .tl-band[data-band-tone="paper"] :is(.shell-meta-row dt, .shell-title-index, .shell-evidence-source) { color: var(--tl-ink-faint); }
+.shell-root .tl-band[data-band-tone="paper"] .shell-meta-row { border-top-color: var(--tl-paper-rule); }
+.shell-root .tl-band[data-band-tone="paper"] .shell-meta-row > div { border-bottom-color: var(--tl-paper-rule-soft); }
+
+/* ── Master-column spans ──────────────────────────────────────────────────
+   Spans, never new tracks. Every boundary named here is a boundary of the
+   12/6/4 master grid, which is why a page can nest these three deep and stay
+   on the same vertical axes as the landing. */
+.shell-surface-body > *,
+.shell-next-body > * { min-width: 0; }
+
+.shell-span-full { grid-column: 1 / -1; }
+.shell-span-read { grid-column: 1 / span 7; }
+.shell-span-note { grid-column: 9 / -1; }
+.shell-span-half { grid-column: span 6; }
+.shell-span-third { grid-column: span 4; }
+
+/* A column block that keeps publishing the master tracks to its own children.
+   Contract from `master-grid.css`: no horizontal padding, border or margin. */
+.shell-doc,
+.shell-doc-main,
+.shell-doc-aside {
+  display: grid;
+  grid-template-columns: subgrid;
+  align-content: start;
+  padding-inline: 0;
+  border-inline-width: 0;
+  margin-inline: 0;
+}
+.shell-doc > *,
+.shell-doc-main > *,
+.shell-doc-aside > * { grid-column: 1 / -1; min-width: 0; }
+.shell-doc { grid-column: 1 / -1; row-gap: var(--tl-s8); }
+.shell-doc-main { grid-column: 1 / span 8; row-gap: var(--tl-s8); }
+.shell-doc-aside { grid-column: 9 / -1; row-gap: var(--tl-s5); }
+
+/* A sticky aside works HERE and not inside the aside, because a sticky
+   element resolves against its containing block and a grid item's containing
+   block is its grid area: the aside shares the main column's row, so its area
+   is as tall as the document beside it, while anything nested one level deeper
+   would only get a one-row area and never travel. `align-self: start` is what
+   shrinks the item to its content and leaves the rest of the area to scroll
+   through. */
+.shell-doc-aside[data-sticky] {
+  position: sticky;
+  top: calc(var(--gnav-h) + var(--shell-safe-top, 0px) + var(--tl-s5));
+  align-self: start;
+}
+
+@supports not (grid-template-columns: subgrid) {
+  .shell-doc { grid-template-columns: repeat(var(--tl-subgrid-cols, var(--tl-cols)), minmax(0, 1fr)); }
+  .shell-doc-main { --tl-subgrid-cols: 8; }
+  .shell-doc-aside { --tl-subgrid-cols: 4; }
+}
+
+@media (max-width: 1180px) {
+  .shell-span-read,
+  .shell-span-note,
+  .shell-doc-main,
+  .shell-doc-aside { grid-column: 1 / -1; }
+  /* Stacked, the aside is in its own one-row area and has nothing to travel. */
+  .shell-doc-aside[data-sticky] { position: static; }
+  .shell-span-half,
+  .shell-span-third { grid-column: span 3; }
+
+  @supports not (grid-template-columns: subgrid) {
+    .shell-doc-main,
+    .shell-doc-aside { --tl-subgrid-cols: var(--tl-cols); }
+  }
+}
+
+@media (max-width: 767px) {
+  .shell-span-half,
+  .shell-span-third { grid-column: 1 / -1; }
+}
+
+/* Vertical rhythm inside a column block: band / block / paragraph levels. */
+.shell-stack { display: grid; align-content: start; gap: var(--tl-s6); min-width: 0; }
+.shell-stack[data-gap="lg"] { gap: var(--tl-s8); }
+.shell-stack[data-gap="sm"] { gap: var(--tl-s4); }
+
+/* ── Editorial prose ──────────────────────────────────────────────────────
+   The one body-copy setting on the public site. Measure is capped in `ch`,
+   not px, so it stays a reading measure at every type size — including the
+   200 % text size the shell accessibility contract exercises. */
+.shell-prose { display: grid; gap: var(--tl-s5); max-width: 68ch; margin: 0; }
+.shell-prose > p { margin: 0; color: var(--sf-body); font-size: clamp(15px, 1.05vw, 17px); line-height: 1.72; }
+.shell-prose > p > strong { color: var(--sf-ink); font-weight: 600; }
+.shell-prose[data-lead] > p:first-child {
+  color: var(--sf-ink);
+  font-size: clamp(18px, 1.6vw, 23px);
+  line-height: 1.48;
+  letter-spacing: -.01em;
+}
+
+/* A serif statement — the system's single expressive face, used for the
+   editorial claim a company page is actually FOR, and nowhere else. */
+.shell-statement {
+  max-width: 22ch;
+  margin: 0;
+  color: var(--sf-ink);
+  font-family: var(--tl-font-serif);
+  font-size: clamp(24px, 3.1vw, 44px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+.shell-statement em { color: var(--tl-bronze); font-style: italic; }
+
+/* A margin note: mono, narrow, on the note column. */
+.shell-note {
+  /* Measured at 768 on `/kvkk` (heading-widows-before.md): the aside goes
+     full-width there and this note could set a 107ch line. Capped in its
+     own `ch` so the margin note stays a margin note at every width. */
+  max-width: 72ch;
+  margin: 0;
+  border-top: var(--tl-rule-size) solid var(--sf-rule);
+  padding-top: var(--tl-s3);
+  color: var(--sf-meta);
+  font: 500 11px/1.65 var(--tl-font-mono);
+  letter-spacing: .02em;
+}
+
+/* ── Breadcrumb ───────────────────────────────────────────────────────────*/
+.shell-crumb { padding-block: var(--tl-s4) var(--tl-s2); }
+/* In the hero the band already supplies the top rhythm. */
+.shell-hero-copy > .shell-crumb { padding-block: 0 var(--tl-s4); }
+.shell-crumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--tl-s2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.shell-crumb li {
+  display: flex;
+  align-items: center;
+  gap: var(--tl-s2);
+  color: var(--sf-meta);
+  font: 500 9px/1.5 var(--tl-font-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.shell-crumb li + li::before { content: "/"; color: var(--sf-faint); }
+.shell-crumb a { display: inline-flex; min-height: 24px; align-items: center; color: inherit; text-decoration: none; }
+.shell-crumb a:hover { color: var(--sf-ink); }
+.shell-crumb [aria-current] { color: var(--sf-ink); }
+
+/* ── Action ───────────────────────────────────────────────────────────────
+   One call-to-action shape site-wide. Square by policy (`--tl-radius: 0`),
+   44px minimum height, and it never changes SIZE on hover — only the arrow
+   moves, so the label under the reader's pointer stays where they aimed. */
+.shell-action {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tl-s4);
+  border: var(--tl-rule-size) solid transparent;
+  border-radius: var(--tl-radius);
+  padding-inline: var(--tl-s5);
+  font: 600 11px/1 var(--tl-font-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    color var(--tl-dur-micro) var(--tl-ease-out),
+    background-color var(--tl-dur-micro) var(--tl-ease-out),
+    border-color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-action-mark {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  stroke-width: 1.8;
+  transition: transform var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-action:hover .shell-action-mark { transform: translateX(3px); }
+.shell-action--full { width: 100%; }
+
+.shell-action--primary {
+  color: var(--sf-on-invert);
+  background: var(--sf-invert);
+  border-color: var(--sf-invert);
+}
+.shell-action--primary:hover { background: var(--sf-ink); border-color: var(--sf-ink); }
+
+/* `--sf-control-rule`, not `--sf-rule`: the ghost action has a transparent
+   fill, so the box IS the control and nothing else says where it can be
+   pressed. Measured at 2.16:1 on graphite and 1.92:1 on a paper band before
+   this line changed. */
+.shell-action--ghost { color: var(--sf-ink); border-color: var(--sf-control-rule); }
+.shell-action--ghost:hover { border-color: var(--sf-ink); background: var(--sf-hover); }
+
+.shell-action--quiet {
+  min-height: 24px;
+  justify-content: flex-start;
+  gap: var(--tl-s2);
+  padding-inline: 0;
+  color: var(--sf-accent);
+}
+.shell-action--quiet:hover { color: var(--sf-ink); }
+
+.shell-action:disabled { cursor: not-allowed; opacity: .45; }
+.shell-action:disabled:hover .shell-action-mark { transform: none; }
+
+/* ── Index list ───────────────────────────────────────────────────────────
+   The replacement for the link-card grid. A register line, not a tile: sheet
+   number, title, scope, and the entry's own measured facts. */
+.shell-index {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--tl-rule-size) solid var(--sf-rule);
+}
+.shell-index > li { border-bottom: var(--tl-rule-size) solid var(--sf-rule); }
+
+.shell-index-row {
+  display: grid;
+  grid-template-columns: 3.5ch minmax(0, 1fr) 18px;
+  align-items: start;
+  gap: var(--tl-s5);
+  padding: var(--tl-s5) var(--tl-s4);
+  color: inherit;
+  text-decoration: none;
+  transition: background-color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-index-row:hover { background: var(--sf-hover); }
+.shell-index[data-compact] .shell-index-row { padding-block: var(--tl-s4); gap: var(--tl-s4); }
+
+.shell-index-no { color: var(--sf-accent); font: 500 11px/1.6 var(--tl-font-mono); letter-spacing: .06em; }
+.shell-index-body { display: grid; gap: var(--tl-s2); min-width: 0; }
+.shell-index-eyebrow {
+  color: var(--sf-faint);
+  font: 600 9px/1 var(--tl-font-mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.shell-index-title {
+  color: var(--sf-ink);
+  font-size: clamp(16px, 1.35vw, 20px);
+  font-weight: 600;
+  letter-spacing: -.015em;
+}
+.shell-index-desc { max-width: 66ch; color: var(--sf-body); font-size: 14px; line-height: 1.6; }
+.shell-index-meta { display: flex; flex-wrap: wrap; gap: var(--tl-s2); margin-top: var(--tl-s1); }
+.shell-index-meta > span {
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  padding: 3px var(--tl-s2);
+  color: var(--sf-meta);
+  font: 500 10px/1.4 var(--tl-font-mono);
+  letter-spacing: .04em;
+}
+.shell-index-mark {
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  color: var(--sf-faint);
+  stroke-width: 1.5;
+  transition:
+    color var(--tl-dur-micro) var(--tl-ease-out),
+    transform var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-index-row:hover .shell-index-mark { color: var(--sf-ink); transform: translate(2px, -2px); }
+
+@media (max-width: 767px) {
+  .shell-index-row { gap: var(--tl-s3); padding-inline: 0; }
+}
+
+/* ── Spec table ───────────────────────────────────────────────────────────
+   Measurements line up down the column in the mono face with tabular figures,
+   which is the entire reason a specification is a table and not a list. */
+.shell-table { margin: 0; }
+.shell-table > figcaption { padding-bottom: var(--tl-s3); }
+.shell-table-caption {
+  display: block;
+  color: var(--sf-ink);
+  font: 600 10px/1.5 var(--tl-font-mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.shell-table-note { display: block; max-width: 72ch; margin-top: var(--tl-s2); color: var(--sf-body); font-size: 13px; line-height: 1.6; }
+
+.shell-table-scroll { overflow-x: auto; border: var(--tl-rule-size) solid var(--sf-rule); }
+.shell-table-scroll:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.shell-table table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.shell-table :is(th, td) {
+  padding: var(--tl-s3) var(--tl-s4);
+  border-bottom: var(--tl-rule-size) solid var(--sf-rule-soft);
+  text-align: left;
+  vertical-align: top;
+}
+.shell-table thead th {
+  border-bottom-color: var(--sf-rule);
+  color: var(--sf-meta);
+  font: 600 9px/1.4 var(--tl-font-mono);
+  /* `font:` is a shorthand and resets `font-variant-numeric` to `normal`, so
+     the table-level declaration above does not reach this cell. Restated. */
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.shell-table tbody th { color: var(--sf-ink); font-size: 14px; font-weight: 600; }
+.shell-table tbody td { color: var(--sf-body); font-size: 13px; line-height: 1.55; }
+.shell-table [data-numeric] {
+  font-family: var(--tl-font-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+.shell-table tbody tr:last-child :is(th, td) { border-bottom: 0; }
+.shell-table tbody tr[data-reference] { background: var(--sf-raise); }
+
+/* ── Numbered run ─────────────────────────────────────────────────────────
+   Process steps read as one measured run. Every interior boundary is a master
+   boundary: three per row at 12 columns, two at 6, one at 4 — so the run
+   cannot walk off the grid at any breakpoint. */
+.shell-run {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  margin: 0;
+  margin-inline: 0;
+  padding-inline: 0;
+  border-inline-width: 0;
+  list-style: none;
+  border-top: var(--tl-rule-size) solid var(--sf-rule);
+}
+.shell-run > li {
+  display: grid;
+  grid-column: span 4;
+  align-content: start;
+  gap: var(--tl-s2);
+  border-bottom: var(--tl-rule-size) solid var(--sf-rule-soft);
+  border-left: var(--tl-rule-size) solid var(--sf-rule-soft);
+  padding: var(--tl-s4);
+}
+.shell-run > li:first-child { border-left-color: transparent; }
+.shell-run-no { color: var(--sf-accent); font: 500 10px/1 var(--tl-font-mono); letter-spacing: .12em; }
+.shell-run-title { color: var(--sf-ink); font-size: 14px; font-weight: 600; line-height: 1.35; }
+.shell-run-detail { color: var(--sf-body); font-size: 13px; line-height: 1.55; }
+.shell-run-action { padding-top: var(--tl-s3); }
+
+@supports not (grid-template-columns: subgrid) {
+  .shell-run { grid-template-columns: repeat(var(--tl-subgrid-cols, var(--tl-cols)), minmax(0, 1fr)); }
+}
+
+@media (max-width: 1180px) {
+  .shell-run > li { grid-column: span 3; }
+}
+
+@media (max-width: 767px) {
+  .shell-run > li { grid-column: 1 / -1; border-left-color: transparent; }
+}
+
+/* ── Tag row ──────────────────────────────────────────────────────────────
+   Hairline boxes, not `rounded-full` pills: a pill is a status chip and none
+   of these carry a status. */
+.shell-tags { display: flex; flex-wrap: wrap; gap: var(--tl-s2); margin: 0; padding: 0; list-style: none; }
+.shell-tags > li {
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  padding: 6px var(--tl-s3);
+  color: var(--sf-body);
+  font: 500 11px/1.4 var(--tl-font-mono);
+  letter-spacing: .04em;
+}
+
+/* ── Image plate ──────────────────────────────────────────────────────────
+   Blocker I4's structural fix. The frame's only children are the image and
+   four corner ticks, so no caption at any viewport can be clipped by it.
+   Overscan is symmetric and in PIXELS (60px each way), which is what makes
+   the ±60px parallax range in `ServiceDetail.tsx` cover the frame at BOTH
+   ends of the travel — the hero this replaces translated a `h-full` image
+   120px downward inside an `overflow:hidden` box and exposed the box. */
+.shell-plate { margin: 0; }
+.shell-plate-frame {
+  position: relative;
+  height: clamp(200px, 33vw, 420px);
+  overflow: hidden;
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  background: var(--sf-field);
+}
+.shell-plate-frame > img,
+.shell-plate-frame > video {
+  position: absolute;
+  inset: -60px 0;
+  width: 100%;
+  height: calc(100% + 120px);
+  object-fit: cover;
+}
+.shell-plate-tick {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 0 solid var(--tl-white);
+  opacity: .6;
+  pointer-events: none;
+}
+.shell-plate-tick[data-corner="tl"] { top: 8px; left: 8px; border-top-width: 1px; border-left-width: 1px; }
+.shell-plate-tick[data-corner="tr"] { top: 8px; right: 8px; border-top-width: 1px; border-right-width: 1px; }
+.shell-plate-tick[data-corner="bl"] { bottom: 8px; left: 8px; border-bottom-width: 1px; border-left-width: 1px; }
+.shell-plate-tick[data-corner="br"] { bottom: 8px; right: 8px; border-bottom-width: 1px; border-right-width: 1px; }
+.shell-plate > figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--tl-s2) var(--tl-s4);
+  padding-top: var(--tl-s2);
+}
+.shell-plate-no { color: var(--sf-accent); font: 600 9px/1.5 var(--tl-font-mono); letter-spacing: .18em; }
+.shell-plate-caption { color: var(--sf-meta); font: 500 11px/1.5 var(--tl-font-mono); letter-spacing: .02em; }
+
+/* ── Next step (RFQ continuation) ─────────────────────────────────────────*/
+.shell-next-body { align-items: start; padding-block: var(--tl-s8); }
+.shell-next-copy { grid-column: 1 / span 7; padding-right: var(--tl-s6); }
+.shell-next-copy h2 {
+  margin: var(--tl-s3) 0 0;
+  color: var(--sf-ink);
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: -.025em;
+}
+.shell-next-lede { max-width: 56ch; margin: var(--tl-s4) 0 0; color: var(--sf-body); font-size: 15px; line-height: 1.65; }
+.shell-next-actions { display: flex; flex-wrap: wrap; gap: var(--tl-s3); margin-top: var(--tl-s6); }
+.shell-next-detail { grid-column: 9 / -1; }
+
+@media (max-width: 1180px) {
+  .shell-next-copy { grid-column: 1 / -1; padding-right: 0; }
+  .shell-next-detail { grid-column: 1 / -1; margin-top: var(--tl-s6); }
+}
+
+/* ── Form fields ──────────────────────────────────────────────────────────
+   `/iletisim` is the first shell surface with real inputs, and Phase 09 owns
+   the RFQ form next, so the field lives here rather than inside a page. */
+.shell-form { display: grid; gap: var(--tl-s5); }
+.shell-form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--tl-s4); }
+.shell-field { display: grid; gap: var(--tl-s2); min-width: 0; }
+.shell-field > label {
+  color: var(--sf-meta);
+  font: 600 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+/* THE BORDER IS THE WHOLE CONTROL. The fill measures 1.04:1 against the ground
+   it sits on, so nothing but this line tells a reader an input is here — which
+   is exactly the case WCAG 1.4.11 is written for, and why it takes
+   `--sf-control-rule` rather than the decorative `--sf-rule` it used to. */
+.shell-field :is(input, select, textarea) {
+  width: 100%;
+  min-height: 44px;
+  border: var(--tl-rule-size) solid var(--sf-control-rule);
+  border-radius: var(--tl-radius);
+  padding: var(--tl-s3) var(--tl-s4);
+  color: var(--sf-ink);
+  background: var(--sf-field);
+  font: 400 14px/1.5 var(--tl-font-sans);
+}
+.shell-field textarea { min-height: 112px; resize: vertical; }
+.shell-field :is(input, select, textarea):focus-visible {
+  border-color: var(--sf-ink);
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.shell-field ::placeholder { color: var(--sf-faint); opacity: 1; }
+.shell-field-hint { color: var(--sf-meta); font: 500 11px/1.6 var(--tl-font-mono); }
+
+/* The live region is always in the DOM, empty and zero-height until it has
+   something to say: an `aria-live` region inserted at the same moment as its
+   message is frequently not announced at all. */
+.shell-form-error:not(:empty) {
+  border-left: 2px solid var(--sf-danger);
+  padding-left: var(--tl-s3);
+  color: var(--sf-ink);
+  font: 500 13px/1.5 var(--tl-font-sans);
+}
+.shell-form-error { margin: 0; }
+
+/* ── CAD drop field (Phase 09) ────────────────────────────────────────────
+   THE ONE THING THE COMPOSITION GENUINELY LACKED. `/iletisim` established the
+   text field, the select and the textarea; nothing in the system described a
+   FILE control, and `/teklif-al` — the site's primary conversion surface — is
+   built around one. So it is here, next to the other field shapes, rather
+   than as page CSS.
+
+   THE ACCESSIBILITY DEFECT IT FIXES. The old drop area was a `<div>` with an
+   `onClick` that forwarded to a `display:none` input: not focusable, not in
+   the tab order, no role, no accessible name. Keyboard and screen-reader
+   users could not attach a file at all, which on this page means they could
+   not request a quote. Here the real `<input type="file">` is in the tab
+   order and carries the accessible name; it is merely moved out of sight,
+   `clip-path` rather than `display:none`, because a hidden input is not
+   focusable. Its `:focus-visible` ring is drawn on the label next to it, so
+   the visible focus indicator and the focused element are the same object as
+   far as the reader is concerned.
+
+   Not dashed, not tinted, no radius: a hairline box on the field ground, the
+   same one `.shell-field` inputs sit on. */
+.shell-dropzone { position: relative; display: grid; gap: var(--tl-s3); }
+.shell-dropzone > input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+.shell-dropzone-area {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--tl-s2);
+  min-height: 168px;
+  padding: var(--tl-s5) var(--tl-s4);
+  /* The visible half of the file control: it carries the click target, the
+     drop target and the focus ring, and its 168px extent is drawn by this
+     border alone. A control boundary, not a frame. */
+  border: var(--tl-rule-size) solid var(--sf-control-rule);
+  border-radius: var(--tl-radius);
+  background: var(--sf-field);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color var(--tl-dur-micro) var(--tl-ease-out),
+    background-color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-dropzone-area:hover { border-color: var(--sf-ink); background: var(--sf-hover); }
+.shell-dropzone > input[type="file"]:focus-visible + .shell-dropzone-area {
+  border-color: var(--sf-ink);
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.shell-dropzone[data-dragging] .shell-dropzone-area {
+  border-color: var(--sf-ink);
+  background: var(--sf-hover);
+}
+.shell-dropzone-title { color: var(--sf-ink); font-size: 15px; font-weight: 600; line-height: 1.4; }
+.shell-dropzone-hint {
+  color: var(--sf-meta);
+  font: 500 11px/1.6 var(--tl-font-mono);
+  letter-spacing: .04em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-dropzone-area { transition-duration: .01ms; }
+}
+
+@media (max-width: 767px) {
+  .shell-form-row { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ── Filter bar (materials register) ──────────────────────────────────────*/
+.shell-filter { display: flex; flex-wrap: wrap; align-items: end; gap: var(--tl-s4); }
+.shell-filter .shell-field { flex: 0 1 auto; min-width: 168px; }
+.shell-filter-search { flex: 1 1 260px; }
+
+/* Segmented family selector — hairline segments, never a pill group. */
+.shell-segments { display: flex; flex-wrap: wrap; gap: 0; margin: 0; padding: 0; list-style: none; }
+.shell-segments > li { margin: 0 -1px -1px 0; }
+.shell-segment {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: var(--tl-s2);
+  /* Unpressed segments have a transparent fill and are told apart from each
+     other and from body copy only by these edges. The PRESSED segment already
+     passes on its own fill (16.32:1, measured) and keeps `--sf-invert`. */
+  border: var(--tl-rule-size) solid var(--sf-control-rule);
+  border-radius: var(--tl-radius);
+  padding-inline: var(--tl-s4);
+  color: var(--sf-body);
+  background: transparent;
+  font: 500 11px/1 var(--tl-font-mono);
+  letter-spacing: .08em;
+  cursor: pointer;
+  transition:
+    color var(--tl-dur-micro) var(--tl-ease-out),
+    background-color var(--tl-dur-micro) var(--tl-ease-out),
+    border-color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-segment:hover { color: var(--sf-ink); background: var(--sf-hover); }
+.shell-segment[aria-pressed="true"] {
+  position: relative;
+  z-index: 1;
+  color: var(--sf-on-invert);
+  border-color: var(--sf-invert);
+  background: var(--sf-invert);
+}
+.shell-segment-code { font-weight: 700; letter-spacing: .12em; }
+
+/* ── Five-step gauge ──────────────────────────────────────────────────────
+   Replaces a `rounded-full` progress bar. Discrete segments, because the
+   underlying value IS discrete (1–5); a continuous bar implied a resolution
+   the data does not have. */
+.shell-gauge { display: inline-flex; align-items: center; gap: 3px; vertical-align: middle; }
+.shell-gauge > span { width: 8px; height: 10px; border: var(--tl-rule-size) solid var(--sf-rule); }
+.shell-gauge > span[data-on] { border-color: var(--sf-accent); background: var(--sf-accent); }
+
+/* ── FAQ ──────────────────────────────────────────────────────────────────
+   Native `<details>`, not the shadcn accordion. Three reasons, in order of
+   weight: it works with JavaScript unavailable and before hydration; its
+   open/closed state is expressed by the element itself, so there is nothing to
+   keep in sync with `aria-expanded`; and the accordion's own styling is
+   written against the shadcn light theme, which is the palette this phase is
+   removing from these routes. The marker is drawn from the datum tick the rest
+   of the system uses rather than a chevron glyph. */
+.shell-faq { border-top: var(--tl-rule-size) solid var(--sf-rule); }
+.shell-faq-item { border-bottom: var(--tl-rule-size) solid var(--sf-rule); }
+.shell-faq-item > summary {
+  display: flex;
+  align-items: center;
+  gap: var(--tl-s4);
+  min-height: 56px;
+  padding: var(--tl-s3) var(--tl-s4);
+  color: var(--sf-ink);
+  font-size: clamp(15px, 1.2vw, 17px);
+  font-weight: 600;
+  line-height: 1.35;
+  cursor: pointer;
+  list-style: none;
+}
+.shell-faq-item > summary::-webkit-details-marker { display: none; }
+.shell-faq-item > summary::before {
+  content: "";
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-top: var(--tl-rule-size) solid var(--sf-accent);
+  border-left: var(--tl-rule-size) solid var(--sf-accent);
+  transform: rotate(135deg);
+  transform-origin: center;
+  transition: transform var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-faq-item[open] > summary::before { transform: rotate(225deg); }
+.shell-faq-item > summary:hover { background: var(--sf-hover); }
+.shell-faq-answer { padding: 0 var(--tl-s4) var(--tl-s5) calc(var(--tl-s4) + 12px + var(--tl-s4)); }
+.shell-faq-answer > p { max-width: 72ch; margin: 0; color: var(--sf-body); font-size: 14px; line-height: 1.65; }
+
+/* The answer's own page. A register entry that came from somewhere should say
+   where, and the link is the way back to the full technical text. */
+.shell-faq-source { margin-top: var(--tl-s3); }
+.shell-faq-source a {
+  color: var(--sf-meta);
+  font: 500 10px/1.6 var(--tl-font-mono);
+  letter-spacing: .1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-bottom: var(--tl-rule-size) solid var(--sf-rule);
+}
+.shell-faq-source a:hover { color: var(--sf-ink); border-bottom-color: var(--sf-ink); }
+
+/* Group heading in the browsing (unfiltered) register. It names the run of
+   `<details>` under it and is a real heading, not a styled label.
+
+   No top margin: the groups are grid children of `.shell-doc-main`, whose
+   `row-gap` already separates them. A margin here is added to that gap, not
+   instead of it — measured at 64 + 48 = 112px on `/sss` before this. */
+.shell-faq-group {
+  margin: 0 0 var(--tl-s3);
+  color: var(--sf-accent);
+  font: 600 10px/1.4 var(--tl-font-mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-faq-item > summary::before { transition-duration: .01ms; }
+}
+
+@media (max-width: 767px) {
+  .shell-faq-answer { padding-left: var(--tl-s4); }
+}
+
+/* ── Materials register: sticky scope ─────────────────────────────────────
+   `position: sticky` is resolved against the element's CONTAINING BLOCK, and
+   for a grid item that is its own one-row grid area — so a sticky bar placed
+   as a grid child never travels. The bar and the register therefore share one
+   BLOCK container, which is the shape `e2e/malzemeler-sticky.spec.ts` measures:
+   the bar travels the register's height and releases before the footer. Do not
+   turn this into a grid; the spec is what will notice. */
+.shell-register-scope { position: relative; }
+.shell-register-scope > * + * { margin-top: var(--tl-s6); }
+
+.shell-sticky-filter {
+  position: sticky;
+  top: calc(var(--gnav-h) + var(--shell-safe-top, 0px));
+  padding-block: var(--tl-s4);
+  border-bottom: var(--tl-rule-size) solid var(--sf-rule);
+  /* Opaque by necessity: table rows scroll underneath it. */
+  background: var(--sf-ground);
+}
+
+.shell-compare { display: grid; justify-items: start; gap: var(--tl-s4); }
+
+/* ── Materials register: selection, disclosure row, detail panel ──────────*/
+.shell-check {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--sf-accent);
+  cursor: pointer;
+}
+.shell-check:disabled { cursor: not-allowed; opacity: .4; }
+
+.shell-row-toggle {
+  min-height: 32px;
+  border: var(--tl-rule-size) solid var(--sf-control-rule);
+  border-radius: var(--tl-radius);
+  padding-inline: var(--tl-s3);
+  color: var(--sf-body);
+  background: transparent;
+  font: 600 9px/1 var(--tl-font-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.shell-row-toggle:hover { color: var(--sf-ink); border-color: var(--sf-ink); }
+
+.shell-disclosure-panel {
+  border-top: var(--tl-rule-size) solid var(--sf-rule-soft);
+  padding: var(--tl-s5) var(--tl-s4);
+  background: var(--sf-raise);
+}
+
+.shell-detail { display: grid; gap: var(--tl-s5); }
+.shell-detail-lede { max-width: 72ch; margin: 0; color: var(--sf-ink); font-size: 15px; line-height: 1.6; }
+.shell-detail-figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--tl-s4);
+  margin: 0;
+}
+.shell-detail-figures dt {
+  color: var(--sf-meta);
+  font: 600 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.shell-detail-figures dd { margin: var(--tl-s1) 0 0; color: var(--sf-ink); font: 500 14px/1.4 var(--tl-font-mono); }
+.shell-detail-lists { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--tl-s5); }
+.shell-detail-list { display: grid; gap: 6px; margin: var(--tl-s2) 0 0; padding: 0; list-style: none; }
+.shell-detail-list > li { color: var(--sf-body); font-size: 13px; line-height: 1.5; }
+.shell-detail-list > li::before { content: "— "; color: var(--sf-faint); }
+
+@media (max-width: 767px) {
+  /* The value is not lost — it is in the disclosure panel one tap away — and
+     `display:none` takes the cell out of the accessibility tree with the
+     layout, so a screen reader is not read a column that is not there. */
+  .shell-table [data-col="secondary"] { display: none; }
+  .shell-detail-lists { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PHASE 08 — DOCUMENT SURFACES
+
+   Legal clauses, journal articles, the quality dossier and the capability
+   profiles. Every rule below paints from the `--sf-*` roles, so the same
+   markup is correct on the graphite field and inside a paper evidence band
+   without a second stylesheet.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Numbered document section ────────────────────────────────────────────
+   THE NUMBER IS IN FLOW, ABOVE THE HEADING, AT EVERY WIDTH.
+
+   A first version hung it in the left margin at ≥1181px with
+   `left: calc(-1 * (--tl-s7 + --tl-s2))`. Measured at 1280 on `/kvkk` and on
+   an article: −56px puts it in the RAIL GUTTER, which is where the band index
+   (`02 / METİN`) already lives — so the sheet showed two unrelated numbering
+   systems in the same 40px column, the section number nearly touching the band
+   caption, and the number ~35px away from the heading it belongs to. One
+   gutter, one numbering.
+
+   Vertical rhythm between sections is the CONTAINER's `row-gap`
+   (`.shell-doc-main`, `--tl-s8`), not a margin here. The first version added
+   `margin-top: --tl-s7` on top of that row-gap, which is additive: 64 + 48 =
+   112px between clauses, measured on `/kvkk` and `/sss`. A component that sets
+   its own outer spacing inside a grid container is fighting the container. */
+.shell-doc-section {
+  border-top: var(--tl-rule-size) solid var(--sf-rule);
+  padding-top: var(--tl-s5);
+}
+.shell-doc-section-no {
+  display: block;
+  margin-bottom: var(--tl-s3);
+  color: var(--sf-accent);
+  font: 500 10px/1 var(--tl-font-mono);
+  letter-spacing: .18em;
+}
+.shell-doc-section > h2 {
+  margin: 0;
+  color: var(--sf-ink);
+  font-size: clamp(19px, 1.5vw, 23px);
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -.012em;
+  text-wrap: balance;
+}
+.shell-doc-section-body { margin-top: var(--tl-s4); }
+/* `:target` is the citation landing state: a clause linked to from the
+   contents index, or from somebody else's e-mail, says so for a moment. */
+.shell-doc-section:target { border-top-color: var(--sf-ink); }
+.shell-doc-section:target > .shell-doc-section-no { color: var(--sf-ink); }
+
+/* A table inside a document section: the caption keeps the section's rhythm,
+   and the whole figure sits on the section's own measure rather than the
+   prose measure, because a table's width is set by its columns. */
+.shell-doc-table { margin-top: var(--tl-s5); }
+
+/* ── Contents ─────────────────────────────────────────────────────────────*/
+.shell-contents { border-top: var(--tl-rule-size) solid var(--sf-rule); padding-top: var(--tl-s4); }
+.shell-contents small { color: var(--sf-faint); font-size: 10px; font-weight: 500; }
+.shell-contents .shell-action { margin-top: var(--tl-s3); }
+
+/* ── Journal lead: the article's own section headings, on the index ───────
+   Same register as `.shell-contents` because it is the same object — an index
+   of anchors — but these anchors are on ANOTHER route, so the rows are router
+   links and the block carries the lead's own rhythm. */
+.shell-lead-sections { margin: 0; padding: 0; list-style: none; border-top: var(--tl-rule-size) solid var(--sf-rule); }
+.shell-lead-sections > li { border-bottom: var(--tl-rule-size) solid var(--sf-rule-soft); }
+.shell-lead-sections a {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--tl-s3);
+  min-height: 44px;
+  padding-block: var(--tl-s2);
+  color: var(--sf-body);
+  font-size: 14px;
+  line-height: 1.45;
+  text-decoration: none;
+  transition: color .25s ease;
+}
+.shell-lead-sections a > span:first-child {
+  color: var(--sf-accent);
+  font: 500 10px/1.6 var(--tl-font-mono);
+  letter-spacing: .1em;
+}
+.shell-lead-sections a:hover { color: var(--sf-ink); }
+
+/* The lead's headline is a link; it must not look like body copy with an
+   underline, and it must not lose the title block's type. */
+.shell-title-block h2 > a { color: inherit; text-decoration: none; }
+.shell-title-block h2 > a:hover { color: var(--sf-accent); }
+.shell-contents .shell-eyebrow { margin: 0 0 var(--tl-s3); }
+.shell-contents ol { margin: 0; padding: 0; list-style: none; }
+.shell-contents li + li { border-top: var(--tl-rule-size) solid var(--sf-rule-soft); }
+.shell-contents a {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--tl-s3);
+  min-height: 40px;
+  padding-block: var(--tl-s2);
+  color: var(--sf-body);
+  font-size: 13px;
+  line-height: 1.45;
+  text-decoration: none;
+  transition: color .25s ease;
+}
+.shell-contents a > span:first-child {
+  color: var(--sf-accent);
+  font: 500 10px/1.6 var(--tl-font-mono);
+  letter-spacing: .1em;
+}
+.shell-contents a:hover { color: var(--sf-ink); }
+
+/* ── Notice ───────────────────────────────────────────────────────────────
+   A rule on the leading edge, never a tinted card. `--sf-danger` is the same
+   red `.shell-form-error` uses, so a field-level error and a block-level one
+   are visibly the same object — and because it is the ROLE and not the raw
+   `--tl-stamp`, that stays true on graphite, on paper, and inside a paper
+   band nested in a graphite root. Keying it off the root instead
+   (`[data-shell-surface="graphite"] { --tl-stamp: … }`) cannot reach that
+   third case: the band inherits the graphite red and the label would measure
+   2.23:1 on `--tl-paper` — one serious violation traded for another. */
+.shell-notice {
+  border-left: 2px solid var(--sf-rule);
+  padding: var(--tl-s3) 0 var(--tl-s3) var(--tl-s4);
+}
+.shell-notice[data-tone="error"] { border-left-color: var(--sf-danger); }
+.shell-notice[data-tone="caution"] { border-left-color: var(--sf-accent); }
+.shell-notice-label {
+  margin: 0;
+  color: var(--sf-meta);
+  font: 600 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+/* The only SMALL TEXT painted with stamp red, which is why the ground matters
+   here and nowhere else it is used: 9px/600 is not large text, so the floor is
+   4.5:1, not 3:1. */
+.shell-notice[data-tone="error"] .shell-notice-label { color: var(--sf-danger); }
+.shell-notice-title {
+  margin: var(--tl-s2) 0 0;
+  color: var(--sf-ink);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.shell-notice-body {
+  margin-top: var(--tl-s2);
+  max-width: 68ch;
+  color: var(--sf-body);
+  font-size: 13px;
+  line-height: 1.6;
+}
+.shell-notice-body > p { margin: 0; }
+.shell-notice-body > p + p { margin-top: var(--tl-s2); }
+.shell-notice-actions { margin-top: var(--tl-s3); }
+
+/* The route-error status readout. Same face and rhythm as the 404 meta row,
+   because they are the same kind of message. */
+.shell-state-reason {
+  margin: 0;
+  color: var(--sf-faint);
+  font: 500 10px/1.6 var(--tl-font-mono);
+  letter-spacing: .12em;
+}
+
+/* ── The auth family (Phase 09b-1) ────────────────────────────────────────
+   `/giris`, `/sifremi-unuttum` and `/reset-password` were the last three
+   public routes still in the pre-overhaul language: 93, 94 and 94 legacy-teal
+   nodes inside `<main>` and not one shell primitive between them
+   (`reports/09b1/design-membership-before.json`). Everything below is the
+   MINIMUM the shell genuinely lacked; the fields, the actions, the notices,
+   the eyebrow and the hints are all reused unchanged from above.
+
+   WHY THERE IS ANY AUTH CSS AT ALL. Nothing in the system described a
+   FULL-BLEED TWO-COLUMN page. Every other public route is a stack of bands on
+   the master grid, and a credential step is not that: it is one column of
+   controls, held at a readable measure, beside a column that says where the
+   reader has arrived. `.shell-auth .shell-sheet` (line 195) already dropped
+   the sheet's side rules for exactly this composition; this block is the rest
+   of it.
+
+   NO CARD, NO RADIUS, NO SHADOW, NO TINT. The split is carried by one
+   hairline and one ground change — `--sf-ground` against the band ground —
+   which is the same device the surface bands use.
+
+   THE ASIDE IS SECOND IN THE DOM AND FIRST ON THE SCREEN. `grid-column`
+   places it left while the form stays first in source order, so the reader
+   reaches the controls before the marketing column in both the tab order and
+   the accessibility tree, and the page's `<h1>` precedes the aside's `<h2>`
+   instead of following it. */
+.shell-auth .shell-main { display: block; }
+
+.shell-auth-split {
+  display: grid;
+  grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+  min-height: 100vh;
+}
+
+.shell-auth-panel {
+  grid-column: 2;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  padding: var(--tl-s8) var(--tl-s6);
+  min-width: 0;
+}
+
+.shell-auth-body { width: 100%; max-width: 420px; display: grid; gap: var(--tl-s5); }
+
+.shell-auth-aside {
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  align-content: center;
+  padding: var(--tl-s8) var(--tl-s7);
+  border-right: var(--tl-rule-size) solid var(--sf-rule);
+  background: var(--sf-ground);
+}
+
+.shell-auth-aside-body { display: grid; gap: var(--tl-s4); max-width: 38ch; }
+
+/* The wordmark, as a block and a label — the header's own device, not a logo
+   lockup invented for this page. */
+.shell-auth-mark { display: flex; align-items: center; gap: var(--tl-s3); }
+.shell-auth-mark-block {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  color: var(--sf-ink);
+  font: 700 14px/1 var(--tl-font-mono);
+  letter-spacing: .08em;
+}
+.shell-auth-mark-name { display: grid; gap: 2px; }
+.shell-auth-mark-name > b { color: var(--sf-ink); font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+.shell-auth-mark-name > small {
+  color: var(--sf-meta);
+  font: 500 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.shell-auth-aside h2 {
+  margin: var(--tl-s4) 0 0;
+  color: var(--sf-ink);
+  font-size: clamp(24px, 2.2vw, 32px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -.02em;
+}
+.shell-auth-aside-lede { margin: 0; color: var(--sf-body); font-size: 14px; line-height: 1.65; }
+
+/* The panel register: what the portal actually contains, one row per section
+   of `/musteri-paneli`, on hairlines. Not a tick list — a tick beside a
+   sentence reads as a promise kept, and these are section names. */
+.shell-auth-list { margin: var(--tl-s2) 0 0; padding: 0; list-style: none; display: grid; }
+.shell-auth-list > li {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  gap: var(--tl-s3);
+  align-items: baseline;
+  padding: var(--tl-s3) 0;
+  border-top: var(--tl-rule-size) solid var(--sf-rule-soft);
+}
+.shell-auth-list > li:last-child { border-bottom: var(--tl-rule-size) solid var(--sf-rule-soft); }
+.shell-auth-list-no { color: var(--sf-accent); font: 500 10px/1.6 var(--tl-font-mono); letter-spacing: .12em; }
+.shell-auth-list-label { color: var(--sf-body); font-size: 13px; line-height: 1.5; }
+
+/* The way out of the flow. `.shell-action--quiet` with the arrow reversed:
+   an arrow that points forward on a link that goes back is worse than none. */
+.shell-auth-back { justify-self: start; }
+.shell-auth-back-mark {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  stroke-width: 1.8;
+  transition: transform var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-auth-back:hover .shell-auth-back-mark { transform: translateX(-3px); }
+@media (prefers-reduced-motion: reduce) {
+  .shell-auth-back-mark { transition-duration: .01ms; }
+}
+
+/* The form column's own furniture. */
+.shell-auth-title { margin: 0; color: var(--sf-ink); font-size: clamp(26px, 2.6vw, 34px); font-weight: 700; line-height: 1.1; letter-spacing: -.02em; }
+.shell-auth-lede { margin: var(--tl-s3) 0 0; max-width: 46ch; color: var(--sf-body); font-size: 14px; line-height: 1.65; }
+.shell-auth-form { display: grid; gap: var(--tl-s4); }
+
+/* The mobile wordmark. The aside is a desktop column; below 1024 the reader
+   gets the mark and nothing else, which is what the page did before. */
+.shell-auth-compact-mark { display: none; }
+
+/* Social sign-in: two hairline boxes, the same shape as `.shell-action--ghost`
+   with room for a brand mark. The marks themselves keep their own colours —
+   a Google "G" recoloured to the site's palette is not the Google mark. */
+.shell-auth-social { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--tl-s3); }
+.shell-auth-social > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--tl-s3);
+  min-height: 48px;
+  padding: 0 var(--tl-s4);
+  border: var(--tl-rule-size) solid var(--sf-control-rule);
+  color: var(--sf-ink);
+  background: transparent;
+  font: 500 13px/1 var(--tl-font-sans);
+  cursor: pointer;
+  transition: border-color var(--tl-dur-micro) var(--tl-ease-out), background-color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.shell-auth-social > button:hover:not(:disabled) { border-color: var(--sf-ink); background: var(--sf-hover); }
+.shell-auth-social > button:disabled { opacity: .55; cursor: default; }
+.shell-auth-social svg { width: 18px; height: 18px; flex: none; }
+
+/* The "or by e-mail" rule. One hairline with the label sitting on it — the
+   same construction as `.shell-divider`, with a word instead of a reading. */
+.shell-auth-rule {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--tl-s3);
+}
+.shell-auth-rule::before,
+.shell-auth-rule::after { content: ""; height: var(--tl-rule-size); background: var(--sf-rule); }
+.shell-auth-rule > span {
+  color: var(--sf-meta);
+  font: 600 9px/1 var(--tl-font-mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+/* Password field: the reveal toggle sits inside the CONTROL's box — not the
+   field's, which also holds the label row, the hint and the error message and
+   would put the toggle somewhere different depending on whether the field is
+   currently in error. The control keeps its 44px target; the toggle gets its
+   own, inset so the two do not overlap. */
+.shell-auth-control { position: relative; display: grid; min-width: 0; }
+.shell-auth-control > input { padding-right: 54px; }
+.shell-auth-reveal {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  border: 0;
+  color: var(--sf-meta);
+  background: transparent;
+  cursor: pointer;
+}
+.shell-auth-reveal:hover { color: var(--sf-ink); }
+.shell-auth-reveal:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
+
+/* The label row that carries "forgot password" beside the field's own label.
+
+   IT HAS TO RESTATE THE LABEL TREATMENT, and that is worth a line. The shell's
+   field label rule is `.shell-field > label` — a CHILD combinator — so putting
+   the label inside this row silently drops it out of the system: measured, the
+   labels rendered at the browser default instead of the 9px uppercase mono
+   every other form on the site uses, which is a design-language break that
+   type-checks, lints and passes every test. The declarations below are the
+   same ones, and they are here rather than in `.shell-field > label` because
+   loosening that combinator to a descendant selector would silently restyle
+   any label any page nests for any other reason. */
+.shell-auth-label-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--tl-s3); }
+.shell-auth-label-row > label {
+  color: var(--sf-meta);
+  font: 600 9px/1.4 var(--tl-font-mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.shell-auth-captcha { display: grid; justify-items: start; min-height: 78px; }
+.shell-auth-foot { display: grid; gap: var(--tl-s3); }
+.shell-auth-legal { margin: 0; max-width: 46ch; color: var(--sf-faint); font-size: 12px; line-height: 1.6; }
+.shell-auth-legal a { color: var(--sf-meta); text-decoration: underline; text-underline-offset: 2px; }
+.shell-auth-legal a:hover { color: var(--sf-ink); }
+
+@media (max-width: 1023px) {
+  .shell-auth-split { grid-template-columns: minmax(0, 1fr); min-height: 100vh; }
+  /* The aside is display:none rather than visually hidden: it is a marketing
+     column, not content the form depends on, and leaving it in the
+     accessibility tree would put a second heading in front of a reader who
+     cannot see the column it belongs to. */
+  .shell-auth-aside { display: none; }
+  .shell-auth-panel { grid-column: 1; padding: var(--tl-s7) var(--tl-s5); align-content: start; }
+  .shell-auth-compact-mark { display: flex; }
+}
+
+@media (max-width: 420px) {
+  .shell-auth-panel { padding: var(--tl-s6) var(--tl-s4); }
+  .shell-auth-social { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ── PHASE 10-4 — PROSE ROLES WRAP `pretty` ───────────────────────────────
+   `text-wrap: pretty` asks the line breaker to look at the last lines of a
+   paragraph and avoid a short orphan; it is inherited, so it is declared on
+   the prose CONTAINERS and reaches every paragraph, list item and definition
+   inside them. Browsers that do not know the value drop the declaration and
+   keep `wrap` — progressive by construction, no fallback needed. Headings
+   are `balance` at the root (`src/index.css`) and win by being nearer. */
+.shell-prose,
+.shell-lede,
+.shell-title-block > p,
+.shell-faq-answer,
+.shell-index-desc,
+.shell-run-detail,
+.shell-detail-lede,
+.shell-detail-list,
+.shell-table-note,
+.shell-next-lede,
+.shell-notice-body,
+.shell-state-detail,
+.shell-evidence-body,
+.shell-doc-section-body,
+.shell-note,
+.shell-auth-legal { text-wrap: pretty; }
+
+/* ── PHASE 10-4 — THE NUMERIC REGISTER ────────────────────────────────────
+   Every surface where figures sit in a column or change under the eye takes
+   tabular numerals, declared ONCE here rather than element by element:
+
+     tables          `.shell-table table` (+ `thead th`, restated above)
+     measurement     `.shell-meta-row dd`, `.shell-detail-figures dd`
+     counters        title / sheet / step / plate / section / list numbers
+     in-place        `.shell-field-hint` (the "0/4" selection count),
+                     `.shell-index-meta > span` and `.shell-tags > li` (dates,
+                     read-time, sizes on register rows)
+
+   MEASURED (reports/10/probes/font-faces-before.md, "Numeric surfaces"): the
+   two proportional-figure faces behave differently. Space Grotesk ships
+   proportional figures by default — "1111" 66.9px against "0000" 102.6px at
+   40px — and `tnum` sets both to 99.2px. IBM Plex Mono is monospaced, so its
+   figures are tabular whatever the property says; it is listed here so the
+   register is complete and the DOM probe reads one value everywhere.
+
+   WHY THIS SITS AT THE END OF THE FILE. Nearly every counter above is set
+   with the `font:` shorthand, which resets `font-variant-numeric`; the
+   grouped rule ties those selectors on specificity and wins on order. A
+   `:is()` list would tie the same way; the position is the mechanism. */
+.shell-title-index,
+.shell-index-no,
+.shell-index-meta > span,
+.shell-run-no,
+.shell-plate-no,
+.shell-segment-code,
+.shell-doc-section-no,
+.shell-auth-list-no,
+.shell-contents a > span:first-child,
+.shell-lead-sections a > span:first-child,
+.shell-detail-figures dd,
+.shell-field-hint,
+.shell-tags > li,
+.shell-rail,
+.tl-band-index,
+.tl-meta-run span { font-variant-numeric: tabular-nums; }
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-action,
+  .shell-action-mark,
+  .shell-index-row,
+  .shell-index-mark,
+  .shell-contents a,
+  .shell-auth-social > button,
+  .shell-segment { transition-duration: .01ms; }
+}

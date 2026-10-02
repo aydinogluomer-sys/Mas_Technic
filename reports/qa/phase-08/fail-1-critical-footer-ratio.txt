@@ -1,0 +1,39 @@
+﻿node.exe : (node:34324) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:34324) [D...oks()` instead.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:29492) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:29492) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:29492) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [critical-1280] › e2e\technical-landing.spec.ts:178:3 › technical editorial landing phase 1 › keeps reference proportions for headline, project cards and NEXUS rows (2.5s)
+
+
+  1) [critical-1280] › e2e\technical-landing.spec.ts:178:3 › technical editorial landing phase 1 › keeps reference proportions for headline, project cards and NEXUS rows 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBeLessThan[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: < [32m0.26[39m
+    Received:   [31m0.2671875[39m
+
+      269 |     //     0.26 (headroom over the measured value is 11%, tighter than the
+      270 |     //     0.17 bound's own 2% headroom over 0.1666 was).
+    > 271 |     expect(footer.bantOrani).toBeLessThan(0.26);
+          |                              ^
+      272 |     // Nav sütunu marka sütunu genişlerse kaymamalı.
+      273 |     //
+      274 |     // Phase 02: beklenen aralık ~%41'den ~%37'ye taşındı çünkü ALTINDAKİ
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p08\e2e\technical-landing.spec.ts:271:30
+
+    Error Context: test-results\technical-landing-technica-0b5b3-roject-cards-and-NEXUS-rows-critical-1280\error-context.md
+
+  1 failed
+    [critical-1280] › e2e\technical-landing.spec.ts:178:3 › technical editorial landing phase 1 › keeps reference proportions for headline, project cards and NEXUS rows 

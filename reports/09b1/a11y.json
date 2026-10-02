@@ -1,0 +1,3689 @@
+{
+  "base": "http://localhost:4300",
+  "viewports": {
+    "375": {
+      "giris": {
+        "url": "/giris",
+        "textNodes": 17,
+        "textMin": 5.89,
+        "textLowest": [
+          {
+            "tag": "p",
+            "cls": "shell-auth-legal",
+            "text": "Devam ederek ’nı ve ’ni kabul etmiş olursunu",
+            "size": 12,
+            "weight": 400,
+            "large": false,
+            "fg": "rgb(134, 142, 139)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 5.89,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "small",
+            "cls": "",
+            "text": "Müşteri Portalı",
+            "size": 9,
+            "weight": 500,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "",
+            "text": "veya e-posta ile",
+            "size": 9,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "label",
+            "cls": "",
+            "text": "E-posta",
+            "size": 9,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "label",
+            "cls": "",
+            "text": "Şifre",
+            "size": 9,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "a",
+            "cls": "",
+            "text": "Gizlilik Politikası",
+            "size": 12,
+            "weight": 400,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          }
+        ],
+        "textFails": [],
+        "nonTextNodes": 24,
+        "nonTextMin": 2.16,
+        "nonTextLowest": [
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          }
+        ],
+        "nonTextFails": [
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          }
+        ],
+        "controls": [
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "Ana sayfa",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 24
+          },
+          {
+            "tag": "button",
+            "type": "button",
+            "id": null,
+            "accessibleName": "Google",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 48
+          },
+          {
+            "tag": "button",
+            "type": "button",
+            "id": null,
+            "accessibleName": "LinkedIn",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 48
+          },
+          {
+            "tag": "input",
+            "type": "email",
+            "id": "auth-email",
+            "accessibleName": "E-posta",
+            "hasName": true,
+            "labelFor": true,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": "email",
+            "minTouch": 47
+          },
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "Şifremi unuttum",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 24
+          },
+          {
+            "tag": "input",
+            "type": "password",
+            "id": "auth-password",
+            "accessibleName": "Şifre",
+            "hasName": true,
+            "labelFor": true,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": "current-password",
+            "minTouch": 47
+          },
+          {
+            "tag": "button",
+            "type": "button",
+            "id": null,
+            "accessibleName": "Şifreyi göster",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 45
+          },
+          {
+            "tag": "button",
+            "type": "submit",
+            "id": null,
+            "accessibleName": "Giriş yap",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 44
+          },
+          {
+            "tag": "button",
+            "type": "button",
+            "id": null,
+            "accessibleName": "Hesabınız yok mu? Kayıt olun",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 24
+          },
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "Gizlilik Politikası",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 16
+          },
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "KVKK Aydınlatma Metni",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 35
+          }
+        ],
+        "unnamedControls": [],
+        "keyboardStops": [
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Ana içeriğe geç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(26, 26, 46)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Ana sayfa",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(201, 182, 153)",
+            "boxShadow": null,
+            "borderColor": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Google",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(243, 240, 232)",
+            "boxShadow": null,
+            "borderColor": "rgba(227, 231, 225, 0.28)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "LinkedIn",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(243, 240, 232)",
+            "boxShadow": null,
+            "borderColor": "rgba(227, 231, 225, 0.28)"
+          },
+          {
+            "tag": "input",
+            "id": "auth-email",
+            "name": "",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(243, 240, 232)",
+            "boxShadow": null,
+            "borderColor": "rgba(227, 231, 225, 0.28)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Şifremi unuttum",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(201, 182, 153)",
+            "boxShadow": null,
+            "borderColor": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "tag": "input",
+            "id": "auth-password",
+            "name": "",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(243, 240, 232)",
+            "boxShadow": null,
+            "borderColor": "rgba(227, 231, 225, 0.28)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Şifreyi göster",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(164, 171, 168)",
+            "boxShadow": null,
+            "borderColor": "rgb(164, 171, 168)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Giriş yap",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(7, 11, 13)",
+            "boxShadow": null,
+            "borderColor": "rgb(238, 233, 222)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Hesabınız yok mu? Kayıt olun",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(201, 182, 153)",
+            "boxShadow": null,
+            "borderColor": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Gizlilik Politikası",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(164, 171, 168)",
+            "boxShadow": null,
+            "borderColor": "rgb(217, 222, 226)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "KVKK Aydınlatma Metni",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(164, 171, 168)",
+            "boxShadow": null,
+            "borderColor": "rgb(217, 222, 226)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Sohbet aç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(10, 125, 138)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          }
+        ],
+        "invisibleFocus": [],
+        "axeViolations": []
+      },
+      "forgot": {
+        "url": "/sifremi-unuttum",
+        "textNodes": 8,
+        "textMin": 8.44,
+        "textLowest": [
+          {
+            "tag": "small",
+            "cls": "",
+            "text": "Müşteri Portalı",
+            "size": 9,
+            "weight": 500,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "label",
+            "cls": "",
+            "text": "E-posta",
+            "size": 9,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "",
+            "text": "Giriş sayfası",
+            "size": 11,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(201, 182, 153)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 10.01,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "p",
+            "cls": "shell-auth-lede",
+            "text": "Hesabınızın e-posta adresini girin, şifre sı",
+            "size": 14,
+            "weight": 400,
+            "large": false,
+            "fg": "rgb(193, 197, 194)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 11.32,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "",
+            "text": "Sıfırlama bağlantısı iste",
+            "size": 11,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(7, 11, 13)",
+            "bg": "rgb(238, 233, 222)",
+            "ratio": 16.32,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "shell-auth-mark-block",
+            "text": "MT",
+            "size": 14,
+            "weight": 700,
+            "large": false,
+            "fg": "rgb(243, 240, 232)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 17.35,
+            "required": 4.5,
+            "pass": true
+          }
+        ],
+        "textFails": [],
+        "nonTextNodes": 12,
+        "nonTextMin": 2.16,
+        "nonTextLowest": [
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          }
+        ],
+        "nonTextFails": [
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          }
+        ],
+        "controls": [
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "Giriş sayfası",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 24
+          },
+          {
+            "tag": "input",
+            "type": "email",
+            "id": "auth-email",
+            "accessibleName": "E-posta",
+            "hasName": true,
+            "labelFor": true,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": "email",
+            "minTouch": 47
+          },
+          {
+            "tag": "button",
+            "type": "submit",
+            "id": null,
+            "accessibleName": "Sıfırlama bağlantısı iste",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 44
+          }
+        ],
+        "unnamedControls": [],
+        "keyboardStops": [
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Ana içeriğe geç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(10, 125, 138)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Giriş sayfası",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(201, 182, 153)",
+            "boxShadow": null,
+            "borderColor": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "tag": "input",
+            "id": "auth-email",
+            "name": "",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(243, 240, 232)",
+            "boxShadow": null,
+            "borderColor": "rgba(227, 231, 225, 0.28)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Sıfırlama bağlantısı iste",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(7, 11, 13)",
+            "boxShadow": null,
+            "borderColor": "rgb(238, 233, 222)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Sohbet aç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(10, 125, 138)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          }
+        ],
+        "invisibleFocus": [],
+        "axeViolations": []
+      },
+      "reset-absent": {
+        "url": "/reset-password",
+        "textNodes": 9,
+        "textMin": 8.44,
+        "textLowest": [
+          {
+            "tag": "small",
+            "cls": "",
+            "text": "Müşteri Portalı",
+            "size": 9,
+            "weight": 500,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "p",
+            "cls": "shell-notice-label",
+            "text": "BAĞLANTI GEREKLİ",
+            "size": 9,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "",
+            "text": "Giriş sayfası",
+            "size": 11,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(201, 182, 153)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 10.01,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "p",
+            "cls": "",
+            "text": "Adrese doğrudan geldiyseniz sıfırlanacak bir",
+            "size": 13,
+            "weight": 400,
+            "large": false,
+            "fg": "rgb(193, 197, 194)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 11.32,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "",
+            "text": "Sıfırlama bağlantısı iste",
+            "size": 11,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(7, 11, 13)",
+            "bg": "rgb(238, 233, 222)",
+            "ratio": 16.32,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "shell-auth-mark-block",
+            "text": "MT",
+            "size": 14,
+            "weight": 700,
+            "large": false,
+            "fg": "rgb(243, 240, 232)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 17.35,
+            "required": 4.5,
+            "pass": true
+          }
+        ],
+        "textFails": [],
+        "nonTextNodes": 9,
+        "nonTextMin": 2.16,
+        "nonTextLowest": [
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-notice",
+            "side": "Left",
+            "colour": "rgb(201, 182, 153)",
+            "flattened": "rgb(201, 182, 153)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 10.01,
+            "pass": true
+          },
+          {
+            "cls": "shell-action shell-action--primary shell-action-",
+            "side": "Top",
+            "colour": "rgb(238, 233, 222)",
+            "flattened": "rgb(238, 233, 222)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 16.32,
+            "pass": true
+          },
+          {
+            "cls": "shell-action shell-action--primary shell-action-",
+            "side": "Right",
+            "colour": "rgb(238, 233, 222)",
+            "flattened": "rgb(238, 233, 222)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 16.32,
+            "pass": true
+          },
+          {
+            "cls": "shell-action shell-action--primary shell-action-",
+            "side": "Bottom",
+            "colour": "rgb(238, 233, 222)",
+            "flattened": "rgb(238, 233, 222)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 16.32,
+            "pass": true
+          }
+        ],
+        "nonTextFails": [
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          }
+        ],
+        "controls": [
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "Giriş sayfası",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 24
+          },
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "Sıfırlama bağlantısı iste",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 44
+          }
+        ],
+        "unnamedControls": [],
+        "keyboardStops": [
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Ana içeriğe geç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(10, 125, 138)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Giriş sayfası",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(201, 182, 153)",
+            "boxShadow": null,
+            "borderColor": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Sıfırlama bağlantısı iste",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(7, 11, 13)",
+            "boxShadow": null,
+            "borderColor": "rgb(238, 233, 222)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Sohbet aç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(10, 125, 138)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          }
+        ],
+        "invisibleFocus": [],
+        "axeViolations": []
+      },
+      "reset-form": {
+        "url": "/reset-password#token_hash=probe-no-network",
+        "textNodes": 9,
+        "textMin": 8.44,
+        "textLowest": [
+          {
+            "tag": "small",
+            "cls": "",
+            "text": "Müşteri Portalı",
+            "size": 9,
+            "weight": 500,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "label",
+            "cls": "",
+            "text": "Yeni şifre",
+            "size": 9,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "label",
+            "cls": "",
+            "text": "Yeni şifre (tekrar)",
+            "size": 9,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "",
+            "text": "Giriş sayfası",
+            "size": 11,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(201, 182, 153)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 10.01,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "p",
+            "cls": "shell-auth-lede",
+            "text": "Hesabınız için yeni bir şifre belirleyin. Bu",
+            "size": 14,
+            "weight": 400,
+            "large": false,
+            "fg": "rgb(193, 197, 194)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 11.32,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "",
+            "text": "Şifreyi güncelle",
+            "size": 11,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(7, 11, 13)",
+            "bg": "rgb(238, 233, 222)",
+            "ratio": 16.32,
+            "required": 4.5,
+            "pass": true
+          }
+        ],
+        "textFails": [],
+        "nonTextNodes": 16,
+        "nonTextMin": 2.16,
+        "nonTextLowest": [
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          }
+        ],
+        "nonTextFails": [
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          }
+        ],
+        "controls": [
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "Giriş sayfası",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 24
+          },
+          {
+            "tag": "input",
+            "type": "password",
+            "id": "auth-password",
+            "accessibleName": "Yeni şifre",
+            "hasName": true,
+            "labelFor": true,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": "new-password",
+            "minTouch": 47
+          },
+          {
+            "tag": "button",
+            "type": "button",
+            "id": null,
+            "accessibleName": "Şifreyi göster",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 45
+          },
+          {
+            "tag": "input",
+            "type": "password",
+            "id": "auth-confirmPassword",
+            "accessibleName": "Yeni şifre (tekrar)",
+            "hasName": true,
+            "labelFor": true,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": "new-password",
+            "minTouch": 47
+          },
+          {
+            "tag": "button",
+            "type": "button",
+            "id": null,
+            "accessibleName": "Şifreyi göster",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 45
+          },
+          {
+            "tag": "button",
+            "type": "submit",
+            "id": null,
+            "accessibleName": "Şifreyi güncelle",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 44
+          }
+        ],
+        "unnamedControls": [],
+        "keyboardStops": [
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Ana içeriğe geç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(26, 26, 46)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Giriş sayfası",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(201, 182, 153)",
+            "boxShadow": null,
+            "borderColor": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "tag": "input",
+            "id": "auth-password",
+            "name": "",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(243, 240, 232)",
+            "boxShadow": null,
+            "borderColor": "rgba(227, 231, 225, 0.28)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Şifreyi göster",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(164, 171, 168)",
+            "boxShadow": null,
+            "borderColor": "rgb(164, 171, 168)"
+          },
+          {
+            "tag": "input",
+            "id": "auth-confirmPassword",
+            "name": "",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(243, 240, 232)",
+            "boxShadow": null,
+            "borderColor": "rgba(227, 231, 225, 0.28)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Şifreyi göster",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(164, 171, 168)",
+            "boxShadow": null,
+            "borderColor": "rgb(164, 171, 168)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Şifreyi güncelle",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(7, 11, 13)",
+            "boxShadow": null,
+            "borderColor": "rgb(238, 233, 222)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Sohbet aç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(10, 125, 138)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          }
+        ],
+        "invisibleFocus": [],
+        "axeViolations": []
+      },
+      "__traffic": {
+        "blocked": 7,
+        "allowed": 0
+      }
+    },
+    "1280": {
+      "giris": {
+        "url": "/giris",
+        "textNodes": 34,
+        "textMin": 5.89,
+        "textLowest": [
+          {
+            "tag": "p",
+            "cls": "shell-auth-legal",
+            "text": "Devam ederek ’nı ve ’ni kabul etmiş olursunu",
+            "size": 12,
+            "weight": 400,
+            "large": false,
+            "fg": "rgb(134, 142, 139)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 5.89,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "",
+            "text": "veya e-posta ile",
+            "size": 9,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "label",
+            "cls": "",
+            "text": "E-posta",
+            "size": 9,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "label",
+            "cls": "",
+            "text": "Şifre",
+            "size": 9,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "a",
+            "cls": "",
+            "text": "Gizlilik Politikası",
+            "size": 12,
+            "weight": 400,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "a",
+            "cls": "",
+            "text": "KVKK Aydınlatma Metni",
+            "size": 12,
+            "weight": 400,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          }
+        ],
+        "textFails": [],
+        "nonTextNodes": 33,
+        "nonTextMin": 1.4,
+        "nonTextLowest": [
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          }
+        ],
+        "nonTextFails": [
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-aside",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          }
+        ],
+        "controls": [
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "Ana sayfa",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 24
+          },
+          {
+            "tag": "button",
+            "type": "button",
+            "id": null,
+            "accessibleName": "Google",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 48
+          },
+          {
+            "tag": "button",
+            "type": "button",
+            "id": null,
+            "accessibleName": "LinkedIn",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 48
+          },
+          {
+            "tag": "input",
+            "type": "email",
+            "id": "auth-email",
+            "accessibleName": "E-posta",
+            "hasName": true,
+            "labelFor": true,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": "email",
+            "minTouch": 47
+          },
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "Şifremi unuttum",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 24
+          },
+          {
+            "tag": "input",
+            "type": "password",
+            "id": "auth-password",
+            "accessibleName": "Şifre",
+            "hasName": true,
+            "labelFor": true,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": "current-password",
+            "minTouch": 47
+          },
+          {
+            "tag": "button",
+            "type": "button",
+            "id": null,
+            "accessibleName": "Şifreyi göster",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 45
+          },
+          {
+            "tag": "button",
+            "type": "submit",
+            "id": null,
+            "accessibleName": "Giriş yap",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 44
+          },
+          {
+            "tag": "button",
+            "type": "button",
+            "id": null,
+            "accessibleName": "Hesabınız yok mu? Kayıt olun",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 24
+          },
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "Gizlilik Politikası",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 16
+          },
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "KVKK Aydınlatma Metni",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 35
+          }
+        ],
+        "unnamedControls": [],
+        "keyboardStops": [
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Ana içeriğe geç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(26, 26, 46)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Ana sayfa",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(201, 182, 153)",
+            "boxShadow": null,
+            "borderColor": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Google",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(243, 240, 232)",
+            "boxShadow": null,
+            "borderColor": "rgba(227, 231, 225, 0.28)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "LinkedIn",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(243, 240, 232)",
+            "boxShadow": null,
+            "borderColor": "rgba(227, 231, 225, 0.28)"
+          },
+          {
+            "tag": "input",
+            "id": "auth-email",
+            "name": "",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(243, 240, 232)",
+            "boxShadow": null,
+            "borderColor": "rgba(227, 231, 225, 0.28)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Şifremi unuttum",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(201, 182, 153)",
+            "boxShadow": null,
+            "borderColor": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "tag": "input",
+            "id": "auth-password",
+            "name": "",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(243, 240, 232)",
+            "boxShadow": null,
+            "borderColor": "rgba(227, 231, 225, 0.28)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Şifreyi göster",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(164, 171, 168)",
+            "boxShadow": null,
+            "borderColor": "rgb(164, 171, 168)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Giriş yap",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(7, 11, 13)",
+            "boxShadow": null,
+            "borderColor": "rgb(238, 233, 222)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Hesabınız yok mu? Kayıt olun",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(201, 182, 153)",
+            "boxShadow": null,
+            "borderColor": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Gizlilik Politikası",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(164, 171, 168)",
+            "boxShadow": null,
+            "borderColor": "rgb(217, 222, 226)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "KVKK Aydınlatma Metni",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(164, 171, 168)",
+            "boxShadow": null,
+            "borderColor": "rgb(217, 222, 226)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Sohbet aç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(10, 125, 138)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          }
+        ],
+        "invisibleFocus": [],
+        "axeViolations": []
+      },
+      "forgot": {
+        "url": "/sifremi-unuttum",
+        "textNodes": 25,
+        "textMin": 8.44,
+        "textLowest": [
+          {
+            "tag": "label",
+            "cls": "",
+            "text": "E-posta",
+            "size": 9,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "small",
+            "cls": "",
+            "text": "İzmir",
+            "size": 9,
+            "weight": 500,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(3, 5, 6)",
+            "ratio": 8.72,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "",
+            "text": "Giriş sayfası",
+            "size": 11,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(201, 182, 153)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 10.01,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "p",
+            "cls": "shell-eyebrow",
+            "text": "MÜŞTERİ PORTALI",
+            "size": 10,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(201, 182, 153)",
+            "bg": "rgb(3, 5, 6)",
+            "ratio": 10.34,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "shell-auth-list-no",
+            "text": "01",
+            "size": 10,
+            "weight": 500,
+            "large": false,
+            "fg": "rgb(201, 182, 153)",
+            "bg": "rgb(3, 5, 6)",
+            "ratio": 10.34,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "shell-auth-list-no",
+            "text": "02",
+            "size": 10,
+            "weight": 500,
+            "large": false,
+            "fg": "rgb(201, 182, 153)",
+            "bg": "rgb(3, 5, 6)",
+            "ratio": 10.34,
+            "required": 4.5,
+            "pass": true
+          }
+        ],
+        "textFails": [],
+        "nonTextNodes": 21,
+        "nonTextMin": 1.4,
+        "nonTextLowest": [
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          }
+        ],
+        "nonTextFails": [
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-aside",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          }
+        ],
+        "controls": [
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "Giriş sayfası",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 24
+          },
+          {
+            "tag": "input",
+            "type": "email",
+            "id": "auth-email",
+            "accessibleName": "E-posta",
+            "hasName": true,
+            "labelFor": true,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": "email",
+            "minTouch": 47
+          },
+          {
+            "tag": "button",
+            "type": "submit",
+            "id": null,
+            "accessibleName": "Sıfırlama bağlantısı iste",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 44
+          }
+        ],
+        "unnamedControls": [],
+        "keyboardStops": [
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Ana içeriğe geç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(26, 26, 46)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Giriş sayfası",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(201, 182, 153)",
+            "boxShadow": null,
+            "borderColor": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "tag": "input",
+            "id": "auth-email",
+            "name": "",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(243, 240, 232)",
+            "boxShadow": null,
+            "borderColor": "rgba(227, 231, 225, 0.28)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Sıfırlama bağlantısı iste",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(7, 11, 13)",
+            "boxShadow": null,
+            "borderColor": "rgb(238, 233, 222)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Sohbet aç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(10, 125, 138)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          }
+        ],
+        "invisibleFocus": [],
+        "axeViolations": []
+      },
+      "reset-absent": {
+        "url": "/reset-password",
+        "textNodes": 26,
+        "textMin": 8.44,
+        "textLowest": [
+          {
+            "tag": "p",
+            "cls": "shell-notice-label",
+            "text": "BAĞLANTI GEREKLİ",
+            "size": 9,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "small",
+            "cls": "",
+            "text": "İzmir",
+            "size": 9,
+            "weight": 500,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(3, 5, 6)",
+            "ratio": 8.72,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "",
+            "text": "Giriş sayfası",
+            "size": 11,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(201, 182, 153)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 10.01,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "p",
+            "cls": "shell-eyebrow",
+            "text": "MÜŞTERİ PORTALI",
+            "size": 10,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(201, 182, 153)",
+            "bg": "rgb(3, 5, 6)",
+            "ratio": 10.34,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "shell-auth-list-no",
+            "text": "01",
+            "size": 10,
+            "weight": 500,
+            "large": false,
+            "fg": "rgb(201, 182, 153)",
+            "bg": "rgb(3, 5, 6)",
+            "ratio": 10.34,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "shell-auth-list-no",
+            "text": "02",
+            "size": 10,
+            "weight": 500,
+            "large": false,
+            "fg": "rgb(201, 182, 153)",
+            "bg": "rgb(3, 5, 6)",
+            "ratio": 10.34,
+            "required": 4.5,
+            "pass": true
+          }
+        ],
+        "textFails": [],
+        "nonTextNodes": 18,
+        "nonTextMin": 1.4,
+        "nonTextLowest": [
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          }
+        ],
+        "nonTextFails": [
+          {
+            "cls": "shell-auth-aside",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          }
+        ],
+        "controls": [
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "Giriş sayfası",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 24
+          },
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "Sıfırlama bağlantısı iste",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 44
+          }
+        ],
+        "unnamedControls": [],
+        "keyboardStops": [
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Ana içeriğe geç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(26, 26, 46)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Giriş sayfası",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(201, 182, 153)",
+            "boxShadow": null,
+            "borderColor": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Sıfırlama bağlantısı iste",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(7, 11, 13)",
+            "boxShadow": null,
+            "borderColor": "rgb(238, 233, 222)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Sohbet aç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(10, 125, 138)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          }
+        ],
+        "invisibleFocus": [],
+        "axeViolations": []
+      },
+      "reset-form": {
+        "url": "/reset-password#token_hash=probe-no-network",
+        "textNodes": 26,
+        "textMin": 8.44,
+        "textLowest": [
+          {
+            "tag": "label",
+            "cls": "",
+            "text": "Yeni şifre",
+            "size": 9,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "label",
+            "cls": "",
+            "text": "Yeni şifre (tekrar)",
+            "size": 9,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 8.44,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "small",
+            "cls": "",
+            "text": "İzmir",
+            "size": 9,
+            "weight": 500,
+            "large": false,
+            "fg": "rgb(164, 171, 168)",
+            "bg": "rgb(3, 5, 6)",
+            "ratio": 8.72,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "",
+            "text": "Giriş sayfası",
+            "size": 11,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(201, 182, 153)",
+            "bg": "rgb(7, 11, 13)",
+            "ratio": 10.01,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "p",
+            "cls": "shell-eyebrow",
+            "text": "MÜŞTERİ PORTALI",
+            "size": 10,
+            "weight": 600,
+            "large": false,
+            "fg": "rgb(201, 182, 153)",
+            "bg": "rgb(3, 5, 6)",
+            "ratio": 10.34,
+            "required": 4.5,
+            "pass": true
+          },
+          {
+            "tag": "span",
+            "cls": "shell-auth-list-no",
+            "text": "01",
+            "size": 10,
+            "weight": 500,
+            "large": false,
+            "fg": "rgb(201, 182, 153)",
+            "bg": "rgb(3, 5, 6)",
+            "ratio": 10.34,
+            "required": 4.5,
+            "pass": true
+          }
+        ],
+        "textFails": [],
+        "nonTextNodes": 25,
+        "nonTextMin": 1.4,
+        "nonTextLowest": [
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          }
+        ],
+        "nonTextFails": [
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-aside",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(69, 73, 72)",
+            "over": "rgb(7, 11, 13)",
+            "ratio": 2.16,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Right",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "shell-auth-mark-block",
+            "side": "Left",
+            "colour": "rgba(227, 231, 225, 0.28)",
+            "flattened": "rgb(66, 68, 67)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 2.08,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Top",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          },
+          {
+            "cls": "",
+            "side": "Bottom",
+            "colour": "rgba(227, 231, 225, 0.16)",
+            "flattened": "rgb(39, 41, 41)",
+            "over": "rgb(3, 5, 6)",
+            "ratio": 1.4,
+            "pass": false
+          }
+        ],
+        "controls": [
+          {
+            "tag": "a",
+            "type": null,
+            "id": null,
+            "accessibleName": "Giriş sayfası",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 24
+          },
+          {
+            "tag": "input",
+            "type": "password",
+            "id": "auth-password",
+            "accessibleName": "Yeni şifre",
+            "hasName": true,
+            "labelFor": true,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": "new-password",
+            "minTouch": 47
+          },
+          {
+            "tag": "button",
+            "type": "button",
+            "id": null,
+            "accessibleName": "Şifreyi göster",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 45
+          },
+          {
+            "tag": "input",
+            "type": "password",
+            "id": "auth-confirmPassword",
+            "accessibleName": "Yeni şifre (tekrar)",
+            "hasName": true,
+            "labelFor": true,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": "new-password",
+            "minTouch": 47
+          },
+          {
+            "tag": "button",
+            "type": "button",
+            "id": null,
+            "accessibleName": "Şifreyi göster",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 45
+          },
+          {
+            "tag": "button",
+            "type": "submit",
+            "id": null,
+            "accessibleName": "Şifreyi güncelle",
+            "hasName": true,
+            "labelFor": false,
+            "describedBy": null,
+            "invalid": null,
+            "autoComplete": null,
+            "minTouch": 44
+          }
+        ],
+        "unnamedControls": [],
+        "keyboardStops": [
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Ana içeriğe geç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(26, 26, 46)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          },
+          {
+            "tag": "a",
+            "id": null,
+            "name": "Giriş sayfası",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(201, 182, 153)",
+            "boxShadow": null,
+            "borderColor": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "tag": "input",
+            "id": "auth-password",
+            "name": "",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(243, 240, 232)",
+            "boxShadow": null,
+            "borderColor": "rgba(227, 231, 225, 0.28)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Şifreyi göster",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(164, 171, 168)",
+            "boxShadow": null,
+            "borderColor": "rgb(164, 171, 168)"
+          },
+          {
+            "tag": "input",
+            "id": "auth-confirmPassword",
+            "name": "",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(243, 240, 232)",
+            "boxShadow": null,
+            "borderColor": "rgba(227, 231, 225, 0.28)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Şifreyi göster",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "3px",
+            "outlineColor": "rgb(164, 171, 168)",
+            "boxShadow": null,
+            "borderColor": "rgb(164, 171, 168)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Şifreyi güncelle",
+            "inMain": true,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(7, 11, 13)",
+            "boxShadow": null,
+            "borderColor": "rgb(238, 233, 222)"
+          },
+          {
+            "tag": "button",
+            "id": null,
+            "name": "Sohbet aç",
+            "inMain": false,
+            "outlineStyle": "solid",
+            "outlineWidth": "2px",
+            "outlineColor": "rgb(10, 125, 138)",
+            "boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0",
+            "borderColor": "rgb(217, 222, 226)"
+          }
+        ],
+        "invisibleFocus": [],
+        "axeViolations": []
+      },
+      "__traffic": {
+        "blocked": 7,
+        "allowed": 0
+      }
+    }
+  }
+}

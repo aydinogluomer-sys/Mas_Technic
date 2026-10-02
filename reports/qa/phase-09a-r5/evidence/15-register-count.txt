@@ -1,0 +1,86 @@
+# CLAIMS GATE
+# roots:    src/pages, src/components, src/data, src/content, src/hooks, src/utils, src/config, src/lib, src/routes, src/App.tsx, index.html, public
+# excluded: admin/, musteri/, AdminDashboard, AdminLogin, MusteriPaneli
+# scanned:  225 files, 28415 non-comment lines
+# controls: 280 (0 failed), of which 16 watch the 3 checks that are not rules
+
+PASS — 0 unverified claims across 31 rules, 280 controls green.
+# QA 09a-R5 — independent count of the 09b SOFTWARE-INVENTORY class
+# blankComments available for the live/comment split: yes
+
+every line naming CATIA / SolidWorks / NX in the scanned roots: 20
+
+  LIVE     src/components/landing/RestoredLandingSections.tsx:42
+           answer: "STEP, STP, IGES, Parasolid, SolidWorks ve teknik resim formatlarını değerlendirebiliriz. Tolerans, malzeme ve adet bilgisini eklemek inceleme
+  comment  src/data/chatFaqData.ts:8
+           * Elle yazılan liste SolidWorks, DXF, DWG ve PDF'i kabul ettiğimizi söylüyordu;
+  comment  src/data/servicePages.ts:60
+           "Parasolid, SolidWorks (.sldprt), CATIA (.catpart), NX (.prt) ve
+  comment  src/data/servicePages.ts:66
+           anahtar kelimeleri soru+cevap metninden üretiyor. Yani `catia`,
+  comment  src/data/servicePages.ts:67
+           `catpart`, `solidworks`, `sldprt` yazan ziyaretçi — yani tam olarak
+  comment  src/data/servicePages.ts:70
+           · `:1943` ("Desteklenen CAD: STEP, IGES, CATIA, NX, SW") aynı sınıf.
+  comment  src/data/servicePages.ts:163
+           gövde metninde yayımlıyordu ("STEP, IGES, SolidWorks, CATIA ve NX
+  comment  src/data/servicePages.ts:216
+           solidworks, catpart, catia, prt, nx, dwg, pdf) ve `validateCadFile()`
+  comment  src/data/servicePages.ts:219
+           anahtar kelimeleri bu metinden üretir, dolayısıyla `catia`, `catpart`,
+  comment  src/data/servicePages.ts:220
+           `solidworks`, `sldprt` yazan ziyaretçi artık DOĞRU cevaba düşer.
+  LIVE     src/data/servicePages.ts:224
+           answer: `Teklif akışındaki yükleyici şu uzantıları doğrular: ${CAD_UPLOAD_EXTENSIONS} — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD
+  LIVE     src/data/servicePages.ts:788
+           metaDescription: "CNC işleme, montaj, kaynak ve kontrol için özel fikstür tasarımı. ±0.01mm tekrarlanabilirlik. CATIA/SolidWorks ile 3D modelleme ve s
+  LIVE     src/data/servicePages.ts:793
+           "CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans analizi simülasyonu, 3D baskı veya hızlı imalat ile prototip üretimi ve üretim ortamında doğ
+  LIVE     src/data/servicePages.ts:811
+           "3D Modelleme (CATIA/SolidWorks)",
+  LIVE     src/data/servicePages.ts:818
+           "CATIA/SolidWorks ile profesyonel tasarım",
+  comment  src/data/servicePages.ts:1929
+           of ±0.0019 mm, and a 3DCS/CATIA tolerance-simulation service. §D records
+  comment  src/data/servicePages.ts:2070
+           ardından "CATIA, SolidWorks, NX" okunuyor ve okuyucu bunları tek bir
+  comment  src/data/servicePages.ts:2083
+           /* 09a-C3 — D1 ile aynı sınıf: "CATIA, NX, SW" hiçbiri kabul edilmiyor. */
+  LIVE     src/data/servicePages.ts:3318
+           "Proje yönetimi — konseptten üretime tüm süreçler tek çatı altında: fizibilite analizi, tasarım (SolidWorks, CATIA, NX), prototip üretimi, test ve doğ
+  LIVE     src/data/servicePages.ts:3332
+           { label: "CAD", value: "SolidWorks, CATIA, NX" },
+
+LIVE lines: 8
+
+## classification of the live lines
+  CAD-FORMAT class (a file the VISITOR sends, not software we operate): src/components/landing/RestoredLandingSections.tsx:42
+  CAD-FORMAT class (a file the VISITOR sends, not software we operate): src/data/servicePages.ts:224
+  SOFTWARE-INVENTORY class: src/data/servicePages.ts:788
+  SOFTWARE-INVENTORY class: src/data/servicePages.ts:793
+  SOFTWARE-INVENTORY class: src/data/servicePages.ts:811
+  SOFTWARE-INVENTORY class: src/data/servicePages.ts:818
+  SOFTWARE-INVENTORY class: src/data/servicePages.ts:3318
+  SOFTWARE-INVENTORY class: src/data/servicePages.ts:3332
+
+## MY COUNT: 6
+   src/data/servicePages.ts:788  src/data/servicePages.ts:793  src/data/servicePages.ts:811  src/data/servicePages.ts:818  src/data/servicePages.ts:3318  src/data/servicePages.ts:3332
+
+## the register, as committed
+   file:   src/data/servicePages.ts
+   marker: 09b-SOFTWARE-INVENTORY
+   sites:  6
+     occurs 1x  at :788  "CATIA/SolidWorks ile 3D modelleme ve simülasyon."
+     occurs 1x  at :793  "CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans ana"
+     occurs 1x  at :811  "\"3D Modelleme (CATIA/SolidWorks)\""
+     occurs 1x  at :818  "\"CATIA/SolidWorks ile profesyonel tasarım\""
+     occurs 1x  at :3318  "tasarım (SolidWorks, CATIA, NX)"
+     occurs 1x  at :3332  "{ label: \"CAD\", value: \"SolidWorks, CATIA, NX\" }"
+   checkDeferredClassRegister() problems: 0
+
+## do the register's resolved lines equal my counted sites?
+   register resolves to lines: 788, 793, 811, 818, 3318, 3332
+   my count is at lines:       788, 793, 811, 818, 3318, 3332
+   SAME SET: true
+(node:20848) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)

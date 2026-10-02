@@ -82,7 +82,7 @@ Deno.serve(async (req) => {
 
     // Parse RFQ data
     const body = await req.json();
-    const { id, customer, company, email, phone, service, material, quantity, notes, files, user_id } = body;
+    const { id, customer, company, email, phone, service, material, quantity, notes, files } = body;
 
     if (!id || typeof id !== "string" || id.length === 0) {
       return new Response(
@@ -123,6 +123,17 @@ Deno.serve(async (req) => {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    /* The owner of the request comes from the caller's JWT, never from the
+       body: `user_id` used to be read from the JSON and written with the
+       service role, so anyone could attach an RFQ to another customer's
+       portal. An anonymous caller (anon key, no session) yields null. */
+    let user_id: string | null = null;
+    const bearer = req.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
+    if (bearer) {
+      const { data: auth } = await supabase.auth.getUser(bearer);
+      user_id = auth?.user?.id ?? null;
+    }
 
     const { data, error } = await supabase.from("rfqs").insert({
       id,

@@ -1,0 +1,684 @@
+[
+ {
+  "viewport": "375",
+  "route": "/",
+  "label": "manifesto",
+  "currentSrc": "hero-tolerans-hassasiyet-portrait-640-CLhTHiAY.webp",
+  "natural": [
+   395,
+   664
+  ],
+  "attrs": [
+   "2400",
+   "1343"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   333,
+   664
+  ],
+  "picture": {
+   "display": "contents",
+   "sources": [
+    "(max-width: 767px)"
+   ]
+  }
+ },
+ {
+  "viewport": "375",
+  "route": "/",
+  "label": "sector-card-hydraulic",
+  "currentSrc": "industry-hydraulic-SQGcPZcZ.webp",
+  "natural": [
+   750,
+   750
+  ],
+  "attrs": [
+   "1200",
+   "1200"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   333,
+   333
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "375",
+  "route": "/kabiliyetler/makine-parkuru",
+  "label": "plate",
+  "currentSrc": "hero-cnc-640-C6iBN9kT.webp",
+  "natural": [
+   566,
+   318
+  ],
+  "attrs": [
+   "1260",
+   "708"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   331,
+   318
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "375",
+  "route": "/endustriyel/medikal",
+  "label": "plate (sector fallback)",
+  "currentSrc": "hero-seri-uretim-640-Cd1fA3uj.webp",
+  "natural": [
+   567,
+   317
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   331,
+   318
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "375",
+  "route": "/endustriyel/madencilik-ekipmanlari",
+  "label": "plate (sector fallback)",
+  "currentSrc": "hero-seri-uretim-640-Cd1fA3uj.webp",
+  "natural": [
+   567,
+   317
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   331,
+   318
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "375",
+  "route": "/hizmetler/mekanik-montaj",
+  "label": "plate",
+  "currentSrc": "hero-mekanik-montaj-960-DcE-nmLW.webp",
+  "natural": [
+   935,
+   317
+  ],
+  "attrs": [
+   "1400",
+   "476"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   331,
+   318
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "375",
+  "route": "/kabiliyetler/operasyonel-verimlilik",
+  "label": "plate",
+  "currentSrc": "hero-operasyonel-verimlilik-640-gaq2oej0.webp",
+  "natural": [
+   565,
+   317
+  ],
+  "attrs": [
+   "1020",
+   "574"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   331,
+   318
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "375",
+  "route": "/kabiliyetler/kalite-kontrol",
+  "label": "plate",
+  "currentSrc": "quality-control-960-DlFtl_8Z.webp",
+  "natural": [
+   746,
+   318
+  ],
+  "attrs": [
+   "1600",
+   "682"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   331,
+   318
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "375",
+  "route": "/kabiliyetler/tasarim-rehberi-dfm",
+  "label": "plate",
+  "currentSrc": "blog-dfm-640-DS1mDWwS.webp",
+  "natural": [
+   567,
+   317
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   331,
+   318
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "375",
+  "route": "/hizmetler/kimyasal-islemler",
+  "label": "plate",
+  "currentSrc": "hero-anodizasyon-640-PePShmSi.webp",
+  "natural": [
+   567,
+   317
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   331,
+   318
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "375",
+  "route": "/kabiliyetler/tolerans-hassasiyet",
+  "label": "plate (object-position)",
+  "currentSrc": "hero-tolerans-hassasiyet-640-BPIx5vtf.webp",
+  "natural": [
+   568,
+   317
+  ],
+  "attrs": [
+   "2400",
+   "1343"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "90% 50%",
+  "box": [
+   331,
+   318
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "375",
+  "route": "/endustriyel/havacilik-uzay",
+  "label": "plate (object-position)",
+  "currentSrc": "hero-havacilik-640-Bqwol9yo.webp",
+  "natural": [
+   567,
+   317
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "40% 50%",
+  "box": [
+   331,
+   318
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "375",
+  "route": "/hizmetler/kitting-paketleme",
+  "label": "plate (object-position)",
+  "currentSrc": "hero-kitting-paketleme-640-BkDN6Ohl.webp",
+  "natural": [
+   567,
+   317
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "0% 50%",
+  "box": [
+   331,
+   318
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "375",
+  "route": "/hizmetler/cnc-frezeleme",
+  "label": "plate (control, unchanged)",
+  "currentSrc": "hero-cnc-frezeleme-640-rIE7eQIt.webp",
+  "natural": [
+   567,
+   317
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   331,
+   318
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "375",
+  "route": "/blog/cnc-torna-frezeleme-farki",
+  "label": "blog plate",
+  "currentSrc": "hero-cnc-frezeleme-640-rIE7eQIt.webp",
+  "natural": [
+   567,
+   317
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   331,
+   318
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "375",
+  "route": "/blog/endustriyel-yuzey-islemleri-rehberi",
+  "label": "blog plate",
+  "currentSrc": "hero-yuzey-islemleri-640-Cb1VgRZp.webp",
+  "natural": [
+   567,
+   317
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   331,
+   318
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/",
+  "label": "manifesto",
+  "currentSrc": "hero-tolerans-hassasiyet-1600-BlYCWHmN.webp",
+  "natural": [
+   1214,
+   679
+  ],
+  "attrs": [
+   "2400",
+   "1343"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   1214,
+   584
+  ],
+  "picture": {
+   "display": "contents",
+   "sources": [
+    "(max-width: 767px)"
+   ]
+  }
+ },
+ {
+  "viewport": "1280",
+  "route": "/",
+  "label": "sector-card-hydraulic",
+  "currentSrc": "industry-hydraulic-SQGcPZcZ.webp",
+  "natural": [
+   750,
+   750
+  ],
+  "attrs": [
+   "1200",
+   "1200"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   304,
+   304
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/kabiliyetler/makine-parkuru",
+  "label": "plate",
+  "currentSrc": "hero-cnc-CktaRi9J.webp",
+  "natural": [
+   1212,
+   681
+  ],
+  "attrs": [
+   "1260",
+   "708"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   1212,
+   538
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/endustriyel/medikal",
+  "label": "plate (sector fallback)",
+  "currentSrc": "hero-seri-uretim-BfX-civG.webp",
+  "natural": [
+   1212,
+   678
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   1212,
+   538
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/endustriyel/madencilik-ekipmanlari",
+  "label": "plate (sector fallback)",
+  "currentSrc": "hero-seri-uretim-BfX-civG.webp",
+  "natural": [
+   1212,
+   678
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   1212,
+   538
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/hizmetler/mekanik-montaj",
+  "label": "plate",
+  "currentSrc": "hero-mekanik-montaj-DfbiLF_I.webp",
+  "natural": [
+   1582,
+   537
+  ],
+  "attrs": [
+   "1400",
+   "476"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   1212,
+   538
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/kabiliyetler/operasyonel-verimlilik",
+  "label": "plate",
+  "currentSrc": "hero-operasyonel-verimlilik-BBhClPOE.webp",
+  "natural": [
+   1212,
+   682
+  ],
+  "attrs": [
+   "1020",
+   "574"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   1212,
+   538
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/kabiliyetler/kalite-kontrol",
+  "label": "plate",
+  "currentSrc": "quality-control-C8RRRd9J.webp",
+  "natural": [
+   1262,
+   537
+  ],
+  "attrs": [
+   "1600",
+   "682"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   1212,
+   538
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/kabiliyetler/tasarim-rehberi-dfm",
+  "label": "plate",
+  "currentSrc": "blog-dfm-Cz4yiXpK.webp",
+  "natural": [
+   1212,
+   678
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   1212,
+   538
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/hizmetler/kimyasal-islemler",
+  "label": "plate",
+  "currentSrc": "hero-anodizasyon-DUx4NaUB.webp",
+  "natural": [
+   1212,
+   678
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   1212,
+   538
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/kabiliyetler/tolerans-hassasiyet",
+  "label": "plate (object-position)",
+  "currentSrc": "hero-tolerans-hassasiyet-1600-BlYCWHmN.webp",
+  "natural": [
+   1212,
+   678
+  ],
+  "attrs": [
+   "2400",
+   "1343"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "90% 50%",
+  "box": [
+   1212,
+   538
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/endustriyel/havacilik-uzay",
+  "label": "plate (object-position)",
+  "currentSrc": "hero-havacilik-L9vASlRo.webp",
+  "natural": [
+   1212,
+   678
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "40% 50%",
+  "box": [
+   1212,
+   538
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/hizmetler/kitting-paketleme",
+  "label": "plate (object-position)",
+  "currentSrc": "hero-kitting-paketleme-5S20It4j.webp",
+  "natural": [
+   1212,
+   678
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "0% 50%",
+  "box": [
+   1212,
+   538
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/hizmetler/cnc-frezeleme",
+  "label": "plate (control, unchanged)",
+  "currentSrc": "hero-cnc-frezeleme-HroBrnyJ.webp",
+  "natural": [
+   1212,
+   678
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   1212,
+   538
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/blog/cnc-torna-frezeleme-farki",
+  "label": "blog plate",
+  "currentSrc": "hero-cnc-frezeleme-HroBrnyJ.webp",
+  "natural": [
+   960,
+   538
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   807,
+   538
+  ],
+  "picture": null
+ },
+ {
+  "viewport": "1280",
+  "route": "/blog/endustriyel-yuzey-islemleri-rehberi",
+  "label": "blog plate",
+  "currentSrc": "hero-yuzey-islemleri-C65G5lOH.webp",
+  "natural": [
+   960,
+   538
+  ],
+  "attrs": [
+   "1600",
+   "896"
+  ],
+  "objectFit": "cover",
+  "objectPosition": "50% 50%",
+  "box": [
+   807,
+   538
+  ],
+  "picture": null
+ }
+]

@@ -1,0 +1,35 @@
+(node:28900) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 20 tests using 1 worker
+
+(node:27380) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   1 [mobile-390] › e2e\design-system-typography.spec.ts:209:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds (9.1s)
+  ✓   2 [mobile-390] › e2e\design-system-typography.spec.ts:230:3 › design system — one component, one typography › RED on the historical defect: reverting e224364 at runtime splits the label (3.0s)
+  ✓   3 [mobile-390] › e2e\design-system-typography.spec.ts:275:3 › design system — one component, one typography › RED on a defect it has never seen: one instance of any slot pushed off the system (1.6s)
+  ✓   4 [mobile-390] › e2e\design-system-typography.spec.ts:312:3 › design system — one component, one typography › a page that never arrives is reported as a delivery failure, not a split (24.3s)
+  ✓   5 [mobile-390] › e2e\design-system-typography.spec.ts:352:3 › design system — one component, one typography › only a band tone the stylesheet binds reaches the DOM (7.3s)
+(node:30164) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   6 [landscape-844] › e2e\design-system-typography.spec.ts:209:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds (9.2s)
+  ✓   7 [landscape-844] › e2e\design-system-typography.spec.ts:230:3 › design system — one component, one typography › RED on the historical defect: reverting e224364 at runtime splits the label (2.9s)
+  ✓   8 [landscape-844] › e2e\design-system-typography.spec.ts:275:3 › design system — one component, one typography › RED on a defect it has never seen: one instance of any slot pushed off the system (1.8s)
+  ✓   9 [landscape-844] › e2e\design-system-typography.spec.ts:312:3 › design system — one component, one typography › a page that never arrives is reported as a delivery failure, not a split (24.1s)
+  ✓  10 [landscape-844] › e2e\design-system-typography.spec.ts:352:3 › design system — one component, one typography › only a band tone the stylesheet binds reaches the DOM (7.1s)
+(node:22532) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  11 [desktop-1440-short] › e2e\design-system-typography.spec.ts:209:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds (9.0s)
+  ✓  12 [desktop-1440-short] › e2e\design-system-typography.spec.ts:230:3 › design system — one component, one typography › RED on the historical defect: reverting e224364 at runtime splits the label (3.5s)
+  ✓  13 [desktop-1440-short] › e2e\design-system-typography.spec.ts:275:3 › design system — one component, one typography › RED on a defect it has never seen: one instance of any slot pushed off the system (1.7s)
+  ✓  14 [desktop-1440-short] › e2e\design-system-typography.spec.ts:312:3 › design system — one component, one typography › a page that never arrives is reported as a delivery failure, not a split (23.9s)
+  ✓  15 [desktop-1440-short] › e2e\design-system-typography.spec.ts:352:3 › design system — one component, one typography › only a band tone the stylesheet binds reaches the DOM (8.6s)
+(node:28796) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  16 [desktop-1440] › e2e\design-system-typography.spec.ts:209:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds (10.6s)
+  ✓  17 [desktop-1440] › e2e\design-system-typography.spec.ts:230:3 › design system — one component, one typography › RED on the historical defect: reverting e224364 at runtime splits the label (3.9s)
+  ✓  18 [desktop-1440] › e2e\design-system-typography.spec.ts:275:3 › design system — one component, one typography › RED on a defect it has never seen: one instance of any slot pushed off the system (1.8s)
+  ✓  19 [desktop-1440] › e2e\design-system-typography.spec.ts:312:3 › design system — one component, one typography › a page that never arrives is reported as a delivery failure, not a split (25.2s)
+  ✓  20 [desktop-1440] › e2e\design-system-typography.spec.ts:352:3 › design system — one component, one typography › only a band tone the stylesheet binds reaches the DOM (8.7s)
+
+  20 passed (3.3m)

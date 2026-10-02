@@ -1,0 +1,91 @@
+(node:26580) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:28176) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  1 [desktop-1280] › e2e\design-system-typography.spec.ts:171:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds (10.9s)
+(node:21036) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  2 [desktop-1280] › e2e\design-system-typography.spec.ts:192:3 › design system — one component, one typography › RED on the historical defect: reverting e224364 at runtime splits the label (2.4s)
+(node:28352) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  3 [desktop-1280] › e2e\design-system-typography.spec.ts:237:3 › design system — one component, one typography › RED on a defect it has never seen: one instance of any slot pushed off the system (1.8s)
+  ✓  4 [desktop-1280] › e2e\design-system-typography.spec.ts:275:3 › design system — one component, one typography › only a band tone the stylesheet binds reaches the DOM (7.7s)
+
+
+  1) [desktop-1280] › e2e\design-system-typography.spec.ts:171:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds 
+
+    Error: a design-system component resolving more than one typography — see the note at the top of this file
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 3[39m
+
+    [32m- Array [][39m
+    [31m+ Array [[39m
+    [31m+   ".shell-field label  →  Space Grotesk / 16px / 400 / normal / normal / none (3x on /giris+/sifremi-unuttum, grounds graphite, e.g. \"E-posta\")   ||   IBM Plex Mono / 9px / 600 / normal / 1.44px / uppercase (12x on /iletisim+/malzemeler+/sss, grounds graphite+paper, e.g. \"Ad soyad *\")",[39m
+    [31m+ ][39m
+
+      182 |       splits(rows),
+      183 |       "a design-system component resolving more than one typography — see the note at the top of this file",
+    > 184 |     ).toEqual([]);
+          |       ^
+      185 |   });
+      186 |
+      187 |   /* ──────────────────────────────────────────────────────────────────────
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p09a\e2e\design-system-typography.spec.ts:184:7
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\design-system-typography-d-5bee9-s-across-routes-and-grounds-desktop-1280\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\design-system-typography-d-5bee9-s-across-routes-and-grounds-desktop-1280\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\design-system-typography-d-5bee9-s-across-routes-and-grounds-desktop-1280\error-context.md
+
+  2) [desktop-1280] › e2e\design-system-typography.spec.ts:192:3 › design system — one component, one typography › RED on the historical defect: reverting e224364 at runtime splits the label 
+
+    Error: the tree must be green before it can be broken
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 3[39m
+
+    [32m- Array [][39m
+    [31m+ Array [[39m
+    [31m+   ".shell-field label  →  Space Grotesk / 16px / 400 / normal / normal / none (2x on /giris, grounds graphite, e.g. \"E-posta\")   ||   IBM Plex Mono / 9px / 600 / normal / 1.44px / uppercase (8x on /iletisim, grounds graphite, e.g. \"Ad soyad *\")",[39m
+    [31m+ ][39m
+
+      202 |     ];
+      203 |     expect(splits(healthy.filter((r) => r.key === ".shell-field label")), "the tree must be green before it can be broken")
+    > 204 |       .toEqual([]);
+          |        ^
+      205 |
+      206 |     await gotoAndSettle(page, "/giris");
+      207 |     /* THE ANCHOR IS ASSERTED, NOT ASSUMED. If a later phase renames
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p09a\e2e\design-system-typography.spec.ts:204:8
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\design-system-typography-d-7f4d4-at-runtime-splits-the-label-desktop-1280\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\design-system-typography-d-7f4d4-at-runtime-splits-the-label-desktop-1280\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\design-system-typography-d-7f4d4-at-runtime-splits-the-label-desktop-1280\error-context.md
+
+  2 failed
+    [desktop-1280] › e2e\design-system-typography.spec.ts:171:3 › design system — one component, one typography › no design-system component resolves two typographies across routes and grounds 
+    [desktop-1280] › e2e\design-system-typography.spec.ts:192:3 › design system — one component, one typography › RED on the historical defect: reverting e224364 at runtime splits the label 
+  2 passed (2.5m)

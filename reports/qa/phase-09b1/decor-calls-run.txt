@@ -1,0 +1,25 @@
+guard canary: BLOCKED:Failed to fetch
+
+── `.shell-faq-source a` — called a link underline ──
+  .shell-faq-source a  (/sss, paper band in a graphite root)
+    accessible name       "Kalite Kontrol sayfası"
+    rendered as text      NO  ""
+    other identifying art 0 svg/img child(ren)
+    border sides drawn    Bottom   colour rgb(217, 222, 226)
+    element 143x13  inside p.shell-faq-source 543.4x23.1  (border spans the parent's full height: false)
+    TEXT contrast         6.32:1 at 10px/500 on rgb(238, 233, 222) — 1.4.3 needs 4.5:1 → PASS
+
+── `a.tl-brand` — called a header grid divider ──
+  a.tl-brand  (/iletisim, header band)
+    accessible name       "MAS Technic ana sayfa"
+    rendered as text      YES  "MAS TECHNIC PRECISION CNC"
+    other identifying art 0 svg/img child(ren)
+    border sides drawn    Right   colour rgba(227, 231, 225, 0.28)
+    element 303.5x71  inside div.tl-header 1214x71  (border spans the parent's full height: true)
+    TEXT contrast         17.35:1 at 16px/400 on rgba(7, 11, 13, 0.98) — 1.4.3 needs 4.5:1 → PASS
+
+── the border removed at runtime: what identification remains? ──
+  a.tl-brand               border:0 → text visible true "MAS TECHNIC PRECISION CNC"   text-decoration none   graphics 0
+  .shell-faq-source a      border:0 → text visible false ""   text-decoration none   graphics 0
+
+traffic: blocked 5, ALLOWED 0

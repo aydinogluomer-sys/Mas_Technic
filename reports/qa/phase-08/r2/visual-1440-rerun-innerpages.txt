@@ -1,0 +1,17 @@
+(node:39804) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+(node:37332) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  1 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › about opens and closes in the landing's language (4.1s)
+  ✓  2 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › contact opens and closes in the landing's language (3.2s)
+  ✓  3 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › materials opens and closes in the landing's language (4.3s)
+  ✓  4 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › material-family opens and closes in the landing's language (2.8s)
+  ✓  5 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-category opens and closes in the landing's language (3.2s)
+  ✓  6 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › service-detail opens and closes in the landing's language (2.9s)
+  ✓  7 [visual-1440] › e2e\visual\inner-pages-golden.spec.ts:95:5 › inner-page golden screenshots › sector-detail opens and closes in the landing's language (3.0s)
+Assertion failed: !(handle->flags & UV_HANDLE_CLOSING), file src\win\async.c, line 94
+
+  7 passed (26.7s)

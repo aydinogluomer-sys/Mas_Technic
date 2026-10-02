@@ -1,0 +1,319 @@
+{
+  "375": {
+    "/cerez-politikasi": {
+      "owner": "PHASE 08",
+      "viewportW": 375,
+      "docOverflow": 0,
+      "regions": [
+        {
+          "label": "Yerel depo kayıtları",
+          "wrapW": 585.9,
+          "wrapX": 42,
+          "clientW": 584,
+          "scrollW": 584,
+          "canScrollX": false,
+          "tabindex": null,
+          "role": null,
+          "columns": 4,
+          "offscreenColumns": [
+            "DEPO",
+            "NE İŞE YARAR",
+            "SÜRE"
+          ],
+          "rightEdge": 627.9
+        }
+      ]
+    },
+    "/kalite-dosyasi": {
+      "owner": "PHASE 08",
+      "viewportW": 375,
+      "docOverflow": 0,
+      "regions": [
+        {
+          "label": "Yönetim sistemleri",
+          "wrapW": 333,
+          "wrapX": 42,
+          "clientW": 331,
+          "scrollW": 331,
+          "canScrollX": false,
+          "tabindex": null,
+          "role": null,
+          "columns": 2,
+          "offscreenColumns": [],
+          "rightEdge": 375
+        }
+      ]
+    },
+    "/blog/havacilik-parcalarinda-malzeme-secimi": {
+      "owner": "PHASE 08",
+      "viewportW": 375,
+      "docOverflow": 0,
+      "regions": [
+        {
+          "label": "7075-T6 ve Ti-6Al-4V — yayımlanmış tipik değerler",
+          "wrapW": 333,
+          "wrapX": 42,
+          "clientW": 331,
+          "scrollW": 465,
+          "canScrollX": true,
+          "tabindex": "0",
+          "role": "group",
+          "columns": 3,
+          "offscreenColumns": [
+            "Tİ-6AL-4V"
+          ],
+          "rightEdge": 375
+        }
+      ]
+    },
+    "/kabiliyet-profilleri/ince-cidarli-aluminyum-govde": {
+      "owner": "PHASE 08",
+      "viewportW": 375,
+      "docOverflow": 0,
+      "regions": []
+    },
+    "/malzemeler": {
+      "owner": "WAVE A control",
+      "viewportW": 375,
+      "docOverflow": 0,
+      "regions": [
+        {
+          "label": "Malzeme kaydı",
+          "wrapW": 333,
+          "wrapX": 42,
+          "clientW": 331,
+          "scrollW": 543,
+          "canScrollX": true,
+          "tabindex": null,
+          "role": null,
+          "columns": 10,
+          "offscreenColumns": [
+            "Çekme MPa",
+            "Ayrıntı"
+          ],
+          "rightEdge": 375
+        }
+      ]
+    },
+    "/hizmetler/cnc-frezeleme": {
+      "owner": "WAVE A control",
+      "viewportW": 375,
+      "docOverflow": 0,
+      "regions": [
+        {
+          "label": "Teknik kayıt",
+          "wrapW": 333,
+          "wrapX": 42,
+          "clientW": 331,
+          "scrollW": 331,
+          "canScrollX": false,
+          "tabindex": null,
+          "role": null,
+          "columns": 2,
+          "offscreenColumns": [],
+          "rightEdge": 375
+        },
+        {
+          "label": "CNC Frezeleme — malzeme kaydı",
+          "wrapW": 333,
+          "wrapX": 42,
+          "clientW": 331,
+          "scrollW": 331,
+          "canScrollX": false,
+          "tabindex": null,
+          "role": null,
+          "columns": 3,
+          "offscreenColumns": [],
+          "rightEdge": 375
+        },
+        {
+          "label": "CNC Frezeleme Eksen Karşılaştırması",
+          "wrapW": 333,
+          "wrapX": 42,
+          "clientW": 331,
+          "scrollW": 637,
+          "canScrollX": true,
+          "tabindex": "0",
+          "role": "group",
+          "columns": 4,
+          "offscreenColumns": [
+            "4 Eksen (3+1)",
+            "5 Eksen Simultane"
+          ],
+          "rightEdge": 375
+        },
+        {
+          "label": "İşleme Stratejileri ve Yüzey Kalitesi",
+          "wrapW": 333,
+          "wrapX": 42,
+          "clientW": 331,
+          "scrollW": 766,
+          "canScrollX": true,
+          "tabindex": "0",
+          "role": "group",
+          "columns": 5,
+          "offscreenColumns": [
+            "Yüzey Kalitesi (Ra)",
+            "Takım Ömrü",
+            "Uygulama"
+          ],
+          "rightEdge": 375
+        }
+      ]
+    }
+  },
+  "768": {
+    "/cerez-politikasi": {
+      "owner": "PHASE 08",
+      "viewportW": 768,
+      "docOverflow": 0,
+      "regions": [
+        {
+          "label": "Yerel depo kayıtları",
+          "wrapW": 710,
+          "wrapX": 57,
+          "clientW": 708,
+          "scrollW": 708,
+          "canScrollX": false,
+          "tabindex": null,
+          "role": null,
+          "columns": 4,
+          "offscreenColumns": [],
+          "rightEdge": 767
+        }
+      ]
+    },
+    "/kalite-dosyasi": {
+      "owner": "PHASE 08",
+      "viewportW": 768,
+      "docOverflow": 0,
+      "regions": [
+        {
+          "label": "Yönetim sistemleri",
+          "wrapW": 710,
+          "wrapX": 57,
+          "clientW": 708,
+          "scrollW": 708,
+          "canScrollX": false,
+          "tabindex": null,
+          "role": null,
+          "columns": 2,
+          "offscreenColumns": [],
+          "rightEdge": 767
+        }
+      ]
+    },
+    "/blog/havacilik-parcalarinda-malzeme-secimi": {
+      "owner": "PHASE 08",
+      "viewportW": 768,
+      "docOverflow": 0,
+      "regions": [
+        {
+          "label": "7075-T6 ve Ti-6Al-4V — yayımlanmış tipik değerler",
+          "wrapW": 710,
+          "wrapX": 57,
+          "clientW": 708,
+          "scrollW": 708,
+          "canScrollX": false,
+          "tabindex": null,
+          "role": null,
+          "columns": 3,
+          "offscreenColumns": [],
+          "rightEdge": 767
+        }
+      ]
+    },
+    "/kabiliyet-profilleri/ince-cidarli-aluminyum-govde": {
+      "owner": "PHASE 08",
+      "viewportW": 768,
+      "docOverflow": 0,
+      "regions": []
+    },
+    "/malzemeler": {
+      "owner": "WAVE A control",
+      "viewportW": 768,
+      "docOverflow": 0,
+      "regions": [
+        {
+          "label": "Malzeme kaydı",
+          "wrapW": 710,
+          "wrapX": 57,
+          "clientW": 708,
+          "scrollW": 1068,
+          "canScrollX": true,
+          "tabindex": null,
+          "role": null,
+          "columns": 10,
+          "offscreenColumns": [
+            "Maks. °C",
+            "İşlenebilirlik",
+            "Fiyat bandı",
+            "Ayrıntı"
+          ],
+          "rightEdge": 767
+        }
+      ]
+    },
+    "/hizmetler/cnc-frezeleme": {
+      "owner": "WAVE A control",
+      "viewportW": 768,
+      "docOverflow": 0,
+      "regions": [
+        {
+          "label": "Teknik kayıt",
+          "wrapW": 710,
+          "wrapX": 57,
+          "clientW": 708,
+          "scrollW": 708,
+          "canScrollX": false,
+          "tabindex": null,
+          "role": null,
+          "columns": 2,
+          "offscreenColumns": [],
+          "rightEdge": 767
+        },
+        {
+          "label": "CNC Frezeleme — malzeme kaydı",
+          "wrapW": 710,
+          "wrapX": 57,
+          "clientW": 708,
+          "scrollW": 708,
+          "canScrollX": false,
+          "tabindex": null,
+          "role": null,
+          "columns": 3,
+          "offscreenColumns": [],
+          "rightEdge": 767
+        },
+        {
+          "label": "CNC Frezeleme Eksen Karşılaştırması",
+          "wrapW": 710,
+          "wrapX": 57,
+          "clientW": 708,
+          "scrollW": 708,
+          "canScrollX": false,
+          "tabindex": null,
+          "role": null,
+          "columns": 4,
+          "offscreenColumns": [],
+          "rightEdge": 767
+        },
+        {
+          "label": "İşleme Stratejileri ve Yüzey Kalitesi",
+          "wrapW": 710,
+          "wrapX": 57,
+          "clientW": 708,
+          "scrollW": 766,
+          "canScrollX": true,
+          "tabindex": "0",
+          "role": "group",
+          "columns": 5,
+          "offscreenColumns": [
+            "Uygulama"
+          ],
+          "rightEdge": 767
+        }
+      ]
+    }
+  }
+}

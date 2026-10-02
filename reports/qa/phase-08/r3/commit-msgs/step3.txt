@@ -1,0 +1,69 @@
+test(qa): round 3 step 3 — A24, test 3 re-aimed from a retired claim to the disclosure that replaced it
+
+`e2e/qa-p08-storage-disclosure.spec.ts` test 3 was
+`expect(cookies).toEqual([])` — "no cookie is created on any public route". It
+is now "every cookie observed on any public route is covered by the published
+disclosure", and the file says why, at length, where the next reader will find
+it.
+
+WHY THIS IS A RE-AIMING AND NOT A WEAKENING
+
+The old assertion encoded a PUBLISHED CLAIM and it did its job: it held
+/cerez-politikasi to its own word, and it is how R2-2 surfaced. That claim has
+since been retired BECAUSE IT WAS FALSE — madde 01 now discloses `__cf_bm` by
+name, domain, flags and lifetime. So the assertion no longer corresponds to
+anything the site asserts: it fails on a CORRECTLY DISCLOSED cookie, which is
+not a defect, and a red gate over a green document teaches the next person to
+delete the gate.
+
+The new one is strictly stronger for what a gate is for. The old one could not
+tell a disclosed cookie from an undisclosed one — both were just "a cookie",
+both red. The new one goes red the day an undisclosed cookie appears, and it
+checks BOTH halves: the name must be published as a `<code>` token AND the
+cookie's host must be one the document names, or a subdomain of it. A cookie
+called `__cf_bm` arriving from `.evil.example` is red.
+
+It is also immune to the variance C4 measured. `.w.hcaptcha.com` is an
+ephemeral per-worker hostname; this run observed
+["__cf_bm@.hcaptcha.com","__cf_bm@.w.hcaptcha.com"], C4 observed one entry in
+one run and two in another. Set coverage does not care; any count-based
+assertion would have flaked forever.
+
+hCaptcha still loads on /giris, untouched. Nothing here was made green by
+another route.
+
+CONTROLS — BOTH EXISTING ONES EXTENDED, PLUS THREE INLINE
+
+  standalone control 1, extended: a disclosed cookie is covered; the ephemeral
+    worker subdomain is covered by the registrable domain; `_ga@.google-
+    analytics.com` is NOT; and `__cf_bm@.evil.example` is NOT — the case the
+    old assertion could not have distinguished.
+  standalone control 2, extended: the cookie stops being covered when the
+    document stops naming it, and again when the document stops naming its
+    domain. That is the direction that matters if somebody "simplifies" madde
+    01 back to an absolute.
+  inline, on the live observed set, inside test 3 itself: a poison cookie must
+    be reported; a published NAME from an unpublished host must be reported;
+    and stripping every published name must uncover the real cookie. A
+    standalone control proves the function CAN fail. These prove it could still
+    have failed on the very data that just went green — the gap that let the
+    first version of this file report six greens over a violated claim.
+
+ONE PARSER DEFECT OF MY OWN, FOUND AND FIXED BEFORE TRUSTING IT
+
+The disclosure reader first used `main.textContent`, which concatenates block
+elements with no separator: a paragraph ending "…yoktur." followed by one
+starting "Tek istisna…" reads as `yoktur.Tek` and matches the hostname pattern.
+Measured, it produced twelve "domains", eight of them sentence joins —
+`tir.belge`, `yok.tek`, `yor.bu`, `r.form`. `innerText` respects block
+boundaries and leaves three. The third was `c.com`, the tail of the rendered
+`SALES@MASTECHNİC.COM`, where the uppercase Turkish dotted İ falls outside the
+ASCII class; a one-character label filter drops it. Two remain, both real:
+`hcaptcha.com` and `mastechnic.com`. None of the junk could have covered a
+cookie — the name half has to match too — but a coverage rule fed tokens
+nobody wrote is not a coverage rule.
+
+RESULT: 6 passed at desktop-1280, npx tsc -b exit 0.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01PU8PxAzhQSjnrAaemT7bQ5

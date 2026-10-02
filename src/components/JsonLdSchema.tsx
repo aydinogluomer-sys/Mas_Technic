@@ -92,7 +92,9 @@ export const JsonLdSchema = (props: JsonLdSchemaProps) => {
           "@type": "ContactPoint",
           telephone: "+90-536-564-51-94",
           contactType: "sales",
-          availableLanguage: ["Turkish", "English"],
+          // §B ENGLISH_LIVE_NOW: NO. Listing English told search engines the
+          // business takes English enquiries; the site has no English at all.
+          availableLanguage: ["Turkish"],
         },
         sameAs: [],
       });

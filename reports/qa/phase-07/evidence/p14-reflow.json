@@ -1,0 +1,511 @@
+{
+  "320|/malzemeler": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 543,
+        "clientWidth": 276,
+        "tabindex": null,
+        "role": null,
+        "ariaLabel": null,
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": false
+      }
+    ],
+    "tableCols": 10,
+    "tableHeaders": [
+      "Karşılaştırmaya ekle",
+      "Malzeme",
+      "Aile",
+      "Yoğunluk g/cm³",
+      "Çekme MPa",
+      "Sertlik",
+      "Maks. °C",
+      "İşlenebilirlik",
+      "Fiyat bandı",
+      "Ayrıntı"
+    ],
+    "rowToggles": 87,
+    "rowToggleSample": {
+      "text": "Ayrıntı",
+      "expanded": "false",
+      "controls": "material-detail-pl-abs",
+      "label": null
+    }
+  },
+  "320|/malzemeler/aluminyum": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 716,
+        "clientWidth": 276,
+        "tabindex": "0",
+        "role": "group",
+        "ariaLabel": "Alüminyum alaşım kaydı",
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": true
+      }
+    ],
+    "tableCols": 6,
+    "tableHeaders": [
+      "Alaşım",
+      "Yoğunluk g/cm³",
+      "Çekme MPa",
+      "Sertlik",
+      "Maks. °C",
+      "İşlenebilirlik"
+    ],
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "320|/hizmetler/cnc-frezeleme": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 292,
+        "clientWidth": 276,
+        "tabindex": "0",
+        "role": "group",
+        "ariaLabel": "Teknik kayıt",
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": true
+      },
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 637,
+        "clientWidth": 276,
+        "tabindex": "0",
+        "role": "group",
+        "ariaLabel": "CNC Frezeleme Eksen Karşılaştırması",
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": true
+      },
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 766,
+        "clientWidth": 276,
+        "tabindex": "0",
+        "role": "group",
+        "ariaLabel": "İşleme Stratejileri ve Yüzey Kalitesi",
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": true
+      }
+    ],
+    "tableCols": 2,
+    "tableHeaders": [
+      "Başlık",
+      "Değer"
+    ],
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "320|/endustriyel/havacilik-uzay": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 353,
+        "clientWidth": 276,
+        "tabindex": "0",
+        "role": "group",
+        "ariaLabel": "Teknik kayıt",
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": true
+      },
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 1001,
+        "clientWidth": 276,
+        "tabindex": "0",
+        "role": "group",
+        "ariaLabel": "Havacılık Malzeme Performans Karşılaştırması",
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": true
+      }
+    ],
+    "tableCols": 2,
+    "tableHeaders": [
+      "Başlık",
+      "Değer"
+    ],
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "320|/hakkimizda": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [],
+    "tableCols": null,
+    "tableHeaders": null,
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "320|/iletisim": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [],
+    "tableCols": null,
+    "tableHeaders": null,
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "320|/hizmetler/kategori/talasli-imalat": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [],
+    "tableCols": null,
+    "tableHeaders": null,
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "375|/malzemeler": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 543,
+        "clientWidth": 331,
+        "tabindex": null,
+        "role": null,
+        "ariaLabel": null,
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": false
+      }
+    ],
+    "tableCols": 10,
+    "tableHeaders": [
+      "Karşılaştırmaya ekle",
+      "Malzeme",
+      "Aile",
+      "Yoğunluk g/cm³",
+      "Çekme MPa",
+      "Sertlik",
+      "Maks. °C",
+      "İşlenebilirlik",
+      "Fiyat bandı",
+      "Ayrıntı"
+    ],
+    "rowToggles": 87,
+    "rowToggleSample": {
+      "text": "Ayrıntı",
+      "expanded": "false",
+      "controls": "material-detail-pl-abs",
+      "label": null
+    }
+  },
+  "375|/malzemeler/aluminyum": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 716,
+        "clientWidth": 331,
+        "tabindex": "0",
+        "role": "group",
+        "ariaLabel": "Alüminyum alaşım kaydı",
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": true
+      }
+    ],
+    "tableCols": 6,
+    "tableHeaders": [
+      "Alaşım",
+      "Yoğunluk g/cm³",
+      "Çekme MPa",
+      "Sertlik",
+      "Maks. °C",
+      "İşlenebilirlik"
+    ],
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "375|/hizmetler/cnc-frezeleme": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 637,
+        "clientWidth": 331,
+        "tabindex": "0",
+        "role": "group",
+        "ariaLabel": "CNC Frezeleme Eksen Karşılaştırması",
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": true
+      },
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 766,
+        "clientWidth": 331,
+        "tabindex": "0",
+        "role": "group",
+        "ariaLabel": "İşleme Stratejileri ve Yüzey Kalitesi",
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": true
+      }
+    ],
+    "tableCols": 2,
+    "tableHeaders": [
+      "Başlık",
+      "Değer"
+    ],
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "375|/endustriyel/havacilik-uzay": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 353,
+        "clientWidth": 331,
+        "tabindex": "0",
+        "role": "group",
+        "ariaLabel": "Teknik kayıt",
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": true
+      },
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 1001,
+        "clientWidth": 331,
+        "tabindex": "0",
+        "role": "group",
+        "ariaLabel": "Havacılık Malzeme Performans Karşılaştırması",
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": true
+      }
+    ],
+    "tableCols": 2,
+    "tableHeaders": [
+      "Başlık",
+      "Değer"
+    ],
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "375|/hakkimizda": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [],
+    "tableCols": null,
+    "tableHeaders": null,
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "375|/iletisim": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [],
+    "tableCols": null,
+    "tableHeaders": null,
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "375|/hizmetler/kategori/talasli-imalat": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [],
+    "tableCols": null,
+    "tableHeaders": null,
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "768|/malzemeler": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 1068,
+        "clientWidth": 708,
+        "tabindex": null,
+        "role": null,
+        "ariaLabel": null,
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": false
+      }
+    ],
+    "tableCols": 10,
+    "tableHeaders": [
+      "Karşılaştırmaya ekle",
+      "Malzeme",
+      "Aile",
+      "Yoğunluk g/cm³",
+      "Çekme MPa",
+      "Sertlik",
+      "Maks. °C",
+      "İşlenebilirlik",
+      "Fiyat bandı",
+      "Ayrıntı"
+    ],
+    "rowToggles": 87,
+    "rowToggleSample": {
+      "text": "Ayrıntı",
+      "expanded": "false",
+      "controls": "material-detail-pl-abs",
+      "label": null
+    }
+  },
+  "768|/malzemeler/aluminyum": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 716,
+        "clientWidth": 708,
+        "tabindex": "0",
+        "role": "group",
+        "ariaLabel": "Alüminyum alaşım kaydı",
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": true
+      }
+    ],
+    "tableCols": 6,
+    "tableHeaders": [
+      "Alaşım",
+      "Yoğunluk g/cm³",
+      "Çekme MPa",
+      "Sertlik",
+      "Maks. °C",
+      "İşlenebilirlik"
+    ],
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "768|/hizmetler/cnc-frezeleme": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 766,
+        "clientWidth": 708,
+        "tabindex": "0",
+        "role": "group",
+        "ariaLabel": "İşleme Stratejileri ve Yüzey Kalitesi",
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": true
+      }
+    ],
+    "tableCols": 2,
+    "tableHeaders": [
+      "Başlık",
+      "Değer"
+    ],
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "768|/endustriyel/havacilik-uzay": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [
+      {
+        "cls": "shell-table-scroll",
+        "tag": "div",
+        "overflowX": "auto",
+        "scrollWidth": 1001,
+        "clientWidth": 708,
+        "tabindex": "0",
+        "role": "group",
+        "ariaLabel": "Havacılık Malzeme Performans Karşılaştırması",
+        "ariaLabelledby": null,
+        "labelledbyText": null,
+        "focusable": true
+      }
+    ],
+    "tableCols": 2,
+    "tableHeaders": [
+      "Başlık",
+      "Değer"
+    ],
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "768|/hakkimizda": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [],
+    "tableCols": null,
+    "tableHeaders": null,
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "768|/iletisim": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [],
+    "tableCols": null,
+    "tableHeaders": null,
+    "rowToggles": 0,
+    "rowToggleSample": null
+  },
+  "768|/hizmetler/kategori/talasli-imalat": {
+    "docOverflowX": 0,
+    "bodyOverflowX": 0,
+    "scrollers": [],
+    "tableCols": null,
+    "tableHeaders": null,
+    "rowToggles": 0,
+    "rowToggleSample": null
+  }
+}

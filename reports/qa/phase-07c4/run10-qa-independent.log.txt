@@ -1,0 +1,13 @@
+(node:12000) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:11272) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  1 [visual-1280] › e2e\visual\qa-h4-cursor-independent.spec.ts:178:5 › QA R4 — would hiding the cursor actually move the landing baseline? › 1280: the cursor's contribution to the whole-page frame (53.1s)
+  ✓  2 [visual-1280] › e2e\visual\qa-h4-cursor-independent.spec.ts:178:5 › QA R4 — would hiding the cursor actually move the landing baseline? › 1440: the cursor's contribution to the whole-page frame (40.1s)
+  ✓  3 [visual-1280] › e2e\visual\qa-h4-cursor-independent.spec.ts:272:3 › QA R4 — the two ways the Coder's scan can be walked around › the spec scan is flat, so no visual spec may live in a subdirectory (11ms)
+  ✓  4 [visual-1280] › e2e\visual\qa-h4-cursor-independent.spec.ts:291:3 › QA R4 — the two ways the Coder's scan can be walked around › no visual spec renames or aliases the `page` fixture (25ms)
+
+  4 passed (1.6m)

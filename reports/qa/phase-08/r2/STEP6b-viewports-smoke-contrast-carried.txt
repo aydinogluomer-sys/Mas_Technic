@@ -1,0 +1,112 @@
+QA ROUND 2 — STEP 6 (continued): the other viewports, cross-browser,
+contrast at 375, and the two carried criteria re-measured
+=====================================================================
+
+PER-PROJECT REGRESSION RESULTS (each project run whole, foreground, one at a
+time, against the same preview on :4173)
+
+  project              passed  skipped  failed
+  desktop-1280            151       24       1   <- 1 = my own new storage gate on R2-2
+  mobile-320              123       53       0
+  mobile-375              119       57       0
+  mobile-390              102       74       0
+  tablet-768               99       76       1   <- motion-grammar:254, PRE-EXISTING
+  landscape-844            99       76       1   <- the same test, same cause
+  desktop-1440            103       73       0
+  desktop-1440-short      103       73       0
+  ---------------------------------------------------------------
+  regression total        899      506       3
+
+  visual-375   34 +1 on re-run,  6 skipped   (1 installFontRetry flake)
+  visual-768   34 +6 on re-run,  6 skipped   (1 installFontRetry flake)
+  visual-1280  41,               0 skipped
+  visual-1440  34 +7 on re-run,  6 skipped   (1 installFontRetry flake)
+  critical-1280 15 (technical-landing) · critical-375 81, 2 skipped
+
+CROSS-BROWSER — round 1 ran none of these. All four green:
+  smoke-firefox-390    3 passed (18.9s)
+  smoke-firefox-1440   3 passed (18.1s)
+  smoke-webkit-390     3 passed (14.5s)
+  smoke-webkit-1440    3 passed (21.4s)
+  Stated honestly: the smoke suite is three tests — the landing, ONE inner
+  page with the shared shell, and the conversion route. Firefox and WebKit
+  behaviour of the Wave B surfaces specifically is still NOT covered by
+  anything, and this round did not close that.
+
+THE PRE-EXISTING RED AT tablet-768 AND landscape-844
+  e2e/landing/motion-grammar.spec.ts:254 "hovering a measurement lights its
+  guide line and its passport counterpart"
+    expect(locator).toBeHidden() failed — Expected hidden, Received visible
+  Reproduced in isolation at tablet-768 (5 passed, 1 failed), so not a flake.
+  MECHANISM: the test branches on
+  `matchMedia("(hover:hover) and (pointer:fine)")`. Both projects set
+  `mobile: true`, so the pointer is coarse and the test takes the branch that
+  asserts `.tl-dimension-lines` is absent. The rule that removes them is
+  `@media (max-width:767px)` — `src/styles/technical-landing.css:507`, and
+  the declaration is at `:513`. tablet-768 is 768 px and landscape-844 is
+  844 px, both ABOVE the breakpoint, so a hover-only affordance renders on an
+  emulated touch device.
+  NOT PHASE 08's: `git log 7dcfb65~1..b77be5c -- src/styles/technical-landing.css
+  e2e/landing/motion-grammar.spec.ts` is EMPTY. Neither file was touched by
+  any of the 20 commits in the phase, C3 included. It went unseen because
+  these are the two viewports this run had never exercised. Carried; the
+  Orchestrator decides whether the breakpoint moves to 843 or the test's
+  coarse-pointer branch gains a width condition.
+
+CONTRAST AT 375 — Phase 07's glyph-free instrument, round 1's open item 8
+  `QA_VP=375` over ten surfaces. Negative controls reproduced on EVERY route
+  at 21 / 1 / 3.033 / 3.033 / 3.977, so the instrument was live throughout.
+
+    route                                          measured/candidates  fails
+    /kabiliyet-profilleri                                 90/91            0
+    /kabiliyet-profilleri/ince-cidarli-aluminyum-govde     55/56            0
+    /kalite-dosyasi                                      125/126           0
+    /blog                                                115/116           0
+    /blog/havacilik-parcalarinda-malzeme-secimi          135/143           0
+    /sss                                                 440/441           0
+    /kvkk                                                 97/100           0
+    /gizlilik-politikasi                                 108/110           0
+    /cerez-politikasi                                     91/113           0
+    /qa-r2-no-such-route                                   68/69           1
+
+  1 324 elements measured, ZERO real failures. The single "fail" is the one
+  round 1 adjudicated at 1280 and it is the same element:
+    p.shell-notfound-code · text "404" · fontSize 96 · color rgba(0,0,0,0)
+    · ariaHidden TRUE · ratioModal 1 · naiveGlyphRatio 2.63
+  A transparent-filled, stroke-only decorative numeral, `aria-hidden`, whose
+  content is carried as real text in the status readout beside it. At 1280 it
+  read 2.75; at 375 it reads 2.63. Not a violation, and the number is here
+  rather than omitted.
+
+  ONE CORROBORATION WORTH NAMING: `/cerez-politikasi` is the only route where
+  the instrument could not measure a large share of its candidates — 91 of
+  113, i.e. 22 elements it declined because they never entered the viewport.
+  That is DEFECT R2-1 showing up in a second, unrelated instrument: the
+  storage table's off-screen cells.
+
+CARRIED CRITERION 3 (A21) — five public routes still in the old language
+  Re-measured with round 1's own two probes. IDENTICAL to round 1, to the
+  node. Not better, NOT WORSE:
+    route            legacy-teal nodes   Radix roots   shell-*/tl-* primitives
+    /teklif-al              16                3                 1
+    /giris                  92                0                 0
+    /sifremi-unuttum         -                -                 0
+    /reset-password          -                -                 0
+    /cad-dashboard          16                3                 1
+  All ten Wave B surfaces and the four Wave A controls: 0 teal, 0 Radix
+  roots, 0 `bg-card`, 0 off-register radii, 0 system-font nodes, 47–404
+  shell primitives. CARRIED, unchanged.
+
+CARRIED CRITERION 5 (A20) — CAD-parse / form error still a library default
+  Re-measured by uploading an unsupported file to the one `input[type=file]`
+  on `/teklif-al`. IDENTICAL to round 1:
+    tag li · sonner true · text "Desteklenmeyen dosya formatı."
+    background rgb(255,255,255) · borderRadius 8px
+    border 1px solid rgb(217,222,226)
+    fontFamily "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,"
+  The three states Phase 08 DID brand are also unchanged and still correct:
+    /sss empty      borderRadius 0px, "Space Grotesk", working "FİLTRELERİ TEMİZLE"
+    loading         borderRadius 0px, "Space Grotesk"
+    route error     one <h1> "Bu sayfa yüklenemedi", ERR::ROUTE_RENDER_FAILED,
+                    three recovery actions
+  CARRIED, unchanged. NEITHER CARRIED CRITERION GOT WORSE.

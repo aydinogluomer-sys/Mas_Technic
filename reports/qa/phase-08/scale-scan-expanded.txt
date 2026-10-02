@@ -1,0 +1,47 @@
+﻿
+### /sss
+  order-volume: [". Proje",".\n\nPROJE"]
+     ctx: â€¦lan Sorular Üretim, malzeme, tolerans, kalite ve teslimat başlıklarında en çok sorulanlar. Her yanıt, ilgili teknik sayfanın kendi metniyle aynı kaynaktan gelir. TEKLİF AL SORU SOR KAPSAM Üretim · Mâ€¦
+     ctx: â€¦lan Sorular Üretim, malzeme, tolerans, kalite ve teslimat başlıklarında en çok sorulanlar. Her yanıt, ilgili teknik sayfanın kendi metniyle aynı kaynaktan gelir. TEKLİF AL SORU SOR KAPSAM Üretim · Mâ€¦
+  percentage-kpi: ["%50","%101","%99"]
+     ctx: â€¦SAYFASI Anodizasyon boyut değişikliğine neden olur mu? Evet, oksit tabakasının yaklaşık %50'si malzemeye nüfuz eder, %50'si yüzeyden dışarı büyür. Örneğin 25µm Tip II kaplama ~12.5µm boyut artışı yaâ€¦
+     ctx: â€¦r. PETROL & GAZ SAYFASI OFE bakır işleyebiliyor musunuz? Evet, OFE bakır (C10100, IACS %101) ve ETP bakır (C11000, IACS %99.9) işleme kabiliyetimiz bulunmaktadır. GÜÇ DAĞITIM SİSTEMLERİ SAYFASI Gâ€¦
+     ctx: â€¦ır işleyebiliyor musunuz? Evet, OFE bakır (C10100, IACS %101) ve ETP bakır (C11000, IACS %99.9) işleme kabiliyetimiz bulunmaktadır. GÜÇ DAĞITIM SİSTEMLERİ SAYFASI Gümüş kaplama yapıyor musunuz? Evâ€¦
+  capacity: ["kapasitemiz"]
+     ctx: â€¦eyebiliyor musunuz? Evet, 500 kg'a kadar ağırlık ve 1500mm'ye kadar boyutta parça işleme kapasitemiz bulunmaktadır. Vinçli yükleme ve özel bağlama düzenleri kullanıyoruz. MADENCİLİK EKİPMANLARI SAYFâ€¦
+  material-count: ["03\nMalzeme"]
+     ctx: â€¦ullanıyoruz. MADENCİLİK EKİPMANLARI SAYFASI BAŞLIKLAR 01 Genel 02 Kalite & Standartlar 03 Malzeme 04 Mühendislik 05 Yüzey İşlemleri 06 Talaşlı İmalat 07 Kalıp & Ön Üretim 08 Üretim Altyapısı 09 Üreâ€¦
+
+### /blog/5-eksen-cnc-isleme-avantajlari
+  material-count: ["02\nMALZEME"]
+     ctx: â€¦ kurulum sayısıdır: her yeni bağlama yeni bir referans hatası kaynağıdır. YAYIN 15 Ocak 2024 OKUMA 8 dk okuma BÖLÜM 5 02 METİN PLAKA 01 Tek bağlamada birden fazla yüzeye erişen kesici takım 01 Beş ekâ€¦
+
+### /blog/dfm-tasarimdan-uretime-gecis
+  material-count: ["02\nMALZEME"]
+     ctx: â€¦ldir: hangi kotenin gerçekten neden o değerde olduğunu sormakla ilgilidir. YAYIN 2 Ocak 2024 OKUMA 10 dk okuma BÖLÜM 5 02 METİN PLAKA 01 Model ve teknik resim, üretilebilirlik incelemesinde yan yana â€¦
+
+### /blog/cnc-torna-frezeleme-farki
+  material-count: ["02\nMALZEME"]
+     ctx: â€¦arça mı, dönen takım mı? Karar noktası burasıdır, tezgâh listesi değil. YAYIN 25 Aralık 2023 OKUMA 7 dk okuma BÖLÜM 5 02 METİN PLAKA 01 Prizmatik geometri: takım döner, parça sabit kalır 01 Tek bir aâ€¦
+
+### /blog/kalite-kontrol-cmm-olcum
+  material-count: ["02\nMALZEME"]
+     ctx: â€¦e alındığı yazılmadıkça bir sayıdan ibarettir. CMM'in yaptığı iş budur. YAYIN 18 Aralık 2023 OKUMA 9 dk okuma BÖLÜM 5 02 METİN PLAKA 01 Kontrol planında tanımlı kotelerin doğrulanması 01 CMM ne ölçerâ€¦
+
+### /blog/endustriyel-yuzey-islemleri-rehberi
+  material-count: ["02\nMALZEME"]
+     ctx: â€¦isaj: hangisi hangi malzemede ne yapar ve şartnamede ne yazmak gerekir. YAYIN 10 Aralık 2023 OKUMA 12 dk okuma BÖLÜM 6 02 METİN PLAKA 01 Aynı alaşımda dört farklı yüzey bitişi 01 Yüzey işlemi bir terâ€¦
+
+### /blog/olmayan-yazi
+  material-count: ["02\nMALZEME"]
+     ctx: â€¦şmiş veya yazı kaldırılmış olabilir; dizinden ilgili başlığa geçebilirsiniz. YAZI DİZİNİ 02 DİZİN 01 TEKNİK 5 Eksen CNC İşleme Avantajları Beş eksenin asıl kazancı hız değil, kurulum sayısıdır: her yâ€¦
+
+### /kvkk
+  order-volume: [", firma"]
+     ctx: â€¦i 6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında: bu sitede hangi kişisel veri, hangi amaçla ve hangi hukuki sebeple işlenir. BELGE KVKK Aydınlatma Metni REVİZYON 4 Eylül 2026 MADDE SAYISâ€¦
+
+### /gizlilik-politikasi
+  order-volume: [", firma"]
+     ctx: â€¦E Gizlilik Politikası REVİZYON 4 Eylül 2026 MADDE SAYISI 7 02 METİN 01 Kapsam Bu politika, mastechnic.com üzerindeki herkese açık sayfaların ziyaretçi verisiyle nasıl davrandığını anlatır. Kişisel veâ€¦
+
+TOTAL FLAGGED RULE-HITS: 12

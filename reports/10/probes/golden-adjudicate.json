@@ -1,0 +1,686 @@
+[
+ {
+  "project": "visual-375",
+  "moved": true,
+  "dpr": 1,
+  "differingPixels": 55560,
+  "pixelsInChangedElements": 55542,
+  "strayPixels": 18,
+  "xRange": [
+   42,
+   374
+  ],
+  "boxes": {
+   "manifesto": {
+    "top": 5659,
+    "bottom": 6180,
+    "left": 0,
+    "right": 375
+   },
+   "sector-card-hydraulic": {
+    "top": 5325,
+    "bottom": 5658,
+    "left": 42,
+    "right": 375
+   },
+   "process-figure (untouched)": {
+    "top": 1493,
+    "bottom": 1709,
+    "left": 42,
+    "right": 375
+   }
+  },
+  "chosenCandidates": {
+   ".tl-process figure img": {
+    "currentSrc": "hero-cnc-frezeleme-640-rIE7eQIt.webp",
+    "natural": [
+     557,
+     311
+    ]
+   },
+   ".tl-manifesto-body img": {
+    "currentSrc": "hero-tolerans-hassasiyet-portrait-640-CLhTHiAY.webp",
+    "natural": [
+     395,
+     664
+    ]
+   }
+  },
+  "bands": [
+   {
+    "rows": [
+     1521,
+     1522
+    ],
+    "cssRows": [
+     1521,
+     1522
+    ],
+    "pixels": 2,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1544,
+     1551
+    ],
+    "cssRows": [
+     1544,
+     1551
+    ],
+    "pixels": 5,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1561,
+     1564
+    ],
+    "cssRows": [
+     1561,
+     1564
+    ],
+    "pixels": 4,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1575,
+     1580
+    ],
+    "cssRows": [
+     1575,
+     1580
+    ],
+    "pixels": 3,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1617,
+     1618
+    ],
+    "cssRows": [
+     1617,
+     1618
+    ],
+    "pixels": 2,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1666,
+     1672
+    ],
+    "cssRows": [
+     1666,
+     1672
+    ],
+    "pixels": 2,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     5325,
+     5597
+    ],
+    "cssRows": [
+     5325,
+     5597
+    ],
+    "pixels": 28911,
+    "owner": "sector-card-hydraulic"
+   },
+   {
+    "rows": [
+     5774,
+     6178
+    ],
+    "cssRows": [
+     5774,
+     6178
+    ],
+    "pixels": 26631,
+    "owner": "manifesto"
+   }
+  ],
+  "verdict": "EXPLAINED"
+ },
+ {
+  "project": "visual-768",
+  "moved": true,
+  "dpr": 1,
+  "differingPixels": 33299,
+  "pixelsInChangedElements": 33238,
+  "strayPixels": 61,
+  "xRange": [
+   412,
+   766
+  ],
+  "boxes": {
+   "manifesto": {
+    "top": 3639,
+    "bottom": 4080,
+    "left": 1,
+    "right": 767
+   },
+   "sector-card-hydraulic": {
+    "top": 3283,
+    "bottom": 3638,
+    "left": 412,
+    "right": 767
+   },
+   "process-figure (untouched)": {
+    "top": 1054,
+    "bottom": 1306,
+    "left": 412,
+    "right": 767
+   }
+  },
+  "chosenCandidates": {
+   ".tl-process figure img": {
+    "currentSrc": "hero-cnc-frezeleme-640-rIE7eQIt.webp",
+    "natural": [
+     621,
+     347
+    ]
+   },
+   ".tl-manifesto-body img": {
+    "currentSrc": "hero-tolerans-hassasiyet-1600-BlYCWHmN.webp",
+    "natural": [
+     1043,
+     584
+    ]
+   }
+  },
+  "bands": [
+   {
+    "rows": [
+     1075,
+     1075
+    ],
+    "cssRows": [
+     1075,
+     1075
+    ],
+    "pixels": 1,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1086,
+     1102
+    ],
+    "cssRows": [
+     1086,
+     1102
+    ],
+    "pixels": 11,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1114,
+     1130
+    ],
+    "cssRows": [
+     1114,
+     1130
+    ],
+    "pixels": 8,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1138,
+     1147
+    ],
+    "cssRows": [
+     1138,
+     1147
+    ],
+    "pixels": 3,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1158,
+     1158
+    ],
+    "cssRows": [
+     1158,
+     1158
+    ],
+    "pixels": 1,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1168,
+     1169
+    ],
+    "cssRows": [
+     1168,
+     1169
+    ],
+    "pixels": 2,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1186,
+     1186
+    ],
+    "cssRows": [
+     1186,
+     1186
+    ],
+    "pixels": 1,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1200,
+     1212
+    ],
+    "cssRows": [
+     1200,
+     1212
+    ],
+    "pixels": 13,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1228,
+     1235
+    ],
+    "cssRows": [
+     1228,
+     1235
+    ],
+    "pixels": 5,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1245,
+     1245
+    ],
+    "cssRows": [
+     1245,
+     1245
+    ],
+    "pixels": 1,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1255,
+     1259
+    ],
+    "cssRows": [
+     1255,
+     1259
+    ],
+    "pixels": 3,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1269,
+     1284
+    ],
+    "cssRows": [
+     1269,
+     1284
+    ],
+    "pixels": 6,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1295,
+     1304
+    ],
+    "cssRows": [
+     1295,
+     1304
+    ],
+    "pixels": 6,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     3283,
+     3574
+    ],
+    "cssRows": [
+     3283,
+     3574
+    ],
+    "pixels": 32887,
+    "owner": "sector-card-hydraulic"
+   },
+   {
+    "rows": [
+     3646,
+     3835
+    ],
+    "cssRows": [
+     3646,
+     3835
+    ],
+    "pixels": 241,
+    "owner": "manifesto"
+   },
+   {
+    "rows": [
+     3845,
+     3845
+    ],
+    "cssRows": [
+     3845,
+     3845
+    ],
+    "pixels": 1,
+    "owner": "manifesto"
+   },
+   {
+    "rows": [
+     3853,
+     3921
+    ],
+    "cssRows": [
+     3853,
+     3921
+    ],
+    "pixels": 66,
+    "owner": "manifesto"
+   },
+   {
+    "rows": [
+     3937,
+     3941
+    ],
+    "cssRows": [
+     3937,
+     3941
+    ],
+    "pixels": 2,
+    "owner": "manifesto"
+   },
+   {
+    "rows": [
+     4001,
+     4022
+    ],
+    "cssRows": [
+     4001,
+     4022
+    ],
+    "pixels": 39,
+    "owner": "manifesto"
+   },
+   {
+    "rows": [
+     4045,
+     4046
+    ],
+    "cssRows": [
+     4045,
+     4046
+    ],
+    "pixels": 2,
+    "owner": "manifesto"
+   }
+  ],
+  "verdict": "EXPLAINED"
+ },
+ {
+  "project": "visual-1280",
+  "moved": true,
+  "dpr": 1,
+  "differingPixels": 24018,
+  "pixelsInChangedElements": 24018,
+  "strayPixels": 0,
+  "xRange": [
+   976,
+   1278
+  ],
+  "boxes": {
+   "manifesto": {
+    "top": 2467,
+    "bottom": 2908,
+    "left": 1,
+    "right": 1279
+   },
+   "sector-card-hydraulic": {
+    "top": 2162,
+    "bottom": 2466,
+    "left": 976,
+    "right": 1279
+   },
+   "process-figure (untouched)": {
+    "top": 778,
+    "bottom": 1030,
+    "left": 470,
+    "right": 1279
+   }
+  },
+  "chosenCandidates": {
+   ".tl-process figure img": {
+    "currentSrc": "hero-cnc-frezeleme-960-CKZhz_cY.webp",
+    "natural": [
+     809,
+     453
+    ]
+   },
+   ".tl-manifesto-body img": {
+    "currentSrc": "hero-tolerans-hassasiyet-1600-BlYCWHmN.webp",
+    "natural": [
+     1214,
+     679
+    ]
+   }
+  },
+  "bands": [
+   {
+    "rows": [
+     2162,
+     2411
+    ],
+    "cssRows": [
+     2162,
+     2411
+    ],
+    "pixels": 24018,
+    "owner": "sector-card-hydraulic"
+   }
+  ],
+  "verdict": "EXPLAINED"
+ },
+ {
+  "project": "visual-1440",
+  "moved": true,
+  "dpr": 1,
+  "differingPixels": 30927,
+  "pixelsInChangedElements": 30893,
+  "strayPixels": 34,
+  "xRange": [
+   834,
+   1438
+  ],
+  "boxes": {
+   "manifesto": {
+    "top": 2515,
+    "bottom": 2956,
+    "left": 1,
+    "right": 1439
+   },
+   "sector-card-hydraulic": {
+    "top": 2170,
+    "bottom": 2514,
+    "left": 1096,
+    "right": 1439
+   },
+   "process-figure (untouched)": {
+    "top": 778,
+    "bottom": 1030,
+    "left": 523,
+    "right": 1439
+   }
+  },
+  "chosenCandidates": {
+   ".tl-process figure img": {
+    "currentSrc": "hero-cnc-frezeleme-960-CKZhz_cY.webp",
+    "natural": [
+     916,
+     513
+    ]
+   },
+   ".tl-manifesto-body img": {
+    "currentSrc": "hero-tolerans-hassasiyet-1600-BlYCWHmN.webp",
+    "natural": [
+     1374,
+     769
+    ]
+   }
+  },
+  "bands": [
+   {
+    "rows": [
+     782,
+     797
+    ],
+    "cssRows": [
+     782,
+     797
+    ],
+    "pixels": 4,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     805,
+     808
+    ],
+    "cssRows": [
+     805,
+     808
+    ],
+    "pixels": 3,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     873,
+     873
+    ],
+    "cssRows": [
+     873,
+     873
+    ],
+    "pixels": 1,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     982,
+     982
+    ],
+    "cssRows": [
+     982,
+     982
+    ],
+    "pixels": 1,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     995,
+     995
+    ],
+    "cssRows": [
+     995,
+     995
+    ],
+    "pixels": 1,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     1013,
+     1027
+    ],
+    "cssRows": [
+     1013,
+     1027
+    ],
+    "pixels": 24,
+    "owner": "process-figure (untouched)"
+   },
+   {
+    "rows": [
+     2170,
+     2452
+    ],
+    "cssRows": [
+     2170,
+     2452
+    ],
+    "pixels": 30763,
+    "owner": "sector-card-hydraulic"
+   },
+   {
+    "rows": [
+     2667,
+     2667
+    ],
+    "cssRows": [
+     2667,
+     2667
+    ],
+    "pixels": 2,
+    "owner": "manifesto"
+   },
+   {
+    "rows": [
+     2687,
+     2707
+    ],
+    "cssRows": [
+     2687,
+     2707
+    ],
+    "pixels": 8,
+    "owner": "manifesto"
+   },
+   {
+    "rows": [
+     2759,
+     2759
+    ],
+    "cssRows": [
+     2759,
+     2759
+    ],
+    "pixels": 2,
+    "owner": "manifesto"
+   },
+   {
+    "rows": [
+     2912,
+     2954
+    ],
+    "cssRows": [
+     2912,
+     2954
+    ],
+    "pixels": 118,
+    "owner": "manifesto"
+   }
+  ],
+  "verdict": "EXPLAINED"
+ }
+]

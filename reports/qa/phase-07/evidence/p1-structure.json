@@ -1,0 +1,6095 @@
+{
+  "375|/": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer tl-inview"
+    ],
+    "bands": 13,
+    "gridRows": 0,
+    "gridEdges": [],
+    "h1": [
+      {
+        "text": "HAM GEOMETRİDENDOĞRULANMIŞHASSASİYETE",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "svg",
+        "cls": "lucide lucide-user-round",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          22,
+          22
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "li",
+        "cls": "",
+        "shadow": "rgb(238, 233, 222) 0px -2px 0px 0px inset"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "div",
+        "parentCls": "tl-proof-grid",
+        "n": 6,
+        "perRow": 2,
+        "tile": [
+          167,
+          120
+        ],
+        "kidsWithIcon": 6,
+        "kidCls": "",
+        "sampleText": "±0.01 mmTOLERANS"
+      },
+      {
+        "parentTag": "div",
+        "parentCls": "tl-nexus-kpis",
+        "n": 4,
+        "perRow": 2,
+        "tile": [
+          166,
+          78
+        ],
+        "kidsWithIcon": 4,
+        "kidCls": "",
+        "sampleText": "SİPARİŞDURUM TAKİBİ"
+      },
+      {
+        "parentTag": "ul",
+        "parentCls": "tl-reference-grid",
+        "n": 6,
+        "perRow": 2,
+        "tile": [
+          167,
+          76
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HPT"
+      }
+    ],
+    "shellNext": 0,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root tl-root",
+      "data-shell-surface": "graphite",
+      "data-testid": "technical-landing-root",
+      "data-motion": "reduced"
+    }
+  },
+  "375|/hakkimizda": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 6,
+    "gridRows": 5,
+    "gridEdges": [
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Hakkımızda",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          48,
+          48
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "375|/iletisim": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 5,
+    "gridRows": 4,
+    "gridEdges": [
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Bize ulaşın",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          48,
+          48
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "375|/malzemeler": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 5,
+    "gridRows": 4,
+    "gridEdges": [
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Malzeme kütüphanesi",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          21,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          48,
+          48
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "375|/malzemeler/aluminyum": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 8,
+    "gridRows": 7,
+    "gridEdges": [
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "CNC İşleme için Alüminyum Alaşımları",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          48,
+          48
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "375|/hizmetler/kategori/talasli-imalat": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 5,
+    "gridRows": 4,
+    "gridEdges": [
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Talaşlı İmalat",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          48,
+          48
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "375|/hizmetler/cnc-frezeleme": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 10,
+    "gridRows": 9,
+    "gridEdges": [
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "CNC Frezeleme",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          48,
+          48
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "375|/endustriyel/havacilik-uzay": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 10,
+    "gridRows": 9,
+    "gridEdges": [
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Havacılık & Uzay",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          48,
+          48
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "375|/hizmetler": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 1,
+    "gridRows": 0,
+    "gridEdges": [],
+    "h1": [
+      {
+        "text": "Aradığınız sayfa bulunamadı",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          48,
+          48
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 0,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "paper"
+    }
+  },
+  "375|/endustriyel": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 1,
+    "gridRows": 0,
+    "gridEdges": [],
+    "h1": [
+      {
+        "text": "Aradığınız sayfa bulunamadı",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          48,
+          48
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 0,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "paper"
+    }
+  },
+  "375|/malzemeler/paslanmaz-celik": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 8,
+    "gridRows": 7,
+    "gridEdges": [
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "CNC İşleme için Paslanmaz Çelik",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          48,
+          48
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "375|/hizmetler/kategori/yuzey-islem": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 2,
+    "gridRows": 1,
+    "gridEdges": [
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      }
+    ],
+    "h1": [],
+    "rfq": [
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          48,
+          48
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 0,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "375|/hizmetler/anodizasyon": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 10,
+    "gridRows": 9,
+    "gridEdges": [
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Anodizasyon",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          48,
+          48
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "375|/endustriyel/otomotiv": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 8,
+    "gridRows": 7,
+    "gridEdges": [
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      },
+      {
+        "left": 42,
+        "right": 375,
+        "cols": "subgrid [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Otomotiv",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          48,
+          48
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "768|/": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer tl-inview"
+    ],
+    "bands": 13,
+    "gridRows": 0,
+    "gridEdges": [],
+    "h1": [
+      {
+        "text": "HAM GEOMETRİDENDOĞRULANMIŞHASSASİYETE",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "svg",
+        "cls": "lucide lucide-user-round",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          22,
+          22
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "li",
+        "cls": "",
+        "shadow": "rgb(238, 233, 222) 0px -2px 0px 0px inset"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          68,
+          80
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "NOMİNAL ÖLÇÜ72.000 mm"
+      },
+      {
+        "parentTag": "div",
+        "parentCls": "tl-proof-grid",
+        "n": 6,
+        "perRow": 3,
+        "tile": [
+          237,
+          120
+        ],
+        "kidsWithIcon": 6,
+        "kidCls": "",
+        "sampleText": "±0.01 mmTOLERANS"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 2,
+        "tile": [
+          355,
+          138
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01ANALİZDFM AnaliziTolerans ÇalışmasıÜretilebilirlik"
+      },
+      {
+        "parentTag": "div",
+        "parentCls": "tl-nexus-kpis",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          177,
+          72
+        ],
+        "kidsWithIcon": 4,
+        "kidCls": "",
+        "sampleText": "SİPARİŞDURUM TAKİBİ"
+      },
+      {
+        "parentTag": "div",
+        "parentCls": "tl-sectors-body",
+        "n": 4,
+        "perRow": 2,
+        "tile": [
+          355,
+          356
+        ],
+        "kidsWithIcon": 4,
+        "kidCls": "tl-sector-card",
+        "sampleText": "HAVACILIK & UZAY"
+      },
+      {
+        "parentTag": "ul",
+        "parentCls": "tl-reference-grid",
+        "n": 6,
+        "perRow": 3,
+        "tile": [
+          237,
+          82
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HPT"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          170,
+          70
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01YÜKLEÇiziminizi bize iletin"
+      }
+    ],
+    "shellNext": 0,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root tl-root",
+      "data-shell-surface": "graphite",
+      "data-testid": "technical-landing-root",
+      "data-motion": "reduced"
+    }
+  },
+  "768|/hakkimizda": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 6,
+    "gridRows": 5,
+    "gridEdges": [
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Hakkımızda",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          178,
+          91
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Merkezİzmir · Çiğli"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "768|/iletisim": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 5,
+    "gridRows": 4,
+    "gridEdges": [
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Bize ulaşın",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          178,
+          91
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Telefon+90 (536) 564 51 94"
+      },
+      {
+        "parentTag": "div",
+        "parentCls": "shell-form-row",
+        "n": 4,
+        "perRow": 2,
+        "tile": [
+          347,
+          68
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "shell-field",
+        "sampleText": "Ad soyad *"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "768|/malzemeler": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 5,
+    "gridRows": 4,
+    "gridEdges": [
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Malzeme kütüphanesi",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "h-1 rounded-full overflow-hidden",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          238,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-full rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          190,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1 rounded-full overflow-hidden",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          238,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-full rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          238,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1 rounded-full overflow-hidden",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          238,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-full rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          190,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1 rounded-full overflow-hidden",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          238,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-full rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          143,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 3,
+        "perRow": 3,
+        "tile": [
+          237,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Kayıt türüKarşılaştırmalı teknik referans"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "768|/malzemeler/aluminyum": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 8,
+    "gridRows": 7,
+    "gridEdges": [
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "CNC İşleme için Alüminyum Alaşımları",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "768|/hizmetler/kategori/talasli-imalat": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 5,
+    "gridRows": 4,
+    "gridEdges": [
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Talaşlı İmalat",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "768|/hizmetler/cnc-frezeleme": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 10,
+    "gridRows": 9,
+    "gridEdges": [
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "CNC Frezeleme",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          178,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Maks. Parça Boyutu (3 Eksen)1500×800×600mm"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 6,
+        "perRow": 2,
+        "tile": [
+          355,
+          70
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01DFM Analizi"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "768|/endustriyel/havacilik-uzay": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 10,
+    "gridRows": 9,
+    "gridEdges": [
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Havacılık & Uzay",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          178,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Yönetim SistemiISO 9001:2015"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 6,
+        "perRow": 2,
+        "tile": [
+          355,
+          98
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01Zor İşlenen Alaşım DeneyimiTi6Al4V, Inconel 718"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 8,
+        "perRow": 2,
+        "tile": [
+          355,
+          70
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01Sözleşme İnceleme & PO"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "768|/hizmetler": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 1,
+    "gridRows": 0,
+    "gridEdges": [],
+    "h1": [
+      {
+        "text": "Aradığınız sayfa bulunamadı",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 0,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "paper"
+    }
+  },
+  "768|/endustriyel": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 1,
+    "gridRows": 0,
+    "gridEdges": [],
+    "h1": [
+      {
+        "text": "Aradığınız sayfa bulunamadı",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 0,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "paper"
+    }
+  },
+  "768|/malzemeler/paslanmaz-celik": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 8,
+    "gridRows": 7,
+    "gridEdges": [
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "CNC İşleme için Paslanmaz Çelik",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "768|/hizmetler/kategori/yuzey-islem": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 2,
+    "gridRows": 1,
+    "gridEdges": [
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [],
+    "shellNext": 0,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "768|/hizmetler/anodizasyon": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 10,
+    "gridRows": 9,
+    "gridEdges": [
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Anodizasyon",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          178,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Kaplama Kalınlığı5-100µm"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 6,
+        "perRow": 2,
+        "tile": [
+          355,
+          98
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01Tip I (Kromik Asit)5-15µm, havacılık yapısal parçalar, boya alt katm"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 6,
+        "perRow": 2,
+        "tile": [
+          355,
+          70
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01Yüzey Temizliği & Yağ Giderme"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "768|/endustriyel/otomotiv": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 8,
+    "gridRows": 7,
+    "gridEdges": [
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      },
+      {
+        "left": 57,
+        "right": 767,
+        "cols": "subgrid [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Otomotiv",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          178,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Yönetim SistemiISO 9001:2015"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 6,
+        "perRow": 2,
+        "tile": [
+          355,
+          98
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01Standart Kurulumpartiler arası tutarlılık"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 8,
+        "perRow": 2,
+        "tile": [
+          355,
+          70
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01APQP Planlama"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "1280|/": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer tl-inview"
+    ],
+    "bands": 13,
+    "gridRows": 0,
+    "gridEdges": [],
+    "h1": [
+      {
+        "text": "HAM GEOMETRİDENDOĞRULANMIŞHASSASİYETE",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          6,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-center",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          44,
+          44
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "lucide lucide-user-round",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          22,
+          22
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "li",
+        "cls": "",
+        "shadow": "rgb(238, 233, 222) 2px 0px 0px 0px inset"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "div",
+        "parentCls": "tl-proof-grid",
+        "n": 6,
+        "perRow": 6,
+        "tile": [
+          202,
+          136
+        ],
+        "kidsWithIcon": 6,
+        "kidCls": "",
+        "sampleText": "±0.01 mmTOLERANS"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          304,
+          138
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01ANALİZDFM AnaliziTolerans ÇalışmasıÜretilebilirlik"
+      },
+      {
+        "parentTag": "div",
+        "parentCls": "tl-nexus-kpis",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          227,
+          72
+        ],
+        "kidsWithIcon": 4,
+        "kidCls": "",
+        "sampleText": "SİPARİŞDURUM TAKİBİ"
+      },
+      {
+        "parentTag": "div",
+        "parentCls": "tl-sectors-body",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          304,
+          304
+        ],
+        "kidsWithIcon": 4,
+        "kidCls": "tl-sector-card",
+        "sampleText": "HAVACILIK & UZAY"
+      },
+      {
+        "parentTag": "div",
+        "parentCls": "tl-quality-strip",
+        "n": 6,
+        "perRow": 6,
+        "tile": [
+          202,
+          190
+        ],
+        "kidsWithIcon": 1,
+        "kidCls": "tl-cert",
+        "sampleText": "ISO 9001:2015KALİTE YÖNETİM SİSTEMİYÖNETİM SİSTEMİ BELGESİ"
+      },
+      {
+        "parentTag": "ul",
+        "parentCls": "tl-reference-grid",
+        "n": 6,
+        "perRow": 6,
+        "tile": [
+          202,
+          82
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HPT"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          114,
+          70
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01YÜKLEÇiziminizi bize iletin"
+      },
+      {
+        "parentTag": "nav",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          202,
+          150
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşaretleme & TanımlamaM"
+      }
+    ],
+    "shellNext": 0,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root tl-root",
+      "data-shell-surface": "graphite",
+      "data-testid": "technical-landing-root",
+      "data-motion": "reduced"
+    }
+  },
+  "1280|/hakkimizda": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 6,
+    "gridRows": 5,
+    "gridEdges": [
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Hakkımızda",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          6,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-center",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          44,
+          44
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          126,
+          119
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Merkezİzmir · Çiğli"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 6,
+        "perRow": 3,
+        "tile": [
+          405,
+          118
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01Talep ve teknik resim2B teknik resim veya 3B model, adet ve malzeme "
+      },
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-next-detail",
+        "n": 3,
+        "perRow": 3,
+        "tile": [
+          135,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Dönüş süresi1-3 iş günü"
+      },
+      {
+        "parentTag": "nav",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          202,
+          150
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşaretleme & TanımlamaM"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "1280|/iletisim": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 5,
+    "gridRows": 4,
+    "gridEdges": [
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Bize ulaşın",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          6,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-center",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          44,
+          44
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          126,
+          108
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Telefon+90 (536) 564 51 94"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 3,
+        "perRow": 3,
+        "tile": [
+          405,
+          202
+        ],
+        "kidsWithIcon": 3,
+        "kidCls": "",
+        "sampleText": "01Teknik teklifTeknik resim veya 3B modelinizi yükleyin; üretilebilirl"
+      },
+      {
+        "parentTag": "div",
+        "parentCls": "shell-form-row",
+        "n": 4,
+        "perRow": 2,
+        "tile": [
+          397,
+          68
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "shell-field",
+        "sampleText": "Ad soyad *"
+      },
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-next-detail",
+        "n": 3,
+        "perRow": 3,
+        "tile": [
+          135,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Dönüş süresi1-3 iş günü"
+      },
+      {
+        "parentTag": "nav",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          202,
+          150
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşaretleme & TanımlamaM"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "1280|/malzemeler": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 5,
+    "gridRows": 4,
+    "gridEdges": [
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1279,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Malzeme kütüphanesi",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          6,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-center",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          44,
+          44
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1 rounded-full overflow-hidden",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          238,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-full rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          190,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1 rounded-full overflow-hidden",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          238,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-full rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          238,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1 rounded-full overflow-hidden",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          238,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-full rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          190,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-1 rounded-full overflow-hidden",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          238,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "h-full rounded-full",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          143,
+          4
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 3,
+        "perRow": 3,
+        "tile": [
+          169,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Kayıt türüKarşılaştırmalı teknik referans"
+      },
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-next-detail",
+        "n": 3,
+        "perRow": 3,
+        "tile": [
+          135,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Dönüş süresi1-3 iş günü"
+      },
+      {
+        "parentTag": "nav",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          202,
+          150
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşaretleme & TanımlamaM"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "1280|/malzemeler/aluminyum": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 8,
+    "gridRows": 7,
+    "gridEdges": [
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1279,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "CNC İşleme için Alüminyum Alaşımları",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          6,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-center",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          44,
+          44
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          126,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Yoğunluk2.65–2.83 g/cm³"
+      },
+      {
+        "parentTag": "nav",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          202,
+          150
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşaretleme & TanımlamaM"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "1280|/hizmetler/kategori/talasli-imalat": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 5,
+    "gridRows": 4,
+    "gridEdges": [
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Talaşlı İmalat",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          6,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-center",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          44,
+          44
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-next-detail",
+        "n": 3,
+        "perRow": 3,
+        "tile": [
+          135,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Dönüş süresi1-3 iş günü"
+      },
+      {
+        "parentTag": "nav",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          202,
+          150
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşaretleme & TanımlamaM"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "1280|/hizmetler/cnc-frezeleme": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 10,
+    "gridRows": 9,
+    "gridEdges": [
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "CNC Frezeleme",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          6,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-center",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          44,
+          44
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          126,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Maks. Parça Boyutu (3 Eksen)1500×800×600mm"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 6,
+        "perRow": 2,
+        "tile": [
+          405,
+          98
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "013 Eksen FrezelemeDüz yüzeyler ve standart geometrilerde ekonomik çöz"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 6,
+        "perRow": 3,
+        "tile": [
+          405,
+          70
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01DFM Analizi"
+      },
+      {
+        "parentTag": "nav",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          202,
+          150
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşaretleme & TanımlamaM"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "1280|/endustriyel/havacilik-uzay": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 10,
+    "gridRows": 9,
+    "gridEdges": [
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Havacılık & Uzay",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          6,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-center",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          44,
+          44
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          126,
+          91
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Yönetim SistemiISO 9001:2015"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 6,
+        "perRow": 2,
+        "tile": [
+          405,
+          98
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01Zor İşlenen Alaşım DeneyimiTi6Al4V, Inconel 718"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 8,
+        "perRow": 2.6666666666666665,
+        "tile": [
+          405,
+          70
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01Sözleşme İnceleme & PO"
+      },
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-next-detail",
+        "n": 3,
+        "perRow": 3,
+        "tile": [
+          135,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Dönüş süresi1-3 iş günü"
+      },
+      {
+        "parentTag": "nav",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          202,
+          150
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşaretleme & TanımlamaM"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "1280|/hizmetler": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 1,
+    "gridRows": 0,
+    "gridEdges": [],
+    "h1": [
+      {
+        "text": "Aradığınız sayfa bulunamadı",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          6,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-center",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          44,
+          44
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "nav",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          202,
+          150
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşaretleme & TanımlamaM"
+      }
+    ],
+    "shellNext": 0,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "paper"
+    }
+  },
+  "1280|/endustriyel": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 1,
+    "gridRows": 0,
+    "gridEdges": [],
+    "h1": [
+      {
+        "text": "Aradığınız sayfa bulunamadı",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          6,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-center",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          44,
+          44
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "nav",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          202,
+          150
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşaretleme & TanımlamaM"
+      }
+    ],
+    "shellNext": 0,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "paper"
+    }
+  },
+  "1280|/malzemeler/paslanmaz-celik": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 8,
+    "gridRows": 7,
+    "gridEdges": [
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1279,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "CNC İşleme için Paslanmaz Çelik",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          6,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-center",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          44,
+          44
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          126,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Yoğunluk7.70–8.00 g/cm³"
+      },
+      {
+        "parentTag": "nav",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          202,
+          150
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşaretleme & TanımlamaM"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "1280|/hizmetler/kategori/yuzey-islem": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 2,
+    "gridRows": 1,
+    "gridEdges": [
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          6,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-center",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          44,
+          44
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "nav",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          202,
+          150
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşaretleme & TanımlamaM"
+      }
+    ],
+    "shellNext": 0,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "1280|/hizmetler/anodizasyon": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 10,
+    "gridRows": 9,
+    "gridEdges": [
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Anodizasyon",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          6,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-center",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          44,
+          44
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          126,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Kaplama Kalınlığı5-100µm"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 6,
+        "perRow": 2,
+        "tile": [
+          405,
+          98
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01Tip I (Kromik Asit)5-15µm, havacılık yapısal parçalar, boya alt katm"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 6,
+        "perRow": 3,
+        "tile": [
+          405,
+          70
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01Yüzey Temizliği & Yağ Giderme"
+      },
+      {
+        "parentTag": "nav",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          202,
+          150
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşaretleme & TanımlamaM"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  },
+  "1280|/endustriyel/otomotiv": {
+    "shellRoot": 1,
+    "header": 1,
+    "footers": 1,
+    "tlFooters": 1,
+    "footerTags": [
+      "tl-band tl-footer shell-footer"
+    ],
+    "bands": 8,
+    "gridRows": 7,
+    "gridEdges": [
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      },
+      {
+        "left": 65,
+        "right": 1278.98,
+        "cols": "subgrid [] [] [] [] [] [] [] [] [] [] [] [] []"
+      }
+    ],
+    "h1": [
+      {
+        "text": "Otomotiv",
+        "visible": true
+      }
+    ],
+    "rfq": [
+      {
+        "text": "TEKLİF AL",
+        "inFooter": false,
+        "inHeader": true,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      },
+      {
+        "text": "Teklif Al",
+        "inFooter": false,
+        "inHeader": false,
+        "inNext": true,
+        "tabindex": null
+      },
+      {
+        "text": "Hemen Teklif Al",
+        "inFooter": true,
+        "inHeader": false,
+        "inNext": false,
+        "tabindex": null
+      }
+    ],
+    "rounded": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          6,
+          6
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-center",
+        "radius": "50% 50% 50% 50%",
+        "box": [
+          44,
+          44
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-l",
+        "radius": "9999px 9999px 9999px 9999px",
+        "box": [
+          56,
+          56
+        ],
+        "inFooter": false,
+        "inHeader": false,
+        "inChat": false,
+        "text": ""
+      }
+    ],
+    "shadowed": [
+      {
+        "tag": "a",
+        "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semi",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+        "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rg"
+      }
+    ],
+    "tiles": [
+      {
+        "parentTag": "dl",
+        "parentCls": "shell-meta-row shell-hero-meta",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          126,
+          75
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "Yönetim SistemiISO 9001:2015"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 6,
+        "perRow": 2,
+        "tile": [
+          405,
+          98
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01Standart Kurulumpartiler arası tutarlılık"
+      },
+      {
+        "parentTag": "ol",
+        "parentCls": "shell-run",
+        "n": 8,
+        "perRow": 2.6666666666666665,
+        "tile": [
+          405,
+          70
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "01APQP Planlama"
+      },
+      {
+        "parentTag": "nav",
+        "parentCls": "",
+        "n": 4,
+        "perRow": 4,
+        "tile": [
+          202,
+          150
+        ],
+        "kidsWithIcon": 0,
+        "kidCls": "",
+        "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşaretleme & TanımlamaM"
+      }
+    ],
+    "shellNext": 1,
+    "bodyBg": "rgb(255, 255, 255)",
+    "rootAttrs": {
+      "class": "shell-root",
+      "data-shell-surface": "graphite"
+    }
+  }
+}

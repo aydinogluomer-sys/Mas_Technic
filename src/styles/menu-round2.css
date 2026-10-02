@@ -1,0 +1,177 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   ROUND 2 · THE MENU (item 20)
+
+   Same machine, new sheet. The dialog, focus trap, roving family keys, the
+   single-open category accordion and all 48 detail routes are unchanged (the
+   contracts in e2e/fullscreen-menu.spec.ts). What changes is the reading:
+
+     left  · graphite — the three families as a display-scale index with
+             their size (categories · pages), and the directory under it
+     right · paper    — the active family opened like a drawing register:
+             a family heading, then serif category rows, then their pages
+
+   Two grounds in one sheet: the dark index you choose from, the light page
+   you read. Tokens only; the z-index is the existing `--gnav-menu-z`.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 1181px) {
+  .tl-menu .tl-menu-main {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    /* Content-sized rows and one scroll for the whole sheet: on short screens
+       the directory must push down, never ride up over the family index. */
+    grid-template-rows: auto 1fr;
+    gap: 0;
+    padding: 0;
+    overflow-y: auto;
+  }
+  /* The primary nav publishes both columns so the rail and the paper panel
+     share the directory's grid; the directory takes the free cell. */
+  .tl-menu .tl-menu-primary {
+    grid-column: 1 / -1;
+    grid-row: 1 / span 2;
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-template-rows: subgrid;
+    gap: 0;
+  }
+  .tl-menu .tl-menu-family-rail { grid-column: 1; grid-row: 1; padding: var(--tl-s6) var(--tl-s6) 0; border-top: 0; }
+  .tl-menu .tl-menu-categories {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  .tl-menu .tl-menu-directory-reveal {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+    padding: var(--tl-s5) var(--tl-s6) var(--tl-s6);
+  }
+  /* In a 5/12 column the landing-section list reads as one column; its two
+     sub-columns collided at 1440. */
+  .tl-menu [data-nav-sections] ul { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ── Left: the family index ───────────────────────────────────────────────*/
+.tl-menu .tl-menu-family {
+  min-height: clamp(84px, 12vh, 150px);
+  grid-template-columns: 48px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-content: center;
+  row-gap: 6px;
+  color: var(--tl-on-dark-faint);
+}
+.tl-menu .tl-menu-family-label {
+  grid-column: 2;
+  font-size: clamp(40px, 4.6vw, 84px);
+  line-height: .9;
+  letter-spacing: -.045em;
+  transition: transform .5s var(--pl-ease, cubic-bezier(.16, 1, .3, 1)), color .3s ease;
+}
+.tl-menu .tl-menu-family-index { grid-row: 1 / span 2; align-self: start; padding-top: 10px; font-size: 11px; }
+.tl-menu .tl-menu-family-meta {
+  grid-column: 2;
+  color: var(--tl-on-dark-faint);
+  font: 500 10px/1 var(--tl-font-mono);
+  letter-spacing: .16em;
+}
+.tl-menu .tl-menu-family.is-active .tl-menu-family-meta { color: var(--tl-bronze-light); }
+.tl-menu .tl-menu-family:is(:hover, :focus-visible) .tl-menu-family-label { transform: translateX(10px); }
+.tl-menu .tl-menu-family-datum { left: 48px; height: 1px; }
+.tl-menu .tl-menu-here { grid-column: 2; grid-row: 3; font-size: 9px; }
+
+/* ── Right: the paper register ────────────────────────────────────────────*/
+.tl-menu .tl-menu-categories {
+  border-top: 0;
+  padding: var(--tl-s6) clamp(24px, 3vw, 56px) var(--tl-s7);
+  color: var(--tl-ink);
+  background: var(--tl-paper);
+}
+.tl-menu-panel-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--tl-s4);
+  border-bottom: var(--tl-rule-size) solid var(--tl-paper-rule-strong);
+  padding-bottom: var(--tl-s4);
+  margin-bottom: var(--tl-s2);
+}
+.tl-menu-panel-head span,
+.tl-menu-panel-head small {
+  color: var(--tl-ink-soft);
+  font: 600 11px/1 var(--tl-font-mono);
+  letter-spacing: .14em;
+}
+.tl-menu-panel-head strong {
+  font: 400 clamp(34px, 3.4vw, 58px)/1 var(--tl-font-serif);
+  font-style: italic;
+  letter-spacing: -.02em;
+}
+.tl-menu .tl-menu-category { border-bottom-color: var(--tl-paper-rule); }
+.tl-menu .tl-menu-category-toggle {
+  min-height: 68px;
+  grid-template-columns: 40px minmax(0, 1fr) 40px;
+  color: var(--tl-ink-muted);
+}
+.tl-menu .tl-menu-category-toggle:is(:hover, :focus-visible),
+.tl-menu .tl-menu-category.is-open .tl-menu-category-toggle { color: var(--tl-ink); }
+.tl-menu .tl-menu-category-index,
+.tl-menu .tl-menu-category-count { color: var(--tl-ink-soft); font-size: 11px; }
+.tl-menu .tl-menu-category.is-open .tl-menu-category-index { color: var(--tl-ink-soft); }
+.tl-menu .tl-menu-category-label {
+  font: 400 clamp(22px, 1.9vw, 32px)/1.1 var(--tl-font-serif);
+  letter-spacing: -.015em;
+  transition: transform .45s var(--pl-ease, cubic-bezier(.16, 1, .3, 1));
+}
+.tl-menu .tl-menu-category-toggle:is(:hover, :focus-visible) .tl-menu-category-label { transform: translateX(6px); }
+.tl-menu .tl-menu-category-details { padding: 0 0 var(--tl-s5) 40px; }
+.tl-menu .tl-menu-category-landing { color: var(--tl-ink-soft); font-size: 11px; }
+.tl-menu .tl-menu-category-details li a {
+  border-top-color: var(--tl-paper-rule-soft);
+  color: var(--tl-ink-muted);
+  font-size: 15px;
+}
+.tl-menu .tl-menu-category-details li a:is(:hover, :focus-visible) { color: var(--tl-ink); }
+.tl-menu .tl-menu-category-details li a[aria-current="page"],
+.tl-menu .tl-menu-category-landing[aria-current="page"] { color: var(--tl-bronze-ink); }
+.tl-menu .tl-menu-categories :is(a, button):focus-visible { outline-color: var(--tl-ink); }
+
+/* ── Directory under the index ────────────────────────────────────────────*/
+.tl-menu .tl-menu-directory { gap: var(--tl-s5); padding-top: var(--tl-s4); }
+.tl-menu .tl-menu-dir-title { align-items: baseline; font-size: 10px; line-height: 1.4; }
+.tl-menu .tl-menu-route-link { font-size: 15px; }
+.tl-menu .tl-menu-dir-col li a:is(:hover, :focus-visible) { color: var(--tl-bronze-light); }
+
+/* ── Tablet and phone: one column, paper panel full width ─────────────────*/
+@media (max-width: 1180px) {
+  .tl-menu .tl-menu-categories { margin-inline: calc(-1 * var(--tl-s5)); }
+  .tl-menu .tl-menu-family-meta { display: none; }
+  .tl-menu .tl-menu-family { grid-template-columns: minmax(0, 1fr); }
+  .tl-menu .tl-menu-family-index { display: none; }
+  .tl-menu .tl-menu-family-label { grid-column: 1; font-size: clamp(22px, 3.6vw, 34px); }
+}
+@media (max-width: 767px) {
+  .tl-menu .tl-menu-categories { margin-inline: calc(-1 * var(--tl-s4)); padding: var(--tl-s4); }
+  .tl-menu .tl-menu-family { min-height: 48px; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; }
+  .tl-menu .tl-menu-family-label { grid-column: 1; font: 600 11px/1.1 var(--tl-font-mono); letter-spacing: .04em; transform: none; }
+  .tl-menu .tl-menu-family:is(:hover, :focus-visible) .tl-menu-family-label { transform: none; }
+  /* Index and count on one line, the family name on its own below — at 320
+     the three in one row overlapped ("04 07 SAYFA Kurumsal"). */
+  .tl-menu .tl-menu-panel-head { grid-template-columns: auto minmax(0, 1fr); row-gap: var(--tl-s2); }
+  .tl-menu .tl-menu-panel-head small { justify-self: end; }
+  .tl-menu-panel-head strong { grid-column: 1 / -1; grid-row: 2; font-size: 30px; }
+  /* Four families (revision 4) do not fit one row of tabs at 320–375:
+     two rows of two, labels whole. */
+  .tl-menu .tl-menu-family-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tl-menu .tl-menu-category-toggle { min-height: 56px; grid-template-columns: 28px minmax(0, 1fr) 28px; }
+  .tl-menu .tl-menu-category-label { font-size: 20px; }
+  .tl-menu .tl-menu-category-details { padding-left: 28px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tl-menu .tl-menu-family-label,
+  .tl-menu .tl-menu-category-label { transition: none; }
+}
+
+/* Revision 4 · 04 Kurumsal: a flat page list drawn as category rows. */
+.tl-menu .tl-menu-pages { margin: 0; padding: 0; list-style: none; }
+.tl-menu a.tl-menu-page { color: inherit; text-decoration: none; }
+.tl-menu a.tl-menu-page[aria-current="page"] .tl-menu-category-label { text-decoration: underline; text-underline-offset: 6px; }

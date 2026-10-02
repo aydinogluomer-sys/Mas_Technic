@@ -1,0 +1,46 @@
+{
+  "canary": "BLOCKED:Failed to fetch",
+  "traffic": {
+    "blocked": 23,
+    "allowed": 0
+  },
+  "out": {
+    "clean": {
+      "url": "http://localhost:4173/giris",
+      "notices": []
+    },
+    "hostile": {
+      "notices": [
+        {
+          "tone": "error",
+          "role": "alert",
+          "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: scriptalert1scriptoturumunuzkilitlendi"
+        }
+      ],
+      "leaked": [],
+      "scriptTagsInNotice": 0,
+      "url": "http://localhost:4173/giris"
+    },
+    "reentry": {
+      "first": [
+        {
+          "tone": "error",
+          "role": "alert",
+          "text": "İZİN VERİLMEDİGiriş izni verilmediği için işlem tamamlanmadı.Sağlayıcı ekranında izni onaylamadınız. Yeniden deneyebilir veya e-posta ve şifrenizle giriş yapabilirsiniz.KOD: access_denied"
+        }
+      ],
+      "away": "/",
+      "second": [],
+      "entryUrlStillCarriesError": true
+    },
+    "announced": {
+      "role": "alert",
+      "tone": "error",
+      "text": "SAĞLAYICI KAPALIBu sağlayıcı ile giriş şu anda kullanılamıyor.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse bize bildirin.KOD: provider_disabled",
+      "borderLeftColor": "rgb(225, 133, 112)",
+      "precedesSocialButtons": true,
+      "hasReferenceLine": true,
+      "referenceText": "KOD: provider_disabled"
+    }
+  }
+}

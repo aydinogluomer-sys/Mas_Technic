@@ -1,0 +1,13 @@
+URL: http://localhost:4173/
+HTTP_STATUS: 200
+ROOT_INNERHTML_LENGTH: 0
+TECHNICAL_LANDING_ROOT_COUNT: 0
+HERO_SHELL_STILL_IN_DOM: 1
+HTML_DATA_INTRO_ACTIVE: false
+BODY_TEXT_FIRST_400: "HAM BLOK · TAKIM YOLU İŞLENİYOR\n100\nMAS\nTECHNIC"
+--- CONSOLE / ERRORS ---
+[console:error] Error: VITE_SUPABASE_URL is not set. Copy .env.example to .env and fill in the Supabase values (dashboard → Project Settings → API).
+    at Bt (http://localhost:4173/assets/client-Bp4YQLUG.js:43:43967)
+    at http://localhost:4173/assets/client-Bp4YQLUG.js:43:44097
+[pageerror] VITE_SUPABASE_URL is not set. Copy .env.example to .env and fill in the Supabase values (dashboard → Project Settings → API).
+[console:warning] The resource http://localhost:4173/src/assets/hero-cnc.jpg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.

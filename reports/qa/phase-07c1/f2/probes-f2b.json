@@ -1,0 +1,23 @@
+[
+  { "expect": "catch", "why": "pattern-14 baseline: noun immediately after number", "code": "  \"30+ tezgah ile üretim\"," },
+  { "expect": "catch", "why": "pattern-14 CNC modifier is whitelisted", "code": "  \"8+ CNC tezgahı\"," },
+  { "expect": "catch", "why": "pattern-14 adet modifier is whitelisted", "code": "  \"30+ adet tezgah\"," },
+  { "expect": "silent", "why": "ASYMMETRY: one adjective breaks the machine-count noun list", "code": "  \"30+ yeni tezgah\"," },
+  { "expect": "silent", "why": "ASYMMETRY: headcount with one adjective", "code": "  \"25+ deneyimli mühendis\"," },
+  { "expect": "silent", "why": "ASYMMETRY: headcount with one adjective 2", "code": "  \"40+ tam zamanlı personel\"," },
+  { "expect": "silent", "why": "ASYMMETRY: customer count with one adjective", "code": "  \"150+ aktif müşteri\"," },
+  { "expect": "silent", "why": "ASYMMETRY: floor area with one adjective", "code": "  \"5.000+ kapalı metrekare\"," },
+  { "expect": "catch", "why": "control: inventory noun with one adjective still fires", "code": "  \"150+ aktif proje\"," },
+  { "expect": "silent", "why": "FALSE POSITIVE: bare JS string concat idiom", "code": "  const a = \"\" + malzemeAdi;" },
+  { "expect": "silent", "why": "FALSE POSITIVE: concat with prefix string", "code": "  const b = \"Kod: \" + modelNo;" },
+  { "expect": "silent", "why": "FALSE POSITIVE: single-quoted concat", "code": "  const c = 'x' + renkKodu;" },
+  { "expect": "silent", "why": "FALSE POSITIVE: JSX attribute concat", "code": "  <X title={\"a\" + urunAdi} />," },
+  { "expect": "silent", "why": "control: concat with non-noun identifier is silent", "code": "  const d = \"\" + toplamSayi;" },
+  { "expect": "catch", "why": "ANNUAL VOLUME: plain", "code": "  \"50.000 adet/yıl\"," },
+  { "expect": "catch", "why": "ANNUAL VOLUME: label/value pair", "code": "  { label: \"Seri Kapasite\", value: \"500.000 adet/yıl\" }," },
+  { "expect": "catch", "why": "ANNUAL VOLUME: spaced slash", "code": "  \"50.000 adet / yıl\"," },
+  { "expect": "catch", "why": "ANNUAL VOLUME: yillik prefix", "code": "  \"yıllık 50.000 adet üretim\"," },
+  { "expect": "catch", "why": "ANNUAL VOLUME: K notation band", "code": "  \"100-10K adet/yıl\"," },
+  { "expect": "catch", "why": "ANNUAL VOLUME: monthly", "code": "  \"20.000 adet/ay\"," },
+  { "expect": "catch", "why": "control: spelled-out annual volume IS caught", "code": "  \"50 bin adet yıllık\"," }
+]

@@ -1,0 +1,44 @@
+{
+  "shipped": {
+    "wrapperClass": "shell-doc-table",
+    "vw": 375,
+    "containerLeft": 42,
+    "containerRight": 375,
+    "clientWidth": 331,
+    "scrollWidth": 584,
+    "forcedScrollLeft": 253,
+    "tableRight": 626.875,
+    "rightAtMax": 373.875,
+    "tabindex": "0",
+    "r21": false,
+    "fits": false
+  },
+  "oldControlNoFix": {
+    "wrapperClass": "shell-stack",
+    "vw": 375,
+    "containerLeft": 42,
+    "containerRight": 627.875,
+    "clientWidth": 584,
+    "scrollWidth": 584,
+    "forcedScrollLeft": 0,
+    "tableRight": 626.875,
+    "rightAtMax": 626.875,
+    "tabindex": null,
+    "r21": true,
+    "fits": false
+  },
+  "oldControlWithFix": {
+    "wrapperClass": "shell-stack",
+    "vw": 375,
+    "containerLeft": 42,
+    "containerRight": 375,
+    "clientWidth": 331,
+    "scrollWidth": 584,
+    "forcedScrollLeft": 253,
+    "tableRight": 626.875,
+    "rightAtMax": 373.875,
+    "tabindex": "0",
+    "r21": false,
+    "fits": false
+  }
+}

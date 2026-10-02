@@ -1,243 +1,359 @@
-import { useParams, Link } from "react-router-dom";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { JsonLdSchema } from "@/components/JsonLdSchema";
-import { ArrowLeft, Clock, Tag, Eye, Share2, Facebook, Twitter, Linkedin, Link2, MessageSquare, Send } from "lucide-react";
-import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
 import { useState } from "react";
+import {
+  PageShell,
+  ShellAction,
+  ShellBreadcrumb,
+  ShellContents,
+  ShellDocSection,
+  ShellIndexList,
+  ShellNextStep,
+  ShellPageHero,
+  ShellPlate,
+  ShellSpecTable,
+  ShellSurfaceBand,
+} from "@/components/shell";
+import { JsonLdSchema } from "@/components/JsonLdSchema";
+import { usePageMeta } from "@/hooks/use-page-meta";
 import { blogPosts } from "@/data/blogData";
+import { QUOTE_RESPONSE_TIME } from "@/content/claims";
+import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
+import blog5eksen from "@/assets/blog-5eksen.webp";
+import blog5eksen640 from "@/assets/blog-5eksen-640.webp";
+import blog5eksen960 from "@/assets/blog-5eksen-960.webp";
+import blogMalzeme from "@/assets/blog-malzeme.webp";
+import blogMalzeme640 from "@/assets/blog-malzeme-640.webp";
+import blogMalzeme960 from "@/assets/blog-malzeme-960.webp";
+import blogDfm from "@/assets/blog-dfm.webp";
+import blogDfm640 from "@/assets/blog-dfm-640.webp";
+import blogDfm960 from "@/assets/blog-dfm-960.webp";
+import heroCncFrezeleme from "@/assets/hero-cnc-frezeleme.webp";
+import heroCncFrezeleme640 from "@/assets/hero-cnc-frezeleme-640.webp";
+import heroCncFrezeleme960 from "@/assets/hero-cnc-frezeleme-960.webp";
+import qualityControl from "@/assets/quality-control.webp";
+import qualityControl640 from "@/assets/quality-control-640.webp";
+import qualityControl960 from "@/assets/quality-control-960.webp";
+import heroYuzeyIslemleri from "@/assets/hero-yuzey-islemleri.webp";
+import heroYuzeyIslemleri640 from "@/assets/hero-yuzey-islemleri-640.webp";
+import heroYuzeyIslemleri960 from "@/assets/hero-yuzey-islemleri-960.webp";
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ARTICLE
+
+   ── TYPOGRAPHY AND STRUCTURE ─────────────────────────────────────────────
+   The old article was `prose prose-sm max-w-none text-muted-foreground` over
+   `post.fullContent.map(p => <p>)` — five or six paragraphs at 14px, muted
+   grey, running the full width of a `max-w-4xl` container with no internal
+   structure at all. `max-w-none` is the instruction that removes the measure
+   cap, so on a 1440px screen the body ran to roughly 150 characters a line,
+   which is about twice a comfortable measure.
+
+   It is now a `.shell-doc`: anchored, numbered sections in the main column,
+   `.shell-prose` (measure capped in `ch`, so it holds at every type size) and
+   a sticky contents index in the aside. Every section is deep-linkable, so
+   `/blog/…#duvar-kalinligi` is a real address and the index in the aside is
+   made of real addresses.
+
+   ── FIGURE AND CAPTION ───────────────────────────────────────────────────
+   The hero image was an `aspect-[16/9]` box with `alt={post.title}` — the alt
+   text described the ARTICLE, not the photograph, which is exactly the failure
+   mode a screen-reader user experiences as "the title, twice". It is a
+   `ShellPlate` now: hairline frame, corner ticks, and a plate number plus
+   caption in a `<figcaption>` BELOW the frame, never inside it (the I4 rule).
+   `imageAlt` and `imageCaption` are separate fields in `blogData.ts` and say
+   different things.
+
+   ── TABLES ───────────────────────────────────────────────────────────────
+   A section may carry a `table`, rendered through the site's one
+   `ShellSpecTable`: tabular figures, right-aligned measurement columns, and a
+   caption outside the scroll container so a narrow viewport scrolls the data
+   and keeps the table's name in place.
+
+   ── THE COMMENT FORM IS GONE ─────────────────────────────────────────────
+   It kept comments in `useState`. Nothing was posted anywhere, nothing was
+   moderated and nothing survived a refresh — a reader could type a paragraph,
+   press "Yorum Yap", watch it appear, and lose it on navigation. That is the
+   Phase 07 `/iletisim` finding again (`docs/lean/17` §6.6): a form that
+   pretends to accept something and discards it is worse than no form. There
+   is no comment backend in this project and `USER_INPUTS.md` authorises
+   none, so it is removed rather than faked.
+
+   Sharing stays, because those links genuinely work, but it is a mono run
+   rather than four 40×40 icon boxes.
+
+   ── THE RFQ CONTINUATION IS NOT AGGRESSIVE, BY CONSTRUCTION ──────────────
+   One `ShellNextStep` at the end, the same band every other page ends on, and
+   it does not interrupt the text. There is no mid-article CTA, no sticky bar
+   and no exit modal. The reader finishes the article first.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const SHARE_TARGETS = [
+  {
+    label: "LINKEDIN",
+    href: (url: string) => `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+  },
+  {
+    label: "X",
+    href: (url: string, title: string) =>
+      `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
+  },
+] as const;
+
+/* The corpus (`blogData.ts`) stores a bundled URL per post; this map adds the
+   asset's intrinsic size and its 640/960 ladder (`scripts/assets/make-derivatives.mjs`),
+   keyed by that same URL — Vite resolves one asset to one URL, so the key is
+   the import. A post whose image is not listed here renders without a ladder
+   or a reserved box; add it when the corpus changes. */
+const plateSources = new Map<string, ResponsiveImage>([
+  [blog5eksen, responsive(1600, 896, blog5eksen, [blog5eksen640, 640], [blog5eksen960, 960])],
+  [blogMalzeme, responsive(1600, 896, blogMalzeme, [blogMalzeme640, 640], [blogMalzeme960, 960])],
+  [blogDfm, responsive(1600, 896, blogDfm, [blogDfm640, 640], [blogDfm960, 960])],
+  /* 10-2b: `service-cnc-freze` (blue-tinted stock, 800px) fails the campaign's
+     graphite mood; the torna/freze post opens on the spindle-and-coolant hero
+     its own alt text describes. */
+  [heroCncFrezeleme, responsive(1600, 896, heroCncFrezeleme, [heroCncFrezeleme640, 640], [heroCncFrezeleme960, 960])],
+  [qualityControl, responsive(1600, 682, qualityControl, [qualityControl640, 640], [qualityControl960, 960])],
+  /* 10-2b: the surface-treatment guide no longer opens on `cnc-workshop` (a wide
+     machine hall — a facility implication `USER_INPUTS.md` §I forbids, and a
+     picture its own caption "dört farklı yüzey bitişi" did not describe); it
+     opens on the bead-blasted / brushed macro the caption is about. */
+  [heroYuzeyIslemleri, responsive(1600, 896, heroYuzeyIslemleri, [heroYuzeyIslemleri640, 640], [heroYuzeyIslemleri960, 960])],
+]);
+
+/* `.shell-plate-frame` image box (`src/styles/shell.css`): `clamp(200px, 33vw,
+   420px)` + 120px parallax overscan - 2px border. The image is `object-fit:
+   cover`, so the browser needs max(width, height x aspect) of source — see
+   `coverSizes` and `reports/10/responsive-images.md`. */
+const PLATE_IMAGE_HEIGHT = "clamp(200px, 33vw, 420px) + 118px";
+/* Measured: 331px at 375, 708 at 768, 807 at 1280, 914 at 1440, 1021 at the 1600 sheet. */
+const PLATE_DOC_WIDTHS = [
+  ["(max-width: 767px)", "calc(100vw - 44px)"],
+  ["(max-width: 1180px)", "calc(100vw - 60px)"],
+  [null, "min(calc((100vw - 66px) * 2 / 3 - 2px), 1021px)"],
+] as const;
 
 export const BlogDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const post = blogPosts.find((p) => p.slug === slug);
-  const [commentName, setCommentName] = useState("");
-  const [commentText, setCommentText] = useState("");
-  const [comments, setComments] = useState<{ name: string; text: string; date: string }[]>([]);
+  const post = blogPosts.find((entry) => entry.slug === slug);
+  const plate = post ? plateSources.get(post.image) : undefined;
   const [copied, setCopied] = useState(false);
+
+  /* The heading string is load-bearing. `e2e/shared-shell-accessibility.spec.ts`
+     and `e2e/landing/navigation-reachability.spec.ts` both assert that no
+     canonical route renders a heading matching /^(Sayfa|Yazı) Bulunamadı$/ —
+     it is how they detect a route resolving to a not-found body. Changing this
+     text would not fail those specs; it would quietly disarm them. */
+  usePageMeta({
+    title: post ? post.title : "Yazı Bulunamadı",
+    description: post?.excerpt,
+  });
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <main className="pt-24 pb-16">
-          <div className="container-industrial text-center py-20">
-            <h1 className="heading-industrial text-3xl mb-4">Yazı Bulunamadı</h1>
-            <Link to="/blog" className="btn-industrial-primary">Blog'a Dön</Link>
+      <PageShell surface="graphite" rail={{ no: "R2", label: "GÜNLÜK" }}>
+        <ShellPageHero
+          no="01"
+          label="GÜNLÜK"
+          crumb={
+            <ShellBreadcrumb
+              trail={[{ label: "Ana sayfa", to: "/" }, { label: "Teknik günlük", to: "/blog" }]}
+            />
+          }
+          eyebrow="KAYIT YOK"
+          title="Yazı Bulunamadı"
+          lede="Bu adreste bir yazı yok. Bağlantı değişmiş veya yazı kaldırılmış olabilir; dizinden ilgili başlığa geçebilirsiniz."
+          actions={<ShellAction to="/blog" variant="primary">Yazı dizini</ShellAction>}
+        />
+        <ShellSurfaceBand no="02" label="DİZİN" tone="paper" ariaLabel="Yazı dizini">
+          <div className="shell-span-full">
+            <ShellIndexList
+              ariaLabel="Teknik günlük yazıları"
+              items={blogPosts.map((entry) => ({
+                to: `/blog/${entry.slug}`,
+                eyebrow: entry.category,
+                title: entry.title,
+                description: entry.excerpt,
+                meta: [entry.date, entry.readTime],
+              }))}
+            />
           </div>
-        </main>
-        <Footer />
-      </div>
+        </ShellSurfaceBand>
+      </PageShell>
     );
   }
 
-  const handleComment = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!commentName.trim() || !commentText.trim()) return;
-    setComments((prev) => [
-      ...prev,
-      { name: commentName, text: commentText, date: new Date().toLocaleDateString("tr-TR") },
-    ]);
-    setCommentName("");
-    setCommentText("");
-  };
+  const related = blogPosts
+    .filter((entry) => entry.slug !== post.slug)
+    .sort((a, b) => Number(b.category === post.category) - Number(a.category === post.category))
+    .slice(0, 3);
 
-  const shareUrl = window.location.href;
+  const shareUrl = typeof window === "undefined" ? "" : window.location.href;
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(shareUrl);
+  const copyLink = () => {
+    void navigator.clipboard?.writeText(shareUrl);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    window.setTimeout(() => setCopied(false), 2000);
   };
-
-  const related = blogPosts.filter((p) => p.slug !== post.slug && p.category === post.category).slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <JsonLdSchema type="article" name={post.title} description={post.excerpt} datePublished={post.date} category={post.category} />
-      <main className="pt-24 pb-16">
-        <article className="container-industrial max-w-4xl">
-          {/* Back */}
-          <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-6">
-            <ArrowLeft size={16} /> Blog'a Dön
-          </Link>
+    <PageShell surface="graphite" rail={{ no: "R2", label: "YAZI" }}>
+      <JsonLdSchema
+        type="article"
+        name={post.title}
+        description={post.excerpt}
+        datePublished={post.date}
+        category={post.category}
+      />
 
-          {/* Hero Image */}
-          <motion.div
-            className="aspect-[16/9] overflow-hidden mb-8 border border-border"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
-          </motion.div>
+      <ShellPageHero
+        no="01"
+        label="YAZI"
+        crumb={
+          <ShellBreadcrumb
+            trail={[
+              { label: "Ana sayfa", to: "/" },
+              { label: "Teknik günlük", to: "/blog" },
+              { label: post.title },
+            ]}
+          />
+        }
+        eyebrow={post.category}
+        title={post.title}
+        lede={post.excerpt}
+        meta={[
+          { label: "Yayın", value: post.date },
+          { label: "Okuma", value: post.readTime },
+          { label: "Bölüm", value: String(post.sections.length) },
+        ]}
+      />
 
-          {/* Meta */}
-          <motion.div
-            className="flex flex-wrap items-center gap-4 mb-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            <span className="text-xs font-semibold text-primary flex items-center gap-1"><Tag size={12} />{post.category}</span>
-            <span className="text-xs text-muted-foreground flex items-center gap-1"><Clock size={12} />{post.readTime}</span>
-            <span className="text-xs text-muted-foreground">{post.date}</span>
-            <span className="text-xs text-muted-foreground flex items-center gap-1"><Eye size={12} />{post.views.toLocaleString()} okuma</span>
-          </motion.div>
+      <ShellSurfaceBand no="02" label="METİN" tone="paper" ariaLabel={`${post.title} — yazı metni`}>
+        <div className="shell-doc">
+          <div className="shell-doc-main">
+            <ShellPlate
+              plate="PLAKA 01"
+              caption={post.imageCaption}
+              media={
+                /* The route's first picture: eager, no `fetchpriority` (Phase 12 owns LCP). */
+                plate ? (
+                  <img
+                    src={plate.src}
+                    srcSet={plate.srcSet}
+                    sizes={coverSizes(plate.width / plate.height, PLATE_IMAGE_HEIGHT, PLATE_DOC_WIDTHS)}
+                    width={plate.width}
+                    height={plate.height}
+                    alt={post.imageAlt}
+                  />
+                ) : (
+                  <img src={post.image} alt={post.imageAlt} />
+                )
+              }
+            />
 
-          {/* Title */}
-          <motion.h1
-            className="heading-industrial text-3xl md:text-4xl mb-6"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            {post.title}
-          </motion.h1>
-
-          {/* Content */}
-          <motion.div
-            className="prose prose-sm max-w-none text-muted-foreground leading-relaxed space-y-5"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            {post.fullContent.map((para, i) => (
-              <p key={i}>{para}</p>
-            ))}
-          </motion.div>
-
-          {/* Share */}
-          <motion.div
-            className="mt-12 pt-8 border-t border-border"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            <h3 className="font-bold text-sm uppercase tracking-wider mb-4 flex items-center gap-2">
-              <Share2 size={16} /> Bu Yazıyı Paylaş
-            </h3>
-            <div className="flex gap-3">
-              <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook'ta paylaş (yeni sekmede açılır)"
-                className="w-10 h-10 border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
+            {post.sections.map((section, index) => (
+              <ShellDocSection
+                key={section.id}
+                id={section.id}
+                no={String(index + 1).padStart(2, "0")}
+                title={section.heading}
               >
-                <Facebook size={16} aria-hidden="true" />
-              </a>
-              <a
-                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(post.title)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="X'te paylaş (yeni sekmede açılır)"
-                className="w-10 h-10 border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
-              >
-                <Twitter size={16} aria-hidden="true" />
-              </a>
-              <a
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn'de paylaş (yeni sekmede açılır)"
-                className="w-10 h-10 border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
-              >
-                <Linkedin size={16} aria-hidden="true" />
-              </a>
-              <button
-                type="button"
-                onClick={handleCopyLink}
-                aria-label={copied ? "Bağlantı kopyalandı" : "Bağlantıyı kopyala"}
-                className="w-10 h-10 border border-border flex items-center justify-center hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors"
-              >
-                <Link2 size={16} aria-hidden="true" />
-              </button>
-              <span className="text-xs text-primary self-center" role="status" aria-live="polite">
-                {copied ? "Kopyalandı!" : ""}
-              </span>
-            </div>
-          </motion.div>
-
-          {/* Comments */}
-          <motion.div
-            className="mt-12 pt-8 border-t border-border"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-          >
-            <h3 className="font-bold text-sm uppercase tracking-wider mb-6 flex items-center gap-2">
-              <MessageSquare size={16} /> Yorumlar ({comments.length})
-            </h3>
-
-            {/* Comment List */}
-            {comments.length > 0 && (
-              <div className="space-y-4 mb-8">
-                {comments.map((c, i) => (
-                  <div key={i} className="bg-card border border-border p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-semibold text-sm">{c.name}</span>
-                      <span className="text-xs text-muted-foreground">{c.date}</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground">{c.text}</p>
+                <div className="shell-prose">
+                  {section.paragraphs.map((paragraph) => (
+                    <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+                  ))}
+                </div>
+                {section.table && (
+                  <div className="shell-doc-table">
+                    <ShellSpecTable
+                      caption={section.table.caption}
+                      note={section.table.note}
+                      headers={section.table.headers}
+                      rows={section.table.rows}
+                      rowKey={(row) => String(row[0])}
+                    />
                   </div>
-                ))}
-              </div>
-            )}
+                )}
+              </ShellDocSection>
+            ))}
+          </div>
 
-            {/* Comment Form */}
-            <form onSubmit={handleComment} className="space-y-4">
-              <input
-                type="text"
-                placeholder="Adınız"
-                value={commentName}
-                onChange={(e) => setCommentName(e.target.value)}
-                className="w-full bg-card border border-border px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors"
-              />
-              <textarea
-                placeholder="Yorumunuz..."
-                value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-                rows={4}
-                className="w-full bg-card border border-border px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors resize-none"
-              />
-              <button type="submit" className="btn-industrial-primary !py-3 !px-6 flex items-center gap-2">
-                <Send size={14} /> Yorum Yap
-              </button>
-            </form>
-          </motion.div>
+          <aside className="shell-doc-aside" data-sticky>
+            <ShellContents
+              label="BÖLÜMLER"
+              ariaLabel={`${post.title} bölümleri`}
+              items={post.sections.map((section, index) => ({
+                id: section.id,
+                no: String(index + 1).padStart(2, "0"),
+                label: section.heading,
+              }))}
+            />
 
-          {/* Related */}
-          {related.length > 0 && (
-            <motion.div
-              className="mt-12 pt-8 border-t border-border"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-            >
-              <h3 className="heading-industrial text-xl mb-6">İlgili Yazılar</h3>
-              <div className="grid sm:grid-cols-3 gap-4">
-                {related.map((rp) => (
-                  <Link
-                    key={rp.slug}
-                    to={`/blog/${rp.slug}`}
-                    className="border border-border bg-card overflow-hidden hover:border-primary transition-colors group"
-                  >
-                    <div className="aspect-[16/10] overflow-hidden">
-                      <img src={rp.image} alt={rp.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                    </div>
-                    <div className="p-4">
-                      <span className="text-xs text-primary font-semibold">{rp.category}</span>
-                      <h4 className="font-bold text-sm mt-1 group-hover:text-primary transition-colors line-clamp-2">{rp.title}</h4>
-                    </div>
-                  </Link>
+            <nav className="shell-contents" aria-label="Bu yazıyı paylaş">
+              <p className="shell-eyebrow">PAYLAŞ</p>
+              <ol>
+                {SHARE_TARGETS.map((target, index) => (
+                  <li key={target.label}>
+                    <a
+                      href={target.href(shareUrl, post.title)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                      <span>{target.label} <small>(yeni sekme)</small></span>
+                    </a>
+                  </li>
                 ))}
-              </div>
-            </motion.div>
-          )}
-        </article>
-      </main>
-      <Footer />
-    </div>
+              </ol>
+              <ShellAction variant="quiet" onClick={copyLink}>
+                {copied ? "Bağlantı kopyalandı" : "Bağlantıyı kopyala"}
+              </ShellAction>
+              {/* The live region is always in the DOM, empty until it has
+                  something to say: a region inserted at the same moment as its
+                  message is frequently not announced at all. */}
+              <p className="tl-visually-hidden" role="status" aria-live="polite">
+                {copied ? "Bağlantı panoya kopyalandı" : ""}
+              </p>
+            </nav>
+
+            <p className="shell-note">
+              Bu yazıdaki teknik değerler sitenin geri kalanıyla aynı kaynaktan gelir; farklı bir
+              sayfada farklı bir değerle karşılaşmazsınız.
+            </p>
+          </aside>
+        </div>
+      </ShellSurfaceBand>
+
+      {related.length > 0 && (
+        <ShellSurfaceBand no="03" label="İLGİLİ" ariaLabel="İlgili yazılar">
+          <div className="shell-span-full">
+            <p className="shell-eyebrow">İLGİLİ YAZILAR</p>
+            <ShellIndexList
+              compact
+              ariaLabel="İlgili yazılar"
+              items={related.map((entry, index) => ({
+                to: `/blog/${entry.slug}`,
+                index: String(index + 1).padStart(2, "0"),
+                eyebrow: entry.category,
+                title: entry.title,
+                description: entry.excerpt,
+                meta: [entry.readTime],
+              }))}
+            />
+          </div>
+        </ShellSurfaceBand>
+      )}
+
+      <ShellNextStep
+        no="04"
+        title="Bu konu sizin parçanızda mı çıktı?"
+        body="Teknik resim veya 3B model gönderin; konuyu genel bir yazı üzerinden değil, kendi parçanız üzerinden değerlendirelim."
+        detail={[
+          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
+          { label: "Gönderilecek", value: "Teknik resim veya 3B model" },
+          { label: "Alternatif", value: "Sık sorulan sorular" },
+        ]}
+        secondary={{ label: "Yazı dizini", to: "/blog" }}
+      />
+    </PageShell>
   );
 };

@@ -1,0 +1,21 @@
+{
+ "lib": "reports/qa/phase-07c3/lib/gate-CF-saat.mjs",
+ "tree": "C:\\Users\\Trade Bilisim\\pdh-wt\\qa-p07c2",
+ "rules": 27,
+ "files": 209,
+ "lines": 26633,
+ "total": 1,
+ "byRule": {
+  "periodic-volume-disclosure": 1
+ },
+ "hits": [
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:471",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 471,
+   "match": "Parça/Saat",
+   "text": "headers: [\"Kavite\", \"Çevrim/Saat\", \"Parça/Saat\", \"Birim Maliyet\", \"Kalıp Maliyeti\", \"Önerilen Hacim\"],"
+  }
+ ]
+}

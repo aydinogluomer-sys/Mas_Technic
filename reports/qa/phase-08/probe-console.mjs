@@ -1,0 +1,10 @@
+import { chromium } from "file:///C:/Users/Trade%20Bilisim/precision-dynamics-hub-main/node_modules/playwright/index.mjs";
+const route = process.argv[2] ?? "/kalite-dosyasi";
+const b = await chromium.launch({ executablePath: "C:/Program Files/Google/Chrome/Application/chrome.exe" });
+const p = await b.newPage({ viewport: { width: 1280, height: 900 } });
+p.on("console", (m) => console.log("[console." + m.type() + "]", m.text()));
+p.on("pageerror", (e) => console.log("[pageerror]", e.stack ?? String(e)));
+p.on("requestfailed", (r) => console.log("[reqfail]", r.url(), r.failure()?.errorText));
+await p.goto("http://localhost:4173" + route, { waitUntil: "networkidle" });
+await p.waitForTimeout(1500);
+await b.close();

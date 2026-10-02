@@ -1,0 +1,70 @@
+{
+  "route": "/kabiliyetler/kategori/prototipten-seri-uretime",
+  "runs": [
+    {
+      "i": 0,
+      "fresh": true,
+      "boundary": false,
+      "h1": "Prototipten Seri Üretime",
+      "len": 2187,
+      "errs": []
+    },
+    {
+      "i": 1,
+      "fresh": false,
+      "boundary": false,
+      "h1": "Prototipten Seri Üretime",
+      "len": 2187,
+      "errs": []
+    },
+    {
+      "i": 2,
+      "fresh": true,
+      "boundary": false,
+      "h1": "Prototipten Seri Üretime",
+      "len": 2187,
+      "errs": []
+    },
+    {
+      "i": 3,
+      "fresh": false,
+      "boundary": false,
+      "h1": "Prototipten Seri Üretime",
+      "len": 2187,
+      "errs": []
+    },
+    {
+      "i": 4,
+      "fresh": true,
+      "boundary": false,
+      "h1": "Prototipten Seri Üretime",
+      "len": 2187,
+      "errs": []
+    },
+    {
+      "i": 5,
+      "fresh": false,
+      "boundary": false,
+      "h1": "Prototipten Seri Üretime",
+      "len": 2187,
+      "errs": []
+    },
+    {
+      "i": 6,
+      "fresh": true,
+      "boundary": false,
+      "h1": "Prototipten Seri Üretime",
+      "len": 2187,
+      "errs": []
+    },
+    {
+      "i": 7,
+      "fresh": false,
+      "boundary": false,
+      "h1": "Prototipten Seri Üretime",
+      "len": 2187,
+      "errs": []
+    }
+  ],
+  "crashes": 0
+}

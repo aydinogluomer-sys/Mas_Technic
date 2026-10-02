@@ -1,146 +1,274 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
-import { Loader2, Lock, Eye, EyeOff, CheckCircle, ChevronLeft } from "lucide-react";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { LoginLeftPanel } from "@/components/auth/LoginLeftPanel";
+import { ShellAction, ShellNotice } from "@/components/shell";
+import { AuthLayout } from "@/components/auth/AuthLayout";
+import { AuthPasswordField } from "@/components/auth/AuthField";
+import {
+  MIN_PASSWORD_LENGTH,
+  authFieldId,
+  collectAuthErrors,
+  firstInvalidField,
+  resetSchema,
+  type AuthFieldErrors,
+} from "@/components/auth/auth-schema";
+
+/* ══════════════════════════════════════════════════════════════════════════
+   /reset-password — SET A NEW PASSWORD
+
+   Measured at 94 legacy-teal nodes inside `<main>` and 0 shell primitives
+   before this change (`reports/09b1/design-membership-before.json`).
+
+   ── THE PAGE NOW SAYS WHETHER IT CAN DO ANYTHING ─────────────────────────
+   `isRecovery` existed before and was never read: the component set it and no
+   branch used it. So a reader who opened `/reset-password` directly — with no
+   recovery link, which is how every visitor who guesses the URL and every
+   crawler arrives — got a full, enabled, plausible form that could not
+   possibly work, and found out only after typing a password twice and
+   pressing the button, at which point a toast told them
+   "Auth session missing!" in English and then left.
+
+   The context is now determined BEFORE the reader types anything, and
+   entirely in the browser:
+
+     ready    the SDK reported PASSWORD_RECOVERY, or handed us a session. Both
+              mean `updateUser` has something to work with — the second covers
+              a reader who is already signed in and is changing their password.
+     expired  the URL carries an `error` / `error_code` fragment. That is what
+              the auth server itself appends when a link has been used or has
+              timed out, so the message below is the server's own verdict,
+              not a guess.
+     absent   no session, no recovery event, no auth parameters in the URL.
+              There is nothing to reset and the form is not offered.
+     checking the URL carries auth parameters and the SDK has not finished
+              with them yet.
+
+   NONE OF THIS COSTS A REQUEST. `onAuthStateChange` reads local storage;
+   with no stored session it emits `INITIAL_SESSION` with `null` and contacts
+   nothing — measured in `reports/09b1/third-party-before.json`, where this
+   route reaches no Supabase host at all on load.
+
+   ── THE FORM IS STILL RENDERED WHILE CHECKING ────────────────────────────
+   `checking` shows the form, not a spinner over it: the SDK settles in a few
+   milliseconds and swapping a form in and out under a reader who has started
+   typing is worse than a brief moment of optimism. `absent` and `expired` are
+   settled answers and those two replace it.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+type Access = "checking" | "ready" | "expired" | "absent";
+
+/**
+ * Does the URL carry anything the auth SDK will act on?
+ *
+ * Implicit links land as `#access_token=…&type=recovery`, PKCE links as
+ * `?code=…`, and a link the server has already rejected as
+ * `#error=…&error_code=…`. Read once, synchronously, before the first paint.
+ */
+/* 09b-3 (QA 09b-1 R2, D-13): `error_description` is server prose an
+   unauthenticated third party can put in a link, and it was rendered
+   verbatim. The rule from `oauth-return.ts` applies: an attempt may be
+   reported as failed; the server's sentence is never shown on the strength
+   of a URL. Only a RECOGNISED `error_code` renders, as a support reference. */
+const KNOWN_RECOVERY_CODES = new Set([
+  "otp_expired",
+  "access_denied",
+  "invalid_request",
+  "flow_state_expired",
+  "flow_state_not_found",
+  "bad_code_verifier",
+  "validation_failed",
+]);
+
+function readUrlAuthParams() {
+  if (typeof window === "undefined") return { hasToken: false, error: null as string | null };
+  const raw = `${window.location.hash.replace(/^#/, "")}&${window.location.search.replace(/^\?/, "")}`;
+  const params = new URLSearchParams(raw);
+  const code = (params.get("error_code") ?? params.get("error") ?? "").trim().toLowerCase();
+  const error = KNOWN_RECOVERY_CODES.has(code) ? code : null;
+  const hasToken = ["access_token", "code", "token_hash", "refresh_token"].some((key) => params.has(key));
+  return { hasToken, error };
+}
 
 export const ResetPassword = () => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [isRecovery, setIsRecovery] = useState(false);
+  const [values, setValues] = useState({ password: "", confirmPassword: "" });
+  const [errors, setErrors] = useState<AuthFieldErrors>({});
+  const [notice, setNotice] = useState<{ title: string; detail?: string } | null>(null);
+  const [pending, setPending] = useState(false);
+  const [done, setDone] = useState(false);
+  const [urlState] = useState(readUrlAuthParams);
+  const [access, setAccess] = useState<Access>(() =>
+    urlState.error ? "expired" : "checking",
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY") {
-        setIsRecovery(true);
+    if (urlState.error) return;
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "PASSWORD_RECOVERY" || session) {
+        setAccess("ready");
+        return;
       }
+      if (event === "INITIAL_SESSION" && !urlState.hasToken) setAccess("absent");
     });
-    return () => subscription.unsubscribe();
-  }, []);
+    return () => data.subscription.unsubscribe();
+  }, [urlState.error, urlState.hasToken]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      toast.error("Şifreler eşleşmiyor.");
-      return;
-    }
-    if (password.length < 6) {
-      toast.error("Şifre en az 6 karakter olmalıdır.");
-      return;
-    }
-    setLoading(true);
-    const { error } = await supabase.auth.updateUser({ password });
-    if (error) {
-      toast.error("Şifre güncellenemedi: " + error.message);
-    } else {
-      setSuccess(true);
-      toast.success("Şifreniz başarıyla güncellendi!");
-      setTimeout(() => navigate("/giris"), 3000);
-    }
-    setLoading(false);
+  const set = (field: "password" | "confirmPassword") => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setValues((current) => ({ ...current, [field]: value }));
+    setErrors((current) => {
+      if (!current[field]) return current;
+      const next = { ...current };
+      delete next[field];
+      return next;
+    });
   };
 
-  return (
-    <div className="min-h-screen w-full flex">
-      <LoginLeftPanel isLogin={true} />
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setNotice(null);
 
-      <div className="w-full lg:w-[55%] flex items-center justify-center bg-background px-6 py-12">
-        <motion.div
-          className="w-full max-w-[420px]"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-        >
-          <Link
-            to="/giris"
-            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ChevronLeft size={14} />
-            Giriş Sayfası
-          </Link>
+    const parsed = resetSchema.safeParse(values);
+    if (!parsed.success) {
+      const fieldErrors = collectAuthErrors(parsed.error.issues);
+      setErrors(fieldErrors);
+      const first = firstInvalidField(fieldErrors);
+      if (first) document.getElementById(authFieldId(first))?.focus();
+      return;
+    }
+    setErrors({});
+    setPending(true);
 
-          {success ? (
-            <div className="text-center space-y-4">
-              <CheckCircle size={48} className="mx-auto text-primary" />
-              <h1 className="text-2xl font-bold tracking-tight">Şifre Güncellendi</h1>
-              <p className="text-sm text-muted-foreground">
-                Şifreniz başarıyla güncellendi. Giriş sayfasına yönlendiriliyorsunuz...
-              </p>
-            </div>
-          ) : (
-            <>
-              <div className="mb-6">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <Lock size={24} className="text-primary" />
-                </div>
-                <h1 className="text-[26px] font-bold tracking-tight mb-2">Yeni Şifre Belirleyin</h1>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Hesabınız için yeni bir şifre oluşturun. En az 6 karakter olmalıdır.
-                </p>
-              </div>
+    const { error } = await supabase.auth.updateUser({ password: values.password });
+    setPending(false);
 
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                    Yeni Şifre
-                  </label>
-                  <div className="relative">
-                    <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/60" />
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      required
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="pl-10 pr-12 h-11"
-                      placeholder="••••••••"
-                      minLength={6}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      aria-label={showPassword ? "Şifreyi gizle" : "Şifreyi göster"}
-                      aria-pressed={showPassword}
-                      className="absolute right-1.5 top-1/2 -translate-y-1/2 grid h-9 w-9 place-items-center text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {showPassword ? <EyeOff size={16} aria-hidden="true" /> : <Eye size={16} aria-hidden="true" />}
-                    </button>
-                  </div>
-                </div>
+    if (error) {
+      setNotice({
+        title: "Şifre güncellenemedi.",
+        detail:
+          "Sıfırlama bağlantısı geçerliliğini yitirmiş olabilir. Yeni bir bağlantı isteyip yeniden deneyin.",
+      });
+      return;
+    }
+    setDone(true);
+    /* The redirect is announced above before it happens, so nobody loses the
+       page under them without warning. */
+    window.setTimeout(() => navigate("/giris"), 4000);
+  };
 
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                    Şifre Tekrar
-                  </label>
-                  <div className="relative">
-                    <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/60" />
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      required
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="pl-10 h-11"
-                      placeholder="••••••••"
-                      minLength={6}
-                    />
-                  </div>
-                </div>
-
-                <Button type="submit" disabled={loading} className="w-full h-12 font-semibold uppercase tracking-wider text-sm text-[var(--text-primary)]">
-                  {loading ? <Loader2 size={16} className="animate-spin" /> : "Şifreyi Güncelle"}
-                </Button>
-              </form>
-            </>
-          )}
-        </motion.div>
+  const frame = (children: React.ReactNode) => (
+    <AuthLayout
+      asideTitle="Hoş Geldiniz"
+      asideLede="MAS TECHNIC müşteri portalı ile teklif, sipariş ve üretim kayıtlarınızı tek yerden izleyin."
+      back={{ to: "/giris", label: "Giriş sayfası" }}
+    >
+      <div>
+        {/* Measured contract: `e2e/qa-p08-scroll-region-reach.spec.ts:206`.
+            It is the page's heading in EVERY state, because it is what the
+            page is about whether or not this particular visit can act. */}
+        <h1 className="shell-auth-title">Yeni Şifre Belirleyin</h1>
       </div>
-    </div>
+      {children}
+    </AuthLayout>
+  );
+
+  if (done) {
+    return frame(
+      <>
+        <ShellNotice tone="note" label="TAMAMLANDI" title="Şifreniz güncellendi.">
+          <p>Birkaç saniye içinde giriş sayfasına yönlendirileceksiniz.</p>
+        </ShellNotice>
+        <ShellAction to="/giris" variant="ghost" full>
+          Giriş sayfasına git
+        </ShellAction>
+      </>,
+    );
+  }
+
+  if (access === "expired") {
+    return frame(
+      <>
+        <ShellNotice
+          tone="error"
+          label="BAĞLANTI GEÇERSİZ"
+          title="Bu sıfırlama bağlantısı artık kullanılamıyor."
+        >
+          <p>
+            Bağlantılar tek kullanımlıktır ve bir süre sonra geçerliliğini yitirir. Yeni bir
+            bağlantı isteyip yeniden deneyin.
+          </p>
+          {urlState.error && <p className="shell-state-reason">KOD: {urlState.error}</p>}
+        </ShellNotice>
+        <ShellAction to="/sifremi-unuttum" variant="primary" full>
+          Yeni bağlantı iste
+        </ShellAction>
+      </>,
+    );
+  }
+
+  if (access === "absent") {
+    return frame(
+      <>
+        <ShellNotice
+          tone="caution"
+          label="BAĞLANTI GEREKLİ"
+          title="Bu sayfa şifre sıfırlama e-postasındaki bağlantıyla açılır."
+        >
+          <p>
+            Adrese doğrudan geldiyseniz sıfırlanacak bir şey yok. E-posta adresinizi girip yeni bir
+            bağlantı isteyin; bağlantıya tıkladığınızda bu sayfa yeni şifrenizi soracak.
+          </p>
+        </ShellNotice>
+        <ShellAction to="/sifremi-unuttum" variant="primary" full>
+          Sıfırlama bağlantısı iste
+        </ShellAction>
+      </>,
+    );
+  }
+
+  return frame(
+    <>
+      <p className="shell-auth-lede">
+        Hesabınız için yeni bir şifre belirleyin. Bu form en az {MIN_PASSWORD_LENGTH} karakter
+        istiyor.
+      </p>
+
+      <form className="shell-auth-form" onSubmit={handleSubmit} noValidate>
+        <AuthPasswordField
+          name="password"
+          label="Yeni şifre"
+          errors={errors}
+          autoComplete="new-password"
+          value={values.password}
+          onChange={set("password")}
+          placeholder="••••••••"
+        />
+        <AuthPasswordField
+          name="confirmPassword"
+          label="Yeni şifre (tekrar)"
+          errors={errors}
+          autoComplete="new-password"
+          value={values.confirmPassword}
+          onChange={set("confirmPassword")}
+          placeholder="••••••••"
+        />
+
+        {notice && (
+          <ShellNotice tone="error" label="GÜNCELLENEMEDİ" title={notice.title}>
+            {notice.detail && <p>{notice.detail}</p>}
+          </ShellNotice>
+        )}
+
+        <ShellAction type="submit" variant="primary" full disabled={pending}>
+          Şifreyi güncelle
+        </ShellAction>
+
+        {pending && (
+          <p className="shell-field-hint" role="status" data-auth-state="pending">
+            ŞİFRE GÜNCELLENİYOR…
+          </p>
+        )}
+      </form>
+    </>,
   );
 };

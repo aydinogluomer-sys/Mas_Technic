@@ -1,0 +1,70 @@
+/* Development-only. This file is imported by `MasterGridOverlay.tsx`, which
+   `TechnicalLanding.tsx` only reaches through an `import.meta.env.DEV` branch,
+   so Rollup drops the module and these bytes from the production bundle. */
+
+.tl-grid-overlay {
+  position: fixed;
+  inset: 0;
+  /* Above every landing band, below the mobile menu (10020) so the overlay can
+     never trap a real interaction. Nothing here is interactive. */
+  z-index: 10000;
+  pointer-events: none;
+}
+
+/* Same arithmetic as `.tl-sheet` + `.tl-band`, read from the same tokens, so
+   the drawn lines ARE the master boundaries rather than a redrawing of them. */
+.tl-grid-overlay-sheet {
+  box-sizing: border-box;
+  width: min(100%, var(--tl-sheet-max));
+  height: 100%;
+  margin-inline: auto;
+  border-inline: var(--tl-rule-size) solid transparent;
+  display: grid;
+  grid-template-columns: var(--tl-rail) repeat(var(--tl-cols), minmax(0, 1fr));
+  gap: var(--tl-gap);
+}
+
+.tl-grid-overlay-sheet > i {
+  border-left: 1px solid rgba(255, 92, 92, .55);
+}
+
+/* The rail is the one track that is not a master column; it reads differently
+   so an axis is never confused with the sheet edge. */
+.tl-grid-overlay-sheet > i:first-child {
+  border-left-color: rgba(90, 190, 255, .8);
+  background: rgba(90, 190, 255, .08);
+}
+
+.tl-grid-overlay-sheet > i:last-child {
+  border-right: 1px solid rgba(255, 92, 92, .55);
+}
+
+.tl-grid-overlay-sheet > i:nth-child(n + 2) {
+  background: rgba(255, 92, 92, .05);
+}
+
+.tl-grid-overlay-readout {
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  z-index: 10001;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, .28);
+  padding: 6px 10px;
+  background: rgba(6, 9, 11, .92);
+  color: #f3f0e8;
+  font: 500 10px/1.4 var(--tl-font-mono, ui-monospace, monospace);
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+
+.tl-grid-overlay-readout button {
+  border: 1px solid rgba(255, 255, 255, .28);
+  padding: 3px 8px;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}

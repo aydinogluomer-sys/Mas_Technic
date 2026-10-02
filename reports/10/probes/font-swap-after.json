@@ -1,0 +1,881 @@
+{
+ "base": "http://localhost:4197",
+ "tag": "after",
+ "holdMs": 1200,
+ "results": [
+  {
+   "vw": 1280,
+   "route": "/",
+   "geometry": {
+    "elements": 328,
+    "meanDTop": 0.18,
+    "maxDTop": 19.4,
+    "movedOver1px": 3,
+    "meanDHeight": 0.18,
+    "docHeightBlocked": 3918,
+    "docHeightLoaded": 3918,
+    "dDocHeight": 0
+   },
+   "cls": {
+    "control": 0.079,
+    "held": 0.0817,
+    "swap": 0.0027,
+    "heldEntries": [
+     {
+      "t": 429,
+      "v": 0.0213
+     },
+     {
+      "t": 461,
+      "v": 0.0014
+     },
+     {
+      "t": 1380,
+      "v": 0.0563
+     },
+     {
+      "t": 2763,
+      "v": 0
+     },
+     {
+      "t": 2826,
+      "v": 0.0027
+     }
+    ],
+    "fontsLoadedHeld": 23
+   },
+   "overlay": [
+    {
+     "web": "Space Grotesk",
+     "fallback": "\"Space Grotesk Fallback\", Arial",
+     "weight": 400,
+     "webfont": {
+      "height": 270,
+      "lines": 9,
+      "width": 2100.7
+     },
+     "fallbackFace": {
+      "height": 270,
+      "lines": 9,
+      "width": 2083.2
+     },
+     "widthRatio": 0.9917,
+     "heightRatio": 1
+    },
+    {
+     "web": "Newsreader",
+     "fallback": "\"Newsreader Fallback\", Georgia",
+     "weight": 400,
+     "webfont": {
+      "height": 210,
+      "lines": 7,
+      "width": 1777.7
+     },
+     "fallbackFace": {
+      "height": 210,
+      "lines": 7,
+      "width": 1788.3
+     },
+     "widthRatio": 1.006,
+     "heightRatio": 1
+    },
+    {
+     "web": "IBM Plex Mono",
+     "fallback": "\"IBM Plex Mono Fallback\", \"Courier New\"",
+     "weight": 400,
+     "webfont": {
+      "height": 330,
+      "lines": 11,
+      "width": 2736
+     },
+     "fallbackFace": {
+      "height": 330,
+      "lines": 11,
+      "width": 2735.1
+     },
+     "widthRatio": 0.9997,
+     "heightRatio": 1
+    }
+   ]
+  },
+  {
+   "vw": 1280,
+   "route": "/hizmetler/cnc-frezeleme",
+   "geometry": {
+    "elements": 318,
+    "meanDTop": 51.07,
+    "maxDTop": 74,
+    "movedOver1px": 274,
+    "meanDHeight": 0.29,
+    "docHeightBlocked": 7102,
+    "docHeightLoaded": 7028,
+    "dDocHeight": -74
+   },
+   "cls": {
+    "control": 0.079,
+    "held": 0.079,
+    "swap": 0,
+    "heldEntries": [
+     {
+      "t": 436,
+      "v": 0.0213
+     },
+     {
+      "t": 500,
+      "v": 0.0014
+     },
+     {
+      "t": 1005,
+      "v": 0.0563
+     },
+     {
+      "t": 2338,
+      "v": 0
+     }
+    ],
+    "fontsLoadedHeld": 19
+   },
+   "overlay": [
+    {
+     "web": "Space Grotesk",
+     "fallback": "\"Space Grotesk Fallback\", Arial",
+     "weight": 400,
+     "webfont": {
+      "height": 270,
+      "lines": 9,
+      "width": 2100.7
+     },
+     "fallbackFace": {
+      "height": 270,
+      "lines": 9,
+      "width": 2083.2
+     },
+     "widthRatio": 0.9917,
+     "heightRatio": 1
+    },
+    {
+     "web": "Newsreader",
+     "fallback": "\"Newsreader Fallback\", Georgia",
+     "weight": 400,
+     "webfont": {
+      "height": 210,
+      "lines": 7,
+      "width": 1776.5
+     },
+     "fallbackFace": {
+      "height": 210,
+      "lines": 7,
+      "width": 1788.3
+     },
+     "widthRatio": 1.0066,
+     "heightRatio": 1
+    },
+    {
+     "web": "IBM Plex Mono",
+     "fallback": "\"IBM Plex Mono Fallback\", \"Courier New\"",
+     "weight": 400,
+     "webfont": {
+      "height": 330,
+      "lines": 11,
+      "width": 2736
+     },
+     "fallbackFace": {
+      "height": 330,
+      "lines": 11,
+      "width": 2735.1
+     },
+     "widthRatio": 0.9997,
+     "heightRatio": 1
+    }
+   ]
+  },
+  {
+   "vw": 1280,
+   "route": "/blog",
+   "geometry": {
+    "elements": 142,
+    "meanDTop": 21.66,
+    "maxDTop": 24.8,
+    "movedOver1px": 124,
+    "meanDHeight": 0.17,
+    "docHeightBlocked": 3081,
+    "docHeightLoaded": 3056,
+    "dDocHeight": -25
+   },
+   "cls": {
+    "control": 0.079,
+    "held": 0.0887,
+    "swap": 0.0097,
+    "heldEntries": [
+     {
+      "t": 248,
+      "v": 0.0213
+     },
+     {
+      "t": 294,
+      "v": 0.0014
+     },
+     {
+      "t": 462,
+      "v": 0.0563
+     },
+     {
+      "t": 1992,
+      "v": 0
+     },
+     {
+      "t": 1996,
+      "v": 0.0097
+     }
+    ],
+    "fontsLoadedHeld": 19
+   },
+   "overlay": [
+    {
+     "web": "Space Grotesk",
+     "fallback": "\"Space Grotesk Fallback\", Arial",
+     "weight": 400,
+     "webfont": {
+      "height": 270,
+      "lines": 9,
+      "width": 2100.7
+     },
+     "fallbackFace": {
+      "height": 270,
+      "lines": 9,
+      "width": 2083.2
+     },
+     "widthRatio": 0.9917,
+     "heightRatio": 1
+    },
+    {
+     "web": "Newsreader",
+     "fallback": "\"Newsreader Fallback\", Georgia",
+     "weight": 400,
+     "webfont": {
+      "height": 210,
+      "lines": 7,
+      "width": 1776.5
+     },
+     "fallbackFace": {
+      "height": 210,
+      "lines": 7,
+      "width": 1788.3
+     },
+     "widthRatio": 1.0066,
+     "heightRatio": 1
+    },
+    {
+     "web": "IBM Plex Mono",
+     "fallback": "\"IBM Plex Mono Fallback\", \"Courier New\"",
+     "weight": 400,
+     "webfont": {
+      "height": 330,
+      "lines": 11,
+      "width": 2736
+     },
+     "fallbackFace": {
+      "height": 330,
+      "lines": 11,
+      "width": 2735.1
+     },
+     "widthRatio": 0.9997,
+     "heightRatio": 1
+    }
+   ]
+  },
+  {
+   "vw": 1280,
+   "route": "/kvkk",
+   "geometry": {
+    "elements": 142,
+    "meanDTop": 57.09,
+    "maxDTop": 131,
+    "movedOver1px": 79,
+    "meanDHeight": 1.13,
+    "docHeightBlocked": 4073,
+    "docHeightLoaded": 3942,
+    "dDocHeight": -131
+   },
+   "cls": {
+    "control": 0.079,
+    "held": 0.0803,
+    "swap": 0.0013,
+    "heldEntries": [
+     {
+      "t": 280,
+      "v": 0.0213
+     },
+     {
+      "t": 323,
+      "v": 0.0014
+     },
+     {
+      "t": 780,
+      "v": 0.0563
+     },
+     {
+      "t": 1747,
+      "v": 0.0007
+     },
+     {
+      "t": 1791,
+      "v": 0.0006
+     },
+     {
+      "t": 2175,
+      "v": 0
+     }
+    ],
+    "fontsLoadedHeld": 16
+   },
+   "overlay": [
+    {
+     "web": "Space Grotesk",
+     "fallback": "\"Space Grotesk Fallback\", Arial",
+     "weight": 400,
+     "webfont": {
+      "height": 270,
+      "lines": 9,
+      "width": 2100.7
+     },
+     "fallbackFace": {
+      "height": 270,
+      "lines": 9,
+      "width": 2083.2
+     },
+     "widthRatio": 0.9917,
+     "heightRatio": 1
+    },
+    {
+     "web": "Newsreader",
+     "fallback": "\"Newsreader Fallback\", Georgia",
+     "weight": 400,
+     "webfont": {
+      "height": 210,
+      "lines": 7,
+      "width": 1773.6
+     },
+     "fallbackFace": {
+      "height": 210,
+      "lines": 7,
+      "width": 1788.3
+     },
+     "widthRatio": 1.0083,
+     "heightRatio": 1
+    },
+    {
+     "web": "IBM Plex Mono",
+     "fallback": "\"IBM Plex Mono Fallback\", \"Courier New\"",
+     "weight": 400,
+     "webfont": {
+      "height": 330,
+      "lines": 11,
+      "width": 2736
+     },
+     "fallbackFace": {
+      "height": 330,
+      "lines": 11,
+      "width": 2735.1
+     },
+     "widthRatio": 0.9997,
+     "heightRatio": 1
+    }
+   ]
+  },
+  {
+   "vw": 1280,
+   "route": "/malzemeler",
+   "geometry": {
+    "elements": 835,
+    "meanDTop": 1.37,
+    "maxDTop": 24.8,
+    "movedOver1px": 47,
+    "meanDHeight": 0.03,
+    "docHeightBlocked": 9412,
+    "docHeightLoaded": 9387,
+    "dDocHeight": -25
+   },
+   "cls": {
+    "control": 0.079,
+    "held": 0.079,
+    "swap": 0,
+    "heldEntries": [
+     {
+      "t": 246,
+      "v": 0.0213
+     },
+     {
+      "t": 296,
+      "v": 0.0014
+     },
+     {
+      "t": 816,
+      "v": 0.0563
+     },
+     {
+      "t": 2069,
+      "v": 0
+     }
+    ],
+    "fontsLoadedHeld": 18
+   },
+   "overlay": [
+    {
+     "web": "Space Grotesk",
+     "fallback": "\"Space Grotesk Fallback\", Arial",
+     "weight": 400,
+     "webfont": {
+      "height": 270,
+      "lines": 9,
+      "width": 2100.7
+     },
+     "fallbackFace": {
+      "height": 270,
+      "lines": 9,
+      "width": 2083.2
+     },
+     "widthRatio": 0.9917,
+     "heightRatio": 1
+    },
+    {
+     "web": "Newsreader",
+     "fallback": "\"Newsreader Fallback\", Georgia",
+     "weight": 400,
+     "webfont": {
+      "height": 210,
+      "lines": 7,
+      "width": 1777.7
+     },
+     "fallbackFace": {
+      "height": 210,
+      "lines": 7,
+      "width": 1788.3
+     },
+     "widthRatio": 1.006,
+     "heightRatio": 1
+    },
+    {
+     "web": "IBM Plex Mono",
+     "fallback": "\"IBM Plex Mono Fallback\", \"Courier New\"",
+     "weight": 400,
+     "webfont": {
+      "height": 330,
+      "lines": 11,
+      "width": 2736
+     },
+     "fallbackFace": {
+      "height": 330,
+      "lines": 11,
+      "width": 2735.1
+     },
+     "widthRatio": 0.9997,
+     "heightRatio": 1
+    }
+   ]
+  },
+  {
+   "vw": 375,
+   "route": "/",
+   "geometry": {
+    "elements": 283,
+    "meanDTop": 19.22,
+    "maxDTop": 58.3,
+    "movedOver1px": 275,
+    "meanDHeight": 0.21,
+    "docHeightBlocked": 8849,
+    "docHeightLoaded": 8830,
+    "dDocHeight": -19
+   },
+   "cls": {
+    "control": 0,
+    "held": 0.0109,
+    "swap": 0.0109,
+    "heldEntries": [
+     {
+      "t": 1724,
+      "v": 0.0107
+     },
+     {
+      "t": 2267,
+      "v": 0.0002
+     }
+    ],
+    "fontsLoadedHeld": 23
+   },
+   "overlay": [
+    {
+     "web": "Space Grotesk",
+     "fallback": "\"Space Grotesk Fallback\", Arial",
+     "weight": 400,
+     "webfont": {
+      "height": 270,
+      "lines": 9,
+      "width": 2100.7
+     },
+     "fallbackFace": {
+      "height": 270,
+      "lines": 9,
+      "width": 2083.2
+     },
+     "widthRatio": 0.9917,
+     "heightRatio": 1
+    },
+    {
+     "web": "Newsreader",
+     "fallback": "\"Newsreader Fallback\", Georgia",
+     "weight": 400,
+     "webfont": {
+      "height": 210,
+      "lines": 7,
+      "width": 1777.7
+     },
+     "fallbackFace": {
+      "height": 210,
+      "lines": 7,
+      "width": 1788.3
+     },
+     "widthRatio": 1.006,
+     "heightRatio": 1
+    },
+    {
+     "web": "IBM Plex Mono",
+     "fallback": "\"IBM Plex Mono Fallback\", \"Courier New\"",
+     "weight": 400,
+     "webfont": {
+      "height": 330,
+      "lines": 11,
+      "width": 2736
+     },
+     "fallbackFace": {
+      "height": 330,
+      "lines": 11,
+      "width": 2735.1
+     },
+     "widthRatio": 0.9997,
+     "heightRatio": 1
+    }
+   ]
+  },
+  {
+   "vw": 375,
+   "route": "/hizmetler/cnc-frezeleme",
+   "geometry": {
+    "elements": 282,
+    "meanDTop": 7.29,
+    "maxDTop": 20.2,
+    "movedOver1px": 165,
+    "meanDHeight": 0.38,
+    "docHeightBlocked": 10644,
+    "docHeightLoaded": 10646,
+    "dDocHeight": 2
+   },
+   "cls": {
+    "control": 0,
+    "held": 0.0001,
+    "swap": 0.0001,
+    "heldEntries": [
+     {
+      "t": 1957,
+      "v": 0.0001
+     }
+    ],
+    "fontsLoadedHeld": 17
+   },
+   "overlay": [
+    {
+     "web": "Space Grotesk",
+     "fallback": "\"Space Grotesk Fallback\", Arial",
+     "weight": 400,
+     "webfont": {
+      "height": 270,
+      "lines": 9,
+      "width": 2100.7
+     },
+     "fallbackFace": {
+      "height": 270,
+      "lines": 9,
+      "width": 2083.2
+     },
+     "widthRatio": 0.9917,
+     "heightRatio": 1
+    },
+    {
+     "web": "Newsreader",
+     "fallback": "\"Newsreader Fallback\", Georgia",
+     "weight": 400,
+     "webfont": {
+      "height": 210,
+      "lines": 7,
+      "width": 1776.5
+     },
+     "fallbackFace": {
+      "height": 210,
+      "lines": 7,
+      "width": 1788.3
+     },
+     "widthRatio": 1.0066,
+     "heightRatio": 1
+    },
+    {
+     "web": "IBM Plex Mono",
+     "fallback": "\"IBM Plex Mono Fallback\", \"Courier New\"",
+     "weight": 400,
+     "webfont": {
+      "height": 330,
+      "lines": 11,
+      "width": 2736
+     },
+     "fallbackFace": {
+      "height": 330,
+      "lines": 11,
+      "width": 2735.1
+     },
+     "widthRatio": 0.9997,
+     "heightRatio": 1
+    }
+   ]
+  },
+  {
+   "vw": 375,
+   "route": "/blog",
+   "geometry": {
+    "elements": 111,
+    "meanDTop": 14.86,
+    "maxDTop": 30,
+    "movedOver1px": 55,
+    "meanDHeight": 0,
+    "docHeightBlocked": 4512,
+    "docHeightLoaded": 4542,
+    "dDocHeight": 30
+   },
+   "cls": {
+    "control": 0,
+    "held": 0.0001,
+    "swap": 0.0001,
+    "heldEntries": [
+     {
+      "t": 1926,
+      "v": 0.0001
+     }
+    ],
+    "fontsLoadedHeld": 16
+   },
+   "overlay": [
+    {
+     "web": "Space Grotesk",
+     "fallback": "\"Space Grotesk Fallback\", Arial",
+     "weight": 400,
+     "webfont": {
+      "height": 270,
+      "lines": 9,
+      "width": 2100.7
+     },
+     "fallbackFace": {
+      "height": 270,
+      "lines": 9,
+      "width": 2083.2
+     },
+     "widthRatio": 0.9917,
+     "heightRatio": 1
+    },
+    {
+     "web": "Newsreader",
+     "fallback": "\"Newsreader Fallback\", Georgia",
+     "weight": 400,
+     "webfont": {
+      "height": 210,
+      "lines": 7,
+      "width": 1776.5
+     },
+     "fallbackFace": {
+      "height": 210,
+      "lines": 7,
+      "width": 1788.3
+     },
+     "widthRatio": 1.0066,
+     "heightRatio": 1
+    },
+    {
+     "web": "IBM Plex Mono",
+     "fallback": "\"IBM Plex Mono Fallback\", \"Courier New\"",
+     "weight": 400,
+     "webfont": {
+      "height": 330,
+      "lines": 11,
+      "width": 2729.8
+     },
+     "fallbackFace": {
+      "height": 330,
+      "lines": 11,
+      "width": 2735.1
+     },
+     "widthRatio": 1.0019,
+     "heightRatio": 1
+    }
+   ]
+  },
+  {
+   "vw": 375,
+   "route": "/kvkk",
+   "geometry": {
+    "elements": 113,
+    "meanDTop": 24.36,
+    "maxDTop": 49.6,
+    "movedOver1px": 66,
+    "meanDHeight": 0.96,
+    "docHeightBlocked": 6892,
+    "docHeightLoaded": 6942,
+    "dDocHeight": 50
+   },
+   "cls": {
+    "control": 0,
+    "held": 0.0237,
+    "swap": 0.0237,
+    "heldEntries": [
+     {
+      "t": 1864,
+      "v": 0.0237
+     },
+     {
+      "t": 1884,
+      "v": 0.0001
+     }
+    ],
+    "fontsLoadedHeld": 13
+   },
+   "overlay": [
+    {
+     "web": "Space Grotesk",
+     "fallback": "\"Space Grotesk Fallback\", Arial",
+     "weight": 400,
+     "webfont": {
+      "height": 270,
+      "lines": 9,
+      "width": 2100.7
+     },
+     "fallbackFace": {
+      "height": 270,
+      "lines": 9,
+      "width": 2083.2
+     },
+     "widthRatio": 0.9917,
+     "heightRatio": 1
+    },
+    {
+     "web": "Newsreader",
+     "fallback": "\"Newsreader Fallback\", Georgia",
+     "weight": 400,
+     "webfont": {
+      "height": 210,
+      "lines": 7,
+      "width": 1773.6
+     },
+     "fallbackFace": {
+      "height": 210,
+      "lines": 7,
+      "width": 1788.3
+     },
+     "widthRatio": 1.0083,
+     "heightRatio": 1
+    },
+    {
+     "web": "IBM Plex Mono",
+     "fallback": "\"IBM Plex Mono Fallback\", \"Courier New\"",
+     "weight": 400,
+     "webfont": {
+      "height": 330,
+      "lines": 11,
+      "width": 2729.8
+     },
+     "fallbackFace": {
+      "height": 330,
+      "lines": 11,
+      "width": 2735.1
+     },
+     "widthRatio": 1.0019,
+     "heightRatio": 1
+    }
+   ]
+  },
+  {
+   "vw": 375,
+   "route": "/malzemeler",
+   "geometry": {
+    "elements": 446,
+    "meanDTop": 4.76,
+    "maxDTop": 21,
+    "movedOver1px": 101,
+    "meanDHeight": 0.14,
+    "docHeightBlocked": 9272,
+    "docHeightLoaded": 9293,
+    "dDocHeight": 21
+   },
+   "cls": {
+    "control": 0.0822,
+    "held": 0.0002,
+    "swap": -0.082,
+    "heldEntries": [
+     {
+      "t": 2155,
+      "v": 0.0002
+     }
+    ],
+    "fontsLoadedHeld": 17
+   },
+   "overlay": [
+    {
+     "web": "Space Grotesk",
+     "fallback": "\"Space Grotesk Fallback\", Arial",
+     "weight": 400,
+     "webfont": {
+      "height": 270,
+      "lines": 9,
+      "width": 2100.7
+     },
+     "fallbackFace": {
+      "height": 270,
+      "lines": 9,
+      "width": 2083.2
+     },
+     "widthRatio": 0.9917,
+     "heightRatio": 1
+    },
+    {
+     "web": "Newsreader",
+     "fallback": "\"Newsreader Fallback\", Georgia",
+     "weight": 400,
+     "webfont": {
+      "height": 210,
+      "lines": 7,
+      "width": 1777.7
+     },
+     "fallbackFace": {
+      "height": 210,
+      "lines": 7,
+      "width": 1788.3
+     },
+     "widthRatio": 1.006,
+     "heightRatio": 1
+    },
+    {
+     "web": "IBM Plex Mono",
+     "fallback": "\"IBM Plex Mono Fallback\", \"Courier New\"",
+     "weight": 400,
+     "webfont": {
+      "height": 330,
+      "lines": 11,
+      "width": 2736
+     },
+     "fallbackFace": {
+      "height": 330,
+      "lines": 11,
+      "width": 2735.1
+     },
+     "widthRatio": 0.9997,
+     "heightRatio": 1
+    }
+   ]
+  }
+ ]
+}

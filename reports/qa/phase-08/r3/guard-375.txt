@@ -1,0 +1,20 @@
+(node:30560) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:30960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:30960) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:30960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[qa-p08 table walk] 16 tables — {"/":4,"/sss":0,"/gizlilik-politikasi":0,"/kvkk":0,"/cerez-politikasi":1,"/hakkimizda":0,"/iletisim":0,"/malzemeler":1,"/malzemeler/aluminyum":1,"/blog":0,"/blog/havacilik-parcalarinda-malzeme-secimi":1,"/kabiliyet-profilleri":0,"/kabiliyet-profilleri/ince-cidarli-aluminyum-govde":0,"/kalite-dosyasi":1,"/hizmetler/kategori/talasli-imalat":0,"/hizmetler/cnc-frezeleme":4,"/kabiliyetler/kalite-kontrol":3,"/endustriyel/havacilik":0,"/giris":0,"/sifremi-unuttum":0,"/reset-password":0,"/teklif-al":0}
+  ✓  1 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:408:3 › QA — every table on a public route is reachable at its viewport › every table fits its viewport or lives in a real, focusable scroll region (32.9s)
+[qa-p08 header reach] 64 header cells over 8 routes
+  ✓  2 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:433:3 › QA — every table on a public route is reachable at its viewport › every table header can be brought fully inside the viewport (30.1s)
+  ✓  3 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:481:3 › QA — every table on a public route is reachable at its viewport › control — the checker accepts what ships and rejects R2-1's own numbers (11ms)
+  ✓  4 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:509:3 › QA — every table on a public route is reachable at its viewport › control — the checker rejects an overflow that is clipped rather than scrolled (8ms)
+  ✓  5 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:526:3 › QA — every table on a public route is reachable at its viewport › control — the checker rejects a scrolling region no keyboard can reach (5ms)
+  ✓  6 [mobile-375] › e2e\qa-p08-scroll-region-reach.spec.ts:535:3 › QA — every table on a public route is reachable at its viewport › live control — put the R2-1 markup back on the real page and the guard goes red (2.6s)
+
+  6 passed (1.1m)

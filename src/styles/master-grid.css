@@ -1,0 +1,141 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   MAS TECHNIC — MASTER GRID PRIMITIVE
+
+   THE CONTRACT
+   ------------
+       sheet  = min(100%, --tl-sheet-max), centred, hairline side rules
+       band   = --tl-rail  +  --tl-cols equal master columns, gap 0
+       body   = a SUBGRID of the band — it inherits the band's real tracks
+
+   Every horizontal axis on the public site is a boundary of that one grid.
+   A band body does not get to invent tracks; it consumes them.
+
+   WHY SUBGRID AND NOT `repeat(12,1fr)` AGAIN
+   ------------------------------------------
+   Re-declaring `repeat(12, minmax(0,1fr))` inside a band body only agrees
+   with the master grid while the body has exactly the master body's width.
+   The moment the body carries horizontal padding — which `.tl-process-body`,
+   `.tl-nexus-body`, `.tl-projects-body`, `.tl-quality-body`, `.tl-faq-body`
+   and `.tl-rfq-body` all did — the 12 recreated tracks are narrower than the
+   12 master tracks and every interior boundary walks off the master axis. It
+   was measured: at 1600px the process steps sat 8px, 0.03px, -7.95px and
+   -15.94px away from the master lines they were supposed to share, and the
+   error scaled with viewport width. `subgrid` makes that class of drift
+   impossible to reintroduce.
+
+   THE ONE RULE THAT KEEPS SUBGRID HONEST
+   --------------------------------------
+   A subgridded element must not carry horizontal padding, border or margin.
+   Per CSS Grid Level 2 those shorten the subgrid's FIRST and LAST track, so
+   the outer edges leave the master grid even though the interior lines stay.
+   Breathing room therefore lives on the children. `padding-inline: 0` below
+   is a contract, not a default.
+
+   Verified by `scripts/grid-axis-probe.mjs` and `e2e/landing/landing-grid-axes.spec.ts`.
+
+   OWNERSHIP RULE — WHERE A RESPONSIVE OVERRIDE OF THESE PRIMITIVES LIVES
+   ---------------------------------------------------------------------
+   This file is `@import`ed by BOTH `technical-landing.css` and `shell.css`, so
+   Rollup inlines every rule below into BOTH emitted chunk stylesheets
+   (`dist/assets/Index-*.css` and `dist/assets/PageShell-*.css`). On `/` the
+   browser loads both, and the landing chunk is injected LAST, so at equal
+   specificity the landing copy of a base rule wins.
+
+   MEASURED DEFECT THIS ENCODES: Phase 04 moved
+   `@media (max-width:767px){ .tl-sheet{ border-inline:0 } }` into `shell.css`
+   while the base `.tl-sheet` declaration stayed here. The base rule therefore
+   shipped in two chunks and its override in one, so the landing chunk's copy
+   of the base re-asserted the hairline. Measured at 375px: `/` reported
+   `border-inline 1px/1px` while `/sss`, `/hakkimizda`, `/teklif-al` and
+   `/blog` all reported `0px/0px`. The 2px narrower field wrapped the hero's
+   `120.00 x 72.00 x 68.00 mm` dimension string onto a second line — the
+   375px landing golden re-captured from the fixed build is 8962px tall against
+   8969px before — and put the whole mobile body one pixel to the right
+   (`reports/qa/tools/golden-xshift.mjs` over rows 400-900 against the last
+   pre-Phase-04 golden: minimum at +1px before the fix, at 0px with 0.178%
+   residual after).
+
+   THE RULE: a responsive override of a primitive declared in this file must be
+   declared in THIS file, immediately under the primitive it overrides. Then it
+   is inlined into exactly the same chunks as its base and travels with it, and
+   chunk order cannot separate them. Raising specificity or `!important` would
+   only paper over the split — the base would still be duplicated with its
+   override missing from one copy. Gated by
+   `e2e/landing/shell-cascade-contract.spec.ts`.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+.tl-sheet {
+  width: min(100%, var(--tl-sheet-max));
+  margin-inline: auto;
+  /* Band 01 is the fixed global header (`src/styles/navigation.css`). The
+     sheet does NOT reserve its height here: the reservation belongs to
+     `.tl-header-spacer` inside `#shared-header-host`, which gives every route
+     that mounts the navigation the same offset — including the inner pages,
+     which have no `.tl-sheet` at all. */
+  border-inline: var(--tl-rule-size) solid var(--tl-rule);
+  background: var(--tl-black);
+}
+
+/* Mobile drops the sheet's side rules: at 375px two hairlines cost 2px of a
+   375px field, which is a whole master column's worth of wrap pressure, and
+   the sheet is edge-to-edge there so the rules frame nothing. See the
+   OWNERSHIP RULE in this file's header for why it is declared HERE and not in
+   `shell.css`. */
+@media (max-width: 767px) {
+  .tl-sheet { border-inline: 0; }
+}
+
+/* `.tl-header-band` used to be listed here as a second band root. It is no
+   longer part of the sheet's flow — it is the fixed global header and declares
+   the identical `--tl-rail + repeat(--tl-cols,1fr)` tracks in
+   `src/styles/navigation.css`, which every public route loads. */
+.tl-band {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--tl-rail) repeat(var(--tl-cols), minmax(0, 1fr));
+  gap: var(--tl-gap);
+  border-bottom: var(--tl-rule-size) solid var(--tl-rule);
+}
+
+/* ── The primitive ────────────────────────────────────────────────────────
+   `.tl-grid`     a band body: occupies the whole content field (all master
+                  columns, rail excluded) and republishes the master tracks
+                  to its own children.
+   `.tl-subgrid`  any nested block that must keep publishing the same tracks
+                  further down (a card that spans 6 columns still divides on
+                  master lines).
+   Both are applied from CSS, not from markup, so a band cannot half-adopt
+   the system.
+   ----------------------------------------------------------------------- */
+.tl-grid {
+  grid-column: 2 / -1;
+}
+
+.tl-grid,
+.tl-subgrid {
+  display: grid;
+  grid-template-columns: subgrid;
+  column-gap: var(--tl-gap);
+  /* Contract — see header. Vertical padding is free; horizontal is not. */
+  padding-inline: 0;
+  border-inline-width: 0;
+  margin-inline: 0;
+}
+
+/* ── Fallback ─────────────────────────────────────────────────────────────
+   Chromium 117+, Firefox 71+ and Safari 16+ all ship subgrid, so this path
+   is not expected to run. When it does, tracks are still derived from the
+   SAME tokens rather than from fresh percentages: a full-width body with no
+   horizontal padding and a zero master gap divides identically either way,
+   so the fallback is geometrically exact for `.tl-grid`. Nested spans below
+   declare their own track count for the same reason.
+   ----------------------------------------------------------------------- */
+@supports not (grid-template-columns: subgrid) {
+  .tl-grid {
+    grid-template-columns: repeat(var(--tl-cols), minmax(0, 1fr));
+  }
+
+  .tl-subgrid {
+    grid-template-columns: repeat(var(--tl-subgrid-cols, var(--tl-cols)), minmax(0, 1fr));
+  }
+}

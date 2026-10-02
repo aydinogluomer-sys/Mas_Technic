@@ -6,17 +6,17 @@
     <title>Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat</title>
     <meta
       name="description"
-      content="CNC Freze, Torna ve Talaşlı İmalatta ±0.01mm hassasiyet. ISO 9001, AS9100D sertifikalı proses kontrollü üretim, DFM analizi ve zamanında teslimat garantisi. Türkiye'nin güvenilir CNC üretim partneri."
+      content="CNC Freze, Torna ve Talaşlı İmalatta ±0.01mm hassasiyet. ISO 9001 sertifikalı, proses kontrollü üretim ve DFM analizi. Ölçüm kayıtlı, izlenebilir hassas imalat."
     />
     <meta name="author" content="Mas Technic" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta
       name="keywords"
-      content="CNC frezeleme, CNC tornalama, talaşlı imalat, hassas işleme, 5 eksen CNC, prototip üretim, seri üretim, ISO 9001, AS9100D, DFM analizi, Türkiye CNC"
+      content="CNC frezeleme, CNC tornalama, talaşlı imalat, hassas işleme, 5 eksen CNC, prototip üretim, seri üretim, ISO 9001, DFM analizi, Türkiye CNC"
     />
     <link rel="canonical" href="https://mas-technic-precision.lovable.app/" />
     <meta name="geo.region" content="TR" />
-    <meta name="geo.placename" content="İstanbul" />
+    <meta name="geo.placename" content="İzmir" />
     <meta name="theme-color" content="#0688AD" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mas-technic-precision.lovable.app/" />
@@ -25,7 +25,7 @@
     <meta property="og:title" content="Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat" />
     <meta
       property="og:description"
-      content="CNC Freze, Torna ve Talaşlı İmalatta ±0.01mm hassasiyet. ISO 9001 sertifikalı proses kontrollü üretim ve zamanında teslimat garantisi."
+      content="CNC Freze, Torna ve Talaşlı İmalatta ±0.01mm hassasiyet. ISO 9001 sertifikalı, proses kontrollü ve ölçüm kayıtlı hassas imalat."
     />
     <meta
       property="og:image"
@@ -35,20 +35,25 @@
     <meta property="og:image:height" content="630" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@MasTechnic" />
     <meta name="twitter:title" content="Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat" />
     <meta
       name="twitter:description"
-      content="CNC Freze, Torna ve Talaşlı İmalatta ±0.01mm hassasiyet. ISO 9001 sertifikalı proses kontrollü üretim ve zamanında teslimat garantisi."
+      content="CNC Freze, Torna ve Talaşlı İmalatta ±0.01mm hassasiyet. ISO 9001 sertifikalı, proses kontrollü ve ölçüm kayıtlı hassas imalat."
     />
     <meta
       name="twitter:image"
       content="https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/f18b2857-1ebe-4c0c-bfb7-8fd05557b921/id-preview-64739496--e3e5d4c7-7bc0-463c-b68d-d1aa3bbf65ff.lovable.app-1771685445710.png"
     />
 
-    <!-- Hero görseli LCP alanını kaplıyor ama React render edene kadar
-         keşfedilmiyordu; erken indirmeye başlatmak için preload. -->
-    <link rel="preload" as="image" href="/src/assets/hero-cnc.jpg" fetchpriority="high" />
+    <!-- LCP hero görseli için preload BURADA STATİK OLARAK YAZILAMAZ: Vite
+         `src/assets/technical-landing/hero-manifold-v1.webp` dosyasını içerik
+         hash'iyle yayınlıyor, dolayısıyla nihai URL derleme zamanında belli
+         oluyor. `vite.config.ts` içindeki `mas-hero-preload` eklentisi doğru
+         URL ile tek bir image preload bağlantısı enjekte eder.
+         Buradaki eski satır `/src/assets/hero-cnc.jpg` adresini gösteriyordu:
+         var olmayan bir dosya, SPA fallback'i üzerinden `text/html` dönüyor
+         ve tarayıcı bir HTML belgesini yüksek öncelikli görsel olarak
+         indiriyordu. -->
 
 
     <!-- App-shell hero: React (~4 s, yavaş mobil CPU) çalışana kadar hero DOM'da
@@ -259,14 +264,40 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- PHASE 10-4 — SYMBOL SUBSET. Google's latin / latin-ext `unicode-range` blocks stop at
+         U+02FF (+ a few punctuation ranges), so every arrow, comparison and GD&T symbol the site
+         sets (→ ← ≤ ≥ ≈ ⊥ ⌖ ◎ ○ ▱ ↻ ★ ☆ ∪ ⌀ …) was painted by Times New Roman / Cambria Math /
+         Segoe UI Symbol even where the webfont has the glyph — measured in
+         reports/10/probes/glyph-coverage-before.md. A `text=` request returns each family's faces
+         cut to exactly these code points WITH a matching `unicode-range`, so nothing downloads
+         until a symbol is rendered and a family that lacks a glyph simply falls through. Declared
+         BEFORE the main request so the main subsets keep priority for everything else.
+
+         APPLIED AFTER THE MAIN FACES HAVE SETTLED. Every `rel` swap is a style recalc that
+         rebuilds the font-face set and restarts the face loads still in flight; two swaps a few
+         milliseconds apart were measured (Playwright trace, reports/10/typography.md §5)
+         requesting the same WOFF2 three times, and a load cancelled mid-flight is what the
+         visual suite's F4 retry guard reports as `Route is already handled`. So this sheet
+         waits: main link flipped → one frame for its recalc → `document.fonts.ready` → flip.
+         Symbols set in the interval paint in the fallback face and swap once, the same way
+         `display=swap` treats every other glyph. If the main sheet never flips (it failed),
+         this one flips on its own after 5 s — it cannot make things worse. -->
     <link
       rel="preload"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&text=%E2%86%92%E2%86%90%E2%86%91%E2%86%93%E2%86%BB%E2%89%A4%E2%89%A5%E2%89%88%E2%8A%A5%E2%88%A5%E2%8C%92%E2%8C%93%E2%9F%82%E2%88%85%E2%8C%80%E2%97%8E%E2%97%8B%E2%96%B1%E2%8C%96%E2%98%85%E2%98%86%E2%88%AA&display=swap"
+      as="style"
+      onload="this.onload=null;var l=this,n=0;(function go(){var m=document.querySelector('link[data-font-main]');if(m&&m.rel!=='stylesheet'&&n++<100){setTimeout(go,50);return}requestAnimationFrame(function(){(document.fonts?document.fonts.ready:Promise.resolve()).then(function(){l.rel='stylesheet'})})})()"
+    />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      data-font-main
       as="style"
       onload="this.onload=null;this.rel='stylesheet'"
     />
     <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&text=%E2%86%92%E2%86%90%E2%86%91%E2%86%93%E2%86%BB%E2%89%A4%E2%89%A5%E2%89%88%E2%8A%A5%E2%88%A5%E2%8C%92%E2%8C%93%E2%9F%82%E2%88%85%E2%8C%80%E2%97%8E%E2%97%8B%E2%96%B1%E2%8C%96%E2%98%85%E2%98%86%E2%88%AA&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" />
     </noscript>
   </head>
 

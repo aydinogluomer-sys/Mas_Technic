@@ -1,0 +1,833 @@
+(node:32992) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 30 tests using 1 worker
+
+(node:27032) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   1 [desktop-1280] › e2e\landing-flow.spec.ts:43:3 › Editorial landing flow › records nine physical sections as a known production blocker (22.6s)
+(node:19616) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   2 [desktop-1280] › e2e\landing-flow.spec.ts:53:3 › Editorial landing flow › records the future section semantics as a known production blocker (21.1s)
+(node:32316) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   3 [desktop-1280] › e2e\landing-flow.spec.ts:98:3 › Editorial landing flow › preserves nine unique anchors and the current content inventory (21.1s)
+(node:32252) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   4 [desktop-1280] › e2e\landing-flow.spec.ts:127:3 › Editorial landing flow › matches the approved compact and full-motion profile boundary (21.3s)
+(node:21444) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   5 [desktop-1280] › e2e\landing-flow.spec.ts:142:3 › Editorial landing flow › full-motion service controls expose one destination at a time (21.3s)
+(node:33856) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   6 [desktop-1280] › e2e\landing-flow.spec.ts:161:3 › Editorial landing flow › natural-flow profiles expose every service and industry destination (21.1s)
+(node:21084) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   7 [desktop-1280] › e2e\landing-flow.spec.ts:174:3 › Editorial landing flow › records the known serious contrast defect instead of treating axe as green (21.1s)
+(node:32268) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   8 [desktop-1280] › e2e\landing-flow.spec.ts:195:3 › Editorial landing flow › active service controls have measurable target size and valid ARIA (20.9s)
+(node:27804) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   9 [desktop-1280] › e2e\landing-flow.spec.ts:207:3 › Editorial landing flow › industry keyboard selection keeps its named destination visible and focusable (21.1s)
+(node:10228) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  10 [desktop-1280] › e2e\landing-flow.spec.ts:231:3 › Editorial landing flow › short desktop keeps representative keyboard targets unobscured (21.2s)
+(node:28020) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  -  11 [desktop-1280] › e2e\landing-flow.spec.ts:255:1 › reduced motion removes pins, marquee, pixels and hidden reveal states
+  ✘  12 [desktop-1280] › e2e\landing-flow.spec.ts:271:1 › cold navigation exposes the hero and primary action without a page lock (5.9s)
+(node:21852) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  13 [desktop-1280] › e2e\section-integrity.spec.ts:17:3 › Landing page section integrity › current physical sections stay in flow without horizontal overflow (21.0s)
+(node:16012) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  14 [desktop-1280] › e2e\section-integrity.spec.ts:41:3 › Landing page section integrity › preserves exactly nine public anchors in immutable order (21.2s)
+(node:13424) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  15 [desktop-1280] › e2e\section-integrity.spec.ts:70:3 › Landing page section integrity › industry selection never leaves an inaccessible active destination (21.1s)
+(node:19280) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  16 [desktop-1280] › e2e\section-integrity.spec.ts:97:3 › Landing page section integrity › internal hash links always resolve to a unique real target (21.1s)
+(node:33468) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  17 [desktop-1280] › e2e\technical-landing.spec.ts:13:3 › technical editorial landing phase 1 › renders the frame, hero, annotations and proof strip (6.5s)
+(node:22436) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  18 [desktop-1280] › e2e\technical-landing.spec.ts:21:3 › technical editorial landing phase 1 › numbers every band of the drawing sheet in order (1.7s)
+(node:28628) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  19 [desktop-1280] › e2e\technical-landing.spec.ts:26:3 › technical editorial landing phase 1 › does not create document-level horizontal overflow (1.6s)
+  ✘  20 [desktop-1280] › e2e\technical-landing.spec.ts:31:3 › technical editorial landing phase 1 › keeps the shared sheet rail and viewport column contract (1.0m)
+(node:15804) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  21 [desktop-1280] › e2e\technical-landing.spec.ts:57:3 › technical editorial landing phase 1 › renders the capability marquee with its loop copy hidden from assistive tech (6.6s)
+(node:13436) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  22 [desktop-1280] › e2e\technical-landing.spec.ts:66:3 › technical editorial landing phase 1 › moves the two visual bands against the scroll without hijacking input (6.5s)
+(node:19392) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  23 [desktop-1280] › e2e\technical-landing.spec.ts:93:3 › technical editorial landing phase 1 › renders process, NEXUS and measured project evidence (6.6s)
+(node:23396) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  24 [desktop-1280] › e2e\technical-landing.spec.ts:102:3 › technical editorial landing phase 1 › renders sectors, the quality file and the reference band (6.6s)
+(node:12608) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  25 [desktop-1280] › e2e\technical-landing.spec.ts:117:3 › technical editorial landing phase 1 › keeps unpublished quality assets honest instead of faking downloads (6.6s)
+(node:31028) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  26 [desktop-1280] › e2e\technical-landing.spec.ts:124:3 › technical editorial landing phase 1 › renders FAQ answers and the RFQ hand-off (1.0m)
+(node:28400) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  27 [desktop-1280] › e2e\technical-landing.spec.ts:136:3 › technical editorial landing phase 1 › keeps reference proportions for headline, project cards and NEXUS rows (1.0m)
+(node:1292) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  28 [desktop-1280] › e2e\technical-landing.spec.ts:268:3 › technical editorial landing phase 1 › has no serious or critical accessibility violations (1.7s)
+(node:19516) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  -  29 [desktop-1280] › e2e\technical-landing.spec.ts:274:3 › technical editorial landing phase 1 › mobile menu traps focus and closes with Escape
+  ✘  30 [desktop-1280] › e2e\technical-landing.spec.ts:284:3 › technical editorial landing phase 1 › reduced motion keeps the complete page visible without active animation (6.5s)
+
+
+  1) [desktop-1280] › e2e\landing-flow.spec.ts:43:3 › Editorial landing flow › records nine physical sections as a known production blocker 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('landing-version-root')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 20000ms[22m
+    [2m  - waiting for getByTestId('landing-version-root')[22m
+
+
+       at helpers.ts:78
+
+      76 | export async function hydrateLanding(page: Page) {
+      77 |   const versionRoot = page.getByTestId("landing-version-root");
+    > 78 |   await expect(versionRoot).toBeVisible({ timeout: 20_000 });
+         |                             ^
+      79 |   const version = await versionRoot.getAttribute("data-landing-version");
+      80 |   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
+      81 |   await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
+        at hydrateLanding (C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\helpers.ts:78:29)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\landing-flow.spec.ts:39:11
+
+    Error Context: test-results\landing-flow-Editorial-lan-e3c27--a-known-production-blocker-desktop-1280\error-context.md
+
+  2) [desktop-1280] › e2e\landing-flow.spec.ts:53:3 › Editorial landing flow › records the future section semantics as a known production blocker 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('landing-version-root')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 20000ms[22m
+    [2m  - waiting for getByTestId('landing-version-root')[22m
+
+
+       at helpers.ts:78
+
+      76 | export async function hydrateLanding(page: Page) {
+      77 |   const versionRoot = page.getByTestId("landing-version-root");
+    > 78 |   await expect(versionRoot).toBeVisible({ timeout: 20_000 });
+         |                             ^
+      79 |   const version = await versionRoot.getAttribute("data-landing-version");
+      80 |   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
+      81 |   await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
+        at hydrateLanding (C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\helpers.ts:78:29)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\landing-flow.spec.ts:39:11
+
+    Error Context: test-results\landing-flow-Editorial-lan-d1cb8--a-known-production-blocker-desktop-1280\error-context.md
+
+  3) [desktop-1280] › e2e\landing-flow.spec.ts:98:3 › Editorial landing flow › preserves nine unique anchors and the current content inventory 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('landing-version-root')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 20000ms[22m
+    [2m  - waiting for getByTestId('landing-version-root')[22m
+
+
+       at helpers.ts:78
+
+      76 | export async function hydrateLanding(page: Page) {
+      77 |   const versionRoot = page.getByTestId("landing-version-root");
+    > 78 |   await expect(versionRoot).toBeVisible({ timeout: 20_000 });
+         |                             ^
+      79 |   const version = await versionRoot.getAttribute("data-landing-version");
+      80 |   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
+      81 |   await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
+        at hydrateLanding (C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\helpers.ts:78:29)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\landing-flow.spec.ts:39:11
+
+    Error Context: test-results\landing-flow-Editorial-lan-715ae-e-current-content-inventory-desktop-1280\error-context.md
+
+  4) [desktop-1280] › e2e\landing-flow.spec.ts:127:3 › Editorial landing flow › matches the approved compact and full-motion profile boundary 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('landing-version-root')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 20000ms[22m
+    [2m  - waiting for getByTestId('landing-version-root')[22m
+
+
+       at helpers.ts:78
+
+      76 | export async function hydrateLanding(page: Page) {
+      77 |   const versionRoot = page.getByTestId("landing-version-root");
+    > 78 |   await expect(versionRoot).toBeVisible({ timeout: 20_000 });
+         |                             ^
+      79 |   const version = await versionRoot.getAttribute("data-landing-version");
+      80 |   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
+      81 |   await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
+        at hydrateLanding (C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\helpers.ts:78:29)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\landing-flow.spec.ts:39:11
+
+    Error Context: test-results\landing-flow-Editorial-lan-09a54-ull-motion-profile-boundary-desktop-1280\error-context.md
+
+  5) [desktop-1280] › e2e\landing-flow.spec.ts:142:3 › Editorial landing flow › full-motion service controls expose one destination at a time 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('landing-version-root')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 20000ms[22m
+    [2m  - waiting for getByTestId('landing-version-root')[22m
+
+
+       at helpers.ts:78
+
+      76 | export async function hydrateLanding(page: Page) {
+      77 |   const versionRoot = page.getByTestId("landing-version-root");
+    > 78 |   await expect(versionRoot).toBeVisible({ timeout: 20_000 });
+         |                             ^
+      79 |   const version = await versionRoot.getAttribute("data-landing-version");
+      80 |   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
+      81 |   await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
+        at hydrateLanding (C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\helpers.ts:78:29)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\landing-flow.spec.ts:39:11
+
+    Error Context: test-results\landing-flow-Editorial-lan-cb403-e-one-destination-at-a-time-desktop-1280\error-context.md
+
+  6) [desktop-1280] › e2e\landing-flow.spec.ts:161:3 › Editorial landing flow › natural-flow profiles expose every service and industry destination 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('landing-version-root')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 20000ms[22m
+    [2m  - waiting for getByTestId('landing-version-root')[22m
+
+
+       at helpers.ts:78
+
+      76 | export async function hydrateLanding(page: Page) {
+      77 |   const versionRoot = page.getByTestId("landing-version-root");
+    > 78 |   await expect(versionRoot).toBeVisible({ timeout: 20_000 });
+         |                             ^
+      79 |   const version = await versionRoot.getAttribute("data-landing-version");
+      80 |   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
+      81 |   await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
+        at hydrateLanding (C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\helpers.ts:78:29)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\landing-flow.spec.ts:39:11
+
+    Error Context: test-results\landing-flow-Editorial-lan-ef190-ce-and-industry-destination-desktop-1280\error-context.md
+
+  7) [desktop-1280] › e2e\landing-flow.spec.ts:174:3 › Editorial landing flow › records the known serious contrast defect instead of treating axe as green 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('landing-version-root')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 20000ms[22m
+    [2m  - waiting for getByTestId('landing-version-root')[22m
+
+
+       at helpers.ts:78
+
+      76 | export async function hydrateLanding(page: Page) {
+      77 |   const versionRoot = page.getByTestId("landing-version-root");
+    > 78 |   await expect(versionRoot).toBeVisible({ timeout: 20_000 });
+         |                             ^
+      79 |   const version = await versionRoot.getAttribute("data-landing-version");
+      80 |   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
+      81 |   await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
+        at hydrateLanding (C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\helpers.ts:78:29)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\landing-flow.spec.ts:39:11
+
+    Error Context: test-results\landing-flow-Editorial-lan-afd26-ad-of-treating-axe-as-green-desktop-1280\error-context.md
+
+  8) [desktop-1280] › e2e\landing-flow.spec.ts:195:3 › Editorial landing flow › active service controls have measurable target size and valid ARIA 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('landing-version-root')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 20000ms[22m
+    [2m  - waiting for getByTestId('landing-version-root')[22m
+
+
+       at helpers.ts:78
+
+      76 | export async function hydrateLanding(page: Page) {
+      77 |   const versionRoot = page.getByTestId("landing-version-root");
+    > 78 |   await expect(versionRoot).toBeVisible({ timeout: 20_000 });
+         |                             ^
+      79 |   const version = await versionRoot.getAttribute("data-landing-version");
+      80 |   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
+      81 |   await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
+        at hydrateLanding (C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\helpers.ts:78:29)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\landing-flow.spec.ts:39:11
+
+    Error Context: test-results\landing-flow-Editorial-lan-45331--target-size-and-valid-ARIA-desktop-1280\error-context.md
+
+  9) [desktop-1280] › e2e\landing-flow.spec.ts:207:3 › Editorial landing flow › industry keyboard selection keeps its named destination visible and focusable 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('landing-version-root')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 20000ms[22m
+    [2m  - waiting for getByTestId('landing-version-root')[22m
+
+
+       at helpers.ts:78
+
+      76 | export async function hydrateLanding(page: Page) {
+      77 |   const versionRoot = page.getByTestId("landing-version-root");
+    > 78 |   await expect(versionRoot).toBeVisible({ timeout: 20_000 });
+         |                             ^
+      79 |   const version = await versionRoot.getAttribute("data-landing-version");
+      80 |   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
+      81 |   await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
+        at hydrateLanding (C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\helpers.ts:78:29)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\landing-flow.spec.ts:39:11
+
+    Error Context: test-results\landing-flow-Editorial-lan-90485-ation-visible-and-focusable-desktop-1280\error-context.md
+
+  10) [desktop-1280] › e2e\landing-flow.spec.ts:231:3 › Editorial landing flow › short desktop keeps representative keyboard targets unobscured 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('landing-version-root')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 20000ms[22m
+    [2m  - waiting for getByTestId('landing-version-root')[22m
+
+
+       at helpers.ts:78
+
+      76 | export async function hydrateLanding(page: Page) {
+      77 |   const versionRoot = page.getByTestId("landing-version-root");
+    > 78 |   await expect(versionRoot).toBeVisible({ timeout: 20_000 });
+         |                             ^
+      79 |   const version = await versionRoot.getAttribute("data-landing-version");
+      80 |   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
+      81 |   await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
+        at hydrateLanding (C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\helpers.ts:78:29)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\landing-flow.spec.ts:39:11
+
+    Error Context: test-results\landing-flow-Editorial-lan-691f6-keyboard-targets-unobscured-desktop-1280\error-context.md
+
+  11) [desktop-1280] › e2e\landing-flow.spec.ts:271:1 › cold navigation exposes the hero and primary action without a page lock 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('heading', { name: /MAS Technic/i, level: 1 })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByRole('heading', { name: /MAS Technic/i, level: 1 })[22m
+
+
+      273 |   page.on("pageerror", (error) => runtimeErrors.push(error.message));
+      274 |   await gotoAndSettle(page, "/");
+    > 275 |   await expect(page.getByRole("heading", { level: 1, name: /MAS Technic/i })).toBeVisible();
+          |                                                                               ^
+      276 |   await expect(page.locator("#top").getByRole("link", { name: /CAD dosyanı yükle/i })).toBeVisible();
+      277 |   await expect(page.locator("html")).not.toHaveCSS("overflow", "hidden");
+      278 |   expect(runtimeErrors).toEqual([]);
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\landing-flow.spec.ts:275:79
+
+    Error Context: test-results\landing-flow-cold-navigati-602d6--action-without-a-page-lock-desktop-1280\error-context.md
+
+  12) [desktop-1280] › e2e\section-integrity.spec.ts:17:3 › Landing page section integrity › current physical sections stay in flow without horizontal overflow 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('landing-version-root')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 20000ms[22m
+    [2m  - waiting for getByTestId('landing-version-root')[22m
+
+
+       at helpers.ts:78
+
+      76 | export async function hydrateLanding(page: Page) {
+      77 |   const versionRoot = page.getByTestId("landing-version-root");
+    > 78 |   await expect(versionRoot).toBeVisible({ timeout: 20_000 });
+         |                             ^
+      79 |   const version = await versionRoot.getAttribute("data-landing-version");
+      80 |   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
+      81 |   await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
+        at hydrateLanding (C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\helpers.ts:78:29)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\section-integrity.spec.ts:14:11
+
+    Error Context: test-results\section-integrity-Landing--ee279-without-horizontal-overflow-desktop-1280\error-context.md
+
+  13) [desktop-1280] › e2e\section-integrity.spec.ts:41:3 › Landing page section integrity › preserves exactly nine public anchors in immutable order 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('landing-version-root')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 20000ms[22m
+    [2m  - waiting for getByTestId('landing-version-root')[22m
+
+
+       at helpers.ts:78
+
+      76 | export async function hydrateLanding(page: Page) {
+      77 |   const versionRoot = page.getByTestId("landing-version-root");
+    > 78 |   await expect(versionRoot).toBeVisible({ timeout: 20_000 });
+         |                             ^
+      79 |   const version = await versionRoot.getAttribute("data-landing-version");
+      80 |   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
+      81 |   await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
+        at hydrateLanding (C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\helpers.ts:78:29)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\section-integrity.spec.ts:14:11
+
+    Error Context: test-results\section-integrity-Landing--487bc--anchors-in-immutable-order-desktop-1280\error-context.md
+
+  14) [desktop-1280] › e2e\section-integrity.spec.ts:70:3 › Landing page section integrity › industry selection never leaves an inaccessible active destination 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('landing-version-root')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 20000ms[22m
+    [2m  - waiting for getByTestId('landing-version-root')[22m
+
+
+       at helpers.ts:78
+
+      76 | export async function hydrateLanding(page: Page) {
+      77 |   const versionRoot = page.getByTestId("landing-version-root");
+    > 78 |   await expect(versionRoot).toBeVisible({ timeout: 20_000 });
+         |                             ^
+      79 |   const version = await versionRoot.getAttribute("data-landing-version");
+      80 |   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
+      81 |   await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
+        at hydrateLanding (C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\helpers.ts:78:29)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\section-integrity.spec.ts:14:11
+
+    Error Context: test-results\section-integrity-Landing--b9401-cessible-active-destination-desktop-1280\error-context.md
+
+  15) [desktop-1280] › e2e\section-integrity.spec.ts:97:3 › Landing page section integrity › internal hash links always resolve to a unique real target 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('landing-version-root')
+    Expected: visible
+    Timeout: 20000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 20000ms[22m
+    [2m  - waiting for getByTestId('landing-version-root')[22m
+
+
+       at helpers.ts:78
+
+      76 | export async function hydrateLanding(page: Page) {
+      77 |   const versionRoot = page.getByTestId("landing-version-root");
+    > 78 |   await expect(versionRoot).toBeVisible({ timeout: 20_000 });
+         |                             ^
+      79 |   const version = await versionRoot.getAttribute("data-landing-version");
+      80 |   await expect(page.locator("main#main-content")).toBeVisible({ timeout: 20_000 });
+      81 |   await expect(page.locator("#top")).toBeVisible({ timeout: 20_000 });
+        at hydrateLanding (C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\helpers.ts:78:29)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\section-integrity.spec.ts:14:11
+
+    Error Context: test-results\section-integrity-Landing--28983-lve-to-a-unique-real-target-desktop-1280\error-context.md
+
+  16) [desktop-1280] › e2e\technical-landing.spec.ts:13:3 › technical editorial landing phase 1 › renders the frame, hero, annotations and proof strip 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByTestId('technical-landing-root')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('technical-landing-root')[22m
+
+
+      12 |
+      13 |   test("renders the frame, hero, annotations and proof strip", async ({ page }) => {
+    > 14 |     await expect(page.getByTestId("technical-landing-root")).toBeVisible();
+         |                                                              ^
+      15 |     await expect(page.getByTestId("technical-hero-title")).toBeVisible();
+      16 |     await expect(page.getByLabel("Ölçümlendirilmiş örnek CNC manifold parçası")).toBeVisible();
+      17 |     await expect(page.getByRole("region", { name: "Üretim kabiliyeti özeti" })).toBeVisible();
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\technical-landing.spec.ts:14:62
+
+    Error Context: test-results\technical-landing-technica-b0c25-annotations-and-proof-strip-desktop-1280\error-context.md
+
+  17) [desktop-1280] › e2e\technical-landing.spec.ts:21:3 › technical editorial landing phase 1 › numbers every band of the drawing sheet in order 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 16[39m
+    [31m+ Received  +  1[39m
+
+    [32m- Array [[39m
+    [32m-   "01",[39m
+    [32m-   "02",[39m
+    [32m-   "03",[39m
+    [32m-   "04",[39m
+    [32m-   "05",[39m
+    [32m-   "06",[39m
+    [32m-   "07",[39m
+    [32m-   "08",[39m
+    [32m-   "09",[39m
+    [32m-   "10",[39m
+    [32m-   "11",[39m
+    [32m-   "12",[39m
+    [32m-   "13",[39m
+    [32m-   "14",[39m
+    [32m- ][39m
+    [31m+ Array [][39m
+
+      21 |   test("numbers every band of the drawing sheet in order", async ({ page }) => {
+      22 |     const indices = await page.locator(".tl-band-index span").allTextContents();
+    > 23 |     expect(indices).toEqual(BAND_INDICES);
+         |                     ^
+      24 |   });
+      25 |
+      26 |   test("does not create document-level horizontal overflow", async ({ page }) => {
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\technical-landing.spec.ts:23:21
+
+    Error Context: test-results\technical-landing-technica-3f9ee--the-drawing-sheet-in-order-desktop-1280\error-context.md
+
+  18) [desktop-1280] › e2e\technical-landing.spec.ts:31:3 › technical editorial landing phase 1 › keeps the shared sheet rail and viewport column contract 
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    Error: locator.evaluate: Test timeout of 60000ms exceeded.
+    Call log:
+    [2m  - waiting for getByTestId('technical-landing-root')[22m
+
+
+      30 |
+      31 |   test("keeps the shared sheet rail and viewport column contract", async ({ page }) => {
+    > 32 |     const contract = await page.getByTestId("technical-landing-root").evaluate((root) => {
+         |                                                                       ^
+      33 |       const styles = getComputedStyle(root);
+      34 |       const bands = [...root.querySelectorAll<HTMLElement>(".tl-band")];
+      35 |       return {
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\technical-landing.spec.ts:32:71
+
+    Error Context: test-results\technical-landing-technica-42b16-nd-viewport-column-contract-desktop-1280\error-context.md
+
+  19) [desktop-1280] › e2e\technical-landing.spec.ts:57:3 › technical editorial landing phase 1 › renders the capability marquee with its loop copy hidden from assistive tech 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('region', { name: 'Üretim kabiliyetleri' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByRole('region', { name: 'Üretim kabiliyetleri' })[22m
+
+
+      57 |   test("renders the capability marquee with its loop copy hidden from assistive tech", async ({ page }) => {
+      58 |     const marquee = page.getByRole("region", { name: "Üretim kabiliyetleri" });
+    > 59 |     await expect(marquee).toBeVisible();
+         |                           ^
+      60 |     // Kesintisiz döngü için liste iki kez basılır; kopya erişilebilirlik ağacında olmamalı.
+      61 |     await expect(marquee.locator(".tl-marquee-track > ul")).toHaveCount(2);
+      62 |     await expect(marquee.locator(".tl-marquee-track > ul[aria-hidden='true']")).toHaveCount(1);
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\technical-landing.spec.ts:59:27
+
+    Error Context: test-results\technical-landing-technica-64f2b--hidden-from-assistive-tech-desktop-1280\error-context.md
+
+  20) [desktop-1280] › e2e\technical-landing.spec.ts:66:3 › technical editorial landing phase 1 › moves the two visual bands against the scroll without hijacking input 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('[data-reverse-scroll]')
+    Expected: [32m2[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - Expect "toHaveCount" with timeout 5000ms[22m
+    [2m  - waiting for locator('[data-reverse-scroll]')[22m
+    [2m    9 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      66 |   test("moves the two visual bands against the scroll without hijacking input", async ({ page }) => {
+      67 |     const sections = page.locator("[data-reverse-scroll]");
+    > 68 |     await expect(sections).toHaveCount(2);
+         |                            ^
+      69 |
+      70 |     // Mobil dahil her genişlikte açık; tek kapanma koşulu reduced-motion.
+      71 |     for (let i = 0; i < 2; i += 1) {
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\technical-landing.spec.ts:68:28
+
+    Error Context: test-results\technical-landing-technica-4ddba-oll-without-hijacking-input-desktop-1280\error-context.md
+
+  21) [desktop-1280] › e2e\technical-landing.spec.ts:93:3 › technical editorial landing phase 1 › renders process, NEXUS and measured project evidence 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('heading', { name: /Karardan parçaya/ })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByRole('heading', { name: /Karardan parçaya/ })[22m
+
+
+      92 |
+      93 |   test("renders process, NEXUS and measured project evidence", async ({ page }) => {
+    > 94 |     await expect(page.getByRole("heading", { name: /Karardan parçaya/ })).toBeVisible();
+         |                                                                           ^
+      95 |     await expect(page.getByRole("heading", { name: /siz sormadan görünür/ })).toBeVisible();
+      96 |     await expect(page.getByRole("region", { name: "NEXUS örnek iş emirleri" })).toBeVisible();
+      97 |     await expect(page.getByRole("heading", { name: "SEÇİLMİŞ PROJELER" })).toBeVisible();
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\technical-landing.spec.ts:94:75
+
+    Error Context: test-results\technical-landing-technica-34aac-d-measured-project-evidence-desktop-1280\error-context.md
+
+  22) [desktop-1280] › e2e\technical-landing.spec.ts:102:3 › technical editorial landing phase 1 › renders sectors, the quality file and the reference band 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('region', { name: 'Çalıştığımız sektörler' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByRole('region', { name: 'Çalıştığımız sektörler' })[22m
+
+
+      101 |
+      102 |   test("renders sectors, the quality file and the reference band", async ({ page }) => {
+    > 103 |     await expect(page.getByRole("region", { name: "Çalıştığımız sektörler" })).toBeVisible();
+          |                                                                                ^
+      104 |     await expect(page.getByRole("heading", { level: 2, name: /İDDİA EDİLMEZ/ })).toBeVisible();
+      105 |     for (const code of ["ISO 9001:2015", "AS9100D", "ISO 14001:2015"]) {
+      106 |       await expect(page.getByRole("heading", { name: code, exact: true })).toBeVisible();
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\technical-landing.spec.ts:103:80
+
+    Error Context: test-results\technical-landing-technica-a1cc9-file-and-the-reference-band-desktop-1280\error-context.md
+
+  23) [desktop-1280] › e2e\technical-landing.spec.ts:117:3 › technical editorial landing phase 1 › keeps unpublished quality assets honest instead of faking downloads 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByText('DOĞRULAMA SERVİSİ HAZIRLANIYOR')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByText('DOĞRULAMA SERVİSİ HAZIRLANIYOR')[22m
+
+
+      116 |
+      117 |   test("keeps unpublished quality assets honest instead of faking downloads", async ({ page }) => {
+    > 118 |     await expect(page.getByText("DOĞRULAMA SERVİSİ HAZIRLANIYOR")).toBeVisible();
+          |                                                                    ^
+      119 |     await expect(page.locator(".tl-resource-title small")).toHaveText("HAZIRLANIYOR");
+      120 |     // Kaynak satırları indirilebilir görünmemeli: link ya da buton olmamalı.
+      121 |     await expect(page.locator(".tl-resource-list li a, .tl-resource-list li button")).toHaveCount(0);
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\technical-landing.spec.ts:118:68
+
+    Error Context: test-results\technical-landing-technica-1ee52-instead-of-faking-downloads-desktop-1280\error-context.md
+
+  24) [desktop-1280] › e2e\technical-landing.spec.ts:124:3 › technical editorial landing phase 1 › renders FAQ answers and the RFQ hand-off 
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 60000ms exceeded.
+    Call log:
+    [2m  - waiting for getByText('Hangi dosya formatlarını destekliyorsunuz?')[22m
+
+
+      124 |   test("renders FAQ answers and the RFQ hand-off", async ({ page }) => {
+      125 |     const faq = page.getByText("Hangi dosya formatlarını destekliyorsunuz?");
+    > 126 |     await faq.click();
+          |               ^
+      127 |     await expect(page.getByText(/STEP, STP, IGES/)).toBeVisible();
+      128 |     const drop = page.getByTestId("technical-cad-drop");
+      129 |     await expect(drop).toHaveText(/ÇİZİM DOSYANIZI SÜRÜKLEYİN/);
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\technical-landing.spec.ts:126:15
+
+    Error Context: test-results\technical-landing-technica-30140-nswers-and-the-RFQ-hand-off-desktop-1280\error-context.md
+
+  25) [desktop-1280] › e2e\technical-landing.spec.ts:136:3 › technical editorial landing phase 1 › keeps reference proportions for headline, project cards and NEXUS rows 
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    Error: locator.evaluate: Test timeout of 60000ms exceeded.
+    Call log:
+    [2m  - waiting for getByTestId('technical-hero-title')[22m
+
+
+      138 |
+      139 |     // A1: başlık referanstaki gibi üç satır.
+    > 140 |     const lines = await page.getByTestId("technical-hero-title").evaluate((el) =>
+          |                                                                  ^
+      141 |       Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight)));
+      142 |     expect(lines).toBe(3);
+      143 |
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\technical-landing.spec.ts:140:66
+
+    Error Context: test-results\technical-landing-technica-0b5b3-roject-cards-and-NEXUS-rows-desktop-1280\error-context.md
+
+  26) [desktop-1280] › e2e\technical-landing.spec.ts:268:3 › technical editorial landing phase 1 › has no serious or critical accessibility violations 
+
+    Error: frame.evaluate: Error: No elements found for include in page Context
+        at validateContext (eval at evaluate (:302:30), <anonymous>:19170:15)
+        at new Context (eval at evaluate (:302:30), <anonymous>:19151:7)
+        at Object._getFrameContexts (eval at evaluate (:302:30), <anonymous>:19192:22)
+        at eval (eval at evaluate (:302:30), <anonymous>:4:27)
+        at UtilityScript.evaluate (<anonymous>:304:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at validateContext (eval at evaluate (:302:30), <anonymous>:19170:15)
+        at Context (eval at evaluate (:302:30), <anonymous>:19151:7)
+        at Object._getFrameContexts (eval at evaluate (:302:30), <anonymous>:19192:22)
+        at eval (eval at evaluate (:302:30), <anonymous>:4:27)
+        at UtilityScript.evaluate (<anonymous>:304:16)
+        at UtilityScript.<anonymous> (<anonymous>:1:44)
+        at AxeBuilder.runPartialRecursive (C:\Users\Trade Bilisim\precision-dynamics-hub-main\node_modules\@axe-core\playwright\dist\index.mjs:280:39)
+        at AxeBuilder.analyze (C:\Users\Trade Bilisim\precision-dynamics-hub-main\node_modules\@axe-core\playwright\dist\index.mjs:210:39)
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\technical-landing.spec.ts:269:21
+
+    Error Context: test-results\technical-landing-technica-bfcaf-al-accessibility-violations-desktop-1280\error-context.md
+
+  27) [desktop-1280] › e2e\technical-landing.spec.ts:284:3 › technical editorial landing phase 1 › reduced motion keeps the complete page visible without active animation 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveAttribute[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: getByTestId('technical-landing-root')
+    Expected: [32m"reduced"[39m
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toHaveAttribute" with timeout 5000ms[22m
+    [2m  - waiting for getByTestId('technical-landing-root')[22m
+
+
+      285 |     await page.emulateMedia({ reducedMotion: "reduce" });
+      286 |     await page.reload();
+    > 287 |     await expect(page.getByTestId("technical-landing-root")).toHaveAttribute("data-motion", "reduced");
+          |                                                              ^
+      288 |     await expect(page.getByTestId("technical-hero-title")).toBeVisible();
+      289 |     const animated = await page.locator(".tl-root *").evaluateAll((elements) => elements.filter((element) => getComputedStyle(element).animationName !== "none").length);
+      290 |     expect(animated).toBe(0);
+        at C:\Users\Trade Bilisim\pdh-wt\coder-p00\e2e\technical-landing.spec.ts:287:62
+
+    Error Context: test-results\technical-landing-technica-e7428-le-without-active-animation-desktop-1280\error-context.md
+
+  27 failed
+    [desktop-1280] › e2e\landing-flow.spec.ts:43:3 › Editorial landing flow › records nine physical sections as a known production blocker 
+    [desktop-1280] › e2e\landing-flow.spec.ts:53:3 › Editorial landing flow › records the future section semantics as a known production blocker 
+    [desktop-1280] › e2e\landing-flow.spec.ts:98:3 › Editorial landing flow › preserves nine unique anchors and the current content inventory 
+    [desktop-1280] › e2e\landing-flow.spec.ts:127:3 › Editorial landing flow › matches the approved compact and full-motion profile boundary 
+    [desktop-1280] › e2e\landing-flow.spec.ts:142:3 › Editorial landing flow › full-motion service controls expose one destination at a time 
+    [desktop-1280] › e2e\landing-flow.spec.ts:161:3 › Editorial landing flow › natural-flow profiles expose every service and industry destination 
+    [desktop-1280] › e2e\landing-flow.spec.ts:174:3 › Editorial landing flow › records the known serious contrast defect instead of treating axe as green 
+    [desktop-1280] › e2e\landing-flow.spec.ts:195:3 › Editorial landing flow › active service controls have measurable target size and valid ARIA 
+    [desktop-1280] › e2e\landing-flow.spec.ts:207:3 › Editorial landing flow › industry keyboard selection keeps its named destination visible and focusable 
+    [desktop-1280] › e2e\landing-flow.spec.ts:231:3 › Editorial landing flow › short desktop keeps representative keyboard targets unobscured 
+    [desktop-1280] › e2e\landing-flow.spec.ts:271:1 › cold navigation exposes the hero and primary action without a page lock 
+    [desktop-1280] › e2e\section-integrity.spec.ts:17:3 › Landing page section integrity › current physical sections stay in flow without horizontal overflow 
+    [desktop-1280] › e2e\section-integrity.spec.ts:41:3 › Landing page section integrity › preserves exactly nine public anchors in immutable order 
+    [desktop-1280] › e2e\section-integrity.spec.ts:70:3 › Landing page section integrity › industry selection never leaves an inaccessible active destination 
+    [desktop-1280] › e2e\section-integrity.spec.ts:97:3 › Landing page section integrity › internal hash links always resolve to a unique real target 
+    [desktop-1280] › e2e\technical-landing.spec.ts:13:3 › technical editorial landing phase 1 › renders the frame, hero, annotations and proof strip 
+    [desktop-1280] › e2e\technical-landing.spec.ts:21:3 › technical editorial landing phase 1 › numbers every band of the drawing sheet in order 
+    [desktop-1280] › e2e\technical-landing.spec.ts:31:3 › technical editorial landing phase 1 › keeps the shared sheet rail and viewport column contract 
+    [desktop-1280] › e2e\technical-landing.spec.ts:57:3 › technical editorial landing phase 1 › renders the capability marquee with its loop copy hidden from assistive tech 
+    [desktop-1280] › e2e\technical-landing.spec.ts:66:3 › technical editorial landing phase 1 › moves the two visual bands against the scroll without hijacking input 
+    [desktop-1280] › e2e\technical-landing.spec.ts:93:3 › technical editorial landing phase 1 › renders process, NEXUS and measured project evidence 
+    [desktop-1280] › e2e\technical-landing.spec.ts:102:3 › technical editorial landing phase 1 › renders sectors, the quality file and the reference band 
+    [desktop-1280] › e2e\technical-landing.spec.ts:117:3 › technical editorial landing phase 1 › keeps unpublished quality assets honest instead of faking downloads 
+    [desktop-1280] › e2e\technical-landing.spec.ts:124:3 › technical editorial landing phase 1 › renders FAQ answers and the RFQ hand-off 
+    [desktop-1280] › e2e\technical-landing.spec.ts:136:3 › technical editorial landing phase 1 › keeps reference proportions for headline, project cards and NEXUS rows 
+    [desktop-1280] › e2e\technical-landing.spec.ts:268:3 › technical editorial landing phase 1 › has no serious or critical accessibility violations 
+    [desktop-1280] › e2e\technical-landing.spec.ts:284:3 › technical editorial landing phase 1 › reduced motion keeps the complete page visible without active animation 
+  2 skipped
+  1 passed (9.7m)
+EXIT=1

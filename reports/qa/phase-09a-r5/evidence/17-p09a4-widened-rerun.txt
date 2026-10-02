@@ -1,0 +1,131 @@
+# 09a-R4 - widened and new rules, both directions
+# one gate invocation per probe; a row marked MISMATCH is a finding:
+# over-catch if it FIRES and should not, a hole if it is SILENT and should not be.
+
+id  rule                            expect  actual  ok       why
+(node:19944) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+K1  delivery-or-quality-rate        FIRES   FIRES   ok      unsourced benefit percentage, softened suffix absent
+(node:23892) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+K2  delivery-or-quality-rate        FIRES   FIRES   ok      worded percentage + softened suffix
+(node:23104) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+K3  delivery-or-quality-rate        FIRES   FIRES   ok      label/value, softened suffix
+(node:25152) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+K4  delivery-or-quality-rate        SILENT  SILENT  ok      no number anywhere: ordinary Turkish
+(node:17640) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+K5  delivery-or-quality-rate        SILENT  SILENT  ok      kazan + separate word: boiler steel, not a benefit
+(node:18268) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+K6  delivery-or-quality-rate        SILENT  SILENT  ok      kazancı = boilermaker (a trade), and 40 carries no % — a plausible over-catch
+(node:19232) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+K7  delivery-or-quality-rate        FIRES   FIRES   ok      another inflection of the softened stem, with a number
+(node:24960) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+D1  cad-format-list-not-derived     FIRES   FIRES   ok      the removed sentence, restored
+(node:17524) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+D2  cad-format-list-not-derived     FIRES   FIRES   ok      the same claim, maximally vague
+(node:20756) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+D3  cad-format-list-not-derived     FIRES   FIRES   ok      two quantifiers, one offer
+(node:18156) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+D4  cad-format-list-not-derived     SILENT  SILENT  ok      a question is not an offer
+(node:20516) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+D5  cad-format-list-not-derived     SILENT  SILENT  ok      vague scope with no offer predicate
+(node:2148) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+D6  cad-format-list-not-derived     SILENT  SILENT  ok      about the visitor's own files and their privacy, not about accepted FORMATS
+(node:22184) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+D7  cad-format-list-not-derived     SILENT  SILENT  ok      the report WE deliver, the same distinction the Rapor Formatı control already draws
+(node:17216) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+D4c-cad cad-format-list-not-derived     SILENT  SILENT  ok      D4c — refused, deferred to 09b
+(node:20428) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+D4c-ent named-enterprise-system         SILENT  SILENT  ok      D4c — names no CAM package, so the Mastercam widening does not reach it
+(node:23104) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+D4d-cad cad-format-list-not-derived     SILENT  SILENT  ok      D4d — refused, deferred to 09b
+(node:17596) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+D4d-ent named-enterprise-system         SILENT  SILENT  ok      D4d — same string, the other rule that could have caught it
+(node:19736) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+M1  named-enterprise-system         FIRES   FIRES   ok      the deleted string, restored
+(node:22632) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+M2  named-enterprise-system         FIRES   FIRES   ok      the product name alone
+(node:24036) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+M3  named-enterprise-system         SILENT  SILENT  ok      word boundary must hold: Master is not Mastercam
+(node:3228) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+P1  cad-format-list-not-derived     SILENT  SILENT  ok      whitespace mangled beyond A8: the pin parses, so this is not drift
+(node:16768) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+P1a cad-format-list-not-derived     SILENT  SILENT  ok      SAME mangling as P1 but on ONE line — isolates whether the newline is what breaks it
+(node:21188) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+P1b cad-format-list-not-derived     SILENT  SILENT  ok      exactly what Prettier writes when the line exceeds the print width
+(node:24632) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+P2  cad-format-list-not-derived     FIRES   FIRES   ok      REORDERED — element-wise and in order, so a swap must fire
+(node:17712) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+P3  cad-format-list-not-derived     FIRES   FIRES   ok      TRUNCATED — one short
+(node:20604) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+P4  cad-format-list-not-derived     FIRES   FIRES   ok      CASE changed — the comparison is exact, not folded
+(node:22620) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+P5  cad-format-list-not-derived     SILENT  SILENT  ok      single quotes and re-wrapped whitespace: the landing pin is \s+ tolerant
+(node:20408) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+P6  cad-format-list-not-derived     FIRES   FIRES   ok      a refused format appended to the blessed prose
+(node:3416) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+S1  cad-format-list-not-derived     FIRES   FIRES   ok      a valid pin must not hold an exemption open over a prose offer below it
+(node:25024) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+p09a4: mutation "inject-probe-controls" applied in memory (disk untouched)
+S2  cad-format-list-not-derived     FIRES   FIRES   ok      same, on the rendered content file
+
+31 probes, 0 mismatch(es), 0 contaminated run(s).

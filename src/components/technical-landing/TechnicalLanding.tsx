@@ -1,39 +1,68 @@
-import { useRef } from "react";
-import { TechnicalHeader } from "./TechnicalHeader";
+import { Suspense, lazy, useRef } from "react";
+import { PageShell } from "@/components/shell/PageShell";
 import { TechnicalHero } from "./TechnicalHero";
 import { ProofStrip } from "./ProofStrip";
 import { MeasuredProjects, NexusEvidence, TechnicalProcess } from "./ProcessNexusProjects";
-import { DrawingFooter, FaqSection, MeasurementManifesto, QualityFile, ReferenceBand, RfqSection, TechnicalSectors } from "./FinalSections";
+import { FaqSection, MeasurementManifesto, QualityFile, ReferenceBand, RfqSection, TechnicalSectors } from "./FinalSections";
 import { MarqueeBand } from "./MarqueeBand";
 import "@/styles/technical-landing.css";
 import { useTechnicalLandingMotion } from "@/hooks/useTechnicalLandingMotion";
 
+/**
+ * Geliştirme-yalnız master ızgara bindirmesi.
+ *
+ * `import.meta.env.DEV` üretimde derleme zamanı sabiti `false` olduğu için bu
+ * üçlü ifade ölü bir dal bırakır: Rollup ne dinamik import'u ne de bindirme
+ * bileşenini/CSS'ini `dist/` içine alır. `src/routes/DevRoutes.tsx` ile aynı
+ * desen. Aç/kapa: CTRL+ALT+G.
+ */
+const MasterGridOverlay = import.meta.env.DEV
+  ? lazy(() => import("@/components/dev/MasterGridOverlay").then((m) => ({ default: m.MasterGridOverlay })))
+  : null;
+
+/**
+ * The landing is now a PAGE INSIDE THE SHELL, not its own shell.
+ *
+ * It used to own the sheet, the `<main>`, the navigation mount and its own
+ * footer, which is exactly why `/` and every inner page ended up in different
+ * visual worlds (`reports/baseline/shell-inventory.md` §5). `PageShell` owns
+ * all four now; this file composes bands 02–13 and nothing else.
+ *
+ * `layout="bands"` keeps `<main>` a plain block: every child here is already a
+ * band with its own rail and master columns, so the shell must not add a
+ * second grid on top. `className="tl-root"` and `rootRef` keep the landing's
+ * motion layer attached to the same element it always was — every
+ * `.tl-root[data-motion="ready"]` rule still applies, including the footer's,
+ * because the footer is still a descendant of this root.
+ */
 export function TechnicalLanding() {
   const rootRef = useRef<HTMLDivElement>(null);
   useTechnicalLandingMotion(rootRef);
   return (
-    <div ref={rootRef} className="tl-root" data-testid="technical-landing-root">
-      <div className="tl-sheet">
-        <div className="tl-header-band">
-          <div className="tl-band-index" aria-hidden="true"><span>01</span><small>HEADER</small></div>
-          <TechnicalHeader />
-        </div>
-        <main id="main-content">
-          <TechnicalHero />
-          <ProofStrip />
-          <MarqueeBand />
-          <TechnicalProcess />
-          <NexusEvidence />
-          <MeasuredProjects />
-          <TechnicalSectors />
-          <MeasurementManifesto />
-          <QualityFile />
-          <ReferenceBand />
-          <FaqSection />
-          <RfqSection />
-        </main>
-        <DrawingFooter />
-      </div>
-    </div>
+    <PageShell
+      surface="graphite"
+      layout="bands"
+      className="tl-root"
+      rootRef={rootRef}
+      testId="technical-landing-root"
+    >
+      <TechnicalHero />
+      <ProofStrip />
+      <MarqueeBand />
+      <TechnicalProcess />
+      <NexusEvidence />
+      <MeasuredProjects />
+      <TechnicalSectors />
+      <MeasurementManifesto />
+      <QualityFile />
+      <ReferenceBand />
+      <FaqSection />
+      <RfqSection />
+      {MasterGridOverlay && (
+        <Suspense fallback={null}>
+          <MasterGridOverlay />
+        </Suspense>
+      )}
+    </PageShell>
   );
 }

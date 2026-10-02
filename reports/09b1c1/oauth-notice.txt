@@ -1,0 +1,11 @@
+﻿guard canary: BLOCKED:Failed to fetch
+clean      notices 0  url http://localhost:4173/giris
+hostile    notices 1  leaked []  scripts 0
+           text    GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: scriptalert1scriptoturumunuzkilitlendi
+           url     http://localhost:4173/giris
+re-entry   first 1  went to /  back 0
+           document entry url still carries the error: true
+announced  {"role":"alert","tone":"error","text":"SAĞLAYICI KAPALIBu sağlayıcı ile giriş şu anda kullanılamıyor.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse bize bildirin.KOD: provider_disabled","borderLeftColor":"rgb(225, 133, 112)","precedesSocialButtons":true,"hasReferenceLine":true,"referenceText":"KOD: provider_disabled"}
+
+canary: BLOCKED:Failed to fetch
+traffic: blocked 23, ALLOWED 0

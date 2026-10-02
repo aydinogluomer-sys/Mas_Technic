@@ -1,100 +1,153 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
-import { Loader2, AtSign, ChevronLeft, Mail } from "lucide-react";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { LoginLeftPanel } from "@/components/auth/LoginLeftPanel";
+import { ShellAction, ShellNotice } from "@/components/shell";
+import { AuthLayout } from "@/components/auth/AuthLayout";
+import { AuthField } from "@/components/auth/AuthField";
+import {
+  authFieldId,
+  collectAuthErrors,
+  firstInvalidField,
+  forgotSchema,
+  type AuthFieldErrors,
+} from "@/components/auth/auth-schema";
+
+/* ══════════════════════════════════════════════════════════════════════════
+   /sifremi-unuttum — ASK FOR A RESET LINK
+
+   Served by THIS file. There is no `SifremiUnuttum.tsx`; `src/App.tsx:211`
+   maps the route to `ForgotPassword`, and every earlier list in this phase
+   named a file that does not exist.
+
+   Measured at 94 legacy-teal nodes inside `<main>` and 0 shell primitives
+   before this change (`reports/09b1/design-membership-before.json`).
+
+   ── THE SENT STATE SAYS WHAT WAS DONE, NOT WHAT WILL ARRIVE ──────────────
+   It used to read "…adresine şifre sıfırlama bağlantısı GÖNDERDİK." A 200
+   from `resetPasswordForEmail` means the request was accepted, not that a
+   message was delivered — and Supabase deliberately answers the same way for
+   an address that has no account, precisely so that this page cannot be used
+   to find out which addresses do. Claiming delivery would therefore be wrong
+   in the one case the API is designed around. The copy states the request and
+   what to do if nothing turns up.
+
+   ── AND THE FAILURE IS NOW READABLE ──────────────────────────────────────
+   `toast.error("Bir hata oluştu: " + error.message)` put a raw English SDK
+   string in a message that floats away. It is a `ShellNotice tone="error"`
+   now, in the flow, next to the control, and it stays.
+   ══════════════════════════════════════════════════════════════════════════ */
 
 export const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [errors, setErrors] = useState<AuthFieldErrors>({});
+  const [notice, setNotice] = useState<{ title: string; detail?: string } | null>(null);
+  const [pending, setPending] = useState(false);
+  const [requestedFor, setRequestedFor] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setNotice(null);
+
+    const parsed = forgotSchema.safeParse({ email });
+    if (!parsed.success) {
+      const fieldErrors = collectAuthErrors(parsed.error.issues);
+      setErrors(fieldErrors);
+      const first = firstInvalidField(fieldErrors);
+      if (first) document.getElementById(authFieldId(first))?.focus();
+      return;
+    }
+    setErrors({});
+    setPending(true);
+
+    const address = email.trim();
+    const { error } = await supabase.auth.resetPasswordForEmail(address, {
       redirectTo: `${window.location.origin}/reset-password`,
     });
+    setPending(false);
+
     if (error) {
-      toast.error("Bir hata oluştu: " + error.message);
-    } else {
-      setSent(true);
+      setNotice({
+        title: "Sıfırlama isteği gönderilemedi.",
+        detail: "Bağlantınızı kontrol edip yeniden deneyin. Sorun sürerse bizimle iletişime geçin.",
+      });
+      return;
     }
-    setLoading(false);
+    setRequestedFor(address);
   };
 
+  if (requestedFor) {
+    return (
+      <AuthLayout
+        asideTitle="Hoş Geldiniz"
+        asideLede="MAS TECHNIC müşteri portalı ile teklif, sipariş ve üretim kayıtlarınızı tek yerden izleyin."
+        back={{ to: "/giris", label: "Giriş sayfası" }}
+      >
+        <div>
+          <p className="shell-eyebrow" role="status">İSTEK ALINDI</p>
+          <h1 className="shell-auth-title">Şifremi Unuttum</h1>
+        </div>
+        <ShellNotice tone="note" label="SIRADA NE VAR">
+          <p>
+            <strong>{requestedFor}</strong> için sıfırlama isteği alındı. Bu adrese bağlı bir hesap
+            varsa şifre sıfırlama bağlantısı o adrese gider.
+          </p>
+          <p>
+            Birkaç dakika içinde bir şey gelmezse spam klasörünü kontrol edin ve adresi doğru
+            yazdığınızdan emin olarak yeniden deneyin.
+          </p>
+        </ShellNotice>
+        <ShellAction variant="ghost" full onClick={() => setRequestedFor(null)}>
+          Başka bir adres dene
+        </ShellAction>
+      </AuthLayout>
+    );
+  }
+
   return (
-    <div className="min-h-screen w-full flex">
-      <LoginLeftPanel isLogin={true} />
-
-      <div className="w-full lg:w-[55%] flex items-center justify-center bg-background px-6 py-12">
-        <motion.div
-          className="w-full max-w-[420px]"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
-        >
-          <Link
-            to="/giris"
-            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors mb-8"
-          >
-            <ChevronLeft size={14} />
-            Giriş Sayfası
-          </Link>
-
-          {sent ? (
-            <div className="text-center space-y-4">
-              <Mail size={48} className="mx-auto text-primary" />
-              <h1 className="text-2xl font-bold tracking-tight">E-posta Gönderildi</h1>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                <strong>{email}</strong> adresine şifre sıfırlama bağlantısı gönderdik. Lütfen gelen kutunuzu kontrol edin.
-              </p>
-              <Link to="/giris" className="inline-block text-sm text-primary font-semibold hover:underline mt-4">
-                Giriş sayfasına dön
-              </Link>
-            </div>
-          ) : (
-            <>
-              <div className="mb-6">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                  <Mail size={24} className="text-primary" />
-                </div>
-                <h1 className="text-[26px] font-bold tracking-tight mb-2">Şifremi Unuttum</h1>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  E-posta adresinizi girin, size şifre sıfırlama bağlantısı gönderelim.
-                </p>
-              </div>
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                    E-posta
-                  </label>
-                  <div className="relative">
-                    <AtSign size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/60" />
-                    <Input
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10 h-11"
-                      placeholder="ornek@firma.com"
-                    />
-                  </div>
-                </div>
-
-                <Button type="submit" disabled={loading} className="w-full h-12 font-semibold tracking-wider text-sm text-[var(--text-primary)]">
-                  {loading ? <Loader2 size={16} className="animate-spin" /> : "Sıfırlama Bağlantısını Gönder"}
-                </Button>
-              </form>
-            </>
-          )}
-        </motion.div>
+    <AuthLayout
+      asideTitle="Hoş Geldiniz"
+      asideLede="MAS TECHNIC müşteri portalı ile teklif, sipariş ve üretim kayıtlarınızı tek yerden izleyin."
+      back={{ to: "/giris", label: "Giriş sayfası" }}
+    >
+      <div>
+        {/* Measured contract: `e2e/qa-p08-scroll-region-reach.spec.ts:205`. */}
+        <h1 className="shell-auth-title">Şifremi Unuttum</h1>
+        <p className="shell-auth-lede">
+          Hesabınızın e-posta adresini girin, şifre sıfırlama bağlantısını oraya gönderelim.
+        </p>
       </div>
-    </div>
+
+      <form className="shell-auth-form" onSubmit={handleSubmit} noValidate>
+        <AuthField
+          name="email"
+          label="E-posta"
+          errors={errors}
+          type="email"
+          autoComplete="email"
+          value={email}
+          onChange={(event) => {
+            setEmail(event.target.value);
+            setErrors({});
+          }}
+          placeholder="ornek@firma.com"
+          maxLength={255}
+        />
+
+        {notice && (
+          <ShellNotice tone="error" label="GÖNDERİLEMEDİ" title={notice.title}>
+            {notice.detail && <p>{notice.detail}</p>}
+          </ShellNotice>
+        )}
+
+        <ShellAction type="submit" variant="primary" full disabled={pending}>
+          Sıfırlama bağlantısı iste
+        </ShellAction>
+
+        {pending && (
+          <p className="shell-field-hint" role="status" data-auth-state="pending">
+            İSTEK GÖNDERİLİYOR…
+          </p>
+        )}
+      </form>
+    </AuthLayout>
   );
 };

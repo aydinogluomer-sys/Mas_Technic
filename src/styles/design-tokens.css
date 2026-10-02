@@ -1,0 +1,327 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   MAS TECHNIC — PUBLIC DESIGN TOKENS
+   Single source of truth for the technical-editorial system that the public
+   site (landing today, inner pages from Phase 03 on) derives from.
+
+   WHY TOKENS LIVE HERE AND NOT IN `.tl-root`
+   ------------------------------------------
+   They used to be declared on `.tl-root`, which made them invisible to any
+   surface that is not the landing shell. Declaring them on `:root` keeps them
+   available to every public surface without leaking: every name is `--tl-`
+   prefixed, so nothing collides with the shadcn / forge tokens in
+   `src/index.css`.
+
+   RESPONSIVE TOKENS
+   -----------------
+   Only the master grid tokens change per breakpoint, and they change HERE —
+   not inside a band's media query. A band must never be able to redefine the
+   master grid locally; that is exactly how the landing acquired `23.8%`,
+   `19.2%`, `4.6%`, `35%/65%`, `48%/52%`, a fixed `132px` seventh track,
+   `4fr/5fr/5fr` and `43fr/77fr`.
+
+   Documentation: `docs/lean/06-design-system.md`.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── MASTER SHEET AND GRID ──────────────────────────────────────────────
+     The whole public geometry is: a centred sheet, a continuous technical
+     rail, and N equal master columns. Nothing else defines a horizontal axis.
+     ---------------------------------------------------------------------- */
+  --tl-sheet-max: 1600px;
+  --tl-rail: 64px;
+  --tl-cols: 12;
+  /* Zero by contract. A non-zero master gap would put every band boundary on
+     a different axis from the hairline rules that draw the sheet. Breathing
+     room is child padding, never a change to the master boundaries. */
+  --tl-gap: 0px;
+  --tl-rule-size: 1px;
+
+  /* ── TYPOGRAPHY ROLES ───────────────────────────────────────────────────
+     Three faces, three jobs. A face is chosen by ROLE, never by variety.
+       sans  — interface, body copy, editorial display headings
+       serif — controlled editorial contrast on band headlines only
+       mono  — technical data: labels, measurements, codes, tables, units,
+               indexes, metadata. Never body copy.
+     ---------------------------------------------------------------------- */
+  /* PHASE 10-4 — each stack names its metric-matched fallback face second
+     (declared below), so the `display=swap` flash is set in a local font
+     scaled and re-metricated to the webfont's advance and vertical metrics,
+     and the swap moves the text as little as the two designs allow. */
+  --tl-font-sans: "Space Grotesk", "Space Grotesk Fallback", system-ui, sans-serif;
+  --tl-font-serif: "Newsreader", "Newsreader Fallback", Georgia, "Times New Roman", serif;
+  --tl-font-mono: "IBM Plex Mono", "IBM Plex Mono Fallback", ui-monospace, monospace;
+
+  /* ── SURFACES ───────────────────────────────────────────────────────────
+     Graphite/charcoal field, warm technical-paper evidence bands.
+     ---------------------------------------------------------------------- */
+  --tl-void: #030506;
+  --tl-black: #070b0d;
+  --tl-panel: #0c1114;
+  --tl-panel-soft: rgba(10, 15, 18, .9);
+  --tl-header-surface: rgba(7, 11, 13, .98);
+  --tl-label-surface: rgba(6, 9, 11, .92);
+  --tl-paper: #eee9de;
+  --tl-paper-raised: #f6f2e8;
+  --tl-paper-sunken: #fbf8f1;
+
+  /* ── INK LADDERS ────────────────────────────────────────────────────────
+     Two ladders because the sheet has two grounds. Each step is a deliberate
+     level of the reading hierarchy, not a shade someone happened to pick.
+     ---------------------------------------------------------------------- */
+  --tl-white: #f3f0e8;
+  --tl-muted: #b6bbb8;
+  --tl-on-dark-body: #c1c5c2;
+  --tl-on-dark-soft: #aeb4b1;
+  --tl-on-dark-meta: #a4aba8;
+  --tl-on-dark-faint: #868e8b;
+  --tl-ink: #121719;
+  --tl-ink-muted: #3b423f;
+  --tl-ink-faint: #4e5552;
+  --tl-ink-soft: #5c6360;
+
+  /* ── RULES ──────────────────────────────────────────────────────────────
+     Hairlines carry the engineering-sheet language. One weight, four tones.
+     ---------------------------------------------------------------------- */
+  --tl-rule: rgba(227, 231, 225, .28);
+  --tl-rule-soft: rgba(227, 231, 225, .16);
+  --tl-label-rule: rgba(226, 230, 225, .42);
+  --tl-paper-rule: rgba(18, 23, 25, .3);
+  --tl-paper-rule-strong: rgba(18, 23, 25, .42);
+  --tl-paper-rule-soft: rgba(18, 23, 25, .2);
+
+  /* ── CONTROL BOUNDARIES ─────────────────────────────────────────────────
+     A SEPARATE PAIR, AND WHY IT IS NOT A HEAVIER `--tl-rule`.
+
+     A hairline that draws a register, a table, a document clause or a frame
+     is decoration: WCAG 1.4.11 governs "user interface components", and a
+     divider is not one. A hairline that draws the edge of an INPUT is the
+     only thing telling the reader a control is there, and 1.4.11 asks it for
+     3:1 against the colours next to it.
+
+     MEASURED, `reports/09b1c1/control-boundary-before.json`, with the abort
+     guard proven at `allowed 0`: every `.shell-field` input, `select` and
+     `textarea` on `/giris`, `/sifremi-unuttum`, `/reset-password`,
+     `/iletisim`, `/malzemeler` and `/sss` drew its boundary at 2.21–2.38:1 on
+     graphite and 1.79–1.94:1 on paper, with a fill 1.04:1 from its own ground
+     — so the border was the whole of the control and it was under the floor
+     on both grounds. 84 control instances failed; the 4 that passed were all
+     the same pressed `.shell-segment`, which is identified by its fill.
+
+     RAISING `--tl-rule` INSTEAD WOULD HAVE BEEN THE WRONG FIX. That one name
+     paints 25 rules in `shell.css`, 14 in `navigation.css` and 2 in
+     `master-grid.css` — the whole engineering-sheet hairline language. The
+     same report measures them: the auth aside rule at 2.01, the `MT` frame at
+     2.08, the register hairlines, the spec-table frame, the `<details>`
+     separators. None of them is a control, none of them is subject to 1.4.11,
+     and repainting all of them to satisfy a criterion they are not under is a
+     visual regression bought with a compliance number.
+
+     WHY TWO VALUES AND NOT ONE. The same reason bronze and stamp red each
+     have a ground-chosen step: alpha over graphite and alpha over paper are
+     not the same colour. Solved in `reports/09b1c1/solve-control-rule.mjs`
+     over all four grounds a control in this system can sit on — graphite
+     field fill, graphite transparent, paper-root field, and the paper BAND
+     nested in a graphite root that falsified two 09a proposals:
+
+       --tl-control-rule        α .44   worst case 3.71:1  (graphite)
+       --tl-paper-control-rule  α .54   worst case 3.47:1  (paper band ground)
+
+     Both clear 3:1 against BOTH adjacent colours, not merely the friendlier
+     one, and both land at the same perceptual distance from their ground so a
+     control does not change weight when the band under it changes tone. */
+  --tl-control-rule: rgba(227, 231, 225, .44);
+  --tl-paper-control-rule: rgba(18, 23, 25, .54);
+
+  /* ── TINTS (state, not palette) ─────────────────────────────────────────*/
+  --tl-tint-faint: rgba(255, 255, 255, .02);
+  --tl-tint-hover: rgba(255, 255, 255, .035);
+  --tl-tint-raise: rgba(255, 255, 255, .07);
+  --tl-ink-tint: rgba(18, 23, 25, .04);
+
+  /* ── ACCENTS (restrained by rule) ───────────────────────────────────────
+     Bronze is the only editorial accent; green is semantic status only;
+     stamp red is the failure signal and the quality seal, nothing else.
+     ---------------------------------------------------------------------- */
+  /* Three steps of ONE accent, chosen by ground rather than by taste.
+     `--tl-bronze` is the mid step: it clears 3:1 and is right for large
+     editorial type on either ground, but at 9–11px mono it measures 4.32:1 on
+     graphite and 4.31:1 on paper — both under the 4.5:1 floor for small text,
+     and axe flagged exactly that on `.shell-eyebrow` in Phase 04. So small
+     mono labels take the step that suits their ground:
+       graphite → `--tl-bronze-light`  9.9:1 on `--tl-black`
+       paper    → `--tl-bronze-ink`    6.2:1 on `--tl-paper-sunken` */
+  --tl-bronze: #8a7359;
+  --tl-bronze-light: #c9b699;
+  --tl-bronze-ink: #6f5b45;
+  --tl-green: #72e291;
+  --tl-green-ink: #8ea56a;
+  /* Stamp red has the SAME two-ground problem bronze has, and it was found the
+     same way: a 9px/600 mono status label. `--tl-stamp` was written for the
+     paper seal — 6.93:1 on `--tl-paper-sunken`, 6.07:1 on `--tl-paper` — and
+     was correct for as long as nothing painted small text with it on graphite.
+     Phase 09a put five `ShellNotice tone="error"` labels on a graphite ground
+     and it measured 2.69:1 on `--tl-black` (2.78:1 on `--tl-void`, 2.58:1 on
+     `--tl-panel`), which axe reported as a serious `color-contrast` violation
+     at 1280 and 375.
+
+     So stamp gets its ground-chosen step too, exactly as bronze did:
+       graphite → `--tl-stamp-light`  7.33:1 on `--tl-black`
+       paper    → `--tl-stamp`        6.93:1 on `--tl-paper-sunken`
+
+     The light step is the SAME HUE, not a different red: `--tl-stamp` is
+     hsl(10.7, 48%, 36.5%) and `--tl-stamp-light` is hsl(11, 65%, 66%). It was
+     chosen at that lightness and not higher on purpose — pushed to ~10:1 the
+     red desaturates into pink and lands ΔE 14 from `--tl-bronze-light`, which
+     is the colour the CAUTION label right beside it uses. At 66% it clears the
+     4.5:1 small-text floor by 63 % on the tightest graphite ground and stays
+     ΔE 34 from bronze-light, so error and caution are still tellable apart at
+     9px. It sits between `--sf-faint` (5.89:1) and `--sf-meta` (8.44:1) in the
+     graphite label ladder, so it signals without out-shouting the title. */
+  /* Polish run — the one warm signal (FAQ resource hover, interactive hints).
+     `--tl-molten` is the legacy `--heat-molten` of `src/index.css`; on paper it
+     is a rule/mark colour only (3.1:1). Text takes `--tl-molten-ink`, measured
+     5.1:1 on `--tl-paper` and 5.6:1 on `--tl-paper-raised`. */
+  --tl-molten: #e8610a;
+  --tl-molten-ink: #a3420a;
+  /* Cool accents for the paper-dominant inner pages: a steel ink for indexes
+     and datum marks (7.9:1 on paper) and a fog ground for alternating bands. */
+  --tl-steel: #3a4a5c;
+  --tl-steel-light: #8fa3b8;
+  /* Revision 3: inner pages drop the steel blue for neutral greys. The fog
+     ground is the solid form of the Related rows' hover (4% ink over paper),
+     and `--tl-fog-hover` one step deeper for rows sitting on it. Steel stays
+     for the landing's certificate/sector marks only. */
+  --tl-fog: #e5e1d6;
+  --tl-fog-hover: #dcd7cb;
+  --tl-stamp: #8a4030;
+  --tl-stamp-light: #e18570;
+
+  /* ── SPACING (4px base) ─────────────────────────────────────────────────*/
+  --tl-s1: 4px;
+  --tl-s2: 8px;
+  --tl-s3: 12px;
+  --tl-s4: 16px;
+  --tl-s5: 24px;
+  --tl-s6: 32px;
+  --tl-s7: 48px;
+  --tl-s8: 64px;
+  --tl-list-row: 34px;
+
+  /* ── RADIUS POLICY ──────────────────────────────────────────────────────
+     Corner radius is ZERO across the public system — the same decision
+     `--radius: 0rem` already encodes in `src/index.css`. `--tl-radius-round`
+     exists only for elements that ARE a circle by drawing convention (a
+     seal, a grade badge, an avatar disc); it is not a "rounded corner".
+     ---------------------------------------------------------------------- */
+  --tl-radius: 0;
+  --tl-radius-round: 50%;
+
+  /* ── MOTION ─────────────────────────────────────────────────────────────
+     One easing curve for the whole system. Motion never changes geometry.
+
+     THREE LEVELS, and only three. These are the CSS spellings of
+     `MOTION_LEVEL` in `src/config/motion-system.ts`; `NAV_MOTION` in
+     `src/components/navigation/motion.ts` is the same three again. The
+     property names are historical, so read them as:
+
+       --tl-dur-micro  .22s  MICRO      one control responding: hover, focus,
+                                        a toggle, a swap under the eye.
+       --tl-dur-short  .35s  STANDARD   the default — one element entering,
+                                        leaving or resolving.
+       --tl-in         .62s  CINEMATIC  reserved for narrative moments: the
+                                        menu opening, a band's entrance.
+       --tl-step       65ms  the stagger unit between siblings, not a duration.
+
+     A fourth duration is not a new level, it is a mis-classified one. Under
+     `prefers-reduced-motion` every level is 0 — off, not fast.
+     ---------------------------------------------------------------------- */
+  --tl-ease-out: cubic-bezier(.16, 1, .3, 1);
+  --tl-dur-micro: .22s;
+  --tl-dur-short: .35s;
+  --tl-in: .62s;
+  --tl-step: 65ms;
+}
+
+/* ── PHASE 10-4 — METRIC-MATCHED FALLBACK FACES ─────────────────────────────
+   Three `@font-face` rules over local system fonts, each carrying
+   `size-adjust`, `ascent-override`, `descent-override` and `line-gap-override`
+   computed from the REAL font files by `scripts/fonts/metrics.mjs` (a small
+   WOFF2/sfnt table reader — no package; `reports/10/probes/font-metrics.json`
+   is its output). The fallback is what paints during the `display=swap`
+   window; matched, the swap moves the text by the residual design difference
+   and not by the difference in em-box and average advance.
+
+   HOW EACH NUMBER IS DERIVED
+     size-adjust        avg advance(webfont) / avg advance(fallback), both in
+                        em, over a TURKISH letter-frequency table plus the
+                        space — the site's text is Turkish, and an English
+                        table would weight `w x q` that Turkish barely uses.
+     ascent-override    hhea.ascender  / unitsPerEm / size-adjust
+     descent-override   |hhea.descender| / unitsPerEm / size-adjust
+     line-gap-override  hhea.lineGap   / unitsPerEm / size-adjust
+   (every one of the three webfonts sets USE_TYPO_METRICS with typo == hhea,
+   so hhea is the box every engine agrees on.)
+
+   WHICH LOCAL FACES, AND WHY ONE EACH
+     Arial / Georgia / Courier New are on Windows and macOS, and Linux ships
+     Liberation Sans/Serif/Mono as their metric-compatible twins, so the same
+     four numbers are right on all three. `system-ui` would be Segoe UI here
+     and SF there — two faces, two sets of metrics, one declaration; a single
+     named face is the only way the arithmetic holds.
+
+   MEASURED (reports/10/probes/font-swap-before.md → font-swap-after.md, the
+   packet's before/after): see `reports/10/typography.md` §4 for the numbers.
+   ────────────────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: "Space Grotesk Fallback";
+  src: local("Arial"), local("Liberation Sans");
+  /* Space Grotesk 400: upm 1000, hhea 984/−292/0, avg advance .4733em ·
+     Arial: upm 2048, hhea 1854/−434/67, avg advance .4405em */
+  size-adjust: 107.44%;
+  ascent-override: 91.59%;
+  descent-override: 27.18%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Newsreader Fallback";
+  src: local("Georgia"), local("Liberation Serif");
+  /* Newsreader 400 (opsz var): upm 2000, hhea 1470/−530/0, avg advance
+     .4024em · Georgia: upm 2048, hhea 1878/−449/0, avg advance .4412em */
+  size-adjust: 91.22%;
+  ascent-override: 80.57%;
+  descent-override: 29.05%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "IBM Plex Mono Fallback";
+  src: local("Courier New"), local("Liberation Mono");
+  /* IBM Plex Mono 400: upm 1000, hhea 1025/−275/0, advance .600em ·
+     Courier New: upm 2048, hhea 1705/−615/0, advance .6001em — the advance
+     already matches; the overrides fix the em-box, which is 1.13em tall in
+     Courier New and 1.30em in Plex Mono */
+  size-adjust: 99.98%;
+  ascent-override: 102.52%;
+  descent-override: 27.50%;
+  line-gap-override: 0%;
+}
+
+/* Tablet — six master columns. The rail narrows but stays continuous. */
+@media (max-width: 1180px) {
+  :root {
+    --tl-rail: 56px;
+    --tl-cols: 6;
+  }
+}
+
+/* Mobile — four master columns.
+   MEASURED DEFECT THIS FIXES: the mobile block previously reset `--tl-cols`
+   but never `--tl-rail`, so the rail inherited the tablet value of 56px. That
+   is 14.9% of a 375px viewport and 17.5% of a 320px one — the rail was eating
+   a sixth of the screen. 42px is 11.2% at 375 and 13.1% at 320, and still
+   clears the 24px index numeral plus its 4px gutters. */
+@media (max-width: 767px) {
+  :root {
+    --tl-rail: 42px;
+    --tl-cols: 4;
+  }
+}

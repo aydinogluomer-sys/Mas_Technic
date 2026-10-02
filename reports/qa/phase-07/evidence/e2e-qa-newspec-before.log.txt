@@ -1,0 +1,470 @@
+(node:30860) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 14 tests using 1 worker
+
+(node:17480) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   1 [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › company (/hakkimizda) is composed like the landing family (8.1s)
+(node:26224) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   2 [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › contact (/iletisim) is composed like the landing family (6.9s)
+(node:34932) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   3 [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › material index (/malzemeler) is composed like the landing family (8.4s)
+(node:24728) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   4 [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › material family (/malzemeler/aluminyum) is composed like the landing family (7.6s)
+(node:29916) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   5 [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › service category (/hizmetler/kategori/talasli-imalat) is composed like the landing family (8.0s)
+(node:5116) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   6 [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › service detail (/hizmetler/cnc-frezeleme) is composed like the landing family (8.0s)
+(node:27896) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   7 [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › sector detail (/endustriyel/havacilik-uzay) is composed like the landing family (7.6s)
+(node:31888) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   8 [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › company (/hakkimizda) is composed like the landing family (7.9s)
+(node:26356) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   9 [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › contact (/iletisim) is composed like the landing family (9.6s)
+(node:24116) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  10 [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › material index (/malzemeler) is composed like the landing family (8.4s)
+(node:38372) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  11 [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › material family (/malzemeler/aluminyum) is composed like the landing family (7.3s)
+(node:32180) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  12 [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › service category (/hizmetler/kategori/talasli-imalat) is composed like the landing family (7.0s)
+(node:15172) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  13 [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › service detail (/hizmetler/cnc-frezeleme) is composed like the landing family (7.9s)
+(node:36448) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘  14 [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › sector detail (/endustriyel/havacilik-uzay) is composed like the landing family (7.2s)
+
+
+  1) [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › company (/hakkimizda) is composed like the landing family 
+
+    Error: /hakkimizda: has a closing next-step band
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.shell-next')
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - /hakkimizda: has a closing next-step band with timeout 5000ms[22m
+    [2m  - waiting for locator('.shell-next')[22m
+    [2m    9 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      124 |       if (route.next) {
+      125 |         const band = page.locator(".shell-next");
+    > 126 |         await expect(band, `${route.path}: has a closing next-step band`).toHaveCount(1);
+          |                                                                           ^
+      127 |         const cta = band.locator('a[href="/teklif-al"]').first();
+      128 |         await expect(cta, `${route.path}: the next step points at the RFQ`).toBeVisible();
+      129 |         await cta.focus();
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07\e2e\inner-pages-composition.spec.ts:126:75
+
+    Error Context: test-results\inner-pages-composition-in-ad1e5-sed-like-the-landing-family-tablet-768\error-context.md
+
+  2) [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › contact (/iletisim) is composed like the landing family 
+
+    Error: /iletisim: has a closing next-step band
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.shell-next')
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - /iletisim: has a closing next-step band with timeout 5000ms[22m
+    [2m  - waiting for locator('.shell-next')[22m
+    [2m    9 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      124 |       if (route.next) {
+      125 |         const band = page.locator(".shell-next");
+    > 126 |         await expect(band, `${route.path}: has a closing next-step band`).toHaveCount(1);
+          |                                                                           ^
+      127 |         const cta = band.locator('a[href="/teklif-al"]').first();
+      128 |         await expect(cta, `${route.path}: the next step points at the RFQ`).toBeVisible();
+      129 |         await cta.focus();
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07\e2e\inner-pages-composition.spec.ts:126:75
+
+    Error Context: test-results\inner-pages-composition-in-90eb1-sed-like-the-landing-family-tablet-768\error-context.md
+
+  3) [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › material index (/malzemeler) is composed like the landing family 
+
+    Error: /malzemeler: has a closing next-step band
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.shell-next')
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - /malzemeler: has a closing next-step band with timeout 5000ms[22m
+    [2m  - waiting for locator('.shell-next')[22m
+    [2m    9 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      124 |       if (route.next) {
+      125 |         const band = page.locator(".shell-next");
+    > 126 |         await expect(band, `${route.path}: has a closing next-step band`).toHaveCount(1);
+          |                                                                           ^
+      127 |         const cta = band.locator('a[href="/teklif-al"]').first();
+      128 |         await expect(cta, `${route.path}: the next step points at the RFQ`).toBeVisible();
+      129 |         await cta.focus();
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07\e2e\inner-pages-composition.spec.ts:126:75
+
+    Error Context: test-results\inner-pages-composition-in-89f7c-sed-like-the-landing-family-tablet-768\error-context.md
+
+  4) [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › material family (/malzemeler/aluminyum) is composed like the landing family 
+
+    Error: /malzemeler/aluminyum: has a closing next-step band
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.shell-next')
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - /malzemeler/aluminyum: has a closing next-step band with timeout 5000ms[22m
+    [2m  - waiting for locator('.shell-next')[22m
+    [2m    8 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      124 |       if (route.next) {
+      125 |         const band = page.locator(".shell-next");
+    > 126 |         await expect(band, `${route.path}: has a closing next-step band`).toHaveCount(1);
+          |                                                                           ^
+      127 |         const cta = band.locator('a[href="/teklif-al"]').first();
+      128 |         await expect(cta, `${route.path}: the next step points at the RFQ`).toBeVisible();
+      129 |         await cta.focus();
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07\e2e\inner-pages-composition.spec.ts:126:75
+
+    Error Context: test-results\inner-pages-composition-in-e9276-sed-like-the-landing-family-tablet-768\error-context.md
+
+  5) [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › service category (/hizmetler/kategori/talasli-imalat) is composed like the landing family 
+
+    Error: /hizmetler/kategori/talasli-imalat: has a closing next-step band
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.shell-next')
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - /hizmetler/kategori/talasli-imalat: has a closing next-step band with timeout 5000ms[22m
+    [2m  - waiting for locator('.shell-next')[22m
+    [2m    9 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      124 |       if (route.next) {
+      125 |         const band = page.locator(".shell-next");
+    > 126 |         await expect(band, `${route.path}: has a closing next-step band`).toHaveCount(1);
+          |                                                                           ^
+      127 |         const cta = band.locator('a[href="/teklif-al"]').first();
+      128 |         await expect(cta, `${route.path}: the next step points at the RFQ`).toBeVisible();
+      129 |         await cta.focus();
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07\e2e\inner-pages-composition.spec.ts:126:75
+
+    Error Context: test-results\inner-pages-composition-in-f7158-sed-like-the-landing-family-tablet-768\error-context.md
+
+  6) [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › service detail (/hizmetler/cnc-frezeleme) is composed like the landing family 
+
+    Error: /hizmetler/cnc-frezeleme: has a closing next-step band
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.shell-next')
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - /hizmetler/cnc-frezeleme: has a closing next-step band with timeout 5000ms[22m
+    [2m  - waiting for locator('.shell-next')[22m
+    [2m    9 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      124 |       if (route.next) {
+      125 |         const band = page.locator(".shell-next");
+    > 126 |         await expect(band, `${route.path}: has a closing next-step band`).toHaveCount(1);
+          |                                                                           ^
+      127 |         const cta = band.locator('a[href="/teklif-al"]').first();
+      128 |         await expect(cta, `${route.path}: the next step points at the RFQ`).toBeVisible();
+      129 |         await cta.focus();
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07\e2e\inner-pages-composition.spec.ts:126:75
+
+    Error Context: test-results\inner-pages-composition-in-b0200-sed-like-the-landing-family-tablet-768\error-context.md
+
+  7) [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › sector detail (/endustriyel/havacilik-uzay) is composed like the landing family 
+
+    Error: /endustriyel/havacilik-uzay: has a closing next-step band
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.shell-next')
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - /endustriyel/havacilik-uzay: has a closing next-step band with timeout 5000ms[22m
+    [2m  - waiting for locator('.shell-next')[22m
+    [2m    9 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      124 |       if (route.next) {
+      125 |         const band = page.locator(".shell-next");
+    > 126 |         await expect(band, `${route.path}: has a closing next-step band`).toHaveCount(1);
+          |                                                                           ^
+      127 |         const cta = band.locator('a[href="/teklif-al"]').first();
+      128 |         await expect(cta, `${route.path}: the next step points at the RFQ`).toBeVisible();
+      129 |         await cta.focus();
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07\e2e\inner-pages-composition.spec.ts:126:75
+
+    Error Context: test-results\inner-pages-composition-in-6d61f-sed-like-the-landing-family-tablet-768\error-context.md
+
+  8) [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › company (/hakkimizda) is composed like the landing family 
+
+    Error: /hakkimizda: has a closing next-step band
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.shell-next')
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - /hakkimizda: has a closing next-step band with timeout 5000ms[22m
+    [2m  - waiting for locator('.shell-next')[22m
+    [2m    8 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      124 |       if (route.next) {
+      125 |         const band = page.locator(".shell-next");
+    > 126 |         await expect(band, `${route.path}: has a closing next-step band`).toHaveCount(1);
+          |                                                                           ^
+      127 |         const cta = band.locator('a[href="/teklif-al"]').first();
+      128 |         await expect(cta, `${route.path}: the next step points at the RFQ`).toBeVisible();
+      129 |         await cta.focus();
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07\e2e\inner-pages-composition.spec.ts:126:75
+
+    Error Context: test-results\inner-pages-composition-in-ad1e5-sed-like-the-landing-family-desktop-1280\error-context.md
+
+  9) [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › contact (/iletisim) is composed like the landing family 
+
+    Error: /iletisim: has a closing next-step band
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.shell-next')
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - /iletisim: has a closing next-step band with timeout 5000ms[22m
+    [2m  - waiting for locator('.shell-next')[22m
+    [2m    9 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      124 |       if (route.next) {
+      125 |         const band = page.locator(".shell-next");
+    > 126 |         await expect(band, `${route.path}: has a closing next-step band`).toHaveCount(1);
+          |                                                                           ^
+      127 |         const cta = band.locator('a[href="/teklif-al"]').first();
+      128 |         await expect(cta, `${route.path}: the next step points at the RFQ`).toBeVisible();
+      129 |         await cta.focus();
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07\e2e\inner-pages-composition.spec.ts:126:75
+
+    Error Context: test-results\inner-pages-composition-in-90eb1-sed-like-the-landing-family-desktop-1280\error-context.md
+
+  10) [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › material index (/malzemeler) is composed like the landing family 
+
+    Error: /malzemeler: has a closing next-step band
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.shell-next')
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - /malzemeler: has a closing next-step band with timeout 5000ms[22m
+    [2m  - waiting for locator('.shell-next')[22m
+    [2m    8 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      124 |       if (route.next) {
+      125 |         const band = page.locator(".shell-next");
+    > 126 |         await expect(band, `${route.path}: has a closing next-step band`).toHaveCount(1);
+          |                                                                           ^
+      127 |         const cta = band.locator('a[href="/teklif-al"]').first();
+      128 |         await expect(cta, `${route.path}: the next step points at the RFQ`).toBeVisible();
+      129 |         await cta.focus();
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07\e2e\inner-pages-composition.spec.ts:126:75
+
+    Error Context: test-results\inner-pages-composition-in-89f7c-sed-like-the-landing-family-desktop-1280\error-context.md
+
+  11) [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › material family (/malzemeler/aluminyum) is composed like the landing family 
+
+    Error: /malzemeler/aluminyum: has a closing next-step band
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.shell-next')
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - /malzemeler/aluminyum: has a closing next-step band with timeout 5000ms[22m
+    [2m  - waiting for locator('.shell-next')[22m
+    [2m    9 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      124 |       if (route.next) {
+      125 |         const band = page.locator(".shell-next");
+    > 126 |         await expect(band, `${route.path}: has a closing next-step band`).toHaveCount(1);
+          |                                                                           ^
+      127 |         const cta = band.locator('a[href="/teklif-al"]').first();
+      128 |         await expect(cta, `${route.path}: the next step points at the RFQ`).toBeVisible();
+      129 |         await cta.focus();
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07\e2e\inner-pages-composition.spec.ts:126:75
+
+    Error Context: test-results\inner-pages-composition-in-e9276-sed-like-the-landing-family-desktop-1280\error-context.md
+
+  12) [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › service category (/hizmetler/kategori/talasli-imalat) is composed like the landing family 
+
+    Error: /hizmetler/kategori/talasli-imalat: has a closing next-step band
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.shell-next')
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - /hizmetler/kategori/talasli-imalat: has a closing next-step band with timeout 5000ms[22m
+    [2m  - waiting for locator('.shell-next')[22m
+    [2m    9 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      124 |       if (route.next) {
+      125 |         const band = page.locator(".shell-next");
+    > 126 |         await expect(band, `${route.path}: has a closing next-step band`).toHaveCount(1);
+          |                                                                           ^
+      127 |         const cta = band.locator('a[href="/teklif-al"]').first();
+      128 |         await expect(cta, `${route.path}: the next step points at the RFQ`).toBeVisible();
+      129 |         await cta.focus();
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07\e2e\inner-pages-composition.spec.ts:126:75
+
+    Error Context: test-results\inner-pages-composition-in-f7158-sed-like-the-landing-family-desktop-1280\error-context.md
+
+  13) [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › service detail (/hizmetler/cnc-frezeleme) is composed like the landing family 
+
+    Error: /hizmetler/cnc-frezeleme: has a closing next-step band
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.shell-next')
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - /hizmetler/cnc-frezeleme: has a closing next-step band with timeout 5000ms[22m
+    [2m  - waiting for locator('.shell-next')[22m
+    [2m    8 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      124 |       if (route.next) {
+      125 |         const band = page.locator(".shell-next");
+    > 126 |         await expect(band, `${route.path}: has a closing next-step band`).toHaveCount(1);
+          |                                                                           ^
+      127 |         const cta = band.locator('a[href="/teklif-al"]').first();
+      128 |         await expect(cta, `${route.path}: the next step points at the RFQ`).toBeVisible();
+      129 |         await cta.focus();
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07\e2e\inner-pages-composition.spec.ts:126:75
+
+    Error Context: test-results\inner-pages-composition-in-b0200-sed-like-the-landing-family-desktop-1280\error-context.md
+
+  14) [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › sector detail (/endustriyel/havacilik-uzay) is composed like the landing family 
+
+    Error: /endustriyel/havacilik-uzay: has a closing next-step band
+
+    [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('.shell-next')
+    Expected: [32m1[39m
+    Received: [31m0[39m
+    Timeout:  5000ms
+
+    Call log:
+    [2m  - /endustriyel/havacilik-uzay: has a closing next-step band with timeout 5000ms[22m
+    [2m  - waiting for locator('.shell-next')[22m
+    [2m    9 × locator resolved to 0 elements[22m
+    [2m      - unexpected value "0"[22m
+
+
+      124 |       if (route.next) {
+      125 |         const band = page.locator(".shell-next");
+    > 126 |         await expect(band, `${route.path}: has a closing next-step band`).toHaveCount(1);
+          |                                                                           ^
+      127 |         const cta = band.locator('a[href="/teklif-al"]').first();
+      128 |         await expect(cta, `${route.path}: the next step points at the RFQ`).toBeVisible();
+      129 |         await cta.focus();
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p07\e2e\inner-pages-composition.spec.ts:126:75
+
+    Error Context: test-results\inner-pages-composition-in-6d61f-sed-like-the-landing-family-desktop-1280\error-context.md
+
+  14 failed
+    [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › company (/hakkimizda) is composed like the landing family 
+    [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › contact (/iletisim) is composed like the landing family 
+    [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › material index (/malzemeler) is composed like the landing family 
+    [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › material family (/malzemeler/aluminyum) is composed like the landing family 
+    [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › service category (/hizmetler/kategori/talasli-imalat) is composed like the landing family 
+    [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › service detail (/hizmetler/cnc-frezeleme) is composed like the landing family 
+    [tablet-768] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › sector detail (/endustriyel/havacilik-uzay) is composed like the landing family 
+    [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › company (/hakkimizda) is composed like the landing family 
+    [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › contact (/iletisim) is composed like the landing family 
+    [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › material index (/malzemeler) is composed like the landing family 
+    [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › material family (/malzemeler/aluminyum) is composed like the landing family 
+    [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › service category (/hizmetler/kategori/talasli-imalat) is composed like the landing family 
+    [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › service detail (/hizmetler/cnc-frezeleme) is composed like the landing family 
+    [desktop-1280] › e2e\inner-pages-composition.spec.ts:92:5 › inner-page composition contract › sector detail (/endustriyel/havacilik-uzay) is composed like the landing family 

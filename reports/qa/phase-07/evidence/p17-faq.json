@@ -1,0 +1,65 @@
+{
+  "atLoad": {
+    "color": "rgb(59, 66, 63)",
+    "opacity": "1",
+    "h": 115,
+    "parentOpacity": "1",
+    "detailsOpen": false
+  },
+  "inView": {
+    "color": "rgb(59, 66, 63)",
+    "opacity": "1",
+    "chain": 1,
+    "rects": [
+      {
+        "x": 58,
+        "y": 6004,
+        "width": 264.9375,
+        "height": 18
+      },
+      {
+        "x": 58,
+        "y": 6027.09375,
+        "width": 234.078125,
+        "height": 18
+      },
+      {
+        "x": 58,
+        "y": 6050.1875,
+        "width": 278.046875,
+        "height": 18
+      }
+    ],
+    "text": "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönet",
+    "detailsOpen": false
+  },
+  "measured": {
+    "fg": {
+      "tot": 55944,
+      "top": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          1
+        ]
+      ]
+    },
+    "bg": {
+      "tot": 55944,
+      "top": [
+        [
+          [
+            0,
+            0,
+            0
+          ],
+          1
+        ]
+      ]
+    }
+  },
+  "modalBg": [
+    0,

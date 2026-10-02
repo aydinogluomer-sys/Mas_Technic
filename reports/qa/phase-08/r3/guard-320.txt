@@ -1,0 +1,104 @@
+(node:5732) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:25656) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25656) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:25656) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[qa-p08 table walk] 16 tables — {"/":4,"/sss":0,"/gizlilik-politikasi":0,"/kvkk":0,"/cerez-politikasi":1,"/hakkimizda":0,"/iletisim":0,"/malzemeler":1,"/malzemeler/aluminyum":1,"/blog":0,"/blog/havacilik-parcalarinda-malzeme-secimi":1,"/kabiliyet-profilleri":0,"/kabiliyet-profilleri/ince-cidarli-aluminyum-govde":0,"/kalite-dosyasi":1,"/hizmetler/kategori/talasli-imalat":0,"/hizmetler/cnc-frezeleme":4,"/kabiliyetler/kalite-kontrol":3,"/endustriyel/havacilik":0,"/giris":0,"/sifremi-unuttum":0,"/reset-password":0,"/teklif-al":0}
+  ✘  1 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:408:3 › QA — every table on a public route is reachable at its viewport › every table fits its viewport or lives in a real, focusable scroll region (32.6s)
+(node:31844) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:31844) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:31844) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[qa-p08 header reach] 64 header cells over 8 routes
+  ✘  2 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:433:3 › QA — every table on a public route is reachable at its viewport › every table header can be brought fully inside the viewport (34.9s)
+(node:38568) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:38568) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:38568) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:481:3 › QA — every table on a public route is reachable at its viewport › control — the checker accepts what ships and rejects R2-1's own numbers (10ms)
+  ✓  4 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:509:3 › QA — every table on a public route is reachable at its viewport › control — the checker rejects an overflow that is clipped rather than scrolled (9ms)
+  ✓  5 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:526:3 › QA — every table on a public route is reachable at its viewport › control — the checker rejects a scrolling region no keyboard can reach (2ms)
+  ✓  6 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:535:3 › QA — every table on a public route is reachable at its viewport › live control — put the R2-1 markup back on the real page and the guard goes red (2.6s)
+
+
+  1) [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:408:3 › QA — every table on a public route is reachable at its viewport › every table fits its viewport or lives in a real, focusable scroll region 
+
+    Error: a table is not reachable at this viewport
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 3[39m
+
+    [32m- Array [][39m
+    [31m+ Array [[39m
+    [31m+   "/hizmetler/cnc-frezeleme table#1 (CNC Frezeleme — malzeme kaydı): the scroll container's OWN box runs from 42 to 337.078 in a 320px viewport, so its overflow never engages and nothing inside it is reachable. Container: div.shell-table-scroll. This is defect R2-1's shape exactly.",[39m
+    [31m+ ][39m
+
+      428 |     ).toEqual([]);
+      429 |
+    > 430 |     expect(unreachableTables(all), "a table is not reachable at this viewport").toEqual([]);
+          |                                                                                 ^
+      431 |   });
+      432 |
+      433 |   test("every table header can be brought fully inside the viewport", async ({ page }) => {
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p08\e2e\qa-p08-scroll-region-reach.spec.ts:430:81
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\qa-p08-scroll-region-reach-8767a-eal-focusable-scroll-region-mobile-320\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\qa-p08-scroll-region-reach-8767a-eal-focusable-scroll-region-mobile-320\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\qa-p08-scroll-region-reach-8767a-eal-focusable-scroll-region-mobile-320\error-context.md
+
+  2) [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:433:3 › QA — every table on a public route is reachable at its viewport › every table header can be brought fully inside the viewport 
+
+    Error: a table column cannot be brought on screen by scrolling its own region
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoEqual[2m([22m[32mexpected[39m[2m) // deep equality[22m
+
+    [32m- Expected  - 1[39m
+    [31m+ Received  + 3[39m
+
+    [32m- Array [][39m
+    [31m+ Array [[39m
+    [31m+   "/hizmetler/cnc-frezeleme · CNC Frezeleme — malzeme kaydı · \"Özellik\" (108.58px in a 293px port) start=ok end=lost at 336.08",[39m
+    [31m+ ][39m
+
+      451 |         + `start=${h.startReached ? "ok" : `lost at ${h.left}`} end=${h.endReached ? "ok" : `lost at ${h.right}`}`),
+      452 |       "a table column cannot be brought on screen by scrolling its own region",
+    > 453 |     ).toEqual([]);
+          |       ^
+      454 |   });
+      455 |
+      456 |   /* ── the controls ───────────────────────────────────────────────────────
+        at C:\Users\Trade Bilisim\pdh-wt\qa-p08\e2e\qa-p08-scroll-region-reach.spec.ts:453:7
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\qa-p08-scroll-region-reach-09fcd-t-fully-inside-the-viewport-mobile-320\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    test-results\qa-p08-scroll-region-reach-09fcd-t-fully-inside-the-viewport-mobile-320\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\qa-p08-scroll-region-reach-09fcd-t-fully-inside-the-viewport-mobile-320\error-context.md
+
+  2 failed
+    [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:408:3 › QA — every table on a public route is reachable at its viewport › every table fits its viewport or lives in a real, focusable scroll region 
+    [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:433:3 › QA — every table on a public route is reachable at its viewport › every table header can be brought fully inside the viewport 
+  4 passed (3.3m)

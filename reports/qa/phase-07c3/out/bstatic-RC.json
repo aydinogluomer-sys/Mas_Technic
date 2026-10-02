@@ -1,0 +1,1076 @@
+{
+ "totalSites": 93,
+ "deadSites": 3,
+ "dead": [
+  {
+   "rule": "wrong-city",
+   "offset": 0,
+   "context": "\\bünite\\b|sipariş\\b|\\b(?:çeşit",
+   "leftLiteral": null,
+   "rightLiterals": [
+    "ü"
+   ],
+   "DEAD": true,
+   "offenders": [
+    "ü"
+   ]
+  },
+  {
+   "rule": "wrong-city",
+   "offset": 17,
+   "context": "\\bünite\\b|sipariş\\b|\\b(?:çeşit|çalişan)|geo\\.pl",
+   "leftLiteral": "ş",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": true,
+   "offenders": [
+    "ş"
+   ]
+  },
+  {
+   "rule": "wrong-city",
+   "offset": 20,
+   "context": "\\bünite\\b|sipariş\\b|\\b(?:çeşit|çalişan)|geo\\.place",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "ç"
+   ],
+   "DEAD": true,
+   "offenders": [
+    "ç"
+   ]
+  }
+ ],
+ "all": [
+  {
+   "rule": "certifying-body",
+   "offset": 33,
+   "context": "S[ÜU]D|Bureau\\s?Veritas|\\bSGS\\b|\\bDNV\\b|Lloyd'?s\\s?Reg",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "S"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "certifying-body",
+   "offset": 38,
+   "context": "D|Bureau\\s?Veritas|\\bSGS\\b|\\bDNV\\b|Lloyd'?s\\s?Register",
+   "leftLiteral": "S",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "certifying-body",
+   "offset": 41,
+   "context": "ureau\\s?Veritas|\\bSGS\\b|\\bDNV\\b|Lloyd'?s\\s?Register",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "D"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "certifying-body",
+   "offset": 46,
+   "context": "\\s?Veritas|\\bSGS\\b|\\bDNV\\b|Lloyd'?s\\s?Register",
+   "leftLiteral": "V",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "tolerance-beyond-verified",
+   "offset": 14,
+   "context": "±\\s?0[.,]00\\d|\\b0[.,]00\\d+\\s?(mm|µm|μm|um)\\b",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "0"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "tolerance-beyond-verified",
+   "offset": 42,
+   "context": ".,]00\\d+\\s?(mm|µm|μm|um)\\b|\\bRa\\s?0[.,]00\\d",
+   "leftLiteral": "(group)",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "tolerance-beyond-verified",
+   "offset": 45,
+   "context": "00\\d+\\s?(mm|µm|μm|um)\\b|\\bRa\\s?0[.,]00\\d",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "R"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "quote-sla-overpromise",
+   "offset": 0,
+   "context": "\\b(?:\\d{1,3}\\s?(?:saat|sa\\.|sa",
+   "leftLiteral": null,
+   "rightLiterals": [
+    "\\d",
+    "a",
+    "e",
+    "b"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "quote-sla-overpromise",
+   "offset": 165,
+   "context": "ec|dönüyor|döneriz|döner\\b|yanitl|yanit|cevapl|cevap|g",
+   "leftLiteral": "r",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "quote-sla-overpromise",
+   "offset": 325,
+   "context": "ap|RFQ)[^.!?;{}]{0,120}?\\b(?:\\d{1,3}\\s?(?:saat|sa\\.|sa",
+   "leftLiteral": "(group)",
+   "rightLiterals": [
+    "\\d",
+    "a",
+    "e",
+    "b"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "quote-sla-overpromise",
+   "offset": 402,
+   "context": "ertesi gün|birkaç saat)|\\b48\\s?saat|\\b48\\s?h\\b",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "4"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "quote-sla-overpromise",
+   "offset": 414,
+   "context": "irkaç saat)|\\b48\\s?saat|\\b48\\s?h\\b",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "4"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "quote-sla-overpromise",
+   "offset": 422,
+   "context": "at)|\\b48\\s?saat|\\b48\\s?h\\b",
+   "leftLiteral": "h",
+   "rightLiterals": [],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "delivery-or-quality-rate",
+   "offset": 468,
+   "context": "|elli|kirk|otuz|yirmi|on\\b|dokuz|sekiz|yedi|alti|beş|d",
+   "leftLiteral": "n",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "process-capability-metric",
+   "offset": 0,
+   "context": "\\bOEE\\b|\\bCpk\\b|\\bPpk\\b|\\bPPAP",
+   "leftLiteral": null,
+   "rightLiterals": [
+    "O"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "process-capability-metric",
+   "offset": 5,
+   "context": "\\bOEE\\b|\\bCpk\\b|\\bPpk\\b|\\bPPAP\\b",
+   "leftLiteral": "E",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "process-capability-metric",
+   "offset": 8,
+   "context": "\\bOEE\\b|\\bCpk\\b|\\bPpk\\b|\\bPPAP\\b",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "C"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "process-capability-metric",
+   "offset": 13,
+   "context": "\\bOEE\\b|\\bCpk\\b|\\bPpk\\b|\\bPPAP\\b",
+   "leftLiteral": "k",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "process-capability-metric",
+   "offset": 16,
+   "context": "\\bOEE\\b|\\bCpk\\b|\\bPpk\\b|\\bPPAP\\b",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "P"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "process-capability-metric",
+   "offset": 21,
+   "context": "\\bOEE\\b|\\bCpk\\b|\\bPpk\\b|\\bPPAP\\b",
+   "leftLiteral": "k",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "process-capability-metric",
+   "offset": 24,
+   "context": "\\bOEE\\b|\\bCpk\\b|\\bPpk\\b|\\bPPAP\\b",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "P"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "process-capability-metric",
+   "offset": 30,
+   "context": "b|\\bCpk\\b|\\bPpk\\b|\\bPPAP\\b",
+   "leftLiteral": "P",
+   "rightLiterals": [],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 0,
+   "context": "\\b\\d[\\d.,]*\\s?K?\\s?\\+?\\s*(?:ad",
+   "leftLiteral": null,
+   "rightLiterals": [
+    "\\d"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 158,
+   "context": "şilik ekip|müşteri|m²|m2\\b|metrekare)|\\b\\d[\\d.,]*\\s?m²",
+   "leftLiteral": "2",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 172,
+   "context": "teri|m²|m2\\b|metrekare)|\\b\\d[\\d.,]*\\s?m²|\\b\\d[\\d.,]*\\s",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "\\d"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 189,
+   "context": "ekare)|\\b\\d[\\d.,]*\\s?m²|\\b\\d[\\d.,]*\\s+(?:bin|milyon)\\s",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "\\d"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 228,
+   "context": "?:bin|milyon)\\s+(?:m²|m2\\b|metrekare|adet|tezgah|tezgâ",
+   "leftLiteral": "2",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 324,
+   "context": "an|müşteri|parça|proje)|\\b\\d[\\d.,]*[ \\t]?\\+[ \\t]*(?:[A",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "\\d"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 578,
+   "context": "|müşteri|metrekare|m²|m2\\b)[A-Za-z0-9_çğiîöşüâÇĞIÖŞÜÂÎ",
+   "leftLiteral": "2",
+   "rightLiterals": [
+    ")"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 1377,
+   "context": "o)\\w*[^.\\n\"'\\x60]{0,60}?\\b\\d[\\d.,]*\\s?(?:kg|ton)\\b|\\b\\",
+   "leftLiteral": "(group)",
+   "rightLiterals": [
+    "\\d"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 1401,
+   "context": "\\b\\d[\\d.,]*\\s?(?:kg|ton)\\b|\\b\\d[\\d.,]*\\s?(?:kg|ton)\\b[",
+   "leftLiteral": "(group)",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 1404,
+   "context": "d[\\d.,]*\\s?(?:kg|ton)\\b|\\b\\d[\\d.,]*\\s?(?:kg|ton)\\b[^.\\",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "\\d"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 1428,
+   "context": "\\b\\d[\\d.,]*\\s?(?:kg|ton)\\b[^.\\n\"'\\x60]{0,60}?(?:sto[kğ",
+   "leftLiteral": "(group)",
+   "rightLiterals": [
+    "^",
+    ".",
+    "\"",
+    "'",
+    "6",
+    "0"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 1604,
+   "context": "s*:\\s*[\"'\\x60][^\"'\\x60]*\\b\\d[\\d.,]*\\s?(?:kg|ton)\\b|\\b\\",
+   "leftLiteral": "(group)",
+   "rightLiterals": [
+    "\\d"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 1628,
+   "context": "\\b\\d[\\d.,]*\\s?(?:kg|ton)\\b|\\b\\d[\\d.,]*['’´]?(?:d[ae]n|",
+   "leftLiteral": "(group)",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 1631,
+   "context": "d[\\d.,]*\\s?(?:kg|ton)\\b|\\b\\d[\\d.,]*['’´]?(?:d[ae]n|t[a",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "\\d"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 1799,
+   "context": "an|müşteri|proje|parça)|\\b24\\s?\\/\\s?7|\\b7\\s?\\/\\s?24",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "2"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "company-scale-disclosure",
+   "offset": 1813,
+   "context": "je|parça)|\\b24\\s?\\/\\s?7|\\b7\\s?\\/\\s?24",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "7"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 11,
+   "context": "DMG\\s?MORI|\\bDMU\\s?\\d|Variaxis|monoBLOCK|",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "D"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 41,
+   "context": "s?\\d|Variaxis|monoBLOCK|\\bMazak\\b|\\bHaas\\b|\\bSodick\\b|",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "M"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 48,
+   "context": "riaxis|monoBLOCK|\\bMazak\\b|\\bHaas\\b|\\bSodick\\b|\\bZeiss",
+   "leftLiteral": "k",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 51,
+   "context": "xis|monoBLOCK|\\bMazak\\b|\\bHaas\\b|\\bSodick\\b|\\bZeiss\\b|",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "H"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 57,
+   "context": "noBLOCK|\\bMazak\\b|\\bHaas\\b|\\bSodick\\b|\\bZeiss\\b|\\bGOM\\",
+   "leftLiteral": "s",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 60,
+   "context": "LOCK|\\bMazak\\b|\\bHaas\\b|\\bSodick\\b|\\bZeiss\\b|\\bGOM\\b|T",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "S"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 68,
+   "context": "azak\\b|\\bHaas\\b|\\bSodick\\b|\\bZeiss\\b|\\bGOM\\b|Taylor\\s?",
+   "leftLiteral": "k",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 71,
+   "context": "k\\b|\\bHaas\\b|\\bSodick\\b|\\bZeiss\\b|\\bGOM\\b|Taylor\\s?Hob",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "Z"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 78,
+   "context": "aas\\b|\\bSodick\\b|\\bZeiss\\b|\\bGOM\\b|Taylor\\s?Hobson|Mit",
+   "leftLiteral": "s",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 81,
+   "context": "\\b|\\bSodick\\b|\\bZeiss\\b|\\bGOM\\b|Taylor\\s?Hobson|Mituto",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "G"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 86,
+   "context": "Sodick\\b|\\bZeiss\\b|\\bGOM\\b|Taylor\\s?Hobson|Mitutoyo|Re",
+   "leftLiteral": "M",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 181,
+   "context": "|Doosan|Makino|Kitamura|\\bStuder\\b|\\bKUKA\\b|\\bFANUC\\b|",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "S"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 189,
+   "context": "Makino|Kitamura|\\bStuder\\b|\\bKUKA\\b|\\bFANUC\\b|Stratasy",
+   "leftLiteral": "r",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 192,
+   "context": "ino|Kitamura|\\bStuder\\b|\\bKUKA\\b|\\bFANUC\\b|Stratasys|F",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "K"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 198,
+   "context": "tamura|\\bStuder\\b|\\bKUKA\\b|\\bFANUC\\b|Stratasys|Formlab",
+   "leftLiteral": "A",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 201,
+   "context": "ura|\\bStuder\\b|\\bKUKA\\b|\\bFANUC\\b|Stratasys|Formlabs|T",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "F"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 208,
+   "context": "tuder\\b|\\bKUKA\\b|\\bFANUC\\b|Stratasys|Formlabs|Trumpf|G",
+   "leftLiteral": "C",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 250,
+   "context": "abs|Trumpf|GF Machining|\\bTornos\\b",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "T"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "machine-inventory",
+   "offset": 258,
+   "context": "pf|GF Machining|\\bTornos\\b",
+   "leftLiteral": "s",
+   "rightLiterals": [],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "fabricated-analytics",
+   "offset": 0,
+   "context": "\\bviews\\s*[:?]|TOPLAM OKUMA|ok",
+   "leftLiteral": null,
+   "rightLiterals": [
+    "v"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "fabricated-report-number",
+   "offset": 0,
+   "context": "\\bMT-20\\d{2}-\\d{3,}\\b",
+   "leftLiteral": null,
+   "rightLiterals": [
+    "M"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "fabricated-report-number",
+   "offset": 19,
+   "context": "\\bMT-20\\d{2}-\\d{3,}\\b",
+   "leftLiteral": "\\d",
+   "rightLiterals": [],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "unverified-reference",
+   "offset": 0,
+   "context": "\\bZTM\\b",
+   "leftLiteral": null,
+   "rightLiterals": [
+    "Z"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "unverified-reference",
+   "offset": 5,
+   "context": "\\bZTM\\b",
+   "leftLiteral": "M",
+   "rightLiterals": [],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "unapproved-confidentiality",
+   "offset": 0,
+   "context": "\\bNDA\\b|gizlilik sözleşme|gizl",
+   "leftLiteral": null,
+   "rightLiterals": [
+    "N"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "unapproved-confidentiality",
+   "offset": 5,
+   "context": "\\bNDA\\b|gizlilik sözleşme|gizlilik ",
+   "leftLiteral": "A",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "wrong-city",
+   "offset": 0,
+   "context": "\\bünite\\b|sipariş\\b|\\b(?:çeşit",
+   "leftLiteral": null,
+   "rightLiterals": [
+    "ü"
+   ],
+   "DEAD": true,
+   "offenders": [
+    "ü"
+   ]
+  },
+  {
+   "rule": "wrong-city",
+   "offset": 7,
+   "context": "\\bünite\\b|sipariş\\b|\\b(?:çeşit|çalişa",
+   "leftLiteral": "e",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "wrong-city",
+   "offset": 17,
+   "context": "\\bünite\\b|sipariş\\b|\\b(?:çeşit|çalişan)|geo\\.pl",
+   "leftLiteral": "ş",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": true,
+   "offenders": [
+    "ş"
+   ]
+  },
+  {
+   "rule": "wrong-city",
+   "offset": 20,
+   "context": "\\bünite\\b|sipariş\\b|\\b(?:çeşit|çalişan)|geo\\.place",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "ç"
+   ],
+   "DEAD": true,
+   "offenders": [
+    "ç"
+   ]
+  },
+  {
+   "rule": "unconditional-guarantee",
+   "offset": 0,
+   "context": "\\bgaranti(?:\\b|si|sini|siyle|s",
+   "leftLiteral": null,
+   "rightLiterals": [
+    "g"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "unconditional-guarantee",
+   "offset": 12,
+   "context": "\\bgaranti(?:\\b|si|sini|siyle|siyla|li|lidi",
+   "leftLiteral": ":",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "unconditional-guarantee",
+   "offset": 110,
+   "context": "kapsam|veriyor|sunuyor)|\\bgüvence(?:si|sini|leri|lerin",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "g"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "unconditional-guarantee",
+   "offset": 201,
+   "context": "al|taahhüt|ediyoruz|eder\\b|edilir)|taahhüt\\s+(?:ediyor",
+   "leftLiteral": "r",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "universal-inspection-claim",
+   "offset": 256,
+   "context": "(?:%\\s?100|yüzde\\s+100)|\\b(?:her|tüm|bütün|hepsi|istis",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "h",
+    "t",
+    "b",
+    "i"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-supplier",
+   "offset": 0,
+   "context": "\\bAlcoa\\b|\\bOutokumpu\\b|\\bErde",
+   "leftLiteral": null,
+   "rightLiterals": [
+    "A"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-supplier",
+   "offset": 7,
+   "context": "\\bAlcoa\\b|\\bOutokumpu\\b|\\bErdemir\\b|\\",
+   "leftLiteral": "a",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-supplier",
+   "offset": 10,
+   "context": "\\bAlcoa\\b|\\bOutokumpu\\b|\\bErdemir\\b|\\bVS",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "O"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-supplier",
+   "offset": 21,
+   "context": "\\bAlcoa\\b|\\bOutokumpu\\b|\\bErdemir\\b|\\bVSMPO\\b|\\bSab",
+   "leftLiteral": "u",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-supplier",
+   "offset": 24,
+   "context": "\\bAlcoa\\b|\\bOutokumpu\\b|\\bErdemir\\b|\\bVSMPO\\b|\\bSabic\\",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "E"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-supplier",
+   "offset": 33,
+   "context": "|\\bOutokumpu\\b|\\bErdemir\\b|\\bVSMPO\\b|\\bSabic\\b|\\bAssan",
+   "leftLiteral": "r",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-supplier",
+   "offset": 36,
+   "context": "Outokumpu\\b|\\bErdemir\\b|\\bVSMPO\\b|\\bSabic\\b|\\bAssan\\b",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "V"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-supplier",
+   "offset": 43,
+   "context": "pu\\b|\\bErdemir\\b|\\bVSMPO\\b|\\bSabic\\b|\\bAssan\\b",
+   "leftLiteral": "O",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-supplier",
+   "offset": 46,
+   "context": "b|\\bErdemir\\b|\\bVSMPO\\b|\\bSabic\\b|\\bAssan\\b",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "S"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-supplier",
+   "offset": 53,
+   "context": "emir\\b|\\bVSMPO\\b|\\bSabic\\b|\\bAssan\\b",
+   "leftLiteral": "c",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-supplier",
+   "offset": 56,
+   "context": "r\\b|\\bVSMPO\\b|\\bSabic\\b|\\bAssan\\b",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "A"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-supplier",
+   "offset": 63,
+   "context": "SMPO\\b|\\bSabic\\b|\\bAssan\\b",
+   "leftLiteral": "n",
+   "rightLiterals": [],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-enterprise-system",
+   "offset": 16,
+   "context": "SAP\\s?(MES|ERP)|\\bFastems\\b|\\bVericut\\b|\\b3DCS",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "F"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-enterprise-system",
+   "offset": 25,
+   "context": "AP\\s?(MES|ERP)|\\bFastems\\b|\\bVericut\\b|\\b3DCS\\b",
+   "leftLiteral": "s",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-enterprise-system",
+   "offset": 28,
+   "context": "s?(MES|ERP)|\\bFastems\\b|\\bVericut\\b|\\b3DCS\\b",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "V"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-enterprise-system",
+   "offset": 37,
+   "context": "P)|\\bFastems\\b|\\bVericut\\b|\\b3DCS\\b",
+   "leftLiteral": "t",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-enterprise-system",
+   "offset": 40,
+   "context": "\\bFastems\\b|\\bVericut\\b|\\b3DCS\\b",
+   "leftLiteral": "|",
+   "rightLiterals": [
+    "3"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "named-enterprise-system",
+   "offset": 46,
+   "context": "ems\\b|\\bVericut\\b|\\b3DCS\\b",
+   "leftLiteral": "S",
+   "rightLiterals": [],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "marketing-filler",
+   "offset": 93,
+   "context": "t|çözüm)|Türkiye'?nin en\\b|dünyanin en\\b|sektör(ün)?\\s",
+   "leftLiteral": "n",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  },
+  {
+   "rule": "marketing-filler",
+   "offset": 107,
+   "context": "ye'?nin en\\b|dünyanin en\\b|sektör(ün)?\\s+lider|dünya s",
+   "leftLiteral": "n",
+   "rightLiterals": [
+    "|"
+   ],
+   "DEAD": false,
+   "offenders": []
+  }
+ ]
+}

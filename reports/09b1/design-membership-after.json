@@ -1,0 +1,543 @@
+{
+  "base": "http://localhost:4300",
+  "teal": "rgb(10, 125, 138)",
+  "routes": {
+    "/giris": {
+      "nodesTotal": 200,
+      "nodesInMain": 91,
+      "teal": 4,
+      "tealInMain": 0,
+      "sampleTeal": [
+        {
+          "tag": "div",
+          "cls": "fixed top-0 left-0 pointer-events-none",
+          "text": ""
+        },
+        {
+          "tag": "span",
+          "cls": "text-[7px] uppercase tracking-[0.12em] font-mono font-semibold select-none",
+          "text": ""
+        },
+        {
+          "tag": "span",
+          "cls": "font-mono text-[10px] uppercase tracking-[0.48em] text-primary",
+          "text": "MAS / PRECISION"
+        },
+        {
+          "tag": "button",
+          "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+          "text": ""
+        }
+      ],
+      "radix": 0,
+      "shellPrimitivesInMain": 48,
+      "shellPrimitiveClassesInMain": [
+        "shell-action",
+        "shell-action--full",
+        "shell-action--primary",
+        "shell-action--quiet",
+        "shell-action-mark",
+        "shell-auth-aside",
+        "shell-auth-aside-body",
+        "shell-auth-aside-lede",
+        "shell-auth-back",
+        "shell-auth-back-mark",
+        "shell-auth-body",
+        "shell-auth-captcha",
+        "shell-auth-compact-mark",
+        "shell-auth-control",
+        "shell-auth-foot",
+        "shell-auth-form",
+        "shell-auth-label-row",
+        "shell-auth-lede",
+        "shell-auth-legal",
+        "shell-auth-list",
+        "shell-auth-list-label",
+        "shell-auth-list-no",
+        "shell-auth-mark",
+        "shell-auth-mark-block",
+        "shell-auth-mark-name",
+        "shell-auth-panel",
+        "shell-auth-reveal",
+        "shell-auth-rule",
+        "shell-auth-social",
+        "shell-auth-split",
+        "shell-auth-title",
+        "shell-eyebrow",
+        "shell-field"
+      ],
+      "inlineColour": [],
+      "zNodes": [
+        {
+          "z": "101",
+          "tag": "div",
+          "cls": "fixed top-0 left-0 pointer-events-none"
+        },
+        {
+          "z": "100",
+          "tag": "div",
+          "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-cente"
+        },
+        {
+          "z": "10005",
+          "tag": "a",
+          "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "96",
+          "tag": "div",
+          "cls": "route-curtain-label fixed inset-0 flex items-center justify-center poi"
+        },
+        {
+          "z": "100",
+          "tag": "ol",
+          "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:b"
+        },
+        {
+          "z": "50",
+          "tag": "button",
+          "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-"
+        }
+      ],
+      "h1": [
+        "Giriş Yapın"
+      ],
+      "mainText": "ANA SAYFA Giriş Yapın Hesabınıza giriş yaparak tekliflerinizi ve siparişlerinizi takip edin. Google LinkedIn VEYA E-POSTA İLE E-posta Şifre ŞİFREMİ UNUTTUM GİRİŞ YAP HESABINIZ YOK MU? KAYIT OLUN Devam ederek Gizlilik Politikası’nı ve KVKK Aydınlatma Metni’ni kabul etmiş olursunuz. MÜŞTERİ PORTALI MT MAS TECHNIC İZMİR Hoş Geldiniz MAS TECHNIC müşteri portalı ile teklif, sipariş ve üretim kayıtlarınızı tek yerden izleyin. 01 Tekliflerim 02 Siparişlerim 03 Üretim Takip 04 Teknik Arşiv 05 Kalite Raporları 06 Ödeme & Faturalar 07 Destek"
+    },
+    "/sifremi-unuttum": {
+      "nodesTotal": 167,
+      "nodesInMain": 58,
+      "teal": 4,
+      "tealInMain": 0,
+      "sampleTeal": [
+        {
+          "tag": "div",
+          "cls": "fixed top-0 left-0 pointer-events-none",
+          "text": ""
+        },
+        {
+          "tag": "span",
+          "cls": "text-[7px] uppercase tracking-[0.12em] font-mono font-semibold select-none",
+          "text": ""
+        },
+        {
+          "tag": "span",
+          "cls": "font-mono text-[10px] uppercase tracking-[0.48em] text-primary",
+          "text": "MAS / PRECISION"
+        },
+        {
+          "tag": "button",
+          "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+          "text": ""
+        }
+      ],
+      "radix": 0,
+      "shellPrimitivesInMain": 37,
+      "shellPrimitiveClassesInMain": [
+        "shell-action",
+        "shell-action--full",
+        "shell-action--primary",
+        "shell-action--quiet",
+        "shell-action-mark",
+        "shell-auth-aside",
+        "shell-auth-aside-body",
+        "shell-auth-aside-lede",
+        "shell-auth-back",
+        "shell-auth-back-mark",
+        "shell-auth-body",
+        "shell-auth-compact-mark",
+        "shell-auth-form",
+        "shell-auth-label-row",
+        "shell-auth-lede",
+        "shell-auth-list",
+        "shell-auth-list-label",
+        "shell-auth-list-no",
+        "shell-auth-mark",
+        "shell-auth-mark-block",
+        "shell-auth-mark-name",
+        "shell-auth-panel",
+        "shell-auth-split",
+        "shell-auth-title",
+        "shell-eyebrow",
+        "shell-field"
+      ],
+      "inlineColour": [],
+      "zNodes": [
+        {
+          "z": "101",
+          "tag": "div",
+          "cls": "fixed top-0 left-0 pointer-events-none"
+        },
+        {
+          "z": "100",
+          "tag": "div",
+          "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-cente"
+        },
+        {
+          "z": "10005",
+          "tag": "a",
+          "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "96",
+          "tag": "div",
+          "cls": "route-curtain-label fixed inset-0 flex items-center justify-center poi"
+        },
+        {
+          "z": "100",
+          "tag": "ol",
+          "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:b"
+        },
+        {
+          "z": "50",
+          "tag": "button",
+          "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-"
+        }
+      ],
+      "h1": [
+        "Şifremi Unuttum"
+      ],
+      "mainText": "GİRİŞ SAYFASI Şifremi Unuttum Hesabınızın e-posta adresini girin, şifre sıfırlama bağlantısını oraya gönderelim. E-posta SIFIRLAMA BAĞLANTISI İSTE MÜŞTERİ PORTALI MT MAS TECHNIC İZMİR Hoş Geldiniz MAS TECHNIC müşteri portalı ile teklif, sipariş ve üretim kayıtlarınızı tek yerden izleyin. 01 Tekliflerim 02 Siparişlerim 03 Üretim Takip 04 Teknik Arşiv 05 Kalite Raporları 06 Ödeme & Faturalar 07 Destek"
+    },
+    "/reset-password": {
+      "nodesTotal": 166,
+      "nodesInMain": 57,
+      "teal": 4,
+      "tealInMain": 0,
+      "sampleTeal": [
+        {
+          "tag": "div",
+          "cls": "fixed top-0 left-0 pointer-events-none",
+          "text": ""
+        },
+        {
+          "tag": "span",
+          "cls": "text-[7px] uppercase tracking-[0.12em] font-mono font-semibold select-none",
+          "text": ""
+        },
+        {
+          "tag": "span",
+          "cls": "font-mono text-[10px] uppercase tracking-[0.48em] text-primary",
+          "text": "MAS / PRECISION"
+        },
+        {
+          "tag": "button",
+          "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+          "text": ""
+        }
+      ],
+      "radix": 0,
+      "shellPrimitivesInMain": 37,
+      "shellPrimitiveClassesInMain": [
+        "shell-action",
+        "shell-action--full",
+        "shell-action--primary",
+        "shell-action--quiet",
+        "shell-action-mark",
+        "shell-auth-aside",
+        "shell-auth-aside-body",
+        "shell-auth-aside-lede",
+        "shell-auth-back",
+        "shell-auth-back-mark",
+        "shell-auth-body",
+        "shell-auth-compact-mark",
+        "shell-auth-list",
+        "shell-auth-list-label",
+        "shell-auth-list-no",
+        "shell-auth-mark",
+        "shell-auth-mark-block",
+        "shell-auth-mark-name",
+        "shell-auth-panel",
+        "shell-auth-split",
+        "shell-auth-title",
+        "shell-eyebrow",
+        "shell-notice",
+        "shell-notice-body",
+        "shell-notice-label",
+        "shell-notice-title"
+      ],
+      "inlineColour": [],
+      "zNodes": [
+        {
+          "z": "101",
+          "tag": "div",
+          "cls": "fixed top-0 left-0 pointer-events-none"
+        },
+        {
+          "z": "100",
+          "tag": "div",
+          "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-cente"
+        },
+        {
+          "z": "10005",
+          "tag": "a",
+          "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "96",
+          "tag": "div",
+          "cls": "route-curtain-label fixed inset-0 flex items-center justify-center poi"
+        },
+        {
+          "z": "100",
+          "tag": "ol",
+          "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:b"
+        },
+        {
+          "z": "50",
+          "tag": "button",
+          "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-"
+        }
+      ],
+      "h1": [
+        "Yeni Şifre Belirleyin"
+      ],
+      "mainText": "GİRİŞ SAYFASI Yeni Şifre Belirleyin BAĞLANTI GEREKLİ Bu sayfa şifre sıfırlama e-postasındaki bağlantıyla açılır. Adrese doğrudan geldiyseniz sıfırlanacak bir şey yok. E-posta adresinizi girip yeni bir bağlantı isteyin; bağlantıya tıkladığınızda bu sayfa yeni şifrenizi soracak. SIFIRLAMA BAĞLANTISI İSTE MÜŞTERİ PORTALI MT MAS TECHNIC İZMİR Hoş Geldiniz MAS TECHNIC müşteri portalı ile teklif, sipariş ve üretim kayıtlarınızı tek yerden izleyin. 01 Tekliflerim 02 Siparişlerim 03 Üretim Takip 04 Teknik Arşiv 05 Kalite Raporları 06 Ödeme & Faturalar 07 Destek"
+    },
+    "/teklif-al": {
+      "nodesTotal": 487,
+      "nodesInMain": 194,
+      "teal": 4,
+      "tealInMain": 0,
+      "sampleTeal": [
+        {
+          "tag": "div",
+          "cls": "fixed top-0 left-0 pointer-events-none",
+          "text": ""
+        },
+        {
+          "tag": "span",
+          "cls": "text-[7px] uppercase tracking-[0.12em] font-mono font-semibold select-none",
+          "text": ""
+        },
+        {
+          "tag": "span",
+          "cls": "font-mono text-[10px] uppercase tracking-[0.48em] text-primary",
+          "text": "MAS / PRECISION"
+        },
+        {
+          "tag": "button",
+          "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary",
+          "text": ""
+        }
+      ],
+      "radix": 0,
+      "shellPrimitivesInMain": 85,
+      "shellPrimitiveClassesInMain": [
+        "shell-action",
+        "shell-action--ghost",
+        "shell-action--primary",
+        "shell-action--quiet",
+        "shell-action-mark",
+        "shell-crumb",
+        "shell-doc",
+        "shell-doc-aside",
+        "shell-doc-main",
+        "shell-dropzone",
+        "shell-dropzone-area",
+        "shell-dropzone-hint",
+        "shell-dropzone-title",
+        "shell-eyebrow",
+        "shell-field-hint",
+        "shell-hero",
+        "shell-hero-actions",
+        "shell-hero-body",
+        "shell-hero-copy",
+        "shell-hero-meta",
+        "shell-lede",
+        "shell-meta-row",
+        "shell-note",
+        "shell-rail",
+        "shell-run",
+        "shell-run-action",
+        "shell-run-detail",
+        "shell-run-no",
+        "shell-run-title",
+        "shell-segment",
+        "shell-segment-code",
+        "shell-segments",
+        "shell-span-read",
+        "shell-stack",
+        "shell-state-actions",
+        "shell-surface-band",
+        "shell-surface-body",
+        "shell-tags",
+        "shell-title-block",
+        "shell-title-index"
+      ],
+      "inlineColour": [],
+      "zNodes": [
+        {
+          "z": "101",
+          "tag": "div",
+          "cls": "fixed top-0 left-0 pointer-events-none"
+        },
+        {
+          "z": "100",
+          "tag": "div",
+          "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-cente"
+        },
+        {
+          "z": "10005",
+          "tag": "a",
+          "cls": "shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py"
+        },
+        {
+          "z": "10000",
+          "tag": "header",
+          "cls": "tl-header-band"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "95",
+          "tag": "div",
+          "cls": "route-curtain-panel fixed inset-y-0 pointer-events-none overflow-hidde"
+        },
+        {
+          "z": "96",
+          "tag": "div",
+          "cls": "route-curtain-label fixed inset-0 flex items-center justify-center poi"
+        },
+        {
+          "z": "1",
+          "tag": "button",
+          "cls": "shell-segment"
+        },
+        {
+          "z": "1",
+          "tag": "div",
+          "cls": "tl-title-block"
+        },
+        {
+          "z": "1",
+          "tag": "div",
+          "cls": "tl-social"
+        },
+        {
+          "z": "1",
+          "tag": "p",
+          "cls": "tl-meta-run"
+        },
+        {
+          "z": "1",
+          "tag": "p",
+          "cls": "tl-legal"
+        },
+        {
+          "z": "100",
+          "tag": "ol",
+          "cls": "fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:b"
+        },
+        {
+          "z": "50",
+          "tag": "button",
+          "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-"
+        }
+      ],
+      "h1": [
+        "Hassas Fiyat Teklifi Alın"
+      ],
+      "mainText": "13 TEKLİF 01 TEKLİF ANA SAYFA TEKLİF AL TEKLİF Hassas Fiyat Teklifi Alın Teknik resminizi veya 3B modelinizi yükleyin, üretim tercihlerinizi bırakın. Dosyayı üretilebilirlik açısından inceleyip fiyat ve termin ile döneriz. DOSYA YÜKLE SALES@MASTECHNİC.COM TEKLİF DÖNÜŞÜ 1-3 iş günü KABUL EDİLEN FORMAT STEP, STP, STL, OBJ, IGES, IGS, 3MF MAKSİMUM DOSYA 50 MB TOLERANS ±0.01 mm 02 TALEP 01 CAD DOSYASI 02 ÖZELLİKLER 03 GÖNDER 01 CAD dosyanızı yükleyin Teknik resim yerine 3B model gönderin; üretilebilirlik incelemesi doğrudan geometri üzerinden yapılır. KABUL EDİLEN FORMATLAR STEP STP STL OBJ IGES IGS 3MF Tek dosya · en fazla 50 MB · STEP, STP, STL, OBJ, IGES, IGS, 3MF · Maks. 50 MB CAD dosyanızı sürükleyin veya seçin STEP, STP, STL, OBJ, IGES, IGS, 3MF · Maks. 50 MB İLERİ CANLI KAYIT DOSYA Henüz yüklenmedi HİZMET CNC Frezeleme (3 & 5 eksen) MALZEME Alüminyum 6061-T6 YÜZEY İşlenmiş yüzey MİKTAR 25 adet ÖNCELİK Standart TEKLİF VE TERMİN TEKLİF DÖNÜŞÜ 1-3 İŞ GÜNÜ TERMİN Teklifle birlikte ÖLÇÜM KAYDI Teslimat dosyasında KALİTE 01 ISO 9001:2015 Kalite yönetim sistemi standardı. 02 CMM ölçümü Akredite 3. taraf CMM ölçümü, talebe bağlı 03 Malzeme izlenebilirliği Parti ve döküm kaydı; malzeme sertifikası talebe bağlı. DOĞRUDAN HAT Dosya hazır değilse veya form yerine konuşmayı tercih ediyorsanız doğrudan yazın. SALES@MASTECHNİC.COM +90 (536) 564 51 94 03 ALTERNATİF 03 Dosya hazır değilse Teklif formu bir CAD dosyasıyla çalışır. Elinizde henüz model yoksa iki yol daha var. 01 Teknik görüşme Ekran paylaşımlı bir görüşme planlayın; geometriyi birlikte netleştirip sonra dosya açalım. TOPLANTI PLANLA 02 Süreçle ilgili sorular Tolerans, malzeme ve yüzey işlemi seçimleri hakkında sık sorulanlar. SIK SORULAN SORULAR 03 Doğrudan hat Kısa bir soru için telefon veya e-posta. Teklif dönüşü 1-3 iş günü. +90 (536) 564 51 94"
+    }
+  },
+  "blockedRequests": [
+    "https://canary.example.com/09b1-guard-probe",
+    "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+    "https://js.hcaptcha.com/1/api.js?onload=hCaptchaOnLoad&render=explicit&uj=false"
+  ],
+  "allowedRequests": []
+}

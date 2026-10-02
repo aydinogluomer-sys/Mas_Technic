@@ -1,282 +1,315 @@
-import { useLocation, Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { ArrowLeft, Home, Search, FileQuestion, HelpCircle } from "lucide-react";
+import { useLocation } from "react-router-dom";
+import { useEffect, useMemo, useRef } from "react";
+import { PageShell } from "@/components/shell/PageShell";
+import { ShellMetaRow } from "@/components/shell/ShellPrimitives";
+import { ShellAction, ShellIndexList } from "@/components/shell/ShellComposition";
+import {
+  companyLinks,
+  navigationItems,
+  navigationTargets,
+  resourceLinks,
+} from "@/components/navigation/ia";
 
-export const NotFound = () => {
-  const location = useLocation();
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [countdown, setCountdown] = useState(15);
+/* ══════════════════════════════════════════════════════════════════════════
+   404 — A ROUTE-ERROR SHELL STATE, NOT A THIRD VISUAL LANGUAGE
 
-  useEffect(() => {
-    console.error("404 Error:", location.pathname);
-  }, [location.pathname]);
+   WHAT THIS PAGE USED TO BE (`reports/baseline/shell-inventory.md` §4/§5)
+     · no header and no footer — a dead end with four hand-picked links;
+     · its own light/teal canvas: six animated `hsla(190..210, 80%, 45%)`
+       ribbons with a 30px glow shadow, plus a grid overlay, scanlines and a
+       vignette, all `position:fixed` over the whole viewport;
+     · its own brand mark, duplicating the header's;
+     · a 15-second countdown that then set `window.location.href = "/"`.
 
-  // Auto-redirect countdown
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev <= 1) {
-          window.location.href = "/";
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+   PHASE 04 FIXED THE SHELL: the page renders inside `PageShell`, the fixed
+   canvas and its three overlay layers are gone, and the auto-redirect is gone
+   — an unannounced timer that rewrites `window.location` after 15 seconds
+   discards the reader's history position, cannot be paused or extended (WCAG
+   2.2.1) and makes the wrong URL unshareable and undebuggable. Phase 04 then
+   said, correctly, that the CONTENT belonged to Phase 08 (requirement IDs
+   680–687) and left every string exactly as it found it.
 
-  // Ribbon canvas animation
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+   ══════════════════════════════════════════════════════════════════════════
+   PHASE 08 — WHAT THE READER GETS NOW
 
-    let animId: number;
-    const ribbons: {
-      x: number; y: number; w: number; h: number;
-      speed: number; angle: number; opacity: number; hue: number;
-    }[] = [];
+   THE CONCEPT IS THE MEASUREMENT THE SITE IS BUILT ON. A 404 on a drawing
+   sheet is not an apology; it is a coordinate that is not on the sheet. The
+   status readout states the requested path as a position, and the page's job
+   is to put the reader back on a datum. That is the whole brand idea, and it
+   costs a mono readout and one sentence rather than an illustration — no
+   glow, no gradient, no mascot, no emoji.
 
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener("resize", resize);
+   RECOVERY, AND WHY THERE IS NO SEARCH BOX.
+   The old page offered four hand-picked destinations — Ana Sayfa,
+   Hizmetlerimiz, Teklif Al, SSS — chosen by somebody, in an order nobody can
+   defend, covering four of ~90 routes. A reader who mistyped
+   `/hizmetler/cnc-frezelme` was offered the home page.
 
-    // Create ribbons
-    for (let i = 0; i < 6; i++) {
-      ribbons.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        w: 150 + Math.random() * 250,
-        h: 1 + Math.random() * 2,
-        speed: 0.15 + Math.random() * 0.3,
-        angle: -20 + Math.random() * 40,
-        opacity: 0.03 + Math.random() * 0.06,
-        hue: 190 + Math.random() * 20,
-      });
+   Two things replace it, and neither is a search field:
+
+     1. NEAREST RECORDS. The requested path is tokenised and scored against
+        the real IA (`navigationTargets()`), so `/hizmetler/cnc-frezelme`
+        surfaces `/hizmetler/cnc-frezeleme`. A 404 needs a CORRECTION
+        affordance, not a query interface, and this one runs over a list the
+        app already holds in memory: no index, no request, no dependency.
+     2. THE DIRECTORY. Below it, the three route families and the reference
+        surfaces, from the same IA — so the page is a way in rather than four
+        guesses.
+
+   A global search box was considered and REJECTED on evidence: this project
+   has no site-wide search index, and the two searches that do exist
+   (`/malzemeler`, `/sss`) are scoped to their own corpora and cannot answer
+   "where is the page I was trying to reach". A box that accepts a query and
+   can only fail is worse than no box — it spends the reader's attention and
+   returns them to the same dead end. Recorded in
+   `docs/lean/17-inner-page-composition.md`.
+
+   ══════════════════════════════════════════════════════════════════════════
+   THE REAL-HTTP-404 REQUIREMENT IS UNMET, AND DELIBERATELY SO
+
+   `IMPLEMENTATION.md` §PHASE 08 asks for a real HTTP/deployment 404 "where
+   hosting permits". That is a condition. Measured from the repository:
+
+     · There is NO hosting configuration of any kind — no `_redirects`, no
+       `netlify.toml`, no `vercel.json`, no `staticwebapp.config.json`, no
+       `firebase.json`, no `.htaccess`, no `public/_headers`, no
+       `public/404.html`.
+     · `vite.config.ts` builds a plain SPA. No SSR, no prerender plugin, so no
+       route can carry a status code of its own.
+     · The only deploy target named anywhere in the repo is a Lovable preview
+       (`README.md:6`, `docs/lean/10-tech-stack.md:88`), while
+       `USER_INPUTS.md` §A names `https://www.masmare.com` as the production
+       domain and says nothing about how it is served. §M sets
+       `ALLOW_PRODUCTION_DEPLOY: NO`.
+
+   So the platform's 404 behaviour cannot be established from evidence — and
+   guessing is not free here. On a static host that honours `public/404.html`
+   (GitHub Pages is the clearest case) adding one CHANGES the SPA fallback:
+   `/blog/dfm-tasarimdan-uretime-gecis` would then be served the 404 document
+   instead of `index.html`, and every deep route on the site would break. A
+   file added on a guess about the host is not a partial win, it is a
+   plausible way to take the site down.
+
+   This page is therefore made complete and correct as a client-side state and
+   the deployment half is left as a STATED GAP rather than a fabricated config.
+   The one mitigation that belongs to a route rather than to a host —
+   `<meta name="robots" content="noindex">` here, so a soft-404 is not indexed
+   — needs `src/hooks/use-page-meta.ts`, which is outside this phase's write
+   allowlist and inside Phase 11's metadata scope. It is reported there rather
+   than reached for here.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/** Tokens worth scoring. One- and two-letter fragments match everything. */
+function tokenise(path: string): string[] {
+  return decodeURIComponent(path)
+    .toLocaleLowerCase("tr-TR")
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter((token) => token.length > 2);
+}
+
+/**
+ * Nearest real routes to the path the reader asked for.
+ *
+ * The scoring is deliberately dull: a token present in both paths scores 2, a
+ * token that is a prefix of one in the other (`frezelme` → `frezeleme`) scores
+ * 1, and a candidate must clear 2 to be shown at all. A clever ranking that
+ * confidently offers three wrong answers is worse than an honest empty
+ * result — which is why the block disappears entirely when nothing scores.
+ */
+function nearestRoutes(requested: string, limit = 4): string[] {
+  const wanted = tokenise(requested);
+  if (wanted.length === 0) return [];
+
+  return navigationTargets()
+    .filter((path) => path !== "/" && path !== requested)
+    .map((path) => {
+      const candidate = tokenise(path);
+      const score = wanted.reduce((total, token) => {
+        if (candidate.includes(token)) return total + 2;
+        if (candidate.some((other) => other.startsWith(token) || token.startsWith(other))) return total + 1;
+        return total;
+      }, 0);
+      return { path, score };
+    })
+    .filter((entry) => entry.score >= 2)
+    .sort((a, b) => b.score - a.score || a.path.length - b.path.length)
+    .slice(0, limit)
+    .map((entry) => entry.path);
+}
+
+/** A route's own label, read out of the IA rather than re-titled here. */
+function labelFor(path: string): string {
+  for (const family of navigationItems) {
+    for (const category of family.children ?? []) {
+      if (category.path === path) return `${family.label} · ${category.label}`;
+      const link = category.links.find((entry) => entry.path === path);
+      if (link) return `${family.label} · ${link.label}`;
     }
+  }
+  return (
+    resourceLinks.find((link) => link.path === path)?.label
+    ?? companyLinks.find((link) => link.path === path)?.label
+    ?? path
+  );
+}
 
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ribbons.forEach((r) => {
-        ctx.save();
-        ctx.translate(r.x, r.y);
-        ctx.rotate((r.angle * Math.PI) / 180);
-        ctx.fillStyle = `hsla(${r.hue}, 80%, 45%, ${r.opacity})`; // OK: dynamic hue — runtime hesaplamalı
-        ctx.fillRect(-r.w / 2, -r.h / 2, r.w, r.h);
+/** The three route families plus the reference surfaces, in IA order. */
+const DIRECTORY = [
+  ...navigationItems.filter((family) => family.children?.length).map((family) => ({
+    to: family.children?.[0]?.path ?? "/",
+    title: family.label,
+    description: (family.children ?? []).map((category) => category.label).join(" · "),
+    index: family.index,
+  })),
+  ...resourceLinks.map((link, offset) => ({
+    to: link.path,
+    title: link.label,
+    index: String(navigationItems.filter((family) => family.children?.length).length + offset + 1).padStart(2, "0"),
+  })),
+];
 
-        // Glow
-        ctx.shadowColor = `hsla(${r.hue}, 80%, 50%, ${r.opacity * 2})`; // OK: dynamic hue
-        ctx.shadowBlur = 30;
-        ctx.fillRect(-r.w / 2, -r.h / 2, r.w, r.h);
-        ctx.restore();
+/**
+ * `shell={false}` is for the PANEL branch only (`src/App.tsx` `panelRoutes`).
+ * `/admin*` and `/musteri-paneli` are out of this run's scope per
+ * `USER_INPUTS.md` §N and carry their own chrome; dropping the public
+ * navigation and the site footer onto an admin 404 would be this phase
+ * reaching into that shell.
+ *
+ * The body is identical either way — a Phase 04 decision this phase keeps
+ * rather than re-argues, and the reason everything below is one flow block
+ * instead of a stack of `ShellBand`s: a band needs the master grid that
+ * `PageShell layout="band"` publishes, and the bare variant publishes none.
+ */
+export const NotFound = ({ shell = true }: { shell?: boolean }) => {
+  const location = useLocation();
+  const requested = location.pathname;
+  const suggestions = useMemo(() => nearestRoutes(requested), [requested]);
 
-        r.y += r.speed;
-        r.x += Math.sin(r.y * 0.005) * 0.3;
-        if (r.y > canvas.height + 50) {
-          r.y = -50;
-          r.x = Math.random() * canvas.width;
-        }
+  useEffect(() => {
+    console.error("404 Error:", requested);
+  }, [requested]);
+
+  /* The off-datum readout. Pointer position is written straight to CSS custom
+     properties and two text nodes — never React state — so a pointer move
+     costs one style write, not a render. Coarse pointers never get it. */
+  const stageRef = useRef<HTMLElement>(null);
+  const readX = useRef<HTMLSpanElement>(null);
+  const readY = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage || !window.matchMedia("(pointer: fine)").matches) return;
+    let frame = 0;
+    const onMove = (event: PointerEvent) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const rect = stage.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        stage.style.setProperty("--nf-x", `${x}px`);
+        stage.style.setProperty("--nf-y", `${y}px`);
+        stage.dataset.tracking = "";
+        /* Sheet coordinates in millimetres from datum A (bottom-left), 1px = 0.1mm. */
+        if (readX.current) readX.current.textContent = (x / 10).toFixed(3);
+        if (readY.current) readY.current.textContent = ((rect.height - y) / 10).toFixed(3);
       });
-      animId = requestAnimationFrame(draw);
     };
-    draw();
-
+    const onLeave = () => { delete stage.dataset.tracking; };
+    stage.addEventListener("pointermove", onMove);
+    stage.addEventListener("pointerleave", onLeave);
     return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(frame);
+      stage.removeEventListener("pointermove", onMove);
+      stage.removeEventListener("pointerleave", onLeave);
     };
   }, []);
 
-  return (
-    <div
-      className="relative w-full h-screen overflow-hidden"
-      style={{
-        fontFamily: "'Exo 2', system-ui, sans-serif",
-        background: "hsl(var(--background))",
-      }}
-    >
-      {/* Canvas ribbons */}
-      <canvas ref={canvasRef} className="fixed inset-0 w-full h-full z-[1]" />
+  const body = (
+    <div className="shell-notfound">
+      <section ref={stageRef} className="nf-stage" aria-labelledby="nf-title">
+        <div className="nf-cross" aria-hidden="true">
+          <i className="nf-cross-x" />
+          <i className="nf-cross-y" />
+          <span className="nf-cross-read">X <span ref={readX}>0.000</span> · Y <span ref={readY}>0.000</span></span>
+        </div>
 
-      {/* Grid overlay */}
-      <div
-        className="fixed inset-0 z-[2] pointer-events-none opacity-50"
-        style={{
-          backgroundImage:
-            "linear-gradient(hsl(var(--primary) / 0.07) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary) / 0.07) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
+        <header className="nf-top">
+          <p className="shell-eyebrow">ERR::PAGE_NOT_FOUND</p>
+          <p className="nf-path" aria-hidden="true">
+            <span>İSTENEN</span>
+            <code>{requested}</code>
+          </p>
+        </header>
+
+        <p className="nf-code" aria-hidden="true">
+          <span className="nf-digit">4</span>
+          <span className="nf-digit nf-hole">
+            0
+            <span className="nf-hole-dim">
+              <i />
+              <b>Ø — ÖLÇÜLEMEDİ</b>
+            </span>
+          </span>
+          <span className="nf-digit">4</span>
+        </p>
+
+        <div className="nf-copy">
+          <h1 id="nf-title" className="shell-notfound-title">
+            Bu koordinatta <em>kayıt yok.</em>
+          </h1>
+          <div className="nf-copy-side">
+            <p className="shell-lede">
+              İstenen yol bu sitenin sayfa dizininde bir konuma karşılık gelmiyor. Adres değişmiş, yanlış
+              yazılmış veya bağlantı eskimiş olabilir. Aşağıdaki kayıtlar sizi tekrar bir datuma oturtur.
+            </p>
+            <div className="shell-notfound-actions">
+              <ShellAction to="/" variant="primary">Ana sayfa</ShellAction>
+              <ShellAction to="/teklif-al" variant="ghost">Teklif al</ShellAction>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <ShellMetaRow
+        className="shell-notfound-meta"
+        items={[
+          { label: "DURUM", value: "404 · BULUNAMADI" },
+          { label: "İSTENEN YOL", value: requested },
+          { label: "YAKIN KAYIT", value: String(suggestions.length) },
+          { label: "YÖNLENDİRME", value: "YOK" },
+        ]}
       />
 
-      {/* Scanlines */}
-      <div
-        className="fixed inset-0 z-[3] pointer-events-none"
-        style={{
-          background:
-            "repeating-linear-gradient(0deg, transparent, transparent 2px, rgb(var(--surface-base-rgb) / 0.03) 2px, rgb(var(--surface-base-rgb) / 0.03) 4px)",
-        }}
-      />
+      <div className="nf-registers">
+        {/* Rendered only when something really scored. An empty "did you mean"
+            block is a worse answer than no block at all. */}
+        {suggestions.length > 0 && (
+          <section className="shell-notfound-section" aria-labelledby="notfound-near">
+            <h2 id="notfound-near" className="shell-eyebrow">YAKIN KAYITLAR</h2>
+            <ShellIndexList
+              compact
+              ariaLabel="İstenen adrese en yakın sayfalar"
+              items={suggestions.map((path, index) => ({
+                to: path,
+                title: labelFor(path),
+                description: path,
+                index: `Y${index + 1}`,
+              }))}
+            />
+          </section>
+        )}
 
-      {/* Vignette */}
-      <div
-        className="fixed inset-0 z-[4] pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse at center, transparent 40%, rgb(var(--surface-base-rgb) / 0.6) 100%)",
-        }}
-      />
-
-      {/* Logo top-left */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 0.7, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.6 }}
-        className="fixed top-8 left-8 z-10"
-      >
-        <Link
-          to="/"
-          className="text-sm font-extrabold tracking-[0.15em] uppercase text-foreground/70 hover:text-foreground/100 transition-opacity no-underline"
-        >
-          MAS<span className="text-primary">TECHNIC</span>
-        </Link>
-      </motion.div>
-
-      {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-8">
-        {/* 404 */}
-        <motion.div
-          initial={{ opacity: 0, y: 30, scale: 0.95, filter: "blur(10px)" }}
-          animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="relative select-none leading-[0.85]"
-          style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: "clamp(8rem, 18vw, 16rem)",
-            fontWeight: 500,
-            letterSpacing: "-0.04em",
-            color: "transparent",
-            background: "linear-gradient(180deg, hsl(var(--primary) / 0.15) 0%, hsl(var(--primary) / 0.04) 100%)",
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            WebkitTextStroke: "1.5px hsl(var(--primary) / 0.35)",
-          }}
-        >
-          404
-        </motion.div>
-
-        {/* Divider */}
-        <motion.div
-          initial={{ opacity: 0, width: 0 }}
-          animate={{ opacity: 1, width: 80 }}
-          transition={{ delay: 0.3, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="h-px my-6"
-          style={{
-            background: "linear-gradient(90deg, transparent, hsl(var(--primary)), transparent)",
-          }}
-        />
-
-        {/* Message */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="text-muted-foreground font-light uppercase tracking-[0.06em] max-w-[500px]"
-          style={{ fontSize: "clamp(1rem, 2.5vw, 1.35rem)" }}
-        >
-          Aradığınız sayfa <strong className="text-primary font-semibold">bulunamadı</strong>
-        </motion.p>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="text-muted-foreground/50 text-sm font-light tracking-wider mt-2"
-        >
-          Bu koordinatlarda işlenecek parça yok.
-        </motion.p>
-
-        {/* Quick Links Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.85, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-10 w-full max-w-lg"
-        >
-          {[
-            { label: "Ana Sayfa", to: "/", icon: Home },
-            { label: "Hizmetlerimiz", to: "/#hizmetler", icon: Search },
-            { label: "Teklif Al", to: "/teklif-al", icon: FileQuestion },
-            { label: "SSS", to: "/sss", icon: HelpCircle },
-          ].map((link, i) => (
-            <motion.div
-              key={link.to}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.95 + i * 0.08 }}
-            >
-              <Link
-                to={link.to}
-                className="flex flex-col items-center gap-2.5 p-4 rounded-lg border border-border/20 bg-card/30 backdrop-blur-sm hover:border-primary/40 hover:bg-primary/5 transition-all duration-300 group"
-              >
-                <link.icon
-                  size={18}
-                  className="text-muted-foreground/60 group-hover:text-primary group-hover:scale-110 transition-all duration-300"
-                />
-                <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground/60 group-hover:text-foreground transition-colors">
-                  {link.label}
-                </span>
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="flex gap-4 mt-8 flex-col sm:flex-row w-full max-w-xs sm:max-w-none sm:w-auto"
-        >
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-primary text-primary-foreground font-semibold text-xs uppercase tracking-[0.12em] no-underline transition-all duration-300 hover:-translate-y-0.5"
-            style={{ boxShadow: "0 8px 30px hsl(var(--primary) / 0.2)" }}
-          >
-            <ArrowLeft size={14} />
-            Ana Sayfa
-          </Link>
-          <Link
-            to="/iletisim"
-            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-primary/10 text-primary border border-primary/30 font-semibold text-xs uppercase tracking-[0.12em] no-underline transition-all duration-300 hover:text-primary-foreground hover:bg-primary hover:-translate-y-0.5"
-          >
-            İletişim
-          </Link>
-        </motion.div>
+        <section className="shell-notfound-section" aria-labelledby="notfound-directory">
+          <h2 id="notfound-directory" className="shell-eyebrow">SAYFA DİZİNİ</h2>
+          <ShellIndexList compact ariaLabel="Sayfa dizini" items={DIRECTORY} />
+        </section>
       </div>
 
-      {/* Coords bottom-right */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 0.3, y: 0 }}
-        transition={{ delay: 1.2, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed bottom-8 right-8 z-10 text-right hidden sm:block"
-        style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: "0.65rem",
-          color: "hsl(var(--muted-foreground))",
-          lineHeight: 1.8,
-          letterSpacing: "0.05em",
-        }}
-      >
-        <div>ERR::PAGE_NOT_FOUND</div>
-        <div>
-          STATUS: 404 · REDIRECT: {countdown}s
-        </div>
-      </motion.div>
+      <div className="nf-report">
+        <ShellAction to="/iletisim" variant="quiet">Bu bağlantıyı bize bildirin</ShellAction>
+      </div>
     </div>
   );
+
+  if (!shell) return <div className="shell-root shell-notfound-bare" data-shell-surface="graphite">{body}</div>;
+  return <PageShell surface="graphite" rail={{ no: "404", label: "HATA" }}>{body}</PageShell>;
 };

@@ -1,0 +1,66 @@
+09b-1-C2 — OAUTH NOTICE: PROTOTYPE, ASSERTION, REFERENCE, AGE
+
+A/B/C — ONE DOCUMENT PER CASE
+  proto-constructor                      label="GİRİŞ TAMAMLANAMADI" ref="constructor"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: constructor
+  proto-__proto__                        label="GİRİŞ TAMAMLANAMADI" ref="server_error"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: server_error
+  proto-toString                         label="GİRİŞ TAMAMLANAMADI" ref="tostring"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: tostring
+  proto-valueOf                          label="GİRİŞ TAMAMLANAMADI" ref="valueof"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: valueof
+  proto-hasOwnProperty                   label="GİRİŞ TAMAMLANAMADI" ref="hasownproperty"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: hasownproperty
+  proto-bucket-constructor               label="GİRİŞ TAMAMLANAMADI" ref="constructor"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: constructor
+  assert-user_banned                     label="GİRİŞ TAMAMLANAMADI" ref="user_banned"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: user_banned
+  assert-identity_already_exists         label="GİRİŞ TAMAMLANAMADI" ref="identity_already_exists"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: identity_already_exists
+  assert-email_exists                    label="GİRİŞ TAMAMLANAMADI" ref="email_exists"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: email_exists
+  assert-provider_email_needs_verification label="GİRİŞ TAMAMLANAMADI" ref="provider_email_needs_verification"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: provider_email_needs_verification
+  kept-access_denied                     label="İZİN VERİLMEDİ" ref="access_denied"
+      İZİN VERİLMEDİGiriş izni verilmediği için işlem tamamlanmadı.Yeniden deneyebilir veya e-posta ve şifrenizle giriş yapabilirsiniz.KOD: access_denied
+  kept-flow_state_expired                label="OTURUM DÜŞTÜ" ref="flow_state_expired"
+      OTURUM DÜŞTÜGiriş adımı zaman aşımına uğradı.Baştan başlamak için butona yeniden basın; bu genellikle sekme uzun süre açık kaldığında olur.KOD: flow_state_expired
+  kept-provider_disabled                 label="SAĞLAYICI KAPALI" ref="provider_disabled"
+      SAĞLAYICI KAPALIBu sağlayıcı ile giriş şu anda kullanılamıyor.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse bize bildirin.KOD: provider_disabled
+  ref-qa-sentence                        label="GİRİŞ TAMAMLANAMADI" ref="server_error"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: server_error
+  ref-underscore-sentence                label="GİRİŞ TAMAMLANAMADI" ref="sifrenizi_yeniden_girin"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: sifrenizi_yeniden_girin
+  ref-punctuation                        label="GİRİŞ TAMAMLANAMADI" ref="server_error"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: server_error
+  ref-url                                label="GİRİŞ TAMAMLANAMADI" ref="server_error"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: server_error
+  ref-uppercase                          label="GİRİŞ TAMAMLANAMADI" ref="user_banned"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: user_banned
+  ref-too-long                           label="GİRİŞ TAMAMLANAMADI" ref="server_error"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: server_error
+  ref-real-longest                       label="GİRİŞ TAMAMLANAMADI" ref="provider_email_needs_verification"
+      GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: provider_email_needs_verification
+
+D — AGE OF A GENUINE RETURN (performance.now() at DOM insertion)
+  bounce   warm              656.6 ms  landed=/giris  OTURUM DÜŞTÜ
+  direct   warm              534.6 ms  landed=/giris  OTURUM DÜŞTÜ
+  bounce   6x CPU + 3G     12715.8 ms  landed=/giris  OTURUM DÜŞTÜ
+  direct   6x CPU + 3G      9102.9 ms  landed=/giris  OTURUM DÜŞTÜ
+  bounce   20x CPU + 2G       null ms  landed=null  NO NOTICE — login mounted=false, doc 85138.8 ms old
+  direct   20x CPU + 2G       null ms  landed=null  NO NOTICE — login mounted=true, doc 83008 ms old
+
+D — THE STALE CASE, NO SESSION, SAME DOCUMENT
+  /malzemeler  waited   1500 ms → /giris=true  notice=false  age=null  label=null  hash=""  docAge=3477.8
+  /malzemeler  waited  20000 ms → /giris=true  notice=false  age=null  label=null  hash=""  docAge=21709.8
+  /sss         waited   1500 ms → /giris=true  notice=false  age=null  label=null  hash=""  docAge=3118.3
+  /            waited   1500 ms → /giris=true  notice=false  age=null  label=null  hash=""  docAge=3146.7
+
+guard canary: BLOCKED:Failed to fetch
+age bounce (warm) — 656.6 ms on /giris
+age direct (warm) — 534.6 ms on /giris
+age bounce (6x CPU + 3G) — 12715.8 ms on /giris
+age direct (6x CPU + 3G) — 9102.9 ms on /giris
+age bounce (20x CPU + 2G) — NO NOTICE (document was 85138.8 ms old at read)
+age direct (20x CPU + 2G) — NO NOTICE (document was 83008 ms old at read)
+network — requested 76, blocked 76, allowed 0

@@ -1,0 +1,12 @@
+(node:23480) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:18668) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+P09A4_JSON=reports/qa/phase-09a-r4/evidence/sla-sweep-replica-desktop-1280.json (committed evidence, QA_P09A4_WRITE_EVIDENCE=1)
+SLA_REPLICA passes=56,56 disagreed=["/","/endustriyel/prototip-uretim"] misses=14 racedNotAbsent=2 genuinelyAbsent=12
+  ✓  1 [desktop-1280] › e2e\qa-p09a4-sla-wobble.spec.ts:211:1 › sweep replica: which of the 63 routes moves, and what it looks like when it does (4.3m)
+
+  1 passed (4.5m)

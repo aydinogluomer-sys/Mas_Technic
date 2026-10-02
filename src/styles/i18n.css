@@ -1,0 +1,116 @@
+/* ── ROUND 2 · LANGUAGE SWITCH (item 14) ──────────────────────────────────
+   Five codes in a row, the current one underlined. In the bar on desktop,
+   inside the menu's conversion row everywhere. */
+.lang-switch { display: flex; align-items: center; gap: 0; }
+.lang-switch button {
+  display: grid;
+  min-width: 44px;
+  min-height: 44px;
+  place-items: center;
+  border: 0;
+  padding: 0 4px;
+  color: var(--tl-on-dark-faint);
+  background: none;
+  font: 600 11px/1 var(--tl-font-mono);
+  letter-spacing: .08em;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+  cursor: pointer;
+  transition: color .25s ease, text-decoration-color .25s ease;
+}
+.lang-switch button:is(:hover, :focus-visible) { color: var(--tl-white); }
+.lang-switch button[aria-pressed="true"] { color: var(--tl-white); text-decoration-color: var(--tl-bronze-light); }
+
+/* The bar makes room: the context readout gives two master columns to the
+   actions (brand 3 · context 4 · actions 5). */
+@media (min-width: 1181px) {
+  .tl-header-context { grid-column: span 4; }
+  .tl-header-actions { grid-column: span 5; }
+}
+/* ── Header language dropdown (revision 4) ─────────────────────────────── */
+.lang-dropdown { position: relative; flex: none; }
+.lang-dropdown-button {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  padding-inline: var(--tl-s2);
+  color: var(--tl-white);
+  background: none;
+  font: 600 11px/1 var(--tl-font-mono);
+  letter-spacing: .08em;
+  cursor: pointer;
+}
+.lang-dropdown-button svg { width: 14px; height: 14px; transition: transform .2s ease; }
+.lang-dropdown[data-open] .lang-dropdown-button svg { transform: rotate(180deg); }
+.lang-dropdown-button:is(:hover, :focus-visible) { background: var(--tl-tint-hover); }
+.lang-dropdown-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 168px;
+  margin: 0;
+  padding: 4px 0;
+  border: var(--tl-rule-size) solid var(--tl-control-rule);
+  background: var(--tl-black);
+  list-style: none;
+  outline: none;
+}
+.lang-dropdown-list li {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tl-s3);
+  padding-inline: var(--tl-s3);
+  color: var(--tl-on-dark-meta);
+  font: 600 11px/1 var(--tl-font-mono);
+  letter-spacing: .08em;
+  cursor: pointer;
+}
+.lang-dropdown-list li small { font: 500 12px/1 var(--tl-font-sans); letter-spacing: 0; }
+.lang-dropdown-list li[data-active] { color: var(--tl-white); background: var(--tl-tint-raise); }
+.lang-dropdown-list li[aria-selected="true"] span { text-decoration: underline; text-decoration-color: var(--tl-bronze-light); text-underline-offset: 5px; }
+@media (max-width: 767px) {
+  .lang-switch--header { display: none; }
+}
+.tl-menu-conversion .lang-switch--menu { margin-right: var(--tl-s4); }
+@media (max-width: 767px) {
+  .tl-menu-conversion .lang-switch--menu { order: 0; flex: 1 1 100%; justify-content: center; margin-right: 0; }
+}
+
+/* Chinese: a CJK face after the Latin families (loaded only for zh). */
+html[lang^="zh"] {
+  --tl-font-sans: "Space Grotesk", "Noto Sans SC", "Space Grotesk Fallback", system-ui, sans-serif;
+  --tl-font-serif: "Newsreader", "Noto Sans SC", "Newsreader Fallback", Georgia, serif;
+  --tl-font-mono: "IBM Plex Mono", "Noto Sans SC", "IBM Plex Mono Fallback", ui-monospace, monospace;
+}
+
+/* The trigger keeps its size when a longer CTA label (RU, DE) widens the
+   actions group; without this the flex row squeezed "МЕНЮ" onto its rules. */
+.tl-menu-trigger { flex: none; }
+
+/* Russian runs roughly a fifth wider than the Turkish headline the hero was
+   set for: the display size steps down so the title stays in its columns
+   and the longest word fits a 375px screen. */
+html[lang="ru"] .shell-root .tl-hero-copy h1 { font-size: clamp(34px, 3.7vw, 64px); }
+@media (max-width: 767px) {
+  html[lang="ru"] .shell-root .tl-hero-copy h1 { font-size: clamp(28px, 8.4vw, 40px); }
+}
+
+/* Between 768 and 1023 the four actions (language ▾ · NEXUS · quote · menu)
+   need the context column; the page name is in the page's own heading. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tl-header-context { visibility: hidden; }
+}
+
+/* The menu's language row is five 44px targets (220px) plus padding; at 320
+   that is wider than the menu body and pushed the whole sheet — close button
+   included — past the right safe area. The row wraps instead, and no body row
+   may widen its grid track. */
+.tl-menu-body > * { min-width: 0; }
+.tl-menu-conversion .lang-switch--menu { flex-wrap: wrap; justify-content: center; max-width: 100%; }

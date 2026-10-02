@@ -1,19 +1,23 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-import {
-  CAD_ACCEPTED_EXTENSIONS,
-  CAD_MAX_FILE_SIZE,
-  createCadStoragePath,
-  uploadCadFile,
-  validateCadFile,
-} from "@/utils/cadUpload";
+import { CAD_ACCEPTED_EXTENSIONS, CAD_MAX_FILE_SIZE, validateCadFile } from "@/utils/cadFiles";
+
+/* Toasts are only ever raised after a file is chosen, so sonner is fetched then
+   rather than with the landing. */
+const toast = async () => (await import("sonner")).toast;
 
 /** Gizli file input'una verilebilecek accept değeri — tek doğruluk kaynağından üretilir. */
 export const CAD_ACCEPT_ATTR = CAD_ACCEPTED_EXTENSIONS.map((ext) => `.${ext}`).join(",");
 
 /** "STEP, STP, STL, OBJ, IGES, IGS, 3MF · Maks. 50 MB" — elle yazılmaz, sabitlerden türetilir. */
 export const CAD_FORMAT_HINT = `${CAD_ACCEPTED_EXTENSIONS.map((ext) => ext.toUpperCase()).join(", ")} · Maks. ${Math.round(CAD_MAX_FILE_SIZE / (1024 * 1024))} MB`;
+
+/**
+ * Rozet listesi. Elle yazılan liste `.x_t`/`.x_b` gibi doğrulayıcının
+ * reddettiği formatları yayınlamıştı; §J `ACCEPTED_CAD_FORMATS:
+ * DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION` gereği tek kaynaktan türetilir.
+ */
+export const CAD_FORMAT_CHIPS = CAD_ACCEPTED_EXTENSIONS.map((ext) => ext.toUpperCase());
 
 /**
  * CAD dosyasını doğrular, yükler ve teklif formuna devreder.
@@ -29,7 +33,7 @@ export function useCadHandoff(draftRfqId: string) {
     async (file: File) => {
       const validationError = validateCadFile(file);
       if (validationError) {
-        toast.error(validationError);
+        void toast().then((t) => t.error(validationError));
         return;
       }
 
@@ -37,15 +41,19 @@ export function useCadHandoff(draftRfqId: string) {
       setIsUploading(true);
       setProgress(2);
       try {
+        /* Loaded on the first file, not with the landing: the uploader
+           carries the Supabase client. */
+        const { createCadStoragePath, uploadCadFile } = await import("@/utils/cadUpload");
         const uploaded = await uploadCadFile(file, createCadStoragePath(file, draftRfqId), (nextProgress) => {
           setProgress(nextProgress.percent);
         });
         sessionStorage.setItem("mas_pending_cad_upload", JSON.stringify(uploaded));
         (window as unknown as { __heroUploadFile?: File }).__heroUploadFile = file;
-        toast.success("CAD dosyası yüklendi. Teklif formuna aktarılıyor.");
+        void toast().then((t) => t.success("CAD dosyası yüklendi. Teklif formuna aktarılıyor."));
         navigate("/teklif-al");
       } catch (error) {
-        toast.error(error instanceof Error ? error.message : "Dosya yüklenemedi.");
+        const message = error instanceof Error ? error.message : "Dosya yüklenemedi.";
+        void toast().then((t) => t.error(message));
       } finally {
         setIsUploading(false);
       }

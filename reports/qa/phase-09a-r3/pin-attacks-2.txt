@@ -1,0 +1,6 @@
+A6-tuple-intact-derivation-appends-dwg     tsc=0 gate=0  *** HOLE — BOTH INSTRUMENTS GREEN ***
+A7-tuple-intact-derivation-truncates       tsc=0 gate=0  *** HOLE — BOTH INSTRUMENTS GREEN ***
+A8-whitespace-only-reformat                tsc=0 gate=1  FALSE POSITIVE
+A9-single-quotes                           tsc=0 gate=1  FALSE POSITIVE
+
+working tree verified clean after every attack.

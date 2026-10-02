@@ -1,12 +1,17 @@
 import { createRoot } from "react-dom/client";
 import { App } from "./App.tsx";
+import { ErrorBoundary } from "./components/ErrorBoundary.tsx";
+import { installHeroShellTeardown } from "./lib/hero-shell.ts";
 import "./index.css";
+import "./i18n";
 
-// index.html'deki app-shell hero yalnız landing için var; orada LandingFlow
-// gerçek hero'yu boyadıktan sonra kaldırıyor. Diğer rotalarda hiç gösterilmemeli
-// (tam ekran kaplıyor), bu yüzden React render etmeden önce siliniyor.
-if (window.location.pathname !== "/") {
-  document.getElementById("hero-shell")?.remove();
-}
+// `index.html` app-shell hero'sunun tek teardown sahibi. Eskiden bu iş
+// `LandingFlow`'daydı ve o bileşen yalnız dev-only `/legacy-landing`'de render
+// edildiği için shell, var olma sebebi olan `/` rotasında hiç kaldırılmıyordu.
+installHeroShellTeardown();
 
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(
+  <ErrorBoundary>
+    <App />
+  </ErrorBoundary>,
+);

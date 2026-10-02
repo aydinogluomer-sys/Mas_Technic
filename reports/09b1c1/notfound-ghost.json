@@ -1,0 +1,135 @@
+{
+  "canary": "BLOCKED:Failed to fetch",
+  "rows": [
+    {
+      "name": "notfound-ghost",
+      "path": "/olmayan-sayfa/cnc-frezelme",
+      "selector": ".shell-notfound .shell-action--ghost",
+      "found": true,
+      "tone": "paper",
+      "borderRaw": "rgba(18, 23, 25, 0.54)",
+      "ground": "rgb(251, 248, 241)",
+      "newFlat": [
+        125,
+        126,
+        124
+      ],
+      "width": 148.297,
+      "height": 44,
+      "left": 225.297,
+      "top": 1691.031,
+      "oldFlat": [
+        181,
+        181,
+        176
+      ],
+      "pixelmatchDelta": 1526.888178869761,
+      "cutoff": 1408.6016000000004,
+      "counted": true
+    },
+    {
+      "name": "hero-contact-ghost",
+      "path": "/iletisim",
+      "selector": ".shell-hero .shell-action--ghost",
+      "found": true,
+      "tone": "graphite",
+      "borderRaw": "rgba(227, 231, 225, 0.44)",
+      "ground": "rgb(7, 11, 13)",
+      "newFlat": [
+        104,
+        108,
+        106
+      ],
+      "width": 193.828,
+      "height": 44,
+      "left": 229.297,
+      "top": 404.438,
+      "oldFlat": [
+        69,
+        73,
+        72
+      ],
+      "pixelmatchDelta": 614.9996935059997,
+      "cutoff": 1408.6016000000004,
+      "counted": false
+    },
+    {
+      "name": "next-service-ghost",
+      "path": "/hizmetler/cnc-frezeleme",
+      "selector": ".shell-next .shell-action--ghost",
+      "found": true,
+      "tone": "graphite",
+      "borderRaw": "rgba(227, 231, 225, 0.44)",
+      "ground": "rgb(7, 11, 13)",
+      "newFlat": [
+        104,
+        108,
+        106
+      ],
+      "width": 186.234,
+      "height": 44,
+      "left": 225.297,
+      "top": 6599.828,
+      "oldFlat": [
+        69,
+        73,
+        72
+      ],
+      "pixelmatchDelta": 614.9996935059997,
+      "cutoff": 1408.6016000000004,
+      "counted": false
+    },
+    {
+      "name": "footer-secondary",
+      "path": "/hakkimizda",
+      "selector": "footer.tl-footer .shell-footer-secondary",
+      "found": true,
+      "tone": "graphite",
+      "borderRaw": "rgba(227, 231, 225, 0.44)",
+      "ground": "rgb(7, 11, 13)",
+      "newFlat": [
+        104,
+        108,
+        106
+      ],
+      "width": 116.703,
+      "height": 40,
+      "left": 1074.281,
+      "top": 3088.922,
+      "oldFlat": [
+        69,
+        73,
+        72
+      ],
+      "pixelmatchDelta": 614.9996935059997,
+      "cutoff": 1408.6016000000004,
+      "counted": false
+    },
+    {
+      "name": "footer-social",
+      "path": "/hakkimizda",
+      "selector": "footer.tl-footer .tl-social a",
+      "found": true,
+      "tone": "graphite",
+      "borderRaw": "rgba(227, 231, 225, 0.44)",
+      "ground": "rgb(7, 11, 13)",
+      "newFlat": [
+        104,
+        108,
+        106
+      ],
+      "width": 26,
+      "height": 26,
+      "left": 81,
+      "top": 3148.922,
+      "oldFlat": [
+        69,
+        73,
+        72
+      ],
+      "pixelmatchDelta": 614.9996935059997,
+      "cutoff": 1408.6016000000004,
+      "counted": false
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+test(qa): Phase 08 round 3 — PASS. Both blocking defects verified fixed, three premises falsified, and the new guard found a second instance of R2-1 on a Phase 07 surface
+
+STATUS PASS. 1168 passed / 5 failed / 557 skipped / 6 new tests.
+
+The five failures are three causes and none of them is Phase 08's:
+  R3-1 (2 tests, mobile-320 only)  PRE-EXISTING, Phase 07's, found by the new
+                                   guard on its first run
+  R2-3 (2 tests)                   CARRIED to Phase 10 per A23, unchanged
+  B25 stall (1 test, tablet-768)   context teardown under memory pressure;
+                                   green in 9.9s on isolated re-run
+
+VERIFIED
+
+R2-1 fixed. 24 of 24 cells reachable at 320/375/390 with tabindex="0",
+role="group", aria-label; ArrowRight drives the region to max (308/253/238).
+768/1280/1440 unchanged, proven by restoring the pre-C4 markup into the live
+DOM and re-measuring the same layout pass, not by trusting a claim.
+
+R2-2 fixed. All eight rewritten sentences render as quoted. Every attribute
+madde 01 publishes is measured: 29.9-minute lifetime, httpOnly, secure,
+sameSite None, document.cookie EMPTY on /giris, two newassets.hcaptcha.com
+iframes, no interaction required. /kvkk madde 04 carries no numeral and the
+supplier transfer is inside the enumeration at p5 of 7. Nothing anywhere claims
+what hCaptcha or Cloudflare do after receipt — one broad-scan hit, adjudicated
+in the checker with its reason, because the deleting party is the reader's own
+browser. `__cf_bm`'s absence from madde 02 is correct AND its reasoning holds:
+the note's two properties both fail for it, and both were measured.
+
+Footer invariant holds under four rename scenarios; 3a reproduces C4's OLD 0x
+exactly. bantOrani still 0.23203125 from a 297.0000px band, columns 5/6/5/6.
+116 goldens byte-identical before and after all four visual projects; manifest
+hash unchanged; --update-snapshots never run in any round.
+
+THREE PREMISES FELL, AND ONE IS THE PACKET'S OWN
+
+1. The guard predicate I was asked to write is INERT on the defect it was
+   written for. `scrollWidth <= clientWidth + 1 || isScrollable(el)` measures
+   TRUE on R2-1 at all three widths, because the pre-fix scroll region FIT ITS
+   OWN BOX (584 in 584) and was simply 627.875px wide in a 375px viewport. The
+   guard is built on the container's own right edge and on whether a forced
+   scrollLeft sticks.
+2. My round-2 "≥1024" footer boundary is wrong; C4's 1181 is right. 1024
+   measures `150px 150px`, identical to 768. C4's boundary ratios reproduce
+   digit for digit.
+3. C4's "reachable by End" does not reproduce. End moves nothing — the region
+   has no vertical overflow. ArrowRight is the key, and it works.
+
+And two instrument bugs of my own, found before the guard was trusted: a walk
+that reported zero tables on /malzemeler, and a header sweep that reported four
+reachable columns as lost because it assumed cell and table share an
+offsetParent.
+
+TEST 3 RE-AIMED PER A24, and the file argues it. The old assertion encoded a
+published claim that has been retired because it was false, so it now fails on
+a correctly disclosed cookie. The new one checks name AND domain coverage, goes
+red on `__cf_bm@.evil.example` — the case the old one could not distinguish —
+and is immune to the ephemeral worker hostname that gave two entries in one run
+and one in another. Both existing controls extended; three more run inline on
+the live observed set.
+
+POLISH: it ships. Every cell is reachable; the 228.5px of blank on the
+mas_intro_seen row is a legibility cost, not information loss. The only
+shortening that costs no verified fact buys 65px of 705 — 9% — and I decline
+that trade on a legal page this phase spent three rounds teaching to carry its
+facts. What I would raise instead is not this page's: `.shell-table-scroll` has
+NO affordance that it scrolls sideways, on any of 16 tables across 8 routes.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01PU8PxAzhQSjnrAaemT7bQ5

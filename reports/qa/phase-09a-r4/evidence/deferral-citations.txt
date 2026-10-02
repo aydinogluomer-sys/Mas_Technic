@@ -1,0 +1,49 @@
+# 09a-R4 item 7 - is the 09b software-inventory deferral discoverable where it was put?
+
+## the citation, in scripts/claims-gate.mjs at HEAD 184abf2
+           which is the failure mode `runControls` exists to prevent. It is
+           replaced by the two strings in this class that are LIVE, so the
+           control fails the day either of them changes.
+
+           Those two, plus `:774`, `:779`, `:797` and `:804`, are the SOFTWARE
+           INVENTORY class and they are deferred to 09b AS ONE DECISION. Gating
+           them here is not possible without taking that decision: the removed
+           `"CATIA, SolidWorks, NX entegre çalışma"` is the same shape as the
+           live `"3D Modelleme (CATIA/SolidWorks)"` down to the punctuation, so
+           any rule that catches one catches all six. See the return for
+           09a-C4. */
+        { file: "src/data/servicePages.ts", text: '{ label: "CAD", value: "SolidWorks, CATIA, NX" },' },
+        '"CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans analizi simülasyonu."',
+
+## what src/data/servicePages.ts :774 :779 :797 :804 CONTAIN at HEAD
+774:           ["CNC İşleme", "1", "$$$$", "Yok", "Mükemmel"],
+779:     ],
+797:       "Torna Fikstürü — Milliyelti ve milliyetsiz",
+804:       { label: "Tekrarlanabilirlik", value: "±0.01mm" },
+
+## what those SAME line numbers contained at 8b5ee92 (pre-C4)
+## -- the four fikstur-aparat software-inventory sites, i.e. what was meant
+774:     metaDescription: "CNC işleme, montaj, kaynak ve kontrol için özel fikstür tasarımı. ±0.01mm tekrarlanabilirlik. CATIA/SolidWorks ile 3D modelleme ve simülasyon.",
+779:       "CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans analizi simülasyonu, 3D baskı veya hızlı imalat ile prototip üretimi ve üretim ortamında doğrulama test & onay süreçleri ile profesyonel tasarım hizmeti veriyoruz.",
+797:       "3D Modelleme (CATIA/SolidWorks)",
+804:       "CATIA/SolidWorks ile profesyonel tasarım",
+
+## where those four strings ACTUALLY are at HEAD (+14 lines, all four)
+788:    metaDescription: "CNC işleme, montaj, kaynak ve kontrol için özel fikstür tasarımı. ±0.01mm tekrarlanabilirlik. CATIA/SolidWorks ile 3D modelleme ve simülasyon.",
+793:      "CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans analizi simülasyonu, 3D baskı veya hızlı imalat ile prototip üretimi ve üretim ortamında doğrulama test & onay süreçleri ile profesyonel tasarım hizmeti veriyoruz.",
+811:      "3D Modelleme (CATIA/SolidWorks)",
+818:      "CATIA/SolidWorks ile profesyonel tasarım",
+
+## the other two of the six live sites
+3318:      "Proje yönetimi — konseptten üretime tüm süreçler tek çatı altında: fizibilite analizi, tasarım (SolidWorks, CATIA, NX), prototip üretimi, test ve doğrulama, pilot üretim ve seri üretim geçişi. Her proje özel bir proje mühendisi tarafından yönetilir.",
+3332:      { label: "CAD", value: "SolidWorks, CATIA, NX" },
+
+## PROGRESS.md cites :3292 / :3306 for that pair - also stale (+26)
+2337:meant. And `servicePages.ts:3292` / `:3306` carry `{ label: "CAD", value: "SolidWorks, CATIA, NX" }` on
+
+## why: 09a-C4 added 14 comment lines at servicePages.ts:132 and 12 more at :2028,
+## so every citation below :132 written before 90ea958 is off by 14, and every
+## citation below :2028 written before both is off by 26.
+
+## and the deferral is NOT in IMPLEMENTATION.md at all:
+0 occurrences of '09b' in IMPLEMENTATION.md

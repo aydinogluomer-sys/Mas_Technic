@@ -1,0 +1,14 @@
+baseline-F2b-verbatim              as expected    fired=true  delivery-or-quality-rate
+      src/data/servicePages.ts:2065: [label: "Maliyet Tasarrufu", value: "Ortalama %30-50"] { label: "Maliyet Tasarrufu", value: "Ortalama %30-50" },
+softened-zaman-kazanci             *** MISS ***   fired=false 
+softened-maliyet-kazanci           *** MISS ***   fired=false 
+softened-verim-kazanci             *** MISS ***   fired=false 
+unsoftened-kazanc-control          as expected    fired=true  delivery-or-quality-rate
+      src/data/servicePages.ts:2065: [label: "Zaman Kazanç", value: "%25"] { label: "Zaman Kazanç", value: "%25" },
+tasarrufu-possessive-control       as expected    fired=true  delivery-or-quality-rate
+      src/data/servicePages.ts:2065: [label: "Maliyet Tasarrufu", value: "%25"] { label: "Maliyet Tasarrufu", value: "%25" },
+prose-softened-kazanc              *** MISS ***   fired=false 
+prose-softened-kazanc-no-other-noun *** MISS ***   fired=false 
+negative-ordinary-spec             as expected    fired=false 
+
+working tree verified clean after every candidate.

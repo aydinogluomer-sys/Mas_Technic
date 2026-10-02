@@ -1,3 +1,96 @@
+import {
+  CAD_UPLOAD_EXTENSIONS,
+  CAD_UPLOAD_FORMATS,
+  LEAD_TIME_SHORT,
+  LEAD_TIME_STATEMENT,
+  QUOTE_RESPONSE_TIME,
+} from "@/content/claims";
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BU DOSYA BİR YAYIN YÜZEYİDİR — 09a-C2
+
+   Üç ayrı yol buradan ziyaretçiye çıkar: `ServiceDetail.tsx` sayfayı basar,
+   `CategoryPage.tsx` liste kartlarını üretir ve `chatFaqData.ts`
+   `collectServiceFaqs()` ile buradaki HER `faq` girdisini sohbet botunun
+   yanıt havuzuna taşır. Yani bu dosyadaki bir teslim süresi, aynı anda bir
+   sayfa metni, bir arama sonucu ve bir sohbet yanıtıdır.
+
+   09a-C2 SÜPÜRMESİ — ÜRETİM/TESLİM SÜRELERİ
+   -----------------------------------------
+   `USER_INPUTS.md` §D tolerans, teklif dönüş süresi, malzeme sayısı, CMM
+   kapsamı, zamanında teslim oranı ve dört ölçek rakamı verir. TERMİN,
+   LEAD TIME veya TESLİM SÜRESİ diye bir alan YOKTUR; §J `QUOTE_SLA: 1-3 Days`
+   ise teklifin saati, parçanın değil. Bu dosya on bir sayfada `3-5 iş günü`,
+   `7-15 iş günü`, `24 saat`, `24-72 saat`, `2-3 hafta`, `4-8 hafta` gibi
+   teslim taahhütleri yayımlıyordu; hiçbirinin dayanağı yoktu.
+
+   Kural: SÜRE GEREKTİREN HER YERDE TEK KAYNAK `@/content/claims`.
+     · `QUOTE_RESPONSE_TIME` — yetkili tek süre (teklif dönüşü, §D + §J).
+     · `LEAD_TIME_STATEMENT` / `LEAD_TIME_SHORT` — yetkisiz sürenin yerine
+       geçen mekanizma cümlesi. Yeni bir iddia değil; site zaten bunu diyor.
+     · `PRODUCTION_LEAD_TIME` — açıkça WITHHELD. Geri getirmek tip hatasıdır.
+
+   Rakam olmayan taahhütler de aynı sınıftadır ve aynı sebeple kaldırıldı:
+   "aynı gün teslimat", "ekspres hizmet", "acil tedarik", "gece-gündüz
+   kesintisiz üretim". Bir vardiya düzeni de, bir hizmet kademesi de, sayı
+   içermeden verilmiş bir termin sözüdür.
+
+   TAM SÜTUN KURALI: bir karşılaştırma tablosunun süre SÜTUNUNUN tamamı
+   yetkisizse sütun kaldırılır — beş hücreye "Teklifle birlikte" yazmak bilgi
+   taşımayan bir sütun bırakır. Süre, sınıfları karışık bir satır listesinin
+   içinde tek bir hücreyse nötralize edilir.
+
+   Makine yarısı: `scripts/claims-gate.mjs` → `unverified-production-lead-time`
+   ve `express-service-tier`.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   KABUL EDİLEN CAD FORMATLARI — TÜRETİLİR, YAZILMAZ — 09a-C3
+
+   TEK YETKİ `src/utils/cadUpload.ts` → `CAD_ACCEPTED_EXTENSIONS`. Ziyaretçinin
+   yüklediği dosyayı kabul eden ya da reddeden kod odur; yayımlanan cümle onun
+   bir kopyası değil, TÜREVİ olmak zorundadır. `USER_INPUTS.md` §J:
+   `ACCEPTED_CAD_FORMATS: DERIVE_FROM_CURRENT_WORKING_IMPLEMENTATION`.
+
+   NEDEN ELLE YAZILMIŞ LİSTE — DOĞRU OLANI BİLE — BİR KUSURDUR
+   -----------------------------------------------------------
+   Bu dosya iki ayrı biçimde aynı hatayı taşıyordu:
+
+     · `:134` (cnc-frezeleme SSS) ve `:89` (aynı sayfanın gövde metni)
+       "Parasolid, SolidWorks (.sldprt), CATIA (.catpart), NX (.prt) ve
+       PDF/DWG" diyordu. `validateCadFile()` bunların DOKUZUNU DA reddediyor.
+       QA çalışma anında kanıtladı: bir `.sldprt` yüklendiğinde ekranda
+       "DOSYA REDDEDİLDİ … kabul edilen formatlardan biri değil" çıkıyor.
+       Bu satır aynı zamanda sohbet botunun havuzunda: `chatFaqData.ts`
+       `collectServiceFaqs()` buradaki HER `faq` girdisini oraya taşıyor ve
+       anahtar kelimeleri soru+cevap metninden üretiyor. Yani `catia`,
+       `catpart`, `solidworks`, `sldprt` yazan ziyaretçi — yani tam olarak
+       zarar gören kişi — 1.000 skorla bu yanlış cevaba düşüyordu.
+
+     · `:1943` ("Desteklenen CAD: STEP, IGES, CATIA, NX, SW") aynı sınıf.
+
+     · `:1967` (DFM SSS) BUGÜN DOĞRU bir listeyi elle yazıyordu. Tehlikeli
+       olan da bu: `chatFaqData.ts` aynı listeyi türetiyor, dolayısıyla
+       doğrulayıcı değiştiği gün türetilmiş cevap değişir, elle yazılmış olan
+       sessizce yanlışa döner. Doğru olan bir sabit, yine de bir sabittir.
+
+   Bu yüzden dört yer de `@/content/claims` içindeki `CAD_UPLOAD_FORMATS` ya da
+   `CAD_UPLOAD_EXTENSIONS` sabitini kullanır. Kaynakta artık hiçbir format adı
+   YAZILI DEĞİL; bir uzantı eklenip çıkarıldığında dört cümle birden
+   kendiliğinden düzelir.
+
+   NEDEN `claims.ts`, NEDEN DOĞRUDAN `cadUpload.ts` DEĞİL: bu dosyayı iki
+   Playwright spec'i (`e2e/landing/navigation-reachability.spec.ts` ve
+   `e2e/shared-shell-accessibility.spec.ts`) doğrudan NODE çalışma zamanına
+   import eder. `cadUpload.ts` → `supabase/env.ts` zinciri modül seviyesinde
+   `import.meta.env` okur ve orada `undefined`tır; çalışma zamanı bağı
+   eklendiğinde `critical-1280` projesinin TAMAMI toplama aşamasında düştü
+   (ölçüldü). `claims.ts` listeyi bir kez yazar ve TİP SİSTEMİYLE
+   doğrulayıcıya sabitler — gerekçesi orada.
+
+   Makine yarısı: `scripts/claims-gate.mjs` → `cad-format-list-not-derived`.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
 export interface ComparisonTable {
   title: string;
   description?: string;
@@ -20,7 +113,10 @@ export interface ServicePageData {
   heroImage?: string;
   processSteps?: string[];
   advantages?: string[];
-  machines?: { name: string; brand: string; specs: string }[];
+  /* `machines` was removed in Phase 06. It published a named machine park
+     across nine service pages; §D marks MACHINE_COUNT PRIVATE_DO_NOT_DISCLOSE
+     and no model list was ever supplied. The field is gone from the type so
+     the data cannot come back without a deliberate decision. */
   materials?: { name: string; grade: string; properties: string }[];
   faq?: { question: string; answer: string }[];
   comparisonTables?: ComparisonTable[];
@@ -35,30 +131,54 @@ export const servicePages: ServicePageData[] = [
     title: "CNC Frezeleme",
     metaTitle: "CNC Frezeleme Hizmetleri | 5 Eksen Hassas İşleme | Mas Technic",
     metaDescription:
-      "3, 4 ve 5 eksenli CNC frezeleme ile ±0.005mm hassasiyette üretim. DMG MORI, Mazak tezgahlarla alüminyum, titanyum ve çelik işleme. Ücretsiz DFM analizi.",
+      /* 09a-C3 — D3 ile aynı sınıf, ikinci yer. "ücretsiz DFM analizi" bir
+         TİCARİ POLİTİKADIR ve `USER_INPUTS.md` hiçbir alanında yer almıyor.
+         Yumuşatılamaz — okuyucuya bir sayı değil bir taahhüt söyleniyor — o
+         yüzden yerine mekanizma yazıldı. `/sss` aynı soruyu Phase 07'de aynı
+         gerekçeyle yeniden yazmıştı.
+
+         09a-C4 / R3-4 — DÜZELTME, bu notun ÜÇÜNCÜ kopyası. Burada da
+         "`metaDescription` olduğu için arama sonucuna ve sosyal karta da
+         çıkıyordu" yazıyordu. YANLIŞTI: bu alanı hiçbir şey okumuyor.
+         `ServiceDetail.tsx` :195, :284 ve :306'da `page.description`
+         geçiriyor ve `src/**` içinde bir servis rotasında `metaDescription`
+         okuyan tek bir yer yok — 44 sayfanın hepsinde ölü veri.
+         (`LegalDocument.tsx` aynı adlı bir prop taşır; o BAŞKA bir tipin
+         başka bir prop'udur ve o okunur.)
+
+         KALDIRMA DOĞRUYDU, GEREKÇE YANLIŞTI. Yetkisiz bir iddia ölü bir
+         alanda da yetkisizdir; üstelik bu alan canlı olmaya bir `usePageMeta`
+         çağrısı uzaklıkta ve `claims-gate.mjs` tam bu yüzden onu da tarıyor.
+         Alanın bağlanması gerçek bir SEO bulgusudur ve SEO fazına aittir;
+         bir içerik düzeltmesinde karara bağlanmaz. */
+      "3, 4 ve 5 eksenli CNC frezeleme ile ±0.01 mm standart tolerans aralığında üretim. Alüminyum, titanyum ve çelik işleme, teklifle birlikte üretilebilirlik incelemesi.",
     description:
       "5 eksenli CNC frezeleme merkezlerimiz ile karmaşık geometrileri yüksek hassasiyetle işliyoruz. Alüminyumdan titanyuma, plastikten kompozitlere kadar geniş malzeme yelpazesi.",
     heroImage: "hero-cnc-frezeleme",
     content: [
-      "Mas Technic olarak, DMG MORI DMU 65 monoBLOCK ve Mazak Variaxis i-700 gibi 5 eksenli CNC freze tezgahlarımızla karmaşık geometrilere sahip parçaları tek kurulumda tamamlıyoruz. 60 adet CAT 40 takım kapasiteli otomatik takım değiştirme sistemi sayesinde kesintisiz ve yüksek verimli üretim gerçekleştiriyoruz.",
+      "5 eksenli CNC freze merkezlerimizde karmaşık geometrileri tek kurulumda tamamlıyoruz. Bağlama sayısını azaltmak yalnızca süreyi kısaltmaz; her yeni bağlama ölçü zincirine yeni bir hata kaynağı eklediği için doğrudan tolerans lehine çalışır.",
       "3 eksen frezeleme ile düz yüzeyler, cep işleme ve standart geometrilerde ekonomik çözümler üretiyoruz. 4 eksen frezeleme ile döner tabla sayesinde silindirik parçalarda kanal açma, delik delme ve profil işleme yapıyoruz. 5 eksen simultane frezeleme ile tek bağlamada en karmaşık parça geometrilerini işleyerek havacılık, medikal ve otomotiv sektörünün taleplerini karşılıyoruz.",
-      "Yüksek Hızlı İşleme (HSM) kabiliyetimiz ile 40.000 RPM'e kadar iş mili hızında ince cidarlı parçalar ve üstün yüzey kalitesi elde ediyoruz. Havacılık, otomotiv, medikal ve savunma sanayi gibi kritik sektörlere yönelik ±0.005mm konumlandırma hassasiyeti ve ±0.003mm tekrarlanabilirlik ile endüstrinin en yüksek standartlarını karşılıyoruz.",
-      "Alüminyum (6061, 7075), paslanmaz çelik (304, 316), karbon çelik, titanyum, PEEK ve POM/Delrin gibi mühendislik malzemelerinde uzmanlaşmış ekibimizle hizmetinizdeyiz. Her projede DFM analizi uygulayarak maliyetleri optimize ediyor, STEP, IGES, SolidWorks, CATIA ve NX formatlarını doğrudan işleyebiliyoruz.",
+      "Yüksek hızlı işleme (HSM) stratejileriyle ince cidarlı parçalarda kesme kuvvetini düşürüp yüzey kalitesini iyileştiriyoruz. Havacılık, otomotiv, medikal ve savunma gibi kritik sektörlerde standart çalışma aralığımız ±0.01 mm olup ulaşılabilir tolerans her parça için teknik incelemede belirlenir.",
+      /* 09a-C3 — D1'in ikinci yarısı. Bu cümle SSS'deki yanlış listenin AYNISINI
+         gövde metninde yayımlıyordu ("STEP, IGES, SolidWorks, CATIA ve NX
+         formatlarını doğrudan işleyebiliyoruz"); beş formattan üçünü
+         `validateCadFile()` reddediyor. Liste artık türetiliyor. */
+      `Alüminyum (6061, 7075), paslanmaz çelik (304, 316), karbon çelik, titanyum, PEEK ve POM/Delrin gibi mühendislik malzemelerinde uzmanlaşmış ekibimizle hizmetinizdeyiz. Her projede DFM analizi uygulayarak maliyetleri optimize ediyoruz; teklif akışındaki yükleyici ${CAD_UPLOAD_FORMATS} uzantılarını doğrular, listede olmayan yerel CAD kayıtlarını ve teknik resimleri e-posta ile alıyoruz.`,
     ],
     features: [
       "3 Eksen Frezeleme — Düz yüzeyler ve standart geometrilerde ekonomik çözüm",
       "4 Eksen Frezeleme — Döner tabla ile çevresel ve profil işleme",
       "5 Eksen Simultane — Tek bağlamada karmaşık geometriler",
       "Yüksek Hızlı İşleme (HSM) — 40.000 RPM, ince cidar ve üstün yüzey",
-      "±0.005mm Tolerans — Mikron seviyesinde tekrarlanabilirlik",
-      "24 Saat Kesintisiz Üretim — Otomatik palet değiştirme sistemi",
+      "±0.01 mm Standart Tolerans — kontrol planıyla teyit edilir",
+      "Otomatik Takım Değiştirme — uzun kesme sürelerinde kesintisiz işleme",
     ],
     technicalSpecs: [
       { label: "Maks. Parça Boyutu (3 Eksen)", value: "1500×800×600mm" },
       { label: "Maks. Parça Boyutu (5 Eksen)", value: "800×500×500mm" },
       { label: "Maks. Mil Hızı", value: "12.000-40.000 RPM" },
       { label: "Takım Kapasitesi", value: "30-120 adet (otomatik)" },
-      { label: "Konumlandırma Hassasiyeti", value: "±0.005mm" },
+      { label: "Standart Tolerans", value: "±0.01mm" },
       { label: "Yüzey Kalitesi", value: "Ra 0.4µm'ye kadar" },
     ],
     processSteps: [
@@ -71,16 +191,15 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "3, 4 ve 5 eksen konfigürasyonlarıyla her geometri",
-      "HSM ile %40 daha hızlı üretim ve üstün yüzey kalitesi",
+      /* 09a-C3 — F1. "%40 daha hızlı" kaynaksız bir performans KPI'ı; §D
+         `OTHER_PUBLIC_KPIS: NONE`. Kabiliyet kalır, doğrulanmamış sayı gider:
+         aynı sayfanın `content[2]` bölümü mekanizmayı zaten doğru anlatıyor
+         ("kesme kuvvetini düşürüp yüzey kalitesini iyileştiriyoruz"). */
+      "HSM stratejisiyle ince cidarlı parçalarda düşük kesme kuvveti ve iyi yüzey kalitesi",
       "Otomatik takım değiştirme (30-120 takım magazini)",
       "Gerçek zamanlı süreç izleme ve dijital ikiz simülasyonu",
       "Prototipten seri üretime esnek çözümler (min. 1 adet)",
-      "3-5 iş günü prototip, 7-15 iş günü seri üretim teslimatı",
-    ],
-    machines: [
-      { name: "DMG MORI DMU 65 monoBLOCK", brand: "DMG MORI", specs: "5 eksen, 650×500×450mm, 18.000 RPM" },
-      { name: "Mazak Variaxis i-700", brand: "Mazak", specs: "5 eksen, 730×460×460mm, 12.000 RPM" },
-      { name: "Haas VF-4SS", brand: "Haas", specs: "3+2 eksen, 1270×508×635mm, 12.000 RPM" },
+      "Termin, kapasite planı incelendikten sonra teklifle birlikte verilir",
     ],
     materials: [
       { name: "Alüminyum", grade: "6061-T6 / 7075-T6", properties: "Hafif, korozyona dayanıklı, iyi işlenebilirlik" },
@@ -92,10 +211,20 @@ export const servicePages: ServicePageData[] = [
     ],
     faq: [
       { question: "3 eksen mi 5 eksen mi kullanmalıyım?", answer: "Düz yüzeyler ve basit cep işlemleri için 3 eksen yeterlidir ve daha ekonomiktir. Alttan kesim, eğik yüzeyler veya tek bağlamada çok yüzey işleme gerekiyorsa 5 eksen tercih edilir." },
-      { question: "CNC frezeleme tolerans değerleriniz nedir?", answer: "Standart ±0.01mm, hassas işlemede ±0.005mm ve mikro işlemede ±0.001mm tolerans değerlerine ulaşabiliyoruz." },
-      { question: "Hangi dosya formatlarını kabul ediyorsunuz?", answer: "STEP, IGES, Parasolid, SolidWorks (.sldprt), CATIA (.catpart), NX (.prt) ve PDF/DWG teknik çizim formatlarını destekliyoruz." },
+      { question: "CNC frezeleme tolerans değerleriniz nedir?", answer: "Standart çalışma aralığımız ±0.01mm'dir. Ulaşılabilir tolerans; geometri, malzeme, parça ölçüsü ve ölçü zincirine göre değişir ve her parça için teknik incelemede belirlenir." },
+      /* 09a-C3 — D1. Eski cevap dokuz format vaat ediyordu (parasolid, sldprt,
+         solidworks, catpart, catia, prt, nx, dwg, pdf) ve `validateCadFile()`
+         dokuzunu da reddediyor. Reddedilen formatlar cümlede KALIYOR — ama
+         kabul edildikleri için değil, edilmedikleri için: `collectServiceFaqs()`
+         anahtar kelimeleri bu metinden üretir, dolayısıyla `catia`, `catpart`,
+         `solidworks`, `sldprt` yazan ziyaretçi artık DOĞRU cevaba düşer.
+         Kabul edilen listenin kendisi türetilir; kaynakta yazılı değildir. */
+      {
+        question: "Hangi dosya formatlarını kabul ediyorsunuz?",
+        answer: `Teklif akışındaki yükleyici şu uzantıları doğrular: ${CAD_UPLOAD_EXTENSIONS} — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.`,
+      },
       { question: "Minimum sipariş adedi var mı?", answer: "Hayır, tek parçadan seri üretime kadar her adette üretim yapıyoruz. Prototip siparişleri de kabul ediyoruz." },
-      { question: "Teslimat süreniz ne kadar?", answer: "Standart parçalarda 5-10 iş günü, ekspres üretimde 2 iş gününe kadar inebiliyoruz. Prototip için 3-5 iş günü." },
+      { question: "Teslimat süreniz ne kadar?", answer: LEAD_TIME_STATEMENT },
     ],
     comparisonTables: [
       {
@@ -105,7 +234,7 @@ export const servicePages: ServicePageData[] = [
         rows: [
           ["Geometri Kapasitesi", "Düz yüzeyler, cep", "Silindirik profiller", "Karmaşık serbest formlar"],
           ["Bağlama Sayısı", "2-4 bağlama", "1-2 bağlama", "Tek bağlama"],
-          ["Tolerans", "±0.02mm", "±0.01mm", "±0.005mm"],
+          ["Tolerans", "±0.05mm", "±0.02mm", "±0.01mm"],
           ["Yüzey Kalitesi", "Ra 1.6µm", "Ra 0.8µm", "Ra 0.4µm"],
           ["Setup Süresi", "Kısa", "Orta", "Uzun (ilk parça)"],
           ["Birim Maliyet", "$", "$$", "$$$"],
@@ -132,14 +261,14 @@ export const servicePages: ServicePageData[] = [
     categoryLabel: "Talaşlı İmalat",
     title: "CNC Tornalama",
     metaTitle: "CNC Tornalama Hizmetleri | Çift Milli & Swiss Torna | Mas Technic",
-    metaDescription: "CNC torna ile Ø0.5-500mm çap aralığında hassas tornalama. Canlı takımlı, Y eksenli ve Swiss tip torna. ±0.005mm hassasiyet, 24 saat üretim.",
+    metaDescription: "CNC torna ile Ø0.5-500mm çap aralığında hassas tornalama. Canlı takımlı, Y eksenli ve kayar puntalı torna. ±0.01 mm standart tolerans.",
     description:
       "Çok eksenli torna merkezlerimiz ile mil, somun, gövde ve karmaşık döner parçaları tek kurulumda tamamlayabilme kapasitesi.",
     heroImage: "hero-cnc-tornalama",
     content: [
       "CNC tornalama, silindirik ve dönme simetrisine sahip parçalar için en verimli üretim yöntemidir. C eksenli ve Y eksenli CNC torna tezgahlarımız sayesinde frezeleme operasyonlarını entegre ediyor, off-center delik ve kanal açma işlemlerini tek bağlamada gerçekleştiriyoruz.",
       "2 eksen tornalama ile miller, burçlar ve basit silindirik parçalar üretirken, canlı takımlı tornalama ile Y ekseni üzerinden torna tezgahında frezeleme, delme ve diş açma işlemleri yapıyoruz. Turn-Mill (torna-freze) kabiliyetimiz ile tek bağlamada hem tornalama hem frezeleme yaparak karmaşık parçalarda yüksek hassasiyet ve verimlilik elde ediyoruz.",
-      "Swiss tornalama teknolojimiz ile Ø0.3mm'den başlayan çaplarda kayar punta ile medikal vida, saat pimi ve konektör pinleri gibi küçük çaplı, uzun parçalar üretiyoruz. DMG MORI NLX 2500, Mazak Quick Turn Smart 350 ve Doosan Puma TT 1800SY çift milli torna tezgahlarımız ile ön ve arka yüzey işleme operasyonlarını tek kurulumda tamamlıyoruz.",
+      "Kayar puntalı (Swiss tip) tornalama ile Ø0.3mm'den başlayan çaplarda medikal vida, saat pimi ve konektör pini gibi küçük çaplı, uzun parçalar üretiyoruz: desteklenmemiş boyun kısalması sehimi sınırlar. Çift milli torna merkezlerinde ön ve arka yüzey işleme operasyonları tek kurulumda tamamlanır.",
       "380mm maksimum torna çapı, 1000mm torna boyu ve 65mm mil deliği kapasitemiz ile geniş bir parça yelpazesine hizmet veriyoruz. Otomatik bar feeder sistemi ile 3m çapa kadar sürekli üretim kapasitemiz mevcuttur.",
     ],
     features: [
@@ -153,7 +282,7 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Maks. Torna Çapı", value: "Ø500mm (standart), Ø32mm (Swiss)" },
       { label: "Maks. Torna Boyu", value: "1000mm (standart), 300mm (Swiss)" },
-      { label: "Tolerans", value: "±0.005mm" },
+      { label: "Standart Tolerans", value: "±0.01mm" },
       { label: "Yüzey Kalitesi", value: "Ra 0.4µm'ye kadar" },
       { label: "Canlı Takım", value: "12 istasyonlu, Y ekseni ±50mm" },
       { label: "Bar Besleyici", value: "Ø65mm'ye kadar otomatik" },
@@ -167,17 +296,14 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "Tek bağlamada komple işleme",
-      "Çift milli üretimle %50 setup tasarrufu",
+      /* 09a-C3 — F1 ile aynı sınıf, bu sayfada. "%50 setup tasarrufu"
+         kaynaksız; §D `OTHER_PUBLIC_KPIS: NONE`. Kabiliyetin kendisi —
+         parçanın arka yüzünün ikinci bağlama olmadan tamamlanması — kalır. */
+      "Çift mil ile parçanın arka yüzü ayrı bir bağlama gerektirmeden tamamlanır",
       "Swiss tip mikro tornalama kabiliyeti (0.3-32mm)",
-      "Bar feeder ile gece-gündüz kesintisiz seri üretim",
+      "Bar besleyici ile uzun partilerde operatör müdahalesiz işleme",
       "Turn-mill ile frezeleme ihtiyacını tek operasyonda çözme",
       "C ekseni 0.001° hassasiyet ile hassas pozisyonlama",
-    ],
-    machines: [
-      { name: "DMG MORI NLX 2500", brand: "DMG MORI", specs: "C/Y eksen, 380mm çap, 4.000 RPM" },
-      { name: "Mazak Quick Turn Smart 350", brand: "Mazak", specs: "C eksen, 350mm çap, 3.500 RPM" },
-      { name: "Doosan Puma TT 1800SY", brand: "Doosan", specs: "Çift mil, Y eksen, 1800mm boy" },
-      { name: "Star SR-38 Swiss Tip", brand: "Star", specs: "0.5-38mm çap, 10.000 RPM" },
     ],
     materials: [
       { name: "Alüminyum", grade: "6061 / 2024 / 7075", properties: "Otomat kalite, serbest kesim, hafif" },
@@ -191,7 +317,7 @@ export const servicePages: ServicePageData[] = [
       { question: "Tornalama mı frezeleme mi seçmeliyim?", answer: "Parçanız silindirik veya dönme simetrisine sahipse tornalama daha ekonomiktir. Prizmatik parçalar için frezeleme tercih edilir." },
       { question: "Karmaşık parçalar tek tezgahta mı yapılır?", answer: "Turn-mill tezgahlarımızda hem tornalama hem frezeleme işlemleri tek bağlamada yapılabilir. Bu hassasiyeti artırır ve maliyeti düşürür." },
       { question: "Swiss tornalama ne zaman gerekir?", answer: "Ø32mm altı çaplarda ve boy/çap oranı yüksek parçalarda (örn: medikal vidalar, pimler) Swiss torna daha hassas sonuç verir." },
-      { question: "Seri üretim için uygun mu?", answer: "Evet, bar besleyicili tezgahlarımızda gece-gündüz kesintisiz seri üretim yapabiliyoruz." },
+      { question: "Seri üretim için uygun mu?", answer: "Evet. Bar besleyicili tezgahlarda çubuk malzeme otomatik ilerlediği için uzun partiler operatör müdahalesi olmadan işlenebilir; parti büyüklüğü ve termin kapasite planıyla birlikte teklifte netleşir." },
       { question: "Hangi çap aralığında tornalama yapabiliyorsunuz?", answer: "Swiss tip torna ile 0.3mm'den başlayarak konvansiyonel torna ile 500mm çapa kadar geniş bir aralıkta tornalama yapabiliyoruz." },
     ],
     comparisonTables: [
@@ -201,7 +327,7 @@ export const servicePages: ServicePageData[] = [
         rows: [
           ["Çap Aralığı", "Ø10-500mm", "Ø10-380mm", "Ø10-300mm", "Ø0.3-32mm"],
           ["İşleme Tipi", "Sadece tornalama", "Torna + delme/freze", "Torna + freze komple", "Uzun/ince parçalar"],
-          ["Tolerans", "±0.01mm", "±0.005mm", "±0.005mm", "±0.003mm"],
+          ["Tolerans", "±0.05mm", "±0.02mm", "±0.02mm", "±0.01mm"],
           ["Yüzey Kalitesi", "Ra 0.8µm", "Ra 0.4µm", "Ra 0.4µm", "Ra 0.2µm"],
           ["Setup Süresi", "Kısa", "Orta", "Uzun", "Orta"],
           ["Birim Maliyet", "$", "$$", "$$$", "$$"],
@@ -228,15 +354,15 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "Talaşlı İmalat",
     title: "Hassas Mikro İşleme",
-    metaTitle: "Hassas Mikro İşleme | ±0.002mm Tolerans | Medikal & Elektronik | Mas Technic",
-    metaDescription: "Ø0.1mm takımlarla mikro frezeleme ve tornalama. ±0.002mm tolerans, Ra 0.1µm yüzey kalitesi. Medikal implant, elektronik konektör ve optik parça üretimi.",
+    metaTitle: "Hassas Mikro İşleme | Küçük Çaplı Takımlar | Medikal & Elektronik | Mas Technic",
+    metaDescription: "Ø0.1mm takımlarla mikro frezeleme ve tornalama. Medikal implant, elektronik konektör ve optik parça bileşenlerinde küçük ölçekli hassas işleme.",
     description:
       "Milimetrenin altında toleranslarla, mikron seviyesinde hassasiyet gerektiren parçalar için özel çözümler. Medikal, elektronik ve optik sektörlerine özel ultra-hassas işleme.",
     heroImage: "hero-mikro-isleme",
     content: [
       "Mikro işleme kabiliyetimiz ile Ø0.1mm'ye kadar takımlarla 5 eksen mikro frezeleme gerçekleştiriyoruz. Optik, elektronik ve medikal implant parçalarında standart CNC'nin ulaşamadığı hassasiyet seviyelerine erişiyoruz. 60.000 RPM'e kadar yüksek hızlı iş mili kapasitemiz ile ultra-hassas yüzey kalitesi elde ediyoruz.",
       "Mikro frezeleme ile Ø0.1mm'ye kadar takımlarla optik, elektronik ve medikal implant parçaları üretiyoruz. Mikro tornalama ile Ø0.3mm'den başlayan çaplarda Swiss tornalama ile saat pimi, medikal vida ve konektör pinleri imal ediyoruz. Mikro delme kabiliyetimiz ile Ø0.05mm'ye kadar hassas delik delme yaparak enjektör uçları, nozullar ve akış kontrol parçaları üretiyoruz.",
-      "Optik ölçüm cihazları ve CMM ile mikron seviyesinde kalite kontrol uyguluyoruz. 0.1µm çözünürlüklü optik ölçüm sistemlerimiz ile her mikro parçanın kalitesini garanti altına alıyoruz. AS9100/ISO 13485 uyumlu ölçüm raporları ve sertifikalar sağlıyoruz.",
+      "Mikro parçalarda kontrol yöntemi de parçanın ölçeğine göre seçilir: temaslı ölçüm parçayı deforme edebileceği için optik yöntemler tercih edilir. Kontrol planında hangi kotenin hangi yöntemle ölçüleceği önceden tanımlanır ve sonuçlar kayıt altına alınır.",
       "Medikal sektöründe implantlar, cerrahi aletler, kemik vidaları ve stentler; havacılık sektöründe yakıt enjektörleri, sensör muhafazaları ve mikro valfler; elektronik sektöründe konektör pinleri, fiber optik bileşenler ve yarı iletken test aparatları; saat & optik sektöründe saat mekanizma parçaları, lens tutucular ve kamera bileşenleri üretiyoruz.",
     ],
     features: [
@@ -244,12 +370,12 @@ export const servicePages: ServicePageData[] = [
       "Mikro Tornalama — Ø0.3mm'den başlayan Swiss tornalama",
       "Mikro Delme — Ø0.05mm'ye kadar hassas delik delme",
       "Mikro Ölçüm — Optik CMM ile 0.1µm çözünürlükte kontrol",
-      "±0.002mm Tolerans — Ultra-hassas toleranslar",
+      "Küçük Çaplı Takım Kabiliyeti — Ø0.1mm'den başlayan takımlar",
       "Yüzey Pürüzlülüğü — Ra 0.1µm (ayna parlaklığı)",
     ],
     technicalSpecs: [
       { label: "Min. Takım Çapı", value: "Ø0.1mm (Freze), Ø0.05mm (Delme)" },
-      { label: "Tolerans", value: "±0.002mm (2 mikron)" },
+      { label: "Standart Tolerans", value: "±0.01mm" },
       { label: "Yüzey Kalitesi", value: "Ra 0.1µm (ayna parlaklığı)" },
       { label: "İş Mili Hızı", value: "60.000 RPM" },
       { label: "Parça Boyutu", value: "1mm³ - 100mm³" },
@@ -263,17 +389,12 @@ export const servicePages: ServicePageData[] = [
       "Temizleme & Paketleme",
     ],
     advantages: [
-      "Mikron altı hassasiyet (±0.002mm)",
+      "Küçük ölçekli geometrilerde kontrollü işleme",
       "Özel mikro takım stoku ve 60.000 RPM iş mili",
       "Kontaminasyonsuz üretim ortamı",
       "200x optik büyütme kontrolü",
       "Medikal, havacılık ve elektronik sektör deneyimi",
       "Otomatik besleyicili Swiss torna ile mikro seri üretim",
-    ],
-    machines: [
-      { name: "Kern Micro Pro", brand: "Kern", specs: "5 eksen mikro freze, ±1µm hassasiyet, 60.000 RPM" },
-      { name: "Star SR-20J Swiss Torna", brand: "Star", specs: "Ø0.3-20mm, canlı takımlı, 10.000 RPM" },
-      { name: "Zeiss O-Inspect Optik CMM", brand: "Zeiss", specs: "Optik + dokunmatik ölçüm, 0.1µm çözünürlük" },
     ],
     materials: [
       { name: "Titanyum", grade: "Grade 5 (Ti6Al4V)", properties: "Biyouyumlu, hafif, yüksek mukavemet" },
@@ -287,7 +408,7 @@ export const servicePages: ServicePageData[] = [
       { question: "Mikro işleme ne zaman tercih edilmeli?", answer: "Parça özellikleri 1mm altında veya toleranslar ±0.01mm altında ise mikro işleme gereklidir. Standart CNC bu hassasiyetlere ulaşamaz." },
       { question: "Maliyet standart CNC'den yüksek mi?", answer: "Evet, özel takımlar, yavaş ilerleme hızları ve hassas ölçüm gereksinimleri nedeniyle maliyet daha yüksektir. Ancak bu, standart yöntemlerle elde edilemeyecek sonuçlar içindir." },
       { question: "Seri üretim yapabiliyor musunuz?", answer: "Evet, otomatik besleyicili Swiss torna ve palletli 5 eksen sistemleri ile mikro parçalarda bile seri üretim yapabiliyoruz." },
-      { question: "Ölçüm raporu veriyor musunuz?", answer: "Her mikro parça optik veya CMM ile ölçülür. AS9100/ISO 13485 uyumlu ölçüm raporları ve sertifikalar sağlıyoruz." },
+      { question: "Ölçüm raporu veriyor musunuz?", answer: "Kontrol planında tanımlanan koteler ölçülür ve ölçüm kaydı teslimat dosyasına eklenir. Koordinat ölçümü gerektiğinde akredite üçüncü taraf ölçümü talebe bağlı olarak sağlanır." },
     ],
     comparisonTables: [
       {
@@ -305,13 +426,19 @@ export const servicePages: ServicePageData[] = [
       },
       {
         title: "Sektörel Mikro İşleme Gereksinimleri",
-        headers: ["Sektör", "Tipik Parça", "Tolerans Beklentisi", "Yüzey Beklentisi", "Sertifika"],
+        /* Same shape as the material certificate matrix: the column heading is
+           the predicate, so `IPC-A-610` and `ISO 1413` published under
+           "Sertifika" read as documents MAS supplies. Three of the five cells
+           already described the expectation rather than naming a designation;
+           the other two now do the same. The heading stays a document column on
+           purpose, so the gate keeps watching this column. */
+        headers: ["Sektör", "Tipik Parça", "Tolerans Beklentisi", "Yüzey Beklentisi", "Belge Beklentisi"],
         rows: [
-          ["Medikal", "İmplant, cerrahi alet", "±2-5µm", "Ra 0.1-0.4µm", "ISO 13485"],
-          ["Havacılık", "Yakıt enjektör, sensör", "±5-10µm", "Ra 0.2-0.8µm", "AS9100D"],
-          ["Elektronik", "Konektör pin, PCB", "±3-5µm", "Ra 0.2-0.4µm", "IPC-A-610"],
-          ["Saat & Optik", "Mekanizma, lens tutucu", "±1-3µm", "Ra 0.05-0.1µm", "ISO 1413"],
-          ["Otomotiv", "Enjektör nozul, sensör", "±5-10µm", "Ra 0.4-0.8µm", "IATF 16949"],
+          ["Medikal", "İmplant, cerrahi alet", "Şartnameye göre", "Ra 0.1-0.4µm", "Biyouyumlu malzeme kaydı"],
+          ["Havacılık", "Yakıt enjektör, sensör", "Şartnameye göre", "Ra 0.2-0.8µm", "İzlenebilir malzeme kaydı"],
+          ["Elektronik", "Konektör pin, PCB", "±3-5µm", "Ra 0.2-0.4µm", "Görsel kabul kriteri"],
+          ["Saat & Optik", "Mekanizma, lens tutucu", "±1-3µm", "Ra 0.05-0.1µm", "Ölçüm kaydı"],
+          ["Otomotiv", "Enjektör nozul, sensör", "Şartnameye göre", "Ra 0.4-0.8µm", "Parti izlenebilirliği"],
         ],
       },
     ],
@@ -329,7 +456,7 @@ export const servicePages: ServicePageData[] = [
     content: [
       "Derin delik delme, boy/çap oranı (L/D) 10:1'den büyük delikler için gerekli olan özel bir işleme sürecidir. Standart matkaplarla bu oranlarda hassas delme mümkün değildir. Özel derin delik delme tezgahlarımız ile Ø2-200mm çap aralığında ve 2000mm derinliğe kadar hassas delik delme imkânı sunuyoruz.",
       "Gun drilling teknolojimiz ile tek dudaklı matkap kullanarak Ø2-20mm çap aralığında L/D oranı 100:1'e kadar derin delikler işliyoruz. Yağ kanalları ve soğutma delikleri için idealdir. BTA (Boring and Trepanning Association) delme sistemi ile Ø20-200mm aralığında büyük çaplı derin deliklerde yüksek talaş kaldırma hızı elde ediyoruz.",
-      "Hassas raybalama ile H6/H7 toleranslarında iç çap hassasiyeti sağlıyoruz. Hidrolik silindir ve rulman yatakları için ideal olan bu işlem, ±0.01mm çap toleransı garanti eder. Honlama işlemi ile iç yüzeylerde Ra 0.2µm'ye kadar yüzey kalitesi elde ederek silindir gömlekleri ve valfler için mükemmel sonuçlar üretiyoruz.",
+      "Hassas raybalama ile H6/H7 toleranslarında iç çap hassasiyeti sağlıyoruz. Hidrolik silindir ve rulman yatakları için ideal olan bu işlemde standart çalışma aralığımız ±0.01mm çap toleransıdır. Honlama işlemi ile iç yüzeylerde Ra 0.2µm'ye kadar yüzey kalitesi elde ederek silindir gömlekleri ve valfler için mükemmel sonuçlar üretiyoruz.",
       "Hidrolik sistemlerde silindir gövdeleri, valf blokları ve manifold delikleri; kalıp & takım sektöründe enjeksiyon kalıplarında soğutma kanalları ve ejektör delikleri; enerji & makina sektöründe türbin şaftları ve kompresör pistonları; savunma sektöründe silah namluları ve optik tüpleri üretiminde uzmanlaşmış deneyimimiz bulunmaktadır.",
     ],
     features: [
@@ -362,11 +489,6 @@ export const servicePages: ServicePageData[] = [
       "Özel kılavuzlama burs sistemleri ile sapma minimizasyonu",
       "Yüksek basınçlı soğutma sıvısı ile optimize edilmiş kesme",
       "Hidrolik, enerji, kalıp ve savunma sektörü deneyimi",
-    ],
-    machines: [
-      { name: "TBT ML-200 Gun Drill", brand: "TBT", specs: "Ø2-100mm, 2000mm derinlik, tek kanal" },
-      { name: "IMSA MF-1000 BTA", brand: "IMSA", specs: "Ø20-200mm, 1500mm derinlik, yüksek hacim" },
-      { name: "Sunnen SV-2015 Honlama", brand: "Sunnen", specs: "Ø10-200mm, Ra 0.1µm, otomatik" },
     ],
     materials: [
       { name: "Çelik", grade: "1045 / 4140 / 42CrMo4", properties: "Yüksek mukavemet, ısıl işleme uygun" },
@@ -403,9 +525,9 @@ export const servicePages: ServicePageData[] = [
         rows: [
           ["Standart Delme", "H11 (±0.1mm)", "Ra 3.2-6.3µm", "0.05mm", "Cıvata deliği"],
           ["Hassas Raybalama", "H7 (±0.01mm)", "Ra 0.8-1.6µm", "0.01mm", "Pim yatağı, burç"],
-          ["İnce Raybalama", "H6 (±0.008mm)", "Ra 0.4-0.8µm", "0.005mm", "Rulman yatağı"],
-          ["Honlama", "H5 (±0.005mm)", "Ra 0.1-0.4µm", "0.002mm", "Hidrolik silindir"],
-          ["Süper Finiş Honlama", "H4 (±0.003mm)", "Ra 0.05-0.1µm", "0.001mm", "Motor silindir"],
+          ["İnce Raybalama", "H7", "Ra 0.4-0.8µm", "0.02mm", "Rulman yatağı"],
+          ["Honlama", "H7", "Ra 0.1-0.4µm", "0.01mm", "Hidrolik silindir"],
+          ["Süper Finiş Honlama", "H6", "Ra 0.05-0.1µm", "0.01mm", "Motor silindir"],
         ],
         highlight: 3,
       },
@@ -419,18 +541,18 @@ export const servicePages: ServicePageData[] = [
     categoryLabel: "Ön Üretim",
     title: "Enjeksiyon Kalıbı",
     metaTitle: "Enjeksiyon Kalıp İmalatı | Moldflow Simülasyon | Mas Technic",
-    metaDescription: "Alüminyum ve çelik enjeksiyon kalıp üretimi. Moldflow simülasyonu, 1.000.000+ çevrim ömrü. Hızlı prototip kalıplar 2-3 haftada teslimat.",
+    metaDescription: "Alüminyum ve çelik enjeksiyon kalıp üretimi. Moldflow simülasyonu, 1.000.000+ çevrim ömrü. Prototip kalıptan seri üretim kalıbına malzeme seçimi.",
     description:
       "Alüminyum ve çelik kalıp imalatı. Hızlı prototip kalıplarından yüksek hacimli seri üretim kalıplarına kadar tüm ihtiyaçlarınıza çözüm.",
     heroImage: "hero-enjeksiyon-kalibi",
     content: [
-      "Yüksek hassasiyetli plastik enjeksiyon kalıplarının tasarımını ve üretimini gerçekleştiriyoruz. Moldflow simülasyonu ile dolum optimizasyonu yaparak üretim kalitesini garanti altına alıyoruz. Çekme payı optimizasyonu ve gate/vent konumlandırma dahil kapsamlı DFM analizi sunuyoruz.",
-      "Al 7075 ile 150 HB sertlikte prototip kalıplar (10.000+ parça ömrü), P20 ile 280-320 HB orta hacim kalıplar, H13 ile 45-52 HRC yüksek hacim kalıplar ve S136 ile 48-52 HRC korozyon dirençli kalıplar üretiyoruz. Sıcak yolluk sistemi desteği ile malzeme tasarrufu ve döngü süresi iyileştirmesi sağlıyoruz.",
-      "Hızlı alüminyum kalıplar 2-3 hafta teslimat ile 10.000+ parça ömrü sunarken, çelik kalıplar 1.000.000+ parça ömrü ile yüksek hacimli üretim ihtiyaçlarınızı karşılıyor. Çok boşluklu tasarım ile verimlilik artışı sağlıyoruz.",
+      "Yüksek hassasiyetli plastik enjeksiyon kalıplarının tasarımını ve üretimini gerçekleştiriyoruz. Moldflow simülasyonu ile dolum davranışını kalıp üretiminden önce değerlendiriyoruz. Çekme payı optimizasyonu ve gate/vent konumlandırma dahil kapsamlı DFM analizi sunuyoruz.",
+      "Kalıp malzemesi beklenen üretim adedine göre seçilir: Al 7075 (150 HB) prototip ve düşük hacim, P20 (280-320 HB) orta hacim, H13 (45-52 HRC) yüksek hacim, S136 (48-52 HRC) ise korozyon direnci gereken uygulamalar için. Sıcak yolluk desteği ile malzeme tasarrufu ve döngü süresi iyileştirmesi sağlanır.",
+      "Alüminyum kalıplar düşük ve orta hacimde daha kısa sürede hazırlanırken, çelik kalıplar yüksek hacimli üretimde daha uzun ömür sağlar. Beklenen adet ve parça geometrisi, kalıp malzemesi ve boşluk sayısı kararını birlikte belirler.",
     ],
     features: [
-      "Hızlı Alüminyum Kalıp — 2-3 hafta teslimat, 10.000+ parça ömrü",
-      "Çelik Kalıp — 1.000.000+ parça ömrü, yüksek hacim",
+      "Alüminyum Kalıp — düşük ve orta hacim için hızlı hazırlık",
+      "Çelik Kalıp — yüksek hacimli üretimde uzun ömür",
       "Çok Boşluklu Tasarım — Verimlilik artışı",
       "Sıcak Yolluk Sistemi — Malzeme tasarrufu ve döngü iyileştirmesi",
     ],
@@ -454,11 +576,6 @@ export const servicePages: ServicePageData[] = [
       "Hot runner sistemi desteği",
       "4 farklı kalıp malzemesi seçeneği (Al 7075, P20, H13, S136)",
     ],
-    machines: [
-      { name: "Makino S33 Grafik İşleme", brand: "Makino", specs: "HSM, 33.000 RPM, ±0.003mm" },
-      { name: "Sodick AG60L Wire EDM", brand: "Sodick", specs: "0.05mm tel, ±0.002mm hassasiyet" },
-      { name: "Mitsubishi EA12V Sinker EDM", brand: "Mitsubishi", specs: "Mirror finish, 0.1µm Ra" },
-    ],
     materials: [
       { name: "Al 7075", grade: "150 HB", properties: "Prototip kalıp, 10.000+ çevrim" },
       { name: "P20 (1.2311)", grade: "280-320 HB", properties: "Orta hacim, genel amaçlı" },
@@ -466,32 +583,52 @@ export const servicePages: ServicePageData[] = [
       { name: "S136 (1.2083)", grade: "48-52 HRC", properties: "Korozyon direnci, optik kalıplar" },
     ],
     faq: [
-      { question: "Kalıp teslimat süresi ne kadar?", answer: "Hızlı alüminyum kalıplar 2-3 hafta, çelik kalıplar 4-8 hafta içinde teslim edilir. Proje karmaşıklığına göre değişebilir." },
+      { question: "Kalıp teslimat süresi ne kadar?", answer: `Kalıp termini malzeme sınıfına, kavite sayısına ve yüzey gereksinimine göre değişir; alüminyum kalıp çelik kalıba göre daha kısa sürede işlenir. ${LEAD_TIME_STATEMENT}` },
       { question: "Moldflow simülasyonu zorunlu mu?", answer: "Zorunlu değildir ancak özellikle karmaşık parçalarda dolum problemlerini, çökme izlerini ve eğilmeyi önlemek için şiddetle tavsiye ederiz." },
       { question: "Alüminyum mı çelik kalıp mı seçmeliyim?", answer: "10.000 adete kadar üretim için alüminyum kalıp ekonomiktir. Daha yüksek hacimler için çelik kalıp uzun vadede maliyet avantajı sağlar." },
     ],
     comparisonTables: [
       {
         title: "Enjeksiyon Kalıp Malzemesi Seçim Matrisi",
-        headers: ["Kalıp Malzemesi", "Sertlik", "Kalıp Ömrü", "Teslimat Süresi", "Maliyet", "Uygulama"],
+        /* 09a-C2: the "Teslimat Süresi" column published five mold lead times
+           (2-3 / 4-6 / 6-8 / 6-8 / 5-7 hafta). No field authorises any of them,
+           and neutralising five cells to "Teklifle birlikte" would leave a
+           column that carries no information. The column is removed; the FAQ
+           on this page states the same fact once, correctly. Mold LIFE
+           (çevrim) is a material property and stays. */
+        headers: ["Kalıp Malzemesi", "Sertlik", "Kalıp Ömrü", "Maliyet", "Uygulama"],
         rows: [
-          ["Al 7075", "150 HB", "10.000+ çevrim", "2-3 hafta", "$", "Prototip, düşük hacim"],
-          ["P20 (1.2311)", "280-320 HB", "500.000+ çevrim", "4-6 hafta", "$$", "Orta hacim, genel amaç"],
-          ["H13 (1.2344)", "45-52 HRC", "1.000.000+ çevrim", "6-8 hafta", "$$$", "Yüksek hacim, sıcak iş"],
-          ["S136 (1.2083)", "48-52 HRC", "1.000.000+ çevrim", "6-8 hafta", "$$$$", "Optik, medikal, korozyon"],
-          ["NAK80", "38-42 HRC", "500.000+ çevrim", "5-7 hafta", "$$$", "Yüksek parlaklık, ön sertleştirilmiş"],
+          ["Al 7075", "150 HB", "10.000+ çevrim", "$", "Prototip, düşük hacim"],
+          ["P20 (1.2311)", "280-320 HB", "500.000+ çevrim", "$$", "Orta hacim, genel amaç"],
+          ["H13 (1.2344)", "45-52 HRC", "1.000.000+ çevrim", "$$$", "Yüksek hacim, sıcak iş"],
+          ["S136 (1.2083)", "48-52 HRC", "1.000.000+ çevrim", "$$$$", "Optik, medikal, korozyon"],
+          ["NAK80", "38-42 HRC", "500.000+ çevrim", "$$$", "Yüksek parlaklık, ön sertleştirilmiş"],
         ],
         highlight: 2,
       },
       {
         title: "Kavite Sayısı ve Üretim Verimliliği",
-        headers: ["Kavite", "Çevrim/Saat", "Parça/Saat", "Birim Maliyet", "Kalıp Maliyeti", "Önerilen Hacim"],
+        /* 09a-C3 — F4. "Parça/Saat" SÜTUNU KALDIRILDI.
+           `claims.ts` `WITHHELD_SPEC_CLASSES[0]` bir sayım nesnesinin bir
+           döneme bölünmesini — `parça/saat` dahil — yayımlanamaz sayar. O
+           filtre bu hücreye hiç bakmadı, çünkü `CategoryPage` üzerinden
+           yalnızca `technicalSpecs` üstünde çalışıyor, tablo başlıklarında
+           değil.
+
+           SÜTUN NEDEN SİLİNDİ, NEDEN YENİDEN ADLANDIRILMADI: değerleri
+           `Kavite × Çevrim/Saat` çarpımından ibaretti. Yani sütun kendi
+           başına hiçbir bilgi taşımıyordu; okuyucu aynı sayıya soldaki iki
+           sütundan zaten ulaşıyor. Bu dosyanın başındaki TAM SÜTUN KURALI ile
+           aynı gerekçe: bilgi taşımayan bir sütun nötralize edilmez, kaldırılır.
+           `Çevrim/Saat` KALIR — o kalıbın çevrim hızıdır, bir proses
+           parametresidir ve §0 `PRECISION_ENGINEERING`in koruduğu sınıftır. */
+        headers: ["Kavite", "Çevrim/Saat", "Birim Maliyet", "Kalıp Maliyeti", "Önerilen Hacim"],
         rows: [
-          ["Tek kavite", "60-120", "60-120", "$$$", "$", "1-10.000 adet"],
-          ["2 kavite", "60-120", "120-240", "$$", "1.5×", "10.000-50.000"],
-          ["4 kavite", "50-100", "200-400", "$$", "2×", "50.000-200.000"],
-          ["8 kavite", "40-80", "320-640", "$", "3×", "200.000-500.000"],
-          ["16+ kavite", "30-60", "480-960+", "$", "4-5×", "500.000+"],
+          ["Tek kavite", "60-120", "$$$", "$", "1-10.000 adet"],
+          ["2 kavite", "60-120", "$$", "1.5×", "10.000-50.000"],
+          ["4 kavite", "50-100", "$$", "2×", "50.000-200.000"],
+          ["8 kavite", "40-80", "$", "3×", "200.000-500.000"],
+          ["16+ kavite", "30-60", "$", "4-5×", "500.000+"],
         ],
       },
     ],
@@ -571,16 +708,16 @@ export const servicePages: ServicePageData[] = [
     title: "Silikon Kalıplama",
     heroImage: "hero-silikon-kaliplama",
     metaTitle: "Silikon Kalıplama | Vakumlu Döküm | 1-100 Adet | Mas Technic",
-    metaDescription: "Vakumlu silikon kalıplama ile 1-100 adet kısa seri üretim. PU, silikon, epoksi. Master modelden 24 saatte ilk parça teslimatı.",
+    metaDescription: "Vakumlu silikon kalıplama ile 1-100 adet kısa seri üretim. PU, silikon, epoksi. Master modelden gözeneksiz yüzeyli çoğaltma.",
     description:
-      "Vakumlu silikon kalıplama ile 1-100 adet arası kısa seri üretim. Master modelden 24 saatte ilk parçalar.",
+      "Vakumlu silikon kalıplama ile 1-100 adet arası kısa seri üretim. Master modelden gözeneksiz yüzeyli çoğaltma.",
     content: [
-      "Vakumlu döküm teknolojimiz ile hava hapsiz, yüksek kaliteli yüzey elde ediyoruz. PU, silikon, polyester ve epoksi gibi çeşitli malzemelerle üretim gerçekleştiriyoruz. Pigment ile istenilen renk seçeneği sunuyoruz.",
+      "Vakum altında döküm, kalıp boşluğunda hava hapsini önleyerek gözeneksiz bir yüzey verir. PU, silikon, polyester ve epoksi malzemelerle üretim yapıyor, pigment ile renk seçeneği sunuyoruz.",
       "PU 60A (60 Shore A, esnek ve yırtılmaz), PU 80A (80 Shore A, orta sertlik), PU 90A (90 Shore A, yüksek dayanım) ve Silikon 40A (40 Shore A, yüksek sıcaklık dayanımlı) malzeme seçenekleri ile geniş uygulama yelpazesine hizmet veriyoruz.",
-      "Overmolding ile farklı sertlikte malzemeleri birlikte kullanabiliyoruz. Medikal, otomotiv ve endüstriyel uygulamalar için özel silikon kalıplama çözümleri sunuyoruz. Master modelden 24 saatte ilk parçalar teslim ediyoruz.",
+      "Overmolding ile farklı sertlikte malzemeleri birlikte kullanabiliyoruz. Medikal, otomotiv ve endüstriyel uygulamalar için özel silikon kalıplama çözümleri sunuyoruz. Termin; master modelin hazır olma durumuna, döküm adedine ve finisaj kapsamına göre teklifle birlikte verilir.",
     ],
     features: [
-      "Vakumlu Döküm — Hava hapsiz, yüksek kaliteli yüzey",
+      "Vakumlu Döküm — hava hapsi olmadan gözeneksiz yüzey",
       "Çeşitli Malzemeler — PU, silikon, polyester, epoksi",
       "Renk Seçenekleri — Pigment ile istenilen renk",
       "Overmolding — Farklı sertlikte malzemeler birlikte",
@@ -601,7 +738,7 @@ export const servicePages: ServicePageData[] = [
       "Kalite Kontrol",
     ],
     advantages: [
-      "24 saatte ilk parça teslimatı",
+      "Master model onaylandıktan sonra kalıptan hızlı çoğaltma",
       "1-100 adet kısa seri üretim",
       "4 farklı sertlik seçeneği",
       "Overmolding kapasitesi",
@@ -621,17 +758,92 @@ export const servicePages: ServicePageData[] = [
       },
       {
         title: "Üretim Yöntemi Karşılaştırması (Kısa Seri)",
-        headers: ["Yöntem", "Min. Adet", "Teslimat", "Parça Maliyeti", "Kalıp Maliyeti", "Yüzey Kalitesi"],
+        /* 09a-C1 neutralised ONE cell of this "Teslimat" column — the CNC row's
+           "3-5 gün" — and left "1-3 gün", "1-2 gün", "2-4 hafta" and "1-3 hafta"
+           standing beside it. That was worse than what it replaced: a column in
+           which one supplier row declines to give a number while its four
+           neighbours give one reads as a caveat about CNC, not as a policy.
+           09a-C2 removes the column. Nothing in `USER_INPUTS.md` authorises any
+           of the five, and five identical "Teklifle birlikte" cells would carry
+           no information. The method comparison — adet, maliyet, yüzey — is
+           what this table is for and it survives intact. */
+        headers: ["Yöntem", "Min. Adet", "Parça Maliyeti", "Kalıp Maliyeti", "Yüzey Kalitesi"],
         rows: [
-          ["Vakumlu Döküm", "1", "1-3 gün", "$$", "$", "İyi (master'a bağlı)"],
-          ["3D Baskı (SLA)", "1", "1-2 gün", "$$$", "Yok", "Çok iyi"],
-          ["CNC İşleme", "1", "3-5 gün", "$$$$", "Yok", "Mükemmel"],
-          ["Silikon Enjeksiyon", "500+", "2-4 hafta", "$", "$$$", "Mükemmel"],
-          ["Sıkıştırma Kalıplama", "100+", "1-3 hafta", "$$", "$$", "İyi"],
+          ["Vakumlu Döküm", "1", "$$", "$", "İyi (master'a bağlı)"],
+          ["3D Baskı (SLA)", "1", "$$$", "Yok", "Çok iyi"],
+          ["CNC İşleme", "1", "$$$$", "Yok", "Mükemmel"],
+          ["Silikon Enjeksiyon", "500+", "$", "$$$", "Mükemmel"],
+          ["Sıkıştırma Kalıplama", "100+", "$$", "$$", "İyi"],
         ],
       },
     ],
   },
+  /* ══════════════════════════════════════════════════════════════════════
+     09b-SOFTWARE-INVENTORY — THE CLASS IS DECIDED. ALL SIX, NOT NONE.
+
+     Four sites on this page and two on `/endustriyel/ozel-projeler` named
+     CATIA, SolidWorks and NX as the packages work is DESIGNED IN. They are
+     gone; the capability they were attached to — 3D modelling, force and
+     tolerance simulation, fixture design, solid model and manufacturing
+     drawing — is unchanged, because that is what §1.3 permits and what a buyer
+     needs.
+
+     THE AUTHORITY. §D supplies no software inventory of any kind. §0 sets
+     `DO_NOT_EMPHASIZE_COMPANY_SCALE`, and three seat-expensive enterprise CAD
+     suites is a scale claim whatever else it is. Phase 06 removed named
+     MACHINE MODELS under the same authority, and `claims-gate.mjs`'s
+     `named-enterprise-system` rule already cites §D for ERP, MES and CAM.
+     CAD authoring packages are that class; nothing distinguished them but
+     the fact that nobody had taken the decision.
+
+     THE FALSIFICATION THAT WAS INVITED, AND WHY IT DOES NOT SURVIVE
+     ---------------------------------------------------------------
+     It was put like this: a CAD package name is not exactly a machine model,
+     because it tells a buyer something OPERATIONAL about file exchange in a
+     way a machine model does not. That is the strongest argument for keeping
+     them and it fails on this repository's own facts, three times over:
+
+     1. THE OPERATIONAL FACT IS ALREADY PUBLISHED, AND MORE HONESTLY. The FAQ
+        entry above — `question: "Hangi dosya formatlarını kabul ediyorsunuz?"`
+        — derives the accepted list from `CAD_ACCEPTED_EXTENSIONS` and then
+        names `.sldprt`, `.catpart` and `.prt` IN ORDER TO REFUSE THEM, with
+        the email route that does work. A buyer who wants to know what happens
+        to their CATIA file learns the answer there, and it is the true answer.
+        The six sites added nothing to it.
+
+     2. TWO OF THE SIX CONTRADICTED IT. `{ label: "CAD", value: "SolidWorks,
+        CATIA, NX" }` is the same shape as `{ label: "Desteklenen CAD", value:
+        "STEP, IGES, CATIA, NX, SW" }`, which Phase 09a deleted as D1c. A spec
+        row labelled CAD listing three packages, on a page a buyer reads before
+        uploading, reads as SUPPORTED INPUT — and the uploader refuses all
+        three. So for that site the file-exchange argument is not a reason to
+        keep it; it is the reason to remove it fastest.
+
+     3. THE OTHER FOUR SAY NOTHING ABOUT FILE EXCHANGE AT ALL. "…ile 3D
+        modelleme", "3D Modelleme (…)", "…ile profesyonel tasarım", "tasarım
+        (…)" describe what WE model in. What we model in constrains what we can
+        open; it does not tell a buyer what they may send, and on this site it
+        actively misleads about it.
+
+     WHAT IS LOST, STATED PLAINLY. A buyer who works in CATIA loses a signal
+     that the shop is in the same ecosystem. That signal was worth something
+     and it is not free to give up. It is given up because the site cannot
+     support it — §D verifies no seat, no version and no license — and because
+     the reader gets the true operational answer one page over instead.
+
+     ALL SIX OR NONE was the condition, and it is all six: "CATIA, SolidWorks,
+     NX entegre çalışma" and "CAD/CAM Entegrasyonu — CATIA, SolidWorks, NX,
+     Mastercam" were already deleted in Phase 09a on this same reasoning, so
+     keeping any of the six would have left the site saying in one place what
+     it had removed in another.
+
+     THE GUARANTEE MOVED FROM A REGISTER TO A RULE.
+     `DEFERRED_09B_SOFTWARE_INVENTORY` existed only to assert that the deferred
+     sites still resolved. The class is decided, so its successor is the
+     `named-cad-package` rule in `scripts/claims-gate.mjs`, whose positive
+     controls are these six strings restored. "Still there" became "may not
+     come back", which is strictly stronger.
+     ══════════════════════════════════════════════════════════════════════ */
   {
     slug: "fikstur-aparat-tasarimi",
     category: "hizmetler",
@@ -639,13 +851,13 @@ export const servicePages: ServicePageData[] = [
     title: "Fikstür & Aparat Tasarımı",
     heroImage: "hero-fikstur-aparat",
     metaTitle: "Fikstür & Aparat Tasarımı | Özel CNC Fikstür | Mas Technic",
-    metaDescription: "CNC işleme, montaj, kaynak ve kontrol için özel fikstür tasarımı. ±0.01mm tekrarlanabilirlik. CATIA/SolidWorks ile 3D modelleme ve simülasyon.",
+    metaDescription: "CNC işleme, montaj, kaynak ve kontrol için özel fikstür tasarımı. ±0.01mm tekrarlanabilirlik. 3D modelleme, kuvvet ve tolerans simülasyonu.",
     description:
       "CNC işleme, montaj, kaynak ve kontrol operasyonları için özel tasarım fikstür ve aparat çözümleri. Tekrarlanabilirlik ve operatör bağımsızlığı.",
     content: [
       "Üretim süreçlerinizi hızlandıracak ve hassasiyeti artıracak özel fikstür ve aparatlar tasarlıyoruz. Torna fikstürü (milliyelti ve milliyetsiz), freze fikstürü (vise, vakumlu ve hidrolik), montaj fikstürü (operatör hatalarını önleme), kontrol fikstürü (ölçüm tekrarlanabilirliği) ve kaynak fikstürü (hizalama ve sabitleme) dahil geniş yelpazede çözümler sunuyoruz.",
-      "CATIA ve SolidWorks ile 3D modelleme, kuvvet ve tolerans analizi simülasyonu, 3D baskı veya hızlı imalat ile prototip üretimi ve üretim ortamında doğrulama test & onay süreçleri ile profesyonel tasarım hizmeti veriyoruz.",
-      "Çelik, alüminyum ve kompozit malzemelerle ±0.01mm tekrarlanabilirlik sağlayan fikstürler üretiyoruz. 3-5 iş günü tasarım, 5-10 iş günü üretim süresi ile hızlı teslimat garanti ediyoruz.",
+      "3D modelleme, kuvvet ve tolerans analizi simülasyonu, 3D baskı veya hızlı imalat ile prototip üretimi ve üretim ortamında doğrulama test & onay süreçleri ile profesyonel tasarım hizmeti veriyoruz.",
+      "Çelik, alüminyum ve kompozit malzemelerle ±0.01mm tekrarlanabilirlik sağlayan fikstürler üretiyoruz. Tasarım ve üretim termini; fikstür karmaşıklığı, malzeme tedariki ve doğrulama kapsamı incelendikten sonra teklifle birlikte verilir.",
     ],
     features: [
       "Torna Fikstürü — Milliyelti ve milliyetsiz",
@@ -657,19 +869,19 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Tekrarlanabilirlik", value: "±0.01mm" },
       { label: "Malzeme", value: "Çelik, Al, Kompozit" },
-      { label: "Tasarım Süresi", value: "3-5 iş günü" },
-      { label: "Üretim Süresi", value: "5-10 iş günü" },
+      { label: "Termin", value: LEAD_TIME_SHORT },
+      { label: "Doğrulama", value: "Üretim ortamında test" },
     ],
     processSteps: [
       "İhtiyaç Analizi",
-      "3D Modelleme (CATIA/SolidWorks)",
+      "3D Modelleme",
       "Simülasyon (Kuvvet & Tolerans)",
       "Prototip (3D Baskı / Hızlı İmalat)",
       "CNC İşleme & Montaj",
       "Test & Onay",
     ],
     advantages: [
-      "CATIA/SolidWorks ile profesyonel tasarım",
+      "Katı model ve imalat resmi tek akışta",
       "Kuvvet ve tolerans simülasyonu",
       "3D baskı ile hızlı prototipleme",
       "Üretim ortamında doğrulama testi",
@@ -680,7 +892,7 @@ export const servicePages: ServicePageData[] = [
         headers: ["Fikstür Tipi", "Bağlama Kuvveti", "Tekrarlanabilirlik", "Değişim Süresi", "Maliyet", "Uygulama"],
         rows: [
           ["Mekanik Mengene", "10-50 kN", "±0.02mm", "1-2 dk", "$", "Genel frezeleme"],
-          ["Hidrolik Bağlama", "20-100 kN", "±0.005mm", "10-20 sn", "$$$", "Seri üretim, otomatik"],
+          ["Hidrolik Bağlama", "20-100 kN", "±0.01mm", "10-20 sn", "$$$", "Seri üretim, otomatik"],
           ["Pnömatik Bağlama", "5-30 kN", "±0.01mm", "5-10 sn", "$$", "Hafif parçalar, hızlı"],
           ["Vakumlu Bağlama", "1-10 kN", "±0.01mm", "5 sn", "$$", "İnce plaka, hassas"],
           ["Manyetik Tablo", "5-20 kN", "±0.01mm", "3 sn", "$$", "Ferromanyetik, taşlama"],
@@ -766,32 +978,39 @@ export const servicePages: ServicePageData[] = [
     categoryLabel: "Yüzey İşlemleri",
     title: "Anodizasyon",
     metaTitle: "Anodizasyon Hizmeti | Tip I-II-III Sert Anodizasyon | MIL-A-8625 | Mas Technic",
-    metaDescription: "MIL-A-8625 uyumlu Tip I, II, III anodizasyon. 5-100µm kaplama, 60-70 HRC sertlik, 500+ saat tuz testi. 20+ renk seçeneği, havacılık ve medikal sınıf kaplama.",
+    /* PHASE 07 CORRECTION #1 — F2. `20+ renk seçeneği` was an offering /
+       inventory count, structurally the same claim as `15+ alüminyum
+       alaşımı` (removed in Phase 07) and `87+ malzeme` — §0
+       DO_NOT_EMPHASIZE_COMPANY_SCALE, and no count is verified anywhere in
+       `USER_INPUTS.md`. The colours themselves are a real offering and are
+       still named; what goes is the number in front of them. ΔE ≤ 2.0 is a
+       measured homogeneity tolerance and stays. */
+    metaDescription: "Tip I, II ve III anodizasyon. 5-100µm kaplama, 60-70 HRC sertlik, ASTM B117 tuz spreyi testi ile korozyon direnci doğrulaması. Organik ve inorganik boyalarla renklendirme, havacılık ve medikal uygulamalar.",
     description:
-      "Tip I kromik asit, Tip II sülfürik asit ve Tip III sert anodizasyon ile korozyon direnci, aşınma dayanımı, elektriksel yalıtım ve dekoratif kaplama. MIL-A-8625 standardına tam uyum.",
+      "Tip I kromik asit, Tip II sülfürik asit ve Tip III sert anodizasyon ile korozyon direnci, aşınma dayanımı, elektriksel yalıtım ve dekoratif kaplama.",
     heroImage: "hero-anodizasyon",
     content: [
-      "Anodizasyon, alüminyum yüzeyinde elektrokimyasal yöntemle oluşturulan alüminyum oksit (Al₂O₃) tabakasıdır. Bu tabaka, parçanın korozyon direncini, aşınma dayanımını ve estetik görünümünü önemli ölçüde artırır. Mas Technic olarak MIL-A-8625 standardına tam uyumlu, havacılık ve medikal sınıf anodizasyon hizmeti sunuyoruz.",
+      "Anodizasyon, alüminyum yüzeyinde elektrokimyasal yöntemle oluşturulan alüminyum oksit (Al₂O₃) tabakasıdır. Bu tabaka, parçanın korozyon direncini, aşınma dayanımını ve estetik görünümünü önemli ölçüde artırır. Mas Technic olarak havacılık ve medikal uygulamalar için Tip I, Tip II ve Tip III anodizasyon hizmeti sunuyoruz.",
       "Tip I (Kromik Asit) anodizasyon 5-15µm kalınlıkta ince bir oksit tabakası oluşturur; havacılık yapısal parçaları ve boya tutunma alt katmanı olarak tercih edilir. Tip II (Sülfürik Asit) anodizasyon 10-25µm kalınlıkta olup en yaygın kullanılan türdür; korozyon koruması, renkli kaplama ve genel mühendislik uygulamalarında idealdir. Tip III (Sert Anodizasyon) 25-100µm kalınlıkta, 60-70 HRC sertliğe ulaşarak aşınma direnci, elektriksel yalıtım ve yüksek performans gerektiren uygulamalarda kullanılır.",
-      "Renklendirme sürecimizde organik ve inorganik boyalar kullanarak siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) dahil 20+ renk seçeneği sunuyoruz. Renk homojenliği ΔE ≤ 2.0 toleransında kontrol edilmektedir. Sealing (sızdırmazlık) işlemi ile oksit tabakasının gözenekleri kapatılarak uzun ömürlü koruma sağlanır.",
-      "Kalite kontrol sürecimiz: Eddy current veya mikrometre ile kaplama kalınlığı ölçümü (MIL-A-8625 uyumlu), ASTM B117 tuz spreyi testi ile 500+ saat korozyon direnci doğrulaması, Vickers mikrosertlik testi ile sertlik kontrolü ve renk ölçüm cihazı ile ΔE renk homojenliği kontrolü. Her parti için kalite sertifikası düzenlenmektedir.",
-      "2000×1000×800mm tank boyutlarımız ile büyük parçalarda da anodizasyon uygulayabiliyoruz. 50 kg/parça maksimum ağırlık kapasitesi, 24-72 saat standart teslimat süresi ve havacılık, otomotiv, medikal, elektronik ve savunma sanayi sektörlerine hizmet veriyoruz.",
+      "Renklendirme sürecimizde organik ve inorganik boyalar kullanarak siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) renklerde kaplama yapıyoruz; özel RAL ve Pantone eşleştirmesi de mümkündür. Renk homojenliği ΔE ≤ 2.0 toleransında kontrol edilmektedir. Sealing (sızdırmazlık) işlemi ile oksit tabakasının gözenekleri kapatılarak uzun ömürlü koruma sağlanır.",
+      "Kalite kontrol sürecimiz: Eddy current veya mikrometre ile kaplama kalınlığı ölçümü, ASTM B117 tuz spreyi testi ile korozyon direnci doğrulaması, Vickers mikrosertlik testi ile sertlik kontrolü ve renk ölçüm cihazı ile ΔE renk homojenliği kontrolü. Her parti için ölçüm kaydı tutulur.",
+      "2000×1000×800mm tank boyutlarımız ile büyük parçalarda da anodizasyon uygulayabiliyoruz. 50 kg/parça maksimum ağırlık kapasitesi ile havacılık, otomotiv, medikal, elektronik ve savunma sanayi sektörlerine hizmet veriyoruz.",
     ],
     features: [
       "Tip I (Kromik Asit) — 5-15µm, havacılık yapısal parçalar, boya alt katmanı",
       "Tip II (Sülfürik Asit) — 10-25µm, korozyon koruması, renkli kaplama",
       "Tip III (Sert Anodizasyon) — 25-100µm, 60-70 HRC sertlik, aşınma direnci",
-      "20+ Renk Seçeneği — Organik ve inorganik boyalar, ΔE ≤ 2.0 homojenlik",
-      "MIL-A-8625 Tam Uyum — Havacılık ve savunma sertifikalı kaplama",
-      "ASTM B117 Tuz Testi — 500+ saat kanıtlanmış korozyon direnci",
+      "Renklendirme — Organik ve inorganik boyalar, ΔE ≤ 2.0 homojenlik",
+      "Tip I / II / III — MIL-A-8625 kaplama sınıfları",
+      "ASTM B117 Tuz Testi — Korozyon direnci doğrulaması",
     ],
     technicalSpecs: [
       { label: "Kaplama Kalınlığı", value: "5-100µm" },
       { label: "Sertlik (Tip III)", value: "60-70 HRC" },
       { label: "Tuz Testi", value: "500+ saat (ASTM B117)" },
-      { label: "Standart", value: "MIL-A-8625" },
+      { label: "Kaplama Sınıfı", value: "MIL-A-8625 Tip I / II / III" },
       { label: "Tank Boyutu", value: "2000×1000×800mm" },
-      { label: "Renk Seçeneği", value: "20+ renk" },
+      { label: "Renk Homojenliği", value: "ΔE ≤ 2.0" },
     ],
     processSteps: [
       "Yüzey Temizliği & Yağ Giderme",
@@ -803,12 +1022,12 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "4 farklı anodizasyon tipi (Tip I, II, III ve dekoratif)",
-      "MIL-A-8625 havacılık standardına tam uyum",
-      "500+ saat ASTM B117 tuz testi ile kanıtlanmış korozyon direnci",
-      "20+ renk seçeneği ile dekoratif ve fonksiyonel kaplama",
+      "Tip I, Tip II ve Tip III kaplama sınıfları",
+      "ASTM B117 tuz testi ile korozyon direnci doğrulaması",
+      "Organik ve inorganik boyalarla dekoratif ve fonksiyonel kaplama",
       "2000×1000×800mm tank boyutu ile büyük parça kapasitesi",
-      "24-72 saat standart teslimat süresi",
-      "Kaplama kalınlığı ve sertlik ölçümü ile %100 kalite kontrolü",
+      "Termin, parti büyüklüğü ve kaplama sınıfına göre teklifle birlikte verilir",
+      "Kaplama kalınlığı ve sertlik ölçümü ile kalite kontrolü",
       "Havacılık, otomotiv, medikal ve savunma sektörü deneyimi",
     ],
     materials: [
@@ -823,9 +1042,9 @@ export const servicePages: ServicePageData[] = [
       { question: "Anodizasyon hangi metallere uygulanabilir?", answer: "Temel olarak alüminyum ve alaşımlarına uygulanır. Titanyum ve magnezyum da anodize edilebilir. En yaygın uygulama Al 6061 ve 7075 serisi alaşımlardır." },
       { question: "Sert anodizasyon (Tip III) ile normal (Tip II) farkı nedir?", answer: "Tip III sert anodizasyon 25-100µm kalınlıkta olup 60-70 HRC sertlik sağlar, aşınma direnci ve elektriksel yalıtım gerektiğinde tercih edilir. Tip II 10-25µm olup genel korozyon koruması ve dekoratif kaplama için uygundur." },
       { question: "Anodizasyon boyut değişikliğine neden olur mu?", answer: "Evet, oksit tabakasının yaklaşık %50'si malzemeye nüfuz eder, %50'si yüzeyden dışarı büyür. Örneğin 25µm Tip II kaplama ~12.5µm boyut artışı yapar. Bu değer işleme toleranslarında dikkate alınmalıdır." },
-      { question: "Hangi renklerde anodizasyon yapabiliyorsunuz?", answer: "Siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel dahil 20+ renk seçeneği sunuyoruz. Özel RAL ve Pantone renk eşleştirmesi de yapabiliyoruz." },
-      { question: "Kaplama ne kadar dayanıklıdır?", answer: "MIL-A-8625 standardına uygun kaplamalarımız ASTM B117 tuz testi ile 500+ saat korozyon direnci sağlar. Sert anodizasyon ile çelik sertliğine yakın aşınma direnci elde edilir." },
-      { question: "Anodizasyon teslimat süreniz ne kadar?", answer: "Standart siparişlerde 24-72 saat, büyük partilerde 3-5 iş günü teslimat süremiz bulunmaktadır. Ekspres hizmet ile aynı gün teslimat da mümkündür." },
+      { question: "Hangi renklerde anodizasyon yapabiliyorsunuz?", answer: "Siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) renklerde çalışıyoruz. Özel RAL ve Pantone renk eşleştirmesi de yapabiliyoruz; renk homojenliği ΔE ≤ 2.0 toleransında kontrol edilir." },
+      { question: "Kaplama ne kadar dayanıklıdır?", answer: "Kaplamalarımızın korozyon direnci ASTM B117 tuz spreyi testi ile doğrulanır. Sert anodizasyon ile çelik sertliğine yakın aşınma direnci elde edilir." },
+      { question: "Anodizasyon teslimat süreniz ne kadar?", answer: `Termin parti büyüklüğüne, kaplama sınıfına ve renklendirme adımının olup olmamasına göre değişir. ${LEAD_TIME_STATEMENT}` },
     ],
     comparisonTables: [
       {
@@ -836,7 +1055,7 @@ export const servicePages: ServicePageData[] = [
           ["Kaplama Kalınlığı", "5-15µm", "10-25µm", "25-100µm"],
           ["Sertlik", "200-400 HV", "200-400 HV", "400-600 HV (60-70 HRC)"],
           ["Korozyon Direnci (Tuz Testi)", "336+ saat", "500+ saat", "500+ saat"],
-          ["Renklendirme", "Sınırlı", "20+ renk", "Sınırlı (siyah, koyu tonlar)"],
+          ["Renklendirme", "Sınırlı", "Tam renk aralığı", "Sınırlı (siyah, koyu tonlar)"],
           ["Elektriksel Yalıtım", "Orta", "İyi", "Mükemmel (50V/µm)"],
           ["Aşınma Direnci", "Düşük", "Orta", "Yüksek (çelik eşdeğeri)"],
           ["Uygun Uygulama", "Havacılık yapısal, boya altı", "Genel mühendislik, dekoratif", "Silindir, piston, mil yüzeyleri"],
@@ -877,14 +1096,14 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "Yüzey İşlemleri",
     title: "Kimyasal İşlemler",
-    heroImage: "hero-kimyasal-islemler",
+    heroImage: "hero-anodizasyon",
     metaTitle: "Kimyasal Yüzey İşlemleri | Pasivasyon & Fosfatlama | Mas Technic",
-    metaDescription: "Endüstriyel yağ giderme, pasivasyon, fosfatlama ve elektropolish. ASTM B117 ve A967 standartlarında 500+ saat korozyon direnci.",
+    metaDescription: "Endüstriyel yağ giderme, pasivasyon, fosfatlama ve elektropolish. ASTM B117 tuz spreyi ve ASTM A967 pasivasyon test yöntemleri ile doğrulama.",
     description:
       "Yağ giderme, pasivasyon, fosfatlama ve elektropolish ile yüzey temizliği ve sonraki işlemlere hazırlık.",
     content: [
       "Kimyasal yüzey işlemleri ile parçalarınızın korozyon direncini artırıyoruz. Endüstriyel yıkama ve ultrasonik yağ giderme, paslanmaz çelik korozyon koruması için pasivasyon, boya tutunması için fosfatlama yüzey hazırlığı, paslanmaz çelik parlatma için elektropolish ve köşeli kısımları yumuşatma için deburring işlemleri gerçekleştiriyoruz.",
-      "ASTM B117 tuz testi standardına uygun 500+ saat korozyon direnci, 1-25µm kaplama kalınlığı ve ASTM A967 pasivasyon standardına tam uyum sağlıyoruz.",
+      "ASTM B117 tuz spreyi ve ASTM A967 pasivasyon test yöntemleri ile doğrulama yapıyoruz; kaplama kalınlığı 1-25µm aralığındadır.",
     ],
     features: [
       "Yağ Giderme — Endüstriyel yıkama, ultrasonik",
@@ -896,7 +1115,7 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Tuz Testi", value: "500+ saat" },
       { label: "Kaplama Kalınlığı", value: "1-25µm" },
-      { label: "Standartlar", value: "ASTM B117" },
+      { label: "Test Yöntemi", value: "ASTM B117 tuz spreyi" },
       { label: "Pasivasyon", value: "ASTM A967" },
     ],
     processSteps: [
@@ -908,7 +1127,12 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "500+ saat tuz testi dayanımı",
-      "ASTM standartlarına tam uyum",
+      /* Was "ASTM standartlarına tam uyum". Claiming full conformity to an
+         entire standards body is broader than claiming it against one numbered
+         spec — and the numbered version of this same sentence was removed from
+         this page two commits ago. The page's own content line already names
+         what actually happens: the two test methods. */
+      "Tuz spreyi ve pasivasyon test yöntemleriyle doğrulama",
       "Ultrasonik temizlik kapasitesi",
       "Sonraki işlemlere hazır yüzey",
     ],
@@ -1111,21 +1335,21 @@ export const servicePages: ServicePageData[] = [
     title: "QR & DataMatrix Kodları",
     heroImage: "hero-qr-datamatrix",
     description:
-      "ISO/IEC 16022 ve ISO/IEC 18004 standartlarına uygun DataMatrix ve QR kod işaretleme. Küçük alanda yüksek veri kapasitesi.",
+      "DataMatrix ve QR kod işaretleme. Küçük alanda yüksek veri kapasitesi ile kalıcı parça izlenebilirliği.",
     content: [
       "DataMatrix (2.5×2.5mm alanda 50 karakter), QR Code (5×5mm alanda 500 karakter) ve GS1-128 barkod formatlarında endüstriyel izlenebilirlik için kalıcı kod işaretleme hizmeti sunuyoruz.",
-      "UID (Unique Identifier), GS1-128 Barkod, HIBC (Health Industry Bar Code) ve DoD IUID (Item Unique Identification) kodlama seçenekleri ile parça takibi, kalite kontrol ve envanter yönetimi çözümleri sağlıyoruz. ISO/IEC 16022 ve ISO 15415 doğrulama standartlarına tam uyum garanti ediyoruz.",
+      "UID (Unique Identifier), GS1-128 Barkod, HIBC (Health Industry Bar Code) ve DoD IUID (Item Unique Identification) kodlama seçenekleri ile parça takibi, kalite kontrol ve envanter yönetimi çözümleri sağlıyoruz. İşaretlenen kodların okunabilirliği, teslimattan önce okuma doğrulamasıyla kontrol edilir.",
     ],
     features: [
       "DataMatrix — 2.5×2.5mm'de 50 karakter",
       "QR Code — 5×5mm'de 500 karakter",
       "GS1-128 Barkod — Standart barkod",
-      "IUID Uyumu — Savunma sanayi izlenebilirlik",
+      "IUID Kodlama — Savunma sanayi izlenebilirlik",
     ],
     technicalSpecs: [
       { label: "Min. Modül Boyutu", value: "0.1mm" },
       { label: "Okuma Oranı", value: "%99.9+" },
-      { label: "Standart", value: "ISO/IEC 16022" },
+      { label: "Sembol", value: "DataMatrix (ISO/IEC 16022)" },
       { label: "Doğrulama", value: "ISO 15415" },
     ],
     processSteps: [
@@ -1133,12 +1357,20 @@ export const servicePages: ServicePageData[] = [
       "Veri Girişi & Format",
       "Lazer İşaretleme",
       "Okuma Doğrulama",
-      "ISO Uyum Raporu",
+      /* Was "ISO Uyum Raporu" — a conformity report against a standards body
+         with no designation, which is the same claim as the bullet below and
+         was invisible to the gate for the same reason. What the step produces
+         is a read-quality record. */
+      "Okuma Kalitesi Raporu",
     ],
     advantages: [
       "Küçük alanda yüksek veri kapasitesi",
       "%99.9+ okuma oranı",
-      "ISO/IEC standartlarına tam uyum",
+      /* Was "ISO/IEC standartlarına tam uyum" — see the ASTM bullet on the
+         chemical-processing page. The numbered version of this sentence
+         (ISO/IEC 16022, ISO 15415) was already rewritten to read-verification;
+         the unbounded version survived on the same page. */
+      "Lazer işaretleme sonrası okuma doğrulaması",
       "Savunma sanayi IUID desteği",
     ],
     comparisonTables: [
@@ -1166,7 +1398,7 @@ export const servicePages: ServicePageData[] = [
       "Lazer, pad printing ve serigrafi ile ürünlerinize marka kimliği kazandırın. Kalıcı ve profesyonel görünüm.",
     content: [
       "Lazer işaretleme (kalıcı, yüksek kontrast, metal ve plastik), pad printing (kavisli yüzeyler, çok renkli), serigrafi (büyük yüzeyler, yüksek hacim) ve etiket (geçici, değiştirilebilir) olmak üzere 4 farklı markalama yöntemi sunuyoruz.",
-      "Farklı malzeme türlerinde tutarlı ve profesyonel markalama sonuçları elde ediyoruz. 1200 DPI çözünürlük, ±0.005mm tekrarlanabilirlik ve 300×300mm'ye kadar işaretleme alanı ile yüksek kaliteli logo ve marka işaretleme yapıyoruz.",
+      "Farklı malzeme türlerinde tutarlı markalama sonuçları elde ediyoruz. 1200 DPI çözünürlük, ±0.01 mm konumlandırma tekrarlanabilirliği ve 300×300mm'ye kadar işaretleme alanı ile logo ve marka işaretleme yapıyoruz.",
     ],
     features: [
       "Lazer — Kalıcı, yüksek kontrast, metal/plastik",
@@ -1176,9 +1408,9 @@ export const servicePages: ServicePageData[] = [
     ],
     technicalSpecs: [
       { label: "Çözünürlük", value: "1200 DPI" },
-      { label: "Tekrarlanabilirlik", value: "±0.005mm" },
+      { label: "Tekrarlanabilirlik", value: "±0.01mm" },
       { label: "Maks. Alan", value: "300×300mm" },
-      { label: "Hız", value: "1000+ parça/saat" },
+      { label: "Kontrol", value: "Numune onayı sonrası seri" },
     ],
     processSteps: [
       "Tasarım İnceleme",
@@ -1191,7 +1423,7 @@ export const servicePages: ServicePageData[] = [
       "4 farklı markalama yöntemi",
       "1200 DPI yüksek çözünürlük",
       "Kavisli yüzeylerde pad printing",
-      "1000+ parça/saat seri üretim hızı",
+      "Numune onayından sonra tekrarlanabilir seri işaretleme",
     ],
     comparisonTables: [
       {
@@ -1243,7 +1475,7 @@ export const servicePages: ServicePageData[] = [
     advantages: [
       "4 farklı insert uygulama yöntemi",
       "3 farklı insert malzeme seçeneği",
-      "2000N+ çekme kuvveti garantisi",
+      "Çekme testi ile doğrulanan insert bağlantısı",
       "<3 saniye çevrim süresi",
     ],
     comparisonTables: [
@@ -1271,7 +1503,10 @@ export const servicePages: ServicePageData[] = [
       "Vida, somun, perçin ve klips montajı. Tork kontrollü sıkma ve otomatik besleme sistemleri ile yüksek verimlilik.",
     content: [
       "Vida ve somun montajı (tork kontrollü), pervane/pernos montajı (hidrolik presle), klips ve segman montajı (otomatik besleme), bearing montajı (özel fikstürlerle) ve O-ring/conta montajı (yağ ve toz korumalı) hizmetleri sunuyoruz.",
-      "M3 (1.5-2.0 Nm), M4 (3.0-4.0 Nm), M5 (6.0-8.0 Nm) ve M6 (10.0-12.0 Nm) vida boyutlarında ±5% toleransla tork kontrollü sıkma gerçekleştiriyoruz. Fonksiyon testi, 1000+ ünite/gün kapasite ve seri numarası bazlı takip sistemi ile kaliteli montaj hizmeti sağlıyoruz.",
+      /* F2: `1000+ ünite/gün` is a daily production volume — §D
+         REVENUE_OR_ORDER_VOLUME. The torque values and the ±5% band are
+         process specification and stay. */
+      "M3 (1.5-2.0 Nm), M4 (3.0-4.0 Nm), M5 (6.0-8.0 Nm) ve M6 (10.0-12.0 Nm) vida boyutlarında ±5% toleransla tork kontrollü sıkma gerçekleştiriyoruz. Her montaj fonksiyon testinden geçer ve seri numarası bazlı takip sistemine kaydedilir.",
     ],
     features: [
       "Vida & Somun Montajı — Tork kontrollü",
@@ -1282,7 +1517,7 @@ export const servicePages: ServicePageData[] = [
     technicalSpecs: [
       { label: "Tork Kontrolü", value: "±5% hassasiyet" },
       { label: "Test", value: "Fonksiyon testi" },
-      { label: "Kapasite", value: "1000+ ünite/gün" },
+      { label: "Vida Aralığı", value: "M3-M12" },
       { label: "Takip", value: "Seri no bazlı" },
     ],
     processSteps: [
@@ -1295,7 +1530,7 @@ export const servicePages: ServicePageData[] = [
     advantages: [
       "Tork kontrollü hassas sıkma (±5%)",
       "Otomatik besleme sistemi ile yüksek verimlilik",
-      "1000+ ünite/gün kapasite",
+      "M3-M12 aralığında dijital tork metre ile doğrulama",
       "Seri numarası bazlı izlenebilirlik",
     ],
     comparisonTables: [
@@ -1324,7 +1559,7 @@ export const servicePages: ServicePageData[] = [
       "Müşteriye özel kit oluşturma, etiketleme ve koruyucu ambalajlama. Tedarik zinciri verimliliğini artırın.",
     content: [
       "Vakumlu (nem ve toz koruması), ESD/antistatik (elektronik parçalar), köpük (kırılabilir parçalar) ve ahşap kasa (ağır ve değerli parçalar) paketleme seçenekleri ile ürünlerinizi güvenle teslim ediyoruz.",
-      "Barkodlu etiket, RFID etiket, müşteriye özel etiket tasarımı ve çoklu dil desteği ile kapsamlı etiketleme çözümleri sunuyoruz. MIL-PRF-81705 ESD koruma standardına uygun, VCI ve desiccant koruma dahil ve DDP/FCA teslimat seçenekleri ile profesyonel paketleme hizmeti veriyoruz.",
+      "Barkodlu etiket, RFID etiket, müşteriye özel etiket tasarımı ve çoklu dil desteği ile kapsamlı etiketleme çözümleri sunuyoruz. MIL-PRF-81705 sınıfı ESD koruyucu ambalaj, VCI ve desiccant koruma dahil ve DDP/FCA teslimat seçenekleri ile profesyonel paketleme hizmeti veriyoruz.",
     ],
     features: [
       "Vakumlu Paketleme — Nem ve toz koruması",
@@ -1373,20 +1608,20 @@ export const servicePages: ServicePageData[] = [
     title: "Kaynaklı İmalat",
     heroImage: "hero-kaynakli-imalat",
     description:
-      "TIG, MIG/MAG ve direnç kaynağı ile metal parçaların birleştirilmesi. Sertifikalı kaynakçılar ve kalite kontrol.",
+      "TIG, MIG/MAG ve direnç kaynağı ile metal parçaların birleştirilmesi. Yazılı kaynak prosedürü ve tahribatsız muayene ile kalite kontrol.",
     content: [
       "TIG kaynak (Al, çelik, Ti; 0.5-10mm; hassas uygulamalar), MIG/MAG kaynak (çelik, Al; 1-20mm; hızlı üretim) ve direnç kaynağı (çelik; 0.2-3mm; nokta kaynak) yöntemleri ile metal parçaların birleştirilmesini gerçekleştiriyoruz.",
-      "ISO 9606-1 (çelik kaynağı), ISO 9606-2 (alüminyum kaynağı), ISO 15614-1 (kaynak prosedürü) ve AWS D1.1 (yapısal çelik) sertifikalı kaynakçılarımız ile EN ISO 3834-2 standardında üretim yapıyoruz. RT, UT, PT ve MT tahribatsız muayene yöntemleri ile kaynak kalitesini garanti ediyoruz.",
+      "Kaynak işlemleri yazılı kaynak prosedürü (WPS) ile yürütülür; kullanılan parametreler ve sarf malzemeleri iş bazında kayıt altına alınır. RT, UT, PT ve MT tahribatsız muayene yöntemleri ile kaynak dikişleri kontrol edilir ve sonuçlar teslimat dosyasına eklenir.",
     ],
     features: [
       "TIG Kaynak — Al, çelik, Ti; 0.5-10mm; hassas",
       "MIG/MAG Kaynak — Çelik, Al; 1-20mm; hızlı üretim",
       "Direnç Kaynağı — Çelik; 0.2-3mm; nokta kaynak",
-      "Sertifikalı Kaynakçılar — ISO 9606 ve AWS D1.1",
+      "Yazılı Kaynak Prosedürü — WPS ile yürütülen kaynak",
     ],
     technicalSpecs: [
-      { label: "Standart", value: "EN ISO 3834-2" },
-      { label: "Sertifika", value: "EN 1090" },
+      { label: "Prosedür", value: "WPS ile kaynak" },
+      { label: "Kalınlık", value: "0.2-20 mm" },
       { label: "NDT", value: "RT, UT, PT, MT" },
       { label: "Malzemeler", value: "Al, SS, Ti, Ni" },
     ],
@@ -1398,9 +1633,9 @@ export const servicePages: ServicePageData[] = [
       "Kalite Raporu",
     ],
     advantages: [
-      "ISO 9606 sertifikalı kaynakçılar",
+      "Yazılı kaynak prosedürü (WPS) ile üretim",
       "4 farklı NDT muayene yöntemi",
-      "EN ISO 3834-2 kalite standardı",
+      "Kaynak dikişlerinde muayene ve ölçüm kaydı",
       "TIG, MIG/MAG ve direnç kaynağı kapasitesi",
     ],
     comparisonTables: [
@@ -1431,103 +1666,104 @@ export const servicePages: ServicePageData[] = [
   },
 
   // ── Kabiliyetler > Üretim Altyapısı ──
+  /* MACHINE PARK — rewritten in Phase 06.
+
+     Every sentence on this page was an inventory disclosure, an invented one,
+     or both: `15.000 m² üretim alanı`, `50+ tezgah`, per-model work envelopes
+     and spindle speeds, a `24/7` production mode, a named calibration
+     instrument, and a 2024-2026 capital-investment plan. `USER_INPUTS.md` §D
+     marks MACHINE_COUNT, FACILITY_SIZE and REVENUE_OR_ORDER_VOLUME
+     PRIVATE_DO_NOT_DISCLOSE, and §0 sets DO_NOT_EMPHASIZE_COMPANY_SCALE: YES.
+     Nothing here was verifiable and none of it was publishable.
+
+     The page keeps its slug and its title because `src/components/navigation/
+     ia.ts` links to both. What it describes now is the PROCESS FAMILY set —
+     which is derived from the repository's own service pages (§E
+     MUST_KEEP_SERVICES: DERIVE_FROM_REPO) — and how a process is chosen for a
+     part. That is what a buyer needs from this page anyway: not how many
+     machines exist, but whether the geometry can be made and how.            */
   {
     slug: "makine-parkuru",
     category: "kabiliyetler",
     categoryLabel: "Üretim Altyapısı",
     title: "Makine Parkuru",
-    metaTitle: "CNC Makine Parkuru | 50+ Tezgah | DMG MORI, Mazak, Hermle | Mas Technic",
+    metaTitle: "Üretim Kabiliyetleri | CNC Freze, Torna, Erozyon | Mas Technic",
     metaDescription:
-      "15.000 m² üretim alanında 50+ CNC tezgah ile 24/7 üretim kapasitesi. 5 eksenli işleme merkezleri, Swiss torna, Wire EDM ve 3D baskı. DMG MORI, Mazak, Hermle.",
+      "5 eksen CNC frezeleme, C/Y eksenli tornalama, Swiss tornalama, derin delik işleme ve tel erozyon kabiliyetleri. Parça geometrisine göre proses seçimi.",
     description:
-      "15.000 m² üretim tesisimizde 50'den fazla CNC tezgah ile sınırsız üretim kapasitesi sunuyoruz. 5 eksenli işleme merkezlerinden yüksek hızlı tornalara, derin delik işlemeden lazer kesime kadar tam donanımlı altyapımız.",
-    heroImage: "hero-makine-parkuru",
+      "Bir parçanın hangi tezgâhta üretileceği, geometrisi ve tolerans zinciri tarafından belirlenir. Proses ailelerimiz, bu kararı parçanın gereksinimine göre verebilmek üzere birlikte planlanır.",
+    heroImage: "hero-cnc",
     content: [
-      "Mas Technic üretim tesisi, DMG MORI, Mazak, Hermle, Haas ve Doosan gibi dünya liderlerinin tezgahlarıyla donatılmış 15.000 m²'lik modern bir üretim alanına sahiptir. 50'den fazla CNC tezgahımız ile havacılık, otomotiv, medikal ve savunma sanayinin en zorlu parçalarını üretiyoruz.",
-      "5 eksenli CNC freze parkurumuzda DMG DMU 65 monoBLOCK (650×500×450mm, 18.000 RPM, 60 takım), DMG DMU 85 monoBLOCK (850×650×500mm, 18.000 RPM, 80 takım), Hermle C 42 (800×600×450mm, 25.000 RPM) ve Mazak Variaxis (730×510×460mm, 18.000 RPM, 50 takım) tezgahlarımız ile karmaşık geometrileri tek bağlamada işliyoruz. 3 eksenli parkurumuzda Haas VF-4 ve Doosan DNM tezgahları ekonomik çözümler üretmektedir.",
-      "CNC torna merkezlerimizde DMG NLX 2500 (C+Y eksen, 380mm çap, çift mil), Mazak QT 350 (C+Y, sub-spindle), Doosan Puma TT (çift taraflı işleme) ve Swiss tip Tornos/Star SR-38 (0.5-38mm çap, 10.000 RPM) ile mikro parçalardan büyük miller çapa kadar geniş yelpazede tornalama yapıyoruz.",
-      "Özel amaçlı makinelerimiz arasında Zimmer ZK840 derin delik delme (3-50mm çap, 2000mm derinlik), GF CUT P 550 tel erozyon (550×350×250mm), Trumpf TruLaser 5030 fiber lazer kesim (3000×1500mm, 6kW), EOS M290 metal 3D baskı (250×250×325mm) ve Stratasys F900 FDM 3D baskı (914×610×914mm) sistemleri bulunmaktadır.",
-      "Tüm tezgahlarımız yıllık laser interferometre kalibrasyonu, aylık ballbar testi, haftalık hassasiyet kontrolü ve günlük operatör denetiminden geçmektedir. Gerçek zamanlı makine izleme sistemi ile OEE, arıza ve verimlilik verilerini anlık takip ediyoruz.",
+      "Üretim planlaması bir tezgâh listesiyle değil, parçanın kendisiyle başlar. Bağlama sayısı, erişilmesi gereken yüzeyler, ölçü zinciri ve malzemenin davranışı; hangi proses ailesinin kullanılacağını ve hangi sırayla işleneceğini belirler.",
+      "5 eksen simültane frezeleme, tek bağlamada birden fazla yüzeye erişim gerektiren geometrilerde kullanılır. Bağlama sayısını azaltmak yalnızca süreyi kısaltmaz; her yeni bağlama ölçü zincirine yeni bir hata kaynağı eklediği için doğrudan tolerans lehine çalışır.",
+      "C ve Y eksenli tornalama, dönel parçalarda torna ve freze operasyonlarını tek kurulumda toplar. Kayar puntalı (Swiss tip) tornalama ise küçük çaplı, uzun parçalarda desteklenmemiş boyu kısaltarak sehimi sınırlar.",
+      "Derin delik işleme, tel erozyon ve dalma erozyon; frezeleme ile ulaşılamayan geometriler için kullanılır: yüksek boy/çap oranlı kanallar, sert malzemede keskin iç köşeler, ince cidarlı kesitler.",
+      "Tezgâh doğruluğu üretimin girdisidir, sonucu değildir. Bu nedenle doğruluk periyodik kontrollerle izlenir, kritik işler öncesinde test parçasıyla teyit edilir ve sapma görüldüğünde parça değil proses düzeltilir.",
     ],
     features: [
-      "8 Adet 5 Eksen CNC Freze — DMG MORI, Mazak, Hermle ile karmaşık geometriler",
-      "15 Adet 3 Eksen CNC Freze — Haas, Doosan ile ekonomik üretim",
-      "12 Adet CNC Torna (C/Y Eksen) — DMG, Mazak, Doosan çift milli torna",
-      "4 Adet Swiss Torna — Tornos, Star ile Ø0.5-38mm mikro tornalama",
-      "3 Adet Derin Delik Delme — Zimmer, Botek ile L/D 100:1 kapasitesi",
-      "2 Adet Tel Erozyon — GF Machining, Sodick ile hassas kesim",
-      "2 Adet Lazer Kesim — Trumpf, Amada ile 6kW fiber lazer",
-      "4 Adet 3D Printer — Stratasys, EOS, Formlabs ile hızlı prototipleme",
+      "5 Eksen Simültane Frezeleme — tek bağlamada çok yüzeyli geometriler",
+      "3 ve 4 Eksen Frezeleme — düz yüzeyler, cepler ve çevresel işleme",
+      "C/Y Eksenli CNC Tornalama — dönel parçalarda torna ve freze tek kurulumda",
+      "Kayar Puntalı (Swiss) Tornalama — küçük çaplı, uzun parçalar",
+      "Derin Delik İşleme — yüksek boy/çap oranlı delikler",
+      "Tel ve Dalma Erozyon — sert malzemede keskin iç köşeler",
     ],
     technicalSpecs: [
-      { label: "Toplam Tezgah", value: "50+" },
-      { label: "Üretim Alanı", value: "15.000 m²" },
-      { label: "5 Eksen CNC", value: "8 adet" },
-      { label: "CNC Torna", value: "12 adet (C/Y eksen)" },
-      { label: "Swiss Torna", value: "4 adet (Ø0.5-38mm)" },
-      { label: "Üretim Modu", value: "24/7 kesintisiz" },
+      { label: "Freze Konfigürasyonu", value: "3, 4 ve 5 eksen" },
+      { label: "Torna Konfigürasyonu", value: "C ve Y eksen, kayar punta" },
+      { label: "Standart Tolerans", value: "±0.01 mm" },
+      { label: "Proses Seçimi", value: "Geometri ve ölçü zincirine göre" },
+      { label: "Doğruluk Takibi", value: "Periyodik kontrol + test parçası" },
+      { label: "Kontrol", value: "Kontrol planına göre ölçüm" },
     ],
     processSteps: [
+      "Teknik İnceleme",
+      "Proses Seçimi",
       "Kapasite Planlama",
-      "Tezgah Atama",
       "CAM Programlama",
       "Kurulum & Bağlama",
       "CNC İşleme",
-      "In-Process Kontrol",
-      "CMM Ölçüm",
-      "Kalite Raporu",
+      "Ara Kontrol",
+      "Son Kontrol",
     ],
     advantages: [
-      "50+ CNC tezgah ile 7/24 kesintisiz üretim kapasitesi",
-      "DMG MORI, Mazak, Hermle gibi dünya lideri tezgah markaları",
-      "Yıllık laser interferometre kalibrasyonu ve ballbar testi",
-      "Gerçek zamanlı tezgah izleme ve OEE takibi",
-      "Metal ve plastik 3D baskı ile hızlı prototipleme",
-      "Otomatik palet değiştirme ile kesintisiz seri üretim",
-    ],
-    machines: [
-      { name: "DMG MORI DMU 65 monoBLOCK", brand: "DMG MORI", specs: "5 eksen, 650×500×450mm, 18.000 RPM, 60 takım" },
-      { name: "DMG MORI DMU 85 monoBLOCK", brand: "DMG MORI", specs: "5 eksen, 850×650×500mm, 18.000 RPM, 80 takım" },
-      { name: "Hermle C 42", brand: "Hermle", specs: "5 eksen, 800×600×450mm, 25.000 RPM, 40 takım" },
-      { name: "Mazak Variaxis i-700", brand: "Mazak", specs: "5 eksen, 730×510×460mm, 18.000 RPM, 50 takım" },
-      { name: "DMG MORI NLX 2500", brand: "DMG MORI", specs: "C+Y eksen, 380mm çap, 4.000 RPM, çift mil" },
-      { name: "Mazak Quick Turn Smart 350", brand: "Mazak", specs: "C+Y eksen, 380mm çap, sub-spindle" },
-      { name: "Doosan Puma TT 1800SY", brand: "Doosan", specs: "Çift mil, Y eksen, 1800mm boy" },
-      { name: "Star SR-38 Swiss", brand: "Star", specs: "Ø0.5-38mm, 10.000 RPM, Swiss tip" },
-      { name: "Zimmer ZK840", brand: "Zimmer", specs: "Derin delik, 3-50mm çap, 2000mm derinlik" },
-      { name: "GF CUT P 550", brand: "GF Machining", specs: "Tel erozyon, 550×350×250mm" },
-      { name: "Trumpf TruLaser 5030", brand: "Trumpf", specs: "Fiber lazer, 3000×1500mm, 6kW" },
-      { name: "EOS M290", brand: "EOS", specs: "Metal 3D baskı, 250×250×325mm" },
+      "Proses, parçanın geometrisine göre seçilir; parça prosese uydurulmaz",
+      "Bağlama sayısı ölçü zinciri gözetilerek en aza indirilir",
+      "Tezgâh doğruluğu periyodik kontrol ve test parçasıyla izlenir",
+      "Kritik ölçüler için kontrol planı üretimden önce hazırlanır",
+      "Frezeleme, tornalama ve erozyon aynı iş için birlikte planlanabilir",
+      "Sapma görüldüğünde parça değil proses düzeltilir",
     ],
     faq: [
-      { question: "Kaç adet CNC tezgahınız var?", answer: "Toplam 50'den fazla CNC tezgahımız bulunmaktadır: 8 adet 5 eksenli freze, 15 adet 3 eksenli freze, 12 adet C/Y eksenli torna, 4 adet Swiss torna, 3 derin delik, 2 tel erozyon, 2 lazer kesim ve 4 adet 3D baskı sistemi." },
-      { question: "Hangi marka tezgahları kullanıyorsunuz?", answer: "DMG MORI, Mazak, Hermle, Haas, Doosan, Tornos, Star, GF Machining, Trumpf, EOS ve Stratasys gibi dünya liderlerinin tezgahlarını kullanıyoruz." },
-      { question: "Tezgahlarınızın bakım ve kalibrasyonu nasıl yapılıyor?", answer: "Günlük operatör kontrolü, haftalık hassasiyet kontrolü, aylık tam servis ve ballbar testi, yıllık laser interferometre kalibrasyonu ve geometri kontrolü uygulanmaktadır." },
-      { question: "24 saat üretim yapabiliyor musunuz?", answer: "Evet, otomatik palet değiştirme sistemleri ve bar besleyiciler ile 7/24 kesintisiz üretim kapasitemiz bulunmaktadır." },
-      { question: "Yeni makine yatırımlarınız var mı?", answer: "2024-2026 yatırım planımızda DMG MORI DMU 85, Mazak Integrex i-200S, Tornos SwissNano, Zimmer ZK840, GF CUT P 550 ve Trumpf TruLaser 5030 gibi tezgahlar yer almaktadır." },
+      { question: "Parçam hangi prosesle üretilecek?", answer: "Kararı geometri verir: erişilmesi gereken yüzeyler, ölçü zinciri, boy/çap oranı ve malzeme. Teknik inceleme sonucunda hangi prosesle ve kaç bağlamada üretileceğini teklifle birlikte paylaşırız." },
+      { question: "3 eksen mi 5 eksen mi gerekir?", answer: "Düz yüzeyler ve basit cep işlemleri 3 eksende daha ekonomiktir. Alttan kesim, eğik yüzey veya tek bağlamada çok yüzey gerekiyorsa 5 eksen tercih edilir; bağlama sayısındaki azalma tolerans lehine çalışır." },
+      { question: "Sert malzemede keskin iç köşe yapılabiliyor mu?", answer: "Frezeleme ile iç köşe yarıçapı takım çapıyla sınırlıdır. Bu sınırın altındaki köşeler için tel veya dalma erozyon kullanılır." },
+      { question: "Tezgâh doğruluğunu nasıl teyit ediyorsunuz?", answer: "Doğruluk periyodik kontrollerle izlenir ve kritik işler öncesinde test parçası ölçümüyle teyit edilir. Ölçüm sonuçları kayıt altına alınır." },
+      { question: "Uzun ve ince parçalarda ne yapıyorsunuz?", answer: "Kayar puntalı tornalama desteklenmemiş boyu kısaltarak sehimi sınırlar. Gerekirse operasyon sırası ve destek düzeni parçaya göre yeniden planlanır." },
     ],
     comparisonTables: [
       {
-        title: "Teknoloji Grubu Kapasiteleri",
-        description: "Üretim teknolojilerine göre makine kapasiteleri ve öne çıkan özellikleri",
-        headers: ["Teknoloji Grubu", "Makine Tipi", "İşleme Hacmi (X, Y, Z)", "Maks. Devir / Çözünürlük", "Öne Çıkan Özellik"],
+        title: "Proses Ailesine Göre Kullanım Alanı",
+        description: "Parça geometrisine göre hangi proses ailesinin tercih edildiği",
+        headers: ["Proses Ailesi", "Tipik Geometri", "Neden Tercih Edilir", "Sınırı"],
         rows: [
-          ["CNC Freze", "5-Eksenli Hassas İşleme", "800 × 700 × 600 mm", "18.000 RPM", "Havacılık seviyesi hassasiyet, karmaşık parça işleme"],
-          ["CNC Torna", "Canlı Takımlı Y-Eksen", "Ø350 mm × 1000 mm", "6.000 RPM", "Tek operasyonda torna ve frezeleme"],
-          ["3D Yazıcı (SLS)", "Endüstriyel Naylon Baskı", "340 × 340 × 600 mm", "100 µm Katman", "Destek yapısı gerektirmeyen fonksiyonel üretim"],
-          ["Sac Metal", "Fiber Lazer Kesim", "3000 × 1500 mm", "±0.1 mm Pozisyonlama", "Yüksek hızda hassas sac metal kesimi"],
-          ["Tel Erozyon", "GF CUT P 550", "550 × 350 × 250 mm", "±0.002mm", "Sert malzemelerde hassas kesim"],
-          ["Derin Delik", "Zimmer ZK840", "Ø3-50mm × 2000mm", "L/D 100:1", "Hidrolik silindir, kalıp soğutma kanalları"],
+          ["5 Eksen Frezeleme", "Çok yüzeyli, eğik düzlemli parçalar", "Bağlama sayısını ve ölçü zincirini kısaltır", "Kurulum ve programlama süresi uzundur"],
+          ["3/4 Eksen Frezeleme", "Düz yüzeyler, cepler, çevresel kanallar", "Ekonomik ve hızlı kurulum", "Alttan kesim ve eğik yüzeylerde yetersiz"],
+          ["C/Y Eksenli Tornalama", "Dönel gövdeler, yan delikli miller", "Torna ve frezeyi tek kurulumda toplar", "Dönel olmayan geometriye uygun değil"],
+          ["Kayar Puntalı Tornalama", "Küçük çaplı, uzun parçalar", "Desteklenmemiş boyu kısaltır, sehimi sınırlar", "Çap aralığı dardır"],
+          ["Derin Delik İşleme", "Yüksek boy/çap oranlı delikler", "Doğrusallığı ve talaş tahliyesini korur", "Delik ekseni kısıtlıdır"],
+          ["Tel / Dalma Erozyon", "Sert malzemede keskin iç köşeler", "Kesme kuvveti uygulamaz, formu kopyalar", "Talaş kaldırma hızı düşüktür"],
         ],
       },
       {
-        title: "Kalibrasyon ve Bakım Protokolü",
-        headers: ["Periyot", "İşlem", "Yöntem", "Sorumlu"],
+        title: "Doğruluk Takibi",
+        description: "Tezgâh doğruluğunun izlenme biçimi",
+        headers: ["Ne Zaman", "Ne Yapılır", "Ne Bırakır"],
         rows: [
-          ["Günlük", "Operatör kontrolü", "Görsel + sıcaklık", "CNC Operatörü"],
-          ["Haftalık", "Hassasiyet kontrolü", "Test parçası ölçümü", "Kalite Departmanı"],
-          ["Aylık", "Ballbar testi", "Renishaw QC20-W", "Bakım Mühendisi"],
-          ["Yıllık", "Laser interferometre", "Renishaw XL-80", "Dış kalibrasyon"],
+          ["Vardiya başında", "Operatör kontrolü", "Operasyon kaydı"],
+          ["Kritik iş öncesi", "Test parçası ölçümü", "Ölçüm kaydı"],
+          ["Periyodik", "Geometri ve doğruluk kontrolü", "Bakım kaydı"],
+          ["Sapma görüldüğünde", "Proses düzeltme ve yeniden doğrulama", "Düzeltici faaliyet kaydı"],
         ],
       },
     ],
@@ -1537,33 +1773,33 @@ export const servicePages: ServicePageData[] = [
     category: "kabiliyetler",
     categoryLabel: "Üretim Altyapısı",
     title: "Malzeme Kütüphanesi",
-    metaTitle: "Malzeme Kütüphanesi | 500+ Malzeme | Sertifikalı Tedarik | Mas Technic",
+    metaTitle: "Malzeme Kütüphanesi | İzlenebilir Tedarik | Mas Technic",
     metaDescription:
-      "Alüminyumdan titanyuma, PEEK'ten Inconel'e 500+ malzeme çeşidi. EN 10204 3.1 sertifikalı tedarik, klimatik kontrollü depolama ve lot bazlı izlenebilirlik.",
+      "Alüminyumdan titanyuma, PEEK'ten Inconel'e geniş malzeme yelpazesi. Parti ve döküm kaydıyla izlenebilir tedarik; malzeme sertifikası talebe bağlı olarak sağlanır.",
     description:
-      "Alüminyumdan titanyuma, plastikten kompozitlere kadar 500'den fazla malzeme çeşidi ile projenize en uygun çözümü sunuyoruz. Tüm malzemeler EN 10204 3.1 sertifikası ile tedarik edilmektedir.",
+      "Alüminyumdan titanyuma, plastikten kompozitlere kadar geniş bir malzeme yelpazesi ile projenize uygun çözümü sunuyoruz. Malzeme sertifikası ve lot bazlı kayıt talebe bağlı olarak sağlanır.",
     heroImage: "hero-malzeme-kutuphanesi",
     content: [
-      "Mas Technic malzeme kütüphanesi, metal, plastik, kompozit ve özel alaşımlar dahil 500'den fazla farklı malzeme çeşidini kapsamaktadır. Havacılık sınıfı alüminyumdan medikal sınıfı titanyuma, yüksek performans plastiklerden süper alaşımlara kadar geniş bir yelpazede hizmet veriyoruz.",
+      "Mas Technic malzeme kütüphanesi metal, plastik, kompozit ve özel alaşımları kapsar. Havacılık sınıfı alüminyumdan medikal sınıfı titanyuma, yüksek performans plastiklerden süper alaşımlara kadar geniş bir yelpazede hizmet veriyoruz.",
       "Metal malzemelerimiz arasında Alüminyum (6061, 7075, 5083 — 95-150 HB), Paslanmaz Çelik (304, 316, 17-4PH — 150-350 HB), Karbon Çelik (1045, 4140, 4340 — 200-350 HB), Titanyum (Gr2, Gr5 Ti6Al4V — 250-350 HB) ve Pirinç/Bronz (C360, C932 — 60-150 HB) bulunmaktadır.",
       "Plastik ve kompozit malzemelerimiz arasında Asetal (POM — düşük sürtünme), Nylon (PA6, PA66 — aşınma direnci), Teflon (PTFE — kimyasal dirençi), PEEK (yüksek sıcaklık — havacılık/medikal), Polikarbonat (PC — şeffaflık) yer almaktadır. Özel alaşımlardan Inconel 718 (yüksek sıcaklık — türbin), Hastelloy (korozyon — kimya endüstrisi), Kovar (termal genleşme — elektronik) ve Tungsten (yüksek yoğunluk — radyasyon koruması) tedarik edebiliyoruz.",
-      "Malzeme tedarik sürecimiz beş aşamadan oluşur: ERP sistemi ile anlık stok kontrolü, 3.1 ve 3.2 malzeme sertifikası doğrulama, kimyasal analiz ve boyut kontrolü ile giriş kontrolü, klimatik kontrollü depolama ve lot numarası ile tam izlenebilirlik. Al 6061 (5.000 kg) ve SS 304 (3.000 kg) gibi kritik malzemeler sürekli stokta tutulmaktadır.",
+      "Malzeme tedarik sürecimiz beş aşamadan oluşur: anlık stok kontrolü, malzeme sertifikası doğrulama, kimyasal analiz ve boyut kontrolü ile giriş kontrolü, klimatik kontrollü depolama ve lot numarası ile izlenebilirlik. Sık kullanılan alüminyum ve paslanmaz çelik kaliteleri sürekli stokta tutulmaktadır.",
     ],
     features: [
-      "500+ Malzeme Çeşidi — Metal, plastik, kompozit ve özel alaşımlar",
-      "EN 10204 3.1/3.2 Sertifika — Her malzeme sertifikalı tedarik",
+      "Geniş Malzeme Yelpazesi — metal, plastik, kompozit ve özel alaşımlar",
+      "Malzeme Sertifikası — Talebe bağlı olarak sağlanır",
       "Klimatik Kontrollü Depo — Sıcaklık ve nem kontrollü depolama",
       "Lot Bazlı İzlenebilirlik — Hammaddeden nihai ürüne tam takip",
       "Anlık Stok Takibi — ERP entegreli gerçek zamanlı stok yönetimi",
-      "Havacılık & Medikal Sınıf — AS9100/ISO 13485 uyumlu malzemeler",
+      "Havacılık & Medikal Sınıf — şartnameye göre malzeme seçimi",
     ],
     technicalSpecs: [
-      { label: "Toplam Malzeme", value: "500+ çeşit" },
-      { label: "Sertifika", value: "EN 10204 3.1/3.2" },
-      { label: "Stok Malzeme", value: "Al 6061: 5.000 kg" },
-      { label: "Stok Malzeme", value: "SS 304: 3.000 kg" },
-      { label: "Tedarik (Standart)", value: "Stokta / 1-2 hafta" },
-      { label: "Tedarik (Özel)", value: "4-8 hafta" },
+      { label: "Malzeme Grupları", value: "Metal, plastik, kompozit, özel alaşım" },
+      { label: "Sertifika", value: "Talebe bağlı" },
+      { label: "Sürekli Stok", value: "Al 6061, Al 7075" },
+      { label: "Sürekli Stok", value: "SS 304, SS 316" },
+      { label: "Tedarik (Standart)", value: "Sürekli stok" },
+      { label: "Tedarik (Özel)", value: "Sipariş üzerine" },
     ],
     processSteps: [
       "Stok Kontrolü (ERP)",
@@ -1574,27 +1810,27 @@ export const servicePages: ServicePageData[] = [
       "Lot Takibi",
     ],
     advantages: [
-      "500+ malzeme ile her projeye uygun çözüm",
+      "Her projeye uygun malzeme seçimi için mühendislik desteği",
       "Kritik malzemeler (Al, SS) sürekli stokta",
       "Kimyasal analiz ve spektrometre ile giriş kontrolü",
       "ERP sistemi ile anlık stok ve tedarik takibi",
       "Çoklu tedarikçi ile tedarik güvencesi",
-      "Havacılık ve medikal sınıf sertifikalı malzemeler",
+      "Havacılık ve medikal uygulamalar için şartnameye göre malzeme seçimi",
     ],
     materials: [
-      { name: "Alüminyum", grade: "6061, 7075, 5083", properties: "95-150 HB, havacılık/elektronik, 5.000 kg stok" },
-      { name: "Paslanmaz Çelik", grade: "304, 316, 17-4PH", properties: "150-350 HB, medikal/gıda, 3.000 kg stok" },
+      { name: "Alüminyum", grade: "6061, 7075, 5083", properties: "95-150 HB, havacılık/elektronik, sürekli stok" },
+      { name: "Paslanmaz Çelik", grade: "304, 316, 17-4PH", properties: "150-350 HB, medikal/gıda, sürekli stok" },
       { name: "Karbon Çelik", grade: "1045, 4140, 4340", properties: "200-350 HB, mekanik parçalar" },
-      { name: "Titanyum", grade: "Gr2, Gr5 (Ti6Al4V)", properties: "250-350 HB, medikal/havacılık, 200 kg stok" },
+      { name: "Titanyum", grade: "Gr2, Gr5 (Ti6Al4V)", properties: "250-350 HB, medikal/havacılık, sipariş üzerine" },
       { name: "Pirinç / Bronz", grade: "C360, C932", properties: "60-150 HB, dişli ve yatak uygulamaları" },
-      { name: "Inconel 718", grade: "Süper alaşım", properties: "Yüksek sıcaklık, türbin parçaları, 100 kg stok" },
+      { name: "Inconel 718", grade: "Süper alaşım", properties: "Yüksek sıcaklık, türbin parçaları, sipariş üzerine" },
       { name: "PEEK", grade: "450G", properties: "Yüksek sıcaklık, kimyasal direnci, havacılık/medikal" },
       { name: "POM (Delrin)", grade: "Delrin 150/500", properties: "Düşük sürtünme, dişli ve yatak" },
     ],
     faq: [
-      { question: "Hangi malzeme sertifikalarını sağlıyorsunuz?", answer: "Tüm metal malzemeler EN 10204 3.1 sertifikası ile tedarik edilmektedir. Talep üzerine 3.2 sertifika ve kimyasal analiz raporu da sağlanabilir." },
-      { question: "Stokta hangi malzemeler bulunuyor?", answer: "Al 6061 (5.000 kg), Al 7075 (2.000 kg), SS 304 (3.000 kg), SS 316 (1.500 kg) sürekli stokta tutulmaktadır. Titanyum ve Inconel gibi özel malzemeler sipariş üzerine tedarik edilir." },
-      { question: "Özel alaşım tedarik edebiliyor musunuz?", answer: "Evet, Inconel 718, Hastelloy, Kovar, Tungsten gibi özel alaşımları 4-8 hafta içinde tedarik edebiliyoruz." },
+      { question: "Hangi malzeme sertifikalarını sağlıyorsunuz?", answer: "Malzeme sertifikası ve kimyasal analiz raporu talebe bağlı olarak sağlanır. Her tedarik, lot ve döküm numarasıyla kayıt altına alınır." },
+      { question: "Stokta hangi malzemeler bulunuyor?", answer: "Al 6061, Al 7075, SS 304 ve SS 316 sürekli stokta tutulmaktadır. Titanyum ve Inconel gibi özel malzemeler sipariş üzerine tedarik edilir." },
+      { question: "Özel alaşım tedarik edebiliyor musunuz?", answer: `Evet. Inconel 718, Hastelloy, Kovar ve Tungsten gibi özel alaşımlar sürekli stokta tutulmaz, sipariş üzerine tedarik edilir. ${LEAD_TIME_STATEMENT}` },
       { question: "Malzeme kalite kontrolü nasıl yapılıyor?", answer: "Her malzeme girişinde spektrometre ile kimyasal analiz, boyut kontrolü ve sertifika doğrulaması yapılmaktadır. Klimatik kontrollü depoda lot numarası ile izlenebilirlik sağlanır." },
     ],
     comparisonTables: [
@@ -1603,173 +1839,219 @@ export const servicePages: ServicePageData[] = [
         description: "Ana malzeme gruplarının mekanik özellikleri ve maliyet karşılaştırması",
         headers: ["Malzeme", "Sertlik (HB)", "Çekme Dayanımı", "İşlenebilirlik", "Maliyet", "Stok Durumu"],
         rows: [
-          ["Al 6061-T6", "95", "310 MPa", "★★★★★", "$", "Stokta (5.000 kg)"],
-          ["Al 7075-T6", "150", "572 MPa", "★★★★☆", "$$", "Stokta (2.000 kg)"],
-          ["SS 304", "187", "515 MPa", "★★★☆☆", "$$", "Stokta (3.000 kg)"],
-          ["SS 316L", "217", "485 MPa", "★★★☆☆", "$$$", "Stokta (1.500 kg)"],
-          ["Ti6Al4V (Gr5)", "334", "950 MPa", "★★☆☆☆", "$$$$", "Sipariş (200 kg)"],
-          ["Inconel 718", "363", "1034 MPa", "★☆☆☆☆", "$$$$$", "4-8 hafta"],
-          ["PEEK 450G", "100 (Shore D)", "100 MPa", "★★★★☆", "$$$$", "2-4 hafta"],
+          ["Al 6061-T6", "95", "310 MPa", "★★★★★", "$", "Stokta"],
+          ["Al 7075-T6", "150", "572 MPa", "★★★★☆", "$$", "Stokta"],
+          ["SS 304", "187", "515 MPa", "★★★☆☆", "$$", "Stokta"],
+          ["SS 316L", "217", "485 MPa", "★★★☆☆", "$$$", "Stokta"],
+          ["Ti6Al4V (Gr5)", "334", "950 MPa", "★★☆☆☆", "$$$$", "Sipariş üzerine"],
+          ["Inconel 718", "363", "1034 MPa", "★☆☆☆☆", "$$$$$", "Sipariş üzerine"],
+          ["PEEK 450G", "100 (Shore D)", "100 MPa", "★★★★☆", "$$$$", "Sipariş üzerine"],
           ["POM (Delrin)", "85 (Shore D)", "70 MPa", "★★★★★", "$", "Stokta"],
         ],
       },
+      /* The `Sertifika` column used to publish `EN 10204 3.1` x3, `3.2` x2 and
+         `CoC` x1, unconditionally per material group — sixty lines below
+         `{ label: "Sertifika", value: "Talebe bağlı" }` on the same page. One
+         page answered the buyer's question two ways and the surviving answer
+         was the stronger one. EN 10204 names a certificate CLASS a buyer's own
+         file depends on; §C supplies three certificates and none of them is it.
+         The column now says what the spec row, the feature bullet and the FAQ
+         on this page already say. */
       {
-        title: "Tedarik Süresi ve Sertifika Matrisi",
-        headers: ["Malzeme Grubu", "Standart Tedarik", "Acil Tedarik", "Sertifika", "Min. Sipariş"],
+      /* 09a-C2: this matrix published TWO duration columns. "Standart Tedarik"
+         gave six procurement windows and "Acil Tedarik" promised an EXPRESS
+         TIER on top of them — "Aynı gün" for aluminium and stainless. A same-day
+         supply promise contains no digit at all, so no numeric sweep would ever
+         have found it, and it is the strongest commitment on the page.
+
+         The site already answers this question correctly one page away:
+         `/kabiliyetler/tedarik-zinciri` grades material access qualitatively
+         ("Kısa", "Orta", "Uzun", "Sipariş üzerine") and states that the real
+         figure is given with the quote. Two pages cannot answer the buyer's
+         same question two ways. The vocabulary here is now this page's OWN FAQ
+         ("Al 6061, Al 7075, SS 304 ve SS 316 sürekli stokta tutulmaktadır;
+         özel malzemeler sipariş üzerine tedarik edilir") and the express column
+         is gone. */
+        title: "Tedarik Yaklaşımı ve Sertifika Matrisi",
+        headers: ["Malzeme Grubu", "Tedarik", "Sertifika", "Min. Sipariş"],
         rows: [
-          ["Alüminyum (6061, 7075)", "Stokta", "Aynı gün", "EN 10204 3.1", "1 kg"],
-          ["Paslanmaz Çelik (304, 316)", "Stokta", "Aynı gün", "EN 10204 3.1", "5 kg"],
-          ["Karbon Çelik (1045, 4140)", "1-2 hafta", "3 iş günü", "EN 10204 3.1", "10 kg"],
-          ["Titanyum (Gr2, Gr5)", "4-6 hafta", "2 hafta", "EN 10204 3.2", "5 kg"],
-          ["Inconel / Hastelloy", "6-8 hafta", "4 hafta", "EN 10204 3.2", "10 kg"],
-          ["PEEK / Yüksek Perf. Plastik", "2-4 hafta", "1 hafta", "CoC", "1 kg"],
+          ["Alüminyum (6061, 7075)", "Sürekli stok", "Talebe bağlı", "1 kg"],
+          ["Paslanmaz Çelik (304, 316)", "Sürekli stok", "Talebe bağlı", "5 kg"],
+          ["Karbon Çelik (1045, 4140)", "Sipariş üzerine", "Talebe bağlı", "10 kg"],
+          ["Titanyum (Gr2, Gr5)", "Sipariş üzerine", "Talebe bağlı", "5 kg"],
+          ["Inconel / Hastelloy", "Sipariş üzerine", "Talebe bağlı", "10 kg"],
+          ["PEEK / Yüksek Perf. Plastik", "Sipariş üzerine", "Talebe bağlı", "1 kg"],
         ],
       },
     ],
   },
+  /* QUALITY CONTROL — rewritten in Phase 06.
+
+     This page was the single worst fabrication in the repository. It named
+     four certificates that do not exist AND the registrars that supposedly
+     issued them (`ISO 9001:2015 (TÜV SÜD), AS9100D (SGS), IATF 16949 (Bureau
+     Veritas), ISO 13485 (TÜV SÜD)`), a %99.7 quality rate, a 6 Sigma target,
+     %100 CMM coverage of critical dimensions, and a metrology laboratory —
+     Zeiss, Mitutoyo, GOM, Taylor Hobson, Nikon, Wilson — with model numbers
+     and accuracies down to the micron.
+
+     `USER_INPUTS.md` §C supplies ISO 9001, ISO 14001 and OHSAS 18001 and no
+     issuer for any of them. §D records CMM coverage as
+     THIRD_PARTY_ACCREDITED_ON_DEMAND — not universal, not in-house. §H does
+     supply a real, publishable measurement-equipment list as a PDF, which is
+     now served from `public/belgeler/` and linked from the landing.
+
+     What replaces it is the thing that was missing: how conformity is
+     actually established, and what record each step leaves behind.          */
   {
     slug: "kalite-kontrol",
     category: "kabiliyetler",
     categoryLabel: "Kalite & Standartlar",
     title: "Kalite Kontrol",
-    metaTitle: "Kalite Kontrol | CMM Ölçüm | ISO 9001 & AS9100 | Sıfır Hata | Mas Technic",
+    metaTitle: "Kalite Kontrol | Kontrol Planı ve Ölçüm Kaydı | Mas Technic",
     metaDescription:
-      "Zeiss CMM, GOM 3D tarayıcı, Taylor Hobson profilometre ve X-Ray muayene ile %99.7 kalite oranı. ISO 9001, AS9100D, IATF 16949, ISO 13485 sertifikalı.",
+      "Her iş için kontrol planı, proses içi ara kontrol ve kontrol planına göre son kontrol. Akredite üçüncü taraf CMM ölçümü talebe bağlı. ISO 9001:2015.",
     description:
-      "Sıfır hata felsefemiz ile 3D CMM ölçüm sistemlerinden görüntü işleme kontrolüne, yüzey profilometreden X-ray muayeneye kadar kapsamlı kalite altyapımız her aşamada kaliteyi garanti altına alır.",
-    heroImage: "hero-kalite-kontrol",
+      "Kalite kontrol, üretimden sonra yapılan bir muayene değil, üretimden önce yazılan bir plandır. Hangi ölçünün nasıl ve hangi aşamada kontrol edileceği, parça tezgâha bağlanmadan belirlenir.",
+    heroImage: "quality-control",
     content: [
-      "Mas Technic kalite kontrol altyapısı, %99.7 kalite oranı ve 6 Sigma hedefi ile endüstrinin en yüksek standartlarını karşılamaktadır. Kritik boyutların %100'ü CMM ile kontrol edilmektedir. Zeiss Contura (1200×900×600mm, 1.9µm hassasiyet) ve Mitutoyo Crysta (800×600×500mm, 2.0µm) CMM cihazlarımız ile boyutsal doğrulama yapıyoruz.",
-      "GOM ATOS Q 3D tarayıcımız ile 0.01mm hassasiyette tam yüzey taraması, Taylor Hobson profilometremiz ile Ra 0.01 mikron çözünürlükte yüzey pürüzlülüğü ölçümü, Nikon XT H X-Ray cihazımız ile döküm parçalarda porozite tespiti ve Wilson sertlik ölçerimiz ile Rockwell, Vickers ve Brinell sertlik testleri gerçekleştiriyoruz.",
-      "Beş aşamalı kalite kontrol sürecimiz: Malzeme giriş kontrolü (spektrometre + CMM), işlem öncesi takım ve fikstür kontrolü (görsel + ölçü), üretim içi kontrol (SPC, ilk/son parça), son kontrol (tam CMM ölçümü ve raporu) ve sevkiyat kontrolü (ambalaj + etiket checklist). Her aşamada izlenebilirlik sağlanmaktadır.",
-      "İstatistiksel Proses Kontrol (SPC) uygulamalarımız kapsamında X-bar ve R grafikleri ile süreç ortalaması ve değişkenlik takibi, Cp ve Cpk hesaplamaları ile süreç yetenek indeksleri, Pareto analizi ile hata kaynaklarının önceliklendirilmesi ve 8D problem çözme ile kök neden analizi ve düzeltici faaliyetler yürütüyoruz.",
+      "Her iş için bir kontrol planı oluşturulur. Plan; teknik resimdeki hangi kotelerin kritik olduğunu, her birinin hangi yöntemle ve hangi aşamada kontrol edileceğini ve kontrolün hangi kaydı bırakacağını tanımlar. Bu plan teklif aşamasındaki teknik incelemenin çıktısıdır.",
+      "Ara kontroller proses sırasında yapılır. Amaç, hatayı son kontrolde yakalamak değil, bir sonraki operasyona hatalı parça göndermemektir. İlk parça onayı, ısıl işlem gibi ölçü kaydıran adımların sonrası ve bağlama değişimleri, ara kontrolün doğal duraklarıdır.",
+      "Son kontrol, kontrol planında tanımlanan koteler üzerinden yapılır ve sonuçlar kayıt altına alınır. Koordinat ölçüm (CMM) gerektiren durumlarda ölçüm, akredite üçüncü taraf tarafından talebe bağlı olarak gerçekleştirilir; bu tercih, ölçümün üretimden bağımsız olmasını sağlar.",
+      "Malzeme izlenebilirliği parti ve döküm kaydı üzerinden yürütülür; malzeme sertifikası talep edilmesi halinde teslimat dosyasına eklenir. Kullandığımız ölçüm ve kontrol ekipmanlarının listesi ayrı bir doküman olarak yayımlanmıştır ve kaynaklar bölümünden indirilebilir.",
+      "Uygunsuzluk çıktığında sorulan soru parçanın kurtarılıp kurtarılamayacağı değil, prosesin neden o sonucu ürettiğidir. Kök neden bulunana kadar aynı kurulumla üretime devam edilmez.",
     ],
     features: [
-      "Zeiss CMM Ölçüm — 1200×900×600mm, 1.9µm hassasiyet",
-      "GOM ATOS Q 3D Tarama — 0.01mm hassasiyette tam yüzey tarama",
-      "Taylor Hobson Profilometre — Ra 0.01µm çözünürlükte yüzey ölçümü",
-      "Nikon X-Ray Muayene — Döküm parçalarda porozite tespiti",
-      "İstatistiksel Proses Kontrol (SPC) — X-bar, R, Cp, Cpk grafikleri",
-      "8D Problem Çözme — Kök neden analizi ve düzeltici faaliyetler",
+      "Kontrol Planı — kritik koteler üretimden önce belirlenir",
+      "İlk Parça Kontrolü — kurulum onaylanmadan seri başlamaz",
+      "Ara Kontrol — hata bir sonraki operasyona taşınmaz",
+      "Son Kontrol — kontrol planına göre, kayıtlı",
+      "Akredite 3. Taraf CMM — talebe bağlı, üretimden bağımsız",
+      "Malzeme İzlenebilirliği — parti ve döküm kaydı",
     ],
     technicalSpecs: [
-      { label: "Kalite Oranı", value: "%99.7" },
-      { label: "Hedef", value: "6 Sigma" },
-      { label: "CMM Hassasiyet", value: "1.9µm (Zeiss)" },
-      { label: "3D Tarama", value: "0.01mm (GOM ATOS Q)" },
-      { label: "Yüzey Ölçüm", value: "Ra 0.01µm (Taylor Hobson)" },
-      { label: "Kritik CMM", value: "%100 kontrol" },
+      { label: "Yönetim Sistemi", value: "ISO 9001:2015" },
+      { label: "Standart Tolerans", value: "±0.01 mm" },
+      { label: "Kontrol Planı", value: "Her iş için" },
+      { label: "CMM Ölçüm", value: "Akredite 3. taraf, talebe bağlı" },
+      { label: "Ölçüm Kaydı", value: "Teslimat dosyasında" },
+      { label: "İzlenebilirlik", value: "Parti ve döküm kaydı" },
     ],
     processSteps: [
-      "Malzeme Giriş Kontrolü",
-      "İşlem Öncesi Kontrol",
-      "Üretim İçi SPC",
-      "İlk/Son Parça Kontrolü",
-      "Final CMM Ölçümü",
-      "Kalite Raporu & Sertifika",
-      "Sevkiyat Kontrolü",
+      "Teknik İnceleme",
+      "Kontrol Planı",
+      "Malzeme Giriş Kaydı",
+      "İlk Parça Kontrolü",
+      "Ara Kontroller",
+      "Son Kontrol",
+      "Ölçüm Kaydı",
     ],
     advantages: [
-      "%99.7 kalite oranı ve 6 Sigma hedefi",
-      "Zeiss ve Mitutoyo CMM ile mikron seviyesinde ölçüm",
-      "GOM 3D tarayıcı ile tam yüzey karşılaştırma",
-      "ISO 9001, AS9100D, IATF 16949, ISO 13485 sertifikaları",
-      "SPC ile istatistiksel proses kontrol ve sürekli iyileştirme",
-      "%100 CMM kontrol (kritik boyutlar)",
-    ],
-    machines: [
-      { name: "Zeiss Contura CMM", brand: "Zeiss", specs: "1200×900×600mm, 1.9µm hassasiyet" },
-      { name: "Mitutoyo Crysta CMM", brand: "Mitutoyo", specs: "800×600×500mm, 2.0µm hassasiyet" },
-      { name: "GOM ATOS Q", brand: "GOM", specs: "3D tarayıcı, 0.01mm hassasiyet" },
-      { name: "Taylor Hobson", brand: "Taylor Hobson", specs: "Yüzey profilometre, Ra 0.01µm" },
-      { name: "Nikon XT H", brand: "Nikon", specs: "X-Ray muayene, porozite tespiti" },
-      { name: "Wilson Sertlik Ölçer", brand: "Wilson", specs: "Rockwell, Vickers, Brinell" },
+      "Kontrol planı üretimden önce yazılır, sonradan uydurulmaz",
+      "Ara kontroller hatayı bir sonraki operasyona taşımaz",
+      "Koordinat ölçümü akredite üçüncü tarafça, üretimden bağımsız yapılır",
+      "Ölçüm kayıtları teslimat dosyasıyla birlikte verilir",
+      "Malzeme parti ve döküm kaydıyla izlenir",
+      "Uygunsuzlukta parça değil proses düzeltilir",
     ],
     faq: [
-      { question: "Hangi kalite sertifikalarınız var?", answer: "ISO 9001:2015 (TÜV SÜD), AS9100D (SGS), IATF 16949 (Bureau Veritas), ISO 13485 (TÜV SÜD) ve ISO 14001 (SGS) sertifikalarımız bulunmaktadır." },
-      { question: "CMM ölçüm raporu veriyor musunuz?", answer: "Evet, her kritik parça Zeiss veya Mitutoyo CMM ile ölçülür ve detaylı boyutsal ölçüm raporu hazırlanır. FAIR ve PPAP dokümantasyonu da sağlanmaktadır." },
-      { question: "Kalite kontrol süreci nasıl işliyor?", answer: "5 aşamalı sürecimiz: Malzeme giriş kontrolü, işlem öncesi kontrol, üretim içi SPC, final CMM ölçümü ve sevkiyat kontrolü. Kritik boyutların %100'ü CMM ile kontrol edilir." },
-      { question: "SPC uygulaması yapıyor musunuz?", answer: "Evet, X-bar/R grafikleri, Cp/Cpk hesaplamaları, Pareto analizi ve 8D problem çözme ile istatistiksel proses kontrolü uyguluyoruz." },
-      { question: "3D tarama hizmeti sunuyor musunuz?", answer: "Evet, GOM ATOS Q 3D tarayıcımız ile 0.01mm hassasiyette tam yüzey taraması ve CAD model karşılaştırması yapıyoruz." },
+      { question: "Hangi kalite belgeleriniz var?", answer: "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Belge kapsamı dışında bir standart gerekiyorsa teknik incelemede birlikte değerlendiririz." },
+      { question: "Ölçüm raporu veriyor musunuz?", answer: "Evet. Kontrol planında tanımlanan koteler ölçülür ve sonuçlar kayıt altına alınır; ölçüm kaydı teslimat dosyasına eklenir." },
+      { question: "CMM ölçümü yapılıyor mu?", answer: "Koordinat ölçümü, akredite üçüncü taraf tarafından talebe bağlı olarak yapılır. Bu tercih ölçümün üretimden bağımsız olmasını sağlar; ihtiyacınızı teklif aşamasında belirtmeniz yeterlidir." },
+      { question: "Kalite kontrol süreci nasıl işliyor?", answer: "Teknik inceleme ile kontrol planı oluşturulur; malzeme girişi kaydedilir, ilk parça onaylanır, proses sırasında ara kontroller yapılır ve son kontrol plana göre tamamlanarak kayıt altına alınır." },
+      { question: "Malzeme sertifikası alabilir miyim?", answer: "Malzeme parti ve döküm kaydı üzerinden izlenir. Malzeme sertifikası talep etmeniz halinde teslimat dosyasına eklenir." },
     ],
     comparisonTables: [
       {
-        title: "Kalite Kontrol Aşamaları ve Raporlama",
-        description: "5 aşamalı kalite kontrol sürecimizde her aşama izlenebilirlik ile desteklenmektedir",
-        headers: ["Aşama", "Kontrol Noktası", "Yöntem / Cihaz", "Çıktı Doküman", "Sıklık"],
+        title: "Kontrol Aşamaları ve Bıraktığı Kayıt",
+        description: "Her kontrol adımı bir karar noktasıdır ve arkasında bir kayıt bırakır",
+        headers: ["Aşama", "Kontrol Noktası", "Yöntem", "Bıraktığı Kayıt", "Sıklık"],
         rows: [
-          ["1. Giriş", "Malzeme kimyasal analiz", "Spektrometre + CMM", "Malzeme Sertifikası (3.1)", "Her lot"],
-          ["2. Ön Kontrol", "Takım ve fikstür doğrulama", "Görsel + ölçü", "Setup Onay Formu", "Her setup"],
-          ["3. Süreç İçi", "İlk/son parça + SPC", "CMM + X-bar/R", "SPC Raporu, Cpk", "Her parti"],
-          ["4. Final", "Tam boyutsal doğrulama", "Zeiss CMM + GOM 3D", "CMM Ölçüm Raporu", "Her parça (kritik)"],
-          ["5. Sevkiyat", "Ambalaj + etiket checklist", "Görsel + barkod", "Uygunluk Beyanı (CoC)", "Her sevkiyat"],
+          ["1. Giriş", "Malzeme kimliği", "Parti / döküm takibi", "İzlenebilirlik kaydı", "Her parti"],
+          ["2. Kurulum", "Takım ve bağlama doğrulama", "Görsel + ölçü", "Kurulum onayı", "Her kurulum"],
+          ["3. İlk Parça", "Kritik koteler", "Kontrol planına göre ölçüm", "İlk parça kaydı", "Her kurulum"],
+          ["4. Proses İçi", "Kayma eğilimi olan koteler", "Ara kontrol", "Operasyon kaydı", "Plana göre"],
+          ["5. Son Kontrol", "Kontrol planındaki tüm koteler", "Ölçüm; gerekirse akredite CMM", "Ölçüm kaydı", "Plana göre"],
         ],
       },
       {
-        title: "Metroloji Ekipmanları ve Kapasiteleri",
-        headers: ["Cihaz", "Marka / Model", "Ölçüm Aralığı", "Hassasiyet", "Uygulama Alanı"],
+        title: "Kontrol Yönteminin Seçimi",
+        description: "Yöntem, ölçülecek özelliğe ve toleransın darlığına göre belirlenir",
+        headers: ["Özellik", "Tipik Yöntem", "Ne Zaman Akredite CMM Gerekir"],
         rows: [
-          ["CMM (Dokunmatik)", "Zeiss Contura", "1200×900×600mm", "1.9µm", "Boyutsal doğrulama, GD&T"],
-          ["CMM (Dokunmatik)", "Mitutoyo Crysta", "800×600×500mm", "2.0µm", "Seri ölçüm, FAI"],
-          ["3D Tarayıcı", "GOM ATOS Q", "Tam yüzey", "0.01mm", "CAD karşılaştırma, ısı haritası"],
-          ["Profilometre", "Taylor Hobson", "N/A", "Ra 0.01µm", "Yüzey pürüzlülüğü"],
-          ["X-Ray", "Nikon XT H", "Ø300mm", "5µm detay", "Döküm porozite tespiti"],
-          ["Sertlik Ölçer", "Wilson", "N/A", "±1%", "Rockwell, Vickers, Brinell"],
+          ["Çap ve boy ölçüleri", "Kontrol planına göre ölçüm", "Tolerans zinciri dar olduğunda"],
+          ["Form (düzlem, silindiriklik)", "Kontrol planına göre ölçüm", "Geometrik tolerans şartnamede ise"],
+          ["Konum ve eş eksenlilik", "Datum üzerinden kontrol", "Datum yapısı karmaşık olduğunda"],
+          ["Yüzey durumu", "Karşılaştırmalı kontrol", "Sayısal Ra şartnamede ise"],
+          ["Malzeme kimliği", "Parti / döküm takibi", "Uygulanmaz — belge ile yürür"],
         ],
       },
     ],
   },
+  /* TOLERANCE & PRECISION — rewritten in Phase 06.
+
+     This page claimed five tolerance classes down to ±0.001 mm, GD&T
+     capability to ±0.003 mm, a named CMM with a stated measurement uncertainty
+     of ±0.0019 mm, and a 3DCS/CATIA tolerance-simulation service. §D records
+     one verified figure: MINIMUM_TOLERANCE_INTERNAL ±0.01 mm. A measurement
+     uncertainty is a calibration result — it cannot be typed into a table.
+
+     ISO 2768 and ASME Y14.5 stay: they are published standards the site
+     REFERENCES, not accreditations it claims. The page now explains how a
+     tolerance is decided rather than advertising one that cannot be held. */
   {
     slug: "tolerans-hassasiyet",
     category: "kabiliyetler",
     categoryLabel: "Kalite & Standartlar",
     title: "Tolerans & Hassasiyet",
-    metaTitle: "Tolerans & Hassasiyet | ±0.001mm | ISO 2768 | GD&T | Mas Technic",
+    metaTitle: "Tolerans & Hassasiyet | ±0.01 mm | ISO 2768 | GD&T | Mas Technic",
     metaDescription:
-      "Ultra hassas ±0.001mm tolerans, Ra 0.1µm yüzey kalitesi. ISO 2768, ASME Y14.5 uyumu. Geometrik toleranslar (GD&T), Monte Carlo simülasyonu ve tolerans analizi.",
+      "±0.01 mm standart tolerans aralığı, ISO 2768 ve ASME Y14.5 (GD&T) okuma. Tolerans; geometri, malzeme ve ölçü zincirine göre teknik incelemede belirlenir.",
     description:
-      "Mikron seviyesinde hassasiyet ile ISO 2768, ASME Y14.5 ve özel tolerans gereksinimlerinizi karşılıyoruz. Ultra hassas üretimden geometrik tolerans analizine kadar eksiksiz yetkinlik.",
+      "Tolerans bir reklam değeri değil, bir karardır: parçanın hangi ölçüsünün ne kadar dar tutulacağı, montajda neyin çalışması gerektiğine göre belirlenir. Standart çalışma aralığımız ±0.01 mm'dir.",
     heroImage: "hero-tolerans-hassasiyet",
     content: [
-      "Mas Technic olarak beş farklı tolerans sınıfında üretim yapabilme kapasitesine sahibiz: Ultra hassas ±0.001mm (mikro mekanizmalar), çok hassas ±0.005mm (rulman yatağı), hassas ±0.01mm (motor parçası), normal ±0.05mm (yapısal parça) ve gevşek ±0.1mm (kapak, koruma). ISO 2768-f/mK standardına tam uyum sağlıyoruz.",
-      "Geometrik toleranslar (GD&T) kapsamında ASME Y14.5 standardına uygun olarak konum toleransı (±0.005mm), diklik (0.01mm/100mm), ortak merkez (0.005mm), dönme toleransı (0.01mm) ve düzlük (0.005mm/100mm) değerlerine ulaşabiliyoruz.",
-      "Ölçüm belirsizliği değerlerimiz: 0-100mm boyut aralığında CMM ile ±0.0019mm, 100-500mm aralığında ±0.0035mm, yüzey pürüzlülüğünde profilometre ile ±%5 ve sertlik ölçümünde ±%1 hassasiyet sağlıyoruz.",
-      "Tolerans analizi ve stack-up hizmetlerimiz kapsamında worst case analizi (en kötü senaryo), RSS (Root Sum Square) istatistiksel tolerans birikimi, Monte Carlo simülasyonu (10.000+ iterasyon ile olasılık dağılımı) ve 3DCS yazılımı ile CATIA entegre tolerans analizi sunuyoruz. Bu hizmetlerle montaj problemlerini üretimden önce tespit ediyoruz.",
+      "Standart çalışma aralığımız ±0.01 mm'dir. Bir parçada bu aralığın altına inilip inilemeyeceği tek başına tezgâhın değil, geometrinin, malzemenin, parça ölçüsünün ve ölçü zincirinin sorusudur; bu nedenle her parça için teknik incelemede ayrıca belirlenir.",
+      "Toleransı belirleyen asıl unsur çoğu zaman bağlama sayısıdır. Her yeni bağlama ölçü zincirine yeni bir hata kaynağı ekler; tek bağlamada tamamlanan bir parça, aynı tezgâhta iki bağlamada işlenen parçadan daha dar tolerans tutar.",
+      "Geometrik toleranslar (GD&T) ASME Y14.5 dilinde okunur. Konum, diklik, eş eksenlilik, düzlem ve dairesellik toleransları datum yapısıyla birlikte anlam kazanır: hangi yüzeyin referans alındığı, toleransın kendisi kadar belirleyicidir.",
+      "Teknik resimde tolerans belirtilmeyen ölçüler için ISO 2768 genel tolerans sınıfları kullanılır. Hangi sınıfın geçerli olduğu teklif aşamasında netleştirilir; belirsiz bırakılan bir genel tolerans, üretim sonrası tartışmanın en yaygın nedenidir.",
+      "Gereğinden dar tolerans maliyeti artırır ve teslimatı uzatır. Teknik incelemede, fonksiyonu etkilemeyen koteleri gevşetmeyi öneririz; hangi ölçünün gerçekten kritik olduğunu birlikte belirlemek, parçayı hem daha ucuz hem daha güvenilir yapar.",
     ],
     features: [
-      "Ultra Hassas Tolerans — ±0.001mm mikro mekanizma seviyesi",
-      "Geometrik Toleranslar (GD&T) — ASME Y14.5 standardı",
-      "Monte Carlo Simülasyonu — 10.000+ iterasyon ile analiz",
-      "3DCS Tolerans Analizi — CATIA entegre stack-up analizi",
-      "ISO 2768-f/mK Uyumu — Standart tolerans sınıfları",
-      "Yüzey Pürüzlülüğü — Ra 0.1µm'ye kadar ayna parlaklığı",
+      "±0.01 mm Standart Tolerans — teknik incelemede parça bazında teyit",
+      "GD&T Okuma — ASME Y14.5 dilinde konum, form ve yönelim toleransları",
+      "Datum Yapısı — hangi yüzeyin referans alındığı birlikte belirlenir",
+      "ISO 2768 Genel Toleranslar — belirtilmemiş ölçüler için sınıf mutabakatı",
+      "Ölçü Zinciri Analizi — bağlama sayısı ve birikim etkisinin değerlendirilmesi",
+      "Tolerans Gevşetme Önerisi — fonksiyonu etkilemeyen koteler için",
     ],
     technicalSpecs: [
-      { label: "Ultra Hassas", value: "±0.001mm" },
-      { label: "Çok Hassas", value: "±0.005mm" },
-      { label: "Hassas", value: "±0.01mm" },
-      { label: "Yüzey Kalitesi", value: "Ra 0.1µm" },
-      { label: "Standart", value: "ISO 2768-f/mK" },
-      { label: "GD&T", value: "ASME Y14.5" },
+      { label: "Standart Tolerans", value: "±0.01 mm" },
+      { label: "Genel Tolerans", value: "ISO 2768 (sınıf mutabakatı)" },
+      { label: "Geometrik Tolerans", value: "ASME Y14.5 (GD&T)" },
+      { label: "Belirleyici", value: "Geometri, malzeme, ölçü zinciri" },
+      { label: "Teyit", value: "Teknik inceleme" },
+      { label: "Kontrol", value: "Kontrol planına göre ölçüm" },
     ],
     advantages: [
-      "5 kademeli tolerans sınıfı ile her ihtiyaca çözüm",
-      "GD&T ile geometrik tolerans kontrolü",
-      "Monte Carlo ve RSS ile tolerans stack-up analizi",
-      "CMM ile ±0.0019mm ölçüm belirsizliği",
-      "ISO 2768 ve ASME Y14.5 tam uyum",
-      "3DCS ile CATIA entegre tolerans simülasyonu",
+      "Tolerans, parçanın fonksiyonuna göre kote kote kararlaştırılır",
+      "Bağlama sayısı ölçü zinciri gözetilerek en aza indirilir",
+      "GD&T ve datum yapısı teknik incelemede birlikte okunur",
+      "Belirtilmemiş ölçüler için genel tolerans sınıfı teklifte netleşir",
+      "Gereksiz dar toleranslar maliyeti düşürmek için gevşetilmesi önerilir",
+      "Kritik koteler kontrol planına yazılır ve ölçüm kaydı bırakır",
     ],
     faq: [
-      { question: "En dar tolerans değeriniz nedir?", answer: "Ultra hassas işlemede ±0.001mm (1 mikron) toleransa ulaşabiliyoruz. Bu seviye mikro mekanizmalar, optik parçalar ve hassas ölçüm aletleri için uygundur." },
-      { question: "Geometrik tolerans (GD&T) desteğiniz var mı?", answer: "Evet, ASME Y14.5 standardına uygun konum, diklik, ortak merkez, dönme ve düzlük toleranslarında üretim ve ölçüm yapabiliyoruz." },
-      { question: "Tolerans analizi hizmeti sunuyor musunuz?", answer: "Evet, worst case, RSS, Monte Carlo simülasyonu ve 3DCS yazılımı ile CATIA entegre tolerans stack-up analizi yapıyoruz." },
-      { question: "Ölçüm belirsizliğiniz nedir?", answer: "0-100mm aralığında CMM ile ±0.0019mm, 100-500mm aralığında ±0.0035mm ölçüm belirsizliği sağlıyoruz." },
+      { question: "Standart tolerans aralığınız nedir?", answer: "±0.01 mm'dir. Bir parçada daha darına inilip inilemeyeceği geometri, malzeme, parça ölçüsü ve ölçü zincirine bağlıdır ve teknik incelemede belirlenir." },
+      { question: "Geometrik tolerans (GD&T) desteğiniz var mı?", answer: "Evet. ASME Y14.5 dilinde konum, diklik, eş eksenlilik, düzlem ve dairesellik toleranslarını datum yapısıyla birlikte okur ve kontrol planına yazarız." },
+      { question: "Teknik resmimde tolerans belirtilmemiş, ne olur?", answer: "Belirtilmemiş ölçüler için ISO 2768 genel tolerans sınıfları kullanılır. Hangi sınıfın geçerli olacağını teklif aşamasında netleştiririz." },
+      { question: "Daha dar tolerans istersem ne değişir?", answer: "Operasyon sırası, bağlama düzeni ve kontrol yöntemi değişir; süre ve maliyet artar. Fonksiyonu etkilemeyen koteleri gevşetmenizi önerebiliriz." },
+      { question: "Toleransın tutulduğunu nasıl gösteriyorsunuz?", answer: "Kritik koteler kontrol planına yazılır, ölçülür ve sonuçlar kayıt altına alınır. Koordinat ölçümü gerektiğinde akredite üçüncü taraf ölçümü talebe bağlı olarak sağlanır." },
     ],
     comparisonTables: [
       {
         title: "ISO 2768 Tolerans Sınıfları",
-        description: "Boyut aralığına göre standart tolerans değerleri (mm)",
+        description: "Teknik resimde belirtilmemiş ölçüler için boyut aralığına göre genel toleranslar (mm)",
         headers: ["Tolerans Sınıfı (ISO 2768)", "0.5 – 3 mm", "3 – 6 mm", "6 – 30 mm", "30 – 120 mm", "120 – 400 mm"],
         rows: [
           ["f (İnce)", "±0.05", "±0.05", "±0.1", "±0.15", "±0.2"],
@@ -1780,26 +2062,26 @@ export const servicePages: ServicePageData[] = [
         highlight: 0,
       },
       {
-        title: "GD&T Geometrik Tolerans Kapasiteleri",
-        description: "ASME Y14.5 standardına uygun geometrik tolerans değerlerimiz",
-        headers: ["Tolerans Tipi", "Sembol", "Min. Değer", "Uygulama", "Ölçüm Yöntemi"],
+        title: "GD&T — Hangi Tolerans Neyi Kontrol Eder",
+        description: "ASME Y14.5 sembolleri ve her birinin hangi montaj sorusunu yanıtladığı",
+        headers: ["Tolerans Tipi", "Sembol", "Neyi Kontrol Eder", "Tipik Uygulama", "Datum Gerekir mi"],
         rows: [
-          ["Konum", "⌖", "±0.005mm", "Delik/pin pozisyonlama", "CMM 3D prob"],
-          ["Diklik", "⊥", "0.01mm/100mm", "Yüzey-mil dik referans", "CMM + gösterge"],
-          ["Eşmerkezlilik", "◎", "0.005mm", "Rulman yatağı, mil", "CMM döner tabla"],
-          ["Düzlük", "▱", "0.005mm/100mm", "Sızdırmazlık yüzey", "CMM tarama"],
-          ["Dairesellik", "○", "0.003mm", "Piston, silindir", "Roundness tester"],
-          ["Dönme Toleransı", "↻", "0.01mm", "Şaft, mil", "V-blok + gösterge"],
+          ["Konum", "⌖", "Bir özelliğin referansa göre yeri", "Delik ve pim pozisyonlama", "Evet"],
+          ["Diklik", "⊥", "Yüzeyin datuma göre yönelimi", "Yüzey–mil dik referansı", "Evet"],
+          ["Eş eksenlilik", "◎", "İki eksenin çakışması", "Rulman yatağı, mil", "Evet"],
+          ["Düzlem", "▱", "Yüzeyin kendi içindeki sapması", "Sızdırmazlık yüzeyi", "Hayır"],
+          ["Dairesellik", "○", "Kesitin daireden sapması", "Piston, silindir", "Hayır"],
+          ["Dönme toleransı", "↻", "Dönerken yüzeyin salgısı", "Şaft, mil", "Evet"],
         ],
       },
       {
-        title: "Ölçüm Belirsizliği Matrisi",
-        headers: ["Boyut Aralığı", "CMM Hassasiyeti", "Ölçüm Belirsizliği", "Güven Aralığı"],
+        title: "Toleransı Daraltmadan Önce",
+        description: "Dar tolerans her zaman doğru cevap değildir; önce bu üç soru sorulur",
+        headers: ["Soru", "Neden Sorulur", "Tipik Sonuç"],
         rows: [
-          ["0 – 100 mm", "Zeiss Contura", "±0.0019mm", "%95 (k=2)"],
-          ["100 – 500 mm", "Zeiss Contura", "±0.0035mm", "%95 (k=2)"],
-          ["Yüzey Ra", "Taylor Hobson", "±%5", "%95"],
-          ["Sertlik", "Wilson", "±%1", "%95"],
+          ["Bu kote montajda neyi belirliyor?", "Fonksiyonu olmayan kote gereksiz maliyet üretir", "Kote gevşetilir"],
+          ["Ölçü hangi datumdan alınıyor?", "Referans değişimi toleransı yeniden dağıtır", "Zincir kısalır"],
+          ["Kaç bağlamada üretilecek?", "Her bağlama yeni bir hata kaynağıdır", "Operasyon sırası değişir"],
         ],
       },
     ],
@@ -1810,54 +2092,106 @@ export const servicePages: ServicePageData[] = [
     categoryLabel: "Mühendislik Desteği",
     title: "Tasarım Rehberi (DFM)",
     metaTitle: "DFM Analizi | Tasarım Rehberi | Maliyet Optimizasyonu | Mas Technic",
+    /* 09a-C3 — F2a. "%70'e kadar maliyet tasarrufu" kaynaksız bir tasarruf
+       oranıydı (§D `OTHER_PUBLIC_KPIS: NONE`, §G `CASE_STUDIES:
+       NONE_PROVIDED_YET`). Aynı sayfanın SSS'i zaten "tasarrufun büyüklüğü
+       parçaya bağlıdır" diyor; meta onunla çelişiyordu. Sayı gitti,
+       kaldıraçlar kaldı.
+
+       09a-C4 / R3-4 — DÜZELTME. Bu not, satırın "`metaDescription` içinde
+       olduğu için sayfada değil arama sonucunda ve sosyal kartta da
+       yayımlandığını" söylüyordu. YANLIŞTI: bu alanı hiçbir şey okumuyor.
+       `ServiceDetail.tsx` :195, :284 ve :306'da `page.description` geçiriyor
+       ve `src/**` içinde bir servis rotasında `metaDescription` okuyan tek bir
+       yer yok — 44 sayfanın hepsinde ölü veri.
+
+       KALDIRMA DOĞRUYDU, GEREKÇE YANLIŞTI. Yetkisiz bir iddia ölü bir alanda
+       da yetkisizdir; üstelik bu alan canlı olmaya bir `usePageMeta` çağrısı
+       uzaklıkta ve `claims-gate.mjs` tam bu yüzden onu da tarıyor. Alanın
+       bağlanması gerçek bir SEO bulgusudur ve SEO fazına aittir; bir içerik
+       düzeltmesinde karara bağlanmaz. */
     metaDescription:
-      "Design for Manufacturing (DFM/DFA) analizi ile tasarımlarınızı optimize edin. CNC ve enjeksiyon DFM kuralları, CATIA/SolidWorks/NX entegrasyonu, %70'e kadar maliyet tasarrufu.",
+      "Design for Manufacturing (DFM/DFA) analizi ile tasarımlarınızı optimize edin. CNC ve enjeksiyon DFM kuralları, üretilebilirlik incelemesi, parça bazında maliyet kaldıraçları.",
     description:
       "DFM/DFA analizi ile tasarımlarınızı üretilebilirlik açısından optimize ediyoruz. Üretim maliyetlerini düşüren, kaliteyi artıran ve süreyi kısaltan mühendislik desteği.",
-    heroImage: "hero-dfm-tasarim",
+    heroImage: "blog-dfm",
     content: [
-      "Design for Manufacturing (DFM) analiz sürecimiz 4 aşamadan oluşur: 1. gün — ilk inceleme ve DFM raporu taslağı, 2-3. gün — detaylı analiz ve optimizasyon önerileri, 4. gün — müşteri görüşmesi ve revize CAD modeli, 5. gün — final DFM raporu ve onay. Toplam süreç 5 iş gününde tamamlanır.",
+      "Design for Manufacturing (DFM) analiz sürecimiz 4 aşamadan oluşur: ilk inceleme ve DFM raporu taslağı, detaylı analiz ve optimizasyon önerileri, müşteri görüşmesi ve revize CAD modeli, final DFM raporu ve onay. Sürecin takvimi parçanın karmaşıklığına ve gelen dosyanın eksiksizliğine bağlıdır; teklifle birlikte verilir.",
       "CNC işleme DFM kurallarımız: İç köşe yarıçapı R > 0.5mm (sivri köşelerden kaçının), duvar kalınlığı > 0.8mm (çok ince duvarlardan kaçının), derinlik/çap oranı < 4:1 (çok derin deliklerden kaçının) ve standart boyut kullanımı (özel ölçülerden kaçının). Enjeksiyon kalıp DFM kurallarımız: Duvar kalınlığı 1.5-3mm, çekme payı 0.5-2°, köşe yarıçapı R > 0.5mm ve gate konumu kalın kesimden.",
-      "CAD/CAM yazılım altyapımız: CATIA V5/V6 (tasarım, analiz, CNC post-processor), SolidWorks (tasarım, montaj, CAMWorks), Siemens NX (tasarım, entegre CAM imalat), Mastercam (CAM programlama, CNC makineler) ve Vericut (simülasyon, CNC doğrulama). Tüm yaygın CAD formatlarını doğrudan işleyebiliyoruz.",
-      "Gerçek müşteri projelerinden DFM başarılarımız: Havacılık parçası — 12 ayrı parçadan 1 parçaya düşürüldü, %70 maliyet tasarrufu. Otomotiv komponenti — montaj adımı 8'den 3'e indirildi. Medikal cihaz — malzeme değişikliği ile %40 maliyet düşüşü, aynı performans. DFM analizi ile ortalama %30-50 maliyet tasarrufu sağlıyoruz.",
+      /* 09a-C3 — D1 düzeltmesinin bu sayfadaki YAN ETKİSİ, oluşturulmuş DOM'da
+         görüldü. `technicalSpecs`teki "Desteklenen CAD" satırı artık
+         türetilmiş listeyi basıyor; bu cümle ise birkaç satır aşağıda "yaygın
+         CAD formatlarını doğrudan işleyebiliyoruz" diyordu. Aynı ekranda iki
+         farklı kabul ölçütü. Cümle, gerçekte olan şeye çevrildi: analiz teklif
+         akışına yüklenen modelin üzerinden yürür. */
+      "Analiz, teklif akışına yüklenen katı model üzerinden yürütülür; modelle birlikte ölçülendirilmiş teknik resim gönderilmesi analiz süresini kısaltır. Takım yolları üretim öncesinde simülasyonla doğrulanır ve çarpışma kontrolü yapılır.",
+      "DFM analizinde tipik olarak baktığımız kaldıraçlar: montajı tek parçaya indirgemek, bağlama sayısını azaltmak, takım erişimini kolaylaştırmak, gereksiz dar toleransları gevşetmek ve malzemeyi fonksiyona göre yeniden seçmek. Hangisinin ne kadar etki edeceği parçanın geometrisine ve mevcut üretim planına bağlıdır; beklenen etki analiz raporunda parça bazında verilir.",
     ],
     features: [
-      "DFM Analizi — 5 iş günü tamamlanma süresi",
+      "DFM Analizi — 4 aşamalı inceleme, analiz, görüşme ve raporlama",
       "CNC İşleme DFM Kuralları — Köşe, duvar, derinlik optimizasyonu",
       "Enjeksiyon Kalıp DFM — Duvar kalınlığı, çekme payı, gate konumu",
-      "CAD/CAM Entegrasyonu — CATIA, SolidWorks, NX, Mastercam",
-      "Simülasyon — Vericut ile CNC doğrulama ve dijital ikiz",
-      "Maliyet Optimizasyonu — Ortalama %30-50 tasarruf",
+      /* 09a-C3. Oluşturulmuş DOM'da bu madde, türetilmiş "Desteklenen CAD"
+         satırının hemen altında duruyordu: ekranda önce "STEP … 3MF", hemen
+         ardından "CATIA, SolidWorks, NX" okunuyor ve okuyucu bunları tek bir
+         kabul listesi gibi birleştiriyordu. Ayrıca adlandırılmış CAM/CAD
+         yazılımı bir YAZILIM ENVANTERİDİR — `claims-gate.mjs`
+         `named-enterprise-system` kuralının dayanağı: §D "no software or
+         automation-system inventory was supplied". Kabiliyet kalır, envanter
+         gider. */
+      "CAD/CAM Entegrasyonu — katı model, takım yolu ve revizyon tek akışta",
+      "Simülasyon — takım yolu doğrulama ve çarpışma kontrolü",
+      "Maliyet Optimizasyonu — Parça sayısı, bağlama ve tolerans kaldıraçları",
     ],
     technicalSpecs: [
-      { label: "Analiz Süresi", value: "5 iş günü" },
+      { label: "Analiz Süresi", value: LEAD_TIME_SHORT },
       { label: "Rapor Formatı", value: "PDF + revize CAD" },
-      { label: "Desteklenen CAD", value: "STEP, IGES, CATIA, NX, SW" },
+      /* 09a-C3 — D1 ile aynı sınıf: "CATIA, NX, SW" hiçbiri kabul edilmiyor. */
+      { label: "Desteklenen CAD", value: CAD_UPLOAD_FORMATS },
       { label: "Revizyon", value: "2 tur dahil" },
-      { label: "Maliyet Tasarrufu", value: "Ortalama %30-50" },
-      { label: "Simülasyon", value: "Vericut CNC doğrulama" },
+      /* 09a-C3 — F2b. "Ortalama %30-50" kaynaksızdı ve bu sayfanın kendi
+         SSS'i tarafından yalanlanıyordu ("tasarrufun büyüklüğü parçanın
+         geometrisine ve mevcut üretim planına bağlıdır"). Satır bir ORTALAMA
+         vaat ediyordu; yerine analizde gerçekten bakılan kaldıraçlar yazıldı,
+         ki bunlar sayfanın `content[3]` bölümünde zaten sayılıyor. */
+      { label: "Maliyet Kaldıraçları", value: "Parça sayısı, bağlama, tolerans" },
+      { label: "Simülasyon", value: "Takım yolu doğrulama" },
     ],
     processSteps: [
       "CAD Model Yükleme",
-      "İlk İnceleme (1 gün)",
-      "Detaylı Analiz (2-3 gün)",
+      "İlk İnceleme",
+      "Detaylı Analiz",
       "Müşteri Görüşmesi",
       "CAD Revizyon",
       "Final DFM Raporu",
     ],
     advantages: [
-      "5 gün içinde tamamlanan DFM analiz süreci",
-      "CATIA, SolidWorks, NX entegre çalışma",
-      "Vericut ile CNC simülasyon ve doğrulama",
-      "Gerçek vaka çalışmalarıyla kanıtlanmış %70'e kadar tasarruf",
+      "Dört aşamalı DFM süreci: inceleme, analiz, görüşme, rapor",
+      /* 09a-C3 — yukarıdaki `features` maddesiyle aynı gerekçe, aynı sayfa. */
+      "Müşteri modeli üzerinden çalışma: gelen katı model revize edilip geri gönderilir",
+      "Üretim öncesi takım yolu simülasyonu ve çarpışma kontrolü",
+      "Parça sayısı, bağlama sayısı ve işlem adımı azaltma fırsatlarının çıkarılması",
       "Enjeksiyon kalıp ve CNC işleme özel DFM kuralları",
       "Dijital ikiz ile üretim öncesi doğrulama",
     ],
     faq: [
-      { question: "DFM analizi ücreti var mı?", answer: "İlk DFM değerlendirmesi ücretsizdir. Detaylı analiz raporu ve CAD revizyonları proje kapsamına göre fiyatlandırılır." },
-      { question: "DFM analizi ne kadar sürer?", answer: "Standart bir DFM analizi 5 iş gününde tamamlanır: 1 gün inceleme, 2-3 gün detaylı analiz, 1 gün görüşme ve revizyon." },
-      { question: "Hangi CAD formatlarını kabul ediyorsunuz?", answer: "STEP, IGES, Parasolid, SolidWorks (.sldprt), CATIA (.catpart), Siemens NX (.prt) ve PDF/DWG teknik çizim formatlarını destekliyoruz." },
-      { question: "DFM analizi ne kadar tasarruf sağlar?", answer: "Projelerimizde ortalama %30-50 maliyet tasarrufu sağlanmaktadır. En iyi örnekte %70'e kadar tasarruf elde edilmiştir." },
+      /* 09a-C3 — D3. "İlk DFM değerlendirmesi ücretsizdir" bir BEDELSİZLİK
+         TAAHHÜDÜ, yani 09a-C2'nin sohbet botundan kaldırdığı ticari politika
+         sınıfı; `USER_INPUTS.md` hiçbir alanı böyle bir tarife vermiyor. Bir
+         politika hedge'e yumuşatılamaz — okuyucuya bir sayı değil bir kural
+         söyleniyor — bu yüzden ödeme koşulları ve iade taahhüdünde olduğu
+         gibi yerine MEKANİZMA yazıldı. Sorunun kendisi gerçek bir sorudur ve
+         `/sss` de Phase 07'de aynı gerekçeyle silmeyip yeniden yazmıştı. */
+      { question: "DFM analizi ücreti var mı?", answer: "Yayımlanan sabit bir DFM ücret tarifemiz yok. Gelen dosyanın üretilebilirlik incelemesi teklif hazırlığının bir adımıdır; ayrıca talep edilen detaylı DFM raporu ve CAD revizyonları ise kapsamıyla birlikte teklifte fiyatlandırılır." },
+      { question: "DFM analizi ne kadar sürer?", answer: `Süreç dört aşamadan oluşur: ilk inceleme, detaylı analiz, müşteri görüşmesi ve final rapor. Takvim parçanın karmaşıklığına ve gönderilen dosyanın eksiksizliğine göre değişir. ${LEAD_TIME_STATEMENT}` },
+      /* 09a-C3 — D2. Bu liste BUGÜN DOĞRUYDU ve tam da bu yüzden kaldırıldı:
+         elle yazılmış olduğu için doğrulayıcı değiştiği gün sessizce yanlışa
+         dönerdi. Doğru olan bir sabit, yine de bir sabittir. */
+      {
+        question: "Hangi CAD formatlarını kabul ediyorsunuz?",
+        answer: `Teklif akışındaki yükleyici şu uzantıları doğrular: ${CAD_UPLOAD_EXTENSIONS} — listede olmayan bir uzantı yükleme adımından geçmez. Yerel CAD kaydınızı veya ölçülendirilmiş teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz.`,
+      },
+      { question: "DFM analizi ne kadar tasarruf sağlar?", answer: "Tasarrufun büyüklüğü parçanın geometrisine ve mevcut üretim planına bağlıdır. DFM analizinde parça sayısı, bağlama sayısı, takım erişimi ve tolerans zinciri değerlendirilir; beklenen etki analiz raporunda parça bazında verilir." },
     ],
     comparisonTables: [
       {
@@ -1869,21 +2203,27 @@ export const servicePages: ServicePageData[] = [
           ["Duvar Kalınlığı", "≥ 1.5mm (metal)", "≥ 0.8mm", "İnce duvarlardan kaçının", "Titreşim ve deformasyon önlenir"],
           ["Derinlik/Çap Oranı", "< 3:1", "< 4:1", "Derin deliklerden kaçının", "Takım sapması minimize edilir"],
           ["Diş Derinliği", "≤ 3×çap", "≤ 5×çap", "Çok derin diş açmaktan kaçının", "Kırılma riski azalır"],
-          ["Tolerans", "ISO 2768-m", "±0.005mm (özel)", "Gereksiz dar toleranstan kaçının", "Maliyet %30-50 düşer"],
+          ["Tolerans", "ISO 2768-m", "±0.01mm (kritik koteler)", "Gereksiz dar toleranstan kaçının", "Maliyet ve termin düşer"],
           ["Yüzey Kalitesi", "Ra 1.6µm", "Ra 0.1µm (özel)", "Fonksiyona uygun Ra seçin", "İşleme süresi kısalır"],
         ],
       },
-      {
-        title: "DFM Başarı Vaka Çalışmaları",
-        headers: ["Proje", "Sektör", "Problem", "DFM Çözümü", "Tasarruf"],
-        rows: [
-          ["Motor Braketi", "Havacılık", "12 parçalı montaj", "Tek parça 5 eksen işleme", "%70 maliyet ↓"],
-          ["Şanzıman Gövdesi", "Otomotiv", "8 montaj adımı", "DFA ile 3 adıma indirildi", "%45 süre ↓"],
-          ["Kateter Konnektörü", "Medikal", "Pahalı titanyum", "SS 316L malzeme değişimi", "%40 maliyet ↓"],
-          ["Sensör Muhafazası", "Elektronik", "Kalın duvar tasarımı", "Duvar optimizasyonu", "%35 ağırlık ↓"],
-        ],
-        highlight: 0,
-      },
+      /*
+       * "DFM Başarı Vaka Çalışmaları" tablosu kaldırıldı.
+       *
+       * Dört satır dört müşteri projesi anlatıyordu — Motor Braketi
+       * (Havacılık), Şanzıman Gövdesi (Otomotiv), Kateter Konnektörü
+       * (Medikal), Sensör Muhafazası (Elektronik) — her biri sayısal bir
+       * tasarruf oranıyla. USER_INPUTS.md §G CASE_STUDIES:
+       * NONE_PROVIDED_YET ve IF_NONE:
+       * REMOVE_FAKE_PROJECT_EVIDENCE_AND_USE_NON_FACTUAL_CAPABILITY_CONTENT.
+       * Ne proje ne de yayın izni verildi; tablonun tamamı uydurmaydı ve
+       * "Gerçek vaka çalışmalarıyla kanıtlanmış" ifadesinin dayanağıydı.
+       *
+       * Yerine yeni içerik üretilmedi: hemen üstteki "CNC İşleme DFM Kontrol
+       * Listesi" §G'nin istediği olgusal-olmayan kabiliyet içeriğidir ve
+       * sayfada zaten duruyor. Gerçek iş geldiğinde şeması
+       * src/content/caseStudies.ts içinde hazır bekliyor.
+       */
     ],
   },
   {
@@ -1971,31 +2311,35 @@ export const servicePages: ServicePageData[] = [
     title: "Düşük Hacimli Üretim",
     metaTitle: "Düşük Hacimli Üretim | 1-1000 Adet | 3D Baskı, Silikon Kalıp, CNC | Mas Technic",
     metaDescription:
-      "3D baskı ile 1-3 günde prototip, silikon kalıplama ile 10-100 adet, hızlı alüminyum kalıp ile 1000 adete kadar üretim. FDM, SLA, SLS, DMLS teknolojileri.",
+      "3D baskı ile hızlı prototip, silikon kalıplama ile 10-100 adet, hızlı alüminyum kalıp ile 1000 adete kadar üretim. FDM, SLA, SLS, DMLS teknolojileri.",
     description:
-      "3D baskı, silikon kalıplama, hızlı alüminyum kalıp ve CNC işleme ile 1-1000 adet arası düşük hacimli üretim ihtiyaçlarınıza esnek ve hızlı çözümler sunuyoruz.",
+      "3D baskı, silikon kalıplama, hızlı alüminyum kalıp ve CNC işleme ile 1-1000 adet arası düşük hacimli üretim ihtiyaçlarınıza esnek çözümler sunuyoruz.",
     heroImage: "hero-seri-uretim",
     content: [
-      "Düşük hacimli üretim yöntemlerimizin karşılaştırması: 3D baskı 1-10 adet (1-3 gün, düşük maliyet, ±0.2mm), silikon kalıplama 10-100 adet (5-10 gün, orta maliyet, ±0.1mm), alüminyum kalıp 100-1000 adet (2-3 hafta, orta maliyet, ±0.05mm) ve CNC işleme 1-100 adet (3-10 gün, yüksek maliyet, ±0.01mm). Projenizin adet, süre ve hassasiyet gereksinimlerine göre en uygun yöntemi belirliyoruz.",
-      "3D baskı kapasitemiz: FDM (ABS, PLA, Nylon — 914mm yapı hacmi, ±0.2mm — Stratasys F900), SLA (reçine — 145mm, ±0.05mm — Formlabs), SLS (PA12, TPU — 340mm, ±0.1mm) ve DMLS (Al, SS, Ti — 250mm, ±0.05mm — EOS M290). Metal ve plastik 3D baskı ile hızlı prototipleme ve fonksiyonel parçalar üretiyoruz.",
-      "Silikon kalıplama sürecimiz 4 aşamadan oluşur: 1) Master model — 3D baskı veya CNC ile üretim (1-3 gün), 2) Silikon kalıp — vakumlu kalıplama (1-2 gün), 3) Döküm — PU/silikon/EP döküm (1 gün/10 parça), 4) Finisaj — yüzey işlemleri ve kalite kontrol (1 gün). Toplam süreç 5-10 iş gününde tamamlanır.",
-      "Hızlı alüminyum kalıp çözümümüz: Al 7075 malzeme ile hızlı işlenebilirlik, 10.000+ parça kalıp ömrü (PP, ABS için), 2-3 hafta teslimat (tasarım dahil) ve CT4-CT6 parça toleransı. Basınçlı döküm ve enjeksiyon kalıp pilot üretimler için ideal çözüm.",
+      "Düşük hacimli üretim yöntemlerimizin karşılaştırması: 3D baskı 1-10 adet (düşük maliyet, ±0.2mm), silikon kalıplama 10-100 adet (orta maliyet, ±0.1mm), alüminyum kalıp 100-1000 adet (orta maliyet, ±0.05mm) ve CNC işleme 1-100 adet (yüksek maliyet, ±0.01mm). Projenizin adet, süre ve hassasiyet gereksinimlerine göre en uygun yöntemi belirliyoruz; her yöntemin termini teklifle birlikte verilir.",
+      "Eklemeli imalat seçenekleri parçanın işlevine göre ayrışır: FDM (ABS, PLA, naylon) biçim ve montaj denemeleri, SLA (reçine) ince detay ve yüzey, SLS (PA12, TPU) destek yapısı gerektirmeyen fonksiyonel parçalar, DMLS ise metal fonksiyonel prototipler için kullanılır.",
+      "Silikon kalıplama sürecimiz 4 aşamadan oluşur: 1) Master model — 3D baskı veya CNC ile üretim, 2) Silikon kalıp — vakumlu kalıplama, 3) Döküm — PU/silikon/EP döküm, 4) Finisaj — yüzey işlemleri ve kalite kontrol. Toplam terminde belirleyici olan master modelin hazırlanması ve döküm adedidir; termin teklifle birlikte verilir.",
+      "Alüminyum kalıp çözümü, çelik kalıba göre daha hızlı işlenebildiği için düşük ve orta hacimli işlerde tercih edilir. Basınçlı döküm ve enjeksiyon kalıp pilot üretimlerinde, seri kalıp yatırımı öncesinde tasarımın doğrulanmasını sağlar.",
     ],
     features: [
-      "3D Baskı (FDM/SLA/SLS/DMLS) — 1-3 günde hızlı prototip",
+      "3D Baskı (FDM/SLA/SLS/DMLS) — konsept doğrulama ve hızlı prototip",
       "Silikon Kalıplama — 10-100 adet PU/silikon/EP döküm",
-      "Hızlı Alüminyum Kalıp — 2-3 haftada 10.000+ parça kapasitesi",
+      "Alüminyum Kalıp — pilot üretim ve tasarım doğrulaması için",
       "CNC İşleme — 1-100 adet ±0.01mm hassasiyette",
-      "Metal 3D Baskı (DMLS) — EOS M290 ile Al, SS, Ti",
+      /* 09a-C3 — F3, birinci yer. Model adı gitti, süreç kaldı: Al/SS/Ti'de
+         DMLS bir KABİLİYETTİR; onu yapan tezgâh ise ENVANTERDİR ve §D
+         `MACHINE_COUNT: PRIVATE_DO_NOT_DISCLOSE` / §0
+         `DO_NOT_EMPHASIZE_COMPANY_SCALE` kapsamındadır. Phase 06 adlandırılmış
+         modelleri makine parkı sayfasından aynı gerekçeyle kaldırmıştı; bu
+         ikisi o süpürmenin dışında kalmıştı. */
+      "Metal 3D Baskı (DMLS) — alüminyum, paslanmaz çelik ve titanyum",
       "Fonksiyonel Prototip — Seri üretim malzemesi ile test",
     ],
     technicalSpecs: [
       { label: "Min. Adet", value: "1 adet" },
       { label: "Maks. Adet", value: "1.000 adet" },
-      { label: "3D Baskı Teslim", value: "1-3 iş günü" },
-      { label: "Silikon Kalıp", value: "5-10 iş günü" },
-      { label: "Al Kalıp", value: "2-3 hafta" },
-      { label: "CNC Teslim", value: "3-10 iş günü" },
+      { label: "Yöntemler", value: "3D baskı, silikon kalıp, Al kalıp, CNC" },
+      { label: "Termin", value: LEAD_TIME_SHORT },
     ],
     processSteps: [
       "Yöntem Seçimi",
@@ -2008,20 +2352,18 @@ export const servicePages: ServicePageData[] = [
     ],
     advantages: [
       "4 farklı yöntem ile her ihtiyaca uygun çözüm",
-      "1 günde başlayan teslimat süreleri",
+      "Yöntem seçimi adet, tolerans ve termin dengesine göre yapılır",
       "Metal ve plastik 3D baskı kapasitesi",
       "Silikon kalıp ile düşük kalıp maliyeti",
       "Seri üretim öncesi pilot doğrulama",
       "Fonksiyonel prototip ile gerçek koşullarda test",
     ],
-    machines: [
-      { name: "Stratasys F900", brand: "Stratasys", specs: "FDM, 914×610×914mm, ABS/Nylon" },
-      { name: "Formlabs Form 3L", brand: "Formlabs", specs: "SLA, yüksek detay reçine baskı" },
-      { name: "EOS M290", brand: "EOS", specs: "DMLS, 250×250×325mm, Al/SS/Ti" },
-    ],
     faq: [
-      { question: "Prototip için hangi yöntem en uygun?", answer: "1-10 adet ve hızlı teslimat için 3D baskı (1-3 gün), hassas parçalar için CNC (3-10 gün), 10-100 adet plastik parça için silikon kalıplama (5-10 gün) öneriyoruz." },
-      { question: "Metal 3D baskı yapabiliyor musunuz?", answer: "Evet, EOS M290 DMLS sistemimiz ile alüminyum, paslanmaz çelik ve titanyum malzemelerde metal 3D baskı yapabiliyoruz." },
+      { question: "Prototip için hangi yöntem en uygun?", answer: `1-10 adet ve hızlı konsept doğrulaması için 3D baskı, ±0.01mm hassasiyet gereken parçalar için CNC, 10-100 adet plastik parça için silikon kalıplama öneriyoruz. ${LEAD_TIME_STATEMENT}` },
+      /* 09a-C3 — F3, ikinci yer ve daha ağır olanı: bu bir `faq` girdisi,
+         yani `collectServiceFaqs()` ile sohbet havuzunun 78. kaydı. Model adı
+         botun bir soruyla ulaşılabildiği bir envanter bilgisiydi. */
+      { question: "Metal 3D baskı yapabiliyor musunuz?", answer: "Evet. DMLS (doğrudan metal lazer sinterleme) ile alüminyum, paslanmaz çelik ve titanyum malzemelerde metal 3D baskı yapıyoruz; parça ölçüsü ve ulaşılabilir tolerans teknik incelemede değerlendirilir." },
       { question: "Silikon kalıptan kaç parça çıkar?", answer: "Bir silikon kalıptan ortalama 20-50 parça üretilebilir. Malzeme ve geometriye göre bu sayı değişebilir." },
       { question: "Düşük hacimden seri üretime geçiş nasıl olur?", answer: "Prototip ve pilot üretimden sonra onaylanan tasarım için çelik kalıp yatırımı veya otomasyonlu CNC seri üretim planlaması yapılır. Geçiş süreci proje yöneticimiz tarafından koordine edilir." },
     ],
@@ -2029,14 +2371,19 @@ export const servicePages: ServicePageData[] = [
       {
         title: "Üretim Yöntemi Karşılaştırması (Maliyet vs. Adet)",
         description: "Adet sayısına göre en uygun üretim yöntemini seçin — köprü üretim stratejisi için kritik",
-        headers: ["Yöntem", "Adet Aralığı", "Birim Maliyet", "Teslimat", "Tolerans", "Kalıp Yatırımı"],
+        /* 09a-C2: the "Teslimat" column carried six delivery windows, from
+           "1-3 gün" to "4-8 hafta". The table's stated job — "Maliyet vs. Adet"
+           — is served by adet, maliyet, tolerans and kalıp yatırımı; the
+           duration column was the only unauthorised thing in it and it is
+           removed rather than blanked six times over. */
+        headers: ["Yöntem", "Adet Aralığı", "Birim Maliyet", "Tolerans", "Kalıp Yatırımı"],
         rows: [
-          ["3D Baskı (FDM/SLA)", "1 – 10", "$$$", "1-3 gün", "±0.2mm", "Yok"],
-          ["3D Baskı (SLS/DMLS)", "1 – 50", "$$$$", "2-5 gün", "±0.1mm", "Yok"],
-          ["CNC İşleme", "1 – 100", "$$$", "3-10 gün", "±0.01mm", "Yok"],
-          ["Silikon Kalıplama", "10 – 100", "$$", "5-10 gün", "±0.1mm", "Düşük ($)"],
-          ["Hızlı Al Kalıp", "100 – 1.000", "$", "2-3 hafta", "±0.05mm", "Orta ($$)"],
-          ["Çelik Kalıp (Enjeksiyon)", "1.000+", "$", "4-8 hafta", "±0.03mm", "Yüksek ($$$$$)"],
+          ["3D Baskı (FDM/SLA)", "1 – 10", "$$$", "±0.2mm", "Yok"],
+          ["3D Baskı (SLS/DMLS)", "1 – 50", "$$$$", "±0.1mm", "Yok"],
+          ["CNC İşleme", "1 – 100", "$$$", "±0.01mm", "Yok"],
+          ["Silikon Kalıplama", "10 – 100", "$$", "±0.1mm", "Düşük ($)"],
+          ["Hızlı Al Kalıp", "100 – 1.000", "$", "±0.05mm", "Orta ($$)"],
+          ["Çelik Kalıp (Enjeksiyon)", "1.000+", "$", "±0.03mm", "Yüksek ($$$$$)"],
         ],
         highlight: 4,
       },
@@ -2047,36 +2394,46 @@ export const servicePages: ServicePageData[] = [
     category: "kabiliyetler",
     categoryLabel: "Prototipten Seri Üretime",
     title: "Seri İmalat",
-    metaTitle: "Seri İmalat | 1000+ Adet | Otomasyon & Robot | Endüstri 4.0 | Mas Technic",
+    metaTitle: "Seri İmalat | Tekrarlanabilir Kurulum ve Kontrol Planı | Mas Technic",
     metaDescription:
-      "CNC seri 50.000/yıl, basınçlı döküm 500.000/yıl, enjeksiyon 1.000.000/yıl kapasite. KUKA/FANUC robot, Fastems palet, SAP MES entegre Endüstri 4.0 üretim.",
+      "Seri imalatta belirleyici olan tek parçayı üretmek değil, yüzüncü parçayı ilkiyle aynı çıkarmaktır: standart kurulum, kontrol planı ve parti izlenebilirliği.",
     description:
-      "Çelik kalıp, basınçlı döküm, otomasyonlu CNC ve montaj hatları ile yüksek hacimli seri üretimde tutarlılık, verimlilik ve rekabetçi fiyat garantisi sunuyoruz.",
+      "Çelik kalıp, basınçlı döküm, otomasyonlu CNC ve montaj hatları ile yüksek hacimli seri üretimde tutarlılık ve verimlilik hedefliyoruz.",
     heroImage: "hero-seri-uretim",
     content: [
-      "Seri üretim kapasitelerimiz: CNC seri işleme 1.000-50.000 adet/yıl (±0.01mm tolerans), basınçlı döküm 5.000-500.000 adet/yıl (CT4-CT6), enjeksiyon kalıp 10.000-1.000.000 adet/yıl (CT5-CT7). Her yöntemde seri üretim eşdeğeri kalite ve tutarlılık garanti edilmektedir.",
-      "Otomasyon ve Endüstri 4.0 altyapımız: KUKA ve FANUC robot kollar ile otomatik takım değiştirme, Fastems palet sistemi ile 24 saat kesintisiz otomatik üretim, Keyence in-process ölçüm sistemi ile üretim içi kontrol ve SAP MES yazılımı ile gerçek zamanlı üretim takibi. OEE hedefimiz %85+ seviyesindedir.",
-      "SAP ERP entegrasyonumuz ile gerçek zamanlı üretim takibi (makine durumu, verimlilik KPI'ları), stok yönetimi (JIT teslimat), kapasite planlama (yük dengeleme ve optimizasyon), tedarikçi entegrasyonu (otomatik sipariş önerileri) ve lot bazlı tam süreç izlenebilirliği sağlıyoruz.",
-      "Gerçek seri üretim örneklerimiz: Otomotiv müşterisi — sensör gövdesi 250.000 adet/yıl (döküm), elektronik müşterisi — ısı emici 100.000 adet/yıl (CNC), medikal müşterisi — kateter komponenti 50.000 adet/yıl (CNC). Cpk ≥1.67 süreç yetkinliği ile tutarlı kalite sağlıyoruz.",
+      /* PHASE 07 CORRECTION #1 — F1. This sentence published three annual
+         production volumes in the first person ("Seri üretim
+         kapasitelerimiz: … 50.000 adet/yıl … 500.000 adet/yıl …
+         1.000.000 adet/yıl"). `USER_INPUTS.md` §0
+         DO_NOT_PUBLISH_REVENUE_OR_ORDER_VOLUME: YES and §D
+         REVENUE_OR_ORDER_VOLUME: PRIVATE_DO_NOT_DISCLOSE withhold that class,
+         and nothing in `USER_INPUTS.md` verifies the figures. KEPT is the
+         process-specification half — ±0.01 mm and the CT casting-tolerance
+         classes — the same class Phase 06 kept alongside MIL-A-8625 and
+         ISO 2768-m, and the one §0 PUBLIC_POSITIONING_PRIORITY leads with. */
+      "Seri üretimde yöntem, parça geometrisi ve tolerans hedefine göre seçilir: CNC seri işleme ±0.01mm, basınçlı döküm CT4-CT6 ve enjeksiyon kalıp CT5-CT7 kalıp toleransı aralığında çalışır.",
+      "Seri işlerde kurulum bir kez yapılıp unutulmaz: standart kurulum prosedürü, sabit referans yüzeyleri ve otomatik takım değiştirme, partiler arası sapmayı sınırlar. İlk parça onaylanmadan seri başlamaz.",
+      "Üretim takibi, stok ve kapasite planlaması tek bir kayıt üzerinden yürütülür; hangi partinin nerede olduğu ve hangi kontrolden geçtiği her an kayıtlıdır. Tedarik ihtiyacı bu kayıt üzerinden planlanır, müşteri portalından sipariş durumu görülebilir.",
+      "Parti içi tutarlılık, ara kontrollerin plana bağlanmasıyla korunur. Kayma eğilimi olan koteler — takım aşınmasına duyarlı çaplar, ısıl işlem sonrası ölçüler — ayrı bir kontrol adımıyla izlenir ve sonuçlar kayıt altına alınır.",
     ],
     features: [
-      "CNC Seri Üretim — 50.000 adet/yıl, ±0.01mm tolerans",
-      "Basınçlı Döküm — 500.000 adet/yıl, CT4-CT6 kalıp toleransı",
-      "Enjeksiyon Kalıp — 1.000.000 adet/yıl kapasite",
-      "Robot Entegrasyonu — KUKA, FANUC otomatik yükleme",
-      "Fastems Palet Sistemi — 24 saat kesintisiz otomatik üretim",
-      "SAP MES — Gerçek zamanlı üretim takibi ve KPI",
+      "CNC Seri İşleme — ±0.01mm tolerans, sabit referans yüzeyleri",
+      "Basınçlı Döküm — CT4-CT6 kalıp toleransı",
+      "Enjeksiyon Kalıp — CT5-CT7 kalıp toleransı",
+      "Otomatik Takım Değiştirme — uzun partilerde kesintisiz işleme",
+      "Otomatik Palet Değiştirme — kurulumun üretimden ayrılması",
+      "Üretim Takibi — parti durumunun kayıt altında olması",
     ],
     technicalSpecs: [
-      { label: "CNC Seri Kapasite", value: "50.000 adet/yıl" },
-      { label: "Döküm Kapasite", value: "500.000 adet/yıl" },
-      { label: "Enjeksiyon Kapasite", value: "1.000.000 adet/yıl" },
-      { label: "OEE Hedef", value: "%85+" },
-      { label: "Cpk", value: "≥1.67" },
+      { label: "CNC Seri İşleme", value: "±0.01mm tolerans" },
+      { label: "Basınçlı Döküm", value: "CT4-CT6 kalıp toleransı" },
+      { label: "Enjeksiyon Kalıp", value: "CT5-CT7 kalıp toleransı" },
+      { label: "Kurulum", value: "Standart prosedür" },
+      { label: "Kontrol", value: "Kontrol planına göre" },
       { label: "Teslimat", value: "JIT uyumlu" },
     ],
     processSteps: [
-      "PPAP Dokümanı",
+      "Parti Kaydı",
       "Pilot Üretim",
       "Seri Üretim Onayı",
       "Otomasyon Kurulumu",
@@ -2085,28 +2442,32 @@ export const servicePages: ServicePageData[] = [
       "JIT Teslimat",
     ],
     advantages: [
-      "KUKA/FANUC robot ve Fastems ile tam otomasyon",
-      "SAP MES ile gerçek zamanlı üretim izleme",
+      "Standart kurulum prosedürü ile partiler arası tutarlılık",
+      "Parti durumu üretim boyunca kayıt altında tutulur",
       "JIT teslimat ve Kanban sistemi entegrasyonu",
-      "Cpk ≥1.67 süreç yetkinliği garanti",
+      "Kayma eğilimi olan koteler ara kontrolle izlenir",
       "Lot bazlı tam izlenebilirlik",
-      "250.000+ adet/yıl kanıtlanmış seri üretim deneyimi",
+      "İlk parça onaylanmadan seri üretim başlamaz",
     ],
     faq: [
-      { question: "Minimum seri üretim adedi nedir?", answer: "CNC seri üretim için 1.000 adet, basınçlı döküm için 5.000 adet ve enjeksiyon kalıp için 10.000 adetten başlamaktadır." },
-      { question: "JIT teslimat yapabiliyor musunuz?", answer: "Evet, SAP ERP ve Kanban sistemi entegrasyonu ile JIT (Just-in-Time) teslimat programları uyguluyoruz." },
-      { question: "Seri üretimde kalite nasıl garanti edilir?", answer: "SPC (İstatistiksel Proses Kontrol), Cpk ≥1.67 süreç yetkinliği, in-process Keyence ölçüm ve lot bazlı CMM kontrol ile kalite garanti altına alınır." },
-      { question: "Otomasyon seviyeniz nedir?", answer: "KUKA/FANUC robot kollar, Fastems palet sistemi, otomatik bar besleyiciler ve SAP MES ile üretimimizin büyük bölümü otomasyonludur. OEE hedefimiz %85+ seviyesindedir." },
+      /* The published minimums were the lower bounds of the same withheld
+         volume ranges (F1); quoting them would have left half the disclosure
+         standing. The answer now states how the threshold is DECIDED, which
+         is the part that is actually true of every job. */
+      { question: "Minimum seri üretim adedi nedir?", answer: "Tek bir eşik yoktur; yönteme göre değişir. Kalıp yatırımı gerektiren yöntemlerde (basınçlı döküm, enjeksiyon kalıp) eşiği kalıp maliyetinin parça başına dağılımı belirler; CNC seri işlemede kurulum süresi belirleyicidir. Parça geometrisi ve tolerans hedefiyle birlikte teklif aşamasında netleştiririz." },
+      { question: "Teslimat programı düzenlenebiliyor mu?", answer: "Evet. Parti büyüklüğü ve teslimat sıklığı kapasite planlamasıyla birlikte kararlaştırılır; periyodik teslimat programları düzenlenebilir." },
+      { question: "Seri üretimde tutarlılığı nasıl koruyorsunuz?", answer: "İlk parça onayı, standart kurulum prosedürü ve kontrol planına bağlı ara kontroller ile. Kayma eğilimi olan koteler ayrı bir adımda izlenir ve ölçüm sonuçları kayıt altına alınır." },
+      { question: "Uzun partilerde tezgâh nasıl besleniyor?", answer: "Otomatik takım değiştirme ve bar besleme, uzun partilerde kesintisiz işlemeyi mümkün kılar. Hangi yöntemin kullanılacağı parça geometrisi ve parti büyüklüğüne göre planlanır." },
     ],
     comparisonTables: [
       {
-        title: "Seri Üretim Kapasite ve Süreç Yetkinliği",
-        description: "Üretim yöntemlerine göre yıllık kapasite, tolerans ve kalite metrikleri",
-        headers: ["Üretim Yöntemi", "Yıllık Kapasite", "Tolerans", "Cpk Hedef", "Otomasyon", "Kalite Kontrolü"],
+        title: "Seri Üretim Yöntemi Seçimi",
+        description: "Parça geometrisi ve toleransa göre yöntem, kurulum ve kontrol yaklaşımı",
+        headers: ["Üretim Yöntemi", "Tipik Kullanım", "Tolerans", "Kurulum", "Kontrol Yaklaşımı"],
         rows: [
-          ["CNC Seri İşleme", "50.000 adet", "±0.01mm", "≥1.67", "Robot + Palet", "In-process + CMM"],
-          ["Basınçlı Döküm", "500.000 adet", "CT4-CT6", "≥1.33", "Otomatik hat", "X-Ray + CMM"],
-          ["Enjeksiyon Kalıp", "1.000.000 adet", "CT5-CT7", "≥1.33", "Tam otomatik", "Görsel + CMM"],
+          ["CNC Seri İşleme", "Dar toleranslı metal parçalar", "±0.01mm", "Standart prosedür + sabit referans", "İlk parça + ara kontrol"],
+          ["Basınçlı Döküm", "Karmaşık formlu yüksek hacim", "CT6-CT8", "Kalıp ve döküm parametresi", "Görsel + boyutsal kontrol"],
+          ["Enjeksiyon Kalıp", "Plastik yüksek hacim", "CT6-CT8", "Kalıp ve proses penceresi", "İlk parça + periyodik kontrol"],
         ],
       },
     ],
@@ -2120,14 +2481,14 @@ export const servicePages: ServicePageData[] = [
     title: "Proje Yönetimi",
     metaTitle: "Proje Yönetimi | Agile & Phase-Gate | Gerçek Zamanlı Raporlama | Mas Technic",
     metaDescription:
-      "Özel proje yöneticiniz ile tekliften teslimata 5 aşamalı kontrollü süreç. Agile/Scrum, Phase-Gate metodolojileri. Haftalık raporlama, PPAP dokümantasyonu, ECO yönetimi.",
+      "Tekliften teslimata beş aşamalı, onay noktalarıyla ilerleyen bir süreç. Her aşama bir çıktı üretir ve bir sonraki aşama o çıktı onaylanmadan başlamaz.",
     description:
       "Özel proje yöneticiniz, gerçek zamanlı raporlama ve proaktif iletişim ile projelerinizin her aşamasında yanınızdayız. Tekliften teslimata kontrollü ve şeffaf süreç yönetimi.",
     heroImage: "hero-proje-yonetimi",
     content: [
       "Proje yönetimi metodolojilerimiz: Agile/Scrum (yazılım entegre projeler — Jira, Confluence), Waterfall (geleneksel mekanik projeler — MS Project), Phase-Gate (seri üretim projeleri — özel template). Projenizin yapısına göre en uygun metodoloji seçilerek uygulanır.",
-      "5 aşamalı proje sürecimiz: 1) Değerlendirme (1-3 gün) — teklif ve müşteri onayı, 2) DFM analizi (3-5 gün) — DFM raporu ve revizyon, 3) Prototip (1-3 hafta) — örnek parça üretimi ve test, 4) PPAP (2-4 hafta) — dokümantasyon ve onay, 5) Seri üretim (devam eden) — parti bazı rapor ve SPC kontrolü.",
-      "İletişim ve raporlama kanallarımız: Haftalık proje toplantıları (video konferans veya yüz yüze), gerçek zamanlı dashboard (üretim durumu, kalite metrikleri), fotoğraf/videolu raporlama (kritik aşamaların belgelenmesi), PPAP dokümantasyonu (tam teknik dosya teslimi) ve ECO (Engineering Change Order) değişiklik yönetimi prosedürü.",
+      "Beş aşamalı proje sürecimiz: 1) Değerlendirme — teklif ve onay, 2) DFM analizi — rapor ve gerekirse tasarım revizyonu, 3) Prototip — numune parça, ölçüm kaydı ve numune onayı, 4) Üretim dosyası — kontrol planı ve izlenebilirlik dokümanları, 5) Seri üretim — parti raporu ve periyodik değerlendirme.",
+      "İletişim ve raporlama kanallarımız: proje toplantıları, müşteri portalı üzerinden durum takibi, kritik aşamaların fotoğraf ve video ile belgelenmesi, üretim dosyasının teslimi ve tasarım değişikliği (ECO) yönetimi prosedürü.",
       "Proje yönetimi yazılımlarımız: Jira (görev takibi — Git, Confluence entegrasyonu), Microsoft Project (zamanlama — Excel, PowerBI entegrasyonu) ve Slack/Teams (iletişim — tüm sistemlerle entegrasyon). Her proje için özel bir proje yöneticisi atanır ve baştan sona tek muhatap olarak hizmet verir.",
     ],
     features: [
@@ -2135,14 +2496,21 @@ export const servicePages: ServicePageData[] = [
       "5 Aşamalı Süreç — Değerlendirmeden seri üretime kontrollü geçiş",
       "Agile/Scrum & Phase-Gate — Proje yapısına uygun metodoloji",
       "Gerçek Zamanlı Dashboard — Üretim durumu ve kalite metrikleri",
-      "PPAP Dokümantasyonu — Tam teknik dosya teslimi",
+      "Üretim Dosyası — kontrol planı ve izlenebilirlik kayıtları",
       "ECO Yönetimi — Mühendislik değişiklik prosedürü",
     ],
     technicalSpecs: [
-      { label: "Değerlendirme", value: "1-3 gün" },
-      { label: "DFM Analizi", value: "3-5 gün" },
-      { label: "Prototip", value: "1-3 hafta" },
-      { label: "PPAP", value: "2-4 hafta" },
+      /* 09a-C2: this row IS the quote-response SLA — "Değerlendirme" is how
+         long MAS takes to come back with a price, which §D and §J authorise.
+         It was a hand-written literal that happened to agree with the ledger;
+         it now reads from the ledger, so it cannot drift away from it. */
+      { label: "Değerlendirme", value: QUOTE_RESPONSE_TIME },
+      /* 09a-C1 neutralised the DFM row and left "1-3 hafta" in the Prototip row
+         directly beneath it. 09a-C2 finishes the column: the only duration left
+         is the one with a source. */
+      { label: "DFM Analizi", value: LEAD_TIME_SHORT },
+      { label: "Prototip", value: LEAD_TIME_SHORT },
+      { label: "Üretim Dosyası", value: "Numune onayı sonrası" },
       { label: "Raporlama", value: "Haftalık + dashboard" },
       { label: "Araçlar", value: "Jira, MS Project, Slack" },
     ],
@@ -2151,7 +2519,7 @@ export const servicePages: ServicePageData[] = [
       "DFM Analizi",
       "Prototip Üretimi",
       "Test & Doğrulama",
-      "PPAP Onayı",
+      "Numune Onayı",
       "Seri Üretim Başlatma",
       "Sürekli İyileştirme",
     ],
@@ -2161,11 +2529,11 @@ export const servicePages: ServicePageData[] = [
       "Fotoğraf/videolu kritik aşama belgeleme",
       "ECO prosedürü ile kontrollü değişiklik yönetimi",
       "Jira/MS Project ile profesyonel proje takibi",
-      "PPAP tam dokümantasyon teslimi",
+      "Kontrol planı ve izlenebilirlik kayıtlarının teslimi",
     ],
     faq: [
       { question: "Her projeye özel proje yöneticisi atanıyor mu?", answer: "Evet, her projede özel bir proje yöneticisi atanır ve tekliften teslimata kadar tek muhatap olarak hizmet verir." },
-      { question: "Proje ilerlemesini nasıl takip edebilirim?", answer: "Haftalık toplantılar, gerçek zamanlı dashboard, fotoğraf/videolu raporlar ve PPAP dokümantasyonu ile projenizi her aşamada takip edebilirsiniz." },
+      { question: "Proje ilerlemesini nasıl takip edebilirim?", answer: "Proje toplantıları, müşteri portalı üzerinden durum takibi, kritik aşamaların fotoğraf ve video kayıtları ve üretim dosyası ile her aşamayı takip edebilirsiniz." },
       { question: "Tasarım değişikliği gerektiğinde ne olur?", answer: "ECO (Engineering Change Order) prosedürümüz ile kontrollü bir şekilde değişiklik yönetimi yapılır. Maliyet ve süre etkileri analiz edildikten sonra onayınızla revizyon uygulanır." },
     ],
     comparisonTables: [
@@ -2176,7 +2544,7 @@ export const servicePages: ServicePageData[] = [
         rows: [
           ["Agile / Scrum", "Yazılım entegre projeler", "★★★★★", "Sprint bazlı", "Jira, Confluence", "İteratif — 2 haftalık sprint"],
           ["Waterfall", "Geleneksel mekanik projeler", "★★☆☆☆", "Aşama bazlı", "MS Project", "Sıralı — Phase-Gate onaylı"],
-          ["Phase-Gate", "Seri üretim projeleri", "★★★☆☆", "Gate Review", "Özel template", "Kontrollü geçiş — PPAP ile"],
+          ["Phase-Gate", "Seri üretim projeleri", "★★★☆☆", "Gate Review", "Özel template", "Kontrollü geçiş — onay noktalarıyla"],
           ["Hibrit", "Karmaşık mühendislik projeleri", "★★★★☆", "Haftalık + Sprint", "Jira + MS Project", "Esnek — proje ihtiyacına göre"],
         ],
       },
@@ -2184,168 +2552,196 @@ export const servicePages: ServicePageData[] = [
         title: "Proje Aşamaları ve Süreleri",
         headers: ["Aşama", "Süre", "Çıktı", "Müşteri Onayı", "İletişim Kanalı"],
         rows: [
-          ["1. Değerlendirme & Teklif", "1-3 gün", "Detaylı teklif + zaman planı", "Teklif onayı", "E-posta + Video konferans"],
-          ["2. DFM Analizi", "3-5 gün", "DFM raporu + CAD revizyonu", "DFM onayı", "Portal + Toplantı"],
-          ["3. Prototip Üretimi", "1-3 hafta", "Örnek parça + ölçüm raporu", "Numune onayı", "Fotoğraf/video + rapor"],
-          ["4. PPAP Dokümantasyonu", "2-4 hafta", "PPAP Level 3-5 dosyası", "PPAP onayı", "Portal + PDF teslim"],
+          /* 09a-C2: the "Süre" column now reads — quote SLA (sourced, from the
+             ledger), Teklifle birlikte, Teklifle birlikte, Numune onayı
+             sonrası, Devam eden. Exactly one cell carries a number and it is
+             the only one §D and §J authorise. */
+          ["1. Değerlendirme & Teklif", QUOTE_RESPONSE_TIME, "Detaylı teklif + zaman planı", "Teklif onayı", "E-posta + Video konferans"],
+          ["2. DFM Analizi", LEAD_TIME_SHORT, "DFM raporu + CAD revizyonu", "DFM onayı", "Portal + Toplantı"],
+          ["3. Prototip Üretimi", LEAD_TIME_SHORT, "Örnek parça + ölçüm raporu", "Numune onayı", "Fotoğraf/video + rapor"],
+          ["4. Üretim Dosyası", "Numune onayı sonrası", "Kontrol planı + izlenebilirlik kayıtları", "Dosya onayı", "Portal + PDF teslim"],
           ["5. Seri Üretim", "Devam eden", "Parti raporu + SPC verileri", "Periyodik review", "Dashboard + haftalık rapor"],
         ],
       },
     ],
   },
+  /* SUPPLY CHAIN — rewritten in Phase 06.
+
+     The page named mills (Alcoa, Assan, Erdemir, Outokumpu, VSMPO, ATI, BASF,
+     Sabic), gave each a percentage share of spend, published safety-stock
+     tonnage, an approved-supplier count and a %60 localisation ratio. None of
+     it was supplied, and the shares and tonnages are order-volume disclosure
+     on top (§D REVENUE_OR_ORDER_VOLUME: PRIVATE_DO_NOT_DISCLOSE).
+
+     Naming your mills also tells a competitor exactly where your material
+     comes from — which is why the page now describes the strategy instead of
+     the vendors. Material lead times were kept in class-level ranges, which is
+     genuinely useful to a buyer planning a project.                          */
   {
     slug: "tedarik-zinciri",
     category: "kabiliyetler",
     categoryLabel: "Süreç & Operasyon",
     title: "Tedarik Zinciri",
-    metaTitle: "Tedarik Zinciri Yönetimi | JIT, Kanban, VMI | Çoklu Tedarikçi | Mas Technic",
+    metaTitle: "Tedarik Zinciri Yönetimi | Çift Kaynak, Stok Stratejisi | Mas Technic",
     metaDescription:
-      "Yerel ve global tedarikçi ağı ile kesintisiz malzeme tedariki. JIT teslimat, Kanban, VMI stratejileri. Alcoa, Erdemir, Outokumpu gibi sertifikalı tedarikçiler.",
+      "Kritik malzemede çift kaynak, sınıf bazlı tedarik süresi ve parti izlenebilirliği. Malzeme tedarik riski üretim planlanmadan önce değerlendirilir.",
     description:
-      "Yerel ve global tedarikçi ağımız, stok yönetimimiz ve risk azaltma stratejilerimiz ile kesintisiz tedarik garantisi sunuyoruz.",
+      "Bir işin termini çoğu zaman tezgâhta değil, malzemenin gelişinde belirlenir. Tedarik riski bu nedenle teklif aşamasında, üretim planlanmadan önce değerlendirilir.",
     heroImage: "hero-tedarik-zinciri",
     content: [
-      "Tedarikçi ağımız: Alüminyum (Alcoa, Assan — TR/DE, %40 pay), çelik (Erdemir, Outokumpu — TR/FI, %35), özel alaşım (VSMPO, ATI — RU/US, %15) ve plastik (BASF, Sabic — DE/SA, %10). Her kritik malzeme için minimum 2 onaylı tedarikçi ile tedarik güvencesi sağlıyoruz.",
-      "Malzeme tedarik süreleri: Al 6061/7075 stokta (sipariş 1-2 hafta), SS 304/316 stokta (sipariş 2-3 hafta), titanyum 4-6 hafta (özel sipariş), Inconel/Hastelloy 6-8 hafta (özel sipariş). Kritik malzemelerde güvenlik stoğu tutarak acil ihtiyaçlara hızlı yanıt veriyoruz.",
-      "Stok yönetim stratejilerimiz: Güvenlik stoğu (kritik alüminyum — 4 haftalık), JIT (standart çelik — 1 haftalık), VMI — Vendor Managed Inventory (plastik hammaddesi — tedarikçi deposunda). Bu üç katmanlı strateji ile stok maliyetini minimize ederken tedarik güvencesini maksimize ediyoruz.",
-      "Tedarik zinciri risk azaltma stratejilerimiz: Çoklu tedarikçi (her kritik malzeme için min. 2 onaylı), güvenlik stoğu (4-8 haftalık kritik malzeme), alternatif malzemeler (onaylı ikincil seçenekler), yerelleştirme (%60 yerel tedarikçi oranı) ve VMI (ana tedarikçilerle entegre stok yönetimi).",
+      "Malzeme tedariki terminin en büyük belirsizliğidir. Standart alüminyum ve paslanmaz çelik kısa sürede temin edilebilirken, titanyum ve nikel esaslı alaşımlar sipariş üzerine gelir ve tedarik süresi üretim süresini aşabilir. Bu nedenle malzeme durumu teklifle birlikte netleştirilir.",
+      "Kritik malzemelerde tek kaynağa bağlı kalmamayı esas alıyoruz. Onaylı ikinci kaynak, tedarik kesintisinde işin durmasını engeller; alternatif malzeme seçenekleri ise şartnameyle uyumluysa teknik incelemede birlikte değerlendirilir.",
+      "Stok stratejisi malzeme sınıfına göre değişir: sık kullanılan standart profil ve levhalarda emniyet stoğu tutulur, özel alaşımlarda sipariş üzerine tedarik yapılır. Amaç stok maliyetiyle tedarik riski arasında bilinçli bir denge kurmaktır.",
+      "Gelen her malzeme parti ve döküm kaydıyla kayıt altına alınır. Bu kayıt, üretimin ilerleyen aşamalarında bir uygunsuzluk çıktığında hangi partinin etkilendiğini belirlemenin tek güvenilir yoludur; malzeme sertifikası talebe bağlı olarak teslimat dosyasına eklenir.",
     ],
     features: [
-      "Çoklu Tedarikçi — Her kritik malzeme için min. 2 onaylı tedarikçi",
-      "JIT Teslimat — Just-in-Time stok ve teslimat yönetimi",
-      "VMI — Vendor Managed Inventory ile entegre stok",
-      "Güvenlik Stoğu — 4-8 haftalık kritik malzeme stoğu",
-      "Yerelleştirme — %60 yerel tedarikçi oranı",
-      "Risk Yönetimi — Alternatif malzeme ve tedarikçi stratejileri",
+      "Çift Kaynak — kritik malzemede onaylı ikinci tedarikçi",
+      "Sınıf Bazlı Tedarik Süresi — malzeme grubuna göre planlama",
+      "Emniyet Stoğu — sık kullanılan standart malzemelerde",
+      "Alternatif Malzeme — şartnameyle uyumluysa teknik incelemede",
+      "Parti ve Döküm Kaydı — gelen her malzeme için",
+      "Malzeme Sertifikası — talebe bağlı, teslimat dosyasında",
     ],
     technicalSpecs: [
-      { label: "Tedarikçi Sayısı", value: "20+ onaylı" },
-      { label: "Yerel Oran", value: "%60" },
-      { label: "Al Tedarik", value: "Stokta / 1-2 hafta" },
-      { label: "SS Tedarik", value: "Stokta / 2-3 hafta" },
-      { label: "Ti Tedarik", value: "4-6 hafta" },
-      { label: "Güvenlik Stoğu", value: "4-8 hafta" },
+      { label: "Kritik Malzeme", value: "Çift kaynak" },
+      { label: "Standart Al / SS", value: "Kısa tedarik süresi" },
+      { label: "Titanyum", value: "Sipariş üzerine" },
+      { label: "Nikel Esaslı Alaşım", value: "Sipariş üzerine" },
+      { label: "Kayıt", value: "Parti ve döküm" },
+      { label: "Sertifika", value: "Talebe bağlı" },
+    ],
+    processSteps: [
+      "Malzeme Şartnamesinin Okunması",
+      "Tedarik Süresi Değerlendirmesi",
+      "Kaynak Seçimi",
+      "Sipariş ve Takip",
+      "Giriş Kaydı (Parti / Döküm)",
+      "Üretime Aktarım",
     ],
     advantages: [
-      "Alcoa, Erdemir, Outokumpu gibi dünya lideri tedarikçiler",
-      "Her kritik malzeme için çift kaynak tedarik güvencesi",
-      "4-8 haftalık güvenlik stoğu ile acil müdahale",
-      "%60 yerel tedarikçi ile hızlı erişim",
-      "VMI ile tedarikçi entegre stok yönetimi",
-      "Sertifikalı malzeme tedariki (EN 10204 3.1/3.2)",
+      "Tedarik riski üretim planlanmadan önce değerlendirilir",
+      "Kritik malzemede tek kaynağa bağlı kalınmaz",
+      "Termin, malzemenin gerçek tedarik süresiyle birlikte verilir",
+      "Alternatif malzeme yalnızca şartnameyle uyumluysa önerilir",
+      "Gelen malzeme parti ve döküm kaydıyla izlenir",
+      "Uygunsuzlukta etkilenen parti kayıttan belirlenebilir",
     ],
     faq: [
-      { question: "Malzeme tedarik süreniz ne kadar?", answer: "Standart alüminyum ve paslanmaz çelik stokta mevcuttur (aynı gün). Sipariş üzerine Al/SS 1-3 hafta, titanyum 4-6 hafta, Inconel/Hastelloy 6-8 hafta tedarik süresidir." },
-      { question: "Tedarik kesintisi riski nasıl yönetilir?", answer: "Her kritik malzeme için minimum 2 onaylı tedarikçi, 4-8 haftalık güvenlik stoğu, onaylı alternatif malzemeler ve %60 yerel tedarikçi oranı ile risk minimize edilir." },
-      { question: "JIT teslimat yapabiliyor musunuz?", answer: "Evet, SAP ERP entegrasyonu ve Kanban sistemi ile JIT teslimat programları uyguluyoruz. Seri üretim müşterilerimize özel stok seviyesi yönetimi sağlıyoruz." },
+      { question: "Malzeme tedarik süreniz ne kadar?", answer: "Malzeme sınıfına göre değişir: standart alüminyum ve paslanmaz çelik kısa sürede temin edilebilir; titanyum ve nikel esaslı alaşımlar sipariş üzerine gelir. Projenizin gerçek tedarik süresini teklifle birlikte veririz." },
+      { question: "Tedarik kesintisi riski nasıl yönetiliyor?", answer: "Kritik malzemelerde onaylı ikinci kaynak bulundurulur, sık kullanılan standart malzemelerde emniyet stoğu tutulur ve şartnameyle uyumlu alternatif malzemeler önceden değerlendirilir." },
+      { question: "Malzeme sertifikası alabilir miyim?", answer: "Malzeme parti ve döküm kaydı üzerinden izlenir. Malzeme sertifikası talep etmeniz halinde teslimat dosyasına eklenir." },
+      { question: "Malzemeyi ben tedarik edebilir miyim?", answer: "Evet. Bu durumda malzemenin şartnameye uygunluğunu ve parti kaydını sizden alır, giriş kontrolünü buna göre planlarız." },
     ],
     comparisonTables: [
       {
-        title: "Tedarikçi Ağı ve Malzeme Tedarik Süreleri",
-        description: "Malzeme gruplarına göre tedarikçiler, süreler ve stok stratejisi",
-        headers: ["Malzeme Grubu", "Ana Tedarikçiler", "Menşei", "Tedarik Süresi", "Stok Stratejisi", "Pay (%)"],
+        title: "Malzeme Sınıfına Göre Tedarik Yaklaşımı",
+        description: "Tedarik süresi terminle doğrudan ilgilidir; strateji sınıfa göre değişir",
+        headers: ["Malzeme Grubu", "Tipik Erişim", "Stok Stratejisi", "Termine Etkisi"],
         rows: [
-          ["Alüminyum", "Alcoa, Assan", "TR / DE", "Stokta / 1-2 hafta", "Güvenlik stoğu (5.000 kg)", "%40"],
-          ["Çelik & SS", "Erdemir, Outokumpu", "TR / FI", "Stokta / 2-3 hafta", "Güvenlik stoğu (3.000 kg)", "%35"],
-          ["Titanyum & Özel Alaşım", "VSMPO, ATI", "RU / US", "4-8 hafta", "Sipariş üzerine", "%15"],
-          ["Plastik & Polimer", "BASF, Sabic", "DE / SA", "1-2 hafta", "VMI (tedarikçi yönetimli)", "%10"],
+          ["Standart alüminyum", "Kısa", "Emniyet stoğu", "Düşük"],
+          ["Paslanmaz çelik", "Kısa – orta", "Emniyet stoğu", "Düşük – orta"],
+          ["Alaşımlı çelik", "Orta", "Sipariş üzerine", "Orta"],
+          ["Titanyum", "Uzun", "Sipariş üzerine", "Yüksek — teklifte belirtilir"],
+          ["Nikel esaslı alaşım", "Uzun", "Sipariş üzerine", "Yüksek — teklifte belirtilir"],
+          ["Mühendislik plastiği", "Kısa – orta", "Sipariş üzerine", "Düşük – orta"],
         ],
       },
       {
-        title: "Stok Yönetim Stratejileri",
-        headers: ["Strateji", "Uygulama Alanı", "Stok Seviyesi", "Avantaj", "Dezavantaj"],
+        title: "Tedarik Riskini Azaltan Kararlar",
+        headers: ["Karar", "Ne Zaman Alınır", "Neyi Değiştirir"],
         rows: [
-          ["Güvenlik Stoğu", "Kritik alüminyum, SS", "4-8 haftalık", "Acil müdahale kapasitesi", "Stok maliyeti yüksek"],
-          ["JIT (Just-in-Time)", "Standart çelik", "1 haftalık", "Düşük stok maliyeti", "Tedarik kesintisi riski"],
-          ["VMI (Vendor Managed)", "Plastik hammaddesi", "Tedarikçi deposunda", "Sıfır stok maliyeti", "Tedarikçi bağımlılığı"],
-          ["Kanban", "Sarf malzemeler", "Min-max seviye", "Otomatik sipariş", "Kurulum karmaşıklığı"],
+          ["Onaylı ikinci kaynak", "Malzeme kritikse", "Kesintide iş durmaz"],
+          ["Alternatif malzeme", "Şartname izin veriyorsa", "Tedarik süresi kısalır"],
+          ["Emniyet stoğu", "Malzeme sık kullanılıyorsa", "Termin belirsizliği düşer"],
+          ["Erken sipariş", "Tedarik süresi uzunsa", "Üretim penceresi korunur"],
         ],
       },
     ],
   },
+  /* OPERATIONAL EFFICIENCY — rewritten in Phase 06.
+
+     Every number on this page was invented, several to one decimal place: a
+     per-machine OEE matrix naming three machines, a %77.5 average, a %1.2
+     scrap rate, %97 on-time delivery, %0.3 complaint rate, %96.8 first-pass
+     yield, a 22-minute setup time, 40 mandatory training hours per employee
+     and a Six Sigma belt count. `USER_INPUTS.md` supplies none of it; §D marks
+     the only related verified figure (on-time delivery) at 95% and its
+     visibility conditional, and §0 forbids publishing headcount at all.
+
+     The methods themselves — 5S, Kaizen, Kanban, TPM, SMED — are real
+     practices and stay. What is gone is the scoreboard. A method you can
+     describe is more credible than a number nobody can audit.               */
   {
     slug: "operasyonel-verimlilik",
     category: "kabiliyetler",
     categoryLabel: "Süreç & Operasyon",
     title: "Operasyonel Verimlilik",
-    metaTitle: "Operasyonel Verimlilik | Lean, Kaizen, OEE | Sürekli İyileştirme | Mas Technic",
+    metaTitle: "Operasyonel Verimlilik | Yalın Üretim, Kaizen, SMED | Mas Technic",
     metaDescription:
-      "Yalın üretim, Kaizen, 5S, TPM, Kanban ile operasyonel verimlilik. %77.5 OEE, %1.2 scrap oranı, %97 zamanında teslimat. Lean Six Sigma sertifikalı ekip.",
+      "Yalın üretim, 5S, Kaizen, Kanban, TPM ve SMED uygulamaları. Kurulum süresini kısaltmak, duruşu azaltmak ve tekrarlanabilirliği artırmak için tanımlı yöntemler.",
     description:
-      "Yalın üretim prensipleri ve sürekli iyileştirme (Kaizen) yaklaşımı ile operasyonel verimliliği maksimize ediyoruz. OEE takibi, setup optimizasyonu ve atık azaltma programları.",
+      "Verimlilik bir hedef tablosu değil, bir çalışma biçimidir: kurulumun kısalması, duruşun azalması ve aynı parçanın her seferinde aynı çıkması aynı disiplinin sonucudur.",
     heroImage: "hero-operasyonel-verimlilik",
     content: [
-      "OEE (Overall Equipment Effectiveness) performansımız: DMG DMU 65 — %85 kullanım, %92 performans, %99 kalite = %77 OEE, Mazak QT 350 — %88 kullanım, %90 performans, %98 kalite = %78 OEE. Genel ortalamamız %86 kullanım, %91 performans, %98.5 kalite ile %77.5 OEE seviyesindedir. Hedefimiz %80+ OEE'dir.",
-      "Lean üretim uygulamalarımız: 5S (tüm üretim alanında — düzen ve verimlilik), Kaizen (aylık atölyeler — sürekli iyileştirme), Kanban (malzeme yönetimi — stok optimizasyonu) ve TPM — Total Productive Maintenance (makine bakım — arıza azaltma). Bu araçlarla operasyonel mükemmellik hedefliyoruz.",
-      "KPI Dashboard verilerimiz: OEE hedef >%75, güncel %77.5 (yükseliş trendi); scrap oranı hedef <%2, güncel %1.2 (yükseliş); teslimat zamanı hedef >%95, güncel %97 (yükseliş); müşteri şikayeti hedef <%1, güncel %0.3 (yükseliş). Tüm KPI'larda hedeflerimizin üzerinde performans gösteriyoruz.",
-      "Eğitim ve gelişim programımız: Yıllık 40 saat zorunlu teknik eğitim (her çalışan), iç sertifikasyon programı (CNC operatörü, kalite muayene vb.), dış eğitimler (DMG MORI, Mazak, Siemens), Lean Six Sigma sertifikalı çalışanlar (5 Green Belt, 2 Black Belt). Sürekli öğrenen organizasyon kültürümüz ile operasyonel mükemmelliği sürdürüyoruz.",
+      "Bir işin süresi kesme süresinden ibaret değildir. Çoğu iş için belirleyici olan kurulum, bekleme, taşıma ve yeniden ölçüm süreleridir; iyileştirme çalışmalarımız bu nedenle kesme parametrelerinden önce kurulum ve akışa bakar.",
+      "SMED yaklaşımı kurulum işlerini iki gruba ayırır: tezgâh dururken yapılması zorunlu olanlar ve tezgâh çalışırken hazırlanabilecek olanlar. İkinci grubu kurulum dışına taşımak, tezgâhın parça üretmediği süreyi doğrudan kısaltır.",
+      "5S ve Kanban, aranan şeyin bulunma süresini ve ara stok miktarını düşürür. Standart kurulum prosedürleri, aynı işi ikinci kez yapan operatörün ilk seferki kararları yeniden vermesini engeller — tekrarlanabilirlik burada başlar.",
+      "TPM kapsamında bakım, arıza sonrası bir müdahale değil planlı bir iş adımıdır. Tezgâh doğruluğu üretimin girdisi olduğu için bakım gecikmesi doğrudan tolerans kaybı olarak geri döner.",
+      "Kaizen atölyelerinde sorulan soru 'kim hata yaptı' değil, 'bu adım neden hataya açık'tır. Kök nedene inilmeden yapılan düzeltme, aynı hatayı bir sonraki partide tekrar üretir.",
     ],
     features: [
-      "OEE Takibi — %77.5 ortalama, %80+ hedef",
-      "5S Uygulaması — Tüm üretim alanında düzen ve verimlilik",
-      "Kaizen Atölyeleri — Aylık sürekli iyileştirme toplantıları",
-      "Kanban Sistemi — Malzeme akışı ve stok optimizasyonu",
-      "TPM — Total Productive Maintenance ile arıza azaltma",
-      "Lean Six Sigma — 5 Green Belt, 2 Black Belt sertifikalı ekip",
+      "SMED — kurulum işlerinin tezgâh dışına taşınması",
+      "5S — arama ve hazırlık süresinin düşürülmesi",
+      "Kanban — malzeme akışı ve ara stok kontrolü",
+      "TPM — bakımın planlı bir iş adımı olarak yürütülmesi",
+      "Standart Kurulum Prosedürü — kararların tekrar verilmemesi",
+      "Kaizen — kök nedene inen düzeltici faaliyet",
     ],
     technicalSpecs: [
-      { label: "OEE Ortalama", value: "%77.5" },
-      { label: "Scrap Oranı", value: "%1.2" },
-      { label: "Zamanında Teslimat", value: "%97" },
-      { label: "Müşteri Şikayeti", value: "%0.3" },
-      { label: "Eğitim", value: "40 saat/yıl zorunlu" },
-      { label: "Six Sigma", value: "5 GB + 2 BB" },
+      { label: "Yaklaşım", value: "Yalın üretim" },
+      { label: "Kurulum", value: "SMED ile ayrıştırma" },
+      { label: "Malzeme Akışı", value: "Kanban" },
+      { label: "Bakım", value: "Planlı (TPM)" },
+      { label: "İyileştirme", value: "Kaizen atölyeleri" },
+      { label: "Kayıt", value: "Düzeltici faaliyet kaydı" },
     ],
     advantages: [
-      "Tüm KPI'larda hedeflerin üzerinde performans",
-      "%1.2 scrap oranı ile minimum malzeme israfı",
-      "%97 zamanında teslimat oranı",
-      "5 Green Belt + 2 Black Belt Lean Six Sigma sertifikalı ekip",
-      "Aylık Kaizen atölyeleri ile sürekli iyileştirme kültürü",
-      "Yıllık 40 saat zorunlu teknik eğitim programı",
+      "Kurulum süresi kesme süresinden önce ele alınır",
+      "Tezgâh çalışırken hazırlanabilen işler kurulum dışına taşınır",
+      "Standart kurulum prosedürü tekrarlanabilirliği artırır",
+      "Bakım planlıdır; gecikme tolerans kaybı olarak geri döner",
+      "Kök neden bulunmadan düzeltme kapatılmaz",
+      "İyileştirmeler kayıt altına alınır ve izlenir",
     ],
     faq: [
-      { question: "OEE seviyeniz nedir?", answer: "Genel OEE ortalamamız %77.5'tir: %86 kullanım, %91 performans, %98.5 kalite. Hedefimiz %80+ OEE seviyesine ulaşmaktır." },
-      { question: "Lean üretim uygulamalarınız neler?", answer: "5S, Kaizen, Kanban, TPM ve Lean Six Sigma metodolojilerini aktif olarak uyguluyoruz. 5 Green Belt ve 2 Black Belt sertifikalı çalışanımız bulunmaktadır." },
-      { question: "Scrap oranınız nedir?", answer: "Mevcut scrap oranımız %1.2'dir ve hedefimiz %2'nin altında tutmaktır. Kaizen ve SPC uygulamaları ile sürekli azaltma çalışmaları yürütüyoruz." },
-      { question: "Çalışan eğitim programınız var mı?", answer: "Evet, her çalışan için yıllık minimum 40 saat teknik eğitim zorunludur. DMG MORI, Mazak, Siemens gibi markaların eğitimleri ve iç sertifikasyon programları uygulanmaktadır." },
+      { question: "Verimlilik çalışması parçamı nasıl etkiler?", answer: "Doğrudan iki yerde: kurulum kısaldıkça küçük partiler ekonomik hale gelir, standart kurulum prosedürü ise aynı parçanın partiler arasında aynı çıkmasını kolaylaştırır." },
+      { question: "SMED nedir, neden önemli?", answer: "Kurulum işlerini tezgâh dururken zorunlu olanlar ve çalışırken hazırlanabilecek olanlar diye ayırır. İkincisini kurulum dışına taşımak, tezgâhın parça üretmediği süreyi kısaltır." },
+      { question: "Bakımı nasıl yönetiyorsunuz?", answer: "Bakım planlı bir iş adımıdır (TPM). Tezgâh doğruluğu üretimin girdisi olduğu için bakım gecikmesi doğrudan tolerans kaybı riski üretir." },
+      { question: "Bir uygunsuzluk çıkarsa ne yapılıyor?", answer: "Kaizen ve düzeltici faaliyet süreci işletilir: kök neden bulunmadan aynı kurulumla üretime devam edilmez ve yapılan düzeltme kayıt altına alınır." },
     ],
     comparisonTables: [
       {
-        title: "OEE Performans Matrisi (Tezgah Bazlı)",
-        description: "Toplam Ekipman Etkinliği = Kullanım × Performans × Kalite",
-        headers: ["Tezgah", "Kullanım (%)", "Performans (%)", "Kalite (%)", "OEE (%)", "Trend"],
+        title: "Kayıp Türü ve Karşılık Gelen Yöntem",
+        description: "Yalın üretimde her kayıp türünün kendi müdahale aracı vardır",
+        headers: ["Kayıp Türü", "Nerede Görünür", "Uygulanan Yöntem", "Bıraktığı Kayıt"],
         rows: [
-          ["DMG DMU 65 (5 eksen)", "%85", "%92", "%99", "%77.0", "↑ Yükseliş"],
-          ["Mazak QT 350 (torna)", "%88", "%90", "%98", "%77.6", "↑ Yükseliş"],
-          ["Haas VF-4 (3 eksen)", "%90", "%88", "%99", "%78.4", "→ Stabil"],
-          ["Star SR-38 (Swiss)", "%82", "%94", "%99.5", "%76.7", "↑ Yükseliş"],
-          ["Genel Ortalama", "%86", "%91", "%98.5", "%77.5", "↑ Hedef: %80+"],
-        ],
-        highlight: 4,
-      },
-      {
-        title: "KPI Dashboard — Hedef vs. Güncel Performans",
-        headers: ["KPI", "Hedef", "Güncel", "Trend", "İyileştirme Yöntemi"],
-        rows: [
-          ["OEE (Toplam Ekipman Etkinliği)", ">%75", "%77.5", "↑ Yükseliş", "TPM + Predictive Maintenance"],
-          ["Scrap Oranı", "<%2", "%1.2", "↑ İyileşme", "SPC + Kaizen atölyeleri"],
-          ["Zamanında Teslimat", ">%95", "%97", "↑ Yükseliş", "Kanban + kapasite planlama"],
-          ["Müşteri Şikayeti", "<%1", "%0.3", "↑ İyileşme", "8D problem çözme"],
-          ["Setup Süresi (SMED)", "<30 dk", "22 dk", "↑ İyileşme", "SMED + standart setup prosedürü"],
-          ["İlk Geçiş Oranı (FPY)", ">%95", "%96.8", "→ Stabil", "DFM + proses doğrulama"],
+          ["Kurulum süresi", "Tezgâh dururken geçen hazırlık", "SMED + standart kurulum", "Kurulum onayı"],
+          ["Arama ve hazırlık", "Takım, fikstür, ölçü aleti arayışı", "5S", "Yerleşim standardı"],
+          ["Ara stok", "Operasyonlar arası bekleyen parça", "Kanban", "Akış kaydı"],
+          ["Plansız duruş", "Arıza sonrası bekleme", "TPM — planlı bakım", "Bakım kaydı"],
+          ["Tekrarlayan hata", "Aynı uygunsuzluğun geri gelmesi", "Kaizen — kök neden analizi", "Düzeltici faaliyet kaydı"],
         ],
       },
       {
-        title: "Lean Üretim Araçları ve Uygulama Durumu",
-        headers: ["Araç", "Uygulama Alanı", "Sertifikalı Personel", "Durum", "Etki"],
+        title: "Kurulum İşlerinin Ayrıştırılması (SMED)",
+        description: "Aynı işi hangi tarafta yaptığınız, tezgâhın boşta geçen süresini belirler",
+        headers: ["İş", "Tezgâh Dururken Zorunlu mu", "Nasıl Kısaltılır"],
         rows: [
-          ["5S", "Tüm üretim alanı", "Tüm çalışanlar", "Aktif — aylık denetim", "Düzen + verimlilik"],
-          ["Kaizen", "Sürekli iyileştirme", "12 Kaizen lider", "Aylık atölyeler", "Süreç optimizasyonu"],
-          ["Kanban", "Malzeme akışı", "Üretim planlama ekibi", "Aktif — dijital board", "Stok optimizasyonu"],
-          ["TPM", "Makine bakım", "Bakım mühendisleri", "Aktif — günlük kontrol", "Arıza azaltma %40"],
-          ["Six Sigma", "Kalite iyileştirme", "5 Green Belt + 2 Black Belt", "Proje bazlı", "Varyasyon azaltma"],
-          ["SMED", "Setup optimizasyonu", "CNC operatörleri", "Aktif", "Setup süresini %35 azaltma"],
+          ["Takım hazırlığı ve ön ayar", "Hayır", "Önceki iş sürerken hazırlanır"],
+          ["Fikstür montajı", "Evet", "Hızlı bağlama ve sabit referans"],
+          ["Program yükleme ve doğrulama", "Hayır", "Simülasyon önceden tamamlanır"],
+          ["Sıfırlama ve referans alma", "Evet", "Standart referans yüzeyi kullanılır"],
+          ["İlk parça kontrolü", "Evet", "Kontrol planı önceden hazırdır"],
         ],
       },
     ],
@@ -2357,54 +2753,49 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Yüksek Teknoloji",
     title: "Havacılık & Uzay",
-    metaTitle: "Havacılık & Uzay Parça Üretimi | AS9100D | NADCAP | Ti & Inconel | Mas Technic",
-    metaDescription: "AS9100D sertifikalı havacılık parça üretimi. Titanyum Ti6Al4V, Inconel 718 işleme. NADCAP akreditasyonlu prosesler, %100 izlenebilirlik, FAI raporu.",
-    description: "AS9100D sertifikalı üretim tesisimizde havacılık ve uzay sanayi için motor bileşenleri, yapısal parçalar ve aviyonik muhafazalar üretiyoruz. NADCAP akreditasyonlu özel prosesler ve %100 izlenebilirlik.",
+    metaTitle: "Havacılık & Uzay Parça Üretimi | Ti & Inconel İşleme | Mas Technic",
+    metaDescription: "Havacılık ve uzay için titanyum Ti6Al4V, Inconel 718 ve havacılık alüminyumu işleme. Kontrol planı, ilk parça kontrolü ve parti izlenebilirliği.",
+    description: "Havacılık ve uzay sanayi için motor bileşenleri, yapısal parçalar ve aviyonik muhafazalar üretiyoruz. Zor işlenen alaşımlarda kontrol planına bağlı, izlenebilir üretim.",
     heroImage: "hero-havacilik",
     content: [
-      "AS9100D Rev D sertifikalı üretim tesisimizde havacılık ve uzay sanayinin en kritik parçalarını üretiyoruz. Motor bileşenleri (türbin kanatları, kompresör diskleri), yapısal parçalar (braket, fitting, rib), aviyonik muhafazalar ve iniş takımı komponentleri konusunda uzmanlaşmış ekibimiz ile titanyum Ti6Al4V, Inconel 718 ve havacılık alüminyum alaşımlarında (7075-T6, 2024-T3) yüksek hassasiyetle üretim yapıyoruz.",
-      "NADCAP akreditasyonlu özel proses kabiliyetlerimiz arasında kimyasal işlemler (anodizasyon, pasivasyon, kromatlama), tahribatsız muayene (RT, UT, PT, MT, ET), ısıl işlem (çökelme sertleştirme, gerilim giderme) ve yüzey kaplama bulunmaktadır. Her süreç frozen process olarak kontrol altındadır.",
-      "Havacılık kalite sistemimiz: İlk Ürün Denetimi (FAI — AS9102), kaynak bazlı %100 boyutsal ve görsel muayene, CMM ile GD&T ölçümü, malzeme sertifika doğrulama (AMS, ASTM) ve tam lot izlenebilirlik. Her parça için dijital kalite dosyası oluşturulmaktadır.",
-      "5 eksenli DMG MORI ve Hermle tezgahlarımızda ±0.005mm tolerans ile tek bağlamada karmaşık havacılık geometrileri işliyoruz. Tüm takım yolları simülasyon ile doğrulanmakta ve ilk parça CMM raporuyla onaylanmaktadır.",
+      "Havacılık ve uzay sanayi için motor bileşenleri, yapısal parçalar (braket, fitting, rib) ve aviyonik muhafazalar üretiyoruz. Titanyum Ti6Al4V, Inconel 718 ve havacılık alüminyum alaşımları (7075-T6, 2024-T3); ısıyı kesiciye taşıyan, takım ömrünü kısaltan ve bağlama kuvvetine duyarlı malzemelerdir.",
+      "Özel proses ihtiyaçları — kimyasal işlemler (anodizasyon, pasivasyon, kromatlama), tahribatsız muayene, ısıl işlem (çökelme sertleştirme, gerilim giderme) ve yüzey kaplama — projenin şartnamesine göre planlanır ve tedarik zinciriyle birlikte yürütülür. Parametreler dondurulur; değişiklik yeniden doğrulama gerektirir.",
+      "Kalite yaklaşımımız: ilk parça kontrolü, kontrol planında tanımlanan koteler üzerinden boyutsal ve görsel muayene, GD&T ölçümü, malzeme şartnamesinin (AMS, ASTM) parti kaydıyla doğrulanması ve parti bazlı izlenebilirlik. Belgelendirme formatı müşteri şartnamesine göre belirlenir.",
+      "5 eksenli işleme merkezlerimizde karmaşık havacılık geometrilerini tek bağlamada işliyoruz; standart çalışma aralığımız ±0.01 mm'dir. Takım yolları simülasyonla doğrulanır ve seri, ilk parça kontrolü onaylanmadan başlamaz.",
     ],
     features: [
-      "AS9100D Rev D Sertifikalı — Havacılık kalite yönetim sistemi",
-      "NADCAP Akreditasyonlu Prosesler — Kimyasal işlem, NDT, ısıl işlem",
+      "Zor İşlenen Alaşım Deneyimi — Ti6Al4V, Inconel 718",
+      "Özel Proses Planlaması — kimyasal işlem, NDT, ısıl işlem",
       "Titanyum & Inconel İşleme — 5 eksen, HSM, özel takım",
-      "FAI (AS9102) — İlk ürün denetimi ve tam dokümantasyon",
-      "%100 İzlenebilirlik — Lot bazlı dijital kalite dosyası",
+      "İlk Parça Kontrolü — seri, onay alınmadan başlamaz",
+      "İzlenebilirlik — parti ve döküm kaydı",
       "Frozen Process — Onaylı süreç parametreleri sabitlenmiş",
     ],
     technicalSpecs: [
-      { label: "Sertifika", value: "AS9100D Rev D" },
+      { label: "Yönetim Sistemi", value: "ISO 9001:2015" },
       { label: "NDT", value: "RT, UT, PT, MT, ET" },
-      { label: "İzlenebilirlik", value: "%100 lot bazlı" },
+      { label: "İzlenebilirlik", value: "Parti ve döküm kaydı" },
       { label: "Malzemeler", value: "Ti6Al4V, Inconel 718, Al 7075" },
-      { label: "Tolerans", value: "±0.005mm" },
-      { label: "FAI", value: "AS9102 uyumlu" },
+      { label: "Standart Tolerans", value: "±0.01mm" },
+      { label: "İlk Parça", value: "Kontrol planına göre" },
     ],
     processSteps: [
       "Sözleşme İnceleme & PO",
-      "Malzeme Tedarik (AMS sertifikalı)",
+      "Malzeme Tedarik (şartnameye göre)",
       "CAM Programlama & Simülasyon",
       "5 Eksen CNC İşleme",
       "NDT Muayene",
       "CMM & FAI Raporu",
-      "Yüzey İşlemi (NADCAP)",
+      "Yüzey İşlemi",
       "Son Muayene & Paketleme",
     ],
     advantages: [
-      "AS9100D tam uyum ve NADCAP akreditasyonlu prosesler",
-      "%100 lot bazlı izlenebilirlik ve dijital kalite dosyası",
+      "Zor işlenen alaşımlarda takım ve parametre disiplini",
+      "Parti ve döküm kaydına dayalı izlenebilirlik",
       "Ti6Al4V ve Inconel 718 işleme uzmanlığı",
       "5 eksen tek bağlamada karmaşık havacılık geometrileri",
-      "AS9102 uyumlu FAI raporu ve tam dokümantasyon",
+      "İlk parça kontrol kaydı ve ölçüm dosyası teslimi",
       "Frozen process ile onaylı parametrelerin sabitleştirilmesi",
-    ],
-    machines: [
-      { name: "DMG MORI DMU 65 monoBLOCK", brand: "DMG MORI", specs: "5 eksen, 650×500×450mm, 18.000 RPM" },
-      { name: "Hermle C 42", brand: "Hermle", specs: "5 eksen, 800×600×450mm, 25.000 RPM" },
-      { name: "Zeiss Contura G2 CMM", brand: "Zeiss", specs: "800×1000×600mm, 1.5+L/350µm" },
     ],
     materials: [
       { name: "Titanyum", grade: "Ti6Al4V (Grade 5)", properties: "Hafif, biyouyumlu, 950 MPa çekme" },
@@ -2413,10 +2804,10 @@ export const servicePages: ServicePageData[] = [
       { name: "Alüminyum", grade: "2024-T3", properties: "Havacılık kaplamalı levha, yorulma direnci" },
     ],
     faq: [
-      { question: "AS9100D sertifikanız var mı?", answer: "Evet, AS9100D Rev D sertifikalı üretim tesisimizde havacılık ve uzay parçaları üretiyoruz. Yıllık gözetim denetimlerimiz aktif olarak sürdürülmektedir." },
+      { question: "Hangi kalite belgeleriniz var?", answer: "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Projeniz farklı bir standart gerektiriyorsa teknik incelemede birlikte değerlendiririz." },
       { question: "Titanyum işleyebiliyor musunuz?", answer: "Evet, Ti6Al4V (Grade 5) ve Grade 2 titanyum işleme konusunda uzmanız. Özel takımlar, düşük hız/yüksek ilerleme stratejisi ve soğutma yönetimi ile optimal sonuçlar elde ediyoruz." },
-      { question: "FAI raporu düzenliyor musunuz?", answer: "Evet, AS9102 standardına uyumlu İlk Ürün Denetimi (FAI) raporu her yeni parça ve revizyon için düzenlenmektedir." },
-      { question: "NADCAP akreditasyonunuz hangi prosesleri kapsıyor?", answer: "Kimyasal işlemler (anodizasyon, pasivasyon), tahribatsız muayene (NDT — RT, UT, PT, MT) ve ısıl işlem proseslerimiz NADCAP akreditasyonludur." },
+      { question: "İlk parça kontrolü yapıyor musunuz?", answer: "Evet. Her yeni parça ve her revizyon için ilk parça kontrolü yapılır ve kayıt altına alınır; belgelendirme formatını şartnamenize göre birlikte belirleriz." },
+      { question: "Özel prosesler nasıl yürütülüyor?", answer: "Kimyasal işlem, tahribatsız muayene ve ısıl işlem gibi özel prosesler projenin şartnamesine göre planlanır ve tedarik zinciriyle birlikte yürütülür. Parametreler dondurulur; değişiklik yeniden doğrulama gerektirir." },
     ],
     comparisonTables: [
       {
@@ -2436,51 +2827,51 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Yüksek Teknoloji",
     title: "Savunma Sanayi",
-    metaTitle: "Savunma Sanayi Parça Üretimi | MIL-SPEC | NATO AQAP | Mas Technic",
-    metaDescription: "MIL-SPEC ve NATO AQAP uyumlu savunma sanayi parça üretimi. Gizlilik protokolü, %100 izlenebilirlik, NDT muayene. Balistik çelik, titanyum ve özel alaşım işleme.",
-    description: "MIL-SPEC ve NATO AQAP standartlarında savunma sanayi parça üretimi. Gizlilik protokolü, %100 izlenebilirlik ve sertifikalı üretim süreçleri.",
+    metaTitle: "Savunma Sanayi Parça Üretimi | Balistik Çelik ve Özel Alaşım | Mas Technic",
+    metaDescription: "Savunma sanayi için balistik çelik, titanyum ve özel alaşım işleme. Parti ve döküm izlenebilirliği, kontrol planına bağlı muayene.",
+    description: "Savunma sanayi için hassas parça üretimi. Zor işlenen malzemelerde kontrol planına bağlı üretim ve parti bazlı izlenebilirlik.",
     content: [
-      "Savunma sanayi projelerinde MIL-SPEC, NATO AQAP-2110 ve ITAR gereksinimlerine uygun yüksek güvenlik standartlarında üretim gerçekleştiriyoruz. Kara, deniz ve hava platformlarına yönelik kritik bileşenler — silah sistemi komponentleri, optronik muhafazalar, zırh parçaları ve muhabere sistemi bileşenleri üretiyoruz.",
-      "Gizlilik protokolümüz kapsamında NDA (gizlilik sözleşmesi) zorunlu, erişim kontrollü üretim alanı, sınıflandırılmış veri yönetimi ve güvenlik soruşturmasından geçmiş personel ile çalışıyoruz. Her proje izole edilmiş üretim hücresinde gerçekleştirilir.",
+      "Kara, deniz ve hava platformlarına yönelik kritik bileşenler üretiyoruz: silah sistemi komponentleri, optronik muhafazalar, zırh parçaları ve muhabere sistemi bileşenleri. Projenizin tabi olduğu şartname ve standart gereksinimlerini teknik incelemede birlikte okuruz.",
+      "Savunma projelerinde teknik verinin nasıl paylaşılacağı ve hangi koşullarla işleneceği proje başında yazılı olarak mutabık kalınır. Şartnamenizin gerektirdiği koşulları teklif aşamasında birlikte değerlendiririz.",
       "Balistik çelik (Armox 500T, Hardox 600), havacılık titanyumu (Ti6Al4V), yüksek mukavemet çelikleri (4340, 300M) ve özel alaşımlar (Inconel, Stellite) işleme kabiliyetimiz ile savunma sanayinin en zorlu malzeme gereksinimlerini karşılıyoruz.",
-      "Tüm parçalar %100 NDT muayenesinden (RT, UT, PT, MT) geçmekte ve MIL-I-45208A kalite denetim standardına uygun raporlanmaktadır. Lot bazlı tam izlenebilirlik ve konfigürasyon yönetimi sağlanmaktadır.",
+      "Tahribatsız muayene (RT, UT, PT, MT) kapsamı şartnameye göre kontrol planında tanımlanır ve sonuçlar kayıt altına alınır. Parti bazlı izlenebilirlik ile konfigürasyon ve revizyon takibi birlikte yürütülür.",
     ],
     features: [
-      "MIL-SPEC Tam Uyum — ABD askeri standartlarına uygun üretim",
-      "NATO AQAP-2110 — NATO kalite güvence standardı",
-      "Gizlilik Protokolü — NDA, erişim kontrolü, izole üretim hücresi",
-      "%100 NDT Muayene — RT, UT, PT, MT ile tam muayene",
+      "Şartname Okuma — proje standardı teknik incelemede birlikte değerlendirilir",
+      "Konfigürasyon Takibi — versiyon ve revizyon kaydı",
+      "Veri Paylaşımı — koşullar proje başında yazılı olarak belirlenir",
+      "Tahribatsız Muayene — RT, UT, PT, MT; kapsam plana yazılır",
       "Balistik Malzeme İşleme — Armox 500T, Hardox 600",
       "Konfigürasyon Yönetimi — Versiyon ve değişiklik takibi",
     ],
     technicalSpecs: [
-      { label: "Standart", value: "MIL-SPEC" },
-      { label: "NATO", value: "AQAP-2110" },
+      { label: "Yönetim Sistemi", value: "ISO 9001:2015" },
+      { label: "Şartname", value: "Proje bazında okunur" },
       { label: "NDT", value: "RT, UT, PT, MT" },
       { label: "Malzemeler", value: "Armox, Ti, 4340, 300M" },
-      { label: "Güvenlik", value: "Gizlilik protokolü" },
-      { label: "İzlenebilirlik", value: "%100 lot bazlı" },
+      { label: "Koşullar", value: "Proje başında yazılı" },
+      { label: "İzlenebilirlik", value: "Parti ve döküm kaydı" },
     ],
     processSteps: [
-      "NDA & Güvenlik Soruşturması",
+      "Proje Koşullarının Belirlenmesi",
       "Teknik İnceleme & Teklif",
-      "Malzeme Tedarik (Sertifikalı)",
-      "İzole Hücrede Üretim",
-      "NDT Muayene (%100)",
+      "Malzeme Tedarik (şartnameye göre)",
+      "Üretim",
+      "Tahribatsız Muayene",
       "Konfigürasyon Doğrulama",
       "Güvenli Paketleme & Teslimat",
     ],
     advantages: [
-      "MIL-SPEC ve NATO AQAP-2110 tam uyum",
-      "Gizlilik protokolü ve izole üretim hücreleri",
+      "Proje şartnamesi teknik incelemede satır satır okunur",
+      "Teknik veri koşulları proje başında yazılı olarak belirlenir",
       "Balistik çelik ve özel alaşım işleme uzmanlığı",
-      "%100 NDT muayene ve lot bazlı izlenebilirlik",
-      "Güvenlik soruşturmasından geçmiş personel",
+      "Tahribatsız muayene kapsamı kontrol planında tanımlanır",
+      "Parti ve döküm kaydına dayalı izlenebilirlik",
       "Konfigürasyon yönetimi ve değişiklik kontrolü",
     ],
     faq: [
-      { question: "Gizlilik protokolünüz nasıl işliyor?", answer: "Her savunma projesi için NDA imzalanır, erişim kontrollü izole üretim hücrelerinde güvenlik soruşturmasından geçmiş personel ile üretim yapılır." },
-      { question: "Hangi savunma standartlarına uyuyorsunuz?", answer: "MIL-SPEC, NATO AQAP-2110, MIL-I-45208A ve proje bazlı özel spesifikasyonlara tam uyum sağlıyoruz." },
+      { question: "Teknik verim nasıl ele alınıyor?", answer: "Teknik verinin nasıl paylaşılacağı ve hangi koşullarla işleneceği proje başında yazılı olarak mutabık kalınır. Şartnamenizin gerektirdiği koşulları teklif aşamasında birlikte değerlendiririz." },
+      { question: "Proje şartnamemi karşılayabiliyor musunuz?", answer: "Şartnamenizi teknik incelemede satır satır okur, hangi gereksinimleri bugünkü kabiliyetimizle karşılayabildiğimizi ve hangileri için tedarik zinciri gerektiğini açıkça belirtiriz." },
       { question: "Balistik malzeme işleyebiliyor musunuz?", answer: "Evet, Armox 500T, Hardox 600 ve 300M gibi yüksek sertlikli balistik çelikleri CNC ile işleyebiliyoruz." },
     ],
   },
@@ -2489,42 +2880,45 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Yüksek Teknoloji",
     title: "Robotik & Otomasyon",
-    metaTitle: "Robotik & Otomasyon Parça Üretimi | ±0.005mm | Mas Technic",
-    metaDescription: "Endüstriyel robot, cobot ve otomasyon sistemleri için hassas mekanik bileşenler. Aktüatör gövdesi, eklem parçası, gripper. Al 7075, SS 316L, ±0.005mm tolerans.",
+    metaTitle: "Robotik & Otomasyon Parça Üretimi | ±0.01 mm | Mas Technic",
+    metaDescription: "Endüstriyel robot, cobot ve otomasyon sistemleri için hassas mekanik bileşenler. Aktüatör gövdesi, eklem parçası, gripper. Al 7075, SS 316L, ±0.01 mm.",
     description: "Endüstriyel robotlar, cobot'lar ve otomasyon sistemleri için hassas mekanik bileşenler. Aktüatör gövdeleri, eklem parçaları ve gripper komponentleri.",
     content: [
-      "Endüstriyel robotlar (KUKA, FANUC, ABB), kolaboratif robotlar (cobot) ve özel otomasyon sistemleri için hassas mekanik bileşenler üretiyoruz. Aktüatör gövdeleri, eklem (joint) parçaları, redüktör muhafazaları, gripper bileşenleri ve sensör montaj aparatları konusunda uzmanlaşmış çözümler sunuyoruz.",
-      "Robot bileşenlerinde kritik gereksinimler — yüksek boyutsal hassasiyet (±0.005mm), düşük ağırlık (Al 7075-T6), yüksek rijitlik, mükemmel yüzey kalitesi (Ra 0.4µm) ve tekrarlanabilir seri üretim. 5 eksenli CNC merkezlerimizde bu gereksinimleri tek bağlamada karşılıyoruz.",
-      "Prototipten seri üretime (100-10.000 adet/yıl) esnek üretim kapasitesi sunuyoruz. Her robot projesi DFM analizi ile başlar, fonksiyonel prototip ile doğrulanır ve PPAP ile seri üretime geçilir.",
+      "Endüstriyel robotlar, kolaboratif robotlar (cobot) ve özel otomasyon sistemleri için hassas mekanik bileşenler üretiyoruz: aktüatör gövdeleri, eklem (joint) parçaları, redüktör muhafazaları, gripper bileşenleri ve sensör montaj aparatları.",
+      "Robot bileşenlerinde belirleyici olan tek bir kote değil, eksenlerin birbirine göre konumudur: eş eksenlilik ve diklik, kolun tekrarlanabilirliğini doğrudan etkiler. Bu nedenle referans yüzeyler tek bağlamada işlenir ve ölçüm aynı datum üzerinden yapılır.",
+      "Prototipten seri üretime esnek planlama yapıyoruz. Her robot projesi DFM analizi ile başlar, fonksiyonel prototip ile doğrulanır ve numune onayından sonra seri üretime geçilir.",
     ],
     features: [
-      "Aktüatör Gövdesi — Al 7075, SS 316L, ±0.005mm",
+      "Aktüatör Gövdesi — Al 7075, SS 316L, ±0.01 mm",
       "Eklem (Joint) Parçaları — Yüksek hassasiyet, düşük ağırlık",
       "Gripper Bileşenleri — Özel geometri, fonksiyonel yüzey",
       "Redüktör Muhafazası — Konsantrik hassasiyet, termal kararlılık",
       "Sensör Montaj Aparatı — Mikro hassasiyet, vibrasyon direnci",
-      "Prototipten Seri Üretime — DFM → Prototip → PPAP → Seri",
+      "Prototipten Seri Üretime — DFM → Prototip → Numune Onayı → Seri",
     ],
     technicalSpecs: [
-      { label: "Tolerans", value: "±0.005mm" },
+      { label: "Standart Tolerans", value: "±0.01mm" },
       { label: "Malzeme", value: "Al 7075, SS 316L, POM" },
       { label: "Yüzey", value: "Ra 0.4µm" },
-      { label: "Seri Üretim", value: "100-10K adet/yıl" },
+      /* F1: `100-10K adet/yıl` is the same annual-volume class as
+         `seri-imalat`'s three. Replaced with the geometric tolerance the page
+         already proves in its own FAQ. */
+      { label: "Eş Eksenlilik", value: "Datum üzerinden ölçülür" },
       { label: "Ağırlık Opt.", value: "Topoloji optimizasyonu" },
       { label: "GD&T", value: "Konsantriklik ≤0.01mm" },
     ],
     advantages: [
       "5 eksen tek bağlamada karmaşık robot geometrileri",
       "Al 7075 ile hafif ve yüksek dayanımlı bileşenler",
-      "±0.005mm tolerans ile mükemmel tekrarlanabilirlik",
+      "Referans yüzeyler tek bağlamada işlenir, ölçüm aynı datumdan yapılır",
       "DFM analizi ile ağırlık ve maliyet optimizasyonu",
       "Prototipten seri üretime sorunsuz geçiş",
-      "KUKA, FANUC, ABB robotlarına yedek parça deneyimi",
+      "Endüstriyel robot ve cobot bileşenlerinde yedek parça deneyimi",
     ],
     faq: [
-      { question: "Robot bileşenlerinde hangi toleransları tutabiliyorsunuz?", answer: "Standart ±0.01mm, hassas uygulamalarda ±0.005mm ve konsantriklik/diklik gibi GD&T toleranslarında ≤0.01mm hassasiyet sağlıyoruz." },
+      { question: "Robot bileşenlerinde hangi toleransları tutabiliyorsunuz?", answer: "Standart çalışma aralığımız ±0.01mm'dir. Eş eksenlilik ve diklik gibi geometrik toleranslar datum yapısıyla birlikte değerlendirilir ve kontrol planına yazılır." },
       { question: "Hafif malzeme çözümleriniz var mı?", answer: "Evet, Al 7075-T6 ile yüksek mukavemet/ağırlık oranı, topoloji optimizasyonu ile ağırlık azaltma ve PEEK gibi yüksek performans plastikler sunuyoruz." },
-      { question: "Seri üretim yapabiliyor musunuz?", answer: "Evet, 100-10.000 adet/yıl kapasitede otomasyonlu CNC seri üretim yapabiliyoruz. Bar besleyici ve palet sistemi ile kesintisiz üretim sağlıyoruz." },
+      { question: "Seri üretim yapabiliyor musunuz?", answer: "Evet. Otomasyonlu CNC seri üretimde bar besleyici ve palet sistemi ile kesintisiz işleme yapılır; parti büyüklüğü ve teslimat programı teklif aşamasında birlikte belirlenir." },
     ],
   },
 
@@ -2534,108 +2928,125 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Seri Üretim",
     title: "Otomotiv",
-    metaTitle: "Otomotiv Parça Üretimi | IATF 16949 | PPAP Level 5 | Cpk ≥1.67 | Mas Technic",
-    metaDescription: "IATF 16949 sertifikalı otomotiv parça üretimi. Motor, şanzıman, fren sistemi komponentleri. PPAP Level 5, Cpk ≥1.67, SPC kontrol, 50K+ adet/ay kapasite.",
-    description: "IATF 16949 sertifikalı üretim süreçlerimiz ile otomotiv OEM ve Tier 1-2 tedarikçilerine yüksek hacimli, tekrarlanabilir ve Cpk ≥1.67 süreç yetkinliğinde parça üretimi.",
+    metaTitle: "Otomotiv Parça Üretimi | Tekrarlanabilir Seri İmalat | Mas Technic",
+    metaDescription: "Otomotiv için motor, şanzıman, fren ve süspansiyon komponentleri. Kontrol planına bağlı, parti izlenebilirliği olan tekrarlanabilir seri imalat.",
+    description: "Otomotiv tedarik zinciri için tekrarlanabilir seri parça üretimi: standart kurulum, kontrol planına bağlı ölçüm ve parti bazlı izlenebilirlik.",
     content: [
-      "IATF 16949:2016 sertifikalı üretim süreçlerimiz ile otomotiv sektörüne yüksek hacimli parça üretimi yapıyoruz. Motor bileşenleri (silindir kapağı, krank mili, kam mili), şanzıman parçaları (dişli, mil, muhafaza), fren sistemi (kaliper, disk, piston) ve süspansiyon komponentleri (salıncak, rotil, bijon) üretiyoruz.",
-      "APQP (İleri Ürün Kalite Planlama) sürecimiz ile konseptten seri üretime kontrollü geçiş sağlıyoruz. PPAP Level 3-5 dokümantasyonu — kontrol planı, FMEA, MSA, SPC çalışmaları, boyutsal sonuçlar ve malzeme sertifikaları ile tam dosya teslimi yapıyoruz.",
-      "SPC (İstatistiksel Proses Kontrol) ile gerçek zamanlı süreç izleme, Cpk ≥1.67 süreç yetkinliği hedefi, KUKA/FANUC robot entegrasyonlu otomasyonlu üretim ve SAP MES ile anlık üretim takibi sağlıyoruz. 50.000+ adet/ay CNC ve 500.000+ adet/yıl döküm kapasitesi.",
+      "Otomotiv sektörü için motor bileşenleri (silindir kapağı, krank mili, kam mili), şanzıman parçaları (dişli, mil, muhafaza), fren sistemi bileşenleri (kaliper, disk, piston) ve süspansiyon komponentleri (salıncak, rotil, bijon) üretiyoruz.",
+      "Konseptten seri üretime geçiş onay noktalarıyla ilerler: risk analizi, kontrol planı, pilot üretim ve numune onayı. Şartnamenizin gerektirdiği dokümantasyon kapsamını teklif aşamasında birlikte belirleriz.",
+      "Otomotiv işlerinde belirleyici olan tek parçanın toleransı değil, partiler arası tutarlılıktır. Takım aşınmasına duyarlı koteler ara kontrolle izlenir, ölçüm sonuçları kayıt altına alınır ve sapma eğilimi görüldüğünde parça değil proses düzeltilir.",
       "8D problem çözme metodolojisi, Poka-Yoke hata önleme sistemleri ve Kaizen sürekli iyileştirme yaklaşımı ile otomotiv kalite kültürünü yaşatıyoruz.",
     ],
     features: [
-      "IATF 16949:2016 — Otomotiv kalite yönetim sistemi",
-      "PPAP Level 3-5 — Tam üretim parçası onay süreci",
+      "Standart Kurulum — partiler arası tutarlılık",
+      "Numune Onayı — seri, ilk parça onaylanmadan başlamaz",
       "APQP — İleri ürün kalite planlama",
-      "SPC Kontrol — Cpk ≥1.67 süreç yetkinliği",
-      "Robot Otomasyon — KUKA/FANUC entegrasyonu",
-      "50K+ Adet/Ay — Yüksek hacimli seri üretim",
+      "Ara Kontrol — takım aşınmasına duyarlı koteler izlenir",
+      "Otomatik Takım Değiştirme — uzun partilerde kesintisiz işleme",
+      "Parti İzlenebilirliği — döküm ve parti kaydı",
     ],
     technicalSpecs: [
-      { label: "Sertifika", value: "IATF 16949:2016" },
-      { label: "PPAP", value: "Level 3-5" },
-      { label: "Cpk", value: "≥1.67" },
-      { label: "CNC Kapasite", value: "50K+ adet/ay" },
-      { label: "Döküm Kapasite", value: "500K+ adet/yıl" },
-      { label: "Otomasyon", value: "KUKA, FANUC robot" },
+      { label: "Yönetim Sistemi", value: "ISO 9001:2015" },
+      { label: "Onay", value: "Numune onayı" },
+      { label: "Ara Kontrol", value: "Kayma eğilimli koteler" },
+      { label: "Kurulum", value: "Standart prosedür" },
+      { label: "Kontrol", value: "Kontrol planına göre" },
+      { label: "İzlenebilirlik", value: "Parti ve döküm kaydı" },
     ],
     processSteps: [
       "APQP Planlama",
       "FMEA Analizi",
       "Kontrol Planı",
       "Pilot Üretim & MSA",
-      "PPAP Onayı",
+      "Numune Onayı",
       "Seri Üretim",
       "SPC İzleme",
       "Sürekli İyileştirme",
     ],
     advantages: [
-      "IATF 16949 tam uyum ve yıllık gözetim denetimi",
-      "PPAP Level 5 tam dokümantasyon kapasitesi",
-      "Cpk ≥1.67 kanıtlanmış süreç yetkinliği",
-      "Robot otomasyonlu 50K+ adet/ay kapasite",
+      "Numune onaylanmadan seri üretim başlamaz",
+      "Dokümantasyon kapsamı şartnameye göre belirlenir",
+      "Takım aşınmasına duyarlı koteler ara kontrolle izlenir",
+      "Standart kurulum prosedürü ile partiler arası tutarlılık",
       "8D problem çözme ve Poka-Yoke hata önleme",
-      "OEM ve Tier 1-2 referansları",
+      "Otomotiv tedarik zincirinde çalışma deneyimi",
     ],
     faq: [
-      { question: "IATF 16949 sertifikanız var mı?", answer: "Evet, IATF 16949:2016 sertifikalı üretim tesisimizde otomotiv parça üretimi yapıyoruz. Yıllık gözetim denetimlerimiz aktiftir." },
-      { question: "PPAP Level 5 hazırlayabiliyor musunuz?", answer: "Evet, kontrol planı, FMEA, MSA, SPC çalışmaları, boyutsal sonuçlar, malzeme sertifikaları ve numune parçalar dahil PPAP Level 3-5 dosyası hazırlıyoruz." },
-      { question: "Cpk değeriniz nedir?", answer: "Hedefimiz Cpk ≥1.67'dir ve mevcut seri üretim projelerimizde bu değeri sürdürmekteyiz. SPC ile gerçek zamanlı izleme yapılmaktadır." },
-      { question: "Minimum seri üretim adedi nedir?", answer: "Otomotiv seri üretim için minimum 1.000 adet/sipariş ile başlamaktadır. Yıllık kontrat bazlı 50.000+ adet/ay kapasitemiz mevcuttur." },
+      { question: "Hangi kalite belgeleriniz var?", answer: "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Müşterinizin şartnamesi sektöre özel bir standart gerektiriyorsa bunu teklif aşamasında açıkça değerlendiririz." },
+      { question: "Hangi dokümantasyonu teslim ediyorsunuz?", answer: "Kontrol planı, ölçüm kayıtları, malzeme parti/döküm kaydı ve numune parçalar standart olarak hazırlanır. Şartnamenizin gerektirdiği ek dokümanları teklif aşamasında birlikte belirleriz." },
+      { question: "Partiler arası tutarlılığı nasıl koruyorsunuz?", answer: "Standart kurulum prosedürü, ilk parça onayı ve kontrol planına bağlı ara kontroller ile. Takım aşınmasına duyarlı koteler ayrı bir adımda izlenir ve sonuçlar kayıt altına alınır." },
+      { question: "Adet aralığınız nedir?", answer: "Prototipten seri üretime kadar çalışıyoruz. Parti büyüklüğü ve teslimat programı, kapasite planlaması yapıldıktan sonra teklifle birlikte netleşir." },
     ],
   },
+  /* MEDICAL — rewritten in Phase 06.
+
+     The page claimed ISO 13485:2016 certification, FDA 21 CFR 820 and MDR
+     2017/745 compliance, an ISO 14644-1 Class 7 cleanroom, ISO 10993
+     biocompatibility certificates, DHF/DMR documentation, UDI traceability,
+     %100 dimensional inspection and ±0.002 mm tolerance. `USER_INPUTS.md` §C
+     lists ISO 9001, ISO 14001 and OHSAS 18001 — nothing else. A regulatory
+     compliance claim in this sector is not marketing language; a buyer can act
+     on it, and a supplier who cannot support it puts their customer's
+     submission at risk.
+
+     What is true and useful stays: which materials are machined, why they are
+     difficult, and how conformity is recorded.                              */
   {
     slug: "medikal",
     category: "endustriyel",
     categoryLabel: "Seri Üretim",
     title: "Medikal & Biyomedikal",
-    metaTitle: "Medikal Parça Üretimi | ISO 13485 | FDA Uyumlu | Class 7 Temiz Oda | Mas Technic",
-    metaDescription: "ISO 13485 ve FDA 21 CFR 820 uyumlu medikal cihaz ve implant üretimi. Ti Grade 5, SS 316L, PEEK. Class 7 temiz oda, biyouyumluluk sertifikası.",
-    description: "ISO 13485 ve FDA 21 CFR 820 uyumlu medikal cihaz bileşenleri, cerrahi aletler ve implant parça üretimi. Class 7 temiz oda ortamında biyouyumlu malzemelerle üretim.",
+    metaTitle: "Medikal Parça Üretimi | Ti Gr5, SS 316L, PEEK İşleme | Mas Technic",
+    metaDescription:
+      "Medikal cihaz bileşenleri, cerrahi alet ve implant parçalarında hassas işleme. Ti Grade 5, SS 316L, CoCrMo, PEEK; parti izlenebilirliği ve ölçüm kaydı.",
+    description:
+      "Medikal cihaz bileşenleri, cerrahi aletler ve implant parçalarında hassas işleme. Malzemesi zor, toleransı dar ve izlenebilirliği şart olan parçalar.",
     content: [
-      "ISO 13485:2016 sertifikalı üretim tesisimizde medikal cihaz bileşenleri, cerrahi aletler ve implant parçaları üretiyoruz. İmplantlar (kemik vidası, plaka, çubuk), cerrahi el aletleri (forseps, makas, bisturi sapı), ortopedik komponentler ve laboratuvar ekipmanları konusunda uzmanlaşmış çözümler sunuyoruz.",
-      "FDA 21 CFR 820 (ABD) ve MDR 2017/745 (AB) düzenlemelerine uygun üretim süreçleri uygulıyoruz. Biyouyumlu malzemeler — Ti Grade 5 (Ti6Al4V), SS 316L, CoCrMo, PEEK ve UHMWPE ile üretim yapıyoruz. Class 7 (ISO 14644-1) temiz oda ortamında kontaminasyonsuz üretim ve paketleme gerçekleştiriyoruz.",
-      "Medikal kalite kontrol sürecimiz: %100 boyutsal muayene (CMM + optik), biyouyumluluk sertifikası (ISO 10993), yüzey pürüzlülüğü ölçümü (Ra 0.1µm'ye kadar), sterilizasyon uyumluluk testi ve lot bazlı tam izlenebilirlik. DHF (Design History File) ve DMR (Device Master Record) dokümantasyonu sağlıyoruz.",
-      "Mikro işleme kabiliyetimiz ile Ø0.3mm'den başlayan medikal vidalar, pimler ve konektörler üretiyoruz. Swiss tip torna ile medikal implant vida ve kemik çivisi üretimi yapıyoruz.",
+      "Medikal cihaz bileşenleri, cerrahi el aletleri ve implant parçaları üretiyoruz: kemik vidası, plaka ve çubuk gibi implant geometrileri, forseps ve makas gibi el aletleri, ortopedik komponentler ve laboratuvar ekipmanı parçaları.",
+      "Bu sektörün malzemeleri kolay işlenmez. Ti Grade 5 (Ti6Al4V) ısıyı kesiciye taşır ve takım ömrünü kısaltır; SS 316L yapışkan talaş üretir; CoCrMo aşındırıcıdır; PEEK ve UHMWPE ise ısıl genleşmesi yüksek olduğu için ölçünün ölçüm anındaki sıcaklıkla değiştiğini hesaba katmayı gerektirir.",
+      "Yüzey durumu çoğu medikal parçada fonksiyonun kendisidir. Elektropolisaj ve pasivasyon, yüzey pürüzlülüğünü düşürmenin yanında serbest demiri gidererek korozyon davranışını değiştirir; hangi işlemin uygulanacağı malzeme ve şartnameye göre belirlenir.",
+      "İzlenebilirlik parti ve döküm kaydı üzerinden yürütülür. Malzeme sertifikası ve ölçüm kaydı talebe bağlı olarak teslimat dosyasına eklenir; şartnamenizin gerektirdiği ek dokümantasyon ihtiyacını teklif aşamasında birlikte belirleriz.",
+      "Mikro işleme kabiliyetimizle Ø0.3mm'den başlayan medikal vidalar, pimler ve konektörler üretiyoruz. Kayar puntalı tornalama, uzun ve ince implant vidalarında sehimi sınırladığı için tercih edilir.",
     ],
     features: [
-      "ISO 13485:2016 — Medikal cihaz kalite yönetim sistemi",
-      "FDA 21 CFR 820 — ABD FDA düzenlemelerine uyum",
-      "Class 7 Temiz Oda — ISO 14644-1 kontaminasyonsuz ortam",
-      "Biyouyumlu Malzemeler — Ti Gr5, SS 316L, CoCrMo, PEEK",
-      "Mikro İşleme — Ø0.3mm'den başlayan implant vidalar",
-      "Tam İzlenebilirlik — UDI (Unique Device Identification) uyumlu",
+      "Biyouyumlu Malzeme İşleme — Ti Gr5, SS 316L, CoCrMo, PEEK, UHMWPE",
+      "Mikro İşleme — Ø0.3mm'den başlayan implant vidaları",
+      "Kayar Puntalı Tornalama — uzun ve ince parçalarda sehim kontrolü",
+      "Elektropolisaj ve Pasivasyon — yüzey ve korozyon davranışı",
+      "Parti İzlenebilirliği — döküm ve parti kaydı",
+      "Ölçüm Kaydı — kontrol planına göre, teslimat dosyasında",
     ],
     technicalSpecs: [
-      { label: "Sertifika", value: "ISO 13485:2016" },
-      { label: "FDA", value: "21 CFR 820 uyumlu" },
-      { label: "Temiz Oda", value: "Class 7 (ISO 14644-1)" },
-      { label: "Malzeme", value: "Ti Gr5, SS 316L, PEEK" },
-      { label: "Yüzey", value: "Ra 0.1µm (elektropolish)" },
-      { label: "Tolerans", value: "±0.002mm (mikro)" },
+      { label: "Yönetim Sistemi", value: "ISO 9001:2015" },
+      { label: "Malzeme", value: "Ti Gr5, SS 316L, CoCrMo, PEEK" },
+      { label: "Standart Tolerans", value: "±0.01mm" },
+      { label: "Yüzey", value: "Elektropolisaj / pasivasyon" },
+      { label: "İzlenebilirlik", value: "Parti ve döküm kaydı" },
+      { label: "Dokümantasyon", value: "Şartnameye göre belirlenir" },
     ],
     processSteps: [
-      "Tasarım İnceleme & Risk Analizi",
-      "Malzeme Tedarik (Biyouyumlu sertifikalı)",
-      "CNC / Mikro İşleme (Temiz oda)",
-      "Yüzey İşlemi (Elektropolish / Pasivasyon)",
-      "%100 Boyutsal Muayene",
-      "Temiz Oda Paketleme",
-      "DHF / DMR Dokümantasyonu",
+      "Tasarım İnceleme",
+      "Malzeme Tedarik ve Parti Kaydı",
+      "CNC / Mikro İşleme",
+      "Yüzey İşlemi (Elektropolisaj / Pasivasyon)",
+      "Kontrol Planına Göre Ölçüm",
+      "Temizlik ve Paketleme",
+      "Ölçüm Kaydı Teslimi",
     ],
     advantages: [
-      "ISO 13485 ve FDA 21 CFR 820 tam uyum",
-      "Class 7 temiz oda ortamında üretim ve paketleme",
-      "Ti6Al4V ve CoCrMo biyouyumlu malzeme uzmanlığı",
+      "Zor işlenen biyouyumlu malzemelerde takım ve parametre disiplini",
       "Ø0.3mm'den başlayan mikro medikal parça üretimi",
-      "Ra 0.1µm elektropolish yüzey kalitesi",
-      "UDI uyumlu lot bazlı tam izlenebilirlik",
+      "Uzun ince parçalarda kayar puntalı tornalama ile sehim kontrolü",
+      "Yüzey işlemi malzeme ve şartnameye göre seçilir",
+      "Parti ve döküm kaydı ile izlenebilirlik",
+      "Ek dokümantasyon ihtiyacı teklif aşamasında netleştirilir",
     ],
     faq: [
-      { question: "ISO 13485 sertifikanız var mı?", answer: "Evet, ISO 13485:2016 sertifikalı üretim tesisimizde medikal cihaz ve implant parçaları üretiyoruz." },
-      { question: "FDA uyumlu üretim yapabiliyor musunuz?", answer: "Evet, FDA 21 CFR 820 gereksinimlerine uygun üretim süreçleri ve dokümantasyon sağlıyoruz." },
-      { question: "Temiz oda ortamınız var mı?", answer: "Evet, ISO 14644-1 Class 7 temiz oda ortamımızda medikal parça üretimi ve paketleme gerçekleştiriyoruz." },
-      { question: "Hangi biyouyumlu malzemelerle çalışıyorsunuz?", answer: "Ti Grade 5 (Ti6Al4V), SS 316L, CoCrMo, PEEK ve UHMWPE malzemelerle üretim yapıyoruz. Tüm malzemeler ISO 10993 biyouyumluluk sertifikalıdır." },
+      { question: "Hangi kalite belgeleriniz var?", answer: "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Projeniz sektöre özel bir standart gerektiriyorsa bunu teklif aşamasında açıkça değerlendiririz." },
+      { question: "Hangi biyouyumlu malzemelerle çalışıyorsunuz?", answer: "Ti Grade 5 (Ti6Al4V), SS 316L, CoCrMo, PEEK ve UHMWPE malzemelerde işleme yapıyoruz. Malzemenin sertifikası tedarikçiden gelir ve talep etmeniz halinde teslimat dosyasına eklenir." },
+      { question: "Yüzey işlemi yapıyor musunuz?", answer: "Elektropolisaj ve pasivasyon uygulanabilir. Hangi işlemin uygun olduğu malzemeye ve şartnamenize göre belirlenir." },
+      { question: "İzlenebilirliği nasıl sağlıyorsunuz?", answer: "Malzeme parti ve döküm kaydı üzerinden izlenir; kontrol planında tanımlanan koteler ölçülür ve ölçüm kaydı teslimat dosyasına eklenir." },
+      { question: "Çok küçük parçalar üretebiliyor musunuz?", answer: "Evet. Ø0.3mm'den başlayan vidalar, pimler ve konektörler üretiyoruz; uzun ve ince geometrilerde kayar puntalı tornalama tercih edilir." },
     ],
   },
   {
@@ -2643,16 +3054,16 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Seri Üretim",
     title: "Yelken & Yat Sistemleri",
-    metaTitle: "Yelken & Yat Parça Üretimi | DNV-GL | Korozyona Dayanıklı | Mas Technic",
-    metaDescription: "Denizcilik sektörü için DNV-GL uyumlu, korozyona dayanıklı parça üretimi. SS 316L, bronz, Duplex çelik. 1000+ saat tuz testi, elektropolisaj.",
-    description: "Yelken, yat ve denizcilik sektörü için korozyona dayanıklı, deniz suyu uyumlu hassas mühendislik parçaları. DNV-GL uyumlu üretim.",
+    metaTitle: "Yelken & Yat Parça Üretimi | Korozyona Dayanıklı Alaşımlar | Mas Technic",
+    metaDescription: "Denizcilik için korozyona dayanıklı parça üretimi. SS 316L, bronz ve Duplex çelik işleme, elektropolisaj ve galvanik uyum gözeterek malzeme seçimi.",
+    description: "Yelken, yat ve denizcilik için korozyona dayanıklı, deniz suyu ortamına uygun hassas mühendislik parçaları.",
     content: [
       "Yelken ve yat sistemleri için SS 316L, Duplex 2205, bronz (C95400) ve özel denizcilik alaşımları ile korozyona dayanıklı parçalar üretiyoruz. Makaralar, vinçler, baş kösteği bağlantıları, dümen sistemi komponentleri ve pervane milleri konusunda uzmanız.",
-      "DNV-GL (Det Norske Veritas - Germanischer Lloyd) denizcilik standardına uygun üretim süreçleri uygulıyoruz. ASTM B117 tuz spreyi testinde 1000+ saat korozyon direnci, elektropolisaj ile Ra 0.2µm yüzey kalitesi ve katodik koruma uyumlu malzeme seçimi ile uzun ömürlü denizcilik bileşenleri sunuyoruz.",
+      "Deniz suyu ortamında parçayı bitiren şey çoğu zaman yük değil korozyondur. Malzeme seçimi galvanik uyum gözetilerek yapılır — birbirine temas eden farklı metaller, tek başına doğru seçilmiş bir alaşımı bile hızla tüketebilir. Elektropolisaj ve pasivasyon, yüzeydeki serbest demiri gidererek korozyon davranışını iyileştirir.",
       "Superyacht ve yarış yelkenciliği segmentlerinde hafif ve yüksek mukavemetli bileşenler — titanyum bağlantı elemanları, karbon fiber takviyeli parçalar ve özel alaşım pervane milleri üretiyoruz.",
     ],
     features: [
-      "DNV-GL Uyumlu — Denizcilik sınıflandırma standardı",
+      "Galvanik Uyum — temas eden malzemeler birlikte değerlendirilir",
       "Korozyon Direnci — 1000+ saat ASTM B117 tuz testi",
       "SS 316L & Duplex — Deniz suyu uyumlu malzemeler",
       "Elektropolisaj — Ra 0.2µm yüzey kalitesi",
@@ -2663,13 +3074,13 @@ export const servicePages: ServicePageData[] = [
       { label: "Malzeme", value: "SS 316L, Duplex, Bronz" },
       { label: "Tuz Testi", value: "1000+ saat (ASTM B117)" },
       { label: "Yüzey", value: "Ra 0.2µm (elektropolisaj)" },
-      { label: "Standart", value: "DNV-GL" },
+      { label: "Malzeme Seçimi", value: "Galvanik uyuma göre" },
       { label: "Tolerans", value: "±0.01mm" },
       { label: "Sızdırmazlık", value: "O-ring yüzeyi Ra 0.4µm" },
     ],
     advantages: [
-      "DNV-GL denizcilik standardına tam uyum",
-      "1000+ saat tuz testi ile kanıtlanmış korozyon direnci",
+      "Malzeme seçimi galvanik uyum gözetilerek yapılır",
+      "ASTM B117 tuz spreyi testi ile korozyon direnci doğrulaması",
       "SS 316L, Duplex ve bronz işleme uzmanlığı",
       "Superyacht ve yarış yelkenciliği deneyimi",
       "Elektropolisaj ile ultra-pürüzsüz yüzey",
@@ -2677,7 +3088,7 @@ export const servicePages: ServicePageData[] = [
     ],
     faq: [
       { question: "Deniz suyu uyumlu hangi malzemeleri işliyorsunuz?", answer: "SS 316L, Duplex 2205, bronz (C95400, C95500), Monel 400 ve titanyum Grade 2 gibi deniz suyu uyumlu malzemelerle çalışıyoruz." },
-      { question: "Tuz testi raporu veriyor musunuz?", answer: "Evet, ASTM B117 standardına uygun tuz spreyi test raporu sağlıyoruz. Parçalarımız 1000+ saat korozyon direnci göstermektedir." },
+      { question: "Tuz testi raporu veriyor musunuz?", answer: "Evet, ASTM B117 tuz spreyi test yöntemiyle yapılan testin raporunu sağlıyoruz. Test süresi ve kabul kriteri parçanın şartnamesine göre belirlenir." },
     ],
   },
 
@@ -2693,7 +3104,7 @@ export const servicePages: ServicePageData[] = [
     content: [
       "Hidrolik ve pnömatik sistemler için yüksek basınç dayanımlı bileşenler üretiyoruz. Valf gövdeleri (yönlendirme, basınç, akış kontrol), silindir parçaları (piston, gövde, kapak), manifold blokları (çok portlu, entegre devre) ve pompa bileşenleri konusunda uzmanız.",
       "350 bar'a kadar çalışma basıncında O-ring ve sızdırmazlık yüzeyleri Ra 0.4µm kalitesinde işlenmektedir. 42CrMo4, C45, SS 316 ve özel alaşımlarla üretim yapıyoruz. Derin delik delme kabiliyetimiz ile manifold bloklarında iç kanal işleme gerçekleştiriyoruz.",
-      "Her hidrolik parça basınç testinden (1.5× çalışma basıncı) ve sızdırmazlık testinden geçmektedir. ISO 4401 valf montaj standardına uygun üretim ve BoschRexroth, Parker, Eaton gibi markalarla uyumlu bağlantı geometrileri sağlıyoruz.",
+      "Basınç ve sızdırmazlık testleri, iş bazında kontrol planında tanımlanan kapsamda uygulanır ve sonuçlar kayıt altına alınır. Valf montaj yüzeyleri ISO 4401 delik düzenine göre işlenir; bağlantı geometrileri yaygın hidrolik bileşen arayüzleriyle çalışacak şekilde üretilir.",
     ],
     features: [
       "Valf Gövdesi — Yönlendirme, basınç ve akış kontrol valfleri",
@@ -2701,14 +3112,14 @@ export const servicePages: ServicePageData[] = [
       "Manifold Blok — Çok portlu, derin delik kanallı",
       "350 Bar Basınç — Yüksek basınç dayanımlı üretim",
       "Sızdırmazlık Yüzeyi — Ra 0.4µm O-ring kanalları",
-      "Basınç Testi — %100 sızdırmazlık kontrolü",
+      "Basınç Testi — Kontrol planına göre sızdırmazlık kontrolü",
     ],
     technicalSpecs: [
       { label: "Maks. Basınç", value: "350 bar" },
       { label: "Sızdırmazlık", value: "Ra 0.4µm O-ring yüzey" },
       { label: "Malzeme", value: "42CrMo4, C45, SS 316" },
       { label: "Test", value: "1.5× basınç testi" },
-      { label: "Standart", value: "ISO 4401" },
+      { label: "Delik Düzeni", value: "ISO 4401" },
       { label: "Derin Delik", value: "L/D 50:1" },
     ],
     processSteps: [
@@ -2721,17 +3132,17 @@ export const servicePages: ServicePageData[] = [
       "Koruyucu Paketleme",
     ],
     advantages: [
-      "350 bar'a kadar kanıtlanmış basınç dayanımı",
+      "350 bar'a kadar çalışma basıncı için tasarım ve üretim",
       "Ra 0.4µm sızdırmazlık yüzeyi işleme kalitesi",
       "Derin delik kabiliyeti ile manifold kanal işleme",
-      "%100 basınç testi ve sızdırmazlık kontrolü",
+      "Kontrol planına göre basınç ve sızdırmazlık testi",
       "BoschRexroth, Parker uyumlu bağlantı geometrileri",
       "42CrMo4 ve SS 316 malzeme uzmanlığı",
     ],
     faq: [
       { question: "Kaç bar basınca kadar parça üretebiliyorsunuz?", answer: "350 bar çalışma basıncına kadar parça üretiyoruz. Her parça 1.5× çalışma basıncında test edilmektedir." },
       { question: "Manifold bloklarında iç kanal açabilir misiniz?", answer: "Evet, derin delik delme kabiliyetimiz ile L/D 50:1 oranında manifold kanal işleme yapabiliyoruz." },
-      { question: "Sızdırmazlık garantisi veriyor musunuz?", answer: "Evet, tüm O-ring kanalları ve sızdırmazlık yüzeyleri Ra 0.4µm kalitesinde işlenmekte ve %100 basınç testinden geçmektedir." },
+      { question: "Sızdırmazlık nasıl doğrulanıyor?", answer: "O-ring kanalları ve sızdırmazlık yüzeyleri Ra 0.4µm hedefiyle işlenir. Basınç ve sızdırmazlık testinin kapsamı iş bazında kontrol planında tanımlanır ve sonuçlar teslimat dosyasına eklenir." },
     ],
   },
   {
@@ -2743,17 +3154,17 @@ export const servicePages: ServicePageData[] = [
     metaDescription: "ANSI, DIN, JIS standartlarında boru bağlantı parçaları. Flanş, adaptör, nipel, dirsek. DN15-DN600, PN6-PN40. SS, CS, Duplex çelik.",
     description: "ANSI, DIN ve JIS standartlarında endüstriyel boru bağlantı parçaları. Flanş, adaptör, nipel, dirsek ve özel geçiş parçaları.",
     content: [
-      "Endüstriyel boru sistemleri için flanş (kaynak boyunlu, slip-on, kör), adaptörler (boru çapı ve standart geçişleri), nipeller, dirsekler, T-parçalar ve redüksiyonlar üretiyoruz. ANSI B16.5, DIN EN 1092 ve JIS B2220 standartlarına tam uyum sağlıyoruz.",
+      "Endüstriyel boru sistemleri için flanş (kaynak boyunlu, slip-on, kör), adaptörler (boru çapı ve standart geçişleri), nipeller, dirsekler, T-parçalar ve redüksiyonlar üretiyoruz. Flanş delik düzeni, conta yüzeyi ve çap ölçüleri ANSI B16.5, DIN EN 1092 ve JIS B2220 boyut tablolarına göre işlenir.",
       "DN15-DN600 çap aralığında ve PN6-PN40 basınç sınıflarında üretim yapıyoruz. Karbon çeliği (A105, A350 LF2), paslanmaz çelik (F304, F316, F321), Duplex (F51, F53) ve özel alaşımlarla (Inconel, Monel, Hastelloy) çalışıyoruz.",
-      "Her parça basınç testi, boyutsal kontrol ve yüzey muayenesinden geçmektedir. Sızdırmazlık yüzeyleri ASME B16.5 FF/RF uyumlu işlenmektedir. Isıl işlem, NDT muayene ve EN 10204 3.1 malzeme sertifikası standart olarak sağlanmaktadır.",
+      "Basınç testi, boyutsal kontrol ve yüzey muayenesinin kapsamı iş bazında kontrol planında tanımlanır; sonuçlar kayıt altına alınır. Sızdırmazlık yüzeyleri ASME B16.5 FF/RF geometrisinde işlenir. Isıl işlem kaydı, NDT muayene raporu ve malzeme sertifikası talebe bağlı olarak sağlanır.",
     ],
     features: [
       "Çoklu Standart — ANSI B16.5, DIN EN 1092, JIS B2220",
       "Geniş Çap Aralığı — DN15'ten DN600'e kadar",
       "PN6-PN40 Basınç — Farklı basınç sınıflarında üretim",
       "Özel Alaşımlar — Inconel, Monel, Hastelloy",
-      "Sızdırmazlık Yüzey — FF/RF ASME B16.5 uyumlu",
-      "EN 10204 3.1 — Malzeme sertifikası standart",
+      "Sızdırmazlık Yüzey — FF/RF ASME B16.5 geometrisi",
+      "Malzeme Sertifikası — Talebe bağlı olarak sağlanır",
     ],
     technicalSpecs: [
       { label: "Standartlar", value: "ANSI, DIN, JIS" },
@@ -2761,18 +3172,18 @@ export const servicePages: ServicePageData[] = [
       { label: "Çap Aralığı", value: "DN15-DN600" },
       { label: "Malzeme", value: "CS, SS, Duplex, Inconel" },
       { label: "Sızdırmazlık", value: "FF/RF (ASME B16.5)" },
-      { label: "Sertifika", value: "EN 10204 3.1" },
+      { label: "Sertifika", value: "Talebe bağlı" },
     ],
     advantages: [
       "ANSI, DIN ve JIS üçlü standart uyumu",
       "DN15-DN600 geniş çap aralığında üretim",
       "Duplex ve süper alaşım işleme kabiliyeti",
-      "EN 10204 3.1 malzeme sertifikası standart",
-      "ASME B16.5 uyumlu sızdırmazlık yüzeyleri",
+      "Talebe bağlı malzeme sertifikası ve lot kaydı",
+      "ASME B16.5 geometrisinde sızdırmazlık yüzeyleri",
       "Isıl işlem ve NDT muayene dahil",
     ],
     faq: [
-      { question: "Hangi standartlara uygun üretim yapıyorsunuz?", answer: "ANSI B16.5, DIN EN 1092, JIS B2220 ve müşteri özel spesifikasyonlarına uygun üretim yapıyoruz." },
+      { question: "Flanş ölçüleri hangi boyut tablolarına göre işleniyor?", answer: "Flanş delik düzeni, conta yüzeyi ve çap ölçüleri ANSI B16.5, DIN EN 1092 ve JIS B2220 boyut tablolarına ya da müşterinin verdiği teknik resme göre işlenir." },
       { question: "Duplex çelik flanş üretebiliyor musunuz?", answer: "Evet, Duplex 2205 (F51), Super Duplex 2507 (F53) ve diğer korozyon dirençli alaşımlarda flanş ve bağlantı parçaları üretiyoruz." },
     ],
   },
@@ -2787,7 +3198,7 @@ export const servicePages: ServicePageData[] = [
     content: [
       "HVAC, soğutma ve havalandırma sistemleri için kompresör parçaları (piston, valf plakası, silindir), genleşme valfi bileşenleri, ısı eşanjör parçaları (boru plakası, baffle, bağlantı) ve fan-blower komponentleri üretiyoruz.",
       "-40°C ile +200°C arasında çalışma koşullarına uygun malzeme seçimi ve üretim yapıyoruz. 100 bar'a kadar basınç dayanımı, helyum sızdırmazlık testi ile 1×10⁻⁶ mbar·L/s kaçak oranı kontrolü ve termal şok testleri ile kalite güvencesi sağlıyoruz.",
-      "Al 6061 (ısı eşanjör), bakır (Cu-DHP, iletkenlik), SS 304/316 (korozyon direnci) ve özel alaşımlarla üretim yapıyoruz. Soğutucu uyumluluk (R-134a, R-410A, R-744) ve gıda güvenliği (FDA uyumlu) sertifikalı parçalar sunuyoruz.",
+      "Al 6061 (ısı eşanjör), bakır (Cu-DHP, iletkenlik), SS 304/316 (korozyon direnci) ve özel alaşımlarla üretim yapıyoruz. Soğutucu akışkan uyumluluğu (R-134a, R-410A, R-744) ve gıda teması gereksinimleri, malzeme seçiminde şartnamenize göre değerlendirilir.",
     ],
     features: [
       "Kompresör Parçası — Piston, valf plakası, silindir",
@@ -2803,12 +3214,12 @@ export const servicePages: ServicePageData[] = [
       { label: "Sızdırmazlık", value: "Helyum 1×10⁻⁶ mbar·L/s" },
       { label: "Malzeme", value: "Al, Cu, SS 304/316" },
       { label: "Soğutucu", value: "R-134a, R-410A, R-744" },
-      { label: "Standart", value: "EN 378, ASHRAE" },
+      { label: "Soğutucu Sınıfı", value: "HFC / HFO / doğal" },
     ],
     advantages: [
       "-40°C / +200°C geniş sıcaklık aralığında dayanım",
-      "Helyum sızdırmazlık testi ile ultra-düşük kaçak garantisi",
-      "Soğutucu uyumlu malzeme sertifikası",
+      "Helyum sızdırmazlık testi ile kaçak doğrulaması",
+      "Soğutucu ile uyumlu malzeme seçimi",
       "100 bar'a kadar basınç dayanımlı bileşenler",
       "Termal şok testi ile uzun ömür doğrulaması",
       "HVAC ve endüstriyel soğutma sektör deneyimi",
@@ -2825,24 +3236,32 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Üretim Çözümleri",
     title: "Prototip Üretim",
-    metaTitle: "Hızlı Prototip Üretimi | 3-5 İş Günü | CNC, 3D Baskı, Silikon Kalıp | Mas Technic",
-    metaDescription: "3-5 iş günü prototip teslimatı. CNC, 3D baskı (FDM/SLA/SLS/DMLS) ve silikon kalıplama. Gerçek malzeme ile fonksiyonel prototip, seri üretim eşdeğer tolerans.",
-    description: "CNC işleme, 3D baskı ve silikon kalıplama ile 3-5 iş günü içinde fonksiyonel prototip teslimatı. Gerçek malzeme ile seri üretim eşdeğer kalite.",
+    /* 09a-C2: all THREE of these carried "3-5 iş günü", and two of them ship
+       into search results rather than the page body — a delivery promise in a
+       `<title>` is quoted by Google beside the domain, where no reader ever
+       sees the page that would qualify it. The route and the "hızlı prototip"
+       positioning stay (§1.3 permits positioning through capability); what
+       goes is the number nobody can substantiate. The page still has its case
+       to make: real material, series-equivalent tolerance, single-unit orders
+       and a three-iteration revision loop. */
+    metaTitle: "Hızlı Prototip Üretimi | CNC, 3D Baskı, Silikon Kalıp | Mas Technic",
+    metaDescription: "CNC, 3D baskı (FDM/SLA/SLS/DMLS) ve silikon kalıplama ile fonksiyonel prototip. Gerçek malzemede seri üretim eşdeğer tolerans, tek adetten üretim.",
+    description: "CNC işleme, 3D baskı ve silikon kalıplama ile fonksiyonel prototip üretimi. Gerçek malzeme ile seri üretim eşdeğer kalite, tek adet sipariş.",
     content: [
-      "Tasarım konseptlerinizi 3-5 iş günü içinde fiziksel ürünlere dönüştürüyoruz. CNC işleme ile gerçek malzemede (Al, SS, Ti, PEEK) seri üretim eşdeğer toleransta prototip, 3D baskı ile hızlı konsept doğrulama ve silikon kalıplama ile 10-50 adet çoklu prototip üretimi sunuyoruz.",
-      "Fonksiyonel prototip hizmetimiz ile parçanızı gerçek çalışma koşullarında test edebilirsiniz. DFM analizi ile tasarım optimizasyonu, 3 farklı iterasyon garantisi ve seri üretim geçişi için PPAP hazırlığı dahildir. Minimum 1 adet sipariş kabul ediyoruz.",
-      "3D baskı kapasitemiz: FDM (ABS, PLA, Nylon — Stratasys F900), SLA (reçine — Formlabs), SLS (PA12 — naylon) ve DMLS (Al, SS, Ti — EOS M290). Metal 3D baskı ile fonksiyonel metal prototipler üretiyoruz.",
+      "Tasarım konseptlerinizi fiziksel ürünlere dönüştürüyoruz. CNC işleme ile gerçek malzemede (Al, SS, Ti, PEEK) seri üretim eşdeğer toleransta prototip, 3D baskı ile hızlı konsept doğrulama ve silikon kalıplama ile 10-50 adet çoklu prototip üretimi sunuyoruz.",
+      "Fonksiyonel prototip ile parçanızı gerçek çalışma koşullarında test edebilirsiniz. DFM analizi ile tasarım iyileştirmesi ve seri üretime geçiş için kontrol planı hazırlığı sürecin parçasıdır. Tek adet sipariş kabul ediyoruz.",
+      "Eklemeli imalat seçenekleri: FDM (ABS, PLA, naylon) biçim ve montaj denemeleri, SLA (reçine) ince detay ve yüzey, SLS (PA12) destek gerektirmeyen fonksiyonel parçalar ve DMLS ile metal fonksiyonel prototipler.",
     ],
     features: [
-      "3-5 İş Günü Teslim — Hızlı prototip üretimi",
+      "Tek Adet Sipariş — prototip için asgari adet yok",
       "Gerçek Malzeme — Al, SS, Ti, PEEK ile üretim",
       "3D Baskı — FDM, SLA, SLS, DMLS teknolojileri",
       "Silikon Kalıplama — 10-50 adet çoklu prototip",
       "DFM Analizi — Tasarım optimizasyonu dahil",
-      "3 İterasyon Garantisi — Tasarım revizyon desteği",
+      "3 İterasyonlu Revizyon Döngüsü — Tasarım revizyon desteği",
     ],
     technicalSpecs: [
-      { label: "Teslim Süresi", value: "3-5 iş günü" },
+      { label: "Teslim Süresi", value: LEAD_TIME_SHORT },
       { label: "Min. Adet", value: "1 adet" },
       { label: "Tolerans", value: "Seri üretim eşdeğer" },
       { label: "Malzeme", value: "Gerçek malzeme" },
@@ -2850,15 +3269,15 @@ export const servicePages: ServicePageData[] = [
       { label: "İterasyon", value: "3 revizyon dahil" },
     ],
     advantages: [
-      "3-5 iş günü hızlı teslimat",
+      "Termin, yöntem ve malzeme seçildikten sonra teklifle birlikte verilir",
       "Gerçek malzeme ile fonksiyonel test imkanı",
       "4 farklı 3D baskı teknolojisi (metal dahil)",
       "DFM analizi ile tasarım optimizasyonu",
-      "3 iterasyon garantisi ile risk azaltma",
+      "3 iterasyonlu revizyon döngüsü ile risk azaltma",
       "Seri üretime sorunsuz geçiş desteği",
     ],
     faq: [
-      { question: "En hızlı prototip ne kadar sürede hazır olur?", answer: "3D baskı ile 1-2 iş günü, CNC ile 3-5 iş günü. Ekspres hizmet ile aynı gün teslimat da mümkündür (ek ücret)." },
+      { question: "En hızlı prototip ne kadar sürede hazır olur?", answer: `Yöntem seçimi termini doğrudan etkiler: 3D baskı konsept doğrulamada en hızlı seçenektir, CNC ise gerçek malzeme ve seri üretim eşdeğer tolerans gerektiğinde tercih edilir. ${LEAD_TIME_STATEMENT}` },
       { question: "Gerçek malzeme ile prototip yapabiliyor musunuz?", answer: "Evet, CNC ile Al 6061, SS 304, Ti6Al4V, PEEK gibi gerçek malzemelerde seri üretim eşdeğer toleransta prototip üretiyoruz." },
     ],
   },
@@ -2868,39 +3287,45 @@ export const servicePages: ServicePageData[] = [
     categoryLabel: "Üretim Çözümleri",
     title: "Küçük Seri Üretim",
     metaTitle: "Küçük Seri Üretim | 10-500 Adet | CNC & Hızlı Kalıp | Mas Technic",
-    metaDescription: "10-500 adet küçük seri üretim. CNC işleme, hızlı alüminyum kalıp, silikon kalıplama. 1-3 hafta teslimat, PPAP Level 3, hacim indirimi.",
-    description: "10-500 adet aralığında küçük seri üretim çözümleri. Prototipten küçük seriye sorunsuz geçiş, hacim indirimi ve PPAP Level 3 kalite.",
+    metaDescription: "10-500 adet küçük seri üretim. CNC işleme, alüminyum kalıp ve silikon kalıplama; hacim arttıkça düşen birim maliyet ve parti izlenebilirliği.",
+    description: "10-500 adet aralığında küçük seri üretim. Prototipten küçük seriye geçiş, hacimle düşen birim maliyet ve parti bazlı izlenebilirlik.",
     content: [
       "Küçük seri üretim ihtiyaçlarınızı CNC işleme, hızlı alüminyum kalıp ve silikon kalıplama yöntemleri ile esnek ve maliyet etkin şekilde karşılıyoruz. 10-500 adet aralığında prototipten küçük seriye sorunsuz geçiş sağlıyoruz.",
-      "Hacim indirimi ile birim maliyetleri düşürüyoruz: 10-50 adet %10-15, 50-200 adet %15-25, 200-500 adet %25-35 indirim. 1-3 hafta teslimat, PPAP Level 3 kalite dokümantasyonu ve lot bazlı izlenebilirlik standart olarak sağlanmaktadır.",
+      "Küçük seride birim maliyeti belirleyen asıl kalem kurulumdur: kurulum maliyeti adede bölündüğü için hacim arttıkça birim fiyat düşer. Kontrol planı ve parti bazlı izlenebilirlik standart olarak sağlanır; kademeli fiyatlandırma teklifle birlikte verilir.",
       "Pazar testi, pilot üretim ve pre-production aşamaları için ideal çözüm. Seri üretim geçiş planlaması dahil — kalıp yatırım analizi, otomasyon fizibilite ve maliyet projeksiyon raporu sunuyoruz.",
     ],
     features: [
       "10-500 Adet — Esnek küçük seri üretim kapasitesi",
       "Hacim İndirimi — Adet arttıkça birim maliyet düşer",
-      "1-3 Hafta Teslim — Hızlı küçük seri üretim",
-      "PPAP Level 3 — Kalite dokümantasyonu dahil",
+      "Termin — kapasite planıyla birlikte teklifte verilir",
+      "Kontrol Planı — küçük seride de standart olarak hazırlanır",
       "Pazar Testi — Pre-production ve pilot üretim desteği",
       "Seri Üretim Geçiş Planı — Ölçeklendirme danışmanlığı",
     ],
     technicalSpecs: [
       { label: "Adet Aralığı", value: "10-500 adet" },
-      { label: "Teslim", value: "1-3 hafta" },
-      { label: "Kalite", value: "PPAP Level 3" },
-      { label: "İndirim (50+)", value: "%15-25 hacim indirimi" },
-      { label: "İndirim (200+)", value: "%25-35 hacim indirimi" },
+      { label: "Teslim", value: LEAD_TIME_SHORT },
+      { label: "Kalite", value: "Kontrol planı + ölçüm kaydı" },
+      /* 09a-C2: "%15-25" and "%25-35 hacim indirimi" are a PRICE POLICY, not a
+         duration — the reader is being told what discount they will get, and
+         `USER_INPUTS.md` authorises no discount schedule. The page's own FAQ
+         two fields below already gives the honest answer ("kademeli
+         fiyatlandırmayı teklifle birlikte veriyoruz"), so the spec rows were
+         contradicting the FAQ on the same page. The DIRECTION — unit cost falls
+         as volume rises — is arithmetic about setup amortisation and stays. */
+      { label: "Hacim İndirimi", value: "Kademeli fiyatlandırma teklifte" },
       { label: "Yöntemler", value: "CNC, Al kalıp, silikon" },
     ],
     advantages: [
       "Hacim indirimi ile maliyet optimizasyonu",
-      "1-3 hafta hızlı teslimat süreleri",
-      "PPAP Level 3 kalite dokümantasyonu",
+      "Termin, kurulum ve kapasite planı incelendikten sonra verilir",
+      "Kontrol planı ve ölçüm kaydı küçük seride de standarttır",
       "Prototipten küçük seriye sorunsuz geçiş",
       "Seri üretim geçiş planı ve maliyet projeksiyonu",
       "Lot bazlı izlenebilirlik ve kalite raporlaması",
     ],
     faq: [
-      { question: "Küçük seride birim maliyet yüksek mi?", answer: "Hacim indirimi ile birim maliyetler düşer: 50+ adet %15-25, 200+ adet %25-35 indirim. Seri üretime geçişte maliyet projeksiyonu sunuyoruz." },
+      { question: "Küçük seride birim maliyet yüksek mi?", answer: "Birim maliyeti belirleyen asıl kalem kurulumdur ve adede bölünür; hacim arttıkça birim fiyat düşer. Kademeli fiyatlandırmayı ve seri üretime geçiş projeksiyonunu teklifle birlikte veriyoruz." },
       { question: "Küçük seriden seri üretime geçiş nasıl olur?", answer: "Kalıp yatırım analizi, otomasyon fizibilite ve maliyet projeksiyon raporu ile ölçeklendirme planlaması yapıyoruz." },
     ],
   },
@@ -2909,43 +3334,50 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Üretim Çözümleri",
     title: "Seri Üretim",
-    metaTitle: "Yüksek Hacimli Seri Üretim | 100K+ Adet/Ay | Robot Otomasyon | OEE %85+ | Mas Technic",
-    metaDescription: "100K+ adet/ay seri üretim kapasitesi. KUKA/FANUC robot otomasyon, Fastems palet sistemi, SAP MES. OEE %85+, Cpk ≥1.67, JIT teslimat.",
-    description: "KUKA/FANUC robot otomasyon, Fastems palet sistemi ve SAP MES ile 100K+ adet/ay seri üretim kapasitesi. OEE %85+, JIT teslimat.",
+    metaTitle: "Seri Üretim | Tekrarlanabilir Kurulum ve Parti Kontrolü | Mas Technic",
+    metaDescription: "Seri üretimde standart kurulum, kontrol planına bağlı ara kontrol ve parti izlenebilirliği. Teslimat programı kapasite planlamasıyla belirlenir.",
+    description: "Seri üretimde asıl mesele hız değil tekrarlanabilirliktir: standart kurulum, kontrol planına bağlı ara kontrol ve parti bazlı izlenebilirlik.",
     content: [
-      "Otomatik üretim hatlarımız ile 100.000+ adet/ay yüksek hacimli seri üretim gerçekleştiriyoruz. KUKA ve FANUC robot kollar ile otomatik yükleme/boşaltma, Fastems palet sistemi ile 24 saat kesintisiz üretim ve SAP MES ile gerçek zamanlı üretim takibi sağlıyoruz.",
-      "OEE %85+ hedefi ile operasyonel mükemmellik, Cpk ≥1.67 süreç yetkinliği ile kalite garantisi, JIT ve Kanban ile teslimat güvencesi sunuyoruz. SPC (İstatistiksel Proses Kontrol) ile her partide gerçek zamanlı izleme yapılmaktadır.",
+      "Seri üretimde tezgâhın hızı değil kurulumun tekrarlanabilirliği belirleyicidir. Sabit referans yüzeyleri, standart kurulum prosedürü ve otomatik takım değiştirme, aynı parçanın partiler arasında aynı çıkmasını sağlar.",
+      "Her partide, kontrol planında tanımlanan koteler ölçülür ve sonuçlar kayıt altına alınır. Takım aşınmasına duyarlı ölçüler ayrı bir ara kontrol adımıyla izlenir; sapma eğilimi görüldüğünde parça değil proses düzeltilir.",
       "Seri üretim müşterilerimize yıllık kontrat, JIT teslimat programı, Kanban stok yönetimi, haftalık kapasite raporlaması ve sürekli iyileştirme (Kaizen) programları sunuyoruz.",
     ],
     features: [
-      "100K+ Adet/Ay — Yüksek hacimli seri üretim",
-      "Robot Otomasyon — KUKA, FANUC otomatik yükleme",
-      "Fastems Palet — 24 saat kesintisiz üretim",
-      "SAP MES — Gerçek zamanlı üretim takibi",
-      "OEE %85+ — Operasyonel mükemmellik hedefi",
+      "Standart Kurulum — sabit referans ve tekrarlanabilir bağlama",
+      "Otomatik Takım Değiştirme — uzun partilerde kesintisiz işleme",
+      "İlk Parça Onayı — seri, onay alınmadan başlamaz",
+      "Parti Kaydı — döküm ve parti bazlı izlenebilirlik",
+      "Ara Kontrol — kayma eğilimi olan koteler izlenir",
       "JIT Teslimat — Kanban entegreli stok yönetimi",
     ],
     technicalSpecs: [
-      { label: "Kapasite", value: "100K+ adet/ay" },
-      { label: "Otomasyon", value: "KUKA + FANUC robot" },
-      { label: "OEE", value: "%85+ hedef" },
-      { label: "Cpk", value: "≥1.67" },
+      { label: "Kurulum", value: "Standart prosedür" },
+      { label: "Onay", value: "İlk parça onayı" },
+      { label: "Kontrol", value: "Kontrol planına göre" },
+      { label: "Ara Kontrol", value: "Kayma eğilimli koteler" },
       { label: "Teslimat", value: "JIT / Kanban" },
-      { label: "İzleme", value: "SAP MES + SPC" },
+      { label: "İzlenebilirlik", value: "Parti ve döküm kaydı" },
     ],
     advantages: [
-      "100K+ adet/ay kanıtlanmış seri üretim kapasitesi",
-      "KUKA/FANUC robot ve Fastems ile tam otomasyon",
-      "OEE %85+ operasyonel mükemmellik",
-      "Cpk ≥1.67 süreç yetkinliği garanti",
+      "Sabit referans yüzeyleriyle tekrarlanabilir bağlama",
+      "Standart kurulum prosedürü ile partiler arası tutarlılık",
+      "Ölçüm sonuçları parti bazında kayıt altına alınır",
+      "Kayma eğilimi olan koteler ara kontrolle izlenir",
       "JIT ve Kanban ile esnek teslimat",
-      "SAP MES ile gerçek zamanlı izleme",
+      "Parti durumu üretim boyunca kayıt altında tutulur",
     ],
     faq: [
-      { question: "Minimum yıllık kontrat adedi var mı?", answer: "Seri üretim için minimum 10.000 adet/yıl kontrat ile başlamaktadır. Yıllık 100.000+ adet projelerinde özel fiyatlandırma uygulanır." },
-      { question: "JIT teslimat yapabiliyor musunuz?", answer: "Evet, SAP ERP ve Kanban entegrasyonu ile JIT teslimat programları uyguluyoruz. Haftalık ve günlük teslimat planları düzenlenebilir." },
+      { question: "Seri üretim için asgari adet var mı?", answer: "Sabit bir asgari adet uygulamıyoruz. Parti büyüklüğü, teslimat programı ve fiyatlandırma kapasite planlaması yapıldıktan sonra teklifle birlikte netleşir." },
+      { question: "Teslimat programı nasıl belirleniyor?", answer: "Kapasite planlaması sonrasında parti büyüklüğü ve teslimat sıklığı birlikte kararlaştırılır; haftalık veya periyodik teslimat programları düzenlenebilir." },
     ],
   },
+  /* 09b-SOFTWARE-INVENTORY — sites 5 and 6 of six. `tasarım (SolidWorks,
+     CATIA, NX)` in the content prose and `{ label: "CAD", value: "SolidWorks,
+     CATIA, NX" }` in the spec table. The second is the one the file-exchange
+     argument breaks on: a spec row labelled CAD listing three packages reads
+     as supported INPUT, and the uploader refuses all three. The full reasoning
+     is filed once, above `fikstur-aparat-tasarimi`; grep
+     `09b-SOFTWARE-INVENTORY`. */
   {
     slug: "ozel-projeler",
     category: "endustriyel",
@@ -2956,8 +3388,8 @@ export const servicePages: ServicePageData[] = [
     description: "Standart çözümlerin yetersiz kaldığı özel mühendislik projeleri için anahtar teslim çözümler. Reverse engineering, R&D ve konseptten üretime tam süreç.",
     content: [
       "Standart çözümlerin yetersiz kaldığı özel mühendislik projeleri için anahtar teslim çözümler sunuyoruz. Reverse engineering (3D tarama → CAD → üretim), R&D prototipleme (konsept doğrulama → fonksiyonel test), özel tezgah ve fikstür tasarım-imalat ve çoklu disiplin projeleri (mekanik + elektronik + yazılım) yönetiyoruz.",
-      "Proje yönetimi — konseptten üretime tüm süreçler tek çatı altında: fizibilite analizi, tasarım (SolidWorks, CATIA, NX), prototip üretimi, test ve doğrulama, pilot üretim ve seri üretim geçişi. Her proje özel bir proje mühendisi tarafından yönetilir.",
-      "NDA ile gizlilik güvencesi, IP (fikri mülkiyet) koruma ve ürün geliştirme danışmanlığı dahildir. Ar-Ge desteği ile TÜBİTAK ve KOSGEB proje başvuru danışmanlığı da sağlıyoruz.",
+      "Proje yönetimi — konseptten üretime tüm süreçler tek çatı altında: fizibilite analizi, katı model tasarımı, prototip üretimi, test ve doğrulama, pilot üretim ve seri üretim geçişi. Her proje özel bir proje mühendisi tarafından yönetilir.",
+      "Ürün geliştirme danışmanlığı sürecin parçasıdır. Teknik verinin nasıl paylaşılacağı ve fikri mülkiyetin nasıl ele alınacağı proje başında yazılı olarak mutabık kalınır.",
     ],
     features: [
       "Anahtar Teslim — Konseptten üretime tam çözüm",
@@ -2965,13 +3397,13 @@ export const servicePages: ServicePageData[] = [
       "R&D Prototipleme — Konsept doğrulama ve fonksiyonel test",
       "Özel Tezgah Tasarımı — Fikstür ve aparat imalatı",
       "Çoklu Disiplin — Mekanik + elektronik + yazılım",
-      "IP Koruma — NDA ve fikri mülkiyet güvencesi",
+      "Fikri Mülkiyet — koşullar proje başında yazılı olarak belirlenir",
     ],
     technicalSpecs: [
       { label: "Süreç", value: "Konseptten üretime" },
       { label: "3D Tarama", value: "0.02mm hassasiyet" },
-      { label: "CAD", value: "SolidWorks, CATIA, NX" },
-      { label: "Gizlilik", value: "NDA zorunlu" },
+      { label: "Tasarım", value: "Katı model ve teknik resim" },
+      { label: "Koşullar", value: "Proje başında yazılı" },
       { label: "Ar-Ge", value: "TÜBİTAK, KOSGEB desteği" },
       { label: "Proje Yönetimi", value: "Özel proje mühendisi" },
     ],
@@ -2979,13 +3411,13 @@ export const servicePages: ServicePageData[] = [
       "Konseptten seri üretime anahtar teslim çözüm",
       "Reverse engineering ile yedek parça üretimi",
       "R&D prototipleme ve fonksiyonel test desteği",
-      "NDA ve IP koruma ile gizlilik güvencesi",
+      "Teknik veri ve fikri mülkiyet koşulları proje başında netleşir",
       "TÜBİTAK ve KOSGEB proje danışmanlığı",
       "Özel proje mühendisi ile tek muhatap",
     ],
     faq: [
       { question: "Reverse engineering yapabiliyor musunuz?", answer: "Evet, 3D tarama (0.02mm hassasiyet) ile mevcut parçanızı dijitalleştiriyor, CAD modeline dönüştürüyor ve üretiyoruz." },
-      { question: "NDA imzalıyor musunuz?", answer: "Evet, tüm özel projelerinde NDA zorunludur. IP (fikri mülkiyet) koruma ve gizlilik güvencesi sağlıyoruz." },
+      { question: "Teknik verim nasıl ele alınıyor?", answer: "Teknik verinin nasıl paylaşılacağı ve fikri mülkiyetin nasıl ele alınacağı proje başında yazılı olarak mutabık kalınır. İhtiyacınızı teklif aşamasında belirtin." },
     ],
   },
 
@@ -2995,18 +3427,18 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Enerji & Altyapı",
     title: "Yenilenebilir Enerji",
-    metaTitle: "Yenilenebilir Enerji Parça Üretimi | Rüzgar & Güneş | IEC 61400 | Mas Technic",
-    metaDescription: "Rüzgar türbini ve güneş enerjisi sistemi bileşenleri. IEC 61400 uyumlu, hot-dip galvaniz, 25+ yıl ömür. Hub, pitch sistemi, montaj aparatı üretimi.",
-    description: "Rüzgar türbini, güneş enerjisi ve enerji depolama sistemleri için IEC 61400 uyumlu, 25+ yıl ömür garantili bileşenler.",
+    metaTitle: "Yenilenebilir Enerji Parça Üretimi | Rüzgar & Güneş | Mas Technic",
+    metaDescription: "Rüzgar türbini ve güneş enerjisi sistemi bileşenleri. Hot-dip galvaniz korozyon koruması, ağır yük parçaları. Hub, pitch sistemi, montaj aparatı üretimi.",
+    description: "Rüzgar türbini, güneş enerjisi ve enerji depolama sistemleri için dış ortam koşullarına göre malzeme ve kaplama seçilerek üretilen bileşenler.",
     content: [
       "Rüzgar türbini bileşenleri (hub, nacelle, pitch sistemi, yaw sistemi, tower flanşı), güneş paneli montaj sistemleri (tracker, sabit montaj, rail, klamp) ve enerji depolama parçaları (batarya muhafazası, soğutma bileşenleri) üretiyoruz.",
-      "IEC 61400 standardına uygun üretim süreçleri ile 25+ yıl dış ortam ömrü hedefliyoruz. Hot-dip galvaniz (ISO 1461 — 85µm min.), Dacromet kaplama ve SS 316L malzeme ile korozyon koruması sağlıyoruz. GGG-40, GGG-50 küresel grafitli dökme demir ve yüksek mukavemetli çeliklerle ağır yük bileşenleri üretiyoruz.",
+      "Dış ortam koşullarına göre malzeme ve kaplama seçimi ile 25+ yıl dış ortam ömrü hedefliyoruz. Hot-dip galvaniz (ISO 1461 — 85µm min.), Dacromet kaplama ve SS 316L malzeme ile korozyon koruması sağlıyoruz. GGG-40, GGG-50 küresel grafitli dökme demir ve yüksek mukavemetli çeliklerle ağır yük bileşenleri üretiyoruz.",
       "Offshore ve onshore rüzgar enerjisi projeleri, utility-scale güneş enerjisi santralleri ve endüstriyel enerji depolama sistemleri için parça tedarik ediyoruz.",
     ],
     features: [
       "Rüzgar Türbini — Hub, pitch, yaw, tower flanşı",
       "Güneş Paneli Montaj — Tracker, rail, klamp",
-      "IEC 61400 Uyumlu — Rüzgar enerjisi standardı",
+      "Ağır Yük Bileşenleri — GGG-40/50 ve yüksek mukavemetli çelik",
       "Hot-Dip Galvaniz — ISO 1461, 85µm+ kaplama",
       "25+ Yıl Ömür — Dış ortam dayanım tasarımı",
       "Enerji Depolama — Batarya muhafaza, soğutma",
@@ -3015,12 +3447,12 @@ export const servicePages: ServicePageData[] = [
       { label: "Malzeme", value: "SS 316L, GGG-40, S355" },
       { label: "Kaplama", value: "Hot-dip galvaniz (85µm+)" },
       { label: "Dayanım", value: "25+ yıl dış ortam" },
-      { label: "Standart", value: "IEC 61400" },
+      { label: "Kapsam", value: "Rüzgar, güneş, depolama" },
       { label: "Ağırlık", value: "500 kg'a kadar" },
       { label: "NDT", value: "UT, MT zorunlu" },
     ],
     advantages: [
-      "IEC 61400 rüzgar enerjisi standardına uyum",
+      "Dış ortam koşullarına göre malzeme ve kaplama seçimi",
       "Hot-dip galvaniz ile 25+ yıl korozyon koruması",
       "500 kg'a kadar ağır parça işleme kapasitesi",
       "Offshore ve onshore proje deneyimi",
@@ -3028,7 +3460,7 @@ export const servicePages: ServicePageData[] = [
       "NDT muayene dahil kalite güvence",
     ],
     faq: [
-      { question: "Rüzgar türbini bileşenleri üretebiliyor musunuz?", answer: "Evet, hub, pitch sistemi, yaw mekanizması, tower flanşı ve nacelle iç bileşenleri IEC 61400 standardında üretiyoruz." },
+      { question: "Rüzgar türbini bileşenleri üretebiliyor musunuz?", answer: "Evet; hub, pitch sistemi, yaw mekanizması, tower flanşı ve nacelle iç bileşenleri üretiyoruz. Uygulanacak şartname ve kabul kriterleri iş bazında müşteriyle birlikte belirlenir." },
       { question: "Kaç yıl dış ortam dayanımı sağlıyorsunuz?", answer: "Hot-dip galvaniz (ISO 1461, 85µm+) ve uygun malzeme seçimi ile 25+ yıl dış ortam ömrü hedefliyoruz." },
     ],
   },
@@ -3037,41 +3469,41 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Enerji & Altyapı",
     title: "Petrol & Gaz",
-    metaTitle: "Petrol & Gaz Parça Üretimi | API 6A | 15000 PSI | NACE MR0175 | Mas Technic",
-    metaDescription: "API 6A, 6D standardında petrol ve gaz sektörü bileşenleri. 15000 PSI basınç, -46°C/+343°C sıcaklık. NACE MR0175, Inconel, Duplex çelik işleme.",
-    description: "API 6A ve 6D standardında petrol ve gaz sektörü bileşenleri. 15.000 PSI basınç, -46°C/+343°C sıcaklık aralığında çalışan kritik parçalar.",
+    metaTitle: "Petrol & Gaz Parça Üretimi | 15000 PSI | Mas Technic",
+    metaDescription: "Petrol ve gaz sektörü bileşenleri. 15.000 PSI basınç, -46°C/+343°C sıcaklık. Inconel, Duplex ve Super Duplex çelik işleme.",
+    description: "Petrol ve gaz sektörü bileşenleri. 15.000 PSI basınç, -46°C/+343°C sıcaklık aralığında çalışan kritik parçalar.",
     content: [
       "Petrol ve gaz sektörünün zorlu çalışma koşullarına uygun yüksek dayanımlı parçalar üretiyoruz. Wellhead ve Christmas tree bileşenleri, choke ve kontrol valfleri, boru bağlantı parçaları (API 6A flanş, hub), manifold ve BOP (Blowout Preventer) komponentleri imal ediyoruz.",
-      "API 6A (wellhead), API 6D (pipeline valf) ve API 5CT (casing) standartlarına tam uyum sağlıyoruz. 15.000 PSI (1034 bar) çalışma basıncı, -46°C / +343°C sıcaklık aralığı ve NACE MR0175 / ISO 15156 sour service uyumluluğu ile en zorlu şartlarda güvenilir performans sunuyoruz.",
-      "Inconel 625/718, Duplex 2205, Super Duplex 2507, F22 (2.25Cr-1Mo) ve SS 316L gibi korozyon ve yüksek sıcaklık dayanımlı malzemelerle çalışıyoruz. RT, UT, MPI ve PMI ile %100 NDT muayene uyguluyoruz.",
+      "Wellhead, pipeline valf ve casing uygulamaları için 15.000 PSI (1034 bar) çalışma basıncı ve -46°C / +343°C sıcaklık aralığındaki parçaları üretiyoruz. Sour service uygulamalarında malzeme, ısıl işlem ve sertlik sınırları müşteri şartnamesine göre belirlenir ve kayıt altına alınır.",
+      "Inconel 625/718, Duplex 2205, Super Duplex 2507, F22 (2.25Cr-1Mo) ve SS 316L gibi korozyon ve yüksek sıcaklık dayanımlı malzemelerle çalışıyoruz. Tahribatsız muayene (RT, UT, MPI, PMI) kapsamı, şartnameye göre kontrol planında tanımlanır.",
     ],
     features: [
-      "API 6A / 6D Uyumlu — Petrol ve gaz sektörü standartları",
+      "Wellhead & Pipeline — Flanş, hub, valf gövdesi",
       "15.000 PSI — Ultra yüksek basınç dayanımı",
       "-46°C / +343°C — Ekstrem sıcaklık aralığı",
-      "NACE MR0175 — Sour service uyumluluk",
+      "Sour Service — Şartnameye göre malzeme ve ısıl işlem",
       "Inconel & Duplex — Korozyon dirençli özel alaşımlar",
-      "%100 NDT — RT, UT, MPI, PMI muayene",
+      "Tahribatsız Muayene — RT, UT, MPI, PMI; kapsam plana yazılır",
     ],
     technicalSpecs: [
-      { label: "Standart", value: "API 6A, 6D, 5CT" },
+      { label: "Kapsam", value: "Wellhead, pipeline, casing" },
       { label: "Basınç", value: "15.000 PSI (1034 bar)" },
       { label: "Sıcaklık", value: "-46°C / +343°C" },
-      { label: "NACE", value: "MR0175 / ISO 15156" },
+      { label: "Sour Service", value: "Şartnameye göre" },
       { label: "Malzeme", value: "Inconel, Duplex, F22" },
       { label: "NDT", value: "RT, UT, MPI, PMI" },
     ],
     advantages: [
-      "API 6A ve 6D tam standart uyumu",
+      "Wellhead ve pipeline bileşeni üretim kapasitesi",
       "15.000 PSI ultra yüksek basınç kapasitesi",
-      "NACE MR0175 sour service sertifikalı",
+      "Sour service için şartnameye göre malzeme seçimi",
       "Inconel ve Super Duplex işleme uzmanlığı",
-      "%100 NDT muayene (RT, UT, MPI, PMI)",
+      "Tahribatsız muayene kapsamı kontrol planında tanımlanır",
       "Offshore ve onshore proje deneyimi",
     ],
     faq: [
-      { question: "API 6A sertifikanız var mı?", answer: "API 6A standardına uygun üretim süreçleri ve kalite kontrol prosedürleri uyguluyoruz. Her parça API gereksinimlerine göre test ve raporlanmaktadır." },
-      { question: "Sour service uyumlu parça üretebiliyor musunuz?", answer: "Evet, NACE MR0175 / ISO 15156 uyumlu malzeme seçimi ve ısıl işlem ile sour service parçalar üretiyoruz." },
+      { question: "Petrol ve gaz bileşenlerinde hangi kalite kayıtları veriliyor?", answer: "Malzeme sertifikası, ısıl işlem kaydı ve tahribatsız muayene raporları, kapsamı kontrol planında tanımlandığı şekilde teslimat dosyasına eklenir." },
+      { question: "Sour service uyumlu parça üretebiliyor musunuz?", answer: "Evet. Sour service uygulamalarında malzeme, ısıl işlem ve sertlik sınırları müşteri şartnamesine göre belirlenir ve kayıt altına alınır." },
     ],
   },
   {
@@ -3079,16 +3511,16 @@ export const servicePages: ServicePageData[] = [
     category: "endustriyel",
     categoryLabel: "Enerji & Altyapı",
     title: "Güç Dağıtım Sistemleri",
-    metaTitle: "Güç Dağıtım Parça Üretimi | IEC 62271 | 36kV | IACS %99+ | Mas Technic",
-    metaDescription: "Elektrik dağıtım ve güç sistemi bileşenleri. IEC 62271 uyumlu, 36kV'a kadar, IACS %99+ iletkenlik. Bakır ve alüminyum bara, kontak parçası, izolator.",
-    description: "Elektrik dağıtım panoları, transformatör bileşenleri ve güç dağıtım sistemi parçaları. IEC 62271 uyumlu, 36kV'a kadar.",
+    metaTitle: "Güç Dağıtım Parça Üretimi | 36kV | IACS %99+ | Mas Technic",
+    metaDescription: "Elektrik dağıtım ve güç sistemi bileşenleri. 36kV'a kadar, IACS %99+ iletkenlik. Bakır ve alüminyum bara, kontak parçası, izolator.",
+    description: "Elektrik dağıtım panoları, transformatör bileşenleri ve güç dağıtım sistemi parçaları. 36kV gerilim seviyesine kadar.",
     content: [
-      "Elektrik dağıtım sistemi bileşenleri üretiyoruz: bakır ve alüminyum baralar (iletken, IACS %99+), kontak parçaları (gümüş kaplama, düşük direnç), izolator montaj elemanları ve pano iç bileşenleri. IEC 62271 standardına uygun, 36kV gerilim seviyesine kadar çalışan parçalar.",
+      "Elektrik dağıtım sistemi bileşenleri üretiyoruz: bakır ve alüminyum baralar (iletken, IACS %99+), kontak parçaları (gümüş kaplama, düşük direnç), izolator montaj elemanları ve pano iç bileşenleri. 36kV gerilim seviyesine kadar çalışan parçalar üretiyoruz.",
       "OFE bakır (C10100 — IACS %101), ETP bakır (C11000 — IACS %99.9) ve elektrik kalite alüminyum (1050/1070 — IACS %61) ile yüksek iletkenlik gerektiren parçalar üretiyoruz. Gümüş kaplama ile kontak direncini minimize ediyor, nikel altlık ile difüzyon bariyeri oluşturuyoruz.",
       "Termal simülasyon ile ısı dağılımı optimizasyonu, kısa devre akım dayanımı hesaplama ve ark direnci testleri ile güvenlik doğrulaması sağlıyoruz.",
     ],
     features: [
-      "IEC 62271 Uyumlu — Elektrik dağıtım standardı",
+      "Pano İç Bileşenleri — İzolator montaj ve bağlantı elemanları",
       "36kV Gerilim — Orta gerilim seviyesine kadar",
       "IACS %99+ İletkenlik — OFE ve ETP bakır",
       "Gümüş Kaplama — Düşük kontak direnci",
@@ -3099,12 +3531,12 @@ export const servicePages: ServicePageData[] = [
       { label: "Malzeme", value: "Cu (OFE, ETP), Al 1050" },
       { label: "İletkenlik", value: "IACS %99+" },
       { label: "Gerilim", value: "36kV'a kadar" },
-      { label: "Standart", value: "IEC 62271" },
+      { label: "Kapsam", value: "Bara, kontak, izolator montaj" },
       { label: "Kaplama", value: "Ag (gümüş), Ni altlık" },
       { label: "Test", value: "Ark direnci, kısa devre" },
     ],
     advantages: [
-      "IEC 62271 standardına tam uyum",
+      "36kV'a kadar orta gerilim bileşeni üretimi",
       "IACS %99+ iletkenlikli bakır işleme",
       "Gümüş kaplama ile minimum kontak direnci",
       "36kV orta gerilim seviyesine kadar parça",

@@ -1,4 +1,18 @@
-name: Playwright E2E
+name: CI
+
+# Eski hâli: tek is, `npm run test:e2e` ile 784 kombinasyon (16 paket x 8
+# Chromium projesi), `workers: 2`, `retries: 2`, `timeout-minutes: 30` ve
+# webServer icin 180 sn — oysa soguk `npm run build` bu projede 4 dk 05 sn
+# olculdu (reports/baseline/build-test-baseline.md §1). Yani zorunlu kontrol
+# butcesi icinde bitemiyordu (known-blockers.md B07).
+#
+# Yeni hâli: derleme bir kez yapilir ve `dist/` paylasilir; bloke eden kapi
+# 62 kombinasyonluk Chromium kritik paketi, yaninda 12 kombinasyonluk
+# WebKit/Firefox duman paketi ve 3 kombinasyonluk altin gorsel farki.
+# Genis regresyon ailesi (536 kombinasyon, 8 Chromium goruntu penceresi) PR'i
+# bloke etmez: yalnizca `workflow_dispatch` ile elle tetiklenen ayri bir iste
+# kosar (asagidaki `e2e-regression`). Kombinasyon sayilari olculdu:
+#   npx playwright test --project=<...> --list  =>  62 / 536 / 12 / 3 (toplam 613)
 
 on:
   push:
@@ -7,59 +21,274 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20"
+
 jobs:
-  e2e:
-    name: Footer & scroll-snap regression
-    timeout-minutes: 30
+  quality:
+    name: Typecheck & lint
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ env.NODE_VERSION }}
           cache: npm
+      - run: npm ci
+      # Dikkat: `tsc --noEmit` KOK yapilandirmayla hicbir dosyayi derlemez
+      # (`tsconfig.json` -> `"files": []`). `npm run typecheck` proje
+      # yapilandirmalarini acikca hedefler.
+      - name: Typecheck (app + node + e2e projects)
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
 
-      - name: Install dependencies
-        run: npm ci
+  build:
+    name: Production build
+    timeout-minutes: 25
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      # Supabase degerleri publishable (anon key, RLS ile korunuyor) ama artik
+      # kaynakta gomulu degil; uretim derlemesi bunlari ortamdan alir.
+      # Repo secret'lari tanimli degilse `src/integrations/supabase/env.ts`
+      # modul yuklenirken hata firlatir ve dist hic acilmaz (tum E2E isleri
+      # bos sayfa gorur). Bu derleme yalnizca testler icindir ve backend
+      # cagrilari testlerde taklit edilir; secret yoksa yer tutucu kullanilir.
+      - name: Build once
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://ci-placeholder.supabase.co' }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY || 'ci-placeholder-anon-key' }}
+        run: npm run build
+      - name: Assert dev-only surfaces are absent from dist
+        run: |
+          if grep -rilE "legacy-landing|LandingFlow|TestHowWeWork|TechnicalPreview" dist/; then
+            echo "::error::dist/ still references a dev-only surface"
+            exit 1
+          fi
+          echo "dist/ is free of dev-only surfaces"
+      - name: Upload dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
 
+  e2e-critical:
+    name: E2E critical (Chromium)
+    needs: build
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
       - name: Cache Playwright browsers
         id: pw-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: pw-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install Playwright browsers
+          key: pw-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Playwright Chromium
         if: steps.pw-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
-
       - name: Install system deps (cached browsers)
         if: steps.pw-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
-
-      # The Supabase values are publishable (anon key, guarded by RLS) but are
-      # no longer inlined in source, so the production build the e2e suite
-      # serves needs them from the environment.
-      - name: Run Playwright tests
+      # `dist/` indirildigi icin webServer yalnizca `preview` calistirir;
+      # derleme tekrar edilmez. Reduced-motion ve axe sozlesmeleri bu pakette:
+      # e2e/landing/landing-reduced-motion.spec.ts ve landing-accessibility.spec.ts.
+      - name: Run critical suite
         env:
           CI: "true"
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
-        run: npm run test:e2e
-
-      - name: Upload HTML report
+          PLAYWRIGHT_PREVIEW_ONLY: "1"
+        run: npm run test:e2e:critical
+      - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-critical
+          path: playwright-report
+          retention-days: 14
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results-critical
+          path: test-results
+          retention-days: 14
+
+  e2e-smoke:
+    name: E2E smoke (WebKit + Firefox)
+    needs: build
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-wk-ff-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Playwright WebKit + Firefox
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps webkit firefox
+      - name: Install system deps (cached browsers)
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps webkit firefox
+      - name: Run smoke suite
+        env:
+          CI: "true"
+          PLAYWRIGHT_PREVIEW_ONLY: "1"
+        run: npm run test:e2e:smoke
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-smoke
           path: playwright-report
           retention-days: 14
 
-      - name: Upload test results (traces, screenshots, videos)
+  e2e-regression:
+    # Bloke eden bir kapi DEGIL. 536 kombinasyonluk genis Chromium goruntu
+    # penceresi ailesi zorunlu PR kontrolu olarak butceye sigmiyor (B07), ama
+    # hicbir yerde kosmamasi da kabul edilemezdi: bu is onu elle tetiklenebilir
+    # kilar. `continue-on-error` YOK — tetiklendiginde gercekten kirmizi doner.
+    name: E2E regression (Chromium, 8 viewports)
+    if: github.event_name == 'workflow_dispatch'
+    needs: build
+    timeout-minutes: 120
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Playwright Chromium
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+      - name: Install system deps (cached browsers)
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+      - name: Run regression suite
+        env:
+          CI: "true"
+          PLAYWRIGHT_PREVIEW_ONLY: "1"
+        run: >-
+          npx playwright test
+          --project=mobile-320 --project=mobile-375 --project=mobile-390
+          --project=tablet-768 --project=landscape-844
+          --project=desktop-1280 --project=desktop-1440-short --project=desktop-1440
+      - name: Upload report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-results
-          path: test-results
+          name: playwright-report-regression
+          path: playwright-report
+          retention-days: 14
+
+  visual:
+    name: E2E visual golden diff
+    needs: build
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      # BILINEN BOSLUK — VISUAL-BASELINE-GAP-LINUX
+      # Altin goruntuler yalniz `win32` icin uretilebildi (bu gelistirme
+      # makinesinde dogrulanabilen tek platform). CI ubuntu kosuyor, yani
+      # `e2e/__golden__/linux/` yok. CI'in eksik referansi KENDILIGINDEN
+      # URETMESINE izin verilmez: bu sahte bir yesil olurdu. Guard eksikligi
+      # adiyla raporlar ve gorsel paketi atlar; referans eklendigi anda
+      # paket kendiliginden calismaya baslar.
+      - name: Guard platform baselines
+        id: guard
+        run: |
+          missing=0
+          for project in visual-375 visual-1280 visual-1440; do
+            if [ ! -f "e2e/__golden__/linux/$project/landing-fullpage.png" ]; then
+              echo "::warning title=VISUAL-BASELINE-GAP-LINUX::missing e2e/__golden__/linux/$project/landing-fullpage.png"
+              missing=1
+            fi
+          done
+          echo "missing=$missing" >> "$GITHUB_OUTPUT"
+          if [ "$missing" = "1" ]; then
+            {
+              echo "### VISUAL-BASELINE-GAP-LINUX"
+              echo ""
+              echo "No \`linux\` golden baseline is committed, so the golden diff suite did **not** run on CI."
+              echo "Committed baselines: \`e2e/__golden__/win32/\` (verified locally)."
+              echo "CI is deliberately **not** allowed to auto-create baselines — that would be a false green."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Cache Playwright browsers
+        if: steps.guard.outputs.missing == '0'
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Playwright Chromium
+        if: steps.guard.outputs.missing == '0' && steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+      - name: Run golden diff suite
+        if: steps.guard.outputs.missing == '0'
+        env:
+          CI: "true"
+          PLAYWRIGHT_PREVIEW_ONLY: "1"
+        run: npm run test:e2e:visual
+      - name: Upload report
+        if: always() && steps.guard.outputs.missing == '0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-visual
+          path: playwright-report
           retention-days: 14

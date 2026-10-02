@@ -1,0 +1,281 @@
+{
+ "label": "19f30f5 (pre-run base)",
+ "oldTotal": 801,
+ "newTotal": 834,
+ "oldDistinct": 801,
+ "newDistinct": 834,
+ "LOST": 0,
+ "GAINED": 33,
+ "lostByRule": {},
+ "gainedByRule": {
+  "company-scale-disclosure": 1,
+  "periodic-volume-disclosure": 32
+ },
+ "lost": [],
+ "gained": [
+  {
+   "key": "company-scale-disclosure@src/pages/Hakkimizda.tsx:29",
+   "rule": "company-scale-disclosure",
+   "file": "src/pages/Hakkimizda.tsx",
+   "line": 29,
+   "match": "50+ deneyimli mühendis",
+   "text": "{ icon: Users, title: \"Ekip\", desc: \"50+ deneyimli mühendis ve teknisyenden oluşan uzman kadro\" },"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/components/ProjectShowcase.tsx:23",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/components/ProjectShowcase.tsx",
+   "line": 23,
+   "match": "adet/yıl",
+   "text": "description: \"Seri üretimde 10.000+ adet/yıl kapasite. Entegre CMM kalite kontrolü.\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:1274",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 1274,
+   "match": "ünite/gün",
+   "text": "\"M3 (1.5-2.0 Nm), M4 (3.0-4.0 Nm), M5 (6.0-8.0 Nm) ve M6 (10.0-12.0 Nm) vida boyutlarında ±5% toleransla tork kontrollü sıkma gerçekleştiriyoruz. Fonksiyon testi, 1000+ ünite/gün k"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:1285",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 1285,
+   "match": "ünite/gün",
+   "text": "{ label: \"Kapasite\", value: \"1000+ ünite/gün\" },"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:1298",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 1298,
+   "match": "ünite/gün",
+   "text": "\"1000+ ünite/gün kapasite\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:1987",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 1987,
+   "match": "haftada 10.000+ parça",
+   "text": "\"Hızlı Alüminyum Kalıp — 2-3 haftada 10.000+ parça kapasitesi\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2057",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2057,
+   "match": "adet/yıl",
+   "text": "\"Seri üretim kapasitelerimiz: CNC seri işleme 1.000-50.000 adet/yıl (±0.01mm tolerans), basınçlı döküm 5.000-500.000 adet/yıl (CT4-CT6), enjeksiyon kalıp 10.000-1.000.000 adet/yıl "
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2060",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2060,
+   "match": "adet/yıl",
+   "text": "\"Gerçek seri üretim örneklerimiz: Otomotiv müşterisi — sensör gövdesi 250.000 adet/yıl (döküm), elektronik müşterisi — ısı emici 100.000 adet/yıl (CNC), medikal müşterisi — kateter"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2063",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2063,
+   "match": "adet/yıl",
+   "text": "\"CNC Seri Üretim — 50.000 adet/yıl, ±0.01mm tolerans\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2064",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2064,
+   "match": "adet/yıl",
+   "text": "\"Basınçlı Döküm — 500.000 adet/yıl, CT4-CT6 kalıp toleransı\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2065",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2065,
+   "match": "adet/yıl",
+   "text": "\"Enjeksiyon Kalıp — 1.000.000 adet/yıl kapasite\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2071",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2071,
+   "match": "adet/yıl",
+   "text": "{ label: \"CNC Seri Kapasite\", value: \"50.000 adet/yıl\" },"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2072",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2072,
+   "match": "adet/yıl",
+   "text": "{ label: \"Döküm Kapasite\", value: \"500.000 adet/yıl\" },"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2073",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2073,
+   "match": "adet/yıl",
+   "text": "{ label: \"Enjeksiyon Kapasite\", value: \"1.000.000 adet/yıl\" },"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2093",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2093,
+   "match": "adet/yıl",
+   "text": "\"250.000+ adet/yıl kanıtlanmış seri üretim deneyimi\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2498",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2498,
+   "match": "adet/yıl",
+   "text": "\"Prototipten seri üretime (100-10.000 adet/yıl) esnek üretim kapasitesi sunuyoruz. Her robot projesi DFM analizi ile başlar, fonksiyonel prototip ile doğrulanır ve PPAP ile seri ür"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2512",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2512,
+   "match": "adet/yıl",
+   "text": "{ label: \"Seri Üretim\", value: \"100-10K adet/yıl\" },"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2527",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2527,
+   "match": "adet/yıl",
+   "text": "{ question: \"Seri üretim yapabiliyor musunuz?\", answer: \"Evet, 100-10.000 adet/yıl kapasitede otomasyonlu CNC seri üretim yapabiliyoruz. Bar besleyici ve palet sistemi ile kesintis"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2538",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2538,
+   "match": "adet/ay",
+   "text": "metaDescription: \"IATF 16949 sertifikalı otomotiv parça üretimi. Motor, şanzıman, fren sistemi komponentleri. PPAP Level 5, Cpk ≥1.67, SPC kontrol, 50K+ adet/ay kapasite.\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2543",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2543,
+   "match": "adet/ay",
+   "text": "\"SPC (İstatistiksel Proses Kontrol) ile gerçek zamanlı süreç izleme, Cpk ≥1.67 süreç yetkinliği hedefi, KUKA/FANUC robot entegrasyonlu otomasyonlu üretim ve SAP MES ile anlık üreti"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2552",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2552,
+   "match": "Adet/Ay",
+   "text": "\"50K+ Adet/Ay — Yüksek hacimli seri üretim\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2558",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2558,
+   "match": "adet/ay",
+   "text": "{ label: \"CNC Kapasite\", value: \"50K+ adet/ay\" },"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2559",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2559,
+   "match": "adet/yıl",
+   "text": "{ label: \"Döküm Kapasite\", value: \"500K+ adet/yıl\" },"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2576",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2576,
+   "match": "adet/ay",
+   "text": "\"Robot otomasyonlu 50K+ adet/ay kapasite\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2584",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2584,
+   "match": "Yıllık kontrat bazlı 50.000+ adet",
+   "text": "{ question: \"Minimum seri üretim adedi nedir?\", answer: \"Otomotiv seri üretim için minimum 1.000 adet/sipariş ile başlamaktadır. Yıllık kontrat bazlı 50.000+ adet/ay kapasitemiz me"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2912",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2912,
+   "match": "Adet/Ay",
+   "text": "metaTitle: \"Yüksek Hacimli Seri Üretim | 100K+ Adet/Ay | Robot Otomasyon | OEE %85+ | Mas Technic\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2913",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2913,
+   "match": "adet/ay",
+   "text": "metaDescription: \"100K+ adet/ay seri üretim kapasitesi. KUKA/FANUC robot otomasyon, Fastems palet sistemi, SAP MES. OEE %85+, Cpk ≥1.67, JIT teslimat.\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2914",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2914,
+   "match": "adet/ay",
+   "text": "description: \"KUKA/FANUC robot otomasyon, Fastems palet sistemi ve SAP MES ile 100K+ adet/ay seri üretim kapasitesi. OEE %85+, JIT teslimat.\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2916",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2916,
+   "match": "adet/ay",
+   "text": "\"Otomatik üretim hatlarımız ile 100.000+ adet/ay yüksek hacimli seri üretim gerçekleştiriyoruz. KUKA ve FANUC robot kollar ile otomatik yükleme/boşaltma, Fastems palet sistemi ile "
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2921",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2921,
+   "match": "Adet/Ay",
+   "text": "\"100K+ Adet/Ay — Yüksek hacimli seri üretim\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2929",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2929,
+   "match": "adet/ay",
+   "text": "{ label: \"Kapasite\", value: \"100K+ adet/ay\" },"
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2937",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2937,
+   "match": "adet/ay",
+   "text": "\"100K+ adet/ay kanıtlanmış seri üretim kapasitesi\","
+  },
+  {
+   "key": "periodic-volume-disclosure@src/data/servicePages.ts:2945",
+   "rule": "periodic-volume-disclosure",
+   "file": "src/data/servicePages.ts",
+   "line": 2945,
+   "match": "adet/yıl",
+   "text": "{ question: \"Minimum yıllık kontrat adedi var mı?\", answer: \"Seri üretim için minimum 10.000 adet/yıl kontrat ile başlamaktadır. Yıllık 100.000+ adet projelerinde özel fiyatlandırm"
+  }
+ ]
+}

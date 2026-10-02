@@ -14,7 +14,7 @@ export const FinancialView = () => {
   const profit = totalRevenue - totalCost;
   const materialMargin = unitPrice > 0 ? (((unitPrice - variableCost) / unitPrice) * 100).toFixed(1) : "0";
 
-  // MHR data
+  // MHR reference: planning estimates for the calculator, not measured machine data.
   const machines = [
     { name: "3-Eksen İşleme Merkezi", depreciation: 10, energy: 10, maintenance: "Düşük", mhr: 55 },
     { name: "5-Eksen İşleme Merkezi", depreciation: 8, energy: 17, maintenance: "Orta-Yüksek", mhr: 185 },
@@ -78,7 +78,7 @@ export const FinancialView = () => {
 
         {/* MHR Table */}
         <div className="dark:bg-[#1E293B] bg-white rounded-xl dark:border-[#334155] border-slate-200 border p-5">
-          <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Makine Saat Ücreti (MHR)</h3>
+          <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">Makine Saat Ücreti (MHR) — planlama tahmini</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>

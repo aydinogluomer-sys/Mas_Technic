@@ -1,0 +1,40 @@
+{
+  "offers": [],
+  "refusals": [
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "token": "SolidWorks",
+      "sentence": "Yerel CAD kayıtlarınızı (SolidWorks ."
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "token": ".prt",
+      "sentence": ""
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "token": "CATIA",
+      "sentence": "sldprt, CATIA ."
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "token": "NX",
+      "sentence": "catpart, NX ."
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "token": "DWG",
+      "sentence": "prt) veya PDF/DWG teknik resminizi sales@mastechnic."
+    },
+    {
+      "route": "/kabiliyetler/tasarim-rehberi-dfm",
+      "token": "PDF",
+      "sentence": "PDF + revize CAD"
+    },
+    {
+      "route": "/kabiliyetler/tasarim-rehberi-dfm",
+      "token": "PDF",
+      "sentence": "Rapor Formatı\tPDF + revize CAD"
+    }
+  ]
+}

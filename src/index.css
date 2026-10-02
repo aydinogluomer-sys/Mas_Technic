@@ -263,49 +263,23 @@
   }
 }
 
-/* Editorial fullscreen machining menu */
-.menu-overlay {
-  --menu-ink: #f3f0e8;
-  --menu-muted: #a7b5bd;
-  --menu-rule: rgba(173, 204, 218, .16);
-  position: fixed;
-  inset: 0;
-  z-index: 10010;
-  height: 100dvh;
-  color: var(--menu-ink);
-  overflow: hidden;
-  background: #06111f;
-}
-.shared-public-header {
-  padding-top:var(--shell-safe-top);
-}
-/* Safe-area boşluğu şeridin kendisine değil içeriğine uygulanır; aksi halde
-   header arka planı kenarlardan 16px içeride kalıp sert köşeli, yapıştırılmış
-   bir dikdörtgen gibi görünüyordu. */
-.shared-public-header > div {
-  padding-left:max(0.75rem,var(--shell-safe-left));
-  padding-right:max(0.75rem,var(--shell-safe-right));
-}
-@media (min-width:768px) {
-  .shared-public-header > div {
-    padding-left:max(1.25rem,var(--shell-safe-left));
-    padding-right:max(1.25rem,var(--shell-safe-right));
-  }
-}
+/* ── ÖLÜ SEÇİCİLER KALDIRILDI (Faz 04) ────────────────────────────────────
+   Burada 164 seçici duruyordu: `.menu-overlay`, `.menu-panels`, `.menu-grid`,
+   `.menu-shell`, `.menu-trigger-dock`, `.menu-top`, `.menu-main`,
+   `.menu-left`, `.menu-family*`, `.menu-categor*`, `.menu-conversion*` ve
+   bunların yedi medya sorgusundaki türevleri; ayrıca `.shared-public-header`,
+   `.shared-public-header > div` ve `.header-skin-dark` / `.header-skin-light`.
 
-/* Landing bölümleri koyu/açık arasında geçtiği için header kontrastını
-   altındaki yüzeye göre çeviriyoruz. Sabit bir açık şerit, koyu sahnelerin
-   üzerinde yapıştırılmış gibi durup sinematik akışı kesiyordu. */
-.header-skin-dark {
-  border-color: rgba(242, 238, 230, .14);
-  background: rgba(10, 16, 22, .68);
-  color: #f2eee6;
-}
-.header-skin-light {
-  border-color: rgba(10, 16, 22, .12);
-  background: rgba(235, 231, 222, .84);
-  color: #0a1016;
-}
+   Hepsi Faz 03'te silinen `HeaderFullscreen` + `src/components/menu/**`
+   ağacına aitti. Yeni navigasyon `src/styles/navigation.css` içinde ve
+   TAMAMEN `.tl-menu-*` önekiyle yazılı — yani bu blok yalnızca ölü değildi,
+   `.menu-family`, `.menu-category`, `.menu-top`, `.menu-main` gibi altı adı
+   yeni işaretlemeyle çakışma riski taşıyordu. Faz 03'ün yazma izni bu dosyayı
+   kapsamadığı için kaldırılamamıştı; kabuk artık Faz 04'ün.
+
+   `.floating-scroll-top` ve `.shared-skip-link` KALDI: ikisi de yaşayan
+   kabuğun parçası (`src/components/shell/SiteFooter.tsx` ve `src/App.tsx`).
+   ------------------------------------------------------------------------ */
 
 /* Başa dön kontrolü: yuvarlak beyaz FAB, brutalist/endüstriyel dile aykırıydı
    ve tema token'ları landing'in sabit paletiyle uyuşmuyordu. Keskin köşeli
@@ -330,8 +304,26 @@
   .floating-scroll-top { transition-duration: .01ms; }
   .floating-scroll-top:is(:hover, :focus-visible) { transform: none; }
 }
-/* Mobilde kart metnini örtüyordu; sabit header ve logo zaten aynı erişimi
-   verdiği için küçük ekranlarda gösterilmiyor. */
+/* ── B23 — ÜRÜN KARARI, ARTIK TESTLE AYNI ŞEYİ SÖYLÜYOR ────────────────────
+   Kayan "başa dön" kontrolü 768px altında GÖSTERİLMEZ.
+
+   Gerekçe (Faz 03'te yeniden değerlendirildi ve korundu):
+     1. Mobilde kart metnini örtüyordu — özgün, ölçülmüş gerekçe.
+     2. Global navigasyon (`src/styles/navigation.css`) her genişlikte üstte
+        SABİT duruyor ve marka bağlantısı ("MAS Technic ana sayfa" → `/`)
+        kaydırmadan her an erişilebilir. Kayan kontrol, zaten ekranda olan bir
+        kontrolü tekrar ediyor.
+     3. Landing'de böyle bir kontrol hiç yok; gizlemek iki kabuğu aynı hizada
+        tutuyor.
+
+   `e2e/shared-shell-accessibility.spec.ts` bu kuralın TAM TERSİNİ iddia
+   ediyordu (320'de "görünür olmalı"). Çelişki bu koşudan ÖNCE de vardı ve
+   temel commit `9133415`'te birebir yeniden üretildi
+   (`reports/qa/phase-02.md` §21.8). Karar (a) yönünde verildi: kontrol mobilde
+   olmamalı, dolayısıyla yanlış olan testti. Test silinmedi — hem rol
+   ağacından yokluğunu hem de sebebin BU kural olduğunu iki genişlikte
+   (320 ve 375) doğrulayacak biçimde düzeltildi.
+   ------------------------------------------------------------------------ */
 @media (max-width: 767px) {
   .floating-scroll-top { display: none; }
 }
@@ -339,326 +331,7 @@
   top:calc(1rem + var(--shell-safe-top));
   left:calc(1rem + var(--shell-safe-left));
 }
-.menu-panels, .menu-grid { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
-.menu-panels { display: grid; grid-template-columns: repeat(3, 1fr); }
-.menu-panels i { background: linear-gradient(115deg, #06111f, #0a1827 48%, #071523 52%); border-right: 1px solid var(--menu-rule); }
-.menu-grid { opacity: .45; background-image: linear-gradient(90deg, transparent calc(100% - 1px), rgba(173,204,218,.1) 0), linear-gradient(rgba(173,204,218,.045) 1px, transparent 1px); background-size: calc(100% / 12) 100%, 100% 52px; }
-.menu-trigger-dock { top: calc(.5rem + var(--shell-safe-top)); }
-.menu-shell {
-  position: relative; height: 100%; max-width: 1600px; margin: 0 auto;
-  display: grid; grid-template-rows: calc(68px + var(--shell-safe-top)) 56px minmax(0, 1fr) 68px;
-  padding-inline: max(40px, var(--shell-safe-left)); padding-right: max(40px, var(--shell-safe-right));
-}
-.menu-top, .menu-conversion { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--menu-rule); }
-.menu-top > span { font: 600 11px/1 "IBM Plex Mono", monospace; letter-spacing: .14em; color: var(--menu-muted); }
-.menu-main { min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: grid; grid-template-columns: repeat(12, minmax(0,1fr)); gap: clamp(16px,1.65vw,24px); padding-block: 24px; scroll-padding-bottom: 24px; }
-.menu-left { grid-column: span 3; min-width: 0; }
-.menu-family-rail { display: grid; }
-.menu-family { position: relative; min-height: 76px; display: grid; grid-template-columns: 30px 1fr auto; align-items: center; gap: 10px; border-bottom: 1px solid var(--menu-rule); color: rgba(243,240,232,.68); text-align: left; }
-.menu-family-index, .menu-category-number { font: 600 11px/1 "IBM Plex Mono", monospace; letter-spacing: .08em; color: #38b9c5; font-variant-numeric: tabular-nums; }
-.menu-family-label { font-size: clamp(26px,2.7vw,44px); font-weight: 650; line-height: .94; letter-spacing: -.045em; transform: translateX(0); transition: transform 180ms; }
-.menu-family-datum { position: absolute; left: 30px; right: 0; bottom: -1px; height: 1px; transform-origin: left; transform: scaleX(.18); background: linear-gradient(90deg,#38b9c5,#d9e3e5); transition: transform 220ms; }
-.menu-family-datum i { position: absolute; right: 0; top: -2px; width: 5px; height: 5px; background: #d9e3e5; }
-.menu-family-arrow { width: 17px; opacity: 0; transform: translate(-7px,7px); transition: opacity 180ms, transform 180ms; }
-.menu-family:is(:hover,:focus-visible), .menu-family.is-active { color: var(--menu-ink); background: rgba(255,255,255,.035); }
-.menu-family:is(:hover,:focus-visible) .menu-family-label, .menu-family.is-active .menu-family-label { transform: translateX(6px); letter-spacing: -.035em; }
-.menu-family:is(:hover,:focus-visible) .menu-family-datum, .menu-family.is-active .menu-family-datum { transform: scaleX(1); }
-.menu-family:is(:hover,:focus-visible) .menu-family-arrow, .menu-family.is-active .menu-family-arrow { opacity: 1; transform: translate(0,0); }
-.menu-categories { grid-column: span 6; min-width: 0; border-top: 1px solid var(--menu-rule); }
-.menu-category { border-bottom: 1px solid var(--menu-rule); }
-.menu-category-toggle { width: 100%; min-height: 58px; display: grid; grid-template-columns: 30px 30px 1fr auto; align-items: center; gap: 8px; text-align: left; font-size: clamp(16px,1.4vw,20px); font-weight: 600; letter-spacing: -.015em; color: rgba(243,240,232,.76); }
-.menu-category-toggle:is(:hover,:focus-visible), .menu-category.is-open .menu-category-toggle { color: var(--menu-ink); background: rgba(255,255,255,.03); }
-.menu-category-icon { color: #38b9c5; display: grid; place-items: center; }
-.menu-category-chevron { width: 17px; transition: transform 180ms; }
-.menu-category.is-open .menu-category-chevron { transform: rotate(180deg); }
-.menu-category-details { padding: 0 8px 18px 68px; }
-.menu-category-landing { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 12px; font: 600 11px/1 "IBM Plex Mono",monospace; letter-spacing: .1em; color: #5ed0d8; }
-.menu-category-details ul { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px 20px; }
-.menu-category-details li a { display: flex; align-items: center; min-height: 30px; gap: 8px; color: rgba(243,240,232,.72); font-size: 14px; line-height: 1.4; transition: transform 160ms; }
-.menu-category-details li a span { width: 12px; height: 1px; background: #38b9c5; transform:scaleX(0); transform-origin:left; transition: transform 160ms; }
-.menu-category-details li a:is(:hover,:focus-visible) { color: var(--menu-ink); transform: translateX(4px); }
-.menu-category-details li a:is(:hover,:focus-visible) span { transform:scaleX(1); }
-.menu-conversion { border-top: 1px solid var(--menu-rule); border-bottom: 0; padding-bottom: var(--shell-safe-bottom); gap: 24px; }
-.menu-conversion p { margin-right:auto; font:600 10px/1.3 "IBM Plex Mono",monospace; letter-spacing:.1em; color:var(--menu-muted); }
-.menu-conversion > a:not(.menu-conversion-cta) { font-size:14px; color:var(--menu-muted); }
-.menu-conversion-cta { min-height:48px; display:inline-flex; align-items:center; justify-content:center; gap:12px; padding:0 24px; background:#f26b25; color:#09131d; font-weight:750; transition:transform 160ms; }
-.menu-conversion-cta:is(:hover,:focus-visible) { transform:translateY(-2px); }
 
-@media (max-width: 1023px) {
-  .menu-shell { padding-inline:max(24px,var(--shell-safe-left)); padding-right:max(24px,var(--shell-safe-right)); }
-  .menu-main { grid-template-columns:repeat(8,minmax(0,1fr)); gap:16px; }
-  .menu-left { grid-column:span 2; }
-  .menu-categories { grid-column:span 4; }
-  .menu-family { min-height:64px; }
-  .menu-family-label { font-size:clamp(20px,3vw,28px); }
-  .menu-category-details { padding-left:38px; }
-  .menu-category-details ul { grid-template-columns:1fr; }
-}
-@media (max-width: 767px) {
-  .menu-shell { grid-template-rows:calc(64px + var(--shell-safe-top)) 48px minmax(0,1fr) calc(64px + var(--shell-safe-bottom)); padding-inline:max(16px,var(--shell-safe-left)); padding-right:max(16px,var(--shell-safe-right)); }
-  .menu-top > span { display:none; }
-  .menu-main { display:block; padding:0; }
-  .menu-left { position:sticky; top:0; z-index:2; background:#071421; }
-  .menu-family-rail { grid-template-columns:repeat(3,1fr); }
-  .menu-family { min-height:48px; display:grid; grid-template-columns:auto 1fr; gap:5px; padding:0 7px; }
-  .menu-family-label { font:600 12px/1 "IBM Plex Mono",monospace; letter-spacing:0; transform:none!important; }
-  .menu-family-datum { left:7px; }
-  .menu-family-arrow { display:none; }
-  .menu-categories { margin-top:8px; }
-  .menu-category-toggle { min-height:52px; grid-template-columns:26px 26px 1fr auto; font-size:17px; }
-  .menu-category-details { padding:0 4px 16px 52px; }
-  .menu-conversion { margin-inline:-16px; padding-inline:16px; background:#071421; }
-  .menu-conversion p,.menu-conversion > a:not(.menu-conversion-cta) { display:none; }
-  .menu-conversion-cta { width:100%; min-height:52px; }
-}
-@media (max-width:340px) {
-  .menu-family { grid-template-columns:1fr; justify-items:center; padding:0; }
-  .menu-family-label,.menu-family-arrow { display:none; }
-  .menu-family-datum { left:10px; right:10px; }
-}
-@media (max-width: 340px), (max-height: 680px) {
-  .menu-shell { grid-template-rows:calc(58px + var(--shell-safe-top)) 44px minmax(0,1fr) calc(58px + var(--shell-safe-bottom)); }
-  .menu-top b { font-size:13px; }
-  .menu-category-toggle { min-height:48px; }
-}
-@media (min-width:768px) and (max-width:1023px) and (max-height:500px) {
-  .menu-top > span { display:none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .menu-family-label,.menu-family-datum,.menu-family-arrow { transform:none!important; transition-duration:60ms!important; }
-}
-
-/* Calm editorial reset — one navigation hierarchy, one accent, generous rhythm */
-.menu-overlay {
-  --menu-ink:#f2eee6;
-  --menu-muted:#a8a49d;
-  --menu-rule:rgba(242,238,230,.13);
-  --menu-accent:#c97345;
-  background:transparent;
-}
-.menu-grid { display:none; }
-.menu-panels i {
-  position:relative;
-  overflow:hidden;
-  will-change:transform;
-  background:
-    linear-gradient(110deg,rgba(255,255,255,.018),transparent 32%),
-    #0a1016;
-  border-color:rgba(242,238,230,.055);
-}
-.menu-panels i:nth-child(2) {
-  background:
-    linear-gradient(110deg,transparent 45%,rgba(201,115,69,.035) 50%,transparent 56%),
-    #0a1016;
-}
-.menu-panels i:nth-child(3) {
-  background:
-    linear-gradient(110deg,rgba(255,255,255,.012),transparent 38%),
-    #0a1016;
-}
-.menu-shell {
-  max-width:1440px;
-  grid-template-rows:88px minmax(0,1fr) 72px;
-  padding-inline:max(56px,var(--shell-safe-left));
-  padding-right:max(56px,var(--shell-safe-right));
-}
-.menu-top { border-color:var(--menu-rule); }
-.menu-top > a { min-height:44px; display:flex; align-items:center; }
-.menu-top b { font-size:14px; letter-spacing:-.015em; }
-.menu-overlay .menu-trigger-dock {
-  top:calc(20px + var(--shell-safe-top));
-  right:max(56px,var(--shell-safe-right));
-}
-.menu-overlay [data-menu-trigger] { min-width:48px; padding:0; }
-.menu-overlay [data-menu-trigger] > span:first-child { display:none; }
-.menu-main {
-  grid-template-columns:repeat(12,minmax(0,1fr));
-  align-content:center;
-  gap:32px;
-  padding-block:clamp(36px,6vh,72px);
-}
-.menu-left {
-  grid-column:1 / span 5;
-  align-self:start;
-  padding-right:clamp(20px,2vw,36px);
-}
-.menu-family { 
-  min-width:0;
-  min-height:clamp(108px,13vh,138px);
-  grid-template-columns:40px minmax(0,1fr);
-  border-color:var(--menu-rule);
-  color:rgba(242,238,230,.58);
-  background:transparent!important;
-}
-.menu-family-index { color:var(--menu-muted); font-size:10px; }
-.menu-family-label {
-  font-size:clamp(56px,6vw,104px);
-  font-weight:680;
-  line-height:.84;
-  letter-spacing:-.075em!important;
-}
-.menu-family-datum {
-  left:40px;
-  background:var(--menu-accent);
-  transform:scaleX(0);
-  height:2px;
-}
-.menu-family-datum i,.menu-family-arrow { display:none; }
-.menu-family:is(:hover,:focus-visible),.menu-family.is-active { color:var(--menu-ink); }
-.menu-family:is(:hover,:focus-visible) .menu-family-label,.menu-family.is-active .menu-family-label { transform:none; }
-.menu-categories {
-  grid-column:6 / span 7;
-  align-self:start;
-  border-color:var(--menu-rule);
-}
-.menu-category { border-color:var(--menu-rule); }
-.menu-category-toggle {
-  min-height:68px;
-  grid-template-columns:34px minmax(0,1fr) 44px;
-  gap:14px;
-  padding:0 0 0 4px;
-  font-size:clamp(20px,1.8vw,28px);
-  color:rgba(242,238,230,.62);
-  background:transparent!important;
-}
-.menu-category-number { color:var(--menu-muted); }
-.menu-category-icon { display:none; }
-.menu-category-chevron { justify-self:center; color:var(--menu-muted); }
-.menu-category-toggle:is(:hover,:focus-visible),.menu-category.is-open .menu-category-toggle { color:var(--menu-ink); }
-.menu-category.is-open .menu-category-toggle { border-left:2px solid var(--menu-accent); padding-left:14px; }
-.menu-category-details { padding:4px 44px 24px 52px; }
-.menu-category-landing { min-height:44px; align-items:center; margin-bottom:12px; color:var(--menu-accent); letter-spacing:.06em; }
-.menu-category-details ul { gap:4px 24px; }
-.menu-category-details li a {
-  min-height:44px;
-  color:rgba(242,238,230,.68);
-  font-size:15px;
-}
-.menu-category-details li a span { background:var(--menu-accent); }
-.menu-conversion {
-  gap:24px;
-  border-color:var(--menu-rule);
-}
-.menu-conversion-reveal {
-  min-width:0;
-}
-.menu-conversion-reveal .menu-conversion {
-  height:100%;
-}
-.menu-conversion nav { display:flex; align-items:center; gap:24px; margin-right:auto; }
-.menu-conversion nav a,.menu-conversion > a:not(.menu-conversion-cta) {
-  color:var(--menu-muted);
-  font:500 12px/1 "IBM Plex Mono",monospace;
-  letter-spacing:.03em;
-}
-.menu-conversion nav a { min-width:44px; min-height:44px; display:flex; align-items:center; justify-content:center; }
-.menu-conversion > a:not(.menu-conversion-cta) { min-height:44px; display:flex; align-items:center; }
-.menu-conversion-cta {
-  min-width:168px;
-  min-height:48px;
-  padding:0 22px;
-  background:var(--menu-ink);
-  color:#0a1016;
-  font-size:14px;
-}
-.menu-conversion-cta svg { color:var(--menu-accent); }
-
-@media (max-width:1279px) and (min-width:768px) {
-  .menu-shell {
-    padding-inline:max(32px,var(--shell-safe-left));
-    padding-right:max(32px,var(--shell-safe-right));
-    grid-template-rows:76px minmax(0,1fr) 68px;
-  }
-  .menu-overlay .menu-trigger-dock { top:calc(14px + var(--shell-safe-top)); right:max(32px,var(--shell-safe-right)); }
-  .menu-main { grid-template-columns:repeat(12,minmax(0,1fr)); align-content:start; gap:24px; padding-top:clamp(72px,11vh,112px); padding-bottom:32px; }
-  .menu-left { grid-column:1 / span 4; padding-right:16px; }
-  .menu-categories { grid-column:5 / span 8; }
-  .menu-family { min-height:76px; }
-  .menu-family-label { font-size:clamp(28px,4vw,40px); }
-  .menu-category-toggle { min-height:62px; font-size:clamp(18px,2.4vw,24px); }
-  .menu-conversion nav { gap:14px; }
-  .menu-conversion nav a { font-size:10px; }
-}
-
-@media (max-width:767px) {
-  .menu-shell {
-    grid-template-rows:calc(64px + var(--shell-safe-top)) minmax(0,1fr) calc(104px + var(--shell-safe-bottom));
-    padding-inline:max(16px,var(--shell-safe-left));
-    padding-right:max(16px,var(--shell-safe-right));
-  }
-  .menu-overlay .menu-trigger-dock { top:calc(8px + var(--shell-safe-top)); right:max(16px,var(--shell-safe-right)); }
-  .menu-main { display:block; padding:0 0 24px; }
-  .menu-left { position:sticky; top:0; z-index:3; padding:0; background:#0a1016; border-bottom:1px solid var(--menu-rule); }
-  .menu-family-rail { grid-template-columns:repeat(3,minmax(0,1fr)); }
-  .menu-family {
-    min-height:52px;
-    display:flex;
-    justify-content:center;
-    padding:0 5px;
-    border:0;
-  }
-  .menu-family-index { display:none; }
-  .menu-family-label {
-    display:block!important;
-    font:650 clamp(11px,3.2vw,13px)/1 "Space Grotesk",sans-serif;
-    letter-spacing:-.015em!important;
-    transform:none!important;
-    white-space:nowrap;
-  }
-  .menu-family.is-active { background:rgba(242,238,230,.06)!important; }
-  .menu-family-datum { left:10px; right:10px; bottom:0; }
-  .menu-categories { margin-top:16px; border-top:0; }
-  .menu-category-toggle {
-    min-height:58px;
-    grid-template-columns:28px minmax(0,1fr) 44px;
-    gap:8px;
-    padding-left:0;
-    font-size:19px;
-  }
-  .menu-category.is-open .menu-category-toggle { padding-left:8px; }
-  .menu-category-details { padding:0 4px 20px 36px; }
-  .menu-category-details ul { grid-template-columns:1fr; gap:0; }
-  .menu-category-details li a { min-height:46px; font-size:15px; }
-  .menu-category-landing { min-height:44px; align-items:center; margin:0; }
-  .menu-conversion {
-    display:grid;
-    grid-template-columns:1fr;
-    grid-template-rows:44px 52px;
-    gap:0;
-    margin-inline:-16px;
-    padding:0 16px var(--shell-safe-bottom);
-    background:#0a1016;
-  }
-  .menu-conversion nav {
-    display:grid;
-    grid-template-columns:repeat(5,minmax(0,1fr));
-    gap:8px;
-    width:100%;
-  }
-  .menu-conversion nav a {
-    min-height:44px;
-    justify-content:center;
-    font-size:9px;
-    white-space:nowrap;
-  }
-  .menu-conversion > a:not(.menu-conversion-cta) { display:none; }
-  .menu-conversion-cta { width:100%; min-height:48px; }
-}
-
-@media (max-height:680px) and (min-width:768px) {
-  .menu-shell { grid-template-rows:64px minmax(0,1fr) 52px; }
-  .menu-main { align-content:start; padding-block:16px; }
-  .menu-family { min-height:66px; }
-  .menu-family-label { font-size:32px; }
-  .menu-category-toggle { min-height:52px; font-size:20px; }
-  .menu-category-details { padding-bottom:12px; }
-  .menu-category-details li a { min-height:32px; font-size:14px; }
-  .menu-conversion { gap:14px; }
-  .menu-conversion nav { gap:12px; }
-  .menu-category-details li a { min-height:44px; }
-  .menu-conversion nav a { min-height:44px; font-size:9px; }
-  .menu-conversion-cta { min-height:44px; }
-}
 
 @layer base {
   .dark {
@@ -738,6 +411,11 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    /* PHASE 10-4 — the token stack, so text outside `.tl-root`/`.shell-root`
+       (the page loader, the header before the shell mounts) falls back through
+       the metric-matched face too. The second value is the same stack
+       written out, for a route that has not loaded `design-tokens.css`. */
+    font-family: var(--tl-font-sans, "Space Grotesk", system-ui, sans-serif);
     overflow-x: clip;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;
@@ -747,6 +425,36 @@
   html {
     overflow-x: clip;
     /* scroll-behavior removed — Lenis handles smooth scroll */
+    /* PHASE 10-4 — NO SYNTHETIC FACES. The three families are requested from
+       Google at exactly the weights and styles the stylesheets use
+       (`index.html`): Space Grotesk 400/500/600/700 upright, Newsreader 400
+       upright + 400 italic, IBM Plex Mono 400/500/600/700 upright. With
+       synthesis off, a future `font-weight: 800` or an italic on Space
+       Grotesk (which ships no italic) renders as the nearest REAL face and
+       shows up in `reports/10/probes/font-faces.probe.mjs` as a mismatch,
+       instead of Blink emboldening or skewing an outline that was never
+       drawn. Measured before this rule: every Newsreader heading on 87
+       routes was set upright but painted with the italic face, because only
+       the italic was loaded. */
+    font-synthesis: none;
+  }
+
+  /* PHASE 10-4 — HEADINGS BALANCE. One declaration at the heading ROLE, so
+     a two-line title distributes its words instead of stranding the last
+     one. Measured before (reports/10/probes/heading-widows-before.md): the
+     project-grid `h3` at 768 ended on "7075-T6" alone and the RFQ
+     continuation `h2` on `/blog` at 1280 ended on "çıktı?" alone. Authored
+     `<br>` stanzas (the hero, the manifesto) are untouched: balance works
+     inside each forced segment. `white-space: nowrap` on a heading still
+     wins — `text-wrap-mode` is the part of this shorthand it shares with
+     `white-space`, and an unlayered rule beats this base-layer one. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
   }
 
   a,
@@ -817,23 +525,20 @@
     @apply max-w-7xl mx-auto px-6 lg:px-8;
   }
 
-  .footer-industrial .container-industrial {
-    padding-right:max(1.5rem,var(--shell-safe-right));
-    padding-bottom:max(2.5rem,var(--shell-safe-bottom));
-    padding-left:max(1.5rem,var(--shell-safe-left));
-  }
+  /* The three `.footer-industrial` rules that stood here — the safe-area
+     container padding, the `scroll-margin` for footer controls, and the
+     support-launcher fade — MOVED to `src/styles/shell.css` in Phase 04, onto
+     `.tl-footer`.
 
-  .footer-industrial :is(a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])) {
-    scroll-margin-block:calc(5rem + var(--shell-safe-top));
-  }
-
-  /* A fixed support launcher must not cover the footer control currently
-     receiving keyboard focus. Opacity preserves its sequential focus stop;
-     it returns as soon as focus advances to the launcher itself. */
-  body:has(.footer-industrial:focus-within) [data-chat-launcher] {
-    opacity:0;
-    pointer-events:none;
-  }
+     They could not simply be re-pointed and left here. Tailwind prunes
+     `@layer components` rules whose class candidates are absent from the
+     scanned content, and `footer-industrial` only ever existed in the deleted
+     `src/components/Footer.tsx`. Verified in the build output: after that file
+     went, `dist/assets/index-*.css` contained no `[data-chat-launcher]` rule
+     at all, so the launcher stopped yielding to a focused footer control —
+     a silent regression that nothing in the source would have shown.
+     `shell.css` declares them outside any Tailwind layer, where they cannot
+     be pruned. */
 
   .heading-industrial {
     @apply font-bold tracking-tight text-foreground;
@@ -1096,13 +801,27 @@ a:focus-visible,
   }
 }
 
-/* Custom cursor — hide default on desktop */
+/* Custom cursor — hide the native one ONLY while a replacement is mounted.
+
+   I3. This rule used to be unconditional: on any viewport ≥901px with a fine
+   pointer it removed the native cursor from html/body/every link and button,
+   whether or not `CustomCursor` had rendered. So the moment that component
+   declined to render — it returns `null` for coarse pointers, and it used to
+   return `null` for `prefers-reduced-motion` users too — a desktop visitor was
+   left with NO POINTER AT ALL. A stylesheet must not be able to take the
+   pointer away on its own; taking it away is only safe as the second half of a
+   swap, so the rule is now gated on the first half having happened.
+
+   `[data-custom-cursor]` is the marker `CustomCursor` puts on the dot and the
+   ring. `:has()` makes their presence the condition, which means the guarantee
+   holds for every future reason the replacement might not mount, not just the
+   two known ones. `!important` stays: element rules such as
+   `.tl-cad-drop { cursor: pointer }` out-specify a bare selector, and a
+   half-hidden cursor is worse than either state. */
 @media (min-width: 901px) and (pointer: fine) {
-  html,
-  body,
-  a,
-  button,
-  [role="button"] {
+  html:has([data-custom-cursor]),
+  html:has([data-custom-cursor]) body,
+  html:has([data-custom-cursor]) :is(a, button, [role="button"]) {
     cursor: none !important;
   }
 }
@@ -1387,25 +1106,14 @@ html::-webkit-scrollbar {
     background-color: #151b20;
   }
 
-  /* Footer paleti ana sayfa (teknik pafta) footer'ıyla aynı: düz koyu zemin,
-     krem metin kademeleri, teal yerine nötr ızgara. Yalnızca bu kapsamda geçerli;
-     global tokenlere dokunulmaz. */
-  .footer-industrial {
-    background: #070b0d;
-    --precision-steel-rgb: 238 233 222;
-    --text-vignette: rgba(238, 233, 222, 0.10);
-    --text-primary: #f3f0e8;
-    --text-secondary: #c3c8c5;
-    --text-technical: #c5cac7;
-    --text-hint: #a4aba8;
-    --surface-border: rgba(227, 231, 225, 0.28);
-    --surface-border-hover: rgba(227, 231, 225, 0.42);
-    /* Aksan teal degil krem: ana sayfa footer'inin vurgu rengi.
-       --primary/--primary-foreground cifti birlikte degistigi icin
-       dolgu butonlarin kontrasti korunur (16.3:1 / 14.6:1). */
-    --primary: 41 32% 90%;
-    --primary-foreground: 197 16% 8%;
-  }
+  /* `.footer-industrial` KALDIRILDI (Faz 04).
+
+     Bu blok mega footer'ın içinde tema token'larını yeniden tanımlayıp ana
+     sayfa footer'ının paletini TAKLİT etmesini sağlıyordu — iki ayrı footer'ı
+     birbirine benzetmek için yazılmış bir yamaydı. İki footer yok artık:
+     `src/components/shell/SiteFooter.tsx` doğrudan `--tl-*` token'larıyla
+     çizilen antet bloğunu her rotada basıyor, dolayısıyla taklit edilecek bir
+     palet de kalmadı. */
 }
 
 /* ── Rota perdesi ──
@@ -1432,6 +1140,22 @@ html::-webkit-scrollbar {
   animation: route-curtain var(--curtain-duration, .96s) cubic-bezier(.76, 0, .24, 1) forwards;
   animation-delay: calc(var(--curtain-index, 0) * var(--curtain-stagger, .03s));
 }
+/* The destination read-out rides the same CSS clock as the panels. It was a
+   framer-motion node inside an `AnimatePresence`; nothing about navigation
+   depended on it, so it no longer costs main-thread work while the incoming
+   route chunk is parsed. Ends at `opacity:0`, so no stuck state is reachable
+   even if a second navigation interrupts it. */
+@keyframes route-curtain-label {
+  0%   { opacity: 1; }
+  52%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+.route-curtain-label {
+  opacity: 0;
+  will-change: opacity;
+  animation: route-curtain-label var(--curtain-duration, .96s) cubic-bezier(.76, 0, .24, 1) forwards;
+}
 @media (prefers-reduced-motion: reduce) {
   .route-curtain-panel { animation: none; transform: scaleY(0); }
+  .route-curtain-label { animation: none; opacity: 0; }
 }

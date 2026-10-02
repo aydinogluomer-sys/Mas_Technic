@@ -1,0 +1,75 @@
+(node:20868) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 61 tests using 1 worker
+
+(node:28348) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[qa-p08 table walk] 22 tables — {"/":4,"/sss":0,"/gizlilik-politikasi":0,"/kvkk":0,"/cerez-politikasi":1,"/hakkimizda":0,"/iletisim":0,"/malzemeler":1,"/malzemeler/aluminyum":1,"/blog":0,"/blog/havacilik-parcalarinda-malzeme-secimi":1,"/kabiliyet-profilleri":0,"/kabiliyet-profilleri/ince-cidarli-govde":1,"/kabiliyet-profilleri/titanyum-baglanti-parcasi":1,"/kabiliyet-profilleri/hassas-mil":1,"/kalite-dosyasi":1,"/hizmetler/kategori/talasli-imalat":0,"/hizmetler/cnc-frezeleme":4,"/kabiliyetler/kalite-kontrol":3,"/endustriyel/havacilik-uzay":3,"/giris":0,"/sifremi-unuttum":0,"/reset-password":0,"/teklif-al":0}
+[qa-p08 surfaces] ["/ → HAM GEOMETRİDENDOĞRULANMIŞHASSASİYETE","/sss → Sıkça Sorulan Sorular","/gizlilik-politikasi → Gizlilik Politikası","/kvkk → KVKK Aydınlatma Metni","/cerez-politikasi → Çerez Politikası","/hakkimizda → Hakkımızda","/iletisim → Bize ulaşın","/malzemeler → Malzeme kütüphanesi","/malzemeler/aluminyum → CNC İşleme için Alüminyum Alaşımları","/blog → Teknik Günlük","/blog/havacilik-parcalarinda-malzeme-secimi → Havacılık Parçalarında Malzeme Seçimi","/kabiliyet-profilleri → Kabiliyet Profilleri","/kabiliyet-profilleri/ince-cidarli-govde → İNCE CİDARLI GÖVDE","/kabiliyet-profilleri/titanyum-baglanti-parcasi → TİTANYUM BAĞLANTI PARÇASI","/kabiliyet-profilleri/hassas-mil → HASSAS MİL","/kalite-dosyasi → Kalite Dosyası","/hizmetler/kategori/talasli-imalat → Talaşlı İmalat","/hizmetler/cnc-frezeleme → CNC Frezeleme","/kabiliyetler/kalite-kontrol → Kalite Kontrol","/endustriyel/havacilik-uzay → Havacılık & Uzay","/giris → Giriş Yapın","/sifremi-unuttum → Şifremi Unuttum","/reset-password → Yeni Şifre Belirleyin","/teklif-al → Hassas Fiyat Teklifi Alın"]
+  ✓   1 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:541:3 › QA — every table on a public route is reachable at its viewport › every table fits its viewport or lives in a real, focusable scroll region (34.2s)
+[qa-p08 header reach] 85 header cells over 12 routes
+  ✓   2 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:577:3 › QA — every table on a public route is reachable at its viewport › every table header can be brought fully inside the viewport (33.3s)
+  ✓   3 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:631:3 › QA — every table on a public route is reachable at its viewport › control — the checker accepts what ships and rejects R2-1's own numbers (7ms)
+  ✓   4 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:659:3 › QA — every table on a public route is reachable at its viewport › control — the checker rejects an overflow that is clipped rather than scrolled (7ms)
+  ✓   5 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:676:3 › QA — every table on a public route is reachable at its viewport › control — every walked route declares what it should render (4ms)
+  ✓   6 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:688:3 › QA — every table on a public route is reachable at its viewport › control — the surface checker rejects the two paths that were 404s (10ms)
+[qa-p08 dead routes] ["Bu profil kaydı bulunamadı · 0 tables · 768 chars","Bu sayfa kaydı bulunamadı · 0 tables · 667 chars","Bu koordinatta kayıt yok · 0 tables · 792 chars"]
+  ✓   7 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:718:3 › QA — every table on a public route is reachable at its viewport › live control — a real 404 is rejected by the surface check (6.2s)
+  ✓   8 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:758:3 › QA — every table on a public route is reachable at its viewport › control — the checker rejects a scrolling region no keyboard can reach (4ms)
+  ✓   9 [mobile-320] › e2e\qa-p08-scroll-region-reach.spec.ts:802:3 › QA — every table on a public route is reachable at its viewport › live control — build R2-1's geometry on the real page and the guard goes red (3.3s)
+  -  10 [mobile-320] › e2e\qa-p08-storage-disclosure.spec.ts:282:3 › QA — what the browser stores vs what /cerez-politikasi publishes › every stored key over every public route has a row in the published table
+  -  11 [mobile-320] › e2e\qa-p08-storage-disclosure.spec.ts:298:3 › QA — what the browser stores vs what /cerez-politikasi publishes › the rendered table and the STORAGE_ROWS constant are the same list
+  -  12 [mobile-320] › e2e\qa-p08-storage-disclosure.spec.ts:304:3 › QA — what the browser stores vs what /cerez-politikasi publishes › every cookie created on a public route is covered by the published disclosure
+  -  13 [mobile-320] › e2e\qa-p08-storage-disclosure.spec.ts:366:3 › QA — what the browser stores vs what /cerez-politikasi publishes › mas_intro_seen is written on the landing and not under reduced motion
+  -  14 [mobile-320] › e2e\qa-p08-storage-disclosure.spec.ts:398:3 › QA — what the browser stores vs what /cerez-politikasi publishes › the coverage check is red on an observed key nobody published
+  -  15 [mobile-320] › e2e\qa-p08-storage-disclosure.spec.ts:430:3 › QA — what the browser stores vs what /cerez-politikasi publishes › the coverage check is red on a published list that lost a row
+  -  16 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri
+  -  17 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri/ince-cidarli-govde
+  -  18 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri/titanyum-baglanti-parcasi
+  -  19 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri/hassas-mil
+  -  20 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kabiliyet-profilleri/__qa-no-such-profile__
+  -  21 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kalite-dosyasi
+  -  22 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /blog
+  -  23 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /blog/5-eksen-cnc-isleme-avantajlari
+  -  24 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /blog/__qa-no-such-post__
+  -  25 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /sss
+  -  26 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kvkk
+  -  27 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /gizlilik-politikasi
+  -  28 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /cerez-politikasi
+  -  29 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /kalite-dosyas
+  -  30 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:90:5 › QA — Phase 08 Wave B surface contract › exposes exactly one <h1> on /qa-zzz-nothing
+  -  31 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri
+  -  32 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri/ince-cidarli-govde
+  -  33 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri/titanyum-baglanti-parcasi
+  -  34 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri/hassas-mil
+  -  35 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kabiliyet-profilleri/__qa-no-such-profile__
+  -  36 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kalite-dosyasi
+  -  37 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /blog
+  -  38 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /blog/5-eksen-cnc-isleme-avantajlari
+  -  39 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /blog/__qa-no-such-post__
+  -  40 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /sss
+  -  41 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kvkk
+  -  42 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /gizlilik-politikasi
+  -  43 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /cerez-politikasi
+  -  44 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /kalite-dosyas
+  -  45 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:103:5 › QA — Phase 08 Wave B surface contract › has no serious or critical axe violation on /qa-zzz-nothing
+  ✓  46 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri (2.0s)
+  ✓  47 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri/ince-cidarli-govde (2.2s)
+  ✓  48 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri/titanyum-baglanti-parcasi (2.0s)
+  ✓  49 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri/hassas-mil (1.9s)
+  ✓  50 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kabiliyet-profilleri/__qa-no-such-profile__ (1.9s)
+  ✓  51 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kalite-dosyasi (2.1s)
+  ✓  52 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /blog (1.9s)
+  ✓  53 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /blog/5-eksen-cnc-isleme-avantajlari (1.9s)
+  ✓  54 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /blog/__qa-no-such-post__ (2.3s)
+  ✓  55 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /sss (2.3s)
+  ✓  56 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kvkk (2.2s)
+  ✓  57 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /gizlilik-politikasi (1.9s)
+  ✓  58 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /cerez-politikasi (2.2s)
+  ✓  59 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /kalite-dosyas (2.1s)
+  ✓  60 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:130:5 › QA — Phase 08 Wave B surface contract › reflows without horizontal scroll at 320 CSS px on /qa-zzz-nothing (1.9s)
+  -  61 [mobile-320] › e2e\qa-p08-waveb-contract.spec.ts:140:3 › QA — Phase 08 Wave B surface contract › keeps the /sss register keyboard-operable and free of a focus trap
+
+  37 skipped
+  24 passed (2.2m)

@@ -1,5 +1,6 @@
 import { useRef, type CSSProperties, type ReactNode } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useScroll, useSpring, useTransform } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 
 interface ReverseScrollSectionProps {

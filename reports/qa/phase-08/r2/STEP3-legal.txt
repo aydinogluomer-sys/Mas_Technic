@@ -1,0 +1,187 @@
+QA ROUND 2 — STEP 3: the legal texts, from the RENDERED DOM
+============================================================
+All quotations below are `innerText` read out of the running preview at
+b77be5c, not read out of `src/`. Raw capture: legal-rendered.json.
+
+/kvkk — madde 04 "Aktarım"
+--------------------------
+THREE CASES, ENUMERATED, GEMINI NAMED — verbatim:
+
+  "Kişisel verileriniz satılmaz ve pazarlama amacıyla üçüncü taraflara
+   devredilmez. Aktarım üç hâlde olur: yetkili kamu kurum ve kuruluşlarının
+   kanuna dayalı talebi; bu sitenin çalışması için kullanılan barındırma ile
+   veri tabanı altyapısının hizmet sağlayıcısı; ve sohbet asistanında yapay
+   zekâ onayı vermeniz hâlinde, o ana kadarki yazışmanın sitenin kendi sunucu
+   fonksiyonu üzerinden Google'ın Gemini servisine iletilmesi."
+
+NOTHING IS ASSERTED ABOUT GOOGLE AFTER RECEIPT — the document says so itself:
+
+  "Metnin Google'a ulaştıktan sonraki âkıbeti hakkında bu belge bir şey
+   söylemez: orası bizim göremediğimiz bir yer ve sizin adınıza
+   doğrulayamayacağımız bir şeyi burada yazmayız."
+
+  Adversarial pattern scan over the full rendered text of all three legal
+  routes (probe output above): NO retention period, NO deletion timetable, NO
+  encryption/SSL/TLS claim, NO confidentiality-agreement/NDA claim, NO
+  security-posture claim, and no sentence of the form
+  (Google|Gemini) ... (sakla|eğit|silin|imha|güvenli|koru|geçici olarak işle).
+  The one "imha takvimi" hit is madde 05's NEGATION — "Bu metin belirli bir
+  gün sayısı veya sabit bir imha takvimi taahhüt etmez" — which is the
+  opposite of a claim.
+  (Method note: an earlier pass with `\bNDA\b` produced three false hits.
+  JavaScript's `\b` is ASCII-only, so Turkish `ı` and `ş` count as word
+  boundaries and "kapsamında" matches `\bnda\b`. Worth knowing wherever a
+  Turkish corpus is scanned with word boundaries — `scripts/claims-gate.mjs`
+  included.)
+
+EXACTLY ONE LINK IN MADDE 04, AND NO FRAGMENT:
+  clause "Aktarım" anchors = [ { text: "Gizlilik Politikası",
+                                 href: "/gizlilik-politikasi",
+                                 hasHash: false } ]
+  The cross-reference is by number in prose: "Gizlilik Politikası'nın 06.
+  maddesindedir". The `MADDELER` index above still uses same-page `#`
+  anchors, which round 1 measured as working.
+
+UNCHANGED AND STILL TRUE: "satılmaz" present, "pazarlama amacıyla üçüncü
+taraflara devredilmez" present, clause 05's statutory wording present and
+followed by its explicit refusal of a fixed timetable.
+
+/kvkk — madde 02 brings the chat into scope:
+  "Aynı kural sayfaların köşesindeki sohbet kutusuna yazdığınız metin için de
+   geçerlidir: yazdıklarınız bir isim, bir telefon numarası veya bir firma
+   unvanı taşıyorsa o veri de bu metnin kapsamındadır. Sohbet metni sitenin
+   veri tabanına kaydedilmez; yalnızca yapay zekâ onayı verdiğiniz hâlde site
+   dışına aktarılır ve bu aktarım 04. maddede yazılıdır."
+
+/cerez-politikasi — madde 02
+-----------------------------
+FIVE STORAGE ROWS, RENDERED (from the DOM table, not STORAGE_ROWS):
+  1 sb-…-auth-token          localStorage    Çıkış yapana kadar
+  2 mas_chat_ai_count        localStorage    Gün sonuna kadar
+  3 mas_pending_cad_upload   sessionStorage  Form devralınca silinir
+  4 mas_intro_seen           sessionStorage  Sekme kapanana kadar
+  5 mas-technic-theme        localStorage    Siz silene kadar
+
+MADDE 01'S COMPLETENESS SENTENCE IS BYTE-UNCHANGED. `diff` of the source
+block at aae3536 against HEAD is empty:
+  "Bu, sitenin tarayıcınızda hiçbir şey saklamadığı anlamına gelmez.
+   Sakladığı şeyler çerez değil, tarayıcınızın kendi yerel deposundaki
+   kayıtlar; hepsi 02. maddede listelenmiştir."
+
+The new row's four claims, against `index.html:294-316`: verified separately
+in STEP4-storage.txt.
+
+=============================================================================
+DEFECT R2-1 (BLOCKING) — THE STORAGE TABLE LOSES THREE OF ITS FOUR COLUMNS
+BELOW 768 px, AND NOTHING SCROLLS
+=============================================================================
+The packet asked me to LOOK at the table, because no golden covers the legal
+routes (`e2e/visual/wave-b-golden.spec.ts:37` says so deliberately). I did.
+Screenshot: shots/cerez-viewport-375.png and shots/cerez-375-after-scroll-attempts.png.
+
+MEASURED at 320 / 375 / 390:
+  viewport 375   table width 583.9 px, left edge x=43, right edge 626.9
+  header cells   KAYIT [43..256] VISIBLE
+                 DEPO  [256..385.2] OFF-SCREEN
+                 NE İŞE YARAR [385.2..530.3] OFF-SCREEN
+                 SÜRE  [530.3..626.9] OFF-SCREEN
+  every one of the five rows shows ONLY its key; the purpose cell and the
+  lifetime cell of ALL FIVE records are outside the viewport.
+  At 390 `DEPO` becomes visible; columns 3 and 4 never do below 768.
+  At 768 and 1280 the table fits and reads correctly.
+
+IT IS NOT MERELY OFF-SCREEN, IT IS UNREACHABLE (table-reach.json):
+  · horizontal wheel over the table: window.scrollX stays 0, the fourth
+    header's right edge stays at 626.875
+  · `scrollLeft = 9999` forced on EVERY ancestor from <table> to
+    <documentElement>: every single one stays at 0
+  · `window.scrollTo(9999, y)`: scrollX stays 0
+  · `.shell-table-scroll` carries NO `tabindex` and NO `role`, so there is no
+    keyboard route either
+  · `document.documentElement.scrollWidth - clientWidth = 0`
+  `div.shell-root` computes `overflow-x: clip`, which — unlike `hidden` — is
+  not programmatically scrollable. The columns are gone.
+
+WHY THE REPOSITORY'S OWN GUARDS ARE ALL GREEN ON IT:
+  · the reflow assertion measures `scrollWidth - clientWidth <= 1`, which is
+    satisfied precisely BECAUSE an ancestor clips (round 1: 15/15 at mobile-320)
+  · axe has no rule for content clipped out of a `overflow: clip` ancestor
+  · `e2e/visual/wave-b-golden.spec.ts:37` deliberately covers no legal route
+  So three independent instruments pass a page that is missing three quarters
+  of its most important table on a phone.
+
+IT IS NOT THE FIFTH ROW'S FAULT — measured, in the browser, by hiding the
+`mas_intro_seen` row and re-measuring:
+  with 5 rows  tableW 583.9  cols [213, 129.2, 145.1, 96.5]
+  with 4 rows  tableW 583.9  cols [213, 129.2, 145.1, 96.5]   IDENTICAL
+  The row does make the damage far more visible: at 375 it is 246.5 px tall
+  (vs 85–126 px for the others) because its long third cell wraps to eight
+  invisible lines, leaving a quarter-screen of blank paper in the visible
+  strip. But the clip predates C3 and belongs to Phase 08, which created this
+  table: `git show 7dcfb65~1:src/pages/CerezPolitikasi.tsx` contains no table
+  at all; it arrives in `36c3980`, inside the Phase 08 range.
+
+IT IS UNIQUE TO THIS ONE SURFACE — every other ShellSpecTable behaves
+CORRECTLY (table-blastradius.json, 375 px):
+  route                                        figure w   scrolls  tabindex
+  /blog/havacilik-...malzeme-secimi               333        yes       0
+  /kalite-dosyasi                                 333        n/a fits  -
+  /hizmetler/cnc-frezeleme  (4 tables)            333        yes       0
+  /malzemeler (MaterialRegister)                  333        yes       -
+  /cerez-politikasi                             585.9        NO       null
+
+ROOT CAUSE, MEASURED (table-container.json, the containing block of
+`figure.shell-table` at 375):
+  /blog                 parent div.shell-doc-table                display block, w 333
+  /kalite-dosyasi       parent div.shell-span-read shell-stack    grid-template-columns: 333px
+  /hizmetler/...        parent div.shell-span-full shell-stack    grid-template-columns: 333px
+  /cerez-politikasi     parent div.shell-stack                    grid-template-columns: 585.875px
+  `CerezPolitikasi.tsx:133` wraps the table in a BARE `<div className=
+  "shell-stack" data-gap="sm">` with no `shell-span-*` class and no
+  `shell-doc-table`. `.shell-stack` (shell.css:1098) sets `min-width: 0` on
+  ITSELF but its implicit grid track is `auto`, so the track resolves to the
+  table's 585.875 px max-content width instead of the 333 px content column.
+  The figure then never overflows its wrapper, `.shell-table-scroll`'s
+  `overflow-x: auto` (shell.css:1299) never engages, and
+  `useScrollableRegionAccess` — which grants the tabindex only
+  `if (isScrollable(element))` (useScrollableRegionAccess.ts:160) — grants
+  nothing. The escape hatch the primitive's own comment promises ("so a narrow
+  viewport scrolls the data", ShellComposition.tsx:203) is inert here.
+
+SMALLEST FIX: give that wrapper the same span class the other document
+surfaces use (`shell-span-read` / `shell-span-full`), or put the figure in
+`.shell-doc-table` as the journal article does — one class on
+`src/pages/CerezPolitikasi.tsx:133`. A `min-width: 0` on `.shell-stack > *`
+would fix the class of defect rather than the instance; that is a design call,
+not QA's. QA does not make production edits.
+
+WHY IT BLOCKS: Phase 08 criterion 2 requires the legal surfaces to share the
+global design system; this is the only one of eight ShellSpecTable surfaces
+that does not get the shell's table behaviour. The mandatory task list names
+"tables" explicitly. And the document's central completeness claim — "hepsi
+02. maddede listelenmiştir" — points a mobile reader at a table whose purpose
+and lifetime columns they cannot read by any means.
+
+=============================================================================
+OBSERVATIONS (not blocking, recorded)
+=============================================================================
+O1. Madde 04 opens a CLOSED list — "Aktarım üç hâlde olur" — and its FOURTH
+    paragraph then describes a further transfer: "Bir işin yürütülmesi için
+    üçüncü bir tedarikçiye teknik dosya iletilmesi gerekiyorsa, bu ancak
+    sizin bilginiz dâhilinde yapılır." That is the same shape as the defect
+    C3 just fixed, one paragraph lower. It is PRE-EXISTING (the sentence is
+    unchanged context in the C3 diff; the tension existed at "iki hâlde" too)
+    and it is hedged and conditional, so I do not raise it to blocking. But
+    "üç hâlde" is now a stronger closed claim than "iki hâlde" was, and the
+    supplier case is a fourth. Either fold it into the enumeration or stop
+    counting.
+O2. The note under the storage table says "hiçbiri üçüncü bir tarafa
+    aktarılmaz". `sb-…-auth-token` is sent to Supabase on every authenticated
+    request. Defensible under the document's own vocabulary (madde 04 treats
+    the hosting/database provider as infrastructure, not a third party) and
+    pre-existing, but the two sentences are in tension for a literal reader.
+O3. "Aktarılan tek şey yazışma metnidir" — the request body also carries the
+    site's own `system_instruction` and `generationConfig`
+    (supabase/functions/chat/index.ts). Neither is the visitor's data and the
+    sentence sits inside a paragraph about the visitor's identifying data, so
+    it is defensible; noted for exactness.

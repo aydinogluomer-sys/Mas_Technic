@@ -1,0 +1,11 @@
+(node:16456) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:19480) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  1 [desktop-1280] › e2e\qa-p09a3-cad-dom.spec.ts:112:3 › 09a-R3 — the C3 corrections in the rendered DOM › no page offers a CAD format the validator refuses, and the carried claims are gone (13.6s)
+  ✓  2 [desktop-1280] › e2e\qa-p09a3-cad-dom.spec.ts:201:3 › 09a-R3 — the C3 corrections in the rendered DOM › every comparison table paints as many header cells as its rows have cells (8.0s)
+
+  2 passed (23.3s)

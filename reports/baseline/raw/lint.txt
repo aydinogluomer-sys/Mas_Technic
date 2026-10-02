@@ -1,0 +1,11 @@
+
+> vite_react_shadcn_ts@0.0.0 lint
+> eslint .
+
+
+C:\Users\Trade Bilisim\pdh-wt\coder-p00\src\components\technical-landing\TechnicalHeader.tsx
+  43:18  warning  The ref value 'triggerRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'triggerRef.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+
+✖ 1 problem (0 errors, 1 warning)
+
+EXIT=0

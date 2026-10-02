@@ -1,0 +1,32 @@
+TITLE: Çerez Politikası | Mas Technic
+META: Mas Technic çerez politikası — sitenin kendi sayfaları çerez oluşturmaz, giriş sayfasındaki hCaptcha bileşeni bir çerez oluşturur; tarayıcınızda tutulan yerel depo kayıtları, süreleri ve nasıl silinecekleri.
+H1: Çerez Politikası
+LEDE: Bu sitenin kendi sayfaları çerez oluşturmuyor; giriş sayfasındaki güvenlik bileşeni bir tane oluşturuyor. Tarayıcınızda tutulan kayıtların tamamı madde 02’de tek tek listelenmiştir.
+--- [01] cerez-kullanimi :: Çerezler ve tek istisna
+   p0: Bu sitenin kendi sayfaları tarayıcınızda çerez oluşturmuyor. Reklam çerezi, analitik çerezi, etiket yöneticisi, reklam pikseli ve oturum kaydı yazılımı da yok.
+   p1: Tek istisna giriş sayfasıdır ve kendi cümlesini hak ediyor: giriş sayfası açıldığında, formu otomatik giriş denemelerine karşı koruyan hCaptcha bileşeni yükleniyor ve tarayıcınızda __cf_bm adında bir çerez oluşuyor. Çerez hcaptcha.com alan adına aittir, ömrü otuz dakikadır, httpOnly işaretlidir — yani sayfa betikleri onu okuyamaz — ve yalnızca hcaptcha.com’a giden isteklerle gönderilir. Bileşen sayfa açılır açılmaz yükleniyor; bunun için bir şeye tıklamanız gerekmiyor. Ne olduğu 03. maddede yazıyor.
+   p2: Bu, sitenin tarayıcınızda hiçbir şey saklamadığı anlamına gelmez. Sakladığı şeyler çerez değil, tarayıcınızın kendi yerel deposundaki kayıtlar; hepsi 02. maddede listelenmiştir.
+   links: [{"href":"/giris","text":"giriş sayfası"}]
+   codes: ["__cf_bm","hcaptcha.com","httpOnly"]
+--- [02] tarayici-kayitlari :: Tarayıcınızda tutulan kayıtlar
+   p0: Bu kayıtların hiçbiri reklam veya profilleme amacı taşımaz. Tarayıcınız bunları kendiliğinden hiçbir yere göndermez; tek istisna oturum anahtarıdır — giriş yaptıysanız sitenin barındırma ve veri tabanı altyapısına yapılan isteklere eklenir, çünkü oturumunuzu açık tutan şey odur. Bu aktarım KVKK Aydınlatma Metni’nin 04. maddesinde sayılıdır.
+   links: [{"href":"/kvkk","text":"KVKK Aydınlatma Metni"}]
+   codes: []
+--- [03] ucuncu-taraf :: Üçüncü taraf istekleri
+   p0: Tarayıcınızın bu sitenin dışına istek gönderdiği üç yer var. Üçü de burada.
+   p1: Birincisi her sayfada: yazı tipleri harici bir yazı tipi dağıtım ağından yüklenir; tarayıcınız o sunucuya bir istek gönderir ve sunucu bu isteğe bağlı olarak IP adresinizi görür. Bu istek çerez oluşturmaz.
+   p2: İkincisi yalnızca giriş sayfasında: form, otomatik giriş denemelerine karşı hCaptcha ile korunuyor. Bileşen sayfa açılır açılmaz yükleniyor — siz bir şey yapmadan ve onayınız istenmeden — tarayıcınız hcaptcha.com alan adındaki sunuculara istek gönderir, sayfaya oradan iki çerçeve gömülür ve 01. maddede anlatılan __cf_bm çerezi oluşur. İsteği alan sunucular, her istekte olduğu gibi, IP adresinizi ve tarayıcı bilginizi görür. Bundan sonrasını — orada ne olduğunu — bu metin anlatmıyor; göremediğimiz bir yer için sizin adınıza bir şey taahhüt etmiyoruz.
+   p3: Üçüncüsü sohbet asistanınındır: yapay zekâ onayı verirseniz yazışmanız Google’ın Gemini servisine iletilir. O çerez oluşturmaz, ama burada listelenen kayıtlardan farklı olarak tarayıcınızda kalmaz — bu yüzden tam olarak nereye gittiği Gizlilik Politikası’nın 06. maddesinde yazıyor.
+   p4: Bu üçünün dışında sayfalarda gömülü üçüncü taraf video, harita, reklam veya sosyal medya bileşeni bulunmuyor.
+   links: [{"href":"/giris","text":"giriş sayfasında"},{"href":"/gizlilik-politikasi","text":"Gizlilik Politikası"}]
+   codes: ["hcaptcha.com","__cf_bm"]
+--- [04] yonetim :: Kayıtları silmek
+   p0: 02. maddedeki kayıtları tarayıcınızın ayarlarından — “site verilerini temizle” ya da geliştirici araçlarındaki Uygulama / Depolama bölümünden — istediğiniz zaman silebilirsiniz. Silmek sitenin çalışmasını engellemez; yalnızca varsa açık oturumunuz kapanır ve hatırlanan tercih sıfırlanır.
+   p1: 01. maddedeki __cf_bm çerezi bu sitenin alan adına değil hcaptcha.com’a ait olduğu için, bu sitenin verilerini temizlemek onu silmez; tarayıcınızın çerez listesinden ayrıca silinir ya da otuz dakika içinde kendiliğinden düşer.
+   p2: Silinecek bir izleme kaydı olmadığı için ayrıca bir “çerez tercihleri” penceresi de gösterilmiyor. Onay istenecek bir işleme yapılmıyorsa, onay penceresi bilgi vermez; yalnızca sayfanın önünü kapatır.
+   links: []
+   codes: ["__cf_bm"]
+--- [05] iletisim :: İletişim
+   p0: Bu metinle ilgili sorularınız için sales@mastechnic.com adresine yazabilirsiniz. Kişisel verilerin işlenmesine ilişkin çerçeve KVKK Aydınlatma Metni’nde, sitenin genel gizlilik davranışı Gizlilik Politikası’nda yer alır.
+   links: [{"href":"/kvkk","text":"KVKK Aydınlatma Metni"},{"href":"/gizlilik-politikasi","text":"Gizlilik Politikası"}]
+   codes: []

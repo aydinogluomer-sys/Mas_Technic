@@ -1,0 +1,70 @@
+test(qa): round 3 step 2 — the guard that would have caught R2-1, and it caught a second one on its first run
+
+`e2e/qa-p08-scroll-region-reach.spec.ts`. Six tests, three lanes
+(mobile-320, mobile-375, desktop-1280), 16 tables over 8 of 22 public routes,
+64 header cells.
+
+IT IS NOT BUILT ON THE PREDICATE THE PACKET PROPOSED, and step 1 is why:
+`scrollWidth <= clientWidth + 1 || isScrollable(el)` measured TRUE on R2-1 at
+320, 375 and 390 in a live A/B, because the pre-fix scroll region FIT ITS OWN
+BOX (584 content in a 584 box) and was simply 627.875px wide in a 375px
+viewport. The failure is one level above where that expression looks.
+
+So it walks every `<table>` — not a class; a class-keyed walk cannot see a
+table whose wrapper changed, and the landing's `.tl-nexus-table-wrap` is
+already a second wrapper — finds its nearest scrolling ancestor, and asks four
+questions in order: does the table already fit the viewport; is the CONTAINER'S
+OWN BOX inside the viewport (this is the R2-1 rule); driven to maximum scroll
+does the table's right edge come inside; and can a keyboard reach it. Then, as
+a separate test, the symptom: can every header cell's start AND end be brought
+inside the viewport.
+
+FOUR CONTROLS. Three feed `unreachableTables()` records it must reject —
+R2-1's own measured numbers as a permanent fixture, a clipped overflow, and a
+scroller with no focus stop — and one is live: it restores the pre-C4 markup in
+the DOM of the real page and requires the guard to go red. That last one is the
+one that matters; the other three only prove the comparison is not hollow.
+
+TWO OF MY OWN INSTRUMENT BUGS, FOUND AND FIXED BEFORE THIS WAS TRUSTED:
+
+  · the first version walked on `gotoAndSettle` alone and reported ZERO tables
+    on `/malzemeler`, which has one. Same vacuous-measurement shape as the
+    storage spec's first version. It now settles the network per route AND
+    asserts a per-route floor against a measured census, so a walk that
+    measures nothing can no longer pass everything under it.
+  · the header sweep targeted `cell.offsetLeft - table.offsetLeft`, which
+    assumes cell and table share an offsetParent. On `/kabiliyetler/kalite-
+    kontrol`'s three tables they do not; it under-scrolled ~44px and reported
+    four reachable columns as lost. It now computes the target from live rects,
+    and asks start-reachable and end-reachable separately, because a header
+    cell can be WIDER than its port (282.6px in a 278px port at 320) and no
+    scroll position frames it whole — WCAG 1.4.10 permits that for tabular
+    data and I am not going to fail a table a reader can read.
+
+RESULT
+
+  mobile-375   6 passed
+  desktop-1280 5 passed, 1 skipped (the live control is a narrow-width defect)
+  mobile-320   4 passed, 2 FAILED — one finding, reported twice
+
+FINDING R3-1, PRE-EXISTING, NOT PHASE 08's. `/hizmetler/cnc-frezeleme`, the
+`CNC Frezeleme — malzeme kaydı` table, at 320 ONLY:
+
+    the scroll container's own box runs 42 .. 337.078 in a 320px viewport
+    "Özellik" (108.58px in a 293px port) start=ok end=lost at 336.08
+
+295.078px wide — the same number round 2 recorded as a marginal Wave A
+observation. Same mechanism as R2-1: `div.shell-span-full shell-stack`, an auto
+grid track that cannot shrink below the figure's min-content. Attribution
+checked at source: Phase 08's full diff (7dcfb65~1..49a1af6) touches neither
+the page nor its data, and its `shell.css` and `ShellComposition.tsx` diffs
+contain NO occurrence of `shell-stack`, `shell-span-full` or `shell-table` —
+they only add `.shell-doc-*`, `.shell-faq-*`, `.shell-notfound-*`,
+`.shell-contents` and `.shell-notice`. Phase 07's surface, and the same one
+class of fix.
+
+I am not weakening the assertion to hide it. R2-3 is the precedent: a red the
+phase did not cause, reported and handed up.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01PU8PxAzhQSjnrAaemT7bQ5

@@ -1,0 +1,57 @@
+﻿WRONG # 1 want=catch  got=SILENT "30+ yeni tezgah ile üretim",
+WRONG # 2 want=catch  got=SILENT "40+ farklı paslanmaz alaşım stoklanır",
+WRONG # 3 want=catch  got=SILENT "15+ alüminyum alaşımı ile hassas üretim",
+WRONG # 4 want=catch  got=SILENT "20+ renk seçeneği",
+WRONG # 5 want=catch  got=SILENT "1000+ ünite/gün kapasite",
+WRONG # 6 want=catch  got=SILENT "18+ sektöre hizmet",
+WRONG # 7 want=catch  got=SILENT "60+ tedarikçi ağı",
+WRONG # 8 want=catch  got=SILENT "200+ ürün ailesi",
+WRONG # 9 want=catch  got=SILENT "12+ marka için üretim",
+WRONG #10 want=catch  got=SILENT <p>{materialsData.length}+ malzeme ve alaşım</p>,
+WRONG #11 want=catch  got=SILENT <span>{projects.length}+ proje teslim edildi</span>,
+WRONG #12 want=catch  got=SILENT <span>{n} farklı malzeme çeşidi</span>,
+WRONG #13 want=catch  got=SILENT <span>{n} tezgah sayısı</span>,
+WRONG #14 want=catch  got=SILENT const a = `${count}+ parça`;
+WRONG #15 want=catch  got=SILENT const b = `${count}+ malzemeler`;
+WRONG #16 want=catch  got=SILENT <p>{materialsData.length}&#43; malzeme</p>,
+ok   #17 want=catch  got=FIRED  [2 bin çalışan] "2 bin çalışan",
+ok   #18 want=silent got=SILENT "60-70 HRC sertlik",
+ok   #19 want=silent got=SILENT "60+ HRC yüzey sertliği",
+ok   #20 want=silent got=SILENT "1100+ MPa akma dayanımı",
+ok   #21 want=silent got=SILENT "950+ MPa çekme dayanımı",
+ok   #22 want=silent got=SILENT "1.000.000+ çevrim yorulma testi",
+ok   #23 want=silent got=SILENT "500.000+ çevrim",
+ok   #24 want=silent got=SILENT "10.000+ çevrim dayanım",
+ok   #25 want=silent got=SILENT "500+ saat (ASTM B117) tuz püskürtme",
+ok   #26 want=silent got=SILENT "1000+ saat tuz testi",
+ok   #27 want=silent got=SILENT "1000+ otoklav döngüsü",
+ok   #28 want=silent got=SILENT "16+ kavite kalıp",
+ok   #29 want=silent got=SILENT "2000N+ tutma kuvveti",
+ok   #30 want=silent got=SILENT "25+ yıl mühendislik deneyimi",
+ok   #31 want=silent got=SILENT "5 eksen simultane işleme",
+ok   #32 want=silent got=SILENT "85µm+ kaplama kalınlığı",
+ok   #33 want=silent got=SILENT "±0.01mm tolerans",
+ok   #34 want=silent got=SILENT "CT4-CT6 kalıp toleransı",
+ok   #35 want=silent got=SILENT "CT5-CT7 enjeksiyon toleransı",
+ok   #36 want=silent got=SILENT "ΔE ≤ 2.0 renk homojenliği",
+ok   #37 want=silent got=SILENT "M3 (1.5-2.0 Nm), M12 (60-70 Nm) ±5% tork",
+ok   #38 want=silent got=SILENT "10-500 adet küçük seri",
+ok   #39 want=silent got=SILENT const s1 = { renk: 1 };
+ok   #40 want=silent got=SILENT <X onSel={(r) => setRenk(r)} renk={renk} />,
+ok   #41 want=silent got=SILENT <Y {...props} model={model} />,
+ok   #42 want=silent got=SILENT <b>{title}</b> malzeme,
+ok   #43 want=silent got=SILENT const s2 = "" + malzemeAdi;
+ok   #44 want=silent got=SILENT const s3 = `x` + modelKodu;
+ok   #45 want=silent got=SILENT function f() { return 1; } + 2;
+ok   #46 want=silent got=SILENT const s4 = t("renkSecenegi") + " ";
+WRONG #47 want=catch  got=SILENT { label: "CNC Seri Kapasite", value: "50.000 adet/yıl" },
+WRONG #48 want=catch  got=SILENT "CNC Seri Üretim — 50.000 adet/yıl, ±0.01mm tolerans",
+WRONG #49 want=catch  got=SILENT { label: "Üretim Adedi", value: "100-10K adet/yıl" },
+WRONG #50 want=catch  got=SILENT { label: "Kapasite", value: "1000+ ünite/gün" },
+WRONG #51 want=catch  got=SILENT "Basınçlı Döküm — 500.000 adet/yıl, CT4-CT6",
+ok   #52 want=silent got=SILENT <p>{materialsData.length}+
+ok   #53 want=silent got=SILENT <p>{materialsData.length}{"+"} malzeme ve alaşım</p>,
+ok   #54 want=silent got=SILENT <p>{materialsData.length} adet malzeme</p>,
+ok   #55 want=silent got=SILENT "40+ çok farklı özel alaşım",
+
+TOTAL 55  WRONG 21

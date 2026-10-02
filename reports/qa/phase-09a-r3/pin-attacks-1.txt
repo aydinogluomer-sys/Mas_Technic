@@ -1,0 +1,10 @@
+A0-control-append-dwg                      tsc=2 gate=1  caught by tsc + gate
+A1-reorder-same-content                    tsc=2 gate=1  caught by tsc + gate
+A2-shorten-drop-3mf                        tsc=2 gate=1  caught by tsc + gate
+A3-case-change                             tsc=2 gate=1  caught by tsc + gate
+A4-drop-as-const                           tsc=2 gate=0  caught by tsc
+A5-widen-readonly-string-array             tsc=2 gate=0  caught by tsc
+A10-pinned-file-prose-offer                tsc=0 gate=0  *** HOLE — BOTH INSTRUMENTS GREEN ***
+A11-other-pinned-file-prose-offer          tsc=0 gate=0  *** HOLE — BOTH INSTRUMENTS GREEN ***
+
+working tree verified clean after every attack.

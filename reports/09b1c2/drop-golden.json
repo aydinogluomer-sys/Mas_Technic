@@ -1,0 +1,33 @@
+{
+  "baseline": {
+    "width": 1280,
+    "height": 3918
+  },
+  "report": {
+    "found": true,
+    "rect": {
+      "x": 369,
+      "y": 3531,
+      "w": 405,
+      "h": 108
+    },
+    "documentHeight": 3954,
+    "before": {
+      "borderColor": "rgb(154, 160, 156)",
+      "borderStyle": "dashed",
+      "borderWidth": "1px"
+    },
+    "after": {
+      "borderColor": "rgba(18, 23, 25, 0.54)",
+      "borderStyle": "dashed",
+      "borderWidth": "1px"
+    },
+    "perimeterPx": 1026
+  },
+  "diff": {
+    "changed": 708,
+    "maxDelta": 41,
+    "total": 43740
+  },
+  "inside": true
+}

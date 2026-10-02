@@ -1,0 +1,44 @@
+(node:7924) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 32 tests using 1 worker
+
+(node:25712) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   1 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:281:3 › Shared public shell accessibility › keeps the skip link above the closed header and below the modal (2.3s)
+  -   2 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:297:3 › Shared public shell accessibility › derives an exhaustive 99-path public route and shell ownership contract
+  -   3 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:337:3 › Shared public shell accessibility › keeps all 95 canonical full-shell routes on one header/footer contract
+  -   4 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:423:3 › Shared public shell accessibility › keeps declared public and panel shell exceptions explicit
+  ✓   5 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:467:3 › Shared public shell accessibility › keeps the dialog fixed, isolated, keyboard bounded, and restorable (4.6s)
+  ✓   6 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:524:3 › Shared public shell accessibility › makes mobile footer disclosures semantic and removes closed links from Tab order (3.3s)
+  ✓   7 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:561:3 › Shared public shell accessibility › keeps footer CTA and legal controls reachable, stable, and unobscured (6.2s)
+  ✓   8 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:589:3 › Shared public shell accessibility › keeps every footer control unobscured in natural forward and reverse keyboard order (9.6s)
+  -   9 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:599:3 › Shared public shell accessibility › preserves footer reflow at a 400 percent equivalent CSS viewport
+  ✓  10 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:612:3 › Shared public shell accessibility › supports WCAG text spacing without clipping footer content (3.5s)
+  -  11 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:635:3 › Shared public shell accessibility › retains visible footer focus indicators in forced-colors mode
+  ✓  12 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:677:3 › Shared public shell accessibility › honors four-edge safe-area tokens in the closed header, modal and footer (4.3s)
+  -  13 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:781:3 › Shared public shell accessibility › renders footer content immediately and uses non-smooth scroll under reduced motion
+  -  14 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:845:3 › Shared public shell accessibility › has no serious or critical axe violations in the closed shared shell
+  -  15 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:859:3 › Shared public shell accessibility › records whole-page axe evidence and isolates documented non-shell debt
+  -  16 [mobile-320] › e2e\shared-shell-accessibility.spec.ts:956:3 › Shared public shell accessibility › preserves shell reflow and focus access at 200 percent text size
+(node:27796) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  -  17 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:281:3 › Shared public shell accessibility › keeps the skip link above the closed header and below the modal
+  -  18 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:297:3 › Shared public shell accessibility › derives an exhaustive 99-path public route and shell ownership contract
+  -  19 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:337:3 › Shared public shell accessibility › keeps all 95 canonical full-shell routes on one header/footer contract
+  -  20 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:423:3 › Shared public shell accessibility › keeps declared public and panel shell exceptions explicit
+  ✓  21 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:467:3 › Shared public shell accessibility › keeps the dialog fixed, isolated, keyboard bounded, and restorable (5.8s)
+  -  22 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:524:3 › Shared public shell accessibility › makes mobile footer disclosures semantic and removes closed links from Tab order
+  ✓  23 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:561:3 › Shared public shell accessibility › keeps footer CTA and legal controls reachable, stable, and unobscured (4.3s)
+  -  24 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:589:3 › Shared public shell accessibility › keeps every footer control unobscured in natural forward and reverse keyboard order
+  -  25 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:599:3 › Shared public shell accessibility › preserves footer reflow at a 400 percent equivalent CSS viewport
+  -  26 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:612:3 › Shared public shell accessibility › supports WCAG text spacing without clipping footer content
+  -  27 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:635:3 › Shared public shell accessibility › retains visible footer focus indicators in forced-colors mode
+  -  28 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:677:3 › Shared public shell accessibility › honors four-edge safe-area tokens in the closed header, modal and footer
+  -  29 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:781:3 › Shared public shell accessibility › renders footer content immediately and uses non-smooth scroll under reduced motion
+  -  30 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:845:3 › Shared public shell accessibility › has no serious or critical axe violations in the closed shared shell
+  -  31 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:859:3 › Shared public shell accessibility › records whole-page axe evidence and isolates documented non-shell debt
+  -  32 [tablet-768] › e2e\shared-shell-accessibility.spec.ts:956:3 › Shared public shell accessibility › preserves shell reflow and focus access at 200 percent text size
+
+  23 skipped
+  9 passed (1.1m)

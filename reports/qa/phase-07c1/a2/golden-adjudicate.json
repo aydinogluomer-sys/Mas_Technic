@@ -1,0 +1,727 @@
+[
+  {
+    "name": "win32/visual-1280/shell-footer-about.png",
+    "w": 1278,
+    "h": 298,
+    "disc": 2704,
+    "stray": 222,
+    "brighter": 222,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 1207,
+      "y0": 150,
+      "x1": 1262,
+      "y1": 205,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 1200,
+      "y0": 191,
+      "x1": 1269,
+      "y1": 213,
+      "w": 70,
+      "h": 23
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-1280/shell-footer-journal.png",
+    "w": 1278,
+    "h": 299,
+    "disc": 2704,
+    "stray": 222,
+    "brighter": 222,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 1207,
+      "y0": 151,
+      "x1": 1262,
+      "y1": 206,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 1200,
+      "y0": 192,
+      "x1": 1269,
+      "y1": 214,
+      "w": 70,
+      "h": 23
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-1280/shell-footer-notfound.png",
+    "w": 1278,
+    "h": 299,
+    "disc": 2704,
+    "stray": 222,
+    "brighter": 222,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 1207,
+      "y0": 150,
+      "x1": 1262,
+      "y1": 205,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 1200,
+      "y0": 191,
+      "x1": 1269,
+      "y1": 213,
+      "w": 70,
+      "h": 23
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-1280/shell-footer-rfq.png",
+    "w": 1278,
+    "h": 298,
+    "disc": 2704,
+    "stray": 222,
+    "brighter": 222,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 1207,
+      "y0": 150,
+      "x1": 1262,
+      "y1": 205,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 1200,
+      "y0": 191,
+      "x1": 1269,
+      "y1": 213,
+      "w": 70,
+      "h": 23
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-1280/shell-footer-service.png",
+    "w": 1278,
+    "h": 298,
+    "disc": 2704,
+    "stray": 222,
+    "brighter": 222,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 1207,
+      "y0": 149,
+      "x1": 1262,
+      "y1": 204,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 1200,
+      "y0": 190,
+      "x1": 1269,
+      "y1": 212,
+      "w": 70,
+      "h": 23
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-1440/shell-footer-about.png",
+    "w": 1438,
+    "h": 298,
+    "disc": 2704,
+    "stray": 222,
+    "brighter": 222,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 1367,
+      "y0": 150,
+      "x1": 1422,
+      "y1": 205,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 1360,
+      "y0": 191,
+      "x1": 1429,
+      "y1": 213,
+      "w": 70,
+      "h": 23
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-1440/shell-footer-journal.png",
+    "w": 1438,
+    "h": 299,
+    "disc": 2704,
+    "stray": 222,
+    "brighter": 222,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 1367,
+      "y0": 150,
+      "x1": 1422,
+      "y1": 205,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 1360,
+      "y0": 191,
+      "x1": 1429,
+      "y1": 213,
+      "w": 70,
+      "h": 23
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-1440/shell-footer-notfound.png",
+    "w": 1438,
+    "h": 299,
+    "disc": 2704,
+    "stray": 222,
+    "brighter": 222,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 1367,
+      "y0": 151,
+      "x1": 1422,
+      "y1": 206,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 1360,
+      "y0": 192,
+      "x1": 1429,
+      "y1": 214,
+      "w": 70,
+      "h": 23
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-1440/shell-footer-rfq.png",
+    "w": 1438,
+    "h": 298,
+    "disc": 2704,
+    "stray": 222,
+    "brighter": 222,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 1367,
+      "y0": 150,
+      "x1": 1422,
+      "y1": 205,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 1360,
+      "y0": 191,
+      "x1": 1429,
+      "y1": 213,
+      "w": 70,
+      "h": 23
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-1440/shell-footer-service.png",
+    "w": 1438,
+    "h": 298,
+    "disc": 2704,
+    "stray": 222,
+    "brighter": 222,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 1367,
+      "y0": 150,
+      "x1": 1422,
+      "y1": 205,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 1360,
+      "y0": 191,
+      "x1": 1429,
+      "y1": 213,
+      "w": 70,
+      "h": 23
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-375/inner-hero-material-family.png",
+    "w": 375,
+    "h": 557,
+    "disc": 334,
+    "stray": 2,
+    "brighter": 2,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 315,
+      "y0": 546,
+      "x1": 354,
+      "y1": 556,
+      "w": 40,
+      "h": 11
+    },
+    "strayBox": {
+      "x0": 314,
+      "y0": 556,
+      "x1": 355,
+      "y1": 556,
+      "w": 42,
+      "h": 1
+    },
+    "maxDiscDelta": 127,
+    "maxOutsideDisc": 1,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-375/inner-hero-sector-detail.png",
+    "w": 375,
+    "h": 614,
+    "disc": 1996,
+    "stray": 196,
+    "brighter": 196,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 311,
+      "y0": 546,
+      "x1": 358,
+      "y1": 593,
+      "w": 48,
+      "h": 48
+    },
+    "strayBox": {
+      "x0": 306,
+      "y0": 545,
+      "x1": 363,
+      "y1": 601,
+      "w": 58,
+      "h": 57
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 1,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-375/inner-hero-service-detail.png",
+    "w": 375,
+    "h": 625,
+    "disc": 2004,
+    "stray": 188,
+    "brighter": 188,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 311,
+      "y0": 546,
+      "x1": 358,
+      "y1": 593,
+      "w": 48,
+      "h": 48
+    },
+    "strayBox": {
+      "x0": 308,
+      "y0": 591,
+      "x1": 361,
+      "y1": 601,
+      "w": 54,
+      "h": 11
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 1,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-375/inner-next-sector-detail.png",
+    "w": 375,
+    "h": 549,
+    "disc": 214,
+    "stray": 2,
+    "brighter": 0,
+    "darker": 2,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 318,
+      "y0": 541,
+      "x1": 351,
+      "y1": 548,
+      "w": 34,
+      "h": 8
+    },
+    "strayBox": {
+      "x0": 317,
+      "y0": 548,
+      "x1": 352,
+      "y1": 548,
+      "w": 36,
+      "h": 1
+    },
+    "maxDiscDelta": 127,
+    "maxOutsideDisc": 30,
+    "maxStrayDarker": 30
+  },
+  {
+    "name": "win32/visual-375/inner-next-service-detail.png",
+    "w": 375,
+    "h": 549,
+    "disc": 214,
+    "stray": 2,
+    "brighter": 0,
+    "darker": 2,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 318,
+      "y0": 541,
+      "x1": 351,
+      "y1": 548,
+      "w": 34,
+      "h": 8
+    },
+    "strayBox": {
+      "x0": 317,
+      "y0": 548,
+      "x1": 352,
+      "y1": 548,
+      "w": 36,
+      "h": 1
+    },
+    "maxDiscDelta": 127,
+    "maxOutsideDisc": 30,
+    "maxStrayDarker": 30
+  },
+  {
+    "name": "win32/visual-375/shell-footer-about.png",
+    "w": 375,
+    "h": 741,
+    "disc": 2249,
+    "stray": 41,
+    "brighter": 41,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 311,
+      "y0": 600,
+      "x1": 358,
+      "y1": 661,
+      "w": 48,
+      "h": 62
+    },
+    "strayBox": {
+      "x0": 305,
+      "y0": 643,
+      "x1": 364,
+      "y1": 663,
+      "w": 60,
+      "h": 21
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-375/shell-footer-journal.png",
+    "w": 375,
+    "h": 742,
+    "disc": 2249,
+    "stray": 41,
+    "brighter": 41,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 311,
+      "y0": 602,
+      "x1": 358,
+      "y1": 663,
+      "w": 48,
+      "h": 62
+    },
+    "strayBox": {
+      "x0": 305,
+      "y0": 645,
+      "x1": 364,
+      "y1": 665,
+      "w": 60,
+      "h": 21
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-375/shell-footer-notfound.png",
+    "w": 375,
+    "h": 743,
+    "disc": 2249,
+    "stray": 41,
+    "brighter": 41,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 311,
+      "y0": 602,
+      "x1": 358,
+      "y1": 663,
+      "w": 48,
+      "h": 62
+    },
+    "strayBox": {
+      "x0": 305,
+      "y0": 645,
+      "x1": 364,
+      "y1": 665,
+      "w": 60,
+      "h": 21
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-375/shell-footer-rfq.png",
+    "w": 375,
+    "h": 742,
+    "disc": 2249,
+    "stray": 41,
+    "brighter": 41,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 311,
+      "y0": 601,
+      "x1": 358,
+      "y1": 662,
+      "w": 48,
+      "h": 62
+    },
+    "strayBox": {
+      "x0": 305,
+      "y0": 644,
+      "x1": 364,
+      "y1": 664,
+      "w": 60,
+      "h": 21
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-375/shell-footer-service.png",
+    "w": 375,
+    "h": 742,
+    "disc": 2249,
+    "stray": 41,
+    "brighter": 41,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 311,
+      "y0": 601,
+      "x1": 358,
+      "y1": 662,
+      "w": 48,
+      "h": 62
+    },
+    "strayBox": {
+      "x0": 305,
+      "y0": 644,
+      "x1": 364,
+      "y1": 664,
+      "w": 60,
+      "h": 21
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 2,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-768/shell-footer-about.png",
+    "w": 766,
+    "h": 745,
+    "disc": 2749,
+    "stray": 406,
+    "brighter": 406,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 695,
+      "y0": 597,
+      "x1": 750,
+      "y1": 652,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 690,
+      "y0": 633,
+      "x1": 748,
+      "y1": 666,
+      "w": 59,
+      "h": 34
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 4,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-768/shell-footer-journal.png",
+    "w": 766,
+    "h": 747,
+    "disc": 2749,
+    "stray": 406,
+    "brighter": 406,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 695,
+      "y0": 598,
+      "x1": 750,
+      "y1": 653,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 690,
+      "y0": 634,
+      "x1": 748,
+      "y1": 667,
+      "w": 59,
+      "h": 34
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 4,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-768/shell-footer-notfound.png",
+    "w": 766,
+    "h": 746,
+    "disc": 2749,
+    "stray": 406,
+    "brighter": 406,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 695,
+      "y0": 598,
+      "x1": 750,
+      "y1": 653,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 690,
+      "y0": 634,
+      "x1": 748,
+      "y1": 667,
+      "w": 59,
+      "h": 34
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 4,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-768/shell-footer-rfq.png",
+    "w": 766,
+    "h": 746,
+    "disc": 2749,
+    "stray": 406,
+    "brighter": 406,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 695,
+      "y0": 598,
+      "x1": 750,
+      "y1": 653,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 690,
+      "y0": 634,
+      "x1": 748,
+      "y1": 667,
+      "w": 59,
+      "h": 34
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 4,
+    "maxStrayDarker": 0
+  },
+  {
+    "name": "win32/visual-768/shell-footer-service.png",
+    "w": 766,
+    "h": 746,
+    "disc": 2749,
+    "stray": 406,
+    "brighter": 406,
+    "darker": 0,
+    "equalLum": 0,
+    "discBox": {
+      "x0": 695,
+      "y0": 598,
+      "x1": 750,
+      "y1": 653,
+      "w": 56,
+      "h": 56
+    },
+    "strayBox": {
+      "x0": 690,
+      "y0": 634,
+      "x1": 748,
+      "y1": 667,
+      "w": 59,
+      "h": 34
+    },
+    "maxDiscDelta": 248,
+    "maxOutsideDisc": 4,
+    "maxStrayDarker": 0
+  }
+]

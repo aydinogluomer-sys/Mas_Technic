@@ -60,7 +60,7 @@ const steps = [
       { title: "Yüzey İşleme", desc: "Ra 0.4μm yüzey kalitesi" },
       { title: "Proses Kontrolü", desc: "SPC ile süreç yönetimi" },
     ],
-    stat: { value: "±0.005", label: "mm Tolerans" },
+    stat: { value: "±0.01", label: "mm Tolerans" },
     accent: "hsl(var(--forge-amber))",
   },
   {
@@ -74,7 +74,9 @@ const steps = [
       { title: "Sertifikasyon", desc: "Malzeme ve test sertifikaları" },
       { title: "Paketleme", desc: "Özel koruyucu ambalaj" },
     ],
-    stat: { value: "%100", label: "Kalite Kontrol" },
+    // §D CMM_COVERAGE_INTERNAL: THIRD_PARTY_ACCREDITED_ON_DEMAND. `%100` iddia
+    // edilen kapsam mevcut değil; slot ölçülebilir bir yeteneği taşıyor.
+    stat: { value: "CMM", label: "Boyutsal Doğrulama" },
     accent: "hsl(var(--primary))",
   },
 ];

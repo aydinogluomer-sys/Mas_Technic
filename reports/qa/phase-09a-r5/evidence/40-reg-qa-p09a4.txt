@@ -1,0 +1,25 @@
+(node:19360) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:5420) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓  1 [desktop-1280] › e2e\qa-p09a4-evidence-write-guard.spec.ts:125:3 › 09a-R4 — evidence writes › no spec in e2e/** writes into the repository without an explicit flag (53ms)
+  ✓  2 [desktop-1280] › e2e\qa-p09a4-evidence-write-guard.spec.ts:135:3 › 09a-R4 — evidence writes › the set of write destinations is exactly the one that was reviewed (18ms)
+P09A4_JSON=test-results/qa-p09a4-sla-wobble/sla-wobble-unsealed-desktop-1280.json (scratch)
+SLA_WOBBLE arm=unsealed route=/teklif-al attempts=12 earlyMiss=0 settledMiss=0 verdict=NO_WOBBLE_OBSERVED — both reads were stable in this arm
+  ✓  3 [desktop-1280] › e2e\qa-p09a4-sla-wobble.spec.ts:175:1 › unsealed: /teklif-al carries the authorised SLA on every attempt (49.7s)
+P09A4_JSON=test-results/qa-p09a4-sla-wobble/sla-wobble-sealed-desktop-1280.json (scratch)
+SLA_WOBBLE arm=sealed route=/teklif-al attempts=12 earlyMiss=0 settledMiss=0 verdict=NO_WOBBLE_OBSERVED — both reads were stable in this arm
+  ✓  4 [desktop-1280] › e2e\qa-p09a4-sla-wobble.spec.ts:185:1 › sealed: the round-2 harness's own interception is what moves the 350 ms read (54.2s)
+P09A4_JSON=test-results/qa-p09a4-sla-wobble/sla-sweep-replica-desktop-1280.json (scratch)
+SLA_REPLICA passes=57,57 disagreed=[] misses=12 racedNotAbsent=0 genuinelyAbsent=12
+  ✓  5 [desktop-1280] › e2e\qa-p09a4-sla-wobble.spec.ts:211:1 › sweep replica: which of the 63 routes moves, and what it looks like when it does (3.5m)
+STABILISED route s=63 neverSettled=0 SLA_ROUTES=57 FINDINGS=0 EXEMPTED=12
+P09A4_JSON=test-results/qa-p09a4-stabilised-sweep/stabilised-sweep-desktop-1280.json (scratch)
+  ✓  6 [desktop-1280] › e2e\qa-p09a4-stabilised-sweep.spec.ts:126:1 › the round-2 sweep, re-run on settled pages, reaches the same verdict (2.0m)
+
+  Slow test file: [desktop-1280] › e2e\qa-p09a4-sla-wobble.spec.ts (5.3m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  6 passed (7.5m)

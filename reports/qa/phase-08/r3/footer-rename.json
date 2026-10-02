@@ -1,0 +1,282 @@
+{
+  "1 today": {
+    "NEW": {
+      "columns": [
+        "HİZMETLER:5",
+        "KABİLİYETLER:6",
+        "ENDÜSTRİYEL:5",
+        "KURUMSAL:6"
+      ],
+      "occurrences": {
+        "/malzemeler": 1,
+        "/kabiliyet-profilleri": 1,
+        "/kalite-dosyasi": 1,
+        "/blog": 1,
+        "/sss": 1
+      },
+      "placement": {
+        "/malzemeler": [
+          "KURUMSAL"
+        ],
+        "/kabiliyet-profilleri": [
+          "KABİLİYETLER"
+        ],
+        "/kalite-dosyasi": [
+          "KURUMSAL"
+        ],
+        "/blog": [
+          "KURUMSAL"
+        ],
+        "/sss": [
+          "KURUMSAL"
+        ]
+      },
+      "violations": [],
+      "totalLinks": 22
+    },
+    "OLD": {
+      "columns": [
+        "HİZMETLER:5",
+        "KABİLİYETLER:6",
+        "ENDÜSTRİYEL:5",
+        "KURUMSAL:6"
+      ],
+      "occurrences": {
+        "/malzemeler": 1,
+        "/kabiliyet-profilleri": 1,
+        "/kalite-dosyasi": 1,
+        "/blog": 1,
+        "/sss": 1
+      },
+      "placement": {
+        "/malzemeler": [
+          "KURUMSAL"
+        ],
+        "/kabiliyet-profilleri": [
+          "KABİLİYETLER"
+        ],
+        "/kalite-dosyasi": [
+          "KURUMSAL"
+        ],
+        "/blog": [
+          "KURUMSAL"
+        ],
+        "/sss": [
+          "KURUMSAL"
+        ]
+      },
+      "violations": [],
+      "totalLinks": 22
+    }
+  },
+  "2 ia.ts renamed, map untouched": {
+    "NEW": {
+      "columns": [
+        "HİZMETLER:5",
+        "KABİLİYETLER:0",
+        "ENDÜSTRİYEL:5",
+        "KURUMSAL:7"
+      ],
+      "occurrences": {
+        "/malzemeler": 1,
+        "/kabiliyet-profilleri": 1,
+        "/kalite-dosyasi": 1,
+        "/blog": 1,
+        "/sss": 1
+      },
+      "placement": {
+        "/malzemeler": [
+          "KURUMSAL"
+        ],
+        "/kabiliyet-profilleri": [
+          "KURUMSAL"
+        ],
+        "/kalite-dosyasi": [
+          "KURUMSAL"
+        ],
+        "/blog": [
+          "KURUMSAL"
+        ],
+        "/sss": [
+          "KURUMSAL"
+        ]
+      },
+      "violations": [],
+      "totalLinks": 17
+    },
+    "OLD": {
+      "columns": [
+        "HİZMETLER:5",
+        "KABİLİYETLER:1",
+        "ENDÜSTRİYEL:5",
+        "KURUMSAL:6"
+      ],
+      "occurrences": {
+        "/malzemeler": 1,
+        "/kabiliyet-profilleri": 1,
+        "/kalite-dosyasi": 1,
+        "/blog": 1,
+        "/sss": 1
+      },
+      "placement": {
+        "/malzemeler": [
+          "KURUMSAL"
+        ],
+        "/kabiliyet-profilleri": [
+          "KABİLİYETLER"
+        ],
+        "/kalite-dosyasi": [
+          "KURUMSAL"
+        ],
+        "/blog": [
+          "KURUMSAL"
+        ],
+        "/sss": [
+          "KURUMSAL"
+        ]
+      },
+      "violations": [],
+      "totalLinks": 17
+    }
+  },
+  "3a ia.ts renamed, MAP KEY follows, call-site literal untouched": {
+    "NEW": {
+      "columns": [
+        "HİZMETLER:5",
+        "KABİLİYETLER:0",
+        "ENDÜSTRİYEL:5",
+        "KURUMSAL:7"
+      ],
+      "occurrences": {
+        "/malzemeler": 1,
+        "/kabiliyet-profilleri": 1,
+        "/kalite-dosyasi": 1,
+        "/blog": 1,
+        "/sss": 1
+      },
+      "placement": {
+        "/malzemeler": [
+          "KURUMSAL"
+        ],
+        "/kabiliyet-profilleri": [
+          "KURUMSAL"
+        ],
+        "/kalite-dosyasi": [
+          "KURUMSAL"
+        ],
+        "/blog": [
+          "KURUMSAL"
+        ],
+        "/sss": [
+          "KURUMSAL"
+        ]
+      },
+      "violations": [],
+      "totalLinks": 17
+    },
+    "OLD": {
+      "columns": [
+        "HİZMETLER:5",
+        "KABİLİYETLER:0",
+        "ENDÜSTRİYEL:5",
+        "KURUMSAL:6"
+      ],
+      "occurrences": {
+        "/malzemeler": 1,
+        "/kabiliyet-profilleri": 0,
+        "/kalite-dosyasi": 1,
+        "/blog": 1,
+        "/sss": 1
+      },
+      "placement": {
+        "/malzemeler": [
+          "KURUMSAL"
+        ],
+        "/kabiliyet-profilleri": [],
+        "/kalite-dosyasi": [
+          "KURUMSAL"
+        ],
+        "/blog": [
+          "KURUMSAL"
+        ],
+        "/sss": [
+          "KURUMSAL"
+        ]
+      },
+      "violations": [
+        "/kabiliyet-profilleri appears 0x"
+      ],
+      "totalLinks": 16
+    }
+  },
+  "3b ia.ts renamed, the rename chased everywhere": {
+    "NEW": {
+      "columns": [
+        "HİZMETLER:5",
+        "YETKİNLİKLER:6",
+        "ENDÜSTRİYEL:5",
+        "KURUMSAL:6"
+      ],
+      "occurrences": {
+        "/malzemeler": 1,
+        "/kabiliyet-profilleri": 1,
+        "/kalite-dosyasi": 1,
+        "/blog": 1,
+        "/sss": 1
+      },
+      "placement": {
+        "/malzemeler": [
+          "KURUMSAL"
+        ],
+        "/kabiliyet-profilleri": [
+          "YETKİNLİKLER"
+        ],
+        "/kalite-dosyasi": [
+          "KURUMSAL"
+        ],
+        "/blog": [
+          "KURUMSAL"
+        ],
+        "/sss": [
+          "KURUMSAL"
+        ]
+      },
+      "violations": [],
+      "totalLinks": 22
+    },
+    "OLD": {
+      "columns": [
+        "HİZMETLER:5",
+        "YETKİNLİKLER:6",
+        "ENDÜSTRİYEL:5",
+        "KURUMSAL:6"
+      ],
+      "occurrences": {
+        "/malzemeler": 1,
+        "/kabiliyet-profilleri": 1,
+        "/kalite-dosyasi": 1,
+        "/blog": 1,
+        "/sss": 1
+      },
+      "placement": {
+        "/malzemeler": [
+          "KURUMSAL"
+        ],
+        "/kabiliyet-profilleri": [
+          "YETKİNLİKLER"
+        ],
+        "/kalite-dosyasi": [
+          "KURUMSAL"
+        ],
+        "/blog": [
+          "KURUMSAL"
+        ],
+        "/sss": [
+          "KURUMSAL"
+        ]
+      },
+      "violations": [],
+      "totalLinks": 22
+    }
+  }
+}

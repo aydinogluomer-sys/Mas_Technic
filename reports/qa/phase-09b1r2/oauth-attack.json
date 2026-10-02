@@ -1,0 +1,540 @@
+[
+ {
+  "cls": "inherited-name",
+  "code": "constructor",
+  "expect": "fallback",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: constructor",
+   "reference": "constructor",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "inherited-name",
+  "code": "__proto__",
+  "expect": "fallback",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.",
+   "reference": null,
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "inherited-name",
+  "code": "toString",
+  "expect": "fallback",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: tostring",
+   "reference": "tostring",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "inherited-name",
+  "code": "valueOf",
+  "expect": "fallback",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: valueof",
+   "reference": "valueof",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "inherited-name",
+  "code": "hasOwnProperty",
+  "expect": "fallback",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: hasownproperty",
+   "reference": "hasownproperty",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "removed-entry",
+  "code": "user_banned",
+  "expect": "fallback",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: user_banned",
+   "reference": "user_banned",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "removed-entry",
+  "code": "identity_already_exists",
+  "expect": "fallback",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: identity_already_exists",
+   "reference": "identity_already_exists",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "removed-entry",
+  "code": "email_exists",
+  "expect": "fallback",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: email_exists",
+   "reference": "email_exists",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "removed-entry",
+  "code": "provider_email_needs_verification",
+  "expect": "fallback",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: provider_email_needs_verification",
+   "reference": "provider_email_needs_verification",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "surviving-copy",
+  "code": "access_denied",
+  "expect": "copy",
+  "got": {
+   "rendered": true,
+   "text": "İZİN VERİLMEDİGiriş izni verilmediği için işlem tamamlanmadı.Yeniden deneyebilir veya e-posta ve şifrenizle giriş yapabilirsiniz.KOD: access_denied",
+   "reference": "access_denied",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "surviving-copy",
+  "code": "provider_disabled",
+  "expect": "copy",
+  "got": {
+   "rendered": true,
+   "text": "SAĞLAYICI KAPALIBu sağlayıcı ile giriş şu anda kullanılamıyor.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse bize bildirin.KOD: provider_disabled",
+   "reference": "provider_disabled",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "surviving-copy",
+  "code": "oauth_provider_not_supported",
+  "expect": "copy",
+  "got": {
+   "rendered": true,
+   "text": "SAĞLAYICI KAPALIBu sağlayıcı ile giriş şu anda kullanılamıyor.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse bize bildirin.KOD: oauth_provider_not_supported",
+   "reference": "oauth_provider_not_supported",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "surviving-copy",
+  "code": "validation_failed",
+  "expect": "copy",
+  "got": {
+   "rendered": true,
+   "text": "SAĞLAYICI KAPALIBu sağlayıcı ile giriş şu anda kullanılamıyor.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse bize bildirin.KOD: validation_failed",
+   "reference": "validation_failed",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "surviving-copy",
+  "code": "signup_disabled",
+  "expect": "copy",
+  "got": {
+   "rendered": true,
+   "text": "KAYIT KAPALIBu sağlayıcı ile yeni hesap oluşturulamıyor.Zaten hesabınız varsa e-posta ve şifrenizle giriş yapın.KOD: signup_disabled",
+   "reference": "signup_disabled",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "surviving-copy",
+  "code": "bad_oauth_state",
+  "expect": "copy",
+  "got": {
+   "rendered": true,
+   "text": "OTURUM DÜŞTÜGiriş adımı zaman aşımına uğradı.Baştan başlamak için butona yeniden basın; bu genellikle sekme uzun süre açık kaldığında olur.KOD: bad_oauth_state",
+   "reference": "bad_oauth_state",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "surviving-copy",
+  "code": "bad_oauth_callback",
+  "expect": "copy",
+  "got": {
+   "rendered": true,
+   "text": "OTURUM DÜŞTÜGiriş adımı zaman aşımına uğradı.Baştan başlamak için butona yeniden basın; bu genellikle sekme uzun süre açık kaldığında olur.KOD: bad_oauth_callback",
+   "reference": "bad_oauth_callback",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "surviving-copy",
+  "code": "flow_state_expired",
+  "expect": "copy",
+  "got": {
+   "rendered": true,
+   "text": "OTURUM DÜŞTÜGiriş adımı zaman aşımına uğradı.Baştan başlamak için butona yeniden basın; bu genellikle sekme uzun süre açık kaldığında olur.KOD: flow_state_expired",
+   "reference": "flow_state_expired",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "surviving-copy",
+  "code": "flow_state_not_found",
+  "expect": "copy",
+  "got": {
+   "rendered": true,
+   "text": "OTURUM DÜŞTÜGiriş adımı zaman aşımına uğradı.Baştan başlamak için butona yeniden basın; bu genellikle sekme uzun süre açık kaldığında olur.KOD: flow_state_not_found",
+   "reference": "flow_state_not_found",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "sifrenizi-yeniden-girin",
+  "expect": "noref",
+  "note": "round 1's finding — hyphens",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.",
+   "reference": null,
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "sifrenizi_yeniden_girin",
+  "expect": "ref",
+  "note": "DISCLOSED as still admitted",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: sifrenizi_yeniden_girin",
+   "reference": "sifrenizi_yeniden_girin",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "USER_BANNED",
+  "expect": "ref",
+  "note": "capitals are lowercased, not rejected",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: user_banned",
+   "reference": "user_banned",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "  user_banned  ",
+  "expect": "ref",
+  "note": "whitespace is trimmed",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: user_banned",
+   "reference": "user_banned",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "şifrenizi_girin",
+  "expect": "noref",
+  "note": "non-ASCII",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.",
+   "reference": null,
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "_leading",
+  "expect": "noref",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.",
+   "reference": null,
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "trailing_",
+  "expect": "noref",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.",
+   "reference": null,
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "a_b_c_d_e_f",
+  "expect": "noref",
+  "note": "six segments, limit is five",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.",
+   "reference": null,
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "a_b_c_d_e",
+  "expect": "ref",
+  "note": "five segments, at the limit",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: a_b_c_d_e",
+   "reference": "a_b_c_d_e",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "expect": "noref",
+  "note": "41 chars, limit is 40",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.",
+   "reference": null,
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "expect": "ref",
+  "note": "40 chars, at the limit",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "reference": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "https://evil.example.com",
+  "expect": "noref",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.",
+   "reference": null,
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "destek@evil.example.com",
+  "expect": "noref",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.",
+   "reference": null,
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "<img src=x onerror=alert(1)>",
+  "expect": "noref",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.",
+   "reference": null,
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reference-filter",
+  "code": "javascript:alert(1)",
+  "expect": "noref",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.",
+   "reference": null,
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reader-assertion-via-reference",
+  "code": "hesabiniz_kapatildi",
+  "expect": "ref",
+  "note": "'your account has been closed' — the deleted user_banned sentence, in the reader's language",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: hesabiniz_kapatildi",
+   "reference": "hesabiniz_kapatildi",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reader-assertion-via-reference",
+  "code": "eposta_adresiniz_zaten_kayitli",
+  "expect": "ref",
+  "note": "'your e-mail address is already registered' — the deleted identity_already_exists sentence",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: eposta_adresiniz_zaten_kayitli",
+   "reference": "eposta_adresiniz_zaten_kayitli",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reader-assertion-via-reference",
+  "code": "hesabiniz_askiya_alindi",
+  "expect": "ref",
+  "note": "'your account has been suspended'",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: hesabiniz_askiya_alindi",
+   "reference": "hesabiniz_askiya_alindi",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "reader-assertion-via-reference",
+  "code": "sifrenizi_buraya_yazin",
+  "expect": "ref",
+  "note": "'type your password here'",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: sifrenizi_buraya_yazin",
+   "reference": "sifrenizi_buraya_yazin",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "phone-number",
+  "code": "destek_05551234567",
+  "expect": "ref",
+  "note": "oauth-return.ts says the rendered reference 'cannot be a URL, an e-mail address, a PHONE NUMBER'",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: destek_05551234567",
+   "reference": "destek_05551234567",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "phone-number",
+  "code": "whatsapp_05551234567",
+  "expect": "ref",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: whatsapp_05551234567",
+   "reference": "whatsapp_05551234567",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "phone-number",
+  "code": "05551234567",
+  "expect": "noref",
+  "note": "a bare number: first segment must start [a-z]",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.",
+   "reference": null,
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "combination",
+  "error": "access_denied",
+  "code": "hesabiniz_kapatildi",
+  "expect": "copy+ref",
+  "note": "whitelisted prose + a reader-fact reference, from one crafted link",
+  "got": {
+   "rendered": true,
+   "text": "İZİN VERİLMEDİGiriş izni verilmediği için işlem tamamlanmadı.Yeniden deneyebilir veya e-posta ve şifrenizle giriş yapabilirsiniz.KOD: hesabiniz_kapatildi",
+   "reference": "hesabiniz_kapatildi",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "combination",
+  "error": "server_error",
+  "code": "constructor",
+  "expect": "fallback",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.KOD: constructor",
+   "reference": "constructor",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "combination",
+  "error": "access_denied",
+  "code": "",
+  "expect": "copy",
+  "note": "bucket only",
+  "got": {
+   "rendered": true,
+   "text": "İZİN VERİLMEDİGiriş izni verilmediği için işlem tamamlanmadı.Yeniden deneyebilir veya e-posta ve şifrenizle giriş yapabilirsiniz.KOD: access_denied",
+   "reference": "access_denied",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "combination",
+  "description": "Parolanizi dogrulamak icin buraya yazin",
+  "expect": "fallback",
+  "note": "description alone raises the notice; the prose itself is never rendered",
+  "got": {
+   "rendered": true,
+   "text": "GİRİŞ TAMAMLANAMADISağlayıcı ile giriş tamamlanamadı.E-posta ve şifrenizle aşağıdan giriş yapabilirsiniz. Sorun sürerse aşağıdaki kodu bize iletin.",
+   "reference": null,
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "bounce",
+  "code": "user_banned",
+  "expect": "-",
+  "got": {
+   "rendered": true,
+   "text": "İZİN VERİLMEDİGiriş izni verilmediği için işlem tamamlanmadı.Yeniden deneyebilir veya e-posta ve şifrenizle giriş yapabilirsiniz.KOD: user_banned",
+   "reference": "user_banned",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "bounce",
+  "code": "hesabiniz_kapatildi",
+  "expect": "-",
+  "got": {
+   "rendered": true,
+   "text": "İZİN VERİLMEDİGiriş izni verilmediği için işlem tamamlanmadı.Yeniden deneyebilir veya e-posta ve şifrenizle giriş yapabilirsiniz.KOD: hesabiniz_kapatildi",
+   "reference": "hesabiniz_kapatildi",
+   "href": "http://localhost:4173/giris"
+  }
+ },
+ {
+  "cls": "bounce",
+  "code": "access_denied",
+  "expect": "-",
+  "got": {
+   "rendered": true,
+   "text": "İZİN VERİLMEDİGiriş izni verilmediği için işlem tamamlanmadı.Yeniden deneyebilir veya e-posta ve şifrenizle giriş yapabilirsiniz.KOD: access_denied",
+   "reference": "access_denied",
+   "href": "http://localhost:4173/giris"
+  }
+ }
+]

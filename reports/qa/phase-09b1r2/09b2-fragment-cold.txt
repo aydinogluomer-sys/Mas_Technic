@@ -1,0 +1,6 @@
+run  profile        element appeared at   final clause top   frames the poll had   verdict
+1 cold                511 ms            0 px        287 frames   landed on the clause
+2 warm                557 ms            0 px        352 frames   landed on the clause
+3 warm                486 ms            0 px        350 frames   landed on the clause
+4 warm 4x CPU        2905 ms         2606 px        447 frames   *** AT THE TOP — the 90-frame budget expired first ***
+5 warm 6x CPU        6290 ms         2606 px        491 frames   *** AT THE TOP — the 90-frame budget expired first ***

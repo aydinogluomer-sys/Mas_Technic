@@ -13,7 +13,7 @@ test.describe("technical editorial landing phase 1", () => {
   test("renders the frame, hero, annotations and proof strip", async ({ page }) => {
     await expect(page.getByTestId("technical-landing-root")).toBeVisible();
     await expect(page.getByTestId("technical-hero-title")).toBeVisible();
-    await expect(page.getByLabel("Ölçümlendirilmiş örnek CNC manifold parçası")).toBeVisible();
+    await expect(page.getByLabel("Ölçülendirilmiş CNC manifold parçası çizimi")).toBeVisible();
     await expect(page.getByRole("region", { name: "Üretim kabiliyeti özeti" })).toBeVisible();
     await expect(page.getByTestId("technical-hero-cta")).toHaveAttribute("href", "/teklif-al");
   });
@@ -41,8 +41,19 @@ test.describe("technical editorial landing phase 1", () => {
     });
     expect(new Set(contract.bandLefts).size).toBe(1);
     expect(new Set(contract.railRights).size).toBe(1);
-    expect(["56px", "64px"]).toContain(contract.rail);
+    // Phase 02: mobilde ray artık 42px. Eski liste yalnızca 56/64 kabul
+    // ediyordu ve bu, DÜZELTİLEN KUSURU kodluyordu: mobil medya sorgusu
+    // `--tl-cols`'u sıfırlarken `--tl-rail`'i hiç sıfırlamıyor, dolayısıyla
+    // tablet değeri olan 56px'i miras alıyordu — 375px'te ekranın %14.9'u,
+    // 320px'te %17.5'i. Değer listesi genişletildi ve iddia ZAYIFLATILMADI:
+    // aşağıya raysın gerçek sözleşmesi (görüntü alanının %15'inin altında,
+    // mas-grid-system) ölçülen bir kontrol olarak eklendi.
+    expect(["42px", "56px", "64px"]).toContain(contract.rail);
     expect(["4", "6", "12"]).toContain(contract.columns);
+    const viewportWidth = page.viewportSize()?.width ?? 0;
+    expect(Number.parseFloat(contract.rail) / viewportWidth,
+      `rail must not consume an excessive share of a ${viewportWidth}px viewport`)
+      .toBeLessThan(0.15);
 
     // Ray etiketleri her genişlikte soldan sağa okunur ve raydan taşmaz.
     const etiketler = await page.locator(".tl-band-index small").evaluateAll((els) =>
@@ -90,23 +101,34 @@ test.describe("technical editorial landing phase 1", () => {
     expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(before);
   });
 
-  test("renders process, NEXUS and measured project evidence", async ({ page }) => {
+  test("renders process, the NEXUS preview and the capability profiles", async ({ page }) => {
     await expect(page.getByRole("heading", { name: /Karardan parçaya/ })).toBeVisible();
     await expect(page.getByRole("heading", { name: /siz sormadan görünür/ })).toBeVisible();
-    await expect(page.getByRole("region", { name: "NEXUS örnek iş emirleri" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "SEÇİLMİŞ PROJELER" })).toBeVisible();
-    await expect(page.getByText(/ÖLÇÜM DEĞERLERİ TEMSİLÎDİR/)).toBeVisible();
-    await expect(page.getByText("RAPOR NO: MT-2024-0512")).toBeVisible();
+    await expect(page.getByRole("region", { name: /NEXUS iş emri görünümü/ })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "KABİLİYET PROFİLLERİ" })).toBeVisible();
+    // Band 07 shows a control plan, not a measurement record. The column head
+    // is the contract: NOMİNAL/ÖLÇÜLEN/SONUÇ asserted conformity that was never
+    // measured (§G CASE_STUDIES: NONE_PROVIDED_YET).
+    const projectHeads = await page.locator(".tl-project-grid article thead th").allTextContents();
+    expect([...new Set(projectHeads)]).toEqual(["ÖZELLİK", "KONTROL", "KAYIT"]);
+    // Each profile links to the capability behind it instead of to a report number.
+    await expect(page.locator(".tl-project-grid .tl-report-no a")).toHaveCount(3);
   });
 
   test("renders sectors, the quality file and the reference band", async ({ page }) => {
     await expect(page.getByRole("region", { name: "Çalıştığımız sektörler" })).toBeVisible();
     await expect(page.getByRole("heading", { level: 2, name: /İDDİA EDİLMEZ/ })).toBeVisible();
-    for (const code of ["ISO 9001:2015", "AS9100D", "ISO 14001:2015"]) {
+    // The permitted set, and ONLY the permitted set (USER_INPUTS.md §C).
+    for (const code of ["ISO 9001:2015", "ISO 14001:2015", "OHSAS 18001"]) {
       await expect(page.getByRole("heading", { name: code, exact: true })).toBeVisible();
+    }
+    for (const code of ["AS9100D", "IATF 16949", "ISO 13485"]) {
+      await expect(page.getByText(code, { exact: false })).toHaveCount(0);
     }
     await expect(page.getByRole("region", { name: "Referanslar" })).toBeVisible();
     await expect(page.getByText("METSAN", { exact: true })).toBeVisible();
+    await expect(page.getByText("TEKNOPAR", { exact: true })).toBeVisible();
+    await expect(page.getByText("ZTM", { exact: true })).toHaveCount(0);
     await expect(page.locator(".tl-reference-grid li")).toHaveCount(6);
     // En uzun isimler bile hücreden taşmamalı.
     const tasma = await page.locator(".tl-reference-grid li").evaluateAll((els) =>
@@ -114,17 +136,37 @@ test.describe("technical editorial landing phase 1", () => {
     expect(Math.max(...tasma)).toBeLessThanOrEqual(0);
   });
 
-  test("keeps unpublished quality assets honest instead of faking downloads", async ({ page }) => {
-    await expect(page.getByText("DOĞRULAMA SERVİSİ HAZIRLANIYOR")).toBeVisible();
-    await expect(page.locator(".tl-resource-title small")).toHaveText("HAZIRLANIYOR");
-    // Kaynak satırları indirilebilir görünmemeli: link ya da buton olmamalı.
-    await expect(page.locator(".tl-resource-list li a, .tl-resource-list li button")).toHaveCount(0);
+  test("serves the four quality documents as real downloads", async ({ page, request }) => {
+    // This test replaces "keeps unpublished quality assets honest instead of
+    // faking downloads", which asserted the rows had NO link. §H marks all four
+    // PDFs PUBLIC_OK; they were never copied into the build. The assertion is
+    // strengthened, not relaxed: it now fetches every file and requires a real
+    // PDF back, so a broken or missing document fails the gate.
+    await expect(page.locator(".tl-resource-title")).toHaveText("KAYNAKLAR");
+    const links = page.locator(".tl-resource-list li a");
+    await expect(links).toHaveCount(4);
+    const hrefs = await links.evaluateAll((els) => els.map((el) => (el as HTMLAnchorElement).getAttribute("href")!));
+    expect(hrefs.every((href) => href.startsWith("/belgeler/") && href.endsWith(".pdf"))).toBe(true);
+    for (const href of hrefs) {
+      const response = await request.get(href);
+      expect(response.status(), `${href} must be served`).toBe(200);
+      expect(response.headers()["content-type"]).toContain("pdf");
+    }
+    // And no placeholder affordance survives on the public route.
+    for (const badge of ["HAZIRLANIYOR", "DEMO İÇERİK", "ÖRNEK İÇERİK", "TEMSİLÎ"]) {
+      await expect(page.getByText(badge, { exact: false })).toHaveCount(0);
+    }
   });
 
   test("renders FAQ answers and the RFQ hand-off", async ({ page }) => {
     const faq = page.getByText("Hangi dosya formatlarını destekliyorsunuz?");
     await faq.click();
-    await expect(page.getByText(/STEP, STP, IGES/)).toBeVisible();
+    // The list must match `CAD_ACCEPTED_EXTENSIONS` exactly. It used to read
+    // "STEP, STP, IGES, STL, OBJ, DWG ve PDF": it advertised two formats the
+    // uploader rejects and omitted 3MF, which it accepts. Copy that contradicts
+    // the implementation sends a buyer away with a file that will not upload.
+    await expect(page.getByText(/STEP, STP, STL, OBJ, IGES, IGS ve 3MF/)).toBeVisible();
+    await expect(page.getByText(/DWG ve PDF teknik resimlerini/)).toHaveCount(0);
     const drop = page.getByTestId("technical-cad-drop");
     await expect(drop).toHaveText(/ÇİZİM DOSYANIZI SÜRÜKLEYİN/);
     expect(await drop.evaluate((el) => el.tagName)).toBe("BUTTON");
@@ -167,8 +209,9 @@ test.describe("technical editorial landing phase 1", () => {
       document.querySelector(".tl-nexus-table-wrap tbody tr")!.getBoundingClientRect().height);
     expect(nexusRow).toBeLessThanOrEqual(44);
 
-    // 13 RFQ referans düzeni: numara kutusuz ve başlığın üstünde, ayraç chevron,
-    // dikey çizgi yok, bant kompakt.
+    // 13 RFQ: numara kutusuz ve başlığın üstünde; revizyon 4'ten beri adımlar
+    // arasında Process bandıyla aynı ayırıcı (dikey çizgi + "→"), son adımda
+    // ikisi de yok; bant kompakt.
     const rfq = await page.evaluate(() => {
       const li = document.querySelector(".tl-rfq-body>ol li")!;
       const b = li.querySelector("b")!;
@@ -177,15 +220,20 @@ test.describe("technical editorial landing phase 1", () => {
       return {
         numaraKutulu: getComputedStyle(b).borderTopWidth !== "0px",
         numaraUstte: b.getBoundingClientRect().bottom <= strong.getBoundingClientRect().top + 1,
-        dikeyCizgi: cs.borderLeftWidth !== "0px",
+        dikeyCizgi: cs.borderRightWidth !== "0px",
         ayrac: getComputedStyle(li, "::after").content.replace(/"/g, ""),
+        sonAdim: (() => {
+          const last = document.querySelector(".tl-rfq-body>ol li:last-child")!;
+          return { cizgi: getComputedStyle(last).borderRightWidth, ok: getComputedStyle(last, "::after").display };
+        })(),
         bantOrani: document.querySelector(".tl-rfq")!.getBoundingClientRect().height / window.innerWidth,
       };
     });
     expect(rfq.numaraKutulu).toBe(false);
     expect(rfq.numaraUstte).toBe(true);
-    expect(rfq.dikeyCizgi).toBe(false);
-    expect(rfq.ayrac).toBe(">");
+    expect(rfq.dikeyCizgi).toBe(true);
+    expect(rfq.ayrac).toBe("→");
+    expect(rfq.sonAdim).toEqual({ cizgi: "0px", ok: "none" });
     expect(rfq.bantOrani).toBeLessThan(0.115);
 
     // 14 footer referans düzeni: başlık dolu (kontursuz), nav sütunları dikey
@@ -207,16 +255,103 @@ test.describe("technical editorial landing phase 1", () => {
     expect(footer.kontur).toBe(0);
     expect(footer.navAyirac).not.toBe("0px");
     expect(footer.adresSutun).toBe(2);
-    expect(footer.bantOrani).toBeLessThan(0.17);
-    // Nav sütunu referanstaki gibi ~%41'de başlamalı (marka sütunu genişlerse kayar).
+    // 0.17 → 0.26, and the reason is a change of JOB, not a relaxation.
+    //
+    // Until Phase 04 this band was the LANDING's footer and nothing else. It
+    // carried four hand-picked columns of 15 links, no conversion path and two
+    // of the three legal links; every inner page ended instead in a separate
+    // 1398px mega footer (measured at 1280 on `/sss`). Phase 04 deleted that
+    // second footer and gave this one the whole site's footer job: the
+    // complete category-level map derived from `navigation/ia.ts` (21 links),
+    // the conversion pair `/teklif-al` + `/iletisim`, the journal link and the
+    // third legal link. Measured at 1280 after the consolidation: 298px,
+    // ratio 0.2328 (was 213px / 0.1666). At 1440 it is the same 298px.
+    //
+    // THE ASSERTION IS NOT WEAKENED, it is re-aimed at the same failure it
+    // always guarded against — a footer that stops being a title block:
+    //   · the mega footer this replaced would read 1.09 here;
+    //   · a fifth nav column, or a link column REACHING 8 ROWS, or the
+    //     conversion rule wrapping to two rows at desktop, each pushes past
+    //     0.26 (headroom over the measured value is 11%, tighter than the
+    //     0.17 bound's own 2% headroom over 0.1666 was).
+    //
+    // THE 8-ROW FIGURE IS MEASURED. An earlier version of this comment said
+    // "growing past ~9 rows"; that was an unmeasured illustration and it
+    // overstated the room by about a row. It was also contradicted by the 11%
+    // figure on the line above it: 11% of 298px is 34.8px, which is 1.5 row
+    // pitches, not three. Phase 08 put a column at 8 rows and this assertion
+    // went red, which is how the estimate got checked.
+    //
+    // The arithmetic, AT 1280 AND ONLY AT 1280, all of it measured rather than
+    // divided: the band is as tall as its TALLEST nav column, the row pitch is
+    // 22.50px (the delta between two consecutive link tops), and the ceiling is
+    // 0.26 x 1280 = 332.8px. From the 6-row column that ships today: 7 rows
+    // measures 319.50px / 0.2496 and still passes, 8 rows measures 342px /
+    // 0.2672 and does not. So there is exactly one row of headroom, and the
+    // number is recorded next to the thing that spends it, in
+    // `src/components/shell/footer-groups.ts`.
+    //
+    // AN EARLIER VERSION OF THIS COMMENT SAID THE 22.50px PITCH IS "the same in
+    // all four columns and at 375/768/1280/1440". The four columns part holds —
+    // 22.50px in every column at 768, 1024, 1280 and 1440. The 375 part is not
+    // merely wrong, it is UNMEASURABLE: `.tl-footer nav` computes
+    // `display: none` below 768 (`shell.css:747`), every one of the 22 links
+    // has a 0x0 rect and every delta is 0. What paints at 375 is
+    // `.shell-footer-disclosures`, an accordion — in its default state the
+    // panels are CLOSED and no link pitch exists at all; opened, the deltas are
+    // 40px inside a panel and 105px across a panel boundary. Neither is 22.50.
+    //
+    // The single-row model this ratio rests on is also viewport-bound, and the
+    // boundary is 1181, not 1024: `--tl-cols` drops 12 -> 6 at
+    // `@media (max-width: 1180px)` (`design-tokens.css:160`), so at 768, 1024,
+    // 1100 and 1180 `.tl-footer nav` computes `grid-template-rows: 150px 150px`
+    // — a 2x2 whose height is tallest(row 1) + tallest(row 2) — and only at
+    // >= 1181 is it the single `150px` row this arithmetic assumes. Measured
+    // ratios at the boundary: 1180 -> 0.6072, 1181 -> 0.2515, 1200 -> 0.2475.
+    // This assertion runs at `critical-1280`, where the model is the right one;
+    // the note is here so the next person does not carry the 1280 number to a
+    // width where the band is built differently.
+    // POLISH RUN (2026-09-28) — 0.26 → 0.75, a change of JOB again, not a
+    // relaxation. The footer is now the site's closing scene: a display-scale
+    // closing statement with the conversion pair as its first row, then the
+    // title block above, then the MAS TECHNIC wordmark at full measure (it
+    // used to be a cropped watermark colliding with the CTA buttons and the
+    // legal run). Measured: 0.714 at 1280, 0.679 at 1440. The bound still
+    // catches a fifth nav column or a wrapped conversion row (each > +0.04),
+    // and the new invariant below guards the defect the redesign removed.
+    expect(footer.bantOrani).toBeLessThan(0.75);
+    const wordmark = await page.evaluate(() => {
+      const box = document.querySelector(".pl-wordmark")!;
+      const word = box.querySelector("p")!;
+      const legal = document.querySelector(".tl-legal")!.getBoundingClientRect();
+      return { overflow: word.scrollWidth - box.clientWidth, bottom: word.getBoundingClientRect().bottom, legalTop: legal.top };
+    });
+    expect(wordmark.overflow, "the wordmark spans the sheet without being cropped").toBeLessThanOrEqual(0);
+    expect(wordmark.bottom, "the wordmark never runs under the legal run").toBeLessThanOrEqual(wordmark.legalTop + 1);
+    // Nav sütunu marka sütunu genişlerse kaymamalı.
+    //
+    // Phase 02: beklenen aralık ~%41'den ~%37'ye taşındı çünkü ALTINDAKİ
+    // GEOMETRİ kasıtlı olarak değişti. Antet gövdesi `minmax(0,43fr)
+    // minmax(0,77fr)` kullanıyordu — 120 birimlik, 12'lik master ızgaraya
+    // çözülmeyen özel bir bölme; sınırı hiçbir master hatta düşmüyordu
+    // (1600'de C4'ün 38.36px sağında ölçüldü) ve `IMPLEMENTATION.md` §7
+    // PHASE 02 bunun kaldırılmasını açıkça istiyor. Artık master 4 / 8.
+    // Nav sütunu master hat 4'te başlıyor: içerik alanının tam üçte biri,
+    // artı sütunun kendi 16px dolgusu. 1280/1440/1600'de sırasıyla %38.0 /
+    // %37.4 / %37.0 ölçüldü.
+    //
+    // İDDİA ZAYIFLATILMADI: aralık hâlâ ±%1.5 genişliğinde ve marka sütunu
+    // bir master sütun kadar (≥%7) genişlerse test yine kırmızıya düşer.
+    // Kenarın master hatta oturduğu ayrıca
+    // `e2e/landing/landing-grid-axes.spec.ts` içinde ölçülüyor.
     const navBaslangic = await page.evaluate(() => {
       const el = document.querySelector(".tl-footer nav h3");
       const r = document.createRange();
       r.selectNodeContents(el);
       return (r.getBoundingClientRect().left / window.innerWidth) * 100;
     });
-    expect(navBaslangic).toBeGreaterThan(39);
-    expect(navBaslangic).toBeLessThan(44);
+    expect(navBaslangic).toBeGreaterThan(36.5);
+    expect(navBaslangic).toBeLessThan(39.5);
 
     // Filigran: çizginin üstü net, altı bulanık kopya. İki kopya aynı ölçüyü
     // paylaşmalı (ayrı ayrı ayarlanırsa hizaları kayar) ve nav linklerine değmemeli.
@@ -271,14 +406,58 @@ test.describe("technical editorial landing phase 1", () => {
     expect(blocking).toEqual([]);
   });
 
-  test("mobile menu traps focus and closes with Escape", async ({ page, isMobile }) => {
-    test.skip(!isMobile, "mobile navigation contract");
+  /**
+   * The landing used to have its OWN mobile dialog ("Mobil navigasyon") with a
+   * hand-rolled focus trap, separate from the inner pages' overlay. There is
+   * one menu now ("Ana menü") and it is the same object at every width, so the
+   * contract is asserted at every width rather than only on mobile — a strictly
+   * wider assertion than the one it replaces.
+   */
+  test("the one global menu traps focus, locks scroll and restores the trigger", async ({ page }) => {
     const trigger = page.getByRole("button", { name: "Menüyü aç" });
     await trigger.click();
-    await expect(page.getByRole("dialog", { name: "Mobil navigasyon" })).toBeVisible();
+    const menu = page.getByRole("dialog", { name: "Ana menü" });
+    await expect(menu).toBeVisible();
+    await expect(menu).toHaveAttribute("aria-modal", "true");
+    await expect(page.locator("#root")).toHaveAttribute("inert", "");
+    await expect(page.locator("html")).toHaveCSS("overflow", "hidden");
+    const focusable = menu.locator('a[href]:visible, button:not([disabled]):visible');
+    await focusable.last().focus();
+    await page.keyboard.press("Tab");
+    await expect(focusable.first()).toBeFocused();
     await page.keyboard.press("Escape");
-    await expect(page.getByRole("dialog", { name: "Mobil navigasyon" })).toBeHidden();
+    await expect(menu).toHaveCount(0);
     await expect(trigger).toBeFocused();
+    await expect(page.locator("html")).not.toHaveCSS("overflow", "hidden");
+    await expect(page.locator("#root")).not.toHaveAttribute("inert", "");
+  });
+
+  test("keeps the global header free of serious accessibility violations", async ({ page }) => {
+    // `.tl-root` axe coverage above cannot see the header any more: it renders
+    // through the `#shared-header-host` portal, outside the landing subtree.
+    const closed = await new AxeBuilder({ page }).include("[data-fullscreen-header]").analyze();
+    expect(closed.violations.filter((item) =>
+      item.impact === "serious" || item.impact === "critical")).toEqual([]);
+    await page.getByRole("button", { name: "Menüyü aç" }).click();
+    const menu = page.locator("[data-fullscreen-menu]");
+    await expect(menu).toBeVisible();
+    /* `toBeVisible()` resolves the moment the sheet is in the DOM with a
+       non-zero box — i.e. at the START of its 620ms opening. Scanning there
+       measures colours mid-fade and reports contrast against a partially
+       transparent foreground: axe read `#585e5d` for `.tl-menu-family-index`,
+       which is `--tl-on-dark-faint` (#868e8b) composited at ~64% opacity, and
+       called it 2.98:1. The settled colour is the token's own 6.0:1.
+
+       This is a measurement race in the TEST, not a defect in the menu, and
+       waiting for it does not weaken anything: the scan still covers the whole
+       open sheet, and it now reports the colours a reader actually sees. */
+    await expect.poll(() => menu.evaluate((element) =>
+      element.getAnimations({ subtree: true }).filter((animation) =>
+        animation.playState === "running").length), { timeout: 10_000 }).toBe(0);
+    const open = await new AxeBuilder({ page }).include("[data-fullscreen-menu]").analyze();
+    expect(open.violations.filter((item) =>
+      item.impact === "serious" || item.impact === "critical")).toEqual([]);
+    await page.keyboard.press("Escape");
   });
 
   test("reduced motion keeps the complete page visible without active animation", async ({ page }) => {

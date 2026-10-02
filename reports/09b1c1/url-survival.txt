@@ -1,0 +1,15 @@
+﻿guard canary: BLOCKED:Failed to fetch
+{
+  "locationHref": "http://localhost:4173/giris",
+  "locationHash": "",
+  "documentURL": "http://localhost:4173/giris",
+  "documentBaseURI": "http://localhost:4173/giris",
+  "navigationName": "http://localhost:4173/musteri-paneli#error=server_error&error_code=validation_failed&error_description=Unsupported+provider",
+  "navigationType": "navigate",
+  "referrer": "",
+  "historyLength": 2,
+  "historyState": "{\"usr\":null,\"key\":\"qhmcf7ne\",\"idx\":0}"
+}
+
+sources that still carry the error: navigationName
+traffic: blocked 6, ALLOWED 0

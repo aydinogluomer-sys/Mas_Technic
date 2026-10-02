@@ -1,0 +1,16 @@
+
+> vite_react_shadcn_ts@0.0.0 lint
+> eslint .
+
+
+C:\Users\Trade Bilisim\pdh-wt\qa-p09b1\e2e\qa-p08-scroll-region-reach.spec.ts
+  533:20  error  Unexpected empty object pattern  no-empty-pattern
+
+C:\Users\Trade Bilisim\pdh-wt\qa-p09b1\e2e\qa-p08-storage-disclosure.spec.ts
+  272:20  error  Unexpected empty object pattern  no-empty-pattern
+
+C:\Users\Trade Bilisim\pdh-wt\qa-p09b1\src\content\claims.ts
+  90:1  error  Do not use a triple slash reference for ../vite-env.d.ts, use `import` style instead  @typescript-eslint/triple-slash-reference
+
+✖ 3 problems (3 errors, 0 warnings)
+

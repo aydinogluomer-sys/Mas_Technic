@@ -1,0 +1,106 @@
+L1
+KVKK
+01
+KVKK
+ANA SAYFA
+YASAL
+KVKK AYDINLATMA METNİ
+
+YASAL METİN
+
+KVKK Aydınlatma Metni
+
+6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında: bu sitede hangi kişisel veri, hangi amaçla ve hangi hukuki sebeple işlenir.
+
+BELGE
+KVKK Aydınlatma Metni
+REVİZYON
+4 Eylül 2026
+MADDE SAYISI
+7
+02
+METİN
+01
+Veri sorumlusu
+
+6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında veri sorumlusu, Mas Technic Makine Sanayi Ltd. Şti.’dir.
+
+Ataşehir Mah., 8287. Sok. No: 4, 35620 Çiğli / İZMİR · sales@mastechnic.com
+
+02
+İşlenen kişisel veriler
+
+Bu sitede kişisel veri yalnızca sizin ilettiğiniz kadarıyla işlenir. Teklif formunda ad-soyad, e-posta, firma unvanı ve telefon; teklif ekinde yüklediğiniz teknik resim veya 3B model dosyaları; hesap açtığınızda e-posta adresiniz alınır.
+
+Yüklediğiniz dosyanın içeriği kişisel veri taşıyorsa — örneğin çizim antedindeki bir isim — o veri de bu metnin kapsamındadır.
+
+Aynı kural sayfaların köşesindeki sohbet kutusuna yazdığınız metin için de geçerlidir: yazdıklarınız bir isim, bir telefon numarası veya bir firma unvanı taşıyorsa o veri de bu metnin kapsamındadır. Sohbet metni sitenin veri tabanına kaydedilmez; yalnızca yapay zekâ onayı verdiğiniz hâlde site dışına aktarılır ve bu aktarım 04. maddede yazılıdır.
+
+03
+İşleme amacı ve hukuki sebep
+
+Veriler; teklif hazırlamak, üretilebilirlik incelemesi yapmak, sipariş ve üretim sürecini yürütmek, fatura düzenlemek ve sizinle bu konularda iletişim kurmak amacıyla işlenir.
+
+Hukuki sebep, KVKK md. 5/2-c uyarınca sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması ve md. 5/2-ç uyarınca hukuki yükümlülüğün yerine getirilmesidir. Bu amaçların dışında bir işleme yapılmaz; pazarlama amaçlı profilleme ve otomatik karar verme uygulanmaz.
+
+04
+Aktarım
+
+Kişisel verileriniz satılmaz ve pazarlama amacıyla üçüncü taraflara devredilmez. Aktarım yalnızca aşağıda tek tek sayılan hâllerde olur.
+
+Kanuni talep. Yetkili kamu kurum ve kuruluşlarının kanuna dayalı talebi.
+
+Barındırma ve veri tabanı. Bu sitenin çalışması için kullanılan barındırma ile veri tabanı altyapısının hizmet sağlayıcısı.
+
+Giriş sayfasındaki güvenlik bileşeni. Giriş sayfasını açtığınızda, formu otomatik giriş denemelerine karşı koruyan hCaptcha bileşeni yüklenir; tarayıcınız hcaptcha.com alan adındaki sunuculara istek gönderir ve bu istekle IP adresiniz ile tarayıcı bilginiz o sunuculara ulaşır. Bu hâl için onayınız istenmez ve alınmaz: bileşen sayfa açılır açılmaz, siz bir şey yapmadan yüklenir. Tarayıcınızda bıraktığı çerez ve bileşenin bütün alanları Çerez Politikası’nın 01. ve 03. maddelerinde yazılıdır.
+
+Sohbet asistanı — yalnızca onay verirseniz. Sohbet asistanında yapay zekâ onayı vermeniz hâlinde, o ana kadarki yazışma sitenin kendi sunucu fonksiyonu üzerinden Google’ın Gemini servisine iletilir. Onay vermezseniz bu aktarım hiç olmaz. Aktarılan tek şey yazışma metnidir: IP adresiniz, oturum bilginiz veya sizi tanımlayan başka bir veri gönderilmez, çünkü aradaki sunucu fonksiyonu tarayıcınızın başlıklarını iletmez. Metin sitenin veri tabanına da kaydedilmez. Aktarımın adım adım nasıl gerçekleştiği Gizlilik Politikası’nın 06. maddesindedir.
+
+Bir işin tedarikçiye verilmesi — bilginiz dâhilinde. Bir işin yürütülmesi için üçüncü bir tedarikçiye teknik dosya iletilmesi gerekiyorsa, bu ancak sizin bilginiz dâhilinde yapılır.
+
+Aktarımın gerçekleştiği hâller bunlardır. Bir üçüncü tarafa ulaştıktan sonra verinin ne olduğu hakkında bu belge bir şey söylemez: orası bizim göremediğimiz bir yer ve sizin adınıza doğrulayamayacağımız bir şeyi burada yazmayız. Bu nedenle sohbet kutusuna paylaşmak istemediğiniz hiçbir bilgiyi yazmayın; teknik ayrıntılar için teklif akışını kullanın, oraya bıraktığınız veri ve dosyalar hiçbir yapay zekâ servisine gönderilmez.
+
+05
+Saklama
+
+Kişisel veriler, işlendikleri amaç için gerekli olduğu süre boyunca ve ilgili mevzuatın öngördüğü saklama yükümlülükleri devam ettiği sürece saklanır; bu süre sona erdiğinde silinir, yok edilir veya anonim hâle getirilir.
+
+Bu metin belirli bir gün sayısı veya sabit bir imha takvimi taahhüt etmez. Verinizin silinmesini istiyorsanız, 06. maddedeki hakkınızı kullanarak talep edebilirsiniz.
+
+06
+Haklarınız (KVKK md. 11)
+
+Kanunun 11. maddesi gereğince; kişisel verinizin işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme, işlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme, yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme, eksik veya yanlış işlenmişse düzeltilmesini isteme, silinmesini veya yok edilmesini isteme, düzeltme ve silme işlemlerinin aktarım yapılan üçüncü kişilere bildirilmesini isteme, işlenen verilerin münhasıran otomatik sistemlerle analiz edilmesi suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme ve kanuna aykırı işleme sebebiyle zarara uğramanız hâlinde zararın giderilmesini talep etme haklarına sahipsiniz.
+
+07
+Başvuru
+
+Bu haklara ilişkin taleplerinizi sales@mastechnic.com adresine iletebilirsiniz. Başvurunuzda kimliğinizi tespit etmeye yarayan bilgilerin ve talebinizin konusunun açıkça yer alması gerekir.
+
+MADDELER
+
+01
+Veri sorumlusu
+02
+İşlenen kişisel veriler
+03
+İşleme amacı ve hukuki sebep
+04
+Aktarım
+05
+Saklama
+06
+Haklarınız (KVKK md. 11)
+07
+Başvuru
+
+DİĞER METİNLER
+
+01
+Gizlilik Politikası
+02
+Çerez Politikası
+
+Bu metinle ilgili sorularınızı ve KVKK başvurularınızı sales@mastechnic.com adresine iletebilirsiniz.
+
+SALES@MASTECHNİC.COM

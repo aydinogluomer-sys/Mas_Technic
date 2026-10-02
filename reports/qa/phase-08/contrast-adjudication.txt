@@ -1,0 +1,15 @@
+﻿=== /sss .shell-faq-source a (all details forced open) ===
+  10px/500  color=rgb(78, 85, 82)  bg=rgb(238, 233, 222)  ratio=6.319  "Kalite Kontrol sayfası"
+
+=== /zzzz .shell-notfound-code ===
+{
+ "text": "404",
+ "ariaHidden": "true",
+ "color": "rgba(0, 0, 0, 0)",
+ "webkitTextFillColor": "rgba(0, 0, 0, 0)",
+ "webkitTextStrokeColor": "rgba(18, 23, 25, 0.42)",
+ "webkitTextStrokeWidth": "1.5px",
+ "backgroundImage": "none",
+ "backgroundClip": "border-box",
+ "fontSize": "204.8px"
+}

@@ -1,0 +1,23 @@
+{
+  "cwd": "C:/Users/TRADEB~1/AppData/Local/Temp/claude/C--Users-Trade-Bilisim-precision-dynamics-hub-main/2e14ce45-c8a7-4199-8eb6-31cbd396a7a9/scratchpad/tnow",
+  "gateA": "C:/Users/TRADEB~1/AppData/Local/Temp/claude/C--Users-Trade-Bilisim-precision-dynamics-hub-main/2e14ce45-c8a7-4199-8eb6-31cbd396a7a9/scratchpad/tnow/scripts/gate-old.mjs",
+  "gateB": "C:/Users/TRADEB~1/AppData/Local/Temp/claude/C--Users-Trade-Bilisim-precision-dynamics-hub-main/2e14ce45-c8a7-4199-8eb6-31cbd396a7a9/scratchpad/tnow/scripts/gate-new.mjs",
+  "scannedOld": [
+    "209",
+    "26630"
+  ],
+  "scannedNew": [
+    "209",
+    "26630"
+  ],
+  "passOld": true,
+  "passNew": true,
+  "totalOld": 0,
+  "totalNew": 0,
+  "LOST": 0,
+  "GAINED": 0,
+  "lostKeys": [],
+  "gainedKeys": [],
+  "perRuleCountsChanged": [],
+  "perRuleCountsSame": 0
+}

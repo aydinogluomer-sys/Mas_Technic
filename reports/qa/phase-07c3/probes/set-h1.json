@@ -1,0 +1,18 @@
+[
+ { "id": "h1-01-carrier",        "expect": "FIRE",   "src": "const a = [{ icon: Users, title: \"Ekip\", desc: \"50+ deneyimli mühendis ve teknisyenden oluşan uzman kadro\" }];", "note": "the live carrier at Hakkimizda.tsx:29 over 19f30f5" },
+ { "id": "h1-02-glued",          "expect": "FIRE",   "src": "const s = \"30+ tezgah\";" },
+ { "id": "h1-03-one-adj",        "expect": "FIRE",   "src": "const s = \"8+ tam otomatik makine\";",              "note": "documented: one adjective must not defeat it" },
+ { "id": "h1-04-two-adj",        "expect": "FIRE",   "src": "const s = \"30+ yeni CNC tezgah\";" },
+ { "id": "h1-05-personel",       "expect": "FIRE",   "src": "const s = \"40+ tam zamanlı personel\";" },
+ { "id": "h1-06-musteri",        "expect": "FIRE",   "src": "const s = \"150+ aktif müşteri\";" },
+ { "id": "h1-07-metrekare",      "expect": "FIRE",   "src": "const s = \"5.000+ kapalı metrekare\";" },
+ { "id": "h1-08-m2",             "expect": "FIRE",   "src": "const s = \"5.000+ kapalı m²\";" },
+ { "id": "h1-09-calisan",        "expect": "FIRE",   "src": "const s = \"120+ çalışan\";" },
+ { "id": "h1-10-calisan-upper",  "expect": "FIRE",   "src": "const s = \"120+ ÇALIŞAN\";",                        "note": "the retraction's substance: unfolded spelling must survive the fold" },
+ { "id": "h1-11-operator",       "expect": "FIRE",   "src": "const s = \"25+ deneyimli operatör\";" },
+ { "id": "h1-12-tezgah-circ",    "expect": "FIRE",   "src": "const s = \"30+ tezgâh\";" },
+ { "id": "h1-13-three-adj",      "expect": "SILENT", "src": "const s = \"8+ tam otomatik beş eksenli makine\";",  "note": "documented {0,2} limit — three intervening words does not fire" },
+ { "id": "h1-14-alasim-folded",  "expect": "FIRE",   "src": "const s = \"15+ alüminyum alaşımı\";",               "note": "retraction says alaş[ıi]m was never needed" },
+ { "id": "h1-15-alasim-upper",   "expect": "FIRE",   "src": "const s = \"15+ ALÜMİNYUM ALAŞIMI\";" },
+ { "id": "h1-16-cesit",          "expect": "FIRE",   "src": "const s = \"200+ çeşit\";" }
+]

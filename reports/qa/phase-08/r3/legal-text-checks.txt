@@ -1,0 +1,25 @@
+PASS  no `#` fragment in any legal cross-reference
+      16 links checked; fragments: []
+
+PASS  no clause links the same destination twice
+      []
+
+PASS  /kvkk madde 04 carries no numeral counting the enumeration
+      matches: []
+
+PASS  the supplier case is inside the enumeration, before the closing paragraph
+      supplier at p5, closing at p6, 7 paragraphs
+
+PASS  no paragraph naming a third party claims anything about it after receipt
+      clean · 1 adjudicated: /cerez-politikasi madde 04 — The deleting party here is the READER'S OWN BROWSER, not hCaptcha or Cloudflare. "tarayıcınızın çerez listesinden ayrıca silinir ya da otuz dakika içinde kendiliğinden düşer" describes the cookie's own Expires attribute and the browser's own cookie UI. Measured this round: lifetimeMinutes 29.9, httpOnly true, secure true, sameSite None, domain .hcaptcha.com (reports/qa/phase-08/r3/hosts-frames.json). It says nothing about what anybody does with the data after receipt.
+
+PASS  `__cf_bm` has no row in the madde 02 table
+      ["sb-…-auth-token","mas_chat_ai_count","mas_pending_cad_upload","mas_intro_seen","mas-technic-theme"]
+
+PASS  the note still states the two properties `__cf_bm` fails
+      YEREL DEPO KAYITLARI Bu kayıtlar çerez değildir: her HTTP isteğiyle birlikte otomatik gönderilmezler ve yalnızca bu sitenin kendi sayfaları tarafından okunabilirler. Tarayıcınızın geliştirici araçlarındaki Uygulama / Depolama bölümünden hepsini görebilirsiniz.
+
+PASS  no retired absolute survives anywhere in the rendered documents or their metadata
+      []
+
+ALL PASS

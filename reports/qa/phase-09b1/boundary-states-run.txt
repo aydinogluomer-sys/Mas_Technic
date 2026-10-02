@@ -1,0 +1,66 @@
+guard canary: BLOCKED:Failed to fetch
+
+── A. `.tl-cad-drop` — the landing's own drop zone, never in the Coder's route list ──
+  computed border: 1px dashed rgb(154, 160, 156)   background: rgba(0, 0, 0, 0)
+  top   painted border #9aa09c on ground #eee9de → border/ground 2.2:1   fill/ground 1:1
+  left  painted border #9aa09c on ground #eee9de → border/ground 2.2:1   fill/ground 1:1
+
+── B. `[data-chat-launcher]` — no border, on every route, crosses grounds ──
+  /                        launcher not present
+  /iletisim                borderW 0  fill #0a7e8b on ground #eee9de → fill/ground 3.97:1
+  /giris                   borderW 0  fill #0a7e8b on ground #070b0d → fill/ground 4.11:1
+  /bu-sayfa-yok-09b1qa     borderW 0  fill #0a7e8b on ground #fbf8f1 → fill/ground 4.53:1
+
+── C. `.shell-auth-reveal` — no border; identified by a glyph, not a box ──
+  borderW 0  background rgba(0, 0, 0, 0)  colour rgb(164, 171, 168)
+  brightest glyph pixel #a5aca9 vs field #0c1114 → 8.2:1  (1.4.11 is met by the GRAPHICAL OBJECT, not a boundary)
+
+── D. `.shell-check` — is the boundary genuinely unreachable from CSS? ──
+  default: appearance=auto border-width=0px background=rgba(0, 0, 0, 0)
+  after a forced 1px border, appearance still auto: border-width computes to 0px
+  after appearance:none as well:                     border-width 3px, appearance none
+  VERDICT: a border DOES compute either way; what is unreachable is whether the UA PAINTS it while
+           appearance is auto. That is a paint question, so it is answered below by pixels.
+  painted: outer edge #858585 vs page ground #070b0d → 5.36:1 ; fill #3b3b3b → 1.76:1
+
+── F. hover / focus-visible / disabled on every control C1 repainted ──
+  /giris       auth text input    default  border #6d7170 ground #070b0d → brd/gnd     4:1  fill/gnd 1.04:1
+  /giris       auth text input    hover    border #6d7170 ground #070b0d → brd/gnd     4:1  fill/gnd 1.04:1
+  /giris       auth text input    focus    border #f3f0e8 ground #f3f0e8 → brd/gnd     1:1  fill/gnd 16.67:1
+  /giris       social button      default  border #696c6b ground #070b0d → brd/gnd  3.72:1  fill/gnd 1:1
+  /giris       social button      hover    border #f3f0e8 ground #070b0d → brd/gnd 17.35:1  fill/gnd 1.07:1
+  /giris       social button      focus    border #f3f0e8 ground #070b0d → brd/gnd 17.35:1  fill/gnd 1.07:1
+  /giris       auth action        default  border #eee9de ground #070b0d → brd/gnd 16.32:1  fill/gnd 16.32:1
+  /giris       auth action        hover    border #f3f0e8 ground #070b0d → brd/gnd 17.35:1  fill/gnd 17.35:1
+  /giris       auth action        focus    border #f3f0e8 ground #070b0d → brd/gnd 17.35:1  fill/gnd 17.35:1
+  /malzemeler  register input     default  border #6b6f6e ground #030506 → brd/gnd  4.01:1  fill/gnd 1.08:1
+  /malzemeler  register input     hover    border #6d7170 ground #030506 → brd/gnd  4.13:1  fill/gnd 1.08:1
+  /malzemeler  register input     focus    border #f3f0e8 ground #f3f0e8 → brd/gnd     1:1  fill/gnd 16.67:1
+  /malzemeler  unpressed segment  default  border #686b6a ground #070b0d → brd/gnd  3.67:1  fill/gnd 1:1
+  /malzemeler  unpressed segment  hover    border #686b6a ground #070b0d → brd/gnd  3.67:1  fill/gnd 1:1
+  /malzemeler  unpressed segment  focus    border #686b6a ground #070b0d → brd/gnd  3.67:1  fill/gnd 1:1
+  /malzemeler  row toggle         default  border #686b6a ground #070b0d → brd/gnd  3.67:1  fill/gnd 1:1
+  /malzemeler  row toggle         hover    border #f3f0e8 ground #070b0d → brd/gnd 17.35:1  fill/gnd 1:1
+  /malzemeler  row toggle         focus    border #f3f0e8 ground #070b0d → brd/gnd 17.35:1  fill/gnd 1:1
+  /teklif-al file drop: not found
+  /giris       social button      disabled border #3d4141 ground #070b0d → brd/gnd 1.91:1  (opacity 0.55; 1.4.11 exempts inactive components)
+
+── E. `.tl-menu-trigger` at 375 — is the word actually there? ──
+  1280  accessible name "Menüyü aç"  |  label element "MENÜ" display=block visible=true
+        box 89x48  bars [{"w":22,"h":1},{"w":14,"h":1},{"w":22,"h":1}]
+        BORDER #444848 vs ground #070b0d → 2.13:1    brightest inner mark #f3f0e8 → 17.35:1
+        traffic: blocked 2, ALLOWED 0
+   768  accessible name "Menüyü aç"  |  label element "MENÜ" display=block visible=true
+        box 89x48  bars [{"w":22,"h":1},{"w":14,"h":1},{"w":22,"h":1}]
+        BORDER #444848 vs ground #070b0d → 2.13:1    brightest inner mark #f3f0e8 → 17.35:1
+        traffic: blocked 2, ALLOWED 0
+   375  accessible name "Menüyü aç"  |  label element "MENÜ" display=none visible=false
+        box 44x48  bars [{"w":22,"h":1},{"w":14,"h":1},{"w":22,"h":1}]
+        BORDER #444848 vs ground #070b0d → 2.13:1    brightest inner mark #f3f0e8 → 17.35:1
+        traffic: blocked 2, ALLOWED 0
+   320  accessible name "Menüyü aç"  |  label element "MENÜ" display=none visible=false
+        box 44x48  bars [{"w":22,"h":1},{"w":14,"h":1},{"w":22,"h":1}]
+        BORDER #444848 vs ground #070b0d → 2.13:1    brightest inner mark #f3f0e8 → 17.35:1
+        traffic: blocked 2, ALLOWED 0
+
+traffic (main context): blocked 77, ALLOWED 0

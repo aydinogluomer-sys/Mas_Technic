@@ -1,0 +1,212 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   ROUND 2 · LANDING BANDS  (items 12 and 15)
+   Loaded after polish.css by PageShell. Tokens only.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 08 · Sectors — all thirteen, one master column-set per card ──────────
+   The track spans the band's 12 columns; four cards fill it exactly, so the
+   cards on screen at rest sit on master lines. Arrows page by one screen. */
+.shell-root .tl-sector-track {
+  grid-column: 1 / -1;
+  display: flex;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.shell-root .tl-sector-track::-webkit-scrollbar { display: none; }
+.shell-root .tl-sector-track:focus-visible { outline: 2px solid var(--tl-paper); outline-offset: -2px; }
+.shell-root .tl-sector-track > .tl-sector-card {
+  flex: 0 0 25%;
+  min-width: 0;
+  scroll-snap-align: start;
+  border-right: 1px solid var(--tl-rule);
+}
+.shell-root .tl-sector-card h3 { font-size: 12px; }
+
+/* Sectors without a photograph: a numbered drawing-sheet card, never a
+   borrowed image. */
+.shell-root .tl-sector-card[data-typographic] {
+  display: grid;
+  background:
+    linear-gradient(var(--tl-rule-soft) 1px, transparent 1px) 0 0 / 100% 25%,
+    linear-gradient(90deg, var(--tl-rule-soft) 1px, transparent 1px) 0 0 / 25% 100%,
+    var(--tl-panel);
+}
+.shell-root .tl-sector-card[data-typographic]::after { background: none; }
+.tl-sector-no {
+  align-self: start;
+  padding: var(--tl-s4);
+  color: transparent;
+  font: 700 clamp(64px, 6vw, 104px)/.9 var(--tl-font-sans);
+  letter-spacing: -.05em;
+  -webkit-text-stroke: 1px var(--tl-steel-light);
+  transition: color .5s var(--pl-ease, ease);
+}
+.shell-root .tl-sector-card[data-typographic]:hover .tl-sector-no { color: var(--tl-steel-light); }
+
+.tl-sector-controls {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tl-s4);
+  border-top: 1px solid var(--tl-rule);
+  padding: var(--tl-s3) var(--tl-s4);
+}
+.tl-sector-controls p { margin: 0; color: var(--tl-on-dark-meta); font: 600 11px/1 var(--tl-font-mono); letter-spacing: .12em; }
+.tl-sector-controls p span { color: var(--tl-white); }
+.tl-sector-controls div { display: flex; gap: var(--tl-s2); }
+.tl-sector-controls button {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 1px solid var(--tl-control-rule);
+  color: var(--tl-white);
+  background: none;
+  cursor: pointer;
+  transition: background .25s ease, color .25s ease, border-color .25s ease;
+}
+.tl-sector-controls button svg { width: 18px; height: 18px; }
+.tl-sector-controls button:not(:disabled):is(:hover, :focus-visible) { color: var(--tl-ink); background: var(--tl-paper); border-color: var(--tl-paper); }
+.tl-sector-controls button:disabled { opacity: .35; cursor: default; }
+
+@media (max-width: 1180px) {
+  .shell-root .tl-sector-track > .tl-sector-card { flex-basis: 50%; }
+}
+@media (max-width: 767px) {
+  /* Three of the four mobile master columns: the card lands on C3 and the
+     next one peeks in the fourth, which is the swipe cue. */
+  .shell-root .tl-sector-track > .tl-sector-card { flex-basis: 75%; min-height: 220px; border-bottom: 0; }
+}
+
+/* ── 10 · Quality file — one wireframe for all six cards ──────────────────
+   Code line → title → subtitle → the same document frame → footer line. The
+   certificates used to be text-only while the three records carried three
+   different drawings; now every card carries the same document frame, filled
+   with the same row rhythm, so the strip reads as one set. */
+.shell-root .tl-quality-strip > .tl-cert {
+  display: grid;
+  /* Revision 4: every row is fixed — code, title (2 lines), subtitle (4
+     lines, the capitalised KALİTE DOSYASI list is the longest), the document
+     frame (one height) and the footer (2 lines) — so the six cards are the
+     same box, the same frame and the same rhythm whatever their copy. */
+  grid-template-rows:
+    auto
+    calc(2 * 1.25 * 14px)
+    calc(4 * 1.55 * 11px + 8px)
+    var(--tl-cert-doc-h)
+    calc(2 * 1.4 * 10px + var(--tl-s3));
+  --tl-cert-doc-h: 104px;
+  align-items: start;
+  justify-items: stretch;
+  min-height: 300px;
+  gap: 0;
+  padding: var(--tl-s4);
+  text-align: left;
+}
+.shell-root .tl-cert-code {
+  margin: 0 0 var(--tl-s3);
+  color: var(--tl-steel);
+  font: 600 10px/1 var(--tl-font-mono);
+  letter-spacing: .14em;
+}
+.shell-root .tl-cert h3 { margin: 0; font-size: 14px; line-height: 1.25; }
+.shell-root .tl-cert > p { margin: var(--tl-s2) 0 0; }
+.shell-root .tl-cert-doc {
+  display: grid;
+  align-self: stretch;
+  height: var(--tl-cert-doc-h);
+  box-sizing: border-box;
+  align-content: start;
+  gap: 5px;
+  margin-top: var(--tl-s4);
+  border: 1px solid var(--tl-paper-rule);
+  padding: var(--tl-s3);
+  background: var(--tl-paper-sunken);
+}
+.shell-root .tl-cert-doc i { display: block; height: 3px; background: var(--tl-paper-rule-soft); }
+.shell-root .tl-cert-doc i:nth-child(1) { width: 62%; background: var(--tl-paper-rule-strong); }
+.shell-root .tl-cert-doc i:nth-child(3n) { width: 78%; }
+.shell-root .tl-cert-doc i:nth-child(4n) { width: 88%; }
+.shell-root .tl-cert-foot {
+  margin: var(--tl-s3) 0 0;
+  color: var(--tl-ink-soft);
+  font: 500 10px/1.4 var(--tl-font-mono);
+  letter-spacing: .1em;
+}
+
+/* ── REVISION 4 · RFQ STEP DIVIDERS ──────────────────────────────────────
+   The RFQ run speaks the Process band's language: a hairline between steps
+   and an arrow sitting on it, cut out of the line by the band ground
+   (`technical-landing.css` .tl-process li / ::after). Last step: neither.
+   Mobile: the run stacks, the hairline turns horizontal and the arrow ↓. */
+.shell-root .tl-rfq-body > ol { column-gap: 0; }
+/* No vertical padding: the band keeps its compact reference ratio
+   (technical-landing.spec, height/width < 0.115); the hairline spans the step. */
+.shell-root .tl-rfq-body > ol li {
+  border-right: 1px solid var(--tl-paper-rule);
+  padding: 0 var(--tl-s4);
+}
+.shell-root .tl-rfq-body > ol li:first-child { padding-left: 0; }
+.shell-root .tl-rfq-body > ol li::after {
+  content: "→";
+  top: 50%;
+  right: -13px;
+  width: 26px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  background: var(--tl-paper);
+  color: var(--tl-ink);
+  font: 500 15px/1 var(--tl-font-mono);
+}
+.shell-root .tl-rfq-body > ol li:last-child { border-right: 0; }
+.shell-root .tl-rfq-body > ol li:last-child::after { display: none; }
+@media (max-width: 767px) {
+  .shell-root .tl-rfq-body > ol { gap: 0; }
+  .shell-root .tl-rfq-body > ol li {
+    border-right: 0;
+    border-bottom: 1px solid var(--tl-paper-rule);
+    padding: var(--tl-s4) var(--tl-s3);
+  }
+  .shell-root .tl-rfq-body > ol li:first-child { padding-left: var(--tl-s3); }
+  .shell-root .tl-rfq-body > ol li:last-child { border-bottom: 0; }
+  .shell-root .tl-rfq-body > ol li::after {
+    content: "↓";
+    top: auto;
+    right: auto;
+    bottom: -10px;
+    left: var(--tl-s5);
+    transform: none;
+  }
+}
+
+/* ── REVISION 4 · EVERY PICTURE LEADS SOMEWHERE ───────────────────────────
+   A transparent link laid over a picture's box (hero part, process figure,
+   manifesto ground, journal plate), so the image keeps its own selectors,
+   masks and grid axes. Text that must stay readable above it (the manifesto
+   copy) is already a later positioned sibling. Project tiles wrap the image
+   itself in `.tl-project-media`. */
+.tl-image-link {
+  position: absolute;
+  inset: 0;
+  display: block;
+  cursor: pointer;
+}
+.tl-image-link:focus-visible { outline: 2px solid var(--tl-bronze-light); outline-offset: -4px; }
+.shell-plate-frame:has(> .tl-image-link) { position: relative; }
+.tl-project-media { display: block; min-width: 0; height: 100%; overflow: hidden; }
+.tl-project-media img { transition: transform .6s var(--tl-ease-out, ease), filter .4s ease; }
+.tl-project-media:is(:hover, :focus-visible) img { transform: scale(1.03); filter: grayscale(.6) contrast(1.05); }
+.tl-project-media:focus-visible { outline: 2px solid var(--tl-bronze-light); outline-offset: -4px; }
+@media (prefers-reduced-motion: reduce) {
+  .tl-project-media img { transition: none; }
+  .tl-project-media:is(:hover, :focus-visible) img { transform: none; }
+}
+/* Drawing layers over a linked picture are paint only: the hero's dimension
+   lines and the manifesto scrim pass the pointer through to the link. */
+.tl-part-frame .tl-dimension-lines,
+.tl-manifesto-body::after { pointer-events: none; }

@@ -1,0 +1,43 @@
+VITE_SUPABASE_URL_PRESENT=yes
+VITE_SUPABASE_PUBLISHABLE_KEY_PRESENT=yes
+(node:31776) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 30 tests using 1 worker
+
+(node:19372) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✘   1 [desktop-1280] › e2e\landing-flow.spec.ts:43:3 › Editorial landing flow › records nine physical sections as a known production blocker (2.5s)
+  ✘   2 [desktop-1280] › e2e\landing-flow.spec.ts:53:3 › Editorial landing flow › records the future section semantics as a known production blocker (2.4s)
+  ✓   3 [desktop-1280] › e2e\landing-flow.spec.ts:98:3 › Editorial landing flow › preserves nine unique anchors and the current content inventory (1.9s)
+  ✓   4 [desktop-1280] › e2e\landing-flow.spec.ts:127:3 › Editorial landing flow › matches the approved compact and full-motion profile boundary (1.9s)
+  ✓   5 [desktop-1280] › e2e\landing-flow.spec.ts:142:3 › Editorial landing flow › full-motion service controls expose one destination at a time (1.8s)
+  -   6 [desktop-1280] › e2e\landing-flow.spec.ts:161:3 › Editorial landing flow › natural-flow profiles expose every service and industry destination
+  -   7 [desktop-1280] › e2e\landing-flow.spec.ts:174:3 › Editorial landing flow › records the known serious contrast defect instead of treating axe as green
+  ✓   8 [desktop-1280] › e2e\landing-flow.spec.ts:195:3 › Editorial landing flow › active service controls have measurable target size and valid ARIA (1.8s)
+  ✓   9 [desktop-1280] › e2e\landing-flow.spec.ts:207:3 › Editorial landing flow › industry keyboard selection keeps its named destination visible and focusable (2.2s)
+  -  10 [desktop-1280] › e2e\landing-flow.spec.ts:231:3 › Editorial landing flow › short desktop keeps representative keyboard targets unobscured
+  -  11 [desktop-1280] › e2e\landing-flow.spec.ts:255:1 › reduced motion removes pins, marquee, pixels and hidden reveal states
+  ✓  12 [desktop-1280] › e2e\landing-flow.spec.ts:271:1 › cold navigation exposes the hero and primary action without a page lock (1.2s)
+  ✓  13 [desktop-1280] › e2e\section-integrity.spec.ts:17:3 › Landing page section integrity › current physical sections stay in flow without horizontal overflow (2.0s)
+  ✓  14 [desktop-1280] › e2e\section-integrity.spec.ts:41:3 › Landing page section integrity › preserves exactly nine public anchors in immutable order (1.8s)
+  ✓  15 [desktop-1280] › e2e\section-integrity.spec.ts:70:3 › Landing page section integrity › industry selection never leaves an inaccessible active destination (2.4s)
+  ✓  16 [desktop-1280] › e2e\section-integrity.spec.ts:97:3 › Landing page section integrity › internal hash links always resolve to a unique real target (1.9s)
+  ✓  17 [desktop-1280] › e2e\technical-landing.spec.ts:13:3 › technical editorial landing phase 1 › renders the frame, hero, annotations and proof strip (1.9s)
+  ✓  18 [desktop-1280] › e2e\technical-landing.spec.ts:21:3 › technical editorial landing phase 1 › numbers every band of the drawing sheet in order (1.8s)
+  ✓  19 [desktop-1280] › e2e\technical-landing.spec.ts:26:3 › technical editorial landing phase 1 › does not create document-level horizontal overflow (2.0s)
+  ✓  20 [desktop-1280] › e2e\technical-landing.spec.ts:31:3 › technical editorial landing phase 1 › keeps the shared sheet rail and viewport column contract (2.2s)
+  ✓  21 [desktop-1280] › e2e\technical-landing.spec.ts:57:3 › technical editorial landing phase 1 › renders the capability marquee with its loop copy hidden from assistive tech (1.9s)
+  ✓  22 [desktop-1280] › e2e\technical-landing.spec.ts:66:3 › technical editorial landing phase 1 › moves the two visual bands against the scroll without hijacking input (2.2s)
+  ✓  23 [desktop-1280] › e2e\technical-landing.spec.ts:93:3 › technical editorial landing phase 1 › renders process, NEXUS and measured project evidence (2.0s)
+  ✓  24 [desktop-1280] › e2e\technical-landing.spec.ts:102:3 › technical editorial landing phase 1 › renders sectors, the quality file and the reference band (1.9s)
+  ✓  25 [desktop-1280] › e2e\technical-landing.spec.ts:117:3 › technical editorial landing phase 1 › keeps unpublished quality assets honest instead of faking downloads (1.9s)
+  ✓  26 [desktop-1280] › e2e\technical-landing.spec.ts:124:3 › technical editorial landing phase 1 › renders FAQ answers and the RFQ hand-off (2.2s)
+  ✓  27 [desktop-1280] › e2e\technical-landing.spec.ts:136:3 › technical editorial landing phase 1 › keeps reference proportions for headline, project cards and NEXUS rows (2.1s)
+  ✓  28 [desktop-1280] › e2e\technical-landing.spec.ts:268:3 › technical editorial landing phase 1 › has no serious or critical accessibility violations (4.1s)
+  -  29 [desktop-1280] › e2e\technical-landing.spec.ts:274:3 › technical editorial landing phase 1 › mobile menu traps focus and closes with Escape
+  ✓  30 [desktop-1280] › e2e\technical-landing.spec.ts:284:3 › technical editorial landing phase 1 › reduced motion keeps the complete page visible without active animation (2.0s)
+
+  5 skipped
+  25 passed (1.5m)
+EXIT=0

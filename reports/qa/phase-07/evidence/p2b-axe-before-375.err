@@ -1,0 +1,8 @@
+/hizmetler/cnc-frezeleme: violations 28 nodes / incomplete 21 nodes
+/hakkimizda: violations 0 nodes / incomplete 1 nodes
+/iletisim: violations 4 nodes / incomplete 1 nodes
+/malzemeler: violations 2 nodes / incomplete 14 nodes
+/malzemeler/aluminyum: violations 0 nodes / incomplete 7 nodes
+/hizmetler/kategori/talasli-imalat: violations 0 nodes / incomplete 1 nodes
+/endustriyel/havacilik-uzay: violations 28 nodes / incomplete 16 nodes
+/: violations 0 nodes / incomplete 27 nodes

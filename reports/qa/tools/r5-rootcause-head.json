@@ -1,0 +1,62 @@
+{
+  "label": "HEAD-45f3577",
+  "base": "http://localhost:4519",
+  "log": [
+    {
+      "stage": "loaded",
+      "scrollY": 0,
+      "scrollHeight": 20157,
+      "gate": false,
+      "buttonsInBody": 0,
+      "count": 0
+    },
+    {
+      "stage": "after window.scrollTo(40%)",
+      "scrollY": 8063,
+      "scrollHeight": 20157,
+      "gate": true,
+      "buttonsInBody": 1,
+      "count": 0
+    },
+    {
+      "stage": "after synthetic scroll event",
+      "scrollY": 8063,
+      "scrollHeight": 20157,
+      "gate": true,
+      "buttonsInBody": 1,
+      "count": 0
+    },
+    {
+      "stage": "after real wheel +40",
+      "scrollY": 8103,
+      "scrollHeight": 20157,
+      "gate": true,
+      "buttonsInBody": 1,
+      "count": 0
+    },
+    {
+      "stage": "after real wheel -40",
+      "scrollY": 8063,
+      "scrollHeight": 20157,
+      "gate": true,
+      "buttonsInBody": 1,
+      "count": 0
+    },
+    {
+      "stage": "after End",
+      "scrollY": 19589,
+      "scrollHeight": 20157,
+      "gate": false,
+      "buttonsInBody": 0,
+      "count": 0
+    },
+    {
+      "stage": "after End then window.scrollTo(40%)",
+      "scrollY": 8063,
+      "scrollHeight": 20157,
+      "gate": true,
+      "buttonsInBody": 1,
+      "count": 0
+    }
+  ]
+}

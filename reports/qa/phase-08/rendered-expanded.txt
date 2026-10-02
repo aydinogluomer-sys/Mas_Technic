@@ -1,0 +1,1874 @@
+
+
+======== /sss (h1=1) ========
+R3
+SSS
+01
+SSS
+ANA SAYFA
+SIK SORULANLAR
+
+SORU KAYDI
+
+Sıkça Sorulan Sorular
+
+Üretim, malzeme, tolerans, kalite ve teslimat başlıklarında en çok sorulanlar. Her yanıt, ilgili teknik sayfanın kendi metniyle aynı kaynaktan gelir.
+
+TEKLİF AL
+SORU SOR
+KAPSAM
+Üretim · Malzeme · Kalite · Teslimat
+STANDART TOLERANS
+±0.01 mm
+TEKLİF DÖNÜŞÜ
+1-3 iş günü
+02
+KAYIT
+02
+Soru kaydı
+
+Arayın veya bir başlık seçin. Arama; soru metninde, yanıtta ve başlıkta çalışır.
+
+ARA
+BAŞLIK
+Tümü
+Genel
+Kalite & Standartlar
+Malzeme
+Mühendislik
+Yüzey İşlemleri
+Talaşlı İmalat
+Kalıp & Ön Üretim
+Üretim Altyapısı
+Üretim Ölçeklendirme
+Süreç & Operasyon
+Endüstriyel Sektörler
+
+GENEL
+Minimum sipariş adedi nedir?
+
+Minimum sipariş adedi yoktur. Tek parça prototipten seri üretime kadar çalışıyoruz; adet, teklifteki birim maliyeti etkiler ancak bir alt sınır oluşturmaz.
+
+Hangi dosya formatlarını kabul ediyorsunuz?
+
+Teklif akışındaki yükleyici STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını kabul eder. Ölçülendirilmiş 2B teknik resminizi veya listede olmayan bir formatı e-posta ile iletebilirsiniz.
+
+Teslim süresi ne kadardır?
+
+Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte paylaşılır. Acil işler için önceliklendirme talebinizi teklif aşamasında belirtin.
+
+Teklifi ne kadar sürede alırım?
+
+Teknik resim veya 3B model elimize ulaştıktan sonra 1-3 iş günü içinde dönüş yapılır. Üretilebilirlik incelemesinde bir soru çıkarsa, teklif beklemeden önce bunu size sorarız.
+
+KALİTE & STANDARTLAR
+Hangi toleransta çalışıyorsunuz?
+
+Standart tolerans aralığımız ±0.01 mm. Bundan dar bir tolerans gerekiyorsa, hangi kotenin gerçekten o toleransı gerektirdiğini teklif aşamasında birlikte belirleriz; gerektirmiyorsa bunu söylemeyi tercih ederiz.
+
+Kalite belgeniz var mı?
+
+ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Belge kapsamı dışında bir standart talep ediyorsanız teknik incelemede birlikte değerlendiririz.
+
+Ölçüm raporu veriyor musunuz?
+
+Her iş için kontrol planı hazırlanır ve ölçüm kayıtları teslim dosyasına eklenir. Akredite 3. taraf CMM ölçümü, talebe bağlı olarak sağlanır.
+
+Hangi kalite belgeleriniz var?
+
+ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Belge kapsamı dışında bir standart gerekiyorsa teknik incelemede birlikte değerlendiririz.
+
+KALİTE KONTROL SAYFASI
+
+CMM ölçümü yapılıyor mu?
+
+Koordinat ölçümü, akredite üçüncü taraf tarafından talebe bağlı olarak yapılır. Bu tercih ölçümün üretimden bağımsız olmasını sağlar; ihtiyacınızı teklif aşamasında belirtmeniz yeterlidir.
+
+KALİTE KONTROL SAYFASI
+
+Kalite kontrol süreci nasıl işliyor?
+
+Teknik inceleme ile kontrol planı oluşturulur; malzeme girişi kaydedilir, ilk parça onaylanır, proses sırasında ara kontroller yapılır ve son kontrol plana göre tamamlanarak kayıt altına alınır.
+
+KALİTE KONTROL SAYFASI
+
+Malzeme sertifikası alabilir miyim?
+
+Malzeme parti ve döküm kaydı üzerinden izlenir. Malzeme sertifikası talep etmeniz halinde teslimat dosyasına eklenir.
+
+KALİTE KONTROL SAYFASI
+
+Standart tolerans aralığınız nedir?
+
+±0.01 mm'dir. Bir parçada daha darına inilip inilemeyeceği geometri, malzeme, parça ölçüsü ve ölçü zincirine bağlıdır ve teknik incelemede belirlenir.
+
+TOLERANS & HASSASİYET SAYFASI
+
+Geometrik tolerans (GD&T) desteğiniz var mı?
+
+Evet. ASME Y14.5 dilinde konum, diklik, eş eksenlilik, düzlem ve dairesellik toleranslarını datum yapısıyla birlikte okur ve kontrol planına yazarız.
+
+TOLERANS & HASSASİYET SAYFASI
+
+Teknik resmimde tolerans belirtilmemiş, ne olur?
+
+Belirtilmemiş ölçüler için ISO 2768 genel tolerans sınıfları kullanılır. Hangi sınıfın geçerli olacağını teklif aşamasında netleştiririz.
+
+TOLERANS & HASSASİYET SAYFASI
+
+Daha dar tolerans istersem ne değişir?
+
+Operasyon sırası, bağlama düzeni ve kontrol yöntemi değişir; süre ve maliyet artar. Fonksiyonu etkilemeyen koteleri gevşetmenizi önerebiliriz.
+
+TOLERANS & HASSASİYET SAYFASI
+
+Toleransın tutulduğunu nasıl gösteriyorsunuz?
+
+Kritik koteler kontrol planına yazılır, ölçülür ve sonuçlar kayıt altına alınır. Koordinat ölçümü gerektiğinde akredite üçüncü taraf ölçümü talebe bağlı olarak sağlanır.
+
+TOLERANS & HASSASİYET SAYFASI
+
+MALZEME
+Hangi malzemelerle çalışıyorsunuz?
+
+Alüminyum, çelik, paslanmaz çelik, pirinç, bakır, titanyum ve mühendislik plastikleri (POM, PEEK, PA) ile çalışıyoruz. Malzeme kütüphanesindeki her aile için işlenebilirlik ve tipik değer aralıkları yayımlanmıştır.
+
+MÜHENDİSLİK
+Üretilebilirlik (DFM) incelemesi yapıyor musunuz?
+
+Üretilebilirlik incelemesi teklif aşamasının bir parçasıdır: kote, tolerans ve yüzey talepleri seçilen imalat yöntemine göre gözden geçirilir ve maliyeti belirgin biçimde etkileyen noktalar teklifle birlikte yazılı olarak iletilir.
+
+DFM analizi ücreti var mı?
+
+İlk DFM değerlendirmesi ücretsizdir. Detaylı analiz raporu ve CAD revizyonları proje kapsamına göre fiyatlandırılır.
+
+TASARIM REHBERİ (DFM) SAYFASI
+
+DFM analizi ne kadar sürer?
+
+Standart bir DFM analizi 5 iş gününde tamamlanır: 1 gün inceleme, 2-3 gün detaylı analiz, 1 gün görüşme ve revizyon.
+
+TASARIM REHBERİ (DFM) SAYFASI
+
+Hangi CAD formatlarını kabul ediyorsunuz?
+
+Teklif akışında STEP, STP, STL, OBJ, IGES, IGS ve 3MF dosyalarını doğrudan yükleyebilirsiniz. Listede olmayan bir yerel CAD formatı veya ölçülendirilmiş teknik resim için dosyayı sales@mastechnic.com adresine iletebilirsiniz.
+
+TASARIM REHBERİ (DFM) SAYFASI
+
+DFM analizi ne kadar tasarruf sağlar?
+
+Tasarrufun büyüklüğü parçanın geometrisine ve mevcut üretim planına bağlıdır. DFM analizinde parça sayısı, bağlama sayısı, takım erişimi ve tolerans zinciri değerlendirilir; beklenen etki analiz raporunda parça bazında verilir.
+
+TASARIM REHBERİ (DFM) SAYFASI
+
+Hangi yüzey işlemi benim parçama uygun?
+
+Uygulamaya göre değişir: Korozyon koruması için anodizasyon veya nikelaj, sertlik artırma için nitrürleme, estetik için toz boya veya eloksal, elektriksel yalıtım için e-kap öneriyoruz. Mühendislik ekibimiz detaylı analiz yapabilir.
+
+YÜZEY İŞLEMLERİ REHBERİ SAYFASI
+
+Yüzey işlemi boyut değişikliğine neden olur mu?
+
+Evet, anodizasyon kalınlık×2 kadar boyut artışı, kumlama 5-20µm boyut azalması yapar. Bu değerler işleme toleranslarında dikkate alınır.
+
+YÜZEY İŞLEMLERİ REHBERİ SAYFASI
+
+Ra 0.1µm yüzey kalitesine ulaşabilir misiniz?
+
+Evet, özel takım ve işleme parametreleri ile Ra 0.1µm ayna parlaklığında yüzey kalitesine ulaşabiliyoruz. Optik ve yatak uygulamaları için idealdir.
+
+YÜZEY İŞLEMLERİ REHBERİ SAYFASI
+
+YÜZEY İŞLEMLERİ
+Yüzey işleme hizmetiniz var mı?
+
+Anodizasyon, kaplama, boyama, kumlama, parlatma ve ısıl işlem gibi yüzey işlemlerini sunuyor veya koordine ediyoruz. Hangi işlemin sizin parçanız için uygun olduğunu ilgili hizmet sayfasında bulabilirsiniz.
+
+Anodizasyon hangi metallere uygulanabilir?
+
+Temel olarak alüminyum ve alaşımlarına uygulanır. Titanyum ve magnezyum da anodize edilebilir. En yaygın uygulama Al 6061 ve 7075 serisi alaşımlardır.
+
+ANODİZASYON SAYFASI
+
+Sert anodizasyon (Tip III) ile normal (Tip II) farkı nedir?
+
+Tip III sert anodizasyon 25-100µm kalınlıkta olup 60-70 HRC sertlik sağlar, aşınma direnci ve elektriksel yalıtım gerektiğinde tercih edilir. Tip II 10-25µm olup genel korozyon koruması ve dekoratif kaplama için uygundur.
+
+ANODİZASYON SAYFASI
+
+Anodizasyon boyut değişikliğine neden olur mu?
+
+Evet, oksit tabakasının yaklaşık %50'si malzemeye nüfuz eder, %50'si yüzeyden dışarı büyür. Örneğin 25µm Tip II kaplama ~12.5µm boyut artışı yapar. Bu değer işleme toleranslarında dikkate alınmalıdır.
+
+ANODİZASYON SAYFASI
+
+Hangi renklerde anodizasyon yapabiliyorsunuz?
+
+Siyah, kırmızı, mavi, yeşil, altın, bronz, mor, turuncu, sarı, füme ve naturel (renksiz) renklerde çalışıyoruz. Özel RAL ve Pantone renk eşleştirmesi de yapabiliyoruz; renk homojenliği ΔE ≤ 2.0 toleransında kontrol edilir.
+
+ANODİZASYON SAYFASI
+
+Kaplama ne kadar dayanıklıdır?
+
+Kaplamalarımızın korozyon direnci ASTM B117 tuz spreyi testi ile doğrulanır. Sert anodizasyon ile çelik sertliğine yakın aşınma direnci elde edilir.
+
+ANODİZASYON SAYFASI
+
+Anodizasyon teslimat süreniz ne kadar?
+
+Standart siparişlerde 24-72 saat, büyük partilerde 3-5 iş günü teslimat süremiz bulunmaktadır. Ekspres hizmet ile aynı gün teslimat da mümkündür.
+
+ANODİZASYON SAYFASI
+
+TALAŞLI İMALAT
+3 eksen mi 5 eksen mi kullanmalıyım?
+
+Düz yüzeyler ve basit cep işlemleri için 3 eksen yeterlidir ve daha ekonomiktir. Alttan kesim, eğik yüzeyler veya tek bağlamada çok yüzey işleme gerekiyorsa 5 eksen tercih edilir.
+
+CNC FREZELEME SAYFASI
+
+CNC frezeleme tolerans değerleriniz nedir?
+
+Standart çalışma aralığımız ±0.01mm'dir. Ulaşılabilir tolerans; geometri, malzeme, parça ölçüsü ve ölçü zincirine göre değişir ve her parça için teknik incelemede belirlenir.
+
+CNC FREZELEME SAYFASI
+
+Minimum sipariş adedi var mı?
+
+Hayır, tek parçadan seri üretime kadar her adette üretim yapıyoruz. Prototip siparişleri de kabul ediyoruz.
+
+CNC FREZELEME SAYFASI
+
+Teslimat süreniz ne kadar?
+
+Standart parçalarda 5-10 iş günü, ekspres üretimde 2 iş gününe kadar inebiliyoruz. Prototip için 3-5 iş günü.
+
+CNC FREZELEME SAYFASI
+
+Tornalama mı frezeleme mi seçmeliyim?
+
+Parçanız silindirik veya dönme simetrisine sahipse tornalama daha ekonomiktir. Prizmatik parçalar için frezeleme tercih edilir.
+
+CNC TORNALAMA SAYFASI
+
+Karmaşık parçalar tek tezgahta mı yapılır?
+
+Turn-mill tezgahlarımızda hem tornalama hem frezeleme işlemleri tek bağlamada yapılabilir. Bu hassasiyeti artırır ve maliyeti düşürür.
+
+CNC TORNALAMA SAYFASI
+
+Swiss tornalama ne zaman gerekir?
+
+Ø32mm altı çaplarda ve boy/çap oranı yüksek parçalarda (örn: medikal vidalar, pimler) Swiss torna daha hassas sonuç verir.
+
+CNC TORNALAMA SAYFASI
+
+Seri üretim için uygun mu?
+
+Evet, bar besleyicili tezgahlarımızda gece-gündüz kesintisiz seri üretim yapabiliyoruz.
+
+CNC TORNALAMA SAYFASI
+
+Hangi çap aralığında tornalama yapabiliyorsunuz?
+
+Swiss tip torna ile 0.3mm'den başlayarak konvansiyonel torna ile 500mm çapa kadar geniş bir aralıkta tornalama yapabiliyoruz.
+
+CNC TORNALAMA SAYFASI
+
+Mikro işleme ne zaman tercih edilmeli?
+
+Parça özellikleri 1mm altında veya toleranslar ±0.01mm altında ise mikro işleme gereklidir. Standart CNC bu hassasiyetlere ulaşamaz.
+
+HASSAS MİKRO İŞLEME SAYFASI
+
+Maliyet standart CNC'den yüksek mi?
+
+Evet, özel takımlar, yavaş ilerleme hızları ve hassas ölçüm gereksinimleri nedeniyle maliyet daha yüksektir. Ancak bu, standart yöntemlerle elde edilemeyecek sonuçlar içindir.
+
+HASSAS MİKRO İŞLEME SAYFASI
+
+Seri üretim yapabiliyor musunuz?
+
+Evet, otomatik besleyicili Swiss torna ve palletli 5 eksen sistemleri ile mikro parçalarda bile seri üretim yapabiliyoruz.
+
+HASSAS MİKRO İŞLEME SAYFASI
+
+Derin delik nedir?
+
+Boy/çap oranı (L/D) 10:1'den büyük delikler 'derin delik' olarak tanımlanır. Standart matkaplarla bu oranlarda hassas delme mümkün değildir.
+
+DERİN DELİK & RAYBALAMA SAYFASI
+
+Gun drill ile BTA arasındaki fark nedir?
+
+Gun drill küçük çaplarda (Ø2-20mm) ve yüksek L/D oranlarında kullanılır. BTA daha büyük çaplarda (Ø20mm üstü) ve yüksek talaş kaldırma hızlarında tercih edilir.
+
+DERİN DELİK & RAYBALAMA SAYFASI
+
+Doğrusallık nasıl sağlanır?
+
+Özel kılavuzlama burs sistemleri, yüksek basınçlı soğutma sıvısı ve optimize edilmiş kesme parametreleri ile sapma minimuma indirilir.
+
+DERİN DELİK & RAYBALAMA SAYFASI
+
+İç yüzey kalitesi iyileştirilebilir mi?
+
+Evet, raybalama ve honlama işlemleriyle Ra 0.2µm'ye kadar yüzey kalitesi elde edilebilir. H6 toleransında çap hassasiyeti sağlanır.
+
+DERİN DELİK & RAYBALAMA SAYFASI
+
+KALIP & ÖN ÜRETİM
+Kalıp teslimat süresi ne kadar?
+
+Hızlı alüminyum kalıplar 2-3 hafta, çelik kalıplar 4-8 hafta içinde teslim edilir. Proje karmaşıklığına göre değişebilir.
+
+ENJEKSİYON KALIBI SAYFASI
+
+Moldflow simülasyonu zorunlu mu?
+
+Zorunlu değildir ancak özellikle karmaşık parçalarda dolum problemlerini, çökme izlerini ve eğilmeyi önlemek için şiddetle tavsiye ederiz.
+
+ENJEKSİYON KALIBI SAYFASI
+
+Alüminyum mı çelik kalıp mı seçmeliyim?
+
+10.000 adete kadar üretim için alüminyum kalıp ekonomiktir. Daha yüksek hacimler için çelik kalıp uzun vadede maliyet avantajı sağlar.
+
+ENJEKSİYON KALIBI SAYFASI
+
+ÜRETİM ALTYAPISI
+Parçam hangi prosesle üretilecek?
+
+Kararı geometri verir: erişilmesi gereken yüzeyler, ölçü zinciri, boy/çap oranı ve malzeme. Teknik inceleme sonucunda hangi prosesle ve kaç bağlamada üretileceğini teklifle birlikte paylaşırız.
+
+MAKİNE PARKURU SAYFASI
+
+3 eksen mi 5 eksen mi gerekir?
+
+Düz yüzeyler ve basit cep işlemleri 3 eksende daha ekonomiktir. Alttan kesim, eğik yüzey veya tek bağlamada çok yüzey gerekiyorsa 5 eksen tercih edilir; bağlama sayısındaki azalma tolerans lehine çalışır.
+
+MAKİNE PARKURU SAYFASI
+
+Sert malzemede keskin iç köşe yapılabiliyor mu?
+
+Frezeleme ile iç köşe yarıçapı takım çapıyla sınırlıdır. Bu sınırın altındaki köşeler için tel veya dalma erozyon kullanılır.
+
+MAKİNE PARKURU SAYFASI
+
+Tezgâh doğruluğunu nasıl teyit ediyorsunuz?
+
+Doğruluk periyodik kontrollerle izlenir ve kritik işler öncesinde test parçası ölçümüyle teyit edilir. Ölçüm sonuçları kayıt altına alınır.
+
+MAKİNE PARKURU SAYFASI
+
+Uzun ve ince parçalarda ne yapıyorsunuz?
+
+Kayar puntalı tornalama desteklenmemiş boyu kısaltarak sehimi sınırlar. Gerekirse operasyon sırası ve destek düzeni parçaya göre yeniden planlanır.
+
+MAKİNE PARKURU SAYFASI
+
+Hangi malzeme sertifikalarını sağlıyorsunuz?
+
+Malzeme sertifikası ve kimyasal analiz raporu talebe bağlı olarak sağlanır. Her tedarik, lot ve döküm numarasıyla kayıt altına alınır.
+
+MALZEME KÜTÜPHANESİ SAYFASI
+
+Stokta hangi malzemeler bulunuyor?
+
+Al 6061, Al 7075, SS 304 ve SS 316 sürekli stokta tutulmaktadır. Titanyum ve Inconel gibi özel malzemeler sipariş üzerine tedarik edilir.
+
+MALZEME KÜTÜPHANESİ SAYFASI
+
+Özel alaşım tedarik edebiliyor musunuz?
+
+Evet, Inconel 718, Hastelloy, Kovar, Tungsten gibi özel alaşımları 4-8 hafta içinde tedarik edebiliyoruz.
+
+MALZEME KÜTÜPHANESİ SAYFASI
+
+Malzeme kalite kontrolü nasıl yapılıyor?
+
+Her malzeme girişinde spektrometre ile kimyasal analiz, boyut kontrolü ve sertifika doğrulaması yapılmaktadır. Klimatik kontrollü depoda lot numarası ile izlenebilirlik sağlanır.
+
+MALZEME KÜTÜPHANESİ SAYFASI
+
+ÜRETİM ÖLÇEKLENDİRME
+Prototip için hangi yöntem en uygun?
+
+1-10 adet ve hızlı teslimat için 3D baskı (1-3 gün), hassas parçalar için CNC (3-10 gün), 10-100 adet plastik parça için silikon kalıplama (5-10 gün) öneriyoruz.
+
+DÜŞÜK HACİMLİ ÜRETİM SAYFASI
+
+Metal 3D baskı yapabiliyor musunuz?
+
+Evet, EOS M290 DMLS sistemimiz ile alüminyum, paslanmaz çelik ve titanyum malzemelerde metal 3D baskı yapabiliyoruz.
+
+DÜŞÜK HACİMLİ ÜRETİM SAYFASI
+
+Silikon kalıptan kaç parça çıkar?
+
+Bir silikon kalıptan ortalama 20-50 parça üretilebilir. Malzeme ve geometriye göre bu sayı değişebilir.
+
+DÜŞÜK HACİMLİ ÜRETİM SAYFASI
+
+Düşük hacimden seri üretime geçiş nasıl olur?
+
+Prototip ve pilot üretimden sonra onaylanan tasarım için çelik kalıp yatırımı veya otomasyonlu CNC seri üretim planlaması yapılır. Geçiş süreci proje yöneticimiz tarafından koordine edilir.
+
+DÜŞÜK HACİMLİ ÜRETİM SAYFASI
+
+Minimum seri üretim adedi nedir?
+
+Tek bir eşik yoktur; yönteme göre değişir. Kalıp yatırımı gerektiren yöntemlerde (basınçlı döküm, enjeksiyon kalıp) eşiği kalıp maliyetinin parça başına dağılımı belirler; CNC seri işlemede kurulum süresi belirleyicidir. Parça geometrisi ve tolerans hedefiyle birlikte teklif aşamasında netleştiririz.
+
+SERİ İMALAT SAYFASI
+
+Teslimat programı düzenlenebiliyor mu?
+
+Evet. Parti büyüklüğü ve teslimat sıklığı kapasite planlamasıyla birlikte kararlaştırılır; periyodik teslimat programları düzenlenebilir.
+
+SERİ İMALAT SAYFASI
+
+Seri üretimde tutarlılığı nasıl koruyorsunuz?
+
+İlk parça onayı, standart kurulum prosedürü ve kontrol planına bağlı ara kontroller ile. Kayma eğilimi olan koteler ayrı bir adımda izlenir ve ölçüm sonuçları kayıt altına alınır.
+
+SERİ İMALAT SAYFASI
+
+Uzun partilerde tezgâh nasıl besleniyor?
+
+Otomatik takım değiştirme ve bar besleme, uzun partilerde kesintisiz işlemeyi mümkün kılar. Hangi yöntemin kullanılacağı parça geometrisi ve parti büyüklüğüne göre planlanır.
+
+SERİ İMALAT SAYFASI
+
+SÜREÇ & OPERASYON
+Her projeye özel proje yöneticisi atanıyor mu?
+
+Evet, her projede özel bir proje yöneticisi atanır ve tekliften teslimata kadar tek muhatap olarak hizmet verir.
+
+PROJE YÖNETİMİ SAYFASI
+
+Proje ilerlemesini nasıl takip edebilirim?
+
+Proje toplantıları, müşteri portalı üzerinden durum takibi, kritik aşamaların fotoğraf ve video kayıtları ve üretim dosyası ile her aşamayı takip edebilirsiniz.
+
+PROJE YÖNETİMİ SAYFASI
+
+Tasarım değişikliği gerektiğinde ne olur?
+
+ECO (Engineering Change Order) prosedürümüz ile kontrollü bir şekilde değişiklik yönetimi yapılır. Maliyet ve süre etkileri analiz edildikten sonra onayınızla revizyon uygulanır.
+
+PROJE YÖNETİMİ SAYFASI
+
+Malzeme tedarik süreniz ne kadar?
+
+Malzeme sınıfına göre değişir: standart alüminyum ve paslanmaz çelik kısa sürede temin edilebilir; titanyum ve nikel esaslı alaşımlar sipariş üzerine gelir. Projenizin gerçek tedarik süresini teklifle birlikte veririz.
+
+TEDARİK ZİNCİRİ SAYFASI
+
+Tedarik kesintisi riski nasıl yönetiliyor?
+
+Kritik malzemelerde onaylı ikinci kaynak bulundurulur, sık kullanılan standart malzemelerde emniyet stoğu tutulur ve şartnameyle uyumlu alternatif malzemeler önceden değerlendirilir.
+
+TEDARİK ZİNCİRİ SAYFASI
+
+Malzemeyi ben tedarik edebilir miyim?
+
+Evet. Bu durumda malzemenin şartnameye uygunluğunu ve parti kaydını sizden alır, giriş kontrolünü buna göre planlarız.
+
+TEDARİK ZİNCİRİ SAYFASI
+
+Verimlilik çalışması parçamı nasıl etkiler?
+
+Doğrudan iki yerde: kurulum kısaldıkça küçük partiler ekonomik hale gelir, standart kurulum prosedürü ise aynı parçanın partiler arasında aynı çıkmasını kolaylaştırır.
+
+OPERASYONEL VERİMLİLİK SAYFASI
+
+SMED nedir, neden önemli?
+
+Kurulum işlerini tezgâh dururken zorunlu olanlar ve çalışırken hazırlanabilecek olanlar diye ayırır. İkincisini kurulum dışına taşımak, tezgâhın parça üretmediği süreyi kısaltır.
+
+OPERASYONEL VERİMLİLİK SAYFASI
+
+Bakımı nasıl yönetiyorsunuz?
+
+Bakım planlı bir iş adımıdır (TPM). Tezgâh doğruluğu üretimin girdisi olduğu için bakım gecikmesi doğrudan tolerans kaybı riski üretir.
+
+OPERASYONEL VERİMLİLİK SAYFASI
+
+Bir uygunsuzluk çıkarsa ne yapılıyor?
+
+Kaizen ve düzeltici faaliyet süreci işletilir: kök neden bulunmadan aynı kurulumla üretime devam edilmez ve yapılan düzeltme kayıt altına alınır.
+
+OPERASYONEL VERİMLİLİK SAYFASI
+
+ENDÜSTRİYEL SEKTÖRLER
+Titanyum işleyebiliyor musunuz?
+
+Evet, Ti6Al4V (Grade 5) ve Grade 2 titanyum işleme konusunda uzmanız. Özel takımlar, düşük hız/yüksek ilerleme stratejisi ve soğutma yönetimi ile optimal sonuçlar elde ediyoruz.
+
+HAVACILIK & UZAY SAYFASI
+
+İlk parça kontrolü yapıyor musunuz?
+
+Evet. Her yeni parça ve her revizyon için ilk parça kontrolü yapılır ve kayıt altına alınır; belgelendirme formatını şartnamenize göre birlikte belirleriz.
+
+HAVACILIK & UZAY SAYFASI
+
+Özel prosesler nasıl yürütülüyor?
+
+Kimyasal işlem, tahribatsız muayene ve ısıl işlem gibi özel prosesler projenin şartnamesine göre planlanır ve tedarik zinciriyle birlikte yürütülür. Parametreler dondurulur; değişiklik yeniden doğrulama gerektirir.
+
+HAVACILIK & UZAY SAYFASI
+
+Teknik verim nasıl ele alınıyor?
+
+Teknik verinin nasıl paylaşılacağı ve hangi koşullarla işleneceği proje başında yazılı olarak mutabık kalınır. Şartnamenizin gerektirdiği koşulları teklif aşamasında birlikte değerlendiririz.
+
+SAVUNMA SANAYİ SAYFASI
+
+Proje şartnamemi karşılayabiliyor musunuz?
+
+Şartnamenizi teknik incelemede satır satır okur, hangi gereksinimleri bugünkü kabiliyetimizle karşılayabildiğimizi ve hangileri için tedarik zinciri gerektiğini açıkça belirtiriz.
+
+SAVUNMA SANAYİ SAYFASI
+
+Balistik malzeme işleyebiliyor musunuz?
+
+Evet, Armox 500T, Hardox 600 ve 300M gibi yüksek sertlikli balistik çelikleri CNC ile işleyebiliyoruz.
+
+SAVUNMA SANAYİ SAYFASI
+
+Robot bileşenlerinde hangi toleransları tutabiliyorsunuz?
+
+Standart çalışma aralığımız ±0.01mm'dir. Eş eksenlilik ve diklik gibi geometrik toleranslar datum yapısıyla birlikte değerlendirilir ve kontrol planına yazılır.
+
+ROBOTİK & OTOMASYON SAYFASI
+
+Hafif malzeme çözümleriniz var mı?
+
+Evet, Al 7075-T6 ile yüksek mukavemet/ağırlık oranı, topoloji optimizasyonu ile ağırlık azaltma ve PEEK gibi yüksek performans plastikler sunuyoruz.
+
+ROBOTİK & OTOMASYON SAYFASI
+
+Hangi dokümantasyonu teslim ediyorsunuz?
+
+Kontrol planı, ölçüm kayıtları, malzeme parti/döküm kaydı ve numune parçalar standart olarak hazırlanır. Şartnamenizin gerektirdiği ek dokümanları teklif aşamasında birlikte belirleriz.
+
+OTOMOTİV SAYFASI
+
+Partiler arası tutarlılığı nasıl koruyorsunuz?
+
+Standart kurulum prosedürü, ilk parça onayı ve kontrol planına bağlı ara kontroller ile. Takım aşınmasına duyarlı koteler ayrı bir adımda izlenir ve sonuçlar kayıt altına alınır.
+
+OTOMOTİV SAYFASI
+
+Adet aralığınız nedir?
+
+Prototipten seri üretime kadar çalışıyoruz. Parti büyüklüğü ve teslimat programı, kapasite planlaması yapıldıktan sonra teklifle birlikte netleşir.
+
+OTOMOTİV SAYFASI
+
+Hangi biyouyumlu malzemelerle çalışıyorsunuz?
+
+Ti Grade 5 (Ti6Al4V), SS 316L, CoCrMo, PEEK ve UHMWPE malzemelerde işleme yapıyoruz. Malzemenin sertifikası tedarikçiden gelir ve talep etmeniz halinde teslimat dosyasına eklenir.
+
+MEDİKAL & BİYOMEDİKAL SAYFASI
+
+Yüzey işlemi yapıyor musunuz?
+
+Elektropolisaj ve pasivasyon uygulanabilir. Hangi işlemin uygun olduğu malzemeye ve şartnamenize göre belirlenir.
+
+MEDİKAL & BİYOMEDİKAL SAYFASI
+
+İzlenebilirliği nasıl sağlıyorsunuz?
+
+Malzeme parti ve döküm kaydı üzerinden izlenir; kontrol planında tanımlanan koteler ölçülür ve ölçüm kaydı teslimat dosyasına eklenir.
+
+MEDİKAL & BİYOMEDİKAL SAYFASI
+
+Çok küçük parçalar üretebiliyor musunuz?
+
+Evet. Ø0.3mm'den başlayan vidalar, pimler ve konektörler üretiyoruz; uzun ve ince geometrilerde kayar puntalı tornalama tercih edilir.
+
+MEDİKAL & BİYOMEDİKAL SAYFASI
+
+Deniz suyu uyumlu hangi malzemeleri işliyorsunuz?
+
+SS 316L, Duplex 2205, bronz (C95400, C95500), Monel 400 ve titanyum Grade 2 gibi deniz suyu uyumlu malzemelerle çalışıyoruz.
+
+YELKEN & YAT SİSTEMLERİ SAYFASI
+
+Tuz testi raporu veriyor musunuz?
+
+Evet, ASTM B117 tuz spreyi test yöntemiyle yapılan testin raporunu sağlıyoruz. Test süresi ve kabul kriteri parçanın şartnamesine göre belirlenir.
+
+YELKEN & YAT SİSTEMLERİ SAYFASI
+
+Kaç bar basınca kadar parça üretebiliyorsunuz?
+
+350 bar çalışma basıncına kadar parça üretiyoruz. Her parça 1.5× çalışma basıncında test edilmektedir.
+
+HİDROLİK & PNÖMATİK SAYFASI
+
+Manifold bloklarında iç kanal açabilir misiniz?
+
+Evet, derin delik delme kabiliyetimiz ile L/D 50:1 oranında manifold kanal işleme yapabiliyoruz.
+
+HİDROLİK & PNÖMATİK SAYFASI
+
+Sızdırmazlık nasıl doğrulanıyor?
+
+O-ring kanalları ve sızdırmazlık yüzeyleri Ra 0.4µm hedefiyle işlenir. Basınç ve sızdırmazlık testinin kapsamı iş bazında kontrol planında tanımlanır ve sonuçlar teslimat dosyasına eklenir.
+
+HİDROLİK & PNÖMATİK SAYFASI
+
+Flanş ölçüleri hangi boyut tablolarına göre işleniyor?
+
+Flanş delik düzeni, conta yüzeyi ve çap ölçüleri ANSI B16.5, DIN EN 1092 ve JIS B2220 boyut tablolarına ya da müşterinin verdiği teknik resme göre işlenir.
+
+BORU & BAĞLANTI PARÇALARI SAYFASI
+
+Duplex çelik flanş üretebiliyor musunuz?
+
+Evet, Duplex 2205 (F51), Super Duplex 2507 (F53) ve diğer korozyon dirençli alaşımlarda flanş ve bağlantı parçaları üretiyoruz.
+
+BORU & BAĞLANTI PARÇALARI SAYFASI
+
+Helyum sızdırmazlık testi yapıyor musunuz?
+
+Evet, helyum sızdırmazlık testi ile 1×10⁻⁶ mbar·L/s kaçak oranı kontrolü yapıyoruz. Soğutma ve klima sistemleri için kritik olan bu test standarttır.
+
+İKLİM TEKNOLOJİLERİ SAYFASI
+
+Hangi soğutucularla uyumlu parça üretiyorsunuz?
+
+R-134a, R-410A, R-744 (CO₂) ve R-290 soğutucularla uyumlu malzeme ve yüzey işlemi ile üretim yapıyoruz.
+
+İKLİM TEKNOLOJİLERİ SAYFASI
+
+En hızlı prototip ne kadar sürede hazır olur?
+
+3D baskı ile 1-2 iş günü, CNC ile 3-5 iş günü. Ekspres hizmet ile aynı gün teslimat da mümkündür (ek ücret).
+
+PROTOTİP ÜRETİM SAYFASI
+
+Gerçek malzeme ile prototip yapabiliyor musunuz?
+
+Evet, CNC ile Al 6061, SS 304, Ti6Al4V, PEEK gibi gerçek malzemelerde seri üretim eşdeğer toleransta prototip üretiyoruz.
+
+PROTOTİP ÜRETİM SAYFASI
+
+Küçük seride birim maliyet yüksek mi?
+
+Birim maliyeti belirleyen asıl kalem kurulumdur ve adede bölünür; hacim arttıkça birim fiyat düşer. Kademeli fiyatlandırmayı ve seri üretime geçiş projeksiyonunu teklifle birlikte veriyoruz.
+
+KÜÇÜK SERİ ÜRETİM SAYFASI
+
+Küçük seriden seri üretime geçiş nasıl olur?
+
+Kalıp yatırım analizi, otomasyon fizibilite ve maliyet projeksiyon raporu ile ölçeklendirme planlaması yapıyoruz.
+
+KÜÇÜK SERİ ÜRETİM SAYFASI
+
+Seri üretim için asgari adet var mı?
+
+Sabit bir asgari adet uygulamıyoruz. Parti büyüklüğü, teslimat programı ve fiyatlandırma kapasite planlaması yapıldıktan sonra teklifle birlikte netleşir.
+
+SERİ ÜRETİM SAYFASI
+
+Teslimat programı nasıl belirleniyor?
+
+Kapasite planlaması sonrasında parti büyüklüğü ve teslimat sıklığı birlikte kararlaştırılır; haftalık veya periyodik teslimat programları düzenlenebilir.
+
+SERİ ÜRETİM SAYFASI
+
+Reverse engineering yapabiliyor musunuz?
+
+Evet, 3D tarama (0.02mm hassasiyet) ile mevcut parçanızı dijitalleştiriyor, CAD modeline dönüştürüyor ve üretiyoruz.
+
+ÖZEL MÜHENDİSLİK PROJELERİ SAYFASI
+
+Rüzgar türbini bileşenleri üretebiliyor musunuz?
+
+Evet; hub, pitch sistemi, yaw mekanizması, tower flanşı ve nacelle iç bileşenleri üretiyoruz. Uygulanacak şartname ve kabul kriterleri iş bazında müşteriyle birlikte belirlenir.
+
+YENİLENEBİLİR ENERJİ SAYFASI
+
+Kaç yıl dış ortam dayanımı sağlıyorsunuz?
+
+Hot-dip galvaniz (ISO 1461, 85µm+) ve uygun malzeme seçimi ile 25+ yıl dış ortam ömrü hedefliyoruz.
+
+YENİLENEBİLİR ENERJİ SAYFASI
+
+Petrol ve gaz bileşenlerinde hangi kalite kayıtları veriliyor?
+
+Malzeme sertifikası, ısıl işlem kaydı ve tahribatsız muayene raporları, kapsamı kontrol planında tanımlandığı şekilde teslimat dosyasına eklenir.
+
+PETROL & GAZ SAYFASI
+
+Sour service uyumlu parça üretebiliyor musunuz?
+
+Evet. Sour service uygulamalarında malzeme, ısıl işlem ve sertlik sınırları müşteri şartnamesine göre belirlenir ve kayıt altına alınır.
+
+PETROL & GAZ SAYFASI
+
+OFE bakır işleyebiliyor musunuz?
+
+Evet, OFE bakır (C10100, IACS %101) ve ETP bakır (C11000, IACS %99.9) işleme kabiliyetimiz bulunmaktadır.
+
+GÜÇ DAĞITIM SİSTEMLERİ SAYFASI
+
+Gümüş kaplama yapıyor musunuz?
+
+Evet, kontak parçaları için gümüş kaplama (nikel altlık üzerine) uyguluyoruz. Kaplama kalınlığı ve yapışma testi standart olarak kontrol edilir.
+
+GÜÇ DAĞITIM SİSTEMLERİ SAYFASI
+
+Hardox işleyebiliyor musunuz?
+
+Evet, Hardox 400, 500 ve 600 serisi aşınma çeliklerini CNC ile işleyebiliyoruz. Özel takım ve ilerleme parametreleri ile optimal sonuç elde ediyoruz.
+
+MADENCİLİK EKİPMANLARI SAYFASI
+
+500 kg parça işleyebiliyor musunuz?
+
+Evet, 500 kg'a kadar ağırlık ve 1500mm'ye kadar boyutta parça işleme kapasitemiz bulunmaktadır. Vinçli yükleme ve özel bağlama düzenleri kullanıyoruz.
+
+MADENCİLİK EKİPMANLARI SAYFASI
+
+BAŞLIKLAR
+
+01
+Genel
+02
+Kalite & Standartlar
+03
+Malzeme
+04
+Mühendislik
+05
+Yüzey İşlemleri
+06
+Talaşlı İmalat
+07
+Kalıp & Ön Üretim
+08
+Üretim Altyapısı
+09
+Üretim Ölçeklendirme
+10
+Süreç & Operasyon
+11
+Endüstriyel Sektörler
+
+Bir başlığın altındaki yanıtlar, o başlığın kendi teknik sayfasından gelir; yanıtı açtığınızda kaynak sayfaya geçebilirsiniz.
+
+03
+SONRAKİ ADIM
+
+TEKLİF
+
+Sorunuzun yanıtı burada yoksa
+
+Teknik resim veya 3B model gönderin; sorunuzu parçanın kendisi üzerinden yanıtlayalım. Yalnızca soracaksanız iletişim sayfası daha hızlıdır.
+
+TEKLİF AL
+İLETİŞİM
+DÖNÜŞ SÜRESİ
+1-3 iş günü
+GÖNDERİLECEK
+Teknik resim veya 3B model
+ÖLÇÜM
+Akredite 3. taraf CMM ölçümü, talebe bağlı
+
+======== /blog/5-eksen-cnc-isleme-avantajlari (h1=1) ========
+R2
+YAZI
+01
+YAZI
+ANA SAYFA
+TEKNİK GÜNLÜK
+5 EKSEN CNC İŞLEME AVANTAJLARI
+
+TEKNİK
+
+5 Eksen CNC İşleme Avantajları
+
+Beş eksenin asıl kazancı hız değil, kurulum sayısıdır: her yeni bağlama yeni bir referans hatası kaynağıdır.
+
+YAYIN
+15 Ocak 2024
+OKUMA
+8 dk okuma
+BÖLÜM
+5
+02
+METİN
+PLAKA 01
+Tek bağlamada birden fazla yüzeye erişen kesici takım
+01
+Beş eksen ne demek
+
+Beş eksenli işleme, X, Y ve Z doğrusal eksenlerine iki döner eksenin (A ve B, ya da A ve C) eklenmesidir. Kazanç, takımın parçaya yalnızca yukarıdan değil, herhangi bir açıdan yaklaşabilmesidir.
+
+Pratikte bu iki farklı çalışma biçimine karşılık gelir: döner eksenlerin konumlandırıp sabitlendiği 3+2 işleme, ve beş eksenin aynı anda hareket ettiği sürekli beş eksen. Karmaşık yüzeyler ikincisini gerektirir; çok yüzeyli prizmatik parçaların çoğu için birincisi yeterlidir.
+
+02
+Asıl kazanç: kurulum sayısı
+
+Bir parçayı ikinci kez bağlamak, yalnızca zaman kaybı değildir. Her yeni kurulum yeni bir referans yüzeyi, yeni bir sıfırlama ve dolayısıyla yeni bir hata kaynağı demektir; ilk kurulumda işlenen bir kotenin ikinci kurulumda işlenen bir kotele ilişkisi, iki kurulumun hizalanma doğruluğu kadardır.
+
+Beş eksenli bir kurulumda parça bir kez bağlanır ve erişilebilir yüzeylerin tümü aynı referans sisteminden işlenir. Geometrik toleransların — eş eksenlilik, diklik, konum — tek bir kurulum içinde tutulabilmesi, beş eksenin ölçülebilir tek büyük farkıdır.
+
+03
+Takım açısı ve yüzey
+
+Küresel uçlu bir takım, ekseni yüzeye dik olduğunda merkezinde sıfır kesme hızıyla çalışır: orada malzeme kesilmez, ezilir. Döner eksenler takımı eğerek bu ölü noktayı yüzeyden uzaklaştırır ve kesme etkin çapta gerçekleşir.
+
+Sonuç, aynı ilerleme hızında daha düzgün bir yüzey ve daha az sonradan işlem gereğidir. Ulaşılabilecek yüzey pürüzlülüğü değeri malzemeye, takıma, tutuşa ve talep edilen toleransa göre değişir; bu yüzden hedef Ra değeri teknik resimde belirtilmeli ve teklif aşamasında birlikte doğrulanmalıdır.
+
+04
+Takım ömrü ve titreşim
+
+Takım açısının kontrol edilebilmesi, kesme kuvvetinin yönünün de kontrol edilebilmesi anlamına gelir. Kuvvetin takımın eksenine daha yakın bir doğrultuda tutulması sapmayı azaltır; sapmanın azalması titreşimi, titreşimin azalması da kesici ağızdaki darbeli yüklenmeyi azaltır.
+
+Ayrıca beş eksen kısa takımla derin bölgelere ulaşmayı mümkün kılar. Aynı cebi uzun bir takımla işlemek yerine parçayı eğip kısa takımla işlemek, takım sapmasını doğrudan düşürür — çünkü sapma, takım uzamasının küpüyle artar.
+
+05
+Ne zaman gerekmez
+
+Beş eksen her parça için doğru cevap değildir. Tek yönden erişilebilen, düzlemsel bir parçada beş eksen ek bir doğruluk getirmez; getirdiği şey daha uzun bir programlama süresi ve daha pahalı bir kurulumdur.
+
+Karar ölçütü şudur: parçanın kritik geometrik toleransları farklı yüzeyler arasında mı tanımlı? Cevap evetse, o toleransların tek kurulumda tutulması beş eksenin bedelini karşılar. Cevap hayırsa, üç eksen genellikle daha ekonomik ve aynı ölçüde doğrudur.
+
+BÖLÜMLER
+
+01
+Beş eksen ne demek
+02
+Asıl kazanç: kurulum sayısı
+03
+Takım açısı ve yüzey
+04
+Takım ömrü ve titreşim
+05
+Ne zaman gerekmez
+
+PAYLAŞ
+
+01
+LINKEDIN (yeni sekme)
+02
+X (yeni sekme)
+BAĞLANTIYI KOPYALA
+
+Bu yazıdaki teknik değerler sitenin geri kalanıyla aynı kaynaktan gelir; farklı bir sayfada farklı bir değerle karşılaşmazsınız.
+
+03
+İLGİLİ
+
+İLGİLİ YAZILAR
+
+01
+TEKNİK
+CNC Torna vs Frezeleme: Hangisini Seçmeli?
+Soruyu parçanın geometrisi cevaplar: dönen parça mı, dönen takım mı? Karar noktası burasıdır, tezgâh listesi değil.
+7 dk okuma
+02
+MALZEME
+Havacılık Parçalarında Malzeme Seçimi
+Alüminyum 7075-T6 ve Ti-6Al-4V arasındaki seçim bir mukavemet karşılaştırması değil, bir çalışma sıcaklığı ve maliyet kararıdır.
+6 dk okuma
+03
+MÜHENDİSLİK
+DFM: Tasarımdan Üretime Geçiş
+Üretilebilirlik incelemesi, tasarımı değiştirmekle ilgili değildir: hangi kotenin gerçekten neden o değerde olduğunu sormakla ilgilidir.
+10 dk okuma
+04
+SONRAKİ ADIM
+
+TEKLİF
+
+Bu konu sizin parçanızda mı çıktı?
+
+Teknik resim veya 3B model gönderin; konuyu genel bir yazı üzerinden değil, kendi parçanız üzerinden değerlendirelim.
+
+TEKLİF AL
+YAZI DİZİNİ
+DÖNÜŞ SÜRESİ
+1-3 iş günü
+GÖNDERİLECEK
+Teknik resim veya 3B model
+ALTERNATİF
+Sık sorulan sorular
+
+======== /blog/havacilik-parcalarinda-malzeme-secimi (h1=1) ========
+R2
+YAZI
+01
+YAZI
+ANA SAYFA
+TEKNİK GÜNLÜK
+HAVACILIK PARÇALARINDA MALZEME SEÇİMİ
+
+MALZEME
+
+Havacılık Parçalarında Malzeme Seçimi
+
+Alüminyum 7075-T6 ve Ti-6Al-4V arasındaki seçim bir mukavemet karşılaştırması değil, bir çalışma sıcaklığı ve maliyet kararıdır.
+
+YAYIN
+8 Ocak 2024
+OKUMA
+6 dk okuma
+BÖLÜM
+6
+02
+METİN
+PLAKA 01
+Aynı geometrinin iki alaşımda işlenmiş numuneleri
+01
+İki aday
+
+Havacılık yapısal parçalarında karar çoğu zaman iki malzeme arasında verilir: Alüminyum 7075-T6 ve Titanyum Ti-6Al-4V (Grade 5). İkisi de yerleşik, ikisi de kolay temin edilir ve ikisinin de tedarik zinciri belgelendirilebilir.
+
+Seçim mukavemet/ağırlık oranını karşılaştırmakla bitmez, çünkü iki malzeme farklı sınırlarda başarısız olur: biri sıcaklıkta, diğeri maliyette.
+
+02
+Alüminyum 7075-T6
+
+7075-T6, yaklaşık 572 MPa çekme mukavemeti ve 2,81 g/cm³ yoğunluğu ile alüminyum alaşımlarının üst sınırındadır. Talaş kaldırma davranışı iyidir: yüksek kesme hızlarına izin verir, ısıyı talaşla birlikte uzaklaştırır ve takım ömrünü zorlamaz.
+
+Sınırı sıcaklık ve korozyondur. T6 temperi yüksek sıcaklıkta özelliğini kaybeder ve alaşım gerilmeli korozyon çatlamasına duyarlıdır; bu yüzden yüzey işlemi (tipik olarak anodizasyon) bir tercih değil, tasarımın parçasıdır.
+
+03
+Ti-6Al-4V (Grade 5)
+
+Ti-6Al-4V, yaklaşık 950 MPa çekme mukavemeti ve 4,43 g/cm³ yoğunluğu ile çeliğe yakın mukavemeti belirgin biçimde daha düşük bir yoğunlukla sunar. Yaklaşık 350 °C'ye kadar özelliklerini korur ve doğal oksit tabakası sayesinde ek bir kaplama olmadan korozyona dayanır.
+
+Bedeli işlenebilirliktir. Titanyum ısıyı kötü ileten bir malzemedir: kesme bölgesinde açığa çıkan ısının büyük bölümü talaşla değil, kesici ağızla uzaklaşır. Buna kimyasal reaktivitesi eklenince kesme hızları düşürülmek, takım geometrisi ve soğutma stratejisi buna göre seçilmek zorunda kalır.
+
+04
+Yan yana
+
+Aşağıdaki değerler malzeme standartlarının yayımlanmış tipik değerleridir; bir parti sertifikasının yerini tutmaz. Bir işte kullanılacak değerler, o partinin malzeme sertifikasından okunur.
+
+7075-T6 VE Tİ-6AL-4V — YAYIMLANMIŞ TİPİK DEĞERLER
+Kaynak: malzeme standartlarının tipik değer aralıkları. Parti bazlı değerler için malzeme sertifikası esastır.
+ÖZELLİK	AL 7075-T6	Tİ-6AL-4V
+Çekme mukavemeti	~572 MPa	~950 MPa
+Yoğunluk	2,81 g/cm³	4,43 g/cm³
+Çalışma sıcaklığı	Sınırlı	~350 °C'ye kadar
+Korozyon direnci	Yüzey işlemine bağlı	Doğal oksit tabakası
+Talaş kaldırma hızı	Yüksek	Düşük
+05
+Maliyet farkı nereden gelir
+
+İki maliyet kalemi ayrı ayrı düşünülmelidir. Hammadde tarafında titanyum belirgin biçimde pahalıdır ve fiyatı piyasa koşullarıyla dalgalanır; güncel farkı teklif aşamasında tedarikçi fiyatıyla birlikte veririz, çünkü sabit bir kat sayısı vermek bir yıl sonra yanlış olur.
+
+İşleme tarafında fark tezgâh süresidir: düşük kesme hızı, daha sık takım değişimi ve daha muhafazakâr talaş derinliği, aynı geometrinin titanyumda alüminyuma göre uzun sürmesi demektir. Bu yüzden titanyumda tasarım sadeleştirmenin getirisi, alüminyumdakinden daha büyüktür.
+
+06
+Karar ölçütü
+
+Parçanın çalışma sıcaklığı, korozyon ortamı ve yorulma yükü belirlenmeden malzeme seçimi bir tercih değil, tahmindir. Bu üçü belliyse karar çoğu zaman kendiliğinden çıkar: sıcaklık veya korozyon belirleyiciyse titanyum, ağırlık ve maliyet belirleyiciyse 7075-T6.
+
+İkisi arasında kaldığınız durumlarda teknik resminizi gönderin; aynı geometri için iki malzemede ayrı ayrı fiyat çalışması yapılabilir. Standart tolerans aralığımız her iki malzemede de ±0.01 mm.
+
+BÖLÜMLER
+
+01
+İki aday
+02
+Alüminyum 7075-T6
+03
+Ti-6Al-4V (Grade 5)
+04
+Yan yana
+05
+Maliyet farkı nereden gelir
+06
+Karar ölçütü
+
+PAYLAŞ
+
+01
+LINKEDIN (yeni sekme)
+02
+X (yeni sekme)
+BAĞLANTIYI KOPYALA
+
+Bu yazıdaki teknik değerler sitenin geri kalanıyla aynı kaynaktan gelir; farklı bir sayfada farklı bir değerle karşılaşmazsınız.
+
+03
+İLGİLİ
+
+İLGİLİ YAZILAR
+
+01
+TEKNİK
+5 Eksen CNC İşleme Avantajları
+Beş eksenin asıl kazancı hız değil, kurulum sayısıdır: her yeni bağlama yeni bir referans hatası kaynağıdır.
+8 dk okuma
+02
+MÜHENDİSLİK
+DFM: Tasarımdan Üretime Geçiş
+Üretilebilirlik incelemesi, tasarımı değiştirmekle ilgili değildir: hangi kotenin gerçekten neden o değerde olduğunu sormakla ilgilidir.
+10 dk okuma
+03
+TEKNİK
+CNC Torna vs Frezeleme: Hangisini Seçmeli?
+Soruyu parçanın geometrisi cevaplar: dönen parça mı, dönen takım mı? Karar noktası burasıdır, tezgâh listesi değil.
+7 dk okuma
+04
+SONRAKİ ADIM
+
+TEKLİF
+
+Bu konu sizin parçanızda mı çıktı?
+
+Teknik resim veya 3B model gönderin; konuyu genel bir yazı üzerinden değil, kendi parçanız üzerinden değerlendirelim.
+
+TEKLİF AL
+YAZI DİZİNİ
+DÖNÜŞ SÜRESİ
+1-3 iş günü
+GÖNDERİLECEK
+Teknik resim veya 3B model
+ALTERNATİF
+Sık sorulan sorular
+
+======== /blog/dfm-tasarimdan-uretime-gecis (h1=1) ========
+R2
+YAZI
+01
+YAZI
+ANA SAYFA
+TEKNİK GÜNLÜK
+DFM: TASARIMDAN ÜRETİME GEÇİŞ
+
+MÜHENDİSLİK
+
+DFM: Tasarımdan Üretime Geçiş
+
+Üretilebilirlik incelemesi, tasarımı değiştirmekle ilgili değildir: hangi kotenin gerçekten neden o değerde olduğunu sormakla ilgilidir.
+
+YAYIN
+2 Ocak 2024
+OKUMA
+10 dk okuma
+BÖLÜM
+5
+02
+METİN
+PLAKA 01
+Model ve teknik resim, üretilebilirlik incelemesinde yan yana
+01
+DFM nedir, ne değildir
+
+Design for Manufacturing (DFM), tasarımın üretim yöntemiyle uyumlu hâle getirilmesidir. Tasarımı basitleştirmek değildir; parçanın işlevini koruyarak, işlevin gerektirmediği maliyetleri ayıklamaktır.
+
+İnceleme her zaman aynı soruyla başlar: bu kote neden bu değerde? Cevabı olan bir kote dokunulmadan kalır. Cevabı 'CAD şablonundan geldi' olan bir kote ise, çoğu zaman en pahalı kotedir.
+
+02
+Tolerans
+
+Tolerans, maliyeti en hızlı büyüten tek kalemdir; çünkü dar tolerans yalnızca daha yavaş işlemek değil, aynı zamanda daha çok ölçmek demektir. Standart tolerans aralığımız ±0.01mm; bir kote gerçekten bunu gerektiriyorsa uygulanır.
+
+Buna karşılık montajda işlevi olmayan bir yüzeyde ±0,05 mm yeterliyse, o kotenin ±0,01 mm yazılması hiçbir şey kazandırmaz. Uygulamada en verimli DFM çıktısı, teknik resimdeki kotelerin küçük bir bölümünü kritik olarak işaretlemek ve geri kalanını genel tolerans sınıfına bırakmaktır.
+
+03
+İç köşe radyüsü
+
+Frezelemede iç köşe her zaman bir radyüse sahiptir ve bu radyüs takım çapının yarısından küçük olamaz. Sıfır köşe isteyen bir tasarım, ya erozyon gibi ikinci bir yöntem ya da köşe boşluğu gibi bir tasarım çözümü gerektirir.
+
+Genel kural: mümkün olan en büyük iç köşe radyüsünü verin. Büyük radyüs, daha büyük çaplı ve daha rijit bir takımla çalışılmasına izin verir; rijit takım daha az saptığı için hem yüzey düzgünleşir hem de ölçü tutarlılığı artar.
+
+04
+Duvar kalınlığı ve bağlama
+
+İnce cidarlı parçalarda asıl zorluk kesmek değil, bağlamaktır: kesme kuvveti ve ısı parçayı işleme sırasında hareket ettirir, ölçü tezgâhta doğru çıkar, kontrolde çıkmaz. Genel bir başlangıç noktası olarak alüminyumda 0,5 mm, çelikte 1 mm altındaki cidarlar özel bağlama ve kademeli talaş stratejisi gerektirir.
+
+Bu sayılar bir sınır değil, bir uyarı eşiğidir. Cidarın yüksekliği, uzunluğu ve destek koşulları en az kalınlık kadar belirleyicidir; bu yüzden ince cidarlı bir parçada kesme sırası ve bağlama planı, tasarımla birlikte konuşulmalıdır.
+
+05
+İncelemenin yürütülmesi
+
+Üretilebilirlik incelemesi bizde teklif aşamasının bir parçasıdır, sonradan gelen bir revizyon değil. 3B model ve ölçülendirilmiş teknik resim geldiğinde kote, tolerans ve yüzey talepleri seçilen imalat yöntemine göre gözden geçirilir.
+
+Çıktı bir rapor değil, bir sorular listesidir: maliyeti belirgin biçimde etkileyen noktalar ve bunların her biri için önerilen alternatif, teklifle birlikte yazılı olarak iletilir. Kararı tasarımcı verir; biz yalnızca hangi kararın neye mal olduğunu söyleriz.
+
+BÖLÜMLER
+
+01
+DFM nedir, ne değildir
+02
+Tolerans
+03
+İç köşe radyüsü
+04
+Duvar kalınlığı ve bağlama
+05
+İncelemenin yürütülmesi
+
+PAYLAŞ
+
+01
+LINKEDIN (yeni sekme)
+02
+X (yeni sekme)
+BAĞLANTIYI KOPYALA
+
+Bu yazıdaki teknik değerler sitenin geri kalanıyla aynı kaynaktan gelir; farklı bir sayfada farklı bir değerle karşılaşmazsınız.
+
+03
+İLGİLİ
+
+İLGİLİ YAZILAR
+
+01
+TEKNİK
+5 Eksen CNC İşleme Avantajları
+Beş eksenin asıl kazancı hız değil, kurulum sayısıdır: her yeni bağlama yeni bir referans hatası kaynağıdır.
+8 dk okuma
+02
+MALZEME
+Havacılık Parçalarında Malzeme Seçimi
+Alüminyum 7075-T6 ve Ti-6Al-4V arasındaki seçim bir mukavemet karşılaştırması değil, bir çalışma sıcaklığı ve maliyet kararıdır.
+6 dk okuma
+03
+TEKNİK
+CNC Torna vs Frezeleme: Hangisini Seçmeli?
+Soruyu parçanın geometrisi cevaplar: dönen parça mı, dönen takım mı? Karar noktası burasıdır, tezgâh listesi değil.
+7 dk okuma
+04
+SONRAKİ ADIM
+
+TEKLİF
+
+Bu konu sizin parçanızda mı çıktı?
+
+Teknik resim veya 3B model gönderin; konuyu genel bir yazı üzerinden değil, kendi parçanız üzerinden değerlendirelim.
+
+TEKLİF AL
+YAZI DİZİNİ
+DÖNÜŞ SÜRESİ
+1-3 iş günü
+GÖNDERİLECEK
+Teknik resim veya 3B model
+ALTERNATİF
+Sık sorulan sorular
+
+======== /blog/cnc-torna-frezeleme-farki (h1=1) ========
+R2
+YAZI
+01
+YAZI
+ANA SAYFA
+TEKNİK GÜNLÜK
+CNC TORNA VS FREZELEME: HANGİSİNİ SEÇMELİ?
+
+TEKNİK
+
+CNC Torna vs Frezeleme: Hangisini Seçmeli?
+
+Soruyu parçanın geometrisi cevaplar: dönen parça mı, dönen takım mı? Karar noktası burasıdır, tezgâh listesi değil.
+
+YAYIN
+25 Aralık 2023
+OKUMA
+7 dk okuma
+BÖLÜM
+5
+02
+METİN
+PLAKA 01
+Prizmatik geometri: takım döner, parça sabit kalır
+01
+Tek bir ayrım
+
+Talaşlı imalatın iki temel yöntemi arasındaki fark tek bir cümlede özetlenir: tornalamada iş parçası döner ve takım sabit kalır, frezelemede takım döner ve iş parçası sabit kalır ya da kontrollü hareket eder.
+
+Bu ayrım teknik bir ayrıntı değil, doğrudan hangi geometrinin hangi yöntemde doğal olduğunu belirler.
+
+02
+Tornalama neyi iyi yapar
+
+Dönel simetrik her şey: miller, burçlar, somunlar, kovanlar, flanşlar. Parça kendi ekseni etrafında döndüğü için silindirik yüzey tek bir sürekli kesme hareketiyle oluşur; bu hem hızlıdır hem de yüzeyi düzgün bırakır.
+
+Tornanın asıl üstünlüğü çap toleransında değil, EŞ EKSENLİLİKTE ortaya çıkar. Aynı bağlamada işlenen iki çap birbirine göre referanslıdır; aynı ilişkiyi frezede kurmak, iki ayrı kurulum ve bir hizalama hatası demektir.
+
+03
+Frezeleme neyi iyi yapar
+
+Düzlemsel yüzeyler, cepler, kanallar, delik grupları ve serbest biçimli üç boyutlu yüzeyler. Gövdeler, plakalar, braketler ve kalıp bileşenleri bu sınıftadır.
+
+Frezenin üstünlüğü esnekliktir: aynı kurulumda farklı takımlarla farklı özellikler işlenebilir, ve döner eksenler eklendiğinde parçanın birden fazla yüzeyi tek referans sisteminden ele alınabilir.
+
+04
+Seçim ölçütü
+
+Genel kural basittir: parçanın taşıyıcı geometrisi dönel ise tornalama, prizmatik ise frezeleme. Karar, parçanın hangi özelliğinin en dar toleransa sahip olduğuna bakılarak verilir — o özellik hangi yöntemde tek kurulumda çıkıyorsa, ana yöntem odur.
+
+Çoğu gerçek parça ikisini birden gerektirir: tornalanmış bir gövdenin üzerine frezelenmiş bir düzlem ve delik grubu. Bu durumda sıralama önemlidir; ikinci operasyonun referans alacağı yüzey, ilk operasyonda işlenmiş olmalıdır.
+
+05
+Kombine işleme
+
+Torna-freze kombine kinematik — tahrikli takım, C ve Y ekseni — bu iki operasyonu tek bağlamada birleştirir. Kazanç yine kurulum sayısıdır: dönel ve prizmatik özellikler aynı referans sisteminde kalır.
+
+Hangi yöntemin sizin parçanız için uygun olduğunu teknik resim üzerinden birlikte belirleriz; ayrıntılar CNC Tornalama ve CNC Frezeleme hizmet sayfalarında yer alıyor.
+
+BÖLÜMLER
+
+01
+Tek bir ayrım
+02
+Tornalama neyi iyi yapar
+03
+Frezeleme neyi iyi yapar
+04
+Seçim ölçütü
+05
+Kombine işleme
+
+PAYLAŞ
+
+01
+LINKEDIN (yeni sekme)
+02
+X (yeni sekme)
+BAĞLANTIYI KOPYALA
+
+Bu yazıdaki teknik değerler sitenin geri kalanıyla aynı kaynaktan gelir; farklı bir sayfada farklı bir değerle karşılaşmazsınız.
+
+03
+İLGİLİ
+
+İLGİLİ YAZILAR
+
+01
+TEKNİK
+5 Eksen CNC İşleme Avantajları
+Beş eksenin asıl kazancı hız değil, kurulum sayısıdır: her yeni bağlama yeni bir referans hatası kaynağıdır.
+8 dk okuma
+02
+MALZEME
+Havacılık Parçalarında Malzeme Seçimi
+Alüminyum 7075-T6 ve Ti-6Al-4V arasındaki seçim bir mukavemet karşılaştırması değil, bir çalışma sıcaklığı ve maliyet kararıdır.
+6 dk okuma
+03
+MÜHENDİSLİK
+DFM: Tasarımdan Üretime Geçiş
+Üretilebilirlik incelemesi, tasarımı değiştirmekle ilgili değildir: hangi kotenin gerçekten neden o değerde olduğunu sormakla ilgilidir.
+10 dk okuma
+04
+SONRAKİ ADIM
+
+TEKLİF
+
+Bu konu sizin parçanızda mı çıktı?
+
+Teknik resim veya 3B model gönderin; konuyu genel bir yazı üzerinden değil, kendi parçanız üzerinden değerlendirelim.
+
+TEKLİF AL
+YAZI DİZİNİ
+DÖNÜŞ SÜRESİ
+1-3 iş günü
+GÖNDERİLECEK
+Teknik resim veya 3B model
+ALTERNATİF
+Sık sorulan sorular
+
+======== /blog/kalite-kontrol-cmm-olcum (h1=1) ========
+R2
+YAZI
+01
+YAZI
+ANA SAYFA
+TEKNİK GÜNLÜK
+KALİTE KONTROL: CMM ÖLÇÜM SÜREÇLERİ
+
+KALİTE
+
+Kalite Kontrol: CMM Ölçüm Süreçleri
+
+Bir ölçüm, hangi datuma göre alındığı yazılmadıkça bir sayıdan ibarettir. CMM'in yaptığı iş budur.
+
+YAYIN
+18 Aralık 2023
+OKUMA
+9 dk okuma
+BÖLÜM
+5
+02
+METİN
+PLAKA 01
+Kontrol planında tanımlı kotelerin doğrulanması
+01
+CMM ne ölçer
+
+Koordinat ölçüm makinesi (CMM), bir parçanın yüzeyinden noktalar toplayarak o yüzeyin geometrisini bir koordinat sisteminde yeniden kurar. Kumpasın veya mikrometrenin veremediği şeyi verir: yalnızca boyutu değil, FORMU ve KONUMU.
+
+Düzlemsellik, silindiriklik, diklik, konum ve salgı gibi geometrik özellikler tek bir ölçüyle ifade edilemez; bunlar bir yüzeyin bir referansa göre nasıl davrandığının ifadesidir ve ancak koordinat ölçümüyle doğrulanabilir.
+
+02
+Datum: ölçümün başladığı yer
+
+Ölçüm, parçanın koordinat sisteminin kurulmasıyla başlar. Teknik resimdeki datum yüzeyleri probla taranır ve parçanın kendi referans çerçevesi oluşturulur; bundan sonraki her sonuç bu çerçeveye göredir.
+
+Bu yüzden aynı parça, iki farklı datum kurgusuyla iki farklı sonuç verebilir — ikisi de doğru olmak üzere. Ölçüm raporunun hangi datuma göre alındığını yazması, raporun kendisi kadar önemlidir.
+
+03
+İlk parça kontrolü
+
+Yeni bir parçanın ilk üretiminde tüm kritik koteler doğrulanır. Amacı yalnızca o parçayı onaylamak değil, işleme programının ve kurulumun doğru olduğunu göstermektir; bu doğrulanmadan seri üretime geçmek, hatayı çoğaltmak demektir.
+
+Bu kontrolün hangi formatta belgeleneceği müşteri şartnamesiyle belirlenir. Sektörüne göre belirli bir form isteniyorsa, bunu teklif aşamasında belirtmeniz yeterlidir.
+
+04
+Seri üretimde izleme
+
+Seri üretimde her parçayı tam ölçmek ne gerekli ne de ekonomiktir. Bunun yerine kontrol planında hangi kotenin hangi sıklıkta ölçüleceği belirlenir ve ölçüm sonuçlarının dağılımı izlenir.
+
+İzlenen şey tek bir parçanın uygunluğu değil, dağılımın tolerans aralığına göre nerede durduğudur. Dağılım kayıyorsa, henüz uygunsuz parça çıkmamış olsa bile müdahale edilir — kalite kontrolün ayıklamaktan farkı budur.
+
+05
+Bizde nasıl yürüyor
+
+Her iş için bir kontrol planı hazırlanır: hangi kote, hangi aşamada, hangi yöntemle doğrulanacak ve arkasında hangi kayıt kalacak. Bu plan imalat başlamadan önce yazılır.
+
+Ölçüm kayıtları teslim dosyasına eklenir. Akredite 3. taraf CMM ölçümü, talebe bağlı olarak sağlanır; sektörünüzün gerektirdiği bir ölçüm kapsamı varsa, teklif aşamasında birlikte tanımlarız.
+
+BÖLÜMLER
+
+01
+CMM ne ölçer
+02
+Datum: ölçümün başladığı yer
+03
+İlk parça kontrolü
+04
+Seri üretimde izleme
+05
+Bizde nasıl yürüyor
+
+PAYLAŞ
+
+01
+LINKEDIN (yeni sekme)
+02
+X (yeni sekme)
+BAĞLANTIYI KOPYALA
+
+Bu yazıdaki teknik değerler sitenin geri kalanıyla aynı kaynaktan gelir; farklı bir sayfada farklı bir değerle karşılaşmazsınız.
+
+03
+İLGİLİ
+
+İLGİLİ YAZILAR
+
+01
+TEKNİK
+5 Eksen CNC İşleme Avantajları
+Beş eksenin asıl kazancı hız değil, kurulum sayısıdır: her yeni bağlama yeni bir referans hatası kaynağıdır.
+8 dk okuma
+02
+MALZEME
+Havacılık Parçalarında Malzeme Seçimi
+Alüminyum 7075-T6 ve Ti-6Al-4V arasındaki seçim bir mukavemet karşılaştırması değil, bir çalışma sıcaklığı ve maliyet kararıdır.
+6 dk okuma
+03
+MÜHENDİSLİK
+DFM: Tasarımdan Üretime Geçiş
+Üretilebilirlik incelemesi, tasarımı değiştirmekle ilgili değildir: hangi kotenin gerçekten neden o değerde olduğunu sormakla ilgilidir.
+10 dk okuma
+04
+SONRAKİ ADIM
+
+TEKLİF
+
+Bu konu sizin parçanızda mı çıktı?
+
+Teknik resim veya 3B model gönderin; konuyu genel bir yazı üzerinden değil, kendi parçanız üzerinden değerlendirelim.
+
+TEKLİF AL
+YAZI DİZİNİ
+DÖNÜŞ SÜRESİ
+1-3 iş günü
+GÖNDERİLECEK
+Teknik resim veya 3B model
+ALTERNATİF
+Sık sorulan sorular
+
+======== /blog/endustriyel-yuzey-islemleri-rehberi (h1=1) ========
+R2
+YAZI
+01
+YAZI
+ANA SAYFA
+TEKNİK GÜNLÜK
+ENDÜSTRİYEL YÜZEY İŞLEMLERİ REHBERİ
+
+REHBER
+
+Endüstriyel Yüzey İşlemleri Rehberi
+
+Anodizasyon, pasivasyon, toz boya, elektropolisaj: hangisi hangi malzemede ne yapar ve şartnamede ne yazmak gerekir.
+
+YAYIN
+10 Aralık 2023
+OKUMA
+12 dk okuma
+BÖLÜM
+6
+02
+METİN
+PLAKA 01
+Aynı alaşımda dört farklı yüzey bitişi
+01
+Yüzey işlemi bir tercih değildir
+
+Yüzey işlemi çoğu zaman görünüm meselesi sanılır. Uygulamada belirleyici olan üç şeydir: korozyon, aşınma ve elektriksel/ısıl davranış. Bunların hiçbiri talaşlı imalatla çözülemez.
+
+Bu yüzden yüzey işlemi tasarım kararıdır ve teknik resimde yazılmalıdır — hangi standart, hangi tip, hangi sınıf ve hangi kalınlık. 'Anodize edilecek' ifadesi bir şartname değildir.
+
+02
+Anodizasyon — alüminyum
+
+Anodizasyon, alüminyum yüzeyinde elektrokimyasal olarak kontrollü bir oksit tabakası büyütür. Tabaka kaplama değildir; malzemenin kendisinden oluşur, bu yüzden dökülmez ve soyulmaz.
+
+MIL-A-8625 kapsamında Tip II (kükürt asidi, tipik olarak 10-25 µm) genel amaçlı koruma ve renklendirme için, Tip III (sert anodizasyon, tipik olarak 25-100 µm) yüksek aşınma direnci gereken yüzeyler için kullanılır. Tabaka dışa doğru büyüdüğü için ölçüyü değiştirir: dar toleranslı yüzeylerde bu pay tasarımda hesaba katılmalıdır.
+
+03
+Pasivasyon — paslanmaz çelik
+
+Pasivasyon, paslanmaz çelik yüzeyindeki serbest demiri kimyasal olarak uzaklaştırır ve yüzeyin kendi krom oksit tabakasının yeniden oluşmasına izin verir. İşlem sonrası parçanın boyutu ölçülebilir bir biçimde değişmez.
+
+Yöntem ve kabul ölçütleri ASTM A967'de tanımlıdır; nitrik asit ve sitrik asit esaslı banyolar farklı sınıflardır ve şartnamede hangisinin istendiği belirtilmelidir. Talaşlı imalattan sonra pasivasyon, işleme sırasında yüzeye bulaşan demir kalıntısı nedeniyle çoğu paslanmaz parçada gerekli bir adımdır.
+
+04
+Toz boya
+
+Toz boya, elektrostatik olarak uygulanan ve fırında polimerize olan bir kaplamadır. Çözücü içermemesi ve tek katta kalın film verebilmesi başlıca üstünlükleridir; renk seçimi RAL kataloğu üzerinden yapılır.
+
+Dayanım, boyanın kendisinden çok altındaki ön işlemle belirlenir: yağ alma, fosfatlama veya dönüşüm kaplaması yapılmamış bir yüzeyde en iyi boya bile ayrılır. Bir tuz püskürtme (salt spray) dayanım süresi bekliyorsanız, hedef süreyi ve ilgili standardı şartnamede belirtin; bu değer boya-ön işlem-altlık üçlüsüne bağlıdır ve boyanın tek başına bir özelliği değildir.
+
+05
+Elektropolisaj
+
+Elektropolisaj, paslanmaz çelik yüzeyden kontrollü biçimde ince bir tabaka çözer. Yüzeyin tepe noktaları vadilerden daha hızlı çözüldüğü için sonuç hem daha pürüzsüz hem de kimyasal olarak daha temiz bir yüzeydir.
+
+Medikal ve gıda uygulamalarında tercih edilmesinin nedeni parlaklık değil, temizlenebilirliktir: mikro çatlakların ve talaş kalıntısının azalması, yüzeyin sterilize edilebilmesini kolaylaştırır. Ulaşılabilecek Ra değeri başlangıç yüzeyine bağlıdır — elektropolisaj kötü bir işleme yüzeyini kurtarmaz, iyi bir yüzeyi iyileştirir.
+
+06
+Şartnamede ne yazmalı
+
+Dört bilgi yeterlidir: standart, tip/sınıf, kalınlık aralığı ve kaplanmayacak yüzeyler. Son madde en çok atlanan maddedir; diş, geçme yüzeyi ve elektriksel temas noktaları çoğu zaman maskelenmelidir.
+
+Yüzey işlemlerini sunuyor veya koordine ediyoruz. Hangi işlemin sizin parçanız ve çalışma ortamınız için uygun olduğunu, teknik resim üzerinden teklif aşamasında birlikte belirleyebiliriz.
+
+BÖLÜMLER
+
+01
+Yüzey işlemi bir tercih değildir
+02
+Anodizasyon — alüminyum
+03
+Pasivasyon — paslanmaz çelik
+04
+Toz boya
+05
+Elektropolisaj
+06
+Şartnamede ne yazmalı
+
+PAYLAŞ
+
+01
+LINKEDIN (yeni sekme)
+02
+X (yeni sekme)
+BAĞLANTIYI KOPYALA
+
+Bu yazıdaki teknik değerler sitenin geri kalanıyla aynı kaynaktan gelir; farklı bir sayfada farklı bir değerle karşılaşmazsınız.
+
+03
+İLGİLİ
+
+İLGİLİ YAZILAR
+
+01
+TEKNİK
+5 Eksen CNC İşleme Avantajları
+Beş eksenin asıl kazancı hız değil, kurulum sayısıdır: her yeni bağlama yeni bir referans hatası kaynağıdır.
+8 dk okuma
+02
+MALZEME
+Havacılık Parçalarında Malzeme Seçimi
+Alüminyum 7075-T6 ve Ti-6Al-4V arasındaki seçim bir mukavemet karşılaştırması değil, bir çalışma sıcaklığı ve maliyet kararıdır.
+6 dk okuma
+03
+MÜHENDİSLİK
+DFM: Tasarımdan Üretime Geçiş
+Üretilebilirlik incelemesi, tasarımı değiştirmekle ilgili değildir: hangi kotenin gerçekten neden o değerde olduğunu sormakla ilgilidir.
+10 dk okuma
+04
+SONRAKİ ADIM
+
+TEKLİF
+
+Bu konu sizin parçanızda mı çıktı?
+
+Teknik resim veya 3B model gönderin; konuyu genel bir yazı üzerinden değil, kendi parçanız üzerinden değerlendirelim.
+
+TEKLİF AL
+YAZI DİZİNİ
+DÖNÜŞ SÜRESİ
+1-3 iş günü
+GÖNDERİLECEK
+Teknik resim veya 3B model
+ALTERNATİF
+Sık sorulan sorular
+
+======== /blog/olmayan-yazi (h1=1) ========
+R2
+GÜNLÜK
+01
+GÜNLÜK
+ANA SAYFA
+TEKNİK GÜNLÜK
+
+KAYIT YOK
+
+Yazı Bulunamadı
+
+Bu adreste bir yazı yok. Bağlantı değişmiş veya yazı kaldırılmış olabilir; dizinden ilgili başlığa geçebilirsiniz.
+
+YAZI DİZİNİ
+02
+DİZİN
+01
+TEKNİK
+5 Eksen CNC İşleme Avantajları
+Beş eksenin asıl kazancı hız değil, kurulum sayısıdır: her yeni bağlama yeni bir referans hatası kaynağıdır.
+15 Ocak 2024
+8 dk okuma
+02
+MALZEME
+Havacılık Parçalarında Malzeme Seçimi
+Alüminyum 7075-T6 ve Ti-6Al-4V arasındaki seçim bir mukavemet karşılaştırması değil, bir çalışma sıcaklığı ve maliyet kararıdır.
+8 Ocak 2024
+6 dk okuma
+03
+MÜHENDİSLİK
+DFM: Tasarımdan Üretime Geçiş
+Üretilebilirlik incelemesi, tasarımı değiştirmekle ilgili değildir: hangi kotenin gerçekten neden o değerde olduğunu sormakla ilgilidir.
+2 Ocak 2024
+10 dk okuma
+04
+TEKNİK
+CNC Torna vs Frezeleme: Hangisini Seçmeli?
+Soruyu parçanın geometrisi cevaplar: dönen parça mı, dönen takım mı? Karar noktası burasıdır, tezgâh listesi değil.
+25 Aralık 2023
+7 dk okuma
+05
+KALİTE
+Kalite Kontrol: CMM Ölçüm Süreçleri
+Bir ölçüm, hangi datuma göre alındığı yazılmadıkça bir sayıdan ibarettir. CMM'in yaptığı iş budur.
+18 Aralık 2023
+9 dk okuma
+06
+REHBER
+Endüstriyel Yüzey İşlemleri Rehberi
+Anodizasyon, pasivasyon, toz boya, elektropolisaj: hangisi hangi malzemede ne yapar ve şartnamede ne yazmak gerekir.
+10 Aralık 2023
+12 dk okuma
+
+======== /kvkk (h1=1) ========
+L1
+KVKK
+01
+KVKK
+ANA SAYFA
+YASAL
+KVKK AYDINLATMA METNİ
+
+YASAL METİN
+
+KVKK Aydınlatma Metni
+
+6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında: bu sitede hangi kişisel veri, hangi amaçla ve hangi hukuki sebeple işlenir.
+
+BELGE
+KVKK Aydınlatma Metni
+REVİZYON
+4 Eylül 2026
+MADDE SAYISI
+7
+02
+METİN
+01
+Veri sorumlusu
+
+6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) kapsamında veri sorumlusu, Mas Technic Makine Sanayi Ltd. Şti.’dir.
+
+Ataşehir Mah., 8287. Sok. No: 4, 35620 Çiğli / İZMİR · sales@mastechnic.com
+
+02
+İşlenen kişisel veriler
+
+Bu sitede kişisel veri yalnızca sizin ilettiğiniz kadarıyla işlenir. Teklif formunda ad-soyad, e-posta, firma unvanı ve telefon; teklif ekinde yüklediğiniz teknik resim veya 3B model dosyaları; hesap açtığınızda e-posta adresiniz alınır.
+
+Yüklediğiniz dosyanın içeriği kişisel veri taşıyorsa — örneğin çizim antedindeki bir isim — o veri de bu metnin kapsamındadır.
+
+03
+İşleme amacı ve hukuki sebep
+
+Veriler; teklif hazırlamak, üretilebilirlik incelemesi yapmak, sipariş ve üretim sürecini yürütmek, fatura düzenlemek ve sizinle bu konularda iletişim kurmak amacıyla işlenir.
+
+Hukuki sebep, KVKK md. 5/2-c uyarınca sözleşmenin kurulması veya ifasıyla doğrudan ilgili olması ve md. 5/2-ç uyarınca hukuki yükümlülüğün yerine getirilmesidir. Bu amaçların dışında bir işleme yapılmaz; pazarlama amaçlı profilleme ve otomatik karar verme uygulanmaz.
+
+04
+Aktarım
+
+Kişisel verileriniz satılmaz ve pazarlama amacıyla üçüncü taraflara devredilmez. Aktarım iki hâlde olur: yetkili kamu kurum ve kuruluşlarının kanuna dayalı talebi, ve bu sitenin çalışması için kullanılan barındırma ile veri tabanı altyapısının hizmet sağlayıcısı.
+
+Bir işin yürütülmesi için üçüncü bir tedarikçiye teknik dosya iletilmesi gerekiyorsa, bu ancak sizin bilginiz dâhilinde yapılır.
+
+05
+Saklama
+
+Kişisel veriler, işlendikleri amaç için gerekli olduğu süre boyunca ve ilgili mevzuatın öngördüğü saklama yükümlülükleri devam ettiği sürece saklanır; bu süre sona erdiğinde silinir, yok edilir veya anonim hâle getirilir.
+
+Bu metin belirli bir gün sayısı veya sabit bir imha takvimi taahhüt etmez. Verinizin silinmesini istiyorsanız, 06. maddedeki hakkınızı kullanarak talep edebilirsiniz.
+
+06
+Haklarınız (KVKK md. 11)
+
+Kanunun 11. maddesi gereğince; kişisel verinizin işlenip işlenmediğini öğrenme, işlenmişse buna ilişkin bilgi talep etme, işlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme, yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme, eksik veya yanlış işlenmişse düzeltilmesini isteme, silinmesini veya yok edilmesini isteme, düzeltme ve silme işlemlerinin aktarım yapılan üçüncü kişilere bildirilmesini isteme, işlenen verilerin münhasıran otomatik sistemlerle analiz edilmesi suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme ve kanuna aykırı işleme sebebiyle zarara uğramanız hâlinde zararın giderilmesini talep etme haklarına sahipsiniz.
+
+07
+Başvuru
+
+Bu haklara ilişkin taleplerinizi sales@mastechnic.com adresine iletebilirsiniz. Başvurunuzda kimliğinizi tespit etmeye yarayan bilgilerin ve talebinizin konusunun açıkça yer alması gerekir.
+
+MADDELER
+
+01
+Veri sorumlusu
+02
+İşlenen kişisel veriler
+03
+İşleme amacı ve hukuki sebep
+04
+Aktarım
+05
+Saklama
+06
+Haklarınız (KVKK md. 11)
+07
+Başvuru
+
+DİĞER METİNLER
+
+01
+Gizlilik Politikası
+02
+Çerez Politikası
+
+Bu metinle ilgili sorularınızı ve KVKK başvurularınızı sales@mastechnic.com adresine iletebilirsiniz.
+
+SALES@MASTECHNİC.COM
+
+======== /cerez-politikasi (h1=1) ========
+L3
+ÇEREZ
+01
+ÇEREZ
+ANA SAYFA
+YASAL
+ÇEREZ POLİTİKASI
+
+YASAL METİN
+
+Çerez Politikası
+
+Bu site çerez kullanmıyor. Tarayıcınızda ne tuttuğu ise madde 02’de tek tek listelenmiştir.
+
+BELGE
+Çerez Politikası
+REVİZYON
+4 Eylül 2026
+MADDE SAYISI
+5
+02
+METİN
+01
+Bu sitede çerez kullanılmıyor
+
+Herkese açık sayfalarda hiçbir çerez oluşturulmuyor. Reklam çerezi, analitik çerezi, etiket yöneticisi, reklam pikseli ve oturum kaydı yazılımı da yok.
+
+Bu, sitenin tarayıcınızda hiçbir şey saklamadığı anlamına gelmez. Sakladığı şeyler çerez değil, tarayıcınızın kendi yerel deposundaki kayıtlar; hepsi 02. maddede listelenmiştir.
+
+02
+Tarayıcınızda tutulan kayıtlar
+YEREL DEPO KAYITLARI
+Bu kayıtlar çerez değildir: her HTTP isteğiyle birlikte otomatik gönderilmezler ve yalnızca bu sitenin kendi sayfaları tarafından okunabilirler. Tarayıcınızın geliştirici araçlarındaki Uygulama / Depolama bölümünden hepsini görebilirsiniz.
+KAYIT	DEPO	NE İŞE YARAR	SÜRE
+sb-…-auth-token	localStorage	Giriş yaptıysanız oturumunuzu açık tutar.	Çıkış yapana kadar
+mas_chat_ai_count	localStorage	Sohbet asistanına gönderilen günlük mesaj sayısını sayar.	Gün sonuna kadar
+mas_pending_cad_upload	sessionStorage	Ana sayfadan bıraktığınız çizimi teklif formuna taşır.	Form devralınca silinir
+mas-technic-theme	localStorage	3B model görüntüleyicisinin açık/koyu paletini hatırlar.	Siz silene kadar
+
+Bu kayıtların hiçbiri reklam veya profilleme amacı taşımaz ve hiçbiri üçüncü bir tarafa aktarılmaz.
+
+03
+Üçüncü taraf istekleri
+
+Sayfa yazı tipleri harici bir yazı tipi dağıtım ağından yüklenir; tarayıcınız o sunucuya bir istek gönderir ve sunucu bu isteğe bağlı olarak IP adresinizi görür. Bu istek de çerez oluşturmaz.
+
+Sayfalarda gömülü üçüncü taraf video, harita, reklam veya sosyal medya bileşeni bulunmuyor.
+
+Üçüncü tarafa giden ikinci ve son istek sohbet asistanınındır: yapay zekâ onayı verirseniz yazışmanız Google’ın Gemini servisine iletilir. O da çerez oluşturmaz, ama burada listelenen kayıtlardan farklı olarak tarayıcınızda kalmaz — bu yüzden tam olarak nereye gittiği Gizlilik Politikası’nın 06. maddesinde yazıyor.
+
+04
+Kayıtları silmek
+
+02. maddedeki kayıtları tarayıcınızın ayarlarından — “site verilerini temizle” ya da geliştirici araçlarındaki Uygulama / Depolama bölümünden — istediğiniz zaman silebilirsiniz. Silmek sitenin çalışmasını engellemez; yalnızca varsa açık oturumunuz kapanır ve hatırlanan tercih sıfırlanır.
+
+Silinecek bir izleme kaydı olmadığı için ayrıca bir “çerez tercihleri” penceresi de gösterilmiyor. Onay istenecek bir işleme yapılmıyorsa, onay penceresi bilgi vermez; yalnızca sayfanın önünü kapatır.
+
+05
+İletişim
+
+Bu metinle ilgili sorularınız için sales@mastechnic.com adresine yazabilirsiniz. Kişisel verilerin işlenmesine ilişkin çerçeve KVKK Aydınlatma Metni’nde, sitenin genel gizlilik davranışı Gizlilik Politikası’nda yer alır.
+
+MADDELER
+
+01
+Bu sitede çerez kullanılmıyor
+02
+Tarayıcınızda tutulan kayıtlar
+03
+Üçüncü taraf istekleri
+04
+Kayıtları silmek
+05
+İletişim
+
+DİĞER METİNLER
+
+01
+KVKK
+02
+Gizlilik Politikası
+
+Bu metinle ilgili sorularınızı ve KVKK başvurularınızı sales@mastechnic.com adresine iletebilirsiniz.
+
+SALES@MASTECHNİC.COM
+
+======== /gizlilik-politikasi (h1=1) ========
+L2
+GİZLİLİK
+01
+GİZLİLİK
+ANA SAYFA
+YASAL
+GİZLİLİK POLİTİKASI
+
+YASAL METİN
+
+Gizlilik Politikası
+
+Bu sitenin ziyaretçi verisiyle ne yaptığı ve — daha önemlisi — ne yapmadığı.
+
+BELGE
+Gizlilik Politikası
+REVİZYON
+4 Eylül 2026
+MADDE SAYISI
+7
+02
+METİN
+01
+Kapsam
+
+Bu politika, mastechnic.com üzerindeki herkese açık sayfaların ziyaretçi verisiyle nasıl davrandığını anlatır. Kişisel verilerin işlenmesine ilişkin hukuki çerçeve, amaç, aktarım ve haklarınız ayrı bir belgede — KVKK Aydınlatma Metni — yer alır; bu iki metin birbirini tekrar etmez.
+
+02
+Bize ilettiğiniz bilgiler
+
+Site, siz bir form doldurmadıkça hiçbir kişisel bilgi toplamaz. Teklif akışında ad-soyad, e-posta, firma unvanı ve telefon ile yüklediğiniz teknik resim veya 3B model dosyası alınır. Hesap açtığınızda e-posta adresiniz kaydedilir.
+
+Bu bilgiler yalnızca teklif hazırlamak, üretilebilirlik incelemesi yapmak ve sizinle bu konuda iletişim kurmak için kullanılır. Bülten aboneliği, reklam listesi veya benzeri bir pazarlama kaydı tutulmaz.
+
+Sohbet kutusuna yazdıklarınız da kaydedilmez; ama onay verirseniz bir yapay zekâ servisine iletilir. Bu, sitede yazdığınız bir metnin dışarı çıktığı tek yer olduğu için ayrı bir maddede — 06. maddede — anlatılıyor.
+
+03
+Tarayıcınızda saklanan veriler
+
+Site çerez kullanmaz. Tercihleriniz ve oturum bilgisi, tarayıcınızın kendi yerel deposunda (localStorage / sessionStorage) tutulur ve her istekle birlikte otomatik olarak sunucuya gönderilmez.
+
+Hangi kaydın ne işe yaradığı ve nasıl silineceği Çerez Politikası sayfasında madde madde listelenmiştir.
+
+04
+İzleme ve ölçümleme
+
+Bu sitede analitik aracı, etiket yöneticisi, reklam pikseli veya oturum kaydı yazılımı çalışmaz. Sayfa görüntüleme sayısı, tıklama haritası veya ziyaretçi profili tutulmaz.
+
+Bu, sitede yayımlanan hiçbir sayının bir okunma veya popülerlik ölçümüne dayanmadığı anlamına da gelir; böyle bir ölçüm yapılmadığı için böyle bir sayı da yayımlanmaz.
+
+05
+Üçüncü taraf istekleri
+
+Sayfa yazı tipleri harici bir yazı tipi dağıtım ağından yüklenir. Bu, tarayıcınızın o sunucuya bir istek göndermesi anlamına gelir ve ilgili sunucu bu isteğe bağlı olarak IP adresinizi ve tarayıcı bilginizi görür. Yazı tipi dosyalarının dışında bu istekle veri gönderilmez.
+
+Teklif akışını kullandığınızda form verisi ve yüklediğiniz dosya, sitenin barındırma ve veri tabanı altyapısına iletilir. Bunun dışında sayfalarda gömülü üçüncü taraf içerik, reklam veya sosyal medya bileşeni bulunmaz.
+
+Bir istisna var ve kendi maddesini hak ediyor: sohbet asistanına yapay zekâ onayı verirseniz yazdığınız metin bir üçüncü tarafa aktarılır. Nasıl ve kime olduğu 06. maddede yazıyor.
+
+06
+Sohbet asistanı ve yapay zekâ
+
+Ana sayfa dışındaki sayfaların köşesinde bir sohbet kutusu var ve iki ayrı şekilde çalışıyor. Aradaki fark, yazdığınız metnin nereye gittiğidir. Sorunuz sitenin içinde gömülü hazır soru-cevap listesiyle eşleşirse yanıt tarayıcınızın içinde bulunur: bu durumda hiçbir yere istek gönderilmez.
+
+Eşleşme bulunamazsa asistan durur ve size yapay zekâ kullanıp kullanmayacağını sorar. Yalnızca “Evet” yazarsanız — ya da çıkan Evet düğmesine basarsanız — o ana kadarki yazışma önce sitenin kendi sunucu fonksiyonuna, oradan da Google’ın Gemini servisine (generativelanguage.googleapis.com, gemini-2.0-flash) iletilir; yanıt oradan gelir. “Hayır” derseniz ya da hiçbir şey yazmazsanız bu aktarım olmaz. Onay bir kez alınıp kenara konmuyor: yanıtlanamayan her yeni soruda yeniden soruluyor.
+
+Bu istekle yalnızca yazışma metni gönderilir: IP adresiniz, oturum bilginiz veya sizi tanımlayan başka bir veri Google’a aktarılmaz. Yazdıklarınız sitenin veri tabanına da kaydedilmez — aradaki fonksiyon mesajı iletir, tutmaz. Tarayıcınızda kalan tek kayıt, günde en fazla 5 mesajlık sınırı sayan mas_chat_ai_count’tur ve Çerez Politikası’nın 02. maddesinde listelenmiştir.
+
+Metin Google’a ulaştıktan sonra ne olduğunu bu politika anlatamaz: orası bizim göremediğimiz bir yer ve sizin adınıza doğrulayamayacağımız bir şeyi burada yazmıyoruz. Bu yüzden açıkça söylüyoruz — parça numarası, tolerans değeri, teknik resim içeriği ya da firmanızın adı gibi paylaşmak istemediğiniz hiçbir bilgiyi sohbet kutusuna yazmayın. Teknik ayrıntılar için teklif akışını kullanın: oraya bıraktığınız veri ve dosyalar 05. maddedeki yolu izler ve hiçbir yapay zekâ servisine gönderilmez.
+
+07
+İletişim
+
+Bu politikaya ilişkin sorularınız ve kişisel verilerinizle ilgili talepleriniz için sales@mastechnic.com adresine yazabilirsiniz. KVKK md. 11 kapsamındaki haklarınızın tam listesi KVKK Aydınlatma Metni’nin 06. maddesindedir.
+
+MADDELER
+
+01
+Kapsam
+02
+Bize ilettiğiniz bilgiler
+03
+Tarayıcınızda saklanan veriler
+04
+İzleme ve ölçümleme
+05
+Üçüncü taraf istekleri
+06
+Sohbet asistanı ve yapay zekâ
+07
+İletişim
+
+DİĞER METİNLER
+
+01
+KVKK
+02
+Çerez Politikası
+
+Bu metinle ilgili sorularınızı ve KVKK başvurularınızı sales@mastechnic.com adresine iletebilirsiniz.
+
+SALES@MASTECHNİC.COM

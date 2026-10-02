@@ -1,0 +1,23 @@
+(node:10196) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:19372) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19372) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:19372) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [smoke-firefox-390] › e2e\smoke\cross-browser-smoke.spec.ts:17:3 › cross-browser smoke › renders the complete landing and hands off the intro shell (18.0s)
+  ✓  2 [smoke-firefox-390] › e2e\smoke\cross-browser-smoke.spec.ts:28:3 › cross-browser smoke › serves an inner page with the shared shell (4.3s)
+  ✓  3 [smoke-firefox-390] › e2e\smoke\cross-browser-smoke.spec.ts:35:3 › cross-browser smoke › keeps the primary conversion route reachable (7.7s)
+(node:32184) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:32184) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(node:32184) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [smoke-firefox-1440] › e2e\smoke\cross-browser-smoke.spec.ts:17:3 › cross-browser smoke › renders the complete landing and hands off the intro shell (11.2s)
+  ✓  5 [smoke-firefox-1440] › e2e\smoke\cross-browser-smoke.spec.ts:28:3 › cross-browser smoke › serves an inner page with the shared shell (3.4s)
+  ✓  6 [smoke-firefox-1440] › e2e\smoke\cross-browser-smoke.spec.ts:35:3 › cross-browser smoke › keeps the primary conversion route reachable (5.4s)
+
+  6 passed (1.0m)

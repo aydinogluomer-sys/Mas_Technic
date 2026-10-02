@@ -69,7 +69,7 @@ export function EditorialKnowledgePreview({ items }: EditorialKnowledgePreviewPr
             onPointerEnter={() => setActiveIndex(index)}
             key={item.path}
           >
-            <img src={item.image} alt="" width="800" height="544" loading="lazy" decoding="async" />
+            <img src={item.image} alt="" width="1600" height="896" loading="lazy" decoding="async" />
             <span>0{index + 1}</span>
             <small>{item.kind}</small>
             <strong>{item.title}</strong>
@@ -86,8 +86,8 @@ export function EditorialKnowledgePreview({ items }: EditorialKnowledgePreviewPr
           <img
             src={item.image}
             alt=""
-            width="800"
-            height="544"
+            width="1600"
+            height="896"
             loading="lazy"
             decoding="async"
             data-active={index === activeIndex ? "" : undefined}

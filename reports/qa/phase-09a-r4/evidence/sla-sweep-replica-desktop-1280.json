@@ -1,0 +1,175 @@
+{
+  "routes": 63,
+  "passes": [
+    {
+      "pass": 1,
+      "slaCount": 56
+    },
+    {
+      "pass": 2,
+      "slaCount": 56
+    }
+  ],
+  "disagreedBetweenPasses": [
+    "/",
+    "/endustriyel/prototip-uretim"
+  ],
+  "misses": [
+    {
+      "pass": 1,
+      "route": "/kvkk",
+      "innerTextAt350": false,
+      "textContentAt350": false,
+      "innerTextLenAt350": 6252,
+      "innerTextAtSettled": false,
+      "textContentAtSettled": false,
+      "innerTextLenAtSettled": 6252,
+      "grewBy": 0
+    },
+    {
+      "pass": 1,
+      "route": "/gizlilik-politikasi",
+      "innerTextAt350": false,
+      "textContentAt350": false,
+      "innerTextLenAt350": 6642,
+      "innerTextAtSettled": false,
+      "textContentAtSettled": false,
+      "innerTextLenAtSettled": 6642,
+      "grewBy": 0
+    },
+    {
+      "pass": 1,
+      "route": "/cerez-politikasi",
+      "innerTextAt350": false,
+      "textContentAt350": false,
+      "innerTextLenAt350": 6570,
+      "innerTextAtSettled": false,
+      "textContentAtSettled": false,
+      "innerTextLenAtSettled": 6570,
+      "grewBy": 0
+    },
+    {
+      "pass": 1,
+      "route": "/hizmetler",
+      "innerTextAt350": false,
+      "textContentAt350": false,
+      "innerTextLenAt350": 1893,
+      "innerTextAtSettled": false,
+      "textContentAtSettled": false,
+      "innerTextLenAtSettled": 1893,
+      "grewBy": 0
+    },
+    {
+      "pass": 1,
+      "route": "/kabiliyetler",
+      "innerTextAt350": false,
+      "textContentAt350": false,
+      "innerTextLenAt350": 1940,
+      "innerTextAtSettled": false,
+      "textContentAtSettled": false,
+      "innerTextLenAtSettled": 1940,
+      "grewBy": 0
+    },
+    {
+      "pass": 1,
+      "route": "/endustriyel",
+      "innerTextAt350": false,
+      "textContentAt350": false,
+      "innerTextLenAt350": 1889,
+      "innerTextAtSettled": false,
+      "textContentAtSettled": false,
+      "innerTextLenAtSettled": 1889,
+      "grewBy": 0
+    },
+    {
+      "pass": 1,
+      "route": "/endustriyel/prototip-uretim",
+      "innerTextAt350": false,
+      "textContentAt350": false,
+      "innerTextLenAt350": 88,
+      "innerTextAtSettled": true,
+      "textContentAtSettled": true,
+      "innerTextLenAtSettled": 5753,
+      "grewBy": 5665
+    },
+    {
+      "pass": 2,
+      "route": "/",
+      "innerTextAt350": false,
+      "textContentAt350": false,
+      "innerTextLenAt350": 88,
+      "innerTextAtSettled": true,
+      "textContentAtSettled": true,
+      "innerTextLenAtSettled": 4891,
+      "grewBy": 4803
+    },
+    {
+      "pass": 2,
+      "route": "/kvkk",
+      "innerTextAt350": false,
+      "textContentAt350": false,
+      "innerTextLenAt350": 6252,
+      "innerTextAtSettled": false,
+      "textContentAtSettled": false,
+      "innerTextLenAtSettled": 6252,
+      "grewBy": 0
+    },
+    {
+      "pass": 2,
+      "route": "/gizlilik-politikasi",
+      "innerTextAt350": false,
+      "textContentAt350": false,
+      "innerTextLenAt350": 6642,
+      "innerTextAtSettled": false,
+      "textContentAtSettled": false,
+      "innerTextLenAtSettled": 6642,
+      "grewBy": 0
+    },
+    {
+      "pass": 2,
+      "route": "/cerez-politikasi",
+      "innerTextAt350": false,
+      "textContentAt350": false,
+      "innerTextLenAt350": 6570,
+      "innerTextAtSettled": false,
+      "textContentAtSettled": false,
+      "innerTextLenAtSettled": 6570,
+      "grewBy": 0
+    },
+    {
+      "pass": 2,
+      "route": "/hizmetler",
+      "innerTextAt350": false,
+      "textContentAt350": false,
+      "innerTextLenAt350": 1893,
+      "innerTextAtSettled": false,
+      "textContentAtSettled": false,
+      "innerTextLenAtSettled": 1893,
+      "grewBy": 0
+    },
+    {
+      "pass": 2,
+      "route": "/kabiliyetler",
+      "innerTextAt350": false,
+      "textContentAt350": false,
+      "innerTextLenAt350": 1940,
+      "innerTextAtSettled": false,
+      "textContentAtSettled": false,
+      "innerTextLenAtSettled": 1940,
+      "grewBy": 0
+    },
+    {
+      "pass": 2,
+      "route": "/endustriyel",
+      "innerTextAt350": false,
+      "textContentAt350": false,
+      "innerTextLenAt350": 1889,
+      "innerTextAtSettled": false,
+      "textContentAtSettled": false,
+      "innerTextLenAtSettled": 1889,
+      "grewBy": 0
+    }
+  ],
+  "racedNotAbsentCount": 2,
+  "genuinelyAbsentCount": 12
+}

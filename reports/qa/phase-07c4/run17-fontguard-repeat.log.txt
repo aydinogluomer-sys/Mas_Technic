@@ -1,0 +1,25 @@
+(node:2620) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Running 12 tests using 1 worker
+
+(node:34124) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   1 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:36:3 › F4 — the font-retry guard is falsifiable › armed: a real load intercepts on BOTH hosts (4.6s)
+  ✓   2 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:49:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.gstatic.com fails with the gstatic reason (4.2s)
+  ✓   3 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:65:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.googleapis.com fails with the googleapis reason (2.6s)
+  ✓   4 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:79:3 › F4 — the font-retry guard is falsifiable › red: blackholing both hosts fails with the fallback-stack reason (27.5s)
+(node:38696) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   5 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:36:3 › F4 — the font-retry guard is falsifiable › armed: a real load intercepts on BOTH hosts (3.1s)
+  ✓   6 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:49:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.gstatic.com fails with the gstatic reason (2.7s)
+  ✓   7 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:65:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.googleapis.com fails with the googleapis reason (2.5s)
+  ✓   8 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:79:3 › F4 — the font-retry guard is falsifiable › red: blackholing both hosts fails with the fallback-stack reason (27.3s)
+(node:37912) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  ✓   9 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:36:3 › F4 — the font-retry guard is falsifiable › armed: a real load intercepts on BOTH hosts (2.9s)
+  ✓  10 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:49:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.gstatic.com fails with the gstatic reason (2.8s)
+  ✓  11 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:65:3 › F4 — the font-retry guard is falsifiable › red: silencing fonts.googleapis.com fails with the googleapis reason (3.6s)
+  ✓  12 [visual-1440] › e2e\visual\qa-f4-font-guard.spec.ts:79:3 › F4 — the font-retry guard is falsifiable › red: blackholing both hosts fails with the fallback-stack reason (27.5s)
+
+  12 passed (2.0m)

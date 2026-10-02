@@ -1,0 +1,12 @@
+﻿route                             tealNodes  radixRoots  sampleTeal
+/kabiliyet-profilleri                     0           0  
+/kalite-dosyasi                           0           0  
+/blog                                     0           0  
+/sss                                      0           0  
+/gizlilik-politikasi                      0           0  
+/qa-zzz-nothing                           0           0  
+/hakkimizda                               0           0  
+/hizmetler/cnc-frezeleme                  0           0  
+/teklif-al                               16           3  rgb(10, 125, 138)
+/giris                                   92           0  rgb(10, 125, 138) rgba(10, 125, 138, 0.5)
+/cad-dashboard                           16           3  rgb(10, 125, 138)

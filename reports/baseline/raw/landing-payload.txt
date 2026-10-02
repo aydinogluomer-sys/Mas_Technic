@@ -1,0 +1,69 @@
+URL: http://localhost:4173/
+TOTAL_REQUESTS_SAME_ORIGIN: 45
+INITIAL_JS_CHUNKS: 36   INITIAL_JS_RAW_BYTES: 796484 (777.8 kB)
+INITIAL_CSS: 2   RAW_BYTES: 224593 (219.3 kB)
+INITIAL_MEDIA/FONT: 6   RAW_BYTES: 329180 (321.5 kB)
+
+## JS actually fetched by the landing route (raw kB, descending)
+   169.00 kB  200  /assets/client-XiHJn_U4.js
+   147.65 kB  200  /assets/vendor-react-BzjJi5l0.js
+   130.58 kB  200  /assets/vendor-framer-BpLP2dYa.js
+   111.69 kB  200  /assets/vendor-gsap-0lJgtTtq.js
+   110.15 kB  200  /assets/index-B0jRwfiq.js
+    34.60 kB  200  /assets/TechnicalLanding-niZONnEm.js
+    32.11 kB  200  /assets/index-BC8Yv_zY.js
+    20.54 kB  200  /assets/vendor-utils-CfDMlrKu.js
+     4.34 kB  200  /assets/CustomCursor-1m9_wDMd.js
+     2.81 kB  200  /assets/JsonLdSchema-C1p3F2N5.js
+     1.54 kB  200  /assets/createLucideIcon-4fYnmMOI.js
+     1.47 kB  200  /assets/cadUpload-C-Lte0Jo.js
+     1.06 kB  200  /assets/tslib.es6-CmEaCU22.js
+     0.99 kB  200  /assets/vendor-runtime-D7HrI6pR.js
+     0.93 kB  200  /assets/phone-CFTZ2kn5.js
+     0.88 kB  200  /assets/settings-DdxRGyKd.js
+     0.78 kB  200  /assets/scan-line-BCgbCTBh.js
+     0.58 kB  200  /assets/clipboard-list-CzihBzuu.js
+     0.57 kB  200  /assets/truck-A9BZ7K2R.js
+     0.51 kB  200  /assets/layout-grid-B3OFVJ9K.js
+     0.49 kB  200  /assets/shield-check-BEGdYtUb.js
+     0.48 kB  200  /assets/box-DV-BvF2d.js
+     0.47 kB  200  /assets/factory-BWUPe43x.js
+     0.46 kB  200  /assets/linkedin-D7wqbCzC.js
+     0.41 kB  200  /assets/menu-CHmpoAGx.js
+     0.39 kB  200  /assets/mail-Bvc916Vr.js
+     0.35 kB  200  /assets/gauge-COHb8QFF.js
+     0.34 kB  200  /assets/arrow-right-C0qaPfwu.js
+     0.33 kB  200  /assets/x-AIUSnFd-.js
+     0.32 kB  200  /assets/use-mobile-D9Z4W3EL.js
+     0.32 kB  200  /assets/loader-circle-CeeKMWHK.js
+     0.25 kB  200  /assets/Index-C6zhMBad.js
+     0.16 kB  200  /assets/industry-aerospace-C_jWehyC.js
+     0.12 kB  200  /assets/hero-tolerans-hassasiyet-6LgpzCEI.js
+     0.11 kB  200  /assets/use-gsap-BrHoFLjz.js
+     0.07 kB  200  /assets/hero-cnc-frezeleme-CBBuI0NN.js
+
+## CSS / media / font
+   167.64 kB  200  /assets/index-Dra3Z5KO.css
+    96.45 kB  200  /assets/hero-cnc-frezeleme-HroBrnyJ.webp
+    78.97 kB  200  /assets/industry-defense-CeliYO2F.webp
+    62.57 kB  200  /assets/hero-manifold-v1-DjyYu6ON.webp
+    51.69 kB  200  /assets/TechnicalLanding-D94oHkdf.css
+    44.37 kB  200  /assets/industry-medical-BIVAP-Gq.webp
+    39.10 kB  200  /assets/hero-cnc-tornalama-DxFnZHUM.webp
+     0.00 kB  200  /src/assets/hero-cnc.jpg
+
+## Specialist-bundle presence check on the landing route
+three            not loaded
+OBJLoader        not loaded
+drei             not loaded
+occt             not loaded
+xlsx             not loaded
+AdminDashboard   not loaded
+MusteriPaneli    not loaded
+ChatBot          not loaded
+servicePages     not loaded
+materialsData    not loaded
+LegacyLanding    not loaded
+
+## Non-200 same-origin responses
+(none)

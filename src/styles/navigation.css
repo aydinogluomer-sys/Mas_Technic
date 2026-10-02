@@ -1,0 +1,616 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   MAS TECHNIC — GLOBAL NAVIGATION
+
+   One header, one menu, one design language, on `/` and on every public inner
+   page. Everything here derives from `design-tokens.css`; there is not a
+   single hardcoded colour, and the accent used by the old inner-page header
+   (teal `#38b9c5`, orange `#f26b25`) does not appear at all.
+
+   WHY THIS FILE IMPORTS THE TOKENS
+   --------------------------------
+   `technical-landing.css` imports `design-tokens.css` too, but it is loaded
+   only by `TechnicalLanding` — i.e. only on `/`. The navigation ships on every
+   route, so it must carry the token contract itself. Custom properties are
+   idempotent, so declaring them from both entry points is safe.
+
+   GEOMETRY
+   --------
+   The header bar IS band 01 of the master sheet: the same `--tl-sheet-max`
+   width, the same `--tl-rail + repeat(--tl-cols, 1fr)` tracks, the same
+   hairlines. Its interior is a `subgrid`, so brand / context / actions land on
+   master columns instead of the old content-measured `210px 1fr auto`. That
+   split existed because the quote button plus the inert EN/TR switch
+   overflowed two master columns (202px at 1280); the switch is gone
+   (`USER_INPUTS.md` §B — `ENGLISH_LIVE_NOW: NO`) and the actions cluster now
+   fits three master columns with room to spare.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+@import "./design-tokens.css";
+
+:root {
+  /* Height of the fixed bar. `.tl-sheet` reserves exactly this much so the
+     landing's first band is never covered — measured, not eyeballed. */
+  --gnav-h: 72px;
+  --gnav-z: 10000;
+  --gnav-menu-z: 10010;
+}
+
+@media (max-width: 767px) {
+  :root { --gnav-h: 64px; }
+}
+
+/* ── 01 · THE BAR ─────────────────────────────────────────────────────────*/
+
+.tl-header-band {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: var(--gnav-z);
+  display: grid;
+  width: min(100%, var(--tl-sheet-max));
+  margin-inline: auto;
+  grid-template-columns: var(--tl-rail) repeat(var(--tl-cols), minmax(0, 1fr));
+  gap: var(--tl-gap);
+  min-height: var(--gnav-h);
+  padding-top: var(--shell-safe-top, 0px);
+  padding-left: var(--shell-safe-left, 0px);
+  padding-right: var(--shell-safe-right, 0px);
+  border-inline: var(--tl-rule-size) solid var(--tl-rule);
+  border-bottom: var(--tl-rule-size) solid var(--tl-rule);
+  color: var(--tl-white);
+  background: var(--tl-header-surface);
+  font-family: var(--tl-font-sans);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+/* The bar hides behind the modal instead of unmounting: unmounting would drop
+   the element the trigger's focus is restored to. */
+.tl-header-band.is-behind-modal { opacity: 0; pointer-events: none; }
+
+/* In-flow reservation for the fixed bar. It sits in `#shared-header-host`, so
+   only routes that actually mount the navigation get the offset — see
+   `src/components/Header.tsx` for the measurement that made it necessary. */
+.tl-header-spacer {
+  height: calc(var(--gnav-h) + var(--shell-safe-top, 0px));
+  background: var(--tl-header-surface);
+}
+
+.tl-header-band > .tl-band-index {
+  grid-column: 1;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border-right: var(--tl-rule-size) solid var(--tl-rule);
+  padding: 0 4px;
+  color: var(--tl-on-dark-meta);
+  font-family: var(--tl-font-mono);
+}
+.tl-header-band > .tl-band-index span { font-size: 13px; line-height: 1; letter-spacing: .02em; }
+.tl-header-band > .tl-band-index small { font-size: 7px; line-height: 1; letter-spacing: .06em; }
+
+.tl-header {
+  grid-column: 2 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  column-gap: var(--tl-gap);
+  padding-inline: 0;
+  border-inline-width: 0;
+  margin-inline: 0;
+  align-items: stretch;
+}
+
+.tl-brand {
+  grid-column: span 3;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  border-right: var(--tl-rule-size) solid var(--tl-rule);
+  padding-inline: var(--tl-s5);
+  color: inherit;
+  text-decoration: none;
+}
+.tl-brand strong { font-size: 22px; line-height: .9; letter-spacing: .02em; white-space: nowrap; }
+.tl-brand strong em { font-style: normal; font-weight: 400; }
+.tl-brand span {
+  margin-top: 5px;
+  color: var(--tl-on-dark-meta);
+  font: 600 7px/1 var(--tl-font-mono);
+  letter-spacing: .3em;
+}
+
+/* Context readout — the sheet's own "where you are" line. Not interactive, so
+   it cannot come between the brand and the trigger in the Tab order. */
+.tl-header-context {
+  grid-column: span 6;
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  padding-inline: var(--tl-s5);
+  color: var(--tl-on-dark-faint);
+  font: 500 9px/1 var(--tl-font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .18em;
+}
+.tl-header-context span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tl-header-actions {
+  grid-column: span 3;
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--tl-s3);
+  padding-inline: var(--tl-s3);
+}
+
+/* ── 02 · THE TRIGGER ─────────────────────────────────────────────────────*/
+
+.tl-menu-trigger {
+  position: relative;
+  display: inline-flex;
+  min-width: 48px;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--tl-s3);
+  padding-inline: var(--tl-s3);
+  border: var(--tl-rule-size) solid var(--tl-rule);
+  color: inherit;
+  background: transparent;
+  transition: border-color var(--tl-dur-micro) var(--tl-ease-out),
+              background-color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.tl-menu-trigger:is(:hover, :focus-visible) {
+  border-color: var(--tl-label-rule);
+  background: var(--tl-tint-hover);
+}
+.tl-menu-trigger-label {
+  font: 600 10px/1 var(--tl-font-mono);
+  letter-spacing: .18em;
+}
+.tl-menu-trigger-rules { position: relative; display: block; width: 22px; height: 17px; }
+.tl-menu-trigger-rules > span {
+  position: absolute;
+  right: 0;
+  display: block;
+  height: var(--tl-rule-size);
+  background: currentColor;
+}
+
+.tl-quote-button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--tl-s5);
+  color: var(--tl-ink);
+  background: var(--tl-paper);
+  font: 700 10px/1 var(--tl-font-mono);
+  letter-spacing: .12em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.tl-quote-button:is(:hover, :focus-visible) { background: var(--tl-paper-raised); }
+
+/* ── 03 · THE MENU SHEET ──────────────────────────────────────────────────*/
+
+.tl-menu {
+  position: fixed;
+  inset: 0;
+  z-index: var(--gnav-menu-z);
+  height: 100dvh;
+  overflow: hidden;
+  color: var(--tl-white);
+  background: var(--tl-void);
+  font-family: var(--tl-font-sans);
+}
+
+.tl-menu-sheet {
+  display: grid;
+  height: 100%;
+  width: min(100%, var(--tl-sheet-max));
+  margin-inline: auto;
+  grid-template-columns: var(--tl-rail) minmax(0, 1fr);
+  border-inline: var(--tl-rule-size) solid var(--tl-rule);
+  padding-top: var(--shell-safe-top, 0px);
+  padding-bottom: var(--shell-safe-bottom, 0px);
+  padding-left: var(--shell-safe-left, 0px);
+  padding-right: var(--shell-safe-right, 0px);
+  background: var(--tl-black);
+}
+
+.tl-menu-rail {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  border-right: var(--tl-rule-size) solid var(--tl-rule);
+  padding: var(--tl-s5) 4px 0;
+  color: var(--tl-on-dark-meta);
+  font-family: var(--tl-font-mono);
+}
+.tl-menu-rail span { font-size: 15px; line-height: 1; }
+.tl-menu-rail small { font-size: 8px; line-height: 1.35; letter-spacing: .06em; text-align: center; }
+
+.tl-menu-body {
+  display: grid;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.tl-menu-top {
+  display: flex;
+  min-height: var(--gnav-h);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tl-s4);
+  border-bottom: var(--tl-rule-size) solid var(--tl-rule);
+  padding-inline: var(--tl-s5);
+}
+.tl-menu-brand {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+.tl-menu-brand strong { font-size: 18px; line-height: 1; letter-spacing: .02em; white-space: nowrap; }
+.tl-menu-brand strong em { font-style: normal; font-weight: 400; }
+.tl-menu-meta {
+  display: flex;
+  margin-right: auto;
+  margin-left: var(--tl-s6);
+  gap: var(--tl-s5);
+  color: var(--tl-on-dark-faint);
+  font: 500 9px/1 var(--tl-font-mono);
+  letter-spacing: .18em;
+}
+
+.tl-menu-main {
+  display: grid;
+  min-height: 0;
+  align-content: start;
+  gap: var(--tl-s6);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--tl-s6) var(--tl-s5);
+  scroll-padding-block: var(--tl-s5);
+}
+
+/* ── 04 · PRIMARY: family rail + category list ────────────────────────────*/
+
+.tl-menu-primary {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: var(--tl-s7);
+}
+
+.tl-menu-family-rail { display: grid; align-content: start; border-top: var(--tl-rule-size) solid var(--tl-rule); }
+.tl-menu-family {
+  position: relative;
+  display: grid;
+  min-height: clamp(84px, 11vh, 118px);
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--tl-s3);
+  border-bottom: var(--tl-rule-size) solid var(--tl-rule);
+  color: var(--tl-on-dark-soft);
+  background: transparent;
+  text-align: left;
+  transition: color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.tl-menu-family-index {
+  align-self: start;
+  padding-top: var(--tl-s2);
+  color: var(--tl-on-dark-faint);
+  font: 500 10px/1 var(--tl-font-mono);
+  letter-spacing: .08em;
+  font-variant-numeric: tabular-nums;
+}
+.tl-menu-family-label {
+  min-width: 0;
+  font-size: clamp(30px, 3.4vw, 52px);
+  font-weight: 700;
+  line-height: .94;
+  letter-spacing: -.03em;
+}
+.tl-menu-family-datum {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 42px;
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: var(--tl-bronze-light);
+  transition: transform var(--tl-dur-short) var(--tl-ease-out);
+}
+.tl-menu-family:is(:hover, :focus-visible), .tl-menu-family.is-active { color: var(--tl-white); }
+.tl-menu-family.is-active .tl-menu-family-datum { transform: scaleX(1); }
+.tl-menu-here {
+  grid-column: 2;
+  color: var(--tl-bronze-light);
+  font: 500 8px/1 var(--tl-font-mono);
+  letter-spacing: .22em;
+}
+
+.tl-menu-categories { min-width: 0; border-top: var(--tl-rule-size) solid var(--tl-rule); }
+.tl-menu-category { border-bottom: var(--tl-rule-size) solid var(--tl-rule); }
+.tl-menu-category-toggle {
+  display: grid;
+  width: 100%;
+  min-height: 56px;
+  grid-template-columns: 34px minmax(0, 1fr) 34px;
+  align-items: center;
+  gap: var(--tl-s3);
+  color: var(--tl-on-dark-soft);
+  background: transparent;
+  text-align: left;
+  transition: color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.tl-menu-category-toggle:is(:hover, :focus-visible),
+.tl-menu-category.is-open .tl-menu-category-toggle { color: var(--tl-white); }
+.tl-menu-category-index, .tl-menu-category-count {
+  color: var(--tl-on-dark-faint);
+  font: 500 10px/1 var(--tl-font-mono);
+  letter-spacing: .06em;
+  font-variant-numeric: tabular-nums;
+}
+.tl-menu-category-count { text-align: right; }
+.tl-menu-category.is-open .tl-menu-category-index { color: var(--tl-bronze-light); }
+.tl-menu-category-label { font-size: clamp(15px, 1.3vw, 19px); font-weight: 600; letter-spacing: -.012em; }
+
+.tl-menu-category-details { padding: 0 var(--tl-s3) var(--tl-s5) 34px; }
+.tl-menu-category-landing {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: var(--tl-s2);
+  color: var(--tl-bronze-light);
+  font: 500 10px/1 var(--tl-font-mono);
+  letter-spacing: .12em;
+  text-decoration: none;
+}
+.tl-menu-category-details ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--tl-s6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tl-menu-category-details li a {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: var(--tl-s3);
+  border-top: var(--tl-rule-size) solid var(--tl-rule-soft);
+  color: var(--tl-on-dark-body);
+  font-size: 14px;
+  line-height: 1.35;
+  text-decoration: none;
+  transition: color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.tl-menu-tick {
+  flex: 0 0 auto;
+  width: 12px;
+  height: var(--tl-rule-size);
+  background: currentColor;
+  transform: scaleX(.4);
+  transform-origin: left;
+  transition: transform var(--tl-dur-micro) var(--tl-ease-out);
+}
+.tl-menu-category-details li a:is(:hover, :focus-visible) { color: var(--tl-white); }
+.tl-menu-category-details li a:is(:hover, :focus-visible) .tl-menu-tick { transform: scaleX(1); }
+.tl-menu-category-details li a[aria-current="page"],
+.tl-menu-category-landing[aria-current="page"] { color: var(--tl-bronze-light); }
+
+/* ── 05 · DIRECTORY: sections vs routes ───────────────────────────────────
+   The whole point of this block is that the two are NOT the same object.
+   Sections carry a `§` and the sheet's band number and are set in mono;
+   routes carry no number and are set in the interface face. */
+
+.tl-menu-directory-reveal { min-width: 0; }
+.tl-menu-directory {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--tl-s6);
+  border-top: var(--tl-rule-size) solid var(--tl-rule);
+  padding-top: var(--tl-s4);
+}
+.tl-menu-dir-col { min-width: 0; }
+.tl-menu-dir-title {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--tl-s3);
+  margin-bottom: var(--tl-s2);
+  color: var(--tl-on-dark-faint);
+  font: 500 9px/1 var(--tl-font-mono);
+  letter-spacing: .2em;
+}
+.tl-menu-dir-col ul { margin: 0; padding: 0; list-style: none; }
+/* Seven sections in one stack was the tallest object in the menu and pushed the
+   directory below the fold at 1440x900 (measured: 808px of content into a 692px
+   scroll field). Two sub-columns bring it to four rows without shrinking a
+   single 44px target. */
+[data-nav-sections] ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--tl-s4); }
+.tl-menu-dir-col li a {
+  display: flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  gap: var(--tl-s3);
+  border-top: var(--tl-rule-size) solid var(--tl-rule-soft);
+  color: var(--tl-on-dark-body);
+  text-decoration: none;
+  transition: color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.tl-menu-dir-col li a:is(:hover, :focus-visible) { color: var(--tl-white); }
+.tl-menu-section-link { font: 500 12px/1.3 var(--tl-font-mono); letter-spacing: .06em; }
+.tl-menu-section-index { color: var(--tl-on-dark-faint); font-variant-numeric: tabular-nums; }
+.tl-menu-route-link { font-size: 14px; font-weight: 500; }
+.tl-menu-dir-col li a[aria-current] { color: var(--tl-bronze-light); }
+
+/* ── 06 · CONVERSION ──────────────────────────────────────────────────────*/
+
+.tl-menu-conversion {
+  display: flex;
+  align-items: center;
+  gap: var(--tl-s4);
+  border-top: var(--tl-rule-size) solid var(--tl-rule);
+  padding: var(--tl-s3) var(--tl-s5);
+}
+.tl-menu-legal { display: flex; flex-wrap: wrap; margin-right: auto; gap: var(--tl-s2); }
+.tl-menu-legal a, .tl-menu-account {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--tl-s2);
+  color: var(--tl-on-dark-meta);
+  font: 500 10px/1 var(--tl-font-mono);
+  letter-spacing: .1em;
+  text-decoration: none;
+  transition: color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.tl-menu-legal a:is(:hover, :focus-visible), .tl-menu-account:is(:hover, :focus-visible) { color: var(--tl-white); }
+.tl-menu-cta {
+  display: inline-flex;
+  min-width: 168px;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: var(--tl-s3);
+  padding-inline: var(--tl-s5);
+  color: var(--tl-ink);
+  background: var(--tl-paper);
+  font: 700 12px/1 var(--tl-font-sans);
+  letter-spacing: .02em;
+  text-decoration: none;
+  transition: background-color var(--tl-dur-micro) var(--tl-ease-out);
+}
+.tl-menu-cta svg { width: 16px; height: 16px; }
+.tl-menu-cta:is(:hover, :focus-visible) { background: var(--tl-paper-raised); }
+
+/* ── 07 · FOCUS ───────────────────────────────────────────────────────────*/
+
+.tl-header-band a:focus-visible,
+.tl-header-band button:focus-visible,
+.tl-menu a:focus-visible,
+.tl-menu button:focus-visible {
+  outline: 2px solid var(--tl-white);
+  outline-offset: 3px;
+}
+
+/* ── 08 · TABLET ──────────────────────────────────────────────────────────*/
+
+@media (max-width: 1180px) {
+  .tl-brand { grid-column: span 2; }
+  .tl-brand strong { font-size: 20px; }
+  .tl-header-context { grid-column: span 1; padding-inline: var(--tl-s3); letter-spacing: .1em; }
+  .tl-header-actions { grid-column: span 3; }
+  .tl-menu-primary { grid-template-columns: minmax(0, 1fr); gap: var(--tl-s5); }
+  .tl-menu-family { min-height: 72px; }
+  .tl-menu-family-label { font-size: clamp(24px, 4vw, 34px); }
+  .tl-menu-family-rail { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .tl-menu-family-datum { left: 0; }
+  .tl-menu-family { grid-template-columns: minmax(0, 1fr); align-content: center; padding-inline: var(--tl-s3); }
+  .tl-menu-here { grid-column: 1; }
+  .tl-menu-directory { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--tl-s5); }
+}
+
+/* ── 09 · MOBILE — the same concept, adapted ──────────────────────────────
+   Not a hamburger afterthought: the family rail becomes a three-up selector
+   pinned to the top of the scroll area, the categories stay a numbered parts
+   list, the directory stacks, and the CTA takes the full measure. Verified at
+   320 and 375. */
+
+@media (max-width: 767px) {
+  /* The sheet drops its side rules below 767 (`technical-landing.css`), so the
+     bar drops its own with it — otherwise the header sat 1px inside the page
+     it belongs to. Measured with `scripts/grid-axis-probe.mjs` at 375. */
+  .tl-header-band { min-height: var(--gnav-h); border-inline: 0; }
+  .tl-header-band > .tl-band-index small { display: none; }
+  .tl-brand { grid-column: span 3; padding-inline: var(--tl-s4); border-right: 0; }
+  .tl-brand strong { font-size: 18px; }
+  .tl-brand span { font-size: 6px; letter-spacing: .24em; }
+  .tl-header-context { display: none; }
+  .tl-header-actions { grid-column: span 1; padding-inline: var(--tl-s2); }
+  .tl-quote-button { display: none; }
+  .tl-menu-trigger { min-width: 44px; padding-inline: 0; }
+  .tl-menu-trigger-label { display: none; }
+
+  .tl-menu-top { padding-inline: var(--tl-s4); }
+  .tl-menu-meta { display: none; }
+  .tl-menu-brand strong { font-size: 15px; }
+  .tl-menu-main { gap: var(--tl-s5); padding: var(--tl-s4); }
+  .tl-menu-family-rail { position: sticky; top: 0; z-index: 2; grid-template-columns: repeat(4, minmax(0, 1fr)); background: var(--tl-black); }
+  .tl-menu-family { min-height: 48px; padding-inline: var(--tl-s1); text-align: center; }
+  .tl-menu-family-label { font: 600 11px/1.1 var(--tl-font-mono); letter-spacing: .04em; }
+  .tl-menu-family-index, .tl-menu-here { display: none; }
+  .tl-menu-category-toggle { grid-template-columns: 28px minmax(0, 1fr) 28px; }
+  .tl-menu-category-label { font-size: 15px; }
+  .tl-menu-category-details { padding-left: 28px; }
+  .tl-menu-category-details ul { grid-template-columns: minmax(0, 1fr); }
+  .tl-menu-directory { grid-template-columns: minmax(0, 1fr); gap: var(--tl-s4); }
+  [data-nav-sections] ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* The conversion block is the floor of the sheet and it must not eat the
+     scroll field. Measured at 320x568: a single wrapping row of 44px legal
+     links plus a full-width account row left only ~250px for the menu body.
+     Three equal cells (two rows) plus a centred account line gives back ~90px
+     and keeps every target at 44px. */
+  .tl-menu-conversion { flex-wrap: wrap; align-items: center; gap: var(--tl-s2); padding: var(--tl-s2) var(--tl-s4); }
+  /* Revision 4 priority on mobile: language · NEXUS sign-in · quote · legal. */
+  .tl-menu-account { order: 1; flex: 1 1 100%; justify-content: center; }
+  .tl-menu-cta { order: 2; flex: 1 1 100%; min-height: 52px; }
+  .tl-menu-legal {
+    order: 3;
+    flex: 1 1 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    margin-right: 0;
+  }
+  .tl-menu-legal a {
+    min-width: 0;
+    padding-inline: 2px;
+    font-size: 9px;
+    letter-spacing: .04em;
+    line-height: 1.25;
+    text-align: center;
+  }
+}
+
+@media (max-width: 359px) {
+  .tl-brand strong { font-size: 16px; }
+  .tl-menu-family-label { font-size: 10px; letter-spacing: 0; }
+}
+
+/* ── 10 · REDUCED MOTION ──────────────────────────────────────────────────
+   Complete, not broken: every element is already in its final geometry, so
+   removing the transitions removes motion and nothing else. */
+
+@media (prefers-reduced-motion: reduce) {
+  .tl-header-band,
+  .tl-header-band *,
+  .tl-menu,
+  .tl-menu * {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+  .tl-menu-family-datum { transition: none; }
+}

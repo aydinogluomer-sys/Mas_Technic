@@ -1,0 +1,24 @@
+﻿
+MOTION AUDIT — mode=enabled  base=http://localhost:4194
+
+viewport=desktop-1280  route=/  label=landing  elements=837  armed=195  armedText=115  afterScroll=5  afterScrollText=0
+viewport=desktop-1280  route=/hizmetler/cnc-frezeleme  label=service detail (B28 reference route)  elements=646  armed=5  armedText=0  afterScroll=5  afterScrollText=0
+viewport=desktop-1280  route=/iletisim  label=contact  elements=315  armed=5  armedText=0  afterScroll=5  afterScrollText=0
+viewport=desktop-1280  route=/malzemeler  label=material register (80-frame scroll canvas — A7)  elements=1998  armed=44  armedText=12  afterScroll=44  afterScrollText=12
+      hidden text: <span class="text-xs uppercase tracking-[0.3em] mb-4 block"> "Malzeme Dönüşümü"
+      hidden text: <h2 class="text-4xl md:text-6xl font-bold tracking-tight"> "Yüzey Mükemmelliği"
+      hidden text: <span class="text-[10px] uppercase tracking-[0.3em] font-mono block"> "Dönüşüm"
+      hidden text: <span class="text-xl font-bold font-mono"> "Ti-6Al-4V"
+      hidden text: <span class="font-mono uppercase tracking-wider"> "İşlenebilirlik"
+      hidden text: <span class="font-mono font-bold"> "4 / 5"
+      hidden text: <span class="font-mono uppercase tracking-wider"> "Korozyon Direnci"
+      hidden text: <span class="font-mono font-bold"> "5 / 5"
+viewport=desktop-1280  route=/malzemeler/aluminyum  label=material category  elements=430  armed=5  armedText=0  afterScroll=5  afterScrollText=0
+viewport=desktop-1280  route=/hakkimizda  label=about  elements=418  armed=5  armedText=0  afterScroll=5  afterScrollText=0
+viewport=mobile-375  route=/  label=landing  elements=806  armed=572  armedText=213  afterScroll=5  afterScrollText=0
+viewport=mobile-375  route=/hizmetler/cnc-frezeleme  label=service detail (B28 reference route)  elements=624  armed=5  armedText=0  afterScroll=5  afterScrollText=0
+viewport=mobile-375  route=/iletisim  label=contact  elements=298  armed=5  armedText=0  afterScroll=5  afterScrollText=0
+viewport=mobile-375  route=/malzemeler  label=material register (80-frame scroll canvas — A7)  elements=1017  armed=5  armedText=0  afterScroll=5  afterScrollText=0
+viewport=mobile-375  route=/malzemeler/aluminyum  label=material category  elements=410  armed=5  armedText=0  afterScroll=5  afterScrollText=0
+viewport=mobile-375  route=/hakkimizda  label=about  elements=400  armed=5  armedText=0  afterScroll=5  afterScrollText=0
+

@@ -1,0 +1,11 @@
+/* QA PHASE 02 — NEGATIVE CONTROL C  (read-only experiment asset)
+ *
+ * Sensitivity floor. Negative control B moves edges by tens of pixels, which
+ * any crude check would catch. This one moves a SINGLE band's cells by 3px —
+ * three times the probe's 1px tolerance and far less than a human would notice
+ * in a screenshot. If the probe stays green here, its tolerance is cosmetic.
+ *
+ * Never imported by the app; pasted into a COPY of dist/index.html only.
+ */
+
+.tl-sector-card { margin-left: 3px !important; }

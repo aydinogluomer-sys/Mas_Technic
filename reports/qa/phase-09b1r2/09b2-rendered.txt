@@ -1,0 +1,55 @@
+guard canary: BLOCKED:Failed to fetch
+
+rendered /cerez-politikasi: 8001 chars
+rendered /gizlilik-politikasi: 7310 chars
+rendered /kvkk: 7530 chars
+rendered /hizmetler/fikstur-aparat-tasarimi: 5923 chars
+rendered /endustriyel/ozel-projeler: 6540 chars
+
+── 1. hCaptcha hosts, as RENDERED (the packet's premise)
+  ok    /cerez-politikasi names the registrable domain hcaptcha.com
+  ok    /cerez-politikasi enumerates NO hcaptcha subdomain  — none
+  ok    /cerez-politikasi does not name sentry.hcaptcha.com
+  ok    /gizlilik-politikasi names the registrable domain hcaptcha.com
+  ok    /gizlilik-politikasi enumerates NO hcaptcha subdomain  — none
+  ok    /gizlilik-politikasi does not name sentry.hcaptcha.com
+  ok    /kvkk names the registrable domain hcaptcha.com
+  ok    /kvkk enumerates NO hcaptcha subdomain  — none
+  ok    /kvkk does not name sentry.hcaptcha.com
+  ok    /cerez-politikasi says a FAILED widget load also produces a request to the same domain  —  Bileşen yüklenemezse — örneğin bir içerik engelleyici ya da kopuk bir bağlantı yüzünden — hata kaydı yine aynı alan adına gönderilir; yani başarısız durumda da istek çıkar.
+  ok    /cerez-politikasi publishes the rule (observed hosts)  —  Buradaki alan adları ölçülerek yazıldı: tarayıcınızın gerçekten istek gönderdiği yerler yazılıyor, bir bileşenin ayarlarında geçmekle birlikte hiç çağrılmayan adresler yazılmıyor.
+  ok    /cerez-politikasi no longer says "iki çerçeve"
+  ok    /gizlilik-politikasi no longer says "iki çerçeve"
+  ok    /kvkk no longer says "iki çerçeve"
+
+── 2. Google Fonts named, and named as Google
+  ok    /cerez-politikasi names fonts.googleapis.com or fonts.gstatic.com
+  ok    /gizlilik-politikasi names fonts.googleapis.com or fonts.gstatic.com
+  ok    /kvkk names fonts.googleapis.com or fonts.gstatic.com
+
+── 3. /gizlilik-politikasi "tek yer"
+  ok    "tek yer" is gone from /gizlilik-politikasi
+
+── 4. /kvkk madde 04 — D3 holds and the clause was widened
+  ok    the closing sentence 'tek tek sayılan hâllerde' is present
+  ok    the enumeration names the AI/chat transfer (Google/Gemini)
+  ok    the enumeration names the font CDN
+  ok    the enumeration names the OAuth redirect (sağlayıcı / Google / LinkedIn)
+  ok    the enumeration names hCaptcha
+
+── 5. mas-technic-theme row
+  ok    row no longer attributes the key to the 3D viewer (it may name the viewer only to deny it)  —  Sekme kapanana kadar mas-technic-theme localStorage Arayüzün açık/koyu paletini tutar. Bildirim katmanı her sayfada yüklendiği için bu kayıt yalnızca 3B görüntüleyici bulunan sayfalarda değil, açtığınız her sayfada yazı
+  ok    row says it is written on every page
+
+── 6. the six software-inventory sites, rendered
+  ok    /hizmetler/fikstur-aparat-tasarimi renders no CAD package name  — none
+  ok    /hizmetler/fikstur-aparat-tasarimi still describes the capability (modelleme / simülasyon / katı model)
+  ok    /endustriyel/ozel-projeler renders no CAD package name  — none
+  ok    /endustriyel/ozel-projeler still describes the capability (modelleme / simülasyon / katı model)
+
+── 7. the sweep classes, rendered on the three documents
+  ok    /cerez-politikasi carries no confidentiality/retention/encryption assurance
+  ok    /gizlilik-politikasi carries no confidentiality/retention/encryption assurance
+  ok    /kvkk carries no confidentiality/retention/encryption assurance
+
+RESULT: all rendered checks hold

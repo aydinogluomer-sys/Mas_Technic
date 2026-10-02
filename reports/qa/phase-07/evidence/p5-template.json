@@ -1,0 +1,896 @@
+{
+  "negativeControl": {
+    "/hakkimizda": {
+      "beforeInject": [
+        {
+          "parentCls": "shell-meta-row shell-hero-meta",
+          "n": 4,
+          "kidsWithIcon": 0,
+          "tile": [
+            126,
+            119
+          ],
+          "sampleText": "Merkezİzmir · Çiğli"
+        },
+        {
+          "parentCls": "shell-run",
+          "n": 6,
+          "kidsWithIcon": 0,
+          "tile": [
+            405,
+            118
+          ],
+          "sampleText": "01Talep ve teknik resim2B teknik resim veya 3B mod"
+        },
+        {
+          "parentCls": "shell-meta-row shell-next-detail",
+          "n": 3,
+          "kidsWithIcon": 0,
+          "tile": [
+            135,
+            75
+          ],
+          "sampleText": "Dönüş süresi1-3 iş günü"
+        },
+        {
+          "parentCls": "",
+          "n": 4,
+          "kidsWithIcon": 0,
+          "tile": [
+            202,
+            150
+          ],
+          "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşa"
+        }
+      ],
+      "afterInject_iconTiles": [
+        {
+          "parentCls": "",
+          "n": 4,
+          "kidsWithIcon": 4,
+          "tile": [
+            292,
+            180
+          ],
+          "sampleText": "Ozellik 1Kisa aciklama metni 1."
+        }
+      ],
+      "afterInject_total": 5,
+      "afterRemove": [
+        {
+          "parentCls": "shell-meta-row shell-hero-meta",
+          "n": 4,
+          "kidsWithIcon": 0,
+          "tile": [
+            126,
+            119
+          ],
+          "sampleText": "Merkezİzmir · Çiğli"
+        },
+        {
+          "parentCls": "shell-run",
+          "n": 6,
+          "kidsWithIcon": 0,
+          "tile": [
+            405,
+            118
+          ],
+          "sampleText": "01Talep ve teknik resim2B teknik resim veya 3B mod"
+        },
+        {
+          "parentCls": "shell-meta-row shell-next-detail",
+          "n": 3,
+          "kidsWithIcon": 0,
+          "tile": [
+            135,
+            75
+          ],
+          "sampleText": "Dönüş süresi1-3 iş günü"
+        },
+        {
+          "parentCls": "",
+          "n": 4,
+          "kidsWithIcon": 0,
+          "tile": [
+            202,
+            150
+          ],
+          "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşa"
+        }
+      ]
+    },
+    "/hizmetler/cnc-frezeleme": {
+      "beforeInject": [
+        {
+          "parentCls": "shell-meta-row shell-hero-meta",
+          "n": 4,
+          "kidsWithIcon": 0,
+          "tile": [
+            126,
+            75
+          ],
+          "sampleText": "Maks. Parça Boyutu (3 Eksen)1500×800×600mm"
+        },
+        {
+          "parentCls": "shell-run",
+          "n": 6,
+          "kidsWithIcon": 0,
+          "tile": [
+            405,
+            98
+          ],
+          "sampleText": "013 Eksen FrezelemeDüz yüzeyler ve standart geomet"
+        },
+        {
+          "parentCls": "shell-run",
+          "n": 6,
+          "kidsWithIcon": 0,
+          "tile": [
+            405,
+            70
+          ],
+          "sampleText": "01DFM Analizi"
+        },
+        {
+          "parentCls": "",
+          "n": 4,
+          "kidsWithIcon": 0,
+          "tile": [
+            202,
+            150
+          ],
+          "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşa"
+        }
+      ],
+      "afterInject_iconTiles": [
+        {
+          "parentCls": "",
+          "n": 4,
+          "kidsWithIcon": 4,
+          "tile": [
+            292,
+            180
+          ],
+          "sampleText": "Ozellik 1Kisa aciklama metni 1."
+        }
+      ],
+      "afterInject_total": 5,
+      "afterRemove": [
+        {
+          "parentCls": "shell-meta-row shell-hero-meta",
+          "n": 4,
+          "kidsWithIcon": 0,
+          "tile": [
+            126,
+            75
+          ],
+          "sampleText": "Maks. Parça Boyutu (3 Eksen)1500×800×600mm"
+        },
+        {
+          "parentCls": "shell-run",
+          "n": 6,
+          "kidsWithIcon": 0,
+          "tile": [
+            405,
+            98
+          ],
+          "sampleText": "013 Eksen FrezelemeDüz yüzeyler ve standart geomet"
+        },
+        {
+          "parentCls": "shell-run",
+          "n": 6,
+          "kidsWithIcon": 0,
+          "tile": [
+            405,
+            70
+          ],
+          "sampleText": "01DFM Analizi"
+        },
+        {
+          "parentCls": "",
+          "n": 4,
+          "kidsWithIcon": 0,
+          "tile": [
+            202,
+            150
+          ],
+          "sampleText": "HİZMETLERTalaşlı İmalatÖn ÜretimYüzey İşlemleriİşa"
+        }
+      ]
+    }
+  },
+  "unknownSlug": {
+    "/hizmetler/kategori/qa-bogus-slug": {
+      "h1": 0,
+      "h2": 5,
+      "h3": 4,
+      "h4": 0,
+      "h5": 0,
+      "h6": 0,
+      "title": "Hizmetler | Mas Technic",
+      "firstH": "H2: HASSAS ÜRETİM.İZLENEBİLİR TESLİM.",
+      "bodyText": "03HİZMET01HİZMETKATEGORİ YOKBu kategori kaydı bulunamadıBağlantı değişmiş olabilir. Aşağıdaki listeden ilgili başlığa geçebilirsiniz.01Talaşlı İmalatCNC frezele",
+      "shellState": [
+        "empty"
+      ]
+    },
+    "/endustriyel/kategori/qa-bogus-slug": {
+      "h1": 0,
+      "h2": 5,
+      "h3": 4,
+      "h4": 0,
+      "h5": 0,
+      "h6": 0,
+      "title": "Endüstriyel | Mas Technic",
+      "firstH": "H2: HASSAS ÜRETİM.İZLENEBİLİR TESLİM.",
+      "bodyText": "05SEKTÖR01SEKTÖRKATEGORİ YOKBu kategori kaydı bulunamadıBağlantı değişmiş olabilir. Aşağıdaki listeden ilgili başlığa geçebilirsiniz.01Yüksek TeknolojiHavacılık",
+      "shellState": [
+        "empty"
+      ]
+    },
+    "/kabiliyetler/kategori/qa-bogus-slug": {
+      "h1": 0,
+      "h2": 5,
+      "h3": 4,
+      "h4": 0,
+      "h5": 0,
+      "h6": 0,
+      "title": "Kabiliyetler | Mas Technic",
+      "firstH": "H2: HASSAS ÜRETİM.İZLENEBİLİR TESLİM.",
+      "bodyText": "04KABİLİYET01KABİLİYETKATEGORİ YOKBu kategori kaydı bulunamadıBağlantı değişmiş olabilir. Aşağıdaki listeden ilgili başlığa geçebilirsiniz.01Üretim AltyapısıSon",
+      "shellState": [
+        "empty"
+      ]
+    },
+    "/hizmetler/qa-bogus-slug": {
+      "h1": 0,
+      "h2": 5,
+      "h3": 4,
+      "h4": 0,
+      "h5": 0,
+      "h6": 0,
+      "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+      "firstH": "H2: HASSAS ÜRETİM.İZLENEBİLİR TESLİM.",
+      "bodyText": "03HİZMET01HİZMETKAYIT YOKBu sayfa kaydı bulunamadıBağlantı değişmiş olabilir. Hizmet ve sektör başlıklarına ana sayfadan ulaşabilirsiniz.Ana sayfa",
+      "shellState": [
+        "empty"
+      ]
+    },
+    "/endustriyel/qa-bogus-slug": {
+      "h1": 0,
+      "h2": 5,
+      "h3": 4,
+      "h4": 0,
+      "h5": 0,
+      "h6": 0,
+      "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+      "firstH": "H2: HASSAS ÜRETİM.İZLENEBİLİR TESLİM.",
+      "bodyText": "03HİZMET01HİZMETKAYIT YOKBu sayfa kaydı bulunamadıBağlantı değişmiş olabilir. Hizmet ve sektör başlıklarına ana sayfadan ulaşabilirsiniz.Ana sayfa",
+      "shellState": [
+        "empty"
+      ]
+    },
+    "/malzemeler/qa-bogus-slug": {
+      "h1": 1,
+      "h2": 8,
+      "h3": 4,
+      "h4": 0,
+      "h5": 0,
+      "h6": 0,
+      "title": "Malzemeler | Mas Technic",
+      "firstH": "H1: Malzeme kütüphanesi",
+      "bodyText": "R1MALZEME01MALZEMETeknik referansMalzeme kütüphanesiCNC işlemede sık kullanılan metaller, mühendislik plastikleri ve kompozitler için karşılaştırmalı teknik kay",
+      "shellState": []
+    },
+    "/qa-bogus-route": {
+      "h1": 1,
+      "h2": 5,
+      "h3": 4,
+      "h4": 0,
+      "h5": 0,
+      "h6": 0,
+      "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+      "firstH": "H1: Aradığınız sayfa bulunamadı",
+      "bodyText": "404HATAERR::PAGE_NOT_FOUND404Aradığınız sayfa bulunamadıBu koordinatlarda işlenecek parça yok.DURUM404İSTENEN YOL/qa-bogus-routeYÖNLENDİRMEYOKAna SayfaHizmetler",
+      "shellState": []
+    },
+    "/hizmetler/kategori/yuzey-islemleri": {
+      "h1": 1,
+      "h2": 8,
+      "h3": 4,
+      "h4": 0,
+      "h5": 0,
+      "h6": 0,
+      "title": "Yüzey İşlemleri | Mas Technic",
+      "firstH": "H1: Yüzey İşlemleri",
+      "bodyText": "03HİZMET01HİZMETAna sayfaHizmetlerYüzey İşlemleriHizmetlerYüzey İşlemleriAnodizasyon, boya, kaplama ve kimyasal işlemler ile parçalarınıza üstün yüzey kalitesi.",
+      "shellState": []
+    },
+    "/endustriyel/kategori/yuksek-teknoloji": {
+      "h1": 1,
+      "h2": 8,
+      "h3": 4,
+      "h4": 0,
+      "h5": 0,
+      "h6": 0,
+      "title": "Yüksek Teknoloji | Mas Technic",
+      "firstH": "H1: Yüksek Teknoloji",
+      "bodyText": "05SEKTÖR01SEKTÖRAna sayfaEndüstriyelYüksek TeknolojiEndüstriyelYüksek TeknolojiHavacılık, savunma ve robotik gibi kritik sektörlere yönelik yüksek hassasiyetli ",
+      "shellState": []
+    }
+  },
+  "radius": {
+    "375|/malzemeler": [
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgba(255, 255, 255, 0.08)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgba(255, 255, 255, 0.08)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgb(232, 97, 10)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgba(255, 255, 255, 0.08)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1.5 flex-1 rounded-full",
+        "owner": "h-1.5 flex-1 rounded-full",
+        "radius": "9999px",
+        "box": [
+          21,
+          6
+        ],
+        "bg": "rgba(255, 255, 255, 0.08)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-",
+        "owner": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-",
+        "radius": "9999px",
+        "box": [
+          48,
+          48
+        ],
+        "bg": "rgb(10, 125, 138)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      }
+    ],
+    "375|/hakkimizda": [
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-",
+        "owner": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-",
+        "radius": "9999px",
+        "box": [
+          48,
+          48
+        ],
+        "bg": "rgb(10, 125, 138)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      }
+    ],
+    "375|/": [
+      {
+        "tag": "svg",
+        "cls": "lucide lucide-user-round",
+        "owner": "lucide lucide-user-round",
+        "radius": "50%",
+        "box": [
+          22,
+          22
+        ],
+        "bg": "rgba(0, 0, 0, 0)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      }
+    ],
+    "1280|/malzemeler": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "owner": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50%",
+        "box": [
+          6,
+          6
+        ],
+        "bg": "rgb(10, 125, 138)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-cente",
+        "owner": "fixed top-0 left-0 pointer-events-none flex items-center justify-cente",
+        "radius": "50%",
+        "box": [
+          44,
+          44
+        ],
+        "bg": "rgba(0, 0, 0, 0)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1 rounded-full overflow-hidden",
+        "owner": "h-1 rounded-full overflow-hidden",
+        "radius": "9999px",
+        "box": [
+          238,
+          4
+        ],
+        "bg": "rgba(255, 255, 255, 0.08)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-full rounded-full",
+        "owner": "h-full rounded-full",
+        "radius": "9999px",
+        "box": [
+          190,
+          4
+        ],
+        "bg": "rgba(0, 0, 0, 0)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1 rounded-full overflow-hidden",
+        "owner": "h-1 rounded-full overflow-hidden",
+        "radius": "9999px",
+        "box": [
+          238,
+          4
+        ],
+        "bg": "rgba(255, 255, 255, 0.08)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-full rounded-full",
+        "owner": "h-full rounded-full",
+        "radius": "9999px",
+        "box": [
+          238,
+          4
+        ],
+        "bg": "rgba(0, 0, 0, 0)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1 rounded-full overflow-hidden",
+        "owner": "h-1 rounded-full overflow-hidden",
+        "radius": "9999px",
+        "box": [
+          238,
+          4
+        ],
+        "bg": "rgba(255, 255, 255, 0.08)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-full rounded-full",
+        "owner": "h-full rounded-full",
+        "radius": "9999px",
+        "box": [
+          190,
+          4
+        ],
+        "bg": "rgba(0, 0, 0, 0)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-1 rounded-full overflow-hidden",
+        "owner": "h-1 rounded-full overflow-hidden",
+        "radius": "9999px",
+        "box": [
+          238,
+          4
+        ],
+        "bg": "rgba(255, 255, 255, 0.08)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "h-full rounded-full",
+        "owner": "h-full rounded-full",
+        "radius": "9999px",
+        "box": [
+          143,
+          4
+        ],
+        "bg": "rgba(0, 0, 0, 0)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-",
+        "owner": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-",
+        "radius": "9999px",
+        "box": [
+          56,
+          56
+        ],
+        "bg": "rgb(10, 125, 138)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      }
+    ],
+    "1280|/hakkimizda": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "owner": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50%",
+        "box": [
+          6,
+          6
+        ],
+        "bg": "rgb(10, 125, 138)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-cente",
+        "owner": "fixed top-0 left-0 pointer-events-none flex items-center justify-cente",
+        "radius": "50%",
+        "box": [
+          44,
+          44
+        ],
+        "bg": "rgba(0, 0, 0, 0)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "button",
+        "cls": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-",
+        "owner": "fixed z-50 flex h-12 w-12 items-center justify-center rounded-full bg-",
+        "radius": "9999px",
+        "box": [
+          56,
+          56
+        ],
+        "bg": "rgb(10, 125, 138)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      }
+    ],
+    "1280|/": [
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none",
+        "owner": "fixed top-0 left-0 pointer-events-none",
+        "radius": "50%",
+        "box": [
+          6,
+          6
+        ],
+        "bg": "rgb(10, 125, 138)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "div",
+        "cls": "fixed top-0 left-0 pointer-events-none flex items-center justify-cente",
+        "owner": "fixed top-0 left-0 pointer-events-none flex items-center justify-cente",
+        "radius": "50%",
+        "box": [
+          44,
+          44
+        ],
+        "bg": "rgba(0, 0, 0, 0)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      },
+      {
+        "tag": "svg",
+        "cls": "lucide lucide-user-round",
+        "owner": "lucide lucide-user-round",
+        "radius": "50%",
+        "box": [
+          22,
+          22
+        ],
+        "bg": "rgba(0, 0, 0, 0)",
+        "inChat": false,
+        "inHeader": false,
+        "inFooter": false
+      }
+    ]
+  }
+}

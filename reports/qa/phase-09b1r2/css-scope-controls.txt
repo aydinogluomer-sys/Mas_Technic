@@ -1,0 +1,21 @@
+shipped css: index-D8TAzPLI.css, Index-DeyKaULr.css, PageShell-DKgzfcuF.css  (249510 bytes)
+
+── typography rules scoped to a GROUND
+   shipped: 0
+   shipped + one synthetic rule: 1   → scan PROVED able to find one
+
+── typography rules scoped to a STATE
+   shipped: 0
+   shipped + one synthetic rule: 1   → scan PROVED able to find one
+
+── typography rules scoped to a POSITION
+   shipped: 3
+     .shell-prose[data-lead]>p:first-child
+     .shell-lead-sections a>span:first-child
+     .shell-contents a>span:first-child
+   shipped + one synthetic rule: 4   → scan PROVED able to find one
+
+── font-size declarations in em
+   shipped: 1   shipped + one synthetic: 2   → PROVED
+
+RESULT: every zero in step 2 is a zero from a scan that can return non-zero

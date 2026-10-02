@@ -1,0 +1,80 @@
+{
+  "/giris": {
+    "cookies": [
+      {
+        "name": "__cf_bm",
+        "domain": ".hcaptcha.com",
+        "path": "/",
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "None",
+        "expiresInMinutes": 30
+      }
+    ],
+    "setCookieResponses": [],
+    "thirdPartyHosts": [
+      "fonts.googleapis.com",
+      "fonts.gstatic.com",
+      "js.hcaptcha.com",
+      "newassets.hcaptcha.com",
+      "5415eb02f24b.w.hcaptcha.com",
+      "d2ce14801451.w.hcaptcha.com"
+    ]
+  },
+  "/sifremi-unuttum": {
+    "cookies": [],
+    "setCookieResponses": [],
+    "thirdPartyHosts": [
+      "fonts.googleapis.com",
+      "fonts.gstatic.com"
+    ]
+  },
+  "/reset-password": {
+    "cookies": [],
+    "setCookieResponses": [],
+    "thirdPartyHosts": [
+      "fonts.googleapis.com",
+      "fonts.gstatic.com"
+    ]
+  },
+  "/teklif-al": {
+    "cookies": [],
+    "setCookieResponses": [],
+    "thirdPartyHosts": [
+      "fonts.googleapis.com",
+      "fonts.gstatic.com"
+    ]
+  },
+  "/": {
+    "cookies": [],
+    "setCookieResponses": [],
+    "thirdPartyHosts": [
+      "fonts.googleapis.com",
+      "fonts.gstatic.com"
+    ]
+  },
+  "/kvkk": {
+    "cookies": [],
+    "setCookieResponses": [],
+    "thirdPartyHosts": [
+      "fonts.googleapis.com",
+      "fonts.gstatic.com"
+    ]
+  },
+  "/cerez-politikasi": {
+    "cookies": [],
+    "setCookieResponses": [],
+    "thirdPartyHosts": [
+      "fonts.googleapis.com",
+      "fonts.gstatic.com"
+    ]
+  },
+  "/malzemeler": {
+    "cookies": [],
+    "setCookieResponses": [],
+    "thirdPartyHosts": [
+      "fonts.googleapis.com",
+      "fonts.gstatic.com"
+    ]
+  }
+}

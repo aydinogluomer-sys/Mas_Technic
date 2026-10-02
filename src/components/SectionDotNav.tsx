@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback, useRef, forwardRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "@/components/shell/motion";
 import { useLocation } from "react-router-dom";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 

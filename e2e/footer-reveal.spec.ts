@@ -2,20 +2,35 @@ import { test, expect } from "@playwright/test";
 import {
   expectLocatorUnobscured,
   gotoAndSettle,
-  hydrateLanding,
   revealFooterCopyright,
 } from "./helpers";
 
+/**
+ * Paylaşılan footer sözleşmesi.
+ *
+ * FAZ 04 — `/` VE `/teklif-al` ARTIK BU LİSTEDE.
+ *
+ * Eski not "`/` bu listede DEĞİL: üretim landing'i kendi antet-bloğu
+ * footer'ını basar ve paylaşılan footer'ı kullanmaz" diyordu. O ayrım, sitenin
+ * ÜÇ ayrı footer diliyle yaşamasının sonucuydu
+ * (`reports/baseline/shell-inventory.md` §2). Faz 04 tek footer'a indirdi ve
+ * hayatta kalan, antet bloğunun kendisi oldu — yani `/` artık paylaşılan
+ * footer'ı basıyor ve aynı sözleşmeyi vermek zorunda.
+ *
+ * `/teklif-al` de listede: `Footer`'ı import edip HİÇ render etmiyordu
+ * (`src/pages/TeklifAl.tsx:54`), yani sitenin birincil dönüşüm sayfasının hiç
+ * footer'ı, hiç yasal bağlantısı ve hiç çıkış yolu yoktu.
+ *
+ * Kapsam GENİŞLEDİ, gevşemedi: aynı iddialar üç yerine beş rotada koşuyor.
+ */
+/* ROUND 2 (2026-09-30): `/teklif-al` left this list by decision — the quote
+   studio is a task surface without the site footer; its legal links sit in
+   the studio rail and are asserted in shared-shell-accessibility.spec.ts. */
 const ROUTES = ["/", "/sss", "/iletisim", "/malzemeler"] as const;
 
 for (const route of ROUTES) {
   test(`complete footer is reachable on ${route}`, async ({ page }, testInfo) => {
     await gotoAndSettle(page, route);
-    if (route === "/") {
-      const landing = page.getByTestId("landing-version-root");
-      await expect(landing).toBeVisible({ timeout: 20_000 });
-      if (await landing.getAttribute("data-landing-version") === "legacy") await hydrateLanding(page);
-    }
 
     const footer = page.getByRole("contentinfo");
     await expect(footer).toBeAttached({ timeout: 20_000 });
@@ -84,13 +99,10 @@ for (const route of ROUTES) {
   });
 }
 
-test("complete landing footer is reachable in a short desktop viewport", async ({ page }) => {
+test("complete shared footer is reachable in a short desktop viewport", async ({ page }) => {
   const viewport = page.viewportSize();
   test.skip(viewport?.width !== 1440 || viewport.height !== 650, "canonical V7 lane");
-  await gotoAndSettle(page, "/");
-  const landing = page.getByTestId("landing-version-root");
-  await expect(landing).toBeVisible({ timeout: 20_000 });
-  if (await landing.getAttribute("data-landing-version") === "legacy") await hydrateLanding(page);
+  await gotoAndSettle(page, "/sss");
 
   const footer = page.getByRole("contentinfo");
   await expect(footer).toBeAttached({ timeout: 20_000 });

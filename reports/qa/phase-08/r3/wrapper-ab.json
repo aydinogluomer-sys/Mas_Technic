@@ -1,0 +1,726 @@
+[
+  {
+    "viewport": 320,
+    "shipped": {
+      "viewport": 320,
+      "wrapperClass": "shell-doc-table",
+      "wrapperDisplay": "block",
+      "wrapperTrack": "none",
+      "wrapper": {
+        "w": 278,
+        "x": 42,
+        "right": 320
+      },
+      "figureMinWidth": "0px",
+      "figure": {
+        "w": 278,
+        "x": 42,
+        "right": 320
+      },
+      "region": {
+        "w": 278,
+        "x": 42,
+        "right": 320,
+        "clientWidth": 276,
+        "scrollWidth": 584,
+        "overflowX": "auto",
+        "forcedScrollLeft": 308,
+        "tabindex": "0",
+        "packetPredicate": true,
+        "regionOnScreen": true
+      },
+      "table": {
+        "w": 583.875,
+        "x": 43,
+        "right": 626.875
+      },
+      "headers": [
+        {
+          "text": "KAYIT",
+          "left": 43,
+          "right": 256.02
+        },
+        {
+          "text": "DEPO",
+          "left": 256.02,
+          "right": 385.23
+        },
+        {
+          "text": "NE İŞE YARAR",
+          "left": 385.23,
+          "right": 530.33
+        },
+        {
+          "text": "SÜRE",
+          "left": 530.33,
+          "right": 626.88
+        }
+      ],
+      "headersOffscreen": [
+        "DEPO",
+        "NE İŞE YARAR",
+        "SÜRE"
+      ]
+    },
+    "reverted": {
+      "viewport": 320,
+      "wrapperClass": "shell-stack",
+      "wrapperDisplay": "grid",
+      "wrapperTrack": "585.875px",
+      "wrapper": {
+        "w": 278,
+        "x": 42,
+        "right": 320
+      },
+      "figureMinWidth": "auto",
+      "figure": {
+        "w": 585.875,
+        "x": 42,
+        "right": 627.875
+      },
+      "region": {
+        "w": 585.875,
+        "x": 42,
+        "right": 627.875,
+        "clientWidth": 584,
+        "scrollWidth": 584,
+        "overflowX": "auto",
+        "forcedScrollLeft": 0,
+        "tabindex": null,
+        "packetPredicate": true,
+        "regionOnScreen": false
+      },
+      "table": {
+        "w": 583.875,
+        "x": 43,
+        "right": 626.875
+      },
+      "headers": [
+        {
+          "text": "KAYIT",
+          "left": 43,
+          "right": 256.02
+        },
+        {
+          "text": "DEPO",
+          "left": 256.02,
+          "right": 385.23
+        },
+        {
+          "text": "NE İŞE YARAR",
+          "left": 385.23,
+          "right": 530.33
+        },
+        {
+          "text": "SÜRE",
+          "left": 530.33,
+          "right": 626.88
+        }
+      ],
+      "headersOffscreen": [
+        "DEPO",
+        "NE İŞE YARAR",
+        "SÜRE"
+      ]
+    }
+  },
+  {
+    "viewport": 375,
+    "shipped": {
+      "viewport": 375,
+      "wrapperClass": "shell-doc-table",
+      "wrapperDisplay": "block",
+      "wrapperTrack": "none",
+      "wrapper": {
+        "w": 333,
+        "x": 42,
+        "right": 375
+      },
+      "figureMinWidth": "0px",
+      "figure": {
+        "w": 333,
+        "x": 42,
+        "right": 375
+      },
+      "region": {
+        "w": 333,
+        "x": 42,
+        "right": 375,
+        "clientWidth": 331,
+        "scrollWidth": 584,
+        "overflowX": "auto",
+        "forcedScrollLeft": 253,
+        "tabindex": "0",
+        "packetPredicate": true,
+        "regionOnScreen": true
+      },
+      "table": {
+        "w": 583.875,
+        "x": 43,
+        "right": 626.875
+      },
+      "headers": [
+        {
+          "text": "KAYIT",
+          "left": 43,
+          "right": 256.02
+        },
+        {
+          "text": "DEPO",
+          "left": 256.02,
+          "right": 385.23
+        },
+        {
+          "text": "NE İŞE YARAR",
+          "left": 385.23,
+          "right": 530.33
+        },
+        {
+          "text": "SÜRE",
+          "left": 530.33,
+          "right": 626.88
+        }
+      ],
+      "headersOffscreen": [
+        "DEPO",
+        "NE İŞE YARAR",
+        "SÜRE"
+      ]
+    },
+    "reverted": {
+      "viewport": 375,
+      "wrapperClass": "shell-stack",
+      "wrapperDisplay": "grid",
+      "wrapperTrack": "585.875px",
+      "wrapper": {
+        "w": 333,
+        "x": 42,
+        "right": 375
+      },
+      "figureMinWidth": "auto",
+      "figure": {
+        "w": 585.875,
+        "x": 42,
+        "right": 627.875
+      },
+      "region": {
+        "w": 585.875,
+        "x": 42,
+        "right": 627.875,
+        "clientWidth": 584,
+        "scrollWidth": 584,
+        "overflowX": "auto",
+        "forcedScrollLeft": 0,
+        "tabindex": null,
+        "packetPredicate": true,
+        "regionOnScreen": false
+      },
+      "table": {
+        "w": 583.875,
+        "x": 43,
+        "right": 626.875
+      },
+      "headers": [
+        {
+          "text": "KAYIT",
+          "left": 43,
+          "right": 256.02
+        },
+        {
+          "text": "DEPO",
+          "left": 256.02,
+          "right": 385.23
+        },
+        {
+          "text": "NE İŞE YARAR",
+          "left": 385.23,
+          "right": 530.33
+        },
+        {
+          "text": "SÜRE",
+          "left": 530.33,
+          "right": 626.88
+        }
+      ],
+      "headersOffscreen": [
+        "DEPO",
+        "NE İŞE YARAR",
+        "SÜRE"
+      ]
+    }
+  },
+  {
+    "viewport": 390,
+    "shipped": {
+      "viewport": 390,
+      "wrapperClass": "shell-doc-table",
+      "wrapperDisplay": "block",
+      "wrapperTrack": "none",
+      "wrapper": {
+        "w": 348,
+        "x": 42,
+        "right": 390
+      },
+      "figureMinWidth": "0px",
+      "figure": {
+        "w": 348,
+        "x": 42,
+        "right": 390
+      },
+      "region": {
+        "w": 348,
+        "x": 42,
+        "right": 390,
+        "clientWidth": 346,
+        "scrollWidth": 584,
+        "overflowX": "auto",
+        "forcedScrollLeft": 238,
+        "tabindex": "0",
+        "packetPredicate": true,
+        "regionOnScreen": true
+      },
+      "table": {
+        "w": 583.875,
+        "x": 43,
+        "right": 626.875
+      },
+      "headers": [
+        {
+          "text": "KAYIT",
+          "left": 43,
+          "right": 256.02
+        },
+        {
+          "text": "DEPO",
+          "left": 256.02,
+          "right": 385.23
+        },
+        {
+          "text": "NE İŞE YARAR",
+          "left": 385.23,
+          "right": 530.33
+        },
+        {
+          "text": "SÜRE",
+          "left": 530.33,
+          "right": 626.88
+        }
+      ],
+      "headersOffscreen": [
+        "NE İŞE YARAR",
+        "SÜRE"
+      ]
+    },
+    "reverted": {
+      "viewport": 390,
+      "wrapperClass": "shell-stack",
+      "wrapperDisplay": "grid",
+      "wrapperTrack": "585.875px",
+      "wrapper": {
+        "w": 348,
+        "x": 42,
+        "right": 390
+      },
+      "figureMinWidth": "auto",
+      "figure": {
+        "w": 585.875,
+        "x": 42,
+        "right": 627.875
+      },
+      "region": {
+        "w": 585.875,
+        "x": 42,
+        "right": 627.875,
+        "clientWidth": 584,
+        "scrollWidth": 584,
+        "overflowX": "auto",
+        "forcedScrollLeft": 0,
+        "tabindex": null,
+        "packetPredicate": true,
+        "regionOnScreen": false
+      },
+      "table": {
+        "w": 583.875,
+        "x": 43,
+        "right": 626.875
+      },
+      "headers": [
+        {
+          "text": "KAYIT",
+          "left": 43,
+          "right": 256.02
+        },
+        {
+          "text": "DEPO",
+          "left": 256.02,
+          "right": 385.23
+        },
+        {
+          "text": "NE İŞE YARAR",
+          "left": 385.23,
+          "right": 530.33
+        },
+        {
+          "text": "SÜRE",
+          "left": 530.33,
+          "right": 626.88
+        }
+      ],
+      "headersOffscreen": [
+        "NE İŞE YARAR",
+        "SÜRE"
+      ]
+    }
+  },
+  {
+    "viewport": 768,
+    "shipped": {
+      "viewport": 768,
+      "wrapperClass": "shell-doc-table",
+      "wrapperDisplay": "block",
+      "wrapperTrack": "none",
+      "wrapper": {
+        "w": 710,
+        "x": 57,
+        "right": 767
+      },
+      "figureMinWidth": "0px",
+      "figure": {
+        "w": 710,
+        "x": 57,
+        "right": 767
+      },
+      "region": {
+        "w": 710,
+        "x": 57,
+        "right": 767,
+        "clientWidth": 708,
+        "scrollWidth": 708,
+        "overflowX": "auto",
+        "forcedScrollLeft": 0,
+        "tabindex": null,
+        "packetPredicate": true,
+        "regionOnScreen": true
+      },
+      "table": {
+        "w": 708,
+        "x": 58,
+        "right": 766
+      },
+      "headers": [
+        {
+          "text": "KAYIT",
+          "left": 58,
+          "right": 271.02
+        },
+        {
+          "text": "DEPO",
+          "left": 271.02,
+          "right": 400.23
+        },
+        {
+          "text": "NE İŞE YARAR",
+          "left": 400.23,
+          "right": 659.05
+        },
+        {
+          "text": "SÜRE",
+          "left": 659.05,
+          "right": 766
+        }
+      ],
+      "headersOffscreen": []
+    },
+    "reverted": {
+      "viewport": 768,
+      "wrapperClass": "shell-stack",
+      "wrapperDisplay": "grid",
+      "wrapperTrack": "710px",
+      "wrapper": {
+        "w": 710,
+        "x": 57,
+        "right": 767
+      },
+      "figureMinWidth": "auto",
+      "figure": {
+        "w": 710,
+        "x": 57,
+        "right": 767
+      },
+      "region": {
+        "w": 710,
+        "x": 57,
+        "right": 767,
+        "clientWidth": 708,
+        "scrollWidth": 708,
+        "overflowX": "auto",
+        "forcedScrollLeft": 0,
+        "tabindex": null,
+        "packetPredicate": true,
+        "regionOnScreen": true
+      },
+      "table": {
+        "w": 708,
+        "x": 58,
+        "right": 766
+      },
+      "headers": [
+        {
+          "text": "KAYIT",
+          "left": 58,
+          "right": 271.02
+        },
+        {
+          "text": "DEPO",
+          "left": 271.02,
+          "right": 400.23
+        },
+        {
+          "text": "NE İŞE YARAR",
+          "left": 400.23,
+          "right": 659.05
+        },
+        {
+          "text": "SÜRE",
+          "left": 659.05,
+          "right": 766
+        }
+      ],
+      "headersOffscreen": []
+    }
+  },
+  {
+    "viewport": 1280,
+    "shipped": {
+      "viewport": 1280,
+      "wrapperClass": "shell-doc-table",
+      "wrapperDisplay": "block",
+      "wrapperTrack": "none",
+      "wrapper": {
+        "w": 809.328,
+        "x": 65,
+        "right": 874.328
+      },
+      "figureMinWidth": "0px",
+      "figure": {
+        "w": 809.328,
+        "x": 65,
+        "right": 874.328
+      },
+      "region": {
+        "w": 809.328,
+        "x": 65,
+        "right": 874.328,
+        "clientWidth": 807,
+        "scrollWidth": 807,
+        "overflowX": "auto",
+        "forcedScrollLeft": 0,
+        "tabindex": null,
+        "packetPredicate": true,
+        "regionOnScreen": true
+      },
+      "table": {
+        "w": 807.328,
+        "x": 66,
+        "right": 873.328
+      },
+      "headers": [
+        {
+          "text": "KAYIT",
+          "left": 66,
+          "right": 279.02
+        },
+        {
+          "text": "DEPO",
+          "left": 279.02,
+          "right": 408.23
+        },
+        {
+          "text": "NE İŞE YARAR",
+          "left": 408.23,
+          "right": 758.05
+        },
+        {
+          "text": "SÜRE",
+          "left": 758.05,
+          "right": 873.33
+        }
+      ],
+      "headersOffscreen": []
+    },
+    "reverted": {
+      "viewport": 1280,
+      "wrapperClass": "shell-stack",
+      "wrapperDisplay": "grid",
+      "wrapperTrack": "809.328px",
+      "wrapper": {
+        "w": 809.328,
+        "x": 65,
+        "right": 874.328
+      },
+      "figureMinWidth": "auto",
+      "figure": {
+        "w": 809.328,
+        "x": 65,
+        "right": 874.328
+      },
+      "region": {
+        "w": 809.328,
+        "x": 65,
+        "right": 874.328,
+        "clientWidth": 807,
+        "scrollWidth": 807,
+        "overflowX": "auto",
+        "forcedScrollLeft": 0,
+        "tabindex": null,
+        "packetPredicate": true,
+        "regionOnScreen": true
+      },
+      "table": {
+        "w": 807.328,
+        "x": 66,
+        "right": 873.328
+      },
+      "headers": [
+        {
+          "text": "KAYIT",
+          "left": 66,
+          "right": 279.02
+        },
+        {
+          "text": "DEPO",
+          "left": 279.02,
+          "right": 408.23
+        },
+        {
+          "text": "NE İŞE YARAR",
+          "left": 408.23,
+          "right": 758.05
+        },
+        {
+          "text": "SÜRE",
+          "left": 758.05,
+          "right": 873.33
+        }
+      ],
+      "headersOffscreen": []
+    }
+  },
+  {
+    "viewport": 1440,
+    "shipped": {
+      "viewport": 1440,
+      "wrapperClass": "shell-doc-table",
+      "wrapperDisplay": "block",
+      "wrapperTrack": "none",
+      "wrapper": {
+        "w": 916,
+        "x": 65,
+        "right": 981
+      },
+      "figureMinWidth": "0px",
+      "figure": {
+        "w": 916,
+        "x": 65,
+        "right": 981
+      },
+      "region": {
+        "w": 916,
+        "x": 65,
+        "right": 981,
+        "clientWidth": 914,
+        "scrollWidth": 914,
+        "overflowX": "auto",
+        "forcedScrollLeft": 0,
+        "tabindex": null,
+        "packetPredicate": true,
+        "regionOnScreen": true
+      },
+      "table": {
+        "w": 914,
+        "x": 66,
+        "right": 980
+      },
+      "headers": [
+        {
+          "text": "KAYIT",
+          "left": 66,
+          "right": 279.02
+        },
+        {
+          "text": "DEPO",
+          "left": 279.02,
+          "right": 408.23
+        },
+        {
+          "text": "NE İŞE YARAR",
+          "left": 408.23,
+          "right": 855.77
+        },
+        {
+          "text": "SÜRE",
+          "left": 855.77,
+          "right": 980
+        }
+      ],
+      "headersOffscreen": []
+    },
+    "reverted": {
+      "viewport": 1440,
+      "wrapperClass": "shell-stack",
+      "wrapperDisplay": "grid",
+      "wrapperTrack": "916px",
+      "wrapper": {
+        "w": 916,
+        "x": 65,
+        "right": 981
+      },
+      "figureMinWidth": "auto",
+      "figure": {
+        "w": 916,
+        "x": 65,
+        "right": 981
+      },
+      "region": {
+        "w": 916,
+        "x": 65,
+        "right": 981,
+        "clientWidth": 914,
+        "scrollWidth": 914,
+        "overflowX": "auto",
+        "forcedScrollLeft": 0,
+        "tabindex": null,
+        "packetPredicate": true,
+        "regionOnScreen": true
+      },
+      "table": {
+        "w": 914,
+        "x": 66,
+        "right": 980
+      },
+      "headers": [
+        {
+          "text": "KAYIT",
+          "left": 66,
+          "right": 279.02
+        },
+        {
+          "text": "DEPO",
+          "left": 279.02,
+          "right": 408.23
+        },
+        {
+          "text": "NE İŞE YARAR",
+          "left": 408.23,
+          "right": 855.77
+        },
+        {
+          "text": "SÜRE",
+          "left": 855.77,
+          "right": 980
+        }
+      ],
+      "headersOffscreen": []
+    }
+  }
+]

@@ -50,8 +50,6 @@ import {
 import {
   C,
   useChartTheme,
-  oeeHistory,
-  oeeMetrics,
   CustomTooltip,
   renderCustomLabel,
   navigateTo,
@@ -391,8 +389,8 @@ export const DashboardHome = () => {
       });
       for (let i = 1; i <= 3; i++) {
         const futureDate = new Date(now.getFullYear(), now.getMonth() + i, 1);
-        const projIncome = Math.round(avgIncome * (1 + (Math.random() - 0.4) * 0.2));
-        const projExpense = Math.round(avgExpense * (1 + (Math.random() - 0.4) * 0.15));
+        const projIncome = Math.round(avgIncome); // trailing-average projection, not a random walk
+        const projExpense = Math.round(avgExpense);
         const net = projIncome - projExpense;
         cumulative += net;
         cashFlowForecast.push({
@@ -664,50 +662,19 @@ export const DashboardHome = () => {
         ))}
       </motion.div>
 
-      {/* ── OEE METRICS ── */}
-      <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        {oeeMetrics.map((m) => (
-          <div key={m.label} className={`${cardBase} cursor-pointer p-4`} onClick={() => navigateTo("tpm")}>
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-[10px] font-bold dark:text-slate-500 text-slate-400 uppercase tracking-widest">
-                {m.label}
-              </span>
-              <div className={`w-7 h-7 rounded-lg ${m.bg} flex items-center justify-center`}>
-                <m.icon className={`w-3.5 h-3.5 ${m.color}`} />
-              </div>
-            </div>
-            <p className="text-2xl font-black dark:text-white text-slate-800 mb-3">{m.value}</p>
-            <div className="flex items-end gap-[3px] h-7 mb-2">
-              {m.bars.map((v, i) => (
-                <div
-                  key={i}
-                  className="flex-1 rounded-sm transition-all"
-                  style={{
-                    height: `${v}%`,
-                    backgroundColor: `color-mix(in srgb, ${
-                      m.color === "text-[#0AA2CD]"
-                        ? C.cyan
-                        : m.color === "text-[#F97316]"
-                          ? C.orange
-                          : m.color === "text-amber-400"
-                            ? C.amber
-                            : C.emerald
-                    } ${30 + i * 7}%, transparent)`,
-                  }}
-                />
-              ))}
-            </div>
-            <div className="flex items-center gap-1">
-              {m.up ? (
-                <TrendingUp className="w-3 h-3 text-emerald-400" />
-              ) : (
-                <TrendingDown className="w-3 h-3 text-red-400" />
-              )}
-              <span className={`text-[11px] font-bold ${m.up ? "text-emerald-400" : "text-red-400"}`}>{m.trend}</span>
-              <span className="text-[10px] text-slate-500 ml-1">son 30g</span>
-            </div>
-          </div>
-        ))}
+      {/* ── OEE METRICS ──
+          These four tiles used to print constants (84.2 %, 91.5 %, …) from
+          dashboardConstants.tsx as if they were live. No table carries
+          availability, performance or quality counts, so there is nothing to
+          compute OEE from: the tile says so until a machine-data source exists. */}
+      <motion.div variants={itemVariants}>
+        <div className={`${cardBase} cursor-pointer p-4`} onClick={() => navigateTo("tpm")}>
+          <p className="text-[10px] font-bold dark:text-slate-500 text-slate-400 uppercase tracking-widest mb-2">OEE</p>
+          <p className="text-sm dark:text-slate-300 text-slate-600">
+            OEE verisi bağlı değil. Kullanılabilirlik, performans ve kalite oranı için makine veri toplama (MES/PLC)
+            entegrasyonu gerekiyor; bağlanana kadar değer gösterilmez.
+          </p>
+        </div>
       </motion.div>
 
       {/* ── ROW 1: OEE Trend + RFQ Status ── */}
@@ -717,66 +684,9 @@ export const DashboardHome = () => {
             OEE Trend Analizi (6 Ay)
           </h3>
           <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={oeeHistory} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" {...grd} />
-                <XAxis dataKey="month" tick={tkS} axisLine={false} tickLine={false} />
-                <YAxis tick={tkS} domain={[70, 100]} axisLine={false} tickLine={false} />
-                <Tooltip content={<CustomTooltip />} />
-                <Line
-                  type="monotone"
-                  dataKey="oee"
-                  name="OEE"
-                  stroke={C.cyan}
-                  strokeWidth={3}
-                  dot={{ r: 4, fill: C.cyan, strokeWidth: 0 }}
-                  activeDot={{ r: 6, stroke: C.cyan, strokeWidth: 2, fill: "#0F172A" }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="availability"
-                  name="Kullanılabilirlik"
-                  stroke={C.orange}
-                  strokeWidth={1.5}
-                  strokeDasharray="4 4"
-                  dot={false}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="performance"
-                  name="Performans"
-                  stroke={C.amber}
-                  strokeWidth={1.5}
-                  strokeDasharray="4 4"
-                  dot={false}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="quality"
-                  name="Kalite"
-                  stroke={C.emerald}
-                  strokeWidth={1.5}
-                  strokeDasharray="4 4"
-                  dot={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="flex flex-wrap gap-4 mt-3">
-            {[
-              { label: "OEE", color: C.cyan, dash: false },
-              { label: "Kullanılabilirlik", color: C.orange, dash: true },
-              { label: "Performans", color: C.amber, dash: true },
-              { label: "Kalite", color: C.emerald, dash: true },
-            ].map((l) => (
-              <div key={l.label} className="flex items-center gap-1.5">
-                <div
-                  className={`w-4 h-0.5 rounded-full ${l.dash ? "border-t border-dashed" : ""}`}
-                  style={{ backgroundColor: l.dash ? "transparent" : l.color, borderColor: l.color }}
-                />
-                <span className="text-[10px] dark:text-slate-500 text-slate-400 font-medium">{l.label}</span>
-              </div>
-            ))}
+            <div className="flex h-full items-center justify-center text-center text-sm dark:text-slate-400 text-slate-500">
+              OEE geçmişi için makine verisi bağlı değil.
+            </div>
           </div>
         </div>
 
