@@ -1,0 +1,22 @@
+{
+  "scope": "LOCAL_FIXTURE, headless Chromium 1194 (SwiftShader), desktop-1280",
+  "results": {
+    "A: WebGL unavailable — form keeps working": {
+      "status": "passed",
+      "durationMs": 6542,
+      "webgl-unavailable.txt": {
+        "pageErrors": [],
+        "noticeExcerpt": "13\nRFQ\nANA SAYFA\nTEKLİF AL\n\nTEKLİF · 3 ADIM · 1-3 İŞ GÜNÜ DÖNÜŞ\n\nHassas Fiyat Teklifi Alın\nTEKLİF DÖNÜŞÜ\n1-3 iş günü\nKABUL EDİLEN FORMAT\nSTEP, STP, STL, OBJ, IGES, IGS, 3MF\nMAKSİMUM DOSYA\n50 MB\nTOLERANS\n±0.01 mm\n01\nCAD DOSYASI\n02\nÖZELLİKLER\n03\nGÖNDER\n\nDOSYA HAZIR DEĞİLSE\n\nTeknik görüşme planla ↗\nSık sorulan sorular ↗\n+90 (536) 564 51 94\nsales@mastechnic.com\n\nKVKK\nGizlilik Politikası\nÇerez Politikası\n\n01\nCAD dosyanızı yükleyin\n\nTeknik resim yerine 3B model gönderin; üretilebilirlik incelemesi doğrudan geometri üzerinden yapılır.\n\nKABUL EDİLEN FORMATLAR\n\nSTEP\nSTP\nSTL\nOBJ\nIGES\nIGS\n3MF\n\nTek dosya · en fazla 50 MB · STEP, STP, STL, OBJ, IGES, IGS, 3MF · Maks. 50 MB\n\ncube.stl\nBaşka bir dosya seçmek için tıklayın\nDOSYA\ncube.stl\nBOYUT\n219 B\nFORMAT\nSTL\nÖLÇÜ\nÖnizlemede okunur\n\nÖNİZLEME YÜKLENEMEDİ\n\n3B görüntüleyici indirilemedi\n\nGörüntüleyici bileşeni yüklenemedi. Bu, teklif talebinizi etkilemez — dosyanız formda kalır ve önizleme olmadan da gönderebilirsiniz.\n\nTEKRAR DENE\nİLERİ\n\nCANLI KAYIT\n\nDOSYA\ncube.stl\nHİZMET\nCNC Frezeleme (3 & 5 eksen)\nMALZEME\nAlüminyum 6061-T6\nYÜZEY\nİşlenmiş yüzey\nMİKTAR\n25 adet\nÖNCELİK\nStandart\n\nTEKLİF VE TERMİN\n\nTEKLİF DÖNÜŞÜ\n1-3 İŞ GÜNÜ\nTERMİN\nTeklifle birlikte\nÖLÇÜM KAYDI\nTeslimat dosyasında\n\nKALİTE\n\n01\nISO 9001:2015\nKalite yönetim sistemi standardı.\n02\nCMM ölçümü\nAkredite 3. taraf CMM ölçümü, talebe bağlı\n03\nMalzeme izlenebilirliği\nParti ve döküm kaydı; malzeme sertifikası talebe bağlı."
+      }
+    },
+    "B: context lost after render — form keeps working": {
+      "status": "passed",
+      "durationMs": 3889,
+      "webgl-context-lost.txt": {
+        "loseContextExtension": true,
+        "pageErrors": [],
+        "mainExcerpt": "13\nRFQ\nANA SAYFA\nTEKLİF AL\n\nTEKLİF · 3 ADIM · 1-3 İŞ GÜNÜ DÖNÜŞ\n\nHassas Fiyat Teklifi Alın\nTEKLİF DÖNÜŞÜ\n1-3 iş günü\nKABUL EDİLEN FORMAT\nSTEP, STP, STL, OBJ, IGES, IGS, 3MF\nMAKSİMUM DOSYA\n50 MB\nTOLERANS\n±0.01 mm\n01\nCAD DOSYASI\n02\nÖZELLİKLER\n03\nGÖNDER\n\nDOSYA HAZIR DEĞİLSE\n\nTeknik görüşme planla ↗\nSık sorulan sorular ↗\n+90 (536) 564 51 94\nsales@mastechnic.com\n\nKVKK\nGizlilik Politikası\nÇerez Politikası\n\n01\nCAD dosyanızı yükleyin\n\nTeknik resim yerine 3B model gönderin; üretilebilirlik incelemesi doğrudan geometri üzerinden yapılır.\n\nKABUL EDİLEN FORMATLAR\n\nSTEP\nSTP\nSTL\nOBJ\nIGES\nIGS\n3MF\n\nTek dosya · en fazla 50 MB · STEP, STP, STL, OBJ, IGES, IGS, 3MF · Maks. 50 MB\n\ncube.stl\nBaşka bir dosya seçmek için tıklayın\nDOSYA\ncube.stl\nBOYUT\n219 B\nFORMAT\nSTL\nÖLÇÜ\n10 × 10 × 10 mm\nIZGARA\nTEL KAFES\nÖNİZLEMEYİ KAPAT\nPLAKA 3B\nX 10 · Y 10 · Z 10 mm (sınırlayıcı kutu)\nİLERİ\n\nCANLI KAYIT\n\nDOSYA\ncube.stl\nHİZMET\nCNC Frezeleme (3 & 5 eksen)\nMALZEME\nAlüminyum 6061-T6\nYÜZEY\nİşlenmiş yüzey\nMİKTAR\n25 adet\nÖNCELİK\nStandart\n\nTEKLİF VE TERMİN\n\nTEKLİF DÖNÜŞÜ\n1-3 İŞ GÜNÜ\nTERMİN\nTeklifle birlikte\nÖLÇÜM KAYDI\nTeslimat dosyasında\n\nKALİTE\n\n01\nISO 9001:2015\nKalite yönetim sistemi standardı.\n02\nCMM ölçümü\nAkredite 3. taraf CMM ölçümü, talebe bağlı\n03\nMalzeme izlenebilirliği\nParti ve döküm kaydı; malzeme sertifikası talebe bağlı."
+      }
+    }
+  }
+}
