@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { expect, test, type Page, type Route } from "@playwright/test";
+import { gotoAndSettle } from "./helpers";
 import {
   RFQ_ATTACHMENTS_ENABLED,
   attachmentKindFor,
@@ -126,7 +127,7 @@ test.describe("RFQ03 request screen (default build)", () => {
 
   test("contract heading, three steps, nothing pre-chosen, empty-step error", async ({ page }) => {
     const calls = await seal(page, (_, route) => json(route, 500, {}));
-    await page.goto("/teklif-al");
+    await gotoAndSettle(page, "/teklif-al");
     await expect(page.getByRole("heading", { level: 1, name: "Üretim Teklifi İsteyin" })).toBeVisible();
     await expect(page.locator(".rfq-lede")).toContainText("1-3 iş günü");
     await expect(page.getByRole("navigation", { name: "Teklif adımları" })).toContainText("DOSYALAR");
@@ -145,7 +146,7 @@ test.describe("RFQ03 request screen (default build)", () => {
 
   test("selections survive back and forward; the review shows Belirtilmedi for what was not chosen", async ({ page }) => {
     await seal(page, (_, route) => json(route, 500, {}));
-    await page.goto("/teklif-al");
+    await gotoAndSettle(page, "/teklif-al");
     await page.locator("#rfq-cad").setInputFiles({ name: "parça.stl", mimeType: "model/stl", buffer: STL });
     await submit(page).click();
     await expect(page.locator("#rfq-quantity")).toHaveValue("");
@@ -171,7 +172,7 @@ test.describe("RFQ03 request screen (default build)", () => {
       if (call === 1) return route.abort("connectionreset");
       return json(route, 201, { rfq: { id: calls.invocations[call - 1].id } });
     });
-    await page.goto("/teklif-al");
+    await gotoAndSettle(page, "/teklif-al");
     await page.locator("#rfq-cad").setInputFiles({ name: "p.stl", mimeType: "model/stl", buffer: STL });
     await submit(page).click();
     await fillDetails(page);
@@ -190,7 +191,7 @@ test.describe("RFQ03 request screen (default build)", () => {
 
   test("RFQ02: a 5xx after an unanswered attempt is reported as 'possibly received', not as a fresh failure", async ({ page }) => {
     await seal(page, async (call, route) => (call === 1 ? route.abort("timedout") : json(route, 500, { error: "Talep oluşturulamadı." })));
-    await page.goto("/teklif-al");
+    await gotoAndSettle(page, "/teklif-al");
     await page.locator("#rfq-cad").setInputFiles({ name: "p.stl", mimeType: "model/stl", buffer: STL });
     await submit(page).click();
     await fillDetails(page);
@@ -205,7 +206,7 @@ test.describe("RFQ03 request screen (default build)", () => {
 
   test("RFQ02: 413 and 429 map to their own sentences", async ({ page }) => {
     await seal(page, async (call, route) => (call === 1 ? json(route, 413, {}) : json(route, 429, { retry_after: 30 })));
-    await page.goto("/teklif-al");
+    await gotoAndSettle(page, "/teklif-al");
     await page.locator("#rfq-cad").setInputFiles({ name: "p.stl", mimeType: "model/stl", buffer: STL });
     await submit(page).click();
     await fillDetails(page);

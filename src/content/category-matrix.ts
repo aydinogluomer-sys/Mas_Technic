@@ -26,7 +26,7 @@ export const CATEGORY_MATRIX: Record<string, readonly MatrixRow[]> = {
   ],
   "hizmetler/on-uretim": [
     row("Plastik parça, seri öncesi kalıp kararı", "Plastic part, tooling decision before series", "enjeksiyon-kalibi", DRAWING),
-    row("Karmaşık metal form, yüksek adet", "Complex metal form, high quantity", "basinçli-dokum", DRAWING),
+    row("Karmaşık metal form, yüksek adet", "Complex metal form, high quantity", "basincli-dokum", DRAWING),
     row("Kısa seri veya fonksiyonel prototip", "Short run or functional prototype", "silikon-kaliplama", { tr: "Master model ve adet", en: "Master model and quantity" }),
     row("Tekrarlanabilir bağlama veya kontrol", "Repeatable clamping or inspection", "fikstur-aparat-tasarimi", { tr: "Parça modeli ve operasyon listesi", en: "Part model and operation list" }),
   ],

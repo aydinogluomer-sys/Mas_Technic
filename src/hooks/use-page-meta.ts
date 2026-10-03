@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { localeFromPath, type PublicLocale } from "@/i18n/locale";
 import { routeLinks } from "@/lib/route-links";
-import { SITE_INDEXING, SITE_ORIGIN } from "@/lib/site-config";
+import { ENGLISH_LIVE, SITE_INDEXING, SITE_ORIGIN } from "@/lib/site-config";
 
 /* ══════════════════════════════════════════════════════════════════════════
    ROUTE METADATA (SEO01)
@@ -93,17 +93,21 @@ const usePageMeta = ({ title, description, noindex = false, fullTitle = false }:
     setMeta("name", "twitter:title", documentTitle);
     setMeta("name", "twitter:description", description ?? null);
     setMeta("property", "og:locale", OG_LOCALE[locale]);
-    setMeta("property", "og:locale:alternate", OG_LOCALE[locale === "tr" ? "en" : "tr"]);
+    setMeta("property", "og:locale:alternate", ENGLISH_LIVE ? OG_LOCALE[locale === "tr" ? "en" : "tr"] : null);
 
-    const indexable = SITE_INDEXING === "public" && !noindex;
+    /* C3 — while English is unpublished an /en page is never indexed and no
+       page advertises a language pair that does not ship. */
+    const unpublished = locale === "en" && !ENGLISH_LIVE;
+    const indexable = SITE_INDEXING === "public" && !noindex && !unpublished;
     setMeta("name", "robots", indexable ? INDEX_ROBOTS : NOINDEX_ROBOTS);
 
-    const links = SITE_ORIGIN && !noindex ? routeLinks(pathname, SITE_ORIGIN) : null;
+    const links = SITE_ORIGIN && !noindex && !unpublished ? routeLinks(pathname, SITE_ORIGIN) : null;
+    const pairs = ENGLISH_LIVE ? links : null;
     setLink("canonical", links?.canonical ?? null);
     setMeta("property", "og:url", links?.canonical ?? null);
-    setLink("alternate", links?.tr ?? null, "tr");
-    setLink("alternate", links?.en ?? null, "en");
-    setLink("alternate", links?.tr ?? null, "x-default");
+    setLink("alternate", pairs?.tr ?? null, "tr");
+    setLink("alternate", pairs?.en ?? null, "en");
+    setLink("alternate", pairs?.tr ?? null, "x-default");
   }, [title, description, noindex, fullTitle, pathname]);
 };
 

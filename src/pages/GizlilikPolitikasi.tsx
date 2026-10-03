@@ -166,6 +166,8 @@ import { useLocale } from "@/i18n/hooks";
    "harici bir yazı tipi dağıtım ağı" the other time cannot learn that both are
    the same company — which is precisely the fact `/kvkk` madde 06 publishes a
    statutory right to know.
+   C1 UPDATE: fonts are self-hosted now; the clause says so instead of naming
+   a host the browser no longer contacts.
 
    THE FRAME COUNT IS GONE. "iki çerçeve" was a closed count over a third
    party's implementation, of the same shape as the "iki hâlde" this phase has
@@ -252,13 +254,8 @@ const CLAUSES: LegalClause[] = [
     body: (
       <div className="shell-prose">
         <p>
-          Sayfa yazı tipleri Google’ın yazı tipi dağıtım ağından —{" "}
-          <code>fonts.googleapis.com</code> ve <code>fonts.gstatic.com</code> — yüklenir. Bu,
-          tarayıcınızın her sayfada, siz bir şey yapmadan o sunuculara bir istek göndermesi anlamına
-          gelir ve ilgili sunucu bu isteğe bağlı olarak IP adresinizi ve tarayıcı bilginizi görür.
-          Yazı tipi dosyalarının dışında bu istekle veri gönderilmez. 06. maddedeki sohbet aktarımı
-          da Google’a gider; ikisi Google’ın birbirinden bağımsız iki ayrı servisidir ve burada
-          ayrı ayrı yazılmalarının sebebi budur.
+          Sayfa yazı tipleri bu sitenin kendi sunucusundan yüklenir; yazı tipi için üçüncü taraf
+          bir sunucuya istek gönderilmez.
         </p>
         <p>
           Teklif akışını kullandığınızda form verisi ve yüklediğiniz dosya, sitenin barındırma ve

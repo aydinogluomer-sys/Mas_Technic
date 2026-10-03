@@ -89,15 +89,6 @@ export const KVKK_EN = {
             infrastructure used to run this site.
           </p>
           <p>
-            <strong>Font delivery network — on every page.</strong> The site's fonts are loaded
-            from Google's font delivery network (<code>fonts.googleapis.com</code>,{" "}
-            <code>fonts.gstatic.com</code>). Your browser sends a request to these servers on every
-            page, and with that request your IP address and browser information reach them. Your
-            consent is neither asked for nor obtained for this case: the request is sent as the
-            page opens, without you doing anything. The chat assistant case below also goes to
-            Google; the two are separate, independent Google services.
-          </p>
-          <p>
             <strong>Security component on the sign-in page.</strong> When you open the{" "}
             <Link to="/giris">sign-in page</Link>, the hCaptcha component that protects the form
             against automated sign-in attempts is loaded; your browser sends a request to servers

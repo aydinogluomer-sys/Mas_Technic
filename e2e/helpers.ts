@@ -87,10 +87,37 @@ export async function revealFooterCopyright(page: Page) {
  * yönlendiriyor ve gerçek ana sayfa hakkında hiçbir şey söylemiyordu
  * (`reports/baseline/known-blockers.md` B02). `/` artık `/` demektir.
  */
+/** C2 — a prerendered page is on screen before the app owns it, and the app
+    replaces that DOM when it adopts the page: anything a spec plants, fills
+    or clicks before then is lost. Specs that navigate with a bare
+    `page.goto` and then touch the DOM wait here first. */
+export async function waitForApp(page: Page) {
+  await page.waitForFunction(() => document.documentElement.hasAttribute("data-app-ready"), undefined, { timeout: 20_000 });
+}
+
 export async function gotoAndSettle(page: Page, path: string) {
   await page.goto(path, { waitUntil: "domcontentloaded" });
   await expect(page.locator("#root")).toBeVisible();
   await page.locator("body").waitFor({ state: "visible" });
+  /* Wait for the ROUTE, not only the root: routes are lazy chunks, and under
+     load a spec could read the DOM while the route loader was still up — 0
+     rail labels, a null header box, an empty menu list (four regression
+     flakes, all the same race). Every page renders a `<main>`; the shell's
+     error state counts as rendered. Best-effort with a ceiling, so a surface
+     without either still reaches the spec's own assertions. */
+  await page
+    .waitForFunction(
+      () => !document.querySelector('[data-shell-state="loading"]')
+        && !!document.querySelector('main, [data-shell-state="error"]'),
+      undefined,
+      { timeout: 10_000 },
+    )
+    .catch(() => { /* the spec's own assertions report what is missing */ });
+  /* C2 — a prerendered page is readable before the app owns it; buttons in
+     the static snapshot have no handlers yet. Interactions wait for the app. */
+  await page
+    .waitForFunction(() => document.documentElement.hasAttribute("data-app-ready"), undefined, { timeout: 15_000 })
+    .catch(() => { /* a spec asserting the static page itself reports that */ });
   // Persistent analytics/realtime connections make networkidle nondeterministic.
   // Font readiness plus two paint frames is a bounded visual readiness contract.
   await settleRendering(page);

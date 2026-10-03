@@ -1,4 +1,5 @@
 import { test, expect, type Page, type Route, type Request } from "@playwright/test";
+import { waitForApp } from "./helpers";
 import AxeBuilder from "@axe-core/playwright";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -40,7 +41,10 @@ const SMALL_STL = Buffer.from(
  * or answered inside the browser, and `seal.passed` is asserted to contain
  * these two hosts and nothing else.
  */
-const FONT_HOSTS = new Set(["fonts.googleapis.com", "fonts.gstatic.com"]);
+/* C1 — fonts are self-hosted now, so NO off-origin host is allowed out: a
+   request to fonts.googleapis.com / fonts.gstatic.com would mean the page
+   went back to Google for type, and that must fail here. */
+const FONT_HOSTS = new Set<string>();
 
 type Seal = {
   /** Every off-origin URL the page attempted, none of which was forwarded. */
@@ -134,6 +138,7 @@ function assertNothingReachedTheBackend(seal: Seal) {
 
 async function openForm(page: Page) {
   await page.goto("/teklif-al", { waitUntil: "networkidle" });
+  await waitForApp(page);
   await expect(page.getByRole("heading", { level: 1, name: "Üretim Teklifi İsteyin" })).toBeVisible();
 }
 

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
+import { ENGLISH_LIVE } from "@/lib/site-config";
 import { useTranslation } from "react-i18next";
 import { ChevronDown } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -28,7 +29,13 @@ type LanguageSwitchProps = {
 };
 
 /* TR · EN only (L01). See `useChooseLanguage` above for what a choice does. */
-export function LanguageSwitch({ className = "", variant = "inline" }: LanguageSwitchProps) {
+/* C3 — the switch is the only entry point to the English surface, so it is
+   not rendered while English is unpublished (`ENGLISH_LIVE`). */
+export function LanguageSwitch(props: LanguageSwitchProps) {
+  return ENGLISH_LIVE ? <LanguageSwitchControl {...props} /> : null;
+}
+
+function LanguageSwitchControl({ className = "", variant = "inline" }: LanguageSwitchProps) {
   const { i18n, t } = useTranslation();
   const choose = useChooseLanguage();
   const current = (i18n.language ?? "tr").split("-")[0] as LanguageCode;

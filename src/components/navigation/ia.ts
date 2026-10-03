@@ -91,7 +91,7 @@ export const navigationItems: NavigationItem[] = [
         path: "/hizmetler/kategori/on-uretim",
         links: [
           { label: "Enjeksiyon Kalıbı", path: "/hizmetler/enjeksiyon-kalibi" },
-          { label: "Basınçlı Döküm", path: "/hizmetler/basinçli-dokum" },
+          { label: "Basınçlı Döküm", path: "/hizmetler/basincli-dokum" },
           { label: "Silikon Kalıplama", path: "/hizmetler/silikon-kaliplama" },
           { label: "Fikstür & Aparat Tasarımı", path: "/hizmetler/fikstur-aparat-tasarimi" },
         ],

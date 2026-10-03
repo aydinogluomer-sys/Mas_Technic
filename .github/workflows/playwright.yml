@@ -6,13 +6,13 @@ name: CI
 # olculdu (reports/baseline/build-test-baseline.md §1). Yani zorunlu kontrol
 # butcesi icinde bitemiyordu (known-blockers.md B07).
 #
-# Yeni hâli: derleme bir kez yapilir ve `dist/` paylasilir; bloke eden kapi
-# 62 kombinasyonluk Chromium kritik paketi, yaninda 12 kombinasyonluk
-# WebKit/Firefox duman paketi ve 3 kombinasyonluk altin gorsel farki.
-# Genis regresyon ailesi (536 kombinasyon, 8 Chromium goruntu penceresi) PR'i
-# bloke etmez: yalnizca `workflow_dispatch` ile elle tetiklenen ayri bir iste
-# kosar (asagidaki `e2e-regression`). Kombinasyon sayilari olculdu:
-#   npx playwright test --project=<...> --list  =>  62 / 536 / 12 / 3 (toplam 613)
+# Yeni hâli: derleme bir kez yapilir ve `dist/` paylasilir. Her PR'da ve
+# main'e her push'ta: Chromium kritik paketi, WebKit/Firefox duman paketi ve
+# genis regresyon ailesi (8 Chromium goruntu penceresi, her pencere ayri bir
+# matris isi — birinin kirmizisi digerlerini durdurmaz). Regresyon eskiden
+# yalniz `workflow_dispatch` ile kosuyordu; #5'te main'i kiran degisiklik
+# (silinen rota manifesti) tam bu paketteydi ve PR'da hic kosmadigi icin
+# yakalanmadi.
 
 on:
   push:
@@ -20,6 +20,11 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      golden:
+        description: "Linux altin goruntulerini uret (artifact olarak; commit etmez)"
+        type: boolean
+        default: false
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -65,10 +70,30 @@ jobs:
       # modul yuklenirken hata firlatir ve dist hic acilmaz (tum E2E isleri
       # bos sayfa gorur). Bu derleme yalnizca testler icindir ve backend
       # cagrilari testlerde taklit edilir; secret yoksa yer tutucu kullanilir.
-      - name: Build once
+      # `npm run build` prerenders every public route with headless Chromium
+      # (scripts/prerender/prerender.mjs), so the build job needs a browser.
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Playwright Chromium
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+      - name: Install system deps (cached browsers)
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+      - name: vercel.json matches the route table
+        run: node scripts/vercel/generate-config.mjs --check
+      # VITE_SITE_ENGLISH=live: the test build publishes the English surface
+      # so its code stays under test; production decides separately
+      # (USER_INPUTS.md §B, release.md).
+      - name: Build once (vite + prerender)
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://ci-placeholder.supabase.co' }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY || 'ci-placeholder-anon-key' }}
+          VITE_SITE_ENGLISH: live
         run: npm run build
       - name: Assert dev-only surfaces are absent from dist
         run: |
@@ -176,16 +201,73 @@ jobs:
           path: playwright-report
           retention-days: 14
 
-  e2e-regression:
-    # Bloke eden bir kapi DEGIL. 536 kombinasyonluk genis Chromium goruntu
-    # penceresi ailesi zorunlu PR kontrolu olarak butceye sigmiyor (B07), ama
-    # hicbir yerde kosmamasi da kabul edilemezdi: bu is onu elle tetiklenebilir
-    # kilar. `continue-on-error` YOK — tetiklendiginde gercekten kirmizi doner.
-    name: E2E regression (Chromium, 8 viewports)
-    if: github.event_name == 'workflow_dispatch'
+  e2e-interop:
+    # F1 — the critical flows (menu, FAQ, materials, quality PDFs, RFQ start,
+    # booking dialog, back/forward, reduced motion) on WebKit and Firefox.
+    # Separate from the smoke job: smoke proves the page paints, this proves
+    # the buyer's path works. Emulated engines are not real devices.
+    name: E2E interop (WebKit + Firefox)
     needs: build
-    timeout-minutes: 120
+    timeout-minutes: 25
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-wk-ff-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Playwright WebKit + Firefox
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps webkit firefox
+      - name: Install system deps (cached browsers)
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps webkit firefox
+      - name: Run interop suite
+        env:
+          CI: "true"
+          PLAYWRIGHT_PREVIEW_ONLY: "1"
+        run: npm run test:e2e:interop
+      - name: Upload report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-interop
+          path: |
+            playwright-report
+            test-results
+          retention-days: 14
+
+  e2e-regression:
+    # Zorunlu kapi adayi. Her goruntu penceresi ayri is: adlar
+    # "E2E regression (<proje>)" — branch protection'da tek tek secilebilir.
+    # `continue-on-error` YOK; bir test kirmiziysa is kirmizi doner.
+    name: E2E regression (${{ matrix.project }})
+    needs: build
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project:
+          - mobile-320
+          - mobile-375
+          - mobile-390
+          - tablet-768
+          - landscape-844
+          - desktop-1280
+          - desktop-1440-short
+          - desktop-1440
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -213,43 +295,28 @@ jobs:
         env:
           CI: "true"
           PLAYWRIGHT_PREVIEW_ONLY: "1"
-        run: >-
-          npx playwright test
-          --project=mobile-320 --project=mobile-375 --project=mobile-390
-          --project=tablet-768 --project=landscape-844
-          --project=desktop-1280 --project=desktop-1440-short --project=desktop-1440
+        run: npx playwright test --project=${{ matrix.project }}
       - name: Upload report
-        if: always()
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-regression
-          path: playwright-report
+          name: playwright-report-regression-${{ matrix.project }}
+          path: |
+            playwright-report
+            test-results
           retention-days: 14
 
-  visual:
-    name: E2E visual golden diff
-    needs: build
-    timeout-minutes: 20
+  visual-guard:
+    # Linux altin goruntusu yoksa gorsel paket KOSMAZ ve GitHub bunu "skipped"
+    # olarak gosterir. Eskiden guard ayni isin icindeydi; adimlar atlaniyor ama
+    # is yesil donuyordu, yani hic kosmamis bir kontrol "basarili" gorunuyordu.
+    name: Visual baseline guard
     runs-on: ubuntu-latest
+    outputs:
+      missing: ${{ steps.guard.outputs.missing }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-      - run: npm ci
-      - uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist
-      # BILINEN BOSLUK — VISUAL-BASELINE-GAP-LINUX
-      # Altin goruntuler yalniz `win32` icin uretilebildi (bu gelistirme
-      # makinesinde dogrulanabilen tek platform). CI ubuntu kosuyor, yani
-      # `e2e/__golden__/linux/` yok. CI'in eksik referansi KENDILIGINDEN
-      # URETMESINE izin verilmez: bu sahte bir yesil olurdu. Guard eksikligi
-      # adiyla raporlar ve gorsel paketi atlar; referans eklendigi anda
-      # paket kendiliginden calismaya baslar.
-      - name: Guard platform baselines
+      - name: Check linux baselines
         id: guard
         run: |
           missing=0
@@ -264,31 +331,86 @@ jobs:
             {
               echo "### VISUAL-BASELINE-GAP-LINUX"
               echo ""
-              echo "No \`linux\` golden baseline is committed, so the golden diff suite did **not** run on CI."
-              echo "Committed baselines: \`e2e/__golden__/win32/\` (verified locally)."
-              echo "CI is deliberately **not** allowed to auto-create baselines — that would be a false green."
+              echo "No \`linux\` golden baseline is committed, so **E2E visual golden diff is skipped** (not passed)."
+              echo "Produce candidates with *Run workflow → golden = true*, review the artifact, then commit it."
             } >> "$GITHUB_STEP_SUMMARY"
           fi
+
+  visual:
+    name: E2E visual golden diff
+    needs: [build, visual-guard]
+    if: needs.visual-guard.outputs.missing == '0' && !(github.event_name == 'workflow_dispatch' && inputs.golden)
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
       - name: Cache Playwright browsers
-        if: steps.guard.outputs.missing == '0'
         id: pw-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
           key: pw-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Install Playwright Chromium
-        if: steps.guard.outputs.missing == '0' && steps.pw-cache.outputs.cache-hit != 'true'
+        if: steps.pw-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
+      - name: Install system deps (cached browsers)
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
       - name: Run golden diff suite
-        if: steps.guard.outputs.missing == '0'
         env:
           CI: "true"
           PLAYWRIGHT_PREVIEW_ONLY: "1"
         run: npm run test:e2e:visual
       - name: Upload report
-        if: always() && steps.guard.outputs.missing == '0'
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-visual
-          path: playwright-report
+          path: |
+            playwright-report
+            test-results
+          retention-days: 14
+
+  visual-golden-update:
+    # Elle: Run workflow → golden = true. Linux referanslarini CI'in kendi
+    # Chromium'uyla uretir ve ARTIFACT olarak yukler. Commit ETMEZ — bir insan
+    # goruntuleri inceleyip e2e/__golden__/linux/ altina ekler.
+    name: Visual golden candidates (manual)
+    needs: build
+    if: github.event_name == 'workflow_dispatch' && inputs.golden
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Generate candidates
+        env:
+          CI: "true"
+          PLAYWRIGHT_PREVIEW_ONLY: "1"
+        run: npm run test:e2e:visual:update
+      - name: Upload candidates
+        uses: actions/upload-artifact@v4
+        with:
+          name: golden-linux-candidates
+          path: e2e/__golden__/linux
+          if-no-files-found: error
           retention-days: 14

@@ -29,7 +29,10 @@ export const CANARY = "https://example.com/qa-p09a2-network-seal-canary";
  * public read-only CDNs, neither is the configured Supabase project, and no
  * GET to them can create a row or an object.
  */
-const FONT_HOSTS = new Set(["fonts.googleapis.com", "fonts.gstatic.com"]);
+/* C1 — fonts are self-hosted now, so NO off-origin host is allowed out: a
+   request to fonts.googleapis.com / fonts.gstatic.com would mean the page
+   went back to Google for type, and that must fail here. */
+const FONT_HOSTS = new Set<string>();
 
 export type Seal = {
   /** Off-origin URLs the page attempted; none was forwarded. */

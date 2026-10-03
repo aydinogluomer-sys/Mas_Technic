@@ -100,6 +100,12 @@ test.describe("Fullscreen machining navigation", () => {
     /* Revision 4: Kurumsal is a family of plain pages, listed flat; the old
        directory columns ("Ana sayfa bölümleri", "Kaynaklar") are gone. */
     await families.nth(3).click();
+    /* The family panel swaps exit-then-enter; count once the Kurumsal panel is
+       the only one in the DOM (same wait as navigation-reachability.spec.ts),
+       not while the previous family's panel is still leaving. */
+    const kurumsal = (await families.nth(3).locator(".tl-menu-family-label").textContent())!.trim();
+    await expect(menu.locator(`[data-menu-group="${kurumsal}"]`)).toBeVisible({ timeout: 10_000 });
+    await expect(menu.locator("[data-menu-group]")).toHaveCount(1);
     const pages = menu.locator("[data-nav-page-list] a");
     await expect(pages).toHaveCount(7);
     await expect(pages).toHaveText([
@@ -326,7 +332,10 @@ test.describe("Fullscreen machining navigation", () => {
     await expect(families.first()).toBeFocused();
     const categories = menu.locator("[data-nav-category]");
     await categories.nth(2).click();
-    expect((await categories.evaluateAll((nodes) => nodes.map((node) => node.getAttribute("aria-expanded")))).filter((value) => value === "true")).toHaveLength(1);
+    // The family panel swaps exit-then-enter after Home; read once it settles.
+    await expect.poll(async () =>
+      (await categories.evaluateAll((nodes) => nodes.map((node) => node.getAttribute("aria-expanded")))).filter((value) => value === "true").length,
+    ).toBe(1);
     for (const category of await categories.all()) {
       const id = await category.getAttribute("aria-controls");
       await expect(menu.locator(`#${id}`)).toHaveCount(1);

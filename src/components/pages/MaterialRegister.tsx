@@ -3,7 +3,16 @@ import { useTranslation } from "react-i18next";
 import { useSiteData } from "@/i18n/data";
 import { ShellAction, ShellTagRow } from "@/components/shell";
 import type { Material } from "@/data/materialsData";
-import { familyName, figure, hardness, isSourced, UNVERIFIED_FIGURE } from "./material-figures";
+import type { SourcedProperty } from "@/data/materialsData";
+import { familyName, figure, hardness, isSourced, propertySource, sourceDocuments, UNVERIFIED_FIGURE } from "./material-figures";
+
+const SOURCE_ROWS: [SourcedProperty, string][] = [
+  ["density", "Yoğunluk"],
+  ["tensileStrength", "Çekme mukavemeti"],
+  ["hardness", "Sertlik"],
+  ["maxTemperature", "Maks. sıcaklık"],
+  ["thermalConductivity", "Isı iletkenliği"],
+];
 
 /* ══════════════════════════════════════════════════════════════════════════
    THE MATERIAL REGISTER
@@ -115,10 +124,10 @@ export function MaterialRegister({
                     </td>
                     <th scope="row">{material.name}</th>
                     <td data-col="secondary">{familyName(material, materialCategories)}</td>
-                    <td data-numeric data-col="secondary" data-unverified={!isSourced(material) || undefined}>{f(figure(material, "density"))}</td>
-                    <td data-numeric data-col="secondary" data-unverified={!isSourced(material) || undefined}>{f(figure(material, "tensileStrength"))}</td>
-                    <td data-col="secondary" data-unverified={!isSourced(material) || undefined}>{f(hardness(material))}</td>
-                    <td data-numeric data-col="secondary" data-unverified={!isSourced(material) || undefined}>{f(figure(material, "maxTemperature"))}</td>
+                    <td data-numeric data-col="secondary" data-unverified={!isSourced(material, "density") || undefined}>{f(figure(material, "density"))}</td>
+                    <td data-numeric data-col="secondary" data-unverified={!isSourced(material, "tensileStrength") || undefined}>{f(figure(material, "tensileStrength"))}</td>
+                    <td data-col="secondary" data-unverified={!isSourced(material, "hardness") || undefined}>{f(hardness(material))}</td>
+                    <td data-numeric data-col="secondary" data-unverified={!isSourced(material, "maxTemperature") || undefined}>{f(figure(material, "maxTemperature"))}</td>
                     <td>
                       <button
                         type="button"
@@ -140,7 +149,7 @@ export function MaterialRegister({
                           <dl className="shell-detail-figures">
                             <div>
                               <dt>{t("Grade / temper")}</dt>
-                              <dd>{material.gradeTemper ?? t("Belirtilmedi")}</dd>
+                              <dd>{material.gradeTemper ? t(material.gradeTemper) : t("Belirtilmedi")}</dd>
                             </div>
                             <div>
                               <dt>{t("Ürün formu")}</dt>
@@ -172,9 +181,35 @@ export function MaterialRegister({
                             </div>
                             <div>
                               <dt>{t("Kaynak")}</dt>
-                              <dd>{material.source ? material.source.document : t(UNVERIFIED_FIGURE)}</dd>
+                              <dd>{sourceDocuments(material).length ? sourceDocuments(material).join(" · ") : t(UNVERIFIED_FIGURE)}</dd>
                             </div>
                           </dl>
+
+                          {material.propertySources && (
+                            /* E1 — every published figure with where it was read
+                               and under which condition; a property the
+                               datasheet does not give stays unverified above. */
+                            <dl className="shell-detail-figures shell-detail-sources" aria-label={t("Değerlerin kaynağı")}>
+                              {SOURCE_ROWS.map(([key, label]) => {
+                                const item = propertySource(material, key);
+                                if (!item) return null;
+                                return (
+                                  <div key={key}>
+                                    <dt>{t(label)}</dt>
+                                    <dd>
+                                      <a href={item.url} target="_blank" rel="noopener noreferrer">{item.publisher} — {item.document}</a>
+                                      {item.version ? ` (${t(item.version)})` : ""}; {t(item.locator)}. {t(item.condition)}.
+                                    </dd>
+                                  </div>
+                                );
+                              })}
+                            </dl>
+                          )}
+                          {material.propertySources && (
+                            <p className="shell-table-note">
+                              {t("Kaynaklar, malzeme sınıfının üreticinin yayımladığı teknik verisidir; tedarikçiyi ya da gelen malzemenin sertifikasını göstermez. Parçanız için geçerli değer, malzeme sertifikasındaki değerdir.")}
+                            </p>
+                          )}
 
                           <div className="shell-detail-lists">
                             <div>

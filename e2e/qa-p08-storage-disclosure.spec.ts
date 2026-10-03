@@ -196,6 +196,10 @@ async function readStorage(page: Page) {
 /** The keys the document PUBLISHES, read out of the rendered table. */
 async function publishedKeys(page: Page) {
   await gotoAndSettle(page, "/cerez-politikasi");
+  /* Read once the table exists: a snapshot taken the moment the route
+     settles raced the policy body's render (1 in 8 repeats read zero rows).
+     Waiting for the first row does not loosen the count asserted below. */
+  await expect(page.locator("main table tbody tr").first()).toBeVisible({ timeout: 15_000 });
   const rows = await page.locator("main table tbody tr").evaluateAll((trs) =>
     trs.map((tr) => (tr.querySelector("th,td")?.textContent ?? "").trim()));
   expect(rows.length, "the storage table renders no rows at all").toBeGreaterThan(0);
@@ -208,6 +212,7 @@ async function publishedKeys(page: Page) {
  */
 async function publishedDisclosure(page: Page): Promise<Disclosure> {
   await gotoAndSettle(page, "/cerez-politikasi");
+  await expect(page.locator("main table tbody tr").first()).toBeVisible({ timeout: 15_000 });
   const found = await page.evaluate(() => {
     const main = document.querySelector("main");
     const codes = [...(main?.querySelectorAll("code") ?? [])]
