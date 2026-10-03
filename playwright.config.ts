@@ -231,6 +231,12 @@ export default defineConfig({
     : [["html", { open: "never" }], ["list"]],
   use: {
     baseURL: BASE_URL,
+    /* Off by default and never set in CI. A sandbox whose outbound HTTPS goes
+       through a TLS-inspecting proxy makes every third-party request fail with
+       ERR_CERT_AUTHORITY_INVALID, so specs that need the real network (fonts,
+       hCaptcha) could only report FAIL_INFRA there. PLAYWRIGHT_IGNORE_HTTPS_ERRORS=1
+       lets those runs reach the network instead of skipping the measurement. */
+    ignoreHTTPSErrors: process.env.PLAYWRIGHT_IGNORE_HTTPS_ERRORS === "1",
     /* Round 2: inner-page prose waits dimmed below the fold until scrolled to
        (src/hooks/useProseReveal.ts). Audits and goldens measure text at its
        resting contrast, so every lane starts with the reveal off;

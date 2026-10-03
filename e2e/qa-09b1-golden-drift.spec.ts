@@ -41,7 +41,11 @@ import { hideForeignOverlays } from "./visual/overlays";
 const OUT = process.env.QA_09B1_WRITE_EVIDENCE === "1"
   ? "reports/qa/phase-09b1"
   : "test-results/qa-09b1-golden-drift";
-const GOLDEN_DIR = "e2e/__golden__/win32/visual-1280";
+/* Baselines are per platform (fonts rasterise differently). Only win32 was
+   ever committed, so on any other platform there is nothing to measure
+   against and every case is skipped with that reason — the same gap the
+   visual suite reports as VISUAL-BASELINE-GAP-LINUX. */
+const GOLDEN_DIR = `e2e/__golden__/${process.platform}/visual-1280`;
 
 /* The crops the Coder's adjudication names as changed-but-passing, plus two it
    names as untouched — a control group, so a bug in THIS spec that reports
@@ -112,6 +116,7 @@ test.describe("QA 09b-1 — golden drift under the comparator's threshold", () =
   for (const c of CASES) {
     test(`${c.golden} — changed pixels at threshold 0 vs at 0.2`, async ({ page }) => {
       test.skip(test.info().project.name !== "desktop-1280", "one project is enough; this is a measurement, not a matrix");
+      test.skip(!existsSync(GOLDEN_DIR), `no ${process.platform} baselines committed (VISUAL-BASELINE-GAP); nothing to compare against`);
       const goldenPath = `${GOLDEN_DIR}/${c.golden}.png`;
       if (!existsSync(goldenPath)) {
         verdicts.push({ golden: c.golden, ok: false, note: `baseline missing at ${goldenPath}` });
@@ -125,7 +130,10 @@ test.describe("QA 09b-1 — golden drift under the comparator's threshold", () =
       await expect(page.locator(".shell-root")).toBeVisible({ timeout: 20_000 });
       await freezeVisualState(page);
       await awaitRealFaces(page);
-      await hideForeignOverlays(page, { require: c.path !== "/" });
+      /* `require` stays on for `/` too: the chat launcher is mounted on every
+         route since revision 4, and `overlays.ts` refuses a waiver for that
+         reason. The old `c.path !== "/"` waiver predates the launcher on `/`. */
+      await hideForeignOverlays(page);
       /* THE OWNING SPEC'S PREPARATION IS PART OF THE BASELINE.
          `e2e/visual/wave-b-golden.spec.ts:100` hides `[data-fullscreen-header]`
          before every `waveb-*` capture, because `.shell-notfound` and the
@@ -239,8 +247,13 @@ test.describe("QA 09b-1 — golden drift under the comparator's threshold", () =
       );
 
       if (result.sizeMismatch) {
-        verdicts.push({ golden: c.golden, ok: false, note: `size mismatch golden ${result.aw}x${result.ah} vs capture ${result.bw}x${result.bh}` });
-        return;
+        const note = `size mismatch golden ${result.aw}x${result.ah} vs capture ${result.bw}x${result.bh}`;
+        verdicts.push({ golden: c.golden, ok: false, note });
+        /* This used to `return` and the test PASSED having compared nothing:
+           after UX04 compacted the footer every footer case took this path. A
+           crop that changed size is not "within the threshold"; it is a
+           baseline that no longer describes the build. */
+        throw new Error(`${c.golden}: ${note} — the baseline no longer describes this crop; regenerate it on ${process.platform}`);
       }
 
       verdicts.push({

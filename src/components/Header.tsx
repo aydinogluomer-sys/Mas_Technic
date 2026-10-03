@@ -291,6 +291,8 @@ export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => 
     const offset = headerRef.current?.getBoundingClientRect().height ?? 0;
     const top = target.getBoundingClientRect().top + window.scrollY - offset;
     const lenis = window.__lenis;
+    // Lenis clamps to the limit it last measured; a stale one cut deep targets short.
+    lenis?.resize();
     if (lenis) lenis.scrollTo(top, { immediate: reducedMotion, force: true });
     else window.scrollTo({ top, behavior: reducedMotion ? "auto" : "smooth" });
   }, [reducedMotion]);

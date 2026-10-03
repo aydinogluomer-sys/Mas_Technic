@@ -32,6 +32,11 @@ import { useLocation } from "react-router-dom";
  *  it is a fallback for a missing element, not a budget for a slow chunk. */
 const HASH_SETTLE_TIMEOUT_MS = 8000;
 
+/** How long a landing is held while the page above the target is still
+ *  laying out. Ends earlier on the reader's first scroll input. */
+const LANDING_HOLD_MS = 4000;
+const USER_SCROLL_EVENTS = ["wheel", "touchstart", "keydown", "pointerdown"] as const;
+
 export const ScrollToTop = () => {
   const { pathname, hash } = useLocation();
 
@@ -68,39 +73,75 @@ export const ScrollToTop = () => {
 
     const land = (target: HTMLElement) => {
       if (window.__lenis) {
+        /* Lenis clamps a scroll target to the scroll limit it measured last.
+           Created while the route was still short, it held a limit of 72 px
+           and landed every deep target there — the 09b-2 flake. Re-measure
+           before landing. */
+        window.__lenis.resize();
         window.__lenis.scrollTo(target, { immediate: true });
       } else {
         target.scrollIntoView();
       }
     };
 
+    /* HOLD THE LANDING WHILE THE PAGE ABOVE IT SETTLES (09b-2 flake, B2).
+       The target can exist before what precedes it has laid out — the rest of
+       the route, images, fonts. Measured on /gizlilik-politikasi#sohbet-asistani:
+       in 6 of 8 cold loads Lenis landed at y=72 and the clause was then pushed
+       to 2806 px below the top as the page grew. A one-shot landing cannot
+       know that, so after landing, every change in the document's size lands
+       again — until the reader scrolls (their input wins at once) or the hold
+       ends. */
+    let resizeObserver: ResizeObserver | null = null;
+    let holdTimer = 0;
+    const releaseHold = () => {
+      resizeObserver?.disconnect();
+      resizeObserver = null;
+      window.clearTimeout(holdTimer);
+      USER_SCROLL_EVENTS.forEach((type) => window.removeEventListener(type, releaseHold, true));
+    };
+    const holdLanding = (target: HTMLElement) => {
+      if (typeof ResizeObserver === "undefined") return;
+      resizeObserver = new ResizeObserver(() => {
+        if (!target.isConnected) return releaseHold();
+        if (Math.abs(target.getBoundingClientRect().top) > 2) land(target);
+      });
+      resizeObserver.observe(document.body);
+      holdTimer = window.setTimeout(releaseHold, LANDING_HOLD_MS);
+      USER_SCROLL_EVENTS.forEach((type) => window.addEventListener(type, releaseHold, { capture: true, passive: true }));
+    };
+
     const tryLand = (): boolean => {
       const target = document.getElementById(targetId);
       if (!target) return false;
       land(target);
+      holdLanding(target);
       return true;
     };
 
-    if (tryLand()) return;
+    if (tryLand()) return releaseHold;
 
     let observer: MutationObserver | null = null;
     let timer = 0;
-    const cleanup = () => {
+    const stopWaiting = () => {
       observer?.disconnect();
       observer = null;
       window.clearTimeout(timer);
     };
 
     observer = new MutationObserver(() => {
-      if (tryLand()) cleanup();
+      if (tryLand()) stopWaiting();
     });
     observer.observe(document.body, { childList: true, subtree: true });
     timer = window.setTimeout(() => {
-      cleanup();
+      stopWaiting();
       toTop();
     }, HASH_SETTLE_TIMEOUT_MS);
 
-    return cleanup;
+    return () => {
+      stopWaiting();
+      releaseHold();
+    };
   }, [pathname, hash]);
 
   return null;
