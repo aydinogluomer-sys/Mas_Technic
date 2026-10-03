@@ -1,0 +1,2 @@
+sampleId,drawingRevision,featureId,feature,nominal,lowerLimit,upperLimit,unit,measuredValue,method,device,calibrationContext,measurementDate,sourceDocument,permissionRef,technicalReviewer
+DEMO-001,MT-DEMO-01 Rev A,7,Ø28 bore,28.000,27.990,28.010,mm,,,,,,,,

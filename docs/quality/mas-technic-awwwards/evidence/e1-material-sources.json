@@ -1,0 +1,492 @@
+{
+ "capturedAt": "2026-10-03",
+ "method": "Each value read from the producer's own datasheet (or the Copper Development Association database) and copied with its locator and an exact quote. ASM/MatWeb and CAMPUS were unreachable (503/403) and were not used. Spot-checked first-hand: Kaiser 6061 (pypdf text: 'T6, T651  45  310  40  276  17  95 …'), CDA C36000 ('57 Typ', '0.307'), Victrex PEEK 450G ('98.0', 'RTI Str').",
+ "caveats": [
+  "1045 and 4140 are sourced from Ovako's EN grades C45 and 42CrMo4: variant 6115 'conforms with SAE 4140'; C45 lists AISI 1045 only as a similar designation.",
+  "Ti-6Al-4V tensile is an ASTM B265 minimum; 304/316L tensile are EN 10088-2 ranges; 4140 tensile is '> 1040' — shown as such, not as typical values.",
+  "Delrin values are for the Delrin 100 family from Design Guide Module III (old document, not NC010-specific).",
+  "PEEK tensile is stress at yield as Victrex reports it.",
+  "Properties a source does not give stay unsourced ('Veri doğrulanmadı') — e.g. hardness for 304/316L/Ti-6Al-4V, service temperature for most metals."
+ ],
+ "materials": [
+  {
+   "id": "al-6061-t6",
+   "material": "Aluminium 6061-T6",
+   "gradeTemper": "6061-T6 / T651",
+   "productForm": "Çubuk (soğuk çekme / ekstrüzyon)",
+   "source": {
+    "title": "Rod & Bar Alloy 6061 Technical Data",
+    "publisher": "Kaiser Aluminum",
+    "url": "https://online.kaiseraluminum.com/depot/PublicProductInformation/Document/1025/Kaiser_Aluminum_6061_Rod_and_Bar.pdf",
+    "versionOrDate": "KA-RBH-6061-8.10"
+   },
+   "properties": {
+    "density": {
+     "value": 2.7,
+     "text": "2.70",
+     "condition": "Tipik, nominal, 20 °C",
+     "locator": "s.2, Typical Physical Properties",
+     "quote": "Nominal Density (68 ºF / 20 ºC) ... 2.70 Mg/m3"
+    },
+    "tensileStrength": {
+     "value": 310,
+     "text": "310",
+     "condition": "Tipik çekme dayanımı, Ø12.7 mm numune",
+     "locator": "s.1, Typical Mechanical Properties",
+     "quote": "T6, T651  45  310  40  276  17  95 ..."
+    },
+    "hardness": {
+     "value": "95 HB",
+     "text": "95 HB",
+     "condition": "Tipik, Brinell 500 kg / 10 mm",
+     "locator": "s.1, Typical Mechanical Properties",
+     "quote": "T6, T651  45  310  40  276  17  95 ..."
+    },
+    "thermalConductivity": {
+     "value": 167,
+     "text": "167",
+     "condition": "Tipik, 20 °C, T6/T651",
+     "locator": "s.2, Typical Physical Properties",
+     "quote": "Thermal Conductivity (68 ºF / 20 ºC) ... 167 W/m - ºK"
+    },
+    "maxTemperature": null
+   }
+  },
+  {
+   "id": "al-7075-t6",
+   "material": "Aluminium 7075-T6",
+   "gradeTemper": "7075-T6 / T651",
+   "productForm": "Çubuk (soğuk çekme / ekstrüzyon)",
+   "source": {
+    "title": "Rod & Bar Alloy 7075 Technical Data",
+    "publisher": "Kaiser Aluminum",
+    "url": "https://online.kaiseraluminum.com/depot/PublicProductInformation/Document/1028/Kaiser_Aluminum_7075_Rod_and_Bar.pdf",
+    "versionOrDate": "KA-RBH-7075-8.10"
+   },
+   "properties": {
+    "density": {
+     "value": 2.8,
+     "text": "2.80",
+     "condition": "Tipik, nominal, 20 °C",
+     "locator": "s.2, Typical Physical Properties",
+     "quote": "Nominal Density (68 ºF / 20 ºC) ... 2.80 Mg/m3"
+    },
+    "tensileStrength": {
+     "value": 572,
+     "text": "572",
+     "condition": "Tipik çekme dayanımı, Ø12.7 mm numune",
+     "locator": "s.1, Typical Mechanical Properties",
+     "quote": "T6, T651  83  572  73  503  11  150 ..."
+    },
+    "hardness": {
+     "value": "150 HB",
+     "text": "150 HB",
+     "condition": "Tipik, Brinell 500 kg / 10 mm",
+     "locator": "s.1, Typical Mechanical Properties",
+     "quote": "T6, T651  83  572  73  503  11  150 ..."
+    },
+    "thermalConductivity": {
+     "value": 130,
+     "text": "130",
+     "condition": "Tipik, 20 °C, T6/T651",
+     "locator": "s.2, Typical Physical Properties",
+     "quote": "Thermal Conductivity (68 ºF / 20 ºC) ... 130 W/m - ºK"
+    },
+    "maxTemperature": null
+   }
+  },
+  {
+   "id": "st-1045",
+   "material": "Steel 1045 (EN C45 equivalent)",
+   "gradeTemper": "C45 +N (normalize) — AISI 1045'in benzer kalitesi",
+   "productForm": "Yuvarlak çubuk, Ø10–50 mm",
+   "source": {
+    "title": "Material Data Sheet – Steel Grade C45",
+    "publisher": "Ovako",
+    "url": "https://steelnavigator.ovako.com/steel-grades/c45/pdf",
+    "versionOrDate": "Revizyon 30.01.2025"
+   },
+   "properties": {
+    "density": {
+     "value": 7.8,
+     "text": "7.80",
+     "condition": "Tipik",
+     "locator": "Son sayfa, Other properties (typical values)",
+     "quote": "Density (kg/m3) ... 7800"
+    },
+    "tensileStrength": {
+     "value": 630,
+     "text": "630",
+     "condition": "Tipik, +N, Ø10–50 mm",
+     "locator": "s.2, Mechanical properties, varyant 047A +N",
+     "quote": "Round bar 10 < 50 300 630 typical 16 - 190 HB typical"
+    },
+    "hardness": {
+     "value": "190 HB",
+     "text": "190 HB",
+     "condition": "Tipik, +N, Ø10–50 mm",
+     "locator": "s.2, Mechanical properties, varyant 047A +N",
+     "quote": "Round bar 10 < 50 300 630 typical 16 - 190 HB typical"
+    },
+    "thermalConductivity": {
+     "value": 40,
+     "text": "40–45",
+     "condition": "Tipik aralık, oda sıcaklığı",
+     "locator": "Son sayfa, Other properties (typical values)",
+     "quote": "Thermal conductivity Ambient temperature (W/m°K) ... 40 - 45"
+    },
+    "maxTemperature": null
+   }
+  },
+  {
+   "id": "st-4140",
+   "material": "Steel 4140",
+   "gradeTemper": "42CrMnMo4-4 / SAE 4140 (Ovako 6115) +QT (ıslah)",
+   "productForm": "Yuvarlak çubuk, Ø25–60 mm",
+   "source": {
+    "title": "Material Data Sheet – Steel Grade 42CrMo4",
+    "publisher": "Ovako",
+    "url": "https://steelnavigator.ovako.com/steel-grades/42crmo4/pdf",
+    "versionOrDate": "Revizyon 03.02.2026"
+   },
+   "properties": {
+    "density": {
+     "value": 7.8,
+     "text": "7.80",
+     "condition": "Tipik",
+     "locator": "s.7, Other properties (typical values)",
+     "quote": "Density (kg/m3) ... 7800"
+    },
+    "tensileStrength": {
+     "value": 1040,
+     "text": "> 1040",
+     "condition": "Alt sınır (kaynak '> 1040' der), +QT, Ø25–60 mm",
+     "locator": "s.3, Mechanical properties, varyant 6115",
+     "quote": "+QT Round bar 25 < 60 940 > 1040 9 48 316-375 HB"
+    },
+    "hardness": {
+     "value": "316–375 HB",
+     "text": "316–375 HB",
+     "condition": "Belirtilen aralık, +QT, Ø25–60 mm",
+     "locator": "s.3, Mechanical properties, varyant 6115",
+     "quote": "+QT Round bar 25 < 60 940 > 1040 9 48 316-375 HB"
+    },
+    "thermalConductivity": {
+     "value": 40,
+     "text": "40–45",
+     "condition": "Tipik aralık, oda sıcaklığı",
+     "locator": "s.7, Other properties (typical values)",
+     "quote": "Thermal conductivity Ambient temperature (W/m°K) ... 40 - 45"
+    },
+    "maxTemperature": null
+   }
+  },
+  {
+   "id": "ss-304",
+   "material": "Stainless 304",
+   "gradeTemper": "EN 1.4301 / ASTM 304 (EN 10088-2 teslim durumu)",
+   "productForm": "Soğuk haddelenmiş sac (C)",
+   "source": {
+    "title": "Outokumpu Core range datasheet",
+    "publisher": "Outokumpu",
+    "url": "https://www.outokumpu.com/-/media/files/products/core/outokumpu-core-range-datasheet.pdf",
+    "versionOrDate": "1560EN:4, Kasım 2022"
+   },
+   "properties": {
+    "density": {
+     "value": 7.9,
+     "text": "7.9",
+     "condition": "20 °C (EN 10088-1)",
+     "locator": "s.10, Physical properties (metric)",
+     "quote": "Core 304/4301 7.9 200 16.0 15 500 0.73 No"
+    },
+    "tensileStrength": {
+     "value": 540,
+     "text": "540–750",
+     "condition": "EN 10088-2 aralığı, 20 °C, soğuk haddelenmiş",
+     "locator": "s.8, Tablo 5, EN 10088-2",
+     "quote": "Core 304/4301 1.4301 304 S30400 C 230 260 540–750 45 45"
+    },
+    "hardness": null,
+    "thermalConductivity": {
+     "value": 15,
+     "text": "15",
+     "condition": "20 °C",
+     "locator": "s.10, Physical properties (metric)",
+     "quote": "Core 304/4301 7.9 200 16.0 15 500 0.73 No"
+    },
+    "maxTemperature": null
+   }
+  },
+  {
+   "id": "ss-316l",
+   "material": "Stainless 316L",
+   "gradeTemper": "EN 1.4404 / ASTM 316L (EN 10088-2 teslim durumu)",
+   "productForm": "Soğuk haddelenmiş sac (C)",
+   "source": {
+    "title": "Outokumpu Supra range datasheet",
+    "publisher": "Outokumpu",
+    "url": "https://www.outokumpu.com/-/media/files/products/supra/outokumpu-supra-range-datasheet.pdf",
+    "versionOrDate": "1561EN:4, Kasım 2022"
+   },
+   "properties": {
+    "density": {
+     "value": 8.0,
+     "text": "8.0",
+     "condition": "20 °C (EN 10088-1)",
+     "locator": "s.8, Tablo 7 Physical properties (metric)",
+     "quote": "Supra 316L/4404 8.0 200 16.0 15 500 0.75 No"
+    },
+    "tensileStrength": {
+     "value": 530,
+     "text": "530–680",
+     "condition": "EN 10088-2 aralığı, 20 °C, soğuk haddelenmiş",
+     "locator": "s.6, Tablo 5, EN 10088-2",
+     "quote": "Supra 316L/4404 C 240 270 530 – 680 40 40"
+    },
+    "hardness": null,
+    "thermalConductivity": {
+     "value": 15,
+     "text": "15",
+     "condition": "20 °C",
+     "locator": "s.8, Tablo 7 Physical properties (metric)",
+     "quote": "Supra 316L/4404 8.0 200 16.0 15 500 0.75 No"
+    },
+    "maxTemperature": null
+   }
+  },
+  {
+   "id": "br-c360",
+   "material": "Brass C36000",
+   "gradeTemper": "C36000, yarı sert (H02)",
+   "productForm": "Çubuk, kesit < 12.7 mm",
+   "source": {
+    "title": "C36000 Alloy (Copper Alloys database)",
+    "publisher": "Copper Development Association Inc.",
+    "url": "https://alloys.copper.org/alloy/C36000",
+    "versionOrDate": null
+   },
+   "properties": {
+    "density": {
+     "value": 8.5,
+     "text": "8.50",
+     "condition": "20 °C (0.307 lb/in³ = 8.50 g/cm³)",
+     "locator": "Physical Properties tablosu",
+     "quote": "Density | lb/cu in. at 68°F | 0.307 | Specific Gravity | 8.5"
+    },
+    "tensileStrength": {
+     "value": 393,
+     "text": "393",
+     "condition": "Tipik, oda sıcaklığı, çubuk H02, kesit < 12.7 mm (57 ksi)",
+     "locator": "Mechanical Properties tablosu, Rod / 1/2 Hard / H02",
+     "quote": "Rod | 1/2 Hard | H02 | 57 Typ | 25 Typ | 7 Typ | 65 Typ"
+    },
+    "hardness": {
+     "value": "65 HRB",
+     "text": "65 HRB",
+     "condition": "Tipik, çubuk H02, kesit < 12.7 mm",
+     "locator": "Mechanical Properties tablosu, Rockwell B",
+     "quote": "Rod | 1/2 Hard | H02 | 57 Typ | 25 Typ | 7 Typ | 65 Typ"
+    },
+    "thermalConductivity": {
+     "value": 116,
+     "text": "116",
+     "condition": "20 °C (67 Btu/ft·h·°F)",
+     "locator": "Physical Properties tablosu",
+     "quote": "Thermal Conductivity | Btu/ sq ft/ ft hr/ °F at 68°F | 67"
+    },
+    "maxTemperature": null
+   }
+  },
+  {
+   "id": "ti-grade5",
+   "material": "Titanium Grade 5",
+   "gradeTemper": "TIMETAL 6-4 (ASTM Grade 5), tavlanmış",
+   "productForm": "Sac ve levha 0.6–25 mm (çekme); fiziksel özellikler biçimden bağımsız",
+   "source": {
+    "title": "TIMETAL 6-4, 6-4 ELI & 6-4-.1Ru datasheet",
+    "publisher": "Titanium Metals Corporation (TIMET)",
+    "url": "https://www.timet.com/documents/datasheets/alpha-and-beta-alloys/timetal-6-4.pdf",
+    "versionOrDate": "TMC-0150, ©2000"
+   },
+   "properties": {
+    "density": {
+     "value": 4.42,
+     "text": "4.42",
+     "condition": "22 °C",
+     "locator": "s.1, Tablo 2 Physical Properties",
+     "quote": "Density 72 22 0.160 lb in-3 4.42 g cm-3"
+    },
+    "tensileStrength": {
+     "value": 895,
+     "text": "≥ 895 (min.)",
+     "condition": "ASTM B265 minimumu, tavlanmış, 20 °C — tipik değer değil",
+     "locator": "s.2, Tablo 3 Minimum Tensile Properties",
+     "quote": "0.025-1.000 Annealed a ASTM B265 L & LT 68 (20) 130 (895) 120 (828) 10"
+    },
+    "hardness": null,
+    "thermalConductivity": {
+     "value": 6.6,
+     "text": "6.6",
+     "condition": "20 °C",
+     "locator": "s.1, Tablo 2 Physical Properties",
+     "quote": "Thermal Conductivity 68 20 3.8 Btu hr-1 ft-1 °F-1 6.6 W m-1 K-1"
+    },
+    "maxTemperature": {
+     "value": 350,
+     "text": "~350",
+     "condition": "Kaynağın ifadesi: 'makul özellikler yaklaşık 350 °C'ye kadar korunur' — derecelendirilmiş bir üst sınır değil",
+     "locator": "s.1, açıklama paragrafı",
+     "quote": "Reasonable properties are retained up to about 350°C (660°F)."
+    }
+   }
+  },
+  {
+   "id": "ni-718",
+   "material": "Inconel 718",
+   "gradeTemper": "INCONEL 718 (UNS N07718), çözeltiye alma + yaşlandırma",
+   "productForm": "Sıcak haddelenmiş yuvarlak, Ø101.6 mm (çekme/sertlik)",
+   "source": {
+    "title": "INCONEL alloy 718 technical bulletin",
+    "publisher": "Special Metals Corporation",
+    "url": "https://www.specialmetals.com/documents/technical-bulletins/inconel/inconel-alloy-718.pdf",
+    "versionOrDate": "SMC-045, 2007"
+   },
+   "properties": {
+    "density": {
+     "value": 8.22,
+     "text": "8.22",
+     "condition": "Tipik, tavlanmış + yaşlandırılmış (0.297 lb/in³)",
+     "locator": "s.1, Tablo 2 Physical Constants",
+     "quote": "Density, lb/in3 Annealed....0.296 Annealed and Aged ....0.297"
+    },
+    "tensileStrength": {
+     "value": 1376,
+     "text": "1376",
+     "condition": "Tipik test sonucu, oda sıcaklığı, boyuna, Ø101.6 mm sıcak haddelenmiş, 1750 °F tav + yaşlandırma (199.5 ksi)",
+     "locator": "s.6, Tablo 9",
+     "quote": "Room Longitudinal 199.5 178.0 15.0 24.0 44"
+    },
+    "hardness": {
+     "value": "44 HRC",
+     "text": "44 HRC",
+     "condition": "Tipik test sonucu, aynı numune",
+     "locator": "s.6, Tablo 9, Hardness Rc",
+     "quote": "Room Longitudinal 199.5 178.0 15.0 24.0 44"
+    },
+    "thermalConductivity": {
+     "value": 11.4,
+     "text": "11.4",
+     "condition": "21 °C, tavlanmış + yaşlandırılmış; özdirençten hesaplanmış (79 Btu·in/ft²·h·°F)",
+     "locator": "s.2, Tablo 5 Thermal Properties",
+     "quote": "70 77 79 ... Conductivity calculated from resistivity values."
+    },
+    "maxTemperature": {
+     "value": 704,
+     "text": "704",
+     "condition": "Kaynağın belirttiği kullanım aralığının üst ucu (−253 … 704 °C)",
+     "locator": "s.1, giriş",
+     "quote": "used at -423° to 1300°F"
+    }
+   }
+  },
+  {
+   "id": "pl-delrin",
+   "material": "POM homopolymer (Delrin)",
+   "gradeTemper": "Delrin 100 (asetal homopolimer, katkısız)",
+   "productForm": "Enjeksiyon kalıplı test numunesi",
+   "source": {
+    "title": "Delrin Design Guide — Module III, Table 2",
+    "publisher": "DuPont (delrin.com)",
+    "url": "https://www.delrin.com/wp-content/uploads/2023/10/Delrin-Design-Guide-Mod-3.pdf",
+    "versionOrDate": "H-57472 (95.1)"
+   },
+   "properties": {
+    "density": {
+     "value": 1.42,
+     "text": "1.40–1.42",
+     "condition": "Özgül ağırlık; kaynak 1.42'yi üst değer, kalıp parçalar için 1.40–1.42 aralığını verir",
+     "locator": "s.8–9, Tablo 2 ve dipnot g",
+     "quote": "Specific Gravity ... 1.42 ... the range for commercial parts molded from unfilled resin is 1.40 to 1.42."
+    },
+    "tensileStrength": {
+     "value": 69,
+     "text": "69",
+     "condition": "Tipik, 23 °C, ASTM D638",
+     "locator": "s.6, Tablo 2, Delrin 100",
+     "quote": "Tensile Strength ... 23°C (73°F) 69 (10.0)"
+    },
+    "hardness": {
+     "value": "Rockwell M94",
+     "text": "Rockwell M94",
+     "condition": "Tipik, ASTM D785",
+     "locator": "s.8, Tablo 2",
+     "quote": "Rockwell Hardness D785 2039 — M94, R120"
+    },
+    "thermalConductivity": {
+     "value": 0.4,
+     "text": "0.4",
+     "condition": "Tipik",
+     "locator": "s.8, Tablo 2, Thermal",
+     "quote": "Thermal Conductivity W/m ⋅K 0.4 (2.6)"
+    },
+    "maxTemperature": {
+     "value": 125,
+     "text": "125 (HDT)",
+     "condition": "Isıl eğilme sıcaklığı 1.8 MPa (ASTM D648) — sürekli kullanım sıcaklığı değil",
+     "locator": "s.8, Tablo 2, Thermal",
+     "quote": "Heat Deflection Temperature D648 ... 1.8 MPa (264 psi) 125 (257)"
+    }
+   }
+  },
+  {
+   "id": "pl-peek",
+   "material": "PEEK",
+   "gradeTemper": "VICTREX PEEK 450G (katkısız)",
+   "productForm": "Kalıplanmış test numunesi",
+   "source": {
+    "title": "VICTREX PEEK 450G datasheet",
+    "publisher": "Victrex plc",
+    "url": "https://www.victrex.com/en/downloads/datasheets/victrex-peek-450g",
+    "versionOrDate": "Güncelleme 17.03.2026"
+   },
+   "properties": {
+    "density": {
+     "value": 1.3,
+     "text": "1.30",
+     "condition": "Nominal, kristalin, ISO 1183",
+     "locator": "Material Properties > Physical",
+     "quote": "Density | (Crystalline) | 1.30 | g/cm³ | ISO 1183"
+    },
+    "tensileStrength": {
+     "value": 98,
+     "text": "98 (akma)",
+     "condition": "Akma gerilmesi, 23 °C, ISO 527-2 — kopma değeri verilmemiş",
+     "locator": "Material Properties > Mechanical",
+     "quote": "Tensile Stress | (Yield, 23°C) | 98.0 | MPa | ISO 527-2"
+    },
+    "hardness": {
+     "value": "84.5 Shore D",
+     "text": "84.5 Shore D",
+     "condition": "Nominal, 23 °C, ISO 868",
+     "locator": "Material Properties > Hardness",
+     "quote": "Shore Hardness | (Shore D, 23°C) | 84.5 | ISO 868"
+    },
+    "thermalConductivity": {
+     "value": 0.29,
+     "text": "0.29",
+     "condition": "23 °C, ortalama, ISO 22007-4",
+     "locator": "Material Properties > Thermal",
+     "quote": "Thermal Conductivity | ISO 22007-4 | 23°C | 4 | 0.29 | W/m/K"
+    },
+    "maxTemperature": {
+     "value": 240,
+     "text": "240 (RTI)",
+     "condition": "UL 746B göreli ısıl indeks, darbesiz mekanik (RTI Str)",
+     "locator": "Material Properties > Thermal",
+     "quote": "RTI Str | 240 | °C | UL 746B"
+    }
+   }
+  }
+ ]
+}

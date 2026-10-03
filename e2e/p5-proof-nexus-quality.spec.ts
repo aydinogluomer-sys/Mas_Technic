@@ -62,6 +62,10 @@ test.describe("package 5 contracts (pure)", () => {
       { ...FIXTURE, measuredValue: Number.NaN },
       { ...FIXTURE, lowerLimit: 10.02 },
       { ...FIXTURE, measurementDate: "Ağustos 2026" },
+      // E1: a date that does not exist, and one that has not happened yet.
+      { ...FIXTURE, measurementDate: "2026-02-31" },
+      { ...FIXTURE, measurementDate: "2999-01-01" },
+      { ...FIXTURE, unit: "inch" as unknown as "mm" },
     ]) {
       expect(publishMeasuredEvidence([broken], true), JSON.stringify(broken)).toEqual([]);
     }

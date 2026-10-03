@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { materialCategories, materialsData, type Material } from "../src/data/materialsData";
-import { compareFigure, familyRanges, figure, UNVERIFIED_FIGURE } from "../src/components/pages/material-figures";
+import { compareFigure, familyRanges, figure, hardness, isSourced, UNVERIFIED_FIGURE } from "../src/components/pages/material-figures";
 import { gotoAndSettle } from "./helpers";
 
 /* T03 — material data sourcing.
@@ -25,6 +25,40 @@ test.describe("material data contract (pure)", () => {
     }
   });
 
+  test("E1: sourced properties carry a complete, checkable provenance", () => {
+    const sourced = materialsData.filter((m) => m.propertySources);
+    // The priority set: the 11 records marked popular on /malzemeler.
+    expect(sourced.map((m) => m.id).sort()).toEqual(materialsData.filter((m) => m.isPopular).map((m) => m.id).sort());
+    for (const material of sourced) {
+      for (const [key, item] of Object.entries(material.propertySources!)) {
+        const at = `${material.id}.${key}`;
+        expect(item!.document.length, at).toBeGreaterThan(5);
+        expect(item!.publisher.length, at).toBeGreaterThan(2);
+        expect(item!.url, at).toMatch(/^https:\/\//);
+        expect(item!.locator.length, at).toBeGreaterThan(3);
+        expect(item!.condition.length, at).toBeGreaterThan(3);
+        expect(item!.checkedAt, at).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      }
+    }
+  });
+
+  test("E1: a record can publish some properties and leave others unverified", () => {
+    const ss304 = materialsData.find((m) => m.id === "ss-304")!;
+    expect(figure(ss304, "density", "g/cm³")).toBe("7.9 g/cm³");
+    expect(figure(ss304, "tensileStrength", "MPa")).toBe("540–750 MPa"); // a range reads as a range
+    expect(hardness(ss304)).toBe(UNVERIFIED_FIGURE); // the datasheet gives no hardness
+    expect(figure(ss304, "maxTemperature")).toBe(UNVERIFIED_FIGURE);
+    expect(isSourced(ss304, "density")).toBe(true);
+    expect(isSourced(ss304, "hardness")).toBe(false);
+    const ti = materialsData.find((m) => m.id === "ti-grade5")!;
+    expect(figure(ti, "tensileStrength")).toBe("≥ 895 (min.)"); // a minimum is not shown as typical
+    // Ranges are per property: stainless has a sourced density but no sourced temperature.
+    const stainless = materialsData.filter((m) => m.subcategory === "stainless");
+    const ranges = Object.fromEntries(familyRanges(stainless).map((row) => [row.label, row.value]));
+    expect(ranges["Yoğunluk"]).not.toBe(UNVERIFIED_FIGURE);
+    expect(ranges["Maks. sıcaklık"]).toBe(UNVERIFIED_FIGURE);
+  });
+
   test("composites state fibre direction, polymers state conditioning", () => {
     for (const material of materialsData.filter((m) => m.subcategory === "composite")) {
       expect(material.propertyConditions, material.id).toMatch(/[Ee]lyaf doğrultusunda/);
@@ -36,13 +70,15 @@ test.describe("material data contract (pure)", () => {
 
   test("an unsourced figure prints the label, sorts last and never enters a range", () => {
     /* Test-only fixture: one invented source so the ordering can be observed.
-       It never reaches a build — production records all have `source: null`. */
-    const base = materialsData.slice(0, 3);
+       It never reaches a build. The base rows are records with NO sourced
+       property (E1 sourced the popular ones per property). */
+    const base = materialsData.filter((m) => !isSourced(m)).slice(0, 3);
     const sourced: Material = {
       ...base[1],
       id: "fixture-sourced",
       density: 99,
       source: { document: "TEST FIXTURE", checkedAt: "2026-10-02", reviewedBy: "test" },
+      propertySources: undefined,
     };
     const set = [base[0], sourced, base[2]];
     expect(figure(base[0], "density")).toBe(UNVERIFIED_FIGURE);
@@ -61,6 +97,12 @@ test.describe("material pages (browser)", () => {
     const headers = (await register.locator("thead th").allInnerTexts()).map((text) => text.trim());
     expect(headers.join("|")).not.toMatch(/İşlenebilirlik|Fiyat/i);
     await expect(register.locator("tbody td[data-unverified]").first()).toHaveText(UNVERIFIED_FIGURE);
+    // E1: a sourced row's detail names its datasheet as a link, per property.
+    const row = register.locator("tbody tr", { hasText: "Alüminyum 6061-T6" }).first();
+    await row.getByRole("button", { name: "Ayrıntı" }).click();
+    const sources = page.locator(".shell-detail-sources");
+    await expect(sources.getByRole("link", { name: /Kaiser Aluminum — Rod & Bar Alloy 6061/ }).first()).toHaveAttribute("href", /kaiseraluminum\.com/);
+    await row.getByRole("button", { name: "Kapat" }).click();
     await expect(page.locator(".shell-gauge")).toHaveCount(0);
     const body = await page.locator("main").innerText();
     expect(body).not.toMatch(/EKONOMİK|PREMİUM|\b[1-5]\/5\b/);

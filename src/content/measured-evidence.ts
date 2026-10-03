@@ -68,6 +68,16 @@ const REQUIRED_TEXT = [
   "measurementDate", "sourceDocument", "permissionRef", "technicalReviewer",
 ] as const satisfies readonly (keyof MeasuredEvidence)[];
 
+/** A calendar date that exists (no 2026-02-31) and is not in the future. */
+function isRealPastDate(value: string | undefined): boolean {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value ?? "");
+  if (!match) return false;
+  const [year, month, day] = match.slice(1).map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  const real = date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
+  return real && date.getTime() <= Date.now();
+}
+
 /** Why a record cannot be published; empty when it can. */
 export function evidenceProblems(record: MeasuredEvidence): string[] {
   const problems: string[] = [];
@@ -77,9 +87,10 @@ export function evidenceProblems(record: MeasuredEvidence): string[] {
   for (const key of ["nominal", "lowerLimit", "upperLimit", "measuredValue"] as const) {
     if (!Number.isFinite(record[key])) problems.push(`${key} not a number`);
   }
+  if (!["mm", "µm", "°"].includes(record.unit)) problems.push("unit not one of mm / µm / °");
   if (record.lowerLimit > record.upperLimit) problems.push("limits reversed");
   if (record.nominal < record.lowerLimit || record.nominal > record.upperLimit) problems.push("nominal outside limits");
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(record.measurementDate ?? "")) problems.push("measurementDate not YYYY-MM-DD");
+  if (!isRealPastDate(record.measurementDate)) problems.push("measurementDate not a real past date (YYYY-MM-DD)");
   if (!record.verified) problems.push("not verified");
   return problems;
 }

@@ -1,4 +1,4 @@
-import { materialCategories, type Material, type MaterialCategoryPage } from "@/data/materialsData";
+import { materialCategories, type Material, type MaterialCategoryPage, type PropertySource, type SourcedProperty } from "@/data/materialsData";
 
 /* ══════════════════════════════════════════════════════════════════════════
    MATERIAL FIGURES — the shared reading of `materialsData.ts`
@@ -30,7 +30,25 @@ import { materialCategories, type Material, type MaterialCategoryPage } from "@/
    quotation matter. `PRICE_BAND` and the gauge were removed with them. */
 export const UNVERIFIED_FIGURE = "Veri doğrulanmadı";
 
-export const isSourced = (material: Material): boolean => material.source !== null;
+/** E1 — sourced PER PROPERTY: a datasheet that gives density but no hardness
+    publishes the density and leaves the hardness unverified. Without `key`,
+    "does any published figure of this record have a source". */
+export function isSourced(material: Material, key?: SourcedProperty): boolean {
+  if (material.source !== null) return true;
+  if (!material.propertySources) return false;
+  return key ? Boolean(material.propertySources[key]) : Object.keys(material.propertySources).length > 0;
+}
+
+/** The provenance of one property, or `null`. */
+export const propertySource = (material: Material, key: SourcedProperty): PropertySource | null =>
+  material.propertySources?.[key] ?? null;
+
+/** The distinct documents behind a record's published figures (`Kaynak` column). */
+export function sourceDocuments(material: Material): string[] {
+  if (material.source) return [material.source.document];
+  const docs = Object.values(material.propertySources ?? {}).map((item) => `${item!.publisher} — ${item!.document}`);
+  return [...new Set(docs)];
+}
 
 /** The family name a reader sees (`Kompozitler`), never the data key (`composite`). */
 export function familyName(material: Material, families: readonly MaterialCategoryPage[] = materialCategories): string {
@@ -41,20 +59,21 @@ type NumericKey = "density" | "tensileStrength" | "maxTemperature" | "thermalCon
 
 /** A numeric property as the reader sees it: `2.7` / `2.7 g/cm³`, or the unverified label. */
 export function figure(material: Material, key: NumericKey, unit = ""): string {
-  if (!isSourced(material)) return UNVERIFIED_FIGURE;
-  return unit ? `${material[key]} ${unit}` : String(material[key]);
+  if (!isSourced(material, key)) return UNVERIFIED_FIGURE;
+  const value = material.propertyText?.[key] ?? String(material[key]);
+  return unit ? `${value} ${unit}` : value;
 }
 
 /** Hardness is authored as text (`95 HB`, `62 HRC`) but is still a measured property. */
 export function hardness(material: Material): string {
-  return isSourced(material) ? material.hardness : UNVERIFIED_FIGURE;
+  return isSourced(material, "hardness") ? material.hardness : UNVERIFIED_FIGURE;
 }
 
 /** Sort comparator: sourced values first in the requested direction, unsourced last (by name). */
 export function compareFigure(key: NumericKey, direction: "asc" | "desc") {
   return (a: Material, b: Material): number => {
-    const sa = isSourced(a);
-    const sb = isSourced(b);
+    const sa = isSourced(a, key);
+    const sb = isSourced(b, key);
     if (sa && sb) return direction === "asc" ? a[key] - b[key] : b[key] - a[key];
     if (sa !== sb) return sa ? -1 : 1;
     return a.name.localeCompare(b.name, "tr");
@@ -87,12 +106,16 @@ export function range(values: number[], unit: string, digits = 0): string {
 
 /** The hero metadata run for a material family, read off its own SOURCED alloys. */
 export function familyRanges(materials: Material[]) {
-  const sourced = materials.filter(isSourced);
-  const of = (values: number[], unit: string, digits = 0) =>
-    sourced.length === 0 ? UNVERIFIED_FIGURE : range(values, unit, digits);
+  /* Per property: each range is read only from the rows whose value for THAT
+     property is sourced, so a family can show a density range while its
+     temperature stays unverified. */
+  const of = (key: NumericKey, unit: string, digits = 0) => {
+    const values = materials.filter((m) => isSourced(m, key)).map((m) => m[key]);
+    return values.length === 0 ? UNVERIFIED_FIGURE : range(values, unit, digits);
+  };
   return [
-    { label: "Yoğunluk", value: of(sourced.map((m) => m.density), "g/cm³", 2) },
-    { label: "Çekme mukavemeti", value: of(sourced.map((m) => m.tensileStrength), "MPa") },
-    { label: "Maks. sıcaklık", value: of(sourced.map((m) => m.maxTemperature), "°C") },
+    { label: "Yoğunluk", value: of("density", "g/cm³", 2) },
+    { label: "Çekme mukavemeti", value: of("tensileStrength", "MPa") },
+    { label: "Maks. sıcaklık", value: of("maxTemperature", "°C") },
   ];
 }
