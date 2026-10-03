@@ -1,0 +1,853 @@
+{
+  "checkedAt": "2026-10-03T07:59:18.438Z",
+  "base": "http://127.0.0.1:4181",
+  "commit": "93d7f03c28c8335c332dceb52943e35d62975a60",
+  "builtAt": "2026-10-03T07:59:00.503Z",
+  "filesChecked": 297,
+  "findings": [
+    {
+      "level": "warn",
+      "message": "assets/AdminDashboard-Uma1XHq5.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/AdminLogin-D16Y5kGJ.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/AuthField-dvj5JTcH.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/Blog-DGCdTVNM.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/BlogDetail-Bz84viyK.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/BlurImage-CSstZB09.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/CadStage-C0JhLozy.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/CategoryPage-aTMauxF5.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/CerezPolitikasi-DkgdMAja.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/ChatBot-DHD92EDq.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/CustomCursor-BcNl4HTl.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/CustomerCadPreview-CTVe9d7a.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/CustomerProtectedRoute-BRUUy41T.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/ForgotPassword-BXVqpWra.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/GizlilikPolitikasi-ClSa-xih.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/GizmoViewport-BeNOgCma.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/GlobalToasts-BFQ9sCfs.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/Hakkimizda-BBA7Oyjs.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/Iletisim-CgLn0cQO.css: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/Iletisim-DY49A3U6.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/Index-DS-O6q36.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/Index-O__HpEmq.css: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/JsonLdSchema-DsISVYiX.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/KVKK-CPOByK28.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/KabiliyetProfilDetay-CC6hQons.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/KabiliyetProfilleri-BrKFzjeS.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/KaliteDosyasi-BSOJyuVW.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/LegalDocument-DKC-vRpf.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/Login-DY8Oo93N.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/MalzemeKategori-CF_VjKbG.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/Malzemeler-jvlEBu1w.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/MusteriPaneli-DqUVE_uw.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/NotFound-C0No58YZ.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/PageShell-BInT1LIO.css: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/PageShell-D-4vo6Qg.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/ProtectedRoute-ct10Qkh2.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/RFQCadPreview-CKUlOmXy.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/ResetPassword-Ciy6165S.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/SSS-Bggzgh_c.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/SchemaFigure-Bck99c7A.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/ScrollDebugPanel-vIbEdq9r.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/ServiceDetail-DdoDiAq0.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/ShellComposition-BGYc0NeS.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/TeklifAl-qnz2XUlu.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/___vite-browser-external_commonjs-proxy-DgM8dvsu.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/arrow-up-right-CFeoWXWq.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/blog-5eksen-640-2Cu1WebU.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/blog-5eksen-960-_6-_tXQD.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/blog-5eksen-BwSIm3tw.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/blog-dfm-640-DS1mDWwS.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/blog-dfm-960-SDll4RJe.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/blog-dfm-960-xTcvcy_-.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/blog-dfm-Cz4yiXpK.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/blog-malzeme-640-DIhqSwGc.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/blog-malzeme-960-DNGF62P_.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/blog-malzeme-960-DpQCEGLx.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/blog-malzeme-BIQkYg9Q.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/bot-DuhPgmaQ.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/cadFiles-CETfSgpN.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/cadUpload-6XJTkbkE.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/case-study-figures-Cr7GHpst.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/caseStudies-CNDovLoa.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/claims-BMYRt09u.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/client-CuewjMAW.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/cssVar-B5_BZYFy.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/data-ChNpiwN2.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/en-CK0mC8U7.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/env-C5irB9bn.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/eye-DJL9cpQy.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/eye-off-BqyCVNkH.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/format-CTXPw6iA.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-anodizasyon-640-PePShmSi.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-anodizasyon-960-CHkoXAzr.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-anodizasyon-DUx4NaUB.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-basincli-dokum-640-DZ9cJE6M.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-basincli-dokum-960-oWAfr7r_.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-basincli-dokum-BZCCkd3Z.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-boya-kaplama-640-BJTwi9z4.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-boya-kaplama-960-CS09qAAd.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-boya-kaplama-jhE1pteY.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-cnc-640-C6iBN9kT.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-cnc-960-BBpMONbx.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-cnc-CktaRi9J.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-cnc-frezeleme-640-rIE7eQIt.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-cnc-frezeleme-960-CKZhz_cY.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-cnc-frezeleme-HroBrnyJ.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-cnc-tornalama-640-aj0DTc8V.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-cnc-tornalama-CZRi36Fh.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-cnc-tornalama-DxFnZHUM.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-derin-delik-640-IWpUcs8i.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-derin-delik-960-BYQhrirV.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-derin-delik-CyN-1yCZ.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-enjeksiyon-kalibi-640-qWeIOwGl.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-enjeksiyon-kalibi-960-DKtEPjqJ.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-enjeksiyon-kalibi-CQ_Cg_WM.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-fikstur-aparat-640-DmZ-dEKr.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-fikstur-aparat-960-C53dfY34.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-fikstur-aparat-xVjWw0mi.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-havacilik-640-Bqwol9yo.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-havacilik-960-DbDW9x9j.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-havacilik-L9vASlRo.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-insert-uygulama-640-CvqUvQlG.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-insert-uygulama-6qvO51FQ.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-insert-uygulama-960-CdbrVRf3.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-kaynakli-imalat-640-B_oOpSRl.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-kaynakli-imalat-960-DGqF8Dec.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-kaynakli-imalat-DAdnNgf1.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-kitting-paketleme-5S20It4j.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-kitting-paketleme-640-BkDN6Ohl.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-kitting-paketleme-960-DlH-nLKj.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-lazer-kazima-640-DkJXEHYs.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-lazer-kazima-960-DNGSB6dW.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-lazer-kazima-DXf4SvZB.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-logo-markalama-640-DZmG4LHS.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-logo-markalama-960-Bfxtiktz.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-logo-markalama-Dy2xgzKr.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-malzeme-kutuphanesi-640-DzfmhNyC.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-malzeme-kutuphanesi-960-BXdjgdWx.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-malzeme-kutuphanesi-960-CmhqwA0C.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-malzeme-kutuphanesi-PgL8HJsP.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-manifold-v1-DjyYu6ON.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-mekanik-yuzey-640-DaXiKi-R.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-mekanik-yuzey-960-BgVEwXcL.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-mekanik-yuzey-CUPVfxai.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-mikro-isleme-640-BcRZe_LH.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-mikro-isleme-960-Dk6AYY06.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-mikro-isleme-BSrAZFIP.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-proje-yonetimi-640-BskqQvOF.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-proje-yonetimi-960-o1KS5KWu.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-proje-yonetimi-CbaOjvpX.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-qr-datamatrix-640-DpsN6rGy.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-qr-datamatrix-960-JP85USdB.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-qr-datamatrix-9VxRDIuG.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-seri-uretim-640-Cd1fA3uj.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-seri-uretim-960-CTXIkMXc.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-seri-uretim-BfX-civG.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-silikon-kaliplama-640-CpK92OOc.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-silikon-kaliplama-960-D_i3JXPB.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-silikon-kaliplama-AKU6eea7.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-tedarik-zinciri-640-CBoIzyrO.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-tedarik-zinciri-960-BZKoPwnY.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-tedarik-zinciri-BqQmcwwO.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-tolerans-hassasiyet-1600-BlYCWHmN.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-tolerans-hassasiyet-640-BPIx5vtf.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-tolerans-hassasiyet-960-BSGlbVaX.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-tolerans-hassasiyet-Wc62OP5H.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-yuzey-islemleri-640-Cb1VgRZp.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-yuzey-islemleri-960-C-sEBeGO.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-yuzey-islemleri-960-CGt6pzDD.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/hero-yuzey-islemleri-C65G5lOH.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/index-BCBrtDTf.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/index-BYSVIFPF.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/index-Bm4K3Kcb.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/index-BsU4qv0s.css: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/index-Dfh2TAmU.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-aerospace-CN-v49lX.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-automotive-C-3PtV05.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-defense-640-Dnyme1cS.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-defense-960-D39PKqMk.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-defense-CeliYO2F.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-hvac-CZLfscd4.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-hydraulic-SQGcPZcZ.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-marine-jrRpN0Xc.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-medical-BIVAP-Gq.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-mining-BZNqD3gz.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-oilgas-B6HzezRD.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-piping-DTrNKbFc.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-power-eCC3to5G.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-renewable-E6VMJYws.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/industry-robotics-Dr0SCf2A.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/journal-modules-B167Rw8a.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/kalite-politikasi-BvIFT_-V.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/kit-nWb62Sze.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/lenis-faqbxiYg.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/loader-circle-hYcHdENe.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/lock-C6eUNvW4.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/mail-C3i6MFkk.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/material-figures-B_GdOTas.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/materialsData-DjfaW-p4.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/motion-CKO6hE5X.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/occt-import-js-BLhr-TUy.wasm: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/occt-import-js-BzjuDrdi.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/occt-import-js-CBstrrrb.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/olcum-ekipmanlari-C5CXx-RX.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/paketleme-kilavuzu-B3UbJTsw.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/phone-CnH3is4D.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/quality-control-640-DOq-RMo9.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/quality-control-960-DlFtl_8Z.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/quality-control-C8RRRd9J.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/quality-documents-Ds6N_vk0.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/safe-storage-DuiDTbq3.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/scan-line-CX3leNCx.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/scissors-ClrnD5a_.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/shield-check-CRQ3ry1O.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/switch-DeP7PNyR.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/tedarikci-davranis-kurallari-Cv-2GIZk.webp: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/types-BWToP-pE.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/use-gsap-BrHoFLjz.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/use-mobile-DZy2QukI.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/use-theme-Dm2pYhdv.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/useCadHandoff-CrmgXUer.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/user-DciDVL-I.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/utils-B2OMREI3.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/vendor-framer-CH1Xvl8a.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/vendor-gsap-0lJgtTtq.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/vendor-react-BtXpvAbk.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/vendor-runtime-D7HrI6pR.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/vendor-utils-CfDMlrKu.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/x-6oQMRII4.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "assets/xlsx.min-BqRLCyNn.js: hashed asset without long cache (\"no-cache\")"
+    },
+    {
+      "level": "warn",
+      "message": "unknown path answers HTTP 200 (client-side 404 only); configure a 404 status or accept and record it"
+    }
+  ]
+}

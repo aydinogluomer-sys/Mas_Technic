@@ -314,7 +314,8 @@
 .tl-menu-family-index {
   align-self: start;
   padding-top: var(--tl-s2);
-  color: var(--tl-on-dark-faint);
+  /* QA01: `--tl-on-dark-faint` measured 3.67:1 on the menu sheet at 12px. */
+  color: var(--tl-on-dark-meta);
   font: 500 12px/1 var(--tl-font-mono);
   letter-spacing: .08em;
   font-variant-numeric: tabular-nums;

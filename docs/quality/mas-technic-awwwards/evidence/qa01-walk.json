@@ -1,0 +1,19 @@
+{
+  "capturedAt": "2026-10-03T07:57:24.203Z",
+  "base": "http://127.0.0.1:4181",
+  "scope": "LOCAL_FIXTURE — local vite preview, placeholder Supabase env; Google Fonts, Supabase and Google Calendar aborted. Chromium only.",
+  "summary": {
+    "routes": 196,
+    "pageLoads": 784,
+    "runtimeErrors": [],
+    "blankRoots": [],
+    "overflow": [],
+    "unexpectedNotFound": [],
+    "missingH1": [],
+    "langMismatch": [],
+    "localeMix": [],
+    "axeSeriousCritical": [],
+    "internalTargets": 198,
+    "deadLinks": []
+  }
+}

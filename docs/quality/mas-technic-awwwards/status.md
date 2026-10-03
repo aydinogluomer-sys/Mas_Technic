@@ -298,6 +298,61 @@ Güncellenen mevcut spec'ler: `technical-landing`, `landing/{landing-structure,l
 
 Tarayıcı sonuçları `LOCAL_FIXTURE`. Not: önizleme sunucusu oturum içinde iki kez 2 saatlik arka plan sınırında durdu; etkilenen koşular yeniden yapıldı.
 
+## Paket 8 (son) — QA01 → QA02 → RELEASE01
+
+- HEAD doğrulaması: paket 8 başında dal `93d7f03` (paket 7 sonu, uzak dalla aynı), `main` = `4618e71`. Paket 8 tek commit. Otomatik merge/yayın yapılmadı.
+
+| İş | Durum | Bağımlılık | Değişen dosyalar (özet) | Son kanıt |
+|---|---|---|---|---|
+| QA01 | Chromium PASS_LOCAL · Firefox/WebKit `FAIL_INFRA` · gerçek cihaz `NOT_MEASURED` | — | `scripts/quality/qa01-walk.mjs`, `src/components/navigation/LanguageSwitch.tsx`, `src/styles/{navigation,menu-round2}.css`, `e2e/fullscreen-menu.spec.ts` | Rota taraması: 196 rota (98 TR + 98 EN; public + giriş/şifre) × {375, 1440} × {normal, reduced} = 784 yükleme: çalışma zamanı hatası 0, boş kök 0, yatay taşma 0, beklenmeyen 404 0, h1 ≠ 1 olan sayfa 0, `<html lang>` uyuşmazlığı 0, dil karışımı (EN→TR / TR→EN bağlantı) 0, axe serious/critical 0 (375 ve 1440, normal), 198 iç hedefin ölü bağlantısı 0. `evidence/qa01-walk.json`. Klavye/etkileşim: menü, dil açılır menüsü, SSS, tablo kaydırma bölgeleri, randevu diyaloğu, RFQ (WebGL yokken de gönderim), geri/ileri ve sayfa geçişi spec'leri mobile-390 + desktop-1440'ta 140 geçti, 2 gerçek bulgu düzeltildi (aşağıda) |
+| QA02 | `BLOCKED_DATA` | O07 (test tenant/hesap, e-posta, booking), O06 | `release.md` §5 | Canlı döngünün hiçbir satırı "geçti" sayılmadı; taklitli/yerel kanıtlar ayrı (`LOCAL_FIXTURE`). Erişim gelince koşulacak liste `release.md` §5 |
+| RELEASE01 | Yerel hazırlık PASS_LOCAL · canlı eşleşme `BLOCKED_DATA` | O01 (aday origin/host), O10 | `vite.config.ts` (`mas-build-identity`), `scripts/quality/verify-release.mjs`, `release.md` | Her build `release.json` (commit, build zamanı, 297 dosyanın sha256/bayt değeri; ortam değeri yok) ve `<meta name="mas-build">` yazar. `verify-release.mjs` yerel önizlemeye karşı: 297/297 dosya hash eşleşmesi, 0 `fail`; uyarılar host konusu (önbellek başlıkları, bilinmeyen adresin HTTP 200 dönmesi). `evidence/release-check-local.json`. Yayın/geri alma adımları ve host kontrol listesi `release.md` |
+
+### QA01'de bulunup düzeltilenler
+
+1. **Dil açılır menüsü klavye seçimini kaybediyordu** (6–8 koşuda 1): liste hareketsiz imlecin altında açılınca `pointerenter` ve Chromium'un düzen değişiminden sonra gönderdiği sentetik işaretçi olayları, ok tuşlarıyla seçilen dili imlecin altındakiyle değiştiriyordu. Artık yalnız gerçekten hareket eden işaretçi seçim yapar. 3 projede 5'er tekrar: 45/45.
+2. **Menü erişilebilirlik ölçümü açılış animasyonunun ortasında yapılıyordu** (aile numarasında 3,67:1 ara renk; oturduğunda ~5,8:1). Test artık oturmuş diyaloğu ölçüyor; aile numarası ve sayfa sayısı yine de daha açık kurallı tokena (`--tl-on-dark-meta`) alındı. 3 projede 4'er tekrar: 12/12.
+
+### Ölçüm notları
+
+- Tarama, iç sayfaların kaydırınca belirme efektini e2e paketiyle aynı anahtarla kapatır (`mas_prose_reveal=off`, `playwright.config.ts`); aksi hâlde axe yarı saydam paragrafı kontrast hatası sayıyor. Efektin kendisi `e2e/polish/prose-reveal.spec.ts` ile ayrıca ölçülüyor.
+- Google Fonts, Supabase (placeholder) ve Google Calendar istekleri taramada kesildi; bunlar sayfa hatası sayılmadı.
+- Firefox ve WebKit bu ortamda kurulu değil (`Executable doesn't exist at /opt/pw-browsers/firefox-1511`); `playwright install` sözleşme gereği çalıştırılmadı → `FAIL_INFRA`. Alternatif olarak aynı duman ve etkileşim spec'leri Chromium mobile-390 (dokunma) ve desktop-1440'ta koşuldu.
+
+### Paket 8 test sonuçları
+
+| Komut | Sonuç |
+|---|---|
+| `npx tsc --noEmit -p tsconfig.app.json` / `tsconfig.e2e.json` / `tsconfig.node.json` | geçti |
+| `npm run lint` | 0 hata, 2 uyarı (tabandaki `BlurImage.tsx`) |
+| `npm run build` | geçti; `dist/release.json` (297 dosya) ve `mas-build` meta'sı üretildi, ortam değeri içermiyor (aranarak doğrulandı) |
+| `node scripts/claims-gate.mjs` | PASS: 0 ihlal |
+| `scripts/quality/qa01-walk.mjs` | 784 yükleme, tüm sayaçlar 0 (yukarıda) |
+| `scripts/quality/verify-release.mjs` (yerel önizleme) | 297/297 hash eşleşmesi, 0 `fail`, 211 uyarı (önbellek başlığı) + 1 uyarı (HTTP 404) |
+| Etkileşim spec'leri mobile-390 + desktop-1440 | 140 geçti; 2 bulgu düzeltildi; tekrar koşuları 45/45 ve 12/12 |
+| Tam koşu `desktop-1280` + `critical-1280` + `critical-375` (511 test) | **463 geçti, 7 hata**, 32 atlandı, 9 koşmadı. 7 hatanın tamamı önceden bilinen: `landing-structure:95` ×3 (`FAIL_INFRA`, Google Fonts sertifikası), `09b2-fragment-navigation` ×2, `qa-09b1-golden-drift` footer, `qa-p08-storage-disclosure:310` — son üçü taban build'de de aynı biçimde düşüyor |
+| Firefox/WebKit `smoke-*` projeleri | `FAIL_INFRA` (tarayıcılar kurulu değil) |
+
+## Son kabul listesi (§14) — dürüst durum
+
+| Madde | Durum |
+|---|---|
+| Güncel HEAD, rota ve kanıt kayıtları; hayali refactor yok | Tamam (bu dosya, `routes.json`, `evidence/`) |
+| M01 statik malzeme görünümü (normal/reduced, görsel hatası) | Tamam (paket 1) |
+| Teknik çelişkiler public'ten temiz; onaysız sayıların kayıtları korunmuş | Tamam yerelde; kapasite onayı O02 açık |
+| Tam TR/EN; DE/RU/ZH reklamı yok; locale URL ve metadata | Tamam yerelde; EN hukuki onay O08, yayına açılış O10 |
+| 17 açık sektör görseli; generic fallback yok | Tamam (paket 4) |
+| Yedi pilot modül ve anlamlı ilgili listeler | Tamam (paket 4) |
+| Temsili deneyim erişilebilir ve dürüst; gerçek ölçüm zinciri | Temsili kısım tamam; gerçek ölçüm O04 → `BLOCKED_DATA` |
+| NEXUS demo gerçek sipariş gibi görünmüyor | Tamam (paket 5) |
+| RFQ model/PDF-only/combined gerçek backend kontratıyla | **Açık**: istemci hazır ve kapalı; sunucu O06 → `BLOCKED_DATA` |
+| Mobil hiyerarşi/metin/SSS/footer kararları | Tamam (paket 7) |
+| Gerçek belge erişimi, sertifika kontrolü, görsel izinleri | Belgeler ve izinli görseller tamam; sertifika geçerliliği O03 açık |
+| Taban ve son performans ayrı kanıtlı; lab/field ayrımı | Tamam; LCP lab hedefi **karşılanmadı** (ön render, O01); saha verisi yok |
+| Public tüm rota ve auth/backend kritik senaryolar | Public rotalar tamam (Chromium); auth/backend canlı döngüsü O07 → `BLOCKED_DATA`; gerçek cihaz yok |
+| Aday origin/build/cache ve HTTP/istemci rota davranışı | Yerel build kimliği ve doğrulama aracı hazır; aday host O01 → `BLOCKED_DATA` |
+| PASS olmayan bağımlılıklar açık listelenmiş; jüri puanı garantisi yok | Tamam (`owner-inputs.md`, bu tablo) |
+
 ## Sonraki iş
 
-Sözleşme sırasına göre son paket: QA01 → QA02 → RELEASE01. RFQ sunucu tarafı O06, LCP için ön render O01, canlı döngü O07. PROOF02 gerçek veri gelince ayrı içerik teslimidir. Açık girdiler: O01 (host, prerender), O02 (kapasite eşikleri), O04 (gerçek demo kuponu), O05 (malzeme kaynakları), O08 (EN hukuki onay), O10 (origin ve EN'in yayına açılması).
+Sözleşmenin sekiz paketi yerelde uygulandı. Kalan iş işletme girdilerine bağlı: O01 (aday host → ön render, canlı build eşleşmesi, LCP), O02, O03, O04 (PROOF02), O05, O06 (RFQ sunucusu), O07 (QA02 canlı döngü), O08, O10. Merge ve yayın kararı sahibindir (`release.md`). PROOF02 gerçek veri gelince ayrı içerik teslimidir. Açık girdiler: O01 (host, prerender), O02 (kapasite eşikleri), O04 (gerçek demo kuponu), O05 (malzeme kaynakları), O08 (EN hukuki onay), O10 (origin ve EN'in yayına açılması).

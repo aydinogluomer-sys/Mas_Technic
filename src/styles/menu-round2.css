@@ -69,7 +69,7 @@
 .tl-menu .tl-menu-family-index { grid-row: 1 / span 2; align-self: start; padding-top: 10px; font-size: 12px; }
 .tl-menu .tl-menu-family-meta {
   grid-column: 2;
-  color: var(--tl-on-dark-faint);
+  color: var(--tl-on-dark-meta);
   font: 500 12px/1 var(--tl-font-mono);
   letter-spacing: .16em;
 }

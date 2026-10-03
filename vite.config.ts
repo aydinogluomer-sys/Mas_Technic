@@ -2,6 +2,9 @@ import { defineConfig, loadEnv, type Plugin } from "vite";
 import type { OutputChunk } from "rollup";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { execSync } from "node:child_process";
+import { createHash } from "node:crypto";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { componentTagger } from "lovable-tagger";
 import { normalizeOrigin } from "./src/lib/site-origin";
 
@@ -110,6 +113,67 @@ function heroPreloadPlugin(): Plugin {
  * prerender adapter that would bake them into each route's HTML is
  * BLOCKED_DATA until the host is known (owner input O01).
  */
+/**
+ * RELEASE01 — BUILD IDENTITY. Every production build writes `release.json`
+ * at the site root and a `<meta name="mas-build">` in `index.html`:
+ *
+ *   commit     the git commit the build was made from (`GITHUB_SHA` in CI,
+ *              else `git rev-parse HEAD`; "unknown" outside a checkout)
+ *   builtAt    ISO build time
+ *   files      sha256 + bytes of every emitted asset and of the final
+ *              `index.html`, so a deployed response can be compared with the
+ *              build it claims to be (`scripts/quality/verify-release.mjs`)
+ *
+ * No environment value is written — not the Supabase URL or key, not the site
+ * origin. A local `git rev-parse HEAD` proves only the checkout; the live
+ * version is proven by fetching `/release.json` from the host and matching it.
+ */
+function buildIdentityPlugin(command: "build" | "serve"): Plugin {
+  const commit = (() => {
+    if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA;
+    try {
+      return execSync("git rev-parse HEAD", { stdio: ["ignore", "pipe", "ignore"] }).toString().trim();
+    } catch {
+      return "unknown";
+    }
+  })();
+  const builtAt = new Date().toISOString();
+  const sha = (data: string | Uint8Array) => createHash("sha256").update(data).digest("hex");
+  let outDir = "";
+  return {
+    name: "mas-build-identity",
+    enforce: "post",
+    apply: () => command === "build",
+    transformIndexHtml: {
+      order: "post",
+      handler: () => [{ tag: "meta", attrs: { name: "mas-build", content: `${commit} ${builtAt}` }, injectTo: "head" }],
+    },
+    configResolved(config) {
+      outDir = path.resolve(config.root, config.build.outDir);
+    },
+    /* Hashed from the files as WRITTEN, after every plugin has finished with
+       them — chunk code seen in `generateBundle` can still change (preload
+       markers), and `public/` files (PDFs, robots.txt) never pass through the
+       bundle at all. */
+    closeBundle() {
+      if (!outDir || !existsSync(outDir)) return;
+      const files: Record<string, { sha256: string; bytes: number }> = {};
+      const walk = (dir: string) => {
+        for (const entry of readdirSync(dir, { withFileTypes: true })) {
+          const full = path.join(dir, entry.name);
+          if (entry.isDirectory()) { walk(full); continue; }
+          const name = path.relative(outDir, full).split(path.sep).join("/");
+          if (name === "release.json" || name.startsWith(".vite/")) continue;
+          const data = readFileSync(full);
+          files[name] = { sha256: sha(data), bytes: data.byteLength };
+        }
+      };
+      walk(outDir);
+      writeFileSync(path.join(outDir, "release.json"), `${JSON.stringify({ name: "mas-technic", commit, builtAt, files }, null, 2)}\n`);
+    },
+  };
+}
+
 function siteMetaPlugin(mode: string, command: "build" | "serve"): Plugin {
   const env = loadEnv(mode, process.cwd(), "VITE_");
   const rawIndexing = (process.env.VITE_SITE_INDEXING ?? env.VITE_SITE_INDEXING ?? "").trim();
@@ -161,7 +225,7 @@ export default defineConfig(({ mode, command }) => ({
     host: "::",
     port: 8080,
   },
-  plugins: [react(), mode === "development" && componentTagger(), siteMetaPlugin(mode, command), heroPreloadPlugin()].filter(Boolean),
+  plugins: [react(), mode === "development" && componentTagger(), siteMetaPlugin(mode, command), heroPreloadPlugin(), buildIdentityPlugin(command)].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

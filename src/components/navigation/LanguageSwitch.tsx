@@ -64,6 +64,8 @@ function LanguageDropdown({ className, current, label }: { className: string; cu
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  /** Last pointer position seen over the list; reset on every open. */
+  const pointerRef = useRef<{ x: number; y: number } | null>(null);
   const listId = useId();
   const currentIndex = Math.max(0, LANGUAGES.findIndex((language) => language.code === current));
   const currentLanguage = LANGUAGES[currentIndex];
@@ -81,6 +83,7 @@ function LanguageDropdown({ className, current, label }: { className: string; cu
 
   useEffect(() => {
     if (!open) return;
+    pointerRef.current = null;
     setActive(currentIndex);
     listRef.current?.focus();
     const onPointer = (event: PointerEvent) => {
@@ -143,7 +146,16 @@ function LanguageDropdown({ className, current, label }: { className: string; cu
               lang={language.code}
               aria-selected={language.code === current}
               data-active={index === active || undefined}
-              onPointerEnter={() => setActive(index)}
+              /* QA01: only a pointer that really MOVED picks an option. The
+                 list opens under a resting pointer; `pointerenter`, and the
+                 synthetic pointer events Chromium sends after a layout change,
+                 fired for whatever option lay beneath it and overrode the one
+                 chosen with the arrow keys (measured: 1 run in 6–8). */
+              onPointerMove={(event) => {
+                const last = pointerRef.current;
+                pointerRef.current = { x: event.clientX, y: event.clientY };
+                if (last && (last.x !== event.clientX || last.y !== event.clientY)) setActive(index);
+              }}
               onClick={() => choose(index)}
             >
               <span>{language.label}</span>
