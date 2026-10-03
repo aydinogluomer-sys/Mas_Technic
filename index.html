@@ -320,6 +320,19 @@
          Satır içi ve type="module" DEĞİL: bundle beklemeden, ilk boyamada
          çalışmalı. Aksi halde sekans geç açılır ve "bozuk" görünür. */
       (function () {
+        /* L01 — an /en address is English from the first paint: the static
+           title, <html lang> and the shell's HUD readout follow the URL before
+           any bundle runs, so no Turkish frame shows on an English page. */
+        if (/^\/en(\/|$)/.test(location.pathname)) {
+          document.documentElement.lang = "en";
+          document.title = "Mas Technic | High-Precision CNC Manufacturing & Machining";
+          var hud1 = document.querySelector("#hero-shell .ps-stage-1");
+          var hud2 = document.querySelector("#hero-shell .ps-stage-2");
+          if (hud1) hud1.innerHTML = "RAW BLOCK · <b>TOOLPATH RUNNING</b>";
+          if (hud2) hud2.innerHTML = "CMM · <b>VERIFYING MEASUREMENT</b>";
+        }
+      })();
+      (function () {
         var shell = document.getElementById("hero-shell");
         if (!shell) return;
 

@@ -145,6 +145,8 @@ test.describe("L01 English surface", () => {
     const problems: string[] = [];
     for (const route of EN_ROUTES) {
       await gotoAndSettle(page, route);
+      /* The route loader is English too, but it is not the page: wait it out. */
+      await expect(page.locator('.shell-boot [data-shell-state="loading"]'), route).toHaveCount(0, { timeout: 20_000 });
       await expect(page.locator("html"), route).toHaveAttribute("lang", "en");
       for (const text of await turkishText(page)) problems.push(`${route} · ${text.slice(0, 90)}`);
       const stray = await page.evaluate(() =>

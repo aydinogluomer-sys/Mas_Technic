@@ -95,6 +95,54 @@ COPY01'in kabul maddesinde "iki dil ekran görüntüsü" var. EN public yüzey L
 
 Ara bulgu (düzeltildi): T02 tablo notundaki "taahhüt değildir" ifadesi `qa-p09a2-claims-sweep` garanti taramasına takıldı. Not, bu kelime olmadan yeniden yazıldı (karar C7).
 
+## Paket 3 — L01 → SEO01
+
+- HEAD doğrulaması: paket 3 başında dal `13e818e` (paket 2 sonu), `main` = `4618e71` (paket 1–2 merge edilmedi). Paket 3 commit'leri: `5866809`, `5c03c57`, `55324b4`, `bf1cb76` + kapanış commit'i.
+
+| İş | Durum | Bağımlılık | Değişen dosyalar (özet) | Son kanıt |
+|---|---|---|---|---|
+| L01 | PASS_LOCAL · EN hukuki onay `BLOCKED_DATA` (O08) · canlıya açılış O10 | O08, O10 | `src/i18n/{locale,hooks,LocaleLink,content,data,localize,format}.ts(x)`, `src/i18n/index.ts`, `src/i18n/locales/en-pages.ts`, `src/content/en/**` (48 hizmet, 15 kategori, 11 aile, 87 malzeme, 6 yazı, 3 profil, 24 sohbet, 3 hukuki metin), `src/App.tsx`, sayfa ve shell bileşenleri, `scripts/quality/locale-check.ts`, `e2e/l01-locale.spec.ts` | `locale-check`: tüm kümeler tam, kayıt bazında TR/EN sayı kümesi birebir aynı. Tarayıcı taraması: **99 `/en` rotasında** (statik sayfalar, 48 detay, 15 kategori, 11 aile, 6 yazı, 3 profil, auth, RFQ adımları, menü, 404) Türkçe metin yok; kalan tek eşleşme tüzel kişi adı ve KVKK md. 5/2-ç atfı. `evidence/screens/l01/` (19 kare, 1440 + 375). |
+| SEO01 | PASS_LOCAL · prerender `BLOCKED_DATA` (O01) · public build origin'i O10 | O01, O10 | `src/lib/{site-config,site-origin,route-links}.ts`, `src/hooks/use-page-meta.ts`, `vite.config.ts` (`mas-site-meta`), `index.html`, sayfa meta çağrıları | Varsayılan build: `noindex, nofollow`, canonical yok. `VITE_SITE_INDEXING=public` + origin'siz build kırılıyor. Origin'li public build (ölçüm için O10'daki beyan edilen domain ile): ana sayfa canonical/og:url/hreflang statik; route bazında SPA gezinmesi, geri tuşu, yanlış-aile yönlendirmesi ve query'li adreste canonical doğru; 404 ve auth `noindex` ve canonical'sız; panel `noindex`. Hero preload ve font preconnect korunuyor. |
+
+### L01 davranışı
+
+- Public dili **adres** belirler: TR `/…`, EN `/en/…` (aynı slug). Panel/admin rotaları değişmedi; panel dili `mas_lang` ile seçilir, eski DE/RU/ZH değeri TR'ye normalize olur. DE/RU/ZH sözlük dosyaları silinmedi, menüden kalktı.
+- Dil düğmesi aynı kaydın diğer dildeki adresine gider (query ve hash korunur). İç bağlantılar `LocaleLink` ile aktif dilde kalır; sohbet yanıtlarındaki bağlantılar da.
+- `/en` sayfası, EN sözlük ve içerik paketi gelmeden çizilmez (dil kapısı): EN adreste Türkçe kare yok. TR ilk açılışta kapıdan geçmez (senkron i18n init).
+- EN içerik, TR kaydın üstüne yalnız okunacak metni bindiren overlay'lerdir (`mergeText`); id, slug, yol, görsel ve sayılar TR kaydın kendisidir. Sayılar ve birimler değişmedi.
+- T01–T03'te kaldırılan iddialar çeviride geri gelmedi. Çeviri sırasında bulunan doğrulanmamış TR iddialar TR kaynakta düzeltildi (`claims-register.md` › L01, 27 satır).
+- Hukuki metinler tam EN çeviri; EN sayfa "Türkçe metin bağlayıcıdır" diyor. Onay O08.
+- Depolama engelliyken (L01 senaryosu) daha önce `/`, `/sss`, `/teklif-al`, `/giris` dahil sayfalar `ErrorBoundary`'ye düşüyordu (taban build'de de aynı). Tema, Supabase istemci deposu, CAD aktarımı ve sohbet sayacı korumalı erişime alındı; tüm public rotalar açılıyor.
+- Bilinen sınır: EN parola sıfırlama e-postası TR `/reset-password`'a döner (D3).
+
+### SEO01 davranışı
+
+- Tek kaynak: `VITE_SITE_ORIGIN` + `VITE_SITE_INDEXING` (`src/lib/site-config.ts`). Gizli değer yok; origin kodda yazılı değil.
+- Canonical = origin + yerelleştirilmiş rota; og:url aynı; hreflang `tr` / `en` / `x-default`=tr. Title ve description rotanın kendi içeriğinden, rotanın dilinde.
+- `noindex`: 404 ve aile içi bulunamadı görünümleri, giriş/şifre sayfaları, panel ve admin. `preview` build her yerde `noindex`.
+- `index.html` içindeki sabit `lovable.app` canonical/og:url kaldırıldı (C10).
+
+### Paket 3 test sonuçları
+
+| Komut | Sonuç |
+|---|---|
+| `npx tsc --noEmit -p tsconfig.app.json` / `tsconfig.e2e.json` | geçti |
+| `npm run lint` | 0 hata, 2 uyarı (tabandaki `BlurImage.tsx` uyarıları) |
+| `npm run build` (placeholder env, varsayılan `preview`) | geçti; çıktı `noindex, nofollow`, canonical yok |
+| `VITE_SITE_INDEXING=public` origin'siz build | **kırılıyor** (beklenen): `[mas-site-meta] VITE_SITE_INDEXING=public requires VITE_SITE_ORIGIN` |
+| `VITE_SITE_INDEXING=public VITE_SITE_ORIGIN=https://…` build | geçti; canonical, og:url, hreflang tr/en/x-default statik ana sayfada; hero preload ve preconnect korunuyor |
+| `node scripts/claims-gate.mjs` | PASS: 0 ihlal, 306 kontrol |
+| `scripts/quality/locale-check.ts` | OK: hizmet 48/48, kategori 15/15, aile 11/11, malzeme 87/87, yazı 6/6, profil 3/3, sohbet 24/24; sayı kümeleri birebir |
+| `scripts/quality/claims-scan.ts` (genişletilmiş) | 270 satır, `REVIEW` 0 |
+| EN tarayıcı taraması (99 `/en` rotası, Türkçe harf + Türkçe kelime + eksik i18n anahtarı) | 0 Türkçe metin; tek istisnalar tüzel kişi adı ve KVKK md. 5/2-ç atfı |
+| `e2e/l01-locale.spec.ts` (desktop-1280, mobile-375) | tümü geçti: overlay tamlığı, locale/SEO yardımcıları, origin'siz public build, 24 rotalık EN turu, aynı kayda geçiş, hard refresh, geri/ileri, eski DE tercihi, yeni sekme, depolama engelli, SPA ve yönlendirme sonrası meta |
+| Tam koşu `desktop-1280` + `critical-1280` + `critical-375` (461 test) | 414 geçti, 9 hata, 29 atlandı, 9 koşmadı. 9 hatanın hiçbiri paket 3 kaynaklı değil: 5 `FAIL_INFRA` (Google Fonts sertifika hatası: `landing-structure:95` ×3, `technical-landing:180` ×2), 3'ü taban build'de (`13e818e`) aynı biçimde düşüyor (`qa-09b1-golden-drift` footer — spec'in kendi `hideForeignOverlays` kuralı; `qa-p08-storage-disclosure` — ağda üçüncü taraf host yok; `09b2-fragment-navigation` — 3 tekrarda tabanda da 6/9 hata). 1 hata (L01 EN turu yük altında yükleyici karesini yakaladı) düzeltildi: yükleyici ve ilk kare artık adresin dilinde, yeniden koşuda geçti. |
+| Etkilenen setin yeniden koşusu (`l01-locale`, `i18n-switch`, `landing-structure`, `navigation-reachability`, `shared-shell-accessibility`, `detail-route-family`, `copy-user-language`; desktop-1280 + mobile-375 + critical-1280) | 85 geçti, 3 hata (yalnız `landing-structure:95` `FAIL_INFRA`), 47 atlandı |
+
+Güncellenen mevcut spec'ler (davranış değişikliği nedeniyle, gerekçesi yanında): `navigation-reachability` ve `shared-shell-accessibility` rota tablosunu `PUBLIC_PAGES`'ten okuyor; `i18n-switch` TR/EN ve adres tabanlı geçişe göre yeniden yazıldı (C9); `qa-p09a4-evidence-write-guard` yeni tmpdir yazarını kayda aldı; `qa-p09a3-cad-dom` T02'nin (paket 2) kaldırdığı kapasite sütunlarına uyarlandı — bu spec paket 2 regresyon setinde yoktu.
+
+Tarayıcı sonuçları `LOCAL_FIXTURE` (yerel `vite preview`, placeholder Supabase env, Google Fonts erişilemez). Canlı host, gerçek cihaz ve gerçek arama motoru davranışı ölçülmedi.
+
 ## Sonraki iş
 
-Paket 3: **L01 → SEO01**. Sözleşme gereği paket 2'nin diff/kanıt değerlendirmesi ve HEAD'in yeniden doğrulanmasından sonra başlar.
+Sözleşme sırasına göre bir sonraki paket. Açık girdiler: O01 (host, prerender), O08 (EN hukuki onay), O10 (origin ve EN'in yayına açılması).

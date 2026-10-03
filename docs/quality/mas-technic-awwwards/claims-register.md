@@ -161,3 +161,5 @@ EN metin yazılırken her kayıt cümle cümle okundu. Doğrulanmamış bir iddi
 | Çerez politikası `mas_lang` satırı | "TR, EN, DE, RU, ZH" | "TR, EN"; herkese açık dili adres belirler, kayıt yalnız panel dilini seçer |
 
 `node scripts/claims-gate.mjs`: PASS, 0 ihlal, 306 kontrol. Not: claims-gate kuralları Türkçe metin için yazılmıştır; EN metinleri bu kapı denetlemez. EN'in güvencesi, her EN kaydın TR kaydın çevirisi olması ve sayı kümesinin aynı kalmasıdır (locale-check).
+
+Tarayıcı genişletmesi (L01 sonrası): `scripts/quality/claims-scan.ts` artık `saniye`, `dakika`, `DPI`, `Hz`, `ppm`, metrik diş aralıkları (`M2-M12`) ve çıplak karşılaştırmaları (`<3`) da yakalıyor. T02'nin kaçırdığı insert/logo özellikleri tam bu biçimdeydi. Yeniden tarama: 263 → 270 satır; 7 yeni satırın hepsi karşılaştırma tablolarında (`GENERAL_REFERENCE`, tablo notuyla); sınıflandırılmamış (`REVIEW`) **0**. `claims-inventory.json` güncellendi.

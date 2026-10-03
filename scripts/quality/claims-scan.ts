@@ -19,7 +19,11 @@ import { blogPosts } from "@/data/blogData";
 import { caseStudies } from "@/content/caseStudies";
 
 const NUMERIC_CLAIM =
-  /(?:Ø\s?\d|±\s?\d|\bRa\s?\d|\b\d[\d.,]*\s?(?:mm|µm|um|nm|m\b|kg|ton|kN|N\b|Nm|bar|PSI|psi|MPa|GPa|HRC|HB|HV|Vickers|°C|°|RPM|rpm|dk|sn|saat|gün|yıl|W\b|kW|kV|IACS|%|x\b|×)|\b\d+:\d+\b|%\s?\d|\b\d{1,3}(?:\.\d{3})+\b|\bCT\s?\d|\bIT\s?\d)/;
+  /(?:Ø\s?\d|±\s?\d|\bRa\s?\d|\b\d[\d.,]*\s?(?:mm|µm|um|nm|m\b|kg|ton|kN|N\b|Nm|bar|PSI|psi|MPa|GPa|HRC|HB|HV|Vickers|°C|°|RPM|rpm|dk|sn|saniye|dakika|saat|gün|yıl|W\b|kW|kV|Hz|kHz|DPI|dpi|ppm|IACS|%|x\b|×)|\b\d+:\d+\b|%\s?\d|\b\d{1,3}(?:\.\d{3})+\b|\bCT\s?\d|\bIT\s?\d|\bM\d+(?:\s?[-–]\s?M\d+)?\b|[<>≤≥]\s?\d)/;
+/* L01 follow-up: `saniye` / `dakika`, `DPI`, frequency, ppm, metric thread
+   ranges (`M2-M12`) and bare comparisons (`<3`) were invisible to the first
+   version — the insert, logo and DFM specs that T02 missed carried exactly
+   these. */
 
 interface Row {
   route: string;

@@ -51,3 +51,29 @@ npx playwright test --project=critical-1280 --project=critical-375
 ```
 
 WebGL probe ekleri: `evidence/s01-webgl-failure.json`, `evidence/screens/s01-webgl-unavailable.png`, `evidence/screens/s01-webgl-context-lost.png`.
+
+## Paket 3 — L01 / SEO01
+
+```bash
+# build (placeholder env, varsayılan preview: noindex, canonical yok)
+VITE_SUPABASE_URL=https://ci-placeholder.supabase.co VITE_SUPABASE_PUBLISHABLE_KEY=ci-placeholder-anon-key npm run build
+# indekslenebilir build (origin zorunlu; yoksa build kırılır)
+VITE_SITE_INDEXING=public VITE_SITE_ORIGIN=https://<origin> VITE_SUPABASE_URL=… VITE_SUPABASE_PUBLISHABLE_KEY=… npm run build
+
+# EN overlay tamlığı ve sayı kimliği
+npx esbuild scripts/quality/locale-check.ts --bundle --platform=node --format=esm --alias:@=./src \
+  --outfile=/tmp/locale-check.mjs --loader:.webp=empty --loader:.png=empty --loader:.jpg=empty --loader:.svg=empty
+node /tmp/locale-check.mjs
+
+# sayısal iddia envanteri (genişletilmiş desen)
+npx esbuild scripts/quality/claims-scan.ts --bundle --platform=node --format=esm --alias:@=./src \
+  --outfile=/tmp/claims-scan.mjs --loader:.webp=empty --loader:.png=empty --loader:.jpg=empty --loader:.svg=empty
+node /tmp/claims-scan.mjs
+
+# e2e (IPv6 olmayan container: preview'u loopback'te ayrı başlat)
+npx vite preview --host 127.0.0.1 --port 4181 --strictPort &
+PLAYWRIGHT_BASE_URL=http://127.0.0.1:4181 PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/opt/pw-browsers/chromium \
+  npx playwright test e2e/l01-locale.spec.ts --project=desktop-1280 --project=mobile-375
+PLAYWRIGHT_BASE_URL=http://127.0.0.1:4181 PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/opt/pw-browsers/chromium PLAYWRIGHT_WORKERS=4 \
+  npx playwright test --project=desktop-1280 --project=critical-1280 --project=critical-375
+```

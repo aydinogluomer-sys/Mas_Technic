@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-10-02T20:30:51.022Z",
+  "generatedAt": "2026-10-03T00:17:23.509Z",
   "generator": "scripts/quality/claims-scan.ts",
-  "total": 263,
+  "total": 270,
   "firstPerson": 16,
   "byClass": {
     "CAPABILITY_VERIFIED": 43,
-    "GENERAL_REFERENCE": 157,
+    "GENERAL_REFERENCE": 164,
     "MATERIAL_TYPICAL": 35,
     "NOT_A_CLAIM": 7,
     "CERTIFICATE": 11,
@@ -24,7 +24,7 @@
     "/hizmetler/boya-koruyucu-kaplamalar": 14,
     "/hizmetler/lazer-kazima": 27,
     "/hizmetler/qr-datamatrix-kodlari": 4,
-    "/hizmetler/mekanik-montaj": 7,
+    "/hizmetler/mekanik-montaj": 14,
     "/hizmetler/kaynakli-imalat": 6,
     "/kabiliyetler/makine-parkuru": 1,
     "/kabiliyetler/malzeme-kutuphanesi": 14,
@@ -1095,8 +1095,24 @@
     },
     {
       "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[0][0]",
+      "text": "M3",
+      "firstPerson": false,
+      "class": "GENERAL_REFERENCE",
+      "decision": "PUBLISHED with table note: not a company capacity"
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
       "field": "comparisonTables[0].rows[0][3]",
       "text": "5.5mm",
+      "firstPerson": false,
+      "class": "GENERAL_REFERENCE",
+      "decision": "PUBLISHED with table note: not a company capacity"
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[1][0]",
+      "text": "M4",
       "firstPerson": false,
       "class": "GENERAL_REFERENCE",
       "decision": "PUBLISHED with table note: not a company capacity"
@@ -1111,8 +1127,24 @@
     },
     {
       "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[2][0]",
+      "text": "M5",
+      "firstPerson": false,
+      "class": "GENERAL_REFERENCE",
+      "decision": "PUBLISHED with table note: not a company capacity"
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
       "field": "comparisonTables[0].rows[2][3]",
       "text": "8mm",
+      "firstPerson": false,
+      "class": "GENERAL_REFERENCE",
+      "decision": "PUBLISHED with table note: not a company capacity"
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[3][0]",
+      "text": "M6",
       "firstPerson": false,
       "class": "GENERAL_REFERENCE",
       "decision": "PUBLISHED with table note: not a company capacity"
@@ -1127,6 +1159,14 @@
     },
     {
       "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[4][0]",
+      "text": "M8",
+      "firstPerson": false,
+      "class": "GENERAL_REFERENCE",
+      "decision": "PUBLISHED with table note: not a company capacity"
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
       "field": "comparisonTables[0].rows[4][3]",
       "text": "13mm",
       "firstPerson": false,
@@ -1135,8 +1175,24 @@
     },
     {
       "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[5][0]",
+      "text": "M10",
+      "firstPerson": false,
+      "class": "GENERAL_REFERENCE",
+      "decision": "PUBLISHED with table note: not a company capacity"
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
       "field": "comparisonTables[0].rows[5][3]",
       "text": "17mm",
+      "firstPerson": false,
+      "class": "GENERAL_REFERENCE",
+      "decision": "PUBLISHED with table note: not a company capacity"
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[6][0]",
+      "text": "M12",
       "firstPerson": false,
       "class": "GENERAL_REFERENCE",
       "decision": "PUBLISHED with table note: not a company capacity"

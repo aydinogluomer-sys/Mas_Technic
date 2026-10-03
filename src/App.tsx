@@ -102,11 +102,22 @@ const ScrollDebugPanel = lazy(() =>
    `prefers-reduced-motion` the sweep stops and the status line carries the
    whole message. `.shell-boot` is used because this renders BEFORE any
    `PageShell` exists, so it has to bring its own ground. */
-const PageLoader = () => (
-  <div className="shell-boot">
-    <ShellLoading label="YÜKLENİYOR" detail="Sayfa hazırlanıyor." fullHeight={false} />
-  </div>
-);
+/* The loader is what an /en page shows WHILE its dictionary loads, so its
+   words come from the address, not from i18n (L01: no Turkish frame). */
+const LOADER_TEXT = {
+  tr: { label: "YÜKLENİYOR", detail: "Sayfa hazırlanıyor." },
+  en: { label: "LOADING", detail: "Preparing the page." },
+} as const;
+
+const PageLoader = () => {
+  const { pathname } = useLocation();
+  const text = LOADER_TEXT[isPanelPath(pathname) ? "tr" : localeFromPath(pathname)];
+  return (
+    <div className="shell-boot">
+      <ShellLoading label={text.label} detail={text.detail} fullHeight={false} />
+    </div>
+  );
+};
 
 /**
  * Landing için Suspense fallback'i.
