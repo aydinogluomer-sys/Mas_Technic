@@ -96,7 +96,7 @@ Supabase:      zdqiujpeewtyhtcqhdcj.supabase.co
 
 ```
 Chatbot:    Google Gemini 2.0 Flash (SSE streaming via Edge Function)
-Finance AI: Gemini 2.5 Flash (Lovable gateway, multi-turn)
+Finance AI: Gemini 2.5 Flash (Gemini API, multi-turn)
 OCR:        Gemini Vision (invoice/receipt → JSON)
 Dev:        Claude Code (primary development platform)
 ```
