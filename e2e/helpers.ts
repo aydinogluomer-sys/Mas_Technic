@@ -6,12 +6,14 @@ import { expect, type Locator, type Page } from "@playwright/test";
  * Doğrulama: `e2e/landing/landing-anchors.spec.ts` bu listeyi DOM'a karşı ve
  * header linklerine karşı çift yönlü sınar.
  */
+/* UX01 (package 7): the landing's reading order changed — NEXUS now
+   follows the quality and reference bands. */
 export const LANDING_SCENE_IDS = [
   "surec",
-  "nexus",
   "projeler",
   "sektorler",
   "kalite",
+  "nexus",
   "sss",
   "iletisim",
 ] as const;

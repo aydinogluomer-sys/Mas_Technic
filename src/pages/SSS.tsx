@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@/i18n/LocaleLink";
 import {
@@ -236,10 +236,10 @@ function dedupe(entries: FaqEntry[], language: string): FaqEntry[] {
   });
 }
 
-function FaqItem({ entry }: { entry: FaqEntry }) {
+function FaqItem({ entry, id, open }: { entry: FaqEntry; id: string; open?: boolean }) {
   const { t } = useTranslation();
   return (
-    <details className="shell-faq-item">
+    <details className="shell-faq-item" id={id} open={open || undefined}>
       <summary>{entry.question}</summary>
       <div className="shell-faq-answer">
         <p>{entry.answer}</p>
@@ -280,6 +280,13 @@ export const SSS = () => {
     return dedupe([...general, ...serviceFaqs(servicePages)], language);
   }, [t, i18n.language, servicePages, language]);
 
+  /* UX02 — a stable id per question (its position in the register), so a
+     `#soru-N` link opens it directly. */
+  const idOf = useMemo(() => new Map(ALL_FAQS.map((entry, index) => [entry, `soru-${index + 1}`])), [ALL_FAQS]);
+  /* UX02 — the ten general decision questions are the first view; the
+     service-page questions wait in closed groups and are never removed. */
+  const PRIORITY = useMemo(() => ALL_FAQS.filter((entry) => !entry.sourceSlug), [ALL_FAQS]);
+
   /** Category order is the order the register first meets each category. */
   const CATEGORIES = useMemo(() => [...new Set(ALL_FAQS.map((entry) => entry.category))], [ALL_FAQS]);
   /** A stable DOM id per category, for the anchor index. */
@@ -287,6 +294,15 @@ export const SSS = () => {
 
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("");
+  const [openGroups, setOpenGroups] = useState<ReadonlySet<string>>(new Set());
+  const [targetQuestion, setTargetQuestion] = useState<string | null>(null);
+  const toggleGroup = useCallback((id: string) => {
+    setOpenGroups((current) => {
+      const next = new Set(current);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  }, []);
 
   const filtered = useMemo(() => {
     const needle = query.trim().toLocaleLowerCase(language);
@@ -310,11 +326,44 @@ export const SSS = () => {
       CATEGORIES.map((category) => ({
         category,
         id: anchorOf(category),
-        entries: filtered.filter((entry) => entry.category === category),
+        entries: filtered.filter((entry) => entry.category === category && (!isBrowsing || entry.sourceSlug)),
       })).filter((group) => group.entries.length > 0),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [filtered, CATEGORIES],
+    [filtered, CATEGORIES, isBrowsing],
   );
+
+  /* UX02 — DEEP LINKS. `#sss-N` opens that group, `#soru-N` opens the group
+     holding that question and the question itself; both scroll into view.
+     Runs on load and on every hash change (the contents index uses it). */
+  useEffect(() => {
+    const apply = () => {
+      const hash = decodeURIComponent(window.location.hash.slice(1));
+      if (!hash) return;
+      let groupId: string | null = null;
+      if (hash.startsWith("sss-")) groupId = hash;
+      if (hash.startsWith("soru-")) {
+        const entry = ALL_FAQS.find((item) => idOf.get(item) === hash);
+        if (entry && entry.sourceSlug) groupId = anchorOf(entry.category);
+        setTargetQuestion(hash);
+      }
+      if (groupId) {
+        setQuery("");
+        setActiveCategory("");
+        setOpenGroups((current) => new Set([...current, groupId as string]));
+      }
+      window.requestAnimationFrame(() => document.getElementById(hash)?.scrollIntoView({ block: "start" }));
+    };
+    apply();
+    window.addEventListener("hashchange", apply);
+    return () => window.removeEventListener("hashchange", apply);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ALL_FAQS, idOf]);
+
+  const clearFilters = useCallback(() => {
+    setQuery("");
+    setActiveCategory("");
+    setOpenGroups(new Set());
+  }, []);
 
   const jsonLdFaqs = useMemo(
     () => filtered.map((entry) => ({ question: entry.question, answer: entry.answer })),
@@ -352,7 +401,7 @@ export const SSS = () => {
               id="sss-register"
               index="02"
               title={t("Soru kaydı")}
-              standfirst={t("Arayın veya bir başlık seçin. Arama; soru metninde, yanıtta ve başlıkta çalışır.")}
+              standfirst={t("Önce en sık sorulan on genel soru; diğer başlıklar kapalı durur, açmak için başlığa basın. Arama bütün sorularda çalışır ve eşleşen başlıkları açar.")}
             />
 
             <section className="shell-filter" aria-label={t("Soru filtreleri")}>
@@ -391,32 +440,55 @@ export const SSS = () => {
                 label="EŞLEŞME YOK"
                 title={t("Bu aramayla soru bulunamadı")}
                 detail={t("Arama terimini kısaltmayı veya başlık seçimini kaldırmayı deneyebilirsiniz. Sorunuz burada yoksa doğrudan sorabilirsiniz.")}
-                action={
-                  <ShellAction
-                    variant="ghost"
-                    onClick={() => { setQuery(""); setActiveCategory(""); }}
-                  >
-                    {t("Filtreleri temizle")}
-                  </ShellAction>
-                }
+                action={<ShellAction variant="ghost" onClick={clearFilters}>{t("Filtreleri temizle")}</ShellAction>}
               />
-            ) : isBrowsing ? (
-              groups.map((group) => (
-                <section key={group.id} id={group.id} aria-labelledby={`${group.id}-title`}>
-                  <h3 id={`${group.id}-title`} className="shell-faq-group">{t(group.category)}</h3>
-                  <div className="shell-faq">
-                    {group.entries.map((entry) => (
-                      <FaqItem key={entry.question} entry={entry} />
-                    ))}
-                  </div>
-                </section>
-              ))
             ) : (
-              <div className="shell-faq">
-                {filtered.map((entry) => (
-                  <FaqItem key={entry.question} entry={entry} />
-                ))}
-              </div>
+              <>
+                {isBrowsing && (
+                  <section aria-labelledby="sss-oncelik-title" className="shell-faq-priority">
+                    <h3 id="sss-oncelik-title" className="shell-faq-group">{t("Önce bunlar")}</h3>
+                    <div className="shell-faq">
+                      {PRIORITY.map((entry) => (
+                        <FaqItem key={entry.question} entry={entry} id={idOf.get(entry) ?? ""} open={targetQuestion === idOf.get(entry)} />
+                      ))}
+                    </div>
+                  </section>
+                )}
+                {!isBrowsing && (
+                  <div className="shell-filter-actions">
+                    <ShellAction variant="quiet" onClick={clearFilters}>{t("Filtreleri temizle")}</ShellAction>
+                  </div>
+                )}
+                <div className="shell-faq-groups">
+                {groups.map((group) => {
+                  /* Browsing: groups start closed. Searching or filtering:
+                     every group with a match is open. */
+                  const open = !isBrowsing || openGroups.has(group.id);
+                  return (
+                    <section key={group.id} id={group.id} aria-labelledby={`${group.id}-title`} className="shell-faq-section">
+                      <h3 className="shell-faq-group">
+                        <button
+                          type="button"
+                          id={`${group.id}-title`}
+                          className="shell-faq-toggle"
+                          aria-expanded={open}
+                          aria-controls={`${group.id}-panel`}
+                          onClick={() => isBrowsing && toggleGroup(group.id)}
+                        >
+                          <span>{t(group.category)}</span>
+                          <small className="shell-faq-count">{t("{{count}} soru", { count: group.entries.length })}</small>
+                        </button>
+                      </h3>
+                      <div className="shell-faq" id={`${group.id}-panel`} hidden={!open}>
+                        {group.entries.map((entry) => (
+                          <FaqItem key={entry.question} entry={entry} id={idOf.get(entry) ?? ""} open={targetQuestion === idOf.get(entry)} />
+                        ))}
+                      </div>
+                    </section>
+                  );
+                })}
+                </div>
+              </>
             )}
           </div>
 

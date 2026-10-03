@@ -19,7 +19,8 @@ test.describe("contact booking studio", () => {
     await expect(dialog).toBeVisible();
     await expect(dialog.getByRole("button", { name: "Kapat" })).toBeFocused();
     await expect(dialog.locator("iframe")).toHaveAttribute("src", EMBED);
-    await expect(dialog.getByRole("link", { name: /Randevuyu yeni sekmede aç/ })).toHaveAttribute("target", "_blank");
+    // UX04: the bar link plus the persistent hint link once the frame reports load.
+    for (const link of await dialog.getByRole("link", { name: /Randevuyu yeni sekmede aç/ }).all()) await expect(link).toHaveAttribute("target", "_blank");
     await expect(dialog).toHaveAttribute("data-state", "ready");
 
     await page.keyboard.press("Escape");

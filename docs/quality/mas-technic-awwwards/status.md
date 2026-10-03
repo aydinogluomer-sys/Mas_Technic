@@ -243,6 +243,61 @@ Tarayıcı sonuçları `LOCAL_FIXTURE` (yerel `vite preview`, placeholder Supaba
 
 Tüm sonuçlar `LOCAL_FIXTURE`: ağ yanıtları tarayıcı içinde taklit edildi, hiçbir istek sunucuya ulaşmadı. Bu, sunucu davranışının kanıtı değildir.
 
+## Paket 7 — UX01 → UX02 → UX04 → PERF01
+
+- HEAD doğrulaması: paket 7 başında dal `225b9db` (paket 6 sonu), `main` = `4618e71`. Paket 7 tek commit. Karşılaştırma tabanı: `225b9db` build'i (ayrı worktree, aynı placeholder env).
+
+| İş | Durum | Bağımlılık | Değişen dosyalar (özet) | Son kanıt |
+|---|---|---|---|---|
+| UX01 | PASS_LOCAL · kontrast raporu axe ile (aşağıda) | — | `index.html`, `src/lib/hero-shell.ts`, `src/components/PageTransition.tsx`, `src/components/technical-landing/*`, `src/components/shell/{PageShell,SiteFooter}.tsx`, `src/components/navigation/ia.ts`, `src/components/Header.tsx`, `src/styles/{shell,technical-landing,polish,polish-round2-landing,navigation,menu-round2,contact-studio,i18n}.css`, `src/components/ChatBot.tsx`, çerez politikası (C16) | Intro, sayaç, `data-intro-active`, `mas_intro_seen` yok; ilk açılışta perde yok; hero vurgusu 250 ms, etiketler ilk kareden. Ana sayfa sırası sözleşmedeki gibi (12 bant), kayan şerit ve manifesto bandı yok. Tipografi tabanı: görev metni ≥12 px, tablo hücresi/düğme/form ≥14 px, dekoratif ray 10 px (143 bildirim + elle düzeltmeler). 375'te sayfa 9828 → 7792 px (−%20,7, D15). Mobil profil kartı taşma hatası düzeltildi. 320/375/390/640 (200% yakınlaştırma)/768/844 yatay/1440'ta yatay taşma 0. `evidence/screens/p7/landing-*` |
+| UX02 | PASS_LOCAL | — | `src/pages/SSS.tsx`, `src/pages/Malzemeler.tsx`, `src/components/pages/MaterialRegister.tsx`, `shell.css` | SSS ilk açılış: 10 genel soru, diğer başlıklar `aria-expanded` düğmeli kapalı gruplar (sorular DOM'da). Arama tüm sorularda çalışır ve eşleşen grupları açar; boş sonuç + temizle; `#sss-N` grubu, `#soru-N` soruyu açar. Karşılaştırma: 1 seçimde ve 4 seçimde açıklayıcı durum satırı, devre dışı kutular bu satıra bağlı. `evidence/screens/p7/{sss,malzemeler}-*` |
+| UX04 | PASS_LOCAL · gerçek rezervasyon başarısı kanıtlanmadı (dış takvim) | — | `src/pages/Iletisim.tsx`, `src/components/contact/BookingDialog.tsx`, `src/components/shell/CompactFooter.tsx`, `LegalDocument.tsx`, `AuthLayout.tsx`, `TeklifAl.tsx` | 7 günlük şerit kalktı; tek "Uygun saatleri takvimde görüntüle" + yeni sekme. Diyalog: odak kilidi, Escape, odak iadesi, 8 sn yedek görünüm; `onLoad` sonrası da kalıcı "yeni sekmede aç" satırı. Kompakt footer: hukuk, giriş/şifre, teklif; diğer sayfalar tam footer. `evidence/screens/p7/{iletisim,footer}-*` |
+| PERF01 | JS bütçesi PASS_LOCAL · CLS PASS_LOCAL · **LCP lab FAIL** · INP ve saha `NOT_MEASURED` · fontlar `FAIL_INFRA` | O01 (ön render) | `src/App.tsx`, `src/components/ChatLauncher.tsx`, `src/i18n/{index,content}.ts`, `vite.config.ts`, `src/index.css`, `scripts/quality/{perf-lab,serve-gzip}.mjs` | Aşağıdaki tablolar. `evidence/p7-requests.json`, `evidence/p7-perf-lab.json`, `evidence/p7-perf-lab-baseline-pkg6.json`, `evidence/har-p7/*.har` |
+
+### PERF01 — JS bütçesi (S01 yöntemi, `capture-requests.mjs`, soğuk bağlam, 10 sn, gzip)
+
+| Rota | Genişlik | S01 tabanı (4618e71) | Paket 7 başı (225b9db) | Paket 7 sonu | Bütçe ≤320 KiB |
+|---|---|---|---|---|---|
+| `/` | 375 | 283,6 KiB | 306,7 KiB | **186,9 KiB** | PASS |
+| `/` | 1440 | 334,6 KiB | 357,8 KiB | **236,2 KiB** | PASS |
+| `/en` | 375 | — | 417,1 KiB | **224,7 KiB** | PASS |
+| `/en` | 1440 | — | 468,1 KiB | **274,0 KiB** | PASS |
+
+Ne değişti: sohbet bileşeni (39 KiB) ve onun çektiği veri modülleri (~79 KiB) ilk açılışa kadar yüklenmiyor; yalnız hafif başlatıcı var. İngilizce içerik paketi (72,5 KiB) yalnız kayıt okuyan sayfada, Suspense ile yükleniyor (Türkçe kare yok; 99 `/en` rotası taramasında Türkçe metin yok). Özel imleç ilk fare hareketinde, hareket azaltmada hiç. Ana sayfa parçaları ve `/en` sözlüğü yalnız `/` ve `/en`'de HTML'den önden yükleniyor. 1440'taki fark `vendor-gsap` (44 KiB, ana sayfa hareket katmanı; hareket azaltmada yüklenmiyor).
+
+### PERF01 — Laboratuvar (`perf-lab.mjs`: yavaş 4G 150 ms / 1,6 Mbps, 4× CPU, 5 soğuk koşu, gzip'li statik sunucu)
+
+| Rota | Genişlik | LCP p75 taban (225b9db) | LCP p75 şimdi | CLS p75 taban | CLS p75 şimdi |
+|---|---|---|---|---|---|
+| `/` | 375 | 2964 ms | **2640 ms** | 0 | 0 |
+| `/` | 1440 | 3088 ms | **2760 ms** | 0 | 0 |
+| `/en` | 375 | 3684 ms | **3256 ms** | 0,139 | **0** |
+| `/en` | 1440 | 3872 ms | **3336 ms** | 0,071 | **0** |
+
+- LCP hedefi (≤2,5 s) **karşılanmadı**. LCP öğesi hero görseli; görsel önceden yükleniyor ama ancak istemci tarafı render zinciri (giriş betiği → dil/rota → ana sayfa parçası) bitince çiziliyor. Çözüm önerisi ön render (SEO01'in prerender adaptörü, host bilgisi O01 beklediği için `BLOCKED_DATA`). PERF01 bu nedenle PASS değil (D17).
+- CLS: intro kalkınca açığa çıkan iki kayma (ana sayfadaki yükleme göstergesi ve header yer tutucusunun sonradan eklenmesi) düzeltildi; tabandaki `/en` kayması da gitti.
+- `vite preview` sıkıştırmasız sunduğu için ölçüm, `scripts/quality/serve-gzip.mjs` (gzip + SPA fallback) ile yapıldı; aynı koşul taban için de kullanıldı.
+- INP: gerçek kullanıcı ölçümü yok → `NOT_MEASURED`. TBT INP diye raporlanmadı. "Core Web Vitals geçti" denmez.
+- Fontlar: Google Fonts bu ağdan erişilemiyor (`ERR_CERT_AUTHORITY_INVALID`) → `FAIL_INFRA`; istek `display=swap` taşıyor, aileler değişmedi. Hero önyüklemesi: tek, hash'li, `image/webp`, 200.
+- Ekran dışı sürekli animasyon: ana sayfa ve dört iç sayfada çalışan sonsuz animasyon yok (kayan şerit kalktı).
+
+### Paket 7 test sonuçları
+
+| Komut | Sonuç |
+|---|---|
+| `npx tsc --noEmit -p tsconfig.app.json` / `tsconfig.e2e.json` | geçti |
+| `npm run lint` | 0 hata, 2 uyarı (tabandaki `BlurImage.tsx`) |
+| `npm run build` | geçti |
+| `node scripts/claims-gate.mjs` | PASS: 0 ihlal |
+| `e2e/p7-ux-perf.spec.ts` (yeni; desktop-1280 + mobile-375) | 26/26: intro yok, hero etiketleri animasyonsuz, bant sırası, 375 yüksekliği ≤ 7862 px, yedi genişlikte taşma 0 ve 375/1440'ta tipografi tabanı (5 rota), SSS ilk görünüm/arama/temizle/derin bağlantı, karşılaştırma sınırı, randevu odak kilidi/Escape/odak iadesi/engellenen takvim, kompakt/tam footer, sohbet ilk açılışta, İngilizce içerik yalnız kayıt sayfasında, önyüklemeler yalnız ana sayfada |
+| Tam koşu `desktop-1280` + `critical-1280` + `critical-375` (511 test) | 427 geçti, 50 hata, 32 atlandı. Hatalar triyaj edildi: paket 7'nin bilinçli değiştirdiği yapıya bağlı spec'ler güncellendi (C16–C18) ve iki gerçek bulgu düzeltildi (ilk açılışta oynayan perde; 320'de footer alt satırı ve e-posta düğmesi taşması). Düzeltme sonrası etkilenen 13 spec dosyası (3 proje): 212 geçti + kalan 3 güncelleme sonrası 41 geçti + son oran testi geçti. Kalan bilinen hatalar paket 7 kaynaklı değil: `landing-structure:95` (`FAIL_INFRA`, Google Fonts), `qa-09b1-golden-drift` footer, `qa-p08-storage-disclosure:310`, `09b2-fragment-navigation` ×2 (tabanda da düşüyor). `technical-landing:180/165` footer oranı artık geçiyor (ana sayfa footer'ında ikinci teklif satırı yok) |
+| Paket spec'leri (`p4`–`p7`, `l01-locale`; desktop-1280 + mobile-375) | 77/77 |
+| EN taraması (99 `/en` rotası) | Türkçe metin yok (istisna: tüzel kişi adı) |
+
+Güncellenen mevcut spec'ler: `technical-landing`, `landing/{landing-structure,landing-reduced-motion,landing-grid-axes,landing-process-flow,motion-grammar,shell-and-transition}`, `helpers.ts` (çapa sırası), `footer-reveal`, `shared-shell-accessibility`, `qa-p08-storage-disclosure`, `polish/{contact-booking,cursor-over-menu}`.
+
+Tarayıcı sonuçları `LOCAL_FIXTURE`. Not: önizleme sunucusu oturum içinde iki kez 2 saatlik arka plan sınırında durdu; etkilenen koşular yeniden yapıldı.
+
 ## Sonraki iş
 
-Sözleşme sırasına göre paket 7: UX01 → UX02 → UX04 → PERF01. RFQ sunucu tarafı O06 ile ayrı teslim. PROOF02 gerçek veri gelince ayrı içerik teslimidir. Açık girdiler: O01 (host, prerender), O02 (kapasite eşikleri), O04 (gerçek demo kuponu), O05 (malzeme kaynakları), O08 (EN hukuki onay), O10 (origin ve EN'in yayına açılması).
+Sözleşme sırasına göre son paket: QA01 → QA02 → RELEASE01. RFQ sunucu tarafı O06, LCP için ön render O01, canlı döngü O07. PROOF02 gerçek veri gelince ayrı içerik teslimidir. Açık girdiler: O01 (host, prerender), O02 (kapasite eşikleri), O04 (gerçek demo kuponu), O05 (malzeme kaynakları), O08 (EN hukuki onay), O10 (origin ve EN'in yayına açılması).

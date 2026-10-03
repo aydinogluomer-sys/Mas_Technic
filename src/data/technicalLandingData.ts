@@ -50,15 +50,6 @@ export const technicalProof = [
 export const technicalProofNote =
   "Ulaşılabilir tolerans; geometri, malzeme ve ölçü zincirine göre değişir, her parça için teknik incelemede belirlenir.";
 
-export const marqueeItems = [
-  "5 EKSEN CNC İŞLEME",
-  "CNC TORNALAMA",
-  "MİKRO İŞLEME",
-  "YÜZEY İŞLEMLERİ",
-  "KALİTE KONTROL",
-  "MONTAJ & BİRLEŞTİRME",
-] as const;
-
 /**
  * The hero passport is a DRAWING LEGEND, not a part record.
  *

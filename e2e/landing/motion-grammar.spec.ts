@@ -125,26 +125,17 @@ test.describe("motion grammar", () => {
   test("nothing animates while it is off screen", async ({ page }) => {
     await gotoAndSettle(page, "/");
     await landingReady(page);
-
-    const trackState = () => page.locator(".tl-marquee-track").first()
-      .evaluate((el) => getComputedStyle(el).animationPlayState);
-
-    await page.evaluate(() => {
-      document.querySelector(".tl-marquee")?.scrollIntoView({ block: "center" });
-    });
-    await page.waitForTimeout(500);
-    const whenVisible = await trackState();
-
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await page.waitForTimeout(700);
-    const whenOffScreen = await trackState();
-
-    /* The capability marquee is `linear infinite`. Without a two-way gate it
-       composites a `max-content`-wide track for the whole session, including
-       while the reader is thousands of pixels below it. */
-    test.skip(whenVisible === "paused", "reduced motion or hover pause — the running state is not observable here");
-    expect(whenVisible, "the marquee should run while it is on screen").toBe("running");
-    expect(whenOffScreen, "the marquee must not run while it is off screen").toBe("paused");
+    /* UX01 removed the capability marquee — the landing's one `linear
+       infinite` animation. Nothing on the page may now run an endless
+       animation at all, on screen or off it. */
+    const endless = await page.evaluate(() =>
+      document.getAnimations()
+        .filter((animation) => animation.playState === "running")
+        .filter((animation) => animation.effect?.getComputedTiming().iterations === Infinity)
+        .map((animation) => (animation.effect as KeyframeEffect | null)?.target?.className ?? "?"));
+    expect(endless, "no endless animation may run on the landing").toEqual([]);
   });
 
   test("mobile arms fewer elements than desktop", async ({ page }) => {

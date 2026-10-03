@@ -4,13 +4,16 @@ import { useLocale } from "./hooks";
 import { mergeText, type TextOverlay } from "./localize";
 
 /* The English content bundle (`src/content/en`) is ONE lazily loaded chunk:
-   a Turkish visitor never downloads it, an English visitor downloads it once.
+   a Turkish visitor never downloads it, an English visitor downloads it once
+   — and, since PERF01, only on a page that reads records.
 
-   The route language gate (`applyLanguage("en")` in `./index`) awaits
-   `loadEnContent()` before an `/en` page renders, so by the time a page asks
-   for its text the bundle is already here and `useLocalized()` can merge
-   synchronously: an English address never shows a Turkish body, not even for
-   a frame. */
+   It used to be awaited by the route language gate for EVERY `/en` page,
+   which put 72 KiB gzip on `/en` although the landing, the header and the
+   footer read no record (measured with `capture-requests.mjs`). Now a page
+   that needs it SUSPENDS on it: `useEnContent()` throws the load promise
+   while the bundle is missing, the route's Suspense boundary keeps its
+   loader up, and the page renders once with English text. An English
+   address still never shows a Turkish body, not even for a frame. */
 
 let cached: EnContent | null = null;
 let pending: Promise<EnContent> | null = null;
@@ -23,9 +26,14 @@ export function loadEnContent(): Promise<EnContent> {
 
 export const isEnContentLoaded = () => cached !== null;
 
-/** The English bundle on an `/en` route (loaded by the gate), else `null`. */
+/** The English bundle on an `/en` route, else `null`. On `/en` before the
+    bundle has arrived it suspends (throws the load promise), so the caller
+    must render inside a Suspense boundary — every lazy route does. */
 export function useEnContent(): EnContent | null {
-  return useLocale() === "en" ? cached : null;
+  const english = useLocale() === "en";
+  if (!english) return null;
+  if (!cached) throw loadEnContent();
+  return cached;
 }
 
 /** `base` in the active locale: on `/en` the matching English overlay is laid

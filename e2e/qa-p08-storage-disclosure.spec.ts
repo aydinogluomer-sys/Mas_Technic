@@ -369,7 +369,7 @@ test.describe("QA — what the browser stores vs what /cerez-politikasi publishe
     }
   });
 
-  test("mas_intro_seen is written on the landing and not under reduced motion", async ({ browser, baseURL }) => {
+  test("UX01: the removed entry sequence writes no mas_intro_seen, with or without motion", async ({ browser, baseURL }) => {
     const plain = await browser.newContext();
     const plainPage = await plain.newPage();
     await gotoAndSettle(plainPage, "/");
@@ -383,11 +383,8 @@ test.describe("QA — what the browser stores vs what /cerez-politikasi publishe
     await reduced.close();
 
     expect(baseURL, "no baseURL — the two contexts above measured nothing").toBeTruthy();
-    expect(withMotion.session, "the entry sequence did not record itself on `/`").toContain("mas_intro_seen");
-    expect(
-      withoutMotion.session,
-      'madde 02 row 4: "hareket azaltma açıksa hiç yazılmaz". It was written.',
-    ).not.toContain("mas_intro_seen");
+    expect(withMotion.session, "UX01: the intro key must no longer be written").not.toContain("mas_intro_seen");
+    expect(withoutMotion.session).not.toContain("mas_intro_seen");
   });
 
   /* ── the controls ───────────────────────────────────────────────────────

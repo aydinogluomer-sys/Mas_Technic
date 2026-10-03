@@ -22,6 +22,7 @@ import { ShellLoading, ShellRouteBoundary } from "@/components/shell/ShellStates
        through a spring plus a velocity sampler.
 
    The divergence is resolved by removing the outlier, not by spreading it. */
+import { ChatLauncher } from "@/components/ChatLauncher";
 import { isHeroIntroActive } from "@/lib/hero-shell";
 
 const Index = lazy(() => import("./pages/Index").then((m) => ({ default: m.Index })));
@@ -120,21 +121,18 @@ const PageLoader = () => {
 };
 
 /**
- * Landing için Suspense fallback'i.
+ * Suspense fallback for public routes.
  *
- * `index.html`'deki app-shell (`#hero-shell`) hero'yu ilk baytta boyuyor ve
- * giriş sekansı (Precision Born) da onun içinde yaşıyor. Opak `PageLoader`
- * buraya konduğu sürece landing'de sekansın ve hero'nun üstünü kapatıp ekranı
- * boş bir spinner'a düşürüyordu (ölçüldü: sekansın ortasında ekran tamamen
- * boşalıyordu). Sekans sürerken zaten gösterilecek bir hero var — fallback
- * hiçbir şey boyamamalı.
- *
- * Bastırma koşulu elemanın VARLIĞINA değil, sekansın GERÇEKTEN çalışmasına
- * bağlı: eski hâlinde `#hero-shell` `/` rotasında hiç kaldırılmadığı için
- * Suspense fallback'i o rotada kalıcı olarak devre dışıydı.
+ * PERF01 / UX01: on the landing (`/`, `/en`) the fallback paints nothing.
+ * The old reason was the entry sequence, which is gone; the reason now is
+ * layout stability — the loader's box was laid out before `shell.css`
+ * arrived, resized when it did and then gave way to the hero, a measured
+ * 0.02–0.06 layout shift on `/` (lab, 4× CPU). The landing's chunk is the
+ * next thing to arrive anyway. Every other route keeps the loader.
  */
 const PublicRouteLoader = () => {
-  if (isHeroIntroActive()) return null;
+  const { pathname } = useLocation();
+  if (isHeroIntroActive() || pathname === "/" || pathname === "/en" || pathname === "/en/") return null;
   return <PageLoader />;
 };
 
@@ -265,6 +263,14 @@ const AnimatedRoutes = () => {
   return isPanel ? panelRoutes : publicRoutes;
 };
 
+/* Routes rendered without the global header (`navigation={false}`). */
+const HEADERLESS = ["/giris", "/sifremi-unuttum", "/reset-password"];
+const reservesHeader = (pathname: string) => {
+  if (isPanelPath(pathname)) return false;
+  const bare = pathname.replace(/^\/en(?=\/|$)/, "") || "/";
+  return !HEADERLESS.includes(bare);
+};
+
 const AppContent = () => {
   const location = useLocation();
   const languageReady = useRouteLanguageReady(location.pathname);
@@ -306,7 +312,10 @@ const AppContent = () => {
       >
         {t("Ana içeriğe geç")}
       </a>
-      <div id="shared-header-host" />
+      {/* PERF01: on routes that draw the global header, the host reserves the
+          header's height from the first frame (`index.css`), so the page does
+          not jump down when the header spacer is portalled in. */}
+      <div id="shared-header-host" data-reserve={reservesHeader(location.pathname) || undefined} />
       <ScrollToTop />
       <AnimatedRoutes />
       {/* ── PER-ROUTE CHROME, DECIDED (Phase 04) ─────────────────────────
@@ -328,9 +337,7 @@ const AppContent = () => {
       <Suspense fallback={null}>
         <GlobalToasts />
       </Suspense>
-      <Suspense fallback={null}>
-        <ChatBot />
-      </Suspense>
+      <ChatEntry />
       {import.meta.env.DEV && (
         <Suspense fallback={null}>
           <ScrollDebugPanel />
@@ -352,15 +359,36 @@ export const App = () => (
   </BrowserRouter>
 );
 
+/* PERF01 — the chat renderer loads on the reader's first open; until then
+   only the launcher button is on the page (`ChatLauncher.tsx`). */
+const ChatEntry = () => {
+  const [requested, setRequested] = useState(false);
+  if (!requested) return <ChatLauncher onOpen={() => setRequested(true)} />;
+  return (
+    <Suspense fallback={<ChatLauncher onOpen={() => undefined} busy />}>
+      <ChatBot defaultOpen />
+    </Suspense>
+  );
+};
+
+/* PERF01 — the custom cursor loads on the first real mouse movement over a
+   fine pointer, not at startup, and never under reduced motion: the native
+   cursor serves until then (the stylesheet only hides it once the
+   replacement's `[data-custom-cursor]` nodes exist). */
 const PointerCursor = () => {
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
     const query = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const update = () => setEnabled(query.matches);
-    update();
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!query.matches || reduced.matches) return;
+    const arm = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") return;
+      setEnabled(true);
+      window.removeEventListener("pointermove", arm);
+    };
+    window.addEventListener("pointermove", arm, { passive: true });
+    return () => window.removeEventListener("pointermove", arm);
   }, []);
 
   if (!enabled) return null;

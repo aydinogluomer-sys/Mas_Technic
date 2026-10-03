@@ -11,12 +11,6 @@ const STORAGE_ROWS: string[][] = [
   ["mas_chat_ai_count", "localStorage", "Counts the daily number of messages sent to the chat assistant.", "Until the end of the day"],
   ["mas_pending_cad_upload", "sessionStorage", "Carries the drawing you dropped on the home page over to the quote form.", "Deleted when the form takes it over"],
   [
-    "mas_intro_seen",
-    "sessionStorage",
-    "Notes that the intro sequence on the home page has played, so it does not play again in the same tab. Written only on the home page, and never written if reduced motion is on.",
-    "Until the tab is closed",
-  ],
-  [
     "mas_lang",
     "localStorage",
     "Remembers the interface language you chose (TR, EN). Written only when you press one of the language buttons; if you choose no language it is never written. On public pages the address sets the language (English pages start with /en); this record only chooses the language of the customer and admin panels.",

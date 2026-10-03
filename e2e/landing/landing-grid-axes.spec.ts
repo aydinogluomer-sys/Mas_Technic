@@ -34,7 +34,6 @@ const PROBE_TARGETS = [
   { band: "Nexus", root: ".tl-nexus", blocks: [".tl-nexus-body", ".tl-nexus-body > header > h2", ".tl-nexus-body > .tl-nexus-cta", ".tl-nexus-rail", ".tl-nexus-main"] },
   { band: "Projects", root: ".tl-projects", blocks: [".tl-projects-body", ".tl-project-grid", ".tl-project-grid > article"] },
   { band: "Sectors", root: ".tl-sectors", blocks: [".tl-sectors-body", ".tl-sector-card"] },
-  { band: "Manifesto", root: ".tl-manifesto", blocks: [".tl-manifesto-body", ".tl-manifesto-copy"] },
   { band: "Quality", root: ".tl-quality", blocks: [".tl-quality-body", ".tl-quality-strip", ".tl-quality-strip > .tl-cert"] },
   { band: "References", root: ".tl-references", blocks: [".tl-reference-grid", ".tl-reference-grid > li"] },
   { band: "FAQ", root: ".tl-faq-band", blocks: [".tl-faq-body", ".tl-faq-title", ".tl-faq", ".tl-resource"] },

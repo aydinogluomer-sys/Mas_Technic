@@ -1,0 +1,389 @@
+{
+  "capturedAt": "2026-10-03T04:23:35.317Z",
+  "base": "http://127.0.0.1:4191",
+  "profile": {
+    "network": "Slow 4G (150 ms RTT, 1.6 Mbps down, 750 Kbps up)",
+    "cpuThrottling": "4x",
+    "runsPerCell": 5,
+    "coldContextPerRun": true
+  },
+  "scope": "LOCAL_FIXTURE lab — local vite preview, placeholder Supabase env, Google Fonts unreachable (aborted). Not field data; INP NOT_MEASURED.",
+  "results": [
+    {
+      "route": "/",
+      "width": 375,
+      "runs": 5,
+      "lcpMs": {
+        "median": 2896,
+        "p75": 2964
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "img.",
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1
+      },
+      "passLab": false,
+      "blockedHosts": [
+        "fonts.googleapis.com"
+      ],
+      "detail": [
+        {
+          "lcpMs": 2964,
+          "cls": 0.0001,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 11,
+            "domContentLoaded": 1129,
+            "load": 1132
+          },
+          "wallMs": 6166,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2880,
+          "cls": 0.0001,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 3,
+            "domContentLoaded": 1113,
+            "load": 1115
+          },
+          "wallMs": 6146,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2896,
+          "cls": 0.0001,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1106,
+            "load": 1109
+          },
+          "wallMs": 6142,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2884,
+          "cls": 0.0001,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 3,
+            "domContentLoaded": 1117,
+            "load": 1120
+          },
+          "wallMs": 6151,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2984,
+          "cls": 0.0001,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1103,
+            "load": 1106
+          },
+          "wallMs": 6136,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "runs": 5,
+      "lcpMs": {
+        "median": 2988,
+        "p75": 3088
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "img.",
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1
+      },
+      "passLab": false,
+      "blockedHosts": [
+        "fonts.googleapis.com"
+      ],
+      "detail": [
+        {
+          "lcpMs": 3088,
+          "cls": 0.0001,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1115,
+            "load": 1118
+          },
+          "wallMs": 6155,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3200,
+          "cls": 0.0001,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1125,
+            "load": 1127
+          },
+          "wallMs": 6157,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2952,
+          "cls": 0.0001,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1113,
+            "load": 1116
+          },
+          "wallMs": 6145,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2968,
+          "cls": 0.0001,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1116,
+            "load": 1119
+          },
+          "wallMs": 6159,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2988,
+          "cls": 0.0001,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1114,
+            "load": 1117
+          },
+          "wallMs": 6152,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/en",
+      "width": 375,
+      "runs": 5,
+      "lcpMs": {
+        "median": 3672,
+        "p75": 3684
+      },
+      "cls": {
+        "median": 0.139,
+        "p75": 0.139
+      },
+      "lcpElement": "img.",
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1
+      },
+      "passLab": false,
+      "blockedHosts": [
+        "fonts.googleapis.com"
+      ],
+      "detail": [
+        {
+          "lcpMs": 3684,
+          "cls": 0.139,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 3,
+            "domContentLoaded": 1116,
+            "load": 1118
+          },
+          "wallMs": 6150,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3672,
+          "cls": 0.139,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1118,
+            "load": 1120
+          },
+          "wallMs": 6148,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3652,
+          "cls": 0.139,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1113,
+            "load": 1115
+          },
+          "wallMs": 6146,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3684,
+          "cls": 0.139,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1116,
+            "load": 1117
+          },
+          "wallMs": 6149,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3668,
+          "cls": 0.139,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1113,
+            "load": 1115
+          },
+          "wallMs": 6145,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/en",
+      "width": 1440,
+      "runs": 5,
+      "lcpMs": {
+        "median": 3844,
+        "p75": 3872
+      },
+      "cls": {
+        "median": 0.071,
+        "p75": 0.071
+      },
+      "lcpElement": "img.",
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1
+      },
+      "passLab": false,
+      "blockedHosts": [
+        "fonts.googleapis.com"
+      ],
+      "detail": [
+        {
+          "lcpMs": 3804,
+          "cls": 0.0707,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 3,
+            "domContentLoaded": 1113,
+            "load": 1116
+          },
+          "wallMs": 6146,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3796,
+          "cls": 0.0707,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1119,
+            "load": 1121
+          },
+          "wallMs": 6152,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3876,
+          "cls": 0.0707,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 3,
+            "domContentLoaded": 1114,
+            "load": 1116
+          },
+          "wallMs": 6148,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3872,
+          "cls": 0.0707,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 3,
+            "domContentLoaded": 1107,
+            "load": 1110
+          },
+          "wallMs": 6141,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3844,
+          "cls": 0.0707,
+          "lcpElement": "img.",
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1114,
+            "load": 1116
+          },
+          "wallMs": 6145,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        }
+      ]
+    }
+  ]
+}

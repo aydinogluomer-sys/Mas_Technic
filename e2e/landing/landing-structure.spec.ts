@@ -18,7 +18,7 @@ import {
  */
 
 /** Referans pafta 01–14 arası bantlardan oluşur; sıra ve numaralandırma sözleşmedir. */
-const BAND_INDICES = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14"];
+const BAND_INDICES = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
 
 /** Ölçüm genişlikleri: iki mobil/tablet, üç masaüstü kırılımı. */
 const OVERFLOW_WIDTHS = [375, 768, 1280, 1440, 1600];

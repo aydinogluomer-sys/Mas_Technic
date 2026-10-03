@@ -1,0 +1,2944 @@
+{
+  "capturedAt": "2026-10-03T04:31:22.183Z",
+  "base": "http://127.0.0.1:4181",
+  "method": "Cold browser context per run, no interaction, 10 s window. gzip = level-9 gzip of the dist file (computed); transfer = bytes on the wire from vite preview (uncompressed server). The two are never added together.",
+  "scope": "LOCAL_FIXTURE — built without real Supabase env; not a candidate-host measurement.",
+  "results": [
+    {
+      "route": "/",
+      "width": 375,
+      "motion": "no-preference",
+      "loadMs": 120,
+      "requestCount": 38,
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&text=%E2%86%92%E2%86%90%E2%86%91%E2%86%93%E2%86%BB%E2%89%A4%E2%89%A5%E2%89%88%E2%8A%A5%E2%88%A5%E2%8C%92%E2%8C%93%E2%9F%82%E2%88%85%E2%8C%80%E2%97%8E%E2%97%8B%E2%96%B1%E2%8C%96%E2%98%85%E2%98%86%E2%88%AA&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 353
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 393
+        }
+      ],
+      "js": {
+        "files": [
+          {
+            "file": "/assets/vendor-runtime-D7HrI6pR.js",
+            "phase": "until-load",
+            "transferBytes": 1340,
+            "gzipBytes": 615,
+            "rawBytes": 1017,
+            "sha256": "a50b733cfee57858"
+          },
+          {
+            "file": "/assets/vendor-react-BtXpvAbk.js",
+            "phase": "until-load",
+            "transferBytes": 47927,
+            "gzipBytes": 47454,
+            "rawBytes": 151190,
+            "sha256": "d8d50ccf806cf265"
+          },
+          {
+            "file": "/assets/Index-B-JHsnFK.js",
+            "phase": "until-load",
+            "transferBytes": 10589,
+            "gzipBytes": 10204,
+            "rawBytes": 29777,
+            "sha256": "601532641effdbc9"
+          },
+          {
+            "file": "/assets/index-CZK4WbaI.js",
+            "phase": "until-load",
+            "transferBytes": 36110,
+            "gzipBytes": 35690,
+            "rawBytes": 104947,
+            "sha256": "d3f11eaafa9c5142"
+          },
+          {
+            "file": "/assets/JsonLdSchema-DsISVYiX.js",
+            "phase": "until-load",
+            "transferBytes": 1503,
+            "gzipBytes": 1133,
+            "rawBytes": 2863,
+            "sha256": "64531ace35c3c5c5"
+          },
+          {
+            "file": "/assets/mail-CwmZRMuW.js",
+            "phase": "until-load",
+            "transferBytes": 952,
+            "gzipBytes": 343,
+            "rawBytes": 631,
+            "sha256": "670415405a2c7d2a"
+          },
+          {
+            "file": "/assets/arrow-up-right-BUK-6rc8.js",
+            "phase": "until-load",
+            "transferBytes": 939,
+            "gzipBytes": 314,
+            "rawBytes": 618,
+            "sha256": "d483c13784f63911"
+          },
+          {
+            "file": "/assets/PageShell-_xmB6hi1.js",
+            "phase": "until-load",
+            "transferBytes": 14453,
+            "gzipBytes": 14068,
+            "rawBytes": 41187,
+            "sha256": "b4129246b869523e"
+          },
+          {
+            "file": "/assets/claims-BMYRt09u.js",
+            "phase": "until-load",
+            "transferBytes": 3072,
+            "gzipBytes": 2698,
+            "rawBytes": 5873,
+            "sha256": "defbf35e412e54a1"
+          },
+          {
+            "file": "/assets/phone-BDlRtIu3.js",
+            "phase": "until-load",
+            "transferBytes": 892,
+            "gzipBytes": 522,
+            "rawBytes": 1225,
+            "sha256": "dc839281e7c1169e"
+          },
+          {
+            "file": "/assets/scan-line-CUEVMM9M.js",
+            "phase": "until-load",
+            "transferBytes": 1116,
+            "gzipBytes": 386,
+            "rawBytes": 795,
+            "sha256": "7b401a2529323815"
+          },
+          {
+            "file": "/assets/shield-check-Dfv3aAzX.js",
+            "phase": "until-load",
+            "transferBytes": 809,
+            "gzipBytes": 351,
+            "rawBytes": 488,
+            "sha256": "c534e1eae4a0eae1"
+          },
+          {
+            "file": "/assets/hero-cnc-tornalama-CZRi36Fh.js",
+            "phase": "until-load",
+            "transferBytes": 386,
+            "gzipBytes": 87,
+            "rawBytes": 67,
+            "sha256": "972b48b013cacce1"
+          },
+          {
+            "file": "/assets/BlurImage-CSstZB09.js",
+            "phase": "until-load",
+            "transferBytes": 1206,
+            "gzipBytes": 836,
+            "rawBytes": 1542,
+            "sha256": "52209df1a85e006f"
+          },
+          {
+            "file": "/assets/caseStudies-CNDovLoa.js",
+            "phase": "until-load",
+            "transferBytes": 1948,
+            "gzipBytes": 1578,
+            "rawBytes": 3592,
+            "sha256": "c2fc76d4766c76fa"
+          },
+          {
+            "file": "/assets/quality-documents-Ds6N_vk0.js",
+            "phase": "until-load",
+            "transferBytes": 1340,
+            "gzipBytes": 490,
+            "rawBytes": 1017,
+            "sha256": "352cb4e52ffe5a06"
+          },
+          {
+            "file": "/assets/cadFiles-CETfSgpN.js",
+            "phase": "until-load",
+            "transferBytes": 831,
+            "gzipBytes": 391,
+            "rawBytes": 510,
+            "sha256": "174bf7d18febc3e9"
+          },
+          {
+            "file": "/assets/loader-circle-5ryBMkBy.js",
+            "phase": "until-load",
+            "transferBytes": 633,
+            "gzipBytes": 258,
+            "rawBytes": 312,
+            "sha256": "235acca94c75ddea"
+          },
+          {
+            "file": "/assets/safe-storage-DuiDTbq3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 669,
+            "gzipBytes": 214,
+            "rawBytes": 348,
+            "sha256": "093be36e46f06b89"
+          },
+          {
+            "file": "/assets/useCadHandoff-DkbSJzqI.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1236,
+            "gzipBytes": 866,
+            "rawBytes": 1596,
+            "sha256": "2fd406a9ddbc09c3"
+          },
+          {
+            "file": "/assets/vendor-framer-CH1Xvl8a.js",
+            "phase": "load-to-10s",
+            "transferBytes": 44632,
+            "gzipBytes": 44127,
+            "rawBytes": 132710,
+            "sha256": "6d4e42d639aea517"
+          },
+          {
+            "file": "/assets/kit-nWb62Sze.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1580,
+            "gzipBytes": 1210,
+            "rawBytes": 3003,
+            "sha256": "f6eb717761d868c7"
+          },
+          {
+            "file": "/assets/x-Cy7MmQI2.js",
+            "phase": "load-to-10s",
+            "transferBytes": 644,
+            "gzipBytes": 252,
+            "rawBytes": 323,
+            "sha256": "4d259328b93af05f"
+          },
+          {
+            "file": "/assets/GlobalToasts-Ywsh0qw1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 6112,
+            "gzipBytes": 5738,
+            "rawBytes": 15988,
+            "sha256": "24147582032df862"
+          },
+          {
+            "file": "/assets/index-BYSVIFPF.js",
+            "phase": "load-to-10s",
+            "transferBytes": 981,
+            "gzipBytes": 611,
+            "rawBytes": 1211,
+            "sha256": "b616f98c14e43338"
+          },
+          {
+            "file": "/assets/use-theme-Dm2pYhdv.js",
+            "phase": "load-to-10s",
+            "transferBytes": 861,
+            "gzipBytes": 340,
+            "rawBytes": 540,
+            "sha256": "768d3e33f08e6b55"
+          },
+          {
+            "file": "/assets/utils-B2OMREI3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 4410,
+            "gzipBytes": 4037,
+            "rawBytes": 11284,
+            "sha256": "7ef08f1b1fb72d63"
+          },
+          {
+            "file": "/assets/vendor-utils-CfDMlrKu.js",
+            "phase": "load-to-10s",
+            "transferBytes": 7512,
+            "gzipBytes": 7139,
+            "rawBytes": 21034,
+            "sha256": "f46296d7a82242e6"
+          },
+          {
+            "file": "/assets/index-BCBrtDTf.js",
+            "phase": "load-to-10s",
+            "transferBytes": 9797,
+            "gzipBytes": 9402,
+            "rawBytes": 32894,
+            "sha256": "4ccb05d8ca254281"
+          }
+        ],
+        "gzipKiB": {
+          "untilLoad": 114.7,
+          "loadTo10s": 72.2,
+          "total": 186.9
+        },
+        "transferKiB": {
+          "untilLoad": 123.1,
+          "loadTo10s": 76.6,
+          "total": 199.7
+        }
+      },
+      "css": [
+        {
+          "file": "/assets/index-BsU4qv0s.css",
+          "rawBytes": 100772,
+          "gzipBytes": 19568,
+          "sha256": "5a98964834e87b36"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        }
+      ],
+      "fonts": [],
+      "images": [
+        {
+          "url": "/assets/hero-manifold-v1-DjyYu6ON.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 63
+        }
+      ],
+      "imageCount": 1,
+      "sequenceFrameRequests": 0,
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID",
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID"
+      ],
+      "pageErrors": [],
+      "dom": {
+        "rootChildren": 7,
+        "rootTextLength": 6135,
+        "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+        "bodyScrollWidth": 375,
+        "viewportWidth": 375,
+        "documentHeight": 7792,
+        "canvases": 0,
+        "longTasks": [
+          {
+            "start": 206,
+            "duration": 65
+          },
+          {
+            "start": 4747,
+            "duration": 103
+          }
+        ]
+      }
+    },
+    {
+      "route": "/",
+      "width": 375,
+      "motion": "reduce",
+      "loadMs": 61,
+      "requestCount": 38,
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&text=%E2%86%92%E2%86%90%E2%86%91%E2%86%93%E2%86%BB%E2%89%A4%E2%89%A5%E2%89%88%E2%8A%A5%E2%88%A5%E2%8C%92%E2%8C%93%E2%9F%82%E2%88%85%E2%8C%80%E2%97%8E%E2%97%8B%E2%96%B1%E2%8C%96%E2%98%85%E2%98%86%E2%88%AA&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 441
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 441
+        }
+      ],
+      "js": {
+        "files": [
+          {
+            "file": "/assets/vendor-runtime-D7HrI6pR.js",
+            "phase": "until-load",
+            "transferBytes": 1340,
+            "gzipBytes": 615,
+            "rawBytes": 1017,
+            "sha256": "a50b733cfee57858"
+          },
+          {
+            "file": "/assets/index-CZK4WbaI.js",
+            "phase": "until-load",
+            "transferBytes": 36110,
+            "gzipBytes": 35690,
+            "rawBytes": 104947,
+            "sha256": "d3f11eaafa9c5142"
+          },
+          {
+            "file": "/assets/vendor-react-BtXpvAbk.js",
+            "phase": "until-load",
+            "transferBytes": 47927,
+            "gzipBytes": 47454,
+            "rawBytes": 151190,
+            "sha256": "d8d50ccf806cf265"
+          },
+          {
+            "file": "/assets/Index-B-JHsnFK.js",
+            "phase": "load-to-10s",
+            "transferBytes": 10589,
+            "gzipBytes": 10204,
+            "rawBytes": 29777,
+            "sha256": "601532641effdbc9"
+          },
+          {
+            "file": "/assets/JsonLdSchema-DsISVYiX.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1503,
+            "gzipBytes": 1133,
+            "rawBytes": 2863,
+            "sha256": "64531ace35c3c5c5"
+          },
+          {
+            "file": "/assets/mail-CwmZRMuW.js",
+            "phase": "load-to-10s",
+            "transferBytes": 952,
+            "gzipBytes": 343,
+            "rawBytes": 631,
+            "sha256": "670415405a2c7d2a"
+          },
+          {
+            "file": "/assets/arrow-up-right-BUK-6rc8.js",
+            "phase": "load-to-10s",
+            "transferBytes": 939,
+            "gzipBytes": 314,
+            "rawBytes": 618,
+            "sha256": "d483c13784f63911"
+          },
+          {
+            "file": "/assets/PageShell-_xmB6hi1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 14453,
+            "gzipBytes": 14068,
+            "rawBytes": 41187,
+            "sha256": "b4129246b869523e"
+          },
+          {
+            "file": "/assets/scan-line-CUEVMM9M.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1116,
+            "gzipBytes": 386,
+            "rawBytes": 795,
+            "sha256": "7b401a2529323815"
+          },
+          {
+            "file": "/assets/phone-BDlRtIu3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 892,
+            "gzipBytes": 522,
+            "rawBytes": 1225,
+            "sha256": "dc839281e7c1169e"
+          },
+          {
+            "file": "/assets/hero-cnc-tornalama-CZRi36Fh.js",
+            "phase": "load-to-10s",
+            "transferBytes": 386,
+            "gzipBytes": 87,
+            "rawBytes": 67,
+            "sha256": "972b48b013cacce1"
+          },
+          {
+            "file": "/assets/claims-BMYRt09u.js",
+            "phase": "load-to-10s",
+            "transferBytes": 3072,
+            "gzipBytes": 2698,
+            "rawBytes": 5873,
+            "sha256": "defbf35e412e54a1"
+          },
+          {
+            "file": "/assets/shield-check-Dfv3aAzX.js",
+            "phase": "load-to-10s",
+            "transferBytes": 809,
+            "gzipBytes": 351,
+            "rawBytes": 488,
+            "sha256": "c534e1eae4a0eae1"
+          },
+          {
+            "file": "/assets/vendor-framer-CH1Xvl8a.js",
+            "phase": "load-to-10s",
+            "transferBytes": 44632,
+            "gzipBytes": 44127,
+            "rawBytes": 132710,
+            "sha256": "6d4e42d639aea517"
+          },
+          {
+            "file": "/assets/safe-storage-DuiDTbq3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 669,
+            "gzipBytes": 214,
+            "rawBytes": 348,
+            "sha256": "093be36e46f06b89"
+          },
+          {
+            "file": "/assets/cadFiles-CETfSgpN.js",
+            "phase": "load-to-10s",
+            "transferBytes": 831,
+            "gzipBytes": 391,
+            "rawBytes": 510,
+            "sha256": "174bf7d18febc3e9"
+          },
+          {
+            "file": "/assets/kit-nWb62Sze.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1580,
+            "gzipBytes": 1210,
+            "rawBytes": 3003,
+            "sha256": "f6eb717761d868c7"
+          },
+          {
+            "file": "/assets/BlurImage-CSstZB09.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1206,
+            "gzipBytes": 836,
+            "rawBytes": 1542,
+            "sha256": "52209df1a85e006f"
+          },
+          {
+            "file": "/assets/caseStudies-CNDovLoa.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1948,
+            "gzipBytes": 1578,
+            "rawBytes": 3592,
+            "sha256": "c2fc76d4766c76fa"
+          },
+          {
+            "file": "/assets/useCadHandoff-DkbSJzqI.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1236,
+            "gzipBytes": 866,
+            "rawBytes": 1596,
+            "sha256": "2fd406a9ddbc09c3"
+          },
+          {
+            "file": "/assets/quality-documents-Ds6N_vk0.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1340,
+            "gzipBytes": 490,
+            "rawBytes": 1017,
+            "sha256": "352cb4e52ffe5a06"
+          },
+          {
+            "file": "/assets/loader-circle-5ryBMkBy.js",
+            "phase": "load-to-10s",
+            "transferBytes": 633,
+            "gzipBytes": 258,
+            "rawBytes": 312,
+            "sha256": "235acca94c75ddea"
+          },
+          {
+            "file": "/assets/x-Cy7MmQI2.js",
+            "phase": "load-to-10s",
+            "transferBytes": 644,
+            "gzipBytes": 252,
+            "rawBytes": 323,
+            "sha256": "4d259328b93af05f"
+          },
+          {
+            "file": "/assets/use-theme-Dm2pYhdv.js",
+            "phase": "load-to-10s",
+            "transferBytes": 861,
+            "gzipBytes": 340,
+            "rawBytes": 540,
+            "sha256": "768d3e33f08e6b55"
+          },
+          {
+            "file": "/assets/index-BYSVIFPF.js",
+            "phase": "load-to-10s",
+            "transferBytes": 981,
+            "gzipBytes": 611,
+            "rawBytes": 1211,
+            "sha256": "b616f98c14e43338"
+          },
+          {
+            "file": "/assets/GlobalToasts-Ywsh0qw1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 6112,
+            "gzipBytes": 5738,
+            "rawBytes": 15988,
+            "sha256": "24147582032df862"
+          },
+          {
+            "file": "/assets/vendor-utils-CfDMlrKu.js",
+            "phase": "load-to-10s",
+            "transferBytes": 7512,
+            "gzipBytes": 7139,
+            "rawBytes": 21034,
+            "sha256": "f46296d7a82242e6"
+          },
+          {
+            "file": "/assets/index-BCBrtDTf.js",
+            "phase": "load-to-10s",
+            "transferBytes": 9797,
+            "gzipBytes": 9402,
+            "rawBytes": 32894,
+            "sha256": "4ccb05d8ca254281"
+          },
+          {
+            "file": "/assets/utils-B2OMREI3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 4410,
+            "gzipBytes": 4037,
+            "rawBytes": 11284,
+            "sha256": "7ef08f1b1fb72d63"
+          }
+        ],
+        "gzipKiB": {
+          "untilLoad": 81.8,
+          "loadTo10s": 105.1,
+          "total": 186.9
+        },
+        "transferKiB": {
+          "untilLoad": 83.4,
+          "loadTo10s": 116.3,
+          "total": 199.7
+        }
+      },
+      "css": [
+        {
+          "file": "/assets/index-BsU4qv0s.css",
+          "rawBytes": 100772,
+          "gzipBytes": 19568,
+          "sha256": "5a98964834e87b36"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        }
+      ],
+      "fonts": [],
+      "images": [
+        {
+          "url": "/assets/hero-manifold-v1-DjyYu6ON.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 35
+        }
+      ],
+      "imageCount": 1,
+      "sequenceFrameRequests": 0,
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID",
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID"
+      ],
+      "pageErrors": [],
+      "dom": {
+        "rootChildren": 6,
+        "rootTextLength": 6095,
+        "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+        "bodyScrollWidth": 375,
+        "viewportWidth": 375,
+        "documentHeight": 7792,
+        "canvases": 0,
+        "longTasks": [
+          {
+            "start": 65,
+            "duration": 368
+          },
+          {
+            "start": 518,
+            "duration": 62
+          }
+        ]
+      }
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "motion": "no-preference",
+      "loadMs": 54,
+      "requestCount": 48,
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&text=%E2%86%92%E2%86%90%E2%86%91%E2%86%93%E2%86%BB%E2%89%A4%E2%89%A5%E2%89%88%E2%8A%A5%E2%88%A5%E2%8C%92%E2%8C%93%E2%9F%82%E2%88%85%E2%8C%80%E2%97%8E%E2%97%8B%E2%96%B1%E2%8C%96%E2%98%85%E2%98%86%E2%88%AA&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 343
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 343
+        }
+      ],
+      "js": {
+        "files": [
+          {
+            "file": "/assets/vendor-runtime-D7HrI6pR.js",
+            "phase": "until-load",
+            "transferBytes": 1340,
+            "gzipBytes": 615,
+            "rawBytes": 1017,
+            "sha256": "a50b733cfee57858"
+          },
+          {
+            "file": "/assets/index-CZK4WbaI.js",
+            "phase": "until-load",
+            "transferBytes": 36110,
+            "gzipBytes": 35690,
+            "rawBytes": 104947,
+            "sha256": "d3f11eaafa9c5142"
+          },
+          {
+            "file": "/assets/vendor-react-BtXpvAbk.js",
+            "phase": "until-load",
+            "transferBytes": 47927,
+            "gzipBytes": 47454,
+            "rawBytes": 151190,
+            "sha256": "d8d50ccf806cf265"
+          },
+          {
+            "file": "/assets/Index-B-JHsnFK.js",
+            "phase": "load-to-10s",
+            "transferBytes": 10589,
+            "gzipBytes": 10204,
+            "rawBytes": 29777,
+            "sha256": "601532641effdbc9"
+          },
+          {
+            "file": "/assets/JsonLdSchema-DsISVYiX.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1503,
+            "gzipBytes": 1133,
+            "rawBytes": 2863,
+            "sha256": "64531ace35c3c5c5"
+          },
+          {
+            "file": "/assets/mail-CwmZRMuW.js",
+            "phase": "load-to-10s",
+            "transferBytes": 952,
+            "gzipBytes": 343,
+            "rawBytes": 631,
+            "sha256": "670415405a2c7d2a"
+          },
+          {
+            "file": "/assets/arrow-up-right-BUK-6rc8.js",
+            "phase": "load-to-10s",
+            "transferBytes": 939,
+            "gzipBytes": 314,
+            "rawBytes": 618,
+            "sha256": "d483c13784f63911"
+          },
+          {
+            "file": "/assets/hero-cnc-tornalama-CZRi36Fh.js",
+            "phase": "load-to-10s",
+            "transferBytes": 386,
+            "gzipBytes": 87,
+            "rawBytes": 67,
+            "sha256": "972b48b013cacce1"
+          },
+          {
+            "file": "/assets/phone-BDlRtIu3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 892,
+            "gzipBytes": 522,
+            "rawBytes": 1225,
+            "sha256": "dc839281e7c1169e"
+          },
+          {
+            "file": "/assets/claims-BMYRt09u.js",
+            "phase": "load-to-10s",
+            "transferBytes": 3072,
+            "gzipBytes": 2698,
+            "rawBytes": 5873,
+            "sha256": "defbf35e412e54a1"
+          },
+          {
+            "file": "/assets/scan-line-CUEVMM9M.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1116,
+            "gzipBytes": 386,
+            "rawBytes": 795,
+            "sha256": "7b401a2529323815"
+          },
+          {
+            "file": "/assets/shield-check-Dfv3aAzX.js",
+            "phase": "load-to-10s",
+            "transferBytes": 809,
+            "gzipBytes": 351,
+            "rawBytes": 488,
+            "sha256": "c534e1eae4a0eae1"
+          },
+          {
+            "file": "/assets/caseStudies-CNDovLoa.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1948,
+            "gzipBytes": 1578,
+            "rawBytes": 3592,
+            "sha256": "c2fc76d4766c76fa"
+          },
+          {
+            "file": "/assets/BlurImage-CSstZB09.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1206,
+            "gzipBytes": 836,
+            "rawBytes": 1542,
+            "sha256": "52209df1a85e006f"
+          },
+          {
+            "file": "/assets/PageShell-_xmB6hi1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 14453,
+            "gzipBytes": 14068,
+            "rawBytes": 41187,
+            "sha256": "b4129246b869523e"
+          },
+          {
+            "file": "/assets/safe-storage-DuiDTbq3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 669,
+            "gzipBytes": 214,
+            "rawBytes": 348,
+            "sha256": "093be36e46f06b89"
+          },
+          {
+            "file": "/assets/quality-documents-Ds6N_vk0.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1340,
+            "gzipBytes": 490,
+            "rawBytes": 1017,
+            "sha256": "352cb4e52ffe5a06"
+          },
+          {
+            "file": "/assets/cadFiles-CETfSgpN.js",
+            "phase": "load-to-10s",
+            "transferBytes": 831,
+            "gzipBytes": 391,
+            "rawBytes": 510,
+            "sha256": "174bf7d18febc3e9"
+          },
+          {
+            "file": "/assets/kit-nWb62Sze.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1580,
+            "gzipBytes": 1210,
+            "rawBytes": 3003,
+            "sha256": "f6eb717761d868c7"
+          },
+          {
+            "file": "/assets/useCadHandoff-DkbSJzqI.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1236,
+            "gzipBytes": 866,
+            "rawBytes": 1596,
+            "sha256": "2fd406a9ddbc09c3"
+          },
+          {
+            "file": "/assets/loader-circle-5ryBMkBy.js",
+            "phase": "load-to-10s",
+            "transferBytes": 633,
+            "gzipBytes": 258,
+            "rawBytes": 312,
+            "sha256": "235acca94c75ddea"
+          },
+          {
+            "file": "/assets/vendor-framer-CH1Xvl8a.js",
+            "phase": "load-to-10s",
+            "transferBytes": 44632,
+            "gzipBytes": 44127,
+            "rawBytes": 132710,
+            "sha256": "6d4e42d639aea517"
+          },
+          {
+            "file": "/assets/utils-B2OMREI3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 4410,
+            "gzipBytes": 4037,
+            "rawBytes": 11284,
+            "sha256": "7ef08f1b1fb72d63"
+          },
+          {
+            "file": "/assets/x-Cy7MmQI2.js",
+            "phase": "load-to-10s",
+            "transferBytes": 644,
+            "gzipBytes": 252,
+            "rawBytes": 323,
+            "sha256": "4d259328b93af05f"
+          },
+          {
+            "file": "/assets/index-BYSVIFPF.js",
+            "phase": "load-to-10s",
+            "transferBytes": 981,
+            "gzipBytes": 611,
+            "rawBytes": 1211,
+            "sha256": "b616f98c14e43338"
+          },
+          {
+            "file": "/assets/use-theme-Dm2pYhdv.js",
+            "phase": "load-to-10s",
+            "transferBytes": 861,
+            "gzipBytes": 340,
+            "rawBytes": 540,
+            "sha256": "768d3e33f08e6b55"
+          },
+          {
+            "file": "/assets/GlobalToasts-Ywsh0qw1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 6112,
+            "gzipBytes": 5738,
+            "rawBytes": 15988,
+            "sha256": "24147582032df862"
+          },
+          {
+            "file": "/assets/vendor-utils-CfDMlrKu.js",
+            "phase": "load-to-10s",
+            "transferBytes": 7512,
+            "gzipBytes": 7139,
+            "rawBytes": 21034,
+            "sha256": "f46296d7a82242e6"
+          },
+          {
+            "file": "/assets/index-BCBrtDTf.js",
+            "phase": "load-to-10s",
+            "transferBytes": 9797,
+            "gzipBytes": 9402,
+            "rawBytes": 32894,
+            "sha256": "4ccb05d8ca254281"
+          },
+          {
+            "file": "/assets/use-gsap-BrHoFLjz.js",
+            "phase": "load-to-10s",
+            "transferBytes": 432,
+            "gzipBytes": 118,
+            "rawBytes": 111,
+            "sha256": "5a8d6213cb7f9c0f"
+          },
+          {
+            "file": "/assets/lenis-faqbxiYg.js",
+            "phase": "load-to-10s",
+            "transferBytes": 5602,
+            "gzipBytes": 5216,
+            "rawBytes": 18451,
+            "sha256": "05831f19c862ad16"
+          },
+          {
+            "file": "/assets/vendor-gsap-0lJgtTtq.js",
+            "phase": "load-to-10s",
+            "transferBytes": 45724,
+            "gzipBytes": 45160,
+            "rawBytes": 114375,
+            "sha256": "310be8a1870009d0"
+          }
+        ],
+        "gzipKiB": {
+          "untilLoad": 81.8,
+          "loadTo10s": 154.4,
+          "total": 236.2
+        },
+        "transferKiB": {
+          "untilLoad": 83.4,
+          "loadTo10s": 166.9,
+          "total": 250.2
+        }
+      },
+      "css": [
+        {
+          "file": "/assets/index-BsU4qv0s.css",
+          "rawBytes": 100772,
+          "gzipBytes": 19568,
+          "sha256": "5a98964834e87b36"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        }
+      ],
+      "fonts": [],
+      "images": [
+        {
+          "url": "/assets/hero-manifold-v1-DjyYu6ON.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 36
+        },
+        {
+          "url": "/assets/industry-defense-960-D39PKqMk.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 301
+        },
+        {
+          "url": "/assets/industry-medical-BIVAP-Gq.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 304
+        },
+        {
+          "url": "/assets/hero-cnc-tornalama-DxFnZHUM.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 304
+        },
+        {
+          "url": "/assets/industry-aerospace-CN-v49lX.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 308
+        },
+        {
+          "url": "/assets/industry-defense-CeliYO2F.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 309
+        },
+        {
+          "url": "/assets/industry-hydraulic-SQGcPZcZ.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 309
+        },
+        {
+          "url": "/assets/industry-automotive-C-3PtV05.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 309
+        }
+      ],
+      "imageCount": 8,
+      "sequenceFrameRequests": 0,
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID",
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID"
+      ],
+      "pageErrors": [],
+      "dom": {
+        "rootChildren": 7,
+        "rootTextLength": 6760,
+        "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+        "bodyScrollWidth": 1440,
+        "viewportWidth": 1440,
+        "documentHeight": 4406,
+        "canvases": 0,
+        "longTasks": [
+          {
+            "start": 182,
+            "duration": 61
+          }
+        ]
+      }
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "motion": "reduce",
+      "loadMs": 45,
+      "requestCount": 45,
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&text=%E2%86%92%E2%86%90%E2%86%91%E2%86%93%E2%86%BB%E2%89%A4%E2%89%A5%E2%89%88%E2%8A%A5%E2%88%A5%E2%8C%92%E2%8C%93%E2%9F%82%E2%88%85%E2%8C%80%E2%97%8E%E2%97%8B%E2%96%B1%E2%8C%96%E2%98%85%E2%98%86%E2%88%AA&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 319
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 324
+        }
+      ],
+      "js": {
+        "files": [
+          {
+            "file": "/assets/vendor-runtime-D7HrI6pR.js",
+            "phase": "until-load",
+            "transferBytes": 1340,
+            "gzipBytes": 615,
+            "rawBytes": 1017,
+            "sha256": "a50b733cfee57858"
+          },
+          {
+            "file": "/assets/index-CZK4WbaI.js",
+            "phase": "until-load",
+            "transferBytes": 36110,
+            "gzipBytes": 35690,
+            "rawBytes": 104947,
+            "sha256": "d3f11eaafa9c5142"
+          },
+          {
+            "file": "/assets/vendor-react-BtXpvAbk.js",
+            "phase": "until-load",
+            "transferBytes": 47927,
+            "gzipBytes": 47454,
+            "rawBytes": 151190,
+            "sha256": "d8d50ccf806cf265"
+          },
+          {
+            "file": "/assets/Index-B-JHsnFK.js",
+            "phase": "load-to-10s",
+            "transferBytes": 10589,
+            "gzipBytes": 10204,
+            "rawBytes": 29777,
+            "sha256": "601532641effdbc9"
+          },
+          {
+            "file": "/assets/JsonLdSchema-DsISVYiX.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1503,
+            "gzipBytes": 1133,
+            "rawBytes": 2863,
+            "sha256": "64531ace35c3c5c5"
+          },
+          {
+            "file": "/assets/arrow-up-right-BUK-6rc8.js",
+            "phase": "load-to-10s",
+            "transferBytes": 939,
+            "gzipBytes": 314,
+            "rawBytes": 618,
+            "sha256": "d483c13784f63911"
+          },
+          {
+            "file": "/assets/mail-CwmZRMuW.js",
+            "phase": "load-to-10s",
+            "transferBytes": 952,
+            "gzipBytes": 343,
+            "rawBytes": 631,
+            "sha256": "670415405a2c7d2a"
+          },
+          {
+            "file": "/assets/claims-BMYRt09u.js",
+            "phase": "load-to-10s",
+            "transferBytes": 3072,
+            "gzipBytes": 2698,
+            "rawBytes": 5873,
+            "sha256": "defbf35e412e54a1"
+          },
+          {
+            "file": "/assets/PageShell-_xmB6hi1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 14453,
+            "gzipBytes": 14068,
+            "rawBytes": 41187,
+            "sha256": "b4129246b869523e"
+          },
+          {
+            "file": "/assets/vendor-framer-CH1Xvl8a.js",
+            "phase": "load-to-10s",
+            "transferBytes": 44632,
+            "gzipBytes": 44127,
+            "rawBytes": 132710,
+            "sha256": "6d4e42d639aea517"
+          },
+          {
+            "file": "/assets/phone-BDlRtIu3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 892,
+            "gzipBytes": 522,
+            "rawBytes": 1225,
+            "sha256": "dc839281e7c1169e"
+          },
+          {
+            "file": "/assets/hero-cnc-tornalama-CZRi36Fh.js",
+            "phase": "load-to-10s",
+            "transferBytes": 386,
+            "gzipBytes": 87,
+            "rawBytes": 67,
+            "sha256": "972b48b013cacce1"
+          },
+          {
+            "file": "/assets/scan-line-CUEVMM9M.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1116,
+            "gzipBytes": 386,
+            "rawBytes": 795,
+            "sha256": "7b401a2529323815"
+          },
+          {
+            "file": "/assets/caseStudies-CNDovLoa.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1948,
+            "gzipBytes": 1578,
+            "rawBytes": 3592,
+            "sha256": "c2fc76d4766c76fa"
+          },
+          {
+            "file": "/assets/shield-check-Dfv3aAzX.js",
+            "phase": "load-to-10s",
+            "transferBytes": 809,
+            "gzipBytes": 351,
+            "rawBytes": 488,
+            "sha256": "c534e1eae4a0eae1"
+          },
+          {
+            "file": "/assets/BlurImage-CSstZB09.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1206,
+            "gzipBytes": 836,
+            "rawBytes": 1542,
+            "sha256": "52209df1a85e006f"
+          },
+          {
+            "file": "/assets/safe-storage-DuiDTbq3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 669,
+            "gzipBytes": 214,
+            "rawBytes": 348,
+            "sha256": "093be36e46f06b89"
+          },
+          {
+            "file": "/assets/cadFiles-CETfSgpN.js",
+            "phase": "load-to-10s",
+            "transferBytes": 831,
+            "gzipBytes": 391,
+            "rawBytes": 510,
+            "sha256": "174bf7d18febc3e9"
+          },
+          {
+            "file": "/assets/quality-documents-Ds6N_vk0.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1340,
+            "gzipBytes": 490,
+            "rawBytes": 1017,
+            "sha256": "352cb4e52ffe5a06"
+          },
+          {
+            "file": "/assets/loader-circle-5ryBMkBy.js",
+            "phase": "load-to-10s",
+            "transferBytes": 633,
+            "gzipBytes": 258,
+            "rawBytes": 312,
+            "sha256": "235acca94c75ddea"
+          },
+          {
+            "file": "/assets/kit-nWb62Sze.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1580,
+            "gzipBytes": 1210,
+            "rawBytes": 3003,
+            "sha256": "f6eb717761d868c7"
+          },
+          {
+            "file": "/assets/useCadHandoff-DkbSJzqI.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1236,
+            "gzipBytes": 866,
+            "rawBytes": 1596,
+            "sha256": "2fd406a9ddbc09c3"
+          },
+          {
+            "file": "/assets/index-BYSVIFPF.js",
+            "phase": "load-to-10s",
+            "transferBytes": 981,
+            "gzipBytes": 611,
+            "rawBytes": 1211,
+            "sha256": "b616f98c14e43338"
+          },
+          {
+            "file": "/assets/utils-B2OMREI3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 4410,
+            "gzipBytes": 4037,
+            "rawBytes": 11284,
+            "sha256": "7ef08f1b1fb72d63"
+          },
+          {
+            "file": "/assets/GlobalToasts-Ywsh0qw1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 6112,
+            "gzipBytes": 5738,
+            "rawBytes": 15988,
+            "sha256": "24147582032df862"
+          },
+          {
+            "file": "/assets/vendor-utils-CfDMlrKu.js",
+            "phase": "load-to-10s",
+            "transferBytes": 7512,
+            "gzipBytes": 7139,
+            "rawBytes": 21034,
+            "sha256": "f46296d7a82242e6"
+          },
+          {
+            "file": "/assets/use-theme-Dm2pYhdv.js",
+            "phase": "load-to-10s",
+            "transferBytes": 861,
+            "gzipBytes": 340,
+            "rawBytes": 540,
+            "sha256": "768d3e33f08e6b55"
+          },
+          {
+            "file": "/assets/x-Cy7MmQI2.js",
+            "phase": "load-to-10s",
+            "transferBytes": 644,
+            "gzipBytes": 252,
+            "rawBytes": 323,
+            "sha256": "4d259328b93af05f"
+          },
+          {
+            "file": "/assets/index-BCBrtDTf.js",
+            "phase": "load-to-10s",
+            "transferBytes": 9797,
+            "gzipBytes": 9402,
+            "rawBytes": 32894,
+            "sha256": "4ccb05d8ca254281"
+          }
+        ],
+        "gzipKiB": {
+          "untilLoad": 81.8,
+          "loadTo10s": 105.1,
+          "total": 186.9
+        },
+        "transferKiB": {
+          "untilLoad": 83.4,
+          "loadTo10s": 116.3,
+          "total": 199.7
+        }
+      },
+      "css": [
+        {
+          "file": "/assets/index-BsU4qv0s.css",
+          "rawBytes": 100772,
+          "gzipBytes": 19568,
+          "sha256": "5a98964834e87b36"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        }
+      ],
+      "fonts": [],
+      "images": [
+        {
+          "url": "/assets/hero-manifold-v1-DjyYu6ON.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 25
+        },
+        {
+          "url": "/assets/industry-medical-BIVAP-Gq.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 133
+        },
+        {
+          "url": "/assets/industry-defense-960-D39PKqMk.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 245
+        },
+        {
+          "url": "/assets/industry-aerospace-CN-v49lX.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 245
+        },
+        {
+          "url": "/assets/industry-hydraulic-SQGcPZcZ.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 246
+        },
+        {
+          "url": "/assets/industry-automotive-C-3PtV05.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 247
+        },
+        {
+          "url": "/assets/hero-cnc-tornalama-DxFnZHUM.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 247
+        },
+        {
+          "url": "/assets/industry-defense-CeliYO2F.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 247
+        }
+      ],
+      "imageCount": 8,
+      "sequenceFrameRequests": 0,
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID",
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID"
+      ],
+      "pageErrors": [],
+      "dom": {
+        "rootChildren": 6,
+        "rootTextLength": 6720,
+        "title": "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
+        "bodyScrollWidth": 1440,
+        "viewportWidth": 1440,
+        "documentHeight": 4406,
+        "canvases": 0,
+        "longTasks": [
+          {
+            "start": 136,
+            "duration": 58
+          }
+        ]
+      }
+    },
+    {
+      "route": "/en",
+      "width": 375,
+      "motion": "no-preference",
+      "loadMs": 68,
+      "requestCount": 39,
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&text=%E2%86%92%E2%86%90%E2%86%91%E2%86%93%E2%86%BB%E2%89%A4%E2%89%A5%E2%89%88%E2%8A%A5%E2%88%A5%E2%8C%92%E2%8C%93%E2%9F%82%E2%88%85%E2%8C%80%E2%97%8E%E2%97%8B%E2%96%B1%E2%8C%96%E2%98%85%E2%98%86%E2%88%AA&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 340
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 341
+        }
+      ],
+      "js": {
+        "files": [
+          {
+            "file": "/assets/vendor-runtime-D7HrI6pR.js",
+            "phase": "until-load",
+            "transferBytes": 1340,
+            "gzipBytes": 615,
+            "rawBytes": 1017,
+            "sha256": "a50b733cfee57858"
+          },
+          {
+            "file": "/assets/vendor-react-BtXpvAbk.js",
+            "phase": "until-load",
+            "transferBytes": 47927,
+            "gzipBytes": 47454,
+            "rawBytes": 151190,
+            "sha256": "d8d50ccf806cf265"
+          },
+          {
+            "file": "/assets/index-CZK4WbaI.js",
+            "phase": "until-load",
+            "transferBytes": 36110,
+            "gzipBytes": 35690,
+            "rawBytes": 104947,
+            "sha256": "d3f11eaafa9c5142"
+          },
+          {
+            "file": "/assets/JsonLdSchema-DsISVYiX.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1503,
+            "gzipBytes": 1133,
+            "rawBytes": 2863,
+            "sha256": "64531ace35c3c5c5"
+          },
+          {
+            "file": "/assets/Index-B-JHsnFK.js",
+            "phase": "load-to-10s",
+            "transferBytes": 10589,
+            "gzipBytes": 10204,
+            "rawBytes": 29777,
+            "sha256": "601532641effdbc9"
+          },
+          {
+            "file": "/assets/PageShell-_xmB6hi1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 14453,
+            "gzipBytes": 14068,
+            "rawBytes": 41187,
+            "sha256": "b4129246b869523e"
+          },
+          {
+            "file": "/assets/mail-CwmZRMuW.js",
+            "phase": "load-to-10s",
+            "transferBytes": 952,
+            "gzipBytes": 343,
+            "rawBytes": 631,
+            "sha256": "670415405a2c7d2a"
+          },
+          {
+            "file": "/assets/arrow-up-right-BUK-6rc8.js",
+            "phase": "load-to-10s",
+            "transferBytes": 939,
+            "gzipBytes": 314,
+            "rawBytes": 618,
+            "sha256": "d483c13784f63911"
+          },
+          {
+            "file": "/assets/scan-line-CUEVMM9M.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1116,
+            "gzipBytes": 386,
+            "rawBytes": 795,
+            "sha256": "7b401a2529323815"
+          },
+          {
+            "file": "/assets/phone-BDlRtIu3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 892,
+            "gzipBytes": 522,
+            "rawBytes": 1225,
+            "sha256": "dc839281e7c1169e"
+          },
+          {
+            "file": "/assets/claims-BMYRt09u.js",
+            "phase": "load-to-10s",
+            "transferBytes": 3072,
+            "gzipBytes": 2698,
+            "rawBytes": 5873,
+            "sha256": "defbf35e412e54a1"
+          },
+          {
+            "file": "/assets/vendor-framer-CH1Xvl8a.js",
+            "phase": "load-to-10s",
+            "transferBytes": 44632,
+            "gzipBytes": 44127,
+            "rawBytes": 132710,
+            "sha256": "6d4e42d639aea517"
+          },
+          {
+            "file": "/assets/shield-check-Dfv3aAzX.js",
+            "phase": "load-to-10s",
+            "transferBytes": 809,
+            "gzipBytes": 351,
+            "rawBytes": 488,
+            "sha256": "c534e1eae4a0eae1"
+          },
+          {
+            "file": "/assets/hero-cnc-tornalama-CZRi36Fh.js",
+            "phase": "load-to-10s",
+            "transferBytes": 386,
+            "gzipBytes": 87,
+            "rawBytes": 67,
+            "sha256": "972b48b013cacce1"
+          },
+          {
+            "file": "/assets/BlurImage-CSstZB09.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1206,
+            "gzipBytes": 836,
+            "rawBytes": 1542,
+            "sha256": "52209df1a85e006f"
+          },
+          {
+            "file": "/assets/useCadHandoff-DkbSJzqI.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1236,
+            "gzipBytes": 866,
+            "rawBytes": 1596,
+            "sha256": "2fd406a9ddbc09c3"
+          },
+          {
+            "file": "/assets/kit-nWb62Sze.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1580,
+            "gzipBytes": 1210,
+            "rawBytes": 3003,
+            "sha256": "f6eb717761d868c7"
+          },
+          {
+            "file": "/assets/caseStudies-CNDovLoa.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1948,
+            "gzipBytes": 1578,
+            "rawBytes": 3592,
+            "sha256": "c2fc76d4766c76fa"
+          },
+          {
+            "file": "/assets/cadFiles-CETfSgpN.js",
+            "phase": "load-to-10s",
+            "transferBytes": 831,
+            "gzipBytes": 391,
+            "rawBytes": 510,
+            "sha256": "174bf7d18febc3e9"
+          },
+          {
+            "file": "/assets/quality-documents-Ds6N_vk0.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1340,
+            "gzipBytes": 490,
+            "rawBytes": 1017,
+            "sha256": "352cb4e52ffe5a06"
+          },
+          {
+            "file": "/assets/loader-circle-5ryBMkBy.js",
+            "phase": "load-to-10s",
+            "transferBytes": 633,
+            "gzipBytes": 258,
+            "rawBytes": 312,
+            "sha256": "235acca94c75ddea"
+          },
+          {
+            "file": "/assets/safe-storage-DuiDTbq3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 669,
+            "gzipBytes": 214,
+            "rawBytes": 348,
+            "sha256": "093be36e46f06b89"
+          },
+          {
+            "file": "/assets/en-CK0mC8U7.js",
+            "phase": "load-to-10s",
+            "transferBytes": 39138,
+            "gzipBytes": 38727,
+            "rawBytes": 107921,
+            "sha256": "2f24e0e1bbd80029"
+          },
+          {
+            "file": "/assets/x-Cy7MmQI2.js",
+            "phase": "load-to-10s",
+            "transferBytes": 644,
+            "gzipBytes": 252,
+            "rawBytes": 323,
+            "sha256": "4d259328b93af05f"
+          },
+          {
+            "file": "/assets/use-theme-Dm2pYhdv.js",
+            "phase": "load-to-10s",
+            "transferBytes": 861,
+            "gzipBytes": 340,
+            "rawBytes": 540,
+            "sha256": "768d3e33f08e6b55"
+          },
+          {
+            "file": "/assets/index-BYSVIFPF.js",
+            "phase": "load-to-10s",
+            "transferBytes": 981,
+            "gzipBytes": 611,
+            "rawBytes": 1211,
+            "sha256": "b616f98c14e43338"
+          },
+          {
+            "file": "/assets/utils-B2OMREI3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 4410,
+            "gzipBytes": 4037,
+            "rawBytes": 11284,
+            "sha256": "7ef08f1b1fb72d63"
+          },
+          {
+            "file": "/assets/vendor-utils-CfDMlrKu.js",
+            "phase": "load-to-10s",
+            "transferBytes": 7512,
+            "gzipBytes": 7139,
+            "rawBytes": 21034,
+            "sha256": "f46296d7a82242e6"
+          },
+          {
+            "file": "/assets/GlobalToasts-Ywsh0qw1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 6112,
+            "gzipBytes": 5738,
+            "rawBytes": 15988,
+            "sha256": "24147582032df862"
+          },
+          {
+            "file": "/assets/index-BCBrtDTf.js",
+            "phase": "load-to-10s",
+            "transferBytes": 9797,
+            "gzipBytes": 9402,
+            "rawBytes": 32894,
+            "sha256": "4ccb05d8ca254281"
+          }
+        ],
+        "gzipKiB": {
+          "untilLoad": 81.8,
+          "loadTo10s": 142.9,
+          "total": 224.7
+        },
+        "transferKiB": {
+          "untilLoad": 83.4,
+          "loadTo10s": 154.5,
+          "total": 237.9
+        }
+      },
+      "css": [
+        {
+          "file": "/assets/index-BsU4qv0s.css",
+          "rawBytes": 100772,
+          "gzipBytes": 19568,
+          "sha256": "5a98964834e87b36"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        }
+      ],
+      "fonts": [],
+      "images": [
+        {
+          "url": "/assets/hero-manifold-v1-DjyYu6ON.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 48
+        }
+      ],
+      "imageCount": 1,
+      "sequenceFrameRequests": 0,
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID",
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID"
+      ],
+      "pageErrors": [],
+      "dom": {
+        "rootChildren": 7,
+        "rootTextLength": 6760,
+        "title": "Mas Technic | High-Precision CNC Manufacturing & Machining",
+        "bodyScrollWidth": 375,
+        "viewportWidth": 375,
+        "documentHeight": 8018,
+        "canvases": 0,
+        "longTasks": [
+          {
+            "start": 169,
+            "duration": 57
+          }
+        ]
+      }
+    },
+    {
+      "route": "/en",
+      "width": 375,
+      "motion": "reduce",
+      "loadMs": 79,
+      "requestCount": 39,
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&text=%E2%86%92%E2%86%90%E2%86%91%E2%86%93%E2%86%BB%E2%89%A4%E2%89%A5%E2%89%88%E2%8A%A5%E2%88%A5%E2%8C%92%E2%8C%93%E2%9F%82%E2%88%85%E2%8C%80%E2%97%8E%E2%97%8B%E2%96%B1%E2%8C%96%E2%98%85%E2%98%86%E2%88%AA&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 304
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 353
+        }
+      ],
+      "js": {
+        "files": [
+          {
+            "file": "/assets/vendor-runtime-D7HrI6pR.js",
+            "phase": "until-load",
+            "transferBytes": 1340,
+            "gzipBytes": 615,
+            "rawBytes": 1017,
+            "sha256": "a50b733cfee57858"
+          },
+          {
+            "file": "/assets/index-CZK4WbaI.js",
+            "phase": "until-load",
+            "transferBytes": 36110,
+            "gzipBytes": 35690,
+            "rawBytes": 104947,
+            "sha256": "d3f11eaafa9c5142"
+          },
+          {
+            "file": "/assets/vendor-react-BtXpvAbk.js",
+            "phase": "until-load",
+            "transferBytes": 47927,
+            "gzipBytes": 47454,
+            "rawBytes": 151190,
+            "sha256": "d8d50ccf806cf265"
+          },
+          {
+            "file": "/assets/Index-B-JHsnFK.js",
+            "phase": "load-to-10s",
+            "transferBytes": 10589,
+            "gzipBytes": 10204,
+            "rawBytes": 29777,
+            "sha256": "601532641effdbc9"
+          },
+          {
+            "file": "/assets/JsonLdSchema-DsISVYiX.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1503,
+            "gzipBytes": 1133,
+            "rawBytes": 2863,
+            "sha256": "64531ace35c3c5c5"
+          },
+          {
+            "file": "/assets/PageShell-_xmB6hi1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 14453,
+            "gzipBytes": 14068,
+            "rawBytes": 41187,
+            "sha256": "b4129246b869523e"
+          },
+          {
+            "file": "/assets/mail-CwmZRMuW.js",
+            "phase": "load-to-10s",
+            "transferBytes": 952,
+            "gzipBytes": 343,
+            "rawBytes": 631,
+            "sha256": "670415405a2c7d2a"
+          },
+          {
+            "file": "/assets/arrow-up-right-BUK-6rc8.js",
+            "phase": "load-to-10s",
+            "transferBytes": 939,
+            "gzipBytes": 314,
+            "rawBytes": 618,
+            "sha256": "d483c13784f63911"
+          },
+          {
+            "file": "/assets/claims-BMYRt09u.js",
+            "phase": "load-to-10s",
+            "transferBytes": 3072,
+            "gzipBytes": 2698,
+            "rawBytes": 5873,
+            "sha256": "defbf35e412e54a1"
+          },
+          {
+            "file": "/assets/scan-line-CUEVMM9M.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1116,
+            "gzipBytes": 386,
+            "rawBytes": 795,
+            "sha256": "7b401a2529323815"
+          },
+          {
+            "file": "/assets/shield-check-Dfv3aAzX.js",
+            "phase": "load-to-10s",
+            "transferBytes": 809,
+            "gzipBytes": 351,
+            "rawBytes": 488,
+            "sha256": "c534e1eae4a0eae1"
+          },
+          {
+            "file": "/assets/phone-BDlRtIu3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 892,
+            "gzipBytes": 522,
+            "rawBytes": 1225,
+            "sha256": "dc839281e7c1169e"
+          },
+          {
+            "file": "/assets/vendor-framer-CH1Xvl8a.js",
+            "phase": "load-to-10s",
+            "transferBytes": 44632,
+            "gzipBytes": 44127,
+            "rawBytes": 132710,
+            "sha256": "6d4e42d639aea517"
+          },
+          {
+            "file": "/assets/BlurImage-CSstZB09.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1206,
+            "gzipBytes": 836,
+            "rawBytes": 1542,
+            "sha256": "52209df1a85e006f"
+          },
+          {
+            "file": "/assets/hero-cnc-tornalama-CZRi36Fh.js",
+            "phase": "load-to-10s",
+            "transferBytes": 386,
+            "gzipBytes": 87,
+            "rawBytes": 67,
+            "sha256": "972b48b013cacce1"
+          },
+          {
+            "file": "/assets/safe-storage-DuiDTbq3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 669,
+            "gzipBytes": 214,
+            "rawBytes": 348,
+            "sha256": "093be36e46f06b89"
+          },
+          {
+            "file": "/assets/caseStudies-CNDovLoa.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1948,
+            "gzipBytes": 1578,
+            "rawBytes": 3592,
+            "sha256": "c2fc76d4766c76fa"
+          },
+          {
+            "file": "/assets/cadFiles-CETfSgpN.js",
+            "phase": "load-to-10s",
+            "transferBytes": 831,
+            "gzipBytes": 391,
+            "rawBytes": 510,
+            "sha256": "174bf7d18febc3e9"
+          },
+          {
+            "file": "/assets/useCadHandoff-DkbSJzqI.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1236,
+            "gzipBytes": 866,
+            "rawBytes": 1596,
+            "sha256": "2fd406a9ddbc09c3"
+          },
+          {
+            "file": "/assets/quality-documents-Ds6N_vk0.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1340,
+            "gzipBytes": 490,
+            "rawBytes": 1017,
+            "sha256": "352cb4e52ffe5a06"
+          },
+          {
+            "file": "/assets/kit-nWb62Sze.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1580,
+            "gzipBytes": 1210,
+            "rawBytes": 3003,
+            "sha256": "f6eb717761d868c7"
+          },
+          {
+            "file": "/assets/loader-circle-5ryBMkBy.js",
+            "phase": "load-to-10s",
+            "transferBytes": 633,
+            "gzipBytes": 258,
+            "rawBytes": 312,
+            "sha256": "235acca94c75ddea"
+          },
+          {
+            "file": "/assets/en-CK0mC8U7.js",
+            "phase": "load-to-10s",
+            "transferBytes": 39138,
+            "gzipBytes": 38727,
+            "rawBytes": 107921,
+            "sha256": "2f24e0e1bbd80029"
+          },
+          {
+            "file": "/assets/utils-B2OMREI3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 4410,
+            "gzipBytes": 4037,
+            "rawBytes": 11284,
+            "sha256": "7ef08f1b1fb72d63"
+          },
+          {
+            "file": "/assets/use-theme-Dm2pYhdv.js",
+            "phase": "load-to-10s",
+            "transferBytes": 861,
+            "gzipBytes": 340,
+            "rawBytes": 540,
+            "sha256": "768d3e33f08e6b55"
+          },
+          {
+            "file": "/assets/GlobalToasts-Ywsh0qw1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 6112,
+            "gzipBytes": 5738,
+            "rawBytes": 15988,
+            "sha256": "24147582032df862"
+          },
+          {
+            "file": "/assets/x-Cy7MmQI2.js",
+            "phase": "load-to-10s",
+            "transferBytes": 644,
+            "gzipBytes": 252,
+            "rawBytes": 323,
+            "sha256": "4d259328b93af05f"
+          },
+          {
+            "file": "/assets/index-BYSVIFPF.js",
+            "phase": "load-to-10s",
+            "transferBytes": 981,
+            "gzipBytes": 611,
+            "rawBytes": 1211,
+            "sha256": "b616f98c14e43338"
+          },
+          {
+            "file": "/assets/vendor-utils-CfDMlrKu.js",
+            "phase": "load-to-10s",
+            "transferBytes": 7512,
+            "gzipBytes": 7139,
+            "rawBytes": 21034,
+            "sha256": "f46296d7a82242e6"
+          },
+          {
+            "file": "/assets/index-BCBrtDTf.js",
+            "phase": "load-to-10s",
+            "transferBytes": 9797,
+            "gzipBytes": 9402,
+            "rawBytes": 32894,
+            "sha256": "4ccb05d8ca254281"
+          }
+        ],
+        "gzipKiB": {
+          "untilLoad": 81.8,
+          "loadTo10s": 142.9,
+          "total": 224.7
+        },
+        "transferKiB": {
+          "untilLoad": 83.4,
+          "loadTo10s": 154.5,
+          "total": 237.9
+        }
+      },
+      "css": [
+        {
+          "file": "/assets/index-BsU4qv0s.css",
+          "rawBytes": 100772,
+          "gzipBytes": 19568,
+          "sha256": "5a98964834e87b36"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        }
+      ],
+      "fonts": [],
+      "images": [
+        {
+          "url": "/assets/hero-manifold-v1-DjyYu6ON.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 43
+        }
+      ],
+      "imageCount": 1,
+      "sequenceFrameRequests": 0,
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID",
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID"
+      ],
+      "pageErrors": [],
+      "dom": {
+        "rootChildren": 6,
+        "rootTextLength": 6717,
+        "title": "Mas Technic | High-Precision CNC Manufacturing & Machining",
+        "bodyScrollWidth": 375,
+        "viewportWidth": 375,
+        "documentHeight": 8018,
+        "canvases": 0,
+        "longTasks": [
+          {
+            "start": 165,
+            "duration": 56
+          }
+        ]
+      }
+    },
+    {
+      "route": "/en",
+      "width": 1440,
+      "motion": "no-preference",
+      "loadMs": 60,
+      "requestCount": 49,
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&text=%E2%86%92%E2%86%90%E2%86%91%E2%86%93%E2%86%BB%E2%89%A4%E2%89%A5%E2%89%88%E2%8A%A5%E2%88%A5%E2%8C%92%E2%8C%93%E2%9F%82%E2%88%85%E2%8C%80%E2%97%8E%E2%97%8B%E2%96%B1%E2%8C%96%E2%98%85%E2%98%86%E2%88%AA&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 360
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 365
+        }
+      ],
+      "js": {
+        "files": [
+          {
+            "file": "/assets/vendor-runtime-D7HrI6pR.js",
+            "phase": "until-load",
+            "transferBytes": 1340,
+            "gzipBytes": 615,
+            "rawBytes": 1017,
+            "sha256": "a50b733cfee57858"
+          },
+          {
+            "file": "/assets/index-CZK4WbaI.js",
+            "phase": "until-load",
+            "transferBytes": 36110,
+            "gzipBytes": 35690,
+            "rawBytes": 104947,
+            "sha256": "d3f11eaafa9c5142"
+          },
+          {
+            "file": "/assets/JsonLdSchema-DsISVYiX.js",
+            "phase": "until-load",
+            "transferBytes": 1503,
+            "gzipBytes": 1133,
+            "rawBytes": 2863,
+            "sha256": "64531ace35c3c5c5"
+          },
+          {
+            "file": "/assets/Index-B-JHsnFK.js",
+            "phase": "until-load",
+            "transferBytes": 10589,
+            "gzipBytes": 10204,
+            "rawBytes": 29777,
+            "sha256": "601532641effdbc9"
+          },
+          {
+            "file": "/assets/vendor-react-BtXpvAbk.js",
+            "phase": "until-load",
+            "transferBytes": 47927,
+            "gzipBytes": 47454,
+            "rawBytes": 151190,
+            "sha256": "d8d50ccf806cf265"
+          },
+          {
+            "file": "/assets/mail-CwmZRMuW.js",
+            "phase": "load-to-10s",
+            "transferBytes": 952,
+            "gzipBytes": 343,
+            "rawBytes": 631,
+            "sha256": "670415405a2c7d2a"
+          },
+          {
+            "file": "/assets/arrow-up-right-BUK-6rc8.js",
+            "phase": "load-to-10s",
+            "transferBytes": 939,
+            "gzipBytes": 314,
+            "rawBytes": 618,
+            "sha256": "d483c13784f63911"
+          },
+          {
+            "file": "/assets/phone-BDlRtIu3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 892,
+            "gzipBytes": 522,
+            "rawBytes": 1225,
+            "sha256": "dc839281e7c1169e"
+          },
+          {
+            "file": "/assets/claims-BMYRt09u.js",
+            "phase": "load-to-10s",
+            "transferBytes": 3072,
+            "gzipBytes": 2698,
+            "rawBytes": 5873,
+            "sha256": "defbf35e412e54a1"
+          },
+          {
+            "file": "/assets/scan-line-CUEVMM9M.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1116,
+            "gzipBytes": 386,
+            "rawBytes": 795,
+            "sha256": "7b401a2529323815"
+          },
+          {
+            "file": "/assets/PageShell-_xmB6hi1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 14453,
+            "gzipBytes": 14068,
+            "rawBytes": 41187,
+            "sha256": "b4129246b869523e"
+          },
+          {
+            "file": "/assets/vendor-framer-CH1Xvl8a.js",
+            "phase": "load-to-10s",
+            "transferBytes": 44632,
+            "gzipBytes": 44127,
+            "rawBytes": 132710,
+            "sha256": "6d4e42d639aea517"
+          },
+          {
+            "file": "/assets/hero-cnc-tornalama-CZRi36Fh.js",
+            "phase": "load-to-10s",
+            "transferBytes": 386,
+            "gzipBytes": 87,
+            "rawBytes": 67,
+            "sha256": "972b48b013cacce1"
+          },
+          {
+            "file": "/assets/shield-check-Dfv3aAzX.js",
+            "phase": "load-to-10s",
+            "transferBytes": 809,
+            "gzipBytes": 351,
+            "rawBytes": 488,
+            "sha256": "c534e1eae4a0eae1"
+          },
+          {
+            "file": "/assets/BlurImage-CSstZB09.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1206,
+            "gzipBytes": 836,
+            "rawBytes": 1542,
+            "sha256": "52209df1a85e006f"
+          },
+          {
+            "file": "/assets/kit-nWb62Sze.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1580,
+            "gzipBytes": 1210,
+            "rawBytes": 3003,
+            "sha256": "f6eb717761d868c7"
+          },
+          {
+            "file": "/assets/caseStudies-CNDovLoa.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1948,
+            "gzipBytes": 1578,
+            "rawBytes": 3592,
+            "sha256": "c2fc76d4766c76fa"
+          },
+          {
+            "file": "/assets/useCadHandoff-DkbSJzqI.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1236,
+            "gzipBytes": 866,
+            "rawBytes": 1596,
+            "sha256": "2fd406a9ddbc09c3"
+          },
+          {
+            "file": "/assets/safe-storage-DuiDTbq3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 669,
+            "gzipBytes": 214,
+            "rawBytes": 348,
+            "sha256": "093be36e46f06b89"
+          },
+          {
+            "file": "/assets/loader-circle-5ryBMkBy.js",
+            "phase": "load-to-10s",
+            "transferBytes": 633,
+            "gzipBytes": 258,
+            "rawBytes": 312,
+            "sha256": "235acca94c75ddea"
+          },
+          {
+            "file": "/assets/quality-documents-Ds6N_vk0.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1340,
+            "gzipBytes": 490,
+            "rawBytes": 1017,
+            "sha256": "352cb4e52ffe5a06"
+          },
+          {
+            "file": "/assets/cadFiles-CETfSgpN.js",
+            "phase": "load-to-10s",
+            "transferBytes": 831,
+            "gzipBytes": 391,
+            "rawBytes": 510,
+            "sha256": "174bf7d18febc3e9"
+          },
+          {
+            "file": "/assets/en-CK0mC8U7.js",
+            "phase": "load-to-10s",
+            "transferBytes": 39138,
+            "gzipBytes": 38727,
+            "rawBytes": 107921,
+            "sha256": "2f24e0e1bbd80029"
+          },
+          {
+            "file": "/assets/index-BYSVIFPF.js",
+            "phase": "load-to-10s",
+            "transferBytes": 981,
+            "gzipBytes": 611,
+            "rawBytes": 1211,
+            "sha256": "b616f98c14e43338"
+          },
+          {
+            "file": "/assets/x-Cy7MmQI2.js",
+            "phase": "load-to-10s",
+            "transferBytes": 644,
+            "gzipBytes": 252,
+            "rawBytes": 323,
+            "sha256": "4d259328b93af05f"
+          },
+          {
+            "file": "/assets/GlobalToasts-Ywsh0qw1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 6112,
+            "gzipBytes": 5738,
+            "rawBytes": 15988,
+            "sha256": "24147582032df862"
+          },
+          {
+            "file": "/assets/use-theme-Dm2pYhdv.js",
+            "phase": "load-to-10s",
+            "transferBytes": 861,
+            "gzipBytes": 340,
+            "rawBytes": 540,
+            "sha256": "768d3e33f08e6b55"
+          },
+          {
+            "file": "/assets/utils-B2OMREI3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 4410,
+            "gzipBytes": 4037,
+            "rawBytes": 11284,
+            "sha256": "7ef08f1b1fb72d63"
+          },
+          {
+            "file": "/assets/use-gsap-BrHoFLjz.js",
+            "phase": "load-to-10s",
+            "transferBytes": 432,
+            "gzipBytes": 118,
+            "rawBytes": 111,
+            "sha256": "5a8d6213cb7f9c0f"
+          },
+          {
+            "file": "/assets/vendor-utils-CfDMlrKu.js",
+            "phase": "load-to-10s",
+            "transferBytes": 7512,
+            "gzipBytes": 7139,
+            "rawBytes": 21034,
+            "sha256": "f46296d7a82242e6"
+          },
+          {
+            "file": "/assets/index-BCBrtDTf.js",
+            "phase": "load-to-10s",
+            "transferBytes": 9797,
+            "gzipBytes": 9402,
+            "rawBytes": 32894,
+            "sha256": "4ccb05d8ca254281"
+          },
+          {
+            "file": "/assets/lenis-faqbxiYg.js",
+            "phase": "load-to-10s",
+            "transferBytes": 5602,
+            "gzipBytes": 5216,
+            "rawBytes": 18451,
+            "sha256": "05831f19c862ad16"
+          },
+          {
+            "file": "/assets/vendor-gsap-0lJgtTtq.js",
+            "phase": "load-to-10s",
+            "transferBytes": 45724,
+            "gzipBytes": 45160,
+            "rawBytes": 114375,
+            "sha256": "310be8a1870009d0"
+          }
+        ],
+        "gzipKiB": {
+          "untilLoad": 92.9,
+          "loadTo10s": 181.1,
+          "total": 274
+        },
+        "transferKiB": {
+          "untilLoad": 95.2,
+          "loadTo10s": 193.3,
+          "total": 288.5
+        }
+      },
+      "css": [
+        {
+          "file": "/assets/index-BsU4qv0s.css",
+          "rawBytes": 100772,
+          "gzipBytes": 19568,
+          "sha256": "5a98964834e87b36"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        }
+      ],
+      "fonts": [],
+      "images": [
+        {
+          "url": "/assets/hero-manifold-v1-DjyYu6ON.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 43
+        },
+        {
+          "url": "/assets/industry-medical-BIVAP-Gq.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 160
+        },
+        {
+          "url": "/assets/hero-cnc-tornalama-DxFnZHUM.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 289
+        },
+        {
+          "url": "/assets/industry-aerospace-CN-v49lX.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 290
+        },
+        {
+          "url": "/assets/industry-defense-960-D39PKqMk.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 291
+        },
+        {
+          "url": "/assets/industry-hydraulic-SQGcPZcZ.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 291
+        },
+        {
+          "url": "/assets/industry-defense-CeliYO2F.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 291
+        },
+        {
+          "url": "/assets/industry-automotive-C-3PtV05.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 291
+        }
+      ],
+      "imageCount": 8,
+      "sequenceFrameRequests": 0,
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID",
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID"
+      ],
+      "pageErrors": [],
+      "dom": {
+        "rootChildren": 7,
+        "rootTextLength": 7408,
+        "title": "Mas Technic | High-Precision CNC Manufacturing & Machining",
+        "bodyScrollWidth": 1440,
+        "viewportWidth": 1440,
+        "documentHeight": 4436,
+        "canvases": 0,
+        "longTasks": [
+          {
+            "start": 173,
+            "duration": 60
+          },
+          {
+            "start": 289,
+            "duration": 66
+          },
+          {
+            "start": 10601,
+            "duration": 196
+          },
+          {
+            "start": 10798,
+            "duration": 118
+          }
+        ]
+      }
+    },
+    {
+      "route": "/en",
+      "width": 1440,
+      "motion": "reduce",
+      "loadMs": 146,
+      "requestCount": 46,
+      "failedRequests": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&text=%E2%86%92%E2%86%90%E2%86%91%E2%86%93%E2%86%BB%E2%89%A4%E2%89%A5%E2%89%88%E2%8A%A5%E2%88%A5%E2%8C%92%E2%8C%93%E2%9F%82%E2%88%85%E2%8C%80%E2%97%8E%E2%97%8B%E2%96%B1%E2%8C%96%E2%98%85%E2%98%86%E2%88%AA&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 522
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&family=Space+Grotesk:wght@400;500;600;700&display=swap",
+          "type": "stylesheet",
+          "status": "failed",
+          "failure": "net::ERR_CERT_AUTHORITY_INVALID",
+          "at": 595
+        }
+      ],
+      "js": {
+        "files": [
+          {
+            "file": "/assets/vendor-runtime-D7HrI6pR.js",
+            "phase": "until-load",
+            "transferBytes": 1340,
+            "gzipBytes": 615,
+            "rawBytes": 1017,
+            "sha256": "a50b733cfee57858"
+          },
+          {
+            "file": "/assets/index-CZK4WbaI.js",
+            "phase": "until-load",
+            "transferBytes": 36110,
+            "gzipBytes": 35690,
+            "rawBytes": 104947,
+            "sha256": "d3f11eaafa9c5142"
+          },
+          {
+            "file": "/assets/vendor-react-BtXpvAbk.js",
+            "phase": "until-load",
+            "transferBytes": 47927,
+            "gzipBytes": 47454,
+            "rawBytes": 151190,
+            "sha256": "d8d50ccf806cf265"
+          },
+          {
+            "file": "/assets/JsonLdSchema-DsISVYiX.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1503,
+            "gzipBytes": 1133,
+            "rawBytes": 2863,
+            "sha256": "64531ace35c3c5c5"
+          },
+          {
+            "file": "/assets/Index-B-JHsnFK.js",
+            "phase": "load-to-10s",
+            "transferBytes": 10589,
+            "gzipBytes": 10204,
+            "rawBytes": 29777,
+            "sha256": "601532641effdbc9"
+          },
+          {
+            "file": "/assets/arrow-up-right-BUK-6rc8.js",
+            "phase": "load-to-10s",
+            "transferBytes": 939,
+            "gzipBytes": 314,
+            "rawBytes": 618,
+            "sha256": "d483c13784f63911"
+          },
+          {
+            "file": "/assets/mail-CwmZRMuW.js",
+            "phase": "load-to-10s",
+            "transferBytes": 952,
+            "gzipBytes": 343,
+            "rawBytes": 631,
+            "sha256": "670415405a2c7d2a"
+          },
+          {
+            "file": "/assets/claims-BMYRt09u.js",
+            "phase": "load-to-10s",
+            "transferBytes": 3072,
+            "gzipBytes": 2698,
+            "rawBytes": 5873,
+            "sha256": "defbf35e412e54a1"
+          },
+          {
+            "file": "/assets/PageShell-_xmB6hi1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 14453,
+            "gzipBytes": 14068,
+            "rawBytes": 41187,
+            "sha256": "b4129246b869523e"
+          },
+          {
+            "file": "/assets/vendor-framer-CH1Xvl8a.js",
+            "phase": "load-to-10s",
+            "transferBytes": 44632,
+            "gzipBytes": 44127,
+            "rawBytes": 132710,
+            "sha256": "6d4e42d639aea517"
+          },
+          {
+            "file": "/assets/scan-line-CUEVMM9M.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1116,
+            "gzipBytes": 386,
+            "rawBytes": 795,
+            "sha256": "7b401a2529323815"
+          },
+          {
+            "file": "/assets/hero-cnc-tornalama-CZRi36Fh.js",
+            "phase": "load-to-10s",
+            "transferBytes": 386,
+            "gzipBytes": 87,
+            "rawBytes": 67,
+            "sha256": "972b48b013cacce1"
+          },
+          {
+            "file": "/assets/shield-check-Dfv3aAzX.js",
+            "phase": "load-to-10s",
+            "transferBytes": 809,
+            "gzipBytes": 351,
+            "rawBytes": 488,
+            "sha256": "c534e1eae4a0eae1"
+          },
+          {
+            "file": "/assets/phone-BDlRtIu3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 892,
+            "gzipBytes": 522,
+            "rawBytes": 1225,
+            "sha256": "dc839281e7c1169e"
+          },
+          {
+            "file": "/assets/caseStudies-CNDovLoa.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1948,
+            "gzipBytes": 1578,
+            "rawBytes": 3592,
+            "sha256": "c2fc76d4766c76fa"
+          },
+          {
+            "file": "/assets/BlurImage-CSstZB09.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1206,
+            "gzipBytes": 836,
+            "rawBytes": 1542,
+            "sha256": "52209df1a85e006f"
+          },
+          {
+            "file": "/assets/useCadHandoff-DkbSJzqI.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1236,
+            "gzipBytes": 866,
+            "rawBytes": 1596,
+            "sha256": "2fd406a9ddbc09c3"
+          },
+          {
+            "file": "/assets/cadFiles-CETfSgpN.js",
+            "phase": "load-to-10s",
+            "transferBytes": 831,
+            "gzipBytes": 391,
+            "rawBytes": 510,
+            "sha256": "174bf7d18febc3e9"
+          },
+          {
+            "file": "/assets/kit-nWb62Sze.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1580,
+            "gzipBytes": 1210,
+            "rawBytes": 3003,
+            "sha256": "f6eb717761d868c7"
+          },
+          {
+            "file": "/assets/safe-storage-DuiDTbq3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 669,
+            "gzipBytes": 214,
+            "rawBytes": 348,
+            "sha256": "093be36e46f06b89"
+          },
+          {
+            "file": "/assets/quality-documents-Ds6N_vk0.js",
+            "phase": "load-to-10s",
+            "transferBytes": 1340,
+            "gzipBytes": 490,
+            "rawBytes": 1017,
+            "sha256": "352cb4e52ffe5a06"
+          },
+          {
+            "file": "/assets/loader-circle-5ryBMkBy.js",
+            "phase": "load-to-10s",
+            "transferBytes": 633,
+            "gzipBytes": 258,
+            "rawBytes": 312,
+            "sha256": "235acca94c75ddea"
+          },
+          {
+            "file": "/assets/en-CK0mC8U7.js",
+            "phase": "load-to-10s",
+            "transferBytes": 39138,
+            "gzipBytes": 38727,
+            "rawBytes": 107921,
+            "sha256": "2f24e0e1bbd80029"
+          },
+          {
+            "file": "/assets/vendor-utils-CfDMlrKu.js",
+            "phase": "load-to-10s",
+            "transferBytes": 7512,
+            "gzipBytes": 7139,
+            "rawBytes": 21034,
+            "sha256": "f46296d7a82242e6"
+          },
+          {
+            "file": "/assets/x-Cy7MmQI2.js",
+            "phase": "load-to-10s",
+            "transferBytes": 644,
+            "gzipBytes": 252,
+            "rawBytes": 323,
+            "sha256": "4d259328b93af05f"
+          },
+          {
+            "file": "/assets/utils-B2OMREI3.js",
+            "phase": "load-to-10s",
+            "transferBytes": 4410,
+            "gzipBytes": 4037,
+            "rawBytes": 11284,
+            "sha256": "7ef08f1b1fb72d63"
+          },
+          {
+            "file": "/assets/use-theme-Dm2pYhdv.js",
+            "phase": "load-to-10s",
+            "transferBytes": 861,
+            "gzipBytes": 340,
+            "rawBytes": 540,
+            "sha256": "768d3e33f08e6b55"
+          },
+          {
+            "file": "/assets/index-BYSVIFPF.js",
+            "phase": "load-to-10s",
+            "transferBytes": 981,
+            "gzipBytes": 611,
+            "rawBytes": 1211,
+            "sha256": "b616f98c14e43338"
+          },
+          {
+            "file": "/assets/GlobalToasts-Ywsh0qw1.js",
+            "phase": "load-to-10s",
+            "transferBytes": 6112,
+            "gzipBytes": 5738,
+            "rawBytes": 15988,
+            "sha256": "24147582032df862"
+          },
+          {
+            "file": "/assets/index-BCBrtDTf.js",
+            "phase": "load-to-10s",
+            "transferBytes": 9797,
+            "gzipBytes": 9402,
+            "rawBytes": 32894,
+            "sha256": "4ccb05d8ca254281"
+          }
+        ],
+        "gzipKiB": {
+          "untilLoad": 81.8,
+          "loadTo10s": 142.9,
+          "total": 224.7
+        },
+        "transferKiB": {
+          "untilLoad": 83.4,
+          "loadTo10s": 154.5,
+          "total": 237.9
+        }
+      },
+      "css": [
+        {
+          "file": "/assets/index-BsU4qv0s.css",
+          "rawBytes": 100772,
+          "gzipBytes": 19568,
+          "sha256": "5a98964834e87b36"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        },
+        {
+          "file": "/assets/Index-LixrNfND.css",
+          "rawBytes": 51755,
+          "gzipBytes": 9371,
+          "sha256": "7f7f68a099ed4a16"
+        },
+        {
+          "file": "/assets/PageShell-Bf0hyGsc.css",
+          "rawBytes": 114037,
+          "gzipBytes": 19127,
+          "sha256": "aad2774f1c757cdc"
+        }
+      ],
+      "fonts": [],
+      "images": [
+        {
+          "url": "/assets/hero-manifold-v1-DjyYu6ON.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 74
+        },
+        {
+          "url": "/assets/industry-medical-BIVAP-Gq.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 373
+        },
+        {
+          "url": "/assets/hero-cnc-tornalama-DxFnZHUM.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 613
+        },
+        {
+          "url": "/assets/industry-aerospace-CN-v49lX.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 615
+        },
+        {
+          "url": "/assets/industry-hydraulic-SQGcPZcZ.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 615
+        },
+        {
+          "url": "/assets/industry-defense-CeliYO2F.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 620
+        },
+        {
+          "url": "/assets/industry-defense-960-D39PKqMk.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 621
+        },
+        {
+          "url": "/assets/industry-automotive-C-3PtV05.webp",
+          "status": 200,
+          "contentType": "image/webp",
+          "at": 623
+        }
+      ],
+      "imageCount": 8,
+      "sequenceFrameRequests": 0,
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID",
+        "Failed to load resource: net::ERR_CERT_AUTHORITY_INVALID"
+      ],
+      "pageErrors": [],
+      "dom": {
+        "rootChildren": 6,
+        "rootTextLength": 7365,
+        "title": "Mas Technic | High-Precision CNC Manufacturing & Machining",
+        "bodyScrollWidth": 1440,
+        "viewportWidth": 1440,
+        "documentHeight": 4436,
+        "canvases": 0,
+        "longTasks": [
+          {
+            "start": 380,
+            "duration": 127
+          },
+          {
+            "start": 507,
+            "duration": 75
+          },
+          {
+            "start": 689,
+            "duration": 79
+          },
+          {
+            "start": 3176,
+            "duration": 96
+          }
+        ]
+      }
+    }
+  ]
+}

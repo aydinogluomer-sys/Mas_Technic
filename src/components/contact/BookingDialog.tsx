@@ -130,6 +130,16 @@ export function BookingDialog({ open, onClose }: { open: boolean; onClose: () =>
               onError={() => setState("fallback")}
             />
           )}
+          {/* UX04 — `onLoad` is not proof the calendar rendered: a frame
+              blocked by the browser or an extension also fires it. So the
+              way out stays on screen in every state, not only after the
+              8-second fallback. */}
+          {state === "ready" && (
+            <p className="booking-frame-hint">
+              {t("Takvim görünmüyorsa randevu sayfasını yeni sekmede açın.")}{" "}
+              <a href={BOOKING_LINK} target="_blank" rel="noopener noreferrer">{t("Randevuyu yeni sekmede aç")}</a>
+            </p>
+          )}
           {state === "loading" && (
             <div className="booking-skeleton" aria-live="polite">
               <span>{t("TAKVİM YÜKLENİYOR")}</span>

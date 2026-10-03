@@ -260,10 +260,15 @@ export const Malzemeler = () => {
                     ))}
                   </select>
                 </div>
-                <p className="shell-field-hint" role="status">
+                <p className="shell-field-hint" role="status" id="malzeme-compare-status">
                   {query.trim()
                     ? t("“{{query}}” için {{count}} kayıt", { query: query.trim(), count: filtered.length })
                     : t("Karşılaştırma seçimi {{selected}}/{{max}}", { selected: compare.length, max: MAX_COMPARE })}
+                  {/* UX02 — the limit is said, not only enforced: at 1 the
+                      table needs a second pick, at 4 the other buttons are
+                      disabled and this line says why. */}
+                  {compare.length === 1 && <> · {t("Karşılaştırma tablosu için bir malzeme daha seçin.")}</>}
+                  {compare.length >= MAX_COMPARE && <> · {t("En fazla {{max}} malzeme karşılaştırılabilir; başka birini eklemek için bir seçimi kaldırın.", { max: MAX_COMPARE })}</>}
                 </p>
               </div>
             </section>

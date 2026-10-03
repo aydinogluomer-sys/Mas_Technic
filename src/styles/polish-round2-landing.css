@@ -54,7 +54,7 @@
   border-top: 1px solid var(--tl-rule);
   padding: var(--tl-s3) var(--tl-s4);
 }
-.tl-sector-controls p { margin: 0; color: var(--tl-on-dark-meta); font: 600 11px/1 var(--tl-font-mono); letter-spacing: .12em; }
+.tl-sector-controls p { margin: 0; color: var(--tl-on-dark-meta); font: 600 12px/1 var(--tl-font-mono); letter-spacing: .12em; }
 .tl-sector-controls p span { color: var(--tl-white); }
 .tl-sector-controls div { display: flex; gap: var(--tl-s2); }
 .tl-sector-controls button {
@@ -156,22 +156,27 @@
 .shell-root .tl-rfq-body > ol li:last-child { border-right: 0; }
 .shell-root .tl-rfq-body > ol li:last-child::after { display: none; }
 @media (max-width: 767px) {
-  .shell-root .tl-rfq-body > ol { gap: 0; }
+  /* UX01: the four RFQ steps in a 2 × 2 grid, read 01 → 02 / 03 → 04, the
+     same connector rule as the process band on this width. */
+  .shell-root .tl-rfq-body > ol { gap: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .shell-root .tl-rfq-body > ol li {
     border-right: 0;
     border-bottom: 1px solid var(--tl-paper-rule);
-    padding: var(--tl-s4) var(--tl-s3);
+    padding: var(--tl-s3);
   }
   .shell-root .tl-rfq-body > ol li:first-child { padding-left: var(--tl-s3); }
-  .shell-root .tl-rfq-body > ol li:last-child { border-bottom: 0; }
+  .shell-root .tl-rfq-body > ol li:nth-child(odd) { border-right: 1px solid var(--tl-paper-rule); }
+  .shell-root .tl-rfq-body > ol li:nth-child(n + 3) { border-bottom: 0; }
   .shell-root .tl-rfq-body > ol li::after {
-    content: "↓";
-    top: auto;
-    right: auto;
-    bottom: -10px;
-    left: var(--tl-s5);
+    content: "→";
+    top: var(--tl-s4);
+    right: -9px;
+    bottom: auto;
+    left: auto;
     transform: none;
+    background: var(--tl-paper);
   }
+  .shell-root .tl-rfq-body > ol li:nth-child(even)::after { display: none; }
 }
 
 /* ── REVISION 4 · EVERY PICTURE LEADS SOMEWHERE ───────────────────────────
@@ -203,4 +208,12 @@
 @media (max-width: 767px) {
   /* UX03: a text-only management-system card does not need the document card's height. */
   .shell-root .tl-quality-strip > .tl-cert--system { min-height: 0; }
+  .shell-root .tl-quality-strip > .tl-cert { min-height: 0; }
+  /* UX01: a document card reads as one row on a phone — the real first page
+     as a 64px thumbnail on the left, title and printed metadata on the right. */
+  .shell-root .tl-quality-strip > .tl-cert--doc { grid-column: 1 / -1; display: grid; grid-template-columns: 64px minmax(0, 1fr); column-gap: var(--tl-s3); align-items: start; border-left: 1px solid var(--tl-paper-rule); }
+  .shell-root .tl-cert--doc .tl-cert-thumb { grid-column: 1; grid-row: 1 / span 2; margin: 0; }
+  .shell-root .tl-cert--doc .tl-cert-thumb img { width: 64px; height: 84px; }
+  .shell-root .tl-cert--doc h3 { grid-column: 2; }
+  .shell-root .tl-cert--doc .tl-cert-foot { grid-column: 2; margin-top: var(--tl-s2); padding-top: 0; }
 }

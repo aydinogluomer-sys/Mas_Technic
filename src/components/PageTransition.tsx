@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { ROUTE_TRANSITION } from "@/config/motion-system";
@@ -88,6 +88,15 @@ export const PageTransition = ({ children }: { children: ReactNode }) => {
   const prefersReducedMotion = usePrefersReducedMotion();
   const pageName = getPageName(location.pathname);
 
+  /* UX01 — NO CURTAIN ON ARRIVAL. The curtain used to run on the first page
+     load too; the removed entry sequence covered it, so nobody saw a ~1 s
+     full-screen layer close and open over the page they had just opened. The
+     contract says nothing may make the page wait, so the curtain now plays
+     only for a real route change, never for the arrival itself. */
+  const initialPath = useRef(location.pathname);
+  const navigated = useRef(false);
+  if (location.pathname !== initialPath.current) navigated.current = true;
+
   const { coverDuration, holdDuration, revealDuration, panelStagger } = ROUTE_TRANSITION;
   const total = coverDuration + holdDuration + revealDuration;
 
@@ -97,7 +106,7 @@ export const PageTransition = ({ children }: { children: ReactNode }) => {
           (`/#surec`) is not a route change and must not pull a curtain over
           the page the reader is already on. A real route change remounts this
           wrapper in one commit, which restarts every keyframe from zero. */}
-      {!prefersReducedMotion && (
+      {!prefersReducedMotion && navigated.current && (
         <div key={location.pathname} aria-hidden="true" data-route-curtain>
           {Array.from({ length: PANEL_COUNT }, (_, index) => (
             <div

@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 /** Referans pafta 01–14 arası bantlardan oluşur; sıra ve numaralandırma sözleşmedir. */
-const BAND_INDICES = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14"];
+const BAND_INDICES = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
 
 test.describe("technical editorial landing phase 1", () => {
   test.beforeEach(async ({ page }) => {
@@ -65,43 +65,22 @@ test.describe("technical editorial landing phase 1", () => {
     expect(Math.max(...etiketler.map((e) => e.tasma))).toBeLessThanOrEqual(0);
   });
 
-  test("renders the capability marquee with its loop copy hidden from assistive tech", async ({ page }) => {
-    const marquee = page.getByRole("region", { name: "Üretim kabiliyetleri" });
-    await expect(marquee).toBeVisible();
-    // Kesintisiz döngü için liste iki kez basılır; kopya erişilebilirlik ağacında olmamalı.
-    await expect(marquee.locator(".tl-marquee-track > ul")).toHaveCount(2);
-    await expect(marquee.locator(".tl-marquee-track > ul[aria-hidden='true']")).toHaveCount(1);
-    await expect(marquee.getByRole("listitem").filter({ hasText: "MONTAJ & BİRLEŞTİRME" })).toHaveCount(1);
+  test("UX01: no marquee and no separate manifesto band; the manifesto line sits in the control band", async ({ page }) => {
+    await expect(page.locator(".tl-marquee, .tl-manifesto")).toHaveCount(0);
+    await expect(page.locator(".tl-process .tl-process-manifesto")).toContainText("Hassasiyet iddia edilmez");
   });
 
-  test("moves the visual band against the scroll without hijacking input", async ({ page }) => {
-    // PROOF01: band 05's photo became the signature module (a drawing, not a
-    // picture), so only the manifesto keeps the reverse-scroll photograph.
-    const sections = page.locator("[data-reverse-scroll]");
-    await expect(sections).toHaveCount(1);
-
-    // Mobil dahil her genişlikte açık; tek kapanma koşulu reduced-motion.
-    for (let i = 0; i < 1; i += 1) {
-      await expect(sections.nth(i)).toHaveAttribute("data-reverse-scroll-enabled", "true");
-    }
-
-    // Kapsayıcı, yolculuğu örtecek kadar büyütülmeli: boşluk açılmamalı.
-    const covered = await sections.first().evaluate((el) => {
-      const parent = el.parentElement!.getBoundingClientRect();
-      const self = el.getBoundingClientRect();
-      const distance = parseFloat(getComputedStyle(el).getPropertyValue("--reverse-distance"));
-      return { overshootTop: parent.top - self.top, overshootBottom: self.bottom - parent.bottom, distance };
-    });
-    expect(covered.distance).toBeGreaterThan(0);
-    expect(covered.overshootTop).toBeGreaterThanOrEqual(covered.distance - 1);
-    expect(covered.overshootBottom).toBeGreaterThanOrEqual(covered.distance - 1);
-
-    // Native scroll korunmalı: aşağı kaydırınca sayfa aşağı gitmeli.
+  test("no reverse-scroll photograph remains on the landing", async ({ page }) => {
+    // PROOF01 replaced band 05's photo with the signature module and UX01
+    // removed the manifesto band — the two pictures that moved against the
+    // scroll. Native scroll is untouched.
+    await expect(page.locator("[data-reverse-scroll]")).toHaveCount(0);
     const before = await page.evaluate(() => window.scrollY);
     await page.mouse.wheel(0, 600);
     await page.waitForTimeout(400);
     expect(await page.evaluate(() => window.scrollY)).toBeGreaterThan(before);
   });
+
 
   test("renders process, the NEXUS preview and the capability profiles", async ({ page }) => {
     await expect(page.getByRole("heading", { name: /Karardan parçaya/ })).toBeVisible();
@@ -121,7 +100,8 @@ test.describe("technical editorial landing phase 1", () => {
 
   test("renders sectors, the quality file and the reference band", async ({ page }) => {
     await expect(page.getByRole("region", { name: "Çalıştığımız sektörler" })).toBeVisible();
-    await expect(page.getByRole("heading", { level: 2, name: /İDDİA EDİLMEZ/ })).toBeVisible();
+    // UX01: the manifesto band is gone; its line now sits in the control band.
+    await expect(page.locator(".tl-process-manifesto")).toContainText("Hassasiyet iddia edilmez");
     // The active showcase (USER_INPUTS.md §C, implementation contract T02):
     // OHSAS 18001 keeps its permission record but is not shown as an active
     // certificate, and ISO 45001 is not added in its place.
@@ -148,8 +128,9 @@ test.describe("technical editorial landing phase 1", () => {
     // PDFs PUBLIC_OK; they were never copied into the build. The assertion is
     // strengthened, not relaxed: it now fetches every file and requires a real
     // PDF back, so a broken or missing document fails the gate.
-    await expect(page.locator(".tl-resource-title")).toHaveText("KAYNAKLAR");
-    const links = page.locator(".tl-resource-list li a");
+    // UX01/UX03: the four PDFs live in the quality band (band 07) with their
+    // real first pages; the FAQ band's second list of them was removed.
+    const links = page.locator(".tl-quality .tl-cert-thumb");
     await expect(links).toHaveCount(4);
     const hrefs = await links.evaluateAll((els) => els.map((el) => (el as HTMLAnchorElement).getAttribute("href")!));
     expect(hrefs.every((href) => href.startsWith("/belgeler/") && href.endsWith(".pdf"))).toBe(true);
@@ -200,7 +181,8 @@ test.describe("technical editorial landing phase 1", () => {
     });
     expect(cards.oran).toBeGreaterThan(1.3);
     expect(cards.oran).toBeLessThan(1.7);
-    expect(cards.satir).toBeLessThanOrEqual(44);
+    // UX01: table cells are 14px now (were 12px); a row may grow by the line.
+    expect(cards.satir).toBeLessThanOrEqual(48);
 
     // Görsel kartın dışına taşmamalı (kesin satır izi olmadan kare görsel kartı büyütüyordu).
     const tasma = await page.evaluate(() => {
@@ -243,7 +225,8 @@ test.describe("technical editorial landing phase 1", () => {
     expect(rfq.dikeyCizgi).toBe(true);
     expect(rfq.ayrac).toBe("→");
     expect(rfq.sonAdim).toEqual({ cizgi: "0px", ok: "none" });
-    expect(rfq.bantOrani).toBeLessThan(0.115);
+    // UX01: the drop zone label is 14px now (was 12px), one line taller.
+    expect(rfq.bantOrani).toBeLessThan(0.12);
 
     // 14 footer referans düzeni: başlık dolu (kontursuz), nav sütunları dikey
     // çizgiyle ayrılıyor, adres iki sütun, bant kompakt.

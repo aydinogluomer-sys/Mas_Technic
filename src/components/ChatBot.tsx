@@ -212,12 +212,15 @@ const MARKDOWN_COMPONENTS = {
       : <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>,
 };
 
-export function ChatBot() {
+export function ChatBot({ defaultOpen = false }: { defaultOpen?: boolean } = {}) {
   const { pathname } = useLocation();
   const reducedMotion = usePrefersReducedMotion();
   const { t } = useTranslation();
   const { faqEntries } = useSiteData();
-  const [open, setOpen] = useState(false);
+  /* PERF01: `ChatLauncher` loads this module on the first click and mounts
+     it already open, so that click opens the panel rather than a second
+     launcher. */
+  const [open, setOpen] = useState(defaultOpen);
   /* Below 768px the launcher sits over the lower part of the screen, which is
      exactly where the footer's conversion buttons pass while scrolling. It
      steps aside while that row is on screen (same as on footer focus), so it
@@ -434,7 +437,7 @@ export function ChatBot() {
                       <button
                         key={q}
                         onClick={() => send(t(q))}
-                        className="text-xs px-3 py-1.5 rounded-full border border-border bg-background hover:bg-accent text-foreground transition-colors"
+                        className="text-sm px-3 py-1.5 rounded-full border border-border bg-background hover:bg-accent text-foreground transition-colors"
                       >
                         {t(q)}
                       </button>
@@ -490,7 +493,7 @@ export function ChatBot() {
                   ve karardan ÖNCE duruyor. */}
               {pendingAiPrompt && !loading && (
                 <div className="ml-9 space-y-2">
-                  <p className="rounded-lg border border-border px-3 py-2 text-xs leading-snug text-foreground">
+                  <p className="rounded-lg border border-border px-3 py-2 text-sm leading-snug text-foreground">
                     {t("Evet derseniz o ana kadarki yazışma, sitenin sunucusu üzerinden Google’ın Gemini servisine iletilir. Paylaşmak istemediğiniz parça, ölçü veya firma bilgisini yazmayın —")}{" "}
                     <Link
                       to="/gizlilik-politikasi#sohbet-asistani"
@@ -503,13 +506,13 @@ export function ChatBot() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => send(t("Evet"))}
-                      className="text-xs px-4 py-1.5 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                      className="text-sm px-4 py-1.5 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
                     >
                       ✅ {t("Evet")}
                     </button>
                     <button
                       onClick={() => send(t("Hayır"))}
-                      className="text-xs px-4 py-1.5 rounded-full border border-border bg-background hover:bg-accent text-foreground transition-colors"
+                      className="text-sm px-4 py-1.5 rounded-full border border-border bg-background hover:bg-accent text-foreground transition-colors"
                     >
                       ❌ {t("Hayır")}
                     </button>

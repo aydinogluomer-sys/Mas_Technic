@@ -279,7 +279,7 @@ export const TeklifAl = () => {
      sent. No footer — a form that asks for a drawing should not end in a
      site map. The form, its hooks and every field id are unchanged. */
   return (
-    <PageShell surface="graphite" footer={false} className="rfq-page" rail={{ no: "13", label: "TEKLİF" }}>
+    <PageShell surface="graphite" footer="compact" className="rfq-page" rail={{ no: "13", label: "TEKLİF" }}>
       <section className="rfq-studio" id="talep" aria-labelledby="shell-page-title">
         <header className="rfq-head">
           <ShellBreadcrumb trail={[{ label: t("Ana sayfa"), to: "/" }, { label: t("Teklif al") }]} />

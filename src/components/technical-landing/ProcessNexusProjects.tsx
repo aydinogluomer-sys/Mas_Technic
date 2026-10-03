@@ -38,10 +38,13 @@ const FEATURED_SIZES = coverSizes(1, "264px", [
 export function TechnicalProcess() {
   const { t } = useTranslation();
   return (
-    <TechnicalSectionFrame id="surec" no="05" label="SÜREÇ" className="tl-process" labelledBy="tl-process-title">
+    <TechnicalSectionFrame id="surec" no="04" label="SÜREÇ" className="tl-process" labelledBy="tl-process-title">
       <div className="tl-process-body">
         <div className="tl-process-intro">
           <h2 id="tl-process-title">{t("Karardan parçaya,")}<br /><em>{t("kanıtla ilerleyen üretim.")}</em></h2>
+          {/* UX01: the manifesto band is gone; its sentence lives here, in the
+              control-approach band it was always describing. */}
+          <p className="tl-process-manifesto">{t("Hassasiyet iddia edilmez, ölçülür: ölçer, kaydeder, raporlar ve teslim ederiz.")}</p>
         </div>
         {/* PROOF01: the stock milling render gave way to the signature
             module — the control approach on one representative part. */}
@@ -73,7 +76,7 @@ export function NexusEvidence() {
   const { t } = useTranslation();
   const [active, setActive] = useState<string>(nexusDemoSteps[0].key);
   return (
-    <TechnicalSectionFrame id="nexus" no="06" label="NEXUS" className="tl-nexus" labelledBy="tl-nexus-title">
+    <TechnicalSectionFrame id="nexus" no="09" label="NEXUS" className="tl-nexus" labelledBy="tl-nexus-title">
       <div className="tl-nexus-body">
         <header>
           <h2 id="tl-nexus-title">{t("Bir işin beş adımı,")}<br /><em>{t("her adımda bir belge.")}</em></h2>
@@ -157,7 +160,7 @@ export function NexusEvidence() {
 export function MeasuredProjects() {
   const { t } = useTranslation();
   return (
-    <TechnicalSectionFrame id="projeler" no="07" label="KABİLİYET PROFİLLERİ" className="tl-projects" labelledBy="tl-projects-title">
+    <TechnicalSectionFrame id="projeler" no="05" label="KABİLİYET PROFİLLERİ" className="tl-projects" labelledBy="tl-projects-title">
       <div className="tl-projects-body">
         {/* Referansta bant başlığı yok; bandı sol raydaki "07 / KABİLİYET
             PROFİLLERİ" etiketi adlandırıyor, başlık yalnızca erişilebilirlik

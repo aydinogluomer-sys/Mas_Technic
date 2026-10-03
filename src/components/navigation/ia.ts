@@ -261,13 +261,14 @@ export const navigationItems: NavigationItem[] = [
    They are addressed as `/#id` rather than `#id` so the same control works
    from an inner page, where it means "go home, then to that section". */
 export const landingSections: SectionAnchor[] = [
-  { id: "surec", index: "05", label: "Süreç" },
-  { id: "nexus", index: "06", label: "Nexus" },
-  { id: "projeler", index: "07", label: "Projeler" },
-  { id: "sektorler", index: "08", label: "Sektörler" },
-  { id: "kalite", index: "10", label: "Kalite" },
-  { id: "sss", index: "12", label: "SSS" },
-  { id: "iletisim", index: "13", label: "İletişim" },
+  /* UX01 order and numbering (package 7). */
+  { id: "surec", index: "04", label: "Süreç" },
+  { id: "projeler", index: "05", label: "Projeler" },
+  { id: "sektorler", index: "06", label: "Sektörler" },
+  { id: "kalite", index: "07", label: "Kalite" },
+  { id: "nexus", index: "09", label: "Nexus" },
+  { id: "sss", index: "10", label: "SSS" },
+  { id: "iletisim", index: "11", label: "İletişim" },
 ];
 
 /* ── RESOURCES — technical reference surfaces ─────────────────────────────*/

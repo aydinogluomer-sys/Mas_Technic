@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@/i18n/LocaleLink";
 import { useTranslation } from "react-i18next";
-import { ArrowDown, ArrowLeft, ArrowRight, Loader2, UploadCloud } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2, UploadCloud } from "lucide-react";
 import aerospace from "@/assets/industry-aerospace.webp";
 import defense from "@/assets/industry-defense.webp";
 import medical from "@/assets/industry-medical.webp";
@@ -15,18 +15,10 @@ import renewable from "@/assets/industry-renewable.webp";
 import oilgas from "@/assets/industry-oilgas.webp";
 import power from "@/assets/industry-power.webp";
 import mining from "@/assets/industry-mining.webp";
-import manifesto from "@/assets/hero-tolerans-hassasiyet.webp";
-import manifesto640 from "@/assets/hero-tolerans-hassasiyet-640.webp";
-import manifesto960 from "@/assets/hero-tolerans-hassasiyet-960.webp";
-import manifesto1600 from "@/assets/hero-tolerans-hassasiyet-1600.webp";
-import manifestoPortrait from "@/assets/hero-tolerans-hassasiyet-portrait.webp";
-import manifestoPortrait640 from "@/assets/hero-tolerans-hassasiyet-portrait-640.webp";
-import { coverSizes, responsive } from "@/components/BlurImage";
 import {
   qualityCertificates, referenceLogos,
-  rfqSteps, technicalFaqs, technicalResources,
+  rfqSteps, technicalFaqs,
 } from "@/data/technicalLandingData";
-import { ReverseScrollSection } from "@/components/ReverseScrollSection";
 import { CAD_ACCEPT_ATTR, CAD_FORMAT_HINT, useCadHandoff } from "@/hooks/useCadHandoff";
 import { upper } from "@/i18n/upper";
 import { QUALITY_DOCUMENTS } from "@/content/quality-documents";
@@ -64,38 +56,8 @@ const sectors: Sector[] = [
 
 const DRAFT_RFQ_ID = "RFQ-DRAFT-LANDING";
 
-/* The manifesto picture is the one 2400-wide source on the site, so it carries
-   a 640/960/1600 ladder under it (`scripts/assets/make-derivatives.mjs`).
-   `.tl-manifesto-body` is a full-band box, `min-height` 440px (520 on mobile),
-   overscanned 72px top and bottom by `ReverseScrollSection` — 584px / 664px of
-   image box — and the image is `object-fit: cover`, so on anything narrower
-   than ~1108px the HEIGHT decides the source width the browser needs
-   (664 x 1.787 = 1187px at 375, where only the central 333px are visible).
-   That is why the mobile entry is not `100vw - 42px`. Band widths measured:
-   333 at 375, 710 at 768, 1214 at 1280, 1374 at 1440, 1534 at the 1600 sheet.
-
-   PHASE 10-2b — 375 ART DIRECTION. At 375 the landscape source, cover-fitted
-   by height, showed only its central 28% (x 36–64%): one jaw and the block's
-   corner, no scale — the inventory's one CUT verdict. Below 768px a `<source>`
-   serves a PORTRAIT cut of the same photograph (800×1342, the caliper column:
-   scale, both jaws, the pin on the granite — `crop=800:1342:1360:0`, never
-   recoloured) so the measuring idea survives under the headline. In the
-   333×664 box that portrait is fitted by height too, but at 0.596:1 it shows
-   x 8–92% of itself. It also drops the 375 fetch from a 1600-wide candidate
-   (~1186px of source needed) to 640. `display: contents` keeps the `<picture>`
-   out of the box tree so `.tl-manifesto img` and `[data-reverse-scroll-content]`
-   size the `<img>` exactly as before; the desktop candidates are untouched. */
-const manifestoImage = responsive(2400, 1343, manifesto, [manifesto640, 640], [manifesto960, 960], [manifesto1600, 1600]);
-const MANIFESTO_SIZES = coverSizes(2400 / 1343, "440px + 144px", [
-  ["(max-width: 767px)", "calc(100vw - 42px)", "520px + 144px"],
-  ["(max-width: 1180px)", "calc(100vw - 58px)"],
-  [null, "min(calc(100vw - 66px), 1534px)"],
-]);
-const MANIFESTO_PORTRAIT_MEDIA = "(max-width: 767px)";
-const manifestoPortraitImage = responsive(800, 1342, manifestoPortrait, [manifestoPortrait640, 640]);
 /* Same cover rule, portrait aspect: max(band width, 664px × 0.596) = 396px at
    375 — 640 at 1×, the 800 source at 2×. */
-const MANIFESTO_PORTRAIT_SIZES = coverSizes(800 / 1342, "520px + 144px", [[null, "calc(100vw - 42px)"]]);
 
 /* ══════════════════════════════════════════════════════════════════════════
    WHAT THIS FILE NO LONGER DRAWS
@@ -163,7 +125,7 @@ export function TechnicalSectors() {
   const pad = (value: number) => String(value).padStart(2, "0");
 
   return (
-    <TechnicalSectionFrame no="08" id="sektorler" label="SEKTÖRLER" className="tl-sectors" ariaLabel={t("Çalıştığımız sektörler")}>
+    <TechnicalSectionFrame no="06" id="sektorler" label="SEKTÖRLER" className="tl-sectors" ariaLabel={t("Çalıştığımız sektörler")}>
       <div className="tl-sectors-body">
         <div
           ref={trackRef}
@@ -203,46 +165,6 @@ export function TechnicalSectors() {
   );
 }
 
-export function MeasurementManifesto() {
-  const { t } = useTranslation();
-  return (
-    <TechnicalSectionFrame no="09" label="MANİFESTO" className="tl-manifesto" labelledBy="tl-manifesto-title">
-      <div className="tl-manifesto-body">
-        <ReverseScrollSection>
-          <picture style={{ display: "contents" }}>
-            <source
-              media={MANIFESTO_PORTRAIT_MEDIA}
-              srcSet={manifestoPortraitImage.srcSet}
-              sizes={MANIFESTO_PORTRAIT_SIZES}
-              width={manifestoPortraitImage.width}
-              height={manifestoPortraitImage.height}
-            />
-            {/* PHASE 10-3 — `alt=""`. The picture is the band's ground: it
-                sits behind a 97%-opaque scrim under a headline whose whole
-                subject is measuring ("HASSASİYET İDDİA EDİLMEZ. ÖLÇÜLÜR."),
-                and a caliper on a pin is that sentence drawn, not new
-                information. The old alt said so a second time. */}
-            <img
-              src={manifestoImage.src}
-              srcSet={manifestoImage.srcSet}
-              sizes={MANIFESTO_SIZES}
-              alt=""
-              width={manifestoImage.width}
-              height={manifestoImage.height}
-              loading="lazy"
-              decoding="async"
-            />
-          </picture>
-        </ReverseScrollSection>
-        <Link className="tl-image-link" to="/kabiliyetler/tolerans-hassasiyet" aria-label={t("Tolerans & Hassasiyet")} />
-        <div className="tl-manifesto-copy">
-          <h2 id="tl-manifesto-title">{t("HASSASİYET")}<br />{t("İDDİA EDİLMEZ.")}<br /><strong>{t("ÖLÇÜLÜR.")}</strong></h2>
-          <p>{t("Ölçer, kaydeder, raporlar ve teslim ederiz.")}</p>
-        </div>
-      </div>
-    </TechnicalSectionFrame>
-  );
-}
 
 /** 10 — Kalite dosyası: sertifikalar, ölçüm raporu ve doğrulama. */
 export function QualityFile() {
@@ -250,7 +172,7 @@ export function QualityFile() {
   /* Revision 4: the whole strip is set in capitals, language-aware (İ/ı). */
   const caps = (text: string) => upper(t(text), i18n.language);
   return (
-    <TechnicalSectionFrame no="10" id="kalite" label="KALİTE DOSYASI" className="tl-quality" labelledBy="tl-quality-title">
+    <TechnicalSectionFrame no="07" id="kalite" label="KALİTE DOSYASI" className="tl-quality" labelledBy="tl-quality-title">
       <div className="tl-quality-body">
         <h2 id="tl-quality-title" className="tl-visually-hidden">{t("Kalite dosyası")}</h2>
         {/* UX03 — the strip used to end in three look-alike "document"
@@ -291,7 +213,7 @@ export function QualityFile() {
 export function ReferenceBand() {
   const { t } = useTranslation();
   return (
-    <TechnicalSectionFrame no="11" label="REFERANSLAR" className="tl-references" ariaLabel={t("Referanslar")}>
+    <TechnicalSectionFrame no="08" label="REFERANSLAR" className="tl-references" ariaLabel={t("Referanslar")}>
       <ul className="tl-reference-grid">
         {referenceLogos.map(({ name, brand }) => (
           <li key={name} data-brand={brand}>{name}</li>
@@ -305,7 +227,7 @@ export function ReferenceBand() {
 export function FaqSection() {
   const { t } = useTranslation();
   return (
-    <TechnicalSectionFrame no="12" id="sss" label="SSS" className="tl-faq-band" labelledBy="tl-faq-title">
+    <TechnicalSectionFrame no="10" id="sss" label="SSS" className="tl-faq-band" labelledBy="tl-faq-title">
       {/* Başlıklar 1. satırda, listeler 2. satırda: iki sütun referanstaki gibi
           aynı hizadan başlar, başlık uzunluğu değişse bile hiza bozulmaz. */}
       <div className="tl-faq-body">
@@ -318,36 +240,14 @@ export function FaqSection() {
             </details>
           ))}
         </div>
-        {/* The four documents were real and publishable (§H) the whole time.
-            They were rendered as inert `<li>`s under `KAYNAKLAR HAZIRLANIYOR`
-            with four invented file sizes, for files that had never been copied
-            into the build. They are served from `public/belgeler/` now, and
-            `scripts/claims-gate.mjs` re-measures every printed size from disk.
-
-            The inline flex is deliberate: `.tl-resource-list li` owns the row
-            layout in `technical-landing.css`, which this phase may not edit, so
-            the anchor has to become the row rather than sit inside it. */}
+        {/* UX01 — the four PDFs used to be listed here a second time; band 07
+            now shows them with their real first pages, so this column points
+            onward instead of repeating them. */}
         <div className="tl-resource">
-          <h3 className="tl-resource-title">{t("KAYNAKLAR")}</h3>
+          <h3 className="tl-resource-title">{t("DEVAMI")}</h3>
           <ul className="tl-resource-list">
-            {technicalResources.map(({ title, href, size }) => (
-              <li key={href}>
-                <a
-                  href={href}
-                  download
-                  style={{
-                    display: "flex",
-                    flex: 1,
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: "var(--tl-s4)",
-                    color: "inherit",
-                  }}
-                >
-                  <span>{t(title)}</span><em>{size}</em><ArrowDown aria-hidden="true" />
-                </a>
-              </li>
-            ))}
+            <li><Link to="/sss" style={{ display: "flex", flex: 1, alignItems: "center", justifyContent: "space-between", gap: "var(--tl-s4)", color: "inherit" }}><span>{t("Tüm sık sorulan sorular")}</span><ArrowRight aria-hidden="true" /></Link></li>
+            <li><Link to="/kalite-dosyasi" style={{ display: "flex", flex: 1, alignItems: "center", justifyContent: "space-between", gap: "var(--tl-s4)", color: "inherit" }}><span>{t("Kalite dosyası ve dokümanlar")}</span><ArrowRight aria-hidden="true" /></Link></li>
           </ul>
         </div>
       </div>
@@ -363,7 +263,7 @@ export function RfqSection() {
   const { handleFile, isUploading, progress, fileName } = useCadHandoff(DRAFT_RFQ_ID);
 
   return (
-    <TechnicalSectionFrame no="13" id="iletisim" label="RFQ" className="tl-rfq" labelledBy="tl-rfq-title">
+    <TechnicalSectionFrame no="11" id="iletisim" label="RFQ" className="tl-rfq" labelledBy="tl-rfq-title">
       <div className="tl-rfq-body">
         <h2 id="tl-rfq-title">{t("Bir sonraki parçanız")}<br /><em>{t("üretime hazır mı?")}</em></h2>
         <input

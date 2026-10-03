@@ -119,7 +119,7 @@
   gap: var(--tl-s4);
   margin-top: clamp(28px, 4vh, 48px);
   color: var(--tl-on-dark-faint);
-  font: 500 11px/1 var(--tl-font-mono);
+  font: 500 12px/1 var(--tl-font-mono);
   letter-spacing: .14em;
 }
 .shell-root .shell-hero-datum i {
@@ -144,7 +144,7 @@
   margin: var(--tl-s6) var(--pl-gutter) 0;
   padding-inline: 0 !important;
 }
-.shell-root .shell-hero-meta dt { font-size: 10px; }
+.shell-root .shell-hero-meta dt { font-size: 12px; }
 .shell-root .shell-hero-meta dd { font-size: 14px; }
 
 @media (max-width: 1180px) {
@@ -201,7 +201,7 @@
   align-items: center;
   gap: var(--tl-s3);
   margin-bottom: var(--tl-s5);
-  font-size: 11px;
+  font-size: 12px;
 }
 .shell-root .shell-title-index::after {
   content: "";
@@ -215,17 +215,17 @@
 /* Legibility floor. Awwwards scores usability; 7–9px mono labels were the
    single largest readability loss on the sheet. Nothing informational drops
    under 10px now; decorative drawing marks may. */
-.shell-root .tl-proof article span { font-size: 10px; }
+.shell-root .tl-proof article span { font-size: 12px; }
 .shell-root .tl-marquee-track li { font-size: 11px; }
 .shell-root .tl-process li p { font-size: 12px; line-height: 1.65; }
 .shell-root .tl-process li h3 { font-size: 15px; }
-.shell-root .tl-cert > p { font-size: 10.5px; }
+.shell-root .tl-cert > p { font-size: 12px; }
 .shell-root .tl-proof-note,
 .shell-root .tl-project-note,
-.shell-root .tl-report-no { font-size: 10px; }
+.shell-root .tl-report-no { font-size: 12px; }
 .shell-root .tl-sector-card h3 { font-size: 12px; }
-.shell-root .tl-nexus-kpis span { font-size: 10px; }
-.shell-root .shell-meta-row dt { font-size: 10px; }
+.shell-root .tl-nexus-kpis span { font-size: 12px; }
+.shell-root .shell-meta-row dt { font-size: 12px; }
 
 /* ── P4 · 404 — OFF THE DATUM ──────────────────────────────────────────────
    The 404 was the only paper page on the site and used half the sheet. It is
@@ -252,7 +252,7 @@
 }
 .nf-top { display: flex; justify-content: space-between; align-items: baseline; gap: var(--tl-s5); }
 .nf-top .shell-eyebrow { margin: 0; }
-.nf-path { display: flex; gap: var(--tl-s3); margin: 0; color: var(--tl-on-dark-faint); font: 500 11px/1 var(--tl-font-mono); letter-spacing: .12em; }
+.nf-path { display: flex; gap: var(--tl-s3); margin: 0; color: var(--tl-on-dark-faint); font: 500 12px/1 var(--tl-font-mono); letter-spacing: .12em; }
 .nf-path code { color: var(--tl-white); font: inherit; letter-spacing: .02em; overflow-wrap: anywhere; }
 
 .nf-code {
@@ -339,7 +339,7 @@
   padding: 5px 7px;
   color: var(--tl-ink);
   background: var(--tl-paper);
-  font: 600 10px/1 var(--tl-font-mono);
+  font: 600 12px/1 var(--tl-font-mono);
   letter-spacing: .08em;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
@@ -380,7 +380,7 @@
   .nf-stage { min-height: 0; gap: var(--tl-s6); padding-top: var(--tl-s5); }
   .nf-top { flex-direction: column; gap: var(--tl-s3); }
   .nf-code { font-size: 33vw; }
-  .nf-hole-dim b { font-size: 9px; letter-spacing: .1em; }
+  .nf-hole-dim b { font-size: 12px; letter-spacing: .1em; }
 }
 
 /* ── P5 · FOOTER — THE CLOSING SCENE ──────────────────────────────────────
@@ -435,7 +435,7 @@
 .shell-root .tl-footer address { margin-top: var(--tl-s5); gap: var(--tl-s3) var(--tl-s6); }
 .shell-root .tl-footer address p { font-size: 12px; }
 .shell-root .tl-footer nav { padding-block: var(--tl-s7) var(--tl-s6); }
-.shell-root .tl-footer nav h3 { margin-bottom: var(--tl-s4); font-size: 10px; color: var(--tl-on-dark-faint); }
+.shell-root .tl-footer nav h3 { margin-bottom: var(--tl-s4); font-size: 12px; color: var(--tl-on-dark-faint); }
 .shell-root .tl-footer nav a { margin-top: 10px; font-size: 14px; line-height: 1.3; }
 .shell-root .tl-footer nav a:hover { color: var(--tl-bronze-light); }
 
@@ -509,7 +509,7 @@
 
 /* Process runs: more air per step, titles at reading size. */
 .shell-root .shell-run > li { padding-block: var(--tl-s6); gap: var(--tl-s3); }
-.shell-root .shell-run-no { font-size: 11px; }
+.shell-root .shell-run-no { font-size: 12px; }
 .shell-root .shell-run-title { font-size: clamp(16px, 1.2vw, 19px); letter-spacing: -.01em; }
 
 /* ── P7b · LANDING READING SIZES (second pass) ────────────────────────────
@@ -523,12 +523,12 @@
    featured table no longer runs into the sheet edge. */
 .shell-root .tl-project-grid h3 { font-size: 14px; letter-spacing: -.01em; }
 .shell-root .tl-project-grid th,
-.shell-root .tl-project-grid td { font-size: 11px; text-align: left; padding-inline: var(--tl-s3); }
-.shell-root .tl-project-grid th { font-size: 10px; letter-spacing: .1em; color: var(--tl-ink-soft); }
+.shell-root .tl-project-grid td { font-size: 14px; text-align: left; padding-inline: var(--tl-s3); }
+.shell-root .tl-project-grid th { font-size: 12px; letter-spacing: .1em; color: var(--tl-ink-soft); }
 .shell-root .tl-project-grid td:first-child { font-weight: 600; }
 .shell-root .tl-project-grid > .tl-project-featured > div { padding-right: var(--pl-gutter); }
 .shell-root .tl-project-grid h3 + p,
-.shell-root .tl-report-no { font-size: 10px; }
+.shell-root .tl-report-no { font-size: 12px; }
 
 /* 09 — manifesto: Turkish capitals carry dots and cedillas above and below
    the cap height; at line-height .9 the İ of one line struck the Ş of the
@@ -538,7 +538,7 @@
 
 /* 10 — quality file: titles and captions at reading size. */
 .shell-root .tl-cert h3 { font-size: 14px; letter-spacing: .02em; }
-.shell-root .tl-cert > p { font-size: 11px; line-height: 1.55; }
+.shell-root .tl-cert > p { font-size: 12px; line-height: 1.55; }
 
 /* 12 — FAQ + resources: questions are sentences, so they are set as
    sentences in the interface face, not as 10px code. */
@@ -547,15 +547,15 @@
   font: 500 clamp(14px, 1.05vw, 16px)/1.35 var(--tl-font-sans);
   letter-spacing: -.005em;
 }
-.shell-root .tl-faq summary span { font: 500 11px/1 var(--tl-font-mono); }
+.shell-root .tl-faq summary span { font: 500 12px/1 var(--tl-font-mono); }
 .shell-root .tl-faq details p { font-size: 14px; }
-.shell-root .tl-resource-title { font-size: 11px; }
-.shell-root .tl-resource-list li { font-size: 11px; }
-.shell-root .tl-resource-list em { font-size: 10px; }
+.shell-root .tl-resource-title { font-size: 12px; }
+.shell-root .tl-resource-list li { font-size: 12px; }
+.shell-root .tl-resource-list em { font-size: 12px; }
 
 /* 13 — RFQ run: step captions readable, band ratio unchanged. */
 .shell-root .tl-rfq-body > ol strong { font-size: 12px; }
-.shell-root .tl-rfq-body > ol span { font-size: 11px; }
+.shell-root .tl-rfq-body > ol span { font-size: 12px; }
 
 /* ── R2 · CURSOR ARMING ───────────────────────────────────────────────────
    The cursor now sits above the header and the menu (`Z.cursor`), so it must
@@ -630,13 +630,13 @@
 .shell-root .tl-pp-eyebrow {
   margin: 0 0 var(--tl-s2);
   color: var(--tl-bronze-light);
-  font: 600 10px/1.3 var(--tl-font-mono);
+  font: 600 12px/1.3 var(--tl-font-mono);
   letter-spacing: .12em;
 }
 .shell-root .tl-part-passport h2 { font-size: 13px; letter-spacing: .08em; }
 .shell-root .tl-part-passport dl { margin-top: var(--tl-s4); }
 .shell-root .tl-part-passport dl div + div { margin-top: 10px; }
-.shell-root .tl-part-passport dt { font-size: 10px; letter-spacing: .1em; }
+.shell-root .tl-part-passport dt { font-size: 12px; letter-spacing: .1em; }
 .shell-root .tl-part-passport dd { margin-top: 3px; font: 500 12px/1.35 var(--tl-font-mono); }
 .shell-root .tl-part-passport .tl-pp-drawing {
   margin-top: var(--tl-s5);
@@ -648,10 +648,10 @@
 .shell-root .tl-part-passport .tl-pp-text text {
   fill: var(--tl-on-dark-soft);
   stroke: none;
-  font: 500 8px var(--tl-font-mono);
+  font: 500 12px var(--tl-font-mono);
   letter-spacing: .04em;
 }
-.shell-root .tl-part-passport > p { font-size: 10px; }
+.shell-root .tl-part-passport > p { font-size: 12px; }
 
 /* ── R2 · NEXUS ENTRY POINTS ──────────────────────────────────────────────
    The portal band described NEXUS and offered no way in; the hero and the
@@ -672,7 +672,7 @@
   border: var(--tl-rule-size) solid var(--tl-control-rule);
   padding-inline: var(--tl-s4);
   color: var(--tl-white);
-  font: 700 10px/1 var(--tl-font-mono);
+  font: 700 14px/1 var(--tl-font-mono);
   letter-spacing: .14em;
   white-space: nowrap;
   text-decoration: none;
@@ -720,7 +720,7 @@
   border-top: var(--tl-rule-size) solid var(--tl-rule);
 }
 .rfq-head-meta > div { border-bottom: var(--tl-rule-size) solid var(--tl-rule-soft); padding: var(--tl-s3) var(--tl-s3) var(--tl-s3) 0; }
-.rfq-head-meta dt { color: var(--tl-on-dark-faint); font: 500 10px/1.2 var(--tl-font-mono); letter-spacing: .12em; text-transform: uppercase; }
+.rfq-head-meta dt { color: var(--tl-on-dark-faint); font: 500 12px/1.2 var(--tl-font-mono); letter-spacing: .12em; text-transform: uppercase; }
 .rfq-head-meta dd { margin: 5px 0 0; font: 500 13px/1.35 var(--tl-font-mono); }
 
 .rfq-grid {
@@ -764,7 +764,7 @@
 }
 .rfq-alt a:is(:hover, :focus-visible) { color: var(--tl-white); text-decoration-color: currentColor; }
 .rfq-legal { display: flex; flex-wrap: wrap; gap: var(--tl-s2) var(--tl-s4); margin: var(--tl-s5) 0 0; }
-.rfq-legal a { color: var(--tl-on-dark-meta); font: 500 11px/1.4 var(--tl-font-mono); letter-spacing: .04em; text-underline-offset: 3px; }
+.rfq-legal a { color: var(--tl-on-dark-meta); font: 500 12px/1.4 var(--tl-font-mono); letter-spacing: .04em; text-underline-offset: 3px; }
 .rfq-legal a:is(:hover, :focus-visible) { color: var(--tl-white); }
 .rfq-canvas { min-height: 60vh; }
 .rfq-canvas .rfq-form { gap: var(--tl-s6); }

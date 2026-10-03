@@ -60,7 +60,9 @@ import { useLocale } from "@/i18n/hooks";
    things this site stores are "hepsi 02. maddede listelenmiştir", and that
    sentence is the valuable part of the clause: it is a completeness claim a
    reader can falsify in thirty seconds with devtools. It was false.
-   `mas_intro_seen` is written at `index.html:314` by the inline "Precision
+   UX01 (package 7) removed the entry sequence, so `mas_intro_seen` is no
+   longer written and its row is gone; what follows is the history of why it
+   had been added. `mas_intro_seen` was written at `index.html:314` by the inline "Precision
    Born" entry script, which is not a module and therefore never appeared in
    any grep over `src/`. It is now the table's fifth row, because it is
    cheaper to make the claim true than to water it down.
@@ -201,12 +203,6 @@ const STORAGE_ROWS: string[][] = [
     "sessionStorage",
     "Ana sayfadan bıraktığınız çizimi teklif formuna taşır.",
     "Form devralınca silinir",
-  ],
-  [
-    "mas_intro_seen",
-    "sessionStorage",
-    "Ana sayfadaki giriş sekansının oynadığını not eder; böylece aynı sekmede bir daha oynamaz. Yalnızca ana sayfada yazılır, hareket azaltma açıksa hiç yazılmaz.",
-    "Sekme kapanana kadar",
   ],
   [
     "mas_lang",

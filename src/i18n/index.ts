@@ -1,6 +1,5 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import { isEnContentLoaded, loadEnContent } from "./content";
 import { isPanelPath, localeFromPath, normalizeLocale, type PublicLocale } from "./locale";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -93,10 +92,12 @@ const DICTIONARIES: Record<Exclude<LanguageCode, "tr">, () => Promise<{ default:
 };
 
 /** Switch the rendered language WITHOUT remembering it — what a route change
-    does. Waits for the dictionary AND, for English, the content bundle
-    (`./content`), so no Turkish frame shows in between. */
+    does. Waits for the dictionary, so no Turkish UI frame shows in between.
+    PERF01: the English CONTENT bundle is no longer awaited here — only pages
+    that read records need it, and they suspend on it themselves
+    (`useEnContent` in `./content`), so `/en` itself never downloads it. */
 export async function applyLanguage(language: PublicLocale) {
-  await Promise.all([ensureDictionary(language), language === "en" ? loadEnContent() : null]);
+  await ensureDictionary(language);
   /* `resolvedLanguage` too: on a direct `/en` load i18next starts in `en`
      before the dictionary exists and resolves to the Turkish fallback; the
      bundle arriving later does not re-resolve it, so the language is set
@@ -112,8 +113,7 @@ export function isLanguageReady(language: PublicLocale): boolean {
   if (language === "tr") return normalizeLocale(i18n.language) === "tr";
   return normalizeLocale(i18n.language) === language
     && normalizeLocale(i18n.resolvedLanguage) === language
-    && i18n.hasResourceBundle(language, "translation")
-    && isEnContentLoaded();
+    && i18n.hasResourceBundle(language, "translation");
 }
 
 async function ensureDictionary(language: string) {

@@ -99,7 +99,7 @@ export function LegalDocument({
   }));
 
   return (
-    <PageShell surface="graphite" rail={rail}>
+    <PageShell surface="graphite" rail={rail} footer="compact">
       <ShellPageHero
         no="01"
         label={rail.label}

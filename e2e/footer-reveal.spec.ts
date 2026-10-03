@@ -38,9 +38,13 @@ for (const route of ROUTES) {
     await expect(page.locator("[data-footer-spacer]")).toHaveCount(0);
     expect(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--footer-height"))).toBe("");
 
+    /* UX01 (package 7): the landing ends in its own RFQ band, so its footer
+       omits the closing quote call; every other route keeps it. */
     const checkpoints = [
-      footer.getByRole("link", { name: /Yazıları incele/i }),
-      footer.getByRole("link", { name: /Hemen Teklif Al/i }),
+      ...(route === "/" ? [] : [
+        footer.getByRole("link", { name: /Yazıları incele/i }),
+        footer.getByRole("link", { name: /Hemen Teklif Al/i }),
+      ]),
       footer.getByRole("link", { name: /Gizlilik Politikası/i }),
     ];
     const footerBox = await footer.evaluate((element) => {

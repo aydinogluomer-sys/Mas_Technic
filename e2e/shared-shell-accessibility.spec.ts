@@ -449,13 +449,14 @@ test.describe("Shared public shell accessibility", () => {
       { route: "/technical-preview", finalPaths: ["/technical-preview"], header: 1, footer: 1 },
       { route: "/legacy-landing", finalPaths: ["/legacy-landing"], header: 1, footer: 1 },
       { route: "/test", finalPaths: ["/test"], header: 1, footer: 1 },
-      /* ROUND 2 — the quote studio is a task surface: header, no footer. Its
-         legal links live in the studio rail (asserted below). */
-      { route: "/teklif-al", finalPaths: ["/teklif-al"], header: 1, footer: 0 },
-      { route: "/cad-dashboard", finalPaths: ["/teklif-al"], header: 1, footer: 0 },
-      { route: "/giris", finalPaths: ["/giris"], header: 0, footer: 0 },
-      { route: "/sifremi-unuttum", finalPaths: ["/sifremi-unuttum"], header: 0, footer: 0 },
-      { route: "/reset-password", finalPaths: ["/reset-password"], header: 0, footer: 0 },
+      /* UX04 (package 7) — the quote studio and the three auth steps carry
+         the COMPACT footer (brand, direct line, three legal links,
+         copyright); auth still has no header. */
+      { route: "/teklif-al", finalPaths: ["/teklif-al"], header: 1, footer: 1 },
+      { route: "/cad-dashboard", finalPaths: ["/teklif-al"], header: 1, footer: 1 },
+      { route: "/giris", finalPaths: ["/giris"], header: 0, footer: 1 },
+      { route: "/sifremi-unuttum", finalPaths: ["/sifremi-unuttum"], header: 0, footer: 1 },
+      { route: "/reset-password", finalPaths: ["/reset-password"], header: 0, footer: 1 },
       /* FAZ 04 — 404 ARTIK KABUKSUZ DEĞİL.
          `header: 0, footer: 0` eski hâli tarif ediyordu: 404, kendi
          açık/teal tuval estetiğiyle, ne header ne footer içeren, dört elle
@@ -469,7 +470,9 @@ test.describe("Shared public shell accessibility", () => {
       { route: "/__shell-404__", finalPaths: ["/__shell-404__"], header: 1, footer: 1 },
       { route: "/admin/login", finalPaths: ["/admin/login"], header: 0, footer: 0 },
       { route: "/admin", finalPaths: ["/admin", "/admin/login"], header: 0, footer: 0 },
-      { route: "/musteri-paneli", finalPaths: ["/musteri-paneli", "/giris"], header: 0, footer: 0 },
+      /* Signed out, the panel sends the reader to `/giris`, which carries the
+         compact footer since UX04 (package 7). */
+      { route: "/musteri-paneli", finalPaths: ["/musteri-paneli", "/giris"], header: 0, footer: 1 },
       { route: "/admin/__shell-404__", finalPaths: ["/admin/__shell-404__"], header: 0, footer: 0 },
       { route: "/musteri-paneli/__shell-404__", finalPaths: ["/musteri-paneli/__shell-404__"], header: 0, footer: 0 },
     ] as const;
@@ -920,12 +923,9 @@ test.describe("Shared public shell accessibility", () => {
        zayıflatıldığı için değil, borç ödendiği için. */
     await expect(page.locator("main#main-content details.shell-faq-item").first())
       .toBeVisible();
-    const curtainLabel = page.locator("[data-route-curtain-label]");
-    await expect(
-      curtainLabel,
-      "the route curtain must be found before it can be waited out — a selector that "
-        + "matches nothing would wait for nothing and hand axe a mid-transition frame",
-    ).toHaveCount(1);
+    /* UX01 (package 7): the curtain no longer plays on arrival — only on a
+       route change — so a direct load has nothing to wait out. */
+    await expect(page.locator("[data-route-curtain-label]")).toHaveCount(0);
     await expect.poll(
       () => page.evaluate(() => {
         const element = document.querySelector("[data-route-curtain-label]");

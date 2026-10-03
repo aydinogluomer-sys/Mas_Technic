@@ -110,6 +110,7 @@ export function MaterialRegister({
                         disabled={!isSelected && selected.length >= maxSelected}
                         onChange={() => onToggleSelect(material)}
                         aria-label={t("{{name}} — karşılaştırmaya ekle", { name: material.name })}
+                        aria-describedby="malzeme-compare-status"
                       />
                     </td>
                     <th scope="row">{material.name}</th>

@@ -157,11 +157,12 @@ const groups = navigationItems.filter((item) => item.children?.length || item.li
    `data-sheet-no` (ShellBand; the footer is 14), and the header names it.
    Revision 4: all fourteen are read, in order, so the counter never skips. */
 const SECTION_IDS: string[] = landingSections.map((section) => section.id);
-const SHEET_TOTAL = 14;
+/* UX01 (package 7): marquee and manifesto bands removed, order changed. */
+const SHEET_TOTAL = 12;
 const SHEET_LABELS: Record<string, string> = {
-  "02": "Açılış", "03": "Kanıtlar", "04": "Hizmet şeridi", "05": "Süreç",
-  "06": "Nexus", "07": "Projeler", "08": "Sektörler", "09": "Manifesto",
-  "10": "Kalite", "11": "Referanslar", "12": "SSS", "13": "Teklif", "14": "Alt bilgi",
+  "02": "Açılış", "03": "Kanıtlar", "04": "Süreç", "05": "Projeler",
+  "06": "Sektörler", "07": "Kalite", "08": "Referanslar", "09": "Nexus",
+  "10": "SSS", "11": "Teklif", "12": "Alt bilgi",
 };
 const shouldCollapseCategories = () =>
   typeof window !== "undefined" && (window.innerWidth < 768 || window.innerHeight <= 680);

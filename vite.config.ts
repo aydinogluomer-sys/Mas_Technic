@@ -1,4 +1,5 @@
 import { defineConfig, loadEnv, type Plugin } from "vite";
+import type { OutputChunk } from "rollup";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
@@ -40,6 +41,35 @@ function heroPreloadPlugin(): Plugin {
           }
           href = `${ctx.path.replace(/[^/]*$/, "")}${emitted}`.replace(/\/{2,}/g, "/");
         }
+        /* PERF01 — THE LANDING'S OWN CHUNKS, DISCOVERED EARLY. The landing is
+           a lazy route, so its JS and CSS used to be requested only after the
+           entry script had run and resolved the route: two more round trips
+           before the hero could paint (lab, slow 4G). The chunk graph is known
+           here, so the landing's chunks and stylesheets are preloaded from the
+           HTML — but only on `/` and `/en`, by a guard in an inline script, so
+           no other route downloads them. */
+        const landingAssets: [string, string][] = [];
+        if (ctx.bundle) {
+          const base = ctx.path.replace(/[^/]*$/, "");
+          const chunks = Object.values(ctx.bundle).filter((item): item is OutputChunk => item.type === "chunk");
+          const entry = chunks.find((chunk) => chunk.isEntry);
+          const preloaded = new Set<string>([...(entry?.imports ?? []), entry?.fileName ?? ""]);
+          const landing = chunks.find((chunk) => chunk.facadeModuleId?.replace(/\\/g, "/").endsWith("/src/pages/Index.tsx"));
+          const visit = (chunk: OutputChunk | undefined) => {
+            if (!chunk || preloaded.has(chunk.fileName)) return;
+            preloaded.add(chunk.fileName);
+            landingAssets.push(["modulepreload", `${base}${chunk.fileName}`]);
+            for (const css of chunk.viteMetadata?.importedCss ?? []) landingAssets.push(["style", `${base}${css}`]);
+            for (const name of chunk.imports) visit(chunks.find((item) => item.fileName === name));
+          };
+          visit(landing);
+          /* On `/en` the route also waits for the English dictionary. */
+          const dictionary = chunks.find((chunk) => chunk.facadeModuleId?.replace(/\\/g, "/").endsWith("/src/i18n/locales/en.ts"));
+          if (dictionary) landingAssets.push(["modulepreload-en", `${base}${dictionary.fileName}`]);
+        }
+        const landingScript = landingAssets.length
+          ? `(function(){var p=location.pathname;if(!/^\\/(en\\/?)?$/.test(p))return;var en=p.indexOf("/en")===0;${JSON.stringify(landingAssets)}.forEach(function(a){if(a[0]==="modulepreload-en"&&!en)return;var l=document.createElement("link");if(a[0]==="style"){l.rel="preload";l.as="style"}else{l.rel="modulepreload"}l.href=a[1];document.head.appendChild(l)})})();`
+          : null;
         return {
           html,
           tags: [
@@ -54,6 +84,7 @@ function heroPreloadPlugin(): Plugin {
               },
               injectTo: "head",
             },
+            ...(landingScript ? [{ tag: "script", children: landingScript, injectTo: "head" as const }] : []),
           ],
         };
       },

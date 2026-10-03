@@ -1,6 +1,7 @@
 import { useRef, type ReactNode, type RefObject } from "react";
 import { Header } from "@/components/Header";
 import { SiteFooter } from "./SiteFooter";
+import { CompactFooter } from "./CompactFooter";
 import { useTranslation } from "react-i18next";
 import { railLabel } from "./rail-labels";
 import { useScrollableRegionAccess } from "./useScrollableRegionAccess";
@@ -66,8 +67,13 @@ export type PageShellProps = {
   /** Mount the global navigation. `false` only for surfaces that must not
    *  offer a way out mid-task (the auth flow). */
   navigation?: boolean;
-  /** Mount the site footer. */
-  footer?: boolean;
+  /** Mount the site footer: the full editorial one, or `"compact"` (UX04:
+   *  legal texts, auth steps and the quote studio). */
+  footer?: boolean | "compact";
+  /** The footer's sheet number when the page numbers its own bands (the landing). */
+  footerNo?: string;
+  /** Render the footer's closing quote call; off where the page already ends in one. */
+  footerConversion?: boolean;
   /** Rail index + caption for `layout="band"`. */
   rail?: { no: string; label: string };
   className?: string;
@@ -84,6 +90,8 @@ export function PageShell({
   layout = "band",
   navigation = true,
   footer = true,
+  footerNo,
+  footerConversion = true,
   rail,
   className = "",
   rootRef,
@@ -118,7 +126,7 @@ export function PageShell({
           )}
           {children}
         </main>
-        {footer && <SiteFooter />}
+        {footer === "compact" ? <CompactFooter /> : footer && <SiteFooter no={footerNo} conversion={footerConversion} />}
       </div>
     </div>
   );
