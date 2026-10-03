@@ -216,6 +216,33 @@ Güncellenen mevcut spec'ler (gerekçesi yanında): `technical-landing` (ters ka
 
 Tarayıcı sonuçları `LOCAL_FIXTURE` (yerel `vite preview`, placeholder Supabase env, Google Fonts erişilemez).
 
+## Paket 6 — RFQ01 → RFQ02 → RFQ03
+
+- HEAD doğrulaması: paket 6 başında dal `985e334` (paket 5 sonu), `main` = `4618e71`. Paket 6 tek commit.
+- Kapsam sınırı: `supabase/` salt okunur (CLAUDE.md), deploy yok. Sunucu tarafı **uygulanmadı**; sözleşmesi `rfq-backend-contract.md`.
+
+| İş | Durum | Bağımlılık | Değişen dosyalar (özet) | Son kanıt |
+|---|---|---|---|---|
+| RFQ01 | İstemci PASS_LOCAL (bayrak açık build, ağ taklitli) · üretimde kapalı · sunucu `BLOCKED_DATA: backend-contract` | O06 | `src/components/rfq/{rfq-attachments,useAttachmentSelection}.ts`, `RfqAttachmentsStep.tsx`, `src/utils/cadUpload.ts` (`uploadStorageObject`), `src/vite-env.d.ts` | Sözleşme: 1 model + 3 PDF, 50/100 MB, en az 1 dosya, PDF imza (`%PDF-`) kontrolü, SHA-256, Unicode ad → güvenli nesne adı, revizyon farkı onayı. Metadata: `kind, originalName, storagePath, sizeBytes, mediaType, sha256, revisionLabel`. `VITE_RFQ_ATTACHMENTS=on` olmadan render edilmez. `evidence/screens/p6/flag-on-step1-*` |
+| RFQ02 | İstemci PASS_LOCAL · sunucu `BLOCKED_DATA: backend-contract` | O06 | `src/components/rfq/useRfqSubmission.ts`, `docs/…/rfq-backend-contract.md` | Talep numarası yeniden denemelerde sabit (D13); yanıtsız denemeden sonraki 5xx "alınmış olabilir"; 413 ve 429 kendi cümleleri; çoklu yüklemede ikinci dosya hatasında ilk dosya korunur, yeniden deneme yalnız eksiği yükler. Sunucu tarafı (yol sahipliği, idempotent insert, imzalı URL, kalıcı hız sınırı, yetim temizliği, e-posta) tanımlı, uygulanmadı |
+| RFQ03 | PASS_LOCAL | — | `src/pages/TeklifAl.tsx`, `src/components/rfq/{rfq-model,rfq-schema,RfqSpecStep,RfqSubmitStep,RfqAside,RfqUploadStep}.ts(x)`, `src/styles/polish.css` | Başlık "Üretim Teklifi İsteyin"; açıklama ve SLA ledger'dan (C14); adımlar Dosyalar / Bilgiler / İncele-Gönder; hiçbir seçim önceden yapılmıyor, özet "Belirtilmedi"; boş adım hatası; geri/ileri seçimleri koruyor; yenileme uyarısı; önizleme gönderim şartı değil. `evidence/screens/p6/step*` |
+
+### Paket 6 test sonuçları
+
+| Komut | Sonuç |
+|---|---|
+| `npx tsc --noEmit -p tsconfig.app.json` / `tsconfig.e2e.json` | geçti |
+| `npm run lint` | 0 hata, 2 uyarı (tabandaki `BlurImage.tsx`) |
+| `npm run build` (varsayılan) | geçti; çoklu ek arayüzü render edilmez (bileşen kodu küçük bir parça olarak pakette kalıyor, Rollup sabit katlamadan önce budama yaptığı için) |
+| `VITE_RFQ_ATTACHMENTS=on npx vite build --outDir <scratchpad>` | geçti; ikinci önizleme sunucusu (`127.0.0.1:4182`) |
+| `node scripts/claims-gate.mjs` | PASS: 0 ihlal (bayrak kapalıyken PDF'i sunan ilk metin kural tarafından yakalandı ve düzeltildi, C14) |
+| `e2e/p6-rfq-attachments.spec.ts` (`P6_ATTACHMENTS_URL=http://127.0.0.1:4182`) | desktop-1280 14/14, mobile-375 8/8 (veri testleri yalnız desktop'ta). Saf: model-only/PDF-only/combined, sayı/dosya/toplam sınırları, boş dosya, yanlış uzantı, sahte PDF, DWG/DXF dışarıda, revizyon farkı, Unicode ad, SHA-256. Varsayılan build: başlık/adımlar, önceden seçim yok, boş adım hatası, geri/ileri, kayıp yanıttan sonra aynı numarayla tek yükleme, belirsiz durum, 413/429. Bayrak açık build: PDF-only gövdesi (`attachments`, `application/pdf`, sha256, yol öneki), 4. PDF / sahte PDF / revizyon onayı adım 1'de durdurur, ikinci dosya hatasında yalnız eksik dosya yeniden yüklenir |
+| Mevcut RFQ spec'leri (`qa-p09a-rfq-form`, `polish/rfq-cad-preview`; desktop-1280) | güncelleme sonrası 20/20 (C15) |
+| Etkilenen set (`i18n-switch`, `l01-locale`, `scroll-region-reach`, `storage-disclosure`, `sla-wobble`, `stabilised-sweep`, `s01-webgl-failure`, `claims-sweep`, `shared-shell-accessibility`; desktop-1280 + critical-375) | 45 geçti, 1 hata: `qa-p08-storage-disclosure:310` (tabanda da düşüyor) |
+| EN taraması (`/en/teklif-al`, varsayılan ve bayrak açık build) | 0 Türkçe metin |
+
+Tüm sonuçlar `LOCAL_FIXTURE`: ağ yanıtları tarayıcı içinde taklit edildi, hiçbir istek sunucuya ulaşmadı. Bu, sunucu davranışının kanıtı değildir.
+
 ## Sonraki iş
 
-Sözleşme sırasına göre paket 6: RFQ01 → RFQ02 → RFQ03 (backend kontratı O06 yoksa yerel hazırlık, üretimde kapalı). PROOF02 gerçek veri gelince ayrı içerik teslimidir. Açık girdiler: O01 (host, prerender), O02 (kapasite eşikleri), O04 (gerçek demo kuponu), O05 (malzeme kaynakları), O08 (EN hukuki onay), O10 (origin ve EN'in yayına açılması).
+Sözleşme sırasına göre paket 7: UX01 → UX02 → UX04 → PERF01. RFQ sunucu tarafı O06 ile ayrı teslim. PROOF02 gerçek veri gelince ayrı içerik teslimidir. Açık girdiler: O01 (host, prerender), O02 (kapasite eşikleri), O04 (gerçek demo kuponu), O05 (malzeme kaynakları), O08 (EN hukuki onay), O10 (origin ve EN'in yayına açılması).

@@ -39,6 +39,12 @@ import {
   type RfqFieldName,
 } from "@/components/rfq/rfq-schema";
 import { useCadSelection } from "@/components/rfq/useCadSelection";
+import { RFQ_ATTACHMENTS_ENABLED } from "@/components/rfq/rfq-attachments";
+import { useAttachmentSelection } from "@/components/rfq/useAttachmentSelection";
+import { RfqAttachmentsStep } from "@/components/rfq/RfqAttachmentsStep";
+import { CadStageHost } from "@/components/rfq/CadStageHost";
+import { cadPreviewKind } from "@/components/rfq/rfq-model";
+import { getCadFileExtension } from "@/utils/cadFiles";
 import { useRfqSubmission } from "@/components/rfq/useRfqSubmission";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -97,7 +103,7 @@ export const TeklifAl = () => {
   const [furthestStep, setFurthestStep] = useState(1);
   const [draft, setDraft] = useState<RfqDraft>(EMPTY_RFQ_DRAFT);
   const [errors, setErrors] = useState<RfqFieldErrors>({});
-  const [formError, setFormError] = useState<{ title: string; detail: string } | null>(null);
+  const [formError, setFormError] = useState<{ title: string; detail: string; vars?: Record<string, string> } | null>(null);
   const [focusTarget, setFocusTarget] = useState<RfqFieldName | null>(null);
 
   const [dimensions, setDimensions] = useState<Dimensions | null>(null);
@@ -106,11 +112,16 @@ export const TeklifAl = () => {
   const [stageAttempt, setStageAttempt] = useState(0);
 
   const cad = useCadSelection();
+  const attachments = useAttachmentSelection();
   const submission = useRfqSubmission();
+  const modelItem = attachments.items.find((item) => item.kind === "model") ?? null;
+  const modelPreviewKind = modelItem ? cadPreviewKind(getCadFileExtension(modelItem.file.name)) : null;
 
   const pending = submission.state.status === "uploading" || submission.state.status === "sending";
   const sent = submission.state.status === "sent";
-  const fileName = cad.selection?.file.name ?? cad.handoff?.name ?? null;
+  const fileName = RFQ_ATTACHMENTS_ENABLED
+    ? attachments.items.map((item) => item.file.name).join(", ") || null
+    : cad.selection?.file.name ?? cad.handoff?.name ?? null;
 
   const setField = useCallback((field: RfqFieldName, value: string | number) => {
     setDraft((current) => ({ ...current, [field]: value }) as RfqDraft);
@@ -139,16 +150,35 @@ export const TeklifAl = () => {
     setFormError(null);
   }, []);
 
-  const hasFile = Boolean(cad.selection || cad.handoff);
+  /* RFQ01: with attachments on, "has a file" means the attachment contract is
+     satisfied (at least one file, no count/size/type/revision problem). */
+  const hasFile = RFQ_ATTACHMENTS_ENABLED
+    ? attachments.items.length > 0 && attachments.problems.length === 0
+    : Boolean(cad.selection || cad.handoff);
 
   const advance = useCallback(() => {
     if (currentStep === 1) {
       if (!hasFile) {
+        if (RFQ_ATTACHMENTS_ENABLED) {
+          const first = attachments.problems[0];
+          setFormError({
+            title: attachments.items.length ? "Dosyalarda düzeltilmesi gereken bir şey var" : "Önce bir dosya ekleyin",
+            detail: first?.message ?? "Önce bir dosya ekleyin: 3B model, PDF teknik resim veya ikisi birlikte.",
+            vars: first?.vars,
+          });
+          document.getElementById(attachments.items.length ? "rfq-revision-ack" : "rfq-model")?.focus();
+          return;
+        }
+        /* RFQ03: the message names what this build can actually take. PDF
+           drawings need the backend change (O06), so until then they go by
+           e-mail, and the message says so instead of implying a CAD file is
+           the only way to ask. */
         setFormError({
-          title: "Önce bir CAD dosyası ekleyin",
+          title: "Önce bir 3B model dosyası ekleyin",
           detail:
-            `Teklif, geometri üzerinden çalışılıyor. ${CAD_FORMAT_CHIPS.join(", ")} formatlarından birini, ` +
-            `en fazla ${CAD_MAX_FILE_SIZE_MB} MB olacak şekilde yükleyin.`,
+            "Bu formdan {{formats}} formatlarından birini, en fazla {{size}} MB olacak şekilde ekleyebilirsiniz. " +
+            "Elinizde yalnız teknik resim varsa {{email}} adresine gönderin.",
+          vars: { formats: CAD_FORMAT_CHIPS.join(", "), size: String(CAD_MAX_FILE_SIZE_MB), email: SALES_EMAIL },
         });
         document.getElementById("rfq-cad")?.focus();
         return;
@@ -170,7 +200,7 @@ export const TeklifAl = () => {
       }
       goToStep(3);
     }
-  }, [currentStep, draft, goToStep, hasFile]);
+  }, [attachments.items.length, attachments.problems, currentStep, draft, goToStep, hasFile]);
 
   const handleSubmit = useCallback(
     (event: React.FormEvent) => {
@@ -199,21 +229,23 @@ export const TeklifAl = () => {
       }
       if (!hasFile) {
         setFormError({
-          title: "Talep gönderilemedi: CAD dosyası yok",
-          detail: "Teklif talebi bir CAD dosyası olmadan gönderilemiyor.",
+          title: "Talep gönderilemedi: dosya yok",
+          detail: RFQ_ATTACHMENTS_ENABLED
+            ? "Önce bir dosya ekleyin: 3B model, PDF teknik resim veya ikisi birlikte."
+            : "Teklif talebi bir 3B model dosyası olmadan bu formdan gönderilemiyor.",
         });
         setCurrentStep(1);
         return;
       }
 
       setFormError(null);
-      void submission.submit({
-        draft,
-        file: cad.selection?.file ?? null,
-        handoff: cad.handoff,
-      });
+      void submission.submit(
+        RFQ_ATTACHMENTS_ENABLED
+          ? { draft, file: null, handoff: null, attachments: attachments.items }
+          : { draft, file: cad.selection?.file ?? null, handoff: cad.handoff },
+      );
     },
-    [advance, cad.handoff, cad.selection, currentStep, draft, hasFile, pending, sent, submission],
+    [advance, attachments.items, cad.handoff, cad.selection, currentStep, draft, hasFile, pending, sent, submission],
   );
 
   const restart = useCallback(() => {
@@ -225,14 +257,15 @@ export const TeklifAl = () => {
     setParseError(null);
     setPreviewOpen(false);
     cad.clear();
+    attachments.clear();
     setFurthestStep(1);
     setCurrentStep(1);
-  }, [cad, submission]);
+  }, [attachments, cad, submission]);
 
   const heroMeta = useMemo(
     () => [
       { label: t("Teklif dönüşü"), value: t(QUOTE_RESPONSE_TIME) },
-      { label: t("Kabul edilen format"), value: CAD_FORMAT_CHIPS.join(", ") },
+      { label: t("Kabul edilen format"), value: RFQ_ATTACHMENTS_ENABLED ? `${CAD_FORMAT_CHIPS.join(", ")} · PDF` : CAD_FORMAT_CHIPS.join(", ") },
       { label: t("Maksimum dosya"), value: `${CAD_MAX_FILE_SIZE_MB} MB` },
       { label: t("Tolerans"), value: MINIMUM_TOLERANCE },
     ],
@@ -253,7 +286,16 @@ export const TeklifAl = () => {
           <p className="shell-eyebrow">{upper(t("TEKLİF · 3 ADIM · {{time}} DÖNÜŞ", { time: t(QUOTE_RESPONSE_TIME) }), i18n.language)}</p>
           {/* The heading string is a measured contract: `e2e/qa-p08-scroll-region
              -reach.spec.ts:207` reads it as this route's anti-404 surface. */}
-          <h1 id="shell-page-title">{t("Hassas Fiyat Teklifi Alın")}</h1>
+          <h1 id="shell-page-title">{t("Üretim Teklifi İsteyin")}</h1>
+          {/* RFQ03: the contract's description, word for word, where this
+              build can take what it promises. Without the attachment backend
+              (O06) a PDF cannot be sent from the form, so the sentence says
+              where it goes instead of offering it. The SLA is the ledger's. */}
+          <p className="rfq-lede">
+            {RFQ_ATTACHMENTS_ENABLED
+              ? t("3B modelinizi, PDF teknik resminizi veya ikisini birlikte ekleyin. Geometri, tolerans ve üretim kapsamı incelendikten sonra {{time}} içinde dönüş yapılır.", { time: t(QUOTE_RESPONSE_TIME) })
+              : t("3B modelinizi ekleyin; elinizde yalnız teknik resim varsa {{email}} adresine gönderin. Geometri, tolerans ve üretim kapsamı incelendikten sonra {{time}} içinde dönüş yapılır.", { email: SALES_EMAIL, time: t(QUOTE_RESPONSE_TIME) })}
+          </p>
           <dl className="rfq-head-meta">
             {heroMeta.map((item) => (
               <div key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>
@@ -285,7 +327,31 @@ export const TeklifAl = () => {
 
           <div className="rfq-canvas">
               <form className="shell-stack rfq-form" onSubmit={handleSubmit} aria-busy={pending} noValidate>
-                {currentStep === 1 && (
+                {currentStep === 1 && RFQ_ATTACHMENTS_ENABLED && (
+                  <>
+                    <RfqAttachmentsStep selection={attachments} />
+                    {/* The model preview stays opt-in and is never a condition
+                        for sending; PDFs are not previewed at all. */}
+                    {modelItem && modelPreviewKind && !previewOpen && (
+                      <div className="shell-state-actions">
+                        <ShellAction variant="ghost" onClick={() => setPreviewOpen(true)}>{t("3B önizlemeyi aç")}</ShellAction>
+                      </div>
+                    )}
+                    {modelItem && modelPreviewKind && previewOpen && (
+                      <CadStageHost
+                        file={modelItem.file}
+                        kind={modelPreviewKind}
+                        attempt={stageAttempt}
+                        onRetry={() => setStageAttempt((value) => value + 1)}
+                        onDimensions={setDimensions}
+                        onParseError={setParseError}
+                        onClose={() => setPreviewOpen(false)}
+                      />
+                    )}
+                  </>
+                )}
+
+                {currentStep === 1 && !RFQ_ATTACHMENTS_ENABLED && (
                   <RfqUploadStep
                     selection={cad.selection}
                     handoff={cad.handoff}
@@ -337,7 +403,7 @@ export const TeklifAl = () => {
                     it was a `sonner` toast that named one problem and vanished. */}
                 {formError && !sent && (
                   <ShellNotice tone="error" label={t("FORM HATASI")} title={t(formError.title)}>
-                    <p>{t(formError.detail)}</p>
+                    <p>{t(formError.detail, formError.vars)}</p>
                   </ShellNotice>
                 )}
 

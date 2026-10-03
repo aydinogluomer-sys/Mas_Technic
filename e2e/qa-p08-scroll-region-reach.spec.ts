@@ -204,7 +204,7 @@ const ROUTE_SURFACE: Record<string, RegExp> = {
   "/giris": /^Giriş Yapın$/,
   "/sifremi-unuttum": /^Şifremi Unuttum$/,
   "/reset-password": /^Yeni Şifre Belirleyin$/,
-  "/teklif-al": /^Hassas Fiyat Teklifi Alın$/,
+  "/teklif-al": /^Üretim Teklifi İsteyin$/,
 };
 
 /**

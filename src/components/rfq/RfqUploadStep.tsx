@@ -87,6 +87,11 @@ export function RfqUploadStep({
         <p className="shell-field-hint" id="rfq-cad-hint">
           {t("Tek dosya · en fazla {{size}} MB", { size: CAD_MAX_FILE_SIZE_MB })} · {CAD_FORMAT_HINT.replace("Maks.", t("Maks."))}
         </p>
+        {/* RFQ03: nothing about the request is stored in the browser, so a
+            reload starts over — said here, before it happens. */}
+        <p className="shell-field-hint">
+          {t("Seçtiğiniz dosya ve yazdıklarınız tarayıcıda saklanmaz: sayfayı yenilerseniz dosyayı yeniden seçmeniz gerekir.")}
+        </p>
       </div>
 
       <div className="shell-dropzone" data-dragging={isDragging || undefined} {...dragHandlers}>

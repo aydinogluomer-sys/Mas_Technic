@@ -11,6 +11,8 @@ interface ImportMetaEnv {
   readonly VITE_SITE_ORIGIN?: string;
   /** `public` to allow indexing; anything else builds a noindex preview. */
   readonly VITE_SITE_INDEXING?: string;
+  /** `on` enables multi-attachment RFQ (model + PDF). Off until the backend contract lands (RFQ01/O06). */
+  readonly VITE_RFQ_ATTACHMENTS?: string;
 }
 
 interface ImportMeta {

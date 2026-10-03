@@ -2,6 +2,7 @@ import { ShellAction, ShellMetaRow, ShellNotice, ShellTitleBlock } from "@/compo
 import { useTranslation } from "react-i18next";
 import { QUOTE_RESPONSE_TIME, SALES_EMAIL, SALES_EMAIL_HREF } from "@/content/claims";
 import {
+  NOT_SPECIFIED,
   optionLabel,
   resolveMaterialLabel,
   RFQ_PRIORITIES,
@@ -95,15 +96,15 @@ export function RfqSubmitStep({
   }
 
   const summary: { label: string; value: string }[] = [
-    { label: t("Dosya"), value: fileName ?? t("Yüklenmedi") },
+    { label: t("Dosya"), value: fileName ?? t("Eklenmedi") },
     { label: t("Yetkili"), value: draft.name.trim() || "—" },
     { label: t("Firma"), value: draft.company.trim() || "—" },
     { label: t("E-posta"), value: draft.email.trim() || "—" },
     { label: t("Hizmet"), value: t(optionLabel(RFQ_SERVICES, draft.service)) },
     { label: t("Malzeme"), value: t(resolveMaterialLabel(draft.material, draft.customMaterial)) },
     { label: t("Yüzey"), value: t(optionLabel(RFQ_SURFACE_FINISHES, draft.finish)) },
-    { label: t("Tolerans"), value: t(draft.tolerance) },
-    { label: t("Miktar"), value: Number.isFinite(draft.quantity) ? t("{{count}} adet", { count: draft.quantity }) : "—" },
+    { label: t("Tolerans"), value: t(draft.tolerance || NOT_SPECIFIED) },
+    { label: t("Miktar"), value: Number.isFinite(draft.quantity) ? t("{{count}} adet", { count: draft.quantity }) : t(NOT_SPECIFIED) },
     { label: t("Öncelik"), value: t(optionLabel(RFQ_PRIORITIES, draft.priority)) },
     { label: t("Parça / rev."), value: draft.drawingNumber.trim() || t("Belirtilmedi") },
     ...(dimensions

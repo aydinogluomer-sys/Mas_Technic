@@ -802,3 +802,28 @@
 @media (max-width: 767px) {
   .rfq-rail .shell-segment { flex-direction: column; gap: 2px; }
 }
+
+/* ── RFQ03 · request head lede, RFQ01 · attachment list ───────────────── */
+.rfq-head > .rfq-lede {
+  grid-column: 1 / span 7;
+  max-width: 62ch;
+  margin: 0;
+  color: var(--tl-on-dark-body);
+  font-size: 16px;
+  line-height: 1.55;
+}
+.rfq-attachments { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border-top: var(--tl-rule-size) solid var(--tl-rule); }
+.rfq-attachments > li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--tl-s2) var(--tl-s4);
+  align-items: end;
+  border-bottom: var(--tl-rule-size) solid var(--tl-rule);
+  padding: var(--tl-s3) 0;
+}
+.rfq-attachment-name { grid-column: 1 / -1; margin: 0; overflow-wrap: anywhere; font: 500 14px/1.4 var(--tl-font-mono); }
+.rfq-attachment-name > span { margin-right: var(--tl-s2); color: var(--tl-bronze-light); font-size: 12px; letter-spacing: .08em; }
+.rfq-attachment-size { grid-column: 1 / -1; margin: 0; color: var(--tl-on-dark-meta); font: 500 12px/1.2 var(--tl-font-mono); }
+.rfq-revision-ack { display: flex; gap: var(--tl-s3); align-items: flex-start; font-size: 15px; line-height: 1.45; cursor: pointer; }
+.rfq-revision-ack input { width: 20px; height: 20px; margin-top: 2px; flex: none; accent-color: var(--tl-paper); }
+@media (max-width: 1180px) { .rfq-head > .rfq-lede { grid-column: 1 / -1; } }

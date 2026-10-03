@@ -10,6 +10,7 @@ import {
   SALES_EMAIL_HREF,
 } from "@/content/claims";
 import {
+  NOT_SPECIFIED,
   optionLabel,
   resolveMaterialLabel,
   RFQ_PRIORITIES,
@@ -46,7 +47,7 @@ export function RfqAside({ draft, fileName }: { draft: RfqDraft; fileName: strin
             { label: t("Hizmet"), value: t(optionLabel(RFQ_SERVICES, draft.service)) },
             { label: t("Malzeme"), value: t(resolveMaterialLabel(draft.material, draft.customMaterial)) },
             { label: t("Yüzey"), value: t(optionLabel(RFQ_SURFACE_FINISHES, draft.finish)) },
-            { label: t("Miktar"), value: Number.isFinite(draft.quantity) ? t("{{count}} adet", { count: draft.quantity }) : "—" },
+            { label: t("Miktar"), value: Number.isFinite(draft.quantity) ? t("{{count}} adet", { count: draft.quantity }) : t(NOT_SPECIFIED) },
             { label: t("Öncelik"), value: t(optionLabel(RFQ_PRIORITIES, draft.priority)) },
           ]}
         />
