@@ -15,7 +15,11 @@ import {
   ShellPlate,
   ShellSpecTable,
   ShellSurfaceBand,
+  ShellTitleBlock,
 } from "@/components/shell";
+import { SchemaFigure } from "@/components/schemas/SchemaFigure";
+import { JOURNAL_SCHEMAS } from "@/components/schemas/registry";
+import { JOURNAL_MODULES } from "@/content/journal-modules";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { QUOTE_RESPONSE_TIME } from "@/content/claims";
@@ -137,7 +141,7 @@ const PLATE_DOC_WIDTHS = [
 export const BlogDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const { t, i18n } = useTranslation();
-  const { blogPosts } = useSiteData();
+  const { blogPosts, getPageBySlug } = useSiteData();
   const date = (value: string) => localDate(value, i18n.language);
   const post = blogPosts.find((entry) => entry.slug === slug);
   const plate = post ? plateSources.get(post.image) : undefined;
@@ -188,10 +192,17 @@ export const BlogDetail = () => {
     );
   }
 
-  const related = blogPosts
-    .filter((entry) => entry.slug !== post.slug)
-    .sort((a, b) => Number(b.category === post.category) - Number(a.category === post.category))
-    .slice(0, 3);
+  /* UX05 — the article's own module: drawing, decision table, sources and
+     curated related records (posts + services). */
+  const lang = i18n.language === "en" ? "en" : "tr";
+  const journal = JOURNAL_MODULES[post.slug];
+  const Drawing = JOURNAL_SCHEMAS[post.slug as keyof typeof JOURNAL_SCHEMAS];
+  const related = journal
+    ? journal.relatedPosts.map((slug) => blogPosts.find((entry) => entry.slug === slug)).filter((entry): entry is NonNullable<typeof entry> => Boolean(entry))
+    : blogPosts.filter((entry) => entry.slug !== post.slug).slice(0, 3);
+  const relatedServices = (journal?.relatedServices ?? [])
+    .map((slug) => getPageBySlug(slug))
+    .filter((page): page is NonNullable<typeof page> => Boolean(page));
 
   const shareUrl = typeof window === "undefined" ? "" : window.location.href;
 
@@ -328,8 +339,38 @@ export const BlogDetail = () => {
         </div>
       </ShellSurfaceBand>
 
+      {journal && Drawing && (
+        <ShellSurfaceBand no="03" label="ŞEMA" labelledBy="yazi-sema">
+          <div className="shell-span-read">
+            <ShellTitleBlock id="yazi-sema" index="03" title={t("Yazının açıklayıcı modülü")} />
+          </div>
+          <div className="shell-span-half">
+            <SchemaFigure drawing={Drawing} subject={journal.subject[lang]} />
+          </div>
+          <div className="shell-span-half shell-stack" data-gap="sm">
+            <p className="shell-eyebrow">{t("KAYNAKLAR")}</p>
+            <ul className="shell-detail-list">
+              {journal.sources.map((source) => (
+                <li key={source.ref}><strong>{source.ref}</strong> — {source.what[lang]}</li>
+              ))}
+            </ul>
+            <p className="shell-note">{t("Standartlar teknik başvuru olarak anılır; bir uygunluk beyanı değildir.")}</p>
+          </div>
+          <div className="shell-span-full">
+            <ShellSpecTable
+              caption={journal.table.caption[lang]}
+              note={journal.table.note?.[lang]}
+              headers={journal.table.headers.map((cell) => cell[lang])}
+              numericFrom={99}
+              rows={journal.table.rows.map((row) => row.map((cell) => cell[lang]))}
+              rowKey={(row) => String(row[0])}
+            />
+          </div>
+        </ShellSurfaceBand>
+      )}
+
       {related.length > 0 && (
-        <ShellSurfaceBand no="03" label="İLGİLİ" ariaLabel={t("İlgili yazılar")}>
+        <ShellSurfaceBand no="04" label="İLGİLİ" ariaLabel={t("İlgili yazılar")}>
           <div className="shell-span-full">
             <p className="shell-eyebrow">{t("İLGİLİ YAZILAR")}</p>
             <ShellIndexList
@@ -345,11 +386,26 @@ export const BlogDetail = () => {
               }))}
             />
           </div>
+          {relatedServices.length > 0 && (
+            <div className="shell-span-full shell-stack" data-gap="sm">
+              <p className="shell-eyebrow">{t("İLGİLİ HİZMETLER")}</p>
+              <ShellIndexList
+                compact
+                ariaLabel={t("İlgili hizmetler")}
+                items={relatedServices.map((page) => ({
+                  to: `/${page.category}/${page.slug}`,
+                  eyebrow: page.categoryLabel,
+                  title: page.title,
+                  description: page.description,
+                }))}
+              />
+            </div>
+          )}
         </ShellSurfaceBand>
       )}
 
       <ShellNextStep
-        no="04"
+        no="05"
         title={t("Bu konu sizin parçanızda mı çıktı?")}
         body={t("Teknik resim veya 3B model gönderin; konuyu genel bir yazı üzerinden değil, kendi parçanız üzerinden değerlendirelim.")}
         detail={[

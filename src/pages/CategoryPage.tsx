@@ -7,6 +7,7 @@ import {
   ShellIndexList,
   ShellNextStep,
   ShellPageHero,
+  ShellSpecTable,
   ShellSurfaceBand,
   ShellTitleBlock,
 } from "@/components/shell";
@@ -14,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import type { CategoryPageData } from "@/data/categoryPages";
 import type { ServicePageData } from "@/data/servicePages";
 import { useSiteData } from "@/i18n/data";
+import { CATEGORY_MATRIX } from "@/content/category-matrix";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME, publishableSpecValues } from "@/content/claims";
 
@@ -88,7 +90,7 @@ function entryMeta(path: string, getPageBySlug: (slug: string) => ServicePageDat
 
 export const CategoryPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { categoryPages, getPageBySlug } = useSiteData();
   const pathname = stripLocale(useLocation().pathname);
   const prefix: CategoryPageData["prefix"] = pathname.startsWith("/hizmetler")
@@ -156,6 +158,8 @@ export const CategoryPage = () => {
     );
   }
 
+  const lang = i18n.language === "en" ? "en" : "tr";
+  const matrix = CATEGORY_MATRIX[`${category.prefix}/${category.slug}`] ?? [];
   const siblings = categoryPages.filter(
     (item) => item.prefix === prefix && item.slug !== category.slug,
   );
@@ -212,12 +216,39 @@ export const CategoryPage = () => {
         </div>
       </ShellSurfaceBand>
 
+      {matrix.length > 0 && (
+        /* PAGE01 — need → process → next record; no numeric threshold. */
+        <ShellSurfaceBand no="03" label="KARAR" tone="paper" labelledBy="kategori-karar">
+          <div className="shell-span-read">
+            <ShellTitleBlock
+              id="kategori-karar"
+              index="03"
+              title={t("Hangi ihtiyaç, hangi sayfa")}
+              standfirst={t("İhtiyacınızı bulun; ilgili proses sayfası ve görüşmeyi başlatan kayıt yanında.")}
+            />
+          </div>
+          <div className="shell-span-full">
+            <ShellSpecTable
+              caption={t("{{title}} karar matrisi", { title: category.title })}
+              headers={[t("İhtiyaç"), t("İlgili proses veya kapsam"), t("Sonraki kayıt")]}
+              numericFrom={3}
+              rows={matrix.map((item) => [
+                item.need[lang],
+                getPageBySlug(item.slug)?.title ?? item.slug,
+                item.next[lang],
+              ])}
+              rowKey={(row) => String(row[1])}
+            />
+          </div>
+        </ShellSurfaceBand>
+      )}
+
       {siblings.length > 0 && (
-        <ShellSurfaceBand no="03" label="AİLE" tone="paper" labelledBy="kategori-aile">
+        <ShellSurfaceBand no="04" label="AİLE" labelledBy="kategori-aile">
           <div className="shell-span-read">
             <ShellTitleBlock
               id="kategori-aile"
-              index="03"
+              index="04"
               title={t("{{family}} — diğer başlıklar", { family: t(family.label) })}
               standfirst={t("Aradığınız iş bu kategoride değilse, aynı ailenin geri kalanı burada.")}
             />
@@ -237,7 +268,7 @@ export const CategoryPage = () => {
       )}
 
       <ShellNextStep
-        no="04"
+        no="05"
         title={t("{{title}} için teklif", { title: category.title })}
         body={t("Teknik resim veya 3B model gönderin; üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım.")}
         detail={[

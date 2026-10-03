@@ -8,20 +8,20 @@ Durum değerleri: `TODO`, `IN_PROGRESS`, `PASS_LOCAL`, `PASS_LIVE`, `ALREADY_SAT
 
 | Konu | Karar (özet) | İş | Durum | Not |
 |---|---|---|---|---|
-| Dil | Public TR + tam EN; DE/RU/ZH menüden gizlenir, dosyalar silinmez | L01 | TODO | 3. paket |
-| Dil URL'si | TR yolları aynı; EN `/en` öneki; panel rotaları değişmez | L01, R01 | TODO | R01 yardımcısı `/en` önekini şimdiden koruyor (`src/lib/detail-route.ts`) |
+| Dil | Public TR + tam EN; DE/RU/ZH menüden gizlenir, dosyalar silinmez | L01 | PASS_LOCAL | Paket 3; yayına açılış O10, EN hukuki onay O08 |
+| Dil URL'si | TR yolları aynı; EN `/en` öneki; panel rotaları değişmez | L01, R01 | PASS_LOCAL | Paket 3 |
 | Malzeme sekansı | `/malzemeler`'den 80 karelik 300vh sekans kaldırılır; kayıt önce, statik pafta sonra | M01 | PASS_LOCAL | Component ve `public/sequence-material/` diskte duruyor; başka rota kullanmıyor ama silme ayrı karar |
 | Intro | Tam ekran, bekleten intro kaldırılır | UX01 | TODO | 7. paket |
 | Hero ölçüleri | Eksik Ø/0.010 FCF kutusu kalkar; responsive'te `ŞEMATİK ÖN / YAN GÖRÜNÜŞ` | PROOF01 | TODO | |
 | Tavlama | `/hizmetler/tavlama` kalır, içerik `Lazer Tavlama ile Markalama` | T01 | PASS_LOCAL | Fırın/sertleştirme/normalizasyon/sementasyon/indüksiyon içeriği ve karışık tablo kaldırıldı; menü, kategori ve sözlükler güncellendi |
 | Çelişkili kapasite | Sayı seçilmez; satır çıkar, standart kapsam metni girer | T01, T02 | PASS_LOCAL | Kapsam metni: "Çalışma aralığı, parçanın geometrisi ve proses planı incelendikten sonra teklifte belirtilir." Onay O02 bekliyor. |
 | Sertifikalar | OHSAS aktif rozet olarak kullanılmaz; ISO 45001 eklenmez; ISO 9001/14001 izin kapsamında, geçerlilik kontrolü açık | T02, UX03 | PASS_LOCAL (yayın kabulü `BLOCKED_DATA`, O03) | OHSAS `claims.ts` içinde `withhold` kaydı; vitrin, SSS ve chatbot'tan çıkarıldı | `USER_INPUTS.md` §C OHSAS'ı `PUBLIC_OK` diyor; sözleşme izni değiştirmeden vitrinden çıkarmayı söylüyor — izin kaydı aynen korunacak |
-| Görsel seçimi | 17 sektör için açık manifest; generic fallback yok | IMG01 | TODO | |
+| Görsel seçimi | 17 sektör için açık manifest; generic fallback yok | IMG01 | PASS_LOCAL | `src/content/detail-visuals.ts`: 48/48 açık kayıt. 17 sektörün 15'i özgün kod şeması, 2'si (havacılık, seri üretim) repo görseli; hiçbir görsel ikiden fazla sektörde yok, her tekrar gerekçeli. D5–D8 |
 | Gerçek kanıt | Bir gerçek demo kuponu; yoksa measured panel kapalı | PROOF01, PROOF02 | TODO | PROOF02 = `BLOCKED_DATA` adayı (O04) |
 | İmza deneyim | 3 özellik → bağlama/proses → kontrol → kayıt; 2D, WebGL yok | PROOF01 | TODO | |
 | NEXUS | `DEMO — GERÇEK SİPARİŞ DEĞİLDİR` etiketli 5 adım | NEXUS01 | TODO | |
 | RFQ | Model veya PDF (en az biri); 1 model + 3 PDF; 50/100 MB | RFQ01–03 | TODO | Backend kontratı O06 |
-| Detay sayfaları | Tek shell; 7 pilot modül | PAGE01 | TODO | |
+| Detay sayfaları | Tek shell; 7 pilot modül | PAGE01 | PASS_LOCAL | 7 pilot modül (problem → proses → kontrol, hero'dan hemen sonra), detay başına en çok 4 elle seçilmiş ilgili kayıt, 15 kategori sayfasında 3 sütunlu karar matrisi (sayısal eşik yok, O02) |
 | Hukuki footer | Hukuk/auth/RFQ'da kompakt footer | UX04 | TODO | |
 | Performans | 493 KB baseline değil; gerçek ölçüm; iç hedef ≤320 KiB gzip | S01, PERF01 | IN_PROGRESS | S01 tabanı alındı (bkz. `status.md`) |
 
@@ -38,6 +38,7 @@ Durum değerleri: `TODO`, `IN_PROGRESS`, `PASS_LOCAL`, `PASS_LIVE`, `ALREADY_SAT
 | C8 | L01 | `USER_INPUTS.md` §B `ENGLISH_LIVE_NOW: NO` ve `claims.ts` `ENGLISH_SITE = withhold(...)`; sözleşme paket 3 ise tam TR/EN public yüzey istiyor. | Sözleşme uygulandı: `/en` yüzeyi kuruldu. `USER_INPUTS.md` ve `ENGLISH_SITE` kaydı değiştirilmedi (izinler olduğu gibi). Yayına/indekslemeye açılması O10'a bağlı; build varsayılanı zaten `preview` (noindex). |
 | C9 | L01 | `e2e/polish/i18n-switch.spec.ts` (Round 2) beş dil (TR·EN·DE·RU·ZH) ve `mas_lang` ile yerinde dil değişimi bekliyordu. | Sözleşme kazanır: public dil adres ile belirlenir, switch aynı kaydın diğer dildeki adresine gider. Spec TR/EN ve URL davranışına göre yeniden yazıldı; DE/RU/ZH sözlükleri silinmedi. |
 | C10 | SEO01 | `index.html` canonical ve `og:url` olarak `https://mas-technic-precision.lovable.app/` yazıyordu; `USER_INPUTS.md` §A başka bir domain veriyor. | Sabit origin kaynaktan kaldırıldı. Origin yalnız `VITE_SITE_ORIGIN` ile gelir; yoksa canonical/og:url/hreflang yazılmaz. `public` build origin'siz kırılır (`mas-site-meta`). |
+| C11 | IMG01 | Aynı `demo-placeholder-badge` kuralı (C5) IMG01'in harfiyen istediği "Temsili mühendislik şeması" etiketini yakalıyordu. | C5 ile aynı yol: etiket `CONTRACT_HONESTY_LABELS` listesine sabitlendi. Şema konu başlıklarında "temsili" kelimesi kullanılmadı ("Aynı geometrinin iki revizyonu" gibi yeniden yazıldı). |
 | C4 | S01 | `CLAUDE.md` "her commit öncesi `npm run build` geçmeli" diyor; envsiz build başarılı ama uygulama tarayıcıda `VITE_SUPABASE_URL is not set` hatasıyla `ErrorBoundary`'ye düşüyor. | Yerel ölçümler CI ile aynı placeholder env ile yapıldı ve `LOCAL_FIXTURE` olarak etiketlendi. Envsiz sonuç ayrıca kaydedildi (`evidence/s01-baseline-requests-noenv.json`). |
 
 ## Açık karar önerileri
@@ -48,3 +49,7 @@ Durum değerleri: `TODO`, `IN_PROGRESS`, `PASS_LOCAL`, `PASS_LIVE`, `ALREADY_SAT
 | D2 | M01 caption yönü | Sözleşmenin harfiyen verdiği caption "…**aşağıdaki** kayıt…" diyordu; sözleşmenin sıralamasına göre kayıt paftanın **üstünde**. | **Uygulandı (kullanıcı kararı, 2 Ekim 2026):** caption "…**yukarıdaki** kayıt ve çalışma koşullarına göre yapılır." oldu; claims-gate sabitlemesi aynı anda güncellendi, eski metin artık sabit değil (pozitif kontrol). |
 | D3 | EN parola sıfırlama dönüşü | `ForgotPassword` Supabase'e `redirectTo: <origin>/reset-password` gönderiyor. `/en/reset-password` kullanmak Supabase'deki izinli yönlendirme listesini değiştirmeyi gerektirebilir (`supabase/` bu işin kapsamı dışında). | Değiştirilmedi: EN kullanıcı sıfırlama bağlantısından TR sayfaya döner. İzinli listeye `/en/reset-password` eklendiğinde tek satırlık değişiklik. |
 | D4 | İndeksleme varsayılanı | SEO01 sonrası `npm run build` varsayılanı `preview`: her sayfada `noindex, nofollow`. Bugünkü yayına bu build gönderilirse site indeks dışı kalır. | Yayın build'i `VITE_SITE_INDEXING=public VITE_SITE_ORIGIN=https://…` ile alınmalı (O10). Bu bilinçli: indekslenebilir build kendi origin'ini söylemek zorunda. |
+| D5 | `/hizmetler/tavlama` görseli | Repodaki görsel bir ısıl işlem fırınıydı; T01 sayfayı "Lazer Tavlama ile Markalama" yaptı. Görsel artık sayfanın konusuyla çelişiyordu. | **Uygulandı (IMG01):** fırın görseli kaldırıldı, yerine lazer ışınının yüzeyde oksit rengi bıraktığı bir kod şeması (`LazerTavlama`) kondu. Isıl işlem iddiası görselde de yok. |
+| D6 | Montaj ve operasyonel verimlilik görselleri | `hero-mekanik-montaj` ve `hero-operasyonel-verimlilik` render'larında çalışan yüzü/figürü var; `USER_INPUTS.md` §I personel görselini MAS çalışanı gibi sunmayı yasaklıyor. | **Uygulandı (IMG01):** iki sayfada kod şeması (`Montaj`, `Verimlilik`). Görsel dosyaları silinmedi. `hero-operasyonel-verimlilik` artık hiçbir yerde kullanılmıyor (silme ayrı karar, D1 gibi). `hero-mekanik-montaj` ana sayfadaki akış bölümünde (`LandingFlow.tsx`) hâlâ kullanılıyor; aynı §I sorusu orada da geçerli. **Öneri:** ana sayfa görsel turunda (UX03 ya da PROOF01) o karede de şemaya ya da figürsüz bir kareye geçilsin. |
+| D7 | Kabiliyet profili görselleri | Üç profilde aynı tip render vardı; UX05 her profile ayrı çizim istiyor. | **Uygulandı (UX05):** profil detayında fotoğraf yerine üç ayrı şema (ince cidar serbest bırakma, titanyum proses ve ara kontrol, mil datum ve salgı). Ana sayfadaki profil kartları görselini korudu; bu paketin kapsamı detay sayfası. |
+| D8 | `heroImage` alanı | Görsel seçimi `servicePages.ts` içindeki 32 `heroImage` satırına ve eksik kayıtlar için generic fallback'e dağılmıştı. | **Uygulandı (IMG01):** alan kaldırıldı; tek kaynak `DETAIL_VISUALS` manifesti. Manifestte olmayan slug testte (`e2e/p4-visuals-modules.spec.ts`) kırılır. İlgili kayıtlar da aile sınırını aşabiliyor (sektör sayfası parçasının üretildiği hizmete gider): `src/content/related.ts`. |

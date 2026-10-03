@@ -1472,6 +1472,85 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-plate-tick[data-corner="tr"] { top: 8px; right: 8px; border-top-width: 1px; border-right-width: 1px; }
 .shell-plate-tick[data-corner="bl"] { bottom: 8px; left: 8px; border-bottom-width: 1px; border-left-width: 1px; }
 .shell-plate-tick[data-corner="br"] { bottom: 8px; right: 8px; border-bottom-width: 1px; border-right-width: 1px; }
+
+/* ── Engineering schemas (IMG01 / PAGE01 / UX05) ─────────────────────────
+   Code-drawn representative schemas. Strokes and type come from the surface
+   tokens, so a schema reads on graphite and on paper alike. In a plate frame
+   the drawing is centred and fitted (no parallax, no overscan); labels are
+   sized in viewBox units so they stay legible at 375. */
+.shell-schema-media {
+  position: absolute;
+  inset: 0;
+  display: block;
+  box-sizing: border-box;
+  padding: clamp(10px, 2.4vw, 28px);
+}
+.sch {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  overflow: visible;
+}
+.sch-line { fill: none; stroke: var(--sf-ink); stroke-width: 2; stroke-linejoin: miter; vector-effect: non-scaling-stroke; }
+.sch-accent { fill: none; stroke: var(--sf-accent); stroke-width: 2.25; vector-effect: non-scaling-stroke; }
+.sch-thin { fill: none; stroke: var(--sf-meta); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.sch-hidden { fill: none; stroke: var(--sf-meta); stroke-width: 1; stroke-dasharray: 6 4; vector-effect: non-scaling-stroke; }
+.sch-center { fill: none; stroke: var(--sf-faint); stroke-width: 1; stroke-dasharray: 18 4 3 4; vector-effect: non-scaling-stroke; }
+.sch-flow { stroke-width: 1.5; }
+.sch-section { stroke: var(--sf-ink); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.sch-hatch-line { stroke: var(--sf-meta); stroke-width: 1; }
+.sch-arrow-head, .sch-fill { fill: var(--sf-meta); }
+.sch-box { fill: var(--sf-field); stroke: var(--sf-ink); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.sch-dot { fill: var(--sf-ink); }
+.sch-dot-accent { fill: var(--sf-accent); }
+.sch-text {
+  fill: var(--sf-meta);
+  font-family: var(--tl-font-mono);
+  font-size: 15px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.sch-text-s { font-size: 12.5px; }
+.sch-text-accent { fill: var(--sf-accent); }
+.sch-text-datum { fill: var(--sf-ink); font-weight: 600; }
+/* At 375 the drawing is width-fitted (~0.5×): labels are drawn larger so
+   they print at ~9–10px. */
+@media (max-width: 767px) {
+  .sch-text { font-size: 19px; letter-spacing: .02em; }
+  .sch-text-s { font-size: 16px; }
+}
+/* PAGE01 module: problem / process / check as a hairline definition list. */
+.shell-module-steps { margin: 0; display: grid; gap: 0; align-content: start; }
+.shell-module-steps > div { border-top: var(--tl-rule-size) solid var(--sf-rule); padding: 14px 0 16px; }
+.shell-module-steps dt {
+  font-family: var(--tl-font-mono);
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--sf-accent);
+  margin-bottom: 6px;
+}
+.shell-module-steps dd { margin: 0; color: var(--sf-body); line-height: 1.55; }
+/* A schema outside a plate (module, journal, profile figure). */
+.shell-schema-figure { margin: 0; }
+.shell-schema-figure .shell-schema-frame {
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  background: var(--sf-field);
+  padding: clamp(10px, 2.4vw, 24px);
+  aspect-ratio: 2 / 1;
+}
+.shell-schema-figure figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 10px;
+  font-family: var(--tl-font-mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--sf-meta);
+}
 .shell-plate > figcaption {
   display: flex;
   flex-wrap: wrap;

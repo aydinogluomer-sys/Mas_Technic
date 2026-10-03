@@ -71,7 +71,7 @@ function visit(route: string, field: string, value: unknown) {
 }
 
 for (const page of servicePages) {
-  const { slug: _slug, category: _category, heroImage: _hero, ...rest } = page;
+  const { slug: _slug, category: _category, ...rest } = page;
   visit(`/${page.category}/${page.slug}`, "", rest);
 }
 for (const category of categoryPages) visit(`/${category.prefix}/kategori/${category.slug}`, "", category);

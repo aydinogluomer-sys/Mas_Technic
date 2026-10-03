@@ -23,6 +23,11 @@ import { upper } from "@/i18n/upper";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { usePageMeta } from "@/hooks/use-page-meta";
+import { DETAIL_VISUALS, SCHEMA_LABEL, type PhotoAsset } from "@/content/detail-visuals";
+import { PILOT_SCHEMAS, SECTOR_SCHEMAS } from "@/components/schemas/registry";
+import { SchemaFigure } from "@/components/schemas/SchemaFigure";
+import { PILOT_MODULES } from "@/content/pilot-modules";
+import { RELATED } from "@/content/related";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
 import qualityControl from "@/assets/quality-control.webp";
@@ -66,9 +71,6 @@ import heroMekanikYuzey960 from "@/assets/hero-mekanik-yuzey-960.webp";
 import heroBoyaKaplama from "@/assets/hero-boya-kaplama.webp";
 import heroBoyaKaplama640 from "@/assets/hero-boya-kaplama-640.webp";
 import heroBoyaKaplama960 from "@/assets/hero-boya-kaplama-960.webp";
-import heroTavlama from "@/assets/hero-tavlama.webp";
-import heroTavlama640 from "@/assets/hero-tavlama-640.webp";
-import heroTavlama960 from "@/assets/hero-tavlama-960.webp";
 import heroQrDatamatrix from "@/assets/hero-qr-datamatrix.webp";
 import heroQrDatamatrix640 from "@/assets/hero-qr-datamatrix-640.webp";
 import heroQrDatamatrix960 from "@/assets/hero-qr-datamatrix-960.webp";
@@ -78,9 +80,6 @@ import heroLogoMarkalama960 from "@/assets/hero-logo-markalama-960.webp";
 import heroInsertUygulama from "@/assets/hero-insert-uygulama.webp";
 import heroInsertUygulama640 from "@/assets/hero-insert-uygulama-640.webp";
 import heroInsertUygulama960 from "@/assets/hero-insert-uygulama-960.webp";
-import heroMekanikMontaj from "@/assets/hero-mekanik-montaj.webp";
-import heroMekanikMontaj640 from "@/assets/hero-mekanik-montaj-640.webp";
-import heroMekanikMontaj960 from "@/assets/hero-mekanik-montaj-960.webp";
 import heroKittingPaketleme from "@/assets/hero-kitting-paketleme.webp";
 import heroKittingPaketleme640 from "@/assets/hero-kitting-paketleme-640.webp";
 import heroKittingPaketleme960 from "@/assets/hero-kitting-paketleme-960.webp";
@@ -109,9 +108,6 @@ import heroProjeYonetimi960 from "@/assets/hero-proje-yonetimi-960.webp";
 import heroTedarikZinciri from "@/assets/hero-tedarik-zinciri.webp";
 import heroTedarikZinciri640 from "@/assets/hero-tedarik-zinciri-640.webp";
 import heroTedarikZinciri960 from "@/assets/hero-tedarik-zinciri-960.webp";
-import heroOperasyonelVerimlilik from "@/assets/hero-operasyonel-verimlilik.webp";
-import heroOperasyonelVerimlilik640 from "@/assets/hero-operasyonel-verimlilik-640.webp";
-import heroOperasyonelVerimlilik960 from "@/assets/hero-operasyonel-verimlilik-960.webp";
 import heroSeriUretim from "@/assets/hero-seri-uretim.webp";
 import heroSeriUretim640 from "@/assets/hero-seri-uretim-640.webp";
 import heroSeriUretim960 from "@/assets/hero-seri-uretim-960.webp";
@@ -189,7 +185,7 @@ import heroSeriUretim960 from "@/assets/hero-seri-uretim-960.webp";
    Mapping and crops: `reports/10/art-direction.md`. */
 const qualityControlHero = responsive(1600, 682, qualityControl, [qualityControl640, 640], [qualityControl960, 960]);
 
-const heroImageMap: Record<string, ResponsiveImage> = {
+const heroImageMap: Record<PhotoAsset, ResponsiveImage> = {
   "hero-cnc-frezeleme": responsive(1600, 896, heroCncFrezeleme, [heroCncFrezeleme640, 640], [heroCncFrezeleme960, 960]),
   "hero-cnc-tornalama": responsive(900, 504, heroCncTornalama, [heroCncTornalama640, 640]),
   "hero-mikro-isleme": responsive(1600, 896, heroMikroIsleme, [heroMikroIsleme640, 640], [heroMikroIsleme960, 960]),
@@ -203,11 +199,9 @@ const heroImageMap: Record<string, ResponsiveImage> = {
   "hero-silikon-kaliplama": responsive(1600, 896, heroSilikonKaliplama, [heroSilikonKaliplama640, 640], [heroSilikonKaliplama960, 960]),
   "hero-mekanik-yuzey": responsive(1600, 896, heroMekanikYuzey, [heroMekanikYuzey640, 640], [heroMekanikYuzey960, 960]),
   "hero-boya-kaplama": responsive(1600, 896, heroBoyaKaplama, [heroBoyaKaplama640, 640], [heroBoyaKaplama960, 960]),
-  "hero-tavlama": responsive(1600, 896, heroTavlama, [heroTavlama640, 640], [heroTavlama960, 960]),
   "hero-qr-datamatrix": responsive(1600, 896, heroQrDatamatrix, [heroQrDatamatrix640, 640], [heroQrDatamatrix960, 960]),
   "hero-logo-markalama": responsive(1600, 896, heroLogoMarkalama, [heroLogoMarkalama640, 640], [heroLogoMarkalama960, 960]),
   "hero-insert-uygulama": responsive(1600, 896, heroInsertUygulama, [heroInsertUygulama640, 640], [heroInsertUygulama960, 960]),
-  "hero-mekanik-montaj": responsive(1400, 476, heroMekanikMontaj, [heroMekanikMontaj640, 640], [heroMekanikMontaj960, 960]),
   "hero-kitting-paketleme": responsive(1600, 896, heroKittingPaketleme, [heroKittingPaketleme640, 640], [heroKittingPaketleme960, 960]),
   "hero-kaynakli-imalat": responsive(1600, 896, heroKaynakliImalat, [heroKaynakliImalat640, 640], [heroKaynakliImalat960, 960]),
   "hero-cnc": responsive(1260, 708, heroCnc, [heroCnc640, 640], [heroCnc960, 960]),
@@ -218,7 +212,6 @@ const heroImageMap: Record<string, ResponsiveImage> = {
   "hero-malzeme-kutuphanesi": responsive(1600, 896, heroMalzemeKutuphanesi, [heroMalzemeKutuphanesi640, 640], [heroMalzemeKutuphanesi960, 960]),
   "hero-proje-yonetimi": responsive(1600, 896, heroProjeYonetimi, [heroProjeYonetimi640, 640], [heroProjeYonetimi960, 960]),
   "hero-tedarik-zinciri": responsive(1600, 896, heroTedarikZinciri, [heroTedarikZinciri640, 640], [heroTedarikZinciri960, 960]),
-  "hero-operasyonel-verimlilik": responsive(1020, 574, heroOperasyonelVerimlilik, [heroOperasyonelVerimlilik640, 640], [heroOperasyonelVerimlilik960, 960]),
   "hero-seri-uretim": responsive(1600, 896, heroSeriUretim, [heroSeriUretim640, 640], [heroSeriUretim960, 960]),
 };
 
@@ -247,17 +240,8 @@ const PLATE_FULL_WIDTHS = [
    help, in `reports/10/art-direction.md`. Vertical position is left at 50%:
    at 375 the box already shows the source's full height, so only the frame's
    own 200-of-318 window and the parallax decide what is seen. */
-const PLATE_POSITION: Record<string, string> = {
-  /* Caliper sits at x 55–95% of the 2400px source; 90% puts the window at
-     x 38–96%: both jaws, the pin and the scale numerals. */
-  "hero-tolerans-hassasiyet": "90% 50%",
-  /* Bracket spans x 15–77%; 40% centres it (x 17–75%) instead of cutting
-     its left foot. */
-  "hero-havacilik": "40% 50%",
-  /* Centred, the window showed a grid of parts and no case; 0% (x 0–58%)
-     keeps the case wall, hinge and latch so it reads as a kit in a case. */
-  "hero-kitting-paketleme": "0% 50%",
-};
+/* IMG01: the measured 375 crops (Phase 10-2b) moved onto the manifest
+   entries (`DetailVisual.crop`, `src/content/detail-visuals.ts`). */
 
 const FAMILY = {
   hizmetler: { label: "Hizmetler", rail: { no: "03", label: "HİZMET" } },
@@ -283,7 +267,7 @@ export const ServiceDetail = () => {
   const { pathname, search, hash } = useLocation();
   const prefersReduced = usePrefersReducedMotion();
   const { t, i18n } = useTranslation();
-  const { getPageBySlug, getPagesByCategory, categoryPages } = useSiteData();
+  const { getPageBySlug, categoryPages } = useSiteData();
 
   /* R01 — family + slug, not slug alone. A known slug under the wrong family
      redirects to its canonical address; an unknown slug gets the not-found
@@ -374,16 +358,28 @@ export const ServiceDetail = () => {
 
   const family = FAMILY[page.category];
   const isSector = page.category === "endustriyel";
-  const related = getPagesByCategory(page.category).filter((item) => item.slug !== page.slug);
+  /* PAGE01 — the curated list (≤4), not the first eight of the family. */
+  const related = (RELATED[page.slug] ?? [])
+    .map((slug) => getPageBySlug(slug))
+    .filter((item): item is NonNullable<typeof item> => Boolean(item));
   const parent = categoryPages.find((category) =>
     category.prefix === page.category
     && category.links.some((link) => link.path === `/${page.category}/${page.slug}`));
   const serviceFamilies = categoryPages.filter((category) => category.prefix === "hizmetler");
   const specs = page.technicalSpecs ?? [];
   const materialRows = page.materials ?? [];
-  const heroImage = page.heroImage && heroImageMap[page.heroImage]
-    ? heroImageMap[page.heroImage]
-    : page.category === "kabiliyetler" ? qualityControlHero : heroImageMap["hero-seri-uretim"];
+  /* IMG01 — the explicit manifest entry; no automatic fallback. */
+  const visual = DETAIL_VISUALS[page.slug];
+  const lang = i18n.language === "en" ? "en" : "tr";
+  const heroImage = visual?.kind === "photo" ? heroImageMap[visual.asset] : null;
+  const SchemaDrawing = visual?.kind === "schema" ? SECTOR_SCHEMAS[visual.schema] : null;
+  const pilot = PILOT_MODULES[page.slug];
+  const PilotDrawing = pilot ? PILOT_SCHEMAS[pilot.schema] : null;
+  const plateCaption = visual
+    ? visual.kind === "schema"
+      ? `${SCHEMA_LABEL[lang]} · ${visual.subject[lang]}`
+      : visual.subject[lang]
+    : page.categoryLabel;
 
   /* Band numbers are assigned in render order, so a page without comparison
      tables does not leave a hole in the sheet numbering. JSX evaluates its
@@ -431,12 +427,31 @@ export const ServiceDetail = () => {
         }
       />
 
+      {pilot && PilotDrawing && (
+        /* PAGE01 — one concrete problem → process → check, on seven pilots only. */
+        <ShellSurfaceBand no={no()} label="MODÜL" tone="paper" labelledBy="detay-modul">
+          <div className="shell-span-read">
+            <ShellTitleBlock id="detay-modul" title={pilot.title[lang]} />
+          </div>
+          <div className="shell-span-half">
+            <SchemaFigure drawing={PilotDrawing} subject={pilot.subject[lang]} />
+          </div>
+          <dl className="shell-span-half shell-module-steps">
+            <div><dt>{t("Problem")}</dt><dd>{pilot.problem[lang]}</dd></div>
+            <div><dt>{t("Proses")}</dt><dd>{pilot.process[lang]}</dd></div>
+            <div><dt>{t("Kontrol")}</dt><dd>{pilot.control[lang]}</dd></div>
+          </dl>
+        </ShellSurfaceBand>
+      )}
+
       <ShellSurfaceBand no={no()} label="TANIM" labelledBy="detay-tanim">
         <div className="shell-span-full" ref={plateRef}>
           <ShellPlate
             plate={`${t("PLAKA")} · ${upper(page.title, i18n.language)}`}
-            caption={page.categoryLabel}
-            media={
+            caption={plateCaption}
+            media={SchemaDrawing ? (
+              <div className="shell-schema-media"><SchemaDrawing /></div>
+            ) : heroImage && visual?.kind === "photo" ? (
               /* PHASE 10-3 — `alt=""`, not `alt={page.title}`. The plate sits
                  directly under the `<h1>` that carries `page.title`, and the
                  figcaption prints it a second time in the plate designation;
@@ -455,12 +470,12 @@ export const ServiceDetail = () => {
                 height={heroImage.height}
                 alt=""
                 loading="eager"
-                style={{ y: plateY, objectPosition: page.heroImage ? PLATE_POSITION[page.heroImage] : undefined }}
+                style={{ y: plateY, objectPosition: visual.crop }}
                 initial={{ scale: 1.08, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               />
-            }
+            ) : null}
           />
         </div>
 
@@ -658,8 +673,8 @@ export const ServiceDetail = () => {
             title={t(isSector ? "Bu sektörün yakınındaki sayfalar" : "İlgili sayfalar")}
             standfirst={t(
               isSector
-                ? "Aynı sektör ailesindeki diğer başlıklar ve bu parçaların üretildiği hizmet aileleri."
-                : "Aynı aileden, birlikte sorulan başlıklar.",
+                ? "Bu sektörle birlikte sorulan başlıklar ve bu parçaların üretildiği hizmet aileleri."
+                : "Bu sayfayla birlikte sorulan başlıklar.",
             )}
           />
         </div>
@@ -667,8 +682,8 @@ export const ServiceDetail = () => {
           <div className="shell-span-full">
             <ShellIndexList
               compact
-              ariaLabel={t("{{family}} ailesindeki diğer sayfalar", { family: t(family.label) })}
-              items={related.slice(0, 8).map((item) => ({
+              ariaLabel={t("İlgili sayfalar")}
+              items={related.map((item) => ({
                 to: `/${item.category}/${item.slug}`,
                 eyebrow: item.categoryLabel,
                 title: item.title,

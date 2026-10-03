@@ -110,7 +110,7 @@ export interface ServicePageData {
   content: string[];
   features?: string[];
   technicalSpecs?: { label: string; value: string }[];
-  heroImage?: string;
+  /* IMG01: the page visual is `src/content/detail-visuals.ts`, not a field here. */
   processSteps?: string[];
   advantages?: string[];
   /* `machines` was removed in Phase 06. It published a named machine park
@@ -154,7 +154,6 @@ export const servicePages: ServicePageData[] = [
       "3, 4 ve 5 eksenli CNC frezeleme ile ±0.01 mm standart tolerans aralığında üretim. Alüminyum, titanyum ve çelik işleme, teklifle birlikte üretilebilirlik incelemesi.",
     description:
       "5 eksenli CNC frezeleme merkezlerimiz ile karmaşık geometrileri yüksek hassasiyetle işliyoruz. Alüminyumdan titanyuma, plastikten kompozitlere kadar geniş malzeme yelpazesi.",
-    heroImage: "hero-cnc-frezeleme",
     content: [
       "5 eksenli CNC freze merkezlerimizde karmaşık geometrileri tek kurulumda tamamlıyoruz. Bağlama sayısını azaltmak yalnızca süreyi kısaltmaz; her yeni bağlama ölçü zincirine yeni bir hata kaynağı eklediği için doğrudan tolerans lehine çalışır.",
       "3 eksen frezeleme ile düz yüzeyler, cep işleme ve standart geometrilerde ekonomik çözümler üretiyoruz. 4 eksen frezeleme ile döner tabla sayesinde silindirik parçalarda kanal açma, delik delme ve profil işleme yapıyoruz. 5 eksen simultane frezeleme ile tek bağlamada en karmaşık parça geometrilerini işleyerek havacılık, medikal ve otomotiv sektörünün taleplerini karşılıyoruz.",
@@ -257,7 +256,6 @@ export const servicePages: ServicePageData[] = [
     metaDescription: "CNC torna ile hassas tornalama: canlı takımlı, Y eksenli ve kayar puntalı (Swiss tip) torna. ±0.01 mm standart tolerans; çalışma aralığı teklifte belirtilir.",
     description:
       "Çok eksenli torna merkezlerimiz ile mil, somun, gövde ve karmaşık döner parçaları tek kurulumda tamamlayabilme kapasitesi.",
-    heroImage: "hero-cnc-tornalama",
     content: [
       "CNC tornalama, silindirik ve dönme simetrisine sahip parçalar için en verimli üretim yöntemidir. C eksenli ve Y eksenli CNC torna tezgahlarımız sayesinde frezeleme operasyonlarını entegre ediyor, off-center delik ve kanal açma işlemlerini tek bağlamada gerçekleştiriyoruz.",
       "2 eksen tornalama ile miller, burçlar ve basit silindirik parçalar üretirken, canlı takımlı tornalama ile Y ekseni üzerinden torna tezgahında frezeleme, delme ve diş açma işlemleri yapıyoruz. Turn-Mill (torna-freze) kabiliyetimiz ile tek bağlamada hem tornalama hem frezeleme yaparak karmaşık parçalarda yüksek hassasiyet ve verimlilik elde ediyoruz.",
@@ -346,7 +344,6 @@ export const servicePages: ServicePageData[] = [
     metaDescription: "Mikro frezeleme, mikro tornalama ve mikro delme. Elektronik konektör, optik ve medikal bileşenlerde küçük ölçekli hassas işleme; çalışma aralığı teklifte belirtilir.",
     description:
       "Standart takımların ulaşamadığı küçük özelliklere sahip parçalar için mikro işleme. Medikal, elektronik ve optik bileşenler tipik uygulama alanlarıdır.",
-    heroImage: "hero-mikro-isleme",
     content: [
       "Mikro işleme, standart takımların ulaşamadığı küçük özellikleri — dar kanallar, küçük delikler, ince duvarlar — küçük çaplı takımlar ve yüksek iş mili devriyle işler. Optik, elektronik ve medikal bileşenler tipik uygulama alanlarıdır.",
       "Mikro frezeleme, Swiss tip mikro tornalama ve mikro delme ile pim, vida, konektör pini, nozul ve akış kontrol parçaları gibi küçük parçalar üretilir. Çalışma aralığı, parçanın geometrisi ve proses planı incelendikten sonra teklifte belirtilir.",
@@ -427,7 +424,6 @@ export const servicePages: ServicePageData[] = [
     metaDescription: "Boy/çap oranı yüksek delikler için gun drilling, BTA delme, raybalama ve honlama. Çalışma aralığı ve tolerans sınıfı teknik resme göre teklifte belirtilir.",
     description:
       "Boy/çap oranı yüksek deliklerde hassas ve doğrusal işleme. Hidrolik silindir, kalıp soğutma kanalları ve makina parçaları için uzman çözümler.",
-    heroImage: "hero-derin-delik",
     /* T01 — the gun-drill range was published as Ø2-20 in three places and
        Ø2-100 in the spec table, and the page equated H6/H7 with "±0.01mm".
        An ISO hole class is not a fixed ± value: its limits depend on the
@@ -500,7 +496,6 @@ export const servicePages: ServicePageData[] = [
     metaDescription: "Alüminyum ve çelik enjeksiyon kalıp üretimi. Prototip kalıptan seri üretim kalıbına malzeme seçimi; kalıp ömrü kalıp çeliği ve üretim adedine göre teklifte belirtilir.",
     description:
       "Alüminyum ve çelik kalıp imalatı. Hızlı prototip kalıplarından yüksek hacimli seri üretim kalıplarına kadar tüm ihtiyaçlarınıza çözüm.",
-    heroImage: "hero-enjeksiyon-kalibi",
     content: [
       "Yüksek hassasiyetli plastik enjeksiyon kalıplarının tasarımını ve üretimini gerçekleştiriyoruz. Dolum davranışı kalıp tasarımında değerlendirilir; karmaşık parçalarda akış analizinin kapsamı teklifte belirtilir. Kalıptan çıkış açısı, çekme telafisi ve gate/vent konumlandırma DFM analizinde ele alınır.",
       "Kalıp malzemesi beklenen üretim adedine göre seçilir: Al 7075 (150 HB) prototip ve düşük hacim, P20 (280-320 HB) orta hacim, H13 (45-52 HRC) yüksek hacim, S136 (48-52 HRC) ise korozyon direnci gereken uygulamalar için. Sıcak yolluk desteği ile malzeme tasarrufu ve döngü süresi iyileştirmesi sağlanır.",
@@ -575,7 +570,6 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "Ön Üretim",
     title: "Basınçlı Döküm",
-    heroImage: "hero-basincli-dokum",
     metaTitle: "Basınçlı Döküm Kalıp İmalatı | Alüminyum & Zamak | Mas Technic",
     metaDescription: "Alüminyum ve çinko basınçlı döküm kalıbı tasarımı ve üretimi. Duvar kalınlığı ve ham parça tolerans sınıfı alaşım ve geometriye göre teklifte belirtilir.",
     description:
@@ -631,7 +625,6 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "Ön Üretim",
     title: "Silikon Kalıplama",
-    heroImage: "hero-silikon-kaliplama",
     metaTitle: "Silikon Kalıplama | Vakumlu Döküm | Kısa Seri | Mas Technic",
     metaDescription: "Vakumlu silikon kalıplama ile kısa seri üretim. PU, silikon, epoksi. Master modelden gözeneksiz yüzeyli çoğaltma; uygun adet teklifte belirtilir.",
     description:
@@ -767,7 +760,6 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "Ön Üretim",
     title: "Fikstür & Aparat Tasarımı",
-    heroImage: "hero-fikstur-aparat",
     metaTitle: "Fikstür & Aparat Tasarımı | Özel CNC Fikstür | Mas Technic",
     metaDescription: "CNC işleme, montaj, kaynak ve kontrol için özel fikstür ve aparat tasarımı. 3D modelleme, bağlama kuvveti ve tolerans zinciri değerlendirmesi, üretim ortamında doğrulama.",
     description:
@@ -828,7 +820,6 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "Yüzey İşlemleri",
     title: "Mekanik Yüzey İşlemleri",
-    heroImage: "hero-mekanik-yuzey",
     metaTitle: "Mekanik Yüzey İşlemleri | Kumlama & Parlatma | Mas Technic",
     metaDescription: "Kumlama, vibrasyonlu yüzey bitirme, parlatma ve fırçalama. Ayna parlaklığından satine yüzeye kadar seçenek; ulaşılabilir yüzey kalitesi malzemeye göre teklifte belirtilir.",
     description:
@@ -907,7 +898,6 @@ export const servicePages: ServicePageData[] = [
     metaDescription: "Tip I, II ve III (sert) anodizasyon, organik ve inorganik boyalarla renklendirme. Tabaka kalınlığı, sertlik ve korozyon testi gereksinimi şartname ve alaşıma göre belirlenir.",
     description:
       "Tip I kromik asit, Tip II sülfürik asit ve Tip III sert anodizasyon ile korozyon direnci, aşınma dayanımı, elektriksel yalıtım ve dekoratif kaplama.",
-    heroImage: "hero-anodizasyon",
     content: [
       "Anodizasyon, alüminyum yüzeyinde elektrokimyasal yöntemle oluşturulan alüminyum oksit (Al₂O₃) tabakasıdır. Bu tabaka, parçanın korozyon direncini, aşınma dayanımını ve estetik görünümünü önemli ölçüde artırır. Mas Technic olarak havacılık ve medikal uygulamalar için Tip I, Tip II ve Tip III anodizasyon hizmeti sunuyoruz.",
       "MIL-A-8625'e göre Tip I (kromik asit) ince bir oksit tabakası oluşturur; boya tutunma alt katmanı olarak tercih edilir. Tip II (sülfürik asit) en yaygın kullanılan türdür; korozyon koruması, renkli kaplama ve genel mühendislik uygulamalarında kullanılır. Tip III (sert anodizasyon) daha kalın ve daha sert bir tabaka oluşturur; aşınma direnci ve elektriksel yalıtım gerektiren yüzeylerde kullanılır. Tabaka kalınlığı ve sertlik alaşıma ve şartnameye göre belirlenir; kaplama sertliği Vickers (HV) ile ifade edilir — HRC ana malzemenin sertliği içindir.",
@@ -998,7 +988,6 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "Yüzey İşlemleri",
     title: "Kimyasal İşlemler",
-    heroImage: "hero-anodizasyon",
     metaTitle: "Kimyasal Yüzey İşlemleri | Pasivasyon & Fosfatlama | Mas Technic",
     metaDescription: "Endüstriyel yağ giderme, pasivasyon, fosfatlama ve elektropolish. ASTM B117 tuz spreyi ve ASTM A967 pasivasyon test yöntemleri ile doğrulama.",
     description:
@@ -1059,7 +1048,6 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "Yüzey İşlemleri",
     title: "Boya & Koruyucu Kaplamalar",
-    heroImage: "hero-boya-kaplama",
     metaTitle: "Toz Boya & Koruyucu Kaplamalar | RAL Renkler | Mas Technic",
     metaDescription: "Toz boya, ıslak boya, seramik ve PTFE kaplama; RAL standart ve özel renkler. Korozyon testi ve sıcaklık dayanımı gereksinimi kaplama sistemine ve şartnameye göre belirlenir.",
     description:
@@ -1119,7 +1107,6 @@ export const servicePages: ServicePageData[] = [
     metaDescription: "Fiber lazer ile metal, plastik ve ahşapta kalıcı işaretleme: barkod, QR kod, seri numarası, logo. Karakter boyutu ve derinlik malzemeye göre belirlenir.",
     description:
       "Fiber lazer teknolojisi ile metal, plastik ve kompozit malzemelere yüksek kontrastlı, aşınmaz işaretleme. Barkod, QR kod ve seri numarası.",
-    heroImage: "hero-lazer-kazima",
     content: [
       "Fiber lazer ile seri numarası, barkod, QR kod ve logo işaretlemesi yapıyoruz. İşaretleme alanı, minimum karakter boyutu ve kazıma derinliği malzemeye, yüzeye ve kodun okunabilirlik gereksinimine göre belirlenir.",
       "Çelik, alüminyum, plastik ve ahşap gibi farklı malzemelerde işaretleme yapılabilir; yuvarlak parçalarda dinamik işaretleme uygulanır.",
@@ -1188,7 +1175,6 @@ export const servicePages: ServicePageData[] = [
     metaTitle: "Lazer Tavlama ile Markalama | Mas Technic",
     metaDescription:
       "Paslanmaz çelik ve titanyum parçalarda yüzeyden malzeme kaldırmadan, ısıl renk değişimiyle okunabilir işaretleme. Kapsam parça ve malzemeye göre teklifte belirtilir.",
-    heroImage: "hero-tavlama",
     description:
       "Lazer tavlama, yüzeyden malzeme kaldırmadan ısıl renk değişimiyle yapılan bir lazer işaretleme yöntemidir; özellikle paslanmaz çelik ve titanyum parçalarda kullanılır.",
     content: [
@@ -1225,7 +1211,6 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "İşaretleme & Tanımlama",
     title: "QR & DataMatrix Kodları",
-    heroImage: "hero-qr-datamatrix",
     description:
       "DataMatrix ve QR kod işaretleme. Küçük alanda yüksek veri kapasitesi ile kalıcı parça izlenebilirliği.",
     content: [
@@ -1283,7 +1268,6 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "İşaretleme & Tanımlama",
     title: "Logo & Markalama",
-    heroImage: "hero-logo-markalama",
     description:
       "Lazer, pad printing ve serigrafi ile ürünlerinize marka kimliği kazandırın. Kalıcı ve profesyonel görünüm.",
     content: [
@@ -1334,7 +1318,6 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "Montaj & Birleştirme",
     title: "Insert Uygulama",
-    heroImage: "hero-insert-uygulama",
     description:
       "Metal insertlerin plastik ve metal parçalara ultrasonik, ısıl veya presle montajı. Somun, perçin ve pim uygulama.",
     content: [
@@ -1385,7 +1368,6 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "Montaj & Birleştirme",
     title: "Mekanik Montaj",
-    heroImage: "hero-mekanik-montaj",
     description:
       "Vida, somun, perçin ve klips montajı. Tork kontrollü sıkma ve otomatik besleme sistemleri ile yüksek verimlilik.",
     content: [
@@ -1441,7 +1423,6 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "Montaj & Birleştirme",
     title: "Kitting & Paketleme",
-    heroImage: "hero-kitting-paketleme",
     description:
       "Müşteriye özel kit oluşturma, etiketleme ve koruyucu ambalajlama. Tedarik zinciri verimliliğini artırın.",
     content: [
@@ -1493,7 +1474,6 @@ export const servicePages: ServicePageData[] = [
     category: "hizmetler",
     categoryLabel: "Montaj & Birleştirme",
     title: "Kaynaklı İmalat",
-    heroImage: "hero-kaynakli-imalat",
     description:
       "TIG, MIG/MAG ve direnç kaynağı ile metal parçaların birleştirilmesi. Yazılı kaynak prosedürü ve tahribatsız muayene ile kalite kontrol.",
     content: [
@@ -1580,7 +1560,6 @@ export const servicePages: ServicePageData[] = [
       "5 eksen CNC frezeleme, C/Y eksenli tornalama, Swiss tornalama, derin delik işleme ve tel erozyon kabiliyetleri. Parça geometrisine göre proses seçimi.",
     description:
       "Bir parçanın hangi tezgâhta üretileceği, geometrisi ve tolerans zinciri tarafından belirlenir. Proses ailelerimiz, bu kararı parçanın gereksinimine göre verebilmek üzere birlikte planlanır.",
-    heroImage: "hero-cnc",
     content: [
       "Üretim planlaması bir tezgâh listesiyle değil, parçanın kendisiyle başlar. Bağlama sayısı, erişilmesi gereken yüzeyler, ölçü zinciri ve malzemenin davranışı; hangi proses ailesinin kullanılacağını ve hangi sırayla işleneceğini belirler.",
       "5 eksen simültane frezeleme, tek bağlamada birden fazla yüzeye erişim gerektiren geometrilerde kullanılır. Bağlama sayısını azaltmak yalnızca süreyi kısaltmaz; her yeni bağlama ölçü zincirine yeni bir hata kaynağı eklediği için doğrudan tolerans lehine çalışır.",
@@ -1666,7 +1645,6 @@ export const servicePages: ServicePageData[] = [
       "Alüminyumdan titanyuma, PEEK'ten Inconel'e geniş malzeme yelpazesi. Parti ve döküm kaydıyla izlenebilir tedarik; malzeme sertifikası talebe bağlı olarak sağlanır.",
     description:
       "Alüminyumdan titanyuma, plastikten kompozitlere kadar geniş bir malzeme yelpazesi ile projenize uygun çözümü sunuyoruz. Malzeme sertifikası ve lot bazlı kayıt talebe bağlı olarak sağlanır.",
-    heroImage: "hero-malzeme-kutuphanesi",
     content: [
       "Mas Technic malzeme kütüphanesi metal, plastik, kompozit ve özel alaşımları kapsar. Havacılık sınıfı alüminyumdan medikal sınıfı titanyuma, yüksek performans plastiklerden süper alaşımlara kadar geniş bir yelpazede hizmet veriyoruz.",
       "Metal malzemelerimiz arasında Alüminyum (6061, 7075, 5083 — 95-150 HB), Paslanmaz Çelik (304, 316, 17-4PH — 150-350 HB), Karbon Çelik (1045, 4140, 4340 — 200-350 HB), Titanyum (Gr2, Gr5 Ti6Al4V — 250-350 HB) ve Pirinç/Bronz (C360, C932 — 60-150 HB) bulunmaktadır.",
@@ -1785,7 +1763,6 @@ export const servicePages: ServicePageData[] = [
       "Her iş için kontrol planı, proses içi ara kontrol ve kontrol planına göre son kontrol. Akredite üçüncü taraf CMM ölçümü talebe bağlı. ISO 9001:2015.",
     description:
       "Kalite kontrol, üretimden sonra yapılan bir muayene değil, üretimden önce yazılan bir plandır. Hangi ölçünün nasıl ve hangi aşamada kontrol edileceği, parça tezgâha bağlanmadan belirlenir.",
-    heroImage: "quality-control",
     content: [
       "Her iş için bir kontrol planı oluşturulur. Plan; teknik resimdeki hangi kotelerin kritik olduğunu, her birinin hangi yöntemle ve hangi aşamada kontrol edileceğini ve kontrolün hangi kaydı bırakacağını tanımlar. Bu plan teklif aşamasındaki teknik incelemenin çıktısıdır.",
       "Ara kontroller proses sırasında yapılır. Amaç, hatayı son kontrolde yakalamak değil, bir sonraki operasyona hatalı parça göndermemektir. İlk parça onayı, ısıl işlem gibi ölçü kaydıran adımların sonrası ve bağlama değişimleri, ara kontrolün doğal duraklarıdır.",
@@ -1881,7 +1858,6 @@ export const servicePages: ServicePageData[] = [
       "±0.01 mm standart tolerans aralığı, ISO 2768 ve ASME Y14.5 (GD&T) okuma. Tolerans; geometri, malzeme ve ölçü zincirine göre teknik incelemede belirlenir.",
     description:
       "Tolerans bir reklam değeri değil, bir karardır: parçanın hangi ölçüsünün ne kadar dar tutulacağı, montajda neyin çalışması gerektiğine göre belirlenir. Standart çalışma aralığımız ±0.01 mm'dir.",
-    heroImage: "hero-tolerans-hassasiyet",
     content: [
       "Standart çalışma aralığımız ±0.01 mm'dir. Bir parçada bu aralığın altına inilip inilemeyeceği tek başına tezgâhın değil, geometrinin, malzemenin, parça ölçüsünün ve ölçü zincirinin sorusudur; bu nedenle her parça için teknik incelemede ayrıca belirlenir.",
       "Toleransı belirleyen asıl unsur çoğu zaman bağlama sayısıdır. Her yeni bağlama ölçü zincirine yeni bir hata kaynağı ekler; tek bağlamada tamamlanan bir parça, aynı tezgâhta iki bağlamada işlenen parçadan daha dar tolerans tutar.",
@@ -1986,7 +1962,6 @@ export const servicePages: ServicePageData[] = [
       "Design for Manufacturing (DFM/DFA) analizi ile tasarımlarınızı optimize edin. CNC ve enjeksiyon DFM kuralları, üretilebilirlik incelemesi, parça bazında maliyet kaldıraçları.",
     description:
       "DFM/DFA analizi ile tasarımlarınızı üretilebilirlik açısından optimize ediyoruz. Üretim maliyetlerini düşüren, kaliteyi artıran ve süreyi kısaltan mühendislik desteği.",
-    heroImage: "blog-dfm",
     content: [
       "Design for Manufacturing (DFM) analiz sürecimiz 4 aşamadan oluşur: ilk inceleme ve DFM raporu taslağı, detaylı analiz ve optimizasyon önerileri, müşteri görüşmesi ve revize CAD modeli, final DFM raporu ve onay. Sürecin takvimi parçanın karmaşıklığına ve gelen dosyanın eksiksizliğine bağlıdır; teklifle birlikte verilir.",
       "CNC işleme DFM kurallarımız: İç köşe yarıçapı R > 0.5mm (sivri köşelerden kaçının), duvar kalınlığı > 0.8mm (çok ince duvarlardan kaçının), derinlik/çap oranı < 4:1 (çok derin deliklerden kaçının) ve standart boyut kullanımı (özel ölçülerden kaçının). Enjeksiyon kalıp DFM'inde duvar kalınlığı, köşe yarıçapları ve gate konumu değerlendirilir (gate kalın kesimden). Kalıptan çıkış açısı ve çekme telafisi ayrı değerlendirilir; değerler proses ve malzemeye göre belirlenir.",
@@ -2107,7 +2082,6 @@ export const servicePages: ServicePageData[] = [
       "Korozyon korumasından estetik kaplamaya yüzey işlem seçim rehberi: anodizasyon, toz boya, nikelaj, elektropolisaj ve Ra pürüzlülük rehberi; kaplamanın ölçüye etkisi.",
     description:
       "Korozyon korumasından elektriksel yalıtıma, dekoratif görünümden tribolojik özelliklere kadar uygulamanıza en uygun yüzey işlem yöntemini belirlemenize yardımcı oluyoruz.",
-    heroImage: "hero-yuzey-islemleri",
     content: [
       "Yüzey işlemi seçim matrisimiz: Korozyon koruması için anodizasyon (alüminyum — koruyucu tabaka), sertlik artırma için nitrürleme (çelik — yüzey sertliği), estetik kaplama için toz boya (metal — renkli kaplama) ve elektriksel yalıtım için e-kap (alüminyum — yalıtım). Her ihtiyaca özel çözüm sunuyoruz.",
       "Yüzey pürüzlülüğü (Ra) için genel rehber: Ra 0.1-0.2µm ayna parlaklığı (optik, yatak uygulamaları), Ra 0.4-0.8µm parlak yüzey (mil, piston), Ra 1.6-3.2µm mat yüzey (genel mekanik) ve Ra 6.3-12.5µm pürüzlü yüzey (yapısal parçalar). Bu aralıklar sektör rehberidir; parçanız için ulaşılabilir değer malzeme, geometri ve işleme yöntemine göre teklifte belirtilir.",
@@ -2180,7 +2154,6 @@ export const servicePages: ServicePageData[] = [
       "3D baskı ile hızlı prototip, silikon kalıplama ile kısa seri, hızlı alüminyum kalıp ile daha büyük partiler. FDM, SLA, SLS, DMLS teknolojileri.",
     description:
       "3D baskı, silikon kalıplama, hızlı alüminyum kalıp ve CNC işleme ile düşük hacimli üretim ihtiyaçlarınıza esnek çözümler sunuyoruz; yöntem adede ve hassasiyete göre seçilir.",
-    heroImage: "hero-seri-uretim",
     content: [
       "Düşük hacimli üretimde yöntem adede, süreye ve hassasiyet gereksinimine göre seçilir: 3D baskı konsept doğrulaması, silikon kalıplama küçük plastik partiler, alüminyum kalıp daha büyük partiler ve CNC işleme dar toleranslı parçalar için uygundur (CNC standart tolerans ±0.01mm). Diğer yöntemlerin toleransı ve her yöntemin termini teklifle birlikte verilir.",
       "Eklemeli imalat seçenekleri parçanın işlevine göre ayrışır: FDM (ABS, PLA, naylon) biçim ve montaj denemeleri, SLA (reçine) ince detay ve yüzey, SLS (PA12, TPU) destek yapısı gerektirmeyen fonksiyonel parçalar, DMLS ise metal fonksiyonel prototipler için kullanılır.",
@@ -2259,7 +2232,6 @@ export const servicePages: ServicePageData[] = [
       "Seri imalatta belirleyici olan tek parçayı üretmek değil, yüzüncü parçayı ilkiyle aynı çıkarmaktır: standart kurulum, kontrol planı ve parti izlenebilirliği.",
     description:
       "Çelik kalıp, basınçlı döküm, otomasyonlu CNC ve montaj hatları ile yüksek hacimli seri üretimde tutarlılık ve verimlilik hedefliyoruz.",
-    heroImage: "hero-seri-uretim",
     content: [
       /* PHASE 07 CORRECTION #1 — F1. This sentence published three annual
          production volumes in the first person ("Seri üretim
@@ -2347,7 +2319,6 @@ export const servicePages: ServicePageData[] = [
       "Tekliften teslimata beş aşamalı, onay noktalarıyla ilerleyen bir süreç. Her aşama bir çıktı üretir ve bir sonraki aşama o çıktı onaylanmadan başlamaz.",
     description:
       "Özel proje yöneticiniz, gerçek zamanlı raporlama ve proaktif iletişim ile projelerinizin her aşamasında yanınızdayız. Tekliften teslimata kontrollü ve şeffaf süreç yönetimi.",
-    heroImage: "hero-proje-yonetimi",
     content: [
       "Proje yapısına göre metodoloji seçilir: aşamalı (waterfall) yaklaşım geleneksel mekanik projelerde, onay noktalı (phase-gate) yaklaşım seri üretime geçişte, iteratif yaklaşım ise sık revizyon gerektiren projelerde uygundur.",
       "Beş aşamalı proje sürecimiz: 1) Değerlendirme — teklif ve onay, 2) DFM analizi — rapor ve gerekirse tasarım revizyonu, 3) Prototip — numune parça, ölçüm kaydı ve numune onayı, 4) Üretim dosyası — kontrol planı ve izlenebilirlik dokümanları, 5) Seri üretim — parti raporu ve periyodik değerlendirme.",
@@ -2449,7 +2420,6 @@ export const servicePages: ServicePageData[] = [
       "Kritik malzemede çift kaynak, sınıf bazlı tedarik süresi ve parti izlenebilirliği. Malzeme tedarik riski üretim planlanmadan önce değerlendirilir.",
     description:
       "Bir işin termini çoğu zaman tezgâhta değil, malzemenin gelişinde belirlenir. Tedarik riski bu nedenle teklif aşamasında, üretim planlanmadan önce değerlendirilir.",
-    heroImage: "hero-tedarik-zinciri",
     content: [
       "Malzeme tedariki terminin en büyük belirsizliğidir. Standart alüminyum ve paslanmaz çelik kısa sürede temin edilebilirken, titanyum ve nikel esaslı alaşımlar sipariş üzerine gelir ve tedarik süresi üretim süresini aşabilir. Bu nedenle malzeme durumu teklifle birlikte netleştirilir.",
       "Kritik malzemelerde tek kaynağa bağlı kalmamayı esas alıyoruz. Onaylı ikinci kaynak, tedarik kesintisinde işin durmasını engeller; alternatif malzeme seçenekleri ise şartnameyle uyumluysa teknik incelemede birlikte değerlendirilir.",
@@ -2543,7 +2513,6 @@ export const servicePages: ServicePageData[] = [
       "Yalın üretim, 5S, Kaizen, Kanban, TPM ve SMED uygulamaları. Kurulum süresini kısaltmak, duruşu azaltmak ve tekrarlanabilirliği artırmak için tanımlı yöntemler.",
     description:
       "Verimlilik bir hedef tablosu değil, bir çalışma biçimidir: kurulumun kısalması, duruşun azalması ve aynı parçanın her seferinde aynı çıkması aynı disiplinin sonucudur.",
-    heroImage: "hero-operasyonel-verimlilik",
     content: [
       "Bir işin süresi kesme süresinden ibaret değildir. Çoğu iş için belirleyici olan kurulum, bekleme, taşıma ve yeniden ölçüm süreleridir; iyileştirme çalışmalarımız bu nedenle kesme parametrelerinden önce kurulum ve akışa bakar.",
       "SMED yaklaşımı kurulum işlerini iki gruba ayırır: tezgâh dururken yapılması zorunlu olanlar ve tezgâh çalışırken hazırlanabilecek olanlar. İkinci grubu kurulum dışına taşımak, tezgâhın parça üretmediği süreyi doğrudan kısaltır.",
@@ -2618,7 +2587,6 @@ export const servicePages: ServicePageData[] = [
     metaTitle: "Havacılık & Uzay Parça Üretimi | Ti & Inconel İşleme | Mas Technic",
     metaDescription: "Havacılık ve uzay için titanyum Ti6Al4V, Inconel 718 ve havacılık alüminyumu işleme. Kontrol planı, ilk parça kontrolü ve parti izlenebilirliği.",
     description: "Havacılık ve uzay sanayi için motor bileşenleri, yapısal parçalar ve aviyonik muhafazalar üretiyoruz. Zor işlenen alaşımlarda kontrol planına bağlı, izlenebilir üretim.",
-    heroImage: "hero-havacilik",
     content: [
       "Havacılık ve uzay sanayi için motor bileşenleri, yapısal parçalar (braket, fitting, rib) ve aviyonik muhafazalar üretiyoruz. Titanyum Ti6Al4V, Inconel 718 ve havacılık alüminyum alaşımları (7075-T6, 2024-T3); ısıyı kesiciye taşıyan, takım ömrünü kısaltan ve bağlama kuvvetine duyarlı malzemelerdir.",
       "Özel proses ihtiyaçları — kimyasal işlemler (anodizasyon, pasivasyon, kromatlama), tahribatsız muayene, ısıl işlem (çökelme sertleştirme, gerilim giderme) ve yüzey kaplama — projenin şartnamesine göre planlanır ve tedarik zinciriyle birlikte yürütülür. Parametreler dondurulur; değişiklik yeniden doğrulama gerektirir.",

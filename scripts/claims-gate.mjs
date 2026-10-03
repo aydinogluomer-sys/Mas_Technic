@@ -491,6 +491,8 @@ function keywordArraySpans(text) {
    verbatim; the `demo-placeholder-badge` rule fires on every other use. */
 const CONTRACT_HONESTY_LABELS = [
   "Temsili malzeme görünümü; teknik seçim yukarıdaki kayıt ve çalışma koşullarına göre yapılır.",
+  // IMG01 / PAGE01 / UX05 — the contract's literal label for code-drawn schemas.
+  "Temsili mühendislik şeması",
 ];
 const foldForLabel = (value) => value.replace(/[İIıi]/g, "i").toLowerCase();
 const onContractHonestyLabel = (text, index) => {

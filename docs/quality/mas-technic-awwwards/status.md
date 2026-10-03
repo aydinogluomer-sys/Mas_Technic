@@ -143,6 +143,53 @@ Güncellenen mevcut spec'ler (davranış değişikliği nedeniyle, gerekçesi ya
 
 Tarayıcı sonuçları `LOCAL_FIXTURE` (yerel `vite preview`, placeholder Supabase env, Google Fonts erişilemez). Canlı host, gerçek cihaz ve gerçek arama motoru davranışı ölçülmedi.
 
+## Paket 4 — IMG01 → PAGE01 → UX05
+
+- HEAD doğrulaması: paket 4 başında dal `58a5873` (paket 3 sonu), `main` = `4618e71` (paket 1–3 merge edilmedi). Paket 4 tek commit.
+
+| İş | Durum | Bağımlılık | Değişen dosyalar (özet) | Son kanıt |
+|---|---|---|---|---|
+| IMG01 | PASS_LOCAL | — (gerçek MAS fotoğrafı yok; O04 gelirse yeniden değerlendirilir) | `src/content/detail-visuals.ts` (48 kayıt), `src/components/schemas/{kit,sector,registry,SchemaFigure}.tsx`, `src/pages/ServiceDetail.tsx`, `src/data/servicePages.ts` (`heroImage` kaldırıldı), `src/styles/shell.css` (`.sch*`, `.shell-schema-*`), `scripts/claims-gate.mjs` (C11) | 48/48 açık kayıt; 17 sektörün 15'i ayrı kod şeması, 2'si repo görseli; görsel tekrarı yalnız iki çiftte ve gerekçeli (anodizasyon/kimyasal işlemler, seri imalat/seri üretim). `evidence/screens/p4/img01-sector-plates-{1440,375}.png` |
+| PAGE01 | PASS_LOCAL · matris eşikleri O02 | O02 | `src/content/{pilot-modules,related,category-matrix}.ts`, `src/components/schemas/pilot.tsx`, `src/pages/{ServiceDetail,CategoryPage}.tsx`, `src/components/shell/rail-labels.ts` | 7 pilot modül hero'dan hemen sonra (MODÜL bandı: şema + Problem/Proses/Kontrol); 48 sayfada en çok 4 elle seçilmiş ilgili kayıt; 15 kategori sayfasında `İhtiyaç / İlgili proses veya kapsam / Sonraki kayıt` matrisi, sayısal eşik yok. `evidence/screens/p4/page01-ux05-bands-1440.png` |
+| UX05 | PASS_LOCAL · gerçek ölçüm raporu O04 | O04 | `src/content/journal-modules.ts`, `src/components/schemas/journal.tsx`, `src/pages/{BlogDetail,KabiliyetProfilDetay}.tsx` | 6 yazıda konuya özel şema, karar tablosu, kaynak listesi (standart adı + neye başvurulduğu), elle seçilmiş ilgili yazı ve hizmetler; tarih değişmedi, yazar adı yok. CMM tablosu ve çizimi "örnek, gerçek rapor değil". 3 profilde 3 ayrı çizim. `evidence/screens/p4/page01-ux05-schemas-375-tr-en.png` |
+
+### IMG01 davranışı
+
+- Detay sayfası plakası tek kaynaktan gelir: `DETAIL_VISUALS[slug]` → `{kind, asset | schema, subject, sourceKind, permissionRef, crop?, shared?}`. Generic fallback yok; kayıtsız slug testte kırılır.
+- Repo görselleri MAS fotoğrafı değil (`reports/10/asset-inventory.md` §4); caption konuyu anlatır, tesisi, makineyi ya da kişiyi MAS'ınki gibi sunmaz. İzin kaydı `USER_INPUTS.md §I PROJECT_PHOTOS: USE_REPO`.
+- Kod şemaları 640×320 viewBox, yalnız yüzey token'ları (hex yok), etiketler `t()` ile TR/EN. Caption: `Temsili mühendislik şeması · <konu>`. Şemalarda ölçü değeri, tolerans sayısı ya da test sonucu yok; yalnız ilişki (datum, akış, kesit, sıra).
+- Konuyla çelişen ya da §I'e takılan görseller değiştirildi: tavlama (D5), montaj ve operasyonel verimlilik (D6).
+- 375'te şema etiketleri 19 px'e (küçük etiket 16 px) büyür; tüm şemalar 375'te TR ve EN olarak kare kare gözden geçirildi, taşan ve çakışan etiketler düzeltildi.
+
+### PAGE01 davranışı
+
+- Pilot sayfalar: CNC frezeleme, CNC torna, derin delik, fikstür, anodizasyon, kalite kontrol, DFM. Hero'dan hemen sonra MODÜL bandı: bir teknik problemi gösteren şema + Problem → Proses → Kontrol. Diğer sayfalar değişmedi.
+- "Aynı ailenin ilk 8 sayfası" listesi kalktı. Her detayda en çok 4 ilgili kayıt, gerekirse aile dışından (sektör sayfası → parçanın üretildiği hizmet).
+- Kategori sayfalarına 03 KARAR bandı eklendi; kardeş sayfalar 04, sonraki adım 05 oldu.
+
+### UX05 davranışı
+
+- Yazılara 03 ŞEMA bandı: şema + KAYNAKLAR + karar tablosu. Not: "Standartlar teknik başvuru olarak anılır; bir uygunluk beyanı değildir." İlgili band (04) ilgili yazılara ek olarak ilgili hizmetleri listeler.
+- Torna-freze yazısı iki operasyonu aynı geometri üzerinde karşılaştırır. CMM yazısındaki kontrol planı örnektir, gerçek rapor değil; T03 malzeme koşulları korunur.
+- Profil detayında fotoğraf plakası yerine profile özel şema (D7).
+
+### Paket 4 test sonuçları
+
+| Komut | Sonuç |
+|---|---|
+| `npx tsc --noEmit -p tsconfig.app.json` / `tsconfig.e2e.json` | geçti |
+| `npm run lint` | 0 hata, 2 uyarı (tabandaki `BlurImage.tsx` uyarıları) |
+| `npm run build` (placeholder env) | geçti |
+| `node scripts/claims-gate.mjs` | PASS: 0 ihlal, 306 kontrol ("Temsili mühendislik şeması" sabitlendi, C11) |
+| `e2e/p4-visuals-modules.spec.ts` (yeni, desktop-1280) | 11/11 geçti: manifest 48/48 ve 17/17 sektör, şema anahtarları ve görsel eşlemesi, gerekçesiz tekrar yok ve sektörde en çok 2 kullanım, sektör şemaları birbirinden farklı; ilgili kayıtlar 48 sayfada ≤4, gerçek ve kendine bağlantısız; 7 pilot modül ayrı çizimle; 15 kategori matrisi gerçek slug'lar ve sayısal eşiksiz; 6 yazı modülü kaynaklı, CMM tablosu örnek etiketli; 3 profil 3 ayrı çizim; tarayıcıda şema plakası + etiket, pilot modül + 4 ilgili bağlantı, kategori matrisi, EN yazı şeması İngilizce |
+| EN tarayıcı taraması (72 `/en` detay, kategori, yazı ve profil rotası) | 0 Türkçe metin, eksik anahtar yok |
+| Tam koşu `desktop-1280` (306 test) | 265 geçti, 6 hata, 26 atlandı, 9 koşmadı. 6 hatanın hiçbiri paket 4 kaynaklı değil, hepsi paket 3 raporundaki listeyle aynı: `FAIL_INFRA` `landing-structure:95` (`ERR_CERT_AUTHORITY_INVALID`, Google Fonts) ve `technical-landing:180` (yedek fontla footer oranı); tabanda da düşen `qa-09b1-golden-drift` footer, `qa-p08-storage-disclosure:310`, `09b2-fragment-navigation` ×2 |
+| `critical-1280` + `critical-375` (163 test) | 160 geçti, 3 hata: yalnız `landing-structure:95` ×2 ve `technical-landing:180` (`FAIL_INFRA`) |
+| Etkilenen set `mobile-375` (`l01-locale`, `i18n-switch`, `navigation-reachability`, `p4-visuals-modules`) | koşan 5 test geçti, geri kalanı proje filtresiyle atlandı |
+| Görsel inceleme | 19 şema plakası 1440 + 375; 16 modül/yazı/profil şeması 375'te TR ve EN (32 kare); 1440 band kareleri. Çakışan/taşan etiketler iki turda düzeltildi; son kareler `evidence/screens/p4/` |
+
+Tarayıcı sonuçları `LOCAL_FIXTURE` (yerel `vite preview`, placeholder Supabase env, Google Fonts erişilemez).
+
 ## Sonraki iş
 
-Sözleşme sırasına göre bir sonraki paket. Açık girdiler: O01 (host, prerender), O08 (EN hukuki onay), O10 (origin ve EN'in yayına açılması).
+Sözleşme sırasına göre paket 5: PROOF01 → NEXUS01 → UX03. Açık girdiler: O01 (host, prerender), O02 (kapasite eşikleri), O04 (gerçek demo kuponu), O05 (malzeme kaynakları), O08 (EN hukuki onay), O10 (origin ve EN'in yayına açılması).

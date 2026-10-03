@@ -9,7 +9,7 @@ import type { FaqEntry } from "@/data/chatFaqData";
 /* Overlay shapes for the English content bundle. Each is the Turkish record's
    text, in the same structure; ids, slugs, paths and images are never
    repeated here (see `src/i18n/localize.ts`). */
-export type ServiceText = TextOverlay<Omit<ServicePageData, "slug" | "category" | "heroImage">>;
+export type ServiceText = TextOverlay<Omit<ServicePageData, "slug" | "category">>;
 export type CategoryText = TextOverlay<Omit<CategoryPageData, "slug" | "prefix">>;
 export type FamilyText = TextOverlay<Omit<MaterialCategoryPage, "slug" | "code" | "subcategoryKey" | "relatedCategories">>;
 export type MaterialText = TextOverlay<Pick<Material, "name" | "propertyConditions" | "description" | "applications" | "advantages" | "limitations">>;
