@@ -205,6 +205,11 @@ export function MaterialRegister({
                               })}
                             </dl>
                           )}
+                          {material.propertySources && (
+                            <p className="shell-table-note">
+                              {t("Kaynaklar, malzeme sınıfının üreticinin yayımladığı teknik verisidir; tedarikçiyi ya da gelen malzemenin sertifikasını göstermez. Parçanız için geçerli değer, malzeme sertifikasındaki değerdir.")}
+                            </p>
+                          )}
 
                           <div className="shell-detail-lists">
                             <div>

@@ -151,6 +151,7 @@ const pages: Record<string, string> = {
   "Bu sayfa kaydı bulunamadı": "This page record was not found",
   "Bu sayfa yüklenemedi": "This page could not be loaded",
   /* E1 — material provenance (materialsData propertySources) */
+  "Kaynaklar, malzeme sınıfının üreticinin yayımladığı teknik verisidir; tedarikçiyi ya da gelen malzemenin sertifikasını göstermez. Parçanız için geçerli değer, malzeme sertifikasındaki değerdir.": "The sources are the technical data a producer publishes for the material grade; they do not name a supplier or certify incoming material. The value that applies to your part is the one on its material certificate.",
   "1560EN:4, Kasım 2022": "1560EN:4, November 2022",
   "1561EN:4, Kasım 2022": "1561EN:4, November 2022",
   "21 °C, tavlanmış + yaşlandırılmış; özdirençten hesaplanmış (79 Btu·in/ft²·h·°F)": "21 °C, annealed + aged; calculated from resistivity (79 Btu·in/ft²·h·°F)",
