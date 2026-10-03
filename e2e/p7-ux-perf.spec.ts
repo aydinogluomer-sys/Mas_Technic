@@ -156,6 +156,12 @@ test.describe("UX04 booking and footers", () => {
     const dialog = page.getByRole("dialog");
     await expect(dialog).toBeVisible();
     await expect(dialog.getByRole("link", { name: "Randevuyu yeni sekmede aç" }).first()).toBeVisible();
+    /* Opening the dialog must move focus into it. Asserted first, because the
+       Tab loop below measured the trap before focus had arrived when the
+       machine was loaded (1 run in a full 8-viewport sweep). */
+    await expect
+      .poll(() => page.evaluate(() => !!document.activeElement?.closest("[role='dialog']")), { timeout: 5_000 })
+      .toBe(true);
     for (let i = 0; i < 6; i += 1) {
       await page.keyboard.press("Tab");
       const inside = await page.evaluate(() => !!document.activeElement?.closest("[role='dialog']") || document.activeElement?.tagName === "IFRAME");

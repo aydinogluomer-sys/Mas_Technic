@@ -100,6 +100,12 @@ test.describe("Fullscreen machining navigation", () => {
     /* Revision 4: Kurumsal is a family of plain pages, listed flat; the old
        directory columns ("Ana sayfa bölümleri", "Kaynaklar") are gone. */
     await families.nth(3).click();
+    /* The family panel swaps exit-then-enter; count once the Kurumsal panel is
+       the only one in the DOM (same wait as navigation-reachability.spec.ts),
+       not while the previous family's panel is still leaving. */
+    const kurumsal = (await families.nth(3).locator(".tl-menu-family-label").textContent())!.trim();
+    await expect(menu.locator(`[data-menu-group="${kurumsal}"]`)).toBeVisible({ timeout: 10_000 });
+    await expect(menu.locator("[data-menu-group]")).toHaveCount(1);
     const pages = menu.locator("[data-nav-page-list] a");
     await expect(pages).toHaveCount(7);
     await expect(pages).toHaveText([

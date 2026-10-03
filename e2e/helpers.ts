@@ -91,6 +91,20 @@ export async function gotoAndSettle(page: Page, path: string) {
   await page.goto(path, { waitUntil: "domcontentloaded" });
   await expect(page.locator("#root")).toBeVisible();
   await page.locator("body").waitFor({ state: "visible" });
+  /* Wait for the ROUTE, not only the root: routes are lazy chunks, and under
+     load a spec could read the DOM while the route loader was still up — 0
+     rail labels, a null header box, an empty menu list (four regression
+     flakes, all the same race). Every page renders a `<main>`; the shell's
+     error state counts as rendered. Best-effort with a ceiling, so a surface
+     without either still reaches the spec's own assertions. */
+  await page
+    .waitForFunction(
+      () => !document.querySelector('[data-shell-state="loading"]')
+        && !!document.querySelector('main, [data-shell-state="error"]'),
+      undefined,
+      { timeout: 10_000 },
+    )
+    .catch(() => { /* the spec's own assertions report what is missing */ });
   // Persistent analytics/realtime connections make networkidle nondeterministic.
   // Font readiness plus two paint frames is a bounded visual readiness contract.
   await settleRendering(page);
