@@ -47,7 +47,7 @@ for (const [cat, slugs] of byCategory) {
 
 const unique = [...new Set(routes)];
 writeFileSync(
-  path.join(root, "reports", "qa", "phase-09a-r2", "routes.json"),
+  path.join(root, "e2e", "fixtures", "qa-p09a2-routes.json"),
   JSON.stringify(unique, null, 2),
   "utf8",
 );

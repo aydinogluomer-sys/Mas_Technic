@@ -30,7 +30,7 @@
 import { brotliDecompressSync } from "node:zlib";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..", "..");
 const CSS_URL = readFileSync(join(root, "index.html"), "utf8").match(/href="(https:\/\/fonts\.googleapis\.com\/css2\?[^"]+)"/)[1].replace(/&amp;/g, "&");
@@ -225,5 +225,6 @@ for (const fam of FAMILIES) {
   console.log(`  /* ${fam.family}: upm ${web.unitsPerEm}, hhea ${web.hhea.ascender}/${web.hhea.descender}/${web.hhea.lineGap}, typo ${web.os2.typoAscender}/${web.os2.typoDescender}/${web.os2.typoLineGap} useTypo=${web.os2.useTypoMetrics}, avg advance ${web.avgAdvanceEm.toFixed(4)}em (missing: ${web.avgMissing.join("") || "none"})`);
   console.log(`     ${fam.fallback.name}: upm ${fb.unitsPerEm}, hhea ${fb.hhea.ascender}/${fb.hhea.descender}/${fb.hhea.lineGap}, avg advance ${fb.avgAdvanceEm.toFixed(4)}em (missing: ${fb.avgMissing.join("") || "none"}) */`);
 }
+mkdirSync(dirname(OUT), { recursive: true });
 writeFileSync(OUT, JSON.stringify(result, null, 1));
 console.log(`\nwritten ${OUT}`);
