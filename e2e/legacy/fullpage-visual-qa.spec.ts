@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import {
-  assertLovableAuthWasNotCaptured,
+  assertHostedAuthWasNotCaptured,
   expectLocatorUnobscured,
   freezeVisualState,
   fullScrollToBottom,
@@ -17,7 +17,7 @@ test.describe("Deterministic full-page evidence capture", () => {
       await gotoAndSettle(page, route);
       if (route === LEGACY_LANDING_PATH) await hydrateLanding(page);
       await fullScrollToBottom(page);
-      await assertLovableAuthWasNotCaptured(page);
+      await assertHostedAuthWasNotCaptured(page);
 
       await expect(page.locator("#main-header")).toBeVisible();
       const footer = page.getByRole("contentinfo");

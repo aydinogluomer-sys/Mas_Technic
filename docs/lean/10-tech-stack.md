@@ -85,7 +85,7 @@ manualChunks: {
 ## Hosting & Deploy
 
 ```
-Primary deploy: Lovable.dev (preview URL: mas-technic-precision.lovable.app)
+Primary deploy: Vercel (planlanan; henüz yayında değil)
 Geliştirme:    Claude Code + Vite dev server (localhost:8080)
 Supabase:      zdqiujpeewtyhtcqhdcj.supabase.co
 ```

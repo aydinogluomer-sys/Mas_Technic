@@ -877,11 +877,11 @@ Make the imagery and typography look like one commissioned industrial editorial 
 
 ### Objective
 
-Make every public route production-canonical, crawlable and shareable without Lovable/preview metadata leakage.
+Make every public route production-canonical, crawlable and shareable without preview-host metadata leakage.
 
 ### Mandatory tasks
 
-- Replace hardcoded Lovable canonical with production-domain strategy from `USER_INPUTS.md`.
+- Replace hardcoded preview-host canonical with production-domain strategy from `USER_INPUTS.md`.
 - Resolve İzmir/İstanbul metadata conflict.
 - Remove English `availableLanguage` until real English pages exist.
 - Provide route-specific title, description, canonical, OG title/description/url/image and Twitter metadata.
@@ -897,7 +897,7 @@ Make every public route production-canonical, crawlable and shareable without Lo
 
 ### Acceptance criteria
 
-- No public metadata references Lovable preview URLs unless explicitly the production domain.
+- No public metadata references preview-host URLs unless explicitly the production domain.
 - Location metadata is consistent.
 - Every indexable route has appropriate metadata.
 - Sitemap contains only intended canonical pages.

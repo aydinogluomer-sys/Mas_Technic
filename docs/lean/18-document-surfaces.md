@@ -119,8 +119,7 @@ repository rather than assumed:
   `public/_headers` or `public/404.html`.
 * `vite.config.ts` builds a plain SPA — no SSR, no prerender plugin — so no
   route can carry a status code of its own.
-* The only deploy target named anywhere in the repo is a Lovable preview
-  (`README.md:6`, `docs/lean/10-tech-stack.md:88`), while `USER_INPUTS.md` §A
+* No deploy target is configured in the repo (Vercel is planned), while `USER_INPUTS.md` §A
   names `https://www.masmare.com` as the production domain and says nothing
   about how it is served. §M sets `ALLOW_PRODUCTION_DEPLOY: NO`.
 

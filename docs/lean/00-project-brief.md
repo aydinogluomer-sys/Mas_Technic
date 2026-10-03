@@ -58,7 +58,7 @@ Hedef: Sektörün en premium web varlığı — rakip siteler kurumsal katalog m
 
 - **Teknoloji:** Vite+React, Supabase backend — Next.js/SSR yok
 - **İçerik:** Türkçe — SEO Türkçe hedefli
-- **Platform:** Lovable.dev deploy → Claude Code geliştirme
+- **Platform:** Claude Code geliştirme → Vercel deploy (planlanan)
 - **Budget:** Premium görünüm, pragmatik geliştirme — overengineering yok
 - **Süre:** Awwwards Honorable Mention için 3-6 ay polish gerekiyor
 

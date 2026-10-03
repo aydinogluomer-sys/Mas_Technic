@@ -5,7 +5,6 @@ import path from "path";
 import { execSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { componentTagger } from "lovable-tagger";
 import { normalizeOrigin } from "./src/lib/site-origin";
 
 /**
@@ -205,7 +204,8 @@ function siteMetaPlugin(mode: string, command: "build" | "serve"): Plugin {
           .replace(/(<meta name="robots" content=")[^"]*(")/, `$1${robots}$2`);
         if (!origin) return out;
         return {
-          html: out,
+          /* Share images must be absolute; index.html carries a root path. */
+          html: out.replace(/(<meta\s+(?:property="og:image"|name="twitter:image")\s+content=")\/(?!\/)/g, `$1${origin}/`),
           tags: [
             { tag: "link", attrs: { rel: "canonical", href: `${origin}/` }, injectTo: "head" },
             { tag: "meta", attrs: { property: "og:url", content: `${origin}/` }, injectTo: "head" },
@@ -225,7 +225,7 @@ export default defineConfig(({ mode, command }) => ({
     host: "::",
     port: 8080,
   },
-  plugins: [react(), mode === "development" && componentTagger(), siteMetaPlugin(mode, command), heroPreloadPlugin(), buildIdentityPlugin(command)].filter(Boolean),
+  plugins: [react(), siteMetaPlugin(mode, command), heroPreloadPlugin(), buildIdentityPlugin(command)].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

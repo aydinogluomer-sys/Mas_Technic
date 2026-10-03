@@ -141,7 +141,7 @@ Her madde için: ✅ Geçti / ⚠️ Revize / ❌ Baştan. Tüm maddeler ✅ olm
 
 - [ ] Supabase Edge Function logları — error var mı?
 - [ ] Browser console — uncaught error var mı?
-- [ ] Lovable.dev preview URL çalışıyor
+- [ ] Vercel canlı adresi çalışıyor (`verify-release.mjs` temiz)
 - [ ] Google Search Console: indexing sorun yok
 - [ ] decision-log.md'e release notunu ekle
 - [ ] ROADMAP.md'i güncelle
