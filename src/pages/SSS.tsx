@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "@/i18n/LocaleLink";
 import {
   PageShell,
   ShellAction,
@@ -13,10 +14,12 @@ import {
 } from "@/components/shell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePageMeta } from "@/hooks/use-page-meta";
-import { servicePages } from "@/data/servicePages";
+import { servicePages as turkishServicePages, type ServicePageData } from "@/data/servicePages";
+import { useSiteData } from "@/i18n/data";
+import { joinList } from "@/i18n/format";
 import {
-  CAD_UPLOAD_FORMATS,
-  CERTIFICATION_SENTENCE_LIST,
+  CAD_UPLOAD_EXTENSIONS,
+  CERTIFICATIONS,
   CMM_COVERAGE,
   MINIMUM_TOLERANCE,
   QUOTE_RESPONSE_TIME,
@@ -120,6 +123,9 @@ interface FaqEntry {
  * figures, not commitments (the same reason `/iletisim` lost its "30 dakikalık
  * ücretsiz ilk görüşme" in Phase 07).
  */
+/* L01 — the answers are i18n keys; `{{…}}` values come from
+   `@/content/claims` at render time (`generalVars`), so the Turkish text is
+   byte-for-byte what it was and the English one states the same values. */
 const GENERAL_FAQS: FaqEntry[] = [
   {
     question: "Minimum sipariş adedi nedir?",
@@ -132,7 +138,7 @@ const GENERAL_FAQS: FaqEntry[] = [
     /* 09a-C3: liste doğruydu ama ELLE YAZILMIŞTI — `CAD_ACCEPTED_EXTENSIONS`
        değiştiği gün bu cümle sessizce yanlışa dönerdi. Türetilmiş hâli
        BAYT BAYT aynı metni üretir; değişen tek şey, artık türeyebilmesi. */
-    answer: `Teklif akışındaki yükleyici ${CAD_UPLOAD_FORMATS} dosyalarını kabul eder. Ölçülendirilmiş 2B teknik resminizi veya listede olmayan bir formatı e-posta ile iletebilirsiniz.`,
+    answer: "Teklif akışındaki yükleyici {{formats}} dosyalarını kabul eder. Ölçülendirilmiş 2B teknik resminizi veya listede olmayan bir formatı e-posta ile iletebilirsiniz.",
     category: "Genel",
   },
   {
@@ -143,22 +149,22 @@ const GENERAL_FAQS: FaqEntry[] = [
   },
   {
     question: "Teklifi ne kadar sürede alırım?",
-    answer: `Teknik resim veya 3B model elimize ulaştıktan sonra ${QUOTE_RESPONSE_TIME} içinde dönüş yapılır. Üretilebilirlik incelemesinde bir soru çıkarsa, teklif beklemeden önce bunu size sorarız.`,
+    answer: "Teknik resim veya 3B model elimize ulaştıktan sonra {{response}} içinde dönüş yapılır. Üretilebilirlik incelemesinde bir soru çıkarsa, teklif beklemeden önce bunu size sorarız.",
     category: "Genel",
   },
   {
     question: "Hangi toleransta çalışıyorsunuz?",
-    answer: `Standart tolerans aralığımız ${MINIMUM_TOLERANCE}. Bundan dar bir tolerans gerekiyorsa, hangi kotenin gerçekten o toleransı gerektirdiğini teklif aşamasında birlikte belirleriz; gerektirmiyorsa bunu söylemeyi tercih ederiz.`,
+    answer: "Standart tolerans aralığımız {{tolerance}}. Bundan dar bir tolerans gerekiyorsa, hangi kotenin gerçekten o toleransı gerektirdiğini teklif aşamasında birlikte belirleriz; gerektirmiyorsa bunu söylemeyi tercih ederiz.",
     category: "Kalite & Standartlar",
   },
   {
     question: "Kalite belgeniz var mı?",
-    answer: `${CERTIFICATION_SENTENCE_LIST} yönetim sistemi belgelerimiz bulunmaktadır. Belge kapsamı dışında bir standart talep ediyorsanız teknik incelemede birlikte değerlendiririz.`,
+    answer: "{{certifications}} yönetim sistemi belgelerimiz bulunmaktadır. Belge kapsamı dışında bir standart talep ediyorsanız teknik incelemede birlikte değerlendiririz.",
     category: "Kalite & Standartlar",
   },
   {
     question: "Ölçüm raporu veriyor musunuz?",
-    answer: `Her iş için kontrol planı hazırlanır ve ölçüm kayıtları teslim dosyasına eklenir. ${CMM_COVERAGE} olarak sağlanır.`,
+    answer: "Her iş için kontrol planı hazırlanır ve ölçüm kayıtları teslim dosyasına eklenir. {{cmm}} olarak sağlanır.",
     category: "Kalite & Standartlar",
   },
   {
@@ -200,42 +206,47 @@ const CATEGORY_OF: Record<string, string> = {
   "Enerji & Altyapı": "Endüstriyel Sektörler",
 };
 
-const SERVICE_FAQS: FaqEntry[] = servicePages.flatMap((page) =>
-  (page.faq ?? []).map((item) => ({
-    question: item.question,
-    answer: item.answer,
-    category: CATEGORY_OF[page.categoryLabel] ?? page.categoryLabel,
-    source: page.title,
-    sourceSlug: page.slug,
-    sourceCategory: page.category,
-  })),
-);
+/* The register category is keyed by the TURKISH category label, so the
+   grouping is the same in both languages; it is translated for display. */
+const TURKISH_CATEGORY_LABEL = new Map(turkishServicePages.map((page) => [page.slug, page.categoryLabel]));
 
-const SEEN = new Set<string>();
-const ALL_FAQS: FaqEntry[] = [...GENERAL_FAQS, ...SERVICE_FAQS].filter((entry) => {
-  const key = entry.question.toLocaleLowerCase("tr-TR").trim();
-  if (SEEN.has(key)) return false;
-  SEEN.add(key);
-  return true;
-});
+function serviceFaqs(pages: readonly ServicePageData[]): FaqEntry[] {
+  return pages.flatMap((page) =>
+    (page.faq ?? []).map((item) => {
+      const label = TURKISH_CATEGORY_LABEL.get(page.slug) ?? page.categoryLabel;
+      return {
+        question: item.question,
+        answer: item.answer,
+        category: CATEGORY_OF[label] ?? label,
+        source: page.title,
+        sourceSlug: page.slug,
+        sourceCategory: page.category,
+      };
+    }),
+  );
+}
 
-/** Category order is the order the register first meets each category. */
-const CATEGORIES = [...new Set(ALL_FAQS.map((entry) => entry.category))];
+function dedupe(entries: FaqEntry[], language: string): FaqEntry[] {
+  const seen = new Set<string>();
+  return entries.filter((entry) => {
+    const key = entry.question.toLocaleLowerCase(language).trim();
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
 
-/** A stable DOM id per category, for the anchor index. */
-const anchorOf = (category: string) =>
-  `sss-${CATEGORIES.indexOf(category) + 1}`;
-
-function FaqItem({ entry }: { entry: FaqEntry }) {
+function FaqItem({ entry, id, open }: { entry: FaqEntry; id: string; open?: boolean }) {
+  const { t } = useTranslation();
   return (
-    <details className="shell-faq-item">
+    <details className="shell-faq-item" id={id} open={open || undefined}>
       <summary>{entry.question}</summary>
       <div className="shell-faq-answer">
         <p>{entry.answer}</p>
         {entry.sourceSlug && (
           <p className="shell-faq-source">
             <Link to={`/${entry.sourceCategory}/${entry.sourceSlug}`}>
-              {entry.source} sayfası
+              {t("{{source}} sayfası", { source: entry.source })}
             </Link>
           </p>
         )}
@@ -245,27 +256,66 @@ function FaqItem({ entry }: { entry: FaqEntry }) {
 }
 
 export const SSS = () => {
+  const { t, i18n } = useTranslation();
+  const { servicePages } = useSiteData();
+  const language = i18n.language === "en" ? "en" : "tr-TR";
   usePageMeta({
-    title: "Sıkça Sorulan Sorular",
-    description:
-      "CNC işleme, malzeme seçimi, tolerans, kalite kontrol ve teslimat süreçleri hakkında sıkça sorulan sorular ve yanıtları.",
+    title: t("Sıkça Sorulan Sorular"),
+    description: t("CNC işleme, malzeme seçimi, tolerans, kalite kontrol ve teslimat süreçleri hakkında sıkça sorulan sorular ve yanıtları."),
   });
+
+  const ALL_FAQS = useMemo(() => {
+    const vars = {
+      formats: joinList(CAD_UPLOAD_EXTENSIONS.split(", ").map((ext) => ext.slice(1).toUpperCase()), i18n.language),
+      response: t(QUOTE_RESPONSE_TIME),
+      tolerance: MINIMUM_TOLERANCE,
+      certifications: joinList(CERTIFICATIONS.map((certification) => certification.code), i18n.language),
+      cmm: t(CMM_COVERAGE),
+    };
+    const general = GENERAL_FAQS.map((entry) => ({
+      ...entry,
+      question: t(entry.question),
+      answer: t(entry.answer, vars),
+    }));
+    return dedupe([...general, ...serviceFaqs(servicePages)], language);
+  }, [t, i18n.language, servicePages, language]);
+
+  /* UX02 — a stable id per question (its position in the register), so a
+     `#soru-N` link opens it directly. */
+  const idOf = useMemo(() => new Map(ALL_FAQS.map((entry, index) => [entry, `soru-${index + 1}`])), [ALL_FAQS]);
+  /* UX02 — the ten general decision questions are the first view; the
+     service-page questions wait in closed groups and are never removed. */
+  const PRIORITY = useMemo(() => ALL_FAQS.filter((entry) => !entry.sourceSlug), [ALL_FAQS]);
+
+  /** Category order is the order the register first meets each category. */
+  const CATEGORIES = useMemo(() => [...new Set(ALL_FAQS.map((entry) => entry.category))], [ALL_FAQS]);
+  /** A stable DOM id per category, for the anchor index. */
+  const anchorOf = (category: string) => `sss-${CATEGORIES.indexOf(category) + 1}`;
 
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("");
+  const [openGroups, setOpenGroups] = useState<ReadonlySet<string>>(new Set());
+  const [targetQuestion, setTargetQuestion] = useState<string | null>(null);
+  const toggleGroup = useCallback((id: string) => {
+    setOpenGroups((current) => {
+      const next = new Set(current);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  }, []);
 
   const filtered = useMemo(() => {
-    const needle = query.trim().toLocaleLowerCase("tr-TR");
+    const needle = query.trim().toLocaleLowerCase(language);
     return ALL_FAQS.filter((entry) => {
       if (activeCategory && entry.category !== activeCategory) return false;
       if (!needle) return true;
       return (
-        entry.question.toLocaleLowerCase("tr-TR").includes(needle)
-        || entry.answer.toLocaleLowerCase("tr-TR").includes(needle)
-        || entry.category.toLocaleLowerCase("tr-TR").includes(needle)
+        entry.question.toLocaleLowerCase(language).includes(needle)
+        || entry.answer.toLocaleLowerCase(language).includes(needle)
+        || t(entry.category).toLocaleLowerCase(language).includes(needle)
       );
     });
-  }, [query, activeCategory]);
+  }, [query, activeCategory, ALL_FAQS, language, t]);
 
   /* Grouped only in the UNFILTERED state — see the header note. Inside a
      result set the grouping is noise, and a reader who typed a query is
@@ -276,10 +326,44 @@ export const SSS = () => {
       CATEGORIES.map((category) => ({
         category,
         id: anchorOf(category),
-        entries: filtered.filter((entry) => entry.category === category),
+        entries: filtered.filter((entry) => entry.category === category && (!isBrowsing || entry.sourceSlug)),
       })).filter((group) => group.entries.length > 0),
-    [filtered],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [filtered, CATEGORIES, isBrowsing],
   );
+
+  /* UX02 — DEEP LINKS. `#sss-N` opens that group, `#soru-N` opens the group
+     holding that question and the question itself; both scroll into view.
+     Runs on load and on every hash change (the contents index uses it). */
+  useEffect(() => {
+    const apply = () => {
+      const hash = decodeURIComponent(window.location.hash.slice(1));
+      if (!hash) return;
+      let groupId: string | null = null;
+      if (hash.startsWith("sss-")) groupId = hash;
+      if (hash.startsWith("soru-")) {
+        const entry = ALL_FAQS.find((item) => idOf.get(item) === hash);
+        if (entry && entry.sourceSlug) groupId = anchorOf(entry.category);
+        setTargetQuestion(hash);
+      }
+      if (groupId) {
+        setQuery("");
+        setActiveCategory("");
+        setOpenGroups((current) => new Set([...current, groupId as string]));
+      }
+      window.requestAnimationFrame(() => document.getElementById(hash)?.scrollIntoView({ block: "start" }));
+    };
+    apply();
+    window.addEventListener("hashchange", apply);
+    return () => window.removeEventListener("hashchange", apply);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ALL_FAQS, idOf]);
+
+  const clearFilters = useCallback(() => {
+    setQuery("");
+    setActiveCategory("");
+    setOpenGroups(new Set());
+  }, []);
 
   const jsonLdFaqs = useMemo(
     () => filtered.map((entry) => ({ question: entry.question, answer: entry.answer })),
@@ -294,18 +378,18 @@ export const SSS = () => {
         no="01"
         label="SSS"
         crumb={<ShellBreadcrumb trail={[{ label: "Ana sayfa", to: "/" }, { label: "Sık sorulanlar" }]} />}
-        eyebrow="Soru kaydı"
-        title="Sıkça Sorulan Sorular"
-        lede="Üretim, malzeme, tolerans, kalite ve teslimat başlıklarında en çok sorulanlar. Her yanıt, ilgili teknik sayfanın kendi metniyle aynı kaynaktan gelir."
+        eyebrow={t("Soru kaydı")}
+        title={t("Sıkça Sorulan Sorular")}
+        lede={t("Üretim, malzeme, tolerans, kalite ve teslimat başlıklarında sık sorulan sorular. Her yanıttan ilgili teknik sayfaya geçebilirsiniz.")}
         meta={[
-          { label: "Kapsam", value: "Üretim · Malzeme · Kalite · Teslimat" },
-          { label: "Standart tolerans", value: MINIMUM_TOLERANCE },
-          { label: "Teklif dönüşü", value: QUOTE_RESPONSE_TIME },
+          { label: t("Kapsam"), value: t("Üretim · Malzeme · Kalite · Teslimat") },
+          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Teklif dönüşü"), value: t(QUOTE_RESPONSE_TIME) },
         ]}
         actions={
           <>
-            <ShellAction to="/teklif-al" variant="primary">Teklif Al</ShellAction>
-            <ShellAction to="/iletisim" variant="ghost">Soru sor</ShellAction>
+            <ShellAction to="/teklif-al" variant="primary">{t("Teklif Al")}</ShellAction>
+            <ShellAction to="/iletisim" variant="ghost">{t("Soru sor")}</ShellAction>
           </>
         }
       />
@@ -316,72 +400,95 @@ export const SSS = () => {
             <ShellTitleBlock
               id="sss-register"
               index="02"
-              title="Soru kaydı"
-              standfirst="Arayın veya bir başlık seçin. Arama; soru metninde, yanıtta ve başlıkta çalışır."
+              title={t("Soru kaydı")}
+              standfirst={t("Önce en sık sorulan on genel soru; diğer başlıklar kapalı durur, açmak için başlığa basın. Arama bütün sorularda çalışır ve eşleşen başlıkları açar.")}
             />
 
-            <section className="shell-filter" aria-label="Soru filtreleri">
+            <section className="shell-filter" aria-label={t("Soru filtreleri")}>
               <div className="shell-field shell-filter-search">
-                <label htmlFor="sss-arama">Ara</label>
+                <label htmlFor="sss-arama">{t("Ara")}</label>
                 <input
                   id="sss-arama"
                   type="search"
                   value={query}
-                  placeholder="tolerans, anodizasyon, termin…"
+                  placeholder={t("tolerans, anodizasyon, termin…")}
                   onChange={(event) => setQuery(event.target.value)}
                 />
               </div>
               <div className="shell-field">
-                <label htmlFor="sss-baslik">Başlık</label>
+                <label htmlFor="sss-baslik">{t("Başlık")}</label>
                 <select
                   id="sss-baslik"
                   value={activeCategory}
                   onChange={(event) => setActiveCategory(event.target.value)}
                 >
-                  <option value="">Tümü</option>
+                  <option value="">{t("Tümü")}</option>
                   {CATEGORIES.map((category) => (
-                    <option key={category} value={category}>{category}</option>
+                    <option key={category} value={category}>{t(category)}</option>
                   ))}
                 </select>
               </div>
               {/* A count as the ANSWER TO A QUERY, never as a statement about
                   the corpus — `docs/lean/17` §6.4. Silent while browsing. */}
               <p className="shell-field-hint" role="status">
-                {isBrowsing ? "" : `${filtered.length} soru`}
+                {isBrowsing ? "" : t("{{count}} soru", { count: filtered.length })}
               </p>
             </section>
 
             {filtered.length === 0 ? (
               <ShellEmpty
                 label="EŞLEŞME YOK"
-                title="Bu aramayla soru bulunamadı"
-                detail="Arama terimini kısaltmayı veya başlık seçimini kaldırmayı deneyebilirsiniz. Sorunuz burada yoksa doğrudan sorabilirsiniz."
-                action={
-                  <ShellAction
-                    variant="ghost"
-                    onClick={() => { setQuery(""); setActiveCategory(""); }}
-                  >
-                    Filtreleri temizle
-                  </ShellAction>
-                }
+                title={t("Bu aramayla soru bulunamadı")}
+                detail={t("Arama terimini kısaltmayı veya başlık seçimini kaldırmayı deneyebilirsiniz. Sorunuz burada yoksa doğrudan sorabilirsiniz.")}
+                action={<ShellAction variant="ghost" onClick={clearFilters}>{t("Filtreleri temizle")}</ShellAction>}
               />
-            ) : isBrowsing ? (
-              groups.map((group) => (
-                <section key={group.id} id={group.id} aria-labelledby={`${group.id}-title`}>
-                  <h3 id={`${group.id}-title`} className="shell-faq-group">{group.category}</h3>
-                  <div className="shell-faq">
-                    {group.entries.map((entry) => (
-                      <FaqItem key={entry.question} entry={entry} />
-                    ))}
-                  </div>
-                </section>
-              ))
             ) : (
-              <div className="shell-faq">
-                {filtered.map((entry) => (
-                  <FaqItem key={entry.question} entry={entry} />
-                ))}
-              </div>
+              <>
+                {isBrowsing && (
+                  <section aria-labelledby="sss-oncelik-title" className="shell-faq-priority">
+                    <h3 id="sss-oncelik-title" className="shell-faq-group">{t("Önce bunlar")}</h3>
+                    <div className="shell-faq">
+                      {PRIORITY.map((entry) => (
+                        <FaqItem key={entry.question} entry={entry} id={idOf.get(entry) ?? ""} open={targetQuestion === idOf.get(entry)} />
+                      ))}
+                    </div>
+                  </section>
+                )}
+                {!isBrowsing && (
+                  <div className="shell-filter-actions">
+                    <ShellAction variant="quiet" onClick={clearFilters}>{t("Filtreleri temizle")}</ShellAction>
+                  </div>
+                )}
+                <div className="shell-faq-groups">
+                {groups.map((group) => {
+                  /* Browsing: groups start closed. Searching or filtering:
+                     every group with a match is open. */
+                  const open = !isBrowsing || openGroups.has(group.id);
+                  return (
+                    <section key={group.id} id={group.id} aria-labelledby={`${group.id}-title`} className="shell-faq-section">
+                      <h3 className="shell-faq-group">
+                        <button
+                          type="button"
+                          id={`${group.id}-title`}
+                          className="shell-faq-toggle"
+                          aria-expanded={open}
+                          aria-controls={`${group.id}-panel`}
+                          onClick={() => isBrowsing && toggleGroup(group.id)}
+                        >
+                          <span>{t(group.category)}</span>
+                          <small className="shell-faq-count">{t("{{count}} soru", { count: group.entries.length })}</small>
+                        </button>
+                      </h3>
+                      <div className="shell-faq" id={`${group.id}-panel`} hidden={!open}>
+                        {group.entries.map((entry) => (
+                          <FaqItem key={entry.question} entry={entry} id={idOf.get(entry) ?? ""} open={targetQuestion === idOf.get(entry)} />
+                        ))}
+                      </div>
+                    </section>
+                  );
+                })}
+                </div>
+              </>
             )}
           </div>
 
@@ -393,13 +500,12 @@ export const SSS = () => {
                 items={groups.map((group, index) => ({
                   id: group.id,
                   no: String(index + 1).padStart(2, "0"),
-                  label: group.category,
+                  label: t(group.category),
                 }))}
               />
             )}
             <p className="shell-note">
-              Bir başlığın altındaki yanıtlar, o başlığın kendi teknik sayfasından gelir; yanıtı
-              açtığınızda kaynak sayfaya geçebilirsiniz.
+              {t("Bir başlığın altındaki yanıtlar, o başlığın kendi teknik sayfasından gelir; yanıtı açtığınızda kaynak sayfaya geçebilirsiniz.")}
             </p>
           </aside>
         </div>
@@ -407,14 +513,14 @@ export const SSS = () => {
 
       <ShellNextStep
         no="03"
-        title="Sorunuzun yanıtı burada yoksa"
-        body="Teknik resim veya 3B model gönderin; sorunuzu parçanın kendisi üzerinden yanıtlayalım. Yalnızca soracaksanız iletişim sayfası daha hızlıdır."
+        title={t("Sorunuzun yanıtı burada yoksa")}
+        body={t("Teknik resim veya 3B model gönderin; sorunuzu parçanın kendisi üzerinden yanıtlayalım. Yalnızca soracaksanız iletişim sayfası daha hızlıdır.")}
         detail={[
-          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
-          { label: "Gönderilecek", value: "Teknik resim veya 3B model" },
-          { label: "Ölçüm", value: CMM_COVERAGE },
+          { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
+          { label: t("Gönderilecek"), value: t("Teknik resim veya 3B model") },
+          { label: t("Ölçüm"), value: t(CMM_COVERAGE) },
         ]}
-        secondary={{ label: "İletişim", to: "/iletisim" }}
+        secondary={{ label: t("İletişim"), to: "/iletisim" }}
       />
     </PageShell>
   );

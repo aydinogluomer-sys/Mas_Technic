@@ -13,8 +13,11 @@ test.describe("cursor stays visible over header and menu", () => {
     await gotoAndSettle(page, "/hakkimizda");
 
     const dot = page.locator('[data-custom-cursor="dot"]');
+    // PERF01: the custom cursor loads on the first real mouse movement.
+    await expect(dot).toHaveCount(0);
+    await page.mouse.move(600, 400);
+    await page.mouse.move(610, 410);
     await expect(dot).toHaveCount(1);
-    await expect(dot).toHaveAttribute("data-armed", "false");
     expect(await dot.evaluate((node) => node.parentElement === document.body)).toBe(true);
 
     await page.mouse.move(640, 36);

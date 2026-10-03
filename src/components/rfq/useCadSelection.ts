@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { safeSession } from "@/lib/safe-storage";
 import {
   CAD_ACCEPTED_EXTENSIONS,
   getCadFileExtension,
@@ -79,7 +80,7 @@ export function useCadSelection() {
     /* A newly chosen file replaces whatever the hero uploaded, so the request
        cannot carry one file's name and another file's storage object. */
     setHandoff(null);
-    sessionStorage.removeItem("mas_pending_cad_upload");
+    safeSession.remove("mas_pending_cad_upload");
     return true;
   }, []);
 
@@ -87,7 +88,7 @@ export function useCadSelection() {
     setSelection(null);
     setError(null);
     setHandoff(null);
-    sessionStorage.removeItem("mas_pending_cad_upload");
+    safeSession.remove("mas_pending_cad_upload");
   }, []);
 
   const reportError = useCallback((next: CadSelectionError | null) => setError(next), []);
@@ -97,12 +98,12 @@ export function useCadSelection() {
      parks the `File` itself on `window` (it cannot survive `sessionStorage`).
      Both are read exactly once, on mount. */
   useEffect(() => {
-    const pending = sessionStorage.getItem("mas_pending_cad_upload");
+    const pending = safeSession.get("mas_pending_cad_upload");
     if (pending) {
       try {
         setHandoff(JSON.parse(pending) as UploadedCadFile);
       } catch {
-        sessionStorage.removeItem("mas_pending_cad_upload");
+        safeSession.remove("mas_pending_cad_upload");
       }
     }
 

@@ -32,12 +32,16 @@
      vertical rhythm sat 64–72px below the landing's. */
   --shell-page-top: 56px;
   --shell-page-bottom: 96px;
+  /* Static reference plate (Malzemeler, M01): a still image, never a
+     cinematic band. Upper bound only; the plate scales down with width. */
+  --shell-reference-plate-h: 480px;
 }
 
 @media (max-width: 767px) {
   :root {
     --shell-page-top: 32px;
     --shell-page-bottom: 64px;
+    --shell-reference-plate-h: 280px;
   }
 }
 
@@ -64,7 +68,7 @@
   font-family: var(--tl-font-mono);
 }
 .tl-band-index span { font-size: 15px; line-height: 1; letter-spacing: .02em; }
-.tl-band-index small { font-size: 8px; line-height: 1.35; letter-spacing: .06em; text-align: center; text-wrap: balance; }
+.tl-band-index small { font-size: 10px; line-height: 1.35; letter-spacing: .06em; text-align: center; text-wrap: balance; max-width: 100%; overflow-wrap: anywhere; }
 
 .tl-status-badge {
   position: absolute;
@@ -73,12 +77,12 @@
   right: var(--tl-s4);
   border: 1px solid currentColor;
   padding: 5px 7px;
-  font: 700 8px/1 var(--tl-font-mono);
+  font: 700 12px/1 var(--tl-font-mono);
   letter-spacing: .08em;
 }
 
 @media (max-width: 1180px) {
-  .tl-band-index small { font-size: 7px; letter-spacing: .02em; }
+  .tl-band-index small { font-size: 10px; letter-spacing: .02em; }
 }
 
 /* At 42px a 7px mono caption such as "SEÇİLMİŞ PROJELER" wrapped into five
@@ -93,9 +97,9 @@
      `.tl-band-index` and `.tl-status-badge` are declared in THIS file, so their
      overrides correctly stay here. */
   .tl-band-index { padding-top: var(--tl-s2); gap: var(--tl-s1); }
-  .tl-band-index span { width: 24px; height: 24px; font-size: 8px; }
+  .tl-band-index span { width: 24px; height: 24px; font-size: 10px; }
   .tl-band-index small { display: none; }
-  .tl-status-badge { top: var(--tl-s2); right: var(--tl-s2); font-size: 7px; }
+  .tl-status-badge { top: var(--tl-s2); right: var(--tl-s2); font-size: 12px; }
 }
 
 /* ── Root and sheet ───────────────────────────────────────────────────────*/
@@ -178,7 +182,7 @@
 .shell-main[data-shell-layout="band"] > .shell-rail { grid-column: 1; }
 
 .shell-rail span { font-size: 15px; line-height: 1; letter-spacing: .02em; }
-.shell-rail small { font-size: 8px; line-height: 1.35; letter-spacing: .06em; text-align: center; }
+.shell-rail small { font-size: 10px; line-height: 1.35; letter-spacing: .06em; text-align: center; }
 
 .shell-root[data-shell-surface="paper"] .shell-rail {
   border-right-color: var(--tl-paper-rule);
@@ -221,7 +225,7 @@
 .shell-eyebrow {
   margin: 0 0 var(--tl-s3);
   color: var(--tl-bronze-light);
-  font: 600 10px/1 var(--tl-font-mono);
+  font: 600 12px/1 var(--tl-font-mono);
   letter-spacing: .18em;
   text-transform: uppercase;
 }
@@ -273,7 +277,7 @@
 .shell-root[data-shell-surface="paper"] .shell-meta-row > div { border-bottom-color: var(--tl-paper-rule-soft); }
 
 .shell-meta-row dt {
-  font: 500 9px/1.2 var(--tl-font-mono);
+  font: 500 12px/1.2 var(--tl-font-mono);
   letter-spacing: .12em;
   text-transform: uppercase;
 }
@@ -292,7 +296,7 @@
 .shell-title-index {
   display: block;
   margin-bottom: var(--tl-s3);
-  font: 500 10px/1 var(--tl-font-mono);
+  font: 500 12px/1 var(--tl-font-mono);
   letter-spacing: .12em;
 }
 .shell-root[data-shell-surface="paper"] .shell-title-index { color: var(--tl-ink-faint); }
@@ -335,7 +339,7 @@
   left: var(--tl-s4);
   padding-inline: var(--tl-s2);
   color: var(--tl-bronze-light);
-  font: 600 9px/1.4 var(--tl-font-mono);
+  font: 600 12px/1.4 var(--tl-font-mono);
   letter-spacing: .14em;
 }
 .shell-root[data-shell-surface="paper"] .shell-evidence-kind { color: var(--tl-bronze-ink); }
@@ -348,7 +352,7 @@
   margin-top: var(--tl-s4);
   padding-top: var(--tl-s3);
   border-top: var(--tl-rule-size) solid var(--tl-rule-soft);
-  font: 500 9px/1.4 var(--tl-font-mono);
+  font: 500 12px/1.4 var(--tl-font-mono);
   letter-spacing: .1em;
 }
 .shell-root[data-shell-surface="paper"] .shell-evidence-source { border-top-color: var(--tl-paper-rule-soft); color: var(--tl-ink-faint); }
@@ -376,7 +380,7 @@
   position: absolute;
   top: var(--tl-s2);
   left: var(--tl-s3);
-  font: 500 9px/1 var(--tl-font-mono);
+  font: 500 12px/1 var(--tl-font-mono);
   letter-spacing: .12em;
 }
 .shell-root[data-shell-surface="paper"] .shell-divider-reading { color: var(--tl-ink-faint); }
@@ -432,7 +436,7 @@
 .tl-footer-brand { grid-column: 1 / span 4; padding: var(--tl-s4) var(--tl-s6) var(--tl-s5) var(--tl-s4); }
 .tl-footer h2 { font-size: clamp(26px, 2.6vw, 38px); font-weight: 700; line-height: .95; letter-spacing: -.025em; }
 .tl-footer address { display: grid; grid-template-columns: auto auto; justify-content: start; gap: var(--tl-s2) var(--tl-s7); margin-top: var(--tl-s2); font-style: normal; }
-.tl-footer address p { display: flex; align-items: start; gap: var(--tl-s2); color: #c3c8c5; font: 500 10px/1.5 var(--tl-font-mono); }
+.tl-footer address p { display: flex; align-items: start; gap: var(--tl-s2); color: #c3c8c5; font: 500 12px/1.5 var(--tl-font-mono); }
 /* Address is two lines; phone and mail align to the SAME two lines on the
    right. Explicit placement, because DOM order (address–address–phone–mail)
    is the correct reading order and the visual order is line by line. */
@@ -448,8 +452,8 @@
 .tl-footer nav { grid-column: 5 / -1; align-content: start; padding-block: var(--tl-s4) var(--tl-s5); }
 .tl-footer nav div { grid-column: span 2; min-width: 0; border-left: 1px solid var(--tl-rule); padding-left: var(--tl-s4); }
 .tl-footer nav div:last-child { padding-right: var(--tl-s4); }
-.tl-footer nav h3 { margin-bottom: var(--tl-s3); font: 600 9px/1 var(--tl-font-mono); letter-spacing: .1em; }
-.tl-footer nav a { display: block; margin-top: 6px; color: #c5cac7; font-size: 11px; text-decoration: none; transition: color .25s ease; }
+.tl-footer nav h3 { margin-bottom: var(--tl-s3); font: 600 12px/1 var(--tl-font-mono); letter-spacing: .1em; }
+.tl-footer nav a { display: block; margin-top: 6px; color: #c5cac7; font-size: 12px; text-decoration: none; transition: color .25s ease; }
 .tl-footer nav a:hover { color: var(--tl-white); }
 /* The watermark is centred on the gap between "TARİH" in the meta run and the
    legal run on the right. That gap's centre is exactly 163px right of the
@@ -502,9 +506,9 @@
 .tl-social a:hover { border-color: var(--tl-white); color: var(--tl-white); }
 .tl-social svg { width: 15px; stroke-width: 1.5; }
 .tl-meta-run { display: flex; flex-wrap: wrap; align-items: center; gap: var(--tl-s5); min-height: 32px; padding-inline: var(--tl-s4); }
-.tl-meta-run span { color: var(--tl-on-dark-meta); font: 500 9px/1 var(--tl-font-mono); letter-spacing: .06em; }
+.tl-meta-run span { color: var(--tl-on-dark-meta); font: 500 12px/1 var(--tl-font-mono); letter-spacing: .06em; }
 .tl-legal { display: flex; height: 100%; align-items: center; gap: var(--tl-s4); border-left: 1px solid var(--tl-rule); padding-inline: var(--tl-s4); }
-.tl-legal a { color: var(--tl-on-dark-meta); font: 500 9px/1 var(--tl-font-mono); letter-spacing: .06em; text-decoration: none; }
+.tl-legal a { color: var(--tl-on-dark-meta); font: 500 12px/1 var(--tl-font-mono); letter-spacing: .06em; text-decoration: none; }
 .tl-legal a:hover { color: var(--tl-white); }
 .tl-crosshair { width: 16px; fill: none; stroke: #5f6764; stroke-width: 1; }
 
@@ -622,7 +626,10 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   .tl-footer nav div:nth-child(2n) { padding-right: var(--tl-s3); }
   .tl-footer address { grid-template-columns: 1fr; gap: var(--tl-s3); }
   .tl-footer address :is(.tl-tel, .tl-mail) { grid-column: auto; grid-row: auto; }
-  .tl-title-block { grid-template-columns: 1fr; }
+  /* UX01: the 12px floor made the legal row wider than a 320px column; the
+     column may shrink and the rows wrap instead of being clipped. */
+  .tl-title-block { grid-template-columns: minmax(0, 1fr); }
+  .tl-legal { flex-wrap: wrap; row-gap: var(--tl-s2); }
   .tl-social { border-right: 0; border-bottom: 1px solid var(--tl-rule); padding-block: var(--tl-s3); }
   .tl-meta-run { gap: var(--tl-s3); padding-block: var(--tl-s3); }
   .tl-legal { border-top: 1px solid var(--tl-rule); border-left: 0; padding-block: var(--tl-s3); }
@@ -781,7 +788,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   gap: var(--tl-s3);
   padding-inline: var(--tl-s4);
   color: var(--tl-white);
-  font: 600 10px/1 var(--tl-font-mono);
+  font: 600 14px/1 var(--tl-font-mono);
   letter-spacing: .12em;
   text-align: left;
 }
@@ -824,7 +831,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-state-label {
   margin: 0;
   color: var(--tl-bronze-light);
-  font: 600 10px/1 var(--tl-font-mono);
+  font: 600 12px/1 var(--tl-font-mono);
   letter-spacing: .2em;
 }
 .shell-root[data-shell-surface="paper"] .shell-state-label { color: var(--tl-bronze-ink); }
@@ -1165,7 +1172,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   border-top: var(--tl-rule-size) solid var(--sf-rule);
   padding-top: var(--tl-s3);
   color: var(--sf-meta);
-  font: 500 11px/1.65 var(--tl-font-mono);
+  font: 500 12px/1.65 var(--tl-font-mono);
   letter-spacing: .02em;
 }
 
@@ -1187,7 +1194,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   align-items: center;
   gap: var(--tl-s2);
   color: var(--sf-meta);
-  font: 500 9px/1.5 var(--tl-font-mono);
+  font: 500 12px/1.5 var(--tl-font-mono);
   letter-spacing: .14em;
   text-transform: uppercase;
 }
@@ -1202,6 +1209,10 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
    moves, so the label under the reader's pointer stays where they aimed. */
 .shell-action {
   display: inline-flex;
+  /* UX01: long labels (an e-mail address at the 14px floor) wrap inside a
+     narrow column instead of pushing past it. */
+  max-width: 100%;
+  overflow-wrap: anywhere;
   min-height: 44px;
   align-items: center;
   justify-content: space-between;
@@ -1209,7 +1220,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   border: var(--tl-rule-size) solid transparent;
   border-radius: var(--tl-radius);
   padding-inline: var(--tl-s5);
-  font: 600 11px/1 var(--tl-font-mono);
+  font: 600 14px/1 var(--tl-font-mono);
   letter-spacing: .14em;
   text-transform: uppercase;
   text-decoration: none;
@@ -1279,11 +1290,11 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-index-row:hover { background: var(--sf-hover); }
 .shell-index[data-compact] .shell-index-row { padding-block: var(--tl-s4); gap: var(--tl-s4); }
 
-.shell-index-no { color: var(--sf-accent); font: 500 11px/1.6 var(--tl-font-mono); letter-spacing: .06em; }
+.shell-index-no { color: var(--sf-accent); font: 500 12px/1.6 var(--tl-font-mono); letter-spacing: .06em; }
 .shell-index-body { display: grid; gap: var(--tl-s2); min-width: 0; }
 .shell-index-eyebrow {
   color: var(--sf-faint);
-  font: 600 9px/1 var(--tl-font-mono);
+  font: 600 12px/1 var(--tl-font-mono);
   letter-spacing: .16em;
   text-transform: uppercase;
 }
@@ -1299,7 +1310,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   border: var(--tl-rule-size) solid var(--sf-rule);
   padding: 3px var(--tl-s2);
   color: var(--sf-meta);
-  font: 500 10px/1.4 var(--tl-font-mono);
+  font: 500 12px/1.4 var(--tl-font-mono);
   letter-spacing: .04em;
 }
 .shell-index-mark {
@@ -1326,7 +1337,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-table-caption {
   display: block;
   color: var(--sf-ink);
-  font: 600 10px/1.5 var(--tl-font-mono);
+  font: 600 12px/1.5 var(--tl-font-mono);
   letter-spacing: .16em;
   text-transform: uppercase;
 }
@@ -1344,7 +1355,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-table thead th {
   border-bottom-color: var(--sf-rule);
   color: var(--sf-meta);
-  font: 600 9px/1.4 var(--tl-font-mono);
+  font: 600 12px/1.4 var(--tl-font-mono);
   /* `font:` is a shorthand and resets `font-variant-numeric` to `normal`, so
      the table-level declaration above does not reach this cell. Restated. */
   font-variant-numeric: tabular-nums;
@@ -1353,13 +1364,21 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   white-space: nowrap;
 }
 .shell-table tbody th { color: var(--sf-ink); font-size: 14px; font-weight: 600; }
-.shell-table tbody td { color: var(--sf-body); font-size: 13px; line-height: 1.55; }
+.shell-table tbody td { color: var(--sf-body); font-size: 14px; line-height: 1.55; }
 .shell-table [data-numeric] {
   font-family: var(--tl-font-mono);
-  font-size: 12px;
+  /* UX01: a table cell is decision text — 14px, numbers included. */
+  font-size: 14px;
   font-variant-numeric: tabular-nums;
   text-align: right;
   white-space: nowrap;
+}
+/* T03: an unsourced material figure is a status, not a value — set it as a
+   quiet mono label so it reads differently from a measured number. */
+.shell-table [data-unverified] {
+  color: var(--sf-meta);
+  font: 500 12px/1.4 var(--tl-font-mono);
+  letter-spacing: .04em;
 }
 .shell-table tbody tr:last-child :is(th, td) { border-bottom: 0; }
 .shell-table tbody tr[data-reference] { background: var(--sf-raise); }
@@ -1389,7 +1408,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   padding: var(--tl-s4);
 }
 .shell-run > li:first-child { border-left-color: transparent; }
-.shell-run-no { color: var(--sf-accent); font: 500 10px/1 var(--tl-font-mono); letter-spacing: .12em; }
+.shell-run-no { color: var(--sf-accent); font: 500 12px/1 var(--tl-font-mono); letter-spacing: .12em; }
 .shell-run-title { color: var(--sf-ink); font-size: 14px; font-weight: 600; line-height: 1.35; }
 .shell-run-detail { color: var(--sf-body); font-size: 13px; line-height: 1.55; }
 .shell-run-action { padding-top: var(--tl-s3); }
@@ -1414,7 +1433,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   border: var(--tl-rule-size) solid var(--sf-rule);
   padding: 6px var(--tl-s3);
   color: var(--sf-body);
-  font: 500 11px/1.4 var(--tl-font-mono);
+  font: 500 12px/1.4 var(--tl-font-mono);
   letter-spacing: .04em;
 }
 
@@ -1441,6 +1460,14 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   height: calc(100% + 120px);
   object-fit: cover;
 }
+.shell-plate[data-size="reference"] .shell-plate-frame {
+  height: clamp(180px, 36vw, var(--shell-reference-plate-h));
+}
+/* No parallax on a reference plate, so no overscan: the whole still shows. */
+.shell-plate[data-size="reference"] .shell-plate-frame > img {
+  inset: 0;
+  height: 100%;
+}
 .shell-plate-tick {
   position: absolute;
   width: 12px;
@@ -1453,6 +1480,85 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-plate-tick[data-corner="tr"] { top: 8px; right: 8px; border-top-width: 1px; border-right-width: 1px; }
 .shell-plate-tick[data-corner="bl"] { bottom: 8px; left: 8px; border-bottom-width: 1px; border-left-width: 1px; }
 .shell-plate-tick[data-corner="br"] { bottom: 8px; right: 8px; border-bottom-width: 1px; border-right-width: 1px; }
+
+/* ── Engineering schemas (IMG01 / PAGE01 / UX05) ─────────────────────────
+   Code-drawn representative schemas. Strokes and type come from the surface
+   tokens, so a schema reads on graphite and on paper alike. In a plate frame
+   the drawing is centred and fitted (no parallax, no overscan); labels are
+   sized in viewBox units so they stay legible at 375. */
+.shell-schema-media {
+  position: absolute;
+  inset: 0;
+  display: block;
+  box-sizing: border-box;
+  padding: clamp(10px, 2.4vw, 28px);
+}
+.sch {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  overflow: visible;
+}
+.sch-line { fill: none; stroke: var(--sf-ink); stroke-width: 2; stroke-linejoin: miter; vector-effect: non-scaling-stroke; }
+.sch-accent { fill: none; stroke: var(--sf-accent); stroke-width: 2.25; vector-effect: non-scaling-stroke; }
+.sch-thin { fill: none; stroke: var(--sf-meta); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.sch-hidden { fill: none; stroke: var(--sf-meta); stroke-width: 1; stroke-dasharray: 6 4; vector-effect: non-scaling-stroke; }
+.sch-center { fill: none; stroke: var(--sf-faint); stroke-width: 1; stroke-dasharray: 18 4 3 4; vector-effect: non-scaling-stroke; }
+.sch-flow { stroke-width: 1.5; }
+.sch-section { stroke: var(--sf-ink); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.sch-hatch-line { stroke: var(--sf-meta); stroke-width: 1; }
+.sch-arrow-head, .sch-fill { fill: var(--sf-meta); }
+.sch-box { fill: var(--sf-field); stroke: var(--sf-ink); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.sch-dot { fill: var(--sf-ink); }
+.sch-dot-accent { fill: var(--sf-accent); }
+.sch-text {
+  fill: var(--sf-meta);
+  font-family: var(--tl-font-mono);
+  font-size: 15px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.sch-text-s { font-size: 12.5px; }
+.sch-text-accent { fill: var(--sf-accent); }
+.sch-text-datum { fill: var(--sf-ink); font-weight: 600; }
+/* At 375 the drawing is width-fitted (~0.5×): labels are drawn larger so
+   they print at ~9–10px. */
+@media (max-width: 767px) {
+  .sch-text { font-size: 19px; letter-spacing: .02em; }
+  .sch-text-s { font-size: 16px; }
+}
+/* PAGE01 module: problem / process / check as a hairline definition list. */
+.shell-module-steps { margin: 0; display: grid; gap: 0; align-content: start; }
+.shell-module-steps > div { border-top: var(--tl-rule-size) solid var(--sf-rule); padding: 14px 0 16px; }
+.shell-module-steps dt {
+  font-family: var(--tl-font-mono);
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--sf-accent);
+  margin-bottom: 6px;
+}
+.shell-module-steps dd { margin: 0; color: var(--sf-body); line-height: 1.55; }
+/* A schema outside a plate (module, journal, profile figure). */
+.shell-schema-figure { margin: 0; }
+.shell-schema-figure .shell-schema-frame {
+  border: var(--tl-rule-size) solid var(--sf-rule);
+  background: var(--sf-field);
+  padding: clamp(10px, 2.4vw, 24px);
+  aspect-ratio: 2 / 1;
+}
+.shell-schema-figure figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 10px;
+  font-family: var(--tl-font-mono);
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--sf-meta);
+}
 .shell-plate > figcaption {
   display: flex;
   flex-wrap: wrap;
@@ -1460,8 +1566,8 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   gap: var(--tl-s2) var(--tl-s4);
   padding-top: var(--tl-s2);
 }
-.shell-plate-no { color: var(--sf-accent); font: 600 9px/1.5 var(--tl-font-mono); letter-spacing: .18em; }
-.shell-plate-caption { color: var(--sf-meta); font: 500 11px/1.5 var(--tl-font-mono); letter-spacing: .02em; }
+.shell-plate-no { color: var(--sf-accent); font: 600 12px/1.5 var(--tl-font-mono); letter-spacing: .18em; }
+.shell-plate-caption { color: var(--sf-meta); font: 500 12px/1.5 var(--tl-font-mono); letter-spacing: .02em; }
 
 /* ── Next step (RFQ continuation) ─────────────────────────────────────────*/
 .shell-next-body { align-items: start; padding-block: var(--tl-s8); }
@@ -1491,7 +1597,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-field { display: grid; gap: var(--tl-s2); min-width: 0; }
 .shell-field > label {
   color: var(--sf-meta);
-  font: 600 9px/1.4 var(--tl-font-mono);
+  font: 600 12px/1.4 var(--tl-font-mono);
   letter-spacing: .16em;
   text-transform: uppercase;
 }
@@ -1516,7 +1622,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   outline-offset: 2px;
 }
 .shell-field ::placeholder { color: var(--sf-faint); opacity: 1; }
-.shell-field-hint { color: var(--sf-meta); font: 500 11px/1.6 var(--tl-font-mono); }
+.shell-field-hint { color: var(--sf-meta); font: 500 12px/1.6 var(--tl-font-mono); }
 
 /* The live region is always in the DOM, empty and zero-height until it has
    something to say: an `aria-live` region inserted at the same moment as its
@@ -1593,7 +1699,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-dropzone-title { color: var(--sf-ink); font-size: 15px; font-weight: 600; line-height: 1.4; }
 .shell-dropzone-hint {
   color: var(--sf-meta);
-  font: 500 11px/1.6 var(--tl-font-mono);
+  font: 500 12px/1.6 var(--tl-font-mono);
   letter-spacing: .04em;
 }
 
@@ -1626,7 +1732,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   padding-inline: var(--tl-s4);
   color: var(--sf-body);
   background: transparent;
-  font: 500 11px/1 var(--tl-font-mono);
+  font: 500 14px/1 var(--tl-font-mono);
   letter-spacing: .08em;
   cursor: pointer;
   transition:
@@ -1697,7 +1803,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-faq-source { margin-top: var(--tl-s3); }
 .shell-faq-source a {
   color: var(--sf-meta);
-  font: 500 10px/1.6 var(--tl-font-mono);
+  font: 500 12px/1.6 var(--tl-font-mono);
   letter-spacing: .1em;
   text-decoration: none;
   text-transform: uppercase;
@@ -1714,7 +1820,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-faq-group {
   margin: 0 0 var(--tl-s3);
   color: var(--sf-accent);
-  font: 600 10px/1.4 var(--tl-font-mono);
+  font: 600 12px/1.4 var(--tl-font-mono);
   letter-spacing: .18em;
   text-transform: uppercase;
 }
@@ -1764,7 +1870,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   padding-inline: var(--tl-s3);
   color: var(--sf-body);
   background: transparent;
-  font: 600 9px/1 var(--tl-font-mono);
+  font: 600 12px/1 var(--tl-font-mono);
   letter-spacing: .12em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -1788,7 +1894,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 }
 .shell-detail-figures dt {
   color: var(--sf-meta);
-  font: 600 9px/1.4 var(--tl-font-mono);
+  font: 600 12px/1.4 var(--tl-font-mono);
   letter-spacing: .14em;
   text-transform: uppercase;
 }
@@ -1839,7 +1945,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   display: block;
   margin-bottom: var(--tl-s3);
   color: var(--sf-accent);
-  font: 500 10px/1 var(--tl-font-mono);
+  font: 500 12px/1 var(--tl-font-mono);
   letter-spacing: .18em;
 }
 .shell-doc-section > h2 {
@@ -1864,7 +1970,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 
 /* ── Contents ─────────────────────────────────────────────────────────────*/
 .shell-contents { border-top: var(--tl-rule-size) solid var(--sf-rule); padding-top: var(--tl-s4); }
-.shell-contents small { color: var(--sf-faint); font-size: 10px; font-weight: 500; }
+.shell-contents small { color: var(--sf-faint); font-size: 12px; font-weight: 500; }
 .shell-contents .shell-action { margin-top: var(--tl-s3); }
 
 /* ── Journal lead: the article's own section headings, on the index ───────
@@ -1888,7 +1994,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 }
 .shell-lead-sections a > span:first-child {
   color: var(--sf-accent);
-  font: 500 10px/1.6 var(--tl-font-mono);
+  font: 500 12px/1.6 var(--tl-font-mono);
   letter-spacing: .1em;
 }
 .shell-lead-sections a:hover { color: var(--sf-ink); }
@@ -1915,7 +2021,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 }
 .shell-contents a > span:first-child {
   color: var(--sf-accent);
-  font: 500 10px/1.6 var(--tl-font-mono);
+  font: 500 12px/1.6 var(--tl-font-mono);
   letter-spacing: .1em;
 }
 .shell-contents a:hover { color: var(--sf-ink); }
@@ -1938,7 +2044,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-notice-label {
   margin: 0;
   color: var(--sf-meta);
-  font: 600 9px/1.4 var(--tl-font-mono);
+  font: 600 12px/1.4 var(--tl-font-mono);
   letter-spacing: .18em;
   text-transform: uppercase;
 }
@@ -1969,7 +2075,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-state-reason {
   margin: 0;
   color: var(--sf-faint);
-  font: 500 10px/1.6 var(--tl-font-mono);
+  font: 500 12px/1.6 var(--tl-font-mono);
   letter-spacing: .12em;
 }
 
@@ -2046,7 +2152,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-auth-mark-name > b { color: var(--sf-ink); font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
 .shell-auth-mark-name > small {
   color: var(--sf-meta);
-  font: 500 9px/1.4 var(--tl-font-mono);
+  font: 500 12px/1.4 var(--tl-font-mono);
   letter-spacing: .18em;
   text-transform: uppercase;
 }
@@ -2074,7 +2180,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   border-top: var(--tl-rule-size) solid var(--sf-rule-soft);
 }
 .shell-auth-list > li:last-child { border-bottom: var(--tl-rule-size) solid var(--sf-rule-soft); }
-.shell-auth-list-no { color: var(--sf-accent); font: 500 10px/1.6 var(--tl-font-mono); letter-spacing: .12em; }
+.shell-auth-list-no { color: var(--sf-accent); font: 500 12px/1.6 var(--tl-font-mono); letter-spacing: .12em; }
 .shell-auth-list-label { color: var(--sf-body); font-size: 13px; line-height: 1.5; }
 
 /* The way out of the flow. `.shell-action--quiet` with the arrow reversed:
@@ -2115,7 +2221,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   border: var(--tl-rule-size) solid var(--sf-control-rule);
   color: var(--sf-ink);
   background: transparent;
-  font: 500 13px/1 var(--tl-font-sans);
+  font: 500 14px/1 var(--tl-font-sans);
   cursor: pointer;
   transition: border-color var(--tl-dur-micro) var(--tl-ease-out), background-color var(--tl-dur-micro) var(--tl-ease-out);
 }
@@ -2135,7 +2241,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-auth-rule::after { content: ""; height: var(--tl-rule-size); background: var(--sf-rule); }
 .shell-auth-rule > span {
   color: var(--sf-meta);
-  font: 600 9px/1 var(--tl-font-mono);
+  font: 600 12px/1 var(--tl-font-mono);
   letter-spacing: .18em;
   text-transform: uppercase;
 }
@@ -2177,7 +2283,7 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-auth-label-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--tl-s3); }
 .shell-auth-label-row > label {
   color: var(--sf-meta);
-  font: 600 9px/1.4 var(--tl-font-mono);
+  font: 600 12px/1.4 var(--tl-font-mono);
   letter-spacing: .16em;
   text-transform: uppercase;
 }
@@ -2275,4 +2381,92 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   .shell-contents a,
   .shell-auth-social > button,
   .shell-segment { transition-duration: .01ms; }
+}
+
+/* ── UX03 · quality documents ────────────────────────────────────────────
+   Four real PDFs, each with its own first page as the thumbnail. The frame
+   is a sheet on the band, not a certificate: no seal, no signature block. */
+.shell-qdoc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--tl-s5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.shell-qdoc { display: flex; flex-direction: column; gap: var(--tl-s2); min-width: 0; }
+.shell-qdoc-thumb {
+  display: block;
+  border: 1px solid var(--sf-rule);
+  background: var(--sf-field);
+  padding: var(--tl-s2);
+}
+.shell-qdoc-thumb img { display: block; width: 100%; height: auto; aspect-ratio: 560 / 760; object-fit: cover; object-position: top; }
+.shell-qdoc-thumb:hover, .shell-qdoc-thumb:focus-visible { border-color: var(--sf-ink); }
+.shell-qdoc-index { margin: var(--tl-s2) 0 0; color: var(--sf-accent); font: 600 12px/1.2 var(--tl-font-mono); letter-spacing: .08em; }
+.shell-qdoc h3 { margin: 0; color: var(--sf-ink); font: 700 14px/1.3 var(--tl-font-mono); letter-spacing: .04em; }
+.shell-qdoc-subject { margin: 0; color: var(--sf-body); font-size: 15px; line-height: 1.5; }
+.shell-qdoc dl { display: grid; margin: 0; border-top: 1px solid var(--sf-rule); }
+.shell-qdoc dl > div { display: flex; justify-content: space-between; gap: var(--tl-s3); padding: var(--tl-s1) 0; border-bottom: 1px solid var(--sf-rule-soft); }
+.shell-qdoc dt { color: var(--sf-meta); font: 500 12px/1.4 var(--tl-font-mono); }
+.shell-qdoc dd { margin: 0; color: var(--sf-ink); font: 500 12px/1.4 var(--tl-font-mono); text-align: right; }
+.shell-qdoc-actions { display: flex; gap: var(--tl-s2); margin: var(--tl-s1) 0 0; }
+.shell-qdoc-actions a {
+  display: inline-flex; align-items: center; justify-content: center; flex: 1 1 0;
+  min-height: 44px; border: 1px solid var(--sf-control-rule);
+  color: var(--sf-ink); font: 600 12px/1 var(--tl-font-mono); letter-spacing: .08em; text-transform: uppercase; text-decoration: none;
+}
+.shell-qdoc-actions a:hover, .shell-qdoc-actions a:focus-visible { background: var(--sf-hover); }
+@media (max-width: 1180px) { .shell-qdoc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .shell-qdoc-grid { grid-template-columns: minmax(0, 1fr); } .shell-qdoc-thumb img { aspect-ratio: 560 / 420; } }
+
+/* ── UX02 · FAQ priority view and collapsible groups ──────────────────── */
+.shell-faq-priority { margin-bottom: var(--tl-s6); }
+.shell-faq-section { border-top: 1px solid var(--sf-rule); }
+.shell-faq-section:last-child { border-bottom: 1px solid var(--sf-rule); }
+.shell-faq-section > .shell-faq-group { margin: 0; }
+.shell-faq-toggle {
+  display: flex;
+  width: 100%;
+  min-height: 52px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tl-s4);
+  padding: var(--tl-s3) 0;
+  border: 0;
+  background: transparent;
+  color: var(--sf-ink);
+  font: inherit;
+  font-size: max(14px, 1em);
+  text-align: left;
+  cursor: pointer;
+}
+.shell-faq-toggle::after { content: "+"; flex: none; font: 500 20px/1 var(--tl-font-mono); color: var(--sf-accent); }
+.shell-faq-toggle[aria-expanded="true"]::after { content: "−"; }
+.shell-faq-count { margin-left: auto; color: var(--sf-meta); font: 500 12px/1.2 var(--tl-font-mono); letter-spacing: .06em; }
+.shell-faq-toggle:focus-visible { outline: 2px solid var(--sf-ink); outline-offset: 2px; }
+.shell-faq-section > .shell-faq { padding-bottom: var(--tl-s4); }
+.shell-filter-actions { margin: 0 0 var(--tl-s4); }
+
+/* ── UX04 · compact footer (legal, auth, quote studio) ────────────────── */
+.shell-footer-compact {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--tl-s3) var(--tl-s6);
+  border-top: var(--tl-rule-size) solid var(--sf-rule);
+  padding: var(--tl-s5) var(--tl-s5);
+  color: var(--sf-body);
+  font: 500 14px/1.4 var(--tl-font-mono);
+}
+.shell-footer-compact p { margin: 0; }
+.shell-footer-compact-brand { color: var(--sf-ink); font-weight: 700; letter-spacing: .08em; }
+.shell-footer-compact-contact, .shell-footer-compact-legal { display: flex; flex-wrap: wrap; gap: var(--tl-s2) var(--tl-s4); }
+.shell-footer-compact a { display: inline-flex; min-height: 44px; align-items: center; color: inherit; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--sf-rule); }
+.shell-footer-compact a:is(:hover, :focus-visible) { color: var(--sf-ink); text-decoration-color: currentColor; }
+.shell-footer-compact > .shell-footer-compact-copy { margin-left: auto; color: var(--sf-meta); font-size: 12px; }
+@media (max-width: 767px) {
+  .shell-footer-compact { flex-direction: column; align-items: flex-start; padding: var(--tl-s4); }
+  .shell-footer-compact > .shell-footer-compact-copy { margin-left: 0; }
 }

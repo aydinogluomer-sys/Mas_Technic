@@ -134,7 +134,7 @@ function assertNothingReachedTheBackend(seal: Seal) {
 
 async function openForm(page: Page) {
   await page.goto("/teklif-al", { waitUntil: "networkidle" });
-  await expect(page.getByRole("heading", { level: 1, name: "Hassas Fiyat Teklifi Alın" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Üretim Teklifi İsteyin" })).toBeVisible();
 }
 
 const submitButton = (page: Page) => page.locator("form button[type='submit']");
@@ -210,7 +210,7 @@ test("advancing with no file raises the branded form error and never posts", asy
   await expect(notice).toHaveAttribute("role", "alert");
   await expect(notice).toHaveCSS("border-radius", "0px");
   await expect(notice).toContainText("FORM HATASI");
-  await expect(notice).toContainText("Önce bir CAD dosyası ekleyin");
+  await expect(notice).toContainText("Önce bir 3B model dosyası ekleyin");
   expect((await notice.evaluate((n) => getComputedStyle(n).fontFamily))).toContain("Space Grotesk");
   expect(await page.locator("[data-sonner-toast]").count()).toBe(0);
 
@@ -274,6 +274,8 @@ test("field errors are associated, announced, focused and cleared on edit", asyn
   // A malformed e-mail is rejected with its own message, on the same wiring.
   await page.locator("#rfq-email").fill("not-an-email");
   await page.locator("#rfq-company").fill("QA Ltd");
+  // RFQ03: quantity has no default any more; nothing is chosen for the reader.
+  await page.locator("#rfq-quantity").fill("25");
   await submitButton(page).click();
   await expect(page.locator("#rfq-email")).toHaveAttribute("aria-invalid", "true");
   await expect(page.locator("#rfq-email")).toBeFocused();
@@ -307,6 +309,8 @@ test("thirteen submit attempts against a slow handler produce exactly one invoca
   await page.locator("#rfq-name").fill("QA Denetim");
   await page.locator("#rfq-email").fill("qa@example.com");
   await page.locator("#rfq-company").fill("QA Ltd");
+  // RFQ03: quantity has no default any more; nothing is chosen for the reader.
+  await page.locator("#rfq-quantity").fill("25");
   await submitButton(page).click();
   await expect(page.getByRole("heading", { name: "Talebinizi kontrol edin ve gönderin" })).toBeVisible();
 
@@ -364,6 +368,8 @@ test("no production lead time is rendered anywhere in the request, and the refer
   await page.locator("#rfq-name").fill("QA Denetim");
   await page.locator("#rfq-email").fill("qa@example.com");
   await page.locator("#rfq-company").fill("QA Ltd");
+  // RFQ03: quantity has no default any more; nothing is chosen for the reader.
+  await page.locator("#rfq-quantity").fill("25");
   await submitButton(page).click();
   const step3 = await page.locator("main").innerText();
   expect(step3, "the review summary must publish no lead time").not.toMatch(FORBIDDEN);
@@ -406,6 +412,8 @@ test("the success state shows no reference at all when the server echoes none", 
   await page.locator("#rfq-name").fill("QA Denetim");
   await page.locator("#rfq-email").fill("qa@example.com");
   await page.locator("#rfq-company").fill("QA Ltd");
+  // RFQ03: quantity has no default any more; nothing is chosen for the reader.
+  await page.locator("#rfq-quantity").fill("25");
   await submitButton(page).click();
   await submitButton(page).click();
   await expect(page.getByRole("heading", { name: "Teklif talebiniz kaydedildi" })).toBeVisible({ timeout: 15_000 });
@@ -434,6 +442,8 @@ test("a rejected submission renders a branded announced failure and offers a way
   await page.locator("#rfq-name").fill("QA Denetim");
   await page.locator("#rfq-email").fill("qa@example.com");
   await page.locator("#rfq-company").fill("QA Ltd");
+  // RFQ03: quantity has no default any more; nothing is chosen for the reader.
+  await page.locator("#rfq-quantity").fill("25");
   await submitButton(page).click();
   await submitButton(page).click();
 

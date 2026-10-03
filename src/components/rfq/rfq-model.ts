@@ -105,26 +105,31 @@ export const RFQ_MATERIAL_GROUPS = materialCategories.map((category) => ({
 export type RfqStep = { no: string; label: string };
 
 export const RFQ_STEPS: readonly RfqStep[] = [
-  { no: "01", label: "CAD DOSYASI" },
-  { no: "02", label: "ÖZELLİKLER" },
-  { no: "03", label: "GÖNDER" },
+  { no: "01", label: "DOSYALAR" },
+  { no: "02", label: "BİLGİLER" },
+  { no: "03", label: "İNCELE / GÖNDER" },
 ];
 
-export const RFQ_DEFAULTS = {
-  service: RFQ_SERVICES[0].id,
-  finish: RFQ_SURFACE_FINISHES[0].id,
-  priority: RFQ_PRIORITIES[0].id,
-  material: "al-6061-t6",
-  tolerance: RFQ_TOLERANCES[0],
-  quantity: 25,
-} as const;
+/* RFQ03 — NOTHING IS PRE-CHOSEN FOR THE READER.
+   The form used to open with "CNC Frezeleme", "6061-T6", "İşlenmiş yüzey",
+   the tightest tolerance and 25 pieces already selected, so a request sent
+   without touching step 2 claimed choices nobody made. Every choice now
+   starts empty and the summary says `Belirtilmedi` until the reader picks. */
+export const NOT_SPECIFIED = "Belirtilmedi";
 
 export function optionLabel(options: readonly RfqOption[], id: string): string {
+  if (!id) return NOT_SPECIFIED;
   return options.find((option) => option.id === id)?.label ?? id;
 }
 
+/** The label, or `null` when nothing was chosen — what the server column gets. */
+export function optionValue(options: readonly RfqOption[], id: string): string | null {
+  return id ? optionLabel(options, id) : null;
+}
+
 export function resolveMaterialLabel(materialId: string, customMaterial: string): string {
-  if (materialId === RFQ_MATERIAL_OTHER) return customMaterial.trim() || "Belirtilmedi";
+  if (!materialId) return NOT_SPECIFIED;
+  if (materialId === RFQ_MATERIAL_OTHER) return customMaterial.trim() || NOT_SPECIFIED;
   return materialsData.find((material) => material.id === materialId)?.name ?? materialId;
 }
 
@@ -166,13 +171,14 @@ export const EMPTY_RFQ_DRAFT: RfqDraft = {
   email: "",
   company: "",
   phone: "",
-  service: RFQ_DEFAULTS.service,
-  material: RFQ_DEFAULTS.material,
+  service: "",
+  material: "",
   customMaterial: "",
-  finish: RFQ_DEFAULTS.finish,
-  priority: RFQ_DEFAULTS.priority,
-  tolerance: RFQ_DEFAULTS.tolerance,
-  quantity: RFQ_DEFAULTS.quantity,
+  finish: "",
+  priority: "",
+  tolerance: "",
+  /** `NaN` is "not entered": the input shows empty and validation asks for it. */
+  quantity: Number.NaN,
   drawingNumber: "",
   criticalFeatures: "",
 };
@@ -189,7 +195,7 @@ export function buildRfqNotes(draft: RfqDraft): string {
   return [
     `Yüzey: ${optionLabel(RFQ_SURFACE_FINISHES, draft.finish)}`,
     `Öncelik: ${optionLabel(RFQ_PRIORITIES, draft.priority)}`,
-    `Tolerans: ${draft.tolerance}`,
+    `Tolerans: ${draft.tolerance || NOT_SPECIFIED}`,
     `Parça/Revizyon: ${draft.drawingNumber.trim() || "Belirtilmedi"}`,
     `Kritik ölçüler: ${draft.criticalFeatures.trim() || "Belirtilmedi"}`,
   ].join(" | ");

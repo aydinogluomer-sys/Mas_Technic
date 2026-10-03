@@ -1,0 +1,3779 @@
+{
+  "generatedAt": "2026-10-02T20:10:59.033Z",
+  "generator": "scripts/quality/claims-scan.ts",
+  "total": 620,
+  "firstPerson": 61,
+  "byRoute": {
+    "/hizmetler/cnc-frezeleme": 26,
+    "/hizmetler/cnc-tornalama": 2,
+    "/hizmetler/hassas-mikro-isleme": 37,
+    "/hizmetler/enjeksiyon-kalibi": 30,
+    "/hizmetler/basinçli-dokum": 37,
+    "/hizmetler/silikon-kaliplama": 19,
+    "/hizmetler/fikstur-aparat-tasarimi": 20,
+    "/hizmetler/mekanik-yuzey-islemleri": 27,
+    "/hizmetler/anodizasyon": 48,
+    "/hizmetler/kimyasal-islemler": 5,
+    "/hizmetler/boya-koruyucu-kaplamalar": 24,
+    "/hizmetler/lazer-kazima": 39,
+    "/hizmetler/qr-datamatrix-kodlari": 21,
+    "/hizmetler/logo-markalama": 8,
+    "/hizmetler/insert-uygulama": 10,
+    "/hizmetler/mekanik-montaj": 17,
+    "/hizmetler/kaynakli-imalat": 11,
+    "/kabiliyetler/makine-parkuru": 1,
+    "/kabiliyetler/malzeme-kutuphanesi": 20,
+    "/kabiliyetler/kalite-kontrol": 4,
+    "/kabiliyetler/tolerans-hassasiyet": 31,
+    "/kabiliyetler/tasarim-rehberi-dfm": 12,
+    "/kabiliyetler/yuzey-islemleri-muhendislik": 30,
+    "/kabiliyetler/dusuk-hacimli-uretim": 12,
+    "/kabiliyetler/seri-imalat": 4,
+    "/endustriyel/havacilik-uzay": 14,
+    "/endustriyel/savunma-sanayi": 1,
+    "/endustriyel/robotik": 7,
+    "/endustriyel/otomotiv": 2,
+    "/endustriyel/medikal": 7,
+    "/endustriyel/yelken-yat-sistemleri": 4,
+    "/endustriyel/hidrolik-pnomatik": 13,
+    "/endustriyel/iklim-teknolojileri": 12,
+    "/endustriyel/ozel-projeler": 2,
+    "/endustriyel/yenilenebilir-enerji": 6,
+    "/endustriyel/petrol-gaz": 9,
+    "/endustriyel/guc-dagitim-sistemleri": 13,
+    "/endustriyel/madencilik-ekipmanlari": 13,
+    "/hizmetler/kategori/talasli-imalat": 1,
+    "/kabiliyetler/kategori/kalite-standartlar": 2,
+    "/blog/5-eksen-cnc-isleme-avantajlari": 1,
+    "/blog/havacilik-parcalarinda-malzeme-secimi": 7,
+    "/blog/dfm-tasarimdan-uretime-gecis": 4,
+    "/blog/cnc-torna-frezeleme-farki": 1,
+    "/blog/kalite-kontrol-cmm-olcum": 1,
+    "/blog/endustriyel-yuzey-islemleri-rehberi": 2,
+    "/kabiliyet-profilleri/ince-cidarli-govde": 1,
+    "/kabiliyet-profilleri/titanyum-baglanti-parcasi": 1,
+    "/kabiliyet-profilleri/hassas-mil": 1
+  },
+  "rows": [
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "metaDescription",
+      "text": "3, 4 ve 5 eksenli CNC frezeleme ile ±0.01 mm standart tolerans aralığında üretim. Alüminyum, titanyum ve çelik işleme, teklifle birlikte üretilebilirlik incelemesi.",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "content[2]",
+      "text": "Yüksek hızlı işleme (HSM) stratejileriyle ince cidarlı parçalarda kesme kuvvetini düşürüp yüzey kalitesini iyileştiriyoruz. Havacılık, otomotiv, medikal ve savunma gibi kritik sektörlerde standart çalışma aralığımız ±0.01 mm olup ulaşılabilir tolerans her parça için teknik incelemede belirlenir.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "features[3]",
+      "text": "Yüksek Hızlı İşleme (HSM) — 40.000 RPM, ince cidar ve üstün yüzey",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "features[4]",
+      "text": "±0.01 mm Standart Tolerans — kontrol planıyla teyit edilir",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "technicalSpecs[0].value",
+      "text": "1500×800×600mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "technicalSpecs[1].value",
+      "text": "800×500×500mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "technicalSpecs[2].value",
+      "text": "12.000-40.000 RPM",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "technicalSpecs[4].value",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "technicalSpecs[5].value",
+      "text": "Ra 0.4µm'ye kadar",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "faq[1].answer",
+      "text": "Standart çalışma aralığımız ±0.01mm'dir. Ulaşılabilir tolerans; geometri, malzeme, parça ölçüsü ve ölçü zincirine göre değişir ve her parça için teknik incelemede belirlenir.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[0].rows[2][1]",
+      "text": "±0.05mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[0].rows[2][2]",
+      "text": "±0.02mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[0].rows[2][3]",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[0].rows[3][1]",
+      "text": "Ra 1.6µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[0].rows[3][2]",
+      "text": "Ra 0.8µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[0].rows[3][3]",
+      "text": "Ra 0.4µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[1].rows[0][1]",
+      "text": "5000-8000 mm/dk",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[1].rows[0][2]",
+      "text": "Ra 3.2-6.3µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[1].rows[1][1]",
+      "text": "2000-4000 mm/dk",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[1].rows[1][2]",
+      "text": "Ra 1.6-3.2µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[1].rows[2][1]",
+      "text": "1000-2000 mm/dk",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[1].rows[2][2]",
+      "text": "Ra 0.8-1.6µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[1].rows[3][1]",
+      "text": "8000-15000 mm/dk",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[1].rows[3][2]",
+      "text": "Ra 0.4-0.8µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[1].rows[4][1]",
+      "text": "500-1000 mm/dk",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "field": "comparisonTables[1].rows[4][2]",
+      "text": "Ra 0.1-0.4µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-tornalama",
+      "field": "metaDescription",
+      "text": "CNC torna ile hassas tornalama: canlı takımlı, Y eksenli ve kayar puntalı (Swiss tip) torna. ±0.01 mm standart tolerans; çalışma aralığı teklifte belirtilir.",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/cnc-tornalama",
+      "field": "technicalSpecs[1].value",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "metaDescription",
+      "text": "Ø0.1mm takımlarla mikro frezeleme ve tornalama. Medikal implant, elektronik konektör ve optik parça bileşenlerinde küçük ölçekli hassas işleme.",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "content[0]",
+      "text": "Mikro işleme kabiliyetimiz ile Ø0.1mm'ye kadar takımlarla 5 eksen mikro frezeleme gerçekleştiriyoruz. Optik, elektronik ve medikal implant parçalarında standart CNC'nin ulaşamadığı hassasiyet seviyelerine erişiyoruz. 60.000 RPM'e kadar yüksek hızlı iş mili kapasitemiz ile ultra-hassas yüzey kalitesi elde ediyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "content[1]",
+      "text": "Mikro frezeleme ile Ø0.1mm'ye kadar takımlarla optik, elektronik ve medikal implant parçaları üretiyoruz. Mikro tornalama ile Ø0.3mm'den başlayan çaplarda Swiss tornalama ile saat pimi, medikal vida ve konektör pinleri imal ediyoruz. Mikro delme kabiliyetimiz ile Ø0.05mm'ye kadar hassas delik delme yaparak enjektör uçları, nozullar ve akış kontrol parçaları üretiyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "features[0]",
+      "text": "Mikro Frezeleme — Ø0.1mm takımlarla 5 eksen işleme",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "features[1]",
+      "text": "Mikro Tornalama — Ø0.3mm'den başlayan Swiss tornalama",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "features[2]",
+      "text": "Mikro Delme — Ø0.05mm'ye kadar hassas delik delme",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "features[3]",
+      "text": "Mikro Ölçüm — Optik CMM ile 0.1µm çözünürlükte kontrol",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "features[4]",
+      "text": "Küçük Çaplı Takım Kabiliyeti — Ø0.1mm'den başlayan takımlar",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "features[5]",
+      "text": "Yüzey Pürüzlülüğü — Ra 0.1µm (ayna parlaklığı)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "technicalSpecs[0].value",
+      "text": "Ø0.1mm (Freze), Ø0.05mm (Delme)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "technicalSpecs[1].value",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "technicalSpecs[2].value",
+      "text": "Ra 0.1µm (ayna parlaklığı)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "technicalSpecs[3].value",
+      "text": "60.000 RPM",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "technicalSpecs[4].value",
+      "text": "1mm³ - 100mm³",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "technicalSpecs[5].value",
+      "text": "0.1µm optik ölçüm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "advantages[1]",
+      "text": "Özel mikro takım stoku ve 60.000 RPM iş mili",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "advantages[3]",
+      "text": "200x optik büyütme kontrolü",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "faq[0].answer",
+      "text": "Parça özellikleri 1mm altında veya toleranslar ±0.01mm altında ise mikro işleme gereklidir. Standart CNC bu hassasiyetlere ulaşamaz.",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "50µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[0].rows[0][2]",
+      "text": "300µm (çap)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[0].rows[0][3]",
+      "text": "50µm (delik)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[0].rows[0][4]",
+      "text": "10µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "±2µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[0].rows[1][2]",
+      "text": "±3µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[0].rows[1][3]",
+      "text": "±5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[0].rows[1][4]",
+      "text": "±1µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[0].rows[2][1]",
+      "text": "Ra 0.1µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[0].rows[2][2]",
+      "text": "Ra 0.2µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[0].rows[2][3]",
+      "text": "Ra 0.4µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[0].rows[2][4]",
+      "text": "Ra 0.05µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[1].rows[0][3]",
+      "text": "Ra 0.1-0.4µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[1].rows[1][3]",
+      "text": "Ra 0.2-0.8µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[1].rows[2][2]",
+      "text": "±3-5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[1].rows[2][3]",
+      "text": "Ra 0.2-0.4µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[1].rows[3][2]",
+      "text": "±1-3µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[1].rows[3][3]",
+      "text": "Ra 0.05-0.1µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/hassas-mikro-isleme",
+      "field": "comparisonTables[1].rows[4][3]",
+      "text": "Ra 0.4-0.8µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "metaDescription",
+      "text": "Alüminyum ve çelik enjeksiyon kalıp üretimi. Moldflow simülasyonu, 1.000.000+ çevrim ömrü. Prototip kalıptan seri üretim kalıbına malzeme seçimi.",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "content[1]",
+      "text": "Kalıp malzemesi beklenen üretim adedine göre seçilir: Al 7075 (150 HB) prototip ve düşük hacim, P20 (280-320 HB) orta hacim, H13 (45-52 HRC) yüksek hacim, S136 (48-52 HRC) ise korozyon direnci gereken uygulamalar için. Sıcak yolluk desteği ile malzeme tasarrufu ve döngü süresi iyileştirmesi sağlanır.",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "technicalSpecs[0].value",
+      "text": "100×100×100mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "technicalSpecs[2].value",
+      "text": "1.000.000+ çevrim",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "technicalSpecs[3].value",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "materials[0].grade",
+      "text": "150 HB",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "materials[0].properties",
+      "text": "Prototip kalıp, 10.000+ çevrim",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "materials[1].grade",
+      "text": "280-320 HB",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "materials[2].grade",
+      "text": "45-52 HRC",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "materials[3].grade",
+      "text": "48-52 HRC",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "faq[2].answer",
+      "text": "10.000 adete kadar üretim için alüminyum kalıp ekonomiktir. Daha yüksek hacimler için çelik kalıp uzun vadede maliyet avantajı sağlar.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "150 HB",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[0].rows[0][2]",
+      "text": "10.000+ çevrim",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "280-320 HB",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[0].rows[1][2]",
+      "text": "500.000+ çevrim",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[0].rows[2][1]",
+      "text": "45-52 HRC",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[0].rows[2][2]",
+      "text": "1.000.000+ çevrim",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[0].rows[3][1]",
+      "text": "48-52 HRC",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[0].rows[3][2]",
+      "text": "1.000.000+ çevrim",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[0].rows[4][1]",
+      "text": "38-42 HRC",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[0].rows[4][2]",
+      "text": "500.000+ çevrim",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[1].rows[0][4]",
+      "text": "1-10.000 adet",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[1].rows[1][3]",
+      "text": "1.5×",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[1].rows[1][4]",
+      "text": "10.000-50.000",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[1].rows[2][3]",
+      "text": "2×",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[1].rows[2][4]",
+      "text": "50.000-200.000",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[1].rows[3][3]",
+      "text": "3×",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[1].rows[3][4]",
+      "text": "200.000-500.000",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[1].rows[4][3]",
+      "text": "4-5×",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/enjeksiyon-kalibi",
+      "field": "comparisonTables[1].rows[4][4]",
+      "text": "500.000+",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "metaDescription",
+      "text": "120-1200 ton kapasitede alüminyum ve çinko basınçlı döküm kalıbı. 0.5mm min duvar kalınlığı, ±0.05mm tolerans. Akış simülasyonu dahil.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "content[0]",
+      "text": "120-1200 ton kilitleme kuvveti kapasitemiz ile geniş parça yelpazesinde basınçlı döküm kalıpları tasarlıyor ve üretiyoruz. 0.5mm minimum duvar kalınlığı ile ince duvarlı parçalar, ±0.05mm tolerans ile CT4-CT6 kalite sınıfında ve Ra 1.6-3.2 mikron yüzey pürüzlülüğünde sonuçlar elde ediyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "content[1]",
+      "text": "ADC12 (Al-Si) 280 MPa genel amaçlı, A380 320 MPa yüksek dayanımlı, ZA-8 (Zn-Al) 350 MPa döküm somun ve ZA-27 420 MPa ağır yük uygulamaları için optimize edilmiş döküm alaşımları ile çalışıyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "features[1]",
+      "text": "0.5mm Min Duvar Kalınlığı — İnce duvarlı parçalar",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "features[2]",
+      "text": "±0.05mm Tolerans — CT4-CT6 kalite sınıfı",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "features[3]",
+      "text": "Yüzey Pürüzlülüğü — Ra 1.6-3.2 mikron",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "technicalSpecs[0].value",
+      "text": "120-1200 ton",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "technicalSpecs[1].value",
+      "text": "0.5mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "technicalSpecs[4].value",
+      "text": "±0.05mm (CT4-CT6)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "technicalSpecs[5].value",
+      "text": "Ra 1.6-3.2µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "280 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[0][3]",
+      "text": "640-680°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[0][4]",
+      "text": "0.8mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "320 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[1][3]",
+      "text": "650-700°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[1][4]",
+      "text": "0.8mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[2][1]",
+      "text": "350 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[2][3]",
+      "text": "420-440°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[2][4]",
+      "text": "0.5mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[3][1]",
+      "text": "420 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[3][3]",
+      "text": "440-480°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[3][4]",
+      "text": "0.75mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[4][1]",
+      "text": "230 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[4][3]",
+      "text": "620-650°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[0].rows[4][4]",
+      "text": "1.0mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[1].rows[0][0]",
+      "text": "CT4",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[1].rows[0][1]",
+      "text": "±0.05mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[1].rows[0][2]",
+      "text": "Ra 0.8-1.6µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[1].rows[1][0]",
+      "text": "CT5",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[1].rows[1][1]",
+      "text": "±0.1mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[1].rows[1][2]",
+      "text": "Ra 1.6-3.2µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[1].rows[2][0]",
+      "text": "CT6",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[1].rows[2][1]",
+      "text": "±0.2mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[1].rows[2][2]",
+      "text": "Ra 3.2-6.3µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[1].rows[3][0]",
+      "text": "CT7",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[1].rows[3][1]",
+      "text": "±0.3mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/basinçli-dokum",
+      "field": "comparisonTables[1].rows[3][2]",
+      "text": "Ra 6.3-12.5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "technicalSpecs[1].value",
+      "text": "±0.05mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "technicalSpecs[3].value",
+      "text": "-60°C / +300°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[0][2]",
+      "text": "450%",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[0][3]",
+      "text": "-30°C / +80°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[0][4]",
+      "text": "25 kN/m",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[1][2]",
+      "text": "350%",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[1][3]",
+      "text": "-30°C / +90°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[1][4]",
+      "text": "35 kN/m",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[2][2]",
+      "text": "250%",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[2][3]",
+      "text": "-20°C / +100°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[2][4]",
+      "text": "45 kN/m",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[3][2]",
+      "text": "600%",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[3][3]",
+      "text": "-60°C / +300°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[3][4]",
+      "text": "20 kN/m",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[4][2]",
+      "text": "400%",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[4][3]",
+      "text": "-55°C / +250°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[4][4]",
+      "text": "30 kN/m",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[5][2]",
+      "text": "5%",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/silikon-kaliplama",
+      "field": "comparisonTables[0].rows[5][3]",
+      "text": "-40°C / +120°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "metaDescription",
+      "text": "CNC işleme, montaj, kaynak ve kontrol için özel fikstür tasarımı. ±0.01mm tekrarlanabilirlik. 3D modelleme, kuvvet ve tolerans simülasyonu.",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "content[2]",
+      "text": "Çelik, alüminyum ve kompozit malzemelerle ±0.01mm tekrarlanabilirlik sağlayan fikstürler üretiyoruz. Tasarım ve üretim termini; fikstür karmaşıklığı, malzeme tedariki ve doğrulama kapsamı incelendikten sonra teklifle birlikte verilir.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "technicalSpecs[0].value",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "10-50 kN",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[0][2]",
+      "text": "±0.02mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[0][3]",
+      "text": "1-2 dk",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "20-100 kN",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[1][2]",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[1][3]",
+      "text": "10-20 sn",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[2][1]",
+      "text": "5-30 kN",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[2][2]",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[2][3]",
+      "text": "5-10 sn",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[3][1]",
+      "text": "1-10 kN",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[3][2]",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[3][3]",
+      "text": "5 sn",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[4][1]",
+      "text": "5-20 kN",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[4][2]",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[4][3]",
+      "text": "3 sn",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[5][2]",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/fikstur-aparat-tasarimi",
+      "field": "comparisonTables[0].rows[5][3]",
+      "text": "15-30 dk",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "metaDescription",
+      "text": "Kumlama, vibrasyonlu yüzey bitirme, parlatma ve fırçalama. Ra 0.05µm yüzey kalitesi. Ayna parlaklığından satine yüzeye kadar geniş seçenek.",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "content[1]",
+      "text": "Cam kumu (0.1-0.5mm) ile hassas temizlik, alüminyum oksit (0.2-1.0mm) ile yüzey hazırlık, çelik grit (0.2-2.0mm) ile ağır temizlik ve soda (0.1-0.3mm) ile yumuşak temizlik gibi farklı abrasive malzemelerle çalışıyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "content[2]",
+      "text": "Ra 0.05µm'e kadar yüzey kalitesi, 2-8 bar kumlama basıncı ve 1500×800mm'ye kadar parça boyutu kapasitemiz ile geniş bir hizmet yelpazesi sunuyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "technicalSpecs[0].value",
+      "text": "Ra 0.05µm'e kadar",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "technicalSpecs[1].value",
+      "text": "2-8 bar",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "technicalSpecs[3].value",
+      "text": "1500×800mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "Ra 1.6-3.2µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[0][2]",
+      "text": "5-15 dk",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[0][3]",
+      "text": "1500×800mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "Ra 2.0-4.0µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[1][2]",
+      "text": "5-15 dk",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[1][3]",
+      "text": "1500×800mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[2][1]",
+      "text": "Ra 0.4-1.6µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[2][2]",
+      "text": "30-120 dk",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[3][1]",
+      "text": "Ra 0.1-0.4µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[3][2]",
+      "text": "10-30 dk",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[3][3]",
+      "text": "Ø5-100mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[4][1]",
+      "text": "Ra 0.05-0.2µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[4][2]",
+      "text": "15-60 dk",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[5][1]",
+      "text": "Ra 0.4-1.2µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[0].rows[5][2]",
+      "text": "5-10 dk",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[1].rows[0][1]",
+      "text": "0.1-0.5mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[1].rows[1][1]",
+      "text": "0.2-1.0mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[1].rows[2][1]",
+      "text": "0.2-2.0mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[1].rows[3][1]",
+      "text": "3-15mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[1].rows[4][1]",
+      "text": "2-10mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-yuzey-islemleri",
+      "field": "comparisonTables[1].rows[5][1]",
+      "text": "0.5-2.0mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "metaDescription",
+      "text": "Tip I, II ve III anodizasyon. 5-100µm kaplama, 60-70 HRC sertlik, ASTM B117 tuz spreyi testi ile korozyon direnci doğrulaması. Organik ve inorganik boyalarla renklendirme, havacılık ve medikal uygulamalar.",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "content[1]",
+      "text": "Tip I (Kromik Asit) anodizasyon 5-15µm kalınlıkta ince bir oksit tabakası oluşturur; havacılık yapısal parçaları ve boya tutunma alt katmanı olarak tercih edilir. Tip II (Sülfürik Asit) anodizasyon 10-25µm kalınlıkta olup en yaygın kullanılan türdür; korozyon koruması, renkli kaplama ve genel mühendislik uygulamalarında idealdir. Tip III (Sert Anodizasyon) 25-100µm kalınlıkta, 60-70 HRC sertliğe ulaşarak aşınma direnci, elektriksel yalıtım ve yüksek performans gerektiren uygulamalarda kullanılır.",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "content[4]",
+      "text": "2000×1000×800mm tank boyutlarımız ile büyük parçalarda da anodizasyon uygulayabiliyoruz. 50 kg/parça maksimum ağırlık kapasitesi ile havacılık, otomotiv, medikal, elektronik ve savunma sanayi sektörlerine hizmet veriyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "features[0]",
+      "text": "Tip I (Kromik Asit) — 5-15µm, havacılık yapısal parçalar, boya alt katmanı",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "features[1]",
+      "text": "Tip II (Sülfürik Asit) — 10-25µm, korozyon koruması, renkli kaplama",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "features[2]",
+      "text": "Tip III (Sert Anodizasyon) — 25-100µm, 60-70 HRC sertlik, aşınma direnci",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "technicalSpecs[0].value",
+      "text": "5-100µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "technicalSpecs[1].value",
+      "text": "60-70 HRC",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "technicalSpecs[4].value",
+      "text": "2000×1000×800mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "advantages[4]",
+      "text": "2000×1000×800mm tank boyutu ile büyük parça kapasitesi",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "faq[1].answer",
+      "text": "Tip III sert anodizasyon 25-100µm kalınlıkta olup 60-70 HRC sertlik sağlar, aşınma direnci ve elektriksel yalıtım gerektiğinde tercih edilir. Tip II 10-25µm olup genel korozyon koruması ve dekoratif kaplama için uygundur.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "faq[2].answer",
+      "text": "Evet, oksit tabakasının yaklaşık %50'si malzemeye nüfuz eder, %50'si yüzeyden dışarı büyür. Örneğin 25µm Tip II kaplama ~12.5µm boyut artışı yapar. Bu değer işleme toleranslarında dikkate alınmalıdır.",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "5-15µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[0].rows[0][2]",
+      "text": "10-25µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[0].rows[0][3]",
+      "text": "25-100µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "200-400 HV",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[0].rows[1][2]",
+      "text": "200-400 HV",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[0].rows[1][3]",
+      "text": "400-600 HV (60-70 HRC)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[0][1]",
+      "text": "10µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[0][2]",
+      "text": "~5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[0][3]",
+      "text": "~5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[0][4]",
+      "text": "+10µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[0][5]",
+      "text": "±3µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[1][1]",
+      "text": "20µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[1][2]",
+      "text": "~10µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[1][3]",
+      "text": "~10µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[1][4]",
+      "text": "+20µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[1][5]",
+      "text": "±5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[2][1]",
+      "text": "25µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[2][2]",
+      "text": "~12.5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[2][3]",
+      "text": "~12.5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[2][4]",
+      "text": "+25µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[2][5]",
+      "text": "±5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[3][1]",
+      "text": "25µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[3][2]",
+      "text": "~12.5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[3][3]",
+      "text": "~12.5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[3][4]",
+      "text": "+25µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[3][5]",
+      "text": "±8µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[4][1]",
+      "text": "50µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[4][2]",
+      "text": "~25µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[4][3]",
+      "text": "~25µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[4][4]",
+      "text": "+50µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[4][5]",
+      "text": "±10µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[5][1]",
+      "text": "75µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[5][2]",
+      "text": "~37.5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[5][3]",
+      "text": "~37.5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[5][4]",
+      "text": "+75µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/anodizasyon",
+      "field": "comparisonTables[2].rows[5][5]",
+      "text": "±15µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/kimyasal-islemler",
+      "field": "content[1]",
+      "text": "ASTM B117 tuz spreyi ve ASTM A967 pasivasyon test yöntemleri ile doğrulama yapıyoruz; kaplama kalınlığı 1-25µm aralığındadır.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/kimyasal-islemler",
+      "field": "technicalSpecs[1].value",
+      "text": "1-25µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/kimyasal-islemler",
+      "field": "comparisonTables[0].rows[2][2]",
+      "text": "5-15µm çinko fosfat",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/kimyasal-islemler",
+      "field": "comparisonTables[0].rows[3][2]",
+      "text": "5-25µm mangan fosfat",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/kimyasal-islemler",
+      "field": "comparisonTables[0].rows[5][2]",
+      "text": "0.5-4µm dönüşüm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "metaDescription",
+      "text": "Toz boya, ıslak boya, seramik ve PTFE kaplama. 1000+ saat tuz testi, 260°C sıcaklık dayanımı. RAL standart ve özel renkler.",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "content[0]",
+      "text": "Toz boya (60-120µm, çevre dostu ve dayanıklı), ıslak boya (25-50µm, düzgün yüzey), seramik kaplama (50-100µm, yüksek sıcaklık dayanımı) ve E-kap (20-40µm, elektriksel yalıtım) olmak üzere 4 farklı boya türü ile hizmet veriyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "content[1]",
+      "text": "RAL 9005 (Siyah), 9010 (Beyaz), 9006 (Gri), 3000 (Kırmızı), 5015 (Mavi), 6018 (Yeşil), 1003 (Sarı), 2004 (Turuncu) ve özel RAL renkleri dahil geniş renk yelpazesi sunuyoruz. 1000+ saat tuz testi dayanımı ve 260°C PTFE sıcaklık dayanımı ile üstün koruma sağlıyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "features[0]",
+      "text": "Toz Boya — 60-120µm, çevre dostu ve dayanıklı",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "features[1]",
+      "text": "Islak Boya — 25-50µm, düzgün yüzey",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "features[2]",
+      "text": "Seramik Kaplama — 50-100µm, yüksek sıcaklık",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "features[3]",
+      "text": "E-Kap — 20-40µm, elektriksel yalıtım",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "technicalSpecs[0].value",
+      "text": "20-120µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "technicalSpecs[1].value",
+      "text": "260°C (PTFE)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "advantages[3]",
+      "text": "260°C sıcaklık dayanımlı PTFE kaplama",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "60-120µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "comparisonTables[0].rows[0][2]",
+      "text": "180°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "60-100µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "comparisonTables[0].rows[1][2]",
+      "text": "120°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "comparisonTables[0].rows[2][1]",
+      "text": "25-50µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "comparisonTables[0].rows[2][2]",
+      "text": "130°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "comparisonTables[0].rows[3][1]",
+      "text": "50-100µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "comparisonTables[0].rows[3][2]",
+      "text": "1000°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "comparisonTables[0].rows[4][1]",
+      "text": "15-40µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "comparisonTables[0].rows[4][2]",
+      "text": "260°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "comparisonTables[0].rows[5][1]",
+      "text": "20-40µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "comparisonTables[0].rows[5][2]",
+      "text": "150°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "comparisonTables[0].rows[6][1]",
+      "text": "1-5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/boya-koruyucu-kaplamalar",
+      "field": "comparisonTables[0].rows[6][2]",
+      "text": "350°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "metaDescription",
+      "text": "20W-100W fiber lazer ile metal, plastik ve ahşapta kalıcı işaretleme. Barkod, QR kod, seri numarası. 100.000 saat lazer ömrü, 10.000 mm/s hız.",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "content[0]",
+      "text": "20W-100W güç aralığında fiber lazer sistemlerimiz ile 100×100mm işaretleme alanında, 0.1mm minimum karakter boyutunda ve 10.000 mm/s hızda yüksek performanslı işaretleme yapıyoruz. 0.01-0.5mm kazıma derinliği kontrolü ile hassas sonuçlar elde ediyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "content[1]",
+      "text": "100.000 saat fiber lazer ömrü ile uzun vadeli güvenilirlik sağlıyoruz. Çelik, alüminyum, plastik ve ahşap dahil çok malzemeli işaretleme kapasitemiz ve dinamik işaretleme özelliğimiz ile yuvarlak parçalarda da mükemmel sonuçlar elde ediyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "features[0]",
+      "text": "0.01mm Kazıma Derinliği — Hassas kontrol",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "features[1]",
+      "text": "100.000 Saat Lazer Ömrü — Fiber kaynak",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "technicalSpecs[0].value",
+      "text": "20W-100W",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "technicalSpecs[1].value",
+      "text": "100×100mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "technicalSpecs[2].value",
+      "text": "0.1mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "technicalSpecs[3].value",
+      "text": "10.000 mm/s",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "technicalSpecs[4].value",
+      "text": "0.01-0.5mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "advantages[0]",
+      "text": "100.000 saat fiber lazer ömrü",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "advantages[1]",
+      "text": "10.000 mm/s işaretleme hızı",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "1064nm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[0][2]",
+      "text": "20-100W",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[0][4]",
+      "text": "10.000 mm/s",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "10.600nm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[1][2]",
+      "text": "10-60W",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[1][4]",
+      "text": "5.000 mm/s",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[2][1]",
+      "text": "355nm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[2][2]",
+      "text": "3-15W",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[2][4]",
+      "text": "3.000 mm/s",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[3][1]",
+      "text": "532nm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[3][2]",
+      "text": "5-20W",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[3][4]",
+      "text": "5.000 mm/s",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[4][1]",
+      "text": "1064nm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[4][2]",
+      "text": "20-60W",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[0].rows[4][4]",
+      "text": "8.000 mm/s",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[1].rows[0][2]",
+      "text": "20-50W",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[1].rows[0][3]",
+      "text": "500-2000 mm/s",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[1].rows[1][2]",
+      "text": "30-60W",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[1].rows[1][3]",
+      "text": "800-3000 mm/s",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[1].rows[2][2]",
+      "text": "20-40W",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[1].rows[2][3]",
+      "text": "300-1500 mm/s",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[1].rows[3][2]",
+      "text": "5-20W",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[1].rows[3][3]",
+      "text": "1000-5000 mm/s",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[1].rows[4][2]",
+      "text": "3-10W",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[1].rows[4][3]",
+      "text": "200-800 mm/s",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[1].rows[5][2]",
+      "text": "30-80W",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/lazer-kazima",
+      "field": "comparisonTables[1].rows[5][3]",
+      "text": "300-1000 mm/s",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "content[0]",
+      "text": "DataMatrix (2.5×2.5mm alanda 50 karakter), QR Code (5×5mm alanda 500 karakter) ve GS1-128 barkod formatlarında endüstriyel izlenebilirlik için kalıcı kod işaretleme hizmeti sunuyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "features[0]",
+      "text": "DataMatrix — 2.5×2.5mm'de 50 karakter",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "features[1]",
+      "text": "QR Code — 5×5mm'de 500 karakter",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "technicalSpecs[0].value",
+      "text": "0.1mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "technicalSpecs[1].value",
+      "text": "%99.9+",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "advantages[1]",
+      "text": "%99.9+ okuma oranı",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "2.335 alfanümerik",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[0][2]",
+      "text": "2.5×2.5mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[0][3]",
+      "text": "%30 (Reed-Solomon)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "4.296 alfanümerik",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[1][2]",
+      "text": "5×5mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[1][3]",
+      "text": "%30 (Level H)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[1][4]",
+      "text": "Uzak (2m+)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[2][2]",
+      "text": "25×10mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[2][4]",
+      "text": "Uzak (1m)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[3][2]",
+      "text": "3×3mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[3][3]",
+      "text": "%15",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[4][1]",
+      "text": "1.850 alfanümerik",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[4][2]",
+      "text": "15×5mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[4][3]",
+      "text": "%50",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/qr-datamatrix-kodlari",
+      "field": "comparisonTables[0].rows[4][4]",
+      "text": "Orta (1m)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/logo-markalama",
+      "field": "content[1]",
+      "text": "Farklı malzeme türlerinde tutarlı markalama sonuçları elde ediyoruz. 1200 DPI çözünürlük, ±0.01 mm konumlandırma tekrarlanabilirliği ve 300×300mm'ye kadar işaretleme alanı ile logo ve marka işaretleme yapıyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/logo-markalama",
+      "field": "technicalSpecs[1].value",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/logo-markalama",
+      "field": "technicalSpecs[2].value",
+      "text": "300×300mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/logo-markalama",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/logo-markalama",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "0.1mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/logo-markalama",
+      "field": "comparisonTables[0].rows[2][1]",
+      "text": "0.2mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/logo-markalama",
+      "field": "comparisonTables[0].rows[3][2]",
+      "text": "Orta (dış mekan 3-5 yıl)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/logo-markalama",
+      "field": "comparisonTables[0].rows[4][1]",
+      "text": "0.1mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/insert-uygulama",
+      "field": "content[1]",
+      "text": "Pirinç (nikel kaplamalı, genel amaçlı), çelik (çinko kaplamalı, yüksek dayanım) ve paslanmaz (kaplamasız, korozyon direnci) insert malzemeleri ile M2-M12 çap aralığında, 2000N+ çekme kuvveti ve 3 saniyenin altında çevrim süresi ile hızlı ve güçlü bağlantılar oluşturuyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/insert-uygulama",
+      "field": "technicalSpecs[1].value",
+      "text": "2000N+",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/insert-uygulama",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "1500-2500N",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/insert-uygulama",
+      "field": "comparisonTables[0].rows[0][2]",
+      "text": "<2 sn",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/insert-uygulama",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "2000-3500N",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/insert-uygulama",
+      "field": "comparisonTables[0].rows[1][2]",
+      "text": "3-5 sn",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/insert-uygulama",
+      "field": "comparisonTables[0].rows[2][1]",
+      "text": "1000-2000N",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/insert-uygulama",
+      "field": "comparisonTables[0].rows[2][2]",
+      "text": "<1 sn",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/insert-uygulama",
+      "field": "comparisonTables[0].rows[3][1]",
+      "text": "3000-5000N",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/insert-uygulama",
+      "field": "comparisonTables[0].rows[4][1]",
+      "text": "500-1500N",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "content[1]",
+      "text": "M3 (1.5-2.0 Nm), M4 (3.0-4.0 Nm), M5 (6.0-8.0 Nm) ve M6 (10.0-12.0 Nm) vida boyutlarında ±5% toleransla tork kontrollü sıkma gerçekleştiriyoruz. Her montaj fonksiyon testinden geçer ve seri numarası bazlı takip sistemine kaydedilir.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "technicalSpecs[0].value",
+      "text": "±5% hassasiyet",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "advantages[0]",
+      "text": "Tork kontrollü hassas sıkma (±5%)",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[0][3]",
+      "text": "5.5mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[0][4]",
+      "text": "±5%",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[1][3]",
+      "text": "7mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[1][4]",
+      "text": "±5%",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[2][3]",
+      "text": "8mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[2][4]",
+      "text": "±5%",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[3][3]",
+      "text": "10mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[3][4]",
+      "text": "±5%",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[4][3]",
+      "text": "13mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[4][4]",
+      "text": "±5%",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[5][3]",
+      "text": "17mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[5][4]",
+      "text": "±5%",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[6][3]",
+      "text": "19mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/mekanik-montaj",
+      "field": "comparisonTables[0].rows[6][4]",
+      "text": "±5%",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/kaynakli-imalat",
+      "field": "content[0]",
+      "text": "TIG kaynak (Al, çelik, Ti; 0.5-10mm; hassas uygulamalar), MIG/MAG kaynak (çelik, Al; 1-20mm; hızlı üretim) ve direnç kaynağı (çelik; 0.2-3mm; nokta kaynak) yöntemleri ile metal parçaların birleştirilmesini gerçekleştiriyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/kaynakli-imalat",
+      "field": "features[0]",
+      "text": "TIG Kaynak — Al, çelik, Ti; 0.5-10mm; hassas",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/kaynakli-imalat",
+      "field": "features[1]",
+      "text": "MIG/MAG Kaynak — Çelik, Al; 1-20mm; hızlı üretim",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/kaynakli-imalat",
+      "field": "features[2]",
+      "text": "Direnç Kaynağı — Çelik; 0.2-3mm; nokta kaynak",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/kaynakli-imalat",
+      "field": "technicalSpecs[1].value",
+      "text": "0.2-20 mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/kaynakli-imalat",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "0.5-10mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/kaynakli-imalat",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "1-20mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/kaynakli-imalat",
+      "field": "comparisonTables[0].rows[2][1]",
+      "text": "0.2-3mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/kaynakli-imalat",
+      "field": "comparisonTables[0].rows[3][1]",
+      "text": "0.1-8mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/kaynakli-imalat",
+      "field": "comparisonTables[0].rows[4][1]",
+      "text": "0.5-100mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/hizmetler/kaynakli-imalat",
+      "field": "comparisonTables[0].rows[5][1]",
+      "text": "1-50mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/makine-parkuru",
+      "field": "technicalSpecs[2].value",
+      "text": "±0.01 mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "content[1]",
+      "text": "Metal malzemelerimiz arasında Alüminyum (6061, 7075, 5083 — 95-150 HB), Paslanmaz Çelik (304, 316, 17-4PH — 150-350 HB), Karbon Çelik (1045, 4140, 4340 — 200-350 HB), Titanyum (Gr2, Gr5 Ti6Al4V — 250-350 HB) ve Pirinç/Bronz (C360, C932 — 60-150 HB) bulunmaktadır.",
+      "firstPerson": true
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "materials[0].properties",
+      "text": "95-150 HB, havacılık/elektronik, sürekli stok",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "materials[1].properties",
+      "text": "150-350 HB, medikal/gıda, sürekli stok",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "materials[2].properties",
+      "text": "200-350 HB, mekanik parçalar",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "materials[3].properties",
+      "text": "250-350 HB, medikal/havacılık, sipariş üzerine",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "materials[4].properties",
+      "text": "60-150 HB, dişli ve yatak uygulamaları",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "comparisonTables[0].rows[0][2]",
+      "text": "310 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "comparisonTables[0].rows[1][2]",
+      "text": "572 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "comparisonTables[0].rows[2][2]",
+      "text": "515 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "comparisonTables[0].rows[3][2]",
+      "text": "485 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "comparisonTables[0].rows[4][2]",
+      "text": "950 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "comparisonTables[0].rows[5][2]",
+      "text": "1034 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "comparisonTables[0].rows[6][2]",
+      "text": "100 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "comparisonTables[0].rows[7][2]",
+      "text": "70 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "comparisonTables[1].rows[0][3]",
+      "text": "1 kg",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "comparisonTables[1].rows[1][3]",
+      "text": "5 kg",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "comparisonTables[1].rows[2][3]",
+      "text": "10 kg",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "comparisonTables[1].rows[3][3]",
+      "text": "5 kg",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "comparisonTables[1].rows[4][3]",
+      "text": "10 kg",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/malzeme-kutuphanesi",
+      "field": "comparisonTables[1].rows[5][3]",
+      "text": "1 kg",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/kalite-kontrol",
+      "field": "metaDescription",
+      "text": "Her iş için kontrol planı, proses içi ara kontrol ve kontrol planına göre son kontrol. Akredite üçüncü taraf CMM ölçümü talebe bağlı. ISO 9001:2015.",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/kalite-kontrol",
+      "field": "technicalSpecs[0].value",
+      "text": "ISO 9001:2015",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/kalite-kontrol",
+      "field": "technicalSpecs[1].value",
+      "text": "±0.01 mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/kalite-kontrol",
+      "field": "faq[0].answer",
+      "text": "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Belge kapsamı dışında bir standart gerekiyorsa teknik incelemede birlikte değerlendiririz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "metaTitle",
+      "text": "Tolerans & Hassasiyet | ±0.01 mm | ISO 2768 | GD&T | Mas Technic",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "metaDescription",
+      "text": "±0.01 mm standart tolerans aralığı, ISO 2768 ve ASME Y14.5 (GD&T) okuma. Tolerans; geometri, malzeme ve ölçü zincirine göre teknik incelemede belirlenir.",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "description",
+      "text": "Tolerans bir reklam değeri değil, bir karardır: parçanın hangi ölçüsünün ne kadar dar tutulacağı, montajda neyin çalışması gerektiğine göre belirlenir. Standart çalışma aralığımız ±0.01 mm'dir.",
+      "firstPerson": true
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "content[0]",
+      "text": "Standart çalışma aralığımız ±0.01 mm'dir. Bir parçada bu aralığın altına inilip inilemeyeceği tek başına tezgâhın değil, geometrinin, malzemenin, parça ölçüsünün ve ölçü zincirinin sorusudur; bu nedenle her parça için teknik incelemede ayrıca belirlenir.",
+      "firstPerson": true
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "features[0]",
+      "text": "±0.01 mm Standart Tolerans — teknik incelemede parça bazında teyit",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "technicalSpecs[0].value",
+      "text": "±0.01 mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "faq[0].answer",
+      "text": "±0.01 mm'dir. Bir parçada daha darına inilip inilemeyeceği geometri, malzeme, parça ölçüsü ve ölçü zincirine bağlıdır ve teknik incelemede belirlenir.",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].headers[1]",
+      "text": "0.5 – 3 mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].headers[2]",
+      "text": "3 – 6 mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].headers[3]",
+      "text": "6 – 30 mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].headers[4]",
+      "text": "30 – 120 mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].headers[5]",
+      "text": "120 – 400 mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "±0.05",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[0][2]",
+      "text": "±0.05",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[0][3]",
+      "text": "±0.1",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[0][4]",
+      "text": "±0.15",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[0][5]",
+      "text": "±0.2",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "±0.1",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[1][2]",
+      "text": "±0.1",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[1][3]",
+      "text": "±0.2",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[1][4]",
+      "text": "±0.3",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[1][5]",
+      "text": "±0.5",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[2][1]",
+      "text": "±0.2",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[2][2]",
+      "text": "±0.3",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[2][3]",
+      "text": "±0.5",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[2][4]",
+      "text": "±0.8",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[2][5]",
+      "text": "±1.2",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[3][2]",
+      "text": "±0.5",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[3][3]",
+      "text": "±1.0",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[3][4]",
+      "text": "±1.5",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tolerans-hassasiyet",
+      "field": "comparisonTables[0].rows[3][5]",
+      "text": "±2.5",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tasarim-rehberi-dfm",
+      "field": "content[1]",
+      "text": "CNC işleme DFM kurallarımız: İç köşe yarıçapı R > 0.5mm (sivri köşelerden kaçının), duvar kalınlığı > 0.8mm (çok ince duvarlardan kaçının), derinlik/çap oranı < 4:1 (çok derin deliklerden kaçının) ve standart boyut kullanımı (özel ölçülerden kaçının). Enjeksiyon kalıp DFM'inde duvar kalınlığı, köşe yarıçapları ve gate konumu değerlendirilir (gate kalın kesimden). Kalıptan çıkış açısı ve çekme telafisi ayrı değerlendirilir; değerler proses ve malzemeye göre belirlenir.",
+      "firstPerson": true
+    },
+    {
+      "route": "/kabiliyetler/tasarim-rehberi-dfm",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "R ≥ 1mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tasarim-rehberi-dfm",
+      "field": "comparisonTables[0].rows[0][2]",
+      "text": "R > 0.5mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tasarim-rehberi-dfm",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "≥ 1.5mm (metal)",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tasarim-rehberi-dfm",
+      "field": "comparisonTables[0].rows[1][2]",
+      "text": "≥ 0.8mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tasarim-rehberi-dfm",
+      "field": "comparisonTables[0].rows[2][1]",
+      "text": "< 3:1",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tasarim-rehberi-dfm",
+      "field": "comparisonTables[0].rows[2][2]",
+      "text": "< 4:1",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tasarim-rehberi-dfm",
+      "field": "comparisonTables[0].rows[3][1]",
+      "text": "≤ 3×çap",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tasarim-rehberi-dfm",
+      "field": "comparisonTables[0].rows[3][2]",
+      "text": "≤ 5×çap",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tasarim-rehberi-dfm",
+      "field": "comparisonTables[0].rows[4][2]",
+      "text": "±0.01mm (kritik koteler)",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tasarim-rehberi-dfm",
+      "field": "comparisonTables[0].rows[5][1]",
+      "text": "Ra 1.6µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/tasarim-rehberi-dfm",
+      "field": "comparisonTables[0].rows[5][2]",
+      "text": "Ra 0.1µm (özel)",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "metaDescription",
+      "text": "Korozyon korumasından estetik kaplamaya yüzey işlem seçim rehberi. Anodizasyon (10-75µm), toz boya (60-120µm), nikelaj, elektropolish. Ra 0.1-12.5µm yüzey kalitesi.",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "content[1]",
+      "text": "Yüzey pürüzlülüğü (Ra) rehberimiz: Ra 0.1-0.2µm ayna parlaklığı (optik, yatak uygulamaları), Ra 0.4-0.8µm parlak yüzey (mil, piston), Ra 1.6-3.2µm mat yüzey (genel mekanik) ve Ra 6.3-12.5µm pürüzlü yüzey (yapısal parçalar). İşleme yöntemi ve takım seçimi ile hedef Ra değerine ulaşıyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "content[2]",
+      "text": "Kaplama kalınlıkları ve toleransları: Anodizasyon Tip II 10-25µm (±3µm), Anodizasyon Tip III 25-75µm (±5µm), toz boya 60-120µm (±15µm) ve nikelaj 5-20µm (±2µm). Kaplama sonrası boyut değişimi hesaba katılarak işleme toleransları belirlenir.",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "content[3]",
+      "text": "Yüzey işlemi sonrası tolerans etkileri: Anodizasyon +kalınlık×2 (±5µm), toz boya +kalınlık×2 (±20µm), kumlama -5 ile -20µm (±10µm) ve elektropolish -10 ile -50µm (±5µm). Bu değerler işleme planlamasında dikkate alınarak boyutsal doğruluk korunur.",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "features[1]",
+      "text": "Ra Pürüzlülük Rehberi — Ra 0.1µm'den 12.5µm'ye kadar",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "technicalSpecs[0].value",
+      "text": "10-25µm (±3µm)",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "technicalSpecs[1].value",
+      "text": "25-75µm (±5µm)",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "technicalSpecs[2].value",
+      "text": "60-120µm (±15µm)",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "technicalSpecs[3].value",
+      "text": "5-20µm (±2µm)",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "technicalSpecs[4].value",
+      "text": "0.1µm (ayna)",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "technicalSpecs[5].value",
+      "text": "12.5µm (pürüzlü)",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "faq[1].answer",
+      "text": "Evet, anodizasyon kalınlık×2 kadar boyut artışı, kumlama 5-20µm boyut azalması yapar. Bu değerler işleme toleranslarında dikkate alınır.",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "faq[2].question",
+      "text": "Ra 0.1µm yüzey kalitesine ulaşabilir misiniz?",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "faq[2].answer",
+      "text": "Evet, özel takım ve işleme parametreleri ile Ra 0.1µm ayna parlaklığında yüzey kalitesine ulaşabiliyoruz. Optik ve yatak uygulamaları için idealdir.",
+      "firstPerson": true
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[0].rows[0][4]",
+      "text": "10–25µm (±3µm)",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[0].rows[1][4]",
+      "text": "25–75µm (±5µm)",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[0].rows[3][4]",
+      "text": "5–20µm (±2µm)",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[0].rows[4][4]",
+      "text": "60–120µm (±15µm)",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[0].rows[5][4]",
+      "text": "-10 ile -50µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[0].rows[6][4]",
+      "text": "0.1–0.5mm difüzyon",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[1].rows[0][4]",
+      "text": "+%80-100",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[1].rows[1][4]",
+      "text": "+%40-60",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[1].rows[3][4]",
+      "text": "-%10-20",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[2].rows[0][2]",
+      "text": "±5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[2].rows[1][2]",
+      "text": "±10µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[2].rows[2][2]",
+      "text": "±20µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[2].rows[3][1]",
+      "text": "-5 ile -20µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[2].rows[3][2]",
+      "text": "±10µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[2].rows[4][1]",
+      "text": "-10 ile -50µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "field": "comparisonTables[2].rows[4][2]",
+      "text": "±5µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/dusuk-hacimli-uretim",
+      "field": "content[0]",
+      "text": "Düşük hacimli üretim yöntemlerimizin karşılaştırması: 3D baskı 1-10 adet (düşük maliyet, ±0.2mm), silikon kalıplama 10-100 adet (orta maliyet, ±0.1mm), alüminyum kalıp 100-1000 adet (orta maliyet, ±0.05mm) ve CNC işleme 1-100 adet (yüksek maliyet, ±0.01mm). Projenizin adet, süre ve hassasiyet gereksinimlerine göre en uygun yöntemi belirliyoruz; her yöntemin termini teklifle birlikte verilir.",
+      "firstPerson": true
+    },
+    {
+      "route": "/kabiliyetler/dusuk-hacimli-uretim",
+      "field": "features[3]",
+      "text": "CNC İşleme — 1-100 adet ±0.01mm hassasiyette",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/dusuk-hacimli-uretim",
+      "field": "technicalSpecs[1].value",
+      "text": "1.000 adet",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/dusuk-hacimli-uretim",
+      "field": "faq[0].answer",
+      "text": "1-10 adet ve hızlı konsept doğrulaması için 3D baskı, ±0.01mm hassasiyet gereken parçalar için CNC, 10-100 adet plastik parça için silikon kalıplama öneriyoruz. Termin; malzeme tedariki, operasyon sayısı ve kapasite planı incelendikten sonra teklifle birlikte verilir.",
+      "firstPerson": true
+    },
+    {
+      "route": "/kabiliyetler/dusuk-hacimli-uretim",
+      "field": "comparisonTables[0].rows[0][3]",
+      "text": "±0.2mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/dusuk-hacimli-uretim",
+      "field": "comparisonTables[0].rows[1][3]",
+      "text": "±0.1mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/dusuk-hacimli-uretim",
+      "field": "comparisonTables[0].rows[2][3]",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/dusuk-hacimli-uretim",
+      "field": "comparisonTables[0].rows[3][3]",
+      "text": "±0.1mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/dusuk-hacimli-uretim",
+      "field": "comparisonTables[0].rows[4][1]",
+      "text": "100 – 1.000",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/dusuk-hacimli-uretim",
+      "field": "comparisonTables[0].rows[4][3]",
+      "text": "±0.05mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/dusuk-hacimli-uretim",
+      "field": "comparisonTables[0].rows[5][1]",
+      "text": "1.000+",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/dusuk-hacimli-uretim",
+      "field": "comparisonTables[0].rows[5][3]",
+      "text": "±0.03mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/seri-imalat",
+      "field": "content[0]",
+      "text": "Seri üretimde yöntem, parça geometrisi ve tolerans hedefine göre seçilir. CNC seri işlemede standart tolerans ±0.01mm'dir. Döküm veya kalıplanmış parçalarda üç gereksinim ayrı ele alınır: kalıbın kendi işleme toleransı, ham (döküm ya da kalıp çıkışı) parçanın tolerans sınıfı ve sonradan işlenen yüzeylerin teknik resimdeki toleransı. Ham parçanın tolerans sınıfı proses ve malzemeye göre teklifte belirtilir.",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/seri-imalat",
+      "field": "features[0]",
+      "text": "CNC Seri İşleme — ±0.01mm tolerans, sabit referans yüzeyleri",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/seri-imalat",
+      "field": "technicalSpecs[0].value",
+      "text": "±0.01mm tolerans",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/seri-imalat",
+      "field": "comparisonTables[0].rows[0][2]",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/havacilik-uzay",
+      "field": "content[3]",
+      "text": "5 eksenli işleme merkezlerimizde karmaşık havacılık geometrilerini tek bağlamada işliyoruz; standart çalışma aralığımız ±0.01 mm'dir. Takım yolları simülasyonla doğrulanır ve seri, ilk parça kontrolü onaylanmadan başlamaz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/havacilik-uzay",
+      "field": "technicalSpecs[0].value",
+      "text": "ISO 9001:2015",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/havacilik-uzay",
+      "field": "technicalSpecs[4].value",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/havacilik-uzay",
+      "field": "materials[0].properties",
+      "text": "Hafif, biyouyumlu, 950 MPa çekme",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/havacilik-uzay",
+      "field": "materials[1].properties",
+      "text": "Yüksek sıcaklık, 1034 MPa, türbin parçaları",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/havacilik-uzay",
+      "field": "faq[0].answer",
+      "text": "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Projeniz farklı bir standart gerektiriyorsa teknik incelemede birlikte değerlendiririz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/havacilik-uzay",
+      "field": "comparisonTables[0].rows[0][1]",
+      "text": "572 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/havacilik-uzay",
+      "field": "comparisonTables[0].rows[0][3]",
+      "text": "150°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/havacilik-uzay",
+      "field": "comparisonTables[0].rows[1][1]",
+      "text": "950 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/havacilik-uzay",
+      "field": "comparisonTables[0].rows[1][3]",
+      "text": "400°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/havacilik-uzay",
+      "field": "comparisonTables[0].rows[2][1]",
+      "text": "1034 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/havacilik-uzay",
+      "field": "comparisonTables[0].rows[2][3]",
+      "text": "700°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/havacilik-uzay",
+      "field": "comparisonTables[0].rows[3][1]",
+      "text": "1000 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/havacilik-uzay",
+      "field": "comparisonTables[0].rows[3][3]",
+      "text": "316°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/savunma-sanayi",
+      "field": "technicalSpecs[0].value",
+      "text": "ISO 9001:2015",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/robotik",
+      "field": "metaTitle",
+      "text": "Robotik & Otomasyon Parça Üretimi | ±0.01 mm | Mas Technic",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/robotik",
+      "field": "metaDescription",
+      "text": "Endüstriyel robot, cobot ve otomasyon sistemleri için hassas mekanik bileşenler. Aktüatör gövdesi, eklem parçası, gripper. Al 7075, SS 316L, ±0.01 mm.",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/robotik",
+      "field": "features[0]",
+      "text": "Aktüatör Gövdesi — Al 7075, SS 316L, ±0.01 mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/robotik",
+      "field": "technicalSpecs[0].value",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/robotik",
+      "field": "technicalSpecs[2].value",
+      "text": "Ra 0.4µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/robotik",
+      "field": "technicalSpecs[5].value",
+      "text": "Konsantriklik ≤0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/robotik",
+      "field": "faq[0].answer",
+      "text": "Standart çalışma aralığımız ±0.01mm'dir. Eş eksenlilik ve diklik gibi geometrik toleranslar datum yapısıyla birlikte değerlendirilir ve kontrol planına yazılır.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/otomotiv",
+      "field": "technicalSpecs[0].value",
+      "text": "ISO 9001:2015",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/otomotiv",
+      "field": "faq[0].answer",
+      "text": "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Müşterinizin şartnamesi sektöre özel bir standart gerektiriyorsa bunu teklif aşamasında açıkça değerlendiririz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/medikal",
+      "field": "content[4]",
+      "text": "Mikro işleme kabiliyetimizle Ø0.3mm'den başlayan medikal vidalar, pimler ve konektörler üretiyoruz. Kayar puntalı tornalama, uzun ve ince implant vidalarında sehimi sınırladığı için tercih edilir.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/medikal",
+      "field": "features[1]",
+      "text": "Mikro İşleme — Ø0.3mm'den başlayan implant vidaları",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/medikal",
+      "field": "technicalSpecs[0].value",
+      "text": "ISO 9001:2015",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/medikal",
+      "field": "technicalSpecs[2].value",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/medikal",
+      "field": "advantages[1]",
+      "text": "Ø0.3mm'den başlayan mikro medikal parça üretimi",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/medikal",
+      "field": "faq[0].answer",
+      "text": "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Projeniz sektöre özel bir standart gerektiriyorsa bunu teklif aşamasında açıkça değerlendiririz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/medikal",
+      "field": "faq[4].answer",
+      "text": "Evet. Ø0.3mm'den başlayan vidalar, pimler ve konektörler üretiyoruz; uzun ve ince geometrilerde kayar puntalı tornalama tercih edilir.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/yelken-yat-sistemleri",
+      "field": "features[3]",
+      "text": "Elektropolisaj — Ra 0.2µm yüzey kalitesi",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/yelken-yat-sistemleri",
+      "field": "technicalSpecs[2].value",
+      "text": "Ra 0.2µm (elektropolisaj)",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/yelken-yat-sistemleri",
+      "field": "technicalSpecs[4].value",
+      "text": "±0.01mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/yelken-yat-sistemleri",
+      "field": "technicalSpecs[5].value",
+      "text": "O-ring yüzeyi Ra 0.4µm",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/hidrolik-pnomatik",
+      "field": "metaDescription",
+      "text": "350 bar basınç dayanımlı hidrolik ve pnömatik sistem bileşenleri. Valf gövdesi, silindir, manifold blok. 42CrMo4, C45 çelik, Ra 0.4µm sızdırmazlık yüzeyi.",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/hidrolik-pnomatik",
+      "field": "description",
+      "text": "350 bar basınç dayanımlı hidrolik ve pnömatik sistem bileşenleri. Valf gövdeleri, silindir parçaları, manifold blokları ve özel akışkan güç komponentleri.",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/hidrolik-pnomatik",
+      "field": "content[1]",
+      "text": "350 bar'a kadar çalışma basıncında O-ring ve sızdırmazlık yüzeyleri Ra 0.4µm kalitesinde işlenmektedir. 42CrMo4, C45, SS 316 ve özel alaşımlarla üretim yapıyoruz. Derin delik delme kabiliyetimiz ile manifold bloklarında iç kanal işleme gerçekleştiriyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/hidrolik-pnomatik",
+      "field": "features[4]",
+      "text": "Sızdırmazlık Yüzeyi — Ra 0.4µm O-ring kanalları",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/hidrolik-pnomatik",
+      "field": "technicalSpecs[0].value",
+      "text": "350 bar",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/hidrolik-pnomatik",
+      "field": "technicalSpecs[1].value",
+      "text": "Ra 0.4µm O-ring yüzey",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/hidrolik-pnomatik",
+      "field": "technicalSpecs[3].value",
+      "text": "1.5× basınç testi",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/hidrolik-pnomatik",
+      "field": "technicalSpecs[5].value",
+      "text": "L/D 50:1",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/hidrolik-pnomatik",
+      "field": "advantages[0]",
+      "text": "350 bar'a kadar çalışma basıncı için tasarım ve üretim",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/hidrolik-pnomatik",
+      "field": "advantages[1]",
+      "text": "Ra 0.4µm sızdırmazlık yüzeyi işleme kalitesi",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/hidrolik-pnomatik",
+      "field": "faq[0].answer",
+      "text": "350 bar çalışma basıncına kadar parça üretiyoruz. Her parça 1.5× çalışma basıncında test edilmektedir.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/hidrolik-pnomatik",
+      "field": "faq[1].answer",
+      "text": "Evet, derin delik delme kabiliyetimiz ile L/D 50:1 oranında manifold kanal işleme yapabiliyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/hidrolik-pnomatik",
+      "field": "faq[2].answer",
+      "text": "O-ring kanalları ve sızdırmazlık yüzeyleri Ra 0.4µm hedefiyle işlenir. Basınç ve sızdırmazlık testinin kapsamı iş bazında kontrol planında tanımlanır ve sonuçlar teslimat dosyasına eklenir.",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/iklim-teknolojileri",
+      "field": "metaTitle",
+      "text": "HVAC & Soğutma Parça Üretimi | -40°C / +200°C | Helyum Test | Mas Technic",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/iklim-teknolojileri",
+      "field": "metaDescription",
+      "text": "HVAC, soğutma ve havalandırma sistemi bileşenleri. Kompresör parçası, valf, ısı eşanjör. -40°C/+200°C sıcaklık, 100 bar basınç, helyum sızdırmazlık testi.",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/iklim-teknolojileri",
+      "field": "description",
+      "text": "HVAC, soğutma ve havalandırma sistemleri için -40°C / +200°C sıcaklık aralığında çalışan hassas mekanik bileşenler.",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/iklim-teknolojileri",
+      "field": "content[1]",
+      "text": "-40°C ile +200°C arasında çalışma koşullarına uygun malzeme seçimi ve üretim yapıyoruz. 100 bar'a kadar basınç dayanımı, helyum sızdırmazlık testi ile 1×10⁻⁶ mbar·L/s kaçak oranı kontrolü ve termal şok testleri ile kalite güvencesi sağlıyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/iklim-teknolojileri",
+      "field": "features[3]",
+      "text": "-40°C / +200°C — Geniş sıcaklık aralığı",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/iklim-teknolojileri",
+      "field": "features[4]",
+      "text": "Helyum Sızdırmazlık — 1×10⁻⁶ mbar·L/s kaçak oranı",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/iklim-teknolojileri",
+      "field": "technicalSpecs[0].value",
+      "text": "-40°C / +200°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/iklim-teknolojileri",
+      "field": "technicalSpecs[1].value",
+      "text": "100 bar",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/iklim-teknolojileri",
+      "field": "technicalSpecs[2].value",
+      "text": "Helyum 1×10⁻⁶ mbar·L/s",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/iklim-teknolojileri",
+      "field": "advantages[0]",
+      "text": "-40°C / +200°C geniş sıcaklık aralığında dayanım",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/iklim-teknolojileri",
+      "field": "advantages[3]",
+      "text": "100 bar'a kadar basınç dayanımlı bileşenler",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/iklim-teknolojileri",
+      "field": "faq[0].answer",
+      "text": "Evet, helyum sızdırmazlık testi ile 1×10⁻⁶ mbar·L/s kaçak oranı kontrolü yapıyoruz. Soğutma ve klima sistemleri için kritik olan bu test standarttır.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/ozel-projeler",
+      "field": "technicalSpecs[1].value",
+      "text": "0.02mm hassasiyet",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/ozel-projeler",
+      "field": "faq[0].answer",
+      "text": "Evet, 3D tarama (0.02mm hassasiyet) ile mevcut parçanızı dijitalleştiriyor, CAD modeline dönüştürüyor ve üretiyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/yenilenebilir-enerji",
+      "field": "content[1]",
+      "text": "Dış ortam koşullarına göre malzeme ve kaplama seçimi ile 25+ yıl dış ortam ömrü hedefliyoruz. Hot-dip galvaniz (ISO 1461 — 85µm min.), Dacromet kaplama ve SS 316L malzeme ile korozyon koruması sağlıyoruz. GGG-40, GGG-50 küresel grafitli dökme demir ve yüksek mukavemetli çeliklerle ağır yük bileşenleri üretiyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/yenilenebilir-enerji",
+      "field": "features[3]",
+      "text": "Hot-Dip Galvaniz — ISO 1461, 85µm+ kaplama",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/yenilenebilir-enerji",
+      "field": "technicalSpecs[1].value",
+      "text": "Hot-dip galvaniz (85µm+)",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/yenilenebilir-enerji",
+      "field": "technicalSpecs[4].value",
+      "text": "500 kg'a kadar",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/yenilenebilir-enerji",
+      "field": "advantages[2]",
+      "text": "500 kg'a kadar ağır parça işleme kapasitesi",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/yenilenebilir-enerji",
+      "field": "faq[1].answer",
+      "text": "Hot-dip galvaniz (ISO 1461, 85µm+) ve uygun malzeme seçimi ile 25+ yıl dış ortam ömrü hedefliyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/petrol-gaz",
+      "field": "metaTitle",
+      "text": "Petrol & Gaz Parça Üretimi | 15000 PSI | Mas Technic",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/petrol-gaz",
+      "field": "metaDescription",
+      "text": "Petrol ve gaz sektörü bileşenleri. 15.000 PSI basınç, -46°C/+343°C sıcaklık. Inconel, Duplex ve Super Duplex çelik işleme.",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/petrol-gaz",
+      "field": "description",
+      "text": "Petrol ve gaz sektörü bileşenleri. 15.000 PSI basınç, -46°C/+343°C sıcaklık aralığında çalışan kritik parçalar.",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/petrol-gaz",
+      "field": "content[1]",
+      "text": "Wellhead, pipeline valf ve casing uygulamaları için 15.000 PSI (1034 bar) çalışma basıncı ve -46°C / +343°C sıcaklık aralığındaki parçaları üretiyoruz. Sour service uygulamalarında malzeme, ısıl işlem ve sertlik sınırları müşteri şartnamesine göre belirlenir ve kayıt altına alınır.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/petrol-gaz",
+      "field": "features[1]",
+      "text": "15.000 PSI — Ultra yüksek basınç dayanımı",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/petrol-gaz",
+      "field": "features[2]",
+      "text": "-46°C / +343°C — Ekstrem sıcaklık aralığı",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/petrol-gaz",
+      "field": "technicalSpecs[1].value",
+      "text": "15.000 PSI (1034 bar)",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/petrol-gaz",
+      "field": "technicalSpecs[2].value",
+      "text": "-46°C / +343°C",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/petrol-gaz",
+      "field": "advantages[1]",
+      "text": "15.000 PSI ultra yüksek basınç kapasitesi",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/guc-dagitim-sistemleri",
+      "field": "metaTitle",
+      "text": "Güç Dağıtım Parça Üretimi | 36kV | IACS %99+ | Mas Technic",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/guc-dagitim-sistemleri",
+      "field": "metaDescription",
+      "text": "Elektrik dağıtım ve güç sistemi bileşenleri. 36kV'a kadar, IACS %99+ iletkenlik. Bakır ve alüminyum bara, kontak parçası, izolator.",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/guc-dagitim-sistemleri",
+      "field": "description",
+      "text": "Elektrik dağıtım panoları, transformatör bileşenleri ve güç dağıtım sistemi parçaları. 36kV gerilim seviyesine kadar.",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/guc-dagitim-sistemleri",
+      "field": "content[0]",
+      "text": "Elektrik dağıtım sistemi bileşenleri üretiyoruz: bakır ve alüminyum baralar (iletken, IACS %99+), kontak parçaları (gümüş kaplama, düşük direnç), izolator montaj elemanları ve pano iç bileşenleri. 36kV gerilim seviyesine kadar çalışan parçalar üretiyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/guc-dagitim-sistemleri",
+      "field": "content[1]",
+      "text": "OFE bakır (C10100 — IACS %101), ETP bakır (C11000 — IACS %99.9) ve elektrik kalite alüminyum (1050/1070 — IACS %61) ile yüksek iletkenlik gerektiren parçalar üretiyoruz. Gümüş kaplama ile kontak direncini minimize ediyor, nikel altlık ile difüzyon bariyeri oluşturuyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/guc-dagitim-sistemleri",
+      "field": "features[1]",
+      "text": "36kV Gerilim — Orta gerilim seviyesine kadar",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/guc-dagitim-sistemleri",
+      "field": "features[2]",
+      "text": "IACS %99+ İletkenlik — OFE ve ETP bakır",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/guc-dagitim-sistemleri",
+      "field": "technicalSpecs[1].value",
+      "text": "IACS %99+",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/guc-dagitim-sistemleri",
+      "field": "technicalSpecs[2].value",
+      "text": "36kV'a kadar",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/guc-dagitim-sistemleri",
+      "field": "advantages[0]",
+      "text": "36kV'a kadar orta gerilim bileşeni üretimi",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/guc-dagitim-sistemleri",
+      "field": "advantages[1]",
+      "text": "IACS %99+ iletkenlikli bakır işleme",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/guc-dagitim-sistemleri",
+      "field": "advantages[3]",
+      "text": "36kV orta gerilim seviyesine kadar parça",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/guc-dagitim-sistemleri",
+      "field": "faq[0].answer",
+      "text": "Evet, OFE bakır (C10100, IACS %101) ve ETP bakır (C11000, IACS %99.9) işleme kabiliyetimiz bulunmaktadır.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/madencilik-ekipmanlari",
+      "field": "metaTitle",
+      "text": "Madencilik Ekipman Parçaları | Hardox 600 | 55-65 HRC | 500kg | Mas Technic",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/madencilik-ekipmanlari",
+      "field": "metaDescription",
+      "text": "Madencilik makineleri için Hardox 600, manganez çeliği ile aşınmaya dayanıklı parça üretimi. 55-65 HRC sertlik, 500kg'a kadar ağırlık, indüksiyon sertleştirme.",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/madencilik-ekipmanlari",
+      "field": "content[1]",
+      "text": "Hardox 400/500/600 (aşınma çeliği), manganez çeliği (Mn13 — darbe ile sertleşen), beyaz dökme demir (krom karbür — aşırı aşınma) ve 42CrMo4 (QT — genel ağır iş) malzemeleri ile üretim yapıyoruz. 55-65 HRC yüzey sertliği, indüksiyon sertleştirme ve karbürizasyon ile elde edilmektedir.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/madencilik-ekipmanlari",
+      "field": "content[2]",
+      "text": "500 kg'a kadar parça ağırlığı, 1500mm'ye kadar parça boyutu ve CNC + konvansiyonel tezgah hibrit işleme kapasitesi ile büyük ve ağır madencilik parçaları üretiyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/madencilik-ekipmanlari",
+      "field": "features[3]",
+      "text": "55-65 HRC Sertlik — İndüksiyon sertleştirme",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/madencilik-ekipmanlari",
+      "field": "features[4]",
+      "text": "500 kg Ağırlık — Büyük parça işleme kapasitesi",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/madencilik-ekipmanlari",
+      "field": "technicalSpecs[0].value",
+      "text": "55-65 HRC",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/madencilik-ekipmanlari",
+      "field": "technicalSpecs[2].value",
+      "text": "500 kg",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/madencilik-ekipmanlari",
+      "field": "technicalSpecs[3].value",
+      "text": "1500mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/madencilik-ekipmanlari",
+      "field": "advantages[1]",
+      "text": "55-65 HRC yüzey sertliği ile uzun ömür",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/madencilik-ekipmanlari",
+      "field": "advantages[2]",
+      "text": "500 kg'a kadar ağır parça işleme kapasitesi",
+      "firstPerson": true
+    },
+    {
+      "route": "/endustriyel/madencilik-ekipmanlari",
+      "field": "faq[1].question",
+      "text": "500 kg parça işleyebiliyor musunuz?",
+      "firstPerson": false
+    },
+    {
+      "route": "/endustriyel/madencilik-ekipmanlari",
+      "field": "faq[1].answer",
+      "text": "Evet, 500 kg'a kadar ağırlık ve 1500mm'ye kadar boyutta parça işleme kapasitemiz bulunmaktadır. Vinçli yükleme ve özel bağlama düzenleri kullanıyoruz.",
+      "firstPerson": true
+    },
+    {
+      "route": "/hizmetler/kategori/talasli-imalat",
+      "field": "links[0].description",
+      "text": "3, 4 ve 5 eksenli CNC frezeleme ile ±0.01 mm standart tolerans aralığında üretim.",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/kategori/kalite-standartlar",
+      "field": "description",
+      "text": "ISO 9001:2015 kapsamında tanımlı kalite kontrol süreçleri ve ölçüm kayıtları.",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyetler/kategori/kalite-standartlar",
+      "field": "links[1].description",
+      "text": "±0.01 mm standart tolerans aralığında üretim ve kontrol.",
+      "firstPerson": false
+    },
+    {
+      "route": "/blog/5-eksen-cnc-isleme-avantajlari",
+      "field": "readTime",
+      "text": "8 dk okuma",
+      "firstPerson": false
+    },
+    {
+      "route": "/blog/havacilik-parcalarinda-malzeme-secimi",
+      "field": "readTime",
+      "text": "6 dk okuma",
+      "firstPerson": false
+    },
+    {
+      "route": "/blog/havacilik-parcalarinda-malzeme-secimi",
+      "field": "sections[1].paragraphs[0]",
+      "text": "7075-T6, yaklaşık 572 MPa çekme mukavemeti ve 2,81 g/cm³ yoğunluğu ile alüminyum alaşımlarının üst sınırındadır. Talaş kaldırma davranışı iyidir: yüksek kesme hızlarına izin verir, ısıyı talaşla birlikte uzaklaştırır ve takım ömrünü zorlamaz.",
+      "firstPerson": false
+    },
+    {
+      "route": "/blog/havacilik-parcalarinda-malzeme-secimi",
+      "field": "sections[2].paragraphs[0]",
+      "text": "Ti-6Al-4V, yaklaşık 950 MPa çekme mukavemeti ve 4,43 g/cm³ yoğunluğu ile çeliğe yakın mukavemeti belirgin biçimde daha düşük bir yoğunlukla sunar. Yaklaşık 350 °C'ye kadar özelliklerini korur ve doğal oksit tabakası sayesinde ek bir kaplama olmadan korozyona dayanır.",
+      "firstPerson": false
+    },
+    {
+      "route": "/blog/havacilik-parcalarinda-malzeme-secimi",
+      "field": "sections[3].table.rows[0][1]",
+      "text": "~572 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/blog/havacilik-parcalarinda-malzeme-secimi",
+      "field": "sections[3].table.rows[0][2]",
+      "text": "~950 MPa",
+      "firstPerson": false
+    },
+    {
+      "route": "/blog/havacilik-parcalarinda-malzeme-secimi",
+      "field": "sections[3].table.rows[2][2]",
+      "text": "~350 °C'ye kadar",
+      "firstPerson": false
+    },
+    {
+      "route": "/blog/havacilik-parcalarinda-malzeme-secimi",
+      "field": "sections[5].paragraphs[1]",
+      "text": "İkisi arasında kaldığınız durumlarda teknik resminizi gönderin; aynı geometri için iki malzemede ayrı ayrı fiyat çalışması yapılabilir. Standart tolerans aralığımız her iki malzemede de ±0.01 mm.",
+      "firstPerson": true
+    },
+    {
+      "route": "/blog/dfm-tasarimdan-uretime-gecis",
+      "field": "readTime",
+      "text": "10 dk okuma",
+      "firstPerson": false
+    },
+    {
+      "route": "/blog/dfm-tasarimdan-uretime-gecis",
+      "field": "sections[1].paragraphs[0]",
+      "text": "Tolerans, maliyeti en hızlı büyüten tek kalemdir; çünkü dar tolerans yalnızca daha yavaş işlemek değil, aynı zamanda daha çok ölçmek demektir. Standart tolerans aralığımız ±0.01mm; bir kote gerçekten bunu gerektiriyorsa uygulanır.",
+      "firstPerson": true
+    },
+    {
+      "route": "/blog/dfm-tasarimdan-uretime-gecis",
+      "field": "sections[1].paragraphs[1]",
+      "text": "Buna karşılık montajda işlevi olmayan bir yüzeyde ±0,05 mm yeterliyse, o kotenin ±0,01 mm yazılması hiçbir şey kazandırmaz. Uygulamada en verimli DFM çıktısı, teknik resimdeki kotelerin küçük bir bölümünü kritik olarak işaretlemek ve geri kalanını genel tolerans sınıfına bırakmaktır.",
+      "firstPerson": false
+    },
+    {
+      "route": "/blog/dfm-tasarimdan-uretime-gecis",
+      "field": "sections[3].paragraphs[0]",
+      "text": "İnce cidarlı parçalarda asıl zorluk kesmek değil, bağlamaktır: kesme kuvveti ve ısı parçayı işleme sırasında hareket ettirir, ölçü tezgâhta doğru çıkar, kontrolde çıkmaz. Genel bir başlangıç noktası olarak alüminyumda 0,5 mm, çelikte 1 mm altındaki cidarlar özel bağlama ve kademeli talaş stratejisi gerektirir.",
+      "firstPerson": false
+    },
+    {
+      "route": "/blog/cnc-torna-frezeleme-farki",
+      "field": "readTime",
+      "text": "7 dk okuma",
+      "firstPerson": false
+    },
+    {
+      "route": "/blog/kalite-kontrol-cmm-olcum",
+      "field": "readTime",
+      "text": "9 dk okuma",
+      "firstPerson": false
+    },
+    {
+      "route": "/blog/endustriyel-yuzey-islemleri-rehberi",
+      "field": "readTime",
+      "text": "12 dk okuma",
+      "firstPerson": false
+    },
+    {
+      "route": "/blog/endustriyel-yuzey-islemleri-rehberi",
+      "field": "sections[1].paragraphs[1]",
+      "text": "MIL-A-8625 kapsamında Tip II (kükürt asidi, tipik olarak 10-25 µm) genel amaçlı koruma ve renklendirme için, Tip III (sert anodizasyon, tipik olarak 25-100 µm) yüksek aşınma direnci gereken yüzeyler için kullanılır. Tabaka dışa doğru büyüdüğü için ölçüyü değiştirir: dar toleranslı yüzeylerde bu pay tasarımda hesaba katılmalıdır.",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyet-profilleri/ince-cidarli-govde",
+      "field": "tolerance",
+      "text": "±0.01 mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyet-profilleri/titanyum-baglanti-parcasi",
+      "field": "tolerance",
+      "text": "±0.01 mm",
+      "firstPerson": false
+    },
+    {
+      "route": "/kabiliyet-profilleri/hassas-mil",
+      "field": "tolerance",
+      "text": "±0.01 mm",
+      "firstPerson": false
+    }
+  ]
+}

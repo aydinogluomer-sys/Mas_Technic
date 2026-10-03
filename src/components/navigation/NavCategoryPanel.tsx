@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import type { NavigationItem } from "./ia";
 import { NAV_MOTION } from "./motion";
 

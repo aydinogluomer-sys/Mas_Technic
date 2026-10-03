@@ -1,0 +1,1165 @@
+{
+  "generatedAt": "2026-10-02T18:40:53.708Z",
+  "generator": "scripts/quality/routes-manifest.ts",
+  "counts": {
+    "reportScope": 103,
+    "static": 20,
+    "categories": 15,
+    "details": 48,
+    "detailsByFamily": {
+      "hizmetler": 20,
+      "kabiliyetler": 11,
+      "endustriyel": 17
+    },
+    "materialFamilies": 11,
+    "blogPosts": 6,
+    "capabilityProfiles": 3,
+    "devOnly": 3,
+    "wrongFamilyRedirects": 96
+  },
+  "localeRule": "TR keeps current paths; EN uses the /en prefix with the same slugs (L01, not yet implemented). Panel/auth-panel routes get no EN prefix.",
+  "routes": [
+    {
+      "path": "/",
+      "kind": "landing",
+      "access": "public",
+      "enPath": "/en",
+      "source": "src/App.tsx → pages/Index (TechnicalLanding)"
+    },
+    {
+      "path": "/hakkimizda",
+      "kind": "page",
+      "access": "public",
+      "enPath": "/en/hakkimizda",
+      "source": "src/App.tsx"
+    },
+    {
+      "path": "/iletisim",
+      "kind": "page",
+      "access": "public",
+      "enPath": "/en/iletisim",
+      "source": "src/App.tsx"
+    },
+    {
+      "path": "/sss",
+      "kind": "page",
+      "access": "public",
+      "enPath": "/en/sss",
+      "source": "src/App.tsx"
+    },
+    {
+      "path": "/gizlilik-politikasi",
+      "kind": "legal",
+      "access": "public",
+      "enPath": "/en/gizlilik-politikasi",
+      "source": "src/App.tsx"
+    },
+    {
+      "path": "/kvkk",
+      "kind": "legal",
+      "access": "public",
+      "enPath": "/en/kvkk",
+      "source": "src/App.tsx"
+    },
+    {
+      "path": "/cerez-politikasi",
+      "kind": "legal",
+      "access": "public",
+      "enPath": "/en/cerez-politikasi",
+      "source": "src/App.tsx"
+    },
+    {
+      "path": "/malzemeler",
+      "kind": "index",
+      "access": "public",
+      "enPath": "/en/malzemeler",
+      "source": "src/App.tsx"
+    },
+    {
+      "path": "/blog",
+      "kind": "index",
+      "access": "public",
+      "enPath": "/en/blog",
+      "source": "src/App.tsx"
+    },
+    {
+      "path": "/kabiliyet-profilleri",
+      "kind": "index",
+      "access": "public",
+      "enPath": "/en/kabiliyet-profilleri",
+      "source": "src/App.tsx"
+    },
+    {
+      "path": "/kalite-dosyasi",
+      "kind": "page",
+      "access": "public",
+      "enPath": "/en/kalite-dosyasi",
+      "source": "src/App.tsx"
+    },
+    {
+      "path": "/giris",
+      "kind": "auth",
+      "access": "auth",
+      "enPath": "/en/giris",
+      "source": "src/App.tsx",
+      "note": "noindex (SEO01)"
+    },
+    {
+      "path": "/sifremi-unuttum",
+      "kind": "auth",
+      "access": "auth",
+      "enPath": "/en/sifremi-unuttum",
+      "source": "src/App.tsx",
+      "note": "noindex (SEO01)"
+    },
+    {
+      "path": "/reset-password",
+      "kind": "auth",
+      "access": "auth",
+      "enPath": "/en/reset-password",
+      "source": "src/App.tsx",
+      "note": "noindex (SEO01)"
+    },
+    {
+      "path": "/teklif-al",
+      "kind": "rfq",
+      "access": "public",
+      "enPath": "/en/teklif-al",
+      "source": "src/App.tsx"
+    },
+    {
+      "path": "/cad-dashboard",
+      "kind": "redirect",
+      "access": "redirect",
+      "enPath": null,
+      "redirectTo": "/teklif-al",
+      "source": "src/App.tsx <Navigate replace>",
+      "note": "client redirect, not HTTP 301"
+    },
+    {
+      "path": "/admin/login",
+      "kind": "panel",
+      "access": "auth",
+      "enPath": null,
+      "source": "src/App.tsx (panelRoutes)",
+      "note": "no public EN prefix"
+    },
+    {
+      "path": "/admin",
+      "kind": "panel",
+      "access": "protected",
+      "enPath": null,
+      "source": "src/App.tsx ProtectedRoute",
+      "note": "no public EN prefix"
+    },
+    {
+      "path": "/musteri-paneli",
+      "kind": "panel",
+      "access": "protected",
+      "enPath": null,
+      "source": "src/App.tsx CustomerProtectedRoute",
+      "note": "no public EN prefix"
+    },
+    {
+      "path": "/audit-not-found",
+      "kind": "test-input",
+      "access": "not-found",
+      "enPath": null,
+      "source": "src/App.tsx * → NotFound",
+      "note": "test input only; client 404, HTTP status is host-dependent (RELEASE01)"
+    },
+    {
+      "path": "/hizmetler/kategori/talasli-imalat",
+      "kind": "category:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/kategori/talasli-imalat",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/hizmetler/kategori/on-uretim",
+      "kind": "category:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/kategori/on-uretim",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/hizmetler/kategori/yuzey-islemleri",
+      "kind": "category:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/kategori/yuzey-islemleri",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/hizmetler/kategori/isaretleme-tanimlama",
+      "kind": "category:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/kategori/isaretleme-tanimlama",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/hizmetler/kategori/montaj-birlestirme",
+      "kind": "category:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/kategori/montaj-birlestirme",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/kabiliyetler/kategori/uretim-altyapisi",
+      "kind": "category:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/kategori/uretim-altyapisi",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/kabiliyetler/kategori/kalite-standartlar",
+      "kind": "category:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/kategori/kalite-standartlar",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/kabiliyetler/kategori/muhendislik-destegi",
+      "kind": "category:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/kategori/muhendislik-destegi",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/kabiliyetler/kategori/prototipten-seri-uretime",
+      "kind": "category:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/kategori/prototipten-seri-uretime",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/kabiliyetler/kategori/surec-operasyon",
+      "kind": "category:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/kategori/surec-operasyon",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/endustriyel/kategori/yuksek-teknoloji",
+      "kind": "category:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/kategori/yuksek-teknoloji",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/endustriyel/kategori/seri-uretim-endustriyel",
+      "kind": "category:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/kategori/seri-uretim-endustriyel",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/endustriyel/kategori/endustriyel-sistemler",
+      "kind": "category:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/kategori/endustriyel-sistemler",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/endustriyel/kategori/uretim-cozumleri",
+      "kind": "category:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/kategori/uretim-cozumleri",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/endustriyel/kategori/enerji-altyapi",
+      "kind": "category:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/kategori/enerji-altyapi",
+      "source": "src/data/categoryPages.ts"
+    },
+    {
+      "path": "/hizmetler/cnc-frezeleme",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/cnc-frezeleme",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/cnc-tornalama",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/cnc-tornalama",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/hassas-mikro-isleme",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/hassas-mikro-isleme",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/derin-delik-raybalama",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/derin-delik-raybalama",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/enjeksiyon-kalibi",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/enjeksiyon-kalibi",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/basinçli-dokum",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/basinçli-dokum",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/silikon-kaliplama",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/silikon-kaliplama",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/fikstur-aparat-tasarimi",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/fikstur-aparat-tasarimi",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/mekanik-yuzey-islemleri",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/mekanik-yuzey-islemleri",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/anodizasyon",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/anodizasyon",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/kimyasal-islemler",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/kimyasal-islemler",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/boya-koruyucu-kaplamalar",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/boya-koruyucu-kaplamalar",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/lazer-kazima",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/lazer-kazima",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/tavlama",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/tavlama",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/qr-datamatrix-kodlari",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/qr-datamatrix-kodlari",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/logo-markalama",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/logo-markalama",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/insert-uygulama",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/insert-uygulama",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/mekanik-montaj",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/mekanik-montaj",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/kitting-paketleme",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/kitting-paketleme",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/hizmetler/kaynakli-imalat",
+      "kind": "detail:hizmetler",
+      "access": "public",
+      "enPath": "/en/hizmetler/kaynakli-imalat",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/kabiliyetler/makine-parkuru",
+      "kind": "detail:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/makine-parkuru",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/kabiliyetler/malzeme-kutuphanesi",
+      "kind": "detail:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/malzeme-kutuphanesi",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/kabiliyetler/kalite-kontrol",
+      "kind": "detail:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/kalite-kontrol",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/kabiliyetler/tolerans-hassasiyet",
+      "kind": "detail:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/tolerans-hassasiyet",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/kabiliyetler/tasarim-rehberi-dfm",
+      "kind": "detail:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/tasarim-rehberi-dfm",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/kabiliyetler/yuzey-islemleri-muhendislik",
+      "kind": "detail:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/yuzey-islemleri-muhendislik",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/kabiliyetler/dusuk-hacimli-uretim",
+      "kind": "detail:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/dusuk-hacimli-uretim",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/kabiliyetler/seri-imalat",
+      "kind": "detail:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/seri-imalat",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/kabiliyetler/proje-yonetimi",
+      "kind": "detail:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/proje-yonetimi",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/kabiliyetler/tedarik-zinciri",
+      "kind": "detail:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/tedarik-zinciri",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/kabiliyetler/operasyonel-verimlilik",
+      "kind": "detail:kabiliyetler",
+      "access": "public",
+      "enPath": "/en/kabiliyetler/operasyonel-verimlilik",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/havacilik-uzay",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/havacilik-uzay",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/savunma-sanayi",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/savunma-sanayi",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/robotik",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/robotik",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/otomotiv",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/otomotiv",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/medikal",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/medikal",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/yelken-yat-sistemleri",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/yelken-yat-sistemleri",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/hidrolik-pnomatik",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/hidrolik-pnomatik",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/boru-baglanti-parcalari",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/boru-baglanti-parcalari",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/iklim-teknolojileri",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/iklim-teknolojileri",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/prototip-uretim",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/prototip-uretim",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/kucuk-seri",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/kucuk-seri",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/seri-uretim",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/seri-uretim",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/ozel-projeler",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/ozel-projeler",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/yenilenebilir-enerji",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/yenilenebilir-enerji",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/petrol-gaz",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/petrol-gaz",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/guc-dagitim-sistemleri",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/guc-dagitim-sistemleri",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/endustriyel/madencilik-ekipmanlari",
+      "kind": "detail:endustriyel",
+      "access": "public",
+      "enPath": "/en/endustriyel/madencilik-ekipmanlari",
+      "source": "src/data/servicePages.ts"
+    },
+    {
+      "path": "/malzemeler/aluminyum",
+      "kind": "material-family",
+      "access": "public",
+      "enPath": "/en/malzemeler/aluminyum",
+      "source": "src/data/materialsData.ts"
+    },
+    {
+      "path": "/malzemeler/celik",
+      "kind": "material-family",
+      "access": "public",
+      "enPath": "/en/malzemeler/celik",
+      "source": "src/data/materialsData.ts"
+    },
+    {
+      "path": "/malzemeler/paslanmaz-celik",
+      "kind": "material-family",
+      "access": "public",
+      "enPath": "/en/malzemeler/paslanmaz-celik",
+      "source": "src/data/materialsData.ts"
+    },
+    {
+      "path": "/malzemeler/titanyum",
+      "kind": "material-family",
+      "access": "public",
+      "enPath": "/en/malzemeler/titanyum",
+      "source": "src/data/materialsData.ts"
+    },
+    {
+      "path": "/malzemeler/pirinc-bronz",
+      "kind": "material-family",
+      "access": "public",
+      "enPath": "/en/malzemeler/pirinc-bronz",
+      "source": "src/data/materialsData.ts"
+    },
+    {
+      "path": "/malzemeler/bakir",
+      "kind": "material-family",
+      "access": "public",
+      "enPath": "/en/malzemeler/bakir",
+      "source": "src/data/materialsData.ts"
+    },
+    {
+      "path": "/malzemeler/nikel",
+      "kind": "material-family",
+      "access": "public",
+      "enPath": "/en/malzemeler/nikel",
+      "source": "src/data/materialsData.ts"
+    },
+    {
+      "path": "/malzemeler/magnezyum",
+      "kind": "material-family",
+      "access": "public",
+      "enPath": "/en/malzemeler/magnezyum",
+      "source": "src/data/materialsData.ts"
+    },
+    {
+      "path": "/malzemeler/termoplastikler",
+      "kind": "material-family",
+      "access": "public",
+      "enPath": "/en/malzemeler/termoplastikler",
+      "source": "src/data/materialsData.ts"
+    },
+    {
+      "path": "/malzemeler/yuksek-performans-plastikler",
+      "kind": "material-family",
+      "access": "public",
+      "enPath": "/en/malzemeler/yuksek-performans-plastikler",
+      "source": "src/data/materialsData.ts"
+    },
+    {
+      "path": "/malzemeler/kompozitler",
+      "kind": "material-family",
+      "access": "public",
+      "enPath": "/en/malzemeler/kompozitler",
+      "source": "src/data/materialsData.ts"
+    },
+    {
+      "path": "/blog/5-eksen-cnc-isleme-avantajlari",
+      "kind": "blog-post",
+      "access": "public",
+      "enPath": "/en/blog/5-eksen-cnc-isleme-avantajlari",
+      "source": "src/data/blogData.ts"
+    },
+    {
+      "path": "/blog/havacilik-parcalarinda-malzeme-secimi",
+      "kind": "blog-post",
+      "access": "public",
+      "enPath": "/en/blog/havacilik-parcalarinda-malzeme-secimi",
+      "source": "src/data/blogData.ts"
+    },
+    {
+      "path": "/blog/dfm-tasarimdan-uretime-gecis",
+      "kind": "blog-post",
+      "access": "public",
+      "enPath": "/en/blog/dfm-tasarimdan-uretime-gecis",
+      "source": "src/data/blogData.ts"
+    },
+    {
+      "path": "/blog/cnc-torna-frezeleme-farki",
+      "kind": "blog-post",
+      "access": "public",
+      "enPath": "/en/blog/cnc-torna-frezeleme-farki",
+      "source": "src/data/blogData.ts"
+    },
+    {
+      "path": "/blog/kalite-kontrol-cmm-olcum",
+      "kind": "blog-post",
+      "access": "public",
+      "enPath": "/en/blog/kalite-kontrol-cmm-olcum",
+      "source": "src/data/blogData.ts"
+    },
+    {
+      "path": "/blog/endustriyel-yuzey-islemleri-rehberi",
+      "kind": "blog-post",
+      "access": "public",
+      "enPath": "/en/blog/endustriyel-yuzey-islemleri-rehberi",
+      "source": "src/data/blogData.ts"
+    },
+    {
+      "path": "/kabiliyet-profilleri/ince-cidarli-govde",
+      "kind": "capability-profile",
+      "access": "public",
+      "enPath": "/en/kabiliyet-profilleri/ince-cidarli-govde",
+      "source": "src/content/caseStudies.ts"
+    },
+    {
+      "path": "/kabiliyet-profilleri/titanyum-baglanti-parcasi",
+      "kind": "capability-profile",
+      "access": "public",
+      "enPath": "/en/kabiliyet-profilleri/titanyum-baglanti-parcasi",
+      "source": "src/content/caseStudies.ts"
+    },
+    {
+      "path": "/kabiliyet-profilleri/hassas-mil",
+      "kind": "capability-profile",
+      "access": "public",
+      "enPath": "/en/kabiliyet-profilleri/hassas-mil",
+      "source": "src/content/caseStudies.ts"
+    }
+  ],
+  "devOnly": [
+    {
+      "path": "/technical-preview",
+      "kind": "dev",
+      "access": "dev-only",
+      "enPath": null,
+      "source": "src/App.tsx DEV_ONLY_ROUTES",
+      "note": "absent from production build"
+    },
+    {
+      "path": "/legacy-landing",
+      "kind": "dev",
+      "access": "dev-only",
+      "enPath": null,
+      "source": "src/App.tsx DEV_ONLY_ROUTES",
+      "note": "absent from production build"
+    },
+    {
+      "path": "/test",
+      "kind": "dev",
+      "access": "dev-only",
+      "enPath": null,
+      "source": "src/App.tsx DEV_ONLY_ROUTES",
+      "note": "absent from production build"
+    }
+  ],
+  "wrongFamilyRedirects": [
+    {
+      "from": "/kabiliyetler/cnc-frezeleme",
+      "to": "/hizmetler/cnc-frezeleme"
+    },
+    {
+      "from": "/endustriyel/cnc-frezeleme",
+      "to": "/hizmetler/cnc-frezeleme"
+    },
+    {
+      "from": "/kabiliyetler/cnc-tornalama",
+      "to": "/hizmetler/cnc-tornalama"
+    },
+    {
+      "from": "/endustriyel/cnc-tornalama",
+      "to": "/hizmetler/cnc-tornalama"
+    },
+    {
+      "from": "/kabiliyetler/hassas-mikro-isleme",
+      "to": "/hizmetler/hassas-mikro-isleme"
+    },
+    {
+      "from": "/endustriyel/hassas-mikro-isleme",
+      "to": "/hizmetler/hassas-mikro-isleme"
+    },
+    {
+      "from": "/kabiliyetler/derin-delik-raybalama",
+      "to": "/hizmetler/derin-delik-raybalama"
+    },
+    {
+      "from": "/endustriyel/derin-delik-raybalama",
+      "to": "/hizmetler/derin-delik-raybalama"
+    },
+    {
+      "from": "/kabiliyetler/enjeksiyon-kalibi",
+      "to": "/hizmetler/enjeksiyon-kalibi"
+    },
+    {
+      "from": "/endustriyel/enjeksiyon-kalibi",
+      "to": "/hizmetler/enjeksiyon-kalibi"
+    },
+    {
+      "from": "/kabiliyetler/basinçli-dokum",
+      "to": "/hizmetler/basinçli-dokum"
+    },
+    {
+      "from": "/endustriyel/basinçli-dokum",
+      "to": "/hizmetler/basinçli-dokum"
+    },
+    {
+      "from": "/kabiliyetler/silikon-kaliplama",
+      "to": "/hizmetler/silikon-kaliplama"
+    },
+    {
+      "from": "/endustriyel/silikon-kaliplama",
+      "to": "/hizmetler/silikon-kaliplama"
+    },
+    {
+      "from": "/kabiliyetler/fikstur-aparat-tasarimi",
+      "to": "/hizmetler/fikstur-aparat-tasarimi"
+    },
+    {
+      "from": "/endustriyel/fikstur-aparat-tasarimi",
+      "to": "/hizmetler/fikstur-aparat-tasarimi"
+    },
+    {
+      "from": "/kabiliyetler/mekanik-yuzey-islemleri",
+      "to": "/hizmetler/mekanik-yuzey-islemleri"
+    },
+    {
+      "from": "/endustriyel/mekanik-yuzey-islemleri",
+      "to": "/hizmetler/mekanik-yuzey-islemleri"
+    },
+    {
+      "from": "/kabiliyetler/anodizasyon",
+      "to": "/hizmetler/anodizasyon"
+    },
+    {
+      "from": "/endustriyel/anodizasyon",
+      "to": "/hizmetler/anodizasyon"
+    },
+    {
+      "from": "/kabiliyetler/kimyasal-islemler",
+      "to": "/hizmetler/kimyasal-islemler"
+    },
+    {
+      "from": "/endustriyel/kimyasal-islemler",
+      "to": "/hizmetler/kimyasal-islemler"
+    },
+    {
+      "from": "/kabiliyetler/boya-koruyucu-kaplamalar",
+      "to": "/hizmetler/boya-koruyucu-kaplamalar"
+    },
+    {
+      "from": "/endustriyel/boya-koruyucu-kaplamalar",
+      "to": "/hizmetler/boya-koruyucu-kaplamalar"
+    },
+    {
+      "from": "/kabiliyetler/lazer-kazima",
+      "to": "/hizmetler/lazer-kazima"
+    },
+    {
+      "from": "/endustriyel/lazer-kazima",
+      "to": "/hizmetler/lazer-kazima"
+    },
+    {
+      "from": "/kabiliyetler/tavlama",
+      "to": "/hizmetler/tavlama"
+    },
+    {
+      "from": "/endustriyel/tavlama",
+      "to": "/hizmetler/tavlama"
+    },
+    {
+      "from": "/kabiliyetler/qr-datamatrix-kodlari",
+      "to": "/hizmetler/qr-datamatrix-kodlari"
+    },
+    {
+      "from": "/endustriyel/qr-datamatrix-kodlari",
+      "to": "/hizmetler/qr-datamatrix-kodlari"
+    },
+    {
+      "from": "/kabiliyetler/logo-markalama",
+      "to": "/hizmetler/logo-markalama"
+    },
+    {
+      "from": "/endustriyel/logo-markalama",
+      "to": "/hizmetler/logo-markalama"
+    },
+    {
+      "from": "/kabiliyetler/insert-uygulama",
+      "to": "/hizmetler/insert-uygulama"
+    },
+    {
+      "from": "/endustriyel/insert-uygulama",
+      "to": "/hizmetler/insert-uygulama"
+    },
+    {
+      "from": "/kabiliyetler/mekanik-montaj",
+      "to": "/hizmetler/mekanik-montaj"
+    },
+    {
+      "from": "/endustriyel/mekanik-montaj",
+      "to": "/hizmetler/mekanik-montaj"
+    },
+    {
+      "from": "/kabiliyetler/kitting-paketleme",
+      "to": "/hizmetler/kitting-paketleme"
+    },
+    {
+      "from": "/endustriyel/kitting-paketleme",
+      "to": "/hizmetler/kitting-paketleme"
+    },
+    {
+      "from": "/kabiliyetler/kaynakli-imalat",
+      "to": "/hizmetler/kaynakli-imalat"
+    },
+    {
+      "from": "/endustriyel/kaynakli-imalat",
+      "to": "/hizmetler/kaynakli-imalat"
+    },
+    {
+      "from": "/hizmetler/makine-parkuru",
+      "to": "/kabiliyetler/makine-parkuru"
+    },
+    {
+      "from": "/endustriyel/makine-parkuru",
+      "to": "/kabiliyetler/makine-parkuru"
+    },
+    {
+      "from": "/hizmetler/malzeme-kutuphanesi",
+      "to": "/kabiliyetler/malzeme-kutuphanesi"
+    },
+    {
+      "from": "/endustriyel/malzeme-kutuphanesi",
+      "to": "/kabiliyetler/malzeme-kutuphanesi"
+    },
+    {
+      "from": "/hizmetler/kalite-kontrol",
+      "to": "/kabiliyetler/kalite-kontrol"
+    },
+    {
+      "from": "/endustriyel/kalite-kontrol",
+      "to": "/kabiliyetler/kalite-kontrol"
+    },
+    {
+      "from": "/hizmetler/tolerans-hassasiyet",
+      "to": "/kabiliyetler/tolerans-hassasiyet"
+    },
+    {
+      "from": "/endustriyel/tolerans-hassasiyet",
+      "to": "/kabiliyetler/tolerans-hassasiyet"
+    },
+    {
+      "from": "/hizmetler/tasarim-rehberi-dfm",
+      "to": "/kabiliyetler/tasarim-rehberi-dfm"
+    },
+    {
+      "from": "/endustriyel/tasarim-rehberi-dfm",
+      "to": "/kabiliyetler/tasarim-rehberi-dfm"
+    },
+    {
+      "from": "/hizmetler/yuzey-islemleri-muhendislik",
+      "to": "/kabiliyetler/yuzey-islemleri-muhendislik"
+    },
+    {
+      "from": "/endustriyel/yuzey-islemleri-muhendislik",
+      "to": "/kabiliyetler/yuzey-islemleri-muhendislik"
+    },
+    {
+      "from": "/hizmetler/dusuk-hacimli-uretim",
+      "to": "/kabiliyetler/dusuk-hacimli-uretim"
+    },
+    {
+      "from": "/endustriyel/dusuk-hacimli-uretim",
+      "to": "/kabiliyetler/dusuk-hacimli-uretim"
+    },
+    {
+      "from": "/hizmetler/seri-imalat",
+      "to": "/kabiliyetler/seri-imalat"
+    },
+    {
+      "from": "/endustriyel/seri-imalat",
+      "to": "/kabiliyetler/seri-imalat"
+    },
+    {
+      "from": "/hizmetler/proje-yonetimi",
+      "to": "/kabiliyetler/proje-yonetimi"
+    },
+    {
+      "from": "/endustriyel/proje-yonetimi",
+      "to": "/kabiliyetler/proje-yonetimi"
+    },
+    {
+      "from": "/hizmetler/tedarik-zinciri",
+      "to": "/kabiliyetler/tedarik-zinciri"
+    },
+    {
+      "from": "/endustriyel/tedarik-zinciri",
+      "to": "/kabiliyetler/tedarik-zinciri"
+    },
+    {
+      "from": "/hizmetler/operasyonel-verimlilik",
+      "to": "/kabiliyetler/operasyonel-verimlilik"
+    },
+    {
+      "from": "/endustriyel/operasyonel-verimlilik",
+      "to": "/kabiliyetler/operasyonel-verimlilik"
+    },
+    {
+      "from": "/hizmetler/havacilik-uzay",
+      "to": "/endustriyel/havacilik-uzay"
+    },
+    {
+      "from": "/kabiliyetler/havacilik-uzay",
+      "to": "/endustriyel/havacilik-uzay"
+    },
+    {
+      "from": "/hizmetler/savunma-sanayi",
+      "to": "/endustriyel/savunma-sanayi"
+    },
+    {
+      "from": "/kabiliyetler/savunma-sanayi",
+      "to": "/endustriyel/savunma-sanayi"
+    },
+    {
+      "from": "/hizmetler/robotik",
+      "to": "/endustriyel/robotik"
+    },
+    {
+      "from": "/kabiliyetler/robotik",
+      "to": "/endustriyel/robotik"
+    },
+    {
+      "from": "/hizmetler/otomotiv",
+      "to": "/endustriyel/otomotiv"
+    },
+    {
+      "from": "/kabiliyetler/otomotiv",
+      "to": "/endustriyel/otomotiv"
+    },
+    {
+      "from": "/hizmetler/medikal",
+      "to": "/endustriyel/medikal"
+    },
+    {
+      "from": "/kabiliyetler/medikal",
+      "to": "/endustriyel/medikal"
+    },
+    {
+      "from": "/hizmetler/yelken-yat-sistemleri",
+      "to": "/endustriyel/yelken-yat-sistemleri"
+    },
+    {
+      "from": "/kabiliyetler/yelken-yat-sistemleri",
+      "to": "/endustriyel/yelken-yat-sistemleri"
+    },
+    {
+      "from": "/hizmetler/hidrolik-pnomatik",
+      "to": "/endustriyel/hidrolik-pnomatik"
+    },
+    {
+      "from": "/kabiliyetler/hidrolik-pnomatik",
+      "to": "/endustriyel/hidrolik-pnomatik"
+    },
+    {
+      "from": "/hizmetler/boru-baglanti-parcalari",
+      "to": "/endustriyel/boru-baglanti-parcalari"
+    },
+    {
+      "from": "/kabiliyetler/boru-baglanti-parcalari",
+      "to": "/endustriyel/boru-baglanti-parcalari"
+    },
+    {
+      "from": "/hizmetler/iklim-teknolojileri",
+      "to": "/endustriyel/iklim-teknolojileri"
+    },
+    {
+      "from": "/kabiliyetler/iklim-teknolojileri",
+      "to": "/endustriyel/iklim-teknolojileri"
+    },
+    {
+      "from": "/hizmetler/prototip-uretim",
+      "to": "/endustriyel/prototip-uretim"
+    },
+    {
+      "from": "/kabiliyetler/prototip-uretim",
+      "to": "/endustriyel/prototip-uretim"
+    },
+    {
+      "from": "/hizmetler/kucuk-seri",
+      "to": "/endustriyel/kucuk-seri"
+    },
+    {
+      "from": "/kabiliyetler/kucuk-seri",
+      "to": "/endustriyel/kucuk-seri"
+    },
+    {
+      "from": "/hizmetler/seri-uretim",
+      "to": "/endustriyel/seri-uretim"
+    },
+    {
+      "from": "/kabiliyetler/seri-uretim",
+      "to": "/endustriyel/seri-uretim"
+    },
+    {
+      "from": "/hizmetler/ozel-projeler",
+      "to": "/endustriyel/ozel-projeler"
+    },
+    {
+      "from": "/kabiliyetler/ozel-projeler",
+      "to": "/endustriyel/ozel-projeler"
+    },
+    {
+      "from": "/hizmetler/yenilenebilir-enerji",
+      "to": "/endustriyel/yenilenebilir-enerji"
+    },
+    {
+      "from": "/kabiliyetler/yenilenebilir-enerji",
+      "to": "/endustriyel/yenilenebilir-enerji"
+    },
+    {
+      "from": "/hizmetler/petrol-gaz",
+      "to": "/endustriyel/petrol-gaz"
+    },
+    {
+      "from": "/kabiliyetler/petrol-gaz",
+      "to": "/endustriyel/petrol-gaz"
+    },
+    {
+      "from": "/hizmetler/guc-dagitim-sistemleri",
+      "to": "/endustriyel/guc-dagitim-sistemleri"
+    },
+    {
+      "from": "/kabiliyetler/guc-dagitim-sistemleri",
+      "to": "/endustriyel/guc-dagitim-sistemleri"
+    },
+    {
+      "from": "/hizmetler/madencilik-ekipmanlari",
+      "to": "/endustriyel/madencilik-ekipmanlari"
+    },
+    {
+      "from": "/kabiliyetler/madencilik-ekipmanlari",
+      "to": "/endustriyel/madencilik-ekipmanlari"
+    }
+  ]
+}

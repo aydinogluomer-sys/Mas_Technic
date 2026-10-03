@@ -50,7 +50,7 @@
 .booking-card-code {
   margin: 0;
   color: var(--tl-bronze-ink);
-  font: 600 11px/1 var(--tl-font-mono);
+  font: 600 12px/1 var(--tl-font-mono);
   letter-spacing: .16em;
 }
 .contact-lines .booking-card-code { color: var(--tl-bronze-light); }
@@ -81,14 +81,14 @@
   padding: var(--tl-s3);
   transition: background .25s ease, color .25s ease;
 }
-.booking-day small { color: var(--tl-ink-soft); font: 600 10px/1 var(--tl-font-mono); letter-spacing: .12em; }
+.booking-day small { color: var(--tl-ink-soft); font: 600 12px/1 var(--tl-font-mono); letter-spacing: .12em; }
 .booking-day b { font: 500 clamp(20px, 1.8vw, 30px)/1 var(--tl-font-mono); font-variant-numeric: tabular-nums; }
 .booking-days-hint {
   display: grid;
   place-items: center;
   padding-inline: var(--tl-s4);
   color: var(--tl-ink-soft);
-  font: 600 11px/1 var(--tl-font-mono);
+  font: 600 12px/1 var(--tl-font-mono);
   letter-spacing: .1em;
   white-space: nowrap;
 }
@@ -110,7 +110,7 @@
   padding: var(--tl-s3) 0;
   font-size: 15px;
 }
-.booking-steps span { color: var(--tl-ink-soft); font: 600 11px/1.8 var(--tl-font-mono); }
+.booking-steps span { color: var(--tl-ink-soft); font: 600 12px/1.8 var(--tl-font-mono); }
 .booking-card-actions { display: flex; flex-wrap: wrap; gap: var(--tl-s3) var(--tl-s5); align-items: center; }
 .booking-primary {
   display: inline-flex;
@@ -164,7 +164,7 @@
   display: block;
   margin-bottom: 6px;
   color: var(--tl-on-dark-faint);
-  font: 600 10px/1 var(--tl-font-mono);
+  font: 600 12px/1 var(--tl-font-mono);
   letter-spacing: .14em;
 }
 a.contact-line:is(:hover, :focus-visible) { color: var(--tl-bronze-light); }
@@ -220,7 +220,7 @@ a.contact-line:is(:hover, :focus-visible) { color: var(--tl-bronze-light); }
   padding: var(--tl-s5) var(--tl-s6);
 }
 .booking-dialog-bar h2 { margin: 6px 0 0; font: 400 clamp(26px, 2.4vw, 38px)/1.05 var(--tl-font-serif); }
-.booking-dialog-code { margin: 0; color: var(--tl-bronze-ink); font: 600 10px/1 var(--tl-font-mono); letter-spacing: .16em; }
+.booking-dialog-code { margin: 0; color: var(--tl-bronze-ink); font: 600 12px/1 var(--tl-font-mono); letter-spacing: .16em; }
 .booking-dialog-actions { display: flex; align-items: center; gap: var(--tl-s5); }
 .booking-close {
   display: grid;
@@ -234,8 +234,11 @@ a.contact-line:is(:hover, :focus-visible) { color: var(--tl-bronze-light); }
 }
 .booking-close svg { width: 20px; height: 20px; }
 .booking-close:is(:hover, :focus-visible) { color: var(--tl-paper); background: var(--tl-ink); }
-.booking-dialog-body { position: relative; min-height: 0; background: var(--tl-white); }
-.booking-frame { display: block; width: 100%; height: 100%; border: 0; }
+.booking-dialog-body { position: relative; display: flex; min-height: 0; flex-direction: column; background: var(--tl-white); }
+.booking-frame { display: block; width: 100%; height: 100%; min-height: 0; flex: 1 1 auto; border: 0; }
+/* UX04 — the way out stays visible after the frame reports `load`. */
+.booking-frame-hint { flex: none; margin: 0; padding: var(--tl-s2) var(--tl-s4); border-top: var(--tl-rule-size) solid var(--tl-paper-rule); color: var(--tl-ink); background: var(--tl-paper); font-size: 14px; line-height: 1.45; }
+.booking-frame-hint a { color: var(--tl-ink); text-decoration: underline; text-underline-offset: 3px; }
 .booking-skeleton {
   position: absolute;
   inset: 0;
@@ -245,7 +248,7 @@ a.contact-line:is(:hover, :focus-visible) { color: var(--tl-bronze-light); }
   gap: var(--tl-s3);
   color: var(--tl-ink-soft);
   background: var(--tl-paper-raised);
-  font: 600 11px/1 var(--tl-font-mono);
+  font: 600 12px/1 var(--tl-font-mono);
   letter-spacing: .16em;
 }
 .booking-skeleton i { position: relative; width: 160px; height: 1px; overflow: hidden; background: var(--tl-paper-rule); }

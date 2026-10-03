@@ -337,6 +337,13 @@ test.describe("Fullscreen machining navigation", () => {
     test.setTimeout(120_000);
     await gotoAndSettle(page, MENU_HOST_ROUTE);
     await page.locator("[data-menu-trigger]").click();
+    /* QA01: axe used to run while the sheet was still wiping in, and measured
+       mid-transition colours (3.67:1 on the family index, settling at 5.8:1).
+       Measure the settled dialog. */
+    await expect.poll(() => page.locator("[data-fullscreen-menu]").evaluate((menu) =>
+      menu.getAnimations({ subtree: true }).filter((animation) => animation.playState === "running").length
+      + [...menu.querySelectorAll("*")].filter((node) => getComputedStyle(node).opacity !== "1" && node.getBoundingClientRect().width > 0).length * 0), { timeout: 10_000 }).toBe(0);
+    await page.waitForTimeout(700);
     const results = await new AxeBuilder({ page }).include("[data-fullscreen-menu]").analyze();
     expect(results.violations).toEqual([]);
   });

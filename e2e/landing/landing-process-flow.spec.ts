@@ -77,9 +77,11 @@ const EXPECTATIONS: readonly Expectation[] = [
   {
     band: "mobile",
     widths: [320, 375, 390, 767],
-    display: ["grid", "grid", "grid", "none"],
-    glyph: "↓",
-    why: "the vertical list connects every consecutive pair; only step 04 ends the flow",
+    // UX01 (package 7): mobile uses the tablet's 2x2 layout to shorten the page,
+    // so the connectors follow the tablet rule.
+    display: ["grid", "none", "grid", "none"],
+    glyph: "→",
+    why: "the 2x2 layout puts steps 02 and 04 at a row end, so neither carries a right-facing arrow",
   },
   {
     band: "tablet",

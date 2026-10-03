@@ -1,5 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Link } from "@/i18n/LocaleLink";
 
 /* ══════════════════════════════════════════════════════════════════════════
    LOADING · EMPTY · ROUTE ERROR
@@ -25,9 +26,10 @@ export function ShellLoading({
   detail?: string;
   fullHeight?: boolean;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="shell-state shell-state-loading" data-shell-state="loading" data-full={fullHeight || undefined}>
-      <p className="shell-state-label" role="status">{label}</p>
+      <p className="shell-state-label" role="status">{t(label)}</p>
       <span className="shell-state-scan" aria-hidden="true"><i /></span>
       {detail && <p className="shell-state-detail">{detail}</p>}
     </div>
@@ -45,9 +47,10 @@ export function ShellEmpty({
   detail?: string;
   action?: ReactNode;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="shell-state shell-state-empty" data-shell-state="empty">
-      <p className="shell-state-label">{label}</p>
+      <p className="shell-state-label">{t(label)}</p>
       <p className="shell-state-title">{title}</p>
       {detail && <p className="shell-state-detail">{detail}</p>}
       {action && <div className="shell-state-actions">{action}</div>}
@@ -88,20 +91,21 @@ export function ShellRouteError({
   reason?: string;
   onRetry?: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="shell-state shell-state-error" data-shell-state="error" data-full>
-      <p className="shell-state-label" role="alert">{label}</p>
-      <h1 className="shell-state-title">{title}</h1>
-      <p className="shell-state-detail">{detail}</p>
+      <p className="shell-state-label" role="alert">{t(label)}</p>
+      <h1 className="shell-state-title">{t(title)}</h1>
+      <p className="shell-state-detail">{t(detail)}</p>
       {reason && <p className="shell-state-reason">{reason}</p>}
       <div className="shell-state-actions">
         {onRetry && (
           <button type="button" className="shell-state-action" onClick={onRetry}>
-            Yeniden dene
+            {t("Yeniden dene")}
           </button>
         )}
-        <Link className="shell-state-action" to="/">Ana sayfa</Link>
-        <Link className="shell-state-action" to="/iletisim">İletişim</Link>
+        <Link className="shell-state-action" to="/">{t("Ana sayfa")}</Link>
+        <Link className="shell-state-action" to="/iletisim">{t("İletişim")}</Link>
       </div>
     </div>
   );

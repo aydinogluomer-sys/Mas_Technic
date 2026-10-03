@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import { LegalDocument, type LegalClause } from "@/components/pages/LegalDocument";
 import { PUBLIC_ADDRESS_LINES, SALES_EMAIL } from "@/content/claims";
+import { KVKK_EN } from "@/content/en/legal/kvkk";
+import { useLocale } from "@/i18n/hooks";
 
 /* ══════════════════════════════════════════════════════════════════════════
    KVKK AYDINLATMA METNİ
@@ -319,14 +321,15 @@ const CLAUSES: LegalClause[] = [
   },
 ];
 
-export const KVKK = () => (
-  <LegalDocument
-    rail={{ no: "L1", label: "KVKK" }}
-    selfPath="/kvkk"
-    eyebrow="Yasal metin"
-    title="KVKK Aydınlatma Metni"
-    lede="6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında: bu sitede hangi kişisel veri, hangi amaçla ve hangi hukuki sebeple işlenir."
-    metaDescription="Mas Technic KVKK aydınlatma metni — işlenen kişisel veriler, işleme amacı ve hukuki sebep, aktarım, saklama ve KVKK md. 11 kapsamındaki haklarınız."
-    clauses={CLAUSES}
-  />
-);
+const KVKK_TR = {
+  eyebrow: "Yasal metin",
+  title: "KVKK Aydınlatma Metni",
+  lede: "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında: bu sitede hangi kişisel veri, hangi amaçla ve hangi hukuki sebeple işlenir.",
+  metaDescription: "Mas Technic KVKK aydınlatma metni — işlenen kişisel veriler, işleme amacı ve hukuki sebep, aktarım, saklama ve KVKK md. 11 kapsamındaki haklarınız.",
+  clauses: CLAUSES,
+};
+
+export const KVKK = () => {
+  const text = useLocale() === "en" ? KVKK_EN : KVKK_TR;
+  return <LegalDocument rail={{ no: "L1", label: "KVKK" }} selfPath="/kvkk" {...text} />;
+};

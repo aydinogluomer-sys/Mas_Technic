@@ -1,5 +1,7 @@
+import { useTranslation } from "react-i18next";
+import { usePageMeta } from "@/hooks/use-page-meta";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocaleNavigate as useNavigate } from "@/i18n/hooks";
 import { supabase } from "@/integrations/supabase/client";
 import { ShellAction, ShellNotice } from "@/components/shell";
 import { AuthLayout } from "@/components/auth/AuthLayout";
@@ -156,6 +158,8 @@ export const ResetPassword = () => {
     window.setTimeout(() => navigate("/giris"), 4000);
   };
 
+  const { t } = useTranslation();
+  usePageMeta({ title: t("Yeni Şifre Belirleyin"), noindex: true });
   const frame = (children: React.ReactNode) => (
     <AuthLayout
       asideTitle="Hoş Geldiniz"
@@ -166,7 +170,7 @@ export const ResetPassword = () => {
         {/* Measured contract: `e2e/qa-p08-scroll-region-reach.spec.ts:206`.
             It is the page's heading in EVERY state, because it is what the
             page is about whether or not this particular visit can act. */}
-        <h1 className="shell-auth-title">Yeni Şifre Belirleyin</h1>
+        <h1 className="shell-auth-title">{t("Yeni Şifre Belirleyin")}</h1>
       </div>
       {children}
     </AuthLayout>
@@ -176,10 +180,10 @@ export const ResetPassword = () => {
     return frame(
       <>
         <ShellNotice tone="note" label="TAMAMLANDI" title="Şifreniz güncellendi.">
-          <p>Birkaç saniye içinde giriş sayfasına yönlendirileceksiniz.</p>
+          <p>{t("Birkaç saniye içinde giriş sayfasına yönlendirileceksiniz.")}</p>
         </ShellNotice>
         <ShellAction to="/giris" variant="ghost" full>
-          Giriş sayfasına git
+          {t("Giriş sayfasına git")}
         </ShellAction>
       </>,
     );
@@ -194,13 +198,12 @@ export const ResetPassword = () => {
           title="Bu sıfırlama bağlantısı artık kullanılamıyor."
         >
           <p>
-            Bağlantılar tek kullanımlıktır ve bir süre sonra geçerliliğini yitirir. Yeni bir
-            bağlantı isteyip yeniden deneyin.
+            {t("Bağlantılar tek kullanımlıktır ve bir süre sonra geçerliliğini yitirir. Yeni bir bağlantı isteyip yeniden deneyin.")}
           </p>
-          {urlState.error && <p className="shell-state-reason">KOD: {urlState.error}</p>}
+          {urlState.error && <p className="shell-state-reason">{t("KOD")}: {urlState.error}</p>}
         </ShellNotice>
         <ShellAction to="/sifremi-unuttum" variant="primary" full>
-          Yeni bağlantı iste
+          {t("Yeni bağlantı iste")}
         </ShellAction>
       </>,
     );
@@ -215,12 +218,11 @@ export const ResetPassword = () => {
           title="Bu sayfa şifre sıfırlama e-postasındaki bağlantıyla açılır."
         >
           <p>
-            Adrese doğrudan geldiyseniz sıfırlanacak bir şey yok. E-posta adresinizi girip yeni bir
-            bağlantı isteyin; bağlantıya tıkladığınızda bu sayfa yeni şifrenizi soracak.
+            {t("Adrese doğrudan geldiyseniz sıfırlanacak bir şey yok. E-posta adresinizi girip yeni bir bağlantı isteyin; bağlantıya tıkladığınızda bu sayfa yeni şifrenizi soracak.")}
           </p>
         </ShellNotice>
         <ShellAction to="/sifremi-unuttum" variant="primary" full>
-          Sıfırlama bağlantısı iste
+          {t("Sıfırlama bağlantısı iste")}
         </ShellAction>
       </>,
     );
@@ -229,8 +231,7 @@ export const ResetPassword = () => {
   return frame(
     <>
       <p className="shell-auth-lede">
-        Hesabınız için yeni bir şifre belirleyin. Bu form en az {MIN_PASSWORD_LENGTH} karakter
-        istiyor.
+        {t("Hesabınız için yeni bir şifre belirleyin. Bu form en az {{count}} karakter istiyor.", { count: MIN_PASSWORD_LENGTH })}
       </p>
 
       <form className="shell-auth-form" onSubmit={handleSubmit} noValidate>
@@ -255,17 +256,17 @@ export const ResetPassword = () => {
 
         {notice && (
           <ShellNotice tone="error" label="GÜNCELLENEMEDİ" title={notice.title}>
-            {notice.detail && <p>{notice.detail}</p>}
+            {notice.detail && <p>{t(notice.detail)}</p>}
           </ShellNotice>
         )}
 
         <ShellAction type="submit" variant="primary" full disabled={pending}>
-          Şifreyi güncelle
+          {t("Şifreyi güncelle")}
         </ShellAction>
 
         {pending && (
           <p className="shell-field-hint" role="status" data-auth-state="pending">
-            ŞİFRE GÜNCELLENİYOR…
+            {t("ŞİFRE GÜNCELLENİYOR…")}
           </p>
         )}
       </form>

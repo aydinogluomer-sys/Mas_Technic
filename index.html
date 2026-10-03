@@ -14,12 +14,10 @@
       name="keywords"
       content="CNC frezeleme, CNC tornalama, talaşlı imalat, hassas işleme, 5 eksen CNC, prototip üretim, seri üretim, ISO 9001, DFM analizi, Türkiye CNC"
     />
-    <link rel="canonical" href="https://mas-technic-precision.lovable.app/" />
     <meta name="geo.region" content="TR" />
     <meta name="geo.placename" content="İzmir" />
     <meta name="theme-color" content="#0688AD" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://mas-technic-precision.lovable.app/" />
     <meta property="og:locale" content="tr_TR" />
     <meta property="og:site_name" content="Mas Technic" />
     <meta property="og:title" content="Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat" />
@@ -56,211 +54,15 @@
          indiriyordu. -->
 
 
-    <!-- App-shell hero: React (~4 s, yavaş mobil CPU) çalışana kadar hero DOM'da
-         yok ve LCP'yi tek başına geciktiriyor. Bu blok ilk boyamada görünür.
-         `contain` KULLANILMIYOR — contain:paint elemanı LCP adaylığından
-         çıkarıyor (bu oturumdaki ilk denemenin başarısızlık nedeni). -->
-    <style>
-      /* Wordmark bilerek <h1> DEĞİL: bu blok `aria-hidden` ve tamamen dekoratif,
-         gerçek <h1> hero'nun içinde. Giriş sekansı shell'i ~2.8 sn yaşattığı için
-         <h1> bırakılsaydı sayfada o süre boyunca iki <h1> bulunurdu (ölçüldü). */
-      #hero-shell {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        overflow: hidden;
-        background: #080d12;
-        pointer-events: none;
-      }
-      #hero-shell .ps-wordmark {
-        position: absolute;
-        left: max(3.5vw, 28px);
-        right: max(3.5vw, 28px);
-        /* `.lf-hero-title` de alttan 19vh'de ama kapsayıcısı `.lf-hero` 110svh;
-           bu shell ise fixed inset:0, yani 100svh. Aynı "19vh" iki farklı kutuya
-           göre çözüldüğü için başlıklar 10svh (~90px) kayk kalıyordu — shell iki
-           kare sonra silindiği için bugüne kadar görünmüyordu. Giriş sekansı artık
-           çapraz geçişle devrediyor, dolayısıyla hizanın birebir olması şart.
-           Mobilde `.lf-hero` zaten 100svh olduğu için düzeltme gerekmiyor. */
-        bottom: calc(19vh - 10svh);
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        font-family: "Space Grotesk", system-ui, sans-serif;
-        font-size: clamp(86px, 15vw, 250px);
-        font-weight: 680;
-        line-height: .69;
-        letter-spacing: -.085em;
-        color: #f2eee6;
-      }
-      #hero-shell .ps-wordmark span:last-child { align-self: flex-end; }
-      /* `.lf-hero-title`'ın boyut override'ıyla eşleşmeli — eşik landing-flow.css:344'te
-         `max-width: 1023px`; 1024 yazılsaydı tam o genişlikte başlıklar ayrışırdı. */
-      @media (max-width: 1023px) {
-        #hero-shell .ps-wordmark { font-size: clamp(78px, 14vw, 142px); }
-      }
-      @media (max-width: 768px) {
-        #hero-shell .ps-wordmark {
-          left: 16px;
-          right: 16px;
-          /* `.lf-hero` burada 100svh — shell ile aynı kutu, düzeltme gerekmiyor. */
-          bottom: 28vh;
-          font-size: clamp(64px, 21vw, 118px);
-          line-height: .74;
-        }
-      }
-
-      /* ============================================================
-         PRECISION BORN — giriş sekansı
-         İŞLEME → ÖLÇÜM → DEVİR
-
-         Ayrı bir loader DEĞİL: bu katmanlar `#hero-shell`'in içinde yaşar ve
-         sekans biterken çözülür. `h1` baştan sona `.lf-hero-title` ile aynı
-         konumdadır (left/right/bottom/font-size/weight/line-height/letter-spacing
-         birebir), yani devirde metin YERİNDEN OYNAMAZ — kesinti hissi olmaz.
-
-         Tüm katmanlar tek bir değişkenden türer: --ps-p (0 → 1).
-         JS kare başına yalnız bu özelliği yazar; geri kalanı CSS hesaplar.
-         Mobil TBT payı dar olduğu için bilinçli tercih.
-         ============================================================ */
-      /* Sekans sürerken shell UYGULAMANIN ÜSTÜNDE durur.
-         `#root` DOM'da shell'den sonra geldiği için React hero'yu boyadığı anda
-         intro'nun üstünü kapatıyordu: devir koreografiye değil, render zamanlamasına
-         bağlı hale geliyor ve hızlı makinede sekans ortasından kesiliyordu (ölçüldü).
-         Üstte tutup sonunda çapraz geçişle çözerek devri deterministik yapıyoruz. */
-      #hero-shell[data-intro] { z-index: 80; }
-      #hero-shell[data-intro][data-phase="done"] {
-        opacity: 0;
-        transition: opacity .6s cubic-bezier(.16, 1, .3, 1);
-      }
-
-      #hero-shell {
-        --ps-p: 0;
-        /* Perde sınırları: işleme 0→.55, ölçüm .55→.90, devir .90→1 */
-        --ps-cut: clamp(0, calc(var(--ps-p) / .55), 1);
-        --ps-insp: clamp(0, calc((var(--ps-p) - .55) / .35), 1);
-        --ps-out: clamp(0, calc((var(--ps-p) - .90) / .10), 1);
-        --ps-copper: #c97345;
-        --ps-ink: #f2eee6;
-      }
-
-      /* ── Ham metal blok ──
-         Devirde çözülür ve alttaki gerçek hero görünür. */
-      #hero-shell[data-intro]::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background:
-          repeating-linear-gradient(96deg,
-            rgba(255,255,255,.028) 0 2px, transparent 2px 7px),
-          linear-gradient(168deg, #1b2026 0%, #10151a 42%, #0a0e12 100%);
-        opacity: calc(1 - var(--ps-out));
-        transition: opacity .1s linear;
-      }
-
-      /* ── Harfler: bloktan kesilerek çıkar ──
-         Kontur bakır, dolgu kesim kenarını takip ederek soldan sağa ilerler.
-         Devirde kontur söner ve dolgu tamamlanır — geriye tam olarak hero
-         başlığının kendisi kalır. */
-      #hero-shell[data-intro] h1 {
-        -webkit-text-stroke: calc(1.4px * (1 - var(--ps-out))) var(--ps-copper);
-        background-image: linear-gradient(
-          95deg,
-          var(--ps-ink) 0 calc(var(--ps-cut) * 100%),
-          var(--ps-copper) calc(var(--ps-cut) * 100%) calc(var(--ps-cut) * 100% + 2px),
-          transparent calc(var(--ps-cut) * 100% + 2px)
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-      #hero-shell[data-intro][data-phase="done"] h1 {
-        -webkit-text-stroke-width: 0;
-        background-image: none;
-        -webkit-text-fill-color: var(--ps-ink);
-      }
-
-      /* ── Takım yolu ── */
-      #hero-shell .ps-path {
-        position: absolute;
-        left: max(3.5vw, 28px);
-        right: max(3.5vw, 28px);
-        bottom: calc(19vh - 3.4rem);
-        height: 3rem;
-        color: var(--ps-copper);
-        opacity: calc((1 - var(--ps-insp)) * .85);
-      }
-      #hero-shell .ps-path path {
-        stroke-dasharray: 1;
-        stroke-dashoffset: calc(1 - var(--ps-cut));
-      }
-
-      /* ── CMM tarama çizgisi ── */
-      #hero-shell .ps-scan {
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 34vh;
-        bottom: 14vh;
-        opacity: calc(var(--ps-insp) * (1 - var(--ps-out)));
-        background: linear-gradient(180deg,
-          transparent 0%,
-          rgba(201,115,69,.10) 44%,
-          rgba(201,115,69,.55) 50%,
-          rgba(201,115,69,.10) 56%,
-          transparent 100%);
-        transform: translateY(calc((var(--ps-insp) * 34vh) - 17vh));
-      }
-
-      /* ── HUD telemetri ── */
-      #hero-shell .ps-hud {
-        position: absolute;
-        left: max(3.5vw, 28px);
-        right: max(3.5vw, 28px);
-        top: 112px;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        font: 600 10px/1.5 "IBM Plex Mono", ui-monospace, monospace;
-        letter-spacing: .2em;
-        color: rgba(242,238,230,.62);
-        opacity: calc(1 - var(--ps-out));
-      }
-      #hero-shell .ps-hud b { color: var(--ps-copper); font-weight: 600; }
-      #hero-shell .ps-count {
-        font-size: clamp(28px, 4vw, 46px);
-        line-height: .9;
-        letter-spacing: -.04em;
-        color: var(--ps-ink);
-        font-variant-numeric: tabular-nums;
-      }
-      #hero-shell .ps-stage-2 { display: none; }
-      #hero-shell[data-phase="inspect"] .ps-stage-1,
-      #hero-shell[data-phase="pass"] .ps-stage-1 { display: none; }
-      #hero-shell[data-phase="inspect"] .ps-stage-2,
-      #hero-shell[data-phase="pass"] .ps-stage-2 { display: block; }
-      #hero-shell[data-phase="pass"] .ps-stage-2 b { color: #7dd8a0; }
-
-      @media (max-width: 768px) {
-        #hero-shell .ps-hud { top: 84px; }
-        #hero-shell .ps-path { bottom: calc(28vh - 2.6rem); height: 2.2rem; }
-        #hero-shell .ps-scan { bottom: 22vh; }
-      }
-
-      /* Hareket azaltılmışsa sekans hiç kurulmaz (JS tarafında da atlanır);
-         bu kural yalnız güvenlik ağı — metin asla konturlu takılı kalmasın. */
-      @media (prefers-reduced-motion: reduce) {
-        #hero-shell[data-intro]::before,
-        #hero-shell .ps-path,
-        #hero-shell .ps-scan,
-        #hero-shell .ps-hud { display: none !important; }
-        #hero-shell[data-intro] h1 {
-          -webkit-text-stroke-width: 0 !important;
-          background-image: none !important;
-          -webkit-text-fill-color: var(--ps-ink) !important;
-        }
-      }
-    </style>
+    <!-- UX01: the static app-shell wordmark and the entry sequence that ran on
+         it were removed. The landing's LCP is the hero image, which
+         `mas-hero-preload` (vite.config.ts) preloads with its hashed URL; the
+         wordmark only ever matched the dev-only legacy landing. -->
+    <!-- The removed shell also painted the graphite ground before the CSS
+         bundle arrived; this keeps that first frame dark instead of white.
+         Same ground the removed shell used (close to `--tl-void`), which cannot be read
+         before the stylesheet loads. -->
+    <style>html { background: #080d12; }</style>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -302,93 +104,19 @@
   </head>
 
   <body>
-    <div id="hero-shell" aria-hidden="true">
-      <div class="ps-hud">
-        <span class="ps-stage-1">HAM BLOK · <b>TAKIM YOLU İŞLENİYOR</b></span>
-        <span class="ps-stage-2">CMM · <b>ÖLÇÜM DOĞRULANIYOR</b></span>
-        <span class="ps-count">00</span>
-      </div>
-      <svg class="ps-path" viewBox="0 0 1200 48" preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false">
-        <path pathLength="1" d="M0 38 H210 V14 H470 V38 H720 V14 H980 V38 H1200"
-              stroke="currentColor" stroke-width="2" stroke-linecap="square"
-              stroke-linejoin="miter" vector-effect="non-scaling-stroke" />
-      </svg>
-      <div class="ps-scan"></div>
-      <div class="ps-wordmark"><span>MAS</span><span>TECHNIC</span></div>
-    </div>
     <div id="root"></div>
     <script>
-      /* PRECISION BORN — giriş sekansının koreografisi.
-         Satır içi ve type="module" DEĞİL: bundle beklemeden, ilk boyamada
-         çalışmalı. Aksi halde sekans geç açılır ve "bozuk" görünür. */
+      /* L01 — an /en address is English from the first paint: the static
+         title and <html lang> follow the URL before any bundle runs.
+         UX01 — the full-screen "Precision Born" entry sequence that used to
+         live here (a 1.75–5.2 s timed overlay with a percentage counter) is
+         gone: nothing waits before the page renders, no `data-intro-active`
+         is set on <html> and no `mas_intro_seen` key is written. */
       (function () {
-        var shell = document.getElementById("hero-shell");
-        if (!shell) return;
-
-        var KEY = "mas_intro_seen";
-        var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        var seen = false;
-        try { seen = sessionStorage.getItem(KEY) === "1"; } catch (e) { /* gizli mod */ }
-
-        /* Oturumda bir kez. SPA içi gezinme bu script'i zaten yeniden
-           çalıştırmaz (tam sayfa yüklemesi değil); sessionStorage yenilemeyi
-           de kapatır. Kullanıcının vurguladığı şart bu iki katmanla sağlanır. */
-        /* Devir hero'nun MAS başlığına yapılıyor; o başlık yalnız landing'de var.
-           Alt sayfaya doğrudan girildiğinde sekans anlamsız olurdu. */
-        var onLanding = location.pathname === "/" || location.pathname === "/index.html";
-        if (seen || reduced || !onLanding) return;
-        try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
-
-        shell.setAttribute("data-intro", "");
-        document.documentElement.setAttribute("data-intro-active", "1");
-
-        var FLOOR = 1750;    /* koreografinin tamamlanması için taban süre */
-        var CEILING = 5200;  /* ne olursa olsun kullanıcıyı hapsetme */
-        var HOLD = 0.93;     /* sayfa hazır değilse burada bekler */
-        var start = performance.now();
-        var count = shell.querySelector(".ps-count");
-        var phase = "";
-        var raf = 0;
-
-        function setPhase(next) {
-          if (next === phase) return;
-          phase = next;
-          shell.setAttribute("data-phase", next);
+        if (/^\/en(\/|$)/.test(location.pathname)) {
+          document.documentElement.lang = "en";
+          document.title = "Mas Technic | High-Precision CNC Manufacturing & Machining";
         }
-
-        function finish() {
-          cancelAnimationFrame(raf);
-          shell.style.setProperty("--ps-p", "1");
-          if (count) count.textContent = "100";
-          setPhase("pass");
-          /* Devir: blok çözülür, kontur söner, h1 olduğu yerde hero
-             başlığına dönüşür. Metin YERİNDEN OYNAMAZ. */
-          /* 1) blok çözülür, kontur söner, harfler somlaşır */
-          setTimeout(function () {
-            shell.setAttribute("data-phase", "done");
-            /* 2) shell çapraz geçişle silinir; altta gerçek hero zaten hazır ve
-                  başlık aynı konumda olduğu için metin yerinden oynamaz */
-            setTimeout(function () {
-              document.documentElement.removeAttribute("data-intro-active");
-              document.dispatchEvent(new CustomEvent("mas:intro-done"));
-            }, 620);
-          }, 420);
-        }
-
-        function tick(now) {
-          var elapsed = now - start;
-          var byTime = elapsed / FLOOR;
-          var ready = document.readyState === "complete";
-          var p = ready ? byTime : Math.min(byTime, HOLD);
-          if (elapsed > CEILING) p = 1;
-          if (p >= 1) { finish(); return; }
-
-          shell.style.setProperty("--ps-p", p.toFixed(4));
-          if (count) count.textContent = ("0" + Math.round(p * 100)).slice(-2);
-          setPhase(p < 0.55 ? "cut" : "inspect");
-          raf = requestAnimationFrame(tick);
-        }
-        raf = requestAnimationFrame(tick);
       })();
     </script>
     <script type="module" src="/src/main.tsx"></script>

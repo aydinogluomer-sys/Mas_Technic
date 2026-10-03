@@ -1159,3 +1159,13 @@ html::-webkit-scrollbar {
   .route-curtain-panel { animation: none; transform: scaleY(0); }
   .route-curtain-label { animation: none; opacity: 0; }
 }
+
+/* PERF01 — the shared header's height is reserved before the header (and the
+   navigation stylesheet that defines `--gnav-h`) has loaded, on the routes
+   that will draw it. The fallbacks repeat `navigation.css`: 72px, 64px under
+   768px. Once the header portals its spacer in, the host is no longer empty
+   and the rule stops applying. */
+#shared-header-host[data-reserve]:empty { height: calc(var(--gnav-h, 72px) + var(--shell-safe-top, 0px)); }
+@media (max-width: 767px) {
+  #shared-header-host[data-reserve]:empty { height: calc(var(--gnav-h, 64px) + var(--shell-safe-top, 0px)); }
+}

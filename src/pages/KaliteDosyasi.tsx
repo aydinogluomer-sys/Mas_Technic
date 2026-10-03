@@ -1,9 +1,9 @@
+import { useTranslation } from "react-i18next";
 import {
   PageShell,
   ShellAction,
   ShellBreadcrumb,
   ShellEvidence,
-  ShellIndexList,
   ShellNextStep,
   ShellNotice,
   ShellPageHero,
@@ -13,9 +13,10 @@ import {
   ShellTitleBlock,
 } from "@/components/shell";
 import { usePageMeta } from "@/hooks/use-page-meta";
+import { QUALITY_DOCUMENTS } from "@/content/quality-documents";
+import { joinList } from "@/i18n/format";
 import {
   CERTIFICATIONS,
-  CERTIFICATION_SENTENCE_LIST,
   CMM_COVERAGE,
   MINIMUM_TOLERANCE,
   QUALITY_RESOURCES,
@@ -41,8 +42,9 @@ import {
        from `public/belgeler/`. Their printed sizes are re-measured from disk
        by `scripts/claims-gate.mjs`, so a size on this page cannot drift from
        the file a reader downloads.
-     · §C — ISO 9001:2015, ISO 14001:2015, OHSAS 18001. Three, and only three:
-       AS9100D and IATF 16949 are `NONE`.
+     · §C — ISO 9001:2015 and ISO 14001:2015. AS9100D and IATF 16949 are
+       `NONE`; OHSAS 18001 is withheld from the active showcase (T02, see
+       `claims.ts` `OHSAS_18001`).
      · §D — the tolerance and the measurement-coverage statement, through
        `claims.ts`.
 
@@ -66,7 +68,7 @@ import {
    is authorised to make.
 
    ── SEARCH/FILTER: OMITTED ───────────────────────────────────────────────
-   Four documents and three certificates. Nothing to search.
+   Four documents and two active certificates. Nothing to search.
 
    ── THE ROUTE IS `/kalite-dosyasi`, NOT `/kalite` ────────────────────────
    `kalite` is already a published landing anchor (`landingSections` in
@@ -121,10 +123,10 @@ const CONTROL_CHAIN = [
 ];
 
 export const KaliteDosyasi = () => {
+  const { t, i18n } = useTranslation();
   usePageMeta({
-    title: "Kalite Dosyası",
-    description:
-      "Yönetim sistemi belgeleri, yayımlanan kalite dokümanları ve bir işin kontrol zinciri: hangi kayıt hangi aşamada oluşur.",
+    title: t("Kalite Dosyası"),
+    description: t("Yönetim sistemi belgeleri, yayımlanan kalite dokümanları ve bir işin kontrol zinciri: hangi kayıt hangi aşamada oluşur."),
   });
 
   return (
@@ -133,18 +135,18 @@ export const KaliteDosyasi = () => {
         no="01"
         label="KALİTE"
         crumb={<ShellBreadcrumb trail={[{ label: "Ana sayfa", to: "/" }, { label: "Kalite dosyası" }]} />}
-        eyebrow="Belge ve kayıt"
-        title="Kalite Dosyası"
-        lede="Yayımlanan dokümanlar, yönetim sistemi belgelerimiz ve bir işin hangi aşamasında hangi kaydın oluştuğu. Buradaki her doküman açılabilir bir dosyadır."
+        eyebrow={t("Belge ve kayıt")}
+        title={t("Kalite Dosyası")}
+        lede={t("Yayımlanan dokümanlar, yönetim sistemi belgelerimiz ve bir işin hangi aşamasında hangi kaydın oluştuğu. Buradaki her doküman açılabilir bir dosyadır.")}
         meta={[
-          { label: "Yönetim sistemleri", value: CERTIFICATIONS.map((item) => item.code).join(" · ") },
-          { label: "Standart tolerans", value: MINIMUM_TOLERANCE },
-          { label: "Ölçüm", value: CMM_COVERAGE },
+          { label: t("Yönetim sistemleri"), value: CERTIFICATIONS.map((item) => item.code).join(" · ") },
+          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Ölçüm"), value: t(CMM_COVERAGE) },
         ]}
         actions={
           <>
-            <ShellAction to="/teklif-al" variant="primary">Teklif Al</ShellAction>
-            <ShellAction to="/kabiliyet-profilleri" variant="ghost">Kabiliyet profilleri</ShellAction>
+            <ShellAction to="/teklif-al" variant="primary">{t("Teklif Al")}</ShellAction>
+            <ShellAction to="/kabiliyet-profilleri" variant="ghost">{t("Kabiliyet profilleri")}</ShellAction>
           </>
         }
       />
@@ -155,23 +157,43 @@ export const KaliteDosyasi = () => {
           <ShellTitleBlock
             id="kalite-dokuman"
             index="02"
-            title="Yayımlanan dokümanlar"
-            standfirst="Dört doküman indirilebilir. Yanlarındaki boyutlar, sunulan dosyadan ölçülür — yazılmaz."
+            title={t("Yayımlanan dokümanlar")}
+            standfirst={t("Dört doküman PDF olarak açılabilir ve indirilebilir. Görseller dokümanların gerçek ilk sayfasıdır; dokümanlar Türkçedir.")}
           />
         </div>
-        <div className="shell-span-full">
-          <ShellIndexList
-            ariaLabel="Yayımlanan kalite dokümanları"
-            items={QUALITY_RESOURCES.map((resource, index) => ({
-              href: resource.href,
-              download: true,
-              index: `D${index + 1}`,
-              title: resource.title,
-              description: DOCUMENT_SUBJECTS[resource.title],
-              meta: [resource.size],
-            }))}
-          />
-        </div>
+        {/* UX03: each document shows its REAL first page, rendered from the
+            same PDF, with what the document itself prints — number, date,
+            revision, language — and the measured size. */}
+        <ul className="shell-span-full shell-qdoc-grid" aria-label={t("Yayımlanan kalite dokümanları")}>
+          {QUALITY_DOCUMENTS.map((doc, index) => (
+            <li key={doc.href} className="shell-qdoc">
+              <a className="shell-qdoc-thumb" href={doc.href} target="_blank" rel="noopener" aria-label={t("{{title}} — PDF'i aç", { title: t(doc.title) })}>
+                <img
+                  src={doc.thumb}
+                  width={doc.thumbWidth}
+                  height={doc.thumbHeight}
+                  alt={t("{{title}} — dokümanın ilk sayfası", { title: t(doc.title) })}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <p className="shell-qdoc-index">{`D${index + 1}`}</p>
+              <h3>{t(doc.title)}</h3>
+              <p className="shell-qdoc-subject">{t(DOCUMENT_SUBJECTS[doc.title])}</p>
+              <dl>
+                <div><dt>{t("Dil")}</dt><dd>{t("Türkçe")}</dd></div>
+                <div><dt>{t("Doküman no")}</dt><dd>{doc.docNo}</dd></div>
+                <div><dt>{t("Tarih")}</dt><dd>{(/^\d/.test(doc.date) ? doc.date : t(doc.date))}</dd></div>
+                <div><dt>{t("Sürüm")}</dt><dd>{doc.revision ?? t("Belirtilmemiş")}</dd></div>
+                <div><dt>{t("Boyut")}</dt><dd>{doc.size}</dd></div>
+              </dl>
+              <p className="shell-qdoc-actions">
+                <a href={doc.href} target="_blank" rel="noopener">{t("Aç")}</a>
+                <a href={doc.href} download>{t("İndir")}</a>
+              </p>
+            </li>
+          ))}
+        </ul>
       </ShellSurfaceBand>
 
       {/* ── 03 — certificates, with the refusals stated ──────────────────── */}
@@ -180,30 +202,22 @@ export const KaliteDosyasi = () => {
           <ShellTitleBlock
             id="kalite-belge"
             index="03"
-            title="Yönetim sistemi belgeleri"
-            standfirst={`${CERTIFICATION_SENTENCE_LIST} kapsamında çalışıyoruz.`}
+            title={t("Yönetim sistemi belgeleri")}
+            standfirst={t("{{list}} kapsamında çalışıyoruz.", { list: joinList(CERTIFICATIONS.map((item) => item.code), i18n.language) })}
           />
           <ShellSpecTable
-            caption="Yönetim sistemleri"
-            note="Bu üç belge dışında bir yönetim sistemi belgesi bulunmamaktadır. Belge kapsamı dışında bir standart gerekiyorsa teknik incelemede birlikte değerlendiririz."
-            headers={["STANDART", "KAPSAM"]}
+            caption={t("Yönetim sistemleri")}
+            note={t("Belge kapsamı dışında bir standart gerekiyorsa teknik incelemede birlikte değerlendiririz.")}
+            headers={[t("STANDART"), t("KAPSAM")]}
             numericFrom={2}
-            rows={CERTIFICATIONS.map((item) => [item.code, item.name])}
+            rows={CERTIFICATIONS.map((item) => [item.code, t(item.name)])}
             rowKey={(row) => String(row[0])}
           />
         </div>
 
         <div className="shell-span-note shell-stack" data-gap="sm">
-          <ShellNotice tone="caution" label="YAYIMLANMAYAN" title="Belge numarası ve kuruluş">
-            <p>
-              Bu sayfada belge numarası, belgelendirme kuruluşu veya bir doğrulama bağlantısı
-              yayımlanmaz. Bunlar doğrulanabilir bir kaynağa dayanmadan yazılırsa, belge değil
-              belge görüntüsü olur.
-            </p>
-          </ShellNotice>
           <ShellEvidence kind="BELGE" source={QUALITY_RESOURCES[0].title}>
-            Kalite politikasının yazılı beyanı, yukarıdaki dokümanlar arasında indirilebilir
-            durumdadır.
+            {t("Kalite politikasının yazılı beyanı, yukarıdaki dokümanlar arasında indirilebilir durumdadır.")}
             <ShellAction href={QUALITY_RESOURCES[0].href} variant="quiet">
               {QUALITY_RESOURCES[0].size}
             </ShellAction>
@@ -217,15 +231,14 @@ export const KaliteDosyasi = () => {
           <ShellTitleBlock
             id="kalite-zincir"
             index="04"
-            title="Bir kayıt nasıl oluşur"
-            standfirst="Kalite bir aşama değil, bir zincirdir. Aşağıdaki altı adımın her biri arkasında bir kayıt bırakır ve teslim dosyası bu kayıtlardan oluşur."
+            title={t("Bir kayıt nasıl oluşur")}
+            standfirst={t("Kalite bir aşama değil, bir zincirdir. Aşağıdaki altı adımın her biri arkasında bir kayıt bırakır ve teslim dosyası bu kayıtlardan oluşur.")}
           />
         </div>
-        <ShellRun items={CONTROL_CHAIN} ariaLabel="Kontrol zinciri" />
+        <ShellRun items={CONTROL_CHAIN.map((step) => ({ title: t(step.title), detail: t(step.detail) }))} ariaLabel={t("Kontrol zinciri")} />
         <div className="shell-span-full">
           <ShellEvidence kind="ÖLÇÜM" source={QUALITY_RESOURCES[1].title}>
-            Doğrulamada kullanılan ölçüm ekipmanlarının listesi yayımlanmıştır. Standart tolerans
-            aralığı {MINIMUM_TOLERANCE}; {CMM_COVERAGE}.
+            {t("Doğrulamada kullanılan ölçüm ekipmanlarının listesi yayımlanmıştır. Standart tolerans aralığı {{tolerance}}; {{cmm}}.", { tolerance: MINIMUM_TOLERANCE, cmm: t(CMM_COVERAGE) })}
             <ShellAction href={QUALITY_RESOURCES[1].href} variant="quiet">
               {QUALITY_RESOURCES[1].size}
             </ShellAction>
@@ -235,12 +248,12 @@ export const KaliteDosyasi = () => {
 
       <ShellNextStep
         no="05"
-        title="Sizin işiniz için kontrol planı"
-        body="Teknik resim veya 3B model gönderin; hangi kotenin hangi aşamada ve hangi yöntemle doğrulanacağını teklifle birlikte yazalım."
+        title={t("Sizin işiniz için kontrol planı")}
+        body={t("Teknik resim veya 3B model gönderin; hangi kotenin hangi aşamada ve hangi yöntemle doğrulanacağını teklifle birlikte yazalım.")}
         detail={[
-          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
-          { label: "Gönderilecek", value: "Teknik resim veya 3B model" },
-          { label: "Ölçüm", value: CMM_COVERAGE },
+          { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
+          { label: t("Gönderilecek"), value: t("Teknik resim veya 3B model") },
+          { label: t("Ölçüm"), value: t(CMM_COVERAGE) },
         ]}
         secondary={{ label: "Sık sorulanlar", to: "/sss" }}
       />

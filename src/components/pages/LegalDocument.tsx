@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { localDate } from "@/i18n/format";
+import { Link } from "@/i18n/LocaleLink";
 import {
   PageShell,
   ShellAction,
@@ -88,6 +90,7 @@ export function LegalDocument({
   /** This document's own route, so the sibling list can exclude it. */
   selfPath: string;
 }) {
+  const { t, i18n } = useTranslation();
   usePageMeta({ title, description: metaDescription });
 
   const numbered = clauses.map((clause, index) => ({
@@ -96,7 +99,7 @@ export function LegalDocument({
   }));
 
   return (
-    <PageShell surface="graphite" rail={rail}>
+    <PageShell surface="graphite" rail={rail} footer="compact">
       <ShellPageHero
         no="01"
         label={rail.label}
@@ -105,13 +108,13 @@ export function LegalDocument({
         title={title}
         lede={lede}
         meta={[
-          { label: "Belge", value: title },
-          { label: "Revizyon", value: LEGAL_REVISION },
-          { label: "Madde sayısı", value: String(numbered.length) },
+          { label: t("Belge"), value: title },
+          { label: t("Revizyon"), value: localDate(LEGAL_REVISION, i18n.language) },
+          { label: t("Madde sayısı"), value: String(numbered.length) },
         ]}
       />
 
-      <ShellSurfaceBand no="02" label="METİN" tone="paper" ariaLabel={`${title} — madde metni`}>
+      <ShellSurfaceBand no="02" label="METİN" tone="paper" ariaLabel={t("{{title}} — madde metni", { title })}>
         <div className="shell-doc">
           <div className="shell-doc-main">
             {numbered.map((clause) => (
@@ -124,7 +127,7 @@ export function LegalDocument({
           <aside className="shell-doc-aside" data-sticky>
             <ShellContents
               label="MADDELER"
-              ariaLabel={`${title} maddeleri`}
+              ariaLabel={t("{{title}} maddeleri", { title })}
               items={numbered.map((clause) => ({ id: clause.id, no: clause.no, label: clause.title }))}
             />
 
@@ -136,8 +139,8 @@ export function LegalDocument({
                 difference is not an oversight: these are ROUTE changes, which
                 must stay client-side, while a contents entry is a fragment on
                 the page already open. */}
-            <nav className="shell-contents" aria-label="Diğer yasal metinler">
-              <p className="shell-eyebrow">DİĞER METİNLER</p>
+            <nav className="shell-contents" aria-label={t("Diğer yasal metinler")}>
+              <p className="shell-eyebrow">{t("DİĞER METİNLER")}</p>
               <ol>
                 {legalLinks
                   .filter((link) => link.path !== selfPath)
@@ -145,7 +148,7 @@ export function LegalDocument({
                     <li key={link.path}>
                       <Link to={link.path}>
                         <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                        <span>{link.label}</span>
+                        <span>{t(link.label)}</span>
                       </Link>
                     </li>
                   ))}
@@ -153,9 +156,12 @@ export function LegalDocument({
             </nav>
 
             <p className="shell-note">
-              Bu metinle ilgili sorularınızı ve KVKK başvurularınızı {SALES_EMAIL} adresine
-              iletebilirsiniz.
+              {t("Bu metinle ilgili sorularınızı ve KVKK başvurularınızı {{email}} adresine iletebilirsiniz.", { email: SALES_EMAIL })}
             </p>
+            {i18n.language === "en" && (
+              /* L01 — the translation is a reading aid; owner legal review O08. */
+              <p className="shell-note">{t("Bu metnin Türkçesi bağlayıcıdır.")}</p>
+            )}
             <ShellAction href={SALES_EMAIL_HREF} variant="quiet">{SALES_EMAIL}</ShellAction>
           </aside>
         </div>

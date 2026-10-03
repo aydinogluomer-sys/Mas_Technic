@@ -1,7 +1,9 @@
 import { Fragment, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useSiteData } from "@/i18n/data";
 import { ShellAction, ShellTagRow } from "@/components/shell";
 import type { Material } from "@/data/materialsData";
-import { PRICE_BAND } from "./material-figures";
+import { familyName, figure, hardness, isSourced, UNVERIFIED_FIGURE } from "./material-figures";
 
 /* ══════════════════════════════════════════════════════════════════════════
    THE MATERIAL REGISTER
@@ -32,21 +34,19 @@ import { PRICE_BAND } from "./material-figures";
    row in place, keeps the ground, and is `aria-expanded` / `aria-controls` all
    the way down.
 
-   Columns marked `data-col="secondary"` are hidden below 768px with
+   Columns marked `data-col="secondary"` (T03: every figure column) are hidden below 768px with
    `display:none`, not with a clip: the value stays available in the disclosure
    panel, and `display:none` removes the cell from the accessibility tree too,
    so a screen reader is not read a column the layout has dropped.
-   ══════════════════════════════════════════════════════════════════════════ */
 
-function Gauge({ value, max = 5, label }: { value: number; max?: number; label: string }) {
-  return (
-    <span className="shell-gauge" role="img" aria-label={`${label}: ${value}/${max}`}>
-      {Array.from({ length: max }, (_, index) => (
-        <span key={index} data-on={index < value || undefined} />
-      ))}
-    </span>
-  );
-}
+   T03 — NO SCORES, NO PRICE, NO UNSOURCED FIGURES
+   -----------------------------------------------
+   The 1–5 machinability gauge and the price-band column are gone: neither had
+   a documented rubric, and price belongs to the quotation. Every numeric cell
+   goes through `figure()`, which prints "Veri doğrulanmadı" for a record with
+   no `source`; the disclosure names the grade/temper, product form, test
+   conditions and source the figures depend on.
+   ══════════════════════════════════════════════════════════════════════════ */
 
 export type MaterialRegisterProps = {
   materials: Material[];
@@ -68,6 +68,11 @@ export function MaterialRegister({
   maxSelected,
 }: MaterialRegisterProps) {
   const [openId, setOpenId] = useState<string | null>(null);
+  const { t } = useTranslation();
+  const { materialCategories } = useSiteData();
+  /* `figure()` / `hardness()` print `UNVERIFIED_FIGURE` (Turkish) for an
+     unsourced record; it is translated here, a number passes through. */
+  const f = (value: string) => t(value);
 
   return (
     <figure className="shell-table shell-register">
@@ -79,16 +84,14 @@ export function MaterialRegister({
         <table aria-label={caption}>
           <thead>
             <tr>
-              <th scope="col"><span className="sr-only">Karşılaştırmaya ekle</span></th>
-              <th scope="col">Malzeme</th>
-              <th scope="col" data-col="secondary">Aile</th>
-              <th scope="col" data-numeric>Yoğunluk g/cm³</th>
-              <th scope="col" data-numeric>Çekme MPa</th>
-              <th scope="col" data-col="secondary">Sertlik</th>
-              <th scope="col" data-numeric data-col="secondary">Maks. °C</th>
-              <th scope="col" data-col="secondary">İşlenebilirlik</th>
-              <th scope="col" data-col="secondary">Fiyat bandı</th>
-              <th scope="col"><span className="sr-only">Ayrıntı</span></th>
+              <th scope="col"><span className="sr-only">{t("Karşılaştırmaya ekle")}</span></th>
+              <th scope="col">{t("Malzeme")}</th>
+              <th scope="col" data-col="secondary">{t("Aile")}</th>
+              <th scope="col" data-numeric data-col="secondary">{t("Yoğunluk g/cm³")}</th>
+              <th scope="col" data-numeric data-col="secondary">{t("Çekme MPa")}</th>
+              <th scope="col" data-col="secondary">{t("Sertlik")}</th>
+              <th scope="col" data-numeric data-col="secondary">{t("Maks. °C")}</th>
+              <th scope="col"><span className="sr-only">{t("Ayrıntı")}</span></th>
             </tr>
           </thead>
           <tbody>
@@ -106,19 +109,16 @@ export function MaterialRegister({
                         checked={isSelected}
                         disabled={!isSelected && selected.length >= maxSelected}
                         onChange={() => onToggleSelect(material)}
-                        aria-label={`${material.name} — karşılaştırmaya ekle`}
+                        aria-label={t("{{name}} — karşılaştırmaya ekle", { name: material.name })}
+                        aria-describedby="malzeme-compare-status"
                       />
                     </td>
                     <th scope="row">{material.name}</th>
-                    <td data-col="secondary">{material.subcategory}</td>
-                    <td data-numeric>{material.density}</td>
-                    <td data-numeric>{material.tensileStrength}</td>
-                    <td data-col="secondary">{material.hardness}</td>
-                    <td data-numeric data-col="secondary">{material.maxTemperature}</td>
-                    <td data-col="secondary">
-                      <Gauge value={material.machinability} label="İşlenebilirlik" />
-                    </td>
-                    <td data-col="secondary">{PRICE_BAND[material.priceCategory]}</td>
+                    <td data-col="secondary">{familyName(material, materialCategories)}</td>
+                    <td data-numeric data-col="secondary" data-unverified={!isSourced(material) || undefined}>{f(figure(material, "density"))}</td>
+                    <td data-numeric data-col="secondary" data-unverified={!isSourced(material) || undefined}>{f(figure(material, "tensileStrength"))}</td>
+                    <td data-col="secondary" data-unverified={!isSourced(material) || undefined}>{f(hardness(material))}</td>
+                    <td data-numeric data-col="secondary" data-unverified={!isSourced(material) || undefined}>{f(figure(material, "maxTemperature"))}</td>
                     <td>
                       <button
                         type="button"
@@ -127,52 +127,64 @@ export function MaterialRegister({
                         aria-controls={panelId}
                         onClick={() => setOpenId(isOpen ? null : material.id)}
                       >
-                        {isOpen ? "Kapat" : "Ayrıntı"}
+                        {t(isOpen ? "Kapat" : "Ayrıntı")}
                       </button>
                     </td>
                   </tr>
                   {isOpen && (
                     <tr id={panelId}>
-                      <td colSpan={10} className="shell-disclosure-panel">
+                      <td colSpan={8} className="shell-disclosure-panel">
                         <div className="shell-detail">
                           <p className="shell-detail-lede">{material.description}</p>
 
                           <dl className="shell-detail-figures">
                             <div>
-                              <dt>Sertlik</dt>
-                              <dd>{material.hardness}</dd>
+                              <dt>{t("Grade / temper")}</dt>
+                              <dd>{material.gradeTemper ?? t("Belirtilmedi")}</dd>
                             </div>
                             <div>
-                              <dt>Maks. sıcaklık</dt>
-                              <dd>{material.maxTemperature} °C</dd>
+                              <dt>{t("Ürün formu")}</dt>
+                              <dd>{material.productForm ? t(material.productForm) : t("Belirtilmedi")}</dd>
                             </div>
                             <div>
-                              <dt>Isı iletkenliği</dt>
-                              <dd>{material.thermalConductivity} W/m·K</dd>
+                              <dt>{t("Yoğunluk")}</dt>
+                              <dd>{f(figure(material, "density", "g/cm³"))}</dd>
                             </div>
                             <div>
-                              <dt>Fiyat bandı</dt>
-                              <dd>{PRICE_BAND[material.priceCategory]}</dd>
+                              <dt>{t("Çekme mukavemeti")}</dt>
+                              <dd>{f(figure(material, "tensileStrength", "MPa"))}</dd>
                             </div>
                             <div>
-                              <dt>İşlenebilirlik</dt>
-                              <dd><Gauge value={material.machinability} label="İşlenebilirlik" /></dd>
+                              <dt>{t("Sertlik")}</dt>
+                              <dd>{f(hardness(material))}</dd>
                             </div>
                             <div>
-                              <dt>Korozyon direnci</dt>
-                              <dd><Gauge value={material.corrosionResistance} label="Korozyon direnci" /></dd>
+                              <dt>{t("Maks. sıcaklık")}</dt>
+                              <dd>{f(figure(material, "maxTemperature", "°C"))}</dd>
+                            </div>
+                            <div>
+                              <dt>{t("Isı iletkenliği")}</dt>
+                              <dd>{f(figure(material, "thermalConductivity", "W/m·K"))}</dd>
+                            </div>
+                            <div>
+                              <dt>{t("Değer koşulu")}</dt>
+                              <dd>{material.propertyConditions}</dd>
+                            </div>
+                            <div>
+                              <dt>{t("Kaynak")}</dt>
+                              <dd>{material.source ? material.source.document : t(UNVERIFIED_FIGURE)}</dd>
                             </div>
                           </dl>
 
                           <div className="shell-detail-lists">
                             <div>
-                              <p className="shell-eyebrow">Öne çıkan</p>
+                              <p className="shell-eyebrow">{t("Öne çıkan")}</p>
                               <ul className="shell-detail-list">
                                 {material.advantages.map((item) => <li key={item}>{item}</li>)}
                               </ul>
                             </div>
                             <div>
-                              <p className="shell-eyebrow">Dikkat edilecek</p>
+                              <p className="shell-eyebrow">{t("Dikkat edilecek")}</p>
                               <ul className="shell-detail-list">
                                 {material.limitations.map((item) => <li key={item}>{item}</li>)}
                               </ul>
@@ -180,15 +192,15 @@ export function MaterialRegister({
                           </div>
 
                           <div>
-                            <p className="shell-eyebrow">Uygulama alanları</p>
+                            <p className="shell-eyebrow">{t("Uygulama alanları")}</p>
                             <ShellTagRow
                               items={material.applications}
-                              ariaLabel={`${material.name} uygulama alanları`}
+                              ariaLabel={t("{{name}} uygulama alanları", { name: material.name })}
                             />
                           </div>
 
                           <ShellAction to="/teklif-al" variant="ghost">
-                            {material.name} ile teklif
+                            {t("{{name}} ile teklif", { name: material.name })}
                           </ShellAction>
                         </div>
                       </td>

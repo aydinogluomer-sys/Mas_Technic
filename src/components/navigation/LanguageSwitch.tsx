@@ -1,7 +1,24 @@
 import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { ChevronDown } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { LANGUAGES, loadLanguage, type LanguageCode } from "@/i18n";
+import { isPanelPath, normalizeLocale, switchLocalePath } from "@/i18n/locale";
+
+/* L01: on a public route a language is an ADDRESS — choosing EN opens the same
+   record under `/en`, choosing TR opens it without the prefix; the URL then
+   drives the rendered language (see `useRouteLanguageReady` in App.tsx). On a
+   panel route the address has no locale, so the choice only re-renders. The
+   choice is remembered either way (`mas_lang`), for the panel. */
+function useChooseLanguage() {
+  const navigate = useNavigate();
+  const { pathname, search, hash } = useLocation();
+  return (code: LanguageCode) => {
+    if (isPanelPath(pathname)) { void loadLanguage(code); return; }
+    try { window.localStorage.setItem("mas_lang", code); } catch { /* storage blocked */ }
+    navigate(switchLocalePath(pathname, search, hash, normalizeLocale(code)));
+  };
+}
 
 type LanguageSwitchProps = {
   className?: string;
@@ -10,11 +27,11 @@ type LanguageSwitchProps = {
   variant?: "inline" | "dropdown";
 };
 
-/* Switching re-renders in place — no reload, no route change — and is
-   remembered (`localStorage.mas_lang`, written by `loadLanguage`). */
+/* TR · EN only (L01). See `useChooseLanguage` above for what a choice does. */
 export function LanguageSwitch({ className = "", variant = "inline" }: LanguageSwitchProps) {
   const { i18n, t } = useTranslation();
-  const current = (i18n.resolvedLanguage ?? i18n.language ?? "tr").split("-")[0] as LanguageCode;
+  const choose = useChooseLanguage();
+  const current = (i18n.language ?? "tr").split("-")[0] as LanguageCode;
 
   if (variant === "dropdown") {
     return <LanguageDropdown className={className} current={current} label={t("Dil seçimi")} />;
@@ -29,7 +46,7 @@ export function LanguageSwitch({ className = "", variant = "inline" }: LanguageS
           lang={language.code}
           aria-pressed={current === language.code}
           aria-label={language.name}
-          onClick={() => { void loadLanguage(language.code); }}
+          onClick={() => choose(language.code)}
         >
           {language.label}
         </button>
@@ -47,6 +64,8 @@ function LanguageDropdown({ className, current, label }: { className: string; cu
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  /** Last pointer position seen over the list; reset on every open. */
+  const pointerRef = useRef<{ x: number; y: number } | null>(null);
   const listId = useId();
   const currentIndex = Math.max(0, LANGUAGES.findIndex((language) => language.code === current));
   const currentLanguage = LANGUAGES[currentIndex];
@@ -56,13 +75,15 @@ function LanguageDropdown({ className, current, label }: { className: string; cu
     if (restoreFocus) buttonRef.current?.focus();
   }, []);
 
+  const chooseLanguage = useChooseLanguage();
   const choose = useCallback((index: number) => {
-    void loadLanguage(LANGUAGES[index].code);
+    chooseLanguage(LANGUAGES[index].code);
     close(true);
-  }, [close]);
+  }, [close, chooseLanguage]);
 
   useEffect(() => {
     if (!open) return;
+    pointerRef.current = null;
     setActive(currentIndex);
     listRef.current?.focus();
     const onPointer = (event: PointerEvent) => {
@@ -125,7 +146,16 @@ function LanguageDropdown({ className, current, label }: { className: string; cu
               lang={language.code}
               aria-selected={language.code === current}
               data-active={index === active || undefined}
-              onPointerEnter={() => setActive(index)}
+              /* QA01: only a pointer that really MOVED picks an option. The
+                 list opens under a resting pointer; `pointerenter`, and the
+                 synthetic pointer events Chromium sends after a layout change,
+                 fired for whatever option lay beneath it and overrode the one
+                 chosen with the arrow keys (measured: 1 run in 6–8). */
+              onPointerMove={(event) => {
+                const last = pointerRef.current;
+                pointerRef.current = { x: event.clientX, y: event.clientY };
+                if (last && (last.x !== event.clientX || last.y !== event.clientY)) setActive(index);
+              }}
               onClick={() => choose(index)}
             >
               <span>{language.label}</span>

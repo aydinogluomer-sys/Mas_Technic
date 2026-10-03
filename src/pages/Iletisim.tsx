@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { upper } from "@/i18n/upper";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import { ArrowRight, ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { PageShell, ShellBreadcrumb } from "@/components/shell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
@@ -75,24 +76,11 @@ import {
    composition — booking on the left, the direct line and the quote route on
    the right — instead of hero + three bands + next-step. */
 
-const NEXT_DAYS = 7;
-
-function upcomingWorkdays(count: number) {
-  const days: Date[] = [];
-  const cursor = new Date();
-  while (days.length < count) {
-    cursor.setDate(cursor.getDate() + 1);
-    const weekday = cursor.getDay();
-    if (weekday !== 0 && weekday !== 6) days.push(new Date(cursor));
-  }
-  return days;
-}
-
 export const Iletisim = () => {
   const { t, i18n } = useTranslation();
   usePageMeta({
-    title: "İletişim",
-    description: "CNC işleme, teklif talebi ve mühendislik desteği için Mas Technic ile iletişime geçin.",
+    title: t("İletişim"),
+    description: t("CNC işleme, teklif talebi ve mühendislik desteği için Mas Technic ile iletişime geçin."),
   });
 
   const location = useLocation();
@@ -106,9 +94,7 @@ export const Iletisim = () => {
     if (new URLSearchParams(location.search).has("randevu")) setBookingOpen(true);
   }, [location.search]);
 
-  const days = upcomingWorkdays(NEXT_DAYS);
-  const lang = i18n.resolvedLanguage ?? "tr";
-  const dayFormat = new Intl.DateTimeFormat(lang === "zh" ? "zh-Hans" : lang, { weekday: "short" });
+  const lang = i18n.language ?? "tr";
 
   return (
     <PageShell surface="graphite" className="contact-page" rail={{ no: "C2", label: "İLETİŞİM" }}>
@@ -134,16 +120,10 @@ export const Iletisim = () => {
               {t("Google Meet üzerinden ekran paylaşımlı görüşme. Uygun saati takvimden seçin; davet ve hatırlatma e-postanıza otomatik gelir.")}
             </p>
 
-            <button type="button" className="booking-days" onClick={openBooking} aria-label={t("Takvimi aç ve saat seç")}>
-              {days.map((day) => (
-                <span key={day.toISOString()} className="booking-day">
-                  <small>{upper(dayFormat.format(day), lang)}</small>
-                  <b>{String(day.getDate()).padStart(2, "0")}</b>
-                </span>
-              ))}
-              <span className="booking-days-hint">{t("Takvimi aç →")}</span>
-            </button>
-
+            {/* UX04 — the seven-day strip is gone. It printed the next seven
+                workdays as if they were open slots, but no availability is
+                known here; Google Calendar holds it. One control opens the
+                real calendar, the new-tab link stays beside it. */}
             <ol className="booking-steps">
               <li><span>01</span>{t("Takvimden uygun saati seçin.")}</li>
               <li><span>02</span>{t("Google Meet daveti e-postanıza gelir.")}</li>
@@ -152,7 +132,7 @@ export const Iletisim = () => {
 
             <div className="booking-card-actions">
               <button type="button" className="booking-primary" onClick={openBooking} data-testid="booking-open">
-                {t("Randevu saatini seç")}
+                {t("Uygun saatleri takvimde görüntüle")}
                 <ArrowRight aria-hidden="true" />
               </button>
               <a className="booking-newtab" href={BOOKING_LINK} target="_blank" rel="noopener noreferrer">

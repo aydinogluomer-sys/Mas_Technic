@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { PUBLIC_CITY } from "@/content/claims";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -76,10 +77,11 @@ export type AuthAsideProps = {
 };
 
 export function AuthAside({ title, lede }: AuthAsideProps) {
+  const { t } = useTranslation();
   return (
     <aside className="shell-auth-aside" aria-labelledby="auth-aside-title">
       <div className="shell-auth-aside-body">
-        <p className="shell-eyebrow">MÜŞTERİ PORTALI</p>
+        <p className="shell-eyebrow">{t("MÜŞTERİ PORTALI")}</p>
         <div className="shell-auth-mark">
           <span className="shell-auth-mark-block" aria-hidden="true">MT</span>
           <span className="shell-auth-mark-name">
@@ -87,15 +89,15 @@ export function AuthAside({ title, lede }: AuthAsideProps) {
             <small>{PUBLIC_CITY}</small>
           </span>
         </div>
-        <h2 id="auth-aside-title">{title}</h2>
-        <p className="shell-auth-aside-lede">{lede}</p>
+        <h2 id="auth-aside-title">{t(title)}</h2>
+        <p className="shell-auth-aside-lede">{t(lede)}</p>
         <ul className="shell-auth-list">
           {PANEL_SECTIONS.map((section, index) => (
             <li key={section}>
               <span className="shell-auth-list-no" aria-hidden="true">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <span className="shell-auth-list-label">{section}</span>
+              <span className="shell-auth-list-label">{t(section)}</span>
             </li>
           ))}
         </ul>

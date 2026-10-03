@@ -60,7 +60,18 @@ const DEV_ROUTES_SOURCE = PUBLIC_ROUTES_SOURCE.slice(
   PUBLIC_ROUTES_SOURCE.indexOf(DEV_ROUTES_START_MARKER),
   PUBLIC_ROUTES_SOURCE.indexOf(DEV_ROUTES_END_MARKER),
 );
-const ROUTE_PATTERNS = [...PUBLIC_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)].map((m) => m[1]);
+/* L01 — the public pages are one table (`PUBLIC_PAGES`) rendered twice, under
+   "" and under "/en". The table is the inventory; the Turkish pattern is
+   what this spec walks (the English twin has the same target). */
+const PUBLIC_PAGES_START_MARKER = "const PUBLIC_PAGES";
+const PUBLIC_PAGES_SOURCE = APP_SOURCE.slice(
+  APP_SOURCE.indexOf(PUBLIC_PAGES_START_MARKER),
+  APP_SOURCE.indexOf("];", APP_SOURCE.indexOf(PUBLIC_PAGES_START_MARKER)),
+);
+const ROUTE_PATTERNS = [
+  ...[...PUBLIC_PAGES_SOURCE.matchAll(/\{\s*path:\s*"([^"]+)"/g)].map((m) => m[1]),
+  ...[...PUBLIC_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)].map((m) => m[1]),
+];
 const DEV_ROUTE_PATTERNS = [...DEV_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)].map((m) => m[1]);
 
 const blogSource = readFileSync(resolve(process.cwd(), "src/data/blogData.ts"), "utf8");
@@ -86,6 +97,9 @@ test.describe("public navigation reachability", () => {
      so the extraction is the first thing measured. Every one of these guards
      is a way this spec could otherwise report "0 orphans" about 0 routes. */
   test("extracts a real route inventory before it claims anything about it", () => {
+    expect(APP_SOURCE.indexOf(PUBLIC_PAGES_START_MARKER),
+      `"${PUBLIC_PAGES_START_MARKER}" no longer exists in src/App.tsx — the public page table is not being read`)
+      .toBeGreaterThan(-1);
     expect(APP_SOURCE.indexOf(PUBLIC_ROUTES_START_MARKER),
       `"${PUBLIC_ROUTES_START_MARKER}" no longer exists in src/App.tsx — this spec is slicing nothing`)
       .toBeGreaterThanOrEqual(0);

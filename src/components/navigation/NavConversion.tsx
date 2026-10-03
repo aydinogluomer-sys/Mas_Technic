@@ -1,6 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import { accountLink, legalLinks, rfqCtaLabel, rfqLink } from "./ia";
 import { LanguageSwitch } from "./LanguageSwitch";
 

@@ -1,5 +1,10 @@
-import { Suspense, lazy, useMemo, useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Suspense, lazy, useMemo, useEffect, useState, type ReactNode } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Navigate } from "@/i18n/LocaleLink";
+import { applyLanguage, isLanguageReady } from "@/i18n";
+import { isPanelPath, localeFromPath } from "@/i18n/locale";
+import { applyPrivateRouteMeta } from "@/hooks/use-page-meta";
 import { PageTransition } from "@/components/PageTransition";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
@@ -17,6 +22,7 @@ import { ShellLoading, ShellRouteBoundary } from "@/components/shell/ShellStates
        through a spring plus a velocity sampler.
 
    The divergence is resolved by removing the outlier, not by spreading it. */
+import { ChatLauncher } from "@/components/ChatLauncher";
 import { isHeroIntroActive } from "@/lib/hero-shell";
 
 const Index = lazy(() => import("./pages/Index").then((m) => ({ default: m.Index })));
@@ -97,33 +103,89 @@ const ScrollDebugPanel = lazy(() =>
    `prefers-reduced-motion` the sweep stops and the status line carries the
    whole message. `.shell-boot` is used because this renders BEFORE any
    `PageShell` exists, so it has to bring its own ground. */
-const PageLoader = () => (
-  <div className="shell-boot">
-    <ShellLoading label="YÜKLENİYOR" detail="Sayfa hazırlanıyor." fullHeight={false} />
-  </div>
-);
+/* The loader is what an /en page shows WHILE its dictionary loads, so its
+   words come from the address, not from i18n (L01: no Turkish frame). */
+const LOADER_TEXT = {
+  tr: { label: "YÜKLENİYOR", detail: "Sayfa hazırlanıyor." },
+  en: { label: "LOADING", detail: "Preparing the page." },
+} as const;
+
+const PageLoader = () => {
+  const { pathname } = useLocation();
+  const text = LOADER_TEXT[isPanelPath(pathname) ? "tr" : localeFromPath(pathname)];
+  return (
+    <div className="shell-boot">
+      <ShellLoading label={text.label} detail={text.detail} fullHeight={false} />
+    </div>
+  );
+};
 
 /**
- * Landing için Suspense fallback'i.
+ * Suspense fallback for public routes.
  *
- * `index.html`'deki app-shell (`#hero-shell`) hero'yu ilk baytta boyuyor ve
- * giriş sekansı (Precision Born) da onun içinde yaşıyor. Opak `PageLoader`
- * buraya konduğu sürece landing'de sekansın ve hero'nun üstünü kapatıp ekranı
- * boş bir spinner'a düşürüyordu (ölçüldü: sekansın ortasında ekran tamamen
- * boşalıyordu). Sekans sürerken zaten gösterilecek bir hero var — fallback
- * hiçbir şey boyamamalı.
- *
- * Bastırma koşulu elemanın VARLIĞINA değil, sekansın GERÇEKTEN çalışmasına
- * bağlı: eski hâlinde `#hero-shell` `/` rotasında hiç kaldırılmadığı için
- * Suspense fallback'i o rotada kalıcı olarak devre dışıydı.
+ * PERF01 / UX01: on the landing (`/`, `/en`) the fallback paints nothing.
+ * The old reason was the entry sequence, which is gone; the reason now is
+ * layout stability — the loader's box was laid out before `shell.css`
+ * arrived, resized when it did and then gave way to the hero, a measured
+ * 0.02–0.06 layout shift on `/` (lab, 4× CPU). The landing's chunk is the
+ * next thing to arrive anyway. Every other route keeps the loader.
  */
 const PublicRouteLoader = () => {
-  if (isHeroIntroActive()) return null;
+  const { pathname } = useLocation();
+  if (isHeroIntroActive() || pathname === "/" || pathname === "/en" || pathname === "/en/") return null;
   return <PageLoader />;
 };
 
 
 // Page transition handled by PageTransition component
+
+const LOCALE_PREFIXES = ["", "/en"] as const;
+
+/* The public route table, authored once with Turkish paths. */
+const PUBLIC_PAGES: { path: string; element: ReactNode }[] = [
+  { path: "/", element: <Index /> },
+  { path: "/sss", element: <SSS /> },
+  { path: "/gizlilik-politikasi", element: <GizlilikPolitikasi /> },
+  { path: "/kvkk", element: <KVKK /> },
+  { path: "/cerez-politikasi", element: <CerezPolitikasi /> },
+  { path: "/hakkimizda", element: <Hakkimizda /> },
+  { path: "/iletisim", element: <Iletisim /> },
+  { path: "/malzemeler", element: <Malzemeler /> },
+  { path: "/malzemeler/:slug", element: <MalzemeKategori /> },
+  { path: "/blog", element: <Blog /> },
+  { path: "/blog/:slug", element: <BlogDetail /> },
+  { path: "/kabiliyet-profilleri", element: <KabiliyetProfilleri /> },
+  { path: "/kabiliyet-profilleri/:slug", element: <KabiliyetProfilDetay /> },
+  { path: "/kalite-dosyasi", element: <KaliteDosyasi /> },
+  { path: "/hizmetler/kategori/:slug", element: <CategoryPage /> },
+  { path: "/kabiliyetler/kategori/:slug", element: <CategoryPage /> },
+  { path: "/endustriyel/kategori/:slug", element: <CategoryPage /> },
+  { path: "/hizmetler/:slug", element: <ServiceDetail /> },
+  { path: "/kabiliyetler/:slug", element: <ServiceDetail /> },
+  { path: "/endustriyel/:slug", element: <ServiceDetail /> },
+  { path: "/giris", element: <Login /> },
+  { path: "/sifremi-unuttum", element: <ForgotPassword /> },
+  { path: "/reset-password", element: <ResetPassword /> },
+  { path: "/teklif-al", element: <TeklifAl /> },
+  { path: "/cad-dashboard", element: <Navigate to="/teklif-al" replace /> },
+];
+
+/* L01 — the page waits for its language. On a public route the URL names the
+   locale; until that locale is active with its dictionary loaded, the route
+   shows the shell loader instead of a Turkish frame of an English page. */
+function useRouteLanguageReady(pathname: string): boolean {
+  const locale = isPanelPath(pathname) ? null : localeFromPath(pathname);
+  const [ready, setReady] = useState(() => (locale ? isLanguageReady(locale) : true));
+  useEffect(() => {
+    if (!locale) { setReady(true); return; }
+    if (isLanguageReady(locale)) { setReady(true); return; }
+    let live = true;
+    setReady(false);
+    void applyLanguage(locale).finally(() => { if (live) setReady(true); });
+    return () => { live = false; };
+  }, [locale]);
+  return ready;
+}
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -131,6 +193,12 @@ const AnimatedRoutes = () => {
   const isPanel = useMemo(() => {
     return location.pathname.startsWith("/admin") || location.pathname.startsWith("/musteri-paneli");
   }, [location.pathname]);
+
+  /* SEO01 — panel and admin routes are never indexed. The pages themselves
+     are not touched; the head is set here on every panel navigation. */
+  useEffect(() => {
+    if (isPanel) applyPrivateRouteMeta();
+  }, [isPanel, location.pathname]);
 
   const panelRoutes = (
     <Suspense fallback={<PageLoader />}>
@@ -171,7 +239,6 @@ const AnimatedRoutes = () => {
       <ShellRouteBoundary resetKey={location.pathname}>
       <Suspense fallback={<PublicRouteLoader />}>
         <Routes location={location}>
-          <Route path="/" element={<Index />} />
           {/* DEV_ONLY_ROUTES:START — üretim derlemesinde `DevRoute` null olur,
               üç <Route> de hiç oluşturulmaz ve istekler `*` üzerinden 404'e
               düşer. Sözleşme e2e/shared-shell-accessibility.spec.ts'te. */}
@@ -179,30 +246,13 @@ const AnimatedRoutes = () => {
           {DevRoute && <Route path="/legacy-landing" element={<DevRoute view="legacy-landing" />} />}
           {DevRoute && <Route path="/test" element={<DevRoute view="test" />} />}
           {/* DEV_ONLY_ROUTES:END */}
-          <Route path="/sss" element={<SSS />} />
-          <Route path="/gizlilik-politikasi" element={<GizlilikPolitikasi />} />
-          <Route path="/kvkk" element={<KVKK />} />
-          <Route path="/cerez-politikasi" element={<CerezPolitikasi />} />
-          <Route path="/hakkimizda" element={<Hakkimizda />} />
-          <Route path="/iletisim" element={<Iletisim />} />
-          <Route path="/malzemeler" element={<Malzemeler />} />
-          <Route path="/malzemeler/:slug" element={<MalzemeKategori />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogDetail />} />
-          <Route path="/kabiliyet-profilleri" element={<KabiliyetProfilleri />} />
-          <Route path="/kabiliyet-profilleri/:slug" element={<KabiliyetProfilDetay />} />
-          <Route path="/kalite-dosyasi" element={<KaliteDosyasi />} />
-          <Route path="/hizmetler/kategori/:slug" element={<CategoryPage />} />
-          <Route path="/kabiliyetler/kategori/:slug" element={<CategoryPage />} />
-          <Route path="/endustriyel/kategori/:slug" element={<CategoryPage />} />
-          <Route path="/hizmetler/:slug" element={<ServiceDetail />} />
-          <Route path="/kabiliyetler/:slug" element={<ServiceDetail />} />
-          <Route path="/endustriyel/:slug" element={<ServiceDetail />} />
-          <Route path="/giris" element={<Login />} />
-          <Route path="/sifremi-unuttum" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/teklif-al" element={<TeklifAl />} />
-          <Route path="/cad-dashboard" element={<Navigate to="/teklif-al" replace />} />
+          {/* L01 — every public page is registered twice: as it always was
+              (Turkish) and under `/en` with the same slug (English). One
+              table, so the two locales cannot drift apart. */}
+          {LOCALE_PREFIXES.flatMap((prefix) =>
+            PUBLIC_PAGES.map(({ path, element }) => (
+              <Route key={`${prefix}${path}`} path={path === "/" ? prefix || "/" : `${prefix}${path}`} element={element} />
+            )))}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
@@ -213,8 +263,18 @@ const AnimatedRoutes = () => {
   return isPanel ? panelRoutes : publicRoutes;
 };
 
+/* Routes rendered without the global header (`navigation={false}`). */
+const HEADERLESS = ["/giris", "/sifremi-unuttum", "/reset-password"];
+const reservesHeader = (pathname: string) => {
+  if (isPanelPath(pathname)) return false;
+  const bare = pathname.replace(/^\/en(?=\/|$)/, "") || "/";
+  return !HEADERLESS.includes(bare);
+};
+
 const AppContent = () => {
   const location = useLocation();
+  const languageReady = useRouteLanguageReady(location.pathname);
+  const { t } = useTranslation();
 
   // Konami Code easter egg
   useEffect(() => {
@@ -250,9 +310,12 @@ const AppContent = () => {
         href="#main-content"
         className="shared-skip-link fixed z-[10005] -translate-y-24 bg-background px-4 py-3 text-sm font-semibold text-foreground shadow-lg focus:translate-y-0"
       >
-        Ana içeriğe geç
+        {t("Ana içeriğe geç")}
       </a>
-      <div id="shared-header-host" />
+      {/* PERF01: on routes that draw the global header, the host reserves the
+          header's height from the first frame (`index.css`), so the page does
+          not jump down when the header spacer is portalled in. */}
+      <div id="shared-header-host" data-reserve={reservesHeader(location.pathname) || undefined} />
       <ScrollToTop />
       <AnimatedRoutes />
       {/* ── PER-ROUTE CHROME, DECIDED (Phase 04) ─────────────────────────
@@ -274,9 +337,7 @@ const AppContent = () => {
       <Suspense fallback={null}>
         <GlobalToasts />
       </Suspense>
-      <Suspense fallback={null}>
-        <ChatBot />
-      </Suspense>
+      <ChatEntry />
       {import.meta.env.DEV && (
         <Suspense fallback={null}>
           <ScrollDebugPanel />
@@ -285,6 +346,7 @@ const AppContent = () => {
     </>
   );
 
+  if (!languageReady) return <PageLoader />;
   return isPanel ? content : <SmoothScrollProvider>{content}</SmoothScrollProvider>;
 };
 
@@ -297,15 +359,36 @@ export const App = () => (
   </BrowserRouter>
 );
 
+/* PERF01 — the chat renderer loads on the reader's first open; until then
+   only the launcher button is on the page (`ChatLauncher.tsx`). */
+const ChatEntry = () => {
+  const [requested, setRequested] = useState(false);
+  if (!requested) return <ChatLauncher onOpen={() => setRequested(true)} />;
+  return (
+    <Suspense fallback={<ChatLauncher onOpen={() => undefined} busy />}>
+      <ChatBot defaultOpen />
+    </Suspense>
+  );
+};
+
+/* PERF01 — the custom cursor loads on the first real mouse movement over a
+   fine pointer, not at startup, and never under reduced motion: the native
+   cursor serves until then (the stylesheet only hides it once the
+   replacement's `[data-custom-cursor]` nodes exist). */
 const PointerCursor = () => {
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
     const query = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const update = () => setEnabled(query.matches);
-    update();
-    query.addEventListener("change", update);
-    return () => query.removeEventListener("change", update);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!query.matches || reduced.matches) return;
+    const arm = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") return;
+      setEnabled(true);
+      window.removeEventListener("pointermove", arm);
+    };
+    window.addEventListener("pointermove", arm, { passive: true });
+    return () => window.removeEventListener("pointermove", arm);
   }, []);
 
   if (!enabled) return null;

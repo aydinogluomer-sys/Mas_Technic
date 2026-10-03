@@ -1,5 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useSiteData } from "@/i18n/data";
+import { localDate } from "@/i18n/format";
 import {
   PageShell,
   ShellAction,
@@ -12,10 +15,13 @@ import {
   ShellPlate,
   ShellSpecTable,
   ShellSurfaceBand,
+  ShellTitleBlock,
 } from "@/components/shell";
+import { SchemaFigure } from "@/components/schemas/SchemaFigure";
+import { JOURNAL_SCHEMAS } from "@/components/schemas/registry";
+import { JOURNAL_MODULES } from "@/content/journal-modules";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePageMeta } from "@/hooks/use-page-meta";
-import { blogPosts } from "@/data/blogData";
 import { QUOTE_RESPONSE_TIME } from "@/content/claims";
 import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
 import blog5eksen from "@/assets/blog-5eksen.webp";
@@ -134,6 +140,9 @@ const PLATE_DOC_WIDTHS = [
 
 export const BlogDetail = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { t, i18n } = useTranslation();
+  const { blogPosts, getPageBySlug } = useSiteData();
+  const date = (value: string) => localDate(value, i18n.language);
   const post = blogPosts.find((entry) => entry.slug === slug);
   const plate = post ? plateSources.get(post.image) : undefined;
   const [copied, setCopied] = useState(false);
@@ -144,8 +153,9 @@ export const BlogDetail = () => {
      it is how they detect a route resolving to a not-found body. Changing this
      text would not fail those specs; it would quietly disarm them. */
   usePageMeta({
-    title: post ? post.title : "Yazı Bulunamadı",
+    title: post ? post.title : t("Yazı Bulunamadı"),
     description: post?.excerpt,
+    noindex: !post,
   });
 
   if (!post) {
@@ -159,21 +169,21 @@ export const BlogDetail = () => {
               trail={[{ label: "Ana sayfa", to: "/" }, { label: "Teknik günlük", to: "/blog" }]}
             />
           }
-          eyebrow="KAYIT YOK"
-          title="Yazı Bulunamadı"
-          lede="Bu adreste bir yazı yok. Bağlantı değişmiş veya yazı kaldırılmış olabilir; dizinden ilgili başlığa geçebilirsiniz."
-          actions={<ShellAction to="/blog" variant="primary">Yazı dizini</ShellAction>}
+          eyebrow={t("KAYIT YOK")}
+          title={t("Yazı Bulunamadı")}
+          lede={t("Bu adreste bir yazı yok. Bağlantı değişmiş veya yazı kaldırılmış olabilir; dizinden ilgili başlığa geçebilirsiniz.")}
+          actions={<ShellAction to="/blog" variant="primary">{t("Yazı dizini")}</ShellAction>}
         />
-        <ShellSurfaceBand no="02" label="DİZİN" tone="paper" ariaLabel="Yazı dizini">
+        <ShellSurfaceBand no="02" label="DİZİN" tone="paper" ariaLabel={t("Yazı dizini")}>
           <div className="shell-span-full">
             <ShellIndexList
-              ariaLabel="Teknik günlük yazıları"
+              ariaLabel={t("Teknik günlük yazıları")}
               items={blogPosts.map((entry) => ({
                 to: `/blog/${entry.slug}`,
                 eyebrow: entry.category,
                 title: entry.title,
                 description: entry.excerpt,
-                meta: [entry.date, entry.readTime],
+                meta: [date(entry.date), entry.readTime],
               }))}
             />
           </div>
@@ -182,10 +192,17 @@ export const BlogDetail = () => {
     );
   }
 
-  const related = blogPosts
-    .filter((entry) => entry.slug !== post.slug)
-    .sort((a, b) => Number(b.category === post.category) - Number(a.category === post.category))
-    .slice(0, 3);
+  /* UX05 — the article's own module: drawing, decision table, sources and
+     curated related records (posts + services). */
+  const lang = i18n.language === "en" ? "en" : "tr";
+  const journal = JOURNAL_MODULES[post.slug];
+  const Drawing = JOURNAL_SCHEMAS[post.slug as keyof typeof JOURNAL_SCHEMAS];
+  const related = journal
+    ? journal.relatedPosts.map((slug) => blogPosts.find((entry) => entry.slug === slug)).filter((entry): entry is NonNullable<typeof entry> => Boolean(entry))
+    : blogPosts.filter((entry) => entry.slug !== post.slug).slice(0, 3);
+  const relatedServices = (journal?.relatedServices ?? [])
+    .map((slug) => getPageBySlug(slug))
+    .filter((page): page is NonNullable<typeof page> => Boolean(page));
 
   const shareUrl = typeof window === "undefined" ? "" : window.location.href;
 
@@ -221,17 +238,17 @@ export const BlogDetail = () => {
         title={post.title}
         lede={post.excerpt}
         meta={[
-          { label: "Yayın", value: post.date },
-          { label: "Okuma", value: post.readTime },
-          { label: "Bölüm", value: String(post.sections.length) },
+          { label: t("Yayın"), value: date(post.date) },
+          { label: t("Okuma"), value: post.readTime },
+          { label: t("Bölüm"), value: String(post.sections.length) },
         ]}
       />
 
-      <ShellSurfaceBand no="02" label="METİN" tone="paper" ariaLabel={`${post.title} — yazı metni`}>
+      <ShellSurfaceBand no="02" label="METİN" tone="paper" ariaLabel={t("{{title}} — yazı metni", { title: post.title })}>
         <div className="shell-doc">
           <div className="shell-doc-main">
             <ShellPlate
-              plate="PLAKA 01"
+              plate={`${t("PLAKA")} 01`}
               caption={post.imageCaption}
               media={
                 /* The route's first picture: eager, no `fetchpriority` (Phase 12 owns LCP). */
@@ -280,7 +297,7 @@ export const BlogDetail = () => {
           <aside className="shell-doc-aside" data-sticky>
             <ShellContents
               label="BÖLÜMLER"
-              ariaLabel={`${post.title} bölümleri`}
+              ariaLabel={t("{{title}} bölümleri", { title: post.title })}
               items={post.sections.map((section, index) => ({
                 id: section.id,
                 no: String(index + 1).padStart(2, "0"),
@@ -288,8 +305,8 @@ export const BlogDetail = () => {
               }))}
             />
 
-            <nav className="shell-contents" aria-label="Bu yazıyı paylaş">
-              <p className="shell-eyebrow">PAYLAŞ</p>
+            <nav className="shell-contents" aria-label={t("Bu yazıyı paylaş")}>
+              <p className="shell-eyebrow">{t("PAYLAŞ")}</p>
               <ol>
                 {SHARE_TARGETS.map((target, index) => (
                   <li key={target.label}>
@@ -299,37 +316,66 @@ export const BlogDetail = () => {
                       rel="noopener noreferrer"
                     >
                       <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                      <span>{target.label} <small>(yeni sekme)</small></span>
+                      <span>{target.label} <small>{t("(yeni sekme)")}</small></span>
                     </a>
                   </li>
                 ))}
               </ol>
               <ShellAction variant="quiet" onClick={copyLink}>
-                {copied ? "Bağlantı kopyalandı" : "Bağlantıyı kopyala"}
+                {t(copied ? "Bağlantı kopyalandı" : "Bağlantıyı kopyala")}
               </ShellAction>
               {/* The live region is always in the DOM, empty until it has
                   something to say: a region inserted at the same moment as its
                   message is frequently not announced at all. */}
               <p className="tl-visually-hidden" role="status" aria-live="polite">
-                {copied ? "Bağlantı panoya kopyalandı" : ""}
+                {copied ? t("Bağlantı panoya kopyalandı") : ""}
               </p>
             </nav>
 
             <p className="shell-note">
-              Bu yazıdaki teknik değerler sitenin geri kalanıyla aynı kaynaktan gelir; farklı bir
-              sayfada farklı bir değerle karşılaşmazsınız.
+              {t("Bu yazıdaki teknik değerler sitenin geri kalanıyla aynı kaynaktan gelir; farklı bir sayfada farklı bir değerle karşılaşmazsınız.")}
             </p>
           </aside>
         </div>
       </ShellSurfaceBand>
 
-      {related.length > 0 && (
-        <ShellSurfaceBand no="03" label="İLGİLİ" ariaLabel="İlgili yazılar">
+      {journal && Drawing && (
+        <ShellSurfaceBand no="03" label="ŞEMA" labelledBy="yazi-sema">
+          <div className="shell-span-read">
+            <ShellTitleBlock id="yazi-sema" index="03" title={t("Yazının açıklayıcı modülü")} />
+          </div>
+          <div className="shell-span-half">
+            <SchemaFigure drawing={Drawing} subject={journal.subject[lang]} />
+          </div>
+          <div className="shell-span-half shell-stack" data-gap="sm">
+            <p className="shell-eyebrow">{t("KAYNAKLAR")}</p>
+            <ul className="shell-detail-list">
+              {journal.sources.map((source) => (
+                <li key={source.ref}><strong>{source.ref}</strong> — {source.what[lang]}</li>
+              ))}
+            </ul>
+            <p className="shell-note">{t("Standartlar teknik başvuru olarak anılır; bir uygunluk beyanı değildir.")}</p>
+          </div>
           <div className="shell-span-full">
-            <p className="shell-eyebrow">İLGİLİ YAZILAR</p>
+            <ShellSpecTable
+              caption={journal.table.caption[lang]}
+              note={journal.table.note?.[lang]}
+              headers={journal.table.headers.map((cell) => cell[lang])}
+              numericFrom={99}
+              rows={journal.table.rows.map((row) => row.map((cell) => cell[lang]))}
+              rowKey={(row) => String(row[0])}
+            />
+          </div>
+        </ShellSurfaceBand>
+      )}
+
+      {related.length > 0 && (
+        <ShellSurfaceBand no="04" label="İLGİLİ" ariaLabel={t("İlgili yazılar")}>
+          <div className="shell-span-full">
+            <p className="shell-eyebrow">{t("İLGİLİ YAZILAR")}</p>
             <ShellIndexList
               compact
-              ariaLabel="İlgili yazılar"
+              ariaLabel={t("İlgili yazılar")}
               items={related.map((entry, index) => ({
                 to: `/blog/${entry.slug}`,
                 index: String(index + 1).padStart(2, "0"),
@@ -340,19 +386,34 @@ export const BlogDetail = () => {
               }))}
             />
           </div>
+          {relatedServices.length > 0 && (
+            <div className="shell-span-full shell-stack" data-gap="sm">
+              <p className="shell-eyebrow">{t("İLGİLİ HİZMETLER")}</p>
+              <ShellIndexList
+                compact
+                ariaLabel={t("İlgili hizmetler")}
+                items={relatedServices.map((page) => ({
+                  to: `/${page.category}/${page.slug}`,
+                  eyebrow: page.categoryLabel,
+                  title: page.title,
+                  description: page.description,
+                }))}
+              />
+            </div>
+          )}
         </ShellSurfaceBand>
       )}
 
       <ShellNextStep
-        no="04"
-        title="Bu konu sizin parçanızda mı çıktı?"
-        body="Teknik resim veya 3B model gönderin; konuyu genel bir yazı üzerinden değil, kendi parçanız üzerinden değerlendirelim."
+        no="05"
+        title={t("Bu konu sizin parçanızda mı çıktı?")}
+        body={t("Teknik resim veya 3B model gönderin; konuyu genel bir yazı üzerinden değil, kendi parçanız üzerinden değerlendirelim.")}
         detail={[
-          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
-          { label: "Gönderilecek", value: "Teknik resim veya 3B model" },
-          { label: "Alternatif", value: "Sık sorulan sorular" },
+          { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
+          { label: t("Gönderilecek"), value: t("Teknik resim veya 3B model") },
+          { label: t("Alternatif"), value: t("Sık sorulan sorular") },
         ]}
-        secondary={{ label: "Yazı dizini", to: "/blog" }}
+        secondary={{ label: t("Yazı dizini"), to: "/blog" }}
       />
     </PageShell>
   );

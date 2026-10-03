@@ -69,7 +69,7 @@ test.describe("quote studio — upload step and 3D preview", () => {
   });
 
   test("the studio has no site footer and keeps its three steps", async ({ page }) => {
-    await expect(page.getByRole("heading", { level: 1, name: "Hassas Fiyat Teklifi Alın" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: "Üretim Teklifi İsteyin" })).toBeVisible();
     await expect(page.locator("footer.tl-footer")).toHaveCount(0);
     await expect(page.getByRole("navigation", { name: "Teklif adımları" }).getByRole("button")).toHaveCount(3);
   });
@@ -82,7 +82,7 @@ test.describe("quote studio — upload step and 3D preview", () => {
   test("next without a file asks for one, and stays on step 1", async ({ page }) => {
     await page.locator("form button[type='submit']").click();
     await expect(page.locator("div.shell-notice[data-tone='error']")).toBeVisible();
-    await expect(page.getByRole("button", { name: /01 CAD/ })).toHaveAttribute("aria-current", "step");
+    await expect(page.getByRole("button", { name: /01 DOSYALAR/ })).toHaveAttribute("aria-current", "step");
   });
 
   test("STL renders and reports its bounding box", async ({ page }) => {
@@ -113,6 +113,8 @@ test.describe("quote studio — upload step and 3D preview", () => {
     await page.locator("#rfq-name").fill("Test Kullanıcı");
     await page.locator("#rfq-company").fill("Test Makina");
     await page.locator("#rfq-email").fill("test@example.com");
+    // RFQ03: quantity starts empty — nothing is pre-chosen.
+    await page.locator("#rfq-quantity").fill("10");
     await page.locator("form button[type='submit']").click();
     await expect(page.locator("form button[type='submit']")).toHaveText(/Teklif talebini gönder/);
   });

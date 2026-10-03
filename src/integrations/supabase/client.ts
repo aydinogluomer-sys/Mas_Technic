@@ -8,9 +8,23 @@ import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from './env';
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 
+/* `localStorage` read here, at module load, threw a SecurityError when the
+   browser blocks site storage and took every route that imports the client
+   (sign-in, quote) down with it. `undefined` lets supabase-js pick its own
+   default: localStorage when it is usable, memory otherwise (L01 scenario). */
+function usableLocalStorage(): Storage | undefined {
+  try {
+    const storage = window.localStorage;
+    storage.getItem("__mas_probe__");
+    return storage;
+  } catch {
+    return undefined;
+  }
+}
+
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: {
-    storage: localStorage,
+    storage: usableLocalStorage(),
     persistSession: true,
     autoRefreshToken: true,
   }

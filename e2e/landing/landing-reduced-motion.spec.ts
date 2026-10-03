@@ -18,7 +18,8 @@ test.describe("production landing under reduced motion", () => {
 
     await expect(page.getByTestId("technical-landing-root")).toHaveAttribute("data-motion", "reduced");
     await expect(page.getByTestId("technical-hero-title")).toBeVisible();
-    await expect(page.locator(".tl-band-index span")).toHaveCount(14);
+    // UX01 (package 7): 12 sheets — marquee and manifesto bands removed.
+    await expect(page.locator(".tl-band-index span")).toHaveCount(12);
     await expect(page.getByRole("contentinfo")).toBeVisible();
 
     const running = await page.locator(".tl-root *").evaluateAll((elements) =>

@@ -1,7 +1,9 @@
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArrowLeft, ArrowRight, ChevronDown, Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { stripLocale } from "@/i18n/locale";
+import { Link } from "@/i18n/LocaleLink";
 import { useTranslation } from "react-i18next";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { legalLinks, rfqLink } from "@/components/navigation/ia";
@@ -128,7 +130,7 @@ function FooterDisclosure({ group }: { group: FooterLinkGroup }) {
 function BackToTop() {
   const { t } = useTranslation();
   const reducedMotion = usePrefersReducedMotion();
-  const isLanding = useLocation().pathname === "/";
+  const isLanding = stripLocale(useLocation().pathname) === "/";
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -167,7 +169,7 @@ function BackToTop() {
   );
 }
 
-export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label?: string }) {
+export function SiteFooter({ no = "14", label = "FOOTER", conversion = true }: { no?: string; label?: string; conversion?: boolean }) {
   const { t } = useTranslation();
   return (
     <>
@@ -176,7 +178,6 @@ export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label
         no={no}
         label={label}
         className="tl-footer shell-footer"
-        data-sheet-no="14"
         ariaLabel="Site altbilgisi"
       >
         {/* The subgrid is attached by class in `shell.css`, never in markup —
@@ -187,6 +188,9 @@ export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label
               it is now the footer's first row and the last statement a reader
               meets on every page. `data-footer-newsletter` / `data-footer-cta`
               are unchanged contract markers — neither element animates. */}
+          {/* UX01: the landing ends in its own RFQ band, so it renders the
+              footer without this second quote call (`conversion={false}`). */}
+          {conversion && (
           <div className="shell-footer-conversion">
             <div className="shell-footer-journal" data-footer-newsletter>
               <span className="shell-eyebrow">{t("SONRAKİ ADIM")}</span>
@@ -206,6 +210,7 @@ export function SiteFooter({ no = "14", label = "FOOTER" }: { no?: string; label
               <Link className="shell-footer-secondary" to="/iletisim">{t("Bize Ulaşın")}</Link>
             </div>
           </div>
+          )}
 
           <div className="tl-footer-brand">
             {/* `KANITLANMIŞ TESLİM.` iddiası kaldırıldı: §G CASE_STUDIES:

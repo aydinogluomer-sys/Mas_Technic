@@ -11,7 +11,7 @@
   padding: 0 4px;
   color: var(--tl-on-dark-faint);
   background: none;
-  font: 600 11px/1 var(--tl-font-mono);
+  font: 600 14px/1 var(--tl-font-mono);
   letter-spacing: .08em;
   text-decoration: underline;
   text-decoration-color: transparent;
@@ -41,7 +41,7 @@
   padding-inline: var(--tl-s2);
   color: var(--tl-white);
   background: none;
-  font: 600 11px/1 var(--tl-font-mono);
+  font: 600 14px/1 var(--tl-font-mono);
   letter-spacing: .08em;
   cursor: pointer;
 }
@@ -68,7 +68,7 @@
   gap: var(--tl-s3);
   padding-inline: var(--tl-s3);
   color: var(--tl-on-dark-meta);
-  font: 600 11px/1 var(--tl-font-mono);
+  font: 600 14px/1 var(--tl-font-mono);
   letter-spacing: .08em;
   cursor: pointer;
 }

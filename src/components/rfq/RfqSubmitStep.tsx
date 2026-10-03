@@ -2,6 +2,7 @@ import { ShellAction, ShellMetaRow, ShellNotice, ShellTitleBlock } from "@/compo
 import { useTranslation } from "react-i18next";
 import { QUOTE_RESPONSE_TIME, SALES_EMAIL, SALES_EMAIL_HREF } from "@/content/claims";
 import {
+  NOT_SPECIFIED,
   optionLabel,
   resolveMaterialLabel,
   RFQ_PRIORITIES,
@@ -76,11 +77,10 @@ export function RfqSubmitStep({
         />
         <ShellNotice tone="note" label={t("BUNDAN SONRA NE OLUYOR")}>
           <p>
-            Talebiniz teklif kaydına düştü ve ekibimiz orada görüyor. Dönüş, formda verdiğiniz e-posta
-            adresine yapılır; otomatik bir onay e-postası gönderilmez.
+            {t("Talebiniz teklif kaydına düştü ve ekibimiz orada görüyor. Dönüş, formda verdiğiniz e-posta adresine yapılır; otomatik bir onay e-postası gönderilmez.")}
           </p>
           {state.reference && (
-            <p>Bize yazarken {state.reference} numarasını belirtirseniz talebi doğrudan buluruz.</p>
+            <p>{t("Bize yazarken {{reference}} numarasını belirtirseniz talebi doğrudan buluruz.", { reference: state.reference })}</p>
           )}
         </ShellNotice>
         <div className="shell-state-actions">
@@ -88,7 +88,7 @@ export function RfqSubmitStep({
             {SALES_EMAIL}
           </ShellAction>
           <ShellAction variant="quiet" onClick={onRestart}>
-            Yeni bir talep oluştur
+            {t("Yeni bir talep oluştur")}
           </ShellAction>
         </div>
       </div>
@@ -96,17 +96,17 @@ export function RfqSubmitStep({
   }
 
   const summary: { label: string; value: string }[] = [
-    { label: t("Dosya"), value: fileName ?? "Yüklenmedi" },
+    { label: t("Dosya"), value: fileName ?? t("Eklenmedi") },
     { label: t("Yetkili"), value: draft.name.trim() || "—" },
     { label: t("Firma"), value: draft.company.trim() || "—" },
     { label: t("E-posta"), value: draft.email.trim() || "—" },
     { label: t("Hizmet"), value: t(optionLabel(RFQ_SERVICES, draft.service)) },
     { label: t("Malzeme"), value: t(resolveMaterialLabel(draft.material, draft.customMaterial)) },
     { label: t("Yüzey"), value: t(optionLabel(RFQ_SURFACE_FINISHES, draft.finish)) },
-    { label: t("Tolerans"), value: draft.tolerance },
-    { label: t("Miktar"), value: Number.isFinite(draft.quantity) ? `${draft.quantity} adet` : "—" },
+    { label: t("Tolerans"), value: t(draft.tolerance || NOT_SPECIFIED) },
+    { label: t("Miktar"), value: Number.isFinite(draft.quantity) ? t("{{count}} adet", { count: draft.quantity }) : t(NOT_SPECIFIED) },
     { label: t("Öncelik"), value: t(optionLabel(RFQ_PRIORITIES, draft.priority)) },
-    { label: t("Parça / rev."), value: draft.drawingNumber.trim() || "Belirtilmedi" },
+    { label: t("Parça / rev."), value: draft.drawingNumber.trim() || t("Belirtilmedi") },
     ...(dimensions
       ? [{ label: t("Sınırlayıcı kutu"), value: `${dimensions.x} × ${dimensions.y} × ${dimensions.z} mm` }]
       : []),
@@ -125,10 +125,10 @@ export function RfqSubmitStep({
 
       <div className="shell-state-actions">
         <ShellAction variant="quiet" onClick={() => onEdit(1)}>
-          Dosyayı değiştir
+          {t("Dosyayı değiştir")}
         </ShellAction>
         <ShellAction variant="quiet" onClick={() => onEdit(2)}>
-          Bilgileri düzenle
+          {t("Bilgileri düzenle")}
         </ShellAction>
       </div>
 
@@ -141,12 +141,12 @@ export function RfqSubmitStep({
           aria-valuemax={100}
           aria-valuenow={state.percent}
         >
-          CAD dosyası yükleniyor · %{state.percent}
+          {t("CAD dosyası yükleniyor")} · %{state.percent}
         </p>
       )}
       {state.status === "sending" && (
         <p className="shell-field-hint" role="status">
-          Talep kaydediliyor…
+          {t("Talep kaydediliyor…")}
         </p>
       )}
 
@@ -158,7 +158,7 @@ export function RfqSubmitStep({
           title={t(state.error.title)}
           action={
             <ShellAction href={SALES_EMAIL_HREF} variant="ghost">
-              Dosyayı e-posta ile gönderin
+              {t("Dosyayı e-posta ile gönderin")}
             </ShellAction>
           }
         >

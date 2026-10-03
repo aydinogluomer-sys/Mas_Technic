@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import { LegalDocument, type LegalClause } from "@/components/pages/LegalDocument";
 import { SALES_EMAIL } from "@/content/claims";
+import { PRIVACY_EN } from "@/content/en/legal/privacy";
+import { useLocale } from "@/i18n/hooks";
 
 /* ══════════════════════════════════════════════════════════════════════════
    GİZLİLİK POLİTİKASI
@@ -341,14 +343,15 @@ const CLAUSES: LegalClause[] = [
   },
 ];
 
-export const GizlilikPolitikasi = () => (
-  <LegalDocument
-    rail={{ no: "L2", label: "GİZLİLİK" }}
-    selfPath="/gizlilik-politikasi"
-    eyebrow="Yasal metin"
-    title="Gizlilik Politikası"
-    lede="Bu sitenin ziyaretçi verisiyle ne yaptığı ve — daha önemlisi — ne yapmadığı."
-    metaDescription="Mas Technic gizlilik politikası — bize ilettiğiniz bilgiler, tarayıcınızda saklanan veriler, izleme yapılmaması, üçüncü taraf istekleri ve sohbet asistanının yapay zekâ aktarımı."
-    clauses={CLAUSES}
-  />
-);
+const PRIVACY_TR = {
+  eyebrow: "Yasal metin",
+  title: "Gizlilik Politikası",
+  lede: "Bu sitenin ziyaretçi verisiyle ne yaptığı ve — daha önemlisi — ne yapmadığı.",
+  metaDescription: "Mas Technic gizlilik politikası — bize ilettiğiniz bilgiler, tarayıcınızda saklanan veriler, izleme yapılmaması, üçüncü taraf istekleri ve sohbet asistanının yapay zekâ aktarımı.",
+  clauses: CLAUSES,
+};
+
+export const GizlilikPolitikasi = () => {
+  const text = useLocale() === "en" ? PRIVACY_EN : PRIVACY_TR;
+  return <LegalDocument rail={{ no: "L2", label: "GİZLİLİK" }} selfPath="/gizlilik-politikasi" {...text} />;
+};

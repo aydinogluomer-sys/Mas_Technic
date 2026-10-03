@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { Navigate } from "@/i18n/LocaleLink";
 import { useScroll, useTransform } from "framer-motion";
 import { motion } from "@/components/shell/motion";
 import {
@@ -15,11 +16,18 @@ import {
   ShellSurfaceBand,
   ShellTitleBlock,
 } from "@/components/shell";
-import { getPageBySlug, getPagesByCategory } from "@/data/servicePages";
-import { categoryPages } from "@/data/categoryPages";
+import { resolveDetailRoute } from "@/lib/detail-route";
+import { useTranslation } from "react-i18next";
+import { useSiteData } from "@/i18n/data";
+import { upper } from "@/i18n/upper";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { usePageMeta } from "@/hooks/use-page-meta";
+import { DETAIL_VISUALS, SCHEMA_LABEL, type PhotoAsset } from "@/content/detail-visuals";
+import { PILOT_SCHEMAS, SECTOR_SCHEMAS } from "@/components/schemas/registry";
+import { SchemaFigure } from "@/components/schemas/SchemaFigure";
+import { PILOT_MODULES } from "@/content/pilot-modules";
+import { RELATED } from "@/content/related";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
 import qualityControl from "@/assets/quality-control.webp";
@@ -63,9 +71,6 @@ import heroMekanikYuzey960 from "@/assets/hero-mekanik-yuzey-960.webp";
 import heroBoyaKaplama from "@/assets/hero-boya-kaplama.webp";
 import heroBoyaKaplama640 from "@/assets/hero-boya-kaplama-640.webp";
 import heroBoyaKaplama960 from "@/assets/hero-boya-kaplama-960.webp";
-import heroTavlama from "@/assets/hero-tavlama.webp";
-import heroTavlama640 from "@/assets/hero-tavlama-640.webp";
-import heroTavlama960 from "@/assets/hero-tavlama-960.webp";
 import heroQrDatamatrix from "@/assets/hero-qr-datamatrix.webp";
 import heroQrDatamatrix640 from "@/assets/hero-qr-datamatrix-640.webp";
 import heroQrDatamatrix960 from "@/assets/hero-qr-datamatrix-960.webp";
@@ -75,9 +80,6 @@ import heroLogoMarkalama960 from "@/assets/hero-logo-markalama-960.webp";
 import heroInsertUygulama from "@/assets/hero-insert-uygulama.webp";
 import heroInsertUygulama640 from "@/assets/hero-insert-uygulama-640.webp";
 import heroInsertUygulama960 from "@/assets/hero-insert-uygulama-960.webp";
-import heroMekanikMontaj from "@/assets/hero-mekanik-montaj.webp";
-import heroMekanikMontaj640 from "@/assets/hero-mekanik-montaj-640.webp";
-import heroMekanikMontaj960 from "@/assets/hero-mekanik-montaj-960.webp";
 import heroKittingPaketleme from "@/assets/hero-kitting-paketleme.webp";
 import heroKittingPaketleme640 from "@/assets/hero-kitting-paketleme-640.webp";
 import heroKittingPaketleme960 from "@/assets/hero-kitting-paketleme-960.webp";
@@ -106,9 +108,6 @@ import heroProjeYonetimi960 from "@/assets/hero-proje-yonetimi-960.webp";
 import heroTedarikZinciri from "@/assets/hero-tedarik-zinciri.webp";
 import heroTedarikZinciri640 from "@/assets/hero-tedarik-zinciri-640.webp";
 import heroTedarikZinciri960 from "@/assets/hero-tedarik-zinciri-960.webp";
-import heroOperasyonelVerimlilik from "@/assets/hero-operasyonel-verimlilik.webp";
-import heroOperasyonelVerimlilik640 from "@/assets/hero-operasyonel-verimlilik-640.webp";
-import heroOperasyonelVerimlilik960 from "@/assets/hero-operasyonel-verimlilik-960.webp";
 import heroSeriUretim from "@/assets/hero-seri-uretim.webp";
 import heroSeriUretim640 from "@/assets/hero-seri-uretim-640.webp";
 import heroSeriUretim960 from "@/assets/hero-seri-uretim-960.webp";
@@ -186,7 +185,7 @@ import heroSeriUretim960 from "@/assets/hero-seri-uretim-960.webp";
    Mapping and crops: `reports/10/art-direction.md`. */
 const qualityControlHero = responsive(1600, 682, qualityControl, [qualityControl640, 640], [qualityControl960, 960]);
 
-const heroImageMap: Record<string, ResponsiveImage> = {
+const heroImageMap: Record<PhotoAsset, ResponsiveImage> = {
   "hero-cnc-frezeleme": responsive(1600, 896, heroCncFrezeleme, [heroCncFrezeleme640, 640], [heroCncFrezeleme960, 960]),
   "hero-cnc-tornalama": responsive(900, 504, heroCncTornalama, [heroCncTornalama640, 640]),
   "hero-mikro-isleme": responsive(1600, 896, heroMikroIsleme, [heroMikroIsleme640, 640], [heroMikroIsleme960, 960]),
@@ -200,11 +199,9 @@ const heroImageMap: Record<string, ResponsiveImage> = {
   "hero-silikon-kaliplama": responsive(1600, 896, heroSilikonKaliplama, [heroSilikonKaliplama640, 640], [heroSilikonKaliplama960, 960]),
   "hero-mekanik-yuzey": responsive(1600, 896, heroMekanikYuzey, [heroMekanikYuzey640, 640], [heroMekanikYuzey960, 960]),
   "hero-boya-kaplama": responsive(1600, 896, heroBoyaKaplama, [heroBoyaKaplama640, 640], [heroBoyaKaplama960, 960]),
-  "hero-tavlama": responsive(1600, 896, heroTavlama, [heroTavlama640, 640], [heroTavlama960, 960]),
   "hero-qr-datamatrix": responsive(1600, 896, heroQrDatamatrix, [heroQrDatamatrix640, 640], [heroQrDatamatrix960, 960]),
   "hero-logo-markalama": responsive(1600, 896, heroLogoMarkalama, [heroLogoMarkalama640, 640], [heroLogoMarkalama960, 960]),
   "hero-insert-uygulama": responsive(1600, 896, heroInsertUygulama, [heroInsertUygulama640, 640], [heroInsertUygulama960, 960]),
-  "hero-mekanik-montaj": responsive(1400, 476, heroMekanikMontaj, [heroMekanikMontaj640, 640], [heroMekanikMontaj960, 960]),
   "hero-kitting-paketleme": responsive(1600, 896, heroKittingPaketleme, [heroKittingPaketleme640, 640], [heroKittingPaketleme960, 960]),
   "hero-kaynakli-imalat": responsive(1600, 896, heroKaynakliImalat, [heroKaynakliImalat640, 640], [heroKaynakliImalat960, 960]),
   "hero-cnc": responsive(1260, 708, heroCnc, [heroCnc640, 640], [heroCnc960, 960]),
@@ -215,7 +212,6 @@ const heroImageMap: Record<string, ResponsiveImage> = {
   "hero-malzeme-kutuphanesi": responsive(1600, 896, heroMalzemeKutuphanesi, [heroMalzemeKutuphanesi640, 640], [heroMalzemeKutuphanesi960, 960]),
   "hero-proje-yonetimi": responsive(1600, 896, heroProjeYonetimi, [heroProjeYonetimi640, 640], [heroProjeYonetimi960, 960]),
   "hero-tedarik-zinciri": responsive(1600, 896, heroTedarikZinciri, [heroTedarikZinciri640, 640], [heroTedarikZinciri960, 960]),
-  "hero-operasyonel-verimlilik": responsive(1020, 574, heroOperasyonelVerimlilik, [heroOperasyonelVerimlilik640, 640], [heroOperasyonelVerimlilik960, 960]),
   "hero-seri-uretim": responsive(1600, 896, heroSeriUretim, [heroSeriUretim640, 640], [heroSeriUretim960, 960]),
 };
 
@@ -244,17 +240,8 @@ const PLATE_FULL_WIDTHS = [
    help, in `reports/10/art-direction.md`. Vertical position is left at 50%:
    at 375 the box already shows the source's full height, so only the frame's
    own 200-of-318 window and the parallax decide what is seen. */
-const PLATE_POSITION: Record<string, string> = {
-  /* Caliper sits at x 55–95% of the 2400px source; 90% puts the window at
-     x 38–96%: both jaws, the pin and the scale numerals. */
-  "hero-tolerans-hassasiyet": "90% 50%",
-  /* Bracket spans x 15–77%; 40% centres it (x 17–75%) instead of cutting
-     its left foot. */
-  "hero-havacilik": "40% 50%",
-  /* Centred, the window showed a grid of parts and no case; 0% (x 0–58%)
-     keeps the case wall, hinge and latch so it reads as a kit in a case. */
-  "hero-kitting-paketleme": "0% 50%",
-};
+/* IMG01: the measured 375 crops (Phase 10-2b) moved onto the manifest
+   entries (`DetailVisual.crop`, `src/content/detail-visuals.ts`). */
 
 const FAMILY = {
   hizmetler: { label: "Hizmetler", rail: { no: "03", label: "HİZMET" } },
@@ -277,35 +264,34 @@ function splitFeature(feature: string) {
 }
 
 export const ServiceDetail = () => {
-  const { slug } = useParams<{ category: string; slug: string }>();
-  const { pathname } = useLocation();
-  const page = slug ? getPageBySlug(slug) : undefined;
+  const { pathname, search, hash } = useLocation();
   const prefersReduced = usePrefersReducedMotion();
+  const { t, i18n } = useTranslation();
+  const { getPageBySlug, categoryPages } = useSiteData();
 
-  /* PHASE 07 CORRECTION #1 — F3.
-     The not-found branch hard-coded `{ no: "03", label: "HİZMET" }`, so
-     `/endustriyel/<unknown>` told the reader it was in the services family.
-     These routes carry no `:category` param (`/hizmetler/:slug`,
-     `/kabiliyetler/:slug`, `/endustriyel/:slug`), so the family is derived
-     from the path — the same derivation `CategoryPage` uses. */
-  const pathFamily: keyof typeof FAMILY = pathname.startsWith("/kabiliyetler")
-    ? "kabiliyetler"
-    : pathname.startsWith("/endustriyel")
-      ? "endustriyel"
-      : "hizmetler";
+  /* R01 — family + slug, not slug alone. A known slug under the wrong family
+     redirects to its canonical address; an unknown slug gets the not-found
+     view below. The family for that view (PHASE 07 F3: never hard-coded to
+     services) comes from the same parse. See `src/lib/detail-route.ts`. */
+  const resolution = resolveDetailRoute(pathname, getPageBySlug);
+  const page = resolution.kind === "found" ? resolution.record : undefined;
+  const pathFamily: keyof typeof FAMILY = resolution.family;
 
   /* And the title: an unknown slug fell back to the SITE DEFAULT, which reads
      to a crawler and to a tab strip as though the page had resolved.
      `usePageMeta` cannot be called conditionally, so the found branch gets a
      real title too — an improvement, and the reason the argument is computed
-     rather than the hook skipped. */
+     rather than the hook skipped. During a wrong-family redirect the meta is
+     the destination record's, so the one render before `<Navigate>` never
+     writes a "not found" title. */
+  const metaRecord = resolution.kind === "not-found" ? undefined : resolution.record;
   usePageMeta(
-    page
-      ? { title: page.title, description: page.description }
+    metaRecord
+      ? { title: metaRecord.title, description: metaRecord.description }
       : {
-          title: `${FAMILY[pathFamily].label} — sayfa bulunamadı`,
-          description:
-            "Aradığınız kayıt bulunamadı. Hizmet ve sektör başlıklarına ana sayfadan ulaşabilirsiniz.",
+          title: t("{{family}} — sayfa bulunamadı", { family: t(FAMILY[pathFamily].label) }),
+          description: t("Aradığınız kayıt bulunamadı. Hizmet ve sektör başlıklarına ana sayfadan ulaşabilirsiniz."),
+          noindex: true,
         },
   );
 
@@ -321,6 +307,10 @@ export const ServiceDetail = () => {
      a scroll-linked transform is motion whatever drives it. */
   const plateY = useTransform(scrollYProgress, [0, 1], prefersReduced ? [0, 0] : [-60, 60]);
 
+  if (resolution.kind === "redirect") {
+    return <Navigate to={`${resolution.to}${search}${hash}`} replace />;
+  }
+
   if (!page) {
     /* F3: one `<h1>`, from the same primitive the found branch uses. The
        string is not "Sayfa Bulunamadı", so the anchored canonical-route check
@@ -335,23 +325,23 @@ export const ServiceDetail = () => {
           label={notFoundFamily.rail.label}
           crumb={
             <ShellBreadcrumb
-              trail={[{ label: "Ana sayfa", to: "/" }, { label: notFoundFamily.label }]}
+              trail={[{ label: t("Ana sayfa"), to: "/" }, { label: t(notFoundFamily.label) }]}
             />
           }
-          eyebrow="KAYIT YOK"
-          title="Bu sayfa kaydı bulunamadı"
-          lede="Bağlantı değişmiş olabilir. Aşağıdaki başlıklardan devam edebilirsiniz."
-          actions={<ShellAction to="/" variant="ghost">Ana sayfa</ShellAction>}
+          eyebrow={t("KAYIT YOK")}
+          title={t("Bu sayfa kaydı bulunamadı")}
+          lede={t("Bağlantı değişmiş olabilir. Aşağıdaki başlıklardan devam edebilirsiniz.")}
+          actions={<ShellAction to="/" variant="ghost">{t("Ana sayfa")}</ShellAction>}
         />
         <ShellSurfaceBand
           no="02"
           label={notFoundFamily.rail.label}
-          ariaLabel={`${notFoundFamily.label} kategorileri`}
+          ariaLabel={t("{{name}} kategorileri", { name: t(notFoundFamily.label) })}
         >
           <div className="shell-span-full">
             <ShellIndexList
               compact
-              ariaLabel={`${notFoundFamily.label} kategorileri`}
+              ariaLabel={t("{{name}} kategorileri", { name: t(notFoundFamily.label) })}
               items={categoryPages
                 .filter((item) => item.prefix === pathFamily)
                 .map((item) => ({
@@ -368,16 +358,28 @@ export const ServiceDetail = () => {
 
   const family = FAMILY[page.category];
   const isSector = page.category === "endustriyel";
-  const related = getPagesByCategory(page.category).filter((item) => item.slug !== page.slug);
+  /* PAGE01 — the curated list (≤4), not the first eight of the family. */
+  const related = (RELATED[page.slug] ?? [])
+    .map((slug) => getPageBySlug(slug))
+    .filter((item): item is NonNullable<typeof item> => Boolean(item));
   const parent = categoryPages.find((category) =>
     category.prefix === page.category
     && category.links.some((link) => link.path === `/${page.category}/${page.slug}`));
   const serviceFamilies = categoryPages.filter((category) => category.prefix === "hizmetler");
   const specs = page.technicalSpecs ?? [];
   const materialRows = page.materials ?? [];
-  const heroImage = page.heroImage && heroImageMap[page.heroImage]
-    ? heroImageMap[page.heroImage]
-    : page.category === "kabiliyetler" ? qualityControlHero : heroImageMap["hero-seri-uretim"];
+  /* IMG01 — the explicit manifest entry; no automatic fallback. */
+  const visual = DETAIL_VISUALS[page.slug];
+  const lang = i18n.language === "en" ? "en" : "tr";
+  const heroImage = visual?.kind === "photo" ? heroImageMap[visual.asset] : null;
+  const SchemaDrawing = visual?.kind === "schema" ? SECTOR_SCHEMAS[visual.schema] : null;
+  const pilot = PILOT_MODULES[page.slug];
+  const PilotDrawing = pilot ? PILOT_SCHEMAS[pilot.schema] : null;
+  const plateCaption = visual
+    ? visual.kind === "schema"
+      ? `${SCHEMA_LABEL[lang]} · ${visual.subject[lang]}`
+      : visual.subject[lang]
+    : page.categoryLabel;
 
   /* Band numbers are assigned in render order, so a page without comparison
      tables does not leave a hole in the sheet numbering. JSX evaluates its
@@ -401,8 +403,8 @@ export const ServiceDetail = () => {
         crumb={
           <ShellBreadcrumb
             trail={[
-              { label: "Ana sayfa", to: "/" },
-              { label: family.label },
+              { label: t("Ana sayfa"), to: "/" },
+              { label: t(family.label) },
               ...(parent
                 ? [{ label: parent.title, to: `/${parent.prefix}/kategori/${parent.slug}` }]
                 : []),
@@ -419,18 +421,37 @@ export const ServiceDetail = () => {
         }))}
         actions={
           <>
-            <ShellAction to="/teklif-al" variant="primary">Teklif Al</ShellAction>
-            <ShellAction to="/iletisim" variant="ghost">Teknik görüşme</ShellAction>
+            <ShellAction to="/teklif-al" variant="primary">{t("Teklif Al")}</ShellAction>
+            <ShellAction to="/iletisim" variant="ghost">{t("Teknik görüşme")}</ShellAction>
           </>
         }
       />
 
+      {pilot && PilotDrawing && (
+        /* PAGE01 — one concrete problem → process → check, on seven pilots only. */
+        <ShellSurfaceBand no={no()} label="MODÜL" tone="paper" labelledBy="detay-modul">
+          <div className="shell-span-read">
+            <ShellTitleBlock id="detay-modul" title={pilot.title[lang]} />
+          </div>
+          <div className="shell-span-half">
+            <SchemaFigure drawing={PilotDrawing} subject={pilot.subject[lang]} />
+          </div>
+          <dl className="shell-span-half shell-module-steps">
+            <div><dt>{t("Problem")}</dt><dd>{pilot.problem[lang]}</dd></div>
+            <div><dt>{t("Proses")}</dt><dd>{pilot.process[lang]}</dd></div>
+            <div><dt>{t("Kontrol")}</dt><dd>{pilot.control[lang]}</dd></div>
+          </dl>
+        </ShellSurfaceBand>
+      )}
+
       <ShellSurfaceBand no={no()} label="TANIM" labelledBy="detay-tanim">
         <div className="shell-span-full" ref={plateRef}>
           <ShellPlate
-            plate={`PLAKA · ${page.title.toLocaleUpperCase("tr")}`}
-            caption={page.categoryLabel}
-            media={
+            plate={`${t("PLAKA")} · ${upper(page.title, i18n.language)}`}
+            caption={plateCaption}
+            media={SchemaDrawing ? (
+              <div className="shell-schema-media"><SchemaDrawing /></div>
+            ) : heroImage && visual?.kind === "photo" ? (
               /* PHASE 10-3 — `alt=""`, not `alt={page.title}`. The plate sits
                  directly under the `<h1>` that carries `page.title`, and the
                  figcaption prints it a second time in the plate designation;
@@ -449,12 +470,12 @@ export const ServiceDetail = () => {
                 height={heroImage.height}
                 alt=""
                 loading="eager"
-                style={{ y: plateY, objectPosition: page.heroImage ? PLATE_POSITION[page.heroImage] : undefined }}
+                style={{ y: plateY, objectPosition: visual.crop }}
                 initial={{ scale: 1.08, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               />
-            }
+            ) : null}
           />
         </div>
 
@@ -462,7 +483,7 @@ export const ServiceDetail = () => {
           <ShellTitleBlock
             id="detay-tanim"
 
-            title={isSector ? "Bu sektörde ne üretiyoruz" : "Kapsam"}
+            title={t(isSector ? "Bu sektörde ne üretiyoruz" : "Kapsam")}
           />
           <div className="shell-prose" data-lead>
             {page.content.map((paragraph, index) => <p key={index}>{paragraph}</p>)}
@@ -471,7 +492,7 @@ export const ServiceDetail = () => {
 
         {page.advantages && page.advantages.length > 0 && (
           <div className="shell-span-note shell-stack" data-gap="sm">
-            <p className="shell-eyebrow">{isSector ? "Sektöre uygunluk" : "Öne çıkan"}</p>
+            <p className="shell-eyebrow">{t(isSector ? "Sektöre uygunluk" : "Öne çıkan")}</p>
             <ul className="shell-detail-list">
               {page.advantages.map((advantage) => <li key={advantage}>{advantage}</li>)}
             </ul>
@@ -486,16 +507,16 @@ export const ServiceDetail = () => {
             <div className="shell-doc-main">
               <ShellTitleBlock
                 id="detay-kabiliyet"
-                title={isSector ? "Sektör kabiliyet kaydı" : "Kabiliyet kaydı"}
-                standfirst={
+                title={t(isSector ? "Sektör kabiliyet kaydı" : "Kabiliyet kaydı")}
+                standfirst={t(
                   isSector
                     ? "Bu sektörün parçalarında hangi kabiliyetin devreye girdiği ve neyin kayda geçtiği."
-                    : "Hizmetin kapsadığı kabiliyetler ve çalışma aralıkları."
-                }
+                    : "Hizmetin kapsadığı kabiliyetler ve çalışma aralıkları.",
+                )}
               />
               {page.features && page.features.length > 0 && (
                 <ShellRun
-                  ariaLabel={`${page.title} kabiliyetleri`}
+                  ariaLabel={t("{{title}} kabiliyetleri", { title: page.title })}
                   items={page.features.map(splitFeature)}
                 />
               )}
@@ -504,12 +525,12 @@ export const ServiceDetail = () => {
             {page.technicalSpecs && page.technicalSpecs.length > 0 && (
               <div className="shell-doc-aside" data-sticky>
                 <ShellSpecTable
-                  caption="Teknik kayıt"
-                  headers={["Başlık", "Değer"]}
+                  caption={t("Teknik kayıt")}
+                  headers={[t("Başlık"), t("Değer")]}
                   rows={page.technicalSpecs.map((spec) => [spec.label, spec.value])}
                   rowKey={(_, index) => specs[index].label}
                 />
-                <ShellAction to="/teklif-al" variant="primary" full>Teklif Al</ShellAction>
+                <ShellAction to="/teklif-al" variant="primary" full>{t("Teklif Al")}</ShellAction>
               </div>
             )}
           </div>
@@ -522,12 +543,12 @@ export const ServiceDetail = () => {
             <ShellTitleBlock
               id="detay-surec"
 
-              title={isSector ? "Sektör akışı" : "Süreç akışı"}
-              standfirst={`Sıra sabittir; içerik parçaya göre yazılır. Standart çalışma aralığımız ${MINIMUM_TOLERANCE}.`}
+              title={t(isSector ? "Sektör akışı" : "Süreç akışı")}
+              standfirst={t("Sıra sabittir; içerik parçaya göre yazılır. Standart çalışma aralığımız {{value}}.", { value: MINIMUM_TOLERANCE })}
             />
           </div>
           <ShellRun
-            ariaLabel={`${page.title} süreç adımları`}
+            ariaLabel={t("{{title}} süreç adımları", { title: page.title })}
             items={page.processSteps.map((step) => ({ title: step }))}
           />
         </ShellSurfaceBand>
@@ -539,8 +560,8 @@ export const ServiceDetail = () => {
             <ShellTitleBlock
               id="detay-malzeme"
 
-              title="İşlenebilir malzemeler"
-              standfirst="Bu sayfada sık kullanılan malzemeler. Ailenin tamamı malzeme kaydındadır."
+              title={t("İşlenebilir malzemeler")}
+              standfirst={t("Bu sayfada sık kullanılan malzemeler. Ailenin tamamı malzeme kaydındadır.")}
             />
           </div>
           {/* R3-1's SURFACE, AND THE TRACK IS THE FIX — PHASE 08 CORRECTION #5.
@@ -586,8 +607,8 @@ export const ServiceDetail = () => {
               which carried the identical defect. */}
           <div className="shell-span-full shell-stack grid-cols-[minmax(0,1fr)]" data-gap="sm">
             <ShellSpecTable
-              caption={`${page.title} — malzeme kaydı`}
-              headers={["Malzeme", "Kalite", "Özellik"]}
+              caption={t("{{title}} — malzeme kaydı", { title: page.title })}
+              headers={[t("Malzeme"), t("Kalite"), t("Özellik")]}
               numericFrom={99}
               rows={page.materials.map((material) => [
                 material.name,
@@ -596,7 +617,7 @@ export const ServiceDetail = () => {
               ])}
               rowKey={(_, index) => `${materialRows[index].name}-${index}`}
             />
-            <ShellAction to="/malzemeler" variant="quiet">Malzeme kaydının tamamı</ShellAction>
+            <ShellAction to="/malzemeler" variant="quiet">{t("Malzeme kaydının tamamı")}</ShellAction>
           </div>
         </ShellSurfaceBand>
       )}
@@ -607,8 +628,8 @@ export const ServiceDetail = () => {
             <ShellTitleBlock
               id="detay-karsilastirma"
 
-              title="Teknik karşılaştırma"
-              standfirst="Seçenekler yan yana; hangisinin hangi koşulda anlamlı olduğu tabloların kendi notlarında."
+              title={t("Teknik karşılaştırma")}
+              standfirst={t("Seçenekler yan yana; hangisinin hangi koşulda anlamlı olduğu tabloların kendi notlarında.")}
             />
           </div>
           {page.comparisonTables.map((table, index) => (
@@ -629,7 +650,7 @@ export const ServiceDetail = () => {
       {page.faq && page.faq.length > 0 && (
         <ShellSurfaceBand no={no()} label="SORULAR" tone="paper" labelledBy="detay-sorular">
           <div className="shell-span-read">
-            <ShellTitleBlock id="detay-sorular" title="Sık sorulan sorular" />
+            <ShellTitleBlock id="detay-sorular" title={t("Sık sorulan sorular")} />
           </div>
           <div className="shell-span-full">
             <div className="shell-faq">
@@ -649,20 +670,20 @@ export const ServiceDetail = () => {
           <ShellTitleBlock
             id="detay-ilgili"
 
-            title={isSector ? "Bu sektörün yakınındaki sayfalar" : "İlgili sayfalar"}
-            standfirst={
+            title={t(isSector ? "Bu sektörün yakınındaki sayfalar" : "İlgili sayfalar")}
+            standfirst={t(
               isSector
-                ? "Aynı sektör ailesindeki diğer başlıklar ve bu parçaların üretildiği hizmet aileleri."
-                : "Aynı aileden, birlikte sorulan başlıklar."
-            }
+                ? "Bu sektörle birlikte sorulan başlıklar ve bu parçaların üretildiği hizmet aileleri."
+                : "Bu sayfayla birlikte sorulan başlıklar.",
+            )}
           />
         </div>
         {related.length > 0 && (
           <div className="shell-span-full">
             <ShellIndexList
               compact
-              ariaLabel={`${family.label} ailesindeki diğer sayfalar`}
-              items={related.slice(0, 8).map((item) => ({
+              ariaLabel={t("İlgili sayfalar")}
+              items={related.map((item) => ({
                 to: `/${item.category}/${item.slug}`,
                 eyebrow: item.categoryLabel,
                 title: item.title,
@@ -683,10 +704,10 @@ export const ServiceDetail = () => {
              (`e2e/qa-p08-scroll-region-reach.spec.ts`) only walks tables, so
              this one would need its own measurement. */
           <div className="shell-span-full shell-stack" data-gap="sm">
-            <p className="shell-eyebrow">Bu parçalar hangi hizmetlerle üretiliyor</p>
+            <p className="shell-eyebrow">{t("Bu parçalar hangi hizmetlerle üretiliyor")}</p>
             <ShellIndexList
               compact
-              ariaLabel="Hizmet aileleri"
+              ariaLabel={t("Hizmet aileleri")}
               items={serviceFamilies.map((category) => ({
                 to: `/${category.prefix}/kategori/${category.slug}`,
                 title: category.title,
@@ -699,18 +720,18 @@ export const ServiceDetail = () => {
 
       <ShellNextStep
         no={no()}
-        title={`${page.title} için teklif`}
+        title={t("{{title}} için teklif", { title: page.title })}
         /* The title is NOT lower-cased. `toLocaleLowerCase("tr")` turned
            "CNC Frezeleme" into "cnc frezeleme" mid-sentence, which reads as a
            typo for an acronym and is wrong for every page whose title carries
            one (CNC, QR, DFM, NDT). */
-        body={`Teknik resim veya 3B model gönderin; ${page.title} kapsamında üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım.`}
+        body={t("Teknik resim veya 3B model gönderin; {{title}} kapsamında üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım.", { title: page.title })}
         detail={[
-          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
-          { label: "Standart tolerans", value: MINIMUM_TOLERANCE },
-          { label: family.label, value: page.categoryLabel },
+          { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
+          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t(family.label), value: page.categoryLabel },
         ]}
-        secondary={{ label: "Teknik görüşme", to: "/iletisim" }}
+        secondary={{ label: t("Teknik görüşme"), to: "/iletisim" }}
       />
     </PageShell>
   );

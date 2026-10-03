@@ -1,6 +1,6 @@
 import { LEAD_TIME_STATEMENT, PUBLIC_CITY, QUOTE_RESPONSE_TIME } from "@/content/claims";
 import { CAD_ACCEPTED_EXTENSIONS } from "@/utils/cadFiles";
-import { servicePages } from "./servicePages";
+import { servicePages, type ServicePageData } from "./servicePages";
 
 /**
  * ".step, .stp, .stl, .obj, .iges, .igs, .3mf"
@@ -36,7 +36,7 @@ export interface FaqEntry {
    çelişiyordu. Süre gerektiren yerlerde tek kaynak `@/content/claims`:
    yetkili olan `QUOTE_RESPONSE_TIME`, olmayan yerde `LEAD_TIME_STATEMENT`.
    ═══════════════════════════════════════════════════════════════════════════ */
-const staticEntries: FaqEntry[] = [
+export const staticEntries: FaqEntry[] = [
   {
     question: "Teklif nasıl alabilirim?",
     answer: "Teklif almak için [Teklif Al](/teklif-al) sayfamızı ziyaret edebilirsiniz. CAD dosyanızı yükleyerek hızlı teklif alabilirsiniz. Alternatif olarak sales@mastechnic.com adresine mail atabilirsiniz.",
@@ -49,7 +49,7 @@ const staticEntries: FaqEntry[] = [
   },
   {
     question: "Hangi sektörlere hizmet veriyorsunuz?",
-    answer: "Havacılık & uzay, savunma sanayi, otomotiv, medikal, robotik, enerji, denizcilik, hidrolik ve daha birçok sektöre hizmet veriyoruz. Detaylar için [Endüstriyel Çözümler](/endustriyel) sayfamıza bakabilirsiniz.",
+    answer: "Havacılık & uzay, savunma sanayi, otomotiv, medikal, robotik, enerji, denizcilik, hidrolik ve daha birçok sektöre hizmet veriyoruz. Detaylar için [Yüksek Teknoloji](/endustriyel/kategori/yuksek-teknoloji) ve diğer sektör sayfalarımıza bakabilirsiniz.",
     keywords: ["sektör", "endüstri", "havacılık", "otomotiv", "medikal", "savunma", "hangi sektör"],
   },
   {
@@ -59,7 +59,7 @@ const staticEntries: FaqEntry[] = [
   },
   {
     question: "Hangi CNC hizmetleri sunuyorsunuz?",
-    answer: "CNC frezeleme (3-4-5 eksen), CNC tornalama, hassas mikro işleme, derin delik & raybalama, lazer kazıma, yüzey işlemleri, montaj ve daha fazlası. Tüm hizmetlerimiz için [Hizmetler](/hizmetler) sayfamızı inceleyin.",
+    answer: "CNC frezeleme (3-4-5 eksen), CNC tornalama, hassas mikro işleme, derin delik & raybalama, lazer kazıma, yüzey işlemleri, montaj ve daha fazlası. Talaşlı imalat hizmetlerimiz için [Talaşlı İmalat](/hizmetler/kategori/talasli-imalat) sayfamızı inceleyin.",
     keywords: ["cnc", "hizmet", "servis", "ne yapıyorsunuz", "neler sunuyorsunuz", "frezeleme", "tornalama"],
   },
   {
@@ -79,7 +79,7 @@ const staticEntries: FaqEntry[] = [
   },
   {
     question: "Kalite sertifikalarınız nelerdir?",
-    answer: "ISO 9001:2015, ISO 14001:2015 ve OHSAS 18001 yönetim sistemi belgelerimiz bulunmaktadır. Her iş için kontrol planı oluşturulur; ölçüm kaydı teslimat dosyasına eklenir, akredite üçüncü taraf CMM ölçümü talebe bağlı olarak sağlanır.",
+    answer: "ISO 9001:2015 ve ISO 14001:2015 yönetim sistemi belgelerimiz bulunmaktadır. Her iş için kontrol planı oluşturulur; ölçüm kaydı teslimat dosyasına eklenir, akredite üçüncü taraf CMM ölçümü talebe bağlı olarak sağlanır.",
     keywords: ["kalite", "sertifika", "iso", "standart", "belge", "rapor"],
   },
   {
@@ -88,14 +88,17 @@ const staticEntries: FaqEntry[] = [
     keywords: ["tolerans", "hassasiyet", "doğruluk", "precision", "accuracy"],
   },
   // ── Kargo & Teslimat ──
+  // L01: anlaşmalı kargo firması, DHL/FedEx/UPS ilişkisi, sigortalı gönderim ve
+  // "düzenli sevkiyat" bölgeleri USER_INPUTS.md'de yetkilendirilmemişti;
+  // yanıtlar mekanizmaya (teklifte belirlenen sevkiyat koşulu) indirildi.
   {
     question: "Kargo ile gönderim yapıyor musunuz?",
-    answer: "Evet, Türkiye genelinde anlaşmalı kargo firmalarıyla güvenli gönderim yapıyoruz. Yurt dışı sevkiyat için de DHL, FedEx ve UPS ile çalışıyoruz. Özel paketleme ve sigortalı gönderim seçenekleri mevcuttur.",
+    answer: "Sevkiyat yöntemi ve ambalaj siparişin koşullarına göre teklifte belirlenir; yurt içi ve yurt dışı gönderim seçenekleri teklif aşamasında birlikte netleştirilir.",
     keywords: ["kargo", "gönderim", "sevkiyat", "gönderi", "paket", "ulaştırma", "dhl", "fedex", "ups", "nakliye"],
   },
   {
     question: "Yurt dışına teslimat yapıyor musunuz?",
-    answer: "Evet, dünya genelinde ihracat yapıyoruz. Avrupa, Orta Doğu, ABD ve Asya'ya düzenli sevkiyatlarımız bulunmaktadır. İhracat belgeleri ve gümrük işlemlerinde destek sağlıyoruz.",
+    answer: "Yurt dışı teslimat talepleri teklif aşamasında değerlendirilir; teslim şekli (ör. DDP / FCA) ve gerekli ihracat belgeleri siparişin koşullarına göre birlikte belirlenir.",
     keywords: ["yurt dışı", "ihracat", "export", "uluslararası", "avrupa", "amerika", "gümrük"],
   },
   // ── İade ──
@@ -187,13 +190,13 @@ const staticEntries: FaqEntry[] = [
   // ── Yüzey İşlemleri ──
   {
     question: "Hangi yüzey işlemlerini yapıyorsunuz?",
-    answer: "Anodizasyon, kumlama, boyama, krom kaplama, nikel kaplama, siyah oksit, pasivasyon, eloksal ve daha fazlası. [Yüzey İşlemleri](/hizmetler/yuzey-islemleri) sayfamızda detayları bulabilirsiniz.",
+    answer: "Anodizasyon, mekanik yüzey işlemleri (kumlama, vibrasyonlu yüzey bitirme, parlatma), kimyasal işlemler (pasivasyon, fosfatlama) ile boya ve koruyucu kaplamalar. [Yüzey İşlemleri](/hizmetler/kategori/yuzey-islemleri) sayfamızda detayları bulabilirsiniz.",
     keywords: ["yüzey", "anodizasyon", "kaplama", "boyama", "krom", "nikel", "kumlama", "eloksal", "pasivasyon", "finishing"],
   },
   // ── Seri Üretim ──
   {
     question: "Seri üretim yapıyor musunuz?",
-    answer: "Evet, tek parçadan seri üretime kadar çalışıyoruz. Seri üretimde birim maliyet avantajı ve tutarlı kalite sağlıyoruz. [Seri Üretim](/kabiliyetler/seri-uretim) sayfamızı inceleyin.",
+    answer: "Evet, tek parçadan seri üretime kadar çalışıyoruz. Seri üretimde birim maliyet avantajı ve tutarlı kalite sağlıyoruz. [Seri İmalat](/kabiliyetler/seri-imalat) sayfamızı inceleyin.",
     keywords: ["seri", "seri üretim", "toplu", "adet", "büyük sipariş", "volume", "mass production"],
   },
   // ── Teknik Destek ──
@@ -224,15 +227,15 @@ const staticEntries: FaqEntry[] = [
   },
   {
     question: "Makine parkurunuz nedir?",
-    answer: "3-4-5 eksen CNC freze, CNC torna, EDM, taşlama, CMM ölçüm cihazları ve lazer markalama makineleri dahil geniş bir makine parkurumuz bulunmaktadır. [Makine Parkuru](/kabiliyetler/makine-parkuru) sayfamızı inceleyin.",
+    answer: "3, 4 ve 5 eksen frezeleme, C/Y eksenli ve kayar puntalı tornalama, derin delik işleme ile tel ve dalma erozyon proses ailelerimiz vardır; hangisinin kullanılacağı parçanın geometrisine göre belirlenir. Akredite üçüncü taraf CMM ölçümü talebe bağlıdır. [Makine Parkuru](/kabiliyetler/makine-parkuru) sayfamızı inceleyin.",
     keywords: ["makine", "parkur", "tezgah", "ekipman", "kapasite", "eksen", "freze", "torna"],
   },
 ];
 
 // ── servicePages FAQ'larından otomatik toplama ──
-function collectServiceFaqs(): FaqEntry[] {
+export function collectServiceFaqs(pages: readonly ServicePageData[] = servicePages): FaqEntry[] {
   const entries: FaqEntry[] = [];
-  for (const page of servicePages) {
+  for (const page of pages) {
     if (!page.faq) continue;
     for (const f of page.faq) {
       // Soru ve cevaptan otomatik keyword çıkar
@@ -272,6 +275,8 @@ const QUESTION_FORM_WORDS = new Set([
   "musunuz", "misiniz", "mısınız", "müsünüz", "mudur", "mıdır", "midir", "müdür",
   // "…yapıyor musunuz / veriyor musunuz / var mı" kalıbı
   "veriyor", "veriyorsunuz", "yapıyor", "yapıyorsunuz", "var", "yok",
+  // L01 — the same pattern words of the English matcher ("do you offer …")
+  "you", "your", "does", "can", "the", "what", "which", "how", "are", "have",
 ]);
 
 // ── Basit TF-IDF benzeri skor hesaplama ──
@@ -290,13 +295,13 @@ export interface MatchResult {
   score: number;
 }
 
-export function findBestFaqMatch(userInput: string): MatchResult | null {
+export function findBestFaqMatch(userInput: string, entries: readonly FaqEntry[] = allFaqEntries): MatchResult | null {
   const inputWords = normalize(userInput);
   if (inputWords.length === 0) return null;
 
   let bestMatch: MatchResult | null = null;
 
-  for (const entry of allFaqEntries) {
+  for (const entry of entries) {
     // Hem keywords hem de soru metninde arama yap
     const questionWords = normalize(entry.question);
     const allTargetWords = [...entry.keywords, ...questionWords];

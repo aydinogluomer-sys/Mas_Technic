@@ -85,7 +85,12 @@ export function RfqUploadStep({
         <p className="shell-eyebrow">{t("KABUL EDİLEN FORMATLAR")}</p>
         <ShellTagRow items={[...CAD_FORMAT_CHIPS]} ariaLabel={t("Kabul edilen CAD formatları")} />
         <p className="shell-field-hint" id="rfq-cad-hint">
-          Tek dosya · en fazla {CAD_MAX_FILE_SIZE_MB} MB · {CAD_FORMAT_HINT}
+          {t("Tek dosya · en fazla {{size}} MB", { size: CAD_MAX_FILE_SIZE_MB })} · {CAD_FORMAT_HINT.replace("Maks.", t("Maks."))}
+        </p>
+        {/* RFQ03: nothing about the request is stored in the browser, so a
+            reload starts over — said here, before it happens. */}
+        <p className="shell-field-hint">
+          {t("Seçtiğiniz dosya ve yazdıklarınız tarayıcıda saklanmaz: sayfayı yenilerseniz dosyayı yeniden seçmeniz gerekir.")}
         </p>
       </div>
 
@@ -117,7 +122,7 @@ export function RfqUploadStep({
           ) : (
             <>
               <span className="shell-dropzone-title">{t("CAD dosyanızı sürükleyin veya seçin")}</span>
-              <span className="shell-dropzone-hint">{CAD_FORMAT_HINT}</span>
+              <span className="shell-dropzone-hint">{CAD_FORMAT_HINT.replace("Maks.", t("Maks."))}</span>
             </>
           )}
         </label>
@@ -140,7 +145,7 @@ export function RfqUploadStep({
               label: t("Ölçü"),
               value: dimensions
                 ? `${dimensions.x} × ${dimensions.y} × ${dimensions.z} mm`
-                : "Önizlemede okunur",
+                : t("Önizlemede okunur"),
             },
           ]}
         />
@@ -149,10 +154,10 @@ export function RfqUploadStep({
       {selection && selection.previewKind && !previewOpen && (
         <div className="shell-state-actions">
           <ShellAction variant="ghost" onClick={onOpenPreview}>
-            3B önizlemeyi aç
+            {t("3B önizlemeyi aç")}
           </ShellAction>
           <ShellAction variant="quiet" onClick={onClear}>
-            Dosyayı kaldır
+            {t("Dosyayı kaldır")}
           </ShellAction>
         </div>
       )}
@@ -161,11 +166,10 @@ export function RfqUploadStep({
         <ShellNotice
           tone="note"
           label={t("ÖNİZLEME YOK")}
-          title={`${selection.extension.toUpperCase()} için tarayıcı önizlemesi bulunmuyor`}
+          title={t("{{format}} için tarayıcı önizlemesi bulunmuyor", { format: selection.extension.toUpperCase() })}
         >
           <p>
-            Dosya teklif talebine eklenir ve mühendislerimiz kendi CAD yazılımlarında açar. Tarayıcıda
-            görüntüleme yalnızca STEP, STP, STL ve OBJ dosyaları için çalışır.
+            {t("Dosya teklif talebine eklenir ve mühendislerimiz kendi CAD yazılımlarında açar. Tarayıcıda görüntüleme yalnızca STEP, STP, STL ve OBJ dosyaları için çalışır.")}
           </p>
         </ShellNotice>
       )}
@@ -189,15 +193,14 @@ export function RfqUploadStep({
           title={t("Dosyanız yüklendi ve talebe eklenecek")}
         >
           <p>
-            Bu dosya ana sayfadaki bırakma alanından yüklendi. Tarayıcıda önizlemek isterseniz aynı dosyayı
-            yukarıdan tekrar seçin; teklif talebi için gerekli değildir.
+            {t("Bu dosya ana sayfadaki bırakma alanından yüklendi. Tarayıcıda önizlemek isterseniz aynı dosyayı yukarıdan tekrar seçin; teklif talebi için gerekli değildir.")}
           </p>
         </ShellNotice>
       )}
 
       {parseError && !error && (
         <ShellNotice tone="error" label={t("ÇÖZÜMLEME HATASI")} title={t("Dosya çizilemedi")}>
-          <p>{parseError}</p>
+          <p>{t(parseError)}</p>
         </ShellNotice>
       )}
     </div>

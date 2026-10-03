@@ -1,23 +1,15 @@
 /**
  * `#hero-shell` yaşam döngüsü — tek kaynak.
  *
- * `index.html` app-shell hero'yu ilk baytta boyar ve "Precision Born" giriş
- * sekansını orada çalıştırır. Sekans bittiğinde `document` üzerinde
- * `mas:intro-done` yayınlanır ve `<html data-intro-active>` kaldırılır.
- *
- * Shell'i DOM'dan kaldıran taraf bugüne kadar yalnızca `LandingFlow` idi;
- * o bileşen ise sadece dev-only `/legacy-landing` rotasında render ediliyordu.
- * Sonuç: shell'in var olma sebebi olan `/` rotasında hiçbir şey onu
- * kaldırmıyordu — `z-index: 80` ile kalıcı olarak DOM'da ve erişilebilirlik
- * ağacında kalıyordu (ölçüldü: `reports/baseline/raw/probe-landing-with-env.txt`,
- * `HERO_SHELL_STILL_IN_DOM: 1`).
- *
- * Bu modül teardown'u üretim yüzeyinin sahiplendiği tek yere taşır ve üç
- * durumu da garanti eder:
- *   1. sekans hiç kurulmadıysa (reduced-motion, oturumda görülmüş, landing
- *      dışı rota) → anında kaldır,
- *   2. sekans kurulduysa → `mas:intro-done` ile kaldır,
- *   3. olay hiç gelmezse → zaman aşımı ağıyla yine kaldır.
+ * UX01: `index.html` artık ne app-shell'i ne de "Precision Born" giriş
+ * sekansını taşıyor; `data-intro-active` hiç kurulmuyor ve `mas:intro-done`
+ * hiç yayınlanmıyor. Bu modül yine de duruyor, çünkü:
+ *   · eski bir önbellekten gelen `index.html` hâlâ shell'i taşıyorsa onu
+ *     anında kaldırır (aşağıdaki "sekans hiç kurulmadı" dalı),
+ *   · `Header.tsx` ve `App.tsx` aynı sorguyu kullanıyor; shell yokken
+ *     `isHeroIntroActive()` her zaman `false` döner ve hiçbir şey beklemez.
+ * Yeni bir bekletme davranışı EKLENMEMELİ: sözleşme, bilginin ve CTA'nın
+ * hiçbir girişi beklememesini istiyor.
  */
 
 export const HERO_SHELL_ID = "hero-shell";

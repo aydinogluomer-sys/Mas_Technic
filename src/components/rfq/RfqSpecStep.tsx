@@ -92,7 +92,7 @@ export function RfqSpecStep({ draft, errors, onChange }: RfqSpecStepProps) {
         id="rfq-step-spec"
         index="02"
         title={t("Talep bilgileri")}
-        standfirst={t("Yıldızlı alanlar zorunludur. Geri kalanı boş bırakırsanız teklif yazılırken sorarız.")}
+        standfirst={t("Yıldızlı alanlar zorunludur. Hiçbir seçim sizin yerinize yapılmaz; boş bıraktıklarınız özette “Belirtilmedi” görünür ve teklif yazılırken sorulur. Seçili bir yüzey veya önceliğe yeniden basmak seçimi kaldırır.")}
       />
 
       <section className="shell-form" aria-labelledby="rfq-group-contact">
@@ -167,6 +167,7 @@ export function RfqSpecStep({ draft, errors, onChange }: RfqSpecStepProps) {
                 value={draft.service}
                 onChange={(event) => onChange("service", event.target.value)}
               >
+                <option value="">{t("Seçilmedi")}</option>
                 {RFQ_SERVICES.map((service) => (
                   <option key={service.id} value={service.id}>
                     {t(service.label)}
@@ -183,6 +184,7 @@ export function RfqSpecStep({ draft, errors, onChange }: RfqSpecStepProps) {
                 value={draft.material}
                 onChange={(event) => onChange("material", event.target.value)}
               >
+                <option value="">{t("Seçilmedi")}</option>
                 {RFQ_MATERIAL_GROUPS.map((group) => (
                   <optgroup key={group.category} label={group.category}>
                     {group.items.map((item) => (
@@ -244,9 +246,10 @@ export function RfqSpecStep({ draft, errors, onChange }: RfqSpecStepProps) {
                 value={draft.tolerance}
                 onChange={(event) => onChange("tolerance", event.target.value)}
               >
+                <option value="">{t("Seçilmedi")}</option>
                 {RFQ_TOLERANCES.map((tolerance) => (
                   <option key={tolerance} value={tolerance}>
-                    {tolerance}
+                    {t(tolerance)}
                   </option>
                 ))}
               </select>
@@ -299,7 +302,7 @@ export function RfqSpecStep({ draft, errors, onChange }: RfqSpecStepProps) {
                 type="button"
                 className="shell-segment"
                 aria-pressed={draft.finish === finish.id}
-                onClick={() => onChange("finish", finish.id)}
+                onClick={() => onChange("finish", draft.finish === finish.id ? "" : finish.id)}
               >
                 <span className="shell-segment-code">{t(finish.label)}</span>
                 {finish.detail && <span>{t(finish.detail)}</span>}
@@ -318,7 +321,7 @@ export function RfqSpecStep({ draft, errors, onChange }: RfqSpecStepProps) {
                 type="button"
                 className="shell-segment"
                 aria-pressed={draft.priority === priority.id}
-                onClick={() => onChange("priority", priority.id)}
+                onClick={() => onChange("priority", draft.priority === priority.id ? "" : priority.id)}
               >
                 <span className="shell-segment-code">{t(priority.label)}</span>
                 {priority.detail && <span>{t(priority.detail)}</span>}

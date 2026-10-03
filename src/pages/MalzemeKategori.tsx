@@ -1,4 +1,6 @@
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useSiteData } from "@/i18n/data";
 import {
   PageShell,
   ShellAction,
@@ -11,8 +13,7 @@ import {
   ShellTagRow,
   ShellTitleBlock,
 } from "@/components/shell";
-import { materialsData, materialCategories, findMaterialCategory } from "@/data/materialsData";
-import { familyRanges } from "@/components/pages/material-figures";
+import { familyRanges, figure, hardness } from "@/components/pages/material-figures";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 
@@ -31,23 +32,26 @@ import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 
    THE ONE STRUCTURAL ADDITION
    ---------------------------
-   The hero now carries the family's property ENVELOPE — density, tensile,
-   maximum temperature and machinability, each as a range — and every one of
-   those four numbers is computed from the alloy table further down the same
-   page (`familyRanges()`). It is the strictest form of evidence available
+   The hero now carries the family's property ENVELOPE — density, tensile and
+   maximum temperature, each as a range — and every one of those numbers is
+   computed from the SOURCED rows of the alloy table further down the same page
+   (`familyRanges()`, T03); with no sourced row it reads "Veri doğrulanmadı". It is the strictest form of evidence available
    here: the page cannot state a figure it does not also show. The old hero
    carried an emoji and a sentence.
    ══════════════════════════════════════════════════════════════════════════ */
 
 export const MalzemeKategori = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { t } = useTranslation();
+  const { materialsData, materialCategories, findMaterialCategory } = useSiteData();
   const category = findMaterialCategory(slug || "");
 
   usePageMeta({
-    title: category?.seoTitle ?? "Malzeme ailesi bulunamadı",
+    title: category?.seoTitle ?? t("Malzeme ailesi bulunamadı"),
     description:
       category?.seoDescription
-      ?? "Aradığınız malzeme ailesi bulunamadı. Aşağıdaki ailelerden devam edebilirsiniz.",
+      ?? t("Aradığınız malzeme ailesi bulunamadı. Aşağıdaki ailelerden devam edebilirsiniz."),
+    noindex: !category,
   });
 
   if (!category) {
@@ -71,16 +75,16 @@ export const MalzemeKategori = () => {
               ]}
             />
           }
-          eyebrow="AİLE YOK"
-          title="Bu malzeme ailesi bulunamadı"
-          lede="Bağlantı değişmiş olabilir. Aşağıdaki ailelerden devam edebilir veya tam malzeme kaydına geçebilirsiniz."
-          actions={<ShellAction to="/malzemeler" variant="ghost">Malzeme kaydı</ShellAction>}
+          eyebrow={t("AİLE YOK")}
+          title={t("Bu malzeme ailesi bulunamadı")}
+          lede={t("Bağlantı değişmiş olabilir. Aşağıdaki ailelerden devam edebilir veya tam malzeme kaydına geçebilirsiniz.")}
+          actions={<ShellAction to="/malzemeler" variant="ghost">{t("Malzeme kaydı")}</ShellAction>}
         />
-        <ShellSurfaceBand no="02" label="MALZEME" ariaLabel="Malzeme aileleri">
+        <ShellSurfaceBand no="02" label="MALZEME" ariaLabel={t("Malzeme aileleri")}>
           <div className="shell-span-full">
             <ShellIndexList
               compact
-              ariaLabel="Malzeme aileleri"
+              ariaLabel={t("Malzeme aileleri")}
               items={materialCategories.map((item) => ({
                 to: `/malzemeler/${item.slug}`,
                 title: item.name,
@@ -111,30 +115,30 @@ export const MalzemeKategori = () => {
             ]}
           />
         }
-        eyebrow={`${category.code} · Malzeme ailesi`}
+        eyebrow={`${category.code} · ${t("Malzeme ailesi")}`}
         title={category.heroTitle}
         lede={category.heroDescription}
-        meta={familyRanges(materials)}
+        meta={familyRanges(materials).map((row) => ({ label: t(row.label), value: t(row.value) }))}
         actions={
           <>
-            <ShellAction to="/teklif-al" variant="primary">Teklif Al</ShellAction>
-            <ShellAction to="/malzemeler" variant="ghost">Malzeme kaydı</ShellAction>
+            <ShellAction to="/teklif-al" variant="primary">{t("Teklif Al")}</ShellAction>
+            <ShellAction to="/malzemeler" variant="ghost">{t("Malzeme kaydı")}</ShellAction>
           </>
         }
       />
 
       <ShellSurfaceBand no="02" label="TANIM" labelledBy="malzeme-tanim">
         <div className="shell-span-read shell-stack">
-          <ShellTitleBlock id="malzeme-tanim" index="02" title={`${category.name} nedir?`} />
+          <ShellTitleBlock id="malzeme-tanim" index="02" title={t("{{name}} nedir?", { name: category.name })} />
           <div className="shell-prose" data-lead>
             <p>{category.content.intro}</p>
           </div>
         </div>
         <div className="shell-span-note shell-stack" data-gap="sm">
-          <p className="shell-eyebrow">Aile özellikleri</p>
-          <ShellTagRow items={category.advantages} ariaLabel={`${category.name} aile özellikleri`} />
+          <p className="shell-eyebrow">{t("Aile özellikleri")}</p>
+          <ShellTagRow items={category.advantages} ariaLabel={t("{{name}} aile özellikleri", { name: category.name })} />
           <p className="shell-note">
-            Bu sayfadaki sayısal aralıklar, aşağıdaki alaşım kaydından hesaplanır.
+            {t("Bu sayfadaki sayısal aralıklar, aşağıdaki alaşım kaydında kaynağı doğrulanmış değerlerden hesaplanır; doğrulanmamış değerler aralığa katılmaz.")}
           </p>
         </div>
       </ShellSurfaceBand>
@@ -144,23 +148,23 @@ export const MalzemeKategori = () => {
           <ShellTitleBlock
             id="malzeme-ozellik"
             index="03"
-            title="Mekanik ve fiziksel özellikler"
+            title={t("Mekanik ve fiziksel özellikler")}
             standfirst={category.content.properties}
           />
         </div>
         <div className="shell-span-full">
           <ShellSpecTable
-            caption={`${category.name} alaşım kaydı`}
-            note="Değerler malzeme standardının tipik aralıklarıdır; parçaya özgü kabul kriteri kontrol planında belirlenir."
-            headers={["Alaşım", "Yoğunluk g/cm³", "Çekme MPa", "Sertlik", "Maks. °C", "İşlenebilirlik"]}
+            caption={t("{{name}} alaşım kaydı", { name: category.name })}
+            note={`${materials[0]?.propertyConditions ?? ""}. ${t("Kaynağı doğrulanmamış değerler “Veri doğrulanmadı” olarak gösterilir; parçaya özgü kabul kriteri kontrol planında belirlenir.")}`}
+            headers={[t("Alaşım"), t("Yoğunluk g/cm³"), t("Çekme MPa"), t("Sertlik"), t("Maks. °C"), t("Kaynak")]}
             rowKey={(_, index) => materials[index]?.id ?? String(index)}
             rows={materials.map((material) => [
               material.name,
-              material.density,
-              material.tensileStrength,
-              material.hardness,
-              material.maxTemperature,
-              `${material.machinability}/5`,
+              t(figure(material, "density")),
+              t(figure(material, "tensileStrength")),
+              t(hardness(material)),
+              t(figure(material, "maxTemperature")),
+              material.source?.document ?? "—",
             ])}
           />
         </div>
@@ -168,33 +172,32 @@ export const MalzemeKategori = () => {
 
       <ShellSurfaceBand no="04" label="KULLANIM" labelledBy="malzeme-kullanim">
         <div className="shell-span-read shell-stack">
-          <ShellTitleBlock id="malzeme-kullanim" index="04" title="Kullanım alanları" />
+          <ShellTitleBlock id="malzeme-kullanim" index="04" title={t("Kullanım alanları")} />
           <div className="shell-prose">
             <p>{category.content.applications}</p>
           </div>
         </div>
         <div className="shell-span-note shell-stack" data-gap="sm">
-          <p className="shell-eyebrow">Sık görülen uygulamalar</p>
+          <p className="shell-eyebrow">{t("Sık görülen uygulamalar")}</p>
           <ShellTagRow
             items={category.commonApplications}
-            ariaLabel={`${category.name} uygulama alanları`}
+            ariaLabel={t("{{name}} uygulama alanları", { name: category.name })}
           />
         </div>
       </ShellSurfaceBand>
 
       <ShellSurfaceBand no="05" label="İŞLEME" labelledBy="malzeme-isleme">
         <div className="shell-span-half shell-stack">
-          <ShellTitleBlock id="malzeme-isleme" index="05" title="CNC işleme özellikleri" />
+          <ShellTitleBlock id="malzeme-isleme" index="05" title={t("CNC işleme özellikleri")} />
           <div className="shell-prose">
             <p>{category.content.machining}</p>
             <p>
-              Standart çalışma aralığımız {MINIMUM_TOLERANCE}; ulaşılabilir tolerans parça
-              geometrisi ve alaşım seçimiyle birlikte teknik incelemede belirlenir.
+              {t("Standart çalışma aralığımız {{value}}; ulaşılabilir tolerans parça geometrisi ve alaşım seçimiyle birlikte teknik incelemede belirlenir.", { value: MINIMUM_TOLERANCE })}
             </p>
           </div>
         </div>
         <div className="shell-span-half shell-stack">
-          <ShellTitleBlock index="06" title="Seçim rehberi" />
+          <ShellTitleBlock index="06" title={t("Seçim rehberi")} />
           <div className="shell-prose">
             <p>{category.content.selection}</p>
           </div>
@@ -207,14 +210,14 @@ export const MalzemeKategori = () => {
             <ShellTitleBlock
               id="malzeme-ilgili"
               index="07"
-              title="İlgili malzeme aileleri"
-              standfirst="Aynı işlevi farklı bir maliyet veya ağırlık noktasında karşılayan aileler."
+              title={t("İlgili malzeme aileleri")}
+              standfirst={t("Aynı işlevi farklı bir maliyet veya ağırlık noktasında karşılayan aileler.")}
             />
           </div>
           <div className="shell-span-full">
             <ShellIndexList
               compact
-              ariaLabel="İlgili malzeme aileleri"
+              ariaLabel={t("İlgili malzeme aileleri")}
               items={relatedCategories.map((item) => ({
                 to: `/malzemeler/${item.slug}`,
                 index: item.code,
@@ -228,14 +231,14 @@ export const MalzemeKategori = () => {
 
       <ShellNextStep
         no="07"
-        title={`${category.name} ile parça üretimi`}
-        body="Teknik resim veya 3B model gönderin; alaşım seçimini üretilebilirlik incelemesiyle birlikte netleştirelim."
+        title={t("{{name}} ile parça üretimi", { name: category.name })}
+        body={t("Teknik resim veya 3B model gönderin; alaşım seçimini üretilebilirlik incelemesiyle birlikte netleştirelim.")}
         detail={[
-          { label: "Dönüş süresi", value: QUOTE_RESPONSE_TIME },
-          { label: "Standart tolerans", value: MINIMUM_TOLERANCE },
-          { label: "Aile", value: category.name },
+          { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
+          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Aile"), value: category.name },
         ]}
-        secondary={{ label: "İletişim", to: "/iletisim" }}
+        secondary={{ label: t("İletişim"), to: "/iletisim" }}
       />
     </PageShell>
   );

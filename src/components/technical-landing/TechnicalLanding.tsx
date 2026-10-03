@@ -3,8 +3,7 @@ import { PageShell } from "@/components/shell/PageShell";
 import { TechnicalHero } from "./TechnicalHero";
 import { ProofStrip } from "./ProofStrip";
 import { MeasuredProjects, NexusEvidence, TechnicalProcess } from "./ProcessNexusProjects";
-import { FaqSection, MeasurementManifesto, QualityFile, ReferenceBand, RfqSection, TechnicalSectors } from "./FinalSections";
-import { MarqueeBand } from "./MarqueeBand";
+import { FaqSection, QualityFile, ReferenceBand, RfqSection, TechnicalSectors } from "./FinalSections";
 import "@/styles/technical-landing.css";
 import { useTechnicalLandingMotion } from "@/hooks/useTechnicalLandingMotion";
 
@@ -45,17 +44,22 @@ export function TechnicalLanding() {
       className="tl-root"
       rootRef={rootRef}
       testId="technical-landing-root"
+      footerNo="12"
+      footerConversion={false}
     >
+      {/* UX01 — the contract's reading order: example geometry → verified
+          capability summary → control approach (signature module; the
+          production flow and the manifesto line merged into it) → three
+          profiles → sectors → quality sources → NEXUS demo → short FAQ → RFQ.
+          The repeating marquee and the separate manifesto band are gone. */}
       <TechnicalHero />
       <ProofStrip />
-      <MarqueeBand />
       <TechnicalProcess />
-      <NexusEvidence />
       <MeasuredProjects />
       <TechnicalSectors />
-      <MeasurementManifesto />
       <QualityFile />
       <ReferenceBand />
+      <NexusEvidence />
       <FaqSection />
       <RfqSection />
       {MasterGridOverlay && (

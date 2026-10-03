@@ -1,5 +1,8 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useMemo, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { usePageMeta } from "@/hooks/use-page-meta";
+import type { TFunction } from "i18next";
 import { PageShell } from "@/components/shell/PageShell";
 import { ShellMetaRow } from "@/components/shell/ShellPrimitives";
 import { ShellAction, ShellIndexList } from "@/components/shell/ShellComposition";
@@ -138,32 +141,30 @@ function nearestRoutes(requested: string, limit = 4): string[] {
 }
 
 /** A route's own label, read out of the IA rather than re-titled here. */
-function labelFor(path: string): string {
+function labelFor(path: string, t: TFunction): string {
   for (const family of navigationItems) {
     for (const category of family.children ?? []) {
-      if (category.path === path) return `${family.label} · ${category.label}`;
+      if (category.path === path) return `${t(family.label)} · ${t(category.label)}`;
       const link = category.links.find((entry) => entry.path === path);
-      if (link) return `${family.label} · ${link.label}`;
+      if (link) return `${t(family.label)} · ${t(link.label)}`;
     }
   }
-  return (
-    resourceLinks.find((link) => link.path === path)?.label
-    ?? companyLinks.find((link) => link.path === path)?.label
-    ?? path
-  );
+  const label = resourceLinks.find((link) => link.path === path)?.label
+    ?? companyLinks.find((link) => link.path === path)?.label;
+  return label ? t(label) : path;
 }
 
 /** The three route families plus the reference surfaces, in IA order. */
-const DIRECTORY = [
+const directory = (t: TFunction) => [
   ...navigationItems.filter((family) => family.children?.length).map((family) => ({
     to: family.children?.[0]?.path ?? "/",
-    title: family.label,
-    description: (family.children ?? []).map((category) => category.label).join(" · "),
+    title: t(family.label),
+    description: (family.children ?? []).map((category) => t(category.label)).join(" · "),
     index: family.index,
   })),
   ...resourceLinks.map((link, offset) => ({
     to: link.path,
-    title: link.label,
+    title: t(link.label),
     index: String(navigationItems.filter((family) => family.children?.length).length + offset + 1).padStart(2, "0"),
   })),
 ];
@@ -184,6 +185,12 @@ export const NotFound = ({ shell = true }: { shell?: boolean }) => {
   const location = useLocation();
   const requested = location.pathname;
   const suggestions = useMemo(() => nearestRoutes(requested), [requested]);
+  const { t } = useTranslation();
+  usePageMeta({
+    title: t("Sayfa bulunamadı"),
+    description: t("İstenen yol bu sitenin sayfa dizininde bir konuma karşılık gelmiyor."),
+    noindex: true,
+  });
 
   useEffect(() => {
     console.error("404 Error:", requested);
@@ -235,7 +242,7 @@ export const NotFound = ({ shell = true }: { shell?: boolean }) => {
         <header className="nf-top">
           <p className="shell-eyebrow">ERR::PAGE_NOT_FOUND</p>
           <p className="nf-path" aria-hidden="true">
-            <span>İSTENEN</span>
+            <span>{t("İSTENEN")}</span>
             <code>{requested}</code>
           </p>
         </header>
@@ -246,7 +253,7 @@ export const NotFound = ({ shell = true }: { shell?: boolean }) => {
             0
             <span className="nf-hole-dim">
               <i />
-              <b>Ø — ÖLÇÜLEMEDİ</b>
+              <b>{t("Ø — ÖLÇÜLEMEDİ")}</b>
             </span>
           </span>
           <span className="nf-digit">4</span>
@@ -254,16 +261,15 @@ export const NotFound = ({ shell = true }: { shell?: boolean }) => {
 
         <div className="nf-copy">
           <h1 id="nf-title" className="shell-notfound-title">
-            Bu koordinatta <em>kayıt yok.</em>
+            {t("Bu koordinatta")} <em>{t("kayıt yok.")}</em>
           </h1>
           <div className="nf-copy-side">
             <p className="shell-lede">
-              İstenen yol bu sitenin sayfa dizininde bir konuma karşılık gelmiyor. Adres değişmiş, yanlış
-              yazılmış veya bağlantı eskimiş olabilir. Aşağıdaki kayıtlar sizi tekrar bir datuma oturtur.
+              {t("İstenen yol bu sitenin sayfa dizininde bir konuma karşılık gelmiyor. Adres değişmiş, yanlış yazılmış veya bağlantı eskimiş olabilir. Aşağıdaki kayıtlar sizi tekrar bir datuma oturtur.")}
             </p>
             <div className="shell-notfound-actions">
-              <ShellAction to="/" variant="primary">Ana sayfa</ShellAction>
-              <ShellAction to="/teklif-al" variant="ghost">Teklif al</ShellAction>
+              <ShellAction to="/" variant="primary">{t("Ana sayfa")}</ShellAction>
+              <ShellAction to="/teklif-al" variant="ghost">{t("Teklif al")}</ShellAction>
             </div>
           </div>
         </div>
@@ -272,10 +278,10 @@ export const NotFound = ({ shell = true }: { shell?: boolean }) => {
       <ShellMetaRow
         className="shell-notfound-meta"
         items={[
-          { label: "DURUM", value: "404 · BULUNAMADI" },
-          { label: "İSTENEN YOL", value: requested },
-          { label: "YAKIN KAYIT", value: String(suggestions.length) },
-          { label: "YÖNLENDİRME", value: "YOK" },
+          { label: t("DURUM"), value: t("404 · BULUNAMADI") },
+          { label: t("İSTENEN YOL"), value: requested },
+          { label: t("YAKIN KAYIT"), value: String(suggestions.length) },
+          { label: t("YÖNLENDİRME"), value: t("YOK") },
         ]}
       />
 
@@ -284,13 +290,13 @@ export const NotFound = ({ shell = true }: { shell?: boolean }) => {
             block is a worse answer than no block at all. */}
         {suggestions.length > 0 && (
           <section className="shell-notfound-section" aria-labelledby="notfound-near">
-            <h2 id="notfound-near" className="shell-eyebrow">YAKIN KAYITLAR</h2>
+            <h2 id="notfound-near" className="shell-eyebrow">{t("YAKIN KAYITLAR")}</h2>
             <ShellIndexList
               compact
-              ariaLabel="İstenen adrese en yakın sayfalar"
+              ariaLabel={t("İstenen adrese en yakın sayfalar")}
               items={suggestions.map((path, index) => ({
                 to: path,
-                title: labelFor(path),
+                title: labelFor(path, t),
                 description: path,
                 index: `Y${index + 1}`,
               }))}
@@ -299,13 +305,13 @@ export const NotFound = ({ shell = true }: { shell?: boolean }) => {
         )}
 
         <section className="shell-notfound-section" aria-labelledby="notfound-directory">
-          <h2 id="notfound-directory" className="shell-eyebrow">SAYFA DİZİNİ</h2>
-          <ShellIndexList compact ariaLabel="Sayfa dizini" items={DIRECTORY} />
+          <h2 id="notfound-directory" className="shell-eyebrow">{t("SAYFA DİZİNİ")}</h2>
+          <ShellIndexList compact ariaLabel={t("Sayfa dizini")} items={directory(t)} />
         </section>
       </div>
 
       <div className="nf-report">
-        <ShellAction to="/iletisim" variant="quiet">Bu bağlantıyı bize bildirin</ShellAction>
+        <ShellAction to="/iletisim" variant="quiet">{t("Bu bağlantıyı bize bildirin")}</ShellAction>
       </div>
     </div>
   );

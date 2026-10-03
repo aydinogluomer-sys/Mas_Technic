@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Link } from "@/i18n/LocaleLink";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { ShellBand } from "./ShellBand";
 import { ShellMetaRow } from "./ShellPrimitives";
@@ -47,15 +48,16 @@ import { ShellMetaRow } from "./ShellPrimitives";
 export type ShellCrumb = { label: string; to?: string };
 
 export function ShellBreadcrumb({ trail }: { trail: ShellCrumb[] }) {
+  const { t } = useTranslation();
   return (
-    <nav className="shell-crumb" aria-label="Sayfa yolu">
+    <nav className="shell-crumb" aria-label={t("Sayfa yolu")}>
       <ol>
         {trail.map((crumb, i) => (
           <li key={`${crumb.label}-${i}`}>
             {crumb.to ? (
-              <Link to={crumb.to}>{crumb.label}</Link>
+              <Link to={crumb.to}>{t(crumb.label)}</Link>
             ) : (
-              <span aria-current="page">{crumb.label}</span>
+              <span aria-current="page">{t(crumb.label)}</span>
             )}
           </li>
         ))}
@@ -328,9 +330,13 @@ export function ShellPlate({
   plate,
   caption,
   style,
+  size,
 }: {
   /** The image element. Usually a `motion.img` so the page owns its parallax. */
   media: ReactNode;
+  /** `reference`: a static still capped by `--shell-reference-plate-h`, no
+      parallax overscan. Default is the detail-page hero plate. */
+  size?: "reference";
   /** Mono plate designation printed under the frame, e.g. `PLAKA 01`. */
   plate?: string;
   /** One line of description under the frame. Never inside it. */
@@ -338,7 +344,7 @@ export function ShellPlate({
   style?: CSSProperties;
 }) {
   return (
-    <figure className="shell-plate" style={style}>
+    <figure className="shell-plate" data-size={size} style={style}>
       <div className="shell-plate-frame">
         {media}
         <span className="shell-plate-tick" data-corner="tl" aria-hidden="true" />
@@ -398,18 +404,19 @@ export function ShellNextStep({
   secondary?: { label: string; to?: string; href?: string };
   id?: string;
 }) {
+  const { t } = useTranslation();
   return (
     <ShellBand no={no} label={label} tone="paper" className="shell-next" id={id} ariaLabel={title}>
       <div className="tl-grid shell-next-body">
         <div className="shell-next-copy">
-          <p className="shell-eyebrow">{eyebrow}</p>
+          <p className="shell-eyebrow">{t(eyebrow)}</p>
           <h2>{title}</h2>
           <p className="shell-next-lede">{body}</p>
           <div className="shell-next-actions">
-            <ShellAction to={primary.to} variant="primary">{primary.label}</ShellAction>
+            <ShellAction to={primary.to} variant="primary">{t(primary.label)}</ShellAction>
             {secondary && (
               <ShellAction to={secondary.to} href={secondary.href} variant="ghost">
-                {secondary.label}
+                {t(secondary.label)}
               </ShellAction>
             )}
           </div>
@@ -484,9 +491,10 @@ export function ShellContents({
   label?: string;
   ariaLabel?: string;
 }) {
+  const { t } = useTranslation();
   return (
-    <nav className="shell-contents" aria-label={ariaLabel}>
-      <p className="shell-eyebrow">{label}</p>
+    <nav className="shell-contents" aria-label={t(ariaLabel)}>
+      <p className="shell-eyebrow">{t(label)}</p>
       <ol>
         {items.map((item) => (
           <li key={item.id}>
@@ -529,10 +537,11 @@ export function ShellNotice({
   children?: ReactNode;
   action?: ReactNode;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="shell-notice" data-tone={tone} role={tone === "error" ? "alert" : undefined}>
-      <p className="shell-notice-label">{label}</p>
-      {title && <p className="shell-notice-title">{title}</p>}
+      <p className="shell-notice-label">{t(label)}</p>
+      {title && <p className="shell-notice-title">{t(title)}</p>}
       {children && <div className="shell-notice-body">{children}</div>}
       {action && <div className="shell-notice-actions">{action}</div>}
     </div>

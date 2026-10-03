@@ -1,11 +1,15 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { safeLocal } from "@/lib/safe-storage";
 import { MessageCircle, X, Send, Bot, User, Loader2 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "@/components/shell/motion";
 import ReactMarkdown from "react-markdown";
+import { useTranslation } from "react-i18next";
 import { findBestFaqMatch } from "@/data/chatFaqData";
+import { useSiteData } from "@/i18n/data";
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/integrations/supabase/env";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -134,7 +138,7 @@ function getAiUsageToday(): number {
 
 function incrementAiUsage() {
   const current = getAiUsageToday();
-  localStorage.setItem(AI_LIMIT_KEY, JSON.stringify({ count: current + 1, date: new Date().toDateString() }));
+  safeLocal.set(AI_LIMIT_KEY, JSON.stringify({ count: current + 1, date: new Date().toDateString() }));
 }
 
 async function streamChat({
@@ -189,16 +193,34 @@ async function streamChat({
   onDone();
 }
 
+/* Typed consent words, in either public language. */
+const YES = new Set(["evet", "yes", "👍"]);
+const NO = new Set(["hayır", "iptal", "no", "cancel"]);
+
 const quickQuestions = [
   "Hangi CNC hizmetleri sunuyorsunuz?",
   "Prototip üretimi yapıyor musunuz?",
   "Teklif nasıl alabilirim?",
 ];
 
-export function ChatBot() {
+/* Internal links in an answer (`[Teklif Al](/teklif-al)`) stay in the
+   reader's locale; anything else opens as a plain link. */
+const MARKDOWN_COMPONENTS = {
+  a: ({ href, children }: { href?: string; children?: React.ReactNode }) =>
+    href && href.startsWith("/") && !href.startsWith("//")
+      ? <Link to={href}>{children}</Link>
+      : <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>,
+};
+
+export function ChatBot({ defaultOpen = false }: { defaultOpen?: boolean } = {}) {
   const { pathname } = useLocation();
   const reducedMotion = usePrefersReducedMotion();
-  const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
+  const { faqEntries } = useSiteData();
+  /* PERF01: `ChatLauncher` loads this module on the first click and mounts
+     it already open, so that click opens the panel rather than a second
+     launcher. */
+  const [open, setOpen] = useState(defaultOpen);
   /* Below 768px the launcher sits over the lower part of the screen, which is
      exactly where the footer's conversion buttons pass while scrolling. It
      steps aside while that row is on screen (same as on footer focus), so it
@@ -240,7 +262,7 @@ export function ChatBot() {
   const callAi = useCallback(
     async (text: string, history: Msg[]) => {
       if (getAiUsageToday() >= AI_DAILY_LIMIT) {
-        addAssistantMsg("⚠️ Günlük AI kullanım limitine ulaştınız. Lütfen yarın tekrar deneyin veya [Teklif Al](/teklif-al) sayfamızdan bize ulaşın.");
+        addAssistantMsg(t("⚠️ Günlük AI kullanım limitine ulaştınız. Lütfen yarın tekrar deneyin veya [Teklif Al](/teklif-al) sayfamızdan bize ulaşın."));
         setLoading(false);
         return;
       }
@@ -263,16 +285,16 @@ export function ChatBot() {
           onDelta: upsert,
           onDone: () => setLoading(false),
           onError: (e) => {
-            addAssistantMsg(`⚠️ ${e}`);
+            addAssistantMsg(`⚠️ ${t(e)}`);
             setLoading(false);
           },
         });
       } catch {
-        addAssistantMsg("⚠️ Bağlantı hatası. Lütfen tekrar deneyin.");
+        addAssistantMsg(t("⚠️ Bağlantı hatası. Lütfen tekrar deneyin."));
         setLoading(false);
       }
     },
-    [addAssistantMsg]
+    [addAssistantMsg, t]
   );
 
   const send = useCallback(
@@ -280,7 +302,7 @@ export function ChatBot() {
       if (!text.trim() || loading) return;
 
       // Kullanıcı AI onayına "Evet" dedi
-      if (pendingAiPrompt && (text.trim().toLowerCase() === "evet" || text.trim() === "👍")) {
+      if (pendingAiPrompt && YES.has(text.trim().toLocaleLowerCase())) {
         setMsgs([...msgs, { role: "user" as const, content: text.trim() }]);
         setInput("");
         setPendingAiPrompt(null);
@@ -299,9 +321,9 @@ export function ChatBot() {
       }
 
       // Hayır/iptal
-      if (pendingAiPrompt && (text.trim().toLowerCase() === "hayır" || text.trim().toLowerCase() === "iptal")) {
+      if (pendingAiPrompt && NO.has(text.trim().toLocaleLowerCase())) {
         setPendingAiPrompt(null);
-        setMsgs((prev) => [...prev, { role: "user", content: text.trim() }, { role: "assistant", content: "Tamam! Başka bir sorunuz varsa yardımcı olmaktan memnuniyet duyarım. 😊" }]);
+        setMsgs((prev) => [...prev, { role: "user", content: text.trim() }, { role: "assistant", content: t("Tamam! Başka bir sorunuz varsa yardımcı olmaktan memnuniyet duyarım. 😊") }]);
         setInput("");
         return;
       }
@@ -313,7 +335,7 @@ export function ChatBot() {
       setInput("");
 
       // 1. Yerel FAQ eşleştirme
-      const match = findBestFaqMatch(text);
+      const match = findBestFaqMatch(text, faqEntries);
       if (match) {
         addAssistantMsg(match.entry.answer);
         return;
@@ -322,7 +344,7 @@ export function ChatBot() {
       // 2. Eşleşme yok → AI onayı iste
       const remaining = AI_DAILY_LIMIT - getAiUsageToday();
       if (remaining <= 0) {
-        addAssistantMsg("⚠️ Günlük AI kullanım limitine ulaştınız. Lütfen yarın tekrar deneyin veya [Teklif Al](/teklif-al) sayfamızdan bize ulaşın.");
+        addAssistantMsg(t("⚠️ Günlük AI kullanım limitine ulaştınız. Lütfen yarın tekrar deneyin veya [Teklif Al](/teklif-al) sayfamızdan bize ulaşın."));
         return;
       }
 
@@ -330,11 +352,11 @@ export function ChatBot() {
       // The `"ai-consent"` kind is what the outbound filter above reads. Write
       // one without it and the bot's own question is forwarded to Google.
       addAssistantMsg(
-        `🤖 Bu soruyu daha detaylı yanıtlamak için AI asistanı kullanmamı ister misiniz? (Kalan: ${remaining} mesaj)\n\n**Evet** veya **Hayır** yazarak yanıtlayın.`,
+        t("🤖 Bu soruyu daha detaylı yanıtlamak için AI asistanı kullanmamı ister misiniz? (Kalan: {{remaining}} mesaj)\n\n**Evet** veya **Hayır** yazarak yanıtlayın.", { remaining }),
         "ai-consent",
       );
     },
-    [msgs, loading, pendingAiPrompt, addAssistantMsg, callAi]
+    [msgs, loading, pendingAiPrompt, addAssistantMsg, callAi, faqEntries, t]
   );
 
   return (
@@ -357,7 +379,7 @@ export function ChatBot() {
               bottom: "calc(5.75rem + var(--shell-safe-bottom))",
               right: "max(1rem, var(--shell-safe-right))",
             }}
-            aria-label="Sohbet aç"
+            aria-label={t("Sohbet aç")}
           >
             <MessageCircle className="w-6 h-6" />
           </motion.button>
@@ -379,20 +401,20 @@ export function ChatBot() {
             }}
             role="dialog"
             aria-modal="false"
-            aria-label="MAS Technic sohbet asistanı"
+            aria-label={t("MAS Technic sohbet asistanı")}
           >
             {/* Header */}
             <div className="flex items-center gap-3 px-4 py-3 bg-primary text-primary-foreground">
               <Bot className="w-5 h-5" />
               <div className="flex-1">
-                <p className="text-sm font-semibold">MAS Technic Asistan</p>
-                <p className="text-xs opacity-80">CNC & İmalat Uzmanı</p>
+                <p className="text-sm font-semibold">{t("MAS Technic Asistan")}</p>
+                <p className="text-xs opacity-80">{t("CNC & İmalat Uzmanı")}</p>
               </div>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
                 className="flex min-h-11 min-w-11 items-center justify-center rounded-lg hover:bg-[rgb(var(--text-primary-rgb)/0.2)] transition-colors"
-                aria-label="Sohbeti kapat"
+                aria-label={t("Sohbeti kapat")}
               >
                 <X className="w-4 h-4" />
               </button>
@@ -407,17 +429,17 @@ export function ChatBot() {
                       <Bot className="w-4 h-4 text-primary" />
                     </div>
                     <div className="bg-muted rounded-xl rounded-tl-sm px-3 py-2 text-sm text-foreground">
-                      Merhaba! 👋 MAS Technic asistanıyım. CNC işleme, imalat ve hizmetlerimiz hakkında sorularınızı yanıtlayabilirim.
+                      {t("Merhaba! 👋 MAS Technic asistanıyım. CNC işleme, imalat ve hizmetlerimiz hakkında sorularınızı yanıtlayabilirim.")}
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2 ml-9">
                     {quickQuestions.map((q) => (
                       <button
                         key={q}
-                        onClick={() => send(q)}
-                        className="text-xs px-3 py-1.5 rounded-full border border-border bg-background hover:bg-accent text-foreground transition-colors"
+                        onClick={() => send(t(q))}
+                        className="text-sm px-3 py-1.5 rounded-full border border-border bg-background hover:bg-accent text-foreground transition-colors"
                       >
-                        {q}
+                        {t(q)}
                       </button>
                     ))}
                   </div>
@@ -442,7 +464,7 @@ export function ChatBot() {
                   >
                     {m.role === "assistant" ? (
                       <div className="prose prose-sm dark:prose-invert max-w-none [&>p]:m-0 [&>ul]:my-1 [&>ol]:my-1">
-                        <ReactMarkdown>{m.content}</ReactMarkdown>
+                        <ReactMarkdown components={MARKDOWN_COMPONENTS}>{m.content}</ReactMarkdown>
                       </div>
                     ) : (
                       m.content
@@ -471,30 +493,28 @@ export function ChatBot() {
                   ve karardan ÖNCE duruyor. */}
               {pendingAiPrompt && !loading && (
                 <div className="ml-9 space-y-2">
-                  <p className="rounded-lg border border-border px-3 py-2 text-xs leading-snug text-foreground">
-                    Evet derseniz o ana kadarki yazışma, sitenin sunucusu üzerinden Google’ın Gemini
-                    servisine iletilir. Paylaşmak istemediğiniz parça, ölçü veya firma bilgisini
-                    yazmayın —{" "}
+                  <p className="rounded-lg border border-border px-3 py-2 text-sm leading-snug text-foreground">
+                    {t("Evet derseniz o ana kadarki yazışma, sitenin sunucusu üzerinden Google’ın Gemini servisine iletilir. Paylaşmak istemediğiniz parça, ölçü veya firma bilgisini yazmayın —")}{" "}
                     <Link
                       to="/gizlilik-politikasi#sohbet-asistani"
                       className="underline underline-offset-2 hover:text-foreground"
                     >
-                      Gizlilik Politikası, madde 06
+                      {t("Gizlilik Politikası, madde 06")}
                     </Link>
                     .
                   </p>
                   <div className="flex gap-2">
                     <button
-                      onClick={() => send("Evet")}
-                      className="text-xs px-4 py-1.5 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                      onClick={() => send(t("Evet"))}
+                      className="text-sm px-4 py-1.5 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
                     >
-                      ✅ Evet
+                      ✅ {t("Evet")}
                     </button>
                     <button
-                      onClick={() => send("Hayır")}
-                      className="text-xs px-4 py-1.5 rounded-full border border-border bg-background hover:bg-accent text-foreground transition-colors"
+                      onClick={() => send(t("Hayır"))}
+                      className="text-sm px-4 py-1.5 rounded-full border border-border bg-background hover:bg-accent text-foreground transition-colors"
                     >
-                      ❌ Hayır
+                      ❌ {t("Hayır")}
                     </button>
                   </div>
                 </div>
@@ -510,16 +530,16 @@ export function ChatBot() {
               className="flex items-center gap-2 px-3 py-3 border-t border-border bg-background"
             >
               <input
-                aria-label="Sohbet mesajı"
+                aria-label={t("Sohbet mesajı")}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Mesajınızı yazın..."
+                placeholder={t("Mesajınızı yazın...")}
                 disabled={loading}
                 className="flex-1 bg-muted rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/30 disabled:opacity-50"
               />
               <button
                 type="submit"
-                aria-label="Mesajı gönder"
+                aria-label={t("Mesajı gönder")}
                 disabled={!input.trim() || loading}
                 className="w-9 h-9 rounded-lg bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-colors disabled:opacity-50"
               >

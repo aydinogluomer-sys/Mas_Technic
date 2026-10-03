@@ -37,7 +37,20 @@ export const uploadCadFile = async (
 ): Promise<UploadedCadFile> => {
   const validationError = validateCadFile(file);
   if (validationError) throw new Error(validationError);
+  return uploadStorageObject(file, path, file.type || "application/octet-stream", onProgress);
+};
 
+/**
+ * The transport alone, with no format rule: RFQ01's attachment contract
+ * validates models and PDFs separately (`rfq-attachments.ts`) and then uploads
+ * through here. Same bucket, same stall watchdog, same safe error strings.
+ */
+export const uploadStorageObject = async (
+  file: File,
+  path: string,
+  contentType: string,
+  onProgress?: (progress: CadUploadProgress) => void,
+): Promise<UploadedCadFile> => {
   const supabaseUrl = SUPABASE_URL;
   const publishableKey = SUPABASE_PUBLISHABLE_KEY;
   const { data } = await supabase.auth.getSession();
@@ -67,7 +80,7 @@ export const uploadCadFile = async (
     xhr.open("POST", `${supabaseUrl}/storage/v1/object/${CAD_UPLOAD_BUCKET}/${encodeStoragePath(path)}`);
     xhr.setRequestHeader("apikey", publishableKey);
     xhr.setRequestHeader("Authorization", `Bearer ${token}`);
-    xhr.setRequestHeader("Content-Type", file.type || "application/octet-stream");
+    xhr.setRequestHeader("Content-Type", contentType);
     xhr.setRequestHeader("x-upsert", "false");
 
     xhr.upload.onprogress = (event) => {

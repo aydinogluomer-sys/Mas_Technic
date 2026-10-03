@@ -1,11 +1,19 @@
 import { useCallback, useRef, useState } from "react";
+import { safeSession } from "@/lib/safe-storage";
 import { FunctionsFetchError, FunctionsHttpError } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
-import { createCadStoragePath, uploadCadFile, type UploadedCadFile } from "@/utils/cadUpload";
+import { createCadStoragePath, uploadCadFile, uploadStorageObject, type UploadedCadFile } from "@/utils/cadUpload";
+import {
+  attachmentStoragePath,
+  mediaTypeFor,
+  sha256Hex,
+  type PendingAttachment,
+  type RfqAttachmentMeta,
+} from "./rfq-attachments";
 import {
   buildRfqNotes,
   createRfqReference,
-  optionLabel,
+  optionValue,
   resolveMaterialLabel,
   RFQ_SERVICES,
   type RfqDraft,
@@ -94,6 +102,11 @@ type SubmitInput = {
   file: File | null;
   /** A storage object the hero dropzone already uploaded. */
   handoff: UploadedCadFile | null;
+  /**
+   * RFQ01 multi-attachment request (model + PDFs). Only passed when
+   * `RFQ_ATTACHMENTS_ENABLED`; the single-file path above is untouched.
+   */
+  attachments?: readonly PendingAttachment[];
 };
 
 function clampBackendMessage(value: unknown): string | null {
@@ -152,6 +165,14 @@ async function readFunctionError(error: unknown): Promise<RfqSubmissionError> {
         retryable: true,
       };
     }
+    if (status === 413) {
+      return {
+        label: "DOSYA ÇOK BÜYÜK",
+        title: "Sunucu dosya boyutunu kabul etmedi",
+        detail: "Dosya veya dosyaların toplamı sunucu sınırını aşıyor. Daha küçük bir dosya seçin ya da dosyayı e-posta ile gönderin.",
+        retryable: false,
+      };
+    }
     if (status >= 400 && status < 500) {
       return {
         label: "TALEP REDDEDİLDİ",
@@ -203,16 +224,40 @@ export function useRfqSubmission() {
    * geometry and must not be sent under the new file's name.
    */
   const uploadedRef = useRef<{ source: File; stored: UploadedCadFile } | null>(null);
+  /**
+   * RFQ02 — ONE REFERENCE PER REQUEST, NOT PER CLICK.
+   *
+   * The reference is the row's primary key. It used to be generated on every
+   * call, so a retry after a timeout or a lost 201 sent a NEW id and could
+   * write a second row for the same request. It is now created on the first
+   * attempt and kept for every retry until the request succeeds or the form
+   * is reset; a repeated id cannot create a second row (the server answers it
+   * with a duplicate-key error rather than a second insert).
+   */
+  const referenceRef = useRef<string | null>(null);
+  /**
+   * Set when an attempt ended without an answer (timeout, dropped connection):
+   * the row may exist. A 5xx on the retry is then reported as "possibly
+   * already received, quote this reference", never as a plain failure that
+   * invites a fresh request.
+   */
+  const ambiguousRef = useRef(false);
+  /** RFQ01 — per-attachment upload cache, keyed by attachment key + File. */
+  const attachmentCacheRef = useRef(new Map<string, { source: File; meta: RfqAttachmentMeta }>());
 
   const reset = useCallback(() => {
     setState({ status: "idle" });
+    referenceRef.current = null;
+    ambiguousRef.current = false;
+    attachmentCacheRef.current.clear();
+    uploadedRef.current = null;
   }, []);
 
-  const submit = useCallback(async ({ draft, file, handoff }: SubmitInput) => {
+  const submit = useCallback(async ({ draft, file, handoff, attachments }: SubmitInput) => {
     if (inFlight.current) return;
     inFlight.current = true;
 
-    const reference = createRfqReference();
+    const reference = (referenceRef.current ??= createRfqReference());
     if (uploadedRef.current && uploadedRef.current.source !== file) uploadedRef.current = null;
     setState(file && !uploadedRef.current && !handoff ? { status: "uploading", percent: 0 } : { status: "sending" });
 
@@ -267,6 +312,54 @@ export function useRfqSubmission() {
         }
       }
 
+      /* 2b — RFQ01 attachments (flag on only). Each file is hashed and
+         uploaded once; a failure on the second file keeps the first, and the
+         retry uploads only what is missing. A replaced file invalidates its
+         cache entry because the entry is keyed by the File itself. */
+      let attachmentMeta: RfqAttachmentMeta[] | null = null;
+      if (attachments) {
+        attachmentMeta = [];
+        const cache = attachmentCacheRef.current;
+        for (const [index, item] of attachments.entries()) {
+          const cached = cache.get(item.key);
+          if (cached && cached.source === item.file) {
+            attachmentMeta.push({ ...cached.meta, revisionLabel: item.revisionLabel.trim() || null });
+            continue;
+          }
+          try {
+            const sha256 = await sha256Hex(item.file);
+            const path = attachmentStoragePath(item, reference, userId, index);
+            const stored = await uploadStorageObject(item.file, path, mediaTypeFor(item), (progress) =>
+              setState({ status: "uploading", percent: Math.round(((index + progress.percent / 100) / attachments.length) * 100) }),
+            );
+            const meta: RfqAttachmentMeta = {
+              kind: item.kind,
+              originalName: item.file.name,
+              storagePath: stored.path,
+              sizeBytes: item.file.size,
+              mediaType: mediaTypeFor(item),
+              sha256,
+              revisionLabel: item.revisionLabel.trim() || null,
+            };
+            cache.set(item.key, { source: item.file, meta });
+            attachmentMeta.push(meta);
+          } catch (uploadError) {
+            setState({
+              status: "failed",
+              error: {
+                label: "YÜKLEME BAŞARISIZ",
+                title: "Dosya yüklenemedi",
+                detail: "“{{name}}” yüklenemedi. Yüklenen diğer dosyalar korunur; tekrar denediğinizde yalnız eksik dosya yüklenir.",
+                detailVars: { name: item.file.name },
+                retryable: true,
+              },
+            });
+            void uploadError;
+            return;
+          }
+        }
+      }
+
       /* 3 — the write. */
       setState({ status: "sending" });
       const { data, error } = await supabase.functions.invoke("rfq-rate-limit", {
@@ -279,15 +372,34 @@ export function useRfqSubmission() {
           phone: draft.phone.trim() || profile.phone || null,
           user_id: userId,
           quantity: draft.quantity,
-          service: optionLabel(RFQ_SERVICES, draft.service),
-          material: resolveMaterialLabel(draft.material, draft.customMaterial),
+          service: optionValue(RFQ_SERVICES, draft.service),
+          material: draft.material ? resolveMaterialLabel(draft.material, draft.customMaterial) : null,
           notes: buildRfqNotes(draft),
-          files: storedFile ? [storedFile.path] : [],
+          files: attachmentMeta ? attachmentMeta.map((meta) => meta.storagePath) : storedFile ? [storedFile.path] : [],
+          ...(attachmentMeta ? { attachments: attachmentMeta } : {}),
         },
       });
 
       if (error) {
-        setState({ status: "failed", error: await readFunctionError(error) });
+        const mapped = await readFunctionError(error);
+        const noAnswer = error instanceof FunctionsFetchError;
+        if (!noAnswer && ambiguousRef.current && mapped.label === "SUNUCU HATASI") {
+          setState({
+            status: "failed",
+            error: {
+              label: "DURUM BELİRSİZ",
+              title: "Talebiniz önceki denemede alınmış olabilir",
+              detail:
+                "Bir önceki deneme yanıtsız kaldı; talep o sırada kaydedilmiş olabilir. Yeni bir talep açmayın; " +
+                "{{reference}} numarasıyla bize yazın, kaydı kontrol edelim.",
+              detailVars: { reference },
+              retryable: false,
+            },
+          });
+          return;
+        }
+        if (noAnswer) ambiguousRef.current = true;
+        setState({ status: "failed", error: mapped });
         return;
       }
 
@@ -297,8 +409,12 @@ export function useRfqSubmission() {
       const stored = (data as { rfq?: { id?: unknown } } | null)?.rfq?.id;
       setState({ status: "sent", reference: typeof stored === "string" ? stored : null });
       uploadedRef.current = null;
-      sessionStorage.removeItem("mas_pending_cad_upload");
+      referenceRef.current = null;
+      ambiguousRef.current = false;
+      attachmentCacheRef.current.clear();
+      safeSession.remove("mas_pending_cad_upload");
     } catch (unexpected) {
+      if (unexpected instanceof FunctionsFetchError) ambiguousRef.current = true;
       setState({ status: "failed", error: await readFunctionError(unexpected) });
     } finally {
       inFlight.current = false;

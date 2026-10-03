@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { safeSession } from "@/lib/safe-storage";
+import { useLocaleNavigate as useNavigate } from "@/i18n/hooks";
 import { CAD_ACCEPTED_EXTENSIONS, CAD_MAX_FILE_SIZE, validateCadFile } from "@/utils/cadFiles";
 
 /* Toasts are only ever raised after a file is chosen, so sonner is fetched then
@@ -47,7 +48,7 @@ export function useCadHandoff(draftRfqId: string) {
         const uploaded = await uploadCadFile(file, createCadStoragePath(file, draftRfqId), (nextProgress) => {
           setProgress(nextProgress.percent);
         });
-        sessionStorage.setItem("mas_pending_cad_upload", JSON.stringify(uploaded));
+        safeSession.set("mas_pending_cad_upload", JSON.stringify(uploaded));
         (window as unknown as { __heroUploadFile?: File }).__heroUploadFile = file;
         void toast().then((t) => t.success("CAD dosyası yüklendi. Teklif formuna aktarılıyor."));
         navigate("/teklif-al");

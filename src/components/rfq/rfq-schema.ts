@@ -61,14 +61,15 @@ export const rfqDraftSchema = z
       .min(2, "Firma adı en az 2 karakter olmalı.")
       .max(160, "Firma adı en fazla 160 karakter olabilir."),
     phone: z.string().trim().max(32, "Telefon en fazla 32 karakter olabilir."),
-    service: z.string().min(1),
-    material: z.string().min(1),
+    /* RFQ03: optional choices start empty and are sent as "not specified". */
+    service: z.string(),
+    material: z.string(),
     customMaterial: z.string().trim().max(100, "Malzeme adı en fazla 100 karakter olabilir."),
-    finish: z.string().min(1),
-    priority: z.string().min(1),
-    tolerance: z.string().min(1),
+    finish: z.string(),
+    priority: z.string(),
+    tolerance: z.string(),
     quantity: z
-      .number({ invalid_type_error: "Miktar bir sayı olmalı." })
+      .number({ invalid_type_error: "Miktar zorunludur." })
       .int("Miktar tam sayı olmalı.")
       .min(1, "Miktar en az 1 adet olmalı.")
       .max(1_000_000, "Miktar en fazla 1.000.000 adet olabilir."),

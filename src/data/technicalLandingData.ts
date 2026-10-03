@@ -50,15 +50,6 @@ export const technicalProof = [
 export const technicalProofNote =
   "Ulaşılabilir tolerans; geometri, malzeme ve ölçü zincirine göre değişir, her parça için teknik incelemede belirlenir.";
 
-export const marqueeItems = [
-  "5 EKSEN CNC İŞLEME",
-  "CNC TORNALAMA",
-  "MİKRO İŞLEME",
-  "YÜZEY İŞLEMLERİ",
-  "KALİTE KONTROL",
-  "MONTAJ & BİRLEŞTİRME",
-] as const;
-
 /**
  * The hero passport is a DRAWING LEGEND, not a part record.
  *
@@ -91,39 +82,57 @@ export const technicalProcess = [
   { no: "04", title: "KALİTE & TESLİMAT", lines: ["Kontrol Planına Göre Ölçüm", "Ölçüm Kaydı", "Güvenli Paketleme"] },
 ] as const;
 
-export const nexusPanels = ["ÖZET", "SİPARİŞLER", "TAKİP", "RAPORLAR", "KALİTE", "AYARLAR"] as const;
+/* ── NEXUS01: a DEMO workflow, not a portal screenshot ──────────────────────
 
-/* ── NEXUS: an ANONYMISED portal view, not a dashboard of invented numbers ──
+   The band used to show four portal tiles over a "masked" order table —
+   `MT-••••-••12`, `Braket`, `Alüminyum`, `ÜRETİMDE`. Masking a row reads as
+   "a real order, hidden", and there is no such order behind it. The contract
+   (NEXUS01) forbids exactly that claim. So the band is now five demo steps
+   that explain what each stage of a job produces — a document or a decision —
+   and nothing on it pretends to be an order, a customer, a quantity, a date,
+   a turnover or a performance rate. Every view carries `DEMO` and
+   `GERÇEK SİPARİŞ DEĞİLDİR`; there is nothing to download.               */
 
-   The band used to print four KPIs (aktif sipariş, üretimde, toplam parça, a
-   success rate to one decimal place), six fabricated work orders, and a named
-   quality manager who does not exist. All of it sat under a `DEMO İÇERİK`
-   stamp, which admits the problem without fixing it.
+export const NEXUS_DEMO_LABEL = "DEMO";
+export const NEXUS_NOT_REAL_LABEL = "GERÇEK SİPARİŞ DEĞİLDİR";
 
-   A customer portal cannot honestly show real orders anyway — they belong to
-   customers. So the preview shows what the portal DOES, and the order table is
-   redacted the way a screenshot of a live portal would have to be. Nothing
-   here asserts a quantity, a rate, a date or a person.                      */
-
-export const nexusKpis = [
-  { value: "SİPARİŞ", label: "DURUM TAKİBİ", icon: "box" },
-  { value: "ÜRETİM", label: "AŞAMA GÖRÜNÜRLÜĞÜ", icon: "flow", tone: "green" },
-  { value: "ÖLÇÜM", label: "KONTROL KAYITLARI", icon: "stack" },
-  { value: "SEVKİYAT", label: "TESLİMAT PLANI", icon: "chart" },
+export const nexusDemoSteps = [
+  {
+    key: "teklif",
+    title: "TEKLİF",
+    summary: "Teknik resim veya 3B model incelenir; geometri, tolerans ve kapsam netleşince teklif hazırlanır.",
+    document: "Teklif ve teknik değerlendirme notu",
+    decision: "Kapsam, malzeme ve adet müşteriyle teyit edilir.",
+  },
+  {
+    key: "onay",
+    title: "ONAY",
+    summary: "Teklif onaylanınca iş, revizyonu belli olan resimle açılır.",
+    document: "Sipariş onayı ve geçerli resim revizyonu",
+    decision: "Kontrol planındaki kritik koteler birlikte belirlenir.",
+  },
+  {
+    key: "uretim",
+    title: "ÜRETİM",
+    summary: "Operasyonlar proses planına göre ilerler; işin hangi aşamada olduğu portalda görünür.",
+    document: "Operasyon kaydı",
+    decision: "Ara kontrolün sonucu, bir sonraki operasyonun koşuludur.",
+  },
+  {
+    key: "olcum",
+    title: "ÖLÇÜM",
+    summary: "Kontrol planındaki özellikler ölçülür ve ölçüm kaydı işe bağlanır.",
+    document: "Ölçüm kaydı",
+    decision: "Parti, kontrol planı tamamlanınca sevkiyata serbest bırakılır.",
+  },
+  {
+    key: "sevkiyat",
+    title: "SEVKİYAT",
+    summary: "Parçalar teslim dosyasıyla birlikte sevk edilir.",
+    document: "Teslim dosyası: ölçüm kaydı ve şartnamede istenen belgeler",
+    decision: "Teslim bilgisi işin kaydına eklenir.",
+  },
 ] as const;
-
-/** Identifying fields are masked; the status vocabulary is the portal's real one. */
-export const nexusOrders = [
-  ["MT-••••-••12", "Braket", "Alüminyum", "••", "••.••.••••", "ÜRETİMDE"],
-  ["MT-••••-••11", "Valf Gövdesi", "Paslanmaz Çelik", "••", "••.••.••••", "ÜRETİMDE"],
-  ["MT-••••-••10", "Motor Gövdesi", "Titanyum", "••", "••.••.••••", "ÜRETİMDE"],
-  ["MT-••••-••09", "Kompresör Çarkı", "Nikel Alaşım", "••", "••.••.••••", "KALİTE KONTROL"],
-  ["MT-••••-••08", "Tahrik Mili", "Alaşımlı Çelik", "••", "••.••.••••", "HAZIR"],
-  ["MT-••••-••07", "Gövde Bloğu", "Alüminyum", "••", "••.••.••••", "ÜRETİMDE"],
-] as const;
-
-/** Explains the masking glyphs instead of apologising for placeholder data. */
-export const nexusRedactionNote = "PORTAL GÖRÜNÜMÜ · MÜŞTERİYE AİT ALANLAR MASKELENMİŞTİR";
 
 export const qualityCertificates = CERTIFICATIONS;
 

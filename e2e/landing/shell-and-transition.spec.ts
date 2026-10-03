@@ -33,10 +33,12 @@ const SHELL_ROUTES = [
   { path: "/malzemeler", name: "material index" },
   { path: "/blog", name: "journal index" },
   { path: "/sss", name: "faq" },
-  { path: "/kvkk", name: "legal" },
-  { path: "/teklif-al", name: "rfq", footer: false },
+  /* UX04 (package 7): legal texts and the quote studio carry the COMPACT
+     footer — one contentinfo, but not the master-grid footer band. */
+  { path: "/kvkk", name: "legal", footer: "compact" },
+  { path: "/teklif-al", name: "rfq", footer: "compact" },
   { path: "/__phase04-not-a-route__", name: "404" },
-] as { path: string; name: string; footer?: false }[];
+] as { path: string; name: string; footer?: false | "compact" }[];
 
 async function shellShape(page: Page) {
   return page.evaluate(() => {
@@ -88,7 +90,7 @@ test.describe("global public page shell", () => {
       // The same rail/grid contract is AVAILABLE to every page: the footer band
       // resolves to rail + `--tl-cols` tracks at every width, from the same
       // tokens the landing uses.
-      if (route.footer !== false) {
+      if (route.footer === undefined) {
         expect(shape.bandTracks, "rail + --tl-cols master tracks").toBe(shape.cols + 1);
       }
       expect(shape.sheetMax, "one sheet token").toBe("1600px");
@@ -117,11 +119,13 @@ test.describe("global public page shell", () => {
     await expect(page.locator("main#main-content")).toBeVisible();
   });
 
-  test("/teklif-al keeps legal links that navigate, without a footer", async ({ page }) => {
+  test("/teklif-al keeps legal links that navigate, with the compact footer", async ({ page }) => {
     // Before Phase 04 the page had no legal links and no exit path at all. The
-    // round-2 quote studio drops the footer on purpose; its rail carries them.
+    // round-2 quote studio dropped the long footer; UX04 gives it the compact
+    // one (brand, direct line, legal links, copyright). Its rail still carries
+    // the legal links too.
     await gotoAndSettle(page, "/teklif-al");
-    await expect(page.getByRole("contentinfo")).toHaveCount(0);
+    await expect(page.getByRole("contentinfo")).toHaveAttribute("data-footer-variant", "compact");
     const legal = page.locator(".rfq-legal");
     for (const name of [/^KVKK/i, /Gizlilik Politikası/i, /Çerez Politikası/i]) {
       await expect(legal.getByRole("link", { name })).toHaveCount(1);

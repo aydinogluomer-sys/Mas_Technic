@@ -38,7 +38,7 @@ export const categoryPages: CategoryPageData[] = [
     title: "Yüzey İşlemleri",
     description: "Anodizasyon, boya, kaplama ve kimyasal işlemler ile parçalarınıza üstün yüzey kalitesi.",
     links: [
-      { label: "Mekanik Yüzey İşlemleri", path: "/hizmetler/mekanik-yuzey-islemleri", description: "Kumlama, polisaj ve taşlama ile yüzey hazırlığı." },
+      { label: "Mekanik Yüzey İşlemleri", path: "/hizmetler/mekanik-yuzey-islemleri", description: "Kumlama, vibrasyonlu yüzey bitirme, parlatma ve fırçalama ile yüzey hazırlığı." },
       { label: "Anodizasyon", path: "/hizmetler/anodizasyon", description: "Alüminyum parçalara korozyon direnci ve estetik görünüm." },
       { label: "Kimyasal İşlemler", path: "/hizmetler/kimyasal-islemler", description: "Pasivizasyon, fosfatlama ve kimyasal kaplama." },
       { label: "Boya & Koruyucu Kaplamalar", path: "/hizmetler/boya-koruyucu-kaplamalar", description: "Toz boya, astar ve özel kaplama çözümleri." },
@@ -51,7 +51,7 @@ export const categoryPages: CategoryPageData[] = [
     description: "Lazer kazıma, QR kodları ve markalama ile parça izlenebilirliği ve tanımlama çözümleri.",
     links: [
       { label: "Lazer Kazıma", path: "/hizmetler/lazer-kazima", description: "Kalıcı lazer işaretleme ile parça tanımlama." },
-      { label: "Tavlama", path: "/hizmetler/tavlama", description: "Lazer tavlama ile renk değişimi bazlı işaretleme." },
+      { label: "Lazer Tavlama ile Markalama", path: "/hizmetler/tavlama", description: "Malzeme kaldırmadan, ısıl renk değişimiyle işaretleme." },
       { label: "QR & DataMatrix Kodları", path: "/hizmetler/qr-datamatrix-kodlari", description: "Endüstriyel standartlarda 2D kod uygulamaları." },
       { label: "Logo & Markalama", path: "/hizmetler/logo-markalama", description: "Logo, seri numarası ve özel tasarım işaretleme." },
     ],
@@ -65,7 +65,7 @@ export const categoryPages: CategoryPageData[] = [
       { label: "Insert Uygulama", path: "/hizmetler/insert-uygulama", description: "Ultrasonik ve ısıl insert yerleştirme." },
       { label: "Mekanik Montaj", path: "/hizmetler/mekanik-montaj", description: "Alt montaj ve komple ürün montajı." },
       { label: "Kitting & Paketleme", path: "/hizmetler/kitting-paketleme", description: "Kit hazırlama ve özel paketleme çözümleri." },
-      { label: "Kaynaklı İmalat", path: "/hizmetler/kaynakli-imalat", description: "TIG, MIG ve lazer kaynak uygulamaları." },
+      { label: "Kaynaklı İmalat", path: "/hizmetler/kaynakli-imalat", description: "TIG, MIG/MAG ve direnç kaynağı uygulamaları." },
     ],
   },
   // ── Kabiliyetler ──
@@ -128,7 +128,7 @@ export const categoryPages: CategoryPageData[] = [
     description: "Havacılık, savunma ve robotik gibi kritik sektörlere yönelik yüksek hassasiyetli üretim.",
     links: [
       { label: "Havacılık & Uzay", path: "/endustriyel/havacilik-uzay", description: "Havacılık ve uzay uygulamaları için hassas parça üretimi." },
-      { label: "Savunma Sanayi", path: "/endustriyel/savunma-sanayi", description: "Askeri standartlarda hassas üretim." },
+      { label: "Savunma Sanayi", path: "/endustriyel/savunma-sanayi", description: "Şartnameye bağlı, izlenebilir hassas üretim." },
       { label: "Robotik", path: "/endustriyel/robotik", description: "Robot bileşenleri ve otomasyon parçaları." },
     ],
   },

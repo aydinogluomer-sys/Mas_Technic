@@ -1,4 +1,5 @@
 import type { ElementType, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { railLabel } from "./rail-labels";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -97,6 +98,7 @@ export function ShellBand({
   tone,
   children,
 }: ShellBandProps) {
+  const { i18n } = useTranslation();
   return (
     <Component
       id={id}
@@ -108,7 +110,7 @@ export function ShellBand({
     >
       <div className="tl-band-index" aria-hidden="true">
         <span>{no}</span>
-        <small>{railLabel(label)}</small>
+        <small>{railLabel(label, i18n.language)}</small>
       </div>
       {children}
     </Component>

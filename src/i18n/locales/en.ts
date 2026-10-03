@@ -1,5 +1,7 @@
 /* Generated from the round-2 translation tables. Keys are the Turkish source strings. */
-const dictionary: Record<string, string> = {
+import pages from "./en-pages";
+
+const base: Record<string, string> = {
   "Kurumsal": "Company",
   "Sık Sorulan Sorular": "Frequently asked questions",
   "Açılış": "Opening",
@@ -325,7 +327,7 @@ const dictionary: Record<string, string> = {
   "MALZEME İZLENEBİLİRLİĞİ": "MATERIAL TRACEABILITY",
   "Malzeme kimliği": "Material identity",
   "Malzeme Kütüphanesi": "Material library",
-  "MAS TECHNIC, 5 eksen CNC teknolojileri ve sıkı kalite kontrol süreçleriyle ham geometriden doğrulanmış hassasiyete ulaştırır.": "MAS TECHNIC takes raw geometry to verified precision with 5-axis CNC technology and rigorous quality control.",
+  "MAS TECHNIC; CNC frezeleme, tornalama ve tamamlayıcı işlemler için parçanızı teknik resimden üretim ve kontrol planına taşır. Geometri ve tolerans gereksinimleri incelendikten sonra üretim teklifi hazırlanır.": "MAS TECHNIC takes your part from the technical drawing to a production and inspection plan for CNC milling, turning and complementary processes. A production quote is prepared once the geometry and tolerance requirements have been reviewed.",
   "MAS Technic ana sayfa": "MAS Technic home",
   "MAS Technic teknik görüşme randevu takvimi": "MAS Technic technical call booking calendar",
   "Mat yüzey": "Matte finish",
@@ -395,7 +397,7 @@ const dictionary: Record<string, string> = {
   "ÖLÇÜM KAYDI": "MEASUREMENT RECORD",
   "Ölçüm raporu": "Measurement report",
   "Ölçüm ve kalite kontrol süreçleriniz nelerdir?": "What are your measurement and quality-control processes?",
-  "ÖN · YAN GÖRÜNÜŞ · ÖLÇEK 1:2": "FRONT · SIDE VIEW · SCALE 1:2",
+  "ŞEMATİK ÖN / YAN GÖRÜNÜŞ": "SCHEMATIC FRONT / SIDE VIEW",
   "Ön Üretim": "Pre-production",
   "Önce bir CAD dosyası ekleyin": "Add a CAD file first",
   "Önceki sektörler": "Previous sectors",
@@ -531,7 +533,7 @@ const dictionary: Record<string, string> = {
   "TASARIM": "DESIGN",
   "Tasarım Rehberi (DFM)": "Design guide (DFM)",
   "Taşlama": "Grinding",
-  "Tavlama": "Annealing",
+  "Lazer Tavlama ile Markalama": "Laser annealing marking",
   "Tedarik Zinciri": "Supply chain",
   "TEDARİKÇİ DAVRANIŞ KURALLARI": "SUPPLIER CODE OF CONDUCT",
   "TEKLİF": "QUOTE",
@@ -623,5 +625,8 @@ const dictionary: Record<string, string> = {
   "YÜZEY İŞLEMLERİ": "SURFACE TREATMENTS",
   "ZAMAN AŞIMI": "TIMEOUT"
 };
+
+/* L01 page strings win over the round-2 table on a shared key. */
+const dictionary: Record<string, string> = { ...base, ...pages };
 
 export default dictionary;

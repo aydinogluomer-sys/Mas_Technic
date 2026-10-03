@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import { ShellSpecTable } from "@/components/shell";
 import { LegalDocument, type LegalClause } from "@/components/pages/LegalDocument";
 import { SALES_EMAIL } from "@/content/claims";
+import { COOKIES_EN } from "@/content/en/legal/cookies";
+import { useLocale } from "@/i18n/hooks";
 
 /* ══════════════════════════════════════════════════════════════════════════
    ÇEREZ POLİTİKASI — THE ONE THAT WAS SIMPLY NOT TRUE
@@ -58,7 +60,9 @@ import { SALES_EMAIL } from "@/content/claims";
    things this site stores are "hepsi 02. maddede listelenmiştir", and that
    sentence is the valuable part of the clause: it is a completeness claim a
    reader can falsify in thirty seconds with devtools. It was false.
-   `mas_intro_seen` is written at `index.html:314` by the inline "Precision
+   UX01 (package 7) removed the entry sequence, so `mas_intro_seen` is no
+   longer written and its row is gone; what follows is the history of why it
+   had been added. `mas_intro_seen` was written at `index.html:314` by the inline "Precision
    Born" entry script, which is not a module and therefore never appeared in
    any grep over `src/`. It is now the table's fifth row, because it is
    cheaper to make the claim true than to water it down.
@@ -201,15 +205,9 @@ const STORAGE_ROWS: string[][] = [
     "Form devralınca silinir",
   ],
   [
-    "mas_intro_seen",
-    "sessionStorage",
-    "Ana sayfadaki giriş sekansının oynadığını not eder; böylece aynı sekmede bir daha oynamaz. Yalnızca ana sayfada yazılır, hareket azaltma açıksa hiç yazılmaz.",
-    "Sekme kapanana kadar",
-  ],
-  [
     "mas_lang",
     "localStorage",
-    "Seçtiğiniz arayüz dilini (TR, EN, DE, RU, ZH) hatırlar. Yalnızca dil düğmelerinden birine bastığınızda yazılır; dil seçmezseniz hiç yazılmaz.",
+    "Seçtiğiniz arayüz dilini (TR, EN) hatırlar. Yalnızca dil düğmelerinden birine bastığınızda yazılır; dil seçmezseniz hiç yazılmaz. Herkese açık sayfalarda dili adres belirler (İngilizce sayfalar /en ile başlar); bu kayıt yalnızca müşteri ve yönetim panelinin dilini seçer.",
     "Siz silene kadar",
   ],
   [
@@ -458,14 +456,15 @@ const CLAUSES: LegalClause[] = [
   },
 ];
 
-export const CerezPolitikasi = () => (
-  <LegalDocument
-    rail={{ no: "L3", label: "ÇEREZ" }}
-    selfPath="/cerez-politikasi"
-    eyebrow="Yasal metin"
-    title="Çerez Politikası"
-    lede="Bu sitenin kendi sayfaları çerez oluşturmuyor; giriş sayfasındaki güvenlik bileşeni bir tane oluşturuyor. Tarayıcınızda tutulan kayıtların tamamı madde 02’de tek tek listelenmiştir."
-    metaDescription="Mas Technic çerez politikası — sitenin kendi sayfaları çerez oluşturmaz, giriş sayfasındaki hCaptcha bileşeni bir çerez oluşturur; tarayıcınızda tutulan yerel depo kayıtları, süreleri ve nasıl silinecekleri."
-    clauses={CLAUSES}
-  />
-);
+const COOKIES_TR = {
+  eyebrow: "Yasal metin",
+  title: "Çerez Politikası",
+  lede: "Bu sitenin kendi sayfaları çerez oluşturmuyor; giriş sayfasındaki güvenlik bileşeni bir tane oluşturuyor. Tarayıcınızda tutulan kayıtların tamamı madde 02’de tek tek listelenmiştir.",
+  metaDescription: "Mas Technic çerez politikası — sitenin kendi sayfaları çerez oluşturmaz, giriş sayfasındaki hCaptcha bileşeni bir çerez oluşturur; tarayıcınızda tutulan yerel depo kayıtları, süreleri ve nasıl silinecekleri.",
+  clauses: CLAUSES,
+};
+
+export const CerezPolitikasi = () => {
+  const text = useLocale() === "en" ? COOKIES_EN : COOKIES_TR;
+  return <LegalDocument rail={{ no: "L3", label: "ÇEREZ" }} selfPath="/cerez-politikasi" {...text} />;
+};

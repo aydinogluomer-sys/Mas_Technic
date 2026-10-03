@@ -125,26 +125,17 @@ test.describe("motion grammar", () => {
   test("nothing animates while it is off screen", async ({ page }) => {
     await gotoAndSettle(page, "/");
     await landingReady(page);
-
-    const trackState = () => page.locator(".tl-marquee-track").first()
-      .evaluate((el) => getComputedStyle(el).animationPlayState);
-
-    await page.evaluate(() => {
-      document.querySelector(".tl-marquee")?.scrollIntoView({ block: "center" });
-    });
-    await page.waitForTimeout(500);
-    const whenVisible = await trackState();
-
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await page.waitForTimeout(700);
-    const whenOffScreen = await trackState();
-
-    /* The capability marquee is `linear infinite`. Without a two-way gate it
-       composites a `max-content`-wide track for the whole session, including
-       while the reader is thousands of pixels below it. */
-    test.skip(whenVisible === "paused", "reduced motion or hover pause — the running state is not observable here");
-    expect(whenVisible, "the marquee should run while it is on screen").toBe("running");
-    expect(whenOffScreen, "the marquee must not run while it is off screen").toBe("paused");
+    /* UX01 removed the capability marquee — the landing's one `linear
+       infinite` animation. Nothing on the page may now run an endless
+       animation at all, on screen or off it. */
+    const endless = await page.evaluate(() =>
+      document.getAnimations()
+        .filter((animation) => animation.playState === "running")
+        .filter((animation) => animation.effect?.getComputedTiming().iterations === Infinity)
+        .map((animation) => (animation.effect as KeyframeEffect | null)?.target?.className ?? "?"));
+    expect(endless, "no endless animation may run on the landing").toEqual([]);
   });
 
   test("mobile arms fewer elements than desktop", async ({ page }) => {
@@ -219,7 +210,6 @@ test.describe("motion grammar", () => {
           proof: read(".tl-proof-grid article"),
           paperCurtain: read(".tl-cert", "::after"),
           panelCurtain: read(".tl-nexus-app", "::after"),
-          tableVerify: read(".tl-nexus td span[data-status]"),
           imagery: read(".tl-sector-card"),
           paperContainer: read(".tl-quality-strip"),
           panelContainer: read(".tl-nexus-app"),
@@ -235,7 +225,7 @@ test.describe("motion grammar", () => {
       expect(grammars.proof, seen).toBe("opacity");
       expect(grammars.paperCurtain, `paper evidence prints — a curtain transform · ${seen}`).toContain("transform");
       expect(grammars.panelCurtain, `the dark panel exposes — a curtain transform · ${seen}`).toContain("transform");
-      expect(grammars.tableVerify, `a status cell is written into — clip-path · ${seen}`).toContain("clip-path");
+      // NEXUS01 removed the masked order table, and with it the status-cell "verify" grammar.
       expect(grammars.imagery, `imagery is revealed — clip-path curtain · ${seen}`).toContain("clip-path");
       expect(new Set(Object.values(grammars)).size, `every band moved the same way · ${seen}`).toBeGreaterThan(2);
       return;
@@ -271,7 +261,7 @@ test.describe("motion grammar", () => {
        the working version from the dead one. That is what this does. */
     const CASES = [
       { hover: ".tl-measure-top", line: ".tl-dim--bore", passport: ".tl-pp-bore", receded: ".tl-measure-finish" },
-      { hover: ".tl-fcf-top", line: ".tl-dim--tol", passport: ".tl-pp-holes", receded: ".tl-measure-top" },
+      // PROOF01 / §3: the Ø 0.010 position frame (`.tl-fcf-top` → `.tl-dim--tol`) was removed.
       { hover: ".tl-measure-left", line: ".tl-dim--height", passport: ".tl-pp-dim", receded: ".tl-measure-top" },
       { hover: ".tl-fcf-bottom", line: ".tl-dim--perp", passport: ".tl-pp-body", receded: ".tl-measure-top" },
       { hover: ".tl-measure-finish", line: ".tl-dim--finish", passport: ".tl-pp-body", receded: ".tl-measure-top" },

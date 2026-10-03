@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "@/i18n/LocaleLink";
 import { ArrowLeft } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { PageShell } from "@/components/shell";
 import { AuthAside } from "./AuthAside";
 
@@ -12,10 +13,11 @@ import { AuthAside } from "./AuthAside";
    three times, with the panel column's markup drifting between them. They are
    one component now, so a change to the auth frame is one change.
 
-   `navigation={false} footer={false}` IS A CONTRACT, NOT A PREFERENCE. A
-   credential step must not offer a menu and a run of exits mid-task, and
-   `e2e/shared-shell-accessibility.spec.ts:438-440` asserts header 0 / footer 0
-   for all three routes. `surface="graphite"` matches `/teklif-al` and every
+   `navigation={false}` IS A CONTRACT, NOT A PREFERENCE: a credential step
+   must not offer a menu and a run of exits mid-task. UX04 (package 7) gives
+   these steps the COMPACT footer — brand, direct line, the three legal links,
+   copyright — because the legal texts a sign-in refers to must be one click
+   away; `e2e/shared-shell-accessibility.spec.ts` asserts header 0 / footer 1. `surface="graphite"` matches `/teklif-al` and every
    other migrated route, so a reader walking between them does not cross a
    ground change mid-journey.
 
@@ -35,21 +37,22 @@ export type AuthLayoutProps = {
 };
 
 export function AuthLayout({ asideTitle, asideLede, back, children }: AuthLayoutProps) {
+  const { t } = useTranslation();
   return (
-    <PageShell navigation={false} footer={false} layout="bands" className="shell-auth" surface="graphite">
+    <PageShell navigation={false} footer="compact" layout="bands" className="shell-auth" surface="graphite">
       <div className="shell-auth-split">
         <div className="shell-auth-panel">
           <div className="shell-auth-body">
             <Link className="shell-action shell-action--quiet shell-auth-back" to={back.to}>
               <ArrowLeft className="shell-auth-back-mark" aria-hidden="true" />
-              <span>{back.label}</span>
+              <span>{t(back.label)}</span>
             </Link>
 
             <div className="shell-auth-mark shell-auth-compact-mark">
               <span className="shell-auth-mark-block" aria-hidden="true">MT</span>
               <span className="shell-auth-mark-name">
                 <b>MAS TECHNIC</b>
-                <small>Müşteri Portalı</small>
+                <small>{t("Müşteri Portalı")}</small>
               </span>
             </div>
 

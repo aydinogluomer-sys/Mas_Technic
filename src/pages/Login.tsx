@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { usePageMeta } from "@/hooks/use-page-meta";
+import { Link } from "@/i18n/LocaleLink";
+import { useLocaleNavigate as useNavigate } from "@/i18n/hooks";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { supabase } from "@/integrations/supabase/client";
 import { ShellAction, ShellNotice } from "@/components/shell";
@@ -107,6 +110,8 @@ const STALLED: SocialNotice = {
 const EMPTY = { email: "", password: "", fullName: "", company: "", phone: "", city: "" };
 
 export const Login = () => {
+  const { t, i18n } = useTranslation();
+  usePageMeta({ title: t("Giriş Yapın"), description: t("Hesabınıza giriş yaparak tekliflerinizi ve siparişlerinizi takip edin."), noindex: true });
   const [mode, setMode] = useState<Mode>("login");
   const [values, setValues] = useState(EMPTY);
   const [errors, setErrors] = useState<AuthFieldErrors>({});
@@ -297,17 +302,16 @@ export const Login = () => {
         back={{ to: "/", label: "Ana sayfa" }}
       >
         <div>
-          <p className="shell-eyebrow" role="status">HESAP OLUŞTURULDU</p>
-          <h1 className="shell-auth-title">Hesabınız Oluşturuldu</h1>
+          <p className="shell-eyebrow" role="status">{t("HESAP OLUŞTURULDU")}</p>
+          <h1 className="shell-auth-title">{t("Hesabınız Oluşturuldu")}</h1>
         </div>
         <ShellNotice tone="note" label="SIRADA NE VAR">
           <p>
-            <strong>{confirmSentTo}</strong> adresine bir doğrulama bağlantısı gönderildi. Girişi
-            tamamlamak için o bağlantıyı açın.
+            {t("{{email}} adresine bir doğrulama bağlantısı gönderildi. Girişi tamamlamak için o bağlantıyı açın.", { email: confirmSentTo })}
           </p>
         </ShellNotice>
         <ShellAction variant="ghost" full onClick={() => { setConfirmSentTo(null); setMode("login"); }}>
-          Giriş ekranına dön
+          {t("Giriş ekranına dön")}
         </ShellAction>
       </AuthLayout>
     );
@@ -323,11 +327,11 @@ export const Login = () => {
         {/* The heading string is a measured contract:
             `e2e/qa-p08-scroll-region-reach.spec.ts:204` reads it as this
             route's anti-404 surface. */}
-        <h1 className="shell-auth-title">{isLogin ? "Giriş Yapın" : "Hesap Oluşturun"}</h1>
+        <h1 className="shell-auth-title">{t(isLogin ? "Giriş Yapın" : "Hesap Oluşturun")}</h1>
         <p className="shell-auth-lede">
-          {isLogin
+          {t(isLogin
             ? "Hesabınıza giriş yaparak tekliflerinizi ve siparişlerinizi takip edin."
-            : "Bilgilerinizi doldurarak müşteri portalına erişim sağlayın."}
+            : "Bilgilerinizi doldurarak müşteri portalına erişim sağlayın.")}
         </p>
       </div>
 
@@ -341,13 +345,12 @@ export const Login = () => {
         <ShellNotice tone="error" label={socialNotice.label} title={socialNotice.title}>
           {socialNotice.provider && (
             <p>
-              <strong>{PROVIDER_LABEL[socialNotice.provider]}</strong> ile başlatılan giriş bu sayfaya
-              geri döndü.
+              {t("{{provider}} ile başlatılan giriş bu sayfaya geri döndü.", { provider: PROVIDER_LABEL[socialNotice.provider] })}
             </p>
           )}
-          <p>{socialNotice.detail}</p>
+          <p>{t(socialNotice.detail)}</p>
           {socialNotice.reference && (
-            <p className="shell-field-hint">KOD: {socialNotice.reference}</p>
+            <p className="shell-field-hint">{t("KOD")}: {socialNotice.reference}</p>
           )}
         </ShellNotice>
       )}
@@ -434,7 +437,7 @@ export const Login = () => {
           aside={
             isLogin ? (
               <Link className="shell-action shell-action--quiet" to="/sifremi-unuttum">
-                <span>Şifremi unuttum</span>
+                <span>{t("Şifremi unuttum")}</span>
               </Link>
             ) : undefined
           }
@@ -445,6 +448,7 @@ export const Login = () => {
             ref={captchaRef}
             sitekey={HCAPTCHA_SITE_KEY}
             theme="dark"
+            languageOverride={i18n.language === "en" ? "en" : "tr"}
             onVerify={(token) => setCaptchaToken(token)}
             onExpire={() => setCaptchaToken(null)}
           />
@@ -452,31 +456,31 @@ export const Login = () => {
 
         {notice && (
           <ShellNotice tone="error" label={notice.label} title={notice.title}>
-            {notice.detail && <p>{notice.detail}</p>}
+            {notice.detail && <p>{t(notice.detail)}</p>}
           </ShellNotice>
         )}
 
         <ShellAction type="submit" variant="primary" full disabled={pending}>
-          {isLogin ? "Giriş yap" : "Hesap oluştur"}
+          {t(isLogin ? "Giriş yap" : "Hesap oluştur")}
         </ShellAction>
 
         {pending && (
           <p className="shell-field-hint" role="status" data-auth-state="pending">
-            {isLogin ? "GİRİŞ DOĞRULANIYOR…" : "HESAP OLUŞTURULUYOR…"}
+            {t(isLogin ? "GİRİŞ DOĞRULANIYOR…" : "HESAP OLUŞTURULUYOR…")}
           </p>
         )}
       </form>
 
       <div className="shell-auth-foot">
         <button type="button" className="shell-action shell-action--quiet" onClick={switchMode}>
-          <span>{isLogin ? "Hesabınız yok mu? Kayıt olun" : "Zaten hesabınız var mı? Giriş yapın"}</span>
+          <span>{t(isLogin ? "Hesabınız yok mu? Kayıt olun" : "Zaten hesabınız var mı? Giriş yapın")}</span>
         </button>
         <p className="shell-auth-legal">
-          Devam ederek{" "}
-          <Link to="/gizlilik-politikasi">Gizlilik Politikası</Link>
-          {"’nı ve "}
-          <Link to="/kvkk">KVKK Aydınlatma Metni</Link>
-          {"’ni kabul etmiş olursunuz."}
+          {t("Devam ederek")}{" "}
+          <Link to="/gizlilik-politikasi">{t("Gizlilik Politikası")}</Link>
+          {t("’nı ve ")}
+          <Link to="/kvkk">{t("KVKK Aydınlatma Metni")}</Link>
+          {t("’ni kabul etmiş olursunuz.")}
         </p>
       </div>
     </AuthLayout>

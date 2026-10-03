@@ -66,17 +66,17 @@
   letter-spacing: -.045em;
   transition: transform .5s var(--pl-ease, cubic-bezier(.16, 1, .3, 1)), color .3s ease;
 }
-.tl-menu .tl-menu-family-index { grid-row: 1 / span 2; align-self: start; padding-top: 10px; font-size: 11px; }
+.tl-menu .tl-menu-family-index { grid-row: 1 / span 2; align-self: start; padding-top: 10px; font-size: 12px; }
 .tl-menu .tl-menu-family-meta {
   grid-column: 2;
-  color: var(--tl-on-dark-faint);
-  font: 500 10px/1 var(--tl-font-mono);
+  color: var(--tl-on-dark-meta);
+  font: 500 12px/1 var(--tl-font-mono);
   letter-spacing: .16em;
 }
 .tl-menu .tl-menu-family.is-active .tl-menu-family-meta { color: var(--tl-bronze-light); }
 .tl-menu .tl-menu-family:is(:hover, :focus-visible) .tl-menu-family-label { transform: translateX(10px); }
 .tl-menu .tl-menu-family-datum { left: 48px; height: 1px; }
-.tl-menu .tl-menu-here { grid-column: 2; grid-row: 3; font-size: 9px; }
+.tl-menu .tl-menu-here { grid-column: 2; grid-row: 3; font-size: 12px; }
 
 /* ── Right: the paper register ────────────────────────────────────────────*/
 .tl-menu .tl-menu-categories {
@@ -97,7 +97,7 @@
 .tl-menu-panel-head span,
 .tl-menu-panel-head small {
   color: var(--tl-ink-soft);
-  font: 600 11px/1 var(--tl-font-mono);
+  font: 600 12px/1 var(--tl-font-mono);
   letter-spacing: .14em;
 }
 .tl-menu-panel-head strong {
@@ -114,7 +114,7 @@
 .tl-menu .tl-menu-category-toggle:is(:hover, :focus-visible),
 .tl-menu .tl-menu-category.is-open .tl-menu-category-toggle { color: var(--tl-ink); }
 .tl-menu .tl-menu-category-index,
-.tl-menu .tl-menu-category-count { color: var(--tl-ink-soft); font-size: 11px; }
+.tl-menu .tl-menu-category-count { color: var(--tl-ink-soft); font-size: 12px; }
 .tl-menu .tl-menu-category.is-open .tl-menu-category-index { color: var(--tl-ink-soft); }
 .tl-menu .tl-menu-category-label {
   font: 400 clamp(22px, 1.9vw, 32px)/1.1 var(--tl-font-serif);
@@ -123,7 +123,7 @@
 }
 .tl-menu .tl-menu-category-toggle:is(:hover, :focus-visible) .tl-menu-category-label { transform: translateX(6px); }
 .tl-menu .tl-menu-category-details { padding: 0 0 var(--tl-s5) 40px; }
-.tl-menu .tl-menu-category-landing { color: var(--tl-ink-soft); font-size: 11px; }
+.tl-menu .tl-menu-category-landing { color: var(--tl-ink-soft); font-size: 12px; }
 .tl-menu .tl-menu-category-details li a {
   border-top-color: var(--tl-paper-rule-soft);
   color: var(--tl-ink-muted);
@@ -136,7 +136,7 @@
 
 /* ── Directory under the index ────────────────────────────────────────────*/
 .tl-menu .tl-menu-directory { gap: var(--tl-s5); padding-top: var(--tl-s4); }
-.tl-menu .tl-menu-dir-title { align-items: baseline; font-size: 10px; line-height: 1.4; }
+.tl-menu .tl-menu-dir-title { align-items: baseline; font-size: 12px; line-height: 1.4; }
 .tl-menu .tl-menu-route-link { font-size: 15px; }
 .tl-menu .tl-menu-dir-col li a:is(:hover, :focus-visible) { color: var(--tl-bronze-light); }
 
@@ -151,7 +151,7 @@
 @media (max-width: 767px) {
   .tl-menu .tl-menu-categories { margin-inline: calc(-1 * var(--tl-s4)); padding: var(--tl-s4); }
   .tl-menu .tl-menu-family { min-height: 48px; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; }
-  .tl-menu .tl-menu-family-label { grid-column: 1; font: 600 11px/1.1 var(--tl-font-mono); letter-spacing: .04em; transform: none; }
+  .tl-menu .tl-menu-family-label { grid-column: 1; font: 600 12px/1.1 var(--tl-font-mono); letter-spacing: .04em; transform: none; }
   .tl-menu .tl-menu-family:is(:hover, :focus-visible) .tl-menu-family-label { transform: none; }
   /* Index and count on one line, the family name on its own below — at 320
      the three in one row overlapped ("04 07 SAYFA Kurumsal"). */
