@@ -4,7 +4,7 @@ description: Technical SEO, route metadata, canonical, sitemap, robots, structur
 ---
 # MAS TECHNIC SEO & Metadata
 
-- Use the real production domain from `USER_INPUTS.md`; never ship Lovable preview canonical/OG URLs.
+- Use the real production domain from `USER_INPUTS.md`; never ship preview-host canonical/OG URLs.
 - Resolve location/company-language inconsistencies across HTML, JSON-LD and public copy.
 - Every indexable route needs deliberate title, description, canonical, OG title/description/url/image and appropriate Twitter metadata.
 - Only claim `availableLanguage` variants that actually exist.

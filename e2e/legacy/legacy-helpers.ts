@@ -52,7 +52,7 @@ export async function expectsNaturalLandingFlow(page: Page) {
   ).matches);
 }
 
-export async function assertLovableAuthWasNotCaptured(page: Page) {
+export async function assertHostedAuthWasNotCaptured(page: Page) {
   const loginSignature = page.getByRole("heading", { name: /^Log in$/i });
   const googleButton = page.getByRole("button", { name: /Continue with Google/i });
   const githubButton = page.getByRole("button", { name: /Continue with GitHub/i });

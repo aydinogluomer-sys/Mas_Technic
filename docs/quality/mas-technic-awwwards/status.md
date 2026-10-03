@@ -120,7 +120,7 @@ Ara bulgu (düzeltildi): T02 tablo notundaki "taahhüt değildir" ifadesi `qa-p0
 - Tek kaynak: `VITE_SITE_ORIGIN` + `VITE_SITE_INDEXING` (`src/lib/site-config.ts`). Gizli değer yok; origin kodda yazılı değil.
 - Canonical = origin + yerelleştirilmiş rota; og:url aynı; hreflang `tr` / `en` / `x-default`=tr. Title ve description rotanın kendi içeriğinden, rotanın dilinde.
 - `noindex`: 404 ve aile içi bulunamadı görünümleri, giriş/şifre sayfaları, panel ve admin. `preview` build her yerde `noindex`.
-- `index.html` içindeki sabit `lovable.app` canonical/og:url kaldırıldı (C10).
+- `index.html` içindeki sabit önizleme-host canonical/og:url kaldırıldı (C10).
 
 ### Paket 3 test sonuçları
 

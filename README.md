@@ -3,7 +3,7 @@
 > Awwwards-grade B2B landing + admin/customer operations için React 18 SPA.
 > CNC, döküm ve premium imalat sektörü için **endüstriyel-luxe** dijital deneyim.
 
-**Live:** [mas-technic-precision.lovable.app](https://mas-technic-precision.lovable.app)
+**Deploy:** Vercel (planlanan; henüz yayında değil). Yayın adımları: `docs/quality/mas-technic-awwwards/release.md`.
 
 ---
 
@@ -202,9 +202,7 @@ Detay: `docs/supabase-full-setup.sql`.
 
 - `docs/v3-changelog.md` — v3.0 architecture cleanup özeti
 - `docs/perf-baseline-v3.md` — bundle baseline + öneriler
-- `.lovable/plan.md2` — historical phase plan (Faz 1-10) + final durumu
-- `.lovable/assets.md` — external asset spec (sequences, machine loop)
-- `.lovable/memory/index.md` — Lovable AI memory rules
+- `docs/quality/mas-technic-awwwards/release.md` — yayın, host kontrol listesi, geri alma
 
 ---
 

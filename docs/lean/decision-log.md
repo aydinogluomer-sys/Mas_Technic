@@ -10,10 +10,10 @@
 **Gerekçe:** B2B manufacturing kategorisi Awwwards'da niş; Türkçe içerik global jury için dezavantaj; özgün konsept yerine referans repo pattern'leri kullanılıyor. SOTD için 3-6 ay dedicated art direction şart.  
 **Etki:** Gerçekçi beklenti yönetimi. Phase 4.5 Art Direction QA eklendi.
 
-### Claude Code Primary Platform Seçildi (Lovable Terk)
-**Karar:** Lovable.dev terk edildi. Claude Code primary development platform.  
-**Gerekçe:** Lovable'da context bloat — 20+ prompt sonrası yanıt kalitesi dramatik düşüş; component awareness kayboldu; animasyon kodu bozuldu.  
-**Etki:** Tüm geliştirme Claude Code ile yapılacak. Lovable.dev sadece deploy/preview için kullanılabilir. Prompt-library Lovable prompt'larından Claude Code prompt'larına dönüştürüldü.
+### Claude Code Primary Platform Seçildi
+**Karar:** Claude Code primary development platform.  
+**Gerekçe:** Önceki prompt tabanlı araçta context bloat — 20+ prompt sonrası yanıt kalitesi dramatik düşüş; component awareness kayboldu; animasyon kodu bozuldu.  
+**Etki:** Tüm geliştirme Claude Code ile yapılacak. Prompt-library Claude Code prompt'larına dönüştürüldü. Deploy: Vercel (planlanan).
 
 ### GitHub Repoları Snippet Workflow ile Kullanılacak
 **Karar:** Reference repolar direkt AI context'ine verilmez; lokale clone → pattern çıkarma → /snippets → implement → sil.  
@@ -36,7 +36,7 @@
 
 ### Heat/Precision/Material Temaları Kilitlendi
 **Karar:** Forge & Steel renk paleti sabit. Obsidian-molten-teal üçlüsü core.  
-**Tarih:** 2026-05-12 (varsayılan — Lovable geliştirme döneminden)  
+**Tarih:** 2026-05-12 (varsayılan — ilk geliştirme döneminden)  
 **Etki:** design-tokens.json'a işlendi. Renk değişikliği için bu kararın tersine çevrilmesi şart.
 
 ### GSAP + Lenis Ticker Sync Seçildi
