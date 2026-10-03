@@ -326,7 +326,11 @@ test.describe("design system — one component, one typography", () => {
        bundled CSS, so with the stylesheet gone every component in the document
        reads at the browser default — which is precisely the shape of a split
        and is not one. */
-    await page.route("**/*.css", (route) => route.abort());
+    /* Every stylesheet answers, but empty. Aborting them instead fails the
+       route chunk's own CSS preload (`--tl-rail` lives in a chunk
+       stylesheet), and the page then arrives at ERR::CHUNK_LOAD_FAILED — a
+       delivery failure too, but the other guard's, so this one went unseen. */
+    await page.route("**/*.css", (route) => route.fulfill({ status: 200, contentType: "text/css", body: "" }));
     await expect(arriveAt(page, "/giris"))
       .rejects.toThrow(/rendered without the stylesheet applied/);
     await page.unroute("**/*.css");
