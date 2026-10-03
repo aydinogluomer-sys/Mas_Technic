@@ -1,4 +1,5 @@
 import { test, expect, type Page, type Route, type Request } from "@playwright/test";
+import { waitForApp } from "./helpers";
 import AxeBuilder from "@axe-core/playwright";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -137,6 +138,7 @@ function assertNothingReachedTheBackend(seal: Seal) {
 
 async function openForm(page: Page) {
   await page.goto("/teklif-al", { waitUntil: "networkidle" });
+  await waitForApp(page);
   await expect(page.getByRole("heading", { level: 1, name: "Üretim Teklifi İsteyin" })).toBeVisible();
 }
 

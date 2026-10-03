@@ -87,6 +87,14 @@ export async function revealFooterCopyright(page: Page) {
  * yönlendiriyor ve gerçek ana sayfa hakkında hiçbir şey söylemiyordu
  * (`reports/baseline/known-blockers.md` B02). `/` artık `/` demektir.
  */
+/** C2 — a prerendered page is on screen before the app owns it, and the app
+    replaces that DOM when it adopts the page: anything a spec plants, fills
+    or clicks before then is lost. Specs that navigate with a bare
+    `page.goto` and then touch the DOM wait here first. */
+export async function waitForApp(page: Page) {
+  await page.waitForFunction(() => document.documentElement.hasAttribute("data-app-ready"), undefined, { timeout: 20_000 });
+}
+
 export async function gotoAndSettle(page: Page, path: string) {
   await page.goto(path, { waitUntil: "domcontentloaded" });
   await expect(page.locator("#root")).toBeVisible();

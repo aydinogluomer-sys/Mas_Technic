@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { waitForApp } from "./helpers";
 import AxeBuilder from "@axe-core/playwright";
 
 /** Referans pafta 01–14 arası bantlardan oluşur; sıra ve numaralandırma sözleşmedir. */
@@ -7,6 +8,7 @@ const BAND_INDICES = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"
 test.describe("technical editorial landing phase 1", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
+    await waitForApp(page);
     await page.waitForLoadState("networkidle");
   });
 

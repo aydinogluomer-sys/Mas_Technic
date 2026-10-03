@@ -128,6 +128,13 @@ async function capture(path) {
   const result = await page.evaluate(() => {
     const rootNode = document.getElementById("root").cloneNode(true);
     rootNode.querySelectorAll("iframe, [data-custom-cursor], [data-route-curtain]").forEach((node) => node.remove());
+    /* Form controls in the snapshot have no handlers, and the app replaces
+       them when it adopts the page: a file picked or text typed before that
+       would silently vanish. They stay inert until the app's own controls
+       arrive (links keep working; nothing a visitor enters is lost). */
+    rootNode.querySelectorAll("form, input, select, textarea").forEach((node) => {
+      if (!node.parentElement?.closest("form")) node.setAttribute("inert", "");
+    });
     const pick = (selector) => [...document.head.querySelectorAll(selector)].map((node) => node.outerHTML);
     /* The route's own stylesheets (Vite links them when the route chunk
        loads). Without them the snapshot painted unstyled bits and the page

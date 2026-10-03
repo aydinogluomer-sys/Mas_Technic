@@ -99,13 +99,26 @@ test("RFQ: the form starts, the file field is reachable by keyboard", async ({ p
 test("booking dialog opens, traps focus and closes on Escape", async ({ page }) => {
   await gotoAndSettle(page, "/iletisim");
   const trigger = page.getByTestId("booking-open");
-  await trigger.click();
   const dialog = page.getByRole("dialog");
+
+  // Escape from the dialog's own controls (focus starts on the close button).
+  await trigger.click();
+  await expect(dialog).toBeVisible();
+  await expect.poll(() => page.evaluate(() => !!document.activeElement?.closest("[role='dialog']"))).toBe(true);
+  await page.keyboard.press("Escape");
+  await expect(dialog).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+
+  /* Tab stays in the dialog or enters the calendar iframe. Keys pressed
+     inside that third-party iframe belong to its document — no page can see
+     its Escape (Firefox and WebKit put focus there; so does any engine once
+     the calendar loads) — so the way out from there is the close button. */
+  await trigger.click();
   await expect(dialog).toBeVisible();
   await expect.poll(() => page.evaluate(() => !!document.activeElement?.closest("[role='dialog']"))).toBe(true);
   await page.keyboard.press("Tab");
   expect(await page.evaluate(() => !!document.activeElement?.closest("[role='dialog']") || document.activeElement?.tagName === "IFRAME")).toBe(true);
-  await page.keyboard.press("Escape");
+  await dialog.getByRole("button", { name: "Kapat" }).click();
   await expect(dialog).toHaveCount(0);
   await expect(trigger).toBeFocused();
 });

@@ -332,7 +332,10 @@ test.describe("Fullscreen machining navigation", () => {
     await expect(families.first()).toBeFocused();
     const categories = menu.locator("[data-nav-category]");
     await categories.nth(2).click();
-    expect((await categories.evaluateAll((nodes) => nodes.map((node) => node.getAttribute("aria-expanded")))).filter((value) => value === "true")).toHaveLength(1);
+    // The family panel swaps exit-then-enter after Home; read once it settles.
+    await expect.poll(async () =>
+      (await categories.evaluateAll((nodes) => nodes.map((node) => node.getAttribute("aria-expanded")))).filter((value) => value === "true").length,
+    ).toBe(1);
     for (const category of await categories.all()) {
       const id = await category.getAttribute("aria-controls");
       await expect(menu.locator(`#${id}`)).toHaveCount(1);
