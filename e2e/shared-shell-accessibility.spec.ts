@@ -187,7 +187,6 @@ const FOOTER_SEQUENTIAL_SELECTOR = [
 const LOCAL_ORIGIN = new URL(
   process.env.PLAYWRIGHT_BASE_URL ?? `http://localhost:${process.env.PLAYWRIGHT_PORT ?? "4173"}`,
 ).origin;
-const FONT_STYLESHEET_URL = "https://fonts.googleapis.com/css2";
 
 /* FAZ 08 DÜZELTME #1 — C3. `faq_analytics` MUAFİYETİ KALDIRILDI.
    Bu listede ikinci bir giriş vardı: `…/rest/v1/faq_analytics`. Onu bir izin
@@ -197,9 +196,10 @@ const FONT_STYLESHEET_URL = "https://fonts.googleapis.com/css2";
    yazma yeniden eklendiğinde sözleşmenin sessiz kalması demektir. Silinmesi
    İDDİAYI GÜÇLENDİRİR: artık yazı tipi sayfası dışında HERHANGİ bir dış istek
    bu döngüyü kırmızıya döndürür. */
-function isKnownExternalTestRequest(rawUrl: string) {
-  const url = new URL(rawUrl);
-  return url.origin + url.pathname === FONT_STYLESHEET_URL;
+/* C1 — the font stylesheet allowance is gone with the third-party fonts: the
+   faces are self-hosted, so ANY external request now turns this loop red. */
+function isKnownExternalTestRequest(_rawUrl: string) {
+  return false;
 }
 
 async function expandFooterDisclosures(page: Page) {

@@ -23,6 +23,50 @@ import { normalizeOrigin } from "./src/lib/site-origin";
 const HERO_LCP_SOURCE = "src/assets/technical-landing/hero-manifold-v1.webp";
 const HERO_LCP_EMITTED = /(?:^|\/)hero-manifold-v1-[^/]*\.webp$/;
 
+/**
+ * C1 — preload the faces the first screen paints.
+ *
+ * Fonts are self-hosted (`src/styles/fonts.css`), so their URLs are hashed and
+ * known only here. Measured on `/`, `/en` and `/sss` (375 and 1440): the hero
+ * title is Space Grotesk and needs latin AND latin-ext (İ Ğ Ş in the Turkish
+ * headline), the interface text is IBM Plex Mono 400/500. Those four are
+ * preloaded; the other ten faces load on demand through `unicode-range`, so
+ * they do not compete with the LCP image. A missing file fails the build
+ * rather than shipping a preload that 404s.
+ */
+const CRITICAL_FONTS = [
+  /(?:^|\/)space-grotesk-normal-400-500-600-700-latin-[^/]*\.woff2$/,
+  /(?:^|\/)space-grotesk-normal-400-500-600-700-latin-ext-[^/]*\.woff2$/,
+  /(?:^|\/)ibm-plex-mono-normal-400-latin-[^/]*\.woff2$/,
+  /(?:^|\/)ibm-plex-mono-normal-500-latin-[^/]*\.woff2$/,
+];
+
+function fontPreloadPlugin(): Plugin {
+  return {
+    name: "mas-font-preload",
+    apply: "build",
+    transformIndexHtml: {
+      order: "post",
+      handler(html, ctx) {
+        if (!ctx.bundle) return html;
+        const base = ctx.path.replace(/[^/]*$/, "");
+        const files = Object.keys(ctx.bundle);
+        const tags = CRITICAL_FONTS.map((pattern) => {
+          // `latin-[hash]` must not also match `latin-ext-[hash]`.
+          const file = files.find((name) => pattern.test(name) && (pattern.source.includes("latin-ext") || !name.includes("latin-ext")));
+          if (!file) throw new Error(`[mas-font-preload] no emitted font matches ${pattern}`);
+          return {
+            tag: "link",
+            attrs: { rel: "preload", as: "font", type: "font/woff2", href: `${base}${file}`, crossorigin: "" },
+            injectTo: "head" as const,
+          };
+        });
+        return { html, tags };
+      },
+    },
+  };
+}
+
 function heroPreloadPlugin(): Plugin {
   return {
     name: "mas-hero-preload",
@@ -227,7 +271,7 @@ export default defineConfig(({ mode, command }) => ({
     host: true,
     port: 8080,
   },
-  plugins: [react(), siteMetaPlugin(mode, command), heroPreloadPlugin(), buildIdentityPlugin(command)].filter(Boolean),
+  plugins: [react(), siteMetaPlugin(mode, command), heroPreloadPlugin(), fontPreloadPlugin(), buildIdentityPlugin(command)].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

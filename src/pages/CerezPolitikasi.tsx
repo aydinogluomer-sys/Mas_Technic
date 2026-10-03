@@ -362,12 +362,8 @@ const CLAUSES: LegalClause[] = [
           yazılmıyor.
         </p>
         <p>
-          <strong>Yazı tipleri — her sayfada.</strong> Yazı tipleri Google’ın yazı tipi dağıtım
-          ağından (<code>fonts.googleapis.com</code>, <code>fonts.gstatic.com</code>) yüklenir. Bu
-          istek her sayfada, siz bir şey yapmadan ve onayınız istenmeden gönderilir; sunucu bu
-          isteğe bağlı olarak IP adresinizi ve tarayıcı bilginizi görür. Bu istek çerez oluşturmaz.
-          06. maddedeki sohbet aktarımı da Google’a gider, ama ikisi Google’ın birbirinden bağımsız
-          iki ayrı servisidir.
+          <strong>Yazı tipleri.</strong> Yazı tipleri bu sitenin kendi sunucusundan yüklenir; yazı
+          tipi için üçüncü taraf bir sunucuya istek gönderilmez ve çerez oluşmaz.
         </p>
         <p>
           <strong>
