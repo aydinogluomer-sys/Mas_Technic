@@ -31,7 +31,7 @@ const PROBE_TARGETS = [
   { band: "Hero", root: ".tl-hero", blocks: [".tl-hero-copy", ".tl-part-stage", ".tl-part-passport"] },
   { band: "Proof", root: ".tl-proof", blocks: [".tl-proof-grid", ".tl-proof-grid > article"] },
   { band: "Process", root: ".tl-process", blocks: [".tl-process-body", ".tl-process-intro", ".tl-process-body > figure", ".tl-process-body > ol", ".tl-process-body > ol > li"] },
-  { band: "Nexus", root: ".tl-nexus", blocks: [".tl-nexus-body", ".tl-nexus-body > header > h2", ".tl-nexus-kpis", ".tl-nexus-rail", ".tl-nexus-main"] },
+  { band: "Nexus", root: ".tl-nexus", blocks: [".tl-nexus-body", ".tl-nexus-body > header > h2", ".tl-nexus-body > .tl-nexus-cta", ".tl-nexus-rail", ".tl-nexus-main"] },
   { band: "Projects", root: ".tl-projects", blocks: [".tl-projects-body", ".tl-project-grid", ".tl-project-grid > article"] },
   { band: "Sectors", root: ".tl-sectors", blocks: [".tl-sectors-body", ".tl-sector-card"] },
   { band: "Manifesto", root: ".tl-manifesto", blocks: [".tl-manifesto-body", ".tl-manifesto-copy"] },

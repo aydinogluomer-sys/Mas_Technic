@@ -2374,3 +2374,40 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   .shell-auth-social > button,
   .shell-segment { transition-duration: .01ms; }
 }
+
+/* ── UX03 · quality documents ────────────────────────────────────────────
+   Four real PDFs, each with its own first page as the thumbnail. The frame
+   is a sheet on the band, not a certificate: no seal, no signature block. */
+.shell-qdoc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--tl-s5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.shell-qdoc { display: flex; flex-direction: column; gap: var(--tl-s2); min-width: 0; }
+.shell-qdoc-thumb {
+  display: block;
+  border: 1px solid var(--sf-rule);
+  background: var(--sf-field);
+  padding: var(--tl-s2);
+}
+.shell-qdoc-thumb img { display: block; width: 100%; height: auto; aspect-ratio: 560 / 760; object-fit: cover; object-position: top; }
+.shell-qdoc-thumb:hover, .shell-qdoc-thumb:focus-visible { border-color: var(--sf-ink); }
+.shell-qdoc-index { margin: var(--tl-s2) 0 0; color: var(--sf-accent); font: 600 12px/1.2 var(--tl-font-mono); letter-spacing: .08em; }
+.shell-qdoc h3 { margin: 0; color: var(--sf-ink); font: 700 14px/1.3 var(--tl-font-mono); letter-spacing: .04em; }
+.shell-qdoc-subject { margin: 0; color: var(--sf-body); font-size: 15px; line-height: 1.5; }
+.shell-qdoc dl { display: grid; margin: 0; border-top: 1px solid var(--sf-rule); }
+.shell-qdoc dl > div { display: flex; justify-content: space-between; gap: var(--tl-s3); padding: var(--tl-s1) 0; border-bottom: 1px solid var(--sf-rule-soft); }
+.shell-qdoc dt { color: var(--sf-meta); font: 500 12px/1.4 var(--tl-font-mono); }
+.shell-qdoc dd { margin: 0; color: var(--sf-ink); font: 500 12px/1.4 var(--tl-font-mono); text-align: right; }
+.shell-qdoc-actions { display: flex; gap: var(--tl-s2); margin: var(--tl-s1) 0 0; }
+.shell-qdoc-actions a {
+  display: inline-flex; align-items: center; justify-content: center; flex: 1 1 0;
+  min-height: 44px; border: 1px solid var(--sf-control-rule);
+  color: var(--sf-ink); font: 600 12px/1 var(--tl-font-mono); letter-spacing: .08em; text-transform: uppercase; text-decoration: none;
+}
+.shell-qdoc-actions a:hover, .shell-qdoc-actions a:focus-visible { background: var(--sf-hover); }
+@media (max-width: 1180px) { .shell-qdoc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .shell-qdoc-grid { grid-template-columns: minmax(0, 1fr); } .shell-qdoc-thumb img { aspect-ratio: 560 / 420; } }

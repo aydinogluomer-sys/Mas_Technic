@@ -397,7 +397,7 @@ const base: Record<string, string> = {
   "ÖLÇÜM KAYDI": "MEASUREMENT RECORD",
   "Ölçüm raporu": "Measurement report",
   "Ölçüm ve kalite kontrol süreçleriniz nelerdir?": "What are your measurement and quality-control processes?",
-  "ÖN · YAN GÖRÜNÜŞ · ÖLÇEK 1:2": "FRONT · SIDE VIEW · SCALE 1:2",
+  "ŞEMATİK ÖN / YAN GÖRÜNÜŞ": "SCHEMATIC FRONT / SIDE VIEW",
   "Ön Üretim": "Pre-production",
   "Önce bir CAD dosyası ekleyin": "Add a CAD file first",
   "Önceki sektörler": "Previous sectors",

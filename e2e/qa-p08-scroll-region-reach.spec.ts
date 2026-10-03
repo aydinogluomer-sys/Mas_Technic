@@ -263,7 +263,8 @@ function wrongSurfaces(records: readonly SurfaceRecord[]) {
  * must not be able to pass this walk by measuring nothing.
  */
 const TABLE_CENSUS: Record<string, number> = {
-  "/": 4,
+  // NEXUS01 removed the masked order table from band 06: three profile tables remain.
+  "/": 3,
   "/cerez-politikasi": 1,
   "/malzemeler": 1,
   "/malzemeler/aluminyum": 1,

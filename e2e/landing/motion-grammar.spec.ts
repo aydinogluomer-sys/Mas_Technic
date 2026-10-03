@@ -219,7 +219,6 @@ test.describe("motion grammar", () => {
           proof: read(".tl-proof-grid article"),
           paperCurtain: read(".tl-cert", "::after"),
           panelCurtain: read(".tl-nexus-app", "::after"),
-          tableVerify: read(".tl-nexus td span[data-status]"),
           imagery: read(".tl-sector-card"),
           paperContainer: read(".tl-quality-strip"),
           panelContainer: read(".tl-nexus-app"),
@@ -235,7 +234,7 @@ test.describe("motion grammar", () => {
       expect(grammars.proof, seen).toBe("opacity");
       expect(grammars.paperCurtain, `paper evidence prints — a curtain transform · ${seen}`).toContain("transform");
       expect(grammars.panelCurtain, `the dark panel exposes — a curtain transform · ${seen}`).toContain("transform");
-      expect(grammars.tableVerify, `a status cell is written into — clip-path · ${seen}`).toContain("clip-path");
+      // NEXUS01 removed the masked order table, and with it the status-cell "verify" grammar.
       expect(grammars.imagery, `imagery is revealed — clip-path curtain · ${seen}`).toContain("clip-path");
       expect(new Set(Object.values(grammars)).size, `every band moved the same way · ${seen}`).toBeGreaterThan(2);
       return;
@@ -271,7 +270,7 @@ test.describe("motion grammar", () => {
        the working version from the dead one. That is what this does. */
     const CASES = [
       { hover: ".tl-measure-top", line: ".tl-dim--bore", passport: ".tl-pp-bore", receded: ".tl-measure-finish" },
-      { hover: ".tl-fcf-top", line: ".tl-dim--tol", passport: ".tl-pp-holes", receded: ".tl-measure-top" },
+      // PROOF01 / §3: the Ø 0.010 position frame (`.tl-fcf-top` → `.tl-dim--tol`) was removed.
       { hover: ".tl-measure-left", line: ".tl-dim--height", passport: ".tl-pp-dim", receded: ".tl-measure-top" },
       { hover: ".tl-fcf-bottom", line: ".tl-dim--perp", passport: ".tl-pp-body", receded: ".tl-measure-top" },
       { hover: ".tl-measure-finish", line: ".tl-dim--finish", passport: ".tl-pp-body", receded: ".tl-measure-top" },

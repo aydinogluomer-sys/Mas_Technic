@@ -4,7 +4,6 @@ import {
   ShellAction,
   ShellBreadcrumb,
   ShellEvidence,
-  ShellIndexList,
   ShellNextStep,
   ShellNotice,
   ShellPageHero,
@@ -14,6 +13,7 @@ import {
   ShellTitleBlock,
 } from "@/components/shell";
 import { usePageMeta } from "@/hooks/use-page-meta";
+import { QUALITY_DOCUMENTS } from "@/content/quality-documents";
 import { joinList } from "@/i18n/format";
 import {
   CERTIFICATIONS,
@@ -158,22 +158,42 @@ export const KaliteDosyasi = () => {
             id="kalite-dokuman"
             index="02"
             title={t("Yayımlanan dokümanlar")}
-            standfirst={t("Dört doküman PDF olarak açılabilir ve indirilebilir.")}
+            standfirst={t("Dört doküman PDF olarak açılabilir ve indirilebilir. Görseller dokümanların gerçek ilk sayfasıdır; dokümanlar Türkçedir.")}
           />
         </div>
-        <div className="shell-span-full">
-          <ShellIndexList
-            ariaLabel={t("Yayımlanan kalite dokümanları")}
-            items={QUALITY_RESOURCES.map((resource, index) => ({
-              href: resource.href,
-              download: true,
-              index: `D${index + 1}`,
-              title: t(resource.title),
-              description: t(DOCUMENT_SUBJECTS[resource.title]),
-              meta: [resource.size],
-            }))}
-          />
-        </div>
+        {/* UX03: each document shows its REAL first page, rendered from the
+            same PDF, with what the document itself prints — number, date,
+            revision, language — and the measured size. */}
+        <ul className="shell-span-full shell-qdoc-grid" aria-label={t("Yayımlanan kalite dokümanları")}>
+          {QUALITY_DOCUMENTS.map((doc, index) => (
+            <li key={doc.href} className="shell-qdoc">
+              <a className="shell-qdoc-thumb" href={doc.href} target="_blank" rel="noopener" aria-label={t("{{title}} — PDF'i aç", { title: t(doc.title) })}>
+                <img
+                  src={doc.thumb}
+                  width={doc.thumbWidth}
+                  height={doc.thumbHeight}
+                  alt={t("{{title}} — dokümanın ilk sayfası", { title: t(doc.title) })}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <p className="shell-qdoc-index">{`D${index + 1}`}</p>
+              <h3>{t(doc.title)}</h3>
+              <p className="shell-qdoc-subject">{t(DOCUMENT_SUBJECTS[doc.title])}</p>
+              <dl>
+                <div><dt>{t("Dil")}</dt><dd>{t("Türkçe")}</dd></div>
+                <div><dt>{t("Doküman no")}</dt><dd>{doc.docNo}</dd></div>
+                <div><dt>{t("Tarih")}</dt><dd>{(/^\d/.test(doc.date) ? doc.date : t(doc.date))}</dd></div>
+                <div><dt>{t("Sürüm")}</dt><dd>{doc.revision ?? t("Belirtilmemiş")}</dd></div>
+                <div><dt>{t("Boyut")}</dt><dd>{doc.size}</dd></div>
+              </dl>
+              <p className="shell-qdoc-actions">
+                <a href={doc.href} target="_blank" rel="noopener">{t("Aç")}</a>
+                <a href={doc.href} download>{t("İndir")}</a>
+              </p>
+            </li>
+          ))}
+        </ul>
       </ShellSurfaceBand>
 
       {/* ── 03 — certificates, with the refusals stated ──────────────────── */}

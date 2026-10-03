@@ -80,8 +80,9 @@ export function TechnicalHero() {
               {/* Ø 28.000 — kutu altından iner, üst yüzeyde ok ile biter */}
               <path className="tl-dim--bore" d="M580 82V120" markerEnd="url(#tl-arrow)" />
 
-              {/* Ø 0.010 — tolerans çerçevesinden çıkıp delik yüzeyine iner */}
-              <path className="tl-dim--tol" d="M786 82L742 146" markerEnd="url(#tl-arrow)" />
+              {/* PROOF01 / §3: the Ø 0.010 position frame and its leader are
+                  gone. A position tolerance needs its datum references, and
+                  this sample carries none until a full CAD is verified. */}
 
               {/* 72.000 — gerçek ölçü çizgisi: uzatma çizgileri + çift ok */}
               <path className="tl-ext tl-dim--height" d="M285 124H480M285 496H500" />
@@ -116,7 +117,6 @@ export function TechnicalHero() {
           {/* Tolerans çerçeveleri: referansta hücrelere bölünmüş kutular */}
           {/* U+2300 ⌀ IBM Plex Mono'da yok ve minik bir yedeğe düşüyordu;
               U+00D8 Ø hem grotesk hem yedek yüzlerde tam cap yüksekliğinde. */}
-          <span className="tl-fcf tl-fcf-top" data-dim="tol" aria-hidden="true"><i>Ø</i><b>0.010</b></span>
           <span className="tl-fcf tl-fcf-bottom" data-dim="perp" aria-hidden="true"><i>⊥</i><b>0.010</b><b>A</b></span>
           <span className="tl-datum" data-dim="datum" aria-hidden="true">A</span>
         </div>
@@ -133,7 +133,8 @@ export function TechnicalHero() {
         <h2>{t("PARÇA BİLGİSİ")}</h2>
         <dl>{heroPartFacts.map(([term, value]) => <div key={term}><dt>{t(term)}</dt><dd>{t(value)}</dd></div>)}</dl>
         <svg className="tl-pp-drawing" viewBox="0 0 240 176" aria-hidden="true">
-          {/* FRONT VIEW (left) and RIGHT VIEW (right), third-angle, 1:2 */}
+          {/* FRONT VIEW (left) and RIGHT VIEW (right). Schematic, not to scale:
+              §3 removed the 1:2 scale label. */}
           <g className="tl-pp-center">
             <path d="M16 70H150M83 22V128M186 70H232M209 30V120" />
           </g>
@@ -169,7 +170,7 @@ export function TechnicalHero() {
             <text x="83" y="16" textAnchor="middle">Ø 28.000</text>
           </g>
         </svg>
-        <p>{t("ÖN · YAN GÖRÜNÜŞ · ÖLÇEK 1:2")}</p>
+        <p>{t("ŞEMATİK ÖN / YAN GÖRÜNÜŞ")}</p>
       </aside>
     </TechnicalSectionFrame>
   );

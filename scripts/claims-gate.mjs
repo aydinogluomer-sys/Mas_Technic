@@ -493,6 +493,8 @@ const CONTRACT_HONESTY_LABELS = [
   "Temsili malzeme görünümü; teknik seçim yukarıdaki kayıt ve çalışma koşullarına göre yapılır.",
   // IMG01 / PAGE01 / UX05 — the contract's literal label for code-drawn schemas.
   "Temsili mühendislik şeması",
+  // PROOF01 — the signature module's literal label.
+  "Temsili geometri ve kontrol yaklaşımı; gerçek ölçüm sonucu değildir.",
 ];
 const foldForLabel = (value) => value.replace(/[İIıi]/g, "i").toLowerCase();
 const onContractHonestyLabel = (text, index) => {

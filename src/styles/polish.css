@@ -656,35 +656,12 @@
 /* ── R2 · NEXUS ENTRY POINTS ──────────────────────────────────────────────
    The portal band described NEXUS and offered no way in; the hero and the
    bar had none either (the only sign-in link lived inside the menu). */
-.shell-root .tl-nexus-body > header > .tl-nexus-cta {
-  grid-column: 1 / span 3;
-  grid-row: 2;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--tl-s3) var(--tl-s5);
-  padding: var(--tl-s4) var(--tl-s5) 0 0;
-}
-.tl-nexus-login {
-  display: inline-flex;
-  min-height: 48px;
-  align-items: center;
-  gap: var(--tl-s4);
-  padding-inline: var(--tl-s5);
-  color: var(--tl-ink);
-  background: var(--tl-paper);
-  font: 700 12px/1 var(--tl-font-mono);
-  letter-spacing: .08em;
-  text-decoration: none;
-  transition: background .3s ease;
-}
-.tl-nexus-login svg { width: 16px; height: 16px; transition: transform .35s var(--pl-ease, ease); }
-.tl-nexus-login:is(:hover, :focus-visible) { background: var(--tl-paper-raised); }
-.tl-nexus-login:is(:hover, :focus-visible) svg { transform: translateX(4px); }
-.tl-nexus-cta p { margin: 0; color: var(--tl-on-dark-body); font-size: 12px; }
-a.tl-nexus-user { color: inherit; text-decoration: none; transition: background .25s ease; }
-a.tl-nexus-user:is(:hover, :focus-visible) { background: var(--tl-tint-raise); }
-.shell-root .tl-nexus-user small { font-size: 10px; color: var(--tl-bronze-light); }
+/* NEXUS01: the band's two entries (new customer → RFQ, existing → sign-in)
+   are styled with the band in `technical-landing.css`; only motion lives here. */
+.tl-nexus-cta a svg { transition: transform .35s var(--pl-ease, ease); }
+.tl-nexus-cta a:is(:hover, :focus-visible) svg { transform: translateX(4px); }
+.tl-nexus-cta a.tl-nexus-login:is(:hover, :focus-visible) { background: var(--tl-tint-hover); }
+.tl-nexus-cta a.tl-nexus-rfq:is(:hover, :focus-visible) { background: var(--tl-paper-raised); }
 
 /* Revision 1: one line, a ghost control beside the filled quote button —
    same 44px height, same mono label size, so the row centres on one axis. */
@@ -703,9 +680,6 @@ a.tl-nexus-user:is(:hover, :focus-visible) { background: var(--tl-tint-raise); }
 }
 .tl-nexus-header-link:is(:hover, :focus-visible) { border-color: var(--tl-white); background: var(--tl-tint-hover); }
 
-@media (max-width: 1180px) {
-  .shell-root .tl-nexus-body > header > .tl-nexus-cta { grid-column: 1 / -1; grid-row: auto; padding-right: 0; }
-}
 @media (max-width: 767px) {
   .tl-nexus-header-link { display: none; }
 }

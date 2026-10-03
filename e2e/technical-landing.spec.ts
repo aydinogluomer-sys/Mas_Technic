@@ -74,12 +74,14 @@ test.describe("technical editorial landing phase 1", () => {
     await expect(marquee.getByRole("listitem").filter({ hasText: "MONTAJ & BİRLEŞTİRME" })).toHaveCount(1);
   });
 
-  test("moves the two visual bands against the scroll without hijacking input", async ({ page }) => {
+  test("moves the visual band against the scroll without hijacking input", async ({ page }) => {
+    // PROOF01: band 05's photo became the signature module (a drawing, not a
+    // picture), so only the manifesto keeps the reverse-scroll photograph.
     const sections = page.locator("[data-reverse-scroll]");
-    await expect(sections).toHaveCount(2);
+    await expect(sections).toHaveCount(1);
 
     // Mobil dahil her genişlikte açık; tek kapanma koşulu reduced-motion.
-    for (let i = 0; i < 2; i += 1) {
+    for (let i = 0; i < 1; i += 1) {
       await expect(sections.nth(i)).toHaveAttribute("data-reverse-scroll-enabled", "true");
     }
 
@@ -103,8 +105,10 @@ test.describe("technical editorial landing phase 1", () => {
 
   test("renders process, the NEXUS preview and the capability profiles", async ({ page }) => {
     await expect(page.getByRole("heading", { name: /Karardan parçaya/ })).toBeVisible();
-    await expect(page.getByRole("heading", { name: /siz sormadan görünür/ })).toBeVisible();
-    await expect(page.getByRole("region", { name: /NEXUS iş emri görünümü/ })).toBeVisible();
+    // NEXUS01: a five-step demo replaced the masked order view.
+    await expect(page.getByRole("heading", { name: /her adımda bir belge/ })).toBeVisible();
+    await expect(page.getByRole("group", { name: "NEXUS demo adımları" })).toBeVisible();
+    await expect(page.getByTestId("nexus-demo-stamp")).toContainText("GERÇEK SİPARİŞ DEĞİLDİR");
     await expect(page.getByRole("heading", { name: "KABİLİYET PROFİLLERİ" })).toBeVisible();
     // Band 07 shows a control plan, not a measurement record. The column head
     // is the contract: NOMİNAL/ÖLÇÜLEN/SONUÇ asserted conformity that was never
@@ -206,10 +210,13 @@ test.describe("technical editorial landing phase 1", () => {
     });
     expect(tasma).toBeLessThanOrEqual(1);
 
-    // A5: tablo sütunu doldururken satırlar aşırı esnememeli.
-    const nexusRow = await page.evaluate(() =>
-      document.querySelector(".tl-nexus-table-wrap tbody tr")!.getBoundingClientRect().height);
-    expect(nexusRow).toBeLessThanOrEqual(44);
+    // NEXUS01: the masked order table became five demo step buttons; each is
+    // a real touch target and none stretches into a slab.
+    const nexusSteps = await page.evaluate(() =>
+      [...document.querySelectorAll(".tl-nexus-rail button")].map((button) => button.getBoundingClientRect().height));
+    expect(nexusSteps).toHaveLength(5);
+    for (const height of nexusSteps) expect(height).toBeGreaterThanOrEqual(44);
+    for (const height of nexusSteps) expect(height).toBeLessThanOrEqual(64);
 
     // 13 RFQ: numara kutusuz ve başlığın üstünde; revizyon 4'ten beri adımlar
     // arasında Process bandıyla aynı ayırıcı (dikey çizgi + "→"), son adımda

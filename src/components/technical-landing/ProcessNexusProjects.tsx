@@ -1,10 +1,4 @@
-import {
-  Box, ChartNoAxesCombined, ClipboardList, Factory, FileBarChart2,
-  LayoutGrid, PackageCheck, Radar, Settings, ShieldCheck, UserRound,
-} from "lucide-react";
-import processImage from "@/assets/hero-cnc-frezeleme.webp";
-import processImage640 from "@/assets/hero-cnc-frezeleme-640.webp";
-import processImage960 from "@/assets/hero-cnc-frezeleme-960.webp";
+import { useState } from "react";
 import projectDefense from "@/assets/industry-defense.webp";
 import projectDefense640 from "@/assets/industry-defense-640.webp";
 import projectDefense960 from "@/assets/industry-defense-960.webp";
@@ -15,9 +9,9 @@ import { Link } from "@/i18n/LocaleLink";
 import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import { accountLink } from "@/components/navigation/ia";
-import { ReverseScrollSection } from "@/components/ReverseScrollSection";
 import { caseStudies, type CaseStudyImageKey } from "@/content/caseStudies";
-import { nexusKpis, nexusOrders, nexusPanels, nexusRedactionNote, technicalProcess } from "@/data/technicalLandingData";
+import { NEXUS_DEMO_LABEL, NEXUS_NOT_REAL_LABEL, nexusDemoSteps, technicalProcess } from "@/data/technicalLandingData";
+import { SignatureControl } from "./SignatureControl";
 import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
 
 /* Intrinsic sizes per key so each tile reserves the right box; only the
@@ -40,21 +34,7 @@ const FEATURED_SIZES = coverSizes(1, "264px", [
   [null, "min(calc((100vw - 66px) / 2), 767px)"],
 ]);
 
-/* `.tl-process figure` is 252px tall (216 on mobile) plus a 48px reverse-scroll
-   overscan each way, spanning master columns 5-12 (4-6 on tablet, full on
-   mobile) with an `object-fit: cover` 16:9 image: on mobile and tablet the
-   height decides the source width (312 x 1.786 = 557px, 348 x 1.786 = 621px).
-   Measured band widths: 333 at 375, 355 at 768, 809 at 1280, 916 at 1440. */
-const processFigure = responsive(1600, 896, processImage, [processImage640, 640], [processImage960, 960]);
-const PROCESS_SIZES = coverSizes(1600 / 896, "252px + 96px", [
-  ["(max-width: 767px)", "calc(100vw - 42px)", "216px + 96px"],
-  ["(max-width: 1180px)", "calc((100vw - 56px) / 2)"],
-  [null, "min(calc((100vw - 66px) * 2 / 3), 1023px)"],
-]);
-const kpiIcons = { box: Box, flow: Factory, stack: PackageCheck, chart: ChartNoAxesCombined } as const;
-const panelIcons = [LayoutGrid, ClipboardList, Radar, FileBarChart2, ShieldCheck, Settings] as const;
-
-/** 05 — Karardan parçaya: dört adımlı üretim akışı. */
+/** 05 — Karardan parçaya: kontrol yaklaşımı (imza modülü) ve dört adımlı üretim akışı. */
 export function TechnicalProcess() {
   const { t } = useTranslation();
   return (
@@ -63,21 +43,9 @@ export function TechnicalProcess() {
         <div className="tl-process-intro">
           <h2 id="tl-process-title">{t("Karardan parçaya,")}<br /><em>{t("kanıtla ilerleyen üretim.")}</em></h2>
         </div>
-        <figure>
-          <ReverseScrollSection distance={48}>
-            <img
-              src={processFigure.src}
-              srcSet={processFigure.srcSet}
-              sizes={PROCESS_SIZES}
-              alt={t("Soğutma sıvısı altında prizmatik metal bloğu işleyen CNC freze iş mili ve kesici takım")}
-              width={processFigure.width}
-              height={processFigure.height}
-              loading="lazy"
-              decoding="async"
-            />
-          </ReverseScrollSection>
-          <Link className="tl-image-link" to="/hizmetler/cnc-frezeleme" aria-label={t("CNC Frezeleme")} />
-        </figure>
+        {/* PROOF01: the stock milling render gave way to the signature
+            module — the control approach on one representative part. */}
+        <SignatureControl />
         <ol>
           {technicalProcess.map((step) => (
             <li key={step.no}>
@@ -93,83 +61,75 @@ export function TechnicalProcess() {
 }
 
 /**
- * 06 — NEXUS: the customer portal's interface, shown as a customer would have
- * to show it.
- *
- * The band used to carry a `DEMO İÇERİK` stamp over four invented KPIs, six
- * invented work orders and a named quality manager who does not exist. A badge
- * admitting the content is fake does not make it publishable — and a portal
- * cannot honestly display real orders either, because they belong to
- * customers. So the tiles describe what the portal does, and the identifying
- * columns are masked the way a screenshot of the live portal would have to be.
+ * 06 — NEXUS (NEXUS01): a five-step DEMO of how a job moves, not a portal
+ * screenshot. Native buttons with `aria-pressed` choose the step; every step
+ * stays in the DOM (inactive ones visually hidden), so the whole workflow is
+ * readable without choosing. Each view says `DEMO` and
+ * `GERÇEK SİPARİŞ DEĞİLDİR`; nothing is downloadable, nothing identifies an
+ * order, a customer, a quantity or a rate. New customers go to the RFQ,
+ * existing ones to sign-in — both real routes.
  */
 export function NexusEvidence() {
   const { t } = useTranslation();
+  const [active, setActive] = useState<string>(nexusDemoSteps[0].key);
   return (
     <TechnicalSectionFrame id="nexus" no="06" label="NEXUS" className="tl-nexus" labelledBy="tl-nexus-title">
       <div className="tl-nexus-body">
         <header>
-          <h2 id="tl-nexus-title">{t("Üretiminiz,")}<br /><em>{t("siz sormadan görünür.")}</em></h2>
-          {/* The band described the customer portal and offered no way into
-              it. The entry is the existing sign-in route; accounts are
-              opened with the first quote request. */}
-          <div className="tl-nexus-cta">
-            <Link to={accountLink.path} className="tl-nexus-login" data-testid="nexus-login">
-              {t("NEXUS'A GİRİŞ YAP")}
-              <ArrowRight aria-hidden="true" />
-            </Link>
-            <p>{t("Hesap ilk teklif talebinizle açılır.")}</p>
-          </div>
-          <div className="tl-nexus-kpis">
-            {nexusKpis.map((kpi) => {
-              const Icon = kpiIcons[kpi.icon];
-              return (
-                <div key={kpi.label} data-tone={"tone" in kpi ? kpi.tone : undefined}>
-                  <Icon aria-hidden="true" />
-                  <strong>{t(kpi.value)}</strong>
-                  <span>{t(kpi.label)}</span>
-                </div>
-              );
-            })}
-          </div>
+          <h2 id="tl-nexus-title">{t("Bir işin beş adımı,")}<br /><em>{t("her adımda bir belge.")}</em></h2>
+          <p className="tl-nexus-stamp" data-testid="nexus-demo-stamp">
+            <strong>{t(NEXUS_DEMO_LABEL)}</strong>
+            <span>{t(NEXUS_NOT_REAL_LABEL)}</span>
+          </p>
         </header>
         <div className="tl-nexus-app">
-          <div className="tl-nexus-rail" aria-label={t("NEXUS panel önizlemesi")} role="group" tabIndex={0}>
-            <ul>
-              {nexusPanels.map((panel, index) => {
-                const Icon = panelIcons[index];
-                return (
-                  <li key={panel} aria-current={index === 0 ? "true" : undefined}>
-                    <Icon aria-hidden="true" />{t(panel)}
-                  </li>
-                );
-              })}
-            </ul>
-            <Link to={accountLink.path} className="tl-nexus-user" aria-label={t("Müşteri hesabı — NEXUS girişi")}>
-              <UserRound aria-hidden="true" />
-              <span>{t("MÜŞTERİ HESABI")}<small>{t("Giriş yap")} →</small></span>
-            </Link>
+          <div className="tl-nexus-rail" role="group" aria-label={t("NEXUS demo adımları")}>
+            {nexusDemoSteps.map((step, index) => (
+              <button
+                key={step.key}
+                type="button"
+                aria-pressed={active === step.key}
+                aria-controls={`tl-nexus-step-${step.key}`}
+                onClick={() => setActive(step.key)}
+              >
+                <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                {t(step.title)}
+              </button>
+            ))}
           </div>
           <div className="tl-nexus-main">
-            <div className="tl-scroll-cue" aria-hidden="true">{t("TABLOYU YATAY KAYDIR")} →</div>
-            <div className="tl-nexus-table-wrap" role="region" aria-label={`${t("NEXUS iş emri görünümü")} — ${t(nexusRedactionNote)}`} tabIndex={0}>
-              <table>
-                <caption className="tl-visually-hidden">{t(nexusRedactionNote)}</caption>
-                <thead>
-                  <tr><th>{t("SİPARİŞ NO")}</th><th>{t("PARÇA")}</th><th>{t("MALZEME")}</th><th>{t("ADET")}</th><th>{t("TESLİMAT")}</th><th>{t("DURUM")}</th></tr>
-                </thead>
-                <tbody>
-                  {nexusOrders.map((row) => (
-                    <tr key={row[0]}>
-                      {row.map((cell, index) => (
-                        <td key={`${row[0]}-${index}`}>{index === 5 ? <span data-status={cell}>{t(cell)}</span> : t(cell)}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            {nexusDemoSteps.map((step, index) => (
+              <section
+                key={step.key}
+                id={`tl-nexus-step-${step.key}`}
+                data-active={active === step.key}
+                className={active === step.key ? "tl-nexus-step" : "tl-nexus-step tl-visually-hidden"}
+                aria-label={`${t(NEXUS_DEMO_LABEL)} · ${t(step.title)}`}
+              >
+                <p className="tl-nexus-step-meta">
+                  {t(NEXUS_DEMO_LABEL)} · {t(NEXUS_NOT_REAL_LABEL)} · {t("ADIM {{n}} / {{total}}", { n: index + 1, total: nexusDemoSteps.length })}
+                </p>
+                <h3>{t(step.title)}</h3>
+                <p>{t(step.summary)}</p>
+                <dl>
+                  <div><dt>{t("OLUŞAN BELGE")}</dt><dd>{t(step.document)}</dd></div>
+                  <div><dt>{t("KARAR")}</dt><dd>{t(step.decision)}</dd></div>
+                </dl>
+              </section>
+            ))}
           </div>
+        </div>
+        <div className="tl-nexus-cta">
+          <Link to="/teklif-al" className="tl-nexus-rfq" data-testid="nexus-rfq">
+            <small>{t("YENİ MÜŞTERİ")}</small>
+            {t("TEKLİF İSTEYİN")}
+            <ArrowRight aria-hidden="true" />
+          </Link>
+          <Link to={accountLink.path} className="tl-nexus-login" data-testid="nexus-login">
+            <small>{t("MEVCUT MÜŞTERİ")}</small>
+            {t("NEXUS'A GİRİŞ YAP")}
+            <ArrowRight aria-hidden="true" />
+          </Link>
         </div>
       </div>
     </TechnicalSectionFrame>

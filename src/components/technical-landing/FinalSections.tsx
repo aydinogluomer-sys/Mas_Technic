@@ -29,6 +29,7 @@ import {
 import { ReverseScrollSection } from "@/components/ReverseScrollSection";
 import { CAD_ACCEPT_ATTR, CAD_FORMAT_HINT, useCadHandoff } from "@/hooks/useCadHandoff";
 import { upper } from "@/i18n/upper";
+import { QUALITY_DOCUMENTS } from "@/content/quality-documents";
 import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
 
 /* Intrinsic size per asset, measured from the file headers
@@ -252,32 +253,35 @@ export function QualityFile() {
     <TechnicalSectionFrame no="10" id="kalite" label="KALİTE DOSYASI" className="tl-quality" labelledBy="tl-quality-title">
       <div className="tl-quality-body">
         <h2 id="tl-quality-title" className="tl-visually-hidden">{t("Kalite dosyası")}</h2>
-        {/* ROUND 2 — ONE WIREFRAME. Every card: code line, title, subtitle,
-            the same document frame, footer line. The three certificates were
-            text-only and the three records carried three different drawings,
-            so the strip read as six unrelated tiles. Two active certificates:
-            `USER_INPUTS.md` §C records AS9100D and IATF 16949 as NONE, and
-            OHSAS 18001 is withheld from the showcase (T02, `claims.ts`). The
-            documents behind the last card are the four real PDFs in §H,
-            downloadable from the KAYNAKLAR list in band 12. */}
+        {/* UX03 — the strip used to end in three look-alike "document"
+            drawings (nine grey bars in a frame). They are gone: the two
+            certificates are named as text — there is no certificate file to
+            show, so nothing here may look like a scan (O03) — and the four
+            permitted PDFs show their real first page, language, the date and
+            revision they print, and their measured size. */}
         <div className="tl-quality-strip">
-          {[
-            ...qualityCertificates.map(({ code, name }) => ({ title: code, sub: name, foot: "YÖNETİM SİSTEMİ BELGESİ" })),
-            { title: "ÖLÇÜM KAYDI", sub: "Kontrol planına göre", foot: "ÜRETİM KAYDI" },
-            { title: "MALZEME İZLENEBİLİRLİĞİ", sub: "Parti ve döküm kaydı", foot: "ÜRETİM KAYDI" },
-            { title: "KALİTE DOSYASI", sub: "Kalite politikası · Ölçüm ekipmanları · Paketleme · Tedarikçi kuralları", foot: "KAYNAKLAR BÖLÜMÜNDEN İNDİRİLEBİLİR" },
-          ].map((card, index) => (
-            <article className="tl-cert" key={card.title}>
+          {qualityCertificates.map(({ code, name }, index) => (
+            <article className="tl-cert tl-cert--system" key={code}>
               <p className="tl-cert-code" aria-hidden="true">Q-{String(index + 1).padStart(2, "0")}</p>
-              <h3>{caps(card.title)}</h3>
-              <p>{caps(card.sub)}</p>
-              <div className="tl-cert-doc" aria-hidden="true">
-                {Array.from({ length: 9 }, (_, row) => <i key={row} />)}
-              </div>
-              <p className="tl-cert-foot">{caps(card.foot)}</p>
+              <h3>{caps(code)}</h3>
+              <p>{caps(name)}</p>
+              <p className="tl-cert-foot">{caps("YÖNETİM SİSTEMİ BELGESİ")}</p>
+            </article>
+          ))}
+          {QUALITY_DOCUMENTS.map((doc) => (
+            <article className="tl-cert tl-cert--doc" key={doc.href}>
+              <a href={doc.href} target="_blank" rel="noopener" className="tl-cert-thumb">
+                <img src={doc.thumb} width={doc.thumbWidth} height={doc.thumbHeight} alt="" loading="lazy" decoding="async" />
+                <span className="tl-visually-hidden">{t("{{title}} — PDF'i aç", { title: t(doc.title) })}</span>
+              </a>
+              <h3>{caps(doc.title)}</h3>
+              <p className="tl-cert-foot">
+                {[t("Türkçe"), doc.revision ? `${t("Sürüm")} ${doc.revision}` : null, (/^\d/.test(doc.date) ? doc.date : t(doc.date)), doc.size].filter(Boolean).join(" · ")}
+              </p>
             </article>
           ))}
         </div>
+        <p className="tl-quality-more"><Link to="/kalite-dosyasi">{t("Kalite dosyasının tamamı")} →</Link></p>
       </div>
     </TechnicalSectionFrame>
   );

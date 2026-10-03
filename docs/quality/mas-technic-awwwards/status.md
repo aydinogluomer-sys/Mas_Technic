@@ -190,6 +190,32 @@ Tarayıcı sonuçları `LOCAL_FIXTURE` (yerel `vite preview`, placeholder Supaba
 
 Tarayıcı sonuçları `LOCAL_FIXTURE` (yerel `vite preview`, placeholder Supabase env, Google Fonts erişilemez).
 
+## Paket 5 — PROOF01 → NEXUS01 → UX03
+
+- HEAD doğrulaması: paket 5 başında dal `f37c0a0` (paket 4 sonu), `main` = `4618e71` (paket 1–4 merge edilmedi). Paket 5 tek commit.
+
+| İş | Durum | Bağımlılık | Değişen dosyalar (özet) | Son kanıt |
+|---|---|---|---|---|
+| PROOF01 | PASS_LOCAL · gerçek kanıt (PROOF02) `BLOCKED_DATA` | O04 | `src/components/technical-landing/{TechnicalHero,SignatureControl,ProcessNexusProjects}.tsx`, `src/content/measured-evidence.ts`, `src/content/caseStudies.ts`, `src/pages/KabiliyetProfilDetay.tsx`, `src/styles/technical-landing.css`, `scripts/claims-gate.mjs` (C12) | Hero'da Ø 0.010 çerçevesi ve kılavuzu yok; pasaport çizimi "ŞEMATİK ÖN / YAN GÖRÜNÜŞ". Bant 05'te imza modülü: 3 native düğme (`aria-pressed`), çizim vurgusu + bağlama/proses + kontrol yöntemi + kayıt birlikte değişir, üç panel de DOM'da. Ölçüm sözleşmesi ve yayın kapısı: bayrak kapalı, üretim kaynağında kayıt yok, fixture yalnız testte. `evidence/screens/p5/{hero,process}-*` |
+| NEXUS01 | PASS_LOCAL · portalın canlı doğrulaması QA02 | O07 | `src/data/technicalLandingData.ts`, `ProcessNexusProjects.tsx`, `technical-landing.css`, `polish.css` | 5 native adım (Teklif, Onay, Üretim, Ölçüm, Sevkiyat); her görünümde `DEMO` ve `GERÇEK SİPARİŞ DEĞİLDİR`; her adımda oluşan belge ve karar. Maskeli sipariş tablosu, portal kutuları ve indirilebilir öğe yok. Yeni müşteri → `/teklif-al`, mevcut müşteri → `/giris`. `evidence/screens/p5/nexus-*` |
+| UX03 | PASS_LOCAL · sertifika geçerliliği O03 | O03 | `src/content/quality-documents.ts`, `src/assets/belgeler/*.webp`, `src/pages/KaliteDosyasi.tsx`, `FinalSections.tsx`, `src/styles/{shell,polish-round2-landing}.css` | Dört izinli PDF'in gerçek ilk sayfası; belgenin kendi yazdığı doküman no, tarih ve sürüm (yoksa "Belirtilmemiş"), dil (Türkçe; EN sayfada "Turkish"), ölçülmüş boyut, aç/indir. Ana sayfa şeridindeki sahte belge çizimleri kalktı; sertifikalar yalnız metin (tarama gibi görünmez). Referanslar yalnız isim, logo yok. `evidence/screens/p5/{quality-band,kalite-docs-en}-*` |
+
+### Paket 5 test sonuçları
+
+| Komut | Sonuç |
+|---|---|
+| `npx tsc --noEmit -p tsconfig.app.json` / `tsconfig.e2e.json` | geçti |
+| `npm run lint` | 0 hata, 2 uyarı (tabandaki `BlurImage.tsx`) |
+| `npm run build` (placeholder env) | geçti |
+| `node scripts/claims-gate.mjs` | PASS: 0 ihlal, 306 kontrol |
+| `e2e/p5-proof-nexus-quality.spec.ts` (yeni; desktop-1280 + mobile-375) | 15/15 geçti: bayrak kapalı ve kayıt yok; yayın kapısı eksik/doğrulanmamış/izinsiz/limitleri ters kaydı reddeder, boşluk doldurmaz; profil tipi ölçüm taşıyamaz, saklı "UYGUN" yok; hero'da FCF ve 1:2 yok; NEXUS verisinde maske/KPI yok; 4 PDF `%PDF-` ile başlar, ölçülen boyut ledger ile aynı, her birinin küçük resmi var; referanslar yalnız isim. Tarayıcıda: klavye ile düğme seçimi çizim ve paneli birlikte değiştirir, modülde sayısal değer yok; 5 adımın her birinde iki etiket; RFQ/giriş linkleri; PDF'ler HTTP 200 + PDF magic; EN sayfa "Turkish" |
+| EN tarayıcı taraması (`/en`, `/en/kalite-dosyasi`, `/en/kabiliyet-profilleri/hassas-mil`) | 0 Türkçe metin |
+| Tam koşu `desktop-1280` + `critical-1280` + `critical-375` (483 test) | İlk koşuda önizleme sunucusu 2 saatlik arka plan sınırında durdu; sonraki testler bağlantı hatasıyla düştü. Sunucu yeniden başlatılıp etkilenen 15 spec dosyası tekrar koşuldu: 147 geçti, 4 hata. 2'si `technical-landing:184` footer oranı (`FAIL_INFRA`, yedek font; paket 3–4'te de aynı). 2'si paket 5 kaynaklıydı ve düzeltildi: `i18n-switch` EN eksik anahtar ("Delik" ve sayısal tarih `t()`'den geçiyordu), `qa-p08-scroll-region-reach` ana sayfa tablo tabanı 4 → 3 (NEXUS tablosu kalktı). Düzeltme sonrası `i18n-switch`, `scroll-region-reach`, `p5`, `l01-locale` (desktop-1280 + mobile-375): 46/46 geçti. Sunucu durmadan önce düşen ve paket 5'e ait olmayanlar: `landing-structure:95` (`FAIL_INFRA`), `qa-09b1-golden-drift` footer, `qa-p08-storage-disclosure:310`, `09b2-fragment-navigation` ×2 (tabanda da düşüyor) |
+
+Güncellenen mevcut spec'ler (gerekçesi yanında): `technical-landing` (ters kaydırma bandı 2 → 1, NEXUS başlığı/grubu, adım düğmesi yüksekliği), `landing/motion-grammar` (Ø 0.010 hover satırı ve durum hücresi grameri kalktı), `landing/landing-grid-axes` (`.tl-nexus-kpis` yerine CTA satırı), `qa-p08-scroll-region-reach` (ana sayfa tablo tabanı).
+
+Tarayıcı sonuçları `LOCAL_FIXTURE` (yerel `vite preview`, placeholder Supabase env, Google Fonts erişilemez).
+
 ## Sonraki iş
 
-Sözleşme sırasına göre paket 5: PROOF01 → NEXUS01 → UX03. Açık girdiler: O01 (host, prerender), O02 (kapasite eşikleri), O04 (gerçek demo kuponu), O05 (malzeme kaynakları), O08 (EN hukuki onay), O10 (origin ve EN'in yayına açılması).
+Sözleşme sırasına göre paket 6: RFQ01 → RFQ02 → RFQ03 (backend kontratı O06 yoksa yerel hazırlık, üretimde kapalı). PROOF02 gerçek veri gelince ayrı içerik teslimidir. Açık girdiler: O01 (host, prerender), O02 (kapasite eşikleri), O04 (gerçek demo kuponu), O05 (malzeme kaynakları), O08 (EN hukuki onay), O10 (origin ve EN'in yayına açılması).

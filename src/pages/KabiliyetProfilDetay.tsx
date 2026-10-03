@@ -21,6 +21,7 @@ import { SchemaFigure } from "@/components/schemas/SchemaFigure";
 import { PROFILE_SCHEMAS } from "@/components/schemas/registry";
 import { PROFILE_SUBJECTS } from "@/content/journal-modules";
 import { CMM_COVERAGE, QUOTE_RESPONSE_TIME } from "@/content/claims";
+import { publishMeasuredEvidence, withinLimits } from "@/content/measured-evidence";
 
 /* ══════════════════════════════════════════════════════════════════════════
    KABİLİYET PROFİLİ — DETAIL
@@ -58,6 +59,9 @@ export const KabiliyetProfilDetay = () => {
   const { t, i18n } = useTranslation();
   const { caseStudies } = useSiteData();
   const study = caseStudies.find((entry) => entry.slug === slug);
+  /* PROOF01: measured rows reach the page only through the publish gate —
+     empty for a capability profile (by type) and while the flag is off. */
+  const measured = study?.kind === "anonymised-project" ? publishMeasuredEvidence(study.measuredResults ?? []) : [];
 
   usePageMeta({
     title: study ? study.title : t("Profil bulunamadı"),
@@ -198,12 +202,19 @@ export const KabiliyetProfilDetay = () => {
               `capability` entries BY TYPE — `measuredResults` is `never` on
               that variant — and present so that a permitted job slots in
               without a rewrite. */}
-          {study.kind === "anonymised-project" && study.measuredResults ? (
+          {measured.length > 0 ? (
             <ShellSpecTable
-              caption={study.reportNo ? `${t("Ölçüm kaydı")} · ${study.reportNo}` : t("Ölçüm kaydı")}
+              caption={study.kind === "anonymised-project" && study.reportNo ? `${t("Ölçüm kaydı")} · ${study.reportNo}` : t("Ölçüm kaydı")}
               note={t("Gerçek bir muayene kaydından alınmıştır. Müşteri ve parça tanımlayıcıları anonimleştirilmiştir.")}
-              headers={[t("ÖZELLİK"), t("NOMİNAL"), t("ÖLÇÜLEN"), t("SONUÇ")]}
-              rows={study.measuredResults.map((row) => [row.feature, row.nominal, row.measured, row.verdict])}
+              headers={[t("ÖZELLİK"), t("NOMİNAL / LİMİT"), t("ÖLÇÜLEN"), t("YÖNTEM / CİHAZ"), t("TARİH · KAYNAK"), t("LİMİT")]}
+              rows={measured.map((row) => [
+                `${row.featureId} · ${row.feature}`,
+                `${row.nominal} (${row.lowerLimit} – ${row.upperLimit}) ${row.unit}`,
+                `${row.measuredValue} ${row.unit}`,
+                `${row.method} · ${row.device}`,
+                `${row.measurementDate} · ${row.sourceDocument}`,
+                withinLimits(row) ? t("İçinde") : t("Dışında"),
+              ])}
               rowKey={(row) => String(row[0])}
             />
           ) : (

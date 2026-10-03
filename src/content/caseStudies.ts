@@ -1,4 +1,5 @@
 import { CMM_COVERAGE, LEAD_TIME_STATEMENT, MINIMUM_TOLERANCE } from "./claims";
+import type { MeasuredEvidence } from "./measured-evidence";
 
 /* ══════════════════════════════════════════════════════════════════════════
    CASE-STUDY SCHEMA
@@ -42,13 +43,6 @@ export type ControlPlanRow = {
   method: string;
   /** What the control leaves behind. */
   record: string;
-};
-
-export type MeasuredResultRow = {
-  feature: string;
-  nominal: string;
-  measured: string;
-  verdict: "UYGUN" | "UYGUN DEĞİL";
 };
 
 type CaseStudyBase = {
@@ -102,8 +96,13 @@ export type AnonymisedProject = CaseStudyBase & {
   sector: string;
   permission: "ANONYMISED";
   client?: never;
-  /** Only from a real inspection record. */
-  measuredResults?: readonly MeasuredResultRow[];
+  /**
+   * Only from a real inspection record, in the PROOF01 contract
+   * (`measured-evidence.ts`): sample, drawing revision, limits, unit, device,
+   * date, source, permission and reviewer. Printed only through
+   * `publishMeasuredEvidence`, which returns nothing while the flag is off.
+   */
+  measuredResults?: readonly MeasuredEvidence[];
   reportNo?: string;
 };
 
