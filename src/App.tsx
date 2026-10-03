@@ -24,20 +24,22 @@ import { ShellLoading, ShellRouteBoundary, ShellRouteError } from "@/components/
    The divergence is resolved by removing the outlier, not by spreading it. */
 import { ChatLauncher } from "@/components/ChatLauncher";
 import { isHeroIntroActive } from "@/lib/hero-shell";
+import { lazyRoute } from "@/lib/lazy-route";
+import { bootMark, errorMessage, reportBoot } from "@/lib/boot-trace";
 
-const Index = lazy(() => import("./pages/Index").then((m) => ({ default: m.Index })));
-const NotFound = lazy(() => import("./pages/NotFound").then((m) => ({ default: m.NotFound })));
-const SSS = lazy(() => import("./pages/SSS").then((m) => ({ default: m.SSS })));
-const GizlilikPolitikasi = lazy(() =>
+const Index = lazyRoute("Index", () => import("./pages/Index").then((m) => ({ default: m.Index })));
+const NotFound = lazyRoute("NotFound", () => import("./pages/NotFound").then((m) => ({ default: m.NotFound })));
+const SSS = lazyRoute("SSS", () => import("./pages/SSS").then((m) => ({ default: m.SSS })));
+const GizlilikPolitikasi = lazyRoute("GizlilikPolitikasi", () =>
   import("./pages/GizlilikPolitikasi").then((m) => ({ default: m.GizlilikPolitikasi })),
 );
-const KVKK = lazy(() => import("./pages/KVKK").then((m) => ({ default: m.KVKK })));
-const CerezPolitikasi = lazy(() => import("./pages/CerezPolitikasi").then((m) => ({ default: m.CerezPolitikasi })));
-const Hakkimizda = lazy(() => import("./pages/Hakkimizda").then((m) => ({ default: m.Hakkimizda })));
-const Iletisim = lazy(() => import("./pages/Iletisim").then((m) => ({ default: m.Iletisim })));
-const ServiceDetail = lazy(() => import("./pages/ServiceDetail").then((m) => ({ default: m.ServiceDetail })));
-const Blog = lazy(() => import("./pages/Blog").then((m) => ({ default: m.Blog })));
-const BlogDetail = lazy(() => import("./pages/BlogDetail").then((m) => ({ default: m.BlogDetail })));
+const KVKK = lazyRoute("KVKK", () => import("./pages/KVKK").then((m) => ({ default: m.KVKK })));
+const CerezPolitikasi = lazyRoute("CerezPolitikasi", () => import("./pages/CerezPolitikasi").then((m) => ({ default: m.CerezPolitikasi })));
+const Hakkimizda = lazyRoute("Hakkimizda", () => import("./pages/Hakkimizda").then((m) => ({ default: m.Hakkimizda })));
+const Iletisim = lazyRoute("Iletisim", () => import("./pages/Iletisim").then((m) => ({ default: m.Iletisim })));
+const ServiceDetail = lazyRoute("ServiceDetail", () => import("./pages/ServiceDetail").then((m) => ({ default: m.ServiceDetail })));
+const Blog = lazyRoute("Blog", () => import("./pages/Blog").then((m) => ({ default: m.Blog })));
+const BlogDetail = lazyRoute("BlogDetail", () => import("./pages/BlogDetail").then((m) => ({ default: m.BlogDetail })));
 /* PHASE 08 — the two surfaces §PHASE 08 requires and the site had no route
    for: the case-study/capability index + detail pair over
    `src/content/caseStudies.ts`, and the quality/resources document surface
@@ -45,25 +47,25 @@ const BlogDetail = lazy(() => import("./pages/BlogDetail").then((m) => ({ defaul
    `src/components/navigation/ia.ts` under RESOURCES, so
    `e2e/landing/navigation-reachability.spec.ts` covers them rather than
    reporting them as orphans. */
-const KabiliyetProfilleri = lazy(() =>
+const KabiliyetProfilleri = lazyRoute("KabiliyetProfilleri", () =>
   import("./pages/KabiliyetProfilleri").then((m) => ({ default: m.KabiliyetProfilleri })),
 );
-const KabiliyetProfilDetay = lazy(() =>
+const KabiliyetProfilDetay = lazyRoute("KabiliyetProfilDetay", () =>
   import("./pages/KabiliyetProfilDetay").then((m) => ({ default: m.KabiliyetProfilDetay })),
 );
-const KaliteDosyasi = lazy(() =>
+const KaliteDosyasi = lazyRoute("KaliteDosyasi", () =>
   import("./pages/KaliteDosyasi").then((m) => ({ default: m.KaliteDosyasi })),
 );
-const AdminLogin = lazy(() => import("./pages/AdminLogin").then((m) => ({ default: m.AdminLogin })));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard").then((m) => ({ default: m.AdminDashboard })));
-const Login = lazy(() => import("./pages/Login").then((m) => ({ default: m.Login })));
-const ForgotPassword = lazy(() => import("./pages/ForgotPassword").then((m) => ({ default: m.ForgotPassword })));
-const ResetPassword = lazy(() => import("./pages/ResetPassword").then((m) => ({ default: m.ResetPassword })));
-const Malzemeler = lazy(() => import("./pages/Malzemeler").then((m) => ({ default: m.Malzemeler })));
-const MalzemeKategori = lazy(() => import("./pages/MalzemeKategori").then((m) => ({ default: m.MalzemeKategori })));
-const TeklifAl = lazy(() => import("./pages/TeklifAl").then((m) => ({ default: m.TeklifAl })));
-const MusteriPaneli = lazy(() => import("./pages/MusteriPaneli").then((m) => ({ default: m.MusteriPaneli })));
-const CategoryPage = lazy(() => import("./pages/CategoryPage").then((m) => ({ default: m.CategoryPage })));
+const AdminLogin = lazyRoute("AdminLogin", () => import("./pages/AdminLogin").then((m) => ({ default: m.AdminLogin })));
+const AdminDashboard = lazyRoute("AdminDashboard", () => import("./pages/AdminDashboard").then((m) => ({ default: m.AdminDashboard })));
+const Login = lazyRoute("Login", () => import("./pages/Login").then((m) => ({ default: m.Login })));
+const ForgotPassword = lazyRoute("ForgotPassword", () => import("./pages/ForgotPassword").then((m) => ({ default: m.ForgotPassword })));
+const ResetPassword = lazyRoute("ResetPassword", () => import("./pages/ResetPassword").then((m) => ({ default: m.ResetPassword })));
+const Malzemeler = lazyRoute("Malzemeler", () => import("./pages/Malzemeler").then((m) => ({ default: m.Malzemeler })));
+const MalzemeKategori = lazyRoute("MalzemeKategori", () => import("./pages/MalzemeKategori").then((m) => ({ default: m.MalzemeKategori })));
+const TeklifAl = lazyRoute("TeklifAl", () => import("./pages/TeklifAl").then((m) => ({ default: m.TeklifAl })));
+const MusteriPaneli = lazyRoute("MusteriPaneli", () => import("./pages/MusteriPaneli").then((m) => ({ default: m.MusteriPaneli })));
+const CategoryPage = lazyRoute("CategoryPage", () => import("./pages/CategoryPage").then((m) => ({ default: m.CategoryPage })));
 
 /**
  * Geliştirme-yalnız yüzeyler (`/technical-preview`, `/legacy-landing`, `/test`).
@@ -78,10 +80,10 @@ const DevRoute = import.meta.env.DEV
   ? lazy(() => import("./routes/DevRoutes"))
   : null;
 
-const ProtectedRoute = lazy(() =>
+const ProtectedRoute = lazyRoute("ProtectedRoute", () =>
   import("./components/ProtectedRoute").then((m) => ({ default: m.ProtectedRoute })),
 );
-const CustomerProtectedRoute = lazy(() =>
+const CustomerProtectedRoute = lazyRoute("CustomerProtectedRoute", () =>
   import("./components/CustomerProtectedRoute").then((m) => ({ default: m.CustomerProtectedRoute })),
 );
 const GlobalToasts = lazy(() =>
@@ -120,41 +122,56 @@ const LOADER_TIMEOUT_TEXT = {
     label: "YÜKLEME GECİKTİ",
     title: "Sayfa yüklenemedi",
     detail: "Sayfanın dosyaları zamanında gelmedi. Sayfayı yeniden yükleyin; sorun sürerse bize bildirin.",
+    offlineLabel: "BAĞLANTI YOK",
+    offlineDetail: "Tarayıcı internet bağlantısı olmadığını bildiriyor. Bağlantı gelince sayfayı yeniden yükleyin.",
   },
   en: {
     label: "LOADING STALLED",
     title: "The page could not load",
     detail: "The page's files did not arrive in time. Reload the page; if it keeps happening, let us know.",
+    offlineLabel: "NO CONNECTION",
+    offlineDetail: "The browser reports no internet connection. Reload the page once you are back online.",
   },
 } as const;
 
-const PageLoader = ({ pending = "route" }: { pending?: "route" | "language" }) => {
-  const { pathname } = useLocation();
-  const locale = isPanelPath(pathname) ? "tr" : localeFromPath(pathname);
-  const text = LOADER_TEXT[locale];
+type Pending = "route" | "language";
+
+/** True once a loader has been on screen for LOADER_TIMEOUT_MS. */
+function useStalled(pathname: string, pending: Pending) {
   const [stalled, setStalled] = useState(false);
   useEffect(() => {
     setStalled(false);
     const timer = window.setTimeout(() => {
-      console.error(`[shell] ${pending} still loading after ${LOADER_TIMEOUT_MS} ms on ${pathname}`);
+      reportBoot(`${pending} still loading after ${LOADER_TIMEOUT_MS} ms on ${pathname}`);
       setStalled(true);
     }, LOADER_TIMEOUT_MS);
     return () => window.clearTimeout(timer);
   }, [pathname, pending]);
-  if (stalled) {
-    const timeout = LOADER_TIMEOUT_TEXT[locale];
-    return (
-      <div className="shell-boot">
-        <ShellRouteError
-          label={timeout.label}
-          title={timeout.title}
-          detail={timeout.detail}
-          reason={`ERR::${pending === "language" ? "LANGUAGE" : "ROUTE"}_LOAD_TIMEOUT`}
-          onRetry={() => window.location.reload()}
-        />
-      </div>
-    );
-  }
+  return stalled;
+}
+
+const StalledNotice = ({ pathname, pending }: { pathname: string; pending: Pending }) => {
+  const locale = isPanelPath(pathname) ? "tr" : localeFromPath(pathname);
+  const text = LOADER_TIMEOUT_TEXT[locale];
+  const offline = typeof navigator !== "undefined" && navigator.onLine === false;
+  return (
+    <div className="shell-boot">
+      <ShellRouteError
+        label={offline ? text.offlineLabel : text.label}
+        title={text.title}
+        detail={offline ? text.offlineDetail : text.detail}
+        reason={offline ? "ERR::OFFLINE" : `ERR::${pending === "language" ? "LANGUAGE" : "ROUTE"}_LOAD_TIMEOUT`}
+        onRetry={() => window.location.reload()}
+      />
+    </div>
+  );
+};
+
+const PageLoader = ({ pending = "route" }: { pending?: Pending }) => {
+  const { pathname } = useLocation();
+  const text = LOADER_TEXT[isPanelPath(pathname) ? "tr" : localeFromPath(pathname)];
+  const stalled = useStalled(pathname, pending);
+  if (stalled) return <StalledNotice pathname={pathname} pending={pending} />;
   return (
     <div className="shell-boot">
       <ShellLoading label={text.label} detail={text.detail} fullHeight={false} />
@@ -174,8 +191,18 @@ const PageLoader = ({ pending = "route" }: { pending?: "route" | "language" }) =
  */
 const PublicRouteLoader = () => {
   const { pathname } = useLocation();
-  if (isHeroIntroActive() || pathname === "/" || pathname === "/en" || pathname === "/en/") return null;
+  if (isHeroIntroActive() || pathname === "/" || pathname === "/en" || pathname === "/en/") return <SilentLoader />;
   return <PageLoader />;
+};
+
+/* The landing paints nothing while its chunk arrives (layout stability, see
+   above) — but "nothing" must not last forever: a landing chunk that never
+   arrives used to leave a blank page with no timeout at all, because the
+   timed `PageLoader` was never rendered on `/`. */
+const SilentLoader = () => {
+  const { pathname } = useLocation();
+  const stalled = useStalled(pathname, "route");
+  return stalled ? <StalledNotice pathname={pathname} pending="route" /> : null;
 };
 
 
@@ -223,7 +250,11 @@ function useRouteLanguageReady(pathname: string): boolean {
     if (isLanguageReady(locale)) { setReady(true); return; }
     let live = true;
     setReady(false);
-    void applyLanguage(locale).finally(() => { if (live) setReady(true); });
+    bootMark("language:start", locale);
+    void applyLanguage(locale)
+      .then(() => bootMark("language:ready", locale))
+      .catch((error) => bootMark("language:failed", `${locale} · ${errorMessage(error)}`))
+      .finally(() => { if (live) setReady(true); });
     return () => { live = false; };
   }, [locale]);
   return ready;

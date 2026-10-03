@@ -1,6 +1,8 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "@/i18n/LocaleLink";
+import { bootMark, errorMessage } from "@/lib/boot-trace";
+import { isChunkLoadError } from "@/lib/lazy-route";
 
 /* ══════════════════════════════════════════════════════════════════════════
    LOADING · EMPTY · ROUTE ERROR
@@ -133,11 +135,24 @@ export class ShellRouteBoundary extends Component<BoundaryProps, BoundaryState> 
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
+    bootMark("route:error", errorMessage(error));
     console.error("[shell] route render failed", error, info.componentStack);
   }
 
   render() {
     if (this.state.error) {
+      /* A failed route chunk is cached by React.lazy: re-rendering would show
+         the same failure, so this one retries with a reload (`lazy-route.ts`). */
+      if (isChunkLoadError(this.state.error)) {
+        return (
+          <ShellRouteError
+            title="Sayfanın dosyaları yüklenemedi"
+            detail="Site güncellenmiş ya da bağlantı kesilmiş olabilir. Sayfayı yeniden yüklemek yeni dosyaları getirir."
+            reason="ERR::CHUNK_LOAD_FAILED"
+            onRetry={() => window.location.reload()}
+          />
+        );
+      }
       return <ShellRouteError onRetry={() => this.setState({ error: null })} />;
     }
     return this.props.children;

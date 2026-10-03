@@ -150,6 +150,8 @@ const pages: Record<string, string> = {
   "Bu sayfa bir kabiliyet profilidir; tamamlanmış müşteri projesi veya ölçüm raporu değildir.": "This page is a capability profile; it is not a completed customer project or a measurement report.",
   "Bu sayfa kaydı bulunamadı": "This page record was not found",
   "Bu sayfa yüklenemedi": "This page could not be loaded",
+  "Sayfanın dosyaları yüklenemedi": "The page's files could not be loaded",
+  "Site güncellenmiş ya da bağlantı kesilmiş olabilir. Sayfayı yeniden yüklemek yeni dosyaları getirir.": "The site may have been updated or the connection dropped. Reloading the page fetches the new files.",
   "Bu sayfa şifre sıfırlama e-postasındaki bağlantıyla açılır.": "This page opens from the link in the password reset email.",
   "Bu sayfada sık kullanılan malzemeler. Ailenin tamamı malzeme kaydındadır.": "Materials commonly used on this page. The whole family is in the material register.",
   "Bu sayfadaki bölümler": "Sections on this page",
