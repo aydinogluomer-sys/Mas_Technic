@@ -24,7 +24,7 @@ const BAND_INDICES = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"
 const OVERFLOW_WIDTHS = [375, 768, 1280, 1440, 1600];
 
 test.describe("production landing structure", () => {
-  test("serves TechnicalLanding on / and numbers all 14 bands in order", async ({ page }) => {
+  test("serves TechnicalLanding on / and numbers all 12 bands in order", async ({ page }) => {
     await gotoAndSettle(page, "/");
     await landingReady(page);
 
