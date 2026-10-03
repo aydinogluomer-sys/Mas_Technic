@@ -356,3 +356,79 @@ Tarayıcı sonuçları `LOCAL_FIXTURE`. Not: önizleme sunucusu oturum içinde i
 ## Sonraki iş
 
 Sözleşmenin sekiz paketi yerelde uygulandı. Kalan iş işletme girdilerine bağlı: O01 (aday host → ön render, canlı build eşleşmesi, LCP), O02, O03, O04 (PROOF02), O05, O06 (RFQ sunucusu), O07 (QA02 canlı döngü), O08, O10. Merge ve yayın kararı sahibindir (`release.md`). PROOF02 gerçek veri gelince ayrı içerik teslimidir. Açık girdiler: O01 (host, prerender), O02 (kapasite eşikleri), O04 (gerçek demo kuponu), O05 (malzeme kaynakları), O08 (EN hukuki onay), O10 (origin ve EN'in yayına açılması).
+
+## Teknik borç turu — A–F (3 Ekim 2026)
+
+Kaynak: "MAS TECHNIC — Teknik borçları kapatma, üretime hazırlık ve Awwwards adaylık kalitesi". Dal `claude/documentation-roadmap-nwV4C`, taban `aa4e7d8` (`main`). Bu tur **production-ready değildir**: hiçbir şey staging'de ya da canlıda koşmadı.
+
+Etiketler: `IMPLEMENTED` (kod var) · `PASS_LOCAL` (yerelde ölçüldü/test edildi) · `PASS_STAGING` · `PASS_PRODUCTION` · `BLOCKED_OWNER_DATA` · `BLOCKED_ACCESS` · `FAIL` · `NOT_TESTED`. Bu turda `PASS_STAGING` ve `PASS_PRODUCTION` yok.
+
+| ID | Sorun | Değişiklik | Durum | Kanıt | Kalan bağımlılık |
+|---|---|---|---|---|---|
+| A1 | Gemini işi aynı dalda | Ayrı dal `claude/gemini-migration`, PR #7 (sahibi tarafından merge edildi) | IMPLEMENTED · deploy edilmedi | PR #7 | Supabase secret (`GOOGLE_GEMINI_API_KEY`) ve deploy: O06. PR #7'de merge'den önce gelen 3 Codex bulgusu açık (aşağıda) |
+| A2 | Regresyon ailesi PR'da koşmuyordu; görsel iş boşta yeşildi | 8 viewport matris işi PR/push'ta; "Visual baseline guard"; interop işi | PASS_LOCAL (CI, PR #8: hepsi yeşil) | `.github/workflows/playwright.yml` | Branch protection'da gerekli check adları (aşağıda) — repo sahibi |
+| B1 | "YÜKLENİYOR" takılması | 12 sn zaman aşımı; landing'de de; chunk hatasında tek yeniden yükleme; çevrimdışı ayrımı; `[boot]` izi; devralmada yalnız gerçek chunk hatası yeniden yükler (D28) | PASS_LOCAL | `e2e/landing/boot-resilience.spec.ts` (eski build'de 4/7 düşüyor) | Yerelde yeniden üretilemedi → O15 |
+| B2 | Bilinen 4 kırık test | fragment-navigation ürün hatası (Lenis) düzeltildi; golden-drift sessiz geçişi kapatıldı; storage-disclosure yarışı; ağ testi opt-in | PASS_LOCAL | ce70b24, 12dbb9a | Linux golden baseline yok (CI `golden` girdisiyle aday üretilir) |
+| C1 | Google Fonts | 21 WOFF2 kendi sunucudan, 4 kritik preload; gizlilik metinleri güncellendi | PASS_LOCAL | b93fec6 | EN hukuki onay O08 |
+| C2 | İstemci tarafı render, LCP | 190 rota (EN açık) ön render; devralma; rota CSS'i snapshot'ta (CLS 0,05–0,09 → ≤ 0,014) | PASS_LOCAL | `scripts/prerender/prerender.mjs` | Vercel'de build (Chromium) NOT_TESTED → O12 |
+| C3 | 404 200 dönüyordu; Vercel yapılandırması yok | `vercel.json` rota tablosundan; gerçek 404; 308'ler; cache; güvenli başlıklar (CSP yok, D25); indeksleme ve EN bayrakları | PASS_LOCAL | `verify-release.mjs` 505/505, 0 bulgu; `evidence/c3-english-off.json` | Domain O10, Vercel O12 |
+| C4 | Performans | Ölçüm + D24 (giriş animasyonu), D27 (preload) | PASS_LOCAL (7/8 LCP) · **FAIL** (`/en`@1440 LCP; JS bütçesi iç sayfalar; lab TBT arttı) | `evidence/c4-perf-baseline.json`, `evidence/c4-perf-final.json` | HTTP/2 ölçümü O12; saha verisi yok |
+| D1 | RFQ sunucusu | Uygulanmaya hazır yama + 21 test; anon INSERT açığı bulundu | IMPLEMENTED (yama) · PASS_LOCAL (taklit) | `rfq-backend-patch/` | BLOCKED_ACCESS O06, O07 |
+| E1 | Ölçüm şablonu, malzeme kaynakları, teknik metin | Şablon + tarih/birim kontrolü; 11 popüler malzeme değer başına kaynaklı; lazer/anodize metin düzeltmeleri | PASS_LOCAL | `evidence/e1-material-sources.json`, `measurement-record-template.*` | 76 malzeme kaynaksız; ölçüm O04; sertifika O03; kapasite O02 (BLOCKED_OWNER_DATA) |
+| F1 | Firefox/WebKit, mobil/a11y, gerçek cihaz | Interop spec'i (9 akış) + CI işi; Chromium'da mantık kontrolü 18/18 | PASS_LOCAL (CI: interop 27/27, smoke 12/12) · gerçek cihaz **NOT_TESTED** | `e2e/interop/critical-flows.spec.ts` | O14 |
+
+### C4 — taban ve son ölçüm (lab)
+
+Profil: yavaş 4G (150 ms, 1,6 Mbps) + 4× CPU, rota/genişlik başına 5 soğuk koşu, sandbox Chromium r1194, gzip'li yerel sunucu (HTTP/1.1). Taban: `aa4e7d8`, ön render yok, Google Fonts bu ağda **kesildiği için taban olduğundan hızlı** görünür. Lab TBT INP değildir; INP ölçülmedi. Hedefler: LCP p75 ≤ 2,5 s, CLS < 0,1, JS (ilk + 10 sn) ≤ 320 KiB.
+
+| Rota @ genişlik | LCP p75 taban → son | CLS p75 taban → son | JS 10 sn (KiB) taban → son | Lab TBT p75 (ms) taban → son | Sonuç |
+|---|---|---|---|---|---|
+| `/` @375 | 2780 → **1984** | 0 → 0 | 194 → 198 | 451 → 804 | LCP PASS |
+| `/` @1440 | 2868 → **1740** | 0 → 0,014 | 244 → 248 | 765 → 1199 | LCP PASS |
+| `/en` @375 | 3288 → **1960** | 0 → 0 | 232 → 239 | 366 → 771 | LCP PASS |
+| `/en` @1440 | 3412 → **6064** | 0 → 0,009 | 282 → 289 | 619 → 1161 | **LCP FAIL** (D26) |
+| `/hizmetler/cnc-frezeleme` @375 | 2952 → **1576** | 0,059 → 0 | 285 → 292 | 293 → 666 | LCP PASS |
+| `/hizmetler/cnc-frezeleme` @1440 | 3024 → **1636** | 0,021 → 0 | 335 → **342** | 492 → 977 | LCP PASS · **JS FAIL** |
+| `/en/hizmetler/cnc-frezeleme` @375 | 3908 → **1540** | 0,061 → 0 | 396 → **405** | 261 → 596 | LCP PASS · **JS FAIL** |
+| `/en/hizmetler/cnc-frezeleme` @1440 | 4160 → **1592** | 0,021 → 0 | 446 → **456** | 305 → 875 | LCP PASS · **JS FAIL** |
+
+- JS bütçesi tabanda da aşılıyordu (aynı rotalar); bu tur küçültmedi (+3–10 KiB: devralma kodu, boot izi).
+- Lab TBT her rotada arttı: devralmada sayfanın tamamı ikinci kez çiziliyor. Bu bir regresyon; INP'ye etkisi sahada ölçülmeli.
+- `/en`@1440: statik hero ~2,0 s'de ekranda, ama metrik 6 s diyor (D26). Ziyaretçinin gördüğü ile metrik farklı; metrik CrUX'a giden değerdir, FAIL olarak kalır.
+
+### Branch protection için gerekli check adları
+
+`Typecheck & lint` · `Production build` · `E2E critical (Chromium)` · `E2E smoke (WebKit + Firefox)` · `E2E interop (WebKit + Firefox)` · `E2E regression (mobile-320)` · `E2E regression (mobile-375)` · `E2E regression (mobile-390)` · `E2E regression (tablet-768)` · `E2E regression (landscape-844)` · `E2E regression (desktop-1280)` · `E2E regression (desktop-1440-short)` · `E2E regression (desktop-1440)` · `Visual baseline guard`
+
+### A–F test sonuçları (yerel, son build)
+
+CI, head `7974296` (GitHub Actions, CI'ın kendi Chromium/WebKit/Firefox'u, prerender'lı build, `vercel.json` yönlendirmeli yerel sunucu):
+
+| İş | Sonuç |
+|---|---|
+| Typecheck & lint · Production build · Visual baseline guard | yeşil |
+| E2E critical (Chromium) | 185 geçti, 3 atlandı |
+| E2E smoke (WebKit + Firefox) | 12 geçti |
+| E2E interop (WebKit + Firefox) | 27 geçti (ilk koşuda 24/27; kalan 3 aşağıda) |
+| E2E regression × 8 viewport | 1691 geçti, 1173 atlandı (spec'lerin tek-şerit kuralları), 0 hata, 0 flaky |
+| Visual golden diff | atlandı — linux baseline yok (guard bunu açıkça söylüyor) |
+
+Bu turda CI ve yerel koşuların bulduğu, düzeltilen hatalar:
+- **Ürün (C2 yan etkisi):** Ön render edilmiş `/teklif-al`'da uygulama devralmadan önce seçilen dosya ya da yazılan metin, DOM yenilenince kayboluyordu. Snapshot'taki formlar artık devralmaya kadar `inert` (D29).
+- **Interop:** Rezervasyon dialog'u, odak takvim iframe'indeyken Escape ile kapanmıyor. Bu cross-origin iframe'in sınırı; kapatma yolu kapat butonu (D30).
+- **Test yarışları:** Statik sayfaya dokunan 6 spec artık uygulamayı bekliyor (`waitForApp`). Menü akordeonu yerleşince okunuyor. Stil kontrolü CSS'i iptal etmek yerine boş gövdeyle dönüyor; böylece kendi korumasını tetikliyor.
+
+Yerel: kritik + 8 viewport, düzeltmelerden önceki build'de 2527/3052 noktasına kadar koştu. Bulunan 11 hatanın hepsi yukarıdaki üç grupta; koşu, CI aynı işi güncel head'de bitirdiği için durduruldu. Düzeltilmiş build'de hedefli tekrar: 365 geçti, 58 atlandı, 1 hata (çift yük altında; tek başına 12/12).
+
+Gerçek cihaz: **NOT_TESTED**. CI'daki WebKit/Firefox emüle edilen motorlardır, iPhone Safari ya da Android Chrome değildir.
+
+### Gemini (PR #7) — merge sonrası açık bulgular
+
+Merge'den önce Codex'in bıraktığı 3 bulgu merge edilmiş kodda doğrulandı; bu PR'a eklenmedi (ayrı değişiklik, sahibin kararı):
+1. `finance-ai`: başarısız bir sorudan sonra yeniden denemede art arda iki `user` turu gidiyor. Düzeltmesi küçük: aynı roldeki komşu mesajları birleştirmek.
+2. Model erişimi: `gemini-2.5-flash` yeni projelerde kısıtlı olabilir (Codex'in iddiası, buradan doğrulanamadı). Deploy'dan önce anahtarla bir test çağrısı gerekir.
+3. Herkese açık `chat` fonksiyonunda JWT yok ve sunucu tarafı hız sınırı yok; aynı Gemini projesindeki admin fonksiyonlarının kotasını tüketebilir. Çözüm: hız sınırı ya da ayrı proje.
+
+### Sonraki güvenli adım
+
+PR'ı CI'da yeşile getirmek (WebKit/Firefox ilk kez orada koşar), sonra Vercel **preview** deploy'u (O12) ile `verify-release.mjs` ve `perf-lab.mjs`'i gerçek host'ta koşmak. Production deploy, merge, secrets ve domain kararı sahibindedir.
