@@ -50,8 +50,8 @@ serve(async (req) => {
       });
     }
 
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+    const GEMINI_KEY = Deno.env.get("GOOGLE_GEMINI_API_KEY");
+    if (!GEMINI_KEY) throw new Error("GOOGLE_GEMINI_API_KEY is not configured");
 
     const { file_path, doc_id } = await req.json();
     if (!file_path || !doc_id) throw new Error("file_path and doc_id are required");
@@ -64,28 +64,32 @@ serve(async (req) => {
 
     // Convert to base64
     const arrayBuffer = await fileData.arrayBuffer();
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(arrayBuffer)));
+    // In chunks: spreading a whole file into fromCharCode overflows the call
+    // stack at around a megabyte, the size of an ordinary scanned invoice.
+    const bytes = new Uint8Array(arrayBuffer);
+    let binary = "";
+    for (let i = 0; i < bytes.length; i += 0x8000) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+    }
+    const base64 = btoa(binary);
     const mimeType = file_path.toLowerCase().endsWith(".pdf") ? "application/pdf" : "image/jpeg";
 
-    // Call Lovable AI with vision for OCR
-    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    // Gemini reads images and PDFs directly as inline data
+    const aiResponse = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "x-goog-api-key": GEMINI_KEY,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
-        messages: [
-          {
-            role: "system",
-            content: `Sen bir Türk fatura/fiş OCR uzmanısın. Yüklenen belgeden aşağıdaki bilgileri JSON olarak çıkar. Sadece JSON döndür, başka bir şey yazma.`
-          },
+        systemInstruction: {
+          parts: [{ text: `Sen bir Türk fatura/fiş OCR uzmanısın. Yüklenen belgeden aşağıdaki bilgileri JSON olarak çıkar. Sadece JSON döndür, başka bir şey yazma.` }],
+        },
+        contents: [
           {
             role: "user",
-            content: [
+            parts: [
               {
-                type: "text",
                 text: `Bu fatura/fiş görselinden aşağıdaki bilgileri çıkar ve JSON olarak döndür:
 {
   "doc_type": "fatura|fiş|çek|dekont|e-fatura",
@@ -104,14 +108,11 @@ serve(async (req) => {
 }
 Eğer bir alanı bulamazsan null yaz. Tutarları sayısal olarak yaz (virgül değil nokta kullan).`
               },
-              {
-                type: "image_url",
-                image_url: { url: `data:${mimeType};base64,${base64}` }
-              }
+              { inline_data: { mime_type: mimeType, data: base64 } }
             ]
           }
         ],
-        temperature: 0.1,
+        generationConfig: { temperature: 0.1 },
       }),
     });
 
@@ -121,18 +122,13 @@ Eğer bir alanı bulamazsan null yaz. Tutarları sayısal olarak yaz (virgül de
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      if (aiResponse.status === 402) {
-        return new Response(JSON.stringify({ error: "AI kredisi tükendi." }), {
-          status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
       const errorText = await aiResponse.text();
       console.error("AI error:", aiResponse.status, errorText);
-      throw new Error("AI gateway error");
+      throw new Error("Gemini API error");
     }
 
     const aiData = await aiResponse.json();
-    const content = aiData.choices?.[0]?.message?.content || "";
+    const content = (aiData.candidates?.[0]?.content?.parts ?? []).map((part: any) => part.text ?? "").join("");
     
     // Parse JSON from AI response
     const jsonMatch = content.match(/\{[\s\S]*\}/);

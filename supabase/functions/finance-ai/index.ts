@@ -46,8 +46,8 @@ serve(async (req) => {
       });
     }
 
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+    const GEMINI_KEY = Deno.env.get("GOOGLE_GEMINI_API_KEY");
+    if (!GEMINI_KEY) throw new Error("GOOGLE_GEMINI_API_KEY is not configured");
 
     const { documents, question, history } = await req.json();
 
@@ -64,36 +64,36 @@ Eğer soru yoksa genel finansal analiz ve öneriler sun.
 Güncel finansal veriler:
 ${docSummary}`;
 
-    // Build messages array with history support
-    const messages: any[] = [
-      { role: "system", content: systemPrompt },
-    ];
+    const DEFAULT_PROMPT = `Aşağıdaki finansal belgeleri analiz et ve 5-7 madde halinde aksiyon önerileri sun.`;
 
-    // Add conversation history
+    // Conversation history in Gemini's shape: the assistant role is "model"
+    const contents: any[] = [];
     if (history && Array.isArray(history)) {
       for (const h of history) {
         if (h.role && h.content) {
-          messages.push({ role: h.role, content: h.content });
+          contents.push({ role: h.role === "assistant" ? "model" : "user", parts: [{ text: h.content }] });
         }
       }
     }
+    // The panel's history opens with the automatic analysis, which answered
+    // the default prompt; Gemini expects a conversation to open with the user.
+    if (contents[0]?.role === "model") {
+      contents.unshift({ role: "user", parts: [{ text: DEFAULT_PROMPT }] });
+    }
 
     // Add current user message
-    const userMessage = question 
-      ? question
-      : `Aşağıdaki finansal belgeleri analiz et ve 5-7 madde halinde aksiyon önerileri sun.`;
-    messages.push({ role: "user", content: userMessage });
+    contents.push({ role: "user", parts: [{ text: question || DEFAULT_PROMPT }] });
 
-    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    const aiResponse = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "x-goog-api-key": GEMINI_KEY,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
-        messages,
-        temperature: 0.3,
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+        contents,
+        generationConfig: { temperature: 0.3 },
       }),
     });
 
@@ -103,18 +103,13 @@ ${docSummary}`;
           status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      if (aiResponse.status === 402) {
-        return new Response(JSON.stringify({ error: "AI kredisi tükendi." }), {
-          status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      }
       const errorText = await aiResponse.text();
       console.error("AI error:", aiResponse.status, errorText);
-      throw new Error("AI gateway error");
+      throw new Error("Gemini API error");
     }
 
     const aiData = await aiResponse.json();
-    const content = aiData.choices?.[0]?.message?.content || "Analiz yapılamadı.";
+    const content = (aiData.candidates?.[0]?.content?.parts ?? []).map((part: any) => part.text ?? "").join("") || "Analiz yapılamadı.";
 
     return new Response(JSON.stringify({ success: true, analysis: content }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
