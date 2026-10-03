@@ -1,9 +1,0 @@
-[
- { "id": "h6-leak1-longwindow", "expect": "FIRE",   "src": "const a = [{ label: \"Hammadde Stoğu\", value: \"Alüminyum, çelik, paslanmaz ve titanyum alaşımları — toplam 1.200 ton\" }];", "note": "the filter's 40-char stock window misses this; does the GATE still catch it?" },
- { "id": "h6-leak1-shorter",    "expect": "FIRE",   "src": "const a = [{ label: \"Hammadde Stoğu\", value: \"toplam 1.200 ton\" }];" },
- { "id": "h6-guvenlik-stok",    "expect": "FIRE",   "src": "const a = [{ label: \"Güvenlik Stoğu\", value: \"5.000 kg\" }];" },
- { "id": "h6-depo-ton",         "expect": "FIRE",   "src": "const s = \"Depo kapasitemiz 850 ton\";" },
- { "id": "h6-siparis-no",       "expect": "SILENT", "src": "const a = [{ label: \"Sipariş No\", value: \"MT 2024\" }];",                                   "note": "not a withheld class — a false ADMIT, not a disclosure" },
- { "id": "h6-grade-al6061",     "expect": "SILENT", "src": "const a = [{ label: \"Sürekli Stok\", value: \"Al 6061, Al 7075\" }];",                        "note": "grade list must stay publishable and gate-silent" },
- { "id": "h6-eksen-list",       "expect": "SILENT", "src": "const a = [{ label: \"Freze Konfigürasyonu\", value: \"3, 4 ve 5 eksen\" }];" }
-]

@@ -1,6 +1,0 @@
-# CLAIMS GATE
-# roots:    src/pages, src/components, src/data, src/content, src/hooks, src/utils, src/config, src/lib, src/routes, src/App.tsx, index.html, public
-# excluded: admin/, musteri/, AdminDashboard, AdminLogin, MusteriPaneli
-# scanned:  209 files, 26482 non-comment lines
-
-PASS — 0 unverified claims across 26 rules.

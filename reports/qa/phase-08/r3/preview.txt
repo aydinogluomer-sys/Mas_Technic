@@ -1,8 +1,0 @@
-
-> vite_react_shadcn_ts@0.0.0 preview
-> vite preview --port 4205 --strictPort
-
-  ➜  Local:   http://localhost:4205/
-  ➜  Network: http://172.26.224.1:4205/
-  ➜  Network: http://192.168.1.102:4205/
-  ➜  press h + enter to show help

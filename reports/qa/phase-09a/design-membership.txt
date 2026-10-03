@@ -1,7 +1,0 @@
-route                                     shell-*  bg-card  radiusOffRegister  systemFontNodes  topOffRadii
-/teklif-al                                    88        0                  0                0  
-/cad-dashboard                                88        0                  0                0  
-/iletisim                                     86        0                  0                0  
-/hakkimizda                                  161        0                  0                0  
-/sss                                         404        0                  0                0  
-/giris                                         0        0                  0                0  
