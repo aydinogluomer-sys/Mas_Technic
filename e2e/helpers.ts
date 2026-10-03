@@ -105,6 +105,11 @@ export async function gotoAndSettle(page: Page, path: string) {
       { timeout: 10_000 },
     )
     .catch(() => { /* the spec's own assertions report what is missing */ });
+  /* C2 — a prerendered page is readable before the app owns it; buttons in
+     the static snapshot have no handlers yet. Interactions wait for the app. */
+  await page
+    .waitForFunction(() => document.documentElement.hasAttribute("data-app-ready"), undefined, { timeout: 15_000 })
+    .catch(() => { /* a spec asserting the static page itself reports that */ });
   // Persistent analytics/realtime connections make networkidle nondeterministic.
   // Font readiness plus two paint frames is a bounded visual readiness contract.
   await settleRendering(page);

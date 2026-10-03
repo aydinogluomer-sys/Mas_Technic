@@ -70,10 +70,30 @@ jobs:
       # modul yuklenirken hata firlatir ve dist hic acilmaz (tum E2E isleri
       # bos sayfa gorur). Bu derleme yalnizca testler icindir ve backend
       # cagrilari testlerde taklit edilir; secret yoksa yer tutucu kullanilir.
-      - name: Build once
+      # `npm run build` prerenders every public route with headless Chromium
+      # (scripts/prerender/prerender.mjs), so the build job needs a browser.
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Playwright Chromium
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+      - name: Install system deps (cached browsers)
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+      - name: vercel.json matches the route table
+        run: node scripts/vercel/generate-config.mjs --check
+      # VITE_SITE_ENGLISH=live: the test build publishes the English surface
+      # so its code stays under test; production decides separately
+      # (USER_INPUTS.md §B, release.md).
+      - name: Build once (vite + prerender)
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://ci-placeholder.supabase.co' }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY || 'ci-placeholder-anon-key' }}
+          VITE_SITE_ENGLISH: live
         run: npm run build
       - name: Assert dev-only surfaces are absent from dist
         run: |
@@ -179,6 +199,53 @@ jobs:
         with:
           name: playwright-report-smoke
           path: playwright-report
+          retention-days: 14
+
+  e2e-interop:
+    # F1 — the critical flows (menu, FAQ, materials, quality PDFs, RFQ start,
+    # booking dialog, back/forward, reduced motion) on WebKit and Firefox.
+    # Separate from the smoke job: smoke proves the page paints, this proves
+    # the buyer's path works. Emulated engines are not real devices.
+    name: E2E interop (WebKit + Firefox)
+    needs: build
+    timeout-minutes: 25
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-wk-ff-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Playwright WebKit + Firefox
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps webkit firefox
+      - name: Install system deps (cached browsers)
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps webkit firefox
+      - name: Run interop suite
+        env:
+          CI: "true"
+          PLAYWRIGHT_PREVIEW_ONLY: "1"
+        run: npm run test:e2e:interop
+      - name: Upload report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-interop
+          path: |
+            playwright-report
+            test-results
           retention-days: 14
 
   e2e-regression:

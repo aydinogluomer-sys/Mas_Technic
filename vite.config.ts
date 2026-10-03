@@ -233,6 +233,7 @@ function siteMetaPlugin(mode: string, command: "build" | "serve"): Plugin {
     throw new Error("[mas-site-meta] VITE_SITE_INDEXING=public requires VITE_SITE_ORIGIN. A public build must state its origin.");
   }
   const indexable = rawIndexing === "public" && Boolean(origin);
+  const englishLive = (process.env.VITE_SITE_ENGLISH ?? env.VITE_SITE_ENGLISH) === "live";
 
   return {
     name: "mas-site-meta",
@@ -253,9 +254,12 @@ function siteMetaPlugin(mode: string, command: "build" | "serve"): Plugin {
           tags: [
             { tag: "link", attrs: { rel: "canonical", href: `${origin}/` }, injectTo: "head" },
             { tag: "meta", attrs: { property: "og:url", content: `${origin}/` }, injectTo: "head" },
-            { tag: "link", attrs: { rel: "alternate", hreflang: "tr", href: `${origin}/` }, injectTo: "head" },
-            { tag: "link", attrs: { rel: "alternate", hreflang: "en", href: `${origin}/en` }, injectTo: "head" },
-            { tag: "link", attrs: { rel: "alternate", hreflang: "x-default", href: `${origin}/` }, injectTo: "head" },
+            // Language pairs only when English ships (VITE_SITE_ENGLISH=live).
+            ...(englishLive ? [
+              { tag: "link", attrs: { rel: "alternate", hreflang: "tr", href: `${origin}/` }, injectTo: "head" as const },
+              { tag: "link", attrs: { rel: "alternate", hreflang: "en", href: `${origin}/en` }, injectTo: "head" as const },
+              { tag: "link", attrs: { rel: "alternate", hreflang: "x-default", href: `${origin}/` }, injectTo: "head" as const },
+            ] : []),
           ],
         };
       },

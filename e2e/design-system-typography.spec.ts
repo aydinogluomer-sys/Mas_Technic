@@ -172,6 +172,13 @@ async function arriveAt(page: Page, route: string): Promise<void> {
     page.locator(".shell-boot"),
     `${route} never left its route loading state — a delivery failure, not a typography split`,
   ).toHaveCount(0, { timeout: 20_000 });
+  /* B1 added recovery states (a stalled or failed chunk ends on the shell's
+     error state instead of an endless loader). A page that arrives THERE did
+     not deliver either, and its components must not enter the census. */
+  await expect(
+    page.locator('[data-shell-state="error"]'),
+    `${route} arrived at an error state — a delivery failure, not a typography split`,
+  ).toHaveCount(0);
   const rail = await page.evaluate(() =>
     getComputedStyle(document.documentElement).getPropertyValue("--tl-rail").trim());
   expect(
@@ -335,8 +342,11 @@ test.describe("design system — one component, one typography", () => {
        Named by its own chunk so it cannot silently stop blocking anything: if
        the build stops emitting a `Login-*.js` chunk the page arrives,
        `arriveAt` resolves, and this control goes red. */
+    /* Held for longer than `arriveAt` waits (≤10 s settle + 20 s): released
+       inside that window, the abort is a chunk failure, which B1 now recovers
+       from with one reload — and the reloaded page "arrived". */
     await page.route("**/assets/Login-*.js", async (route) => {
-      await new Promise((resolve) => setTimeout(resolve, 30_000));
+      await new Promise((resolve) => setTimeout(resolve, 60_000));
       await route.abort().catch(() => { /* the page is already gone */ });
     });
     await expect(arriveAt(page, "/giris"))

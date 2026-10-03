@@ -1,5 +1,5 @@
 import { Suspense, lazy, useMemo, useEffect, useState, type ReactNode } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, matchRoutes, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "@/i18n/LocaleLink";
 import { applyLanguage, isLanguageReady } from "@/i18n";
@@ -24,7 +24,9 @@ import { ShellLoading, ShellRouteBoundary, ShellRouteError } from "@/components/
    The divergence is resolved by removing the outlier, not by spreading it. */
 import { ChatLauncher } from "@/components/ChatLauncher";
 import { isHeroIntroActive } from "@/lib/hero-shell";
-import { lazyRoute } from "@/lib/lazy-route";
+import { lazyRoute, type PreloadableRoute } from "@/lib/lazy-route";
+import { registerRoutePreparer } from "@/lib/route-prepare";
+import { loadEnContent } from "@/i18n/content";
 import { bootMark, errorMessage, reportBoot } from "@/lib/boot-trace";
 
 const Index = lazyRoute("Index", () => import("./pages/Index").then((m) => ({ default: m.Index })));
@@ -239,6 +241,34 @@ const PUBLIC_PAGES: { path: string; element: ReactNode }[] = [
   { path: "/cad-dashboard", element: <Navigate to="/teklif-al" replace /> },
 ];
 
+/**
+ * C2 — get a route ready before React first renders it.
+ *
+ * Used when the document was prerendered (`src/main.tsx`): the static HTML is
+ * already on screen, so the first client render must not replace it with a
+ * loader. This fetches the matched page's chunk (and, on `/en`, the English
+ * dictionary) so that render can commit the page itself. Resolves even on
+ * failure — the normal loader and recovery path then takes over.
+ */
+async function prepareFirstRoute(pathname: string): Promise<"ready" | { error: unknown }> {
+  const routes = LOCALE_PREFIXES.flatMap((prefix) =>
+    PUBLIC_PAGES.map(({ path, element }) => ({ path: path === "/" ? prefix || "/" : `${prefix}${path}`, element })));
+  const match = matchRoutes(routes, pathname)?.at(-1);
+  const element = match?.route.element as { type?: PreloadableRoute } | undefined;
+  const locale = isPanelPath(pathname) ? null : localeFromPath(pathname);
+  /* Pages under /en read the English content bundle and suspend until it is
+     there; the /en landing reads none (PERF01), so it is not fetched for it. */
+  const needsEnContent = locale === "en" && !/^\/en\/?$/.test(pathname);
+  const [route] = await Promise.all([
+    element?.type?.preload?.() ?? Promise.resolve("ready" as const),
+    locale && !isLanguageReady(locale) ? applyLanguage(locale).catch(() => undefined) : undefined,
+    needsEnContent ? loadEnContent().catch(() => undefined) : undefined,
+  ]);
+  return route;
+}
+
+registerRoutePreparer(prepareFirstRoute);
+
 /* L01 — the page waits for its language. On a public route the URL names the
    locale; until that locale is active with its dictionary loaded, the route
    shows the shell loader instead of a Turkish frame of an English page. */
@@ -348,6 +378,14 @@ const AppContent = () => {
   const location = useLocation();
   const languageReady = useRouteLanguageReady(location.pathname);
   const { t } = useTranslation();
+
+  /* The app has committed and owns the document (after adopting prerendered
+     HTML too). Before this, a prerendered page's buttons are static markup;
+     tests that interact wait for it (e2e/helpers.ts gotoAndSettle). */
+  useEffect(() => {
+    document.documentElement.setAttribute("data-app-ready", "");
+    bootMark("app:ready");
+  }, []);
 
   // Konami Code easter egg
   useEffect(() => {

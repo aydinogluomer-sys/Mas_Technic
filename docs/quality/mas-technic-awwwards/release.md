@@ -1,6 +1,6 @@
 # Yayın hazırlığı (RELEASE01) ve canlı döngü (QA02)
 
-Durum: **yerel hazırlık tamam · canlı eşleşme `BLOCKED_DATA` (O01) · canlı görev döngüsü `BLOCKED_DATA` (O07)**. Bu belge otomatik yayın, merge ya da deploy yapmaz; adımları sahibine bırakır.
+Durum: **Vercel yapılandırması + ön render IMPLEMENTED · yerel doğrulama PASS_LOCAL · canlı eşleşme BLOCKED_ACCESS (Vercel erişimi, O01) · domain ve EN kararı BLOCKED_OWNER_DATA (O10, §B) · canlı görev döngüsü BLOCKED_ACCESS (O07)**. Bu belge otomatik yayın, merge ya da deploy yapmaz; adımları sahibine bırakır.
 
 ## 1. Build kimliği
 
@@ -21,38 +21,58 @@ node scripts/quality/verify-release.mjs --base https://<aday-origin> --dist dist
 
 `verify-release.mjs` şunları kontrol eder: `/release.json` commit/zaman/dosya kümesi; her dosyanın hash'i, `content-type`'ı ve önbellek başlığı (hash'li varlıklar uzun, `index.html` kısa); bilinmeyen adresin HTTP durumu; derin rotanın `index.html` ile sunulması; `/robots.txt`; HTML'deki build meta'sı.
 
-## 2. Hostta kapatılacaklar (aday host gelince, O01)
+## 2. Vercel yapılandırması (C2/C3 — hazır, yerelde doğrulandı)
 
-| Konu | Beklenen | Not |
+Host Vercel olarak seçildi. Yapılandırma repoda; canlı doğrulama Vercel erişimiyle yapılır (O01: `BLOCKED_ACCESS`).
+
+| Konu | Uygulama | Yerel kanıt |
 |---|---|---|
-| Origin | `VITE_SITE_ORIGIN` = aday origin | Origin'siz `public` build bilerek kırılır (SEO01) |
-| İndeksleme | Yayın build'i `VITE_SITE_INDEXING=public`; önizleme/aday build'leri `noindex` | Varsayılan build `noindex` (D4) |
-| Canonical / OG / hreflang | Ana sayfada statik; rotalarda `usePageMeta` | Ön render olmadan arama motoru SPA'yı JS ile görür |
-| HTTP 404 | Bilinmeyen adres 404 durum kodu (veya bilinçli kayıt) | Bugün SPA fallback 200 + istemci 404; host kuralı gerekir |
-| Yanlış aile yönlendirmesi | Bugün istemci `replace`; host 301 kuralı önerilir | R01 notu |
-| Önbellek | `assets/*` `max-age=31536000, immutable`; `index.html`, `release.json` `no-cache` | Aksi hâlde yeni sürüm görünmez |
-| İçerik türleri | `.webp` `image/webp`, `.pdf` `application/pdf`, `.js` `text/javascript` | `verify-release.mjs` kontrol eder |
-| Sıkıştırma | gzip veya brotli | Lab ölçümü gzip ile yapıldı (PERF01) |
-| Ön render | Public rotalar için; auth rotaları özel veri taşımaz | LCP hedefi için gerekli (D17); adaptör host bilinince |
-| Service worker | Yok; eklenmeyecek | Kaynakta kayıt yok (aranarak doğrulandı) |
+| Ön render | `npm run build` = `vite build` + `scripts/prerender/prerender.mjs`: 95 TR (+95 EN, EN yayındaysa) public rota statik HTML; `404.html`; panel/giriş için boş `shell.html` | Rota başına `<html lang>`, title, description, robots, canonical/og/hreflang (origin varsa) ve gövde metni ilk HTML'de |
+| Devralma | `src/main.tsx`: hazır HTML hidrate edilmez; rota kodu + dil önceden yüklenir, ilk render transition içinde tek adımda yerine geçer | Geciktirilmiş parçayla 3 rota: boş kare 0, yükleniyor karesi 0, konsol hatası 0 |
+| Rotalar | `vercel.json` (`scripts/vercel/generate-config.mjs` ile rota tablosundan üretilir; CI `--check` ile senkron kontrol): `cleanUrls`, `trailingSlash:false` | `scripts/serve-dist.mjs` aynı dosyayı uygular (`npm run preview`) |
+| HTTP 404 | Bilinmeyen adres → `404.html`, **durum 404**; toptan `index.html` rewrite yok | `/olmayan-sayfa`, `/hizmetler/olmayan` → 404 |
+| Yönlendirme | Yanlış aile (TR+EN, 192), eski slug `basinçli-dokum` (düz + kodlanmış), `/cad-dashboard` → kalıcı (Vercel 308) | 308 + doğru `location` |
+| Panel/giriş | `/admin*`, `/musteri-paneli*`, `/giris`, `/sifremi-unuttum`, `/reset-password` (+EN) → `shell.html` | 200, ön render içeriği yok |
+| Önbellek | `assets/*` `max-age=31536000, immutable`; HTML ve `release.json` `max-age=0, must-revalidate` | başlıklar doğrulandı |
+| Eski HTML + yeni parça | Parça hatası → bir kez yenile (sekme başına 30 sn kilit), sonra gerçek yenileme düğmesi (B1) | `boot-resilience.spec.ts` |
+| Güvenlik başlıkları | `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options: SAMEORIGIN`, `Permissions-Policy`. **CSP yok**: randevu iframe'i, hCaptcha ve Supabase çağrıları ölçülmüş bir politika ister; körlemesine eklenmedi | başlıklar doğrulandı |
+| İndeksleme | `VITE_SITE_INDEXING=public` + `VITE_SITE_ORIGIN` → `robots.txt` (Allow + Sitemap) ve `sitemap.xml`; aksi hâlde `robots.txt` `Disallow: /`, sitemap yok, her sayfada `noindex` | iki mod üretildi |
+| İngilizce | `VITE_SITE_ENGLISH=live` → dil seçici, `/en` ön render, hreflang, sitemap'te EN. **Varsayılan kapalı** (`USER_INPUTS.md` §B `ENGLISH_LIVE_NOW: NO`): `/en` dosyası üretilmez → 404 | iki mod üretildi |
 
-Temiz bir oturumda en az şu adresler denenir: `/`, `/en`, `/hizmetler/cnc-frezeleme`, `/hizmetler/cnc-tornalama`, `/malzemeler`, `/kalite-dosyasi`, `/kabiliyet-profilleri/hassas-mil`, `/blog/cnc-torna-frezeleme-farki`, `/teklif-al`, `/kvkk`, yanlış aile (`/endustriyel/cnc-frezeleme` → `/hizmetler/cnc-frezeleme`) ve bilinmeyen bir adres (HTTP ve istemci 404'ü ayrı ayrı).
+### Derleme Chromium ister
+
+Ön render gerçek bir tarayıcıyla yapılır (Playwright, projede zaten var; yeni paket yok). İki yol:
+
+1. **Önerilen — GitHub Actions'ta derle, Vercel'e hazır çıktıyı gönder.** CI zaten Chromium kuruyor. Vercel CLI ile `vercel pull --environment=production`, `vercel build --prod`, `vercel deploy --prebuilt --prod` (VERCEL_TOKEN, ORG ve PROJECT kimliği GitHub secret olarak). Bu adım yetki gerektirir ve otomatik eklenmedi.
+2. **Vercel'in kendi derlemesi.** `vercel.json` `buildCommand: npm run build`. Vercel'in derleme görüntüsünde Chromium bulunmadığı için önce `npx playwright install chromium` gerekir; görüntünün sistem kütüphaneleri Playwright tarafından resmî olarak desteklenmiyor. Denenmeden güvenilir sayılmamalı (`NOT_TESTED`).
+
+### Vercel ortam değişkenleri (Project → Settings → Environment Variables)
+
+| Değişken | Production | Preview |
+|---|---|---|
+| `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` | gerçek publishable değerler | staging değerleri |
+| `VITE_SITE_ORIGIN` | **karar bekliyor** (O10: `www.masmare.com` mı, `mastechnic.com` mu) | boş |
+| `VITE_SITE_INDEXING` | `public` (origin kararından sonra) | boş → noindex |
+| `VITE_SITE_ENGLISH` | **karar bekliyor** (§B şu an `NO`) | `live` (gözden geçirme için) |
+
+Gizli anahtar (service role, Gemini) Vercel'e konmaz; yalnız Supabase edge function ortamında durur.
 
 ## 3. Yayın (rollout) — sahibin adımları
 
-1. Dalı gözden geçirin: `claude/documentation-roadmap-nwV4C` → `main` farkı (paket 1–8). Merge kararı sizindir; otomatik merge yapılmadı.
-2. Aynı commit'ten yayın env'iyle build alın (yukarıdaki komut). Build kırılırsa (ör. origin yok) yayın durur.
-3. Build'i önce bir önizleme/aday adresine yükleyin; `noindex` aday build'i kullanın ya da public build'i erişimi kısıtlı bir adrese koyun.
-4. `verify-release.mjs` ve §2 tablosunu aday adreste çalıştırın; `fail` kalmasın.
-5. QA02 listesini (§5) test hesabıyla koşun.
-6. Canlıya alın; aynı `release.json`'un canlı adreste döndüğünü `verify-release.mjs` ile doğrulayın.
+1. PR'ı gözden geçirip merge edin (otomatik merge yok).
+2. Vercel projesini bu repoya bağlayın; ortam değişkenlerini yukarıdaki tabloya göre girin (origin ve EN kararları O10 / §B).
+3. Önce Preview deployment: `noindex`, `robots.txt Disallow`. Aşağıdakileri koşun:
+   `node scripts/quality/verify-release.mjs --base https://<preview-url> --dist dist --out release-check.json`
+   (aynı commit'ten, aynı env ile derlenmiş `dist` gerekir) ve §2 tablosundaki adresleri tarayıcıda deneyin.
+4. QA02 listesini (§5) test hesabıyla koşun.
+5. Production'a terfi (Promote); `verify-release.mjs`'i canlı origin'e karşı tekrar çalıştırın; `robots.txt`, `sitemap.xml`, bir derin rota, bir 404 ve bir yönlendirmeyi kontrol edin.
 
 ## 4. Geri alma (rollback)
 
-- Önceki build'in `dist/` arşivini (ve `release.json`'unu) saklayın; geri alma, önceki arşivi yeniden yayınlamaktır. Hash'li varlıklar çakışmaz; `index.html` ve `release.json` kısa önbellekli olduğu için geri alma hemen görünür.
-- Kod düzeyinde: `main` üzerinde ilgili merge commit'i `git revert` ile geri alınır (force-push yok).
-- Veritabanı: bu çalışmada migration uygulanmadı (`supabase/` salt okunur). RFQ çoklu ek migration'ı (`rfq-backend-contract.md` §3) yalnız ileri yönlüdür ve ayrı bir teslimdir.
-- Bayraklar: `VITE_RFQ_ATTACHMENTS` kapalı build, çoklu eki kapatmanın tek yoludur (build-time).
+- **Vercel:** Deployments → önceki başarılı production deployment → *Promote to Production* (ya da *Instant Rollback*). Hash'li varlıklar çakışmaz; HTML ve `release.json` yeniden doğrulandığı için geri alma hemen görünür. Eski sekmede kalan bir ziyaretçi, eksik parça hatasında bir kez otomatik yenilenir.
+- **Kod:** `main` üzerinde ilgili merge commit'i `git revert` ile geri alınır (force-push yok).
+- **Veritabanı:** bu çalışmada migration uygulanmadı. RFQ yaması (`rfq-backend-patch/`) ileri yönlüdür ve ayrı bir teslimdir.
+- **Bayraklar (derleme zamanı):** `VITE_RFQ_ATTACHMENTS` (çoklu ek), `VITE_SITE_ENGLISH` (İngilizce yüzey), `VITE_SITE_INDEXING` (indeksleme). Değiştirmek yeniden derleme ister.
 
 ## 5. QA02 — canlı görev döngüsü (O07 gelince)
 

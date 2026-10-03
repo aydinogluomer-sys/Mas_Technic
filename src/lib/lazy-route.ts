@@ -71,12 +71,42 @@ export function lazyRoute<P extends object>(
   route: string,
   load: () => Promise<{ default: ComponentType<P> }>,
 ) {
-  return lazy(async () => {
-    bootMark("chunk:start", route);
+  /* One request per route: `preload()` (used when the page boots over
+     prerendered HTML, `src/main.tsx`) and the lazy render share it. A failed
+     request is forgotten so the next attempt really retries. */
+  let pending: Promise<{ default: ComponentType<P> }> | null = null;
+  let loaded: { default: ComponentType<P> } | null = null;
+  const loadOnce = () => {
+    if (!pending) {
+      bootMark("chunk:start", route);
+      pending = load()
+        .then((module) => {
+          bootMark("chunk:ready", route);
+          return (loaded = module);
+        })
+        .catch((error) => {
+          pending = null;
+          throw error;
+        });
+    }
+    return pending;
+  };
+  const Component = lazy(() => {
+    /* Already preloaded: hand React a thenable that resolves SYNCHRONOUSLY.
+       React.lazy reads a payload as resolved when `then` calls back before it
+       returns, so the first render does not suspend — a real Promise always
+       resolves a microtask later, which made the first render suspend once
+       even with the code in memory and flashed the route loader over a
+       prerendered page (C2). */
+    if (loaded) {
+      const module = loaded;
+      return { then: (resolve: (value: typeof module) => void) => resolve(module) } as unknown as Promise<typeof module>;
+    }
+    return loadRoute();
+  });
+  const loadRoute = async () => {
     try {
-      const module = await load();
-      bootMark("chunk:ready", route);
-      return module;
+      return await loadOnce();
     } catch (error) {
       if (!isChunkLoadError(error)) {
         bootMark("chunk:error", `${route} · ${errorMessage(error)}`);
@@ -90,5 +120,13 @@ export function lazyRoute<P extends object>(
       reportBoot(`chunk failed without automatic recovery (${route})`);
       throw new ChunkLoadError(route, error);
     }
+  };
+  return Object.assign(Component, {
+    /** Fetch the route's code without rendering it. Never rejects: resolves
+        `"ready"`, or the error when the code could not be loaded. */
+    preload: () => loadOnce().then(() => "ready" as const, (error: unknown) => ({ error })),
   });
 }
+
+export type PreloadResult = "ready" | { error: unknown };
+export type PreloadableRoute = { preload?: () => Promise<PreloadResult> };

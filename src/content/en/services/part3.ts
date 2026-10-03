@@ -43,8 +43,8 @@ export const part3: Record<string, ServiceText> = {
         description: "A general reference for starting parameters; the parameters are set by trials on the part and surface.",
         headers: ["Material", "Recommended Laser", "Power", "Speed", "Contrast", "Notes"],
         rows: [
-          ["Stainless Steel", "Fibre / MOPA", "20-50W", "500-2000 mm/s", "High", "Black oxide or white annealing"],
-          ["Aluminium", "Fibre", "30-60W", "800-3000 mm/s", "Medium-high", "Excellent on anodised surfaces"],
+          ["Stainless Steel", "Fibre / MOPA", "20-50W", "500-2000 mm/s", "High", "Annealing: dark oxide mark, no material removed; a light mark comes from engraving, which removes material"],
+          ["Aluminium", "Fibre", "30-60W", "800-3000 mm/s", "Medium-high", "On an anodised surface the laser removes the anodic layer; the mark is light and high-contrast"],
           ["Titanium", "Fibre / MOPA", "20-40W", "300-1500 mm/s", "High", "Colour annealing possible"],
           ["ABS Plastic", "Fibre / UV", "5-20W", "1000-5000 mm/s", "Medium", "By colour change"],
           ["Glass", "UV / CO₂", "3-10W", "200-800 mm/s", "Medium", "Micro-crack technique"],

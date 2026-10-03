@@ -108,9 +108,11 @@ const webkitLaunch = launchOverride(
 const CRITICAL_MATCH = ["landing/**/*.spec.ts", "technical-landing.spec.ts"];
 const VISUAL_MATCH = ["visual/**/*.spec.ts"];
 const SMOKE_MATCH = ["smoke/**/*.spec.ts"];
+/** F1 — WebKit/Firefox acceptance of the critical flows (separate from smoke). */
+const INTEROP_MATCH = ["interop/**/*.spec.ts"];
 const LEGACY_MATCH = ["legacy/**/*.spec.ts"];
 /** Regresyon aileleri kendi ozel projeleri olan paketleri tekrar calistirmaz. */
-const REGRESSION_IGNORE = [...VISUAL_MATCH, ...SMOKE_MATCH, ...LEGACY_MATCH];
+const REGRESSION_IGNORE = [...VISUAL_MATCH, ...SMOKE_MATCH, ...INTEROP_MATCH, ...LEGACY_MATCH];
 
 const criticalProjects = [
   {
@@ -172,6 +174,24 @@ const smokeProjects = [
   {
     name: "smoke-webkit-1440",
     testMatch: SMOKE_MATCH,
+    use: { ...devices["Desktop Safari"], ...webkitLaunch, viewport: { width: 1440, height: 900 } },
+  },
+];
+
+const interopProjects = [
+  {
+    name: "interop-firefox-1440",
+    testMatch: INTEROP_MATCH,
+    use: { ...devices["Desktop Firefox"], ...firefoxLaunch, viewport: { width: 1440, height: 900 } },
+  },
+  {
+    name: "interop-webkit-390",
+    testMatch: INTEROP_MATCH,
+    use: { ...devices["Desktop Safari"], ...webkitLaunch, viewport: { width: 390, height: 844 }, hasTouch: true },
+  },
+  {
+    name: "interop-webkit-1440",
+    testMatch: INTEROP_MATCH,
     use: { ...devices["Desktop Safari"], ...webkitLaunch, viewport: { width: 1440, height: 900 } },
   },
 ];
@@ -253,6 +273,7 @@ export default defineConfig({
     ...criticalProjects,
     ...regressionProjects,
     ...smokeProjects,
+    ...interopProjects,
     ...visualProjects,
     ...legacyProjects,
   ],
@@ -261,6 +282,9 @@ export default defineConfig({
         ? `npm run preview -- --port ${PORT} --strictPort`
         : `npm run build && npm run preview -- --port ${PORT} --strictPort`,
       url: BASE_URL,
+      /* The suite covers the English surface, so a local build publishes it;
+         production decides with its own VITE_SITE_ENGLISH (release.md). */
+      env: { VITE_SITE_ENGLISH: process.env.VITE_SITE_ENGLISH ?? "live" },
       reuseExistingServer: REUSE_EXISTING_SERVER,
       // Soguk `npm run build` bu makinede 4 dk 05 sn olculdu
       // (reports/baseline/build-test-baseline.md §1). Eski 180 sn deger
