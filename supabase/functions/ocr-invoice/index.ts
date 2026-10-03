@@ -81,6 +81,8 @@ serve(async (req) => {
         "x-goog-api-key": GEMINI_KEY,
         "Content-Type": "application/json",
       },
+      // A stalled provider must not hold the function until the platform kills it
+      signal: AbortSignal.timeout(60_000),
       body: JSON.stringify({
         systemInstruction: {
           parts: [{ text: `Sen bir Türk fatura/fiş OCR uzmanısın. Yüklenen belgeden aşağıdaki bilgileri JSON olarak çıkar. Sadece JSON döndür, başka bir şey yazma.` }],
@@ -134,7 +136,13 @@ Eğer bir alanı bulamazsan null yaz. Tutarları sayısal olarak yaz (virgül de
     const jsonMatch = content.match(/\{[\s\S]*\}/);
     if (!jsonMatch) throw new Error("AI yanıtından JSON çıkarılamadı");
     
-    const extracted = JSON.parse(jsonMatch[0]);
+    // A parse error message quotes the input; keep invoice text out of the logs
+    let extracted: Record<string, any>;
+    try {
+      extracted = JSON.parse(jsonMatch[0]);
+    } catch {
+      throw new Error("AI yanıtındaki JSON okunamadı");
+    }
 
     // Update the document in DB
     const updateData: Record<string, unknown> = {};
@@ -164,6 +172,11 @@ Eğer bir alanı bulamazsan null yaz. Tutarları sayısal olarak yaz (virgül de
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
+    if (e instanceof DOMException && e.name === "TimeoutError") {
+      return new Response(JSON.stringify({ error: "AI yanıt vermedi, lütfen tekrar deneyin." }), {
+        status: 504, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     console.error("OCR error:", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },

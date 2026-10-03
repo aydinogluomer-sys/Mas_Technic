@@ -90,6 +90,8 @@ ${docSummary}`;
         "x-goog-api-key": GEMINI_KEY,
         "Content-Type": "application/json",
       },
+      // A stalled provider must not hold the function until the platform kills it
+      signal: AbortSignal.timeout(60_000),
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: systemPrompt }] },
         contents,
@@ -115,6 +117,11 @@ ${docSummary}`;
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
+    if (e instanceof DOMException && e.name === "TimeoutError") {
+      return new Response(JSON.stringify({ error: "AI yanıt vermedi, lütfen tekrar deneyin." }), {
+        status: 504, headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
     console.error("Finance AI error:", e);
     return new Response(JSON.stringify({ error: e instanceof Error ? e.message : "Unknown error" }), {
       status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
