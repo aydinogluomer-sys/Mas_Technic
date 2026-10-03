@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { usePageMeta } from "@/hooks/use-page-meta";
 import { Link } from "@/i18n/LocaleLink";
 import { useLocaleNavigate as useNavigate } from "@/i18n/hooks";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
@@ -110,6 +111,7 @@ const EMPTY = { email: "", password: "", fullName: "", company: "", phone: "", c
 
 export const Login = () => {
   const { t, i18n } = useTranslation();
+  usePageMeta({ title: t("Giriş Yapın"), description: t("Hesabınıza giriş yaparak tekliflerinizi ve siparişlerinizi takip edin."), noindex: true });
   const [mode, setMode] = useState<Mode>("login");
   const [values, setValues] = useState(EMPTY);
   const [errors, setErrors] = useState<AuthFieldErrors>({});

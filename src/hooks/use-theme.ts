@@ -6,7 +6,10 @@ const STORAGE_KEY = "mas-technic-theme";
 
 function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "dark";
-  const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
+  /* Storage can be blocked (private mode, site-data policy): the theme then
+     lasts the visit instead of taking the whole page down (L01 scenario). */
+  let stored: Theme | null = null;
+  try { stored = localStorage.getItem(STORAGE_KEY) as Theme | null; } catch { /* blocked */ }
   if (stored === "light" || stored === "dark") return stored;
   return "light";
 }
@@ -25,7 +28,7 @@ export function useTheme() {
 
   useEffect(() => {
     applyTheme(theme);
-    localStorage.setItem(STORAGE_KEY, theme);
+    try { localStorage.setItem(STORAGE_KEY, theme); } catch { /* blocked: not remembered */ }
   }, [theme]);
 
   const toggleTheme = useCallback(() => {

@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { usePageMeta } from "@/hooks/use-page-meta";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ShellAction, ShellNotice } from "@/components/shell";
@@ -39,6 +40,7 @@ import {
 
 export const ForgotPassword = () => {
   const { t } = useTranslation();
+  usePageMeta({ title: t("Şifremi Unuttum"), description: t("Hesabınızın e-posta adresini girin, şifre sıfırlama bağlantısını oraya gönderelim."), noindex: true });
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState<AuthFieldErrors>({});
   const [notice, setNotice] = useState<{ title: string; detail?: string } | null>(null);

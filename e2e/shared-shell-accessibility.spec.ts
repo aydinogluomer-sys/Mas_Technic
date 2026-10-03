@@ -110,8 +110,17 @@ const DEV_ROUTES_SOURCE = RAW_PUBLIC_ROUTES_SOURCE.slice(
 const PUBLIC_ROUTES_SOURCE = RAW_PUBLIC_ROUTES_SOURCE.replace(DEV_ROUTES_SOURCE, "");
 const APP_PANEL_ROUTE_PATTERNS = [...PANEL_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)]
   .map((match) => match[1]);
-const APP_PUBLIC_ROUTE_PATTERNS = [...PUBLIC_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)]
-  .map((match) => match[1]);
+/* L01 — the public pages are one table (`PUBLIC_PAGES`) rendered under ""
+   and under "/en"; the table is the inventory, so its Turkish patterns join
+   the `<Route>` literals left in the JSX (the 404 catch-all). */
+const PUBLIC_PAGES_SOURCE = APP_SOURCE.slice(
+  APP_SOURCE.indexOf("const PUBLIC_PAGES"),
+  APP_SOURCE.indexOf("];", APP_SOURCE.indexOf("const PUBLIC_PAGES")),
+);
+const APP_PUBLIC_ROUTE_PATTERNS = [
+  ...[...PUBLIC_PAGES_SOURCE.matchAll(/\{\s*path:\s*"([^"]+)"/g)].map((match) => match[1]),
+  ...[...PUBLIC_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)].map((match) => match[1]),
+];
 const APP_DEV_ROUTE_PATTERNS = [...DEV_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)]
   .map((match) => match[1]);
 const EXPECTED_DEV_ROUTE_PATTERNS = ["/technical-preview", "/legacy-landing", "/test"] as const;

@@ -102,6 +102,7 @@ export const CategoryPage = () => {
   usePageMeta({
     title: category ? category.title : t("{{family}} — kategori bulunamadı", { family: t(family.label) }),
     description: category?.description,
+    noindex: !category,
   });
 
   if (!category) {

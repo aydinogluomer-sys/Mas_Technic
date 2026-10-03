@@ -307,6 +307,7 @@ export const ServiceDetail = () => {
       : {
           title: t("{{family}} — sayfa bulunamadı", { family: t(FAMILY[pathFamily].label) }),
           description: t("Aradığınız kayıt bulunamadı. Hizmet ve sektör başlıklarına ana sayfadan ulaşabilirsiniz."),
+          noindex: true,
         },
   );
 

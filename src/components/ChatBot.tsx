@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { safeLocal } from "@/lib/safe-storage";
 import { MessageCircle, X, Send, Bot, User, Loader2 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "@/components/shell/motion";
@@ -137,7 +138,7 @@ function getAiUsageToday(): number {
 
 function incrementAiUsage() {
   const current = getAiUsageToday();
-  localStorage.setItem(AI_LIMIT_KEY, JSON.stringify({ count: current + 1, date: new Date().toDateString() }));
+  safeLocal.set(AI_LIMIT_KEY, JSON.stringify({ count: current + 1, date: new Date().toDateString() }));
 }
 
 async function streamChat({

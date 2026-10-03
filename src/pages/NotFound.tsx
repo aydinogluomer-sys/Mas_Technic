@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { usePageMeta } from "@/hooks/use-page-meta";
 import type { TFunction } from "i18next";
 import { PageShell } from "@/components/shell/PageShell";
 import { ShellMetaRow } from "@/components/shell/ShellPrimitives";
@@ -185,6 +186,11 @@ export const NotFound = ({ shell = true }: { shell?: boolean }) => {
   const requested = location.pathname;
   const suggestions = useMemo(() => nearestRoutes(requested), [requested]);
   const { t } = useTranslation();
+  usePageMeta({
+    title: t("Sayfa bulunamadı"),
+    description: t("İstenen yol bu sitenin sayfa dizininde bir konuma karşılık gelmiyor."),
+    noindex: true,
+  });
 
   useEffect(() => {
     console.error("404 Error:", requested);

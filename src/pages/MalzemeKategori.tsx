@@ -51,6 +51,7 @@ export const MalzemeKategori = () => {
     description:
       category?.seoDescription
       ?? t("Aradığınız malzeme ailesi bulunamadı. Aşağıdaki ailelerden devam edebilirsiniz."),
+    noindex: !category,
   });
 
   if (!category) {

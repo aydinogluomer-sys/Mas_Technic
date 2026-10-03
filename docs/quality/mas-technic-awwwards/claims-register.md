@@ -125,3 +125,39 @@ Aile sayfası metinleri:
 - "Antibakteriyel" (kaynaksız sağlık iddiası), "FDA onaylı" ve "implant" ifadeleri çıkarıldı.
 - Nikel alaşımları için "kontrol çubukları" yerine "reaktör iç bileşenleri" yazıldı.
 - Paslanmaz çelik tanımı (en az %10,5 krom) EN 10088'e atıfla kaldı.
+
+## L01 — çeviri sırasında düzeltilen Türkçe iddialar
+
+EN metin yazılırken her kayıt cümle cümle okundu. Doğrulanmamış bir iddia çeviriye taşınmadı; Türkçe kaynakta düzeltildi, EN onu izledi. Sayılar ve birimler değişmedi (`scripts/quality/locale-check.ts`: her kayıtta TR ve EN sayı kümesi birebir aynı).
+
+| Kayıt | Kaldırılan / değişen ifade | Yerine |
+|---|---|---|
+| `hassas-mikro-isleme` | "mikron seviyesinde hassasiyet", implant/stent cümlesi, "kontaminasyonsuz üretim ortamı", "palletli 5 eksen" | Nitel kapsam; çalışma aralığı teklifte |
+| `anodizasyon` | ΔE ≤ 2.0 (metin, özellik, teknik özellik, SSS); eddy current / Vickers / renk cihazı listesi; "çelik sertliğine yakın" | "Renk toleransı: şartnameye göre" |
+| `boya-koruyucu-kaplamalar` | Sürtünme katsayısı "0.05 (PTFE)" | Kaldırıldı |
+| `logo-markalama` | "1200 DPI" (özellik + avantaj) | Kaldırıldı |
+| `insert-uygulama` | "M2-M12", "<3 saniye" (özellik + avantaj) | Kaldırıldı |
+| `malzeme-kutuphanesi` | Spektrometre, iklimlendirilmiş depo, "sürekli stok" | "Malzeme sınıfına göre", "Kimlik kontrolü" |
+| `kaynakli-imalat` | Koşulsuz NDT | "Şartnamede isteniyorsa"; "RT, UT, PT, MT (şartnameye göre)" |
+| `tasarim-rehberi-dfm` | "Revizyon: 2 tur dahil" | "Kapsamı teklifte belirtilir" |
+| `yuzey-islemleri-muhendislik` | "Tuz spreyi ve çevresel test desteği" | "Tuz spreyi şartı kaplama seçiminde dikkate alınır" |
+| `seri-imalat`, `seri-uretim` | "JIT uyumlu", "Kanban entegrasyonu", "yıllık kontrat", "haftalık kapasite raporlaması" | "Programa göre"; teslimat programı kapasite planına bağlanır |
+| `havacilik-uzay` | NDT "RT, UT, PT, MT, ET" (kapasite gibi) | "Şartnameye göre planlanır" |
+| `savunma-sanayi` | NDT listesi koşulsuz | "(şartnameye göre)" |
+| `robotik` | "Endüstriyel robot ve cobot bileşenlerinde yedek parça deneyimi" | "Eş eksenlilik ve diklik kontrol planında tanımlanır" |
+| `otomotiv` | "Otomotiv tedarik zincirinde çalışma deneyimi" | "Kontrol planı, ölçüm ve parti kayıtları teslim dosyasında" |
+| `yelken-yat-sistemleri` | Superyacht / yarış yelkenciliği deneyimi ve üretimi; "ASTM B117 ile doğrulama"; "ultra-pürüzsüz" | Şartnameye bağlı ifadeler |
+| `hidrolik-pnomatik` | Meta başlık ve özellikte "350 Bar"; "BoschRexroth, Parker uyumlu" | "Çalışma basıncı — şartnamedeki basınca göre"; "ISO 4401 delik düzeni" |
+| `boru-baglanti-parcalari` | "Isıl işlem ve NDT muayene dahil" | "Isıl işlem ve NDT kaydı talebe bağlı" |
+| `iklim-teknolojileri` | Helyum testiyle doğrulama, termal şok testi, sektör deneyimi | Yöntem şartnameye göre; diğer ikisi kaldırıldı |
+| `prototip-uretim` | "3 iterasyonlu revizyon döngüsü" (teknik özellik "teklifte" diyordu) | "İterasyon sayısı teklifte belirtilir" |
+| `ozel-projeler` | "TÜBİTAK, KOSGEB desteği / danışmanlığı" | Kaldırıldı |
+| `yenilenebilir-enerji`, `petrol-gaz` | "Offshore ve onshore proje deneyimi", proje tedarik cümlesi; "UT, MT zorunlu" | Kaldırıldı / "Şartnameye göre" |
+| `guc-dagitim-sistemleri` | Ark/kısa devre test desteği; "minimum kontak direnci"; "yapışma testi standart olarak" | Kaldırıldı / "düşük"; kontrol planına göre |
+| `madencilik-ekipmanlari` | "UT, MT zorunlu", "NDT dahil", "indüksiyon ve karbürizasyon" | Şartnameye göre |
+| Kategori `endustriyel/yuksek-teknoloji` | "Askeri standartlarda hassas üretim" | "Şartnameye bağlı, izlenebilir hassas üretim" |
+| Kategori `hizmetler/montaj-birlestirme` | "TIG, MIG ve lazer kaynak" (hizmet sayfası lazer kaynak listelemiyor) | "TIG, MIG/MAG ve direnç kaynağı" |
+| Sohbet yanıtları (`chatFaqData.ts`) | Anlaşmalı kargo, DHL/FedEx/UPS, sigortalı gönderim; "dünya genelinde ihracat, düzenli sevkiyat" bölgeleri | Sevkiyat koşulu ve teslim şekli teklifte belirlenir |
+| Çerez politikası `mas_lang` satırı | "TR, EN, DE, RU, ZH" | "TR, EN"; herkese açık dili adres belirler, kayıt yalnız panel dilini seçer |
+
+`node scripts/claims-gate.mjs`: PASS, 0 ihlal, 306 kontrol. Not: claims-gate kuralları Türkçe metin için yazılmıştır; EN metinleri bu kapı denetlemez. EN'in güvencesi, her EN kaydın TR kaydın çevirisi olması ve sayı kümesinin aynı kalmasıdır (locale-check).

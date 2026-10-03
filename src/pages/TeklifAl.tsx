@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { usePageMeta } from "@/hooks/use-page-meta";
 import { upper } from "@/i18n/upper";
 import { Link } from "@/i18n/LocaleLink";
 import { useLocalizedPath } from "@/i18n/hooks";
@@ -87,6 +88,10 @@ const LAST_STEP = RFQ_STEPS.length;
 
 export const TeklifAl = () => {
   const { t, i18n } = useTranslation();
+  usePageMeta({
+    title: t("Teklif Al"),
+    description: t("CAD dosyanızı yükleyin, malzeme ve miktarı yazın; üretilebilirlik incelemesiyle birlikte teknik teklif hazırlayalım."),
+  });
   const localized = useLocalizedPath();
   const [currentStep, setCurrentStep] = useState(1);
   const [furthestStep, setFurthestStep] = useState(1);

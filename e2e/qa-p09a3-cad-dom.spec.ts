@@ -260,8 +260,11 @@ test.describe("09a-R3 — the C3 corrections in the rendered DOM", () => {
 
     const cavity = tables.find((t) => /Kavite Sayısı/iu.test(t.caption));
     expect(cavity, "the cavity table must still render").toBeTruthy();
-    expect(cavity?.headers, "the cycle-rate column stays; only the parts-per-hour column went").toEqual([
-      "Kavite", "Çevrim/Saat", "Birim Maliyet", "Kalıp Maliyeti", "Önerilen Hacim",
+    /* T02 (`236ed2c`) withdrew the cycle-rate and recommended-volume columns
+       too: both were capacity figures with no source (owner input O02). The
+       remaining columns are relative (cost, tooling) and stay. */
+    expect(cavity?.headers, "only the relative columns stay after T02").toEqual([
+      "Kavite", "Birim Maliyet", "Kalıp Maliyeti",
     ]);
 
     writeEvidence(`dom-tables-${test.info().project.name}.json`, tables);

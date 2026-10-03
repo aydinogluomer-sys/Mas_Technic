@@ -1,7 +1,8 @@
-import { defineConfig, type Plugin } from "vite";
+import { defineConfig, loadEnv, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+import { normalizeOrigin } from "./src/lib/site-origin";
 
 /**
  * LCP hero görselinin preload'unu gerçek yayınlanan URL ile enjekte eder.
@@ -60,13 +61,76 @@ function heroPreloadPlugin(): Plugin {
   };
 }
 
+/**
+ * SEO01 — the static head follows the public site config.
+ *
+ * `VITE_SITE_ORIGIN` (https origin, no path) and `VITE_SITE_INDEXING`
+ * (`public` | `preview`, default `preview`) are read here and in
+ * `src/lib/site-config.ts`. The origin is never written into the source:
+ * `index.html` carries no canonical and no og:url of its own, and this plugin
+ * adds them only when an origin is configured.
+ *
+ *   preview (default)  robots `noindex, nofollow`; no canonical without an origin.
+ *   public             robots `index, follow`; canonical, og:url and hreflang
+ *                      tr / en / x-default for the home page. A public BUILD
+ *                      without a valid origin fails here.
+ *
+ * Per-route values are written at runtime by `usePageMeta` (SPA). The
+ * prerender adapter that would bake them into each route's HTML is
+ * BLOCKED_DATA until the host is known (owner input O01).
+ */
+function siteMetaPlugin(mode: string, command: "build" | "serve"): Plugin {
+  const env = loadEnv(mode, process.cwd(), "VITE_");
+  const rawIndexing = (process.env.VITE_SITE_INDEXING ?? env.VITE_SITE_INDEXING ?? "").trim();
+  const rawOrigin = process.env.VITE_SITE_ORIGIN ?? env.VITE_SITE_ORIGIN;
+  const origin = normalizeOrigin(rawOrigin);
+
+  if (rawIndexing && rawIndexing !== "public" && rawIndexing !== "preview") {
+    throw new Error(`[mas-site-meta] VITE_SITE_INDEXING must be "public" or "preview", got "${rawIndexing}".`);
+  }
+  if (rawOrigin && !origin) {
+    throw new Error(`[mas-site-meta] VITE_SITE_ORIGIN must be a bare https origin (https://host), got "${rawOrigin}".`);
+  }
+  if (command === "build" && rawIndexing === "public" && !origin) {
+    throw new Error("[mas-site-meta] VITE_SITE_INDEXING=public requires VITE_SITE_ORIGIN. A public build must state its origin.");
+  }
+  const indexable = rawIndexing === "public" && Boolean(origin);
+
+  return {
+    name: "mas-site-meta",
+    transformIndexHtml: {
+      order: "pre",
+      handler(html) {
+        const robots = indexable
+          ? "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+          : "noindex, nofollow";
+        const out = html
+          .replace(/\s*<link rel="canonical"[^>]*>/g, "")
+          .replace(/\s*<meta property="og:url"[^>]*>/g, "")
+          .replace(/(<meta name="robots" content=")[^"]*(")/, `$1${robots}$2`);
+        if (!origin) return out;
+        return {
+          html: out,
+          tags: [
+            { tag: "link", attrs: { rel: "canonical", href: `${origin}/` }, injectTo: "head" },
+            { tag: "meta", attrs: { property: "og:url", content: `${origin}/` }, injectTo: "head" },
+            { tag: "link", attrs: { rel: "alternate", hreflang: "tr", href: `${origin}/` }, injectTo: "head" },
+            { tag: "link", attrs: { rel: "alternate", hreflang: "en", href: `${origin}/en` }, injectTo: "head" },
+            { tag: "link", attrs: { rel: "alternate", hreflang: "x-default", href: `${origin}/` }, injectTo: "head" },
+          ],
+        };
+      },
+    },
+  };
+}
+
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig(({ mode, command }) => ({
   server: {
     host: "::",
     port: 8080,
   },
-  plugins: [react(), mode === "development" && componentTagger(), heroPreloadPlugin()].filter(Boolean),
+  plugins: [react(), mode === "development" && componentTagger(), siteMetaPlugin(mode, command), heroPreloadPlugin()].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

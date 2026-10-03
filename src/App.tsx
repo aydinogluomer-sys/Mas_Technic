@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Navigate } from "@/i18n/LocaleLink";
 import { applyLanguage, isLanguageReady } from "@/i18n";
 import { isPanelPath, localeFromPath } from "@/i18n/locale";
+import { applyPrivateRouteMeta } from "@/hooks/use-page-meta";
 import { PageTransition } from "@/components/PageTransition";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
@@ -183,6 +184,12 @@ const AnimatedRoutes = () => {
   const isPanel = useMemo(() => {
     return location.pathname.startsWith("/admin") || location.pathname.startsWith("/musteri-paneli");
   }, [location.pathname]);
+
+  /* SEO01 — panel and admin routes are never indexed. The pages themselves
+     are not touched; the head is set here on every panel navigation. */
+  useEffect(() => {
+    if (isPanel) applyPrivateRouteMeta();
+  }, [isPanel, location.pathname]);
 
   const panelRoutes = (
     <Suspense fallback={<PageLoader />}>

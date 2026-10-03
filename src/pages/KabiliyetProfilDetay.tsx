@@ -85,6 +85,7 @@ export const KabiliyetProfilDetay = () => {
   usePageMeta({
     title: study ? study.title : t("Profil bulunamadı"),
     description: study?.challenge,
+    noindex: !study,
   });
 
   if (!study) {

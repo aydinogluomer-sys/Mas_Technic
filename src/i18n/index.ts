@@ -52,6 +52,10 @@ void i18n
   .use(initReactI18next)
   .init({
     lng: initialLanguage(),
+    /* Synchronous init: the first render already knows its language, so a
+       Turkish page never passes through the route language gate's loader
+       (a remount there reset fragment landings and scroll state). */
+    initAsync: false,
     /* Only Turkish ships with the app, and it is empty (keys are the Turkish
        text). Each other dictionary is its own chunk, fetched when that
        language is chosen — see `loadLanguage`. */
@@ -74,6 +78,10 @@ void i18n
           /* Before its dictionary has arrived every key is "missing"; only a
              key the loaded dictionary lacks is a real gap. */
           if (code === "tr" || !i18n.hasResourceBundle(code, "translation")) return;
+          /* Shell primitives pass already-translated text through `t()` once
+             more (breadcrumbs, notices); an English VALUE is not a gap. */
+          const bundle = i18n.getResourceBundle(code, "translation") as Record<string, string>;
+          if (Object.values(bundle).includes(key)) return;
           const bag = ((window as unknown as { __i18nMissing?: Set<string> }).__i18nMissing ??= new Set<string>());
           bag.add(key);
         }
@@ -100,9 +108,12 @@ export async function applyLanguage(language: PublicLocale) {
 
 /** True once the language the page needs is rendered with its dictionary. */
 export function isLanguageReady(language: PublicLocale): boolean {
+  /* Turkish needs no dictionary (the keys are the text). */
+  if (language === "tr") return normalizeLocale(i18n.language) === "tr";
   return normalizeLocale(i18n.language) === language
     && normalizeLocale(i18n.resolvedLanguage) === language
-    && (language === "tr" || (i18n.hasResourceBundle(language, "translation") && isEnContentLoaded()));
+    && i18n.hasResourceBundle(language, "translation")
+    && isEnContentLoaded();
 }
 
 async function ensureDictionary(language: string) {

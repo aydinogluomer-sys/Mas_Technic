@@ -151,6 +151,7 @@ export const BlogDetail = () => {
   usePageMeta({
     title: post ? post.title : t("Yazı Bulunamadı"),
     description: post?.excerpt,
+    noindex: !post,
   });
 
   if (!post) {

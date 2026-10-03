@@ -196,6 +196,9 @@ function census(): Site[] {
 const EXPECTED: Site[] = [
   // The gate's own failure probe. Outside the repository since 09a-C4 / R3-5.1,
   // because `finally` did not survive the two process kills this phase had.
+  // L01: the locale checker bundle and the SEO01 failing-build probe, both
+  // in a fresh mkdtemp directory outside the repository.
+  { file: "e2e/l01-locale.spec.ts", destination: "<os-tmpdir>", guarded: true },
   { file: "e2e/landing/claims-gate.spec.ts", destination: "<os-tmpdir>", guarded: true },
   // Round 2's sweep: scratch by default, committed evidence behind
   // QA_SWEEP_WRITE_EVIDENCE.

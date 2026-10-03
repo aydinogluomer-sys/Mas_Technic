@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from "react";
+import { safeSession } from "@/lib/safe-storage";
 import { FunctionsFetchError, FunctionsHttpError } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { createCadStoragePath, uploadCadFile, type UploadedCadFile } from "@/utils/cadUpload";
@@ -297,7 +298,7 @@ export function useRfqSubmission() {
       const stored = (data as { rfq?: { id?: unknown } } | null)?.rfq?.id;
       setState({ status: "sent", reference: typeof stored === "string" ? stored : null });
       uploadedRef.current = null;
-      sessionStorage.removeItem("mas_pending_cad_upload");
+      safeSession.remove("mas_pending_cad_upload");
     } catch (unexpected) {
       setState({ status: "failed", error: await readFunctionError(unexpected) });
     } finally {

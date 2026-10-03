@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { usePageMeta } from "@/hooks/use-page-meta";
 import { useEffect, useState } from "react";
 import { useLocaleNavigate as useNavigate } from "@/i18n/hooks";
 import { supabase } from "@/integrations/supabase/client";
@@ -158,6 +159,7 @@ export const ResetPassword = () => {
   };
 
   const { t } = useTranslation();
+  usePageMeta({ title: t("Yeni Şifre Belirleyin"), noindex: true });
   const frame = (children: React.ReactNode) => (
     <AuthLayout
       asideTitle="Hoş Geldiniz"
