@@ -180,7 +180,7 @@ const FULL_SHELL_ROUTES = [
 
 const FOOTER_SEQUENTIAL_SELECTOR = [
   'a[href]:visible',
-  'button:not([disabled]):not([aria-label="YukarÄ± Ã§Ä±k"]):visible',
+  'button:not([disabled]):not([aria-label="Yukarı çık"]):visible',
   '[tabindex]:not([tabindex="-1"]):visible',
 ].join(",");
 
