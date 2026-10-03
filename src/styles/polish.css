@@ -136,7 +136,7 @@
   align-self: start;
   padding-top: var(--tl-s6);
 }
-.shell-root .shell-hero-foot .shell-lede { margin-top: 0; max-width: 52ch; font-size: clamp(16px, 1.15vw, 19px); }
+.shell-root .shell-hero-foot .shell-lede { margin-top: 0; max-width: 52ch; }
 .shell-root .shell-hero-meta {
   grid-column: 8 / -1;
   grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -38,6 +38,15 @@
   .tl-menu .tl-menu-categories {
     grid-column: 2;
     grid-row: 1 / span 2;
+    /* Grow with the open categories. Sized by its grid area alone, the panel
+       stayed as tall as the sheet while its content ran on below, and the
+       panel's entrance `clip-path: inset(0)` then cut that overflow off: at
+       1440×650, after opening the first four categories the fifth was
+       painted outside the clip and could not be clicked
+       (navigation-reachability.spec.ts). At least the sheet's height, so the
+       paper still reaches the bottom when the list is short. */
+    min-height: 100%;
+    height: max-content;
   }
   .tl-menu .tl-menu-directory-reveal {
     grid-column: 1;

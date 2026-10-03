@@ -246,7 +246,11 @@
 .shell-lede {
   max-width: 46ch;
   margin: var(--tl-s5) 0 0;
-  font-size: 16px;
+  /* The lede's ramp belongs to the component, not to one container: it used
+     to live on `.shell-hero-foot .shell-lede` only, so the 404's lede stayed
+     at 16px while every page hero's grew to 16.56px at 1440
+     (design-system-typography.spec.ts). */
+  font-size: clamp(16px, 1.15vw, 19px);
   line-height: 1.55;
 }
 .shell-root[data-shell-surface="paper"] .shell-lede { color: var(--tl-ink-muted); }
