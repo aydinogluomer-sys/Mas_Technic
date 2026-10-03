@@ -11,7 +11,7 @@
  */
 import { build } from "esbuild";
 import { pathToFileURL } from "node:url";
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
@@ -72,6 +72,7 @@ for (const page of servicePages) {
   }
 }
 
+mkdirSync(path.join(root, "reports", "qa", "phase-09a-r2"), { recursive: true });
 writeFileSync(path.join(root, "reports", "qa", "phase-09a-r2", "columns.json"), JSON.stringify(report, null, 2), "utf8");
 
 console.log(`TIME_LIKE_COLUMNS=${timeColCount}  MIXED_COLUMNS=${mixedCount}`);

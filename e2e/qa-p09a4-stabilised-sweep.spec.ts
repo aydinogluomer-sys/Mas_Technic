@@ -39,7 +39,7 @@ import { assertNoSupabaseContact, assertSealed, sealNetwork } from "./fixtures/q
    ══════════════════════════════════════════════════════════════════════════ */
 
 const ROUTES: string[] = JSON.parse(
-  readFileSync(path.join(process.cwd(), "reports", "qa", "phase-09a-r2", "routes.json"), "utf8"),
+  readFileSync(path.join(process.cwd(), "e2e", "fixtures", "qa-p09a2-routes.json"), "utf8"),
 );
 
 const QUOTE_SLA_FORMS = [/1-3\s*iş\s*günü/iu, /1-3\s*İŞ\s*GÜNÜ/u];

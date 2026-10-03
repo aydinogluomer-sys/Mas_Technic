@@ -12,7 +12,7 @@
  */
 import { build } from "esbuild";
 import { pathToFileURL } from "node:url";
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
@@ -91,5 +91,6 @@ for (const p of PHRASINGS) {
   rows.push({ p, idx, score: m.score, verdict, question: m.entry.question });
 }
 
+mkdirSync(path.join(root, "reports", "qa", "phase-09a-r2"), { recursive: true });
 writeFileSync(path.join(root, "reports", "qa", "phase-09a-r2", "cad-answers.json"),
   JSON.stringify({ accepted: [...ACCEPTED], cadEntries, rows }, null, 2), "utf8");

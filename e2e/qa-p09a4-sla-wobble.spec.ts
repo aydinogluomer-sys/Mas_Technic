@@ -211,7 +211,7 @@ test("sealed: the round-2 harness's own interception is what moves the 350 ms re
 test("sweep replica: which of the 63 routes moves, and what it looks like when it does", async ({ page }) => {
   test.setTimeout(20 * 60 * 1000);
   const routes: string[] = JSON.parse(
-    readFileSync(path.join(process.cwd(), "reports", "qa", "phase-09a-r2", "routes.json"), "utf8"),
+    readFileSync(path.join(process.cwd(), "e2e", "fixtures", "qa-p09a2-routes.json"), "utf8"),
   );
 
   const seal = await sealNetwork(page);
