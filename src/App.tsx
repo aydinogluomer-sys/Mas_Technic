@@ -8,7 +8,7 @@ import { applyPrivateRouteMeta } from "@/hooks/use-page-meta";
 import { PageTransition } from "@/components/PageTransition";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
-import { ShellLoading, ShellRouteBoundary } from "@/components/shell/ShellStates";
+import { ShellLoading, ShellRouteBoundary, ShellRouteError } from "@/components/shell/ShellStates";
 /* `ScrollProgress` WAS imported here and rendered on every public route EXCEPT
    `/` — one of the three undocumented per-route chrome differences Phase 04
    was sent to resolve (`reports/baseline/shell-inventory.md` §3 S4). It is
@@ -110,9 +110,51 @@ const LOADER_TEXT = {
   en: { label: "LOADING", detail: "Preparing the page." },
 } as const;
 
-const PageLoader = () => {
+/* A loader is a promise, not a destination: when the route's code or its
+   dictionary has not arrived after this long (a stalled request, a dev server
+   restarted under the tab, a cache serving a stale chunk), the reader gets a
+   retry instead of an endless sweep, and the console says what was pending. */
+const LOADER_TIMEOUT_MS = 12_000;
+const LOADER_TIMEOUT_TEXT = {
+  tr: {
+    label: "YÜKLEME GECİKTİ",
+    title: "Sayfa yüklenemedi",
+    detail: "Sayfanın dosyaları zamanında gelmedi. Sayfayı yeniden yükleyin; sorun sürerse bize bildirin.",
+  },
+  en: {
+    label: "LOADING STALLED",
+    title: "The page could not load",
+    detail: "The page's files did not arrive in time. Reload the page; if it keeps happening, let us know.",
+  },
+} as const;
+
+const PageLoader = ({ pending = "route" }: { pending?: "route" | "language" }) => {
   const { pathname } = useLocation();
-  const text = LOADER_TEXT[isPanelPath(pathname) ? "tr" : localeFromPath(pathname)];
+  const locale = isPanelPath(pathname) ? "tr" : localeFromPath(pathname);
+  const text = LOADER_TEXT[locale];
+  const [stalled, setStalled] = useState(false);
+  useEffect(() => {
+    setStalled(false);
+    const timer = window.setTimeout(() => {
+      console.error(`[shell] ${pending} still loading after ${LOADER_TIMEOUT_MS} ms on ${pathname}`);
+      setStalled(true);
+    }, LOADER_TIMEOUT_MS);
+    return () => window.clearTimeout(timer);
+  }, [pathname, pending]);
+  if (stalled) {
+    const timeout = LOADER_TIMEOUT_TEXT[locale];
+    return (
+      <div className="shell-boot">
+        <ShellRouteError
+          label={timeout.label}
+          title={timeout.title}
+          detail={timeout.detail}
+          reason={`ERR::${pending === "language" ? "LANGUAGE" : "ROUTE"}_LOAD_TIMEOUT`}
+          onRetry={() => window.location.reload()}
+        />
+      </div>
+    );
+  }
   return (
     <div className="shell-boot">
       <ShellLoading label={text.label} detail={text.detail} fullHeight={false} />
@@ -346,7 +388,7 @@ const AppContent = () => {
     </>
   );
 
-  if (!languageReady) return <PageLoader />;
+  if (!languageReady) return <PageLoader pending="language" />;
   return isPanel ? content : <SmoothScrollProvider>{content}</SmoothScrollProvider>;
 };
 

@@ -222,7 +222,9 @@ function siteMetaPlugin(mode: string, command: "build" | "serve"): Plugin {
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => ({
   server: {
-    host: "::",
+    /* Every interface, IPv4 and IPv6 alike: "::" alone fails to listen
+       (EAFNOSUPPORT) on a machine without IPv6. */
+    host: true,
     port: 8080,
   },
   plugins: [react(), siteMetaPlugin(mode, command), heroPreloadPlugin(), buildIdentityPlugin(command)].filter(Boolean),
