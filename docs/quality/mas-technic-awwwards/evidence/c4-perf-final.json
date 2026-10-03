@@ -1,0 +1,821 @@
+{
+  "capturedAt": "2026-10-03T18:52:20.068Z",
+  "base": "http://127.0.0.1:4183",
+  "profile": {
+    "network": "Slow 4G (150 ms RTT, 1.6 Mbps down, 750 Kbps up)",
+    "cpuThrottling": "4x",
+    "runsPerCell": 5,
+    "coldContextPerRun": true
+  },
+  "scope": "FINAL — branch claude/documentation-roadmap-nwV4C at the C4 commit (prerender: route stylesheets, scoped image preload, data-first-view entrance gate), prerendered build with VITE_SITE_ENGLISH=live, self-hosted fonts, served by scripts/serve-dist.mjs (vercel.json routing, gzip, HTTP/1.1 — Vercel serves HTTP/2). Sandbox Chromium r1194, slow-4G emulation + 4x CPU, 5 cold runs per route/width. Lab only; INP not measured; lab TBT is not INP.",
+  "results": [
+    {
+      "route": "/",
+      "width": 375,
+      "runs": 5,
+      "lcpMs": {
+        "median": 1940,
+        "p75": 1984
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "img.",
+      "jsKiB10s": {
+        "median": 197.9,
+        "max": 197.9
+      },
+      "labTbtMs": {
+        "median": 752,
+        "p75": 804
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": true,
+      "blockedHosts": [],
+      "detail": [
+        {
+          "lcpMs": 1984,
+          "cls": 0.0002,
+          "lcpElement": "img.",
+          "tbtMs": 733,
+          "jsKiB10s": 197.9,
+          "nav": {
+            "ttfb": 10,
+            "domContentLoaded": 1780,
+            "load": 3520
+          },
+          "wallMs": 10037,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1928,
+          "cls": 0.0002,
+          "lcpElement": "img.",
+          "tbtMs": 750,
+          "jsKiB10s": 197.9,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1716,
+            "load": 3446
+          },
+          "wallMs": 10044,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 2016,
+          "cls": 0.0002,
+          "lcpElement": "img.",
+          "tbtMs": 1012,
+          "jsKiB10s": 197.9,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1808,
+            "load": 3551
+          },
+          "wallMs": 10028,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1940,
+          "cls": 0.0002,
+          "lcpElement": "img.",
+          "tbtMs": 752,
+          "jsKiB10s": 197.9,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1829,
+            "load": 3490
+          },
+          "wallMs": 10033,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1924,
+          "cls": 0.0002,
+          "lcpElement": "img.",
+          "tbtMs": 804,
+          "jsKiB10s": 197.9,
+          "nav": {
+            "ttfb": 7,
+            "domContentLoaded": 1741,
+            "load": 3448
+          },
+          "wallMs": 10028,
+          "blockedHosts": []
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "runs": 5,
+      "lcpMs": {
+        "median": 1724,
+        "p75": 1740
+      },
+      "cls": {
+        "median": 0.014,
+        "p75": 0.014
+      },
+      "lcpElement": "h1.",
+      "jsKiB10s": {
+        "median": 248.2,
+        "max": 248.2
+      },
+      "labTbtMs": {
+        "median": 1199,
+        "p75": 1199
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": true,
+      "blockedHosts": [],
+      "detail": [
+        {
+          "lcpMs": 1708,
+          "cls": 0.0138,
+          "lcpElement": "h1.",
+          "tbtMs": 1199,
+          "jsKiB10s": 248.2,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1822,
+            "load": 3551
+          },
+          "wallMs": 10036,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1648,
+          "cls": 0.0138,
+          "lcpElement": "h1.",
+          "tbtMs": 1071,
+          "jsKiB10s": 248.2,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1708,
+            "load": 3470
+          },
+          "wallMs": 10039,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1724,
+          "cls": 0.0138,
+          "lcpElement": "h1.",
+          "tbtMs": 1093,
+          "jsKiB10s": 248.2,
+          "nav": {
+            "ttfb": 7,
+            "domContentLoaded": 1814,
+            "load": 3554
+          },
+          "wallMs": 10032,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1740,
+          "cls": 0.0138,
+          "lcpElement": "h1.",
+          "tbtMs": 1310,
+          "jsKiB10s": 248.2,
+          "nav": {
+            "ttfb": 7,
+            "domContentLoaded": 1842,
+            "load": 3571
+          },
+          "wallMs": 10034,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1740,
+          "cls": 0.0138,
+          "lcpElement": "h1.",
+          "tbtMs": 1199,
+          "jsKiB10s": 248.2,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1849,
+            "load": 3570
+          },
+          "wallMs": 10030,
+          "blockedHosts": []
+        }
+      ]
+    },
+    {
+      "route": "/en",
+      "width": 375,
+      "runs": 5,
+      "lcpMs": {
+        "median": 1944,
+        "p75": 1960
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "img.",
+      "jsKiB10s": {
+        "median": 238.5,
+        "max": 238.5
+      },
+      "labTbtMs": {
+        "median": 759,
+        "p75": 771
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": true,
+      "blockedHosts": [],
+      "detail": [
+        {
+          "lcpMs": 1936,
+          "cls": 0.0003,
+          "lcpElement": "img.",
+          "tbtMs": 737,
+          "jsKiB10s": 238.5,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1710,
+            "load": 3028
+          },
+          "wallMs": 10027,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1940,
+          "cls": 0.0003,
+          "lcpElement": "img.",
+          "tbtMs": 759,
+          "jsKiB10s": 238.5,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1716,
+            "load": 3017
+          },
+          "wallMs": 10030,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1972,
+          "cls": 0.0003,
+          "lcpElement": "img.",
+          "tbtMs": 750,
+          "jsKiB10s": 238.5,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1766,
+            "load": 2993
+          },
+          "wallMs": 10032,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1944,
+          "cls": 0.0003,
+          "lcpElement": "img.",
+          "tbtMs": 771,
+          "jsKiB10s": 238.5,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1690,
+            "load": 2987
+          },
+          "wallMs": 10052,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1960,
+          "cls": 0.0003,
+          "lcpElement": "img.",
+          "tbtMs": 842,
+          "jsKiB10s": 238.5,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1753,
+            "load": 2993
+          },
+          "wallMs": 10025,
+          "blockedHosts": []
+        }
+      ]
+    },
+    {
+      "route": "/en",
+      "width": 1440,
+      "runs": 5,
+      "lcpMs": {
+        "median": 6056,
+        "p75": 6064
+      },
+      "cls": {
+        "median": 0.009,
+        "p75": 0.009
+      },
+      "lcpElement": "img.",
+      "jsKiB10s": {
+        "median": 288.8,
+        "max": 288.8
+      },
+      "labTbtMs": {
+        "median": 1159,
+        "p75": 1161
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": false,
+      "blockedHosts": [],
+      "detail": [
+        {
+          "lcpMs": 6104,
+          "cls": 0.0094,
+          "lcpElement": "img.",
+          "tbtMs": 1161,
+          "jsKiB10s": 288.8,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1897,
+            "load": 3004
+          },
+          "wallMs": 10034,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 6064,
+          "cls": 0.0094,
+          "lcpElement": "img.",
+          "tbtMs": 1119,
+          "jsKiB10s": 288.8,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1767,
+            "load": 2993
+          },
+          "wallMs": 10036,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 6000,
+          "cls": 0.0094,
+          "lcpElement": "img.",
+          "tbtMs": 1086,
+          "jsKiB10s": 288.8,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1821,
+            "load": 2999
+          },
+          "wallMs": 10029,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1688,
+          "cls": 0.0094,
+          "lcpElement": "h1.",
+          "tbtMs": 1159,
+          "jsKiB10s": 288.8,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1806,
+            "load": 2999
+          },
+          "wallMs": 10042,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 6056,
+          "cls": 0.0094,
+          "lcpElement": "img.",
+          "tbtMs": 1220,
+          "jsKiB10s": 288.8,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1774,
+            "load": 3001
+          },
+          "wallMs": 10035,
+          "blockedHosts": []
+        }
+      ]
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "width": 375,
+      "runs": 5,
+      "lcpMs": {
+        "median": 1544,
+        "p75": 1576
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "p.shell-lede",
+      "jsKiB10s": {
+        "median": 291.6,
+        "max": 291.6
+      },
+      "labTbtMs": {
+        "median": 662,
+        "p75": 666
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": true,
+      "blockedHosts": [],
+      "detail": [
+        {
+          "lcpMs": 1544,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "tbtMs": 666,
+          "jsKiB10s": 291.6,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1694,
+            "load": 3444
+          },
+          "wallMs": 10034,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1576,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "tbtMs": 662,
+          "jsKiB10s": 291.6,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1712,
+            "load": 3441
+          },
+          "wallMs": 10031,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1532,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "tbtMs": 693,
+          "jsKiB10s": 291.6,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1735,
+            "load": 3395
+          },
+          "wallMs": 10029,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1524,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "tbtMs": 657,
+          "jsKiB10s": 291.6,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1665,
+            "load": 3405
+          },
+          "wallMs": 10031,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1576,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "tbtMs": 661,
+          "jsKiB10s": 291.6,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1653,
+            "load": 3456
+          },
+          "wallMs": 10032,
+          "blockedHosts": []
+        }
+      ]
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "width": 1440,
+      "runs": 5,
+      "lcpMs": {
+        "median": 1616,
+        "p75": 1636
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "h1.",
+      "jsKiB10s": {
+        "median": 342,
+        "max": 342
+      },
+      "labTbtMs": {
+        "median": 934,
+        "p75": 977
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": false,
+      "blockedHosts": [],
+      "detail": [
+        {
+          "lcpMs": 1636,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "tbtMs": 977,
+          "jsKiB10s": 342,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1657,
+            "load": 3523
+          },
+          "wallMs": 10034,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1660,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "tbtMs": 1158,
+          "jsKiB10s": 342,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1787,
+            "load": 3532
+          },
+          "wallMs": 10031,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1572,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "tbtMs": 859,
+          "jsKiB10s": 342,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1672,
+            "load": 3464
+          },
+          "wallMs": 10031,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1572,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "tbtMs": 792,
+          "jsKiB10s": 342,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1649,
+            "load": 3460
+          },
+          "wallMs": 10030,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1616,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "tbtMs": 934,
+          "jsKiB10s": 342,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1641,
+            "load": 3513
+          },
+          "wallMs": 10028,
+          "blockedHosts": []
+        }
+      ]
+    },
+    {
+      "route": "/en/hizmetler/cnc-frezeleme",
+      "width": 375,
+      "runs": 5,
+      "lcpMs": {
+        "median": 1496,
+        "p75": 1540
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "p.shell-lede",
+      "jsKiB10s": {
+        "median": 405.2,
+        "max": 405.2
+      },
+      "labTbtMs": {
+        "median": 592,
+        "p75": 596
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": false,
+      "blockedHosts": [],
+      "detail": [
+        {
+          "lcpMs": 1488,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "tbtMs": 531,
+          "jsKiB10s": 405.2,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1546,
+            "load": 2893
+          },
+          "wallMs": 10034,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1560,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "tbtMs": 596,
+          "jsKiB10s": 405.2,
+          "nav": {
+            "ttfb": 7,
+            "domContentLoaded": 1729,
+            "load": 2943
+          },
+          "wallMs": 10027,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1488,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "tbtMs": 592,
+          "jsKiB10s": 405.2,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1548,
+            "load": 2889
+          },
+          "wallMs": 10028,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1496,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "tbtMs": 628,
+          "jsKiB10s": 405.2,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1549,
+            "load": 2909
+          },
+          "wallMs": 10032,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1540,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "tbtMs": 563,
+          "jsKiB10s": 405.2,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1598,
+            "load": 2936
+          },
+          "wallMs": 10033,
+          "blockedHosts": []
+        }
+      ]
+    },
+    {
+      "route": "/en/hizmetler/cnc-frezeleme",
+      "width": 1440,
+      "runs": 5,
+      "lcpMs": {
+        "median": 1560,
+        "p75": 1592
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "h1.",
+      "jsKiB10s": {
+        "median": 455.5,
+        "max": 455.5
+      },
+      "labTbtMs": {
+        "median": 835,
+        "p75": 875
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": false,
+      "blockedHosts": [],
+      "detail": [
+        {
+          "lcpMs": 1592,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "tbtMs": 875,
+          "jsKiB10s": 455.5,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1624,
+            "load": 3039
+          },
+          "wallMs": 10029,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1560,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "tbtMs": 835,
+          "jsKiB10s": 455.5,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1580,
+            "load": 3019
+          },
+          "wallMs": 10037,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1560,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "tbtMs": 985,
+          "jsKiB10s": 455.5,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1665,
+            "load": 3028
+          },
+          "wallMs": 10035,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1620,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "tbtMs": 815,
+          "jsKiB10s": 455.5,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1699,
+            "load": 3052
+          },
+          "wallMs": 10028,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1548,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "tbtMs": 802,
+          "jsKiB10s": 455.5,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1561,
+            "load": 3015
+          },
+          "wallMs": 10032,
+          "blockedHosts": []
+        }
+      ]
+    }
+  ]
+}

@@ -28,7 +28,7 @@ const args = Object.fromEntries(
 const BASE = args.base ?? "http://127.0.0.1:4181";
 const ROUTES = (args.routes ?? "/,/en").split(",");
 const RUNS = Number(args.runs ?? 5);
-const WIDTHS = [375, 1440];
+const WIDTHS = (args.widths ?? "375,1440").split(",").map(Number);
 /* "Slow 4G" as Chrome DevTools defines it (2024+): 150 ms RTT, ~1.6 Mbps down,
    ~750 Kbps up. CPU 4× slowdown, the DevTools mobile preset. */
 const NETWORK = { offline: false, latency: 150, downloadThroughput: (1.6 * 1024 * 1024) / 8, uploadThroughput: (750 * 1024) / 8 };

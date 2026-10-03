@@ -5,7 +5,7 @@ import { prepareRoute } from "./lib/route-prepare.ts";
 import { ErrorBoundary } from "./components/ErrorBoundary.tsx";
 import { installHeroShellTeardown } from "./lib/hero-shell.ts";
 import { bootMark, errorMessage, installBootTrace, reportBoot } from "./lib/boot-trace.ts";
-import { reloadForChunkFailure } from "./lib/lazy-route.ts";
+import { isChunkLoadError, reloadForChunkFailure } from "./lib/lazy-route.ts";
 /* C1 — self-hosted faces first: the stylesheet that names the families must
    not be the one that waits on a third-party host. */
 import "./styles/fonts.css";
@@ -49,7 +49,11 @@ if (container.hasAttribute("data-prerendered")) {
     window.clearTimeout(slow);
     if (result !== "ready") {
       bootMark("prerender:route-failed", errorMessage(result.error));
-      if (!reloadForChunkFailure("prerendered route")) reportBoot("prerendered route code unavailable — static page kept");
+      /* Only a failed fetch is cured by new HTML; a module that throws while
+         evaluating would throw again after the reload. */
+      if (!(isChunkLoadError(result.error) && reloadForChunkFailure("prerendered route"))) {
+        reportBoot("prerendered route code unavailable — static page kept");
+      }
       return;
     }
     bootMark("prerender:render");

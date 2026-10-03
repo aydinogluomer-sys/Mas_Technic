@@ -1,4 +1,4 @@
-import { Suspense, lazy, useMemo, useEffect, useState, type ReactNode } from "react";
+import { Suspense, lazy, useMemo, useEffect, useRef, useState, type ReactNode } from "react";
 import { BrowserRouter, Routes, Route, matchRoutes, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "@/i18n/LocaleLink";
@@ -386,6 +386,16 @@ const AppContent = () => {
     document.documentElement.setAttribute("data-app-ready", "");
     bootMark("app:ready");
   }, []);
+
+  /* `data-first-view` (set on prerendered documents) holds the page-entrance
+     animations back for the page the visitor landed on: it is already on
+     screen as static HTML, and replaying a clip-path entrance over it both
+     flickers at adoption and hides the title from LCP (polish.css). The first
+     client-side navigation lifts it, so later pages enter as designed. */
+  const firstPath = useRef(location.pathname);
+  useEffect(() => {
+    if (location.pathname !== firstPath.current) document.documentElement.removeAttribute("data-first-view");
+  }, [location.pathname]);
 
   // Konami Code easter egg
   useEffect(() => {

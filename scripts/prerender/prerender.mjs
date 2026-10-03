@@ -116,7 +116,10 @@ async function capture(path) {
     () => !document.querySelector('[data-shell-state="loading"]') && !!document.querySelector("main"),
     undefined,
     { timeout: 30_000 },
-  ).catch(() => { throw new Error(`[prerender] ${path}: no rendered <main> within 30 s`); });
+  ).catch(async () => {
+    const seen = await page.evaluate(() => document.body.innerText.replace(/\s+/g, " ").slice(0, 160)).catch(() => "?");
+    throw new Error(`[prerender] ${path}: no rendered <main> within 30 s — page shows "${seen}"${errors.length ? `, error: ${errors[0]}` : ""}`);
+  });
   await page.waitForLoadState("networkidle", { timeout: 10_000 }).catch(() => undefined);
   await page.evaluate(async () => {
     await document.fonts?.ready;
@@ -126,7 +129,14 @@ async function capture(path) {
     const rootNode = document.getElementById("root").cloneNode(true);
     rootNode.querySelectorAll("iframe, [data-custom-cursor], [data-route-curtain]").forEach((node) => node.remove());
     const pick = (selector) => [...document.head.querySelectorAll(selector)].map((node) => node.outerHTML);
+    /* The route's own stylesheets (Vite links them when the route chunk
+       loads). Without them the snapshot painted unstyled bits and the page
+       shifted 74–80 px when the CSS arrived (CLS 0.05–0.09 in the lab). */
+    const stylesheets = [...document.head.querySelectorAll('link[rel="stylesheet"]')]
+      .map((node) => node.getAttribute("href"))
+      .filter((href) => href && href.startsWith("/assets/"));
     return {
+      stylesheets,
       html: rootNode.innerHTML,
       lang: document.documentElement.lang || "tr",
       title: document.title,
@@ -150,9 +160,10 @@ async function capture(path) {
 
 const escapeHtml = (value) => value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-function compose({ html, lang, title, head }) {
+function compose({ html, lang, title, head, stylesheets = [] }) {
   let out = template
-    .replace(/<html lang="[^"]*"/, `<html lang="${lang}"`)
+    // data-first-view: entrance animations wait for a client navigation (polish.css).
+    .replace(/<html lang="[^"]*"/, `<html lang="${lang}" data-first-view`)
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
     // Head tags the page sets itself replace the template's generic ones.
     .replace(/\s*<meta\s+name="description"[\s\S]*?\/?>/g, "")
@@ -162,7 +173,17 @@ function compose({ html, lang, title, head }) {
     .replace(/\s*<meta\s+property="og:[\s\S]*?\/?>/g, "")
     .replace(/\s*<meta\s+name="twitter:[\s\S]*?\/?>/g, "")
     .replace(/\s*<script type="application\/ld\+json">[\s\S]*?<\/script>/g, "");
-  out = out.replace("</head>", `    ${head.join("\n    ")}\n  </head>`);
+  /* The build preloads the landing hero on every page (vite.config.ts,
+     heroPreloadPlugin): right for the SPA shell, 64 KB of wasted bandwidth on
+     a prerendered inner page. A snapshot keeps an image preload only when its
+     own markup uses that image. (Moving it ahead of the module script was
+     measured too and changed nothing — C4 notes.) */
+  out = out.replace(/\s*<link rel="preload" as="image"[^>]*href="([^"]+)"[^>]*>/g, (tag, href) =>
+    (html.includes(`src="${href}"`) ? tag : ""));
+  const styles = stylesheets
+    .filter((href) => !out.includes(`href="${href}"`))
+    .map((href) => `<link rel="stylesheet" crossorigin href="${href}">`);
+  out = out.replace("</head>", `    ${[...styles, ...head].join("\n    ")}\n  </head>`);
   return out.replace('<div id="root"></div>', `<div id="root" data-prerendered>${html}</div>`);
 }
 
