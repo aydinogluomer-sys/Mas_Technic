@@ -1,8 +1,0 @@
-TABLE caption: null
-headers: ["KAYIT","DEPO","NE İŞE YARAR","SÜRE"]
- row0: ["sb-…-auth-token","localStorage","Giriş yaptıysanız oturumunuzu açık tutar.","Çıkış yapana kadar"]
- row1: ["mas_chat_ai_count","localStorage","Sohbet asistanına gönderilen günlük mesaj sayısını sayar.","Gün sonuna kadar"]
- row2: ["mas_pending_cad_upload","sessionStorage","Ana sayfadan bıraktığınız çizimi teklif formuna taşır.","Form devralınca silinir"]
- row3: ["mas_intro_seen","sessionStorage","Ana sayfadaki giriş sekansının oynadığını not eder; böylece aynı sekmede bir daha oynamaz. Yalnızca ana sayfada yazılır, hareket azaltma açıksa hiç yazılmaz.","Sekme kapanana kadar"]
- row4: ["mas-technic-theme","localStorage","3B model görüntüleyicisinin açık/koyu paletini hatırlar.","Siz silene kadar"]
-NOTE: YEREL DEPO KAYITLARI Bu kayıtlar çerez değildir: her HTTP isteğiyle birlikte otomatik gönderilmezler ve yalnızca bu sitenin kendi sayfaları tarafından okunabilirler. Tarayıcınızın geliştirici araçlarındaki Uygulama / Depolama bölümünden hepsini görebilirsiniz.

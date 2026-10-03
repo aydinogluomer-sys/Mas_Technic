@@ -1,6 +1,6 @@
 /* QA 09b-1 R2 — shared plumbing.
    ==========================================================================
-   NETWORK POSTURE. Unchanged from `reports/09b1c1/probe-lib.mjs`, which is
+   NETWORK POSTURE. Unchanged from `scripts/qa-probes/probe-lib.mjs`, which is
    re-exported rather than reimplemented so there is one guard in this phase
    and not two. Every probe here runs behind `guard()` at allowHosts=[] and
    refuses to continue unless `canary()` observes a real abort first.
@@ -18,7 +18,7 @@
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
 
-export { guard, canary, chromiumExecutable, launch, BASE } from "../../reports/09b1c1/probe-lib.mjs";
+export { guard, canary, chromiumExecutable, launch, BASE } from "./probe-lib.mjs";
 
 const PORT = Number(process.env.PROBE_PORT ?? 4173);
 export const URL_BASE = `http://localhost:${PORT}`;

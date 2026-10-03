@@ -1,9 +1,0 @@
-﻿guard canary: BLOCKED:Failed to fetch
-notfound-ghost       tone paper      ground rgb(251, 248, 241) old [181,181,176] -> new [125,126,124]  delta 1527 cutoff 1409  counted true  box 148.297x44 @ 225.297,1691.031
-hero-contact-ghost   tone graphite   ground rgb(7, 11, 13)     old [69,73,72] -> new [104,108,106]  delta 615 cutoff 1409  counted false  box 193.828x44 @ 229.297,404.438
-next-service-ghost   tone graphite   ground rgb(7, 11, 13)     old [69,73,72] -> new [104,108,106]  delta 615 cutoff 1409  counted false  box 186.234x44 @ 225.297,6599.828
-footer-secondary     tone graphite   ground rgb(7, 11, 13)     old [69,73,72] -> new [104,108,106]  delta 615 cutoff 1409  counted false  box 116.703x40 @ 1074.281,3088.922
-footer-social        tone graphite   ground rgb(7, 11, 13)     old [69,73,72] -> new [104,108,106]  delta 615 cutoff 1409  counted false  box 26x26 @ 81,3148.922
-
-canary: BLOCKED:Failed to fetch
-traffic: blocked 6, ALLOWED 0

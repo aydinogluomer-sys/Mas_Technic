@@ -26,7 +26,7 @@
 import { writeFileSync, mkdirSync, existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { chromium, firefox, webkit } from "@playwright/test";
-import { guard, canary, chromiumExecutable, BASE } from "../../reports/09b1c1/probe-lib.mjs";
+import { guard, canary, chromiumExecutable, BASE } from "./probe-lib.mjs";
 
 const OUT = "reports/qa/phase-09b1";
 mkdirSync(OUT, { recursive: true });

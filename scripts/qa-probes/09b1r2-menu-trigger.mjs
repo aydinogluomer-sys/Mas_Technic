@@ -9,7 +9,7 @@
    ========================================================================== */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { chromium } from "@playwright/test";
-import { guard, canary, chromiumExecutable } from "../../reports/09b1c1/probe-lib.mjs";
+import { guard, canary, chromiumExecutable } from "./probe-lib.mjs";
 import { preview, URL_BASE } from "./09b1r2-lib.mjs";
 
 const OUT = "reports/qa/phase-09b1r2";

@@ -19,10 +19,10 @@
        page; it does not touch a production file.
 
    Network posture: `guard()` at allowHosts=[] and a live canary before any
-   control is touched. Reused verbatim from `reports/09b1c1/probe-lib.mjs`.
+   control is touched. Reused verbatim from `scripts/qa-probes/probe-lib.mjs`.
    ========================================================================== */
 import { writeFileSync, mkdirSync } from "node:fs";
-import { guard, canary, launch, BASE } from "../../reports/09b1c1/probe-lib.mjs";
+import { guard, canary, launch, BASE } from "./probe-lib.mjs";
 
 const OUT = "reports/qa/phase-09b1";
 mkdirSync(OUT, { recursive: true });

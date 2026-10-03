@@ -1,9 +1,0 @@
-QA 09b-1 R2 — WHERE `reducedMotion` ACTUALLY REACHES THE BROWSER
-Playwright 1.59.1. Measured in-page via matchMedia, about:blank, no server.
-
-placement                                              reduce?  expected
-
-A-project-use-reducedMotion                            false    false
-B-project-use-contextOptions                           true     true
-C-control-nothing                                      false    false
-D-control-emulateMedia                                 true     true

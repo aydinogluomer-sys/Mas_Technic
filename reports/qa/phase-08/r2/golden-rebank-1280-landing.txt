@@ -1,7 +1,0 @@
-
-### e2e/__golden__/win32/visual-1280/landing-fullpage.png
-  old 1280x3963   new 1280x3918   heightDelta=-45  widthDelta=0
-  threshold=16/255  changedRows=203/3918  changedPx=46340
-  FIRST changed row = 3662   (93.5% down the common region)
-  LAST  changed row = 3917
-  rows 3659..3673: 0,0,0,24,23,55,57,59,57,51,55,16,6,5,0

@@ -17,7 +17,7 @@
      defect from one that merely says the wrong thing.
    ========================================================================== */
 import { writeFileSync, mkdirSync } from "node:fs";
-import { guard, canary, launch, BASE } from "../../reports/09b1c1/probe-lib.mjs";
+import { guard, canary, launch, BASE } from "./probe-lib.mjs";
 
 const OUT = "reports/qa/phase-09b1";
 mkdirSync(OUT, { recursive: true });

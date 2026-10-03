@@ -74,7 +74,7 @@ if (mode === "apply") {
      route, count what the injected selector actually matches, and print the
      two fingerprints the gate should now see. */
   const { chromium } = await import("@playwright/test");
-  const { guard, canary, chromiumExecutable } = await import("../../reports/09b1c1/probe-lib.mjs");
+  const { guard, canary, chromiumExecutable } = await import("./probe-lib.mjs");
   const { preview, URL_BASE } = await import("./09b1r2-lib.mjs");
   const stop = await preview();
   const browser = await chromium.launch(chromiumExecutable() ? { executablePath: chromiumExecutable() } : {});

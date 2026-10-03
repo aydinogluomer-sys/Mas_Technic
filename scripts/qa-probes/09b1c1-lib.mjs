@@ -1,6 +1,6 @@
 /* 09b-1-C2 — SHARED PLUMBING FOR THE CORRECTION PROBES
    ══════════════════════════════════════════════════════════════════════════
-   Two differences from `reports/09b1c1/probe-lib.mjs`, both deliberate.
+   Two differences from `scripts/qa-probes/probe-lib.mjs`, both deliberate.
 
    1. IT SERVES `dist/` ITSELF. The C1 probes needed an external
       `npm run preview` on :4173, which means a second long-lived process

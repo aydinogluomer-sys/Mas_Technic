@@ -1,9 +1,0 @@
-375    h=740.4375   ratio=1.9745       nav=none   rows=none                     cols=4   ["HİZMETLER:5","KABİLİYETLER:6","ENDÜSTRİYEL:5","KURUMSAL:6"] res=[2,2,2,3,2] home=0 anchors=53
-768    h=711.1719   ratio=0.92600505   nav=grid   rows=150px 150px              cols=6   ["HİZMETLER:5","KABİLİYETLER:6","ENDÜSTRİYEL:5","KURUMSAL:6"] res=[2,2,2,3,2] home=0 anchors=53
-1024   h=708.75     ratio=0.69213867   nav=grid   rows=150px 150px              cols=6   ["HİZMETLER:5","KABİLİYETLER:6","ENDÜSTRİYEL:5","KURUMSAL:6"] res=[2,2,2,3,2] home=0 anchors=53
-1100   h=712.5      ratio=0.64772727   nav=grid   rows=150px 150px              cols=6   ["HİZMETLER:5","KABİLİYETLER:6","ENDÜSTRİYEL:5","KURUMSAL:6"] res=[2,2,2,3,2] home=0 anchors=53
-1180   h=716.4688   ratio=0.60717691   nav=grid   rows=150px 150px              cols=6   ["HİZMETLER:5","KABİLİYETLER:6","ENDÜSTRİYEL:5","KURUMSAL:6"] res=[2,2,2,3,2] home=0 anchors=53
-1181   h=297        ratio=0.2514818    nav=grid   rows=150px                    cols=12  ["HİZMETLER:5","KABİLİYETLER:6","ENDÜSTRİYEL:5","KURUMSAL:6"] res=[2,2,2,3,2] home=0 anchors=53
-1200   h=297        ratio=0.2475       nav=grid   rows=150px                    cols=12  ["HİZMETLER:5","KABİLİYETLER:6","ENDÜSTRİYEL:5","KURUMSAL:6"] res=[2,2,2,3,2] home=0 anchors=53
-1280   h=297        ratio=0.23203125   nav=grid   rows=150px                    cols=12  ["HİZMETLER:5","KABİLİYETLER:6","ENDÜSTRİYEL:5","KURUMSAL:6"] res=[2,2,2,3,2] home=0 anchors=53
-1440   h=297        ratio=0.20625      nav=grid   rows=150px                    cols=12  ["HİZMETLER:5","KABİLİYETLER:6","ENDÜSTRİYEL:5","KURUMSAL:6"] res=[2,2,2,3,2] home=0 anchors=53

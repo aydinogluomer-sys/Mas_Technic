@@ -1,9 +1,0 @@
-URL: http://localhost:4173/
-HTTP_STATUS: 200
-ROOT_INNERHTML_LENGTH: 44278
-TECHNICAL_LANDING_ROOT_COUNT: 1
-HERO_SHELL_STILL_IN_DOM: 1
-HTML_DATA_INTRO_ACTIVE: false
-BODY_TEXT_FIRST_400: "HAM BLOK · TAKIM YOLU İŞLENİYOR\n100\nMAS\nTECHNIC\nAna içeriğe geç\n01\n02\n03\n04\n05\nMAS / PRECISION\nANASAYFA\n01\nHEADER\nMAS TECHNIC\nPRECISION CNC\nYETENEKLER\nSEKTÖRLER\nPROJELER\nNEXUS\nKALİTE\nİLETİŞİM\n\nTR\n/\nEN\n\nTEKLİF AL\n02\nHERO\nHAM GEOMETRİDEN\nDOĞRULANMIŞ\nHASSASİYETE\n\nMAS TECHNIC, 5 eksen CNC teknolojileri ve sıkı kalite kontrol süreçleriyle ham geometriden doğrulanmış hassasiyete ulaştırır.\n\nTEKLİF AL\nØ "
---- CONSOLE / ERRORS ---
-[console:warning] The resource http://localhost:4173/src/assets/hero-cnc.jpg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
