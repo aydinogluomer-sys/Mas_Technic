@@ -278,7 +278,13 @@ test.describe("motion grammar", () => {
        asserts it and the mobile project asserts its own absence. */
     const fine = await page.evaluate(() => matchMedia("(hover:hover) and (pointer:fine)").matches);
     if (!fine) {
-      await expect(page.locator(".tl-dimension-lines")).toBeHidden();
+      /* The drop is a WIDTH decision (`technical-landing.css`, max-width:767px),
+         not a pointer one: a touch tablet at 768 or a phone held landscape at
+         844 keeps the full drawing, just without hover correlation. This
+         branch used to assume coarse ⇒ narrow and failed on both projects. */
+      const narrow = await page.evaluate(() => matchMedia("(max-width: 767px)").matches);
+      if (narrow) await expect(page.locator(".tl-dimension-lines")).toBeHidden();
+      else await expect(page.locator(".tl-dimension-lines")).toBeVisible();
       return;
     }
 

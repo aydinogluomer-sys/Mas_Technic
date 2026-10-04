@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { waitForApp } from "./helpers";
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { assertNoSupabaseContact, assertSealed, sealNetwork } from "./fixtures/qa-p09a2-seal";
@@ -154,6 +155,7 @@ test.describe("09a-R3 — the C3 corrections in the rendered DOM", () => {
 
     for (const route of CAD_ROUTES) {
       await page.goto(route, { waitUntil: "domcontentloaded" });
+      await waitForApp(page);
       await page.waitForTimeout(1_200);
       /* The FAQ is native `<details>` (ServiceDetail.tsx:514, SSS.tsx:231) and
          a closed one contributes nothing to `innerText`. Opening it is an
@@ -240,6 +242,7 @@ test.describe("09a-R3 — the C3 corrections in the rendered DOM", () => {
     const tables: { route: string; caption: string; headers: string[]; rowWidths: number[] }[] = [];
     for (const route of routes) {
       await page.goto(route, { waitUntil: "domcontentloaded" });
+      await waitForApp(page);
       await page.waitForTimeout(1_200);
       const found = await page.evaluate(() =>
         [...document.querySelectorAll("table")].map((t) => ({

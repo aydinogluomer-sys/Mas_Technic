@@ -17,7 +17,7 @@ import {
 } from "@/components/shell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { MaterialRegister } from "@/components/pages/MaterialRegister";
-import { compareFigure, familyName, figure, hardness, UNVERIFIED_FIGURE } from "@/components/pages/material-figures";
+import { compareFigure, familyName, figure, hardness, sourceDocuments, UNVERIFIED_FIGURE } from "@/components/pages/material-figures";
 import type { Material, MaterialCategoryPage } from "@/data/materialsData";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
@@ -103,7 +103,7 @@ const comparisonRows = (
   { label: t("Maks. sıcaklık (°C)"), read: (m) => t(figure(m, "maxTemperature")) },
   { label: t("Isı iletkenliği (W/m·K)"), read: (m) => t(figure(m, "thermalConductivity")) },
   { label: t("Değer koşulu"), read: (m) => m.propertyConditions },
-  { label: t("Kaynak"), read: (m) => m.source?.document ?? t(UNVERIFIED_FIGURE) },
+  { label: t("Kaynak"), read: (m) => sourceDocuments(m).join(" · ") || t(UNVERIFIED_FIGURE) },
 ];
 
 export const Malzemeler = () => {

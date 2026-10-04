@@ -13,7 +13,7 @@ import {
   ShellTagRow,
   ShellTitleBlock,
 } from "@/components/shell";
-import { familyRanges, figure, hardness } from "@/components/pages/material-figures";
+import { familyRanges, figure, hardness, sourceDocuments } from "@/components/pages/material-figures";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 
@@ -164,7 +164,7 @@ export const MalzemeKategori = () => {
               t(figure(material, "tensileStrength")),
               t(hardness(material)),
               t(figure(material, "maxTemperature")),
-              material.source?.document ?? "—",
+              sourceDocuments(material).join(" · ") || "—",
             ])}
           />
         </div>

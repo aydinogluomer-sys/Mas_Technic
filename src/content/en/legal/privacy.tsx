@@ -94,13 +94,8 @@ export const PRIVACY_EN = {
       body: (
         <div className="shell-prose">
           <p>
-            Page fonts are loaded from Google's font delivery network —{" "}
-            <code>fonts.googleapis.com</code> and <code>fonts.gstatic.com</code>. This means your
-            browser sends a request to those servers on every page, without you doing anything, and
-            the server in question sees your IP address and browser information as a result of that
-            request. No data other than the request for the font files is sent with it. The chat
-            transfer in clause 06 also goes to Google; the two are separate, independent Google
-            services, and that is why they are written out separately here.
+            Page fonts are loaded from this site's own server; no request is sent to a third-party
+            server for fonts.
           </p>
           <p>
             When you use the quote flow, the form data and the file you upload are sent to the

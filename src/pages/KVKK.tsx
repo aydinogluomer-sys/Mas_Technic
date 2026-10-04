@@ -119,6 +119,9 @@ import { useLocale } from "@/i18n/hooks";
       documents already listed the fonts; the ONE document whose statutory job
       is to enumerate aktarım did not. It is the most-visited transfer on the
       site and it was the missing one.
+      C1 UPDATE: the fonts are self-hosted now (`src/styles/fonts.css`), so this
+      transfer no longer exists and its paragraph was removed from madde 04 —
+      a listed transfer that does not happen is as wrong as a missing one.
 
       THE OAUTH REDIRECT. `Login.tsx:281` calls `signInWithOAuth`, which
       navigates the browser to the auth server and onward to the provider.
@@ -220,15 +223,6 @@ const CLAUSES: LegalClause[] = [
         <p>
           <strong>Barındırma ve veri tabanı.</strong> Bu sitenin çalışması için kullanılan
           barındırma ile veri tabanı altyapısının hizmet sağlayıcısı.
-        </p>
-        <p>
-          <strong>Yazı tipi dağıtım ağı — her sayfada.</strong> Sitenin yazı tipleri Google’ın
-          yazı tipi dağıtım ağından (<code>fonts.googleapis.com</code>,{" "}
-          <code>fonts.gstatic.com</code>) yüklenir. Tarayıcınız bu sunuculara her sayfada istek
-          gönderir ve bu istekle IP adresiniz ile tarayıcı bilginiz onlara ulaşır. Bu hâl için de
-          onayınız istenmez ve alınmaz: istek, siz bir şey yapmadan sayfa açılırken gönderilir.
-          Aşağıdaki sohbet asistanı hâli de Google’a gider; ikisi Google’ın birbirinden bağımsız
-          iki ayrı servisidir.
         </p>
         <p>
           <strong>Giriş sayfasındaki güvenlik bileşeni.</strong>{" "}

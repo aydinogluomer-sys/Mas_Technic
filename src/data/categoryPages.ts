@@ -27,7 +27,7 @@ export const categoryPages: CategoryPageData[] = [
     description: "Kalıp, döküm ve prototip üretim süreçleri ile ürün geliştirme aşamasında kapsamlı destek.",
     links: [
       { label: "Enjeksiyon Kalıbı", path: "/hizmetler/enjeksiyon-kalibi", description: "Plastik enjeksiyon kalıp tasarımı ve imalatı." },
-      { label: "Basınçlı Döküm", path: "/hizmetler/basinçli-dokum", description: "Alüminyum ve çinko alaşımlı basınçlı döküm üretimi." },
+      { label: "Basınçlı Döküm", path: "/hizmetler/basincli-dokum", description: "Alüminyum ve çinko alaşımlı basınçlı döküm üretimi." },
       { label: "Silikon Kalıplama", path: "/hizmetler/silikon-kaliplama", description: "Esnek ve dayanıklı silikon parça üretimi." },
       { label: "Fikstür & Aparat Tasarımı", path: "/hizmetler/fikstur-aparat-tasarimi", description: "Özel fikstür ve aparat tasarımı ile üretim verimliliği." },
     ],

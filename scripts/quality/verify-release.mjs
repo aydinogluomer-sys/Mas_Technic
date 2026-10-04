@@ -51,11 +51,24 @@ else {
   if (missing.length) note("fail", `served release lacks ${missing.length} files, e.g. ${missing.slice(0, 3).join(", ")}`);
 }
 
+/* C2/C3 — prerendered pages are served at clean URLs (vercel.json
+   cleanUrls): `hizmetler/x.html` is requested as `/hizmetler/x`. Two files
+   are not routes of their own: 404.html is what an unknown path answers
+   (with status 404) and shell.html is what panel/auth paths answer. */
+const SPECIAL = { "404.html": { path: "__release-check-not-a-route__", status: 404 }, "shell.html": { path: "admin", status: 200 } };
+const servedAt = (name) => {
+  if (SPECIAL[name]) return SPECIAL[name];
+  if (name === "index.html") return { path: "", status: 200 };
+  if (name.endsWith(".html")) return { path: name.replace(/\.html$/, ""), status: 200 };
+  return { path: name, status: 200 };
+};
+
 let checked = 0;
 for (const [name, facts] of Object.entries(local.files)) {
-  const file = await fetchFile(name === "index.html" ? "" : name);
+  const target = servedAt(name);
+  const file = await fetchFile(target.path);
   checked += 1;
-  if (file.status !== 200) { note("fail", `${name}: HTTP ${file.status}`); continue; }
+  if (file.status !== target.status) { note("fail", `${name}: HTTP ${file.status} at /${target.path} (expected ${target.status})`); continue; }
   if (sha(file.body) !== facts.sha256) note("fail", `${name}: sha256 differs from the build`);
   const extension = name.slice(name.lastIndexOf("."));
   if (EXPECTED_TYPE[extension] && !file.type.includes(EXPECTED_TYPE[extension])) note("fail", `${name}: content-type "${file.type}"`);
@@ -64,7 +77,11 @@ for (const [name, facts] of Object.entries(local.files)) {
 }
 
 const unknown = await fetch(`${BASE}/__release-check-not-a-route__`);
-if (unknown.status === 200) note("warn", "unknown path answers HTTP 200 (client-side 404 only); configure a 404 status or accept and record it");
+if (unknown.status !== 404) note("fail", `unknown path answers HTTP ${unknown.status}; vercel.json serves 404.html with 404`);
+const redirect = await fetch(`${BASE}/kabiliyetler/cnc-frezeleme`, { redirect: "manual" });
+if (![301, 308].includes(redirect.status) || !(redirect.headers.get("location") ?? "").endsWith("/hizmetler/cnc-frezeleme")) {
+  note("fail", `wrong-family address answered ${redirect.status} → ${redirect.headers.get("location")} (expected a permanent redirect to /hizmetler/cnc-frezeleme)`);
+}
 const deep = await fetch(`${BASE}/hizmetler/cnc-frezeleme`);
 if (deep.status !== 200 || !(deep.headers.get("content-type") ?? "").includes("text/html")) note("fail", `deep route answered ${deep.status} ${deep.headers.get("content-type")}`);
 const robots = await fetch(`${BASE}/robots.txt`);

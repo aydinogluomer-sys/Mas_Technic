@@ -566,7 +566,7 @@ export const servicePages: ServicePageData[] = [
     ],
   },
   {
-    slug: "basinçli-dokum",
+    slug: "basincli-dokum",
     category: "hizmetler",
     categoryLabel: "Ön Üretim",
     title: "Basınçlı Döküm",
@@ -1151,8 +1151,8 @@ export const servicePages: ServicePageData[] = [
         description: "Başlangıç parametreleri için genel referans; parametre parça ve yüzeye göre denemeyle belirlenir.",
         headers: ["Malzeme", "Önerilen Lazer", "Güç", "Hız", "Kontrast", "Notlar"],
         rows: [
-          ["Paslanmaz Çelik", "Fiber / MOPA", "20-50W", "500-2000 mm/s", "Yüksek", "Siyah oksit veya beyaz tavlama"],
-          ["Alüminyum", "Fiber", "30-60W", "800-3000 mm/s", "Orta-Yüksek", "Eloksal üzeri mükemmel"],
+          ["Paslanmaz Çelik", "Fiber / MOPA", "20-50W", "500-2000 mm/s", "Yüksek", "Tavlama: koyu oksit işareti, malzeme kaldırmaz; açık renkli işaret kazımayla olur ve malzeme kaldırır"],
+          ["Alüminyum", "Fiber", "30-60W", "800-3000 mm/s", "Orta-Yüksek", "Eloksallı yüzeyde lazer eloksal tabakasını kaldırır; işaret açık renkli ve kontrastlıdır"],
           ["Titanyum", "Fiber / MOPA", "20-40W", "300-1500 mm/s", "Yüksek", "Renkli tavlama mümkün"],
           ["ABS Plastik", "Fiber / UV", "5-20W", "1000-5000 mm/s", "Orta", "Renk değişimi ile"],
           ["Cam", "UV / CO₂", "3-10W", "200-800 mm/s", "Orta", "Mikro çatlak tekniği"],

@@ -65,7 +65,7 @@ export const DETAIL_VISUALS: Record<string, DetailVisual> = {
   "hassas-mikro-isleme": photo("hero-mikro-isleme", "Küçük bir blok üzerinde mikro takım", "Micro tool over a small block"),
   "derin-delik-raybalama": photo("hero-derin-delik", "Derin delik matkabı ve soğutma sıvısı", "Deep-hole drill under coolant"),
   "enjeksiyon-kalibi": photo("hero-enjeksiyon-kalibi", "Enjeksiyon kalıbının boşluğu", "Injection mould cavity"),
-  "basinçli-dokum": photo("hero-basincli-dokum", "Preste basınçlı döküm kalıp yarısı", "Die-casting die half in the press"),
+  "basincli-dokum": photo("hero-basincli-dokum", "Preste basınçlı döküm kalıp yarısı", "Die-casting die half in the press"),
   "silikon-kaliplama": photo("hero-silikon-kaliplama", "Silikon kalıp ve dökülen parça", "Silicone mould and a cast part"),
   "fikstur-aparat-tasarimi": photo("hero-fikstur-aparat", "Tezgâh tablasına bağlanmış fikstür", "Fixture clamped on a machine table"),
   "mekanik-yuzey-islemleri": photo("hero-mekanik-yuzey", "Kumlama memesi ve parça yüzeyi", "Blasting nozzle and part surface"),

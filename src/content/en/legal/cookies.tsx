@@ -96,12 +96,8 @@ export const COOKIES_EN = {
             settings but are never called.
           </p>
           <p>
-            <strong>Fonts — on every page.</strong> Fonts are loaded from Google's font delivery
-            network (<code>fonts.googleapis.com</code>, <code>fonts.gstatic.com</code>). This
-            request is sent on every page, without you doing anything and without your consent
-            being asked; the server sees your IP address and browser information as a result of
-            the request. This request creates no cookie. The chat transfer in clause 06 also goes
-            to Google, but the two are separate, independent Google services.
+            <strong>Fonts.</strong> Fonts are loaded from this site's own server; no request is
+            sent to a third-party server for fonts and no cookie is created.
           </p>
           <p>
             <strong>

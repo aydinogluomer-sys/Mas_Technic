@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { waitForApp } from "./helpers";
 import { assertNoSupabaseContact, assertSealed, sealNetwork } from "./fixtures/qa-p09a2-seal";
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -104,6 +105,7 @@ for (const vp of VIEWPORTS) {
     test(`graphite: tone="error" notice label + edge @ ${vp.name}`, async ({ page }) => {
       const seal = await sealNetwork(page);
       await page.goto("/teklif-al", { waitUntil: "domcontentloaded" });
+      await waitForApp(page);
       await assertSealed(page, seal); // BEFORE touching any control
 
       const root = page.locator(".shell-root").first();
@@ -140,6 +142,7 @@ for (const vp of VIEWPORTS) {
 
       for (const route of ["/teklif-al", "/iletisim"]) {
         await page.goto(route, { waitUntil: "domcontentloaded" });
+        await waitForApp(page);
         await assertSealed(page, seal);
         // React must have mounted before we can find or plant anything.
         await page.locator(".shell-root").first().waitFor({ state: "attached" });
@@ -197,6 +200,7 @@ for (const vp of VIEWPORTS) {
       // carries paper ShellSurfaceBands (paper is now the default body tone)
       // inside a graphite shell root: the same descendant case.
       await page.goto("/hakkimizda", { waitUntil: "domcontentloaded" });
+      await waitForApp(page);
       await assertSealed(page, seal);
 
       const rootSurface = await page.locator(".shell-root").first().getAttribute("data-shell-surface");

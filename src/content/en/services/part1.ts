@@ -343,7 +343,7 @@ export const part1: Record<string, ServiceText> = {
       },
     ],
   },
-  "basinçli-dokum": {
+  "basincli-dokum": {
     categoryLabel: "Pre-Production",
     title: "Die Casting",
     metaTitle: "Die-Casting Mould Manufacturing | Aluminium & Zamak | Mas Technic",

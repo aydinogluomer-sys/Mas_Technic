@@ -1,0 +1,10 @@
+{
+  "capturedAt": "2026-10-03",
+  "scope": "LOCAL — vite build with VITE_SITE_ENGLISH unset (the USER_INPUTS.md §B default), prerendered, served by scripts/serve-dist.mjs (vercel.json rules)",
+  "prerender": "95 routes + 404 + shell (no /en file written)",
+  "http": { "/": 200, "/sss": 200, "/en": 404, "/en/sss": 404 },
+  "headHreflangInPrerenderedHtml": { "index.html": 0, "sss.html": 0 },
+  "runtime": { "headerLanguageSwitch": 0, "menuLanguageSwitch": 0, "hreflangLinks": 0, "linksToEnAcross": ["/", "/sss", "/hizmetler/cnc-frezeleme", "/malzemeler"], "linksToEnCount": 0 },
+  "robots": "User-agent: * / Disallow: / (preview: no VITE_SITE_INDEXING=public + origin)",
+  "note": "The English code stays in the build; VITE_SITE_ENGLISH=live publishes it (switch, /en prerender, hreflang pairs, /en in sitemap)."
+}

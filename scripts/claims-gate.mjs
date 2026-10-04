@@ -511,6 +511,19 @@ const onContractHonestyLabel = (text, index) => {
   });
 };
 
+/** E1 — true when `index` lies inside a `propertySources: { … }` object
+    literal (a material datasheet citation, src/data/materialsData.ts). */
+function insidePropertySources(text, index) {
+  const open = text.lastIndexOf("propertySources: {", index);
+  if (open === -1) return false;
+  let depth = 0;
+  for (let i = text.indexOf("{", open); i < text.length; i += 1) {
+    if (text[i] === "{") depth += 1;
+    else if (text[i] === "}" && --depth === 0) return index < i;
+  }
+  return false;
+}
+
 const insideKeywordArray = (text, index) => keywordArraySpans(text).some(([a, b]) => index > a && index < b);
 
 /**
@@ -2381,9 +2394,15 @@ const RULES = [
     // Instagram and Facebook are permitted for the one handle the owner
     // supplied (`mastechnic`, 2026-10-01); any other handle is still a claim.
     pattern:
-      /instagram\.com\/(?!mastechnic\b)[\w.]|facebook\.com\/(?!mastechnic\b)[\w.]|youtube\.com\/@?[\w.]|(?:twitter|x)\.com\/(?!intent)[\w.]|twitter:site/gi,
+      /instagram\.com\/(?!mastechnic\b)[\w.]|facebook\.com\/(?!mastechnic\b)[\w.]|youtube\.com\/@?[\w.]|(?<![\w.-])(?:twitter|x)\.com\/(?!intent)[\w.]|twitter:site/gi,
     authority: "§L INSTAGRAM / FACEBOOK: PUBLIC_OK (mastechnic only) · YOUTUBE: NONE · X_TWITTER: NONE",
     remedy: "Permitted channels: LinkedIn, instagram.com/mastechnic, facebook.com/mastechnic. See SOCIAL_LINKS in src/content/claims.ts.",
+    /* E1 — `x.com` used to match inside any host ending in "x"
+       (`victrex.com/en` read as an X profile). The host must start there. */
+    controls: {
+      fires: ["https://x.com/mastechnic", "https://twitter.com/someone"],
+      silent: ["https://www.victrex.com/en/downloads/datasheets/victrex-peek-450g", "https://twitter.com/intent/tweet?text=a"],
+    },
   },
   {
     id: "english-availability",
@@ -2754,6 +2773,15 @@ const RULES = [
     // tonnage. Neither the names nor the shares were ever supplied, and the
     // shares are order-volume disclosure on top (§D REVENUE_OR_ORDER_VOLUME).
     pattern: /\bAlcoa\b|\bOutokumpu\b|\bErdemir\b|\bVSMPO\b|\bSabic\b|\bAssan\b/g,
+    /* E1 — ONE narrow exemption: a datasheet CITATION inside a material's
+       `propertySources` block (materialsData.ts) names who published the
+       figures, not whom this company buys from; the page says so beside the
+       sources. A producer named anywhere else still fails. */
+    exempt: (text, index) => insidePropertySources(text, index),
+    controls: {
+      fires: ["Tedarikçilerimiz: Outokumpu ve Erdemir"],
+      silent: ['    propertySources: {\n      density: {\n        publisher: "Outokumpu",\n      },\n    },'],
+    },
     authority: "§D REVENUE_OR_ORDER_VOLUME: PRIVATE_DO_NOT_DISCLOSE — and no supplier list was supplied",
     remedy: "Name the material and its specification, never the mill and its share of your spend.",
   },

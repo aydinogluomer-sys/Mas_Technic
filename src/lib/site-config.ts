@@ -8,6 +8,11 @@
                           `https://www.example.com` — no path, no slash.
      VITE_SITE_INDEXING   `public` → pages may be indexed;
                           anything else / unset → `preview` (noindex).
+     VITE_SITE_ENGLISH    `live` → the English surface is published: the
+                          language switch, the prerendered /en pages,
+                          hreflang pairs and /en in the sitemap. Unset → off,
+                          which is `USER_INPUTS.md` §B (ENGLISH_LIVE_NOW: NO).
+                          The English code stays in the build either way.
 
    The origin is never guessed. Without it there is no canonical, no og:url
    and no hreflang — a relative or invented absolute URL would be worse than
@@ -24,3 +29,5 @@ export const SITE_ORIGIN: string | null = normalizeOrigin(import.meta.env.VITE_S
 
 export const SITE_INDEXING: "public" | "preview" =
   import.meta.env.VITE_SITE_INDEXING === "public" && SITE_ORIGIN ? "public" : "preview";
+
+export const ENGLISH_LIVE: boolean = import.meta.env.VITE_SITE_ENGLISH === "live";

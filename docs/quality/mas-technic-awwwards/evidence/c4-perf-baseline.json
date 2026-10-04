@@ -1,0 +1,917 @@
+{
+  "capturedAt": "2026-10-03T17:53:57.918Z",
+  "base": "http://127.0.0.1:4190",
+  "profile": {
+    "network": "Slow 4G (150 ms RTT, 1.6 Mbps down, 750 Kbps up)",
+    "cpuThrottling": "4x",
+    "runsPerCell": 5,
+    "coldContextPerRun": true
+  },
+  "scope": "BASELINE — main aa4e7d8 (no prerender, Google Fonts), gzip SPA server; Google Fonts ABORTED in this sandbox, so the baseline paints in fallback fonts and is FASTER than it would be for a real visitor. Lab only; INP not measured; lab TBT is not INP.",
+  "results": [
+    {
+      "route": "/",
+      "width": 375,
+      "runs": 5,
+      "lcpMs": {
+        "median": 2728,
+        "p75": 2780
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "img.",
+      "jsKiB10s": {
+        "median": 194.2,
+        "max": 194.2
+      },
+      "labTbtMs": {
+        "median": 425,
+        "p75": 451
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": false,
+      "blockedHosts": [
+        "fonts.googleapis.com"
+      ],
+      "detail": [
+        {
+          "lcpMs": 2792,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 451,
+          "jsKiB10s": 194.2,
+          "nav": {
+            "ttfb": 9,
+            "domContentLoaded": 1303,
+            "load": 1306
+          },
+          "wallMs": 10036,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2780,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 472,
+          "jsKiB10s": 194.2,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1282,
+            "load": 1285
+          },
+          "wallMs": 10035,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2728,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 419,
+          "jsKiB10s": 194.2,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1294,
+            "load": 1297
+          },
+          "wallMs": 10031,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2688,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 383,
+          "jsKiB10s": 194.2,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1291,
+            "load": 1294
+          },
+          "wallMs": 10036,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2728,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 425,
+          "jsKiB10s": 194.2,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1271,
+            "load": 1275
+          },
+          "wallMs": 10034,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "runs": 5,
+      "lcpMs": {
+        "median": 2864,
+        "p75": 2868
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "img.",
+      "jsKiB10s": {
+        "median": 244.3,
+        "max": 244.3
+      },
+      "labTbtMs": {
+        "median": 761,
+        "p75": 765
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": false,
+      "blockedHosts": [
+        "fonts.googleapis.com"
+      ],
+      "detail": [
+        {
+          "lcpMs": 2864,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 741,
+          "jsKiB10s": 244.3,
+          "nav": {
+            "ttfb": 3,
+            "domContentLoaded": 1309,
+            "load": 1312
+          },
+          "wallMs": 10033,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2852,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 768,
+          "jsKiB10s": 244.3,
+          "nav": {
+            "ttfb": 3,
+            "domContentLoaded": 1260,
+            "load": 1263
+          },
+          "wallMs": 10035,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2868,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 765,
+          "jsKiB10s": 244.3,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1306,
+            "load": 1309
+          },
+          "wallMs": 10027,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2880,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 761,
+          "jsKiB10s": 244.3,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1288,
+            "load": 1291
+          },
+          "wallMs": 10028,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2808,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 699,
+          "jsKiB10s": 244.3,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1293,
+            "load": 1295
+          },
+          "wallMs": 10033,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/en",
+      "width": 375,
+      "runs": 5,
+      "lcpMs": {
+        "median": 3244,
+        "p75": 3288
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "img.",
+      "jsKiB10s": {
+        "median": 232.3,
+        "max": 232.3
+      },
+      "labTbtMs": {
+        "median": 344,
+        "p75": 366
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": false,
+      "blockedHosts": [
+        "fonts.googleapis.com"
+      ],
+      "detail": [
+        {
+          "lcpMs": 3320,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 367,
+          "jsKiB10s": 232.3,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1266,
+            "load": 1268
+          },
+          "wallMs": 10032,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3288,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 366,
+          "jsKiB10s": 232.3,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1290,
+            "load": 1292
+          },
+          "wallMs": 10028,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3236,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 338,
+          "jsKiB10s": 232.3,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1290,
+            "load": 1292
+          },
+          "wallMs": 10034,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3244,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 321,
+          "jsKiB10s": 232.3,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1296,
+            "load": 1299
+          },
+          "wallMs": 10034,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3236,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 344,
+          "jsKiB10s": 232.3,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1297,
+            "load": 1299
+          },
+          "wallMs": 10030,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/en",
+      "width": 1440,
+      "runs": 5,
+      "lcpMs": {
+        "median": 3380,
+        "p75": 3412
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "img.",
+      "jsKiB10s": {
+        "median": 282.3,
+        "max": 282.3
+      },
+      "labTbtMs": {
+        "median": 574,
+        "p75": 619
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": false,
+      "blockedHosts": [
+        "fonts.googleapis.com"
+      ],
+      "detail": [
+        {
+          "lcpMs": 3340,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 574,
+          "jsKiB10s": 282.3,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1272,
+            "load": 1275
+          },
+          "wallMs": 10030,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3380,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 561,
+          "jsKiB10s": 282.3,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1305,
+            "load": 1307
+          },
+          "wallMs": 10029,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3412,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 619,
+          "jsKiB10s": 282.3,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1292,
+            "load": 1295
+          },
+          "wallMs": 10029,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3328,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 567,
+          "jsKiB10s": 282.3,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1301,
+            "load": 1303
+          },
+          "wallMs": 10032,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3464,
+          "cls": 0,
+          "lcpElement": "img.",
+          "tbtMs": 637,
+          "jsKiB10s": 282.3,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1299,
+            "load": 1301
+          },
+          "wallMs": 10032,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "width": 375,
+      "runs": 5,
+      "lcpMs": {
+        "median": 2940,
+        "p75": 2952
+      },
+      "cls": {
+        "median": 0.059,
+        "p75": 0.059
+      },
+      "lcpElement": "strong.",
+      "jsKiB10s": {
+        "median": 284.9,
+        "max": 284.9
+      },
+      "labTbtMs": {
+        "median": 285,
+        "p75": 293
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": false,
+      "blockedHosts": [
+        "fonts.googleapis.com"
+      ],
+      "detail": [
+        {
+          "lcpMs": 2940,
+          "cls": 0.059,
+          "lcpElement": "strong.",
+          "tbtMs": 300,
+          "jsKiB10s": 284.9,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1119,
+            "load": 1121
+          },
+          "wallMs": 10027,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2932,
+          "cls": 0.059,
+          "lcpElement": "strong.",
+          "tbtMs": 248,
+          "jsKiB10s": 284.9,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1117,
+            "load": 1118
+          },
+          "wallMs": 10032,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2952,
+          "cls": 0.059,
+          "lcpElement": "strong.",
+          "tbtMs": 293,
+          "jsKiB10s": 284.9,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1118,
+            "load": 1121
+          },
+          "wallMs": 10040,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2936,
+          "cls": 0.059,
+          "lcpElement": "strong.",
+          "tbtMs": 274,
+          "jsKiB10s": 284.9,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1119,
+            "load": 1121
+          },
+          "wallMs": 10034,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2984,
+          "cls": 0.059,
+          "lcpElement": "strong.",
+          "tbtMs": 285,
+          "jsKiB10s": 284.9,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1123,
+            "load": 1126
+          },
+          "wallMs": 10029,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "width": 1440,
+      "runs": 5,
+      "lcpMs": {
+        "median": 3016,
+        "p75": 3024
+      },
+      "cls": {
+        "median": 0.021,
+        "p75": 0.021
+      },
+      "lcpElement": "strong.",
+      "jsKiB10s": {
+        "median": 334.9,
+        "max": 334.9
+      },
+      "labTbtMs": {
+        "median": 486,
+        "p75": 492
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": false,
+      "blockedHosts": [
+        "fonts.googleapis.com"
+      ],
+      "detail": [
+        {
+          "lcpMs": 3024,
+          "cls": 0.0206,
+          "lcpElement": "strong.",
+          "tbtMs": 466,
+          "jsKiB10s": 334.9,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1120,
+            "load": 1123
+          },
+          "wallMs": 10036,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3044,
+          "cls": 0.0206,
+          "lcpElement": "strong.",
+          "tbtMs": 507,
+          "jsKiB10s": 334.9,
+          "nav": {
+            "ttfb": 3,
+            "domContentLoaded": 1133,
+            "load": 1135
+          },
+          "wallMs": 10031,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 2988,
+          "cls": 0.0206,
+          "lcpElement": "strong.",
+          "tbtMs": 492,
+          "jsKiB10s": 334.9,
+          "nav": {
+            "ttfb": 3,
+            "domContentLoaded": 1117,
+            "load": 1118
+          },
+          "wallMs": 10030,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3016,
+          "cls": 0.0206,
+          "lcpElement": "strong.",
+          "tbtMs": 486,
+          "jsKiB10s": 334.9,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1129,
+            "load": 1131
+          },
+          "wallMs": 10034,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3016,
+          "cls": 0.0206,
+          "lcpElement": "strong.",
+          "tbtMs": 478,
+          "jsKiB10s": 334.9,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1118,
+            "load": 1121
+          },
+          "wallMs": 10031,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/en/hizmetler/cnc-frezeleme",
+      "width": 375,
+      "runs": 5,
+      "lcpMs": {
+        "median": 3868,
+        "p75": 3908
+      },
+      "cls": {
+        "median": 0.061,
+        "p75": 0.061
+      },
+      "lcpElement": "strong.",
+      "jsKiB10s": {
+        "median": 395.7,
+        "max": 395.7
+      },
+      "labTbtMs": {
+        "median": 233,
+        "p75": 261
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": false,
+      "blockedHosts": [
+        "fonts.googleapis.com"
+      ],
+      "detail": [
+        {
+          "lcpMs": 3860,
+          "cls": 0.0608,
+          "lcpElement": "strong.",
+          "tbtMs": 208,
+          "jsKiB10s": 395.7,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1122,
+            "load": 1124
+          },
+          "wallMs": 10030,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3852,
+          "cls": 0.0608,
+          "lcpElement": "strong.",
+          "tbtMs": 233,
+          "jsKiB10s": 395.7,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1118,
+            "load": 1121
+          },
+          "wallMs": 10028,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3868,
+          "cls": 0.0608,
+          "lcpElement": "strong.",
+          "tbtMs": 230,
+          "jsKiB10s": 395.7,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1127,
+            "load": 1130
+          },
+          "wallMs": 10028,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 3908,
+          "cls": 0.0608,
+          "lcpElement": "strong.",
+          "tbtMs": 261,
+          "jsKiB10s": 395.7,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1123,
+            "load": 1127
+          },
+          "wallMs": 10034,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 4036,
+          "cls": 0.0608,
+          "lcpElement": "strong.",
+          "tbtMs": 331,
+          "jsKiB10s": 395.7,
+          "nav": {
+            "ttfb": 3,
+            "domContentLoaded": 1128,
+            "load": 1131
+          },
+          "wallMs": 10029,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        }
+      ]
+    },
+    {
+      "route": "/en/hizmetler/cnc-frezeleme",
+      "width": 1440,
+      "runs": 5,
+      "lcpMs": {
+        "median": 4152,
+        "p75": 4160
+      },
+      "cls": {
+        "median": 0.021,
+        "p75": 0.021
+      },
+      "lcpElement": "strong.",
+      "jsKiB10s": {
+        "median": 445.7,
+        "max": 445.7
+      },
+      "labTbtMs": {
+        "median": 271,
+        "p75": 305
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": false,
+      "blockedHosts": [
+        "fonts.googleapis.com"
+      ],
+      "detail": [
+        {
+          "lcpMs": 4160,
+          "cls": 0.0208,
+          "lcpElement": "strong.",
+          "tbtMs": 305,
+          "jsKiB10s": 445.7,
+          "nav": {
+            "ttfb": 7,
+            "domContentLoaded": 1126,
+            "load": 1128
+          },
+          "wallMs": 10028,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 4136,
+          "cls": 0.0208,
+          "lcpElement": "strong.",
+          "tbtMs": 269,
+          "jsKiB10s": 445.7,
+          "nav": {
+            "ttfb": 3,
+            "domContentLoaded": 1117,
+            "load": 1119
+          },
+          "wallMs": 10029,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 4260,
+          "cls": 0.0208,
+          "lcpElement": "strong.",
+          "tbtMs": 351,
+          "jsKiB10s": 445.7,
+          "nav": {
+            "ttfb": 4,
+            "domContentLoaded": 1141,
+            "load": 1144
+          },
+          "wallMs": 10032,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 4120,
+          "cls": 0.0208,
+          "lcpElement": "strong.",
+          "tbtMs": 262,
+          "jsKiB10s": 445.7,
+          "nav": {
+            "ttfb": 10,
+            "domContentLoaded": 1135,
+            "load": 1138
+          },
+          "wallMs": 10033,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        },
+        {
+          "lcpMs": 4152,
+          "cls": 0.0208,
+          "lcpElement": "strong.",
+          "tbtMs": 271,
+          "jsKiB10s": 445.7,
+          "nav": {
+            "ttfb": 3,
+            "domContentLoaded": 1124,
+            "load": 1126
+          },
+          "wallMs": 10030,
+          "blockedHosts": [
+            "fonts.googleapis.com"
+          ]
+        }
+      ]
+    }
+  ]
+}
