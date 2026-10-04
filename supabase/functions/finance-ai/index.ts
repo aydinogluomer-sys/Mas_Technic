@@ -46,8 +46,12 @@ serve(async (req) => {
       });
     }
 
-    const GEMINI_KEY = Deno.env.get("GOOGLE_GEMINI_API_KEY");
+    /* Gemini quotas are per Google Cloud project, not per key. An admin key
+       from a separate project keeps the public chat's traffic from using up
+       the capacity these admin tools need; without it the shared key is used. */
+    const GEMINI_KEY = Deno.env.get("GOOGLE_GEMINI_ADMIN_API_KEY") || Deno.env.get("GOOGLE_GEMINI_API_KEY");
     if (!GEMINI_KEY) throw new Error("GOOGLE_GEMINI_API_KEY is not configured");
+    const GEMINI_MODEL = Deno.env.get("GEMINI_ADMIN_MODEL") || "gemini-2.5-flash";
 
     const { documents, question, history } = await req.json();
 
@@ -84,7 +88,18 @@ ${docSummary}`;
     // Add current user message
     contents.push({ role: "user", parts: [{ text: question || DEFAULT_PROMPT }] });
 
-    const aiResponse = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent", {
+    /* Gemini expects turns to alternate. A question that failed (timeout,
+       429) stays in the panel's history without an answer, so the retry
+       arrived as two user turns in a row; adjacent turns of one role are
+       joined into one. */
+    const turns: any[] = [];
+    for (const turn of contents) {
+      const last = turns[turns.length - 1];
+      if (last && last.role === turn.role) last.parts[0].text += "\n\n" + turn.parts[0].text;
+      else turns.push(turn);
+    }
+
+    const aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`, {
       method: "POST",
       headers: {
         "x-goog-api-key": GEMINI_KEY,
@@ -94,7 +109,7 @@ ${docSummary}`;
       signal: AbortSignal.timeout(60_000),
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: systemPrompt }] },
-        contents,
+        contents: turns,
         generationConfig: { temperature: 0.3 },
       }),
     });

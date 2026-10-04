@@ -424,7 +424,7 @@ Gerçek cihaz: **NOT_TESTED**. CI'daki WebKit/Firefox emüle edilen motorlardır
 
 ### Gemini (PR #7) — merge sonrası açık bulgular
 
-Merge'den önce Codex'in bıraktığı 3 bulgu merge edilmiş kodda doğrulandı; bu PR'a eklenmedi (ayrı değişiklik, sahibin kararı):
+Merge'den önce Codex'in bıraktığı 3 bulgu merge edilmiş kodda doğrulandı. Düzeltmeler ayrı PR'da (`claude/gemini-migration`, ayrıntı `gemini-migration.md` → "Merge sonrası düzeltmeler"): 1 düzeltildi; 3 için chat'e hız sınırı ve ayrı proje anahtarı desteği (`GOOGLE_GEMINI_ADMIN_API_KEY`) eklendi; 2 için model env'den değiştirilebilir ve doğrulama komutu yazıldı. Hepsi IMPLEMENTED · PASS_LOCAL (taklitli), deploy edilmedi:
 1. `finance-ai`: başarısız bir sorudan sonra yeniden denemede art arda iki `user` turu gidiyor. Düzeltmesi küçük: aynı roldeki komşu mesajları birleştirmek.
 2. Model erişimi: `gemini-2.5-flash` yeni projelerde kısıtlı olabilir (Codex'in iddiası, buradan doğrulanamadı). Deploy'dan önce anahtarla bir test çağrısı gerekir.
 3. Herkese açık `chat` fonksiyonunda JWT yok ve sunucu tarafı hız sınırı yok; aynı Gemini projesindeki admin fonksiyonlarının kotasını tüketebilir. Çözüm: hız sınırı ya da ayrı proje.
