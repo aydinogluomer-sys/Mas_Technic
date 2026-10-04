@@ -29,6 +29,8 @@ const BASE = args.base ?? "http://127.0.0.1:4181";
 const ROUTES = (args.routes ?? "/,/en").split(",");
 const RUNS = Number(args.runs ?? 5);
 const WIDTHS = (args.widths ?? "375,1440").split(",").map(Number);
+const BASE_ORIGIN = new URL(BASE).origin;
+const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
 /* "Slow 4G" as Chrome DevTools defines it (2024+): 150 ms RTT, ~1.6 Mbps down,
    ~750 Kbps up. CPU 4× slowdown, the DevTools mobile preset. */
 const NETWORK = { offline: false, latency: 150, downloadThroughput: (1.6 * 1024 * 1024) / 8, uploadThroughput: (750 * 1024) / 8 };
@@ -49,9 +51,16 @@ async function runOnce(browser, route, width, harPath) {
   });
   const blocked = new Set();
   await context.route("**/*", (request) => {
-    if (BLOCKED.test(request.request().url())) {
-      blocked.add(new URL(request.request().url()).host);
+    const url = request.request().url();
+    if (BLOCKED.test(url)) {
+      blocked.add(new URL(url).host);
       return request.abort();
+    }
+    /* A deployment behind Vercel protection: the bypass secret goes to the
+       measured host only, never to a third party. A header rather than the
+       bypass cookie, which would need a warm-up visit and spoil a cold run. */
+    if (BYPASS && new URL(url).origin === BASE_ORIGIN) {
+      return request.continue({ headers: { ...request.request().headers(), "x-vercel-protection-bypass": BYPASS } });
     }
     return request.continue();
   });

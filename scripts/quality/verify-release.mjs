@@ -12,6 +12,10 @@
  *    (HTTP status vs the client 404), `/robots.txt`, a deep route served as
  *    `index.html`, and `index.html`'s build meta.
  *
+ * A host behind Vercel deployment protection is reached with the project's
+ * "Protection Bypass for Automation" secret in VERCEL_AUTOMATION_BYPASS_SECRET
+ * (sent as `x-vercel-protection-bypass` to the checked host only).
+ *
  * It prints and returns findings; it never deploys, publishes or merges.
  * Run against the candidate URL only when one exists (owner input O01).
  */
@@ -35,6 +39,10 @@ const findings = [];
 const note = (level, message) => findings.push({ level, message });
 const sha = (buffer) => createHash("sha256").update(buffer).digest("hex");
 const EXPECTED_TYPE = { ".js": "javascript", ".css": "text/css", ".html": "text/html", ".webp": "image/webp", ".png": "image/png", ".svg": "image/svg+xml", ".pdf": "application/pdf", ".json": "application/json", ".woff2": "font/woff2", ".ico": "image" };
+
+const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+const fetch = (url, init = {}) =>
+  globalThis.fetch(url, { ...init, headers: { ...init.headers, ...(BYPASS ? { "x-vercel-protection-bypass": BYPASS } : {}) } });
 
 const fetchFile = async (path) => {
   const response = await fetch(`${BASE}/${path.replace(/^\//, "")}`, { headers: { "accept-encoding": "gzip, br" } });
