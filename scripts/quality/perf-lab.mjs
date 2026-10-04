@@ -104,13 +104,14 @@ async function runOnce(browser, route, width, harPath) {
   await cdp.send("Network.emulateNetworkConditions", NETWORK);
   await cdp.send("Emulation.setCPUThrottlingRate", { rate: CPU_RATE });
   await page.addInitScript(() => {
-    window.__lab = { lcp: 0, cls: 0, lcpElement: "", tbt: 0 };
+    window.__lab = { lcp: 0, cls: 0, lcpElement: "", lcpUrl: "", tbt: 0 };
     new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) window.__lab.tbt += Math.max(0, entry.duration - 50);
     }).observe({ type: "longtask", buffered: true });
     new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
         window.__lab.lcp = entry.startTime;
+        window.__lab.lcpUrl = entry.url ?? "";
         window.__lab.lcpElement = entry.element ? `${entry.element.tagName.toLowerCase()}.${entry.element.className}`.slice(0, 80) : entry.url;
       }
     }).observe({ type: "largest-contentful-paint", buffered: true });
@@ -133,9 +134,23 @@ async function runOnce(browser, route, width, harPath) {
     const [entry] = performance.getEntriesByType("navigation");
     return entry ? { ttfb: Math.round(entry.responseStart), domContentLoaded: Math.round(entry.domContentLoadedEventEnd), load: Math.round(entry.loadEventEnd) } : null;
   });
+  /* Where LCP time goes (Faz 4 critical-CSS decision): when the LCP image and
+     the last render-blocking stylesheet finished, and the gap after both. */
+  const lcpBreakdown = await page.evaluate((lcpUrl) => {
+    const resources = performance.getEntriesByType("resource");
+    const ends = (filter) => resources.filter(filter).map((r) => r.responseEnd);
+    const end = (filter) => Math.round(Math.max(0, ...ends(filter)));
+    const sheets = new Set([...document.querySelectorAll('link[rel="stylesheet"]')].map((l) => l.href));
+    const ttfb = Math.round(performance.getEntriesByType("navigation")[0]?.responseStart ?? 0);
+    // The same URL can be fetched again later (preload, then the element);
+    // the first finished fetch is the one that could paint.
+    const imageEnd = lcpUrl ? Math.round(Math.min(...ends((r) => r.name === lcpUrl), Infinity)) : 0;
+    const cssEnd = end((r) => sheets.has(r.name));
+    return { ttfb, imageEnd, cssEnd, renderDelay: Math.round(window.__lab.lcp - Math.max(imageEnd, cssEnd, ttfb)) };
+  }, lab.lcpUrl);
   await context.close();
   if (harPath) redactHar(harPath);
-  return { lcpMs: Math.round(lab.lcp), cls: Math.round(lab.cls * 10000) / 10000, lcpElement: lab.lcpElement, tbtMs: Math.round(lab.tbt), jsKiB10s, nav, wallMs: Date.now() - started, blockedHosts: [...blocked] };
+  return { lcpMs: Math.round(lab.lcp), cls: Math.round(lab.cls * 10000) / 10000, lcpElement: lab.lcpElement, lcpBreakdown, tbtMs: Math.round(lab.tbt), jsKiB10s, nav, wallMs: Date.now() - started, blockedHosts: [...blocked] };
 }
 
 const BYPASS_COOKIES = await bypassCookies();
@@ -156,6 +171,7 @@ for (const route of ROUTES) {
       lcpMs: { median: percentile(lcp, 50), p75: percentile(lcp, 75) },
       cls: { median: percentile(cls, 50), p75: percentile(cls, 75) },
       lcpElement: runs[0].lcpElement,
+      lcpBreakdownP75: Object.fromEntries(["ttfb", "imageEnd", "cssEnd", "renderDelay"].map((key) => [key, percentile(runs.map((run) => run.lcpBreakdown[key]), 75)])),
       jsKiB10s: { median: percentile(runs.map((run) => run.jsKiB10s), 50), max: Math.max(...runs.map((run) => run.jsKiB10s)) },
       labTbtMs: { median: percentile(runs.map((run) => run.tbtMs), 50), p75: percentile(runs.map((run) => run.tbtMs), 75) },
       targets: { lcpMs: 2500, cls: 0.1, jsKiB10s: 320 },
@@ -163,7 +179,7 @@ for (const route of ROUTES) {
       blockedHosts: [...new Set(runs.flatMap((run) => run.blockedHosts))],
       detail: runs,
     };
-    console.log(`${route} @${width}: LCP median ${summary.lcpMs.median} ms p75 ${summary.lcpMs.p75} ms · CLS p75 ${summary.cls.p75} · JS(10s) ${summary.jsKiB10s.max} KiB · lab TBT p75 ${summary.labTbtMs.p75} ms · ${summary.lcpElement}`);
+    console.log(`${route} @${width}: LCP median ${summary.lcpMs.median} ms p75 ${summary.lcpMs.p75} ms · CLS p75 ${summary.cls.p75} · JS(10s) ${summary.jsKiB10s.max} KiB · lab TBT p75 ${summary.labTbtMs.p75} ms · ${summary.lcpElement} · p75 css ${summary.lcpBreakdownP75.cssEnd} / img ${summary.lcpBreakdownP75.imageEnd} / render +${summary.lcpBreakdownP75.renderDelay} ms`);
     results.push(summary);
   }
 }

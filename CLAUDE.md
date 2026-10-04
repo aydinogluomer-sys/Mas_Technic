@@ -110,6 +110,25 @@ Kural: Çelişki çıkarsa MASTER_CONTEXT.md kazanır.
 
 ---
 
+## Minimal Kod Disiplini ("Ponytail")
+
+Kod yazmadan ya da değiştirmeden önce sırayla sor; ilk "evet"te dur:
+
+1. **YAGNI** — gerçekten gerekli mi? Değilse yazma.
+2. **Yeniden kullan** — repoda zaten var mı (bileşen, hook, helper, token)?
+3. **Platform** — native web API / CSS / stdlib yetiyor mu?
+4. **Mevcut bağımlılık** — kurulu bir paket çözüyor mu? (Yeni paket yok.)
+5. **Tek satır** — tek ifadeyle olur mu?
+6. **Asgari çalışan kod** — ancak sonra, en az kodla yaz.
+
+Asla bunların pahasına değil: davranış, erişilebilirlik (ARIA, odak, klavye),
+reduced-motion, hata yönetimi, tasarım token'ları (hex yok, `Z` dışı z-index
+yok, radius 0), named export, kilitli bölgeler (`supabase/`, `/admin/*`,
+`/musteri-paneli/*`) ve içerik dosyaları (`src/data`, `src/content`,
+`src/i18n/locales`). Davranışı koruyan bir azaltma PR'ı ancak parity harness
+0 fark verirse (`docs/quality/mas-technic-awwwards/parity.md`) ve tüm kapılar
+yeşilse birleşir; bir test değişmek zorunda kalıyorsa davranış değişmiştir.
+
 ## Animation Kuralları (Özet)
 
 ```typescript

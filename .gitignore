@@ -60,3 +60,6 @@ bun.lockb
 
 # Midjourney orijinalleri — depoya girmez, src/assets'teki webp sürümleri kullanılır
 image-source/
+
+# local parity snapshots (e2e/parity)
+.parity/

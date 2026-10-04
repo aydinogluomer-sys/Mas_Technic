@@ -432,3 +432,16 @@ Merge'den önce Codex'in bıraktığı 3 bulgu merge edilmiş kodda doğrulandı
 ### Sonraki güvenli adım
 
 PR'ı CI'da yeşile getirmek (WebKit/Firefox ilk kez orada koşar), sonra Vercel **preview** deploy'u (O12) ile `verify-release.mjs` ve `perf-lab.mjs`'i gerçek host'ta koşmak. Production deploy, merge, secrets ve domain kararı sahibindedir.
+
+## Performans + minimal kod — Faz 0 (4 Ekim 2026)
+
+Ölçüm altyapısı ve kurallar; ürün kodu değişmedi. Taban `7eeae2c`. Sayılar ve kapılar: `evidence/f0-baseline.md`. Parity harness: `parity.md`. Kurallar: `CLAUDE.md` → "Minimal Kod Disiplini (Ponytail)".
+
+| Ölçü | Taban | Kaynak |
+|---|---|---|
+| `src/` satır (içerik / kilitli / refactor edilebilir) | 66.645 (17.957 / 12.970 / 35.718) | `evidence/f0-line-report.json` |
+| `/` ilk JS (gz) · `/en` | 162,8 KiB · 203,1 KiB | `evidence/f0-bundle-report.json` |
+| Render-blocking CSS (gz) | 57,8 KiB | aynı |
+| Yerel lab LCP p75 (`/` 375/1440) | 1612 / 1696 ms (yön için; HTTP/1.1) | `evidence/f0-perf-lab-local.json` |
+| Parity gürültüsü (main'e karşı main) | 387 geçti, 1 flaky, 0 hata | yerel koşu |
+| Gerçek Vercel lab (`perf=true`) | **NOT_TESTED**, kullanıcı koşacak | — |
