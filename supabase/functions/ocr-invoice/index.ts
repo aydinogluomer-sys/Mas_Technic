@@ -50,8 +50,10 @@ serve(async (req) => {
       });
     }
 
-    const GEMINI_KEY = Deno.env.get("GOOGLE_GEMINI_API_KEY");
+    // Separate-project admin key when set (quota isolation, see finance-ai).
+    const GEMINI_KEY = Deno.env.get("GOOGLE_GEMINI_ADMIN_API_KEY") || Deno.env.get("GOOGLE_GEMINI_API_KEY");
     if (!GEMINI_KEY) throw new Error("GOOGLE_GEMINI_API_KEY is not configured");
+    const GEMINI_MODEL = Deno.env.get("GEMINI_ADMIN_MODEL") || "gemini-2.5-flash";
 
     const { file_path, doc_id } = await req.json();
     if (!file_path || !doc_id) throw new Error("file_path and doc_id are required");
@@ -75,7 +77,7 @@ serve(async (req) => {
     const mimeType = file_path.toLowerCase().endsWith(".pdf") ? "application/pdf" : "image/jpeg";
 
     // Gemini reads images and PDFs directly as inline data
-    const aiResponse = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent", {
+    const aiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`, {
       method: "POST",
       headers: {
         "x-goog-api-key": GEMINI_KEY,
