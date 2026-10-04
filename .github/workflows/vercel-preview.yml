@@ -1,0 +1,154 @@
+name: Vercel preview
+
+# Builds the site the same way CI does (vite + prerender with Chromium) and
+# uploads the finished output to Vercel as a PREVIEW deployment. Never
+# production: no `--prod`, and the Vercel project is not linked to Git, so a
+# push to main deploys nothing by itself (release.md §2, option 1).
+#
+# Needs repository secrets (Settings → Secrets and variables → Actions):
+#   VERCEL_TOKEN                   — a Vercel token for the team below
+#   VITE_SUPABASE_URL              — public project URL
+#   VITE_SUPABASE_PUBLISHABLE_KEY  — public anon / publishable key
+# Without them the job stops and says which one is missing; it never builds
+# against placeholder backend values.
+
+on:
+  workflow_dispatch:
+    inputs:
+      english:
+        description: "Publish the English surface in this preview (VITE_SITE_ENGLISH=live)"
+        type: boolean
+        default: false
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: vercel-preview-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20"
+  VERCEL_SCOPE: omer-aydinoglu
+  VERCEL_PROJECT: mas-technic
+
+jobs:
+  preview:
+    name: Vercel preview deploy
+    # Fork PRs get no secrets; skip them instead of failing.
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    timeout-minutes: 25
+    runs-on: ubuntu-latest
+    steps:
+      - name: Required secrets are set
+        id: secrets
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          missing=""
+          [ -n "$VERCEL_TOKEN" ] || missing="$missing VERCEL_TOKEN"
+          [ -n "$VITE_SUPABASE_URL" ] || missing="$missing VITE_SUPABASE_URL"
+          [ -n "$VITE_SUPABASE_PUBLISHABLE_KEY" ] || missing="$missing VITE_SUPABASE_PUBLISHABLE_KEY"
+          if [ -z "$missing" ]; then echo "ready=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          echo "ready=false" >> "$GITHUB_OUTPUT"
+          # A PR is not blocked by a deploy that was never configured; a
+          # manual run that cannot deploy is an error.
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "::notice::Vercel preview skipped — missing repository secrets:$missing"
+            exit 0
+          fi
+          echo "::error::Missing repository secrets:$missing"
+          exit 1
+      - uses: actions/checkout@v4
+        if: steps.secrets.outputs.ready == 'true'
+      - uses: actions/setup-node@v4
+        if: steps.secrets.outputs.ready == 'true'
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+        if: steps.secrets.outputs.ready == 'true'
+      - name: Cache Playwright browsers
+        if: steps.secrets.outputs.ready == 'true'
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Playwright Chromium
+        if: steps.secrets.outputs.ready == 'true' && steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+      - name: Install system deps (cached browsers)
+        if: steps.secrets.outputs.ready == 'true' && steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+      - name: vercel.json matches the route table
+        if: steps.secrets.outputs.ready == 'true'
+        run: node scripts/vercel/generate-config.mjs --check
+      # Preview build: no origin and no VITE_SITE_INDEXING, so it is noindex
+      # with robots `Disallow: /`. English stays off unless asked for
+      # (USER_INPUTS.md §B).
+      - name: Build (vite + prerender)
+        if: steps.secrets.outputs.ready == 'true'
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_SITE_ENGLISH: ${{ inputs.english && 'live' || '' }}
+        run: npm run build
+      # The output is uploaded as a static site: the routing config travels
+      # with it, minus the build settings (nothing is built on Vercel).
+      - name: Stage the prebuilt site
+        if: steps.secrets.outputs.ready == 'true'
+        run: |
+          mkdir -p "$RUNNER_TEMP/$VERCEL_PROJECT"
+          cp -R dist/. "$RUNNER_TEMP/$VERCEL_PROJECT/"
+          node -e '
+            const fs = require("fs");
+            const config = JSON.parse(fs.readFileSync("vercel.json", "utf8"));
+            for (const key of ["installCommand", "buildCommand", "outputDirectory"]) delete config[key];
+            fs.writeFileSync(process.argv[1], JSON.stringify(config, null, 2));
+          ' "$RUNNER_TEMP/$VERCEL_PROJECT/vercel.json"
+      # The deployment is bound to the project by name on every run: it is
+      # created once if missing, then linked explicitly, so no run depends
+      # on a link file left by an earlier runner.
+      - name: Deploy preview
+        if: steps.secrets.outputs.ready == 'true'
+        id: deploy
+        working-directory: ${{ runner.temp }}/${{ env.VERCEL_PROJECT }}
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel() { npx --yes vercel@62 "$@" --scope "$VERCEL_SCOPE" --token "$VERCEL_TOKEN"; }
+          vercel project inspect "$VERCEL_PROJECT" >/dev/null 2>&1 || vercel project create "$VERCEL_PROJECT"
+          vercel link --yes --project "$VERCEL_PROJECT"
+          url=$(vercel deploy --yes)
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Vercel preview"
+            echo ""
+            echo "$url"
+            echo ""
+            echo "Commit \`${GITHUB_SHA::7}\` · English: ${{ inputs.english && 'live' || 'off' }} · noindex preview build."
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Check the deployed routing
+        if: steps.secrets.outputs.ready == 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          base="${{ steps.deploy.outputs.url }}"
+          code() { curl -s -o /dev/null -w "%{http_code}" "$base$1"; }
+          # Deployment protection answers 401/403, and Trusted IPs answer 404,
+          # instead of the site. Only a response that is our own prerendered
+          # page proves the checks below reach the deployment.
+          if ! curl -s "$base/" | grep -q "data-prerendered"; then
+            echo "::notice::The preview did not serve the site to this runner (deployment protection?); routing checks need a bypass token and were skipped."
+            exit 0
+          fi
+          fail=0
+          check() { got=$(code "$1"); if [ "$got" = "$2" ]; then echo "ok   $1 → $got"; else echo "FAIL $1 → $got (expected $2)"; fail=1; fi; }
+          check / 200
+          check /hizmetler/cnc-frezeleme 200
+          check /teklif-al 200
+          check /__does-not-exist__ 404
+          check /kabiliyetler/cnc-frezeleme 308
+          exit $fail
