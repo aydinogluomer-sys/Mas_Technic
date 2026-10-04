@@ -121,7 +121,9 @@ jobs:
           vercel() { npx --yes vercel@62 "$@" --scope "$VERCEL_SCOPE" --token "$VERCEL_TOKEN"; }
           vercel project inspect "$VERCEL_PROJECT" >/dev/null 2>&1 || vercel project create "$VERCEL_PROJECT"
           vercel link --yes --project "$VERCEL_PROJECT"
-          url=$(vercel deploy --yes)
+          # Explicit: without it the first deployment of a new project became
+          # production (mas-technic.vercel.app) although --prod was never passed.
+          url=$(vercel deploy --yes --target=preview)
           echo "url=$url" >> "$GITHUB_OUTPUT"
           {
             echo "### Vercel preview"
