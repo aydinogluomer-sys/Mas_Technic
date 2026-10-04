@@ -16,8 +16,8 @@
  * output may be described as "Core Web Vitals passed". Third-party hosts that
  * the sandbox cannot reach (Google Fonts) are aborted and listed.
  */
-import { chromium } from "playwright";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { chromium, request as apiRequest } from "playwright";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 const args = Object.fromEntries(
   process.argv.slice(2).reduce((pairs, value, index, all) => {
@@ -29,6 +29,47 @@ const BASE = args.base ?? "http://127.0.0.1:4181";
 const ROUTES = (args.routes ?? "/,/en").split(",");
 const RUNS = Number(args.runs ?? 5);
 const WIDTHS = (args.widths ?? "375,1440").split(",").map(Number);
+const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+
+/* A deployment behind Vercel protection is measured with Vercel's bypass
+   COOKIE, not the secret as a request header: the cookie is scoped to the
+   preview host, so the browser never sends it to a third party or along a
+   cross-origin redirect (a header added in a route handler would follow
+   redirects). It is obtained once, outside the measured browser, and added
+   to each fresh context, so every run stays cold. */
+async function bypassCookies() {
+  if (!BYPASS) return [];
+  const api = await apiRequest.newContext();
+  const url = new URL(BASE);
+  url.searchParams.set("x-vercel-protection-bypass", BYPASS);
+  url.searchParams.set("x-vercel-set-bypass-cookie", "true");
+  await api.get(url.href, { maxRedirects: 0 });
+  const host = new URL(BASE).hostname;
+  const cookies = (await api.storageState()).cookies.filter((cookie) => host.endsWith(cookie.domain.replace(/^\./, "")));
+  await api.dispose();
+  if (!cookies.length) throw new Error("the bypass secret did not yield a Vercel bypass cookie for " + host);
+  return cookies;
+}
+
+/* HARs are uploaded as evidence; credentials never are. */
+const SECRET_HEADERS = /^(cookie|set-cookie|x-vercel-protection-bypass|authorization)$/i;
+function redactHar(path) {
+  const har = JSON.parse(readFileSync(path, "utf8"));
+  for (const entry of har.log?.entries ?? []) {
+    for (const part of [entry.request, entry.response]) {
+      if (!part) continue;
+      part.headers = (part.headers ?? []).map((h) => (SECRET_HEADERS.test(h.name) ? { ...h, value: "[redacted]" } : h));
+      part.cookies = [];
+    }
+    if (entry.request?.url) {
+      const url = new URL(entry.request.url);
+      for (const key of ["x-vercel-protection-bypass", "x-vercel-set-bypass-cookie"]) if (url.searchParams.has(key)) url.searchParams.set(key, "[redacted]");
+      entry.request.url = url.href;
+      entry.request.queryString = (entry.request.queryString ?? []).map((q) => (/^x-vercel/i.test(q.name) ? { ...q, value: "[redacted]" } : q));
+    }
+  }
+  writeFileSync(path, JSON.stringify(har));
+}
 /* "Slow 4G" as Chrome DevTools defines it (2024+): 150 ms RTT, ~1.6 Mbps down,
    ~750 Kbps up. CPU 4× slowdown, the DevTools mobile preset. */
 const NETWORK = { offline: false, latency: 150, downloadThroughput: (1.6 * 1024 * 1024) / 8, uploadThroughput: (750 * 1024) / 8 };
@@ -47,10 +88,12 @@ async function runOnce(browser, route, width, harPath) {
     viewport: { width, height: width === 375 ? 812 : 900 },
     ...(harPath ? { recordHar: { path: harPath, content: "omit" } } : {}),
   });
+  if (BYPASS_COOKIES.length) await context.addCookies(BYPASS_COOKIES);
   const blocked = new Set();
   await context.route("**/*", (request) => {
-    if (BLOCKED.test(request.request().url())) {
-      blocked.add(new URL(request.request().url()).host);
+    const url = request.request().url();
+    if (BLOCKED.test(url)) {
+      blocked.add(new URL(url).host);
       return request.abort();
     }
     return request.continue();
@@ -91,9 +134,11 @@ async function runOnce(browser, route, width, harPath) {
     return entry ? { ttfb: Math.round(entry.responseStart), domContentLoaded: Math.round(entry.domContentLoadedEventEnd), load: Math.round(entry.loadEventEnd) } : null;
   });
   await context.close();
+  if (harPath) redactHar(harPath);
   return { lcpMs: Math.round(lab.lcp), cls: Math.round(lab.cls * 10000) / 10000, lcpElement: lab.lcpElement, tbtMs: Math.round(lab.tbt), jsKiB10s, nav, wallMs: Date.now() - started, blockedHosts: [...blocked] };
 }
 
+const BYPASS_COOKIES = await bypassCookies();
 const browser = await chromium.launch(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH } : {});
 const results = [];
 if (args["har-dir"]) mkdirSync(args["har-dir"], { recursive: true });

@@ -12,6 +12,10 @@
  *    (HTTP status vs the client 404), `/robots.txt`, a deep route served as
  *    `index.html`, and `index.html`'s build meta.
  *
+ * A host behind Vercel deployment protection is reached with the project's
+ * "Protection Bypass for Automation" secret in VERCEL_AUTOMATION_BYPASS_SECRET
+ * (sent as `x-vercel-protection-bypass` to the checked host only).
+ *
  * It prints and returns findings; it never deploys, publishes or merges.
  * Run against the candidate URL only when one exists (owner input O01).
  */
@@ -35,6 +39,25 @@ const findings = [];
 const note = (level, message) => findings.push({ level, message });
 const sha = (buffer) => createHash("sha256").update(buffer).digest("hex");
 const EXPECTED_TYPE = { ".js": "javascript", ".css": "text/css", ".html": "text/html", ".webp": "image/webp", ".png": "image/png", ".svg": "image/svg+xml", ".pdf": "application/pdf", ".json": "application/json", ".woff2": "font/woff2", ".ico": "image" };
+
+/* Redirects are followed by hand so the bypass secret is attached per hop
+   and only while the hop is still the checked host: an automatically
+   followed cross-origin redirect would carry the header with it. A caller
+   asking for `redirect: "manual"` gets the first response as is. */
+const BYPASS = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+const BASE_ORIGIN = new URL(BASE).origin;
+const fetch = async (url, init = {}) => {
+  let target = new URL(url);
+  for (let hop = 0; hop < 10; hop += 1) {
+    const own = target.origin === BASE_ORIGIN;
+    const headers = { ...init.headers, ...(BYPASS && own ? { "x-vercel-protection-bypass": BYPASS } : {}) };
+    const response = await globalThis.fetch(target, { ...init, headers, redirect: "manual" });
+    const location = response.headers.get("location");
+    if (init.redirect === "manual" || response.status < 300 || response.status >= 400 || !location) return response;
+    target = new URL(location, target);
+  }
+  throw new Error(`more than 10 redirects from ${url}`);
+};
 
 const fetchFile = async (path) => {
   const response = await fetch(`${BASE}/${path.replace(/^\//, "")}`, { headers: { "accept-encoding": "gzip, br" } });

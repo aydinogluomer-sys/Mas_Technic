@@ -11,12 +11,23 @@ name: Vercel preview
 #   VITE_SUPABASE_PUBLISHABLE_KEY  — public anon / publishable key
 # Without them the job stops and says which one is missing; it never builds
 # against placeholder backend values.
+#
+# Optional: VERCEL_AUTOMATION_BYPASS_SECRET — the project's "Protection Bypass
+# for Automation" secret (Vercel → Project → Settings → Deployment
+# Protection). With it the job verifies the deployed preview: every file of
+# the build by hash, 404 / 308 / cache behaviour and the build identity
+# (verify-release.mjs), and on a manual run optionally the lab performance
+# (perf-lab.mjs). Without it those checks are skipped with a notice.
 
 on:
   workflow_dispatch:
     inputs:
       english:
         description: "Publish the English surface in this preview (VITE_SITE_ENGLISH=live)"
+        type: boolean
+        default: false
+      perf:
+        description: "Also run the lab performance measurement against the preview (~15 min)"
         type: boolean
         default: false
   pull_request:
@@ -36,7 +47,7 @@ jobs:
     name: Vercel preview deploy
     # Fork PRs get no secrets; skip them instead of failing.
     if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
-    timeout-minutes: 25
+    timeout-minutes: 50
     runs-on: ubuntu-latest
     steps:
       - name: Required secrets are set
@@ -137,25 +148,56 @@ jobs:
             echo ""
             echo "Commit \`${GITHUB_SHA::7}\` · English: ${{ inputs.english && 'live' || 'off' }} · noindex preview build."
           } >> "$GITHUB_STEP_SUMMARY"
-      - name: Check the deployed routing
+      # Deployment protection answers 401/403 and Trusted IPs answer 404
+      # instead of the site, so the checks run only with the bypass secret,
+      # which the tools send to the preview host and nowhere else.
+      - name: Verify the deployed preview against the build
         if: steps.secrets.outputs.ready == 'true'
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: |
-          base="${{ steps.deploy.outputs.url }}"
-          code() { curl -s -o /dev/null -w "%{http_code}" "$base$1"; }
-          # Deployment protection answers 401/403, and Trusted IPs answer 404,
-          # instead of the site. Only a response that is our own prerendered
-          # page proves the checks below reach the deployment.
-          if ! curl -s "$base/" | grep -q "data-prerendered"; then
-            echo "::notice::The preview did not serve the site to this runner (deployment protection?); routing checks need a bypass token and were skipped."
+          if [ -z "$VERCEL_AUTOMATION_BYPASS_SECRET" ]; then
+            echo "::notice::VERCEL_AUTOMATION_BYPASS_SECRET is not set; the protected preview was not verified."
             exit 0
           fi
-          fail=0
-          check() { got=$(code "$1"); if [ "$got" = "$2" ]; then echo "ok   $1 → $got"; else echo "FAIL $1 → $got (expected $2)"; fail=1; fi; }
-          check / 200
-          check /hizmetler/cnc-frezeleme 200
-          check /teklif-al 200
-          check /__does-not-exist__ 404
-          check /kabiliyetler/cnc-frezeleme 308
-          exit $fail
+          mkdir -p "$RUNNER_TEMP/evidence"
+          node scripts/quality/verify-release.mjs --base "${{ steps.deploy.outputs.url }}" --dist dist \
+            --out "$RUNNER_TEMP/evidence/release-check.json" > /dev/null && status=0 || status=$?
+          node -e '
+            const r = require(process.argv[1]);
+            const fails = r.findings.filter((f) => f.level === "fail");
+            const warns = r.findings.filter((f) => f.level === "warn");
+            const lines = ["", "### Release check (verify-release.mjs)", "",
+              `${r.filesChecked} files checked · ${fails.length} fail · ${warns.length} warn`, "",
+              ...r.findings.slice(0, 20).map((f) => `- ${f.level}: ${f.message}`)];
+            require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join("\n") + "\n");
+            for (const f of fails.slice(0, 20)) console.log(`::error::${f.message}`);
+          ' "$RUNNER_TEMP/evidence/release-check.json"
+          exit $status
+      - name: Lab performance against the preview
+        if: steps.secrets.outputs.ready == 'true' && inputs.perf
+        env:
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: |
+          set -o pipefail  # perf-lab's own exit status, not tee's
+          if [ -z "$VERCEL_AUTOMATION_BYPASS_SECRET" ]; then
+            echo "::notice::VERCEL_AUTOMATION_BYPASS_SECRET is not set; performance was not measured."
+            exit 0
+          fi
+          routes="/,/hizmetler/cnc-frezeleme"
+          if [ "${{ inputs.english }}" = "true" ]; then routes="$routes,/en,/en/hizmetler/cnc-frezeleme"; fi
+          mkdir -p "$RUNNER_TEMP/evidence"
+          node scripts/quality/perf-lab.mjs --base "${{ steps.deploy.outputs.url }}" --routes "$routes" --runs 5 \
+            --out "$RUNNER_TEMP/evidence/perf-lab.json" --har-dir "$RUNNER_TEMP/evidence/har" \
+            --scope "Vercel preview ${GITHUB_SHA::7} (HTTP/2, Vercel edge), GitHub-hosted runner Chromium, slow-4G + 4x CPU emulation, 5 cold runs. Lab only; INP not measured; lab TBT is not INP." \
+            | tee "$RUNNER_TEMP/evidence/perf-lab.txt"
+          { echo ""; echo "### Lab performance (perf-lab.mjs)"; echo ""; echo '```'; grep "@" "$RUNNER_TEMP/evidence/perf-lab.txt" || true; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload evidence
+        if: always() && steps.secrets.outputs.ready == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          # Artifacts are immutable per run; a re-run gets its own name.
+          name: preview-evidence-attempt-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/evidence
+          if-no-files-found: ignore
+          retention-days: 30
