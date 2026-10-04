@@ -53,7 +53,11 @@ const redirects = [
 const SHELL_ROUTES = ["/admin", "/admin/:path*", "/musteri-paneli", "/musteri-paneli/:path*"];
 const AUTH_ROUTES = table.STATIC.filter((route) => route.access === "auth" && !route.path.startsWith("/admin"))
   .flatMap((route) => [route.path, route.enPath].filter(Boolean));
-const rewrites = [...SHELL_ROUTES, ...AUTH_ROUTES].map((source) => ({ source, destination: "/shell.html" }));
+/* The destination is the CLEAN path: with cleanUrls Vercel serves
+   shell.html at /shell and does not resolve a rewrite to "/shell.html"
+   (it answered 404 on the preview of 4 Oct 2026; serve-dist.mjs now
+   behaves the same). */
+const rewrites = [...SHELL_ROUTES, ...AUTH_ROUTES].map((source) => ({ source, destination: "/shell" }));
 
 const config = {
   $schema: "https://openapi.vercel.sh/vercel.json",

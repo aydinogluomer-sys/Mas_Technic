@@ -996,43 +996,43 @@
   "rewrites": [
     {
       "source": "/admin",
-      "destination": "/shell.html"
+      "destination": "/shell"
     },
     {
       "source": "/admin/:path*",
-      "destination": "/shell.html"
+      "destination": "/shell"
     },
     {
       "source": "/musteri-paneli",
-      "destination": "/shell.html"
+      "destination": "/shell"
     },
     {
       "source": "/musteri-paneli/:path*",
-      "destination": "/shell.html"
+      "destination": "/shell"
     },
     {
       "source": "/giris",
-      "destination": "/shell.html"
+      "destination": "/shell"
     },
     {
       "source": "/en/giris",
-      "destination": "/shell.html"
+      "destination": "/shell"
     },
     {
       "source": "/sifremi-unuttum",
-      "destination": "/shell.html"
+      "destination": "/shell"
     },
     {
       "source": "/en/sifremi-unuttum",
-      "destination": "/shell.html"
+      "destination": "/shell"
     },
     {
       "source": "/reset-password",
-      "destination": "/shell.html"
+      "destination": "/shell"
     },
     {
       "source": "/en/reset-password",
-      "destination": "/shell.html"
+      "destination": "/shell"
     }
   ],
   "headers": [
