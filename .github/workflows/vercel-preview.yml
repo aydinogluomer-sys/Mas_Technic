@@ -108,9 +108,12 @@ jobs:
             for (const key of ["installCommand", "buildCommand", "outputDirectory"]) delete config[key];
             fs.writeFileSync(process.argv[1], JSON.stringify(config, null, 2));
           ' "$RUNNER_TEMP/$VERCEL_PROJECT/vercel.json"
-      # The deployment is bound to the project by name on every run: it is
-      # created once if missing, then linked explicitly, so no run depends
-      # on a link file left by an earlier runner.
+      # The deployment is bound to the existing project by name on every run,
+      # so no run depends on a link file left by an earlier runner. The
+      # project is never created here: on Vercel the first deployment of a
+      # new project is always production, whatever the target says (that is
+      # how mas-technic.vercel.app got its first deployment on 4 Oct 2026).
+      # A missing project stops the job instead.
       - name: Deploy preview
         if: steps.secrets.outputs.ready == 'true'
         id: deploy
@@ -119,10 +122,12 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           vercel() { npx --yes vercel@62 "$@" --scope "$VERCEL_SCOPE" --token "$VERCEL_TOKEN"; }
-          vercel project inspect "$VERCEL_PROJECT" >/dev/null 2>&1 || vercel project create "$VERCEL_PROJECT"
+          if ! vercel project inspect "$VERCEL_PROJECT" >/dev/null 2>&1; then
+            echo "::error::Vercel project '$VERCEL_PROJECT' not found in '$VERCEL_SCOPE'. Create it in Vercel first; this workflow does not, because a new project's first deployment is always production."
+            exit 1
+          fi
           vercel link --yes --project "$VERCEL_PROJECT"
-          # Explicit: without it the first deployment of a new project became
-          # production (mas-technic.vercel.app) although --prod was never passed.
+          # Explicit, so the CLI never picks a target on its own.
           url=$(vercel deploy --yes --target=preview)
           echo "url=$url" >> "$GITHUB_OUTPUT"
           {
