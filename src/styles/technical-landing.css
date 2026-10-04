@@ -50,6 +50,8 @@
 /* Görselin gerçek oranı 1672/941; çerçeve de onu taşıyor. Önceki 1672/1250
    hem genişliğin dörtte birini kırpıyor hem de bandı 600px'e zorluyordu. */
 .tl-part-frame{position:relative;width:100%;overflow:hidden;aspect-ratio:1672/941}
+/* The <picture> wrapper takes no box: the img keeps sizing against the frame. */
+.tl-part-picture{display:contents}
 /* Fotoğrafta parça sağa kaçık kadrajlanmış; object-position onu bandın
    optik merkezine çekiyor (referansta parça merkezi ~%60). */
 /* Referansta parça bandın öznesi: yakın kadraj ve altındaki plaka bandın alt

@@ -73,10 +73,19 @@ test.describe("production landing structure", () => {
     expect(asset.status(), `${href} must resolve`).toBe(200);
     expect(asset.headers()["content-type"], `${href} must be served as an image`).toMatch(/^image\//);
 
+    /* The hero is a responsive <picture>: the preload must describe the same
+       candidate list and sizes as its AVIF <source>, and the image the browser
+       actually fetched must be one of the preloaded candidates. */
+    const attr = (name: string) => imagePreloads[0].match(new RegExp(`${name}="([^"]+)"`))?.[1];
     await gotoAndSettle(page, "/");
     await landingReady(page);
-    const renderedHero = await page.locator(".tl-part-frame img").getAttribute("src");
-    expect(renderedHero, "the preloaded URL must be the rendered hero source").toBe(href);
+    const source = page.locator(".tl-part-frame picture source[type='image/avif']");
+    expect(attr("type"), "the preload is typed like the source it mirrors").toBe("image/avif");
+    expect(attr("imagesrcset"), "preload and <source> list the same candidates").toBe(await source.getAttribute("srcset"));
+    expect(attr("imagesizes"), "preload and <source> declare the same sizes").toBe(await source.getAttribute("sizes"));
+    const rendered = await page.locator(".tl-part-frame img").evaluate((img: HTMLImageElement) => new URL(img.currentSrc).pathname);
+    const candidates = attr("imagesrcset")!.split(",").map((entry) => entry.trim().split(/\s+/)[0]);
+    expect(candidates, "the image the page rendered is one the preload fetched").toContain(rendered);
   });
 
   test("never creates document-level horizontal overflow", async ({ page }) => {

@@ -35,7 +35,7 @@ const config = JSON.parse(readFileSync(join(root, "vercel.json"), "utf8"));
 
 const TYPES = {
   ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
-  ".json": "application/json", ".svg": "image/svg+xml", ".webp": "image/webp", ".png": "image/png",
+  ".json": "application/json", ".svg": "image/svg+xml", ".webp": "image/webp", ".avif": "image/avif", ".png": "image/png",
   ".jpg": "image/jpeg", ".ico": "image/x-icon", ".pdf": "application/pdf", ".woff2": "font/woff2",
   ".txt": "text/plain; charset=utf-8", ".xml": "application/xml", ".webmanifest": "application/manifest+json",
 };

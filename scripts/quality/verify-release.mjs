@@ -38,7 +38,7 @@ const local = JSON.parse(readFileSync(`${DIST}/release.json`, "utf8"));
 const findings = [];
 const note = (level, message) => findings.push({ level, message });
 const sha = (buffer) => createHash("sha256").update(buffer).digest("hex");
-const EXPECTED_TYPE = { ".js": "javascript", ".css": "text/css", ".html": "text/html", ".webp": "image/webp", ".png": "image/png", ".svg": "image/svg+xml", ".pdf": "application/pdf", ".json": "application/json", ".woff2": "font/woff2", ".ico": "image" };
+const EXPECTED_TYPE = { ".js": "javascript", ".css": "text/css", ".html": "text/html", ".webp": "image/webp", ".avif": "image/avif", ".png": "image/png", ".svg": "image/svg+xml", ".pdf": "application/pdf", ".json": "application/json", ".woff2": "font/woff2", ".ico": "image" };
 
 /* Redirects are followed by hand so the bypass secret is attached per hop
    and only while the hop is still the checked host: an automatically
