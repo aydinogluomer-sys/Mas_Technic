@@ -86,13 +86,27 @@ const servedAt = (name) => {
   return { path: name, status: 200 };
 };
 
+/* Vercel appends its toolbar loader to HTML on preview deployments (seen on
+   4 Oct 2026: `/` came back 163 bytes longer with this exact tag after
+   </html>). Only that tag, only at the very end of an HTML body, is removed
+   before hashing; anything else still has to match the build byte for byte. */
+const VERCEL_TOOLBAR = /<script async data-explicit-opt-in="true" data-deployment-id="dpl_[A-Za-z0-9]+" src="https:\/\/vercel\.live\/_next-live\/feedback\/feedback\.js"><\/script>\n?$/;
+let toolbarStripped = 0;
+const comparable = (name, body) => {
+  if (!name.endsWith(".html")) return body;
+  const text = body.toString("utf8");
+  if (!VERCEL_TOOLBAR.test(text)) return body;
+  toolbarStripped += 1;
+  return Buffer.from(text.replace(VERCEL_TOOLBAR, ""), "utf8");
+};
+
 let checked = 0;
 for (const [name, facts] of Object.entries(local.files)) {
   const target = servedAt(name);
   const file = await fetchFile(target.path);
   checked += 1;
   if (file.status !== target.status) { note("fail", `${name}: HTTP ${file.status} at /${target.path} (expected ${target.status})`); continue; }
-  if (sha(file.body) !== facts.sha256) note("fail", `${name}: sha256 differs from the build`);
+  if (sha(comparable(name, file.body)) !== facts.sha256) note("fail", `${name}: sha256 differs from the build`);
   const extension = name.slice(name.lastIndexOf("."));
   if (EXPECTED_TYPE[extension] && !file.type.includes(EXPECTED_TYPE[extension])) note("fail", `${name}: content-type "${file.type}"`);
   if (name.startsWith("assets/") && !/max-age=\d{6,}|immutable/.test(file.cache)) note("warn", `${name}: hashed asset without long cache ("${file.cache}")`);
@@ -112,7 +126,7 @@ if (robots.status !== 200) note("fail", `/robots.txt answered ${robots.status}`)
 const html = (await (await fetch(`${BASE}/`)).text());
 if (!html.includes(`name="mas-build" content="${local.commit} ${local.builtAt}"`)) note("fail", "index.html build meta does not match release.json");
 
-const report = { checkedAt: new Date().toISOString(), base: BASE, commit: local.commit, builtAt: local.builtAt, filesChecked: checked, findings };
+const report = { checkedAt: new Date().toISOString(), base: BASE, commit: local.commit, builtAt: local.builtAt, filesChecked: checked, vercelToolbarStripped: toolbarStripped, findings };
 if (args.out) writeFileSync(args.out, JSON.stringify(report, null, 2));
 console.log(JSON.stringify(report, null, 2));
 process.exit(findings.some((finding) => finding.level === "fail") ? 1 : 0);

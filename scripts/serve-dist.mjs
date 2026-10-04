@@ -129,6 +129,8 @@ createServer((request, response) => {
   // 3. rewrites
   for (const rule of rewrites) {
     if (rule.re.test(pathname)) {
+      // Like Vercel: with cleanUrls a rewrite to a ".html" path resolves to nothing.
+      if (config.cleanUrls && rule.destination.endsWith(".html")) continue;
       const target = resolveFile(rule.destination);
       if (target) return send(request, response, 200, target, headersFor(pathname));
     }
