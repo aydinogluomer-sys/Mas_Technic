@@ -77,11 +77,9 @@ jobs:
           path: ~/.cache/ms-playwright
           key: pw-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Install Playwright Chromium
-        if: steps.secrets.outputs.ready == 'true'
         if: steps.secrets.outputs.ready == 'true' && steps.pw-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
       - name: Install system deps (cached browsers)
-        if: steps.secrets.outputs.ready == 'true'
         if: steps.secrets.outputs.ready == 'true' && steps.pw-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
       - name: vercel.json matches the route table
@@ -110,7 +108,9 @@ jobs:
             for (const key of ["installCommand", "buildCommand", "outputDirectory"]) delete config[key];
             fs.writeFileSync(process.argv[1], JSON.stringify(config, null, 2));
           ' "$RUNNER_TEMP/$VERCEL_PROJECT/vercel.json"
-      # The first run creates the project (named after the staged folder).
+      # The deployment is bound to the project by name on every run: it is
+      # created once if missing, then linked explicitly, so no run depends
+      # on a link file left by an earlier runner.
       - name: Deploy preview
         if: steps.secrets.outputs.ready == 'true'
         id: deploy
@@ -118,7 +118,10 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          url=$(npx --yes vercel@62 deploy --yes --scope "$VERCEL_SCOPE" --token "$VERCEL_TOKEN")
+          vercel() { npx --yes vercel@62 "$@" --scope "$VERCEL_SCOPE" --token "$VERCEL_TOKEN"; }
+          vercel project inspect "$VERCEL_PROJECT" >/dev/null 2>&1 || vercel project create "$VERCEL_PROJECT"
+          vercel link --yes --project "$VERCEL_PROJECT"
+          url=$(vercel deploy --yes)
           echo "url=$url" >> "$GITHUB_OUTPUT"
           {
             echo "### Vercel preview"
@@ -134,9 +137,11 @@ jobs:
         run: |
           base="${{ steps.deploy.outputs.url }}"
           code() { curl -s -o /dev/null -w "%{http_code}" "$base$1"; }
-          home=$(code /)
-          if [ "$home" = "401" ] || [ "$home" = "403" ]; then
-            echo "::notice::Preview is behind Vercel deployment protection ($home); routing checks need a bypass token and were skipped."
+          # Deployment protection answers 401/403, and Trusted IPs answer 404,
+          # instead of the site. Only a response that is our own prerendered
+          # page proves the checks below reach the deployment.
+          if ! curl -s "$base/" | grep -q "data-prerendered"; then
+            echo "::notice::The preview did not serve the site to this runner (deployment protection?); routing checks need a bypass token and were skipped."
             exit 0
           fi
           fail=0
