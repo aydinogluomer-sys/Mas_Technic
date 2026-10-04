@@ -179,6 +179,7 @@ jobs:
         env:
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: |
+          set -o pipefail  # perf-lab's own exit status, not tee's
           if [ -z "$VERCEL_AUTOMATION_BYPASS_SECRET" ]; then
             echo "::notice::VERCEL_AUTOMATION_BYPASS_SECRET is not set; performance was not measured."
             exit 0
@@ -195,7 +196,8 @@ jobs:
         if: always() && steps.secrets.outputs.ready == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: preview-evidence
+          # Artifacts are immutable per run; a re-run gets its own name.
+          name: preview-evidence-attempt-${{ github.run_attempt }}
           path: ${{ runner.temp }}/evidence
           if-no-files-found: ignore
           retention-days: 30
