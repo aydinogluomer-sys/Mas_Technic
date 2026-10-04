@@ -190,7 +190,7 @@ test.describe("boot resilience", () => {
   });
 
   test("a failed hero image, blocked fonts and an unreachable Supabase do not hold the landing", async ({ page }) => {
-    await page.route(/hero-manifold[^/]*\.webp/, (route) => route.abort());
+    await page.route(/hero-manifold[^/]*\.(webp|avif)/, (route) => route.abort());
     await page.route(/fonts\.(googleapis|gstatic)\.com|\/fonts\//, (route) => route.abort());
     await page.route(/supabase\.co/, (route) => route.abort());
     await page.goto("/");

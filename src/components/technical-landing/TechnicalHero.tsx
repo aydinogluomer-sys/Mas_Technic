@@ -1,5 +1,13 @@
 import { Link } from "@/i18n/LocaleLink";
 import heroPart from "@/assets/technical-landing/hero-manifold-v1.webp";
+import heroPart480 from "@/assets/technical-landing/hero-manifold-v1-480.webp";
+import heroPart800 from "@/assets/technical-landing/hero-manifold-v1-800.webp";
+import heroPart1200 from "@/assets/technical-landing/hero-manifold-v1-1200.webp";
+import heroPartAvif from "@/assets/technical-landing/hero-manifold-v1.avif";
+import heroPartAvif480 from "@/assets/technical-landing/hero-manifold-v1-480.avif";
+import heroPartAvif800 from "@/assets/technical-landing/hero-manifold-v1-800.avif";
+import heroPartAvif1200 from "@/assets/technical-landing/hero-manifold-v1-1200.avif";
+import { HERO_IMAGE_SIZES, heroSrcSet } from "./hero-image";
 import { heroPartFacts } from "@/data/technicalLandingData";
 import { useTranslation } from "react-i18next";
 import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
@@ -31,13 +39,24 @@ export function TechnicalHero() {
         {/* Çerçeve görselin en-boy oranını birebir taşır: parça kırpılmaz ve
             ölçü etiketleri her ekran genişliğinde parçanın üstünde kalır. */}
         <div className="tl-part-frame">
-          <img
-            src={heroPart}
-            alt={t("Koyu bir ölçüm masası üzerindeki hassas işlenmiş metal hidrolik manifold")}
-            width="1672"
-            height="941"
-            fetchPriority="high"
-          />
+          {/* The size the screen needs, AVIF first (vite.config.ts preloads the
+              same candidate): 13 KB instead of 64 KB at 1440, 6.5 KB at 375. */}
+          <picture className="tl-part-picture">
+            <source
+              type="image/avif"
+              srcSet={heroSrcSet({ 480: heroPartAvif480, 800: heroPartAvif800, 1200: heroPartAvif1200, 1672: heroPartAvif })}
+              sizes={HERO_IMAGE_SIZES}
+            />
+            <img
+              src={heroPart}
+              srcSet={heroSrcSet({ 480: heroPart480, 800: heroPart800, 1200: heroPart1200, 1672: heroPart })}
+              sizes={HERO_IMAGE_SIZES}
+              alt={t("Koyu bir ölçüm masası üzerindeki hassas işlenmiş metal hidrolik manifold")}
+              width="1672"
+              height="941"
+              fetchPriority="high"
+            />
+          </picture>
           {/* Revision 4: every picture leads somewhere — the sample part
               opens the capability profiles, where parts like it are read. */}
           <Link className="tl-image-link" to="/kabiliyet-profilleri" aria-label={t("Kabiliyet Profilleri")} />

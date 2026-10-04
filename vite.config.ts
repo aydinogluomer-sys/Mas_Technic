@@ -6,22 +6,24 @@ import { execSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { normalizeOrigin } from "./src/lib/site-origin";
+import { HERO_IMAGE_SIZES, HERO_IMAGE_WIDTHS, heroImageFile, heroSrcSet } from "./src/components/technical-landing/hero-image";
 
 /**
- * LCP hero görselinin preload'unu gerçek yayınlanan URL ile enjekte eder.
+ * LCP hero görselinin preload'unu gerçek yayınlanan URL'lerle enjekte eder.
  *
- * `TechnicalHero.tsx` `src/assets/technical-landing/hero-manifold-v1.webp`
- * görselini basar ve o görsel `/` rotasının LCP elemanıdır. Vite varlığı
- * içerik hash'iyle yayınladığı için `index.html` içine statik bir href
- * yazılamaz; bu eklenti `transformIndexHtml` bağlamındaki bundle'dan nihai
- * dosya adını okuyup tek bir preload etiketi ekler.
+ * `TechnicalHero.tsx` hero'yu `<picture>` ile basar: AVIF ve WebP, her biri
+ * 480/800/1200/1672 genişlikte (`src/components/technical-landing/hero-image.ts`).
+ * Görsel `/` ve `/en` rotalarının LCP elemanıdır. Vite varlıkları içerik
+ * hash'iyle yayınladığı için `index.html` içine statik bir href yazılamaz; bu
+ * eklenti bundle'daki nihai dosya adlarını özgün adlarından bulur ve
+ * `<source>` ile aynı `imagesrcset`/`imagesizes`'a sahip tek bir AVIF preload
+ * etiketi ekler. Böylece tarayıcı sayfanın çizeceği adayı önceden indirir;
+ * AVIF desteklemeyen tarayıcı `type` yüzünden preload'u atlar.
  *
- * `public/` altına taşımak yerine bu yol seçildi: varlık hash'li kalır
- * (immutable cache), tek kopya olarak kalır ve hero bileşeni ile preload
- * hedefinin aynı dosyadan türemesi derleme zamanında garanti altına alınır.
+ * `public/` altına taşımak yerine bu yol seçildi: varlıklar hash'li kalır
+ * (immutable cache) ve hero bileşeni ile preload aynı listeden türer.
  */
-const HERO_LCP_SOURCE = "src/assets/technical-landing/hero-manifold-v1.webp";
-const HERO_LCP_EMITTED = /(?:^|\/)hero-manifold-v1-[^/]*\.webp$/;
+const HERO_LCP_DIR = "src/assets/technical-landing";
 
 /**
  * C1 — preload the faces the first screen paints.
@@ -73,20 +75,23 @@ function heroPreloadPlugin(): Plugin {
     transformIndexHtml: {
       order: "post",
       handler(html, ctx) {
-        // Dev sunucusunda varlık kaynak yolundan servis edilir.
-        let href = `/${HERO_LCP_SOURCE}`;
-        if (ctx.bundle) {
-          const emitted = Object.keys(ctx.bundle).find((file) => HERO_LCP_EMITTED.test(file));
-          if (!emitted) {
+        // Dev sunucusunda varlıklar kaynak yolundan servis edilir.
+        const urlFor = (file: string) => {
+          if (!ctx.bundle) return `/${HERO_LCP_DIR}/${file}`;
+          const asset = Object.values(ctx.bundle).find(
+            (item) => item.type === "asset" && (item.names?.includes(file) || item.name === file),
+          );
+          if (!asset) {
             // Sessizce yanlış bir preload yayınlamaktansa derlemeyi durdur:
             // 404'e ya da `text/html`'e çözülen bir preload tam olarak bu
             // eklentinin ortadan kaldırmak için var olduğu hatadır.
-            throw new Error(
-              `[mas-hero-preload] ${HERO_LCP_SOURCE} bundle çıktısında bulunamadı; preload enjekte edilemiyor.`,
-            );
+            throw new Error(`[mas-hero-preload] ${HERO_LCP_DIR}/${file} bundle çıktısında bulunamadı; preload enjekte edilemiyor.`);
           }
-          href = `${ctx.path.replace(/[^/]*$/, "")}${emitted}`.replace(/\/{2,}/g, "/");
-        }
+          return `${ctx.path.replace(/[^/]*$/, "")}${asset.fileName}`.replace(/\/{2,}/g, "/");
+        };
+        const avif = Object.fromEntries(HERO_IMAGE_WIDTHS.map((width) => [width, urlFor(heroImageFile(width, "avif"))])) as Record<(typeof HERO_IMAGE_WIDTHS)[number], string>;
+        const href = avif[1672];
+        const imagesrcset = heroSrcSet(avif);
         /* PERF01 — THE LANDING'S OWN CHUNKS, DISCOVERED EARLY. The landing is
            a lazy route, so its JS and CSS used to be requested only after the
            entry script had run and resolved the route: two more round trips
@@ -124,8 +129,10 @@ function heroPreloadPlugin(): Plugin {
               attrs: {
                 rel: "preload",
                 as: "image",
-                type: "image/webp",
+                type: "image/avif",
                 href,
+                imagesrcset,
+                imagesizes: HERO_IMAGE_SIZES,
                 fetchpriority: "high",
               },
               injectTo: "head",

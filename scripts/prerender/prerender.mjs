@@ -78,7 +78,7 @@ const paths = [...new Set(publicRoutes.flatMap((route) => [route.path, ENGLISH_L
 /* ── a static server over the untouched build (SPA fallback) ───────────── */
 const TYPES = {
   ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".css": "text/css", ".json": "application/json",
-  ".svg": "image/svg+xml", ".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg", ".ico": "image/x-icon",
+  ".svg": "image/svg+xml", ".webp": "image/webp", ".avif": "image/avif", ".png": "image/png", ".jpg": "image/jpeg", ".ico": "image/x-icon",
   ".pdf": "application/pdf", ".woff2": "font/woff2", ".txt": "text/plain", ".xml": "application/xml",
 };
 const server = createServer((request, response) => {
@@ -183,10 +183,10 @@ function compose({ html, lang, title, head, stylesheets = [] }) {
   /* The build preloads the landing hero on every page (vite.config.ts,
      heroPreloadPlugin): right for the SPA shell, 64 KB of wasted bandwidth on
      a prerendered inner page. A snapshot keeps an image preload only when its
-     own markup uses that image. (Moving it ahead of the module script was
+     own markup uses that image (as src or in a srcset). (Moving it ahead of the module script was
      measured too and changed nothing — C4 notes.) */
   out = out.replace(/\s*<link rel="preload" as="image"[^>]*href="([^"]+)"[^>]*>/g, (tag, href) =>
-    (html.includes(`src="${href}"`) ? tag : ""));
+    (html.includes(href) ? tag : "")); // href appears as the img src or in a <source> srcset
   const styles = stylesheets
     .filter((href) => !out.includes(`href="${href}"`))
     .map((href) => `<link rel="stylesheet" crossorigin href="${href}">`);
