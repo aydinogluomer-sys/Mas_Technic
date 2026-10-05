@@ -21,6 +21,10 @@ const RAIL_TR: Record<string, string> = {
   "MARQUEE": "HİZMETLER",
   "RFQ": "TEKLİF",
   "PAGE": "SAYFA",
+  /* R1: no rail word may pass ten letters (64px rail, 10px mono). */
+  "REFERANSLAR": "REFERANS",
+  "İÇİNDEKİLER": "İÇERİK",
+  "KARŞILAŞTIRMA": "KIYAS",
 };
 
 const RAIL_EN: Record<string, string> = {

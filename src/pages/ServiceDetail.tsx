@@ -30,6 +30,15 @@ import { PILOT_MODULES } from "@/content/pilot-modules";
 import { RELATED } from "@/content/related";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 import { coverSizes, responsive, type ResponsiveImage } from "@/components/BlurImage";
+import industryRobotics from "@/assets/industry-robotics.webp";
+import industryAutomotive from "@/assets/industry-automotive.webp";
+import industryHydraulic from "@/assets/industry-hydraulic.webp";
+import industryPiping from "@/assets/industry-piping.webp";
+import industryHvac from "@/assets/industry-hvac.webp";
+import industryRenewable from "@/assets/industry-renewable.webp";
+import industryOilgas from "@/assets/industry-oilgas.webp";
+import industryPower from "@/assets/industry-power.webp";
+import industryMining from "@/assets/industry-mining.webp";
 import qualityControl from "@/assets/quality-control.webp";
 import qualityControl640 from "@/assets/quality-control-640.webp";
 import qualityControl960 from "@/assets/quality-control-960.webp";
@@ -213,6 +222,16 @@ const heroImageMap: Record<PhotoAsset, ResponsiveImage> = {
   "hero-proje-yonetimi": responsive(1600, 896, heroProjeYonetimi, [heroProjeYonetimi640, 640], [heroProjeYonetimi960, 960]),
   "hero-tedarik-zinciri": responsive(1600, 896, heroTedarikZinciri, [heroTedarikZinciri640, 640], [heroTedarikZinciri960, 960]),
   "hero-seri-uretim": responsive(1600, 896, heroSeriUretim, [heroSeriUretim640, 640], [heroSeriUretim960, 960]),
+  /* R1: sector photographs (one source each; the landing track uses the same). */
+  "industry-robotics": responsive(1200, 1200, industryRobotics),
+  "industry-automotive": responsive(1200, 1200, industryAutomotive),
+  "industry-hydraulic": responsive(750, 750, industryHydraulic),
+  "industry-piping": responsive(1200, 1200, industryPiping),
+  "industry-hvac": responsive(1200, 1200, industryHvac),
+  "industry-renewable": responsive(1200, 1200, industryRenewable),
+  "industry-oilgas": responsive(1200, 1200, industryOilgas),
+  "industry-power": responsive(1200, 1200, industryPower),
+  "industry-mining": responsive(1200, 1200, industryMining),
 };
 
 /* `.shell-plate-frame` geometry (`src/styles/shell.css`): a 1px-bordered box
@@ -371,14 +390,22 @@ export const ServiceDetail = () => {
   /* IMG01 — the explicit manifest entry; no automatic fallback. */
   const visual = DETAIL_VISUALS[page.slug];
   const lang = i18n.language === "en" ? "en" : "tr";
-  const heroImage = visual?.kind === "photo" ? heroImageMap[visual.asset] : null;
+  /* R1: a sector entry may carry its own photograph; the plate then shows the
+     photograph and the schema follows it as a figure. */
+  const sectorPhoto = visual?.kind === "schema" ? visual.photo : undefined;
+  const plateAsset = visual?.kind === "photo" ? visual.asset : sectorPhoto?.asset;
+  const heroImage = plateAsset ? heroImageMap[plateAsset] : null;
+  const plateCrop = visual?.kind === "photo" ? visual.crop : undefined;
   const SchemaDrawing = visual?.kind === "schema" ? SECTOR_SCHEMAS[visual.schema] : null;
+  const PlateSchema = sectorPhoto ? null : SchemaDrawing;
   const pilot = PILOT_MODULES[page.slug];
   const PilotDrawing = pilot ? PILOT_SCHEMAS[pilot.schema] : null;
   const plateCaption = visual
-    ? visual.kind === "schema"
-      ? `${SCHEMA_LABEL[lang]} · ${visual.subject[lang]}`
-      : visual.subject[lang]
+    ? sectorPhoto
+      ? sectorPhoto.subject[lang]
+      : visual.kind === "schema"
+        ? `${SCHEMA_LABEL[lang]} · ${visual.subject[lang]}`
+        : visual.subject[lang]
     : page.categoryLabel;
 
   /* Band numbers are assigned in render order, so a page without comparison
@@ -449,9 +476,9 @@ export const ServiceDetail = () => {
           <ShellPlate
             plate={`${t("PLAKA")} · ${upper(page.title, i18n.language)}`}
             caption={plateCaption}
-            media={SchemaDrawing ? (
-              <div className="shell-schema-media"><SchemaDrawing /></div>
-            ) : heroImage && visual?.kind === "photo" ? (
+            media={PlateSchema ? (
+              <div className="shell-schema-media"><PlateSchema /></div>
+            ) : heroImage ? (
               /* PHASE 10-3 — `alt=""`, not `alt={page.title}`. The plate sits
                  directly under the `<h1>` that carries `page.title`, and the
                  figcaption prints it a second time in the plate designation;
@@ -470,13 +497,16 @@ export const ServiceDetail = () => {
                 height={heroImage.height}
                 alt=""
                 loading="eager"
-                style={{ y: plateY, objectPosition: visual.crop }}
+                style={{ y: plateY, objectPosition: plateCrop }}
                 initial={{ scale: 1.08, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               />
             ) : null}
           />
+          {sectorPhoto && SchemaDrawing && visual?.kind === "schema" && (
+            <SchemaFigure drawing={SchemaDrawing} subject={visual.subject[lang]} />
+          )}
         </div>
 
         <div className="shell-span-read shell-stack">

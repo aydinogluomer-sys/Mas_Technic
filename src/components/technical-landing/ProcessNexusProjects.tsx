@@ -1,4 +1,7 @@
 import { useState } from "react";
+import processImage from "@/assets/hero-cnc-frezeleme.webp";
+import processImage640 from "@/assets/hero-cnc-frezeleme-640.webp";
+import processImage960 from "@/assets/hero-cnc-frezeleme-960.webp";
 import projectDefense from "@/assets/industry-defense.webp";
 import projectDefense640 from "@/assets/industry-defense-640.webp";
 import projectDefense960 from "@/assets/industry-defense-960.webp";
@@ -9,6 +12,7 @@ import { Link } from "@/i18n/LocaleLink";
 import { useTranslation } from "react-i18next";
 import { ArrowRight } from "lucide-react";
 import { accountLink } from "@/components/navigation/ia";
+import { ReverseScrollSection } from "@/components/ReverseScrollSection";
 import { caseStudies, type CaseStudyImageKey } from "@/content/caseStudies";
 import { NEXUS_DEMO_LABEL, NEXUS_NOT_REAL_LABEL, nexusDemoSteps, technicalProcess } from "@/data/technicalLandingData";
 import { SignatureControl } from "./SignatureControl";
@@ -25,30 +29,54 @@ const caseStudyImages: Record<CaseStudyImageKey, ResponsiveImage> = {
   turning: responsive(900, 504, projectTurning),
 };
 
-/* `.tl-project-featured` is 264px tall (216 on mobile) and its image spans
+/* `.tl-project-featured` is 420px tall (216 on mobile) and its image spans
    master columns 1-6 of 12 (1-3 of 6 on tablet, full width on mobile). The
    source is square, so the box is always the wider axis. */
-const FEATURED_SIZES = coverSizes(1, "264px", [
+const FEATURED_SIZES = coverSizes(1, "420px", [
   ["(max-width: 767px)", "calc(100vw - 43px)", "216px"],
   ["(max-width: 1180px)", "calc((100vw - 56px) / 2 - 1px)"],
   [null, "min(calc((100vw - 66px) / 2), 767px)"],
 ]);
 
-/** 05 — Karardan parçaya: kontrol yaklaşımı (imza modülü) ve dört adımlı üretim akışı. */
+/* `.tl-process figure` is 252px tall (216 on mobile) plus a 48px reverse-scroll
+   overscan each way, spanning master columns 5-12 (4-6 on tablet, full on
+   mobile) with an `object-fit: cover` 16:9 image: on mobile and tablet the
+   height decides the source width (312 x 1.786 = 557px, 348 x 1.786 = 621px).
+   Measured band widths: 333 at 375, 355 at 768, 809 at 1280, 916 at 1440. */
+const processFigure = responsive(1600, 896, processImage, [processImage640, 640], [processImage960, 960]);
+const PROCESS_SIZES = coverSizes(1600 / 896, "252px + 96px", [
+  ["(max-width: 767px)", "calc(100vw - 42px)", "216px + 96px"],
+  ["(max-width: 1180px)", "calc((100vw - 56px) / 2)"],
+  [null, "min(calc((100vw - 66px) * 2 / 3), 1023px)"],
+]);
+
+/** 05 — Karardan parçaya: süreç fotoğrafı, dört adımlı akış ve altında kontrol yaklaşımı (imza modülü). */
 export function TechnicalProcess() {
   const { t } = useTranslation();
   return (
-    <TechnicalSectionFrame id="surec" no="04" label="SÜREÇ" className="tl-process" labelledBy="tl-process-title">
+    <TechnicalSectionFrame id="surec" no="05" label="SÜREÇ" className="tl-process" labelledBy="tl-process-title">
       <div className="tl-process-body">
         <div className="tl-process-intro">
           <h2 id="tl-process-title">{t("Karardan parçaya,")}<br /><em>{t("kanıtla ilerleyen üretim.")}</em></h2>
-          {/* UX01: the manifesto band is gone; its sentence lives here, in the
-              control-approach band it was always describing. */}
-          <p className="tl-process-manifesto">{t("Hassasiyet iddia edilmez, ölçülür: ölçer, kaydeder, raporlar ve teslim ederiz.")}</p>
         </div>
-        {/* PROOF01: the stock milling render gave way to the signature
-            module — the control approach on one representative part. */}
-        <SignatureControl />
+        {/* R1 (owner, 5 Oct): the reference's milling photograph is back in
+            the figure slot; the signature module (PROOF01) stays, below the
+            four steps. */}
+        <figure className="tl-process-photo">
+          <ReverseScrollSection distance={48}>
+            <img
+              src={processFigure.src}
+              srcSet={processFigure.srcSet}
+              sizes={PROCESS_SIZES}
+              alt={t("Soğutma sıvısı altında prizmatik metal bloğu işleyen CNC freze iş mili ve kesici takım")}
+              width={processFigure.width}
+              height={processFigure.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </ReverseScrollSection>
+          <Link className="tl-image-link" to="/hizmetler/cnc-frezeleme" aria-label={t("CNC Frezeleme")} />
+        </figure>
         <ol>
           {technicalProcess.map((step) => (
             <li key={step.no}>
@@ -58,6 +86,7 @@ export function TechnicalProcess() {
             </li>
           ))}
         </ol>
+        <SignatureControl />
       </div>
     </TechnicalSectionFrame>
   );
@@ -76,7 +105,7 @@ export function NexusEvidence() {
   const { t } = useTranslation();
   const [active, setActive] = useState<string>(nexusDemoSteps[0].key);
   return (
-    <TechnicalSectionFrame id="nexus" no="09" label="NEXUS" className="tl-nexus" labelledBy="tl-nexus-title">
+    <TechnicalSectionFrame id="nexus" no="11" label="NEXUS" className="tl-nexus" labelledBy="tl-nexus-title">
       <div className="tl-nexus-body">
         <header>
           <h2 id="tl-nexus-title">{t("Bir işin beş adımı,")}<br /><em>{t("her adımda bir belge.")}</em></h2>
@@ -160,7 +189,7 @@ export function NexusEvidence() {
 export function MeasuredProjects() {
   const { t } = useTranslation();
   return (
-    <TechnicalSectionFrame id="projeler" no="05" label="KABİLİYET PROFİLLERİ" className="tl-projects" labelledBy="tl-projects-title">
+    <TechnicalSectionFrame id="projeler" no="06" label="KABİLİYET PROFİLLERİ" className="tl-projects" labelledBy="tl-projects-title">
       <div className="tl-projects-body">
         {/* Referansta bant başlığı yok; bandı sol raydaki "07 / KABİLİYET
             PROFİLLERİ" etiketi adlandırıyor, başlık yalnızca erişilebilirlik

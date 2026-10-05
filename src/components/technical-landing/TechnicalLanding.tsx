@@ -3,7 +3,8 @@ import { PageShell } from "@/components/shell/PageShell";
 import { TechnicalHero } from "./TechnicalHero";
 import { ProofStrip } from "./ProofStrip";
 import { MeasuredProjects, NexusEvidence, TechnicalProcess } from "./ProcessNexusProjects";
-import { FaqSection, QualityFile, ReferenceBand, RfqSection, TechnicalSectors } from "./FinalSections";
+import { FaqSection, MeasurementManifesto, QualityFile, ReferenceBand, RfqSection, TechnicalSectors } from "./FinalSections";
+import { MarqueeBand } from "./MarqueeBand";
 import "@/styles/technical-landing.css";
 import { useTechnicalLandingMotion } from "@/hooks/useTechnicalLandingMotion";
 
@@ -44,19 +45,19 @@ export function TechnicalLanding() {
       className="tl-root"
       rootRef={rootRef}
       testId="technical-landing-root"
-      footerNo="12"
-      footerConversion={false}
+      footerNo="14"
     >
-      {/* UX01 — the contract's reading order: example geometry → verified
-          capability summary → control approach (signature module; the
-          production flow and the manifesto line merged into it) → three
-          profiles → sectors → quality sources → NEXUS demo → short FAQ → RFQ.
-          The repeating marquee and the separate manifesto band are gone. */}
+      {/* R1 (owner, 5 Oct) — the reference bands of 2 Oct are back (marquee,
+          process photo, manifesto, the six-card quality frame, the closing
+          conversion band); the NEXUS five-step demo keeps its place after
+          the references, at the owner's choice. */}
       <TechnicalHero />
       <ProofStrip />
+      <MarqueeBand />
       <TechnicalProcess />
       <MeasuredProjects />
       <TechnicalSectors />
+      <MeasurementManifesto />
       <QualityFile />
       <ReferenceBand />
       <NexusEvidence />

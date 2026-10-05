@@ -28,7 +28,11 @@ export type PhotoAsset =
   | "hero-qr-datamatrix" | "hero-logo-markalama" | "hero-insert-uygulama" | "hero-kitting-paketleme"
   | "hero-kaynakli-imalat" | "hero-cnc" | "hero-malzeme-kutuphanesi" | "quality-control"
   | "hero-tolerans-hassasiyet" | "blog-dfm" | "hero-yuzey-islemleri" | "hero-seri-uretim"
-  | "hero-proje-yonetimi" | "hero-tedarik-zinciri" | "hero-havacilik";
+  | "hero-proje-yonetimi" | "hero-tedarik-zinciri" | "hero-havacilik"
+  /* R1: the sector photographs the landing's sector track already uses
+     (1200×1200; hvac, renewable and mining cropped free of staff). */
+  | "industry-robotics" | "industry-automotive" | "industry-hydraulic" | "industry-piping"
+  | "industry-hvac" | "industry-renewable" | "industry-oilgas" | "industry-power" | "industry-mining";
 
 export type DetailVisual =
   | {
@@ -48,6 +52,9 @@ export type DetailVisual =
       subject: Text;
       sourceKind: "code-schema";
       permissionRef: string;
+      /** R1 (owner, 5 Oct): the sector's own photograph above the schema.
+       *  Only a photograph of the page's subject with no person in it. */
+      photo?: { asset: PhotoAsset; subject: Text };
     };
 
 const REPO = "USER_INPUTS.md §I PROJECT_PHOTOS: USE_REPO";
@@ -55,8 +62,11 @@ const CODE = "Özgün kod çizimi, IMG01 (izin gerekmez)";
 
 const photo = (asset: PhotoAsset, tr: string, en: string, extra: Partial<Extract<DetailVisual, { kind: "photo" }>> = {}): DetailVisual =>
   ({ kind: "photo", asset, subject: { tr, en }, sourceKind: "repo-render", permissionRef: REPO, ...extra });
-const schema = (key: SectorSchemaKey, tr: string, en: string): DetailVisual =>
-  ({ kind: "schema", schema: key, subject: { tr, en }, sourceKind: "code-schema", permissionRef: CODE });
+const schema = (key: SectorSchemaKey, tr: string, en: string, photo?: { asset: PhotoAsset; tr: string; en: string }): DetailVisual =>
+  ({
+    kind: "schema", schema: key, subject: { tr, en }, sourceKind: "code-schema", permissionRef: CODE,
+    ...(photo ? { photo: { asset: photo.asset, subject: { tr: photo.tr, en: photo.en } } } : {}),
+  });
 
 export const DETAIL_VISUALS: Record<string, DetailVisual> = {
   /* ── Hizmetler ── */
@@ -102,26 +112,38 @@ export const DETAIL_VISUALS: Record<string, DetailVisual> = {
   "tedarik-zinciri": photo("hero-tedarik-zinciri", "Çubuk malzeme rafı", "Bar-stock rack"),
   "operasyonel-verimlilik": schema("verimlilik", "Kurulum işlerinin ayrıştırılması", "Separating setup work"),
 
-  /* ── Endüstriyel (17 sektör) ── */
+  /* ── Endüstriyel (17 sektör) ──
+     R1 (owner, 5 Oct): nine sectors get their own photograph above the
+     schema. Savunma, medikal and yat stay schema-only (people in the frame);
+     prototip, küçük seri and özel projeler have no subject photograph. */
   "havacilik-uzay": photo("hero-havacilik", "Havacılık braketi ve kritik yüzeyleri", "Aerospace bracket and its critical surfaces", { crop: "40% 50%" }),
   "savunma-sanayi": schema("savunma", "Muhafaza ve bağlantı referansı", "Housing and connection reference"),
-  "robotik": schema("robotik", "Eklem, rulman oturması ve eksen ilişkisi", "Joint, bearing seat and axis relationship"),
-  "otomotiv": schema("otomotiv", "Aynı parçada numune ve parti kontrol noktaları", "Sample and batch control points on one part"),
+  "robotik": schema("robotik", "Eklem, rulman oturması ve eksen ilişkisi", "Joint, bearing seat and axis relationship",
+    { asset: "industry-robotics", tr: "Robot eklem gövdesi", en: "Robot joint housing" }),
+  "otomotiv": schema("otomotiv", "Aynı parçada numune ve parti kontrol noktaları", "Sample and batch control points on one part",
+    { asset: "industry-automotive", tr: "İşlenmiş otomotiv parçaları", en: "Machined automotive parts" }),
   "medikal": schema("medikal", "Bileşen yüzeyi ve izlenebilirlik", "Component surface and traceability"),
   "yelken-yat-sistemleri": schema("yat", "Farklı metallerin bağlantısı ve galvanik uyum", "Joining dissimilar metals and galvanic compatibility"),
-  "hidrolik-pnomatik": schema("hidrolik", "Manifold kesiti, akış yolları ve temizleme", "Manifold section, flow paths and cleaning"),
-  "boru-baglanti-parcalari": schema("boru", "Diş, oturma ve flanş bağlantısı kesiti", "Thread, seating and flange connection section"),
-  "iklim-teknolojileri": schema("iklim", "Conta, bağlantı ve sızdırmazlık özelliği", "Seal, connection and sealing feature"),
+  "hidrolik-pnomatik": schema("hidrolik", "Manifold kesiti, akış yolları ve temizleme", "Manifold section, flow paths and cleaning",
+    { asset: "industry-hydraulic", tr: "Hidrolik manifold bloğu", en: "Hydraulic manifold block" }),
+  "boru-baglanti-parcalari": schema("boru", "Diş, oturma ve flanş bağlantısı kesiti", "Thread, seating and flange connection section",
+    { asset: "industry-piping", tr: "Flanşlı boru bağlantı parçaları", en: "Flanged pipe fittings" }),
+  "iklim-teknolojileri": schema("iklim", "Conta, bağlantı ve sızdırmazlık özelliği", "Seal, connection and sealing feature",
+    { asset: "industry-hvac", tr: "İklim sistemi bileşenleri", en: "Climate system components" }),
   "prototip-uretim": schema("prototip", "Aynı geometrinin iki revizyonu", "Two revisions of one geometry"),
   "kucuk-seri": schema("kucuk-seri", "Lot ve parça kimliği düzeni", "Lot and part identity layout"),
   "seri-uretim": photo("hero-seri-uretim", "Sıra sıra özdeş parçalar", "Rows of identical parts", {
     shared: "seri-imalat ile: aynı konu; sözleşme mevcut seri görselini bu sayfada tutar.",
   }),
   "ozel-projeler": schema("ozel-proje", "Modelden teknik resme", "From model to technical drawing"),
-  "yenilenebilir-enerji": schema("yenilenebilir", "Dış ortam bağlantısı ve kaplama payı", "Outdoor connection and coating allowance"),
-  "petrol-gaz": schema("petrol-gaz", "Basınçlı birleşimin kesiti", "Section of a pressure joint"),
-  "guc-dagitim-sistemleri": schema("guc-dagitim", "Bara, kontak ve montaj kesiti", "Busbar, contact and mounting section"),
-  "madencilik-ekipmanlari": schema("madencilik", "Aşınma yüzeyi ve parça kesiti", "Wear surface and part section"),
+  "yenilenebilir-enerji": schema("yenilenebilir", "Dış ortam bağlantısı ve kaplama payı", "Outdoor connection and coating allowance",
+    { asset: "industry-renewable", tr: "Büyük çaplı yatak gövdesi", en: "Large-diameter bearing housing" }),
+  "petrol-gaz": schema("petrol-gaz", "Basınçlı birleşimin kesiti", "Section of a pressure joint",
+    { asset: "industry-oilgas", tr: "Flanşlı basınç gövdesi", en: "Flanged pressure body" }),
+  "guc-dagitim-sistemleri": schema("guc-dagitim", "Bara, kontak ve montaj kesiti", "Busbar, contact and mounting section",
+    { asset: "industry-power", tr: "Güç ekipmanı gövde parçaları", en: "Power equipment housing parts" }),
+  "madencilik-ekipmanlari": schema("madencilik", "Aşınma yüzeyi ve parça kesiti", "Wear surface and part section",
+    { asset: "industry-mining", tr: "İşlenmiş büyük silindirik parça", en: "Large machined cylindrical part" }),
 };
 
 /** The honesty label every code-drawn schema carries (contract §3, IMG01). */

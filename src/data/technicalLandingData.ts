@@ -47,6 +47,15 @@ export const technicalProof = [
  * note states the one thing that genuinely varies per job: which tolerance a
  * given geometry can actually hold.
  */
+export const marqueeItems = [
+  "5 EKSEN CNC İŞLEME",
+  "CNC TORNALAMA",
+  "MİKRO İŞLEME",
+  "YÜZEY İŞLEMLERİ",
+  "KALİTE KONTROL",
+  "MONTAJ & BİRLEŞTİRME",
+] as const;
+
 export const technicalProofNote =
   "Ulaşılabilir tolerans; geometri, malzeme ve ölçü zincirine göre değişir, her parça için teknik incelemede belirlenir.";
 

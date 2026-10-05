@@ -445,3 +445,25 @@ PR'ı CI'da yeşile getirmek (WebKit/Firefox ilk kez orada koşar), sonra Vercel
 | Yerel lab LCP p75 (`/` 375/1440) | 1612 / 1696 ms (yön için; HTTP/1.1) | `evidence/f0-perf-lab-local.json` |
 | Parity gürültüsü (main'e karşı main; threshold 0, retry yok) | 390 geçti, 0 flaky, 0 hata | yerel koşu |
 | Gerçek Vercel lab (`perf=true`) | **NOT_TESTED**, kullanıcı koşacak | — |
+
+## Faz R1 — referans sürüme göre görsel onarım (5 Ekim 2026)
+
+Referans: kullanıcının yerelde açtığı ve "görmesini istediğim şekilde" dediği klasör, SHA256 eşleşmesiyle `4618e71` çıktı (2 Ekim, PR #2 merge). Fark envanteri: https://claude.ai/artifact/1G6GJ9PgPWLVC31xGtzPEQ (14 madde).
+
+| Madde | Karar | Değişiklik |
+|---|---|---|
+| Kayan hizmet bandı | geri | `MarqueeBand` + `marqueeItems`; ekran dışında durur, azaltılmış harekette durur |
+| Süreç fotoğrafı | geri | freze fotoğrafı figür yuvasında; kontrol modülü (PROOF01) adımların altında |
+| Manifesto + kumpas | geri | `MeasurementManifesto` (portre kesit mobilde) |
+| Kalite Dosyası | referans düzeni | 6 kartlık çerçeve: 2 ISO kartı (çerçevede yalnız standardın adı, taranmış belge görüntüsü yok) + 4 gerçek PDF'in ilk sayfası; OHSAS yok |
+| SSS sağ sütunu | geri | KAYNAKLAR: dört PDF indirme |
+| Kapanış bandı | geri | "Toleransı siz yazın, gerisini ölçelim." (footer conversion) |
+| Kabiliyet profilleri | bozulma düzeltildi | kartlar içeriğe göre büyür; ikincil kart görsel seçicisi düzeltildi; öne çıkan kart 420px (oran ~1,4) |
+| Sol ray etiketleri | bozulma düzeltildi | kelime ortasından kırılma yok; 10 harften uzun üç etiket kısaldı |
+| Kontrol modülü (375) | bozulma düzeltildi | mobil iç boşluk |
+| NEXUS | kullanıcı kararı: değişmez | beş adım demosu, bugünkü yerinde |
+| Pafta sayacı | 14 | marquee ve manifesto geri geldiği için |
+| İç sayfa fotoğrafları | uyumlular geri | 9 sektör sayfası kendi fotoğrafı + altında şema; hassas mil profili tornalama fotoğrafı + şema. Savunma, medikal, yat (karede insan), prototip/küçük seri/özel proje (konu fotoğrafı yok), tavlama, montaj, verimlilik, düşük hacim şemada kaldı. Referansta 15 sektör sayfası aynı genel fotoğrafı gösteriyordu. |
+| Operasyon sırası (profil, kalite, hakkımızda) | bozulma düzeltildi | `shell-stack` içindeki `subgrid` sıfır genişliğe çöküyordu; adımlar üst üste biniyordu |
+
+Korunanlar: type floor (12px), T02/T03 dürüstlük kararları, EN sözlüğü (geri gelen tüm metinlerin karşılığı vardı), ön render, perf.
