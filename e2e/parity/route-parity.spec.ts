@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
-import { dirname, join, relative, sep } from "node:path";
+import path, { dirname, join, relative, sep } from "node:path";
 import { expect, test, type Page } from "@playwright/test";
 import { gotoAndSettle } from "../helpers";
 import { hideForeignOverlays } from "../visual/overlays";
@@ -21,6 +21,8 @@ import { hideForeignOverlays } from "../visual/overlays";
  */
 
 const DIST = process.env.PARITY_DIST ?? "dist";
+// Git-ignored scratch beside the snapshots (registered in the evidence-write census).
+const PARITY_DIR = path.join(process.cwd(), ".parity");
 const SCOPE = process.env.PARITY_SCOPE ?? "sample";
 
 function prerenderedRoutes(): string[] {
@@ -93,7 +95,7 @@ test.describe("route parity", () => {
   // itself is compared with the one recorded alongside the baseline.
   test("route set matches baseline", async () => {
     const testInfo = test.info();
-    const manifest = join(testInfo.project.testDir, "..", ".parity", testInfo.project.name, "routes.json");
+    const manifest = join(PARITY_DIR, testInfo.project.name, "routes.json");
     if (["all", "changed"].includes(testInfo.config.updateSnapshots)) {
       mkdirSync(dirname(manifest), { recursive: true });
       writeFileSync(manifest, JSON.stringify(routes, null, 2));

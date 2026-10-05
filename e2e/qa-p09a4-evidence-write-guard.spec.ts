@@ -218,6 +218,9 @@ const EXPECTED: Site[] = [
   { file: "e2e/qa-09b1-golden-drift.spec.ts", destination: "test-results", guarded: true },
   { file: "e2e/qa-09b1-type-slot-census.spec.ts", destination: "reports", guarded: true },
   { file: "e2e/qa-09b1-type-slot-census.spec.ts", destination: "test-results", guarded: true },
+  // Faz 0 parity harness: the baseline route set, next to its snapshots in
+  // the git-ignored `.parity/`; written only by an --update-snapshots run.
+  { file: "e2e/parity/route-parity.spec.ts", destination: ".parity", guarded: true },
 ].sort((a, b) => `${a.file}${a.destination}`.localeCompare(`${b.file}${b.destination}`));
 
 test.describe("09a-R4 — evidence writes", () => {
