@@ -112,7 +112,8 @@ const SMOKE_MATCH = ["smoke/**/*.spec.ts"];
 const INTEROP_MATCH = ["interop/**/*.spec.ts"];
 const LEGACY_MATCH = ["legacy/**/*.spec.ts"];
 /** Regresyon aileleri kendi ozel projeleri olan paketleri tekrar calistirmaz. */
-const REGRESSION_IGNORE = [...VISUAL_MATCH, ...SMOKE_MATCH, ...INTEROP_MATCH, ...LEGACY_MATCH];
+const PARITY_MATCH = ["parity/**/*.spec.ts"];
+const REGRESSION_IGNORE = [...VISUAL_MATCH, ...SMOKE_MATCH, ...INTEROP_MATCH, ...LEGACY_MATCH, ...PARITY_MATCH];
 
 const criticalProjects = [
   {
@@ -235,6 +236,27 @@ const legacyProjects = process.env.PLAYWRIGHT_LEGACY === "1"
     }]
   : [];
 
+// Opt-in: pixel parity for behaviour-preserving refactors (e2e/parity). The
+// snapshots are local (.parity/, git-ignored): recorded from an origin/main
+// build, then compared against the branch. Reduced motion by default; the
+// spec switches it per menu test.
+const parityProjects = process.env.PLAYWRIGHT_PARITY === "1"
+  ? ([[375, 812, true], [1440, 900, false]] as const).map(([width, height, mobile]) => ({
+      name: `parity-${width}`,
+      testMatch: PARITY_MATCH,
+      snapshotPathTemplate: "{testDir}/../.parity/{projectName}/{arg}{ext}",
+      // No retry: a pass on retry would hide an intermittent difference.
+      retries: 0,
+      use: {
+        ...devices["Desktop Chrome"],
+        ...chromiumLaunch,
+        viewport: { width, height },
+        ...(mobile ? { isMobile: true, hasTouch: true } : {}),
+        reducedMotion: "reduce" as const,
+      },
+    }))
+  : [];
+
 export default defineConfig({
   testDir: "./e2e",
   outputDir: process.env.PLAYWRIGHT_OUTPUT_DIR ?? "test-results",
@@ -276,6 +298,7 @@ export default defineConfig({
     ...interopProjects,
     ...visualProjects,
     ...legacyProjects,
+    ...parityProjects,
   ],
   webServer: MANAGED_PREVIEW_URL ? undefined : {
       command: PREVIEW_ONLY

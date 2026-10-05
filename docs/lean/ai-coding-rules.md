@@ -37,7 +37,9 @@ Olmayan dosya için önce oluştur, sonra planı uygula.
 ✅ Named export — default export yerine tercih et
 ✅ forwardRef + displayName — ref gereken bileşenler için
 ❌ Tüm dosyayı yeniden yaz — diff minimale indir
-❌ Çalışan kodu refactor et — sadece görevi tamamla
+❌ Görev dışı refactor — istenmeyen yeniden yapılandırma yok
+✅ Açıkça istenen davranış-koruyan azaltma serbest ("aynı davranış, daha az satır"):
+   aynı DOM/ARIA/odak sırası, aynı reduced-motion, parity harness 0 fark (CLAUDE.md "Minimal Kod Disiplini")
 ❌ Yeni abstraction ekle — task gerektirmiyorsa
 ❌ Yorum ekle — sadece WHY non-obvious ise
 ```
