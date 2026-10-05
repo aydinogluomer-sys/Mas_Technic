@@ -1,5 +1,5 @@
-import { readdirSync, statSync } from "node:fs";
-import { join, relative, sep } from "node:path";
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
+import { dirname, join, relative, sep } from "node:path";
 import { expect, test, type Page } from "@playwright/test";
 import { gotoAndSettle } from "../helpers";
 import { hideForeignOverlays } from "../visual/overlays";
@@ -51,7 +51,8 @@ function scoped(routes: string[]) {
 // Long pages at 1440 need more than the 5 s default to give two identical
 // full-page captures; a timeout is not a pixel difference.
 test.describe.configure({ timeout: 180_000 });
-const SHOT = { maxDiffPixels: 0, timeout: 30_000 } as const;
+// threshold 0: the 0.2 default lets small colour differences pass uncounted.
+const SHOT = { maxDiffPixels: 0, threshold: 0, timeout: 30_000 } as const;
 
 const shotName = (route: string) => `${route === "/" ? "home" : route.slice(1).replace(/\//g, "__")}.png`;
 
@@ -86,7 +87,25 @@ async function rest(page: Page) {
 }
 
 test.describe("route parity", () => {
-  for (const route of scoped(prerenderedRoutes())) {
+  const routes = scoped(prerenderedRoutes());
+
+  // A route deleted on the branch has no test to fail, so the route set
+  // itself is compared with the one recorded alongside the baseline.
+  test("route set matches baseline", async () => {
+    const testInfo = test.info();
+    const manifest = join(testInfo.project.testDir, "..", ".parity", testInfo.project.name, "routes.json");
+    if (["all", "changed"].includes(testInfo.config.updateSnapshots)) {
+      mkdirSync(dirname(manifest), { recursive: true });
+      writeFileSync(manifest, JSON.stringify(routes, null, 2));
+      return;
+    }
+    expect(existsSync(manifest), "no baseline route set: record main with --update-snapshots first").toBe(true);
+    const before: string[] = JSON.parse(readFileSync(manifest, "utf8"));
+    expect({ removed: before.filter((r) => !routes.includes(r)), added: routes.filter((r) => !before.includes(r)) })
+      .toEqual({ removed: [], added: [] });
+  });
+
+  for (const route of routes) {
     test(route, async ({ page }) => {
       await prepare(page);
       await gotoAndSettle(page, route);
@@ -141,6 +160,10 @@ for (const motion of ["reduce", "no-preference"] as const) {
             await page.keyboard.press("Enter");
             await settled(page);
           }
+          // At 375 with motion on, the CTA arrow repainted 2-3 px late in the
+          // first family frame after every signal above was quiet (noise run,
+          // threshold 0); a fixed pause was the only reliable rest.
+          await page.waitForTimeout(1500);
           await expect(page).toHaveScreenshot(`${base}-family-${index + 1}.png`, SHOT);
         }
       });

@@ -60,7 +60,7 @@ Süreler ms, boyutlar KiB.
 
 ## Parity harness — `e2e/parity/route-parity.spec.ts`
 
-Kapsam ve adımlar `../parity.md` dosyasında. Gürültü koşusu aynı `main` build'ine karşı yapıldı (`PARITY_SCOPE=full`, 375 + 1440, 190 rota × 2, menü durumları iki hareket modunda): **387 geçti, 1 flaky (yeniden denemede geçti; `/en/malzemeler` @1440), 0 hata.** Harness kapı olarak kullanılabilir.
+Kapsam ve adımlar `../parity.md` dosyasında. Gürültü koşusu aynı `main` build'ine karşı yapıldı (`PARITY_SCOPE=full`, 375 + 1440, 190 rota × 2 + rota kümesi kontrolü, menü durumları iki hareket modunda; `maxDiffPixels: 0`, `threshold: 0`, yeniden deneme yok): **390 geçti, 0 flaky, 0 hata.** Harness kapı olarak kullanılabilir. Rota kümesi kontrolü elle de denendi: `sss.html` eksik bir dist'te `removed: ["/sss"]` ile düştü.
 
 ## Kapılar (Faz 0)
 

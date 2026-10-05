@@ -50,6 +50,10 @@ function report(htmlFile, path) {
   const preloadList = [...(html.match(/\[\["modulepreload".*?\]\]/)?.[0]?.matchAll(/"\/assets\/([^"]+)"/g) ?? [])].map((m) => m[1]);
   const route = preloadList.find((file) => /^Index-/.test(file));
   const dictionary = path.startsWith("/en") ? preloadList.find((file) => /^en-[\w-]+\.js$/.test(file)) : undefined;
+  // A missing root would undercount the graph and let --forbid pass.
+  if (!entry || !route || (path.startsWith("/en") && !dictionary)) {
+    throw new Error(`${htmlFile}: initial-graph root not found (entry ${entry}, route ${route}, dictionary ${dictionary})`);
+  }
   const js = [...closure([entry, route, dictionary].filter(Boolean))].map((file) => ({ file, ...size(file) })).sort((a, b) => b.gz - a.gz);
   const css = [...html.matchAll(/<link rel="stylesheet"[^>]*href="\/assets\/([^"]+\.css)"/g)].map((m) => ({ file: m[1], ...size(m[1]) }));
   const deferred = [...new Set(js.flatMap(({ file }) => dynamicImports(file)))].filter((file) => !js.some((j) => j.file === file)).sort();

@@ -443,5 +443,5 @@ PR'ı CI'da yeşile getirmek (WebKit/Firefox ilk kez orada koşar), sonra Vercel
 | `/` ilk JS (gz) · `/en` | 162,8 KiB · 203,1 KiB | `evidence/f0-bundle-report.json` |
 | Render-blocking CSS (gz) | 57,8 KiB | aynı |
 | Yerel lab LCP p75 (`/` 375/1440) | 1612 / 1696 ms (yön için; HTTP/1.1) | `evidence/f0-perf-lab-local.json` |
-| Parity gürültüsü (main'e karşı main) | 387 geçti, 1 flaky, 0 hata | yerel koşu |
+| Parity gürültüsü (main'e karşı main; threshold 0, retry yok) | 390 geçti, 0 flaky, 0 hata | yerel koşu |
 | Gerçek Vercel lab (`perf=true`) | **NOT_TESTED**, kullanıcı koşacak | — |

@@ -245,8 +245,8 @@ const parityProjects = process.env.PLAYWRIGHT_PARITY === "1"
       name: `parity-${width}`,
       testMatch: PARITY_MATCH,
       snapshotPathTemplate: "{testDir}/../.parity/{projectName}/{arg}{ext}",
-      // A real pixel difference fails both attempts; a load-induced timeout does not.
-      retries: 1,
+      // No retry: a pass on retry would hide an intermittent difference.
+      retries: 0,
       use: {
         ...devices["Desktop Chrome"],
         ...chromiumLaunch,
