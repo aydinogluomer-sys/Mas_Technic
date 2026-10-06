@@ -221,7 +221,7 @@
    single largest readability loss on the sheet. Nothing informational drops
    under 10px now; decorative drawing marks may. */
 .shell-root .tl-proof article span { font-size: 12px; }
-.shell-root .tl-marquee-track li { font-size: 11px; }
+.shell-root .tl-marquee-track li { font-size: 12px; }
 .shell-root .tl-process li p { font-size: 12px; line-height: 1.65; }
 .shell-root .tl-process li h3 { font-size: 15px; }
 .shell-root .tl-cert > p { font-size: 12px; }
