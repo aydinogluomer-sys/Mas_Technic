@@ -16,14 +16,7 @@ import {
   readOAuthReturn,
   type OAuthProvider,
 } from "@/components/auth/oauth-return";
-import {
-  authFieldId,
-  collectAuthErrors,
-  firstInvalidField,
-  loginSchema,
-  signupSchema,
-  type AuthFieldErrors,
-} from "@/components/auth/auth-schema";
+import { loginSchema, signupSchema, validateAuthForm, type AuthFieldErrors } from "@/components/auth/auth-schema";
 
 /* ══════════════════════════════════════════════════════════════════════════
    /giris — SIGN IN AND SIGN UP
@@ -186,15 +179,7 @@ export const Login = () => {
     event.preventDefault();
     setNotice(null);
 
-    const parsed = (isLogin ? loginSchema : signupSchema).safeParse(values);
-    if (!parsed.success) {
-      const fieldErrors = collectAuthErrors(parsed.error.issues);
-      setErrors(fieldErrors);
-      const first = firstInvalidField(fieldErrors);
-      if (first) document.getElementById(authFieldId(first))?.focus();
-      return;
-    }
-    setErrors({});
+    if (!validateAuthForm(isLogin ? loginSchema : signupSchema, values, setErrors)) return;
 
     if (!captchaToken) {
       setNotice({

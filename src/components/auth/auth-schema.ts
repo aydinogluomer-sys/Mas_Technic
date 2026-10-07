@@ -130,3 +130,25 @@ export const AUTH_FIELD_ORDER: AuthFieldName[] = [
 export function firstInvalidField(errors: AuthFieldErrors): AuthFieldName | null {
   return AUTH_FIELD_ORDER.find((field) => errors[field]) ?? null;
 }
+
+/**
+ * The three auth forms' shared submit gate: on failure, show one message per
+ * field and focus the first invalid control, then return null; on success,
+ * clear the errors and return the parsed values.
+ */
+export function validateAuthForm<T>(
+  schema: z.ZodType<T>,
+  values: unknown,
+  setErrors: (errors: AuthFieldErrors) => void,
+): T | null {
+  const parsed = schema.safeParse(values);
+  if (!parsed.success) {
+    const fieldErrors = collectAuthErrors(parsed.error.issues);
+    setErrors(fieldErrors);
+    const first = firstInvalidField(fieldErrors);
+    if (first) document.getElementById(authFieldId(first))?.focus();
+    return null;
+  }
+  setErrors({});
+  return parsed.data;
+}

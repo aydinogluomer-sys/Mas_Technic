@@ -6,14 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { ShellAction, ShellNotice } from "@/components/shell";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 import { AuthPasswordField } from "@/components/auth/AuthField";
-import {
-  MIN_PASSWORD_LENGTH,
-  authFieldId,
-  collectAuthErrors,
-  firstInvalidField,
-  resetSchema,
-  type AuthFieldErrors,
-} from "@/components/auth/auth-schema";
+import { MIN_PASSWORD_LENGTH, resetSchema, validateAuthForm, type AuthFieldErrors } from "@/components/auth/auth-schema";
 
 /* ══════════════════════════════════════════════════════════════════════════
    /reset-password — SET A NEW PASSWORD
@@ -130,15 +123,7 @@ export const ResetPassword = () => {
     event.preventDefault();
     setNotice(null);
 
-    const parsed = resetSchema.safeParse(values);
-    if (!parsed.success) {
-      const fieldErrors = collectAuthErrors(parsed.error.issues);
-      setErrors(fieldErrors);
-      const first = firstInvalidField(fieldErrors);
-      if (first) document.getElementById(authFieldId(first))?.focus();
-      return;
-    }
-    setErrors({});
+    if (!validateAuthForm(resetSchema, values, setErrors)) return;
     setPending(true);
 
     const { error } = await supabase.auth.updateUser({ password: values.password });
@@ -161,11 +146,7 @@ export const ResetPassword = () => {
   const { t } = useTranslation();
   usePageMeta({ title: t("Yeni Şifre Belirleyin"), noindex: true });
   const frame = (children: React.ReactNode) => (
-    <AuthLayout
-      asideTitle="Hoş Geldiniz"
-      asideLede="MAS TECHNIC müşteri portalı ile teklif, sipariş ve üretim kayıtlarınızı tek yerden izleyin."
-      back={{ to: "/giris", label: "Giriş sayfası" }}
-    >
+    <AuthLayout>
       <div>
         {/* Measured contract: `e2e/qa-p08-scroll-region-reach.spec.ts:206`.
             It is the page's heading in EVERY state, because it is what the

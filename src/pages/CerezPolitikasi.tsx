@@ -79,7 +79,7 @@ import { useLocale } from "@/i18n/hooks";
    ("measured, six public routes, zero cookies") is exactly how this shipped
    wrong: six routes were measured and `/giris` was not one of them. `/giris` is
    a public route by the repository's own contract (`NON_SHELL_PUBLIC_ROUTES` in
-   `e2e/shared-shell-accessibility.spec.ts`), `Login.tsx:230` renders
+   `e2e/shared-shell-accessibility.spec.ts`), `Login.tsx:432` renders
    `<HCaptcha>` inside the form, and it mounts with the page.
 
    MEASURED, fresh context, plain load of `/giris`, NO interaction:

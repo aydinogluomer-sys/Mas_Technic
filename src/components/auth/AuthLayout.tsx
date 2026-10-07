@@ -28,15 +28,20 @@ import { AuthAside } from "./AuthAside";
    ══════════════════════════════════════════════════════════════════════════ */
 
 export type AuthLayoutProps = {
-  /** The aside's own heading and standfirst. */
-  asideTitle: string;
-  asideLede: string;
+  /** The aside's own heading and standfirst; the recovery steps share the defaults. */
+  asideTitle?: string;
+  asideLede?: string;
   /** The one way out of the flow, at the top of the panel. */
-  back: { to: string; label: string };
+  back?: { to: string; label: string };
   children: ReactNode;
 };
 
-export function AuthLayout({ asideTitle, asideLede, back, children }: AuthLayoutProps) {
+export function AuthLayout({
+  asideTitle = "Hoş Geldiniz",
+  asideLede = "MAS TECHNIC müşteri portalı ile teklif, sipariş ve üretim kayıtlarınızı tek yerden izleyin.",
+  back = { to: "/giris", label: "Giriş sayfası" },
+  children,
+}: AuthLayoutProps) {
   const { t } = useTranslation();
   return (
     <PageShell navigation={false} footer="compact" layout="bands" className="shell-auth" surface="graphite">
