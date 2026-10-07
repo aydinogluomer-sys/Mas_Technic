@@ -140,16 +140,16 @@ an unarmed cursor paints nothing and both cursor rows are gone. Their radius is
 still `borderRadius: "50%"` inline in `CustomCursor.tsx`; it is simply not
 painted by an unmoved pointer any more.) Not one of them belongs to a page file:
 
-**Faz 1a (7 Ekim 2026):** `MaterialMorphScroll.tsx` was deleted (M01 had already
-taken it off `/malzemeler`), so its three rows below left the register;
-`RADIUS_SOURCES` is empty and the census now expects no radius source at all.
-The table stays as the record of what was measured.
-
 | element | 375 | 768 | 1280 | radius | box | source |
 |---|---|---|---|---|---|---|
-| `step meter` | 20 | – | – | `9999px` | 375: 17×6 | `MaterialMorphScroll.tsx:228` |
-| `property-meter track` | – | 4 | 4 | `9999px` | 768: 238×4 · 1280: 238×4 | `MaterialMorphScroll.tsx:357` |
-| `property-meter fill` | – | 4 | 4 | `9999px` | 768: 143×4, 190×4, 238×4 · 1280: 143×4, 190×4, 238×4 | `MaterialMorphScroll.tsx:359` |
+<!-- register: empty -->
+
+**Faz 1a (7 Ekim 2026): the register is empty.** `MaterialMorphScroll.tsx` was
+deleted (M01 had already taken it off `/malzemeler`), and its three rows left
+the table: `step meter` (375: 17×6, `:228`), `property-meter track` (768/1280:
+238×4, `:357`) and `property-meter fill` (768/1280: 143/190/238×4, `:359`), all
+`9999px`. The census now expects no radius source at all; the marker above says
+the table is empty on purpose, so an accidentally truncated table still fails.
 
 The three meters are `/malzemeler` only, and they are two different meters
 rather than one that resizes: the step meter is the narrow layout and the

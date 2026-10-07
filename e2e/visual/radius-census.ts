@@ -205,12 +205,18 @@ export function parseRegisterTable(markdown: string): string[] {
   const header = lines.findIndex((line) => line.startsWith("| element |"));
   if (header === -1) throw new Error("docs/lean/17 §4: no `| element |` register table found");
   const rows: string[] = [];
-  for (let i = header + 2; i < lines.length; i += 1) {
+  let i = header + 2;
+  for (; i < lines.length; i += 1) {
     const line = lines[i];
     if (!line.startsWith("|")) break;
     rows.push(line.replace(/^\|\s*/, "").replace(/\s*\|$/, "").split("|").map((cell) => cell.trim()).join(" | "));
   }
-  if (!rows.length) throw new Error("docs/lean/17 §4: the register table has no rows");
+  /* An empty register is legal only when the document says so on purpose
+     (`<!-- register: empty -->` right under the table, Faz 1a); a table that
+     lost its rows by accident must still fail loudly. */
+  const declaredEmpty = lines.slice(i, i + 3).some((line) => line.trim() === "<!-- register: empty -->");
+  if (declaredEmpty && rows.length) throw new Error("docs/lean/17 §4: the table has rows but is marked empty");
+  if (!rows.length && !declaredEmpty) throw new Error("docs/lean/17 §4: the register table has no rows");
   return rows;
 }
 
