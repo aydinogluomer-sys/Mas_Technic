@@ -165,12 +165,12 @@ for (const motion of ["reduce", "no-preference"] as const) {
           /* The menu CTA's 16px arrow (`.tl-menu-cta svg`) repaints 2-4 px
              late at 375 with motion on, after every signal above is quiet; a
              1.5 s pause was not enough under load (1b-i: 1 in 390 on main
-             and branch alike). It is masked — same fill on both sides — so a
-             change to that one icon is invisible here; fullscreen-menu and
-             navigation-golden still cover the CTA. */
+             and branch alike). Only that lane masks it — same fill on both
+             sides; the reduced lane and 1440 still compare the icon exactly. */
+          const flakyArrow = motion === "no-preference" && test.info().project.name === "parity-375";
           await expect(page).toHaveScreenshot(`${base}-family-${index + 1}.png`, {
             ...SHOT,
-            mask: [page.locator(".tl-menu-cta svg")],
+            mask: flakyArrow ? [page.locator(".tl-menu-cta svg")] : [],
           });
         }
       });
