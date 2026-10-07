@@ -57,8 +57,8 @@ export function useCadSelection() {
 
   const select = useCallback((file: File) => {
     const validationError = validateCadFile(file);
+    const extension = getCadFileExtension(file.name);
     if (validationError) {
-      const extension = getCadFileExtension(file.name);
       const isSizeProblem = file.size > 0 && !validationError.startsWith("Desteklenmeyen");
       setSelection(null);
       setError({
@@ -74,7 +74,6 @@ export function useCadSelection() {
       return false;
     }
 
-    const extension = getCadFileExtension(file.name);
     setError(null);
     setSelection({ file, extension, previewKind: cadPreviewKind(extension) });
     /* A newly chosen file replaces whatever the hero uploaded, so the request
@@ -90,8 +89,6 @@ export function useCadSelection() {
     setHandoff(null);
     safeSession.remove("mas_pending_cad_upload");
   }, []);
-
-  const reportError = useCallback((next: CadSelectionError | null) => setError(next), []);
 
   /* ── The hero hand-off ────────────────────────────────────────────────
      `useCadHandoff` uploads the file on `/`, stashes the storage record and
@@ -143,5 +140,5 @@ export function useCadSelection() {
     ),
   };
 
-  return { selection, error, handoff, isDragging, select, clear, reportError, dragHandlers };
+  return { selection, error, handoff, isDragging, select, clear, dragHandlers };
 }

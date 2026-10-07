@@ -68,6 +68,7 @@ export function RfqUploadStep({
   onStageRetry,
 }: RfqUploadStepProps) {
   const { t } = useTranslation();
+  const formatHint = CAD_FORMAT_HINT.replace("Maks.", t("Maks."));
   const recordName = selection?.file.name ?? handoff?.name ?? null;
   const recordSize = selection?.file.size ?? handoff?.size ?? null;
   const recordExtension = selection?.extension ?? handoff?.extension ?? null;
@@ -85,7 +86,7 @@ export function RfqUploadStep({
         <p className="shell-eyebrow">{t("KABUL EDİLEN FORMATLAR")}</p>
         <ShellTagRow items={[...CAD_FORMAT_CHIPS]} ariaLabel={t("Kabul edilen CAD formatları")} />
         <p className="shell-field-hint" id="rfq-cad-hint">
-          {t("Tek dosya · en fazla {{size}} MB", { size: CAD_MAX_FILE_SIZE_MB })} · {CAD_FORMAT_HINT.replace("Maks.", t("Maks."))}
+          {t("Tek dosya · en fazla {{size}} MB", { size: CAD_MAX_FILE_SIZE_MB })} · {formatHint}
         </p>
         {/* RFQ03: nothing about the request is stored in the browser, so a
             reload starts over — said here, before it happens. */}
@@ -122,7 +123,7 @@ export function RfqUploadStep({
           ) : (
             <>
               <span className="shell-dropzone-title">{t("CAD dosyanızı sürükleyin veya seçin")}</span>
-              <span className="shell-dropzone-hint">{CAD_FORMAT_HINT.replace("Maks.", t("Maks."))}</span>
+              <span className="shell-dropzone-hint">{formatHint}</span>
             </>
           )}
         </label>

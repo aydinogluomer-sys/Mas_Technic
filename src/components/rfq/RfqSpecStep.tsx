@@ -9,6 +9,7 @@ import {
   RFQ_SURFACE_FINISHES,
   RFQ_TOLERANCES,
   type RfqDraft,
+  type RfqOption,
 } from "./rfq-model";
 import { rfqErrorId, rfqFieldId, type RfqFieldErrors, type RfqFieldName } from "./rfq-schema";
 
@@ -78,6 +79,79 @@ function Field({
   );
 }
 
+type TextFieldName = "name" | "email" | "company" | "phone" | "customMaterial" | "drawingNumber" | "criticalFeatures";
+
+/** A `Field` holding one text input bound to `draft[name]`. */
+function TextField({
+  name,
+  label,
+  type = "text",
+  required,
+  autoComplete,
+  placeholder,
+  hint,
+  draft,
+  errors,
+  onChange,
+}: RfqSpecStepProps & {
+  name: TextFieldName;
+  label: string;
+  type?: string;
+  required?: boolean;
+  autoComplete?: string;
+  placeholder: string;
+  hint?: string;
+}) {
+  return (
+    <Field name={name} label={label} errors={errors} hint={hint}>
+      {(aria) => (
+        <input
+          {...aria}
+          name={name}
+          type={type}
+          required={required}
+          autoComplete={autoComplete}
+          value={draft[name]}
+          onChange={(event) => onChange(name, event.target.value)}
+          placeholder={placeholder}
+        />
+      )}
+    </Field>
+  );
+}
+
+/** One answer or none: pressing the chosen segment again clears it. */
+function Segments({
+  field,
+  title,
+  options,
+  draft,
+  onChange,
+}: Omit<RfqSpecStepProps, "errors"> & { field: "finish" | "priority"; title: string; options: readonly RfqOption[] }) {
+  const { t } = useTranslation();
+  const groupId = `rfq-group-${field}`;
+  return (
+    <section className="shell-form" aria-labelledby={groupId}>
+      <p className="shell-eyebrow" id={groupId}>{title}</p>
+      <ul className="shell-segments" aria-labelledby={groupId}>
+        {options.map((option) => (
+          <li key={option.id}>
+            <button
+              type="button"
+              className="shell-segment"
+              aria-pressed={draft[field] === option.id}
+              onClick={() => onChange(field, draft[field] === option.id ? "" : option.id)}
+            >
+              <span className="shell-segment-code">{t(option.label)}</span>
+              {option.detail && <span>{t(option.detail)}</span>}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export type RfqSpecStepProps = {
   draft: RfqDraft;
   errors: RfqFieldErrors;
@@ -86,6 +160,7 @@ export type RfqSpecStepProps = {
 
 export function RfqSpecStep({ draft, errors, onChange }: RfqSpecStepProps) {
   const { t } = useTranslation();
+  const bound = { draft, errors, onChange };
   return (
     <div className="shell-stack">
       <ShellTitleBlock
@@ -98,61 +173,10 @@ export function RfqSpecStep({ draft, errors, onChange }: RfqSpecStepProps) {
       <section className="shell-form" aria-labelledby="rfq-group-contact">
         <p className="shell-eyebrow" id="rfq-group-contact">{t("İLETİŞİM")}</p>
         <div className="shell-form-row">
-          <Field name="name" label={t("Ad soyad *")} errors={errors}>
-            {(aria) => (
-              <input
-                {...aria}
-                name="name"
-                type="text"
-                required
-                autoComplete="name"
-                value={draft.name}
-                onChange={(event) => onChange("name", event.target.value)}
-                placeholder={t("Satın alma / mühendislik yetkilisi")}
-              />
-            )}
-          </Field>
-          <Field name="email" label={t("E-posta *")} errors={errors}>
-            {(aria) => (
-              <input
-                {...aria}
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
-                value={draft.email}
-                onChange={(event) => onChange("email", event.target.value)}
-                placeholder={t("ornek@firma.com")}
-              />
-            )}
-          </Field>
-          <Field name="company" label={t("Firma *")} errors={errors}>
-            {(aria) => (
-              <input
-                {...aria}
-                name="company"
-                type="text"
-                required
-                autoComplete="organization"
-                value={draft.company}
-                onChange={(event) => onChange("company", event.target.value)}
-                placeholder={t("Firma unvanı")}
-              />
-            )}
-          </Field>
-          <Field name="phone" label={t("Telefon")} errors={errors}>
-            {(aria) => (
-              <input
-                {...aria}
-                name="phone"
-                type="tel"
-                autoComplete="tel"
-                value={draft.phone}
-                onChange={(event) => onChange("phone", event.target.value)}
-                placeholder={t("+90 5XX XXX XX XX")}
-              />
-            )}
-          </Field>
+          <TextField {...bound} name="name" label={t("Ad soyad *")} required autoComplete="name" placeholder={t("Satın alma / mühendislik yetkilisi")} />
+          <TextField {...bound} name="email" label={t("E-posta *")} type="email" required autoComplete="email" placeholder={t("ornek@firma.com")} />
+          <TextField {...bound} name="company" label={t("Firma *")} required autoComplete="organization" placeholder={t("Firma unvanı")} />
+          <TextField {...bound} name="phone" label={t("Telefon")} type="tel" autoComplete="tel" placeholder={t("+90 5XX XXX XX XX")} />
         </div>
       </section>
 
@@ -203,23 +227,13 @@ export function RfqSpecStep({ draft, errors, onChange }: RfqSpecStepProps) {
         </div>
 
         {draft.material === RFQ_MATERIAL_OTHER && (
-          <Field
+          <TextField
+            {...bound}
             name="customMaterial"
             label={t("Malzeme adı *")}
-            errors={errors}
             hint="Standart adı yazın, örneğin 42CrMo4 veya PEEK."
-          >
-            {(aria) => (
-              <input
-                {...aria}
-                name="customMaterial"
-                type="text"
-                value={draft.customMaterial}
-                onChange={(event) => onChange("customMaterial", event.target.value)}
-                placeholder={t("Malzeme adını yazınız")}
-              />
-            )}
-          </Field>
+            placeholder={t("Malzeme adını yazınız")}
+          />
         )}
 
         <div className="shell-form-row">
@@ -258,78 +272,22 @@ export function RfqSpecStep({ draft, errors, onChange }: RfqSpecStepProps) {
         </div>
 
         <div className="shell-form-row">
-          <Field name="drawingNumber" label={t("Parça / revizyon")} errors={errors}>
-            {(aria) => (
-              <input
-                {...aria}
-                name="drawingNumber"
-                type="text"
-                value={draft.drawingNumber}
-                onChange={(event) => onChange("drawingNumber", event.target.value)}
-                placeholder={t("MT-042 / Rev B")}
-              />
-            )}
-          </Field>
-          <Field
+          <TextField {...bound} name="drawingNumber" label={t("Parça / revizyon")} placeholder={t("MT-042 / Rev B")} />
+          <TextField
+            {...bound}
             name="criticalFeatures"
             label={t("Kritik ölçüler")}
-            errors={errors}
             hint="Delik ekseni, yüzey pürüzlülüğü, geçme toleransı — teklifi ne belirliyorsa."
-          >
-            {(aria) => (
-              <input
-                {...aria}
-                name="criticalFeatures"
-                type="text"
-                value={draft.criticalFeatures}
-                onChange={(event) => onChange("criticalFeatures", event.target.value)}
-                placeholder={t("Ø12 H7 delik ekseni, Ra 0.8")}
-              />
-            )}
-          </Field>
+            placeholder={t("Ø12 H7 delik ekseni, Ra 0.8")}
+          />
         </div>
       </section>
 
       {/* Two segmented choices rather than eight tinted icon tiles. Both are
           radio groups semantically — one answer each — so they are marked as
           such instead of as eight unrelated buttons. */}
-      <section className="shell-form" aria-labelledby="rfq-group-finish">
-        <p className="shell-eyebrow" id="rfq-group-finish">{t("YÜZEY İŞLEMİ")}</p>
-        <ul className="shell-segments" aria-labelledby="rfq-group-finish">
-          {RFQ_SURFACE_FINISHES.map((finish) => (
-            <li key={finish.id}>
-              <button
-                type="button"
-                className="shell-segment"
-                aria-pressed={draft.finish === finish.id}
-                onClick={() => onChange("finish", draft.finish === finish.id ? "" : finish.id)}
-              >
-                <span className="shell-segment-code">{t(finish.label)}</span>
-                {finish.detail && <span>{t(finish.detail)}</span>}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section className="shell-form" aria-labelledby="rfq-group-priority">
-        <p className="shell-eyebrow" id="rfq-group-priority">{t("ÖNCELİK")}</p>
-        <ul className="shell-segments" aria-labelledby="rfq-group-priority">
-          {RFQ_PRIORITIES.map((priority) => (
-            <li key={priority.id}>
-              <button
-                type="button"
-                className="shell-segment"
-                aria-pressed={draft.priority === priority.id}
-                onClick={() => onChange("priority", draft.priority === priority.id ? "" : priority.id)}
-              >
-                <span className="shell-segment-code">{t(priority.label)}</span>
-                {priority.detail && <span>{t(priority.detail)}</span>}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <Segments draft={draft} onChange={onChange} field="finish" title={t("YÜZEY İŞLEMİ")} options={RFQ_SURFACE_FINISHES} />
+      <Segments draft={draft} onChange={onChange} field="priority" title={t("ÖNCELİK")} options={RFQ_PRIORITIES} />
     </div>
   );
 }

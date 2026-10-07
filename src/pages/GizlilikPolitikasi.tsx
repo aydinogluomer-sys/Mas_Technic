@@ -84,7 +84,7 @@ import { useLocale } from "@/i18n/hooks";
        contains no Supabase client, no `insert` and no `from(`
      · the daily counter — `ChatBot.tsx:72-73`, `:168`, `:242`; already a row
        in the `/cerez-politikasi` table
-     · the RFQ contrast — `TeklifAl.tsx:523` invokes `rfq-rate-limit`, which
+     · the RFQ contrast — `useRfqSubmission.ts:364` invokes `rfq-rate-limit`, which
        makes no external call, and there is no external `fetch()` anywhere in
        `src/`. The chat is the only place on the public site where something
        you TYPE leaves this site's own infrastructure.
@@ -140,7 +140,7 @@ import { useLocale } from "@/i18n/hooks";
 
      `/iletisim`   `Iletisim.tsx:151` inserts `topic` and `notes` — the
                    visitor's own free text — into `meetings`
-     `/teklif-al`  `useRfqSubmission.ts:265` invokes `rfq-rate-limit` with
+     `/teklif-al`  `useRfqSubmission.ts:364` invokes `rfq-rate-limit` with
                    `notes` built from the draft, plus name, company and phone
      `/giris` etc. the address and password the reader types
 

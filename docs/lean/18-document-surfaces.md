@@ -305,7 +305,7 @@ and stops there. The function does not answer:
 | function → **Google Gemini** | `chat/index.ts:32` builds `generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:streamGenerateContent`, `:34` fetches it, `:22-30` remaps to `role`/`parts` |
 | only the text goes onward | `chat/index.ts:37-44` — `system_instruction`, `contents`, `generationConfig`; no browser header forwarded |
 | nothing reaches this site's database | the whole 103-line function holds no Supabase client, no `insert`, no `from(` |
-| the chat is the ONLY such path | `TeklifAl.tsx:523` invokes `rfq-rate-limit`, which calls nothing external, and `src/` contains no external `fetch()` at all |
+| the chat is the ONLY such path | `useRfqSubmission.ts:364` invokes `rfq-rate-limit`, which calls nothing external, and `src/` contains no external `fetch()` at all |
 
 So "our own backend" would have been a **new false statement in the document
 this phase rewrote to stop being false** — the failure class this run kept

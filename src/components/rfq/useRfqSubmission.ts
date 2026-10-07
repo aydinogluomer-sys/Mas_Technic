@@ -343,7 +343,7 @@ export function useRfqSubmission() {
             };
             cache.set(item.key, { source: item.file, meta });
             attachmentMeta.push(meta);
-          } catch (uploadError) {
+          } catch {
             setState({
               status: "failed",
               error: {
@@ -354,7 +354,6 @@ export function useRfqSubmission() {
                 retryable: true,
               },
             });
-            void uploadError;
             return;
           }
         }
