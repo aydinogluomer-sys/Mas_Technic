@@ -68,37 +68,12 @@ import {
    `docs/lean/17-inner-page-composition.md`.
 
    ══════════════════════════════════════════════════════════════════════════
-   THE REAL-HTTP-404 REQUIREMENT IS UNMET, AND DELIBERATELY SO
+   THE HTTP 404 (C3, later than this page)
 
-   `IMPLEMENTATION.md` §PHASE 08 asks for a real HTTP/deployment 404 "where
-   hosting permits". That is a condition. Measured from the repository:
-
-     · There is NO hosting configuration of any kind — no `_redirects`, no
-       `netlify.toml`, no `vercel.json`, no `staticwebapp.config.json`, no
-       `firebase.json`, no `.htaccess`, no `public/_headers`, no
-       `public/404.html`.
-     · `vite.config.ts` builds a plain SPA. No SSR, no prerender plugin, so no
-       route can carry a status code of its own.
-     · No deploy target is configured in the repo, while
-       `USER_INPUTS.md` §A names `https://www.masmare.com` as the production
-       domain and says nothing about how it is served. §M sets
-       `ALLOW_PRODUCTION_DEPLOY: NO`.
-
-   So the platform's 404 behaviour cannot be established from evidence — and
-   guessing is not free here. On a static host that honours `public/404.html`
-   (GitHub Pages is the clearest case) adding one CHANGES the SPA fallback:
-   `/blog/dfm-tasarimdan-uretime-gecis` would then be served the 404 document
-   instead of `index.html`, and every deep route on the site would break. A
-   file added on a guess about the host is not a partial win, it is a
-   plausible way to take the site down.
-
-   This page is therefore made complete and correct as a client-side state and
-   the deployment half is left as a STATED GAP rather than a fabricated config.
-   The one mitigation that belongs to a route rather than to a host —
-   `<meta name="robots" content="noindex">` here, so a soft-404 is not indexed
-   — needs `src/hooks/use-page-meta.ts`, which is outside this phase's write
-   allowlist and inside Phase 11's metadata scope. It is reported there rather
-   than reached for here.
+   The host now answers an unknown path with a real 404 status: `vercel.json`
+   is generated from the route table and serves the prerendered `404.html`,
+   which is this component. `usePageMeta({ noindex: true })` below keeps the
+   client-side state out of the index as well.
    ══════════════════════════════════════════════════════════════════════════ */
 
 /** Tokens worth scoring. One- and two-letter fragments match everything. */
@@ -154,19 +129,22 @@ function labelFor(path: string, t: TFunction): string {
 }
 
 /** The three route families plus the reference surfaces, in IA order. */
-const directory = (t: TFunction) => [
-  ...navigationItems.filter((family) => family.children?.length).map((family) => ({
-    to: family.children?.[0]?.path ?? "/",
-    title: t(family.label),
-    description: (family.children ?? []).map((category) => t(category.label)).join(" · "),
-    index: family.index,
-  })),
-  ...resourceLinks.map((link, offset) => ({
-    to: link.path,
-    title: t(link.label),
-    index: String(navigationItems.filter((family) => family.children?.length).length + offset + 1).padStart(2, "0"),
-  })),
-];
+const directory = (t: TFunction) => {
+  const families = navigationItems.filter((family) => family.children?.length);
+  return [
+    ...families.map((family) => ({
+      to: family.children?.[0]?.path ?? "/",
+      title: t(family.label),
+      description: (family.children ?? []).map((category) => t(category.label)).join(" · "),
+      index: family.index,
+    })),
+    ...resourceLinks.map((link, offset) => ({
+      to: link.path,
+      title: t(link.label),
+      index: String(families.length + offset + 1).padStart(2, "0"),
+    })),
+  ];
+};
 
 /**
  * `shell={false}` is for the PANEL branch only (`src/App.tsx` `panelRoutes`).

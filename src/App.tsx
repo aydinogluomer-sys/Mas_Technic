@@ -122,6 +122,11 @@ const LOADER_TIMEOUT_TEXT = {
 
 type Pending = "route" | "language";
 
+/** A public route's locale comes from its URL; panel routes have none. */
+const publicLocale = (pathname: string) => (isPanelPath(pathname) ? null : localeFromPath(pathname));
+/** Loader copy cannot wait for i18n: panels read Turkish. */
+const loaderLocale = (pathname: string) => publicLocale(pathname) ?? "tr";
+
 /** True once a loader has been on screen for LOADER_TIMEOUT_MS. */
 function useStalled(pathname: string, pending: Pending) {
   const [stalled, setStalled] = useState(false);
@@ -137,8 +142,7 @@ function useStalled(pathname: string, pending: Pending) {
 }
 
 const StalledNotice = ({ pathname, pending }: { pathname: string; pending: Pending }) => {
-  const locale = isPanelPath(pathname) ? "tr" : localeFromPath(pathname);
-  const text = LOADER_TIMEOUT_TEXT[locale];
+  const text = LOADER_TIMEOUT_TEXT[loaderLocale(pathname)];
   const offline = typeof navigator !== "undefined" && navigator.onLine === false;
   return (
     <div className="shell-boot">
@@ -155,7 +159,7 @@ const StalledNotice = ({ pathname, pending }: { pathname: string; pending: Pendi
 
 const PageLoader = ({ pending = "route" }: { pending?: Pending }) => {
   const { pathname } = useLocation();
-  const text = LOADER_TEXT[isPanelPath(pathname) ? "tr" : localeFromPath(pathname)];
+  const text = LOADER_TEXT[loaderLocale(pathname)];
   const stalled = useStalled(pathname, pending);
   if (stalled) return <StalledNotice pathname={pathname} pending={pending} />;
   return (
@@ -239,7 +243,7 @@ async function prepareFirstRoute(pathname: string): Promise<"ready" | { error: u
     PUBLIC_PAGES.map(({ path, element }) => ({ path: path === "/" ? prefix || "/" : `${prefix}${path}`, element })));
   const match = matchRoutes(routes, pathname)?.at(-1);
   const element = match?.route.element as { type?: PreloadableRoute } | undefined;
-  const locale = isPanelPath(pathname) ? null : localeFromPath(pathname);
+  const locale = publicLocale(pathname);
   /* Pages under /en read the English content bundle and suspend until it is
      there; the /en landing reads none (PERF01), so it is not fetched for it. */
   const needsEnContent = locale === "en" && !/^\/en\/?$/.test(pathname);
@@ -257,7 +261,7 @@ registerRoutePreparer(prepareFirstRoute);
    locale; until that locale is active with its dictionary loaded, the route
    shows the shell loader instead of a Turkish frame of an English page. */
 function useRouteLanguageReady(pathname: string): boolean {
-  const locale = isPanelPath(pathname) ? null : localeFromPath(pathname);
+  const locale = publicLocale(pathname);
   const [ready, setReady] = useState(() => (locale ? isLanguageReady(locale) : true));
   useEffect(() => {
     if (!locale) { setReady(true); return; }
