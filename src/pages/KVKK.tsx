@@ -123,7 +123,7 @@ import { useLocale } from "@/i18n/hooks";
       transfer no longer exists and its paragraph was removed from madde 04 —
       a listed transfer that does not happen is as wrong as a missing one.
 
-      THE OAUTH REDIRECT. `Login.tsx:281` calls `signInWithOAuth`, which
+      THE OAUTH REDIRECT. `Login.tsx:271` calls `signInWithOAuth`, which
       navigates the browser to the auth server and onward to the provider.
       Whether `google` and `linkedin_oidc` are ENABLED could not be established
       from this checkout — 09b-1 returned that question unanswered rather than

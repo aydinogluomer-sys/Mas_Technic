@@ -59,8 +59,14 @@ const AUTH_ROUTES = table.STATIC.filter((route) => route.access === "auth" && !r
    behaves the same). */
 const rewrites = [...SHELL_ROUTES, ...AUTH_ROUTES].map((source) => ({ source, destination: "/shell" }));
 
+/* Nothing deploys from Git: previews come prebuilt from
+   .github/workflows/vercel-preview.yml (the prerender needs Chromium, which
+   Vercel's builder lacks) and production needs its own sign-off, so a push to
+   main must not publish (release.md). Once the project was linked to Git,
+   Vercel tried to build every push, from 14ea041 on (7 Oct 2026). */
 const config = {
   $schema: "https://openapi.vercel.sh/vercel.json",
+  git: { deploymentEnabled: false },
   framework: null,
   installCommand: "npm ci",
   buildCommand: "npm run build",

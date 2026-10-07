@@ -107,7 +107,7 @@ import { useLocale } from "@/i18n/hooks";
      madde 05  "Bunun dışında sayfalarda gömülü üçüncü taraf içerik … bulunmaz"
                + "Bir istisna var"
 
-   Measured on a plain load of `/giris` with no interaction: `Login.tsx:230`
+   Measured on a plain load of `/giris` with no interaction: `Login.tsx:432`
    mounts `@hcaptcha/react-hcaptcha`, two `newassets.hcaptcha.com` iframes are
    embedded, four `hcaptcha.com` hosts are contacted, and a `__cf_bm` cookie
    appears on `.hcaptcha.com` with a 29.9-minute expiry. So the site DOES embed

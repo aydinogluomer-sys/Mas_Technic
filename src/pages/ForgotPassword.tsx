@@ -5,13 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { ShellAction, ShellNotice } from "@/components/shell";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 import { AuthField } from "@/components/auth/AuthField";
-import {
-  authFieldId,
-  collectAuthErrors,
-  firstInvalidField,
-  forgotSchema,
-  type AuthFieldErrors,
-} from "@/components/auth/auth-schema";
+import { forgotSchema, validateAuthForm, type AuthFieldErrors } from "@/components/auth/auth-schema";
 
 /* ══════════════════════════════════════════════════════════════════════════
    /sifremi-unuttum — ASK FOR A RESET LINK
@@ -51,15 +45,7 @@ export const ForgotPassword = () => {
     event.preventDefault();
     setNotice(null);
 
-    const parsed = forgotSchema.safeParse({ email });
-    if (!parsed.success) {
-      const fieldErrors = collectAuthErrors(parsed.error.issues);
-      setErrors(fieldErrors);
-      const first = firstInvalidField(fieldErrors);
-      if (first) document.getElementById(authFieldId(first))?.focus();
-      return;
-    }
-    setErrors({});
+    if (!validateAuthForm(forgotSchema, { email }, setErrors)) return;
     setPending(true);
 
     const address = email.trim();
@@ -80,11 +66,7 @@ export const ForgotPassword = () => {
 
   if (requestedFor) {
     return (
-      <AuthLayout
-        asideTitle="Hoş Geldiniz"
-        asideLede="MAS TECHNIC müşteri portalı ile teklif, sipariş ve üretim kayıtlarınızı tek yerden izleyin."
-        back={{ to: "/giris", label: "Giriş sayfası" }}
-      >
+      <AuthLayout>
         <div>
           <p className="shell-eyebrow" role="status">{t("İSTEK ALINDI")}</p>
           <h1 className="shell-auth-title">{t("Şifremi Unuttum")}</h1>
@@ -105,11 +87,7 @@ export const ForgotPassword = () => {
   }
 
   return (
-    <AuthLayout
-      asideTitle="Hoş Geldiniz"
-      asideLede="MAS TECHNIC müşteri portalı ile teklif, sipariş ve üretim kayıtlarınızı tek yerden izleyin."
-      back={{ to: "/giris", label: "Giriş sayfası" }}
-    >
+    <AuthLayout>
       <div>
         {/* Measured contract: `e2e/qa-p08-scroll-region-reach.spec.ts:205`. */}
         <h1 className="shell-auth-title">{t("Şifremi Unuttum")}</h1>
