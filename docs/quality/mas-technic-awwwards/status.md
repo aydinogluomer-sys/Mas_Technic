@@ -467,3 +467,34 @@ Referans: kullanıcının yerelde açtığı ve "görmesini istediğim şekilde"
 | Operasyon sırası (profil, kalite, hakkımızda) | bozulma düzeltildi | `shell-stack` içindeki `subgrid` sıfır genişliğe çöküyordu; adımlar üst üste biniyordu |
 
 Korunanlar: type floor (12px), T02/T03 dürüstlük kararları, EN sözlüğü (geri gelen tüm metinlerin karşılığı vardı), ön render, perf.
+
+## Faz 1a — ölü ve dev-only kod silindi (7 Ekim 2026)
+
+Silinenler:
+- `MaterialMorphScroll`, `use-image-preloader` ve `public/sequence-material/` (3,4 MB kare)
+- `NavDirectory`
+- Dev-only rotalar: `DevRoutes`, `LegacyLanding`, `TechnicalPreview`, `TestHowWeWork`
+- Eski landing: `LandingFlow`, `landing-flow.css`, `components/landing/*`, `HowWeWorkSection`, `SectionDotNav`, `config/landing-motion.ts` ve üç hook
+- `ScrollDebugPanel`, `components/dev/*` (`MasterGridOverlay`)
+- `SectionHeader`, `ui/Reveal`, `navigation-data`
+- `e2e/legacy/*` ve legacy Playwright projesi
+
+Korunanlar: `ReverseScrollSection` ve `technical-landing/MarqueeBand` (R1'de landing'e geri geldiler).
+
+Birlikte güncellenenler:
+- `App.tsx` dev blokları ve `Header` `isFirstVisit`
+- IA hariç tutma tablosu
+- `navigation-reachability` ve `shared-shell-accessibility` spec'leri: silinen yüzeyler artık rota olarak geri gelemez; adresleri 404 döner, `dev-routes.spec` aynen koşar
+- rota tablosu ve `routes.json`
+- radius sayımı (kayıt boş)
+- claims-gate negatif kontrolü düz metne çevrildi
+- p09a5 probe
+
+| Ölçü | Sonuç |
+|---|---|
+| Parity (R1 sonrası main'e karşı, full, 375 + 1440, menüler) | 390 geçti, 0 fark; aynı main'e karşı gürültü koşusu 390/390 |
+| `src/` satır | 62.399. Refactor edilebilir kova 35.718 → 31.441 (Faz 0'a göre); içerik ve kilitli kovalar değişmedi |
+| Silinen satır (repo) | ~5.950 |
+| critical-1280 + critical-375 + desktop-1280 | 503 geçti, 1 hata: `qa-p08-storage-disclosure`. Test dış ağa erişemedi ve kendi mesajında "ölçmedi" diyor; sandbox'ta ağ kapalı, CI'da doğrulanır |
+| typecheck, lint, build, motion guard, generate-config, claims-gate | geçti |
+| `package.json` / `package-lock.json` / `supabase/` | değişmedi |

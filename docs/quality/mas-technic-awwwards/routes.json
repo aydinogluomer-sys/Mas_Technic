@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-02T18:40:53.708Z",
+  "generatedAt": "2026-10-07T04:40:46.883Z",
   "generator": "scripts/quality/routes-manifest.ts",
   "counts": {
     "reportScope": 103,
@@ -14,10 +14,9 @@
     "materialFamilies": 11,
     "blogPosts": 6,
     "capabilityProfiles": 3,
-    "devOnly": 3,
     "wrongFamilyRedirects": 96
   },
-  "localeRule": "TR keeps current paths; EN uses the /en prefix with the same slugs (L01, not yet implemented). Panel/auth-panel routes get no EN prefix.",
+  "localeRule": "TR keeps current paths; EN uses the /en prefix with the same slugs (L01). Panel/auth-panel routes get no EN prefix.",
   "routes": [
     {
       "path": "/",
@@ -309,10 +308,10 @@
       "source": "src/data/servicePages.ts"
     },
     {
-      "path": "/hizmetler/basinçli-dokum",
+      "path": "/hizmetler/basincli-dokum",
       "kind": "detail:hizmetler",
       "access": "public",
-      "enPath": "/en/hizmetler/basinçli-dokum",
+      "enPath": "/en/hizmetler/basincli-dokum",
       "source": "src/data/servicePages.ts"
     },
     {
@@ -750,32 +749,6 @@
       "source": "src/content/caseStudies.ts"
     }
   ],
-  "devOnly": [
-    {
-      "path": "/technical-preview",
-      "kind": "dev",
-      "access": "dev-only",
-      "enPath": null,
-      "source": "src/App.tsx DEV_ONLY_ROUTES",
-      "note": "absent from production build"
-    },
-    {
-      "path": "/legacy-landing",
-      "kind": "dev",
-      "access": "dev-only",
-      "enPath": null,
-      "source": "src/App.tsx DEV_ONLY_ROUTES",
-      "note": "absent from production build"
-    },
-    {
-      "path": "/test",
-      "kind": "dev",
-      "access": "dev-only",
-      "enPath": null,
-      "source": "src/App.tsx DEV_ONLY_ROUTES",
-      "note": "absent from production build"
-    }
-  ],
   "wrongFamilyRedirects": [
     {
       "from": "/kabiliyetler/cnc-frezeleme",
@@ -818,12 +791,12 @@
       "to": "/hizmetler/enjeksiyon-kalibi"
     },
     {
-      "from": "/kabiliyetler/basinçli-dokum",
-      "to": "/hizmetler/basinçli-dokum"
+      "from": "/kabiliyetler/basincli-dokum",
+      "to": "/hizmetler/basincli-dokum"
     },
     {
-      "from": "/endustriyel/basinçli-dokum",
-      "to": "/hizmetler/basinçli-dokum"
+      "from": "/endustriyel/basincli-dokum",
+      "to": "/hizmetler/basincli-dokum"
     },
     {
       "from": "/kabiliyetler/silikon-kaliplama",

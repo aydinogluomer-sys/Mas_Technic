@@ -2,12 +2,9 @@ import { expect, test } from "@playwright/test";
 
 /**
  * `/technical-preview`, `/legacy-landing` ve `/test` yayınlanabilir yüzeyler
- * değildir (`reports/baseline/known-blockers.md` B15). Üretim derlemesinde
- * `src/App.tsx` bu üç `<Route>`'u `import.meta.env.DEV` yanlış olduğu için hiç
- * oluşturmaz; istek `*` üzerinden 404 sayfasına düşer.
- *
- * Bu paket üretim önizlemesine (`npm run preview`) karşı koşar. `npm run dev`
- * altında aynı URL'ler bilerek erişilebilir kalır.
+ * değildi (`reports/baseline/known-blockers.md` B15). Faz 1a bu üç dev-only
+ * yüzeyi ve rotalarını kaynaktan sildi; istek `*` üzerinden 404 sayfasına
+ * düşer. Niyet aynı kalır: bu adresler hiçbir zaman bir sayfa açmaz.
  */
 const DEV_ONLY_ROUTES = ["/technical-preview", "/legacy-landing", "/test"] as const;
 

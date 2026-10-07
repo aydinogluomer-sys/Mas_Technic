@@ -13,7 +13,7 @@ import { writeFileSync } from "node:fs";
 import { DETAIL_FAMILIES } from "@/lib/detail-route";
 import { buildRouteTable } from "./route-table";
 
-const { STATIC, DEV_ONLY, categories, details, materials, blog, profiles, wrongFamilyRedirects, reportRoutes } = buildRouteTable();
+const { STATIC, categories, details, materials, blog, profiles, wrongFamilyRedirects, reportRoutes } = buildRouteTable();
 
 const manifest = {
   generatedAt: new Date().toISOString(),
@@ -27,12 +27,10 @@ const manifest = {
     materialFamilies: materials.length,
     blogPosts: blog.length,
     capabilityProfiles: profiles.length,
-    devOnly: DEV_ONLY.length,
     wrongFamilyRedirects: wrongFamilyRedirects.length,
   },
-  localeRule: "TR keeps current paths; EN uses the /en prefix with the same slugs (L01, not yet implemented). Panel/auth-panel routes get no EN prefix.",
+  localeRule: "TR keeps current paths; EN uses the /en prefix with the same slugs (L01). Panel/auth-panel routes get no EN prefix.",
   routes: reportRoutes,
-  devOnly: DEV_ONLY,
   wrongFamilyRedirects,
 };
 

@@ -125,24 +125,6 @@ export const RADIUS_SOURCES: {
   file: string;
   lines: string;
 }[] = [
-  {
-    label: "step meter",
-    matches: (signature) => signature === "div.h-1.5.flex-1.rounded-full",
-    file: "src/components/MaterialMorphScroll.tsx",
-    lines: "228",
-  },
-  {
-    label: "property-meter track",
-    matches: (signature) => signature === "div.h-1.rounded-full.overflow-hidden",
-    file: "src/components/MaterialMorphScroll.tsx",
-    lines: "357",
-  },
-  {
-    label: "property-meter fill",
-    matches: (signature) => signature === "div.h-full.rounded-full",
-    file: "src/components/MaterialMorphScroll.tsx",
-    lines: "359",
-  },
   /* The cursor dot and ring (`CustomCursor.tsx:212-225`, `228-241`) left
      the register in round 2: parked at opacity 0 until the first
      pointermove, they paint nothing for the census's unmoved pointer. */
@@ -223,12 +205,18 @@ export function parseRegisterTable(markdown: string): string[] {
   const header = lines.findIndex((line) => line.startsWith("| element |"));
   if (header === -1) throw new Error("docs/lean/17 §4: no `| element |` register table found");
   const rows: string[] = [];
-  for (let i = header + 2; i < lines.length; i += 1) {
+  let i = header + 2;
+  for (; i < lines.length; i += 1) {
     const line = lines[i];
     if (!line.startsWith("|")) break;
     rows.push(line.replace(/^\|\s*/, "").replace(/\s*\|$/, "").split("|").map((cell) => cell.trim()).join(" | "));
   }
-  if (!rows.length) throw new Error("docs/lean/17 §4: the register table has no rows");
+  /* An empty register is legal only when the document says so on purpose
+     (`<!-- register: empty -->` right under the table, Faz 1a); a table that
+     lost its rows by accident must still fail loudly. */
+  const declaredEmpty = lines.slice(i, i + 3).some((line) => line.trim() === "<!-- register: empty -->");
+  if (declaredEmpty && rows.length) throw new Error("docs/lean/17 §4: the table has rows but is marked empty");
+  if (!rows.length && !declaredEmpty) throw new Error("docs/lean/17 §4: the register table has no rows");
   return rows;
 }
 

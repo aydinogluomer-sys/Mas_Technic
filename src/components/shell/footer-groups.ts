@@ -107,9 +107,7 @@ import { companyLinks, navigationItems, resourceLinks } from "@/components/navig
 
    WHAT MOVED, AND WHY IT IS THE FOOTER'S DECISION AND NOT THE IA'S
    ----------------------------------------------------------------
-   `ia.ts` is untouched. `resourceLinks` is also read by
-   `NavDirectory.tsx:47-53`, which prints `resourceLinks.length` as the
-   fullscreen menu's zero-padded KAYNAKLAR index, and by `NotFound.tsx:150,164`,
+   `ia.ts` is untouched. `resourceLinks` is also read by `NotFound.tsx:150,164`,
    whose directory is `navigationItems.length + resourceLinks.length` entries.
    Dropping an entry there to save a footer row would silently edit the menu
    and the 404. So what changed is how these four columns COMPOSE the IA, not
@@ -131,7 +129,7 @@ import { companyLinks, navigationItems, resourceLinks } from "@/components/navig
      · `Ana Sayfa` LEAVES the footer column. It was the third home affordance
        on every page — the fixed header's brand link (`Header.tsx:489`) and the
        fullscreen menu's (`Header.tsx:552`) are the other two, both present at
-       every width. The menu's own KURUMSAL column (`NavDirectory.tsx:68`) has
+       every width. The menu's own KURUMSAL column (the since-deleted `NavDirectory.tsx`) had
        never listed it: it renders `companyLinks` and nothing else, so the
        footer is now the same statement the menu already makes. `homeLink`
        stays in `ia.ts` and in `navigationTargets()`, so reachability is

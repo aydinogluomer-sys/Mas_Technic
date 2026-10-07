@@ -329,9 +329,6 @@ export const EXCLUDED_FROM_PRIMARY_NAV: { path: string; reason: string }[] = [
   { path: "/reset-password", reason: "Entered from a Supabase e-mail token; has no standalone meaning." },
   { path: "/cad-dashboard", reason: "Redirect alias for /teklif-al, not a destination of its own." },
   { path: "*", reason: "404 catch-all; not addressable." },
-  { path: "/technical-preview", reason: "Dev-only surface, not built into production (src/App.tsx DEV guard)." },
-  { path: "/legacy-landing", reason: "Dev-only surface, not built into production (src/App.tsx DEV guard)." },
-  { path: "/test", reason: "Dev-only scroll experiment, not built into production (src/App.tsx DEV guard)." },
 ];
 
 /** Index pages that are the documented entry point for a parametrised family. */
