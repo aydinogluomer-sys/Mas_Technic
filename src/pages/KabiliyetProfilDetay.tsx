@@ -7,6 +7,7 @@ import {
   ShellNextStep,
   ShellNotice,
   ShellPageHero,
+  ShellPlate,
   ShellRun,
   ShellSpecTable,
   ShellSurfaceBand,
@@ -16,7 +17,9 @@ import { usePageMeta } from "@/hooks/use-page-meta";
 import { useTranslation } from "react-i18next";
 import { PROFILE_LABEL } from "@/content/caseStudies";
 import { useSiteData } from "@/i18n/data";
-import { profileMeta, profileRowMeta } from "@/components/pages/case-study-figures";
+import { caseStudyImages, profileMeta, profileRowMeta } from "@/components/pages/case-study-figures";
+import { coverSizes, responsive } from "@/components/BlurImage";
+import heroCncTornalama640 from "@/assets/hero-cnc-tornalama-640.webp";
 import { SchemaFigure } from "@/components/schemas/SchemaFigure";
 import { PROFILE_SCHEMAS } from "@/components/schemas/registry";
 import { PROFILE_SUBJECTS } from "@/content/journal-modules";
@@ -53,6 +56,23 @@ import { publishMeasuredEvidence, withinLimits } from "@/content/measured-eviden
 /* UX05: the detail page draws the profile's own problem
    (`src/components/schemas/journal.tsx`); the gallery render stays on the
    landing band (`case-study-figures.ts`). */
+
+/* R1 (owner, 5 Oct): the reference plate photograph comes back where its
+   picture is the profile's own subject and shows no person — only the
+   turned shaft. The defence and medical renders keep the drawing alone
+   (staff in the frame, §I). */
+const PROFILE_PHOTOS: Record<string, ReturnType<typeof responsive>> = {
+  "hassas-mil": responsive(900, 504, caseStudyImages.turning, [heroCncTornalama640, 640]),
+};
+/* `.shell-plate-frame` image box: `clamp(200px, 33vw, 420px)` + parallax
+   overscan; the plate sits in `.shell-span-note` (full width up to 1180,
+   then master columns 9-12). */
+const PLATE_IMAGE_HEIGHT = "clamp(200px, 33vw, 420px) + 118px";
+const PLATE_NOTE_WIDTHS = [
+  ["(max-width: 767px)", "calc(100vw - 44px)"],
+  ["(max-width: 1180px)", "calc(100vw - 60px)"],
+  [null, "min(calc((100vw - 66px) / 3 - 2px), 509px)"],
+] as const;
 
 export const KabiliyetProfilDetay = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -155,8 +175,27 @@ export const KabiliyetProfilDetay = () => {
             render that stood here (§I: blurred staff behind two of the three)
             stays on the landing only. */}
         <div className="shell-span-note">
+          {PROFILE_PHOTOS[study.slug] && (
+            <ShellPlate
+              plate={`${t("PLAKA")} 01`}
+              caption={study.gallery[0]?.alt ?? study.title}
+              media={(() => {
+                const plate = PROFILE_PHOTOS[study.slug];
+                return (
+                  <img
+                    src={plate.src}
+                    srcSet={plate.srcSet}
+                    sizes={coverSizes(plate.width / plate.height, PLATE_IMAGE_HEIGHT, PLATE_NOTE_WIDTHS)}
+                    width={plate.width}
+                    height={plate.height}
+                    alt=""
+                  />
+                );
+              })()}
+            />
+          )}
           {ProfileDrawing && (
-            <SchemaFigure drawing={ProfileDrawing} subject={PROFILE_SUBJECTS[study.slug]?.[lang] ?? study.title} no={`${t("PLAKA")} 01`} />
+            <SchemaFigure drawing={ProfileDrawing} subject={PROFILE_SUBJECTS[study.slug]?.[lang] ?? study.title} no={`${t("PLAKA")} ${PROFILE_PHOTOS[study.slug] ? "02" : "01"}`} />
           )}
         </div>
       </ShellSurfaceBand>

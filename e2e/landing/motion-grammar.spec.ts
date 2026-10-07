@@ -127,9 +127,9 @@ test.describe("motion grammar", () => {
     await landingReady(page);
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
     await page.waitForTimeout(700);
-    /* UX01 removed the capability marquee — the landing's one `linear
-       infinite` animation. Nothing on the page may now run an endless
-       animation at all, on screen or off it. */
+    /* The capability marquee (back in R1) is the landing's one `linear
+       infinite` animation, and it pauses off screen (`.tl-onscreen`). At the
+       bottom of the page nothing may run an endless animation. */
     const endless = await page.evaluate(() =>
       document.getAnimations()
         .filter((animation) => animation.playState === "running")

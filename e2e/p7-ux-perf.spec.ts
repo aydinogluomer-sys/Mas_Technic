@@ -57,15 +57,16 @@ test.describe("UX01 landing", () => {
     expect(["0s", "0.25s"]).toContain(lineDuration);
   });
 
-  test("reading order: hero → proof → control approach → profiles → sectors → quality → references → NEXUS → FAQ → RFQ", async ({ page }) => {
+  test("reading order: hero → proof → marquee → process → profiles → sectors → manifesto → quality → references → NEXUS → FAQ → RFQ", async ({ page }) => {
     await gotoAndSettle(page, "/");
     const order = await page.locator("main .tl-band").evaluateAll((els) =>
       els.map((el) => [...el.classList].find((name) => name.startsWith("tl-") && name !== "tl-band")));
-    expect(order).toEqual(["tl-hero", "tl-proof", "tl-process", "tl-projects", "tl-sectors", "tl-quality", "tl-references", "tl-nexus", "tl-faq-band", "tl-rfq"]);
-    await expect(page.locator(".tl-marquee, .tl-manifesto")).toHaveCount(0);
+    // R1 (owner, 5 Oct): the reference marquee and manifesto bands are back;
+    // NEXUS keeps its place after the references.
+    expect(order).toEqual(["tl-hero", "tl-proof", "tl-marquee", "tl-process", "tl-projects", "tl-sectors", "tl-manifesto", "tl-quality", "tl-references", "tl-nexus", "tl-faq-band", "tl-rfq"]);
   });
 
-  test("375: page at least 20% shorter than the 9828px baseline, no horizontal overflow", async ({ page }) => {
+  test("375: page no taller than the 9828px baseline, no horizontal overflow", async ({ page }) => {
     test.skip(test.info().project.name !== "desktop-1280", "one lane");
     await page.setViewportSize({ width: 375, height: 812 });
     await gotoAndSettle(page, "/");
@@ -73,7 +74,10 @@ test.describe("UX01 landing", () => {
       height: document.documentElement.scrollHeight,
       overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
     }));
-    expect(height, "baseline 9828px at 375 (package 6 build)").toBeLessThanOrEqual(Math.round(9828 * 0.8));
+    /* UX01 cut the page by 20% by removing bands; R1 brought the reference
+       bands back on the owner's decision, so the guard is now the package 6
+       baseline itself: nothing may make the page longer than it was. */
+    expect(height, "baseline 9828px at 375 (package 6 build)").toBeLessThanOrEqual(9828);
     expect(overflow).toBeLessThanOrEqual(0);
   });
 

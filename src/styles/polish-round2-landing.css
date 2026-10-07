@@ -87,14 +87,19 @@
    different drawings; now every card carries the same document frame, filled
    with the same row rhythm, so the strip reads as one set. */
 .shell-root .tl-quality-strip > .tl-cert {
-  /* UX03: two kinds of card share one box — a management-system card (text
-     only; there is no certificate file to show) and a document card whose
-     picture is the PDF's real first page. Flex column, top-aligned, so the
-     footer line of every card sits on the same baseline of the strip. */
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: flex-start;
+  /* R1 — the reference rows, fixed so the six cards are one box with one
+     rhythm: code, title (2 lines), subtitle (2 lines), the frame, footer
+     (2 lines). Sizes follow the 12px type floor. */
+  display: grid;
+  grid-template-rows:
+    auto
+    calc(2 * 1.25 * 14px)
+    calc(2 * 1.5 * 12px + 8px)
+    var(--tl-cert-doc-h)
+    auto;
+  --tl-cert-doc-h: 150px;
+  align-items: start;
+  justify-items: stretch;
   min-height: 300px;
   gap: 0;
   padding: var(--tl-s4);
@@ -108,18 +113,22 @@
 }
 .shell-root .tl-cert h3 { margin: 0; font-size: 14px; line-height: 1.25; }
 .shell-root .tl-cert > p { margin: var(--tl-s2) 0 0; font-size: 12px; }
-.shell-root .tl-cert-thumb {
+/* The frame: a document's real first page, or a certificate's name set as
+   type on the sunken ground — never a drawn page that could pass for a scan. */
+.shell-root .tl-cert-doc {
   display: block;
-  margin-bottom: var(--tl-s3);
+  align-self: stretch;
+  height: var(--tl-cert-doc-h);
+  box-sizing: border-box;
+  margin-top: var(--tl-s4);
+  overflow: hidden;
   border: 1px solid var(--tl-paper-rule);
-  background: var(--tl-paper);
+  background: var(--tl-paper-sunken);
 }
-.shell-root .tl-cert-thumb img { display: block; width: 100%; height: 150px; object-fit: cover; object-position: top; }
-.shell-root .tl-cert-thumb:is(:hover, :focus-visible) { border-color: var(--tl-ink); }
-.shell-root .tl-cert--system .tl-cert-foot,
-.shell-root .tl-cert--doc .tl-cert-foot { margin-top: auto; padding-top: var(--tl-s3); }
-.shell-root .tl-quality-more { grid-column: 1 / -1; margin: var(--tl-s4) 0 0; font: 600 13px/1.2 var(--tl-font-mono); letter-spacing: .06em; }
-.shell-root .tl-quality-more a { display: inline-flex; min-height: 44px; align-items: center; color: var(--tl-ink); }
+.shell-root .tl-cert-doc img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.shell-root a.tl-cert-doc:is(:hover, :focus-visible) { border-color: var(--tl-ink); }
+.shell-root .tl-cert-doc--name { display: grid; place-items: center; }
+.shell-root .tl-cert-doc--name span { color: var(--tl-ink-soft); font: 600 14px/1.2 var(--tl-font-mono); letter-spacing: .1em; }
 .shell-root .tl-cert-foot {
   margin: var(--tl-s3) 0 0;
   color: var(--tl-ink-soft);
@@ -206,14 +215,6 @@
 .tl-part-frame .tl-dimension-lines,
 .tl-manifesto-body::after { pointer-events: none; }
 @media (max-width: 767px) {
-  /* UX03: a text-only management-system card does not need the document card's height. */
-  .shell-root .tl-quality-strip > .tl-cert--system { min-height: 0; }
-  .shell-root .tl-quality-strip > .tl-cert { min-height: 0; }
-  /* UX01: a document card reads as one row on a phone — the real first page
-     as a 64px thumbnail on the left, title and printed metadata on the right. */
-  .shell-root .tl-quality-strip > .tl-cert--doc { grid-column: 1 / -1; display: grid; grid-template-columns: 64px minmax(0, 1fr); column-gap: var(--tl-s3); align-items: start; border-left: 1px solid var(--tl-paper-rule); }
-  .shell-root .tl-cert--doc .tl-cert-thumb { grid-column: 1; grid-row: 1 / span 2; margin: 0; }
-  .shell-root .tl-cert--doc .tl-cert-thumb img { width: 64px; height: 84px; }
-  .shell-root .tl-cert--doc h3 { grid-column: 2; }
-  .shell-root .tl-cert--doc .tl-cert-foot { grid-column: 2; margin-top: var(--tl-s2); padding-top: 0; }
+  /* R1: two cards a row on a phone, as the reference; the frame shortens. */
+  .shell-root .tl-quality-strip > .tl-cert { --tl-cert-doc-h: 120px; min-height: 0; padding: var(--tl-s3); }
 }

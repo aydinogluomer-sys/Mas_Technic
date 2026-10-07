@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@/i18n/LocaleLink";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, ArrowRight, Loader2, UploadCloud } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, Loader2, UploadCloud } from "lucide-react";
 import aerospace from "@/assets/industry-aerospace.webp";
 import defense from "@/assets/industry-defense.webp";
 import medical from "@/assets/industry-medical.webp";
@@ -15,9 +15,17 @@ import renewable from "@/assets/industry-renewable.webp";
 import oilgas from "@/assets/industry-oilgas.webp";
 import power from "@/assets/industry-power.webp";
 import mining from "@/assets/industry-mining.webp";
+import manifesto from "@/assets/hero-tolerans-hassasiyet.webp";
+import manifesto640 from "@/assets/hero-tolerans-hassasiyet-640.webp";
+import manifesto960 from "@/assets/hero-tolerans-hassasiyet-960.webp";
+import manifesto1600 from "@/assets/hero-tolerans-hassasiyet-1600.webp";
+import manifestoPortrait from "@/assets/hero-tolerans-hassasiyet-portrait.webp";
+import manifestoPortrait640 from "@/assets/hero-tolerans-hassasiyet-portrait-640.webp";
+import { coverSizes, responsive } from "@/components/BlurImage";
+import { ReverseScrollSection } from "@/components/ReverseScrollSection";
 import {
   qualityCertificates, referenceLogos,
-  rfqSteps, technicalFaqs,
+  rfqSteps, technicalFaqs, technicalResources,
 } from "@/data/technicalLandingData";
 import { CAD_ACCEPT_ATTR, CAD_FORMAT_HINT, useCadHandoff } from "@/hooks/useCadHandoff";
 import { upper } from "@/i18n/upper";
@@ -56,8 +64,23 @@ const sectors: Sector[] = [
 
 const DRAFT_RFQ_ID = "RFQ-DRAFT-LANDING";
 
+/* The manifesto picture carries a 640/960/1600 ladder. `.tl-manifesto-body` is
+   a full-band box, min-height 440px (520 on mobile), overscanned 72px top and
+   bottom by `ReverseScrollSection`, and the image is `object-fit: cover`, so
+   below ~1108px the HEIGHT decides the source width. Below 768px a portrait
+   cut of the same photograph (the caliper column) keeps the measuring idea
+   under the headline (PHASE 10-2b). */
+const manifestoImage = responsive(2400, 1343, manifesto, [manifesto640, 640], [manifesto960, 960], [manifesto1600, 1600]);
+const MANIFESTO_SIZES = coverSizes(2400 / 1343, "440px + 144px", [
+  ["(max-width: 767px)", "calc(100vw - 42px)", "520px + 144px"],
+  ["(max-width: 1180px)", "calc(100vw - 58px)"],
+  [null, "min(calc(100vw - 66px), 1534px)"],
+]);
+const MANIFESTO_PORTRAIT_MEDIA = "(max-width: 767px)";
+const manifestoPortraitImage = responsive(800, 1342, manifestoPortrait, [manifestoPortrait640, 640]);
 /* Same cover rule, portrait aspect: max(band width, 664px × 0.596) = 396px at
    375 — 640 at 1×, the 800 source at 2×. */
+const MANIFESTO_PORTRAIT_SIZES = coverSizes(800 / 1342, "520px + 144px", [[null, "calc(100vw - 42px)"]]);
 
 /* ══════════════════════════════════════════════════════════════════════════
    WHAT THIS FILE NO LONGER DRAWS
@@ -125,7 +148,7 @@ export function TechnicalSectors() {
   const pad = (value: number) => String(value).padStart(2, "0");
 
   return (
-    <TechnicalSectionFrame no="06" id="sektorler" label="SEKTÖRLER" className="tl-sectors" ariaLabel={t("Çalıştığımız sektörler")}>
+    <TechnicalSectionFrame no="07" id="sektorler" label="SEKTÖRLER" className="tl-sectors" ariaLabel={t("Çalıştığımız sektörler")}>
       <div className="tl-sectors-body">
         <div
           ref={trackRef}
@@ -166,44 +189,85 @@ export function TechnicalSectors() {
 }
 
 
+/** 08 — Manifesto (reference design, restored 5 Oct). */
+export function MeasurementManifesto() {
+  const { t } = useTranslation();
+  return (
+    <TechnicalSectionFrame no="08" label="MANİFESTO" className="tl-manifesto" labelledBy="tl-manifesto-title">
+      <div className="tl-manifesto-body">
+        <ReverseScrollSection>
+          <picture style={{ display: "contents" }}>
+            <source
+              media={MANIFESTO_PORTRAIT_MEDIA}
+              srcSet={manifestoPortraitImage.srcSet}
+              sizes={MANIFESTO_PORTRAIT_SIZES}
+              width={manifestoPortraitImage.width}
+              height={manifestoPortraitImage.height}
+            />
+            {/* `alt=""`: the picture is the band's ground under a headline whose
+                subject is measuring; a caliper on a pin is that sentence drawn. */}
+            <img
+              src={manifestoImage.src}
+              srcSet={manifestoImage.srcSet}
+              sizes={MANIFESTO_SIZES}
+              alt=""
+              width={manifestoImage.width}
+              height={manifestoImage.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+        </ReverseScrollSection>
+        <Link className="tl-image-link" to="/kabiliyetler/tolerans-hassasiyet" aria-label={t("Tolerans & Hassasiyet")} />
+        <div className="tl-manifesto-copy">
+          <h2 id="tl-manifesto-title">{t("HASSASİYET")}<br />{t("İDDİA EDİLMEZ.")}<br /><strong>{t("ÖLÇÜLÜR.")}</strong></h2>
+          <p>{t("Ölçer, kaydeder, raporlar ve teslim ederiz.")}</p>
+        </div>
+      </div>
+    </TechnicalSectionFrame>
+  );
+}
+
 /** 10 — Kalite dosyası: sertifikalar, ölçüm raporu ve doğrulama. */
 export function QualityFile() {
   const { t, i18n } = useTranslation();
   /* Revision 4: the whole strip is set in capitals, language-aware (İ/ı). */
   const caps = (text: string) => upper(t(text), i18n.language);
   return (
-    <TechnicalSectionFrame no="07" id="kalite" label="KALİTE DOSYASI" className="tl-quality" labelledBy="tl-quality-title">
+    <TechnicalSectionFrame no="09" id="kalite" label="KALİTE DOSYASI" className="tl-quality" labelledBy="tl-quality-title">
       <div className="tl-quality-body">
         <h2 id="tl-quality-title" className="tl-visually-hidden">{t("Kalite dosyası")}</h2>
-        {/* UX03 — the strip used to end in three look-alike "document"
-            drawings (nine grey bars in a frame). They are gone: the two
-            certificates are named as text — there is no certificate file to
-            show, so nothing here may look like a scan (O03) — and the four
-            permitted PDFs show their real first page, language, the date and
-            revision they print, and their measured size. */}
+        {/* R1 — the reference's one wireframe for all six cards (code line,
+            title, subtitle, document frame, footer), filled with what exists:
+            the two management-system certificates and the four real PDFs.
+            A certificate has no file to show, so its frame carries the
+            standard's name as type, never a page that could pass for a scan
+            (O03); a document's frame is its real first page. */}
         <div className="tl-quality-strip">
           {qualityCertificates.map(({ code, name }, index) => (
             <article className="tl-cert tl-cert--system" key={code}>
               <p className="tl-cert-code" aria-hidden="true">Q-{String(index + 1).padStart(2, "0")}</p>
               <h3>{caps(code)}</h3>
               <p>{caps(name)}</p>
+              <div className="tl-cert-doc tl-cert-doc--name" aria-hidden="true"><span>{code}</span></div>
               <p className="tl-cert-foot">{caps("YÖNETİM SİSTEMİ BELGESİ")}</p>
             </article>
           ))}
-          {QUALITY_DOCUMENTS.map((doc) => (
+          {QUALITY_DOCUMENTS.map((doc, index) => (
             <article className="tl-cert tl-cert--doc" key={doc.href}>
-              <a href={doc.href} target="_blank" rel="noopener" className="tl-cert-thumb">
+              <p className="tl-cert-code" aria-hidden="true">Q-{String(qualityCertificates.length + index + 1).padStart(2, "0")}</p>
+              <h3>{caps(doc.title)}</h3>
+              <p>{doc.docNo}</p>
+              <a href={doc.href} target="_blank" rel="noopener" className="tl-cert-doc tl-cert-thumb">
                 <img src={doc.thumb} width={doc.thumbWidth} height={doc.thumbHeight} alt="" loading="lazy" decoding="async" />
                 <span className="tl-visually-hidden">{t("{{title}} — PDF'i aç", { title: t(doc.title) })}</span>
               </a>
-              <h3>{caps(doc.title)}</h3>
               <p className="tl-cert-foot">
                 {[t("Türkçe"), doc.revision ? `${t("Sürüm")} ${doc.revision}` : null, (/^\d/.test(doc.date) ? doc.date : t(doc.date)), doc.size].filter(Boolean).join(" · ")}
               </p>
             </article>
           ))}
         </div>
-        <p className="tl-quality-more"><Link to="/kalite-dosyasi">{t("Kalite dosyasının tamamı")} →</Link></p>
       </div>
     </TechnicalSectionFrame>
   );
@@ -213,7 +277,7 @@ export function QualityFile() {
 export function ReferenceBand() {
   const { t } = useTranslation();
   return (
-    <TechnicalSectionFrame no="08" label="REFERANSLAR" className="tl-references" ariaLabel={t("Referanslar")}>
+    <TechnicalSectionFrame no="10" label="REFERANSLAR" className="tl-references" ariaLabel={t("Referanslar")}>
       <ul className="tl-reference-grid">
         {referenceLogos.map(({ name, brand }) => (
           <li key={name} data-brand={brand}>{name}</li>
@@ -227,7 +291,7 @@ export function ReferenceBand() {
 export function FaqSection() {
   const { t } = useTranslation();
   return (
-    <TechnicalSectionFrame no="10" id="sss" label="SSS" className="tl-faq-band" labelledBy="tl-faq-title">
+    <TechnicalSectionFrame no="12" id="sss" label="SSS" className="tl-faq-band" labelledBy="tl-faq-title">
       {/* Başlıklar 1. satırda, listeler 2. satırda: iki sütun referanstaki gibi
           aynı hizadan başlar, başlık uzunluğu değişse bile hiza bozulmaz. */}
       <div className="tl-faq-body">
@@ -240,14 +304,24 @@ export function FaqSection() {
             </details>
           ))}
         </div>
-        {/* UX01 — the four PDFs used to be listed here a second time; band 07
-            now shows them with their real first pages, so this column points
-            onward instead of repeating them. */}
+        {/* R1 — the reference's KAYNAKLAR column: the four real PDFs, served
+            from `public/belgeler/`; `scripts/claims-gate.mjs` re-measures every
+            printed size from disk. The anchor is the row (flex) because
+            `.tl-resource-list li` owns the row layout. */}
         <div className="tl-resource">
-          <h3 className="tl-resource-title">{t("DEVAMI")}</h3>
+          <h3 className="tl-resource-title">{t("KAYNAKLAR")}</h3>
           <ul className="tl-resource-list">
-            <li><Link to="/sss" style={{ display: "flex", flex: 1, alignItems: "center", justifyContent: "space-between", gap: "var(--tl-s4)", color: "inherit" }}><span>{t("Tüm sık sorulan sorular")}</span><ArrowRight aria-hidden="true" /></Link></li>
-            <li><Link to="/kalite-dosyasi" style={{ display: "flex", flex: 1, alignItems: "center", justifyContent: "space-between", gap: "var(--tl-s4)", color: "inherit" }}><span>{t("Kalite dosyası ve dokümanlar")}</span><ArrowRight aria-hidden="true" /></Link></li>
+            {technicalResources.map(({ title, href, size }) => (
+              <li key={href}>
+                <a
+                  href={href}
+                  download
+                  style={{ display: "flex", flex: 1, alignItems: "center", justifyContent: "space-between", gap: "var(--tl-s4)", color: "inherit" }}
+                >
+                  <span>{t(title)}</span><em>{size}</em><ArrowDown aria-hidden="true" />
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -263,7 +337,7 @@ export function RfqSection() {
   const { handleFile, isUploading, progress, fileName } = useCadHandoff(DRAFT_RFQ_ID);
 
   return (
-    <TechnicalSectionFrame no="11" id="iletisim" label="RFQ" className="tl-rfq" labelledBy="tl-rfq-title">
+    <TechnicalSectionFrame no="13" id="iletisim" label="RFQ" className="tl-rfq" labelledBy="tl-rfq-title">
       <div className="tl-rfq-body">
         <h2 id="tl-rfq-title">{t("Bir sonraki parçanız")}<br /><em>{t("üretime hazır mı?")}</em></h2>
         <input

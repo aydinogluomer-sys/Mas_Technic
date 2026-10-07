@@ -3,7 +3,7 @@ import { waitForApp } from "./helpers";
 import AxeBuilder from "@axe-core/playwright";
 
 /** Referans pafta 01–14 arası bantlardan oluşur; sıra ve numaralandırma sözleşmedir. */
-const BAND_INDICES = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+const BAND_INDICES = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14"];
 
 test.describe("technical editorial landing phase 1", () => {
   test.beforeEach(async ({ page }) => {
@@ -67,16 +67,18 @@ test.describe("technical editorial landing phase 1", () => {
     expect(Math.max(...etiketler.map((e) => e.tasma))).toBeLessThanOrEqual(0);
   });
 
-  test("UX01: no marquee and no separate manifesto band; the manifesto line sits in the control band", async ({ page }) => {
-    await expect(page.locator(".tl-marquee, .tl-manifesto")).toHaveCount(0);
-    await expect(page.locator(".tl-process .tl-process-manifesto")).toContainText("Hassasiyet iddia edilmez");
+  test("R1: the reference marquee and manifesto bands are back; the control module follows the process steps", async ({ page }) => {
+    // Owner's decision (5 Oct): the 2 Oct reference bands return.
+    await expect(page.locator(".tl-marquee")).toHaveCount(1);
+    await expect(page.getByRole("heading", { name: /İDDİA EDİLMEZ/ })).toBeVisible();
+    await expect(page.locator(".tl-process figure.tl-process-photo img")).toHaveCount(1);
+    await expect(page.locator(".tl-process figure.tl-signature")).toHaveCount(1);
   });
 
-  test("no reverse-scroll photograph remains on the landing", async ({ page }) => {
-    // PROOF01 replaced band 05's photo with the signature module and UX01
-    // removed the manifesto band — the two pictures that moved against the
-    // scroll. Native scroll is untouched.
-    await expect(page.locator("[data-reverse-scroll]")).toHaveCount(0);
+  test("the two reverse-scroll photographs leave native scroll alone", async ({ page }) => {
+    // R1: the process photo and the manifesto picture move against the scroll
+    // again (reference design); the page itself must still scroll natively.
+    await expect(page.locator("[data-reverse-scroll]")).toHaveCount(2);
     const before = await page.evaluate(() => window.scrollY);
     await page.mouse.wheel(0, 600);
     await page.waitForTimeout(400);
@@ -102,8 +104,8 @@ test.describe("technical editorial landing phase 1", () => {
 
   test("renders sectors, the quality file and the reference band", async ({ page }) => {
     await expect(page.getByRole("region", { name: "Çalıştığımız sektörler" })).toBeVisible();
-    // UX01: the manifesto band is gone; its line now sits in the control band.
-    await expect(page.locator(".tl-process-manifesto")).toContainText("Hassasiyet iddia edilmez");
+    // R1: the manifesto band is back (reference design).
+    await expect(page.locator(".tl-manifesto")).toContainText("Ölçer, kaydeder, raporlar ve teslim ederiz.");
     // The active showcase (USER_INPUTS.md §C, implementation contract T02):
     // OHSAS 18001 keeps its permission record but is not shown as an active
     // certificate, and ISO 45001 is not added in its place.

@@ -64,11 +64,15 @@
   align-items: center;
   gap: 5px;
   border-right: var(--tl-rule-size) solid var(--tl-rule);
-  padding: var(--tl-s5) 4px 0;
+  padding: var(--tl-s5) 0 0;
   font-family: var(--tl-font-mono);
 }
 .tl-band-index span { font-size: 15px; line-height: 1; letter-spacing: .02em; }
-.tl-band-index small { font-size: 10px; line-height: 1.35; letter-spacing: .06em; text-align: center; text-wrap: balance; max-width: 100%; overflow-wrap: anywhere; }
+/* R1: a caption breaks between words only. `overflow-wrap: anywhere` cut
+   KABİLİYET PROFİLLERİ into KABİLİYE / T / PROFİLLE / Rİ once the type floor
+   arrived; at 10px mono with .02em tracking a ten-letter word is 61px and the
+   rail is 64px, and `rail-labels.ts` keeps longer words out. */
+.tl-band-index small { font-size: 10px; line-height: 1.35; letter-spacing: .02em; text-align: center; text-wrap: balance; max-width: 100%; overflow-wrap: normal; word-break: keep-all; }
 
 .tl-status-badge {
   position: absolute;
@@ -82,7 +86,8 @@
 }
 
 @media (max-width: 1180px) {
-  .tl-band-index small { font-size: 10px; letter-spacing: .02em; }
+  /* 56px rail: 9px keeps a ten-letter word (55px) inside it. */
+  .tl-band-index small { font-size: 9px; letter-spacing: .02em; }
 }
 
 /* At 42px a 7px mono caption such as "SEÇİLMİŞ PROJELER" wrapped into five
@@ -1421,6 +1426,12 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   .shell-run { grid-template-columns: repeat(var(--tl-subgrid-cols, var(--tl-cols)), minmax(0, 1fr)); }
 }
 
+/* R1: inside a stack (e.g. the profile page's approach column) the run's
+   parent is not a grid, so `subgrid` resolves to one zero-width track and the
+   steps were painted on top of each other. There it lays its own columns. */
+.shell-stack > .shell-run { grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr)); }
+.shell-stack > .shell-run > li { grid-column: auto; }
+
 @media (max-width: 1180px) {
   .shell-run > li { grid-column: span 3; }
 }
@@ -1546,6 +1557,8 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
 .shell-module-steps dd { margin: 0; color: var(--sf-body); line-height: 1.55; }
 /* A schema outside a plate (module, journal, profile figure). */
 .shell-schema-figure { margin: 0; }
+/* R1: a sector schema under its photograph plate (detail pages; profile note). */
+:is(.shell-plate, .shell-span-note > *) + .shell-schema-figure { margin-top: var(--tl-s5); }
 .shell-schema-figure .shell-schema-frame {
   border: var(--tl-rule-size) solid var(--sf-rule);
   background: var(--sf-field);
