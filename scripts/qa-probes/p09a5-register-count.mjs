@@ -91,7 +91,7 @@ console.log("");
 console.log(`LIVE lines: ${live.length}`);
 console.log("");
 console.log("## classification of the live lines");
-const FORMAT_CLASS = new Set(["src/data/servicePages.ts:224", "src/components/landing/RestoredLandingSections.tsx:42"]);
+const FORMAT_CLASS = new Set(["src/data/servicePages.ts:224"]);
 const inventory = [];
 for (const h of live) {
   const key = `${h.file}:${h.line}`;

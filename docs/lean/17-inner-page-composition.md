@@ -140,6 +140,11 @@ an unarmed cursor paints nothing and both cursor rows are gone. Their radius is
 still `borderRadius: "50%"` inline in `CustomCursor.tsx`; it is simply not
 painted by an unmoved pointer any more.) Not one of them belongs to a page file:
 
+**Faz 1a (7 Ekim 2026):** `MaterialMorphScroll.tsx` was deleted (M01 had already
+taken it off `/malzemeler`), so its three rows below left the register;
+`RADIUS_SOURCES` is empty and the census now expects no radius source at all.
+The table stays as the record of what was measured.
+
 | element | 375 | 768 | 1280 | radius | box | source |
 |---|---|---|---|---|---|---|
 | `step meter` | 20 | – | – | `9999px` | 375: 17×6 | `MaterialMorphScroll.tsx:228` |

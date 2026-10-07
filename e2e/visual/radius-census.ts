@@ -125,24 +125,6 @@ export const RADIUS_SOURCES: {
   file: string;
   lines: string;
 }[] = [
-  {
-    label: "step meter",
-    matches: (signature) => signature === "div.h-1.5.flex-1.rounded-full",
-    file: "src/components/MaterialMorphScroll.tsx",
-    lines: "228",
-  },
-  {
-    label: "property-meter track",
-    matches: (signature) => signature === "div.h-1.rounded-full.overflow-hidden",
-    file: "src/components/MaterialMorphScroll.tsx",
-    lines: "357",
-  },
-  {
-    label: "property-meter fill",
-    matches: (signature) => signature === "div.h-full.rounded-full",
-    file: "src/components/MaterialMorphScroll.tsx",
-    lines: "359",
-  },
   /* The cursor dot and ring (`CustomCursor.tsx:212-225`, `228-241`) left
      the register in round 2: parked at opacity 0 until the first
      pointermove, they paint nothing for the census's unmoved pointer. */

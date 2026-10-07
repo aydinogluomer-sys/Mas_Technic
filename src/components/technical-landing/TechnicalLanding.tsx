@@ -1,4 +1,4 @@
-import { Suspense, lazy, useRef } from "react";
+import { useRef } from "react";
 import { PageShell } from "@/components/shell/PageShell";
 import { TechnicalHero } from "./TechnicalHero";
 import { ProofStrip } from "./ProofStrip";
@@ -7,18 +7,6 @@ import { FaqSection, MeasurementManifesto, QualityFile, ReferenceBand, RfqSectio
 import { MarqueeBand } from "./MarqueeBand";
 import "@/styles/technical-landing.css";
 import { useTechnicalLandingMotion } from "@/hooks/useTechnicalLandingMotion";
-
-/**
- * Geliştirme-yalnız master ızgara bindirmesi.
- *
- * `import.meta.env.DEV` üretimde derleme zamanı sabiti `false` olduğu için bu
- * üçlü ifade ölü bir dal bırakır: Rollup ne dinamik import'u ne de bindirme
- * bileşenini/CSS'ini `dist/` içine alır. `src/routes/DevRoutes.tsx` ile aynı
- * desen. Aç/kapa: CTRL+ALT+G.
- */
-const MasterGridOverlay = import.meta.env.DEV
-  ? lazy(() => import("@/components/dev/MasterGridOverlay").then((m) => ({ default: m.MasterGridOverlay })))
-  : null;
 
 /**
  * The landing is now a PAGE INSIDE THE SHELL, not its own shell.
@@ -63,11 +51,6 @@ export function TechnicalLanding() {
       <NexusEvidence />
       <FaqSection />
       <RfqSection />
-      {MasterGridOverlay && (
-        <Suspense fallback={null}>
-          <MasterGridOverlay />
-        </Suspense>
-      )}
     </PageShell>
   );
 }

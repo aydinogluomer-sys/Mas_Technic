@@ -39,8 +39,7 @@ import { gotoAndSettle, landingReady, LANDING_SCENE_IDS } from "../helpers";
  * silently yields an empty or nonsense string, `ROUTE_PATTERNS` becomes `[]`,
  * `orphans` stays empty because there is nothing to iterate, and the static
  * half of this spec PASSES VACUOUSLY while asserting nothing about anything.
- * The dev-route markers and the data files behind `CONCRETE` have the same
- * shape of hole.
+ * The data files behind `CONCRETE` have the same shape of hole.
  *
  * The markers are therefore named here and verified in the first test below
  * BEFORE any orphan comparison runs. An empty extraction is a failure, not a
@@ -48,17 +47,11 @@ import { gotoAndSettle, landingReady, LANDING_SCENE_IDS } from "../helpers";
  */
 const PUBLIC_ROUTES_START_MARKER = "const publicRoutes =";
 const PUBLIC_ROUTES_END_MARKER = "return isPanel ? panelRoutes : publicRoutes;";
-const DEV_ROUTES_START_MARKER = "DEV_ONLY_ROUTES:START";
-const DEV_ROUTES_END_MARKER = "DEV_ONLY_ROUTES:END";
 
 const APP_SOURCE = readFileSync(resolve(process.cwd(), "src/App.tsx"), "utf8");
 const PUBLIC_ROUTES_SOURCE = APP_SOURCE.slice(
   APP_SOURCE.indexOf(PUBLIC_ROUTES_START_MARKER),
   APP_SOURCE.indexOf(PUBLIC_ROUTES_END_MARKER),
-);
-const DEV_ROUTES_SOURCE = PUBLIC_ROUTES_SOURCE.slice(
-  PUBLIC_ROUTES_SOURCE.indexOf(DEV_ROUTES_START_MARKER),
-  PUBLIC_ROUTES_SOURCE.indexOf(DEV_ROUTES_END_MARKER),
 );
 /* L01 — the public pages are one table (`PUBLIC_PAGES`) rendered twice, under
    "" and under "/en". The table is the inventory; the Turkish pattern is
@@ -72,7 +65,9 @@ const ROUTE_PATTERNS = [
   ...[...PUBLIC_PAGES_SOURCE.matchAll(/\{\s*path:\s*"([^"]+)"/g)].map((m) => m[1]),
   ...[...PUBLIC_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)].map((m) => m[1]),
 ];
-const DEV_ROUTE_PATTERNS = [...DEV_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)].map((m) => m[1]);
+/* Faz 1a deleted the three dev-only surfaces (and their DEV-guarded routes);
+   they must not come back as routes or as navigation targets. */
+const FORMER_DEV_ROUTES = ["/technical-preview", "/legacy-landing", "/test"] as const;
 
 const blogSource = readFileSync(resolve(process.cwd(), "src/data/blogData.ts"), "utf8");
 const BLOG_SLUGS = [...blogSource.matchAll(/\bslug\s*:\s*["']([^"']+)["']/g)].map((m) => m[1]);
@@ -106,18 +101,9 @@ test.describe("public navigation reachability", () => {
     expect(APP_SOURCE.indexOf(PUBLIC_ROUTES_END_MARKER),
       `"${PUBLIC_ROUTES_END_MARKER}" no longer exists in src/App.tsx — this spec is slicing nothing`)
       .toBeGreaterThan(APP_SOURCE.indexOf(PUBLIC_ROUTES_START_MARKER));
-    expect(PUBLIC_ROUTES_SOURCE.indexOf(DEV_ROUTES_START_MARKER),
-      `"${DEV_ROUTES_START_MARKER}" is not inside the public route block any more`)
-      .toBeGreaterThanOrEqual(0);
-    expect(PUBLIC_ROUTES_SOURCE.indexOf(DEV_ROUTES_END_MARKER),
-      `"${DEV_ROUTES_END_MARKER}" is not inside the public route block any more`)
-      .toBeGreaterThan(PUBLIC_ROUTES_SOURCE.indexOf(DEV_ROUTES_START_MARKER));
-
     expect(ROUTE_PATTERNS.length, "no <Route path> was extracted from src/App.tsx").toBeGreaterThan(0);
-    expect(DEV_ROUTE_PATTERNS.length, "no dev-only <Route path> was extracted").toBeGreaterThan(0);
-    expect(ROUTE_PATTERNS.length,
-      "the dev-only block cannot be the whole public route inventory")
-      .toBeGreaterThan(DEV_ROUTE_PATTERNS.length);
+    expect(ROUTE_PATTERNS.filter((pattern) => (FORMER_DEV_ROUTES as readonly string[]).includes(pattern)),
+      "a deleted dev-only surface is a route again").toEqual([]);
     expect(new Set(ROUTE_PATTERNS).size, "duplicate <Route path> in the inventory")
       .toBe(ROUTE_PATTERNS.length);
 
@@ -140,7 +126,6 @@ test.describe("public navigation reachability", () => {
     const orphans: string[] = [];
 
     expect(ROUTE_PATTERNS.length, "no <Route path> was extracted from src/App.tsx").toBeGreaterThan(0);
-    expect(DEV_ROUTE_PATTERNS.length, "no dev-only <Route path> was extracted").toBeGreaterThan(0);
 
     for (const pattern of ROUTE_PATTERNS) {
       if (EXCLUDED.has(pattern)) continue;
@@ -164,12 +149,8 @@ test.describe("public navigation reachability", () => {
     for (const entry of EXCLUDED_FROM_PRIMARY_NAV) {
       expect(entry.reason.length, `${entry.path} needs a recorded reason`).toBeGreaterThan(20);
     }
-    // Dev-only surfaces must be excluded AND must not be navigation targets.
-    for (const pattern of DEV_ROUTE_PATTERNS) {
-      expect(EXCLUDED.has(pattern), `${pattern} must be recorded as excluded`).toBe(true);
-      expect(targets.has(pattern), `${pattern} must never appear in production navigation`).toBe(false);
-    }
-    expect([...targets].filter((path) => DEV_ROUTE_PATTERNS.includes(path))).toEqual([]);
+    // The deleted dev-only surfaces must not be navigation targets either.
+    expect([...targets].filter((path) => (FORMER_DEV_ROUTES as readonly string[]).includes(path))).toEqual([]);
 
     // The landing anchor set is the one in `e2e/helpers.ts`, not a second list.
     expect(landingSections.map((section) => section.id)).toEqual([...LANDING_SCENE_IDS]);
@@ -214,7 +195,7 @@ test.describe("public navigation reachability", () => {
 
     // And no dev/legacy/test surface may appear.
     const leaked = [...published].filter((href) =>
-      ["/technical-preview", "/legacy-landing", "/test"].some((dev) => href === dev));
+      (FORMER_DEV_ROUTES as readonly string[]).includes(href));
     expect(leaked, "dev routes must not appear in production navigation").toEqual([]);
   });
 

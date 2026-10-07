@@ -69,19 +69,6 @@ const TeklifAl = lazyRoute("TeklifAl", () => import("./pages/TeklifAl").then((m)
 const MusteriPaneli = lazyRoute("MusteriPaneli", () => import("./pages/MusteriPaneli").then((m) => ({ default: m.MusteriPaneli })));
 const CategoryPage = lazyRoute("CategoryPage", () => import("./pages/CategoryPage").then((m) => ({ default: m.CategoryPage })));
 
-/**
- * Geliştirme-yalnız yüzeyler (`/technical-preview`, `/legacy-landing`, `/test`).
- *
- * `import.meta.env.DEV` üretimde sabit `false` olduğu için bu üçlü ifade ölü
- * dala düşer ve Rollup dinamik import'u tamamen atar: `dist/` içinde ne
- * `DevRoutes` chunk'ı ne de oradan ulaşılan `LandingFlow` / `TestHowWeWork` /
- * `TechnicalPreview` ağacı kalır. Sayfalar diskte durur, `npm run dev`'de
- * erişilebilir olmayı sürdürür.
- */
-const DevRoute = import.meta.env.DEV
-  ? lazy(() => import("./routes/DevRoutes"))
-  : null;
-
 const ProtectedRoute = lazyRoute("ProtectedRoute", () =>
   import("./components/ProtectedRoute").then((m) => ({ default: m.ProtectedRoute })),
 );
@@ -95,9 +82,6 @@ const GlobalToasts = lazy(() =>
 const ChatBot = lazy(() => import("@/components/ChatBot").then((m) => ({ default: m.ChatBot })));
 const CustomCursor = lazy(() =>
   import("@/components/ui/CustomCursor").then((m) => ({ default: m.CustomCursor })),
-);
-const ScrollDebugPanel = lazy(() =>
-  import("@/components/ScrollDebugPanel").then((m) => ({ default: m.ScrollDebugPanel })),
 );
 
 /* The route loader is a SHELL STATE now, not a library default. It used to be
@@ -342,13 +326,6 @@ const AnimatedRoutes = () => {
       <ShellRouteBoundary resetKey={location.pathname}>
       <Suspense fallback={<PublicRouteLoader />}>
         <Routes location={location}>
-          {/* DEV_ONLY_ROUTES:START — üretim derlemesinde `DevRoute` null olur,
-              üç <Route> de hiç oluşturulmaz ve istekler `*` üzerinden 404'e
-              düşer. Sözleşme e2e/shared-shell-accessibility.spec.ts'te. */}
-          {DevRoute && <Route path="/technical-preview" element={<DevRoute view="technical-preview" />} />}
-          {DevRoute && <Route path="/legacy-landing" element={<DevRoute view="legacy-landing" />} />}
-          {DevRoute && <Route path="/test" element={<DevRoute view="test" />} />}
-          {/* DEV_ONLY_ROUTES:END */}
           {/* L01 — every public page is registered twice: as it always was
               (Turkish) and under `/en` with the same slug (English). One
               table, so the two locales cannot drift apart. */}
@@ -459,11 +436,6 @@ const AppContent = () => {
         <GlobalToasts />
       </Suspense>
       <ChatEntry />
-      {import.meta.env.DEV && (
-        <Suspense fallback={null}>
-          <ScrollDebugPanel />
-        </Suspense>
-      )}
     </>
   );
 

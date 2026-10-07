@@ -10,12 +10,6 @@ import { join } from "node:path";
  *   regression  Sekiz Chromium görünüm penceresi. Geniş kapsam, kapı değil.
  *   smoke       WebKit + Firefox. Tarayıcı-arası temel akış.
  *   visual      Altın (golden) ekran görüntüsü farkı.
- *
- * `e2e/legacy/**` yalnız `PLAYWRIGHT_LEGACY=1` ile açılan ayrı bir projeye
- * bağlıdır ve hiçbir kapının parçası değildir: oradaki testler dev-only
- * `/legacy-landing` rotasını sınar, o rota ise üretim derlemesinde hiç
- * yayınlanmaz (bkz. `src/App.tsx` DEV_ONLY_ROUTES). Bu bir hata gizleme
- * değil, ölçülebilir bir olgu: üretim önizlemesinde o URL 404 döner.
  */
 const PORT = Number(process.env.PLAYWRIGHT_PORT ?? 4173);
 const MANAGED_PREVIEW_URL = process.env.PLAYWRIGHT_BASE_URL;
@@ -110,10 +104,9 @@ const VISUAL_MATCH = ["visual/**/*.spec.ts"];
 const SMOKE_MATCH = ["smoke/**/*.spec.ts"];
 /** F1 — WebKit/Firefox acceptance of the critical flows (separate from smoke). */
 const INTEROP_MATCH = ["interop/**/*.spec.ts"];
-const LEGACY_MATCH = ["legacy/**/*.spec.ts"];
 /** Regresyon aileleri kendi ozel projeleri olan paketleri tekrar calistirmaz. */
 const PARITY_MATCH = ["parity/**/*.spec.ts"];
-const REGRESSION_IGNORE = [...VISUAL_MATCH, ...SMOKE_MATCH, ...INTEROP_MATCH, ...LEGACY_MATCH, ...PARITY_MATCH];
+const REGRESSION_IGNORE = [...VISUAL_MATCH, ...SMOKE_MATCH, ...INTEROP_MATCH, ...PARITY_MATCH];
 
 const criticalProjects = [
   {
@@ -225,17 +218,6 @@ const visualProjects = VISUAL_VIEWPORTS.map(({ width, height, mobile }) => ({
   },
 }));
 
-// Opt-in: dev-only `/legacy-landing` sozlesmeleri. Uretim onizlemesine karsi
-// calistirilamaz (rota `dist/` icinde yok); yalnizca `npm run dev` sunucusuna
-// PLAYWRIGHT_BASE_URL ile baglanarak anlamlidir.
-const legacyProjects = process.env.PLAYWRIGHT_LEGACY === "1"
-  ? [{
-      name: "legacy-dev-route",
-      testMatch: LEGACY_MATCH,
-      use: { ...devices["Desktop Chrome"], ...chromiumLaunch, viewport: { width: 1280, height: 800 } },
-    }]
-  : [];
-
 // Opt-in: pixel parity for behaviour-preserving refactors (e2e/parity). The
 // snapshots are local (.parity/, git-ignored): recorded from an origin/main
 // build, then compared against the branch. Reduced motion by default; the
@@ -297,7 +279,6 @@ export default defineConfig({
     ...smokeProjects,
     ...interopProjects,
     ...visualProjects,
-    ...legacyProjects,
     ...parityProjects,
   ],
   webServer: MANAGED_PREVIEW_URL ? undefined : {

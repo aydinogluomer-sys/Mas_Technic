@@ -101,13 +101,7 @@ const RAW_PUBLIC_ROUTES_SOURCE = APP_SOURCE.slice(
   APP_SOURCE.indexOf("const publicRoutes ="),
   APP_SOURCE.indexOf("return isPanel ? panelRoutes : publicRoutes;"),
 );
-// Dev-only blok üretim rota sayımından ayrı tutulur: `import.meta.env.DEV`
-// yanlışken `DevRoute` null olur ve bu üç <Route> hiç oluşturulmaz.
-const DEV_ROUTES_SOURCE = RAW_PUBLIC_ROUTES_SOURCE.slice(
-  RAW_PUBLIC_ROUTES_SOURCE.indexOf("DEV_ONLY_ROUTES:START"),
-  RAW_PUBLIC_ROUTES_SOURCE.indexOf("DEV_ONLY_ROUTES:END"),
-);
-const PUBLIC_ROUTES_SOURCE = RAW_PUBLIC_ROUTES_SOURCE.replace(DEV_ROUTES_SOURCE, "");
+const PUBLIC_ROUTES_SOURCE = RAW_PUBLIC_ROUTES_SOURCE;
 const APP_PANEL_ROUTE_PATTERNS = [...PANEL_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)]
   .map((match) => match[1]);
 /* L01 — the public pages are one table (`PUBLIC_PAGES`) rendered under ""
@@ -121,9 +115,8 @@ const APP_PUBLIC_ROUTE_PATTERNS = [
   ...[...PUBLIC_PAGES_SOURCE.matchAll(/\{\s*path:\s*"([^"]+)"/g)].map((match) => match[1]),
   ...[...PUBLIC_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)].map((match) => match[1]),
 ];
-const APP_DEV_ROUTE_PATTERNS = [...DEV_ROUTES_SOURCE.matchAll(/<Route\s+path="([^"]+)"/g)]
-  .map((match) => match[1]);
-const EXPECTED_DEV_ROUTE_PATTERNS = ["/technical-preview", "/legacy-landing", "/test"] as const;
+/* Faz 1a deleted the three dev-only surfaces; their URLs fall through to 404. */
+const FORMER_DEV_ROUTE_PATTERNS = ["/technical-preview", "/legacy-landing", "/test"] as const;
 const EXPECTED_PANEL_ROUTE_PATTERNS = ["/admin/login", "/admin", "/musteri-paneli", "*"] as const;
 const EXPECTED_PUBLIC_ROUTE_PATTERNS = [
   "/",
@@ -318,18 +311,11 @@ test.describe("Shared public shell accessibility", () => {
     expect(caseStudies).toHaveLength(3);
     expect([...APP_PANEL_ROUTE_PATTERNS].sort()).toEqual([...EXPECTED_PANEL_ROUTE_PATTERNS].sort());
     expect([...APP_PUBLIC_ROUTE_PATTERNS].sort()).toEqual([...EXPECTED_PUBLIC_ROUTE_PATTERNS].sort());
-    // Üç dev rotası yalnız dev bloğunda yaşar ve orada `DevRoute &&` koruması
-    // altındadır; üretim rota tablosunda hiç görünmez.
-    expect([...APP_DEV_ROUTE_PATTERNS].sort()).toEqual([...EXPECTED_DEV_ROUTE_PATTERNS].sort());
-    for (const pattern of EXPECTED_DEV_ROUTE_PATTERNS) {
-      expect(
-        DEV_ROUTES_SOURCE,
-        `${pattern} must stay behind the import.meta.env.DEV guard`,
-      ).toContain(`{DevRoute && <Route path="${pattern}"`);
+    // Faz 1a: the dev-only surfaces are gone from the source, not just guarded.
+    for (const pattern of FORMER_DEV_ROUTE_PATTERNS) {
+      expect(APP_SOURCE, `${pattern} must not be a route again`).not.toContain(`path="${pattern}"`);
     }
-    expect(APP_SOURCE).toMatch(
-      /import\.meta\.env\.DEV\s*\?\s*lazy\(\(\)\s*=>\s*import\("\.\/routes\/DevRoutes"\)\)\s*:\s*null;/,
-    );
+    expect(APP_SOURCE).not.toContain("DevRoutes");
     expect(new Set([...CATEGORY_ROUTES, ...SERVICE_ROUTES, ...MATERIAL_ROUTES, ...BLOG_ROUTES]).size).toBe(80);
     expect(new Set(PROFILE_ROUTES).size).toBe(3);
     // 88 → 89 → 90: `/` Faz 03'te (B14), `/teklif-al` Faz 04'te katıldı.
@@ -444,8 +430,8 @@ test.describe("Shared public shell accessibility", () => {
       // yazılmıştı; amacına ulaştığı için kaldırıldı, gevşetilmedi.
       // `/teklif-al` de FAZ 04'te bu tablodan çıktı: artık header VE footer
       // basıyor, dolayısıyla 90 rotalık sözleşmede ölçülüyor.
-      // Dev-only rotalar üretim derlemesinde hiç oluşturulmaz: istek `*`
-      // üzerinden 404 sayfasına düşer.
+      // Faz 1a'da silinen dev-only yüzeylerin adresleri `*` üzerinden
+      // 404 sayfasına düşer.
       { route: "/technical-preview", finalPaths: ["/technical-preview"], header: 1, footer: 1 },
       { route: "/legacy-landing", finalPaths: ["/legacy-landing"], header: 1, footer: 1 },
       { route: "/test", finalPaths: ["/test"], header: 1, footer: 1 },

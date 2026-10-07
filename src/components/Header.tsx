@@ -63,10 +63,6 @@ import { LanguageSwitch } from "./navigation/LanguageSwitch";
    content-measured exception.
    ══════════════════════════════════════════════════════════════════════════ */
 
-interface HeaderProps {
-  /** Kept for `src/pages/TestHowWeWork.tsx` (dev-only) which still passes it. */
-  isFirstVisit?: boolean;
-}
 
 /* ── One instance, even mid-transition ───────────────────────────────────────
    Every page module renders `<Header />` itself and each instance portals into
@@ -168,7 +164,7 @@ const SHEET_LABELS: Record<string, string> = {
 const shouldCollapseCategories = () =>
   typeof window !== "undefined" && (window.innerWidth < 768 || window.innerHeight <= 680);
 
-export const Header = ({ isFirstVisit: _isFirstVisit = false }: HeaderProps) => {
+export const Header = () => {
   const owns = useHeaderOwnership();
   const [phase, setPhase] = useState<MenuPhase>("closed");
   /* The committed phase, readable from a timer or an animation callback that

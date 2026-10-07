@@ -51,9 +51,6 @@ const STATIC: RouteEntry[] = [
   { path: "/audit-not-found", kind: "test-input", access: "not-found", enPath: null, source: "src/App.tsx * → NotFound", note: "test input only; client 404, HTTP status is host-dependent (RELEASE01)" },
 ];
 
-const DEV_ONLY: RouteEntry[] = ["/technical-preview", "/legacy-landing", "/test"].map((path) => ({
-  path, kind: "dev", access: "dev-only", enPath: null, source: "src/App.tsx DEV_ONLY_ROUTES", note: "absent from production build",
-}));
 
 const categories: RouteEntry[] = categoryPages.map((item) => {
   const path = `/${item.prefix}/kategori/${item.slug}`;
@@ -98,5 +95,5 @@ const legacyRedirects = [
 const reportRoutes = [...STATIC, ...categories, ...details, ...materials, ...blog, ...profiles];
 
 export function buildRouteTable() {
-  return { STATIC, DEV_ONLY, categories, details, materials, blog, profiles, wrongFamilyRedirects, legacyRedirects, reportRoutes };
+  return { STATIC, categories, details, materials, blog, profiles, wrongFamilyRedirects, legacyRedirects, reportRoutes };
 }

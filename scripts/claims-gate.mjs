@@ -2851,17 +2851,14 @@ const RULES = [
        package name or a governor.
 
        OUT OF THIS RULE'S CLASS, ON PURPOSE:
-       `src/components/landing/RestoredLandingSections.tsx:42` offers
+       the deleted dev-only `RestoredLandingSections.tsx:42` offered
        "STEP, STP, IGES, Parasolid, SolidWorks ve teknik resim formatlarını
        değerlendirebiliriz" — ONE package name, and the claim is about ACCEPTED
        FORMATS, which is `cad-format-list-not-derived`'s class and not this
        one. It is a negative control below so this rule cannot quietly swallow
-       another rule's finding. Recorded rather than fixed here: that string is
-       reachable only from the dev-only `/legacy-landing` route and is measured
-       ABSENT from `dist/`, and the reason the format rule walks past it is
-       that `değerlendirebiliriz` is not in `CAD_OFFER_PREDICATE`. Widening
-       that predicate is the right fix and it belongs to whoever owns that
-       file. */
+       another rule's finding. The file went in Faz 1a; the sentence stays as
+       a plain-string control (the format rule walks past it because
+       `değerlendirebiliriz` is not in `CAD_OFFER_PREDICATE`). */
     scan: namedCadPackageScan,
     controls: {
       fires: [
@@ -2887,11 +2884,9 @@ const RULES = [
         '"Yerel CAD kayıtlarınızı (SolidWorks .sldprt, CATIA .catpart, NX .prt) veya PDF/DWG teknik resminizi sales@mastechnic.com adresine iletirseniz teklif için değerlendiririz."',
         // A question is not an inventory — it is matcher routing.
         'question: "SolidWorks veya CATIA dosyamı doğrudan yükleyebilir miyim?",',
-        // Another rule's class, live in the tree. See the note above.
-        {
-          file: "src/components/landing/RestoredLandingSections.tsx",
-          text: '"STEP, STP, IGES, Parasolid, SolidWorks ve teknik resim formatlarını değerlendirebiliriz."',
-        },
+        // Another rule's class (the accepted-formats sentence of the deleted
+        // dev-only landing), kept as a plain-string negative control.
+        '"STEP, STP, IGES, Parasolid, SolidWorks ve teknik resim formatlarını değerlendirebiliriz."',
         // The capability that replaced the six. No package, no inventory.
         '"3D modelleme, kuvvet ve tolerans analizi simülasyonu",',
         '"3D Modelleme",',

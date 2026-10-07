@@ -18,22 +18,6 @@ export const LANDING_SCENE_IDS = [
   "iletisim",
 ] as const;
 
-/**
- * Dev-only `/legacy-landing` sahnelerinin çapaları. Yalnız `e2e/legacy/**`
- * kullanır; üretim `/` rotasında bu id'lerin hiçbiri yoktur.
- */
-export const LEGACY_LANDING_SCENE_IDS = [
-  "top",
-  "hizmetler",
-  "endustriler",
-  "malzemeler",
-  "neden-biz",
-  "kabiliyetler",
-  "referanslar",
-  "sss",
-  "iletisim",
-] as const;
-
 export async function settleRendering(page: Page) {
   await page.evaluate(async () => {
     await document.fonts?.ready;
