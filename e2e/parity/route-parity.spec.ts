@@ -162,11 +162,16 @@ for (const motion of ["reduce", "no-preference"] as const) {
             await page.keyboard.press("Enter");
             await settled(page);
           }
-          // At 375 with motion on, the CTA arrow repainted 2-3 px late in the
-          // first family frame after every signal above was quiet (noise run,
-          // threshold 0); a fixed pause was the only reliable rest.
-          await page.waitForTimeout(1500);
-          await expect(page).toHaveScreenshot(`${base}-family-${index + 1}.png`, SHOT);
+          /* The menu CTA's 16px arrow (`.tl-menu-cta svg`) repaints 2-4 px
+             late at 375 with motion on, after every signal above is quiet; a
+             1.5 s pause was not enough under load (1b-i: 1 in 390 on main
+             and branch alike). It is masked — same fill on both sides — so a
+             change to that one icon is invisible here; fullscreen-menu and
+             navigation-golden still cover the CTA. */
+          await expect(page).toHaveScreenshot(`${base}-family-${index + 1}.png`, {
+            ...SHOT,
+            mask: [page.locator(".tl-menu-cta svg")],
+          });
         }
       });
     }
