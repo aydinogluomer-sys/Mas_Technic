@@ -23,6 +23,12 @@ export function RfqAttachmentsStep({ selection }: { selection: AttachmentSelecti
   const maxMb = limits.maxFileBytes / 1024 / 1024;
   const totalMb = limits.maxTotalBytes / 1024 / 1024;
   const shown = problems.filter((problem) => problem.code !== "none");
+  /* The input is emptied after each pick so choosing the same file again still fires. */
+  const pick = (kind: "model" | "drawing") => (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = [...(event.target.files ?? [])];
+    if (files.length) selection.add(files, kind);
+    event.target.value = "";
+  };
 
   return (
     <div className="shell-stack">
@@ -43,11 +49,7 @@ export function RfqAttachmentsStep({ selection }: { selection: AttachmentSelecti
         <ShellTagRow items={[...CAD_FORMAT_CHIPS]} ariaLabel={t("Kabul edilen CAD formatları")} />
         <div className="shell-dropzone">
           <input id="rfq-model" name="model" type="file" accept={CAD_ACCEPT_ATTR} aria-describedby="rfq-files-hint"
-            onChange={(event) => {
-              const files = [...(event.target.files ?? [])];
-              if (files.length) selection.add(files, "model");
-              event.target.value = "";
-            }}
+            onChange={pick("model")}
           />
           <label htmlFor="rfq-model" className="shell-dropzone-area">
             <span className="shell-dropzone-title">{t(selection.modelCount ? "Modeli değiştirmek için seçin" : "3B model seçin")}</span>
@@ -60,11 +62,7 @@ export function RfqAttachmentsStep({ selection }: { selection: AttachmentSelecti
         <p className="shell-eyebrow">{t("PDF TEKNİK RESİM")}</p>
         <div className="shell-dropzone">
           <input id="rfq-drawings" name="drawings" type="file" accept=".pdf,application/pdf" multiple aria-describedby="rfq-files-hint"
-            onChange={(event) => {
-              const files = [...(event.target.files ?? [])];
-              if (files.length) selection.add(files, "drawing");
-              event.target.value = "";
-            }}
+            onChange={pick("drawing")}
           />
           <label htmlFor="rfq-drawings" className="shell-dropzone-area">
             <span className="shell-dropzone-title">{t("PDF teknik resim seçin")}</span>

@@ -29,6 +29,7 @@ import {
   CAD_MAX_FILE_SIZE_MB,
   EMPTY_RFQ_DRAFT,
   RFQ_STEPS,
+  cadPreviewKind,
   type Dimensions,
   type RfqDraft,
 } from "@/components/rfq/rfq-model";
@@ -43,7 +44,6 @@ import { RFQ_ATTACHMENTS_ENABLED } from "@/components/rfq/rfq-attachments";
 import { useAttachmentSelection } from "@/components/rfq/useAttachmentSelection";
 import { RfqAttachmentsStep } from "@/components/rfq/RfqAttachmentsStep";
 import { CadStageHost } from "@/components/rfq/CadStageHost";
-import { cadPreviewKind } from "@/components/rfq/rfq-model";
 import { getCadFileExtension } from "@/utils/cadFiles";
 import { useRfqSubmission } from "@/components/rfq/useRfqSubmission";
 
@@ -110,6 +110,13 @@ export const TeklifAl = () => {
   const [parseError, setParseError] = useState<string | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [stageAttempt, setStageAttempt] = useState(0);
+  /** A new or removed model invalidates its preview and anything read from it. */
+  const resetPreview = useCallback(() => {
+    setDimensions(null);
+    setParseError(null);
+    setPreviewOpen(false);
+  }, []);
+  const retryStage = useCallback(() => setStageAttempt((value) => value + 1), []);
 
   const cad = useCadSelection();
   const attachments = useAttachmentSelection();
@@ -253,14 +260,12 @@ export const TeklifAl = () => {
     setDraft(EMPTY_RFQ_DRAFT);
     setErrors({});
     setFormError(null);
-    setDimensions(null);
-    setParseError(null);
-    setPreviewOpen(false);
+    resetPreview();
     cad.clear();
     attachments.clear();
     setFurthestStep(1);
     setCurrentStep(1);
-  }, [attachments, cad, submission]);
+  }, [attachments, cad, resetPreview, submission]);
 
   const heroMeta = useMemo(
     () => [
@@ -342,7 +347,7 @@ export const TeklifAl = () => {
                         file={modelItem.file}
                         kind={modelPreviewKind}
                         attempt={stageAttempt}
-                        onRetry={() => setStageAttempt((value) => value + 1)}
+                        onRetry={retryStage}
                         onDimensions={setDimensions}
                         onParseError={setParseError}
                         onClose={() => setPreviewOpen(false)}
@@ -359,17 +364,13 @@ export const TeklifAl = () => {
                     isDragging={cad.isDragging}
                     dragHandlers={cad.dragHandlers}
                     onSelectFile={(file) => {
-                      setDimensions(null);
-                      setParseError(null);
-                      setPreviewOpen(false);
+                      resetPreview();
                       setFormError(null);
                       cad.select(file);
                     }}
                     onClear={() => {
                       cad.clear();
-                      setDimensions(null);
-                      setParseError(null);
-                      setPreviewOpen(false);
+                      resetPreview();
                     }}
                     previewOpen={previewOpen}
                     onOpenPreview={() => setPreviewOpen(true)}
@@ -379,7 +380,7 @@ export const TeklifAl = () => {
                     parseError={parseError}
                     onParseError={setParseError}
                     stageAttempt={stageAttempt}
-                    onStageRetry={() => setStageAttempt((value) => value + 1)}
+                    onStageRetry={retryStage}
                   />
                 )}
 

@@ -1,6 +1,6 @@
 import { MINIMUM_TOLERANCE } from "@/content/claims";
 import { materialCategories, materialsData } from "@/data/materialsData";
-import { CAD_ACCEPTED_EXTENSIONS, CAD_MAX_FILE_SIZE } from "@/utils/cadFiles";
+import { CAD_MAX_FILE_SIZE } from "@/utils/cadFiles";
 
 /* ══════════════════════════════════════════════════════════════════════════
    RFQ MODEL — the choices the form offers and the record it sends
@@ -138,7 +138,6 @@ export function resolveMaterialLabel(materialId: string, customMaterial: string)
    hand-written format list is how `.x_t` came to be advertised on the landing
    while the validator rejected it. */
 export const CAD_MAX_FILE_SIZE_MB = Math.round(CAD_MAX_FILE_SIZE / (1024 * 1024));
-export const CAD_FORMAT_COUNT = CAD_ACCEPTED_EXTENSIONS.length;
 
 /** `0.00 MB` is not a file size: a small STL is genuinely a few kilobytes. */
 export function formatFileSize(bytes: number): string {
@@ -196,8 +195,8 @@ export function buildRfqNotes(draft: RfqDraft): string {
     `Yüzey: ${optionLabel(RFQ_SURFACE_FINISHES, draft.finish)}`,
     `Öncelik: ${optionLabel(RFQ_PRIORITIES, draft.priority)}`,
     `Tolerans: ${draft.tolerance || NOT_SPECIFIED}`,
-    `Parça/Revizyon: ${draft.drawingNumber.trim() || "Belirtilmedi"}`,
-    `Kritik ölçüler: ${draft.criticalFeatures.trim() || "Belirtilmedi"}`,
+    `Parça/Revizyon: ${draft.drawingNumber.trim() || NOT_SPECIFIED}`,
+    `Kritik ölçüler: ${draft.criticalFeatures.trim() || NOT_SPECIFIED}`,
   ].join(" | ");
 }
 
