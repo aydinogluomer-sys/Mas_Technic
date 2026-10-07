@@ -1,11 +1,8 @@
-import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import type { RefObject } from "react";
-import { NAV_MOTION } from "./motion";
+import type { CSSProperties, RefObject } from "react";
 
 interface NavTriggerProps {
   open: boolean;
-  reducedMotion: boolean;
   onToggle: () => void;
   triggerRef: RefObject<HTMLButtonElement>;
 }
@@ -20,9 +17,24 @@ interface NavTriggerProps {
  * and half in an overlay.
  *
  * Three rules, not an icon: closed they read as a stacked dimension set,
- * open they cross into a datum mark.
+ * open they cross into a datum mark. The header renders a closed trigger and
+ * the dialog an open one, so a trigger never changes state after mounting:
+ * the rules are static styles, not an animation.
  */
-export function NavTrigger({ open, reducedMotion, onToggle, triggerRef }: NavTriggerProps) {
+const RULES: Record<"open" | "closed", CSSProperties[]> = {
+  closed: [
+    { top: 0, width: 22, transform: "none", opacity: 1 },
+    { top: 8, width: 14, transform: "none", opacity: 1 },
+    { top: 16, width: 22, transform: "none", opacity: 1 },
+  ],
+  open: [
+    { top: 8, width: 22, transform: "rotate(45deg)" },
+    { width: 10, transform: "translateX(4px)", opacity: 0 },
+    { top: 8, width: 22, transform: "rotate(-45deg)" },
+  ],
+};
+
+export function NavTrigger({ open, onToggle, triggerRef }: NavTriggerProps) {
   const { t } = useTranslation();
   return (
     <button
@@ -37,19 +49,7 @@ export function NavTrigger({ open, reducedMotion, onToggle, triggerRef }: NavTri
     >
       <span className="tl-menu-trigger-label">{open ? t("KAPAT") : t("MENÜ")}</span>
       <span className="tl-menu-trigger-rules" aria-hidden="true">
-        {[0, 1, 2].map((line) => (
-          <motion.span
-            key={line}
-            animate={open
-              ? line === 0
-                ? { top: 8, width: 22, rotate: 45 }
-                : line === 1
-                  ? { opacity: 0, width: 10, x: 4 }
-                  : { top: 8, width: 22, rotate: -45 }
-              : { top: line * 8, width: line === 1 ? 14 : 22, rotate: 0, opacity: 1, x: 0 }}
-            transition={reducedMotion ? NAV_MOTION.reduced : NAV_MOTION.micro}
-          />
-        ))}
+        {RULES[open ? "open" : "closed"].map((style, line) => <span key={line} style={style} />)}
       </span>
     </button>
   );

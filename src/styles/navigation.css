@@ -213,6 +213,34 @@
   color: var(--tl-white);
   background: var(--tl-void);
   font-family: var(--tl-font-sans);
+  /* The wipe: one rule sweeping down the page. In from `@starting-style`,
+     out on `data-phase="closing"`; a transition, so a close requested
+     mid-open reverses from where the sheet is instead of jumping. The open
+     clip stays on at rest. Header.tsx settles the phase on `transitionend`
+     or, failing that, on its own timer. */
+  clip-path: inset(0 0 0% 0);
+  transition: clip-path var(--tl-in) var(--tl-ease-out);
+}
+@starting-style {
+  .tl-menu { clip-path: inset(0 0 100% 0); }
+}
+.tl-menu[data-phase="closing"] { clip-path: inset(0 0 100% 0); }
+.tl-menu[data-motion="reduced"] { transition: none; }
+.tl-menu[data-motion="reduced"][data-phase="closing"] { clip-path: inset(0 0 0% 0); }
+
+/* A hairline lifts and the content resolves under it: family rows on open
+   (one `--tl-step` apart), the category column on a family change. The end
+   state, open clip included, is the resting style in every motion mode, so
+   the reveals fill `backwards` only: a finished animation that kept filling
+   held the row on its own layer and repainted its text differently (parity,
+   Faz 2). */
+@keyframes tl-menu-reveal {
+  from { opacity: 0; clip-path: inset(0 0 100% 0); }
+  to { opacity: 1; clip-path: inset(0 0 0% 0); }
+}
+@keyframes tl-menu-conceal {
+  from { opacity: 1; clip-path: inset(0 0 0% 0); }
+  to { opacity: 0; clip-path: inset(0 0 100% 0); }
 }
 
 .tl-menu-sheet {
@@ -300,6 +328,7 @@
 .tl-menu-family-rail { display: grid; align-content: start; border-top: var(--tl-rule-size) solid var(--tl-rule); }
 .tl-menu-family {
   position: relative;
+  clip-path: inset(0 0 0% 0);
   display: grid;
   min-height: clamp(84px, 11vh, 118px);
   grid-template-columns: 42px minmax(0, 1fr);
@@ -338,6 +367,9 @@
   background: var(--tl-bronze-light);
   transition: transform var(--tl-dur-short) var(--tl-ease-out);
 }
+.tl-menu-family[data-reveal] {
+  animation: tl-menu-reveal var(--tl-dur-short) var(--tl-ease-out) calc(var(--tl-step) * var(--i, 0)) backwards;
+}
 .tl-menu-family:is(:hover, :focus-visible), .tl-menu-family.is-active { color: var(--tl-white); }
 .tl-menu-family.is-active .tl-menu-family-datum { transform: scaleX(1); }
 .tl-menu-here {
@@ -347,7 +379,9 @@
   letter-spacing: .22em;
 }
 
-.tl-menu-categories { min-width: 0; border-top: var(--tl-rule-size) solid var(--tl-rule); }
+.tl-menu-categories { min-width: 0; border-top: var(--tl-rule-size) solid var(--tl-rule); clip-path: inset(0 0 0% 0); }
+.tl-menu-categories[data-phase="leave"] { animation: tl-menu-conceal var(--tl-dur-short) var(--tl-ease-out) both; }
+.tl-menu-categories[data-phase="enter"] { animation: tl-menu-reveal var(--tl-dur-short) var(--tl-ease-out) backwards; }
 .tl-menu-category { border-bottom: var(--tl-rule-size) solid var(--tl-rule); }
 .tl-menu-category-toggle {
   display: grid;

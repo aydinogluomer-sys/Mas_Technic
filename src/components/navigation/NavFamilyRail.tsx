@@ -1,8 +1,6 @@
-import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import type { KeyboardEvent, RefObject } from "react";
+import type { CSSProperties, KeyboardEvent, RefObject } from "react";
 import type { NavigationItem } from "./ia";
-import { NAV_MOTION } from "./motion";
 
 interface NavFamilyRailProps {
   groups: NavigationItem[];
@@ -52,7 +50,7 @@ export function NavFamilyRail({
       {groups.map((item, index) => {
         const active = activeIndex === index;
         return (
-          <motion.button
+          <button
             key={item.label}
             ref={(node) => { if (buttonRefs.current) buttonRefs.current[index] = node; }}
             type="button"
@@ -63,11 +61,10 @@ export function NavFamilyRail({
             tabIndex={active ? 0 : -1}
             className={`tl-menu-family${active ? " is-active" : ""}${currentIndex === index ? " is-current" : ""}`}
             data-nav-family={item.label}
-            initial={reducedMotion ? false : { opacity: 0, clipPath: "inset(0 0 100% 0)" }}
-            animate={{ opacity: 1, clipPath: "inset(0 0 0% 0)" }}
-            transition={reducedMotion
-              ? NAV_MOTION.reduced
-              : { ...NAV_MOTION.close, delay: NAV_MOTION.step * (index + 1) }}
+            // Rows resolve one `--tl-step` apart (navigation.css §04); under
+            // reduced motion there is no reveal at all, not a delayed one.
+            data-reveal={reducedMotion ? undefined : ""}
+            style={{ "--i": index + 1 } as CSSProperties}
           >
             <span className="tl-menu-family-index">{item.index}</span>
             <span className="tl-menu-family-label">{t(item.label)}</span>
@@ -83,7 +80,7 @@ export function NavFamilyRail({
               <span className="tl-menu-here">{t("BURADASINIZ")}</span>
             )}
             <span className="tl-menu-family-datum" aria-hidden="true" />
-          </motion.button>
+          </button>
         );
       })}
     </div>
