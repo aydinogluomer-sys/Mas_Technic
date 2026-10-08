@@ -218,7 +218,7 @@ export const part6: Record<string, ServiceText> = {
     description: "Präzise mechanische Komponenten für Industrieroboter, Cobots und Automatisierungssysteme. Aktuatorgehäuse, Gelenkteile und Greiferkomponenten.",
     content: [
       "Wir fertigen präzise mechanische Komponenten für Industrieroboter, kollaborative Roboter (Cobots) und kundenspezifische Automatisierungssysteme: Aktuatorgehäuse, Gelenkteile, Getriebegehäuse, Greiferkomponenten und Sensorhalter.",
-      "Bei Roboterkomponenten zählt nicht ein einzelnes Maß, sondern die Lage der Achsen zueinander: Konzentrizität und Rechtwinkligkeit beeinflussen direkt die Wiederholgenauigkeit des Arms. Deshalb werden Bezugsflächen in einer Aufspannung bearbeitet und vom selben Bezug aus gemessen.",
+      "Bei Roboterkomponenten zählt nicht ein einzelnes Maß, sondern die Lage der Achsen zueinander: Koaxialität und Rechtwinkligkeit beeinflussen direkt die Wiederholgenauigkeit des Arms. Deshalb werden Bezugsflächen in einer Aufspannung bearbeitet und vom selben Bezug aus gemessen.",
       "Wir planen flexibel vom Prototyp zur Serie. Jedes Robotikprojekt beginnt mit einer DFM-Analyse, wird mit einem Funktionsprototyp validiert und geht nach der Musterfreigabe in die Serienfertigung.",
     ],
     features: [
@@ -232,7 +232,7 @@ export const part6: Record<string, ServiceText> = {
     technicalSpecs: [
       { label: "Standardtoleranz", value: "±0,01mm" },
       { label: "Werkstoff", value: "Al 7075, SS 316L, POM" },
-      { label: "Konzentrizität", value: "Vom Bezug aus gemessen" },
+      { label: "Koaxialität", value: "Vom Bezug aus gemessen" },
       { label: "Gewichtsopt.", value: "Topologieoptimierung" },
       { label: "GD&T", value: "Im Prüfplan" },
     ],
@@ -242,12 +242,12 @@ export const part6: Record<string, ServiceText> = {
       "Bezugsflächen in einer Aufspannung bearbeitet und vom selben Bezug aus gemessen",
       "Gewichts- und Kostenoptimierung durch DFM-Analyse",
       "Reibungsloser Übergang vom Prototyp zur Serienfertigung",
-      "Konzentrizität und Rechtwinkligkeit sind im Prüfplan festgelegt",
+      "Koaxialität und Rechtwinkligkeit sind im Prüfplan festgelegt",
     ],
     faq: [
       {
         question: "Welche Toleranzen halten Sie bei Roboterkomponenten ein?",
-        answer: "Unser Standard-Arbeitsbereich liegt bei ±0,01mm. Form- und Lagetoleranzen wie Konzentrizität und Rechtwinkligkeit werden zusammen mit dem Bezugssystem bewertet und im Prüfplan festgelegt.",
+        answer: "Unser Standard-Arbeitsbereich liegt bei ±0,01mm. Form- und Lagetoleranzen wie Koaxialität und Rechtwinkligkeit werden zusammen mit dem Bezugssystem bewertet und im Prüfplan festgelegt.",
       },
       {
         question: "Bieten Sie Leichtbau-Werkstofflösungen an?",
@@ -307,7 +307,7 @@ export const part6: Record<string, ServiceText> = {
       },
       {
         question: "Wie sichern Sie die Konstanz zwischen den Losen?",
-        answer: "Durch eine Standard-Rüstanweisung, Erstmusterfreigabe und an den Prüfplan gebundene prozessbegleitende Prüfungen. Verschleißempfindliche Maße werden in einem eigenen Schritt überwacht und die Ergebnisse dokumentiert.",
+        answer: "Durch eine Standard-Rüstanweisung, Erstteilfreigabe und an den Prüfplan gebundene prozessbegleitende Prüfungen. Verschleißempfindliche Maße werden in einem eigenen Schritt überwacht und die Ergebnisse dokumentiert.",
       },
       {
         question: "Welche Stückzahlen fertigen Sie?",

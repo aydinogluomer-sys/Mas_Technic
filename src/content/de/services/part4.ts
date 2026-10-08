@@ -315,7 +315,7 @@ export const part4: Record<string, ServiceText> = {
         rows: [
           ["Durchmesser und Länge", "Messung nach Prüfplan", "Bei enger Maßkette"],
           ["Form (Ebenheit, Zylinderform)", "Messung nach Prüfplan", "Wenn eine Form- und Lagetoleranz angegeben ist"],
-          ["Position und Konzentrizität", "Prüfung vom Bezug aus", "Bei komplexem Bezugssystem"],
+          ["Position und Koaxialität", "Prüfung vom Bezug aus", "Bei komplexem Bezugssystem"],
           ["Oberflächenzustand", "Vergleichsprüfung", "Wenn ein Ra-Zahlenwert angegeben ist"],
           ["Werkstoffidentität", "Chargen-/Schmelzenverfolgung", "Nicht zutreffend — über Dokumente nachgewiesen"],
         ],
@@ -331,7 +331,7 @@ export const part4: Record<string, ServiceText> = {
     content: [
       "Unser Standardarbeitsbereich liegt bei ±0,01 mm. Ob ein Teil enger gefertigt werden kann, ist nicht allein eine Frage der Maschine, sondern der Geometrie, des Werkstoffs, der Teilegröße und der Maßkette; dies wird daher für jedes Teil gesondert in der technischen Prüfung entschieden.",
       "Am häufigsten entscheidet die Anzahl der Aufspannungen über die Toleranz. Jede neue Aufspannung bringt eine neue Fehlerquelle in die Maßkette; ein in einer Aufspannung fertiggestelltes Teil hält eine engere Toleranz als dasselbe Teil, das auf derselben Maschine in zwei Aufspannungen bearbeitet wird.",
-      "Form- und Lagetoleranzen (GD&T) werden nach ASME Y14.5 gelesen. Positions-, Rechtwinkligkeits-, Konzentrizitäts-, Ebenheits- und Rundheitstoleranzen sind nur zusammen mit dem Bezugssystem sinnvoll: Welche Fläche als Bezug dient, ist ebenso wichtig wie die Toleranz selbst.",
+      "Form- und Lagetoleranzen (GD&T) werden nach ASME Y14.5 gelesen. Positions-, Rechtwinkligkeits-, Koaxialitäts-, Ebenheits- und Rundheitstoleranzen sind nur zusammen mit dem Bezugssystem sinnvoll: Welche Fläche als Bezug dient, ist ebenso wichtig wie die Toleranz selbst.",
       "Für Maße ohne Toleranzangabe auf der Zeichnung gelten die Allgemeintoleranzklassen nach ISO 2768. Welche Klasse gilt, wird in der Angebotsphase bestätigt; eine nicht definierte Allgemeintoleranz ist die häufigste Ursache für Streitfälle nach der Fertigung.",
       "Eine engere Toleranz als nötig erhöht die Kosten und verlängert die Lieferzeit. In der technischen Prüfung schlagen wir vor, funktionsunkritische Maße zu lockern; gemeinsam festzulegen, welches Maß wirklich kritisch ist, macht das Teil sowohl günstiger als auch zuverlässiger.",
     ],
@@ -361,7 +361,7 @@ export const part4: Record<string, ServiceText> = {
     ],
     faq: [
       { question: "Wie groß ist Ihr Standardtoleranzbereich?", answer: "±0,01 mm. Ob ein Teil enger gefertigt werden kann, hängt von Geometrie, Werkstoff, Teilegröße und Maßkette ab und wird in der technischen Prüfung entschieden." },
-      { question: "Unterstützen Sie Form- und Lagetoleranzen (GD&T)?", answer: "Ja. Positions-, Rechtwinkligkeits-, Konzentrizitäts-, Ebenheits- und Rundheitstoleranzen lesen wir nach ASME Y14.5 zusammen mit dem Bezugssystem und nehmen sie in den Prüfplan auf." },
+      { question: "Unterstützen Sie Form- und Lagetoleranzen (GD&T)?", answer: "Ja. Positions-, Rechtwinkligkeits-, Koaxialitäts-, Ebenheits- und Rundheitstoleranzen lesen wir nach ASME Y14.5 zusammen mit dem Bezugssystem und nehmen sie in den Prüfplan auf." },
       { question: "Meine Zeichnung enthält keine Toleranzen — was nun?", answer: "Für nicht tolerierte Maße gelten die Allgemeintoleranzklassen nach ISO 2768. Welche Klasse gilt, bestätigen wir in der Angebotsphase." },
       { question: "Was ändert sich, wenn ich eine engere Toleranz verlange?", answer: "Arbeitsfolge, Spannkonzept und Prüfmethode ändern sich; Zeit und Kosten steigen. Gegebenenfalls schlagen wir vor, funktionsunkritische Maße zu lockern." },
       { question: "Wie weisen Sie nach, dass die Toleranz eingehalten wird?", answer: "Kritische Maße werden in den Prüfplan aufgenommen, gemessen und die Ergebnisse dokumentiert. Ist eine Koordinatenmessung erforderlich, wird auf Anfrage eine akkreditierte externe Messung bereitgestellt." },
@@ -385,7 +385,7 @@ export const part4: Record<string, ServiceText> = {
         rows: [
           ["Position", "⌖", "Lage eines Elements zum Bezug", "Positionierung von Bohrungen und Stiften", "Ja"],
           ["Rechtwinkligkeit", "⊥", "Ausrichtung einer Fläche zum Bezug", "Rechtwinkliger Bezug Fläche–Welle", "Ja"],
-          ["Konzentrizität", "◎", "Übereinstimmung zweier Achsen", "Lagersitz, Welle", "Ja"],
+          ["Koaxialität", "◎", "Übereinstimmung zweier Achsen", "Lagersitz, Welle", "Ja"],
           ["Ebenheit", "▱", "Abweichung einer Fläche in sich", "Dichtfläche", "Nein"],
           ["Rundheit", "○", "Abweichung eines Querschnitts vom Kreis", "Kolben, Zylinder", "Nein"],
           ["Lauf", "↻", "Rundlauf der Fläche bei Rotation", "Welle, Spindel", "Ja"],

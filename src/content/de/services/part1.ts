@@ -1,4 +1,5 @@
 import type { ServiceText } from "@/content/en/types";
+import { CAD_UPLOAD_EXTENSIONS, CAD_UPLOAD_FORMATS_DE } from "../cad";
 
 export const part1: Record<string, ServiceText> = {
   "cnc-frezeleme": {
@@ -11,7 +12,7 @@ export const part1: Record<string, ServiceText> = {
       "Auf unseren 5-Achs-CNC-Fräszentren fertigen wir komplexe Geometrien in einer einzigen Aufspannung. Weniger Aufspannungen sparen nicht nur Zeit: Jede neue Aufspannung bringt eine zusätzliche Fehlerquelle in die Maßkette, ihre Reduzierung kommt daher unmittelbar der Toleranz zugute.",
       "Das 3-Achs-Fräsen bietet wirtschaftliche Lösungen für ebene Flächen, Taschen und Standardgeometrien. Beim 4-Achs-Fräsen ermöglicht der Rundtisch das Einbringen von Nuten, Bohrungen und Profilen an zylindrischen Teilen. Das simultane 5-Achs-Fräsen bearbeitet komplexeste Teilegeometrien in einer Aufspannung und erfüllt so die Anforderungen der Luft- und Raumfahrt, der Medizintechnik und der Automobilindustrie.",
       "Strategien der Hochgeschwindigkeitsbearbeitung (HSC) senken die Schnittkräfte an dünnwandigen Teilen und verbessern die Oberflächengüte. In kritischen Branchen wie Luft- und Raumfahrt, Automobil, Medizintechnik und Verteidigung liegt unser Standard-Arbeitsbereich bei ±0,01 mm; die erreichbare Toleranz wird für jedes Teil in der technischen Prüfung festgelegt.",
-      "Unser Team bearbeitet technische Werkstoffe wie Aluminium (6061, 7075), Edelstahl (304, 316), unlegierten Stahl, Titan, PEEK und POM/Delrin. Zur Kostenoptimierung führen wir bei jedem Projekt eine DFM-Analyse durch; der Upload im Angebotsprozess akzeptiert die Dateiendungen STEP, STP, STL, OBJ, IGES, IGS und 3MF, native CAD-Dateien oder Zeichnungen, die nicht in dieser Liste stehen, nehmen wir per E-Mail entgegen.",
+      `Unser Team bearbeitet technische Werkstoffe wie Aluminium (6061, 7075), Edelstahl (304, 316), Kohlenstoffstahl, Titan, PEEK und POM/Delrin. Zur Kostenoptimierung führen wir bei jedem Projekt eine DFM-Analyse durch; der Upload im Angebotsprozess akzeptiert die Dateiendungen ${CAD_UPLOAD_FORMATS_DE}, native CAD-Dateien oder Zeichnungen, die nicht in dieser Liste stehen, nehmen wir per E-Mail entgegen.`,
     ],
     features: [
       "3-Achs-Fräsen — Wirtschaftliche Lösung für ebene Flächen und Standardgeometrien",
@@ -36,7 +37,7 @@ export const part1: Record<string, ServiceText> = {
     materials: [
       { name: "Aluminium", grade: "6061-T6 / 7075-T6", properties: "Leicht, korrosionsbeständig, gut zerspanbar" },
       { name: "Edelstahl", grade: "304 / 316L", properties: "Hohe Korrosionsbeständigkeit, hygienisch" },
-      { name: "Unlegierter Stahl", grade: "1045 / 4140", properties: "Hohe Festigkeit, für Wärmebehandlung geeignet" },
+      { name: "Kohlenstoffstahl", grade: "1045 / 4140", properties: "Hohe Festigkeit, für Wärmebehandlung geeignet" },
       { name: "Titan", grade: "Ti6Al4V (Grade 5)", properties: "Leicht, biokompatibel, hohe Festigkeit" },
       { name: "POM (Delrin)", grade: "Delrin 150 / 500", properties: "Geringe Reibung, Maßhaltigkeit" },
       { name: "PEEK", grade: "PEEK 450G", properties: "Hohe Temperaturbeständigkeit, Chemikalienbeständigkeit" },
@@ -44,7 +45,7 @@ export const part1: Record<string, ServiceText> = {
     faq: [
       { question: "3-Achs- oder 5-Achs-Bearbeitung?", answer: "Für ebene Flächen und einfache Taschen reicht die 3-Achs-Bearbeitung aus und ist wirtschaftlicher. Sind Hinterschnitte, schräge Flächen oder die Bearbeitung mehrerer Seiten in einer Aufspannung erforderlich, wird die 5-Achs-Bearbeitung bevorzugt." },
       { question: "Welche Toleranzen erreichen Sie beim CNC-Fräsen?", answer: "Unser Standard-Arbeitsbereich liegt bei ±0,01mm. Die erreichbare Toleranz hängt von Geometrie, Werkstoff, Teilegröße und Maßkette ab und wird für jedes Teil in der technischen Prüfung festgelegt." },
-      { question: "Welche Dateiformate akzeptieren Sie?", answer: "Der Upload im Angebotsprozess akzeptiert folgende Dateiendungen: .step, .stp, .stl, .obj, .iges, .igs, .3mf — eine nicht aufgeführte Endung kann nicht hochgeladen werden. Wenn Sie Ihre nativen CAD-Dateien oder eine technische Zeichnung als PDF/DWG an sales@mastechnic.com senden, prüfen wir diese für ein Angebot." },
+      { question: "Welche Dateiformate akzeptieren Sie?", answer: `Der Upload im Angebotsprozess akzeptiert folgende Dateiendungen: ${CAD_UPLOAD_EXTENSIONS} — eine nicht aufgeführte Endung kann nicht hochgeladen werden. Wenn Sie Ihre nativen CAD-Dateien oder eine technische Zeichnung als PDF/DWG an sales@mastechnic.com senden, prüfen wir diese für ein Angebot.` },
       { question: "Gibt es eine Mindestbestellmenge?", answer: "Nein, wir fertigen jede Menge – vom Einzelteil bis zur Serienfertigung. Auch Prototypenaufträge werden angenommen." },
       { question: "Wie lang ist Ihre Lieferzeit?", answer: "Die Lieferzeit wird nach Prüfung von Materialbeschaffung, Anzahl der Arbeitsgänge und Kapazitätsplanung mit dem Angebot genannt." },
     ],

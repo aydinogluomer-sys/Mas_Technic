@@ -43,6 +43,9 @@ const [locale = "en", ...sections] = process.argv.slice(2);
 const target = LOCALES[locale];
 if (!target) throw new Error(`usage: locale-check [${Object.keys(LOCALES).join("|")}] [section…]`);
 const { bundle, allow: ALLOW, letters: TR_LETTERS, dropped = {} } = target;
+const SECTIONS = ["services", "categories", "families", "materials", "blog", "cases", "chat"];
+const unknown = sections.filter((name) => !SECTIONS.includes(name));
+if (unknown.length) throw new Error(`unknown section(s): ${unknown.join(", ")} — expected ${SECTIONS.join(", ")}`);
 
 type Problem = { record: string; path: string; issue: string };
 const problems: Problem[] = [];
@@ -78,7 +81,11 @@ function check(name: string, records: { key: string; tr: unknown }[], overlays: 
     covered++;
     const t: string[] = []; const e: string[] = [];
     walk(`${name}:${key}`, tr, ov, "", t, e);
-    for (const n of dropped[`${name}:${key}`] ?? []) t.splice(t.indexOf(n), 1);
+    for (const n of dropped[`${name}:${key}`] ?? []) {
+      const at = t.indexOf(n);
+      if (at < 0) problems.push({ record: `${name}:${key}`, path: "", issue: `stale number exception: no ${n} left to drop` });
+      else t.splice(at, 1);
+    }
     const a = [...t].sort().join(" "), b = [...e].sort().join(" ");
     if (a !== b) {
       const missing = t.filter((n) => { const i = e.indexOf(n); if (i >= 0) { e.splice(i, 1); return false; } return true; });

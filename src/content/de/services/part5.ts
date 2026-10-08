@@ -1,4 +1,5 @@
 import type { ServiceText } from "@/content/en/types";
+import { CAD_UPLOAD_EXTENSIONS, CAD_UPLOAD_FORMATS_DE } from "../cad";
 
 export const part5: Record<string, ServiceText> = {
   "tasarim-rehberi-dfm": {
@@ -24,7 +25,7 @@ export const part5: Record<string, ServiceText> = {
     technicalSpecs: [
       { label: "Analysedauer", value: "Mit dem Angebot" },
       { label: "Berichtsformat", value: "PDF + überarbeitetes CAD" },
-      { label: "Unterstützte CAD-Formate", value: "STEP, STP, STL, OBJ, IGES, IGS und 3MF" },
+      { label: "Unterstützte CAD-Formate", value: CAD_UPLOAD_FORMATS_DE },
       { label: "Revision", value: "Umfang laut Angebot" },
       { label: "Kostenhebel", value: "Teileanzahl, Aufspannungen, Toleranz" },
       { label: "Simulation", value: "Verifizierung der Werkzeugwege" },
@@ -48,7 +49,7 @@ export const part5: Record<string, ServiceText> = {
       },
       {
         question: "Welche CAD-Formate akzeptieren Sie?",
-        answer: "Der Upload im Angebotsprozess prüft diese Dateiendungen: .step, .stp, .stl, .obj, .iges, .igs, .3mf — eine Endung, die nicht auf der Liste steht, wird beim Hochladen abgewiesen. Wenn Sie Ihre native CAD-Datei oder eine bemaßte technische Zeichnung an sales@mastechnic.com senden, prüfen wir sie für ein Angebot.",
+        answer: `Der Upload im Angebotsprozess prüft diese Dateiendungen: ${CAD_UPLOAD_EXTENSIONS} — eine Endung, die nicht auf der Liste steht, wird beim Hochladen abgewiesen. Wenn Sie Ihre native CAD-Datei oder eine bemaßte technische Zeichnung an sales@mastechnic.com senden, prüfen wir sie für ein Angebot.`,
       },
       {
         question: "Wie viel spart eine DFM-Analyse?",
@@ -222,7 +223,7 @@ export const part5: Record<string, ServiceText> = {
     description: "Mit Stahlwerkzeugen, Druckguss, automatisierter CNC-Fertigung und Montagelinien streben wir in der Großserienfertigung Gleichmäßigkeit und Effizienz an.",
     content: [
       "In der Serienfertigung wird das Verfahren nach Teilegeometrie und Toleranzziel gewählt. Die Standardtoleranz in der CNC-Serienzerspanung beträgt ±0,01mm. Bei gegossenen oder gespritzten Teilen werden drei Anforderungen getrennt behandelt: die Fertigungstoleranz des Werkzeugs selbst, die Toleranzklasse des Rohteils (gegossen bzw. gespritzt) und die Zeichnungstoleranz der anschließend bearbeiteten Flächen. Die Toleranzklasse des Rohteils wird im Angebot nach Verfahren und Werkstoff angegeben.",
-      "In der Serienfertigung wird das Rüsten nicht einmal erledigt und dann vergessen: Ein standardisiertes Rüstverfahren, feste Bezugsflächen und automatischer Werkzeugwechsel begrenzen die Streuung zwischen den Losen. Die Serienfertigung beginnt nicht vor der Freigabe des Erstmusters.",
+      "In der Serienfertigung wird das Rüsten nicht einmal erledigt und dann vergessen: Ein standardisiertes Rüstverfahren, feste Bezugsflächen und automatischer Werkzeugwechsel begrenzen die Streuung zwischen den Losen. Die Serienfertigung beginnt nicht vor der Erstteilfreigabe.",
       "Fertigungsverfolgung, Bestands- und Kapazitätsplanung laufen über einen einzigen Datensatz; jederzeit ist erfasst, welches Los sich wo befindet und welche Prüfung es durchlaufen hat. Der Beschaffungsbedarf wird anhand dieses Datensatzes geplant, und der Auftragsstatus ist im Kundenportal einsehbar.",
       "Die Gleichmäßigkeit innerhalb eines Loses wird durch planmäßig verankerte fertigungsbegleitende Prüfungen gesichert. Driftanfällige Maße — verschleißempfindliche Durchmesser, Maße nach der Wärmebehandlung — werden in einem eigenen Prüfschritt überwacht, und die Ergebnisse werden dokumentiert.",
     ],
@@ -249,7 +250,7 @@ export const part5: Record<string, ServiceText> = {
       "Losgröße und Lieferrhythmus sind an einen Lieferplan gebunden",
       "Driftanfällige Maße werden durch fertigungsbegleitende Prüfungen überwacht",
       "Vollständige Rückverfolgbarkeit auf Losebene",
-      "Die Serienfertigung beginnt nicht vor der Freigabe des Erstmusters",
+      "Die Serienfertigung beginnt nicht vor der Erstteilfreigabe",
     ],
     faq: [
       {
@@ -262,7 +263,7 @@ export const part5: Record<string, ServiceText> = {
       },
       {
         question: "Wie sichern Sie die Gleichmäßigkeit in der Serienfertigung?",
-        answer: "Durch Erstmusterfreigabe, ein standardisiertes Rüstverfahren und an den Prüfplan gebundene fertigungsbegleitende Prüfungen. Driftanfällige Maße werden in einem eigenen Schritt überwacht, und die Messergebnisse werden dokumentiert.",
+        answer: "Durch Erstteilfreigabe, ein standardisiertes Rüstverfahren und an den Prüfplan gebundene fertigungsbegleitende Prüfungen. Driftanfällige Maße werden in einem eigenen Schritt überwacht, und die Messergebnisse werden dokumentiert.",
       },
       {
         question: "Wie wird die Maschine bei großen Losen beschickt?",
@@ -275,9 +276,9 @@ export const part5: Record<string, ServiceText> = {
         description: "Verfahren, Rüsten und Prüfansatz nach Teilegeometrie und Toleranz",
         headers: ["Fertigungsverfahren", "Typischer Einsatz", "Toleranz", "Rüsten", "Prüfansatz"],
         rows: [
-          ["CNC-Serienzerspanung", "Metallteile mit engen Toleranzen", "±0,01mm", "Standardverfahren + fester Bezug", "Erstmuster + fertigungsbegleitende Prüfung"],
+          ["CNC-Serienzerspanung", "Metallteile mit engen Toleranzen", "±0,01mm", "Standardverfahren + fester Bezug", "Erstteil + fertigungsbegleitende Prüfung"],
           ["Druckguss", "Komplexe Formen in großen Stückzahlen", "Laut Angebot; bearbeitete Flächen laut Zeichnung", "Werkzeug- und Gießparameter", "Sicht- + Maßprüfung"],
-          ["Spritzguss", "Kunststoffteile in großen Stückzahlen", "Laut Angebot; bearbeitete Flächen laut Zeichnung", "Werkzeug und Prozessfenster", "Erstmuster + periodische Prüfung"],
+          ["Spritzguss", "Kunststoffteile in großen Stückzahlen", "Laut Angebot; bearbeitete Flächen laut Zeichnung", "Werkzeug und Prozessfenster", "Erstteil + periodische Prüfung"],
         ],
       },
     ],

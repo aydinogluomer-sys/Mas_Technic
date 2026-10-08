@@ -82,3 +82,6 @@ contain. Never add claims, numbers, certifications or promises.
 - parti / döküm sertifikaları → Chargen- und Schmelzennachweise
 - Material numbers such as 1.2311 keep their dot (not a decimal); designations (6061-T6, Inconel 718, Hardox, DataMatrix ECC200) stay as written
 - Service category labels are the dictionary's category names, word for word (`src/i18n/locales/de.ts`)
+- The aerospace page keeps Erstmusterprüfung: its own process names an FAI report (CMM & FAI Report → KMG & EMPB). Series pages say Erstteil / Erstteilfreigabe.
+- karbon çelik → Kohlenstoffstahl, never „unlegierter Stahl“: the grades listed with it (4140, 4340) are low-alloy steels
+- eş eksenlilik → Koaxialität everywhere (◎ in the GD&T tables); Konzentrizität only where the source says eş merkezlilik
