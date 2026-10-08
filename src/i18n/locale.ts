@@ -44,6 +44,12 @@ export const LIVE_LOCALES: readonly PublicLocale[] = parseLiveLocales(env.VITE_S
 export const PUBLIC_LOCALES: readonly PublicLocale[] = (Object.keys(LOCALE_TABLE) as PublicLocale[])
   .filter((code) => code === "tr" || code === "en" || LIVE_LOCALES.includes(code));
 
+/** The routed language codes as a reader sees them ("TR, EN") and the
+    prefixes of the non-Turkish ones (["/en"]), for the cookie policy's
+    `mas_lang` row, which must describe the deployed set. */
+export const ROUTED_LOCALE_CODES = PUBLIC_LOCALES.map((code) => code.toUpperCase()).join(", ");
+export const ROUTED_LOCALE_PREFIXES = PUBLIC_LOCALES.filter((code) => code !== "tr").map((code) => LOCALE_TABLE[code].prefix);
+
 /** `VITE_SITE_LOCALES="en,de"`; the older `VITE_SITE_ENGLISH=live` still publishes English. */
 export function parseLiveLocales(list: string | undefined, english: string | undefined): PublicLocale[] {
   const named = (list ?? "").split(",").map((code) => code.trim().toLowerCase());

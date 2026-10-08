@@ -2,6 +2,7 @@ import { Link } from "@/i18n/LocaleLink";
 import { ShellSpecTable } from "@/components/shell";
 import type { LegalClause } from "@/components/pages/LegalDocument";
 import { SALES_EMAIL } from "@/content/claims";
+import { ROUTED_LOCALE_CODES, ROUTED_LOCALE_PREFIXES } from "@/i18n/locale";
 
 /* German translation of `src/pages/CerezPolitikasi.tsx` (L3d). Clause ids,
    order and cross-references are the Turkish document's own. The Turkish
@@ -14,7 +15,9 @@ const STORAGE_ROWS: string[][] = [
   [
     "mas_lang",
     "localStorage",
-    "Speichert die von Ihnen gewählte Sprache der Benutzeroberfläche (TR, EN). Wird nur geschrieben, wenn Sie eine der Sprachschaltflächen betätigen; wählen Sie keine Sprache, wird dieser Eintrag nie geschrieben. Auf öffentlichen Seiten bestimmt die Adresse die Sprache (englische Seiten beginnen mit /en); dieser Eintrag legt nur die Sprache des Kunden- und des Verwaltungsbereichs fest.",
+    `Speichert die von Ihnen gewählte Sprache der Benutzeroberfläche (${ROUTED_LOCALE_CODES}). Wird nur geschrieben, wenn Sie eine der Sprachschaltflächen betätigen; wählen Sie keine Sprache, wird dieser Eintrag nie geschrieben. Auf öffentlichen Seiten bestimmt die Adresse die Sprache (${
+    ROUTED_LOCALE_PREFIXES.length === 1 ? "englische Seiten beginnen mit /en" : `Seiten in anderen Sprachen als Türkisch beginnen mit ihrem Präfix: ${ROUTED_LOCALE_PREFIXES.join(", ")}`
+  }); dieser Eintrag legt nur die Sprache des Kunden- und des Verwaltungsbereichs fest.`,
     "Bis Sie ihn löschen",
   ],
   [

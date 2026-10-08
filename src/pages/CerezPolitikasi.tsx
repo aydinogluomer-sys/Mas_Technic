@@ -4,6 +4,7 @@ import { LegalDocument, type LegalClause } from "@/components/pages/LegalDocumen
 import { SALES_EMAIL } from "@/content/claims";
 import { COOKIES_EN } from "@/content/en/legal/cookies";
 import { COOKIES_DE } from "@/content/de/legal/cookies";
+import { ROUTED_LOCALE_CODES, ROUTED_LOCALE_PREFIXES } from "@/i18n/locale";
 import { useLocale } from "@/i18n/hooks";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -208,7 +209,9 @@ const STORAGE_ROWS: string[][] = [
   [
     "mas_lang",
     "localStorage",
-    "Seçtiğiniz arayüz dilini (TR, EN) hatırlar. Yalnızca dil düğmelerinden birine bastığınızda yazılır; dil seçmezseniz hiç yazılmaz. Herkese açık sayfalarda dili adres belirler (İngilizce sayfalar /en ile başlar); bu kayıt yalnızca müşteri ve yönetim panelinin dilini seçer.",
+    `Seçtiğiniz arayüz dilini (${ROUTED_LOCALE_CODES}) hatırlar. Yalnızca dil düğmelerinden birine bastığınızda yazılır; dil seçmezseniz hiç yazılmaz. Herkese açık sayfalarda dili adres belirler (${
+      ROUTED_LOCALE_PREFIXES.length === 1 ? "İngilizce sayfalar /en ile başlar" : `Türkçe dışındaki sayfalar dil önekiyle başlar: ${ROUTED_LOCALE_PREFIXES.join(", ")}`
+    }); bu kayıt yalnızca müşteri ve yönetim panelinin dilini seçer.`,
     "Siz silene kadar",
   ],
   [
