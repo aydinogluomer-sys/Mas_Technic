@@ -763,9 +763,8 @@ async function runCursor(browser, baseURL) {
    one way to lose that is to import `motion` from `framer-motion` again, so
    that is what this refuses.
 
-   Four files are exempt because this phase's packet forbids editing them
-   (`Header.tsx`, `navigation/**`) or they are out of the public surface
-   (`admin/**`). Exemption is not a free pass: an exempt file is still failed
+   One file is exempt because it is out of the public surface (`admin/**`);
+   the header and menu left Framer for CSS in Faz 2. Exemption is not a free pass: an exempt file is still failed
    if it uses `whileInView`, since that is the construct that hides content.
 
    THE SECOND RULE — the hole the primitive cannot close (defect I1)
@@ -852,10 +851,6 @@ function codeOf(source) {
 
 const GUARD_PRIMITIVE = "src/components/shell/motion.tsx";
 const GUARD_EXEMPT = new Set([
-  "src/components/Header.tsx",
-  "src/components/navigation/NavCategoryPanel.tsx",
-  "src/components/navigation/NavFamilyRail.tsx",
-  "src/components/navigation/NavTrigger.tsx",
   "src/components/admin/DashboardHome.tsx",
 ]);
 

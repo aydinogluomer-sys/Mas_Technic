@@ -79,7 +79,7 @@ Phase 4: exit 0.4s / enter 0.6s, forge-teal (std) / forge-molten (CTA)
 | (stagger) | 65ms | `MOTION_STEP` | `--tl-step` | Kardeşler arası gecikme — süre değil |
 | reduced | 0 | `MOTION_REDUCED` | — | Kapalı, "hızlı" değil |
 
-`NAV_MOTION` (menü) aynı üç değerdir: `micro` / `close` / `open`.
+Menü (`navigation.css`) aynı üç değeri doğrudan CSS token'larıyla kullanır: `--tl-dur-micro` / `--tl-dur-short` / `--tl-in`.
 Ölçeğe oturmayan bir süre yeni bir seviye değil, yanlış sınıflanmış bir
 seviyedir; istisna ancak ölçülmüş bir gerekçe yorumuyla kalır
 (`ROUTE_TRANSITION.holdDuration`).

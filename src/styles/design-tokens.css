@@ -220,8 +220,8 @@
      One easing curve for the whole system. Motion never changes geometry.
 
      THREE LEVELS, and only three. These are the CSS spellings of
-     `MOTION_LEVEL` in `src/config/motion-system.ts`; `NAV_MOTION` in
-     `src/components/navigation/motion.ts` is the same three again. The
+     `MOTION_LEVEL` in `src/config/motion-system.ts`; the menu
+     (`navigation.css`) uses these properties directly. The
      property names are historical, so read them as:
 
        --tl-dur-micro  .22s  MICRO      one control responding: hover, focus,

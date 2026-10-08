@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useLayoutEffect, useReducer, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useReducer, useRef, useState, type TransitionEvent } from "react";
 import { createPortal } from "react-dom";
-import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { Link } from "@/i18n/LocaleLink";
 import { useLocaleNavigate as useNavigate } from "@/i18n/hooks";
@@ -12,7 +11,6 @@ import { NavCategoryPanel } from "./navigation/NavCategoryPanel";
 import { NavConversion } from "./navigation/NavConversion";
 import { NavFamilyRail } from "./navigation/NavFamilyRail";
 import { NavTrigger } from "./navigation/NavTrigger";
-import { NAV_MOTION, navRevealVariants, navSheetVariants } from "./navigation/motion";
 import "@/styles/navigation.css";
 import "@/styles/menu-round2.css";
 import "@/styles/i18n.css";
@@ -137,7 +135,7 @@ function useHeaderOwnership() {
      - `settleClose` is driven by an effect on `phase === "closing"` with a
        timer, so it is scheduled the moment the close is requested and cannot
        be skipped by any motion mode, interrupted transition or dropped frame.
-     - `onAnimationComplete` may only make that happen EARLIER. It is an
+     - `onTransitionEnd` may only make that happen EARLIER. It is an
        accelerator, never the mechanism.
      - `settleClose` is idempotent — it reads `phaseRef`, so the accelerator
        and the net can both fire and the pending navigation still happens once.
@@ -145,7 +143,7 @@ function useHeaderOwnership() {
    The net is generous on purpose: it is not the schedule, it is the floor. */
 type MenuPhase = "closed" | "opening" | "open" | "closing";
 
-/** Longest sheet transition is `NAV_MOTION.open`'s 620ms; this is that + 45%. */
+/** The sheet wipe is `--tl-in` (620ms); this is that + 45%. */
 const MENU_SETTLE_FALLBACK_MS = 900;
 
 const groups = navigationItems.filter((item) => item.children?.length || item.links?.length);
@@ -478,7 +476,7 @@ export const Header = () => {
   /* ── The net: both transitions settle on state, not on an event ──────────
      Under reduced motion there is no animation to wait for at all, so the
      settle is scheduled for the next task. Otherwise the sheet is given its
-     full transition plus margin, and `onAnimationComplete` normally gets there
+     full transition plus margin, and `onTransitionEnd` normally gets there
      first — which is the only thing that callback is allowed to affect. */
   useEffect(() => {
     if (phase !== "opening" && phase !== "closing") return;
@@ -489,7 +487,8 @@ export const Header = () => {
     return () => window.clearTimeout(timer);
   }, [phase, reducedMotion, settleClose]);
 
-  const handleSheetAnimationComplete = () => {
+  const handleSheetTransitionEnd = (event: TransitionEvent<HTMLDivElement>) => {
+    if (event.target !== event.currentTarget || event.propertyName !== "clip-path") return;
     if (phaseRef.current === "closing") { settleClose(); return; }
     if (phaseRef.current === "opening") setPhase("open");
   };
@@ -541,7 +540,7 @@ export const Header = () => {
                 {upper(t(rfqLink.label), lang)}
               </Link>
               {!modalActive && (
-                <NavTrigger open={false} reducedMotion={reducedMotion} onToggle={requestOpen} triggerRef={triggerRef} />
+                <NavTrigger open={false} onToggle={requestOpen} triggerRef={triggerRef} />
               )}
             </div>
           </div>
@@ -572,7 +571,7 @@ export const Header = () => {
               render. Keeping the portal itself mounted regardless preserves an
               in-flight close if ownership changes mid-transition. */}
           {modalActive && (
-            <motion.div
+            <div
               ref={panelRef}
               id="fullscreen-navigation"
               role="dialog"
@@ -580,15 +579,14 @@ export const Header = () => {
               aria-label={t("Ana menü")}
               data-fullscreen-menu
               className="tl-menu"
-              variants={navSheetVariants}
-              initial={reducedMotion ? "visible" : "hidden"}
-              // Reduced motion holds "visible" through the close too: the sheet
-              // must not move, it simply stops being rendered. That is what
-              // made the old `exit` a no-op, and it is exactly why the teardown
-              // no longer depends on an exit animation existing.
-              animate={phase === "closing" && !reducedMotion ? "exit" : "visible"}
-              transition={reducedMotion ? NAV_MOTION.reduced : NAV_MOTION.open}
-              onAnimationComplete={handleSheetAnimationComplete}
+              // The wipe is a CSS transition (navigation.css §03): in from
+              // `@starting-style`, out on `data-phase="closing"`. Reduced
+              // motion holds the open clip through the close too: the sheet
+              // must not move, it simply stops being rendered, which is why
+              // the teardown never depends on a transition existing.
+              data-phase={phase}
+              data-motion={reducedMotion ? "reduced" : undefined}
+              onTransitionEnd={handleSheetTransitionEnd}
             >
               <div className="tl-menu-sheet">
                 <div className="tl-menu-rail" aria-hidden="true"><span>00</span><small>MENU</small></div>
@@ -608,7 +606,6 @@ export const Header = () => {
                     </p>
                     <NavTrigger
                       open
-                      reducedMotion={reducedMotion}
                       onToggle={() => requestClose(true)}
                       triggerRef={dialogTriggerRef}
                     />
@@ -642,7 +639,7 @@ export const Header = () => {
                   <NavConversion currentPath={barePath} onNavigate={requestNavigate} />
                 </div>
               </div>
-            </motion.div>
+            </div>
           )}
         </>,
         document.body,

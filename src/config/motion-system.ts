@@ -9,16 +9,16 @@
  * job by naming the three levels those two agree on, so nothing has to invent
  * a fourth.
  *
- *   micro      0.22s  `--tl-dur-micro`, `NAV_MOTION.micro`
+ *   micro      0.22s  `--tl-dur-micro`
  *              A state change on one control: hover, focus, a toggle, a swap
  *              the eye is already looking at. Short enough that it reads as
  *              response, not as animation.
  *
- *   standard   0.35s  `--tl-dur-short`, `NAV_MOTION.close`
+ *   standard   0.35s  `--tl-dur-short`
  *              The default. One element entering, leaving, or resolving —
  *              a reveal, a panel closing, a preview following the pointer.
  *
- *   cinematic  0.62s  `--tl-in`, `NAV_MOTION.open`
+ *   cinematic  0.62s  `--tl-in`
  *              Reserved for the few moments that carry the narrative: the
  *              menu opening, a band's entrance, an award moment. If everything
  *              is cinematic, nothing is.
@@ -48,7 +48,7 @@ export const MOTION_STEP = 0.065;
 /**
  * The reduced-motion contract, in one object.
  * `@/components/shell/motion` applies this to every reveal when the user has
- * asked for reduced motion; `NAV_MOTION.reduced` is the same value.
+ * asked for reduced motion.
  */
 export const MOTION_REDUCED = { duration: 0 } as const;
 
