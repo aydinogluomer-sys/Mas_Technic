@@ -193,9 +193,10 @@ async function streamChat({
   onDone();
 }
 
-/* Typed consent words, in either public language. */
-const YES = new Set(["evet", "yes", "👍"]);
-const NO = new Set(["hayır", "iptal", "no", "cancel"]);
+/* Typed consent words, in every language the dictionary asks them in (the
+   German prompt says "Ja" / "Nein", L3). */
+const YES = new Set(["evet", "yes", "ja", "👍"]);
+const NO = new Set(["hayır", "iptal", "no", "cancel", "nein", "abbrechen"]);
 
 const quickQuestions = [
   "Hangi CNC hizmetleri sunuyorsunuz?",
