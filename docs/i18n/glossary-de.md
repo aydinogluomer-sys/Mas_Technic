@@ -69,3 +69,16 @@ contain. Never add claims, numbers, certifications or promises.
 - KVKK → Datenschutz (KVKK) · gizlilik politikası → Datenschutzerklärung · çerez politikası → Cookie-Richtlinie
 - "Belirtilmedi" → „Nicht angegeben“ · "Seçilmedi" → „Nicht gewählt“
 - temsili (illustrative, not real data) → beispielhaft / schematisch (keep the "not real" meaning explicit)
+
+## Additions from the service pages (L3b)
+- muayene planı / kontrol planı → Prüfplan · ölçüm kaydı / ölçüm raporu → Messprotokoll · kalite raporu → Qualitätsbericht
+- ilk parça (first part of each set-up) → Erstteil (Erstteilprüfung / -freigabe); keep Erstmuster / EMPB for the formal first-article inspection only
+- bağlama (clamping, dimensional chain) → Aufspannung · tezgah hazırlığı (machine set-up) → Rüsten / Rüstzeit / Rüstfreigabe
+- 3. taraf (akredite) → durch Dritte · tahribatsız muayene (NDT) → zerstörungsfreie Prüfung (ZfP)
+- HSM → HSC (Hochgeschwindigkeitsbearbeitung) · HPC unchanged · kayar otomat (Swiss-type) → Langdrehen / Langdrehautomat
+- namlu delme (gun drilling) → Einlippenbohren · salgı (radial run-out) → Rundlauf · drill drift in deep-hole drilling → Mittenverlauf · akış analizi → Füllsimulation · deneme baskısı → Bemusterung
+- kalıp is "Werkzeug" (Spritzgieß-, Druckgusswerkzeug); write the full compound where a cutting tool could be meant
+- KTL (kataforez) → KTL-Beschichtung · WPS → Schweißanweisung (WPS) · mal kabul → Wareneingang
+- parti / döküm sertifikaları → Chargen- und Schmelzennachweise
+- Material numbers such as 1.2311 keep their dot (not a decimal); designations (6061-T6, Inconel 718, Hardox, DataMatrix ECC200) stay as written
+- Service category labels are the dictionary's category names, word for word (`src/i18n/locales/de.ts`)
