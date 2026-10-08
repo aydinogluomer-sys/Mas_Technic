@@ -2,6 +2,7 @@ import { Link } from "@/i18n/LocaleLink";
 import { LegalDocument, type LegalClause } from "@/components/pages/LegalDocument";
 import { SALES_EMAIL } from "@/content/claims";
 import { PRIVACY_EN } from "@/content/en/legal/privacy";
+import { PRIVACY_DE } from "@/content/de/legal/privacy";
 import { useLocale } from "@/i18n/hooks";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -349,6 +350,6 @@ const PRIVACY_TR = {
 };
 
 export const GizlilikPolitikasi = () => {
-  const text = useLocale() === "en" ? PRIVACY_EN : PRIVACY_TR;
+  const text = { en: PRIVACY_EN, de: PRIVACY_DE }[useLocale() as "en" | "de"] ?? PRIVACY_TR;
   return <LegalDocument rail={{ no: "L2", label: "GİZLİLİK" }} selfPath="/gizlilik-politikasi" {...text} />;
 };

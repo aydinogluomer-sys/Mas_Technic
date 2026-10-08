@@ -11,6 +11,7 @@ import {
 } from "@/components/shell";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { useTranslation } from "react-i18next";
+import { localDecimals } from "@/i18n/format";
 import { PROFILE_INDEX_LABEL } from "@/content/caseStudies";
 import { useSiteData } from "@/i18n/data";
 import { profileRowMeta } from "@/components/pages/case-study-figures";
@@ -53,7 +54,7 @@ import { CMM_COVERAGE, MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/
    ══════════════════════════════════════════════════════════════════════════ */
 
 export const KabiliyetProfilleri = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { caseStudies } = useSiteData();
   usePageMeta({
     title: t("Kabiliyet Profilleri"),
@@ -71,7 +72,7 @@ export const KabiliyetProfilleri = () => {
         lede={t("Her profil bir parça ailesinin ortaya çıkardığı mühendislik problemini, o problemi ele alış biçimimizi ve bir işin sonunda elinize geçen kontrol planını tarif eder.")}
         meta={[
           { label: t("Profil sayısı"), value: String(caseStudies.length) },
-          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Standart tolerans"), value: localDecimals(MINIMUM_TOLERANCE, i18n.language) },
           { label: t("Ölçüm"), value: t(CMM_COVERAGE) },
         ]}
         actions={

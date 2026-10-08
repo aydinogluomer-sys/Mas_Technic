@@ -94,3 +94,12 @@ contain. Never add claims, numbers, certifications or promises.
 - Measurement: Messschieber / Messschraube · Taster · KMG in Portalbauweise · Erstteilprüfung · Messprotokoll
 - Blog: categories Technik / Werkstoff / Engineering / Qualität / Leitfaden · "N Min. Lesezeit"
 - Dates are written the German way through Intl („15. Januar 2024“); decimal figures in tables use the comma (`localDecimals`)
+
+## Legal texts and inline pairs (L3d) — for the legal reviewer (O16)
+- Aydınlatma Metni → Datenschutzhinweis (KVKK) · Gizlilik Politikası → Datenschutzerklärung · Çerez Politikası → Cookie-Richtlinie
+- madde (clause) → Abschnitt (a jurist may prefer „Ziffer“) · statute: „Art. 11 KVKK“, „Art. 5/2-ç KVKK“ (the Turkish clause letter ç is kept)
+- veri sorumlusu → Verantwortlicher · aktarım → Übermittlung · onay → Einwilligung · başvuru → Antragstellung · silme / yok etme → Löschung / Vernichtung (kept apart, as KVKK does)
+- No DSGVO/GDPR references and no rights, periods or claims beyond the Turkish governing text
+- Schema caption: „Beispielhaftes Konstruktionsschema“ (keeps the "representative, not real data" meaning)
+- Fixtures: Spannfläche · Spannzugabe · Auflageflächen · Kraftangriffspunkte · entspannen · Vorrichtungskonstruktion
+- Deep-hole: L/D-Verhältnis · Geradheit · Bohrungseintritt / Bohrungsgrund · Eloxalschicht · Abdeckung

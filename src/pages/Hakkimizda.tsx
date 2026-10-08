@@ -13,7 +13,7 @@ import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { useTranslation } from "react-i18next";
 import { useSiteData } from "@/i18n/data";
-import { joinList } from "@/i18n/format";
+import { joinList, localDecimals } from "@/i18n/format";
 import {
   CERTIFICATIONS,
   CMM_COVERAGE,
@@ -123,7 +123,7 @@ export const Hakkimizda = () => {
         lede={t("Mas Technic, CNC freze, torna ve talaşlı imalat alanında yüksek hassasiyetli üretim çözümleri sunan bir mühendislik firmasıdır. Havacılık, otomotiv, medikal ve robotik gibi kritik sektörlere hizmet vermekteyiz.")}
         meta={[
           { label: t("Merkez"), value: `${PUBLIC_CITY} · Çiğli` },
-          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Standart tolerans"), value: localDecimals(MINIMUM_TOLERANCE, i18n.language) },
           { label: t("Teklif dönüşü"), value: t(QUOTE_RESPONSE_TIME) },
           { label: t("Yönetim sistemleri"), value: certificationRun },
         ]}
@@ -145,7 +145,7 @@ export const Hakkimizda = () => {
           />
           <div className="shell-prose" data-lead>
             <p>
-              {t("{{list}} yönetim sistemleriyle çalışıyoruz. Standart tolerans aralığımız {{tolerance}}; her iş için kontrol planı oluşturulur ve ölçüm kayıtları teslimat dosyasına eklenir. {{cmm}} olarak sağlanır.", { list: certificationList, tolerance: MINIMUM_TOLERANCE, cmm })}
+              {t("{{list}} yönetim sistemleriyle çalışıyoruz. Standart tolerans aralığımız {{tolerance}}; her iş için kontrol planı oluşturulur ve ölçüm kayıtları teslimat dosyasına eklenir. {{cmm}} olarak sağlanır.", { list: certificationList, tolerance: localDecimals(MINIMUM_TOLERANCE, i18n.language), cmm })}
             </p>
             <p>
               {t("Teknik resim bizim için bir talep listesi değil, bir sözleşmedir. Bir kotenin hangi yöntemle ve hangi aşamada doğrulanacağı imalat başlamadan önce kararlaştırılır ve kontrol planına yazılır.")}
@@ -168,7 +168,7 @@ export const Hakkimizda = () => {
           </ShellEvidence>
 
           <ShellEvidence kind="ÖLÇÜM" source={measurementList.title}>
-            {t("Standart tolerans aralığı {{tolerance}}. {{cmm}}.", { tolerance: MINIMUM_TOLERANCE, cmm })}
+            {t("Standart tolerans aralığı {{tolerance}}. {{cmm}}.", { tolerance: localDecimals(MINIMUM_TOLERANCE, i18n.language), cmm })}
             <ShellAction href={measurementList.href} variant="quiet">{measurementList.size}</ShellAction>
           </ShellEvidence>
 

@@ -2,6 +2,7 @@ import { Link } from "@/i18n/LocaleLink";
 import { ShellSpecTable } from "@/components/shell";
 import type { LegalClause } from "@/components/pages/LegalDocument";
 import { SALES_EMAIL } from "@/content/claims";
+import { ROUTED_LOCALE_CODES, ROUTED_LOCALE_PREFIXES } from "@/i18n/locale";
 
 /* English translation of `src/pages/CerezPolitikasi.tsx` (L01). Clause ids,
    order, the storage keys and cross-references are the Turkish document's
@@ -13,7 +14,9 @@ const STORAGE_ROWS: string[][] = [
   [
     "mas_lang",
     "localStorage",
-    "Remembers the interface language you chose (TR, EN). Written only when you press one of the language buttons; if you choose no language it is never written. On public pages the address sets the language (English pages start with /en); this record only chooses the language of the customer and admin panels.",
+    `Remembers the interface language you chose (${ROUTED_LOCALE_CODES}). Written only when you press one of the language buttons; if you choose no language it is never written. On public pages the address sets the language (${
+    ROUTED_LOCALE_PREFIXES.length === 1 ? "English pages start with /en" : `pages in languages other than Turkish start with their prefix: ${ROUTED_LOCALE_PREFIXES.join(", ")}`
+  }); this record only chooses the language of the customer and admin panels.`,
     "Until you delete it",
   ],
   [

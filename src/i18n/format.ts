@@ -38,3 +38,12 @@ const DECIMAL_COMMA = new Set<SiteLocale>(["de", "ru"]);
 export function localDecimals(text: string, language: string | undefined): string {
   return DECIMAL_COMMA.has(base(language)) ? text.replace(/(\d)\.(\d)/g, "$1,$2") : text;
 }
+
+/* The inline `{ tr, en, de }` pairs (pilot modules, schema captions, category
+   matrix, journal modules): the reader's language where a pair carries it,
+   Turkish otherwise. */
+export type PairLocale = "tr" | "en" | "de";
+export function pairLocale(language: string | undefined): PairLocale {
+  const locale = base(language);
+  return locale === "en" || locale === "de" ? locale : "tr";
+}

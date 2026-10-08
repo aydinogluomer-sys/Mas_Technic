@@ -2,6 +2,7 @@ import { Link } from "@/i18n/LocaleLink";
 import { LegalDocument, type LegalClause } from "@/components/pages/LegalDocument";
 import { PUBLIC_ADDRESS_LINES, SALES_EMAIL } from "@/content/claims";
 import { KVKK_EN } from "@/content/en/legal/kvkk";
+import { KVKK_DE } from "@/content/de/legal/kvkk";
 import { useLocale } from "@/i18n/hooks";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -324,6 +325,6 @@ const KVKK_TR = {
 };
 
 export const KVKK = () => {
-  const text = useLocale() === "en" ? KVKK_EN : KVKK_TR;
+  const text = { en: KVKK_EN, de: KVKK_DE }[useLocale() as "en" | "de"] ?? KVKK_TR;
   return <LegalDocument rail={{ no: "L1", label: "KVKK" }} selfPath="/kvkk" {...text} />;
 };

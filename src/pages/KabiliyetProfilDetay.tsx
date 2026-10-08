@@ -15,6 +15,7 @@ import {
 } from "@/components/shell";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { useTranslation } from "react-i18next";
+import { pairLocale } from "@/i18n/format";
 import { PROFILE_LABEL } from "@/content/caseStudies";
 import { useSiteData } from "@/i18n/data";
 import { caseStudyImages, profileMeta, profileRowMeta } from "@/components/pages/case-study-figures";
@@ -125,7 +126,7 @@ export const KabiliyetProfilDetay = () => {
     );
   }
 
-  const lang = i18n.language === "en" ? "en" : "tr";
+  const lang = pairLocale(i18n.language);
   const ProfileDrawing = PROFILE_SCHEMAS[study.slug as keyof typeof PROFILE_SCHEMAS];
   const others = caseStudies.filter((entry) => entry.slug !== study.slug);
 

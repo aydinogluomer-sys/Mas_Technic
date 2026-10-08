@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { localDecimals } from "@/i18n/format";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { upper } from "@/i18n/upper";
 import { Link } from "@/i18n/LocaleLink";
@@ -272,9 +273,9 @@ export const TeklifAl = () => {
       { label: t("Teklif dönüşü"), value: t(QUOTE_RESPONSE_TIME) },
       { label: t("Kabul edilen format"), value: RFQ_ATTACHMENTS_ENABLED ? `${CAD_FORMAT_CHIPS.join(", ")} · PDF` : CAD_FORMAT_CHIPS.join(", ") },
       { label: t("Maksimum dosya"), value: `${CAD_MAX_FILE_SIZE_MB} MB` },
-      { label: t("Tolerans"), value: MINIMUM_TOLERANCE },
+      { label: t("Tolerans"), value: localDecimals(MINIMUM_TOLERANCE, i18n.language) },
     ],
-    [t],
+    [t, i18n.language],
   );
 
   /* ROUND 2 — THE QUOTE STUDIO. The page no longer reads as a stack of

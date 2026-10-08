@@ -14,7 +14,7 @@ import {
 } from "@/components/shell";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { QUALITY_DOCUMENTS } from "@/content/quality-documents";
-import { joinList } from "@/i18n/format";
+import { joinList, localDecimals } from "@/i18n/format";
 import {
   CERTIFICATIONS,
   CMM_COVERAGE,
@@ -140,7 +140,7 @@ export const KaliteDosyasi = () => {
         lede={t("Yayımlanan dokümanlar, yönetim sistemi belgelerimiz ve bir işin hangi aşamasında hangi kaydın oluştuğu. Buradaki her doküman açılabilir bir dosyadır.")}
         meta={[
           { label: t("Yönetim sistemleri"), value: CERTIFICATIONS.map((item) => item.code).join(" · ") },
-          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Standart tolerans"), value: localDecimals(MINIMUM_TOLERANCE, i18n.language) },
           { label: t("Ölçüm"), value: t(CMM_COVERAGE) },
         ]}
         actions={
@@ -238,7 +238,7 @@ export const KaliteDosyasi = () => {
         <ShellRun items={CONTROL_CHAIN.map((step) => ({ title: t(step.title), detail: t(step.detail) }))} ariaLabel={t("Kontrol zinciri")} />
         <div className="shell-span-full">
           <ShellEvidence kind="ÖLÇÜM" source={QUALITY_RESOURCES[1].title}>
-            {t("Doğrulamada kullanılan ölçüm ekipmanlarının listesi yayımlanmıştır. Standart tolerans aralığı {{tolerance}}; {{cmm}}.", { tolerance: MINIMUM_TOLERANCE, cmm: t(CMM_COVERAGE) })}
+            {t("Doğrulamada kullanılan ölçüm ekipmanlarının listesi yayımlanmıştır. Standart tolerans aralığı {{tolerance}}; {{cmm}}.", { tolerance: localDecimals(MINIMUM_TOLERANCE, i18n.language), cmm: t(CMM_COVERAGE) })}
             <ShellAction href={QUALITY_RESOURCES[1].href} variant="quiet">
               {QUALITY_RESOURCES[1].size}
             </ShellAction>

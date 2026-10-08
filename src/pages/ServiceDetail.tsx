@@ -18,6 +18,7 @@ import {
 } from "@/components/shell";
 import { resolveDetailRoute } from "@/lib/detail-route";
 import { useTranslation } from "react-i18next";
+import { pairLocale, localDecimals } from "@/i18n/format";
 import { useSiteData } from "@/i18n/data";
 import { upper } from "@/i18n/upper";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
@@ -389,7 +390,7 @@ export const ServiceDetail = () => {
   const materialRows = page.materials ?? [];
   /* IMG01 — the explicit manifest entry; no automatic fallback. */
   const visual = DETAIL_VISUALS[page.slug];
-  const lang = i18n.language === "en" ? "en" : "tr";
+  const lang = pairLocale(i18n.language);
   /* R1: a sector entry may carry its own photograph; the plate then shows the
      photograph and the schema follows it as a figure. */
   const sectorPhoto = visual?.kind === "schema" ? visual.photo : undefined;
@@ -574,7 +575,7 @@ export const ServiceDetail = () => {
               id="detay-surec"
 
               title={t(isSector ? "Sektör akışı" : "Süreç akışı")}
-              standfirst={t("Sıra sabittir; içerik parçaya göre yazılır. Standart çalışma aralığımız {{value}}.", { value: MINIMUM_TOLERANCE })}
+              standfirst={t("Sıra sabittir; içerik parçaya göre yazılır. Standart çalışma aralığımız {{value}}.", { value: localDecimals(MINIMUM_TOLERANCE, i18n.language) })}
             />
           </div>
           <ShellRun
@@ -758,7 +759,7 @@ export const ServiceDetail = () => {
         body={t("Teknik resim veya 3B model gönderin; {{title}} kapsamında üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım.", { title: page.title })}
         detail={[
           { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
-          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Standart tolerans"), value: localDecimals(MINIMUM_TOLERANCE, i18n.language) },
           { label: t(family.label), value: page.categoryLabel },
         ]}
         secondary={{ label: t("Teknik görüşme"), to: "/iletisim" }}

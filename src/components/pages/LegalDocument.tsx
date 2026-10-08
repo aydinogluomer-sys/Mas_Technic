@@ -158,8 +158,8 @@ export function LegalDocument({
             <p className="shell-note">
               {t("Bu metinle ilgili sorularınızı ve KVKK başvurularınızı {{email}} adresine iletebilirsiniz.", { email: SALES_EMAIL })}
             </p>
-            {i18n.language === "en" && (
-              /* L01 — the translation is a reading aid; owner legal review O08. */
+            {!(i18n.language ?? "tr").startsWith("tr") && (
+              /* Every translation is a reading aid; native and legal review O16. */
               <p className="shell-note">{t("Bu metnin Türkçesi bağlayıcıdır.")}</p>
             )}
             <ShellAction href={SALES_EMAIL_HREF} variant="quiet">{SALES_EMAIL}</ShellAction>
