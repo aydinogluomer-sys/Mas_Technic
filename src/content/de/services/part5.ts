@@ -1,0 +1,442 @@
+import type { ServiceText } from "@/content/en/types";
+import { CAD_UPLOAD_EXTENSIONS, CAD_UPLOAD_FORMATS_DE } from "../cad";
+
+export const part5: Record<string, ServiceText> = {
+  "tasarim-rehberi-dfm": {
+    categoryLabel: "Engineering-Support",
+    title: "Konstruktionsleitfaden (DFM)",
+    metaTitle: "DFM-Analyse | Konstruktionsleitfaden | Kostenoptimierung | Mas Technic",
+    metaDescription: "Optimieren Sie Ihre Konstruktionen mit DFM/DFA-Analyse (fertigungsgerechte Konstruktion). DFM-Regeln für CNC und Spritzguss, Prüfung der Herstellbarkeit und Kostenhebel je Teil.",
+    description: "Wir optimieren Ihre Konstruktionen per DFM/DFA-Analyse auf Herstellbarkeit. Engineering-Support, der Fertigungskosten senkt, die Qualität erhöht und die Lieferzeit verkürzt.",
+    content: [
+      "Unsere DFM-Analyse (fertigungsgerechte Konstruktion) umfasst 4 Stufen: Erstprüfung und vorläufiger DFM-Bericht, Detailanalyse und Optimierungsvorschläge, Abstimmung mit dem Kunden und überarbeitetes CAD-Modell, abschließender DFM-Bericht und Freigabe. Der Zeitplan hängt von der Komplexität des Teils und der Vollständigkeit der erhaltenen Dateien ab; er wird mit dem Angebot genannt.",
+      "Unsere DFM-Regeln für die CNC-Zerspanung: Innenradius R > 0,5mm (scharfe Innenecken vermeiden), Wandstärke > 0,8mm (sehr dünne Wände vermeiden), Verhältnis Tiefe/Durchmesser < 4:1 (sehr tiefe Bohrungen vermeiden) und Verwendung von Standardmaßen (Sondermaße vermeiden). Beim Spritzgießwerkzeug betrachtet die DFM-Analyse Wandstärke, Eckenradien und Angusslage (Anguss am dicken Querschnitt). Entformungsschräge und Schwindungsausgleich werden gesondert bewertet; die Werte richten sich nach Verfahren und Werkstoff.",
+      "Die Analyse erfolgt am Volumenmodell, das über den Angebotsprozess hochgeladen wird; eine bemaßte technische Zeichnung zusammen mit dem Modell verkürzt die Analyse. Werkzeugwege werden vor der Fertigung per Simulation verifiziert und auf Kollisionen geprüft.",
+      "Die Hebel, die wir in einer DFM-Analyse typischerweise betrachten: eine Baugruppe auf ein Einzelteil reduzieren, die Anzahl der Aufspannungen senken, die Werkzeugzugänglichkeit verbessern, unnötig enge Toleranzen lockern und den Werkstoff funktionsgerecht neu wählen. Welcher Hebel wie stark wirkt, hängt von der Teilegeometrie und dem aktuellen Fertigungsplan ab; die erwartete Wirkung wird im Analysebericht Teil für Teil angegeben.",
+    ],
+    features: [
+      "DFM-Analyse — 4-stufige Prüfung, Analyse, Abstimmung und Berichterstattung",
+      "DFM-Regeln für die CNC-Zerspanung — Optimierung von Ecken, Wänden und Tiefen",
+      "DFM für Spritzgießwerkzeuge — Wandstärke, Entformungsschräge, Schwindungsausgleich, Angusslage",
+      "CAD/CAM-Integration — Volumenmodell, Werkzeugweg und Revision in einem Ablauf",
+      "Simulation — Verifizierung der Werkzeugwege und Kollisionsprüfung",
+      "Kostenoptimierung — Hebel bei Teileanzahl, Aufspannungen und Toleranzen",
+    ],
+    technicalSpecs: [
+      { label: "Analysedauer", value: "Mit dem Angebot" },
+      { label: "Berichtsformat", value: "PDF + überarbeitetes CAD" },
+      { label: "Unterstützte CAD-Formate", value: CAD_UPLOAD_FORMATS_DE },
+      { label: "Revision", value: "Umfang laut Angebot" },
+      { label: "Kostenhebel", value: "Teileanzahl, Aufspannungen, Toleranz" },
+      { label: "Simulation", value: "Verifizierung der Werkzeugwege" },
+    ],
+    processSteps: ["CAD-Modell hochladen", "Erstprüfung", "Detailanalyse", "Abstimmung mit dem Kunden", "CAD-Revision", "Abschließender DFM-Bericht"],
+    advantages: [
+      "Vierstufiger DFM-Prozess: Prüfung, Analyse, Abstimmung, Bericht",
+      "Arbeit am Kundenmodell: Das erhaltene Volumenmodell wird überarbeitet und zurückgegeben",
+      "Werkzeugwegsimulation und Kollisionsprüfung vor der Fertigung",
+      "Potenziale zur Reduzierung von Teileanzahl, Aufspannungen und Arbeitsgängen werden ermittelt",
+      "Spezifische DFM-Regeln für Spritzguss und CNC-Zerspanung",
+    ],
+    faq: [
+      {
+        question: "Ist die DFM-Analyse kostenpflichtig?",
+        answer: "Eine veröffentlichte DFM-Pauschale gibt es bei uns nicht. Die Prüfung der Herstellbarkeit anhand der erhaltenen Dateien ist Teil der Angebotserstellung; ein gesondert angeforderter detaillierter DFM-Bericht und CAD-Revisionen werden im Angebot mit ihrem Umfang bepreist.",
+      },
+      {
+        question: "Wie lange dauert eine DFM-Analyse?",
+        answer: "Der Prozess umfasst vier Stufen: Erstprüfung, Detailanalyse, Abstimmung mit dem Kunden und Abschlussbericht. Der Zeitplan hängt von der Komplexität des Teils und der Vollständigkeit der übermittelten Dateien ab. Die Lieferzeit wird mit dem Angebot genannt, nachdem Werkstoffbeschaffung, Anzahl der Arbeitsgänge und Kapazitätsplanung geprüft wurden.",
+      },
+      {
+        question: "Welche CAD-Formate akzeptieren Sie?",
+        answer: `Der Upload im Angebotsprozess prüft diese Dateiendungen: ${CAD_UPLOAD_EXTENSIONS} — eine Endung, die nicht auf der Liste steht, wird beim Hochladen abgewiesen. Wenn Sie Ihre native CAD-Datei oder eine bemaßte technische Zeichnung an sales@mastechnic.com senden, prüfen wir sie für ein Angebot.`,
+      },
+      {
+        question: "Wie viel spart eine DFM-Analyse?",
+        answer: "Die Höhe der Einsparung hängt von der Teilegeometrie und dem aktuellen Fertigungsplan ab. Eine DFM-Analyse bewertet Teileanzahl, Anzahl der Aufspannungen, Werkzeugzugänglichkeit und Maßkette; die erwartete Wirkung wird im Analysebericht Teil für Teil angegeben.",
+      },
+    ],
+    comparisonTables: [
+      {
+        title: "DFM-Checkliste für die CNC-Zerspanung",
+        description: "Prüfen Sie Ihre Konstruktion vor der Fertigung anhand dieser Kriterien",
+        headers: ["Kriterium", "Empfohlener Wert", "Min. / Max.", "Regel", "Wirkung"],
+        rows: [
+          ["Innenradius", "R ≥ 1mm", "R > 0,5mm", "Scharfe Innenecken vermeiden", "Geringeres Risiko von Werkzeugbruch"],
+          ["Wandstärke", "≥ 1,5mm (Metall)", "≥ 0,8mm", "Dünne Wände vermeiden", "Verhindert Vibration und Verzug"],
+          ["Verhältnis Tiefe/Durchmesser", "< 3:1", "< 4:1", "Tiefe Bohrungen vermeiden", "Minimiert die Werkzeugabdrängung"],
+          ["Gewindetiefe", "≤ 3×Durchmesser", "≤ 5×Durchmesser", "Sehr tiefe Gewinde vermeiden", "Geringeres Bruchrisiko"],
+          ["Toleranz", "ISO 2768-m", "±0,01mm (kritische Maße)", "Unnötig enge Toleranzen vermeiden", "Geringere Kosten und kürzere Lieferzeit"],
+          ["Oberflächengüte", "Ra 1,6µm", "Je nach Funktion", "Ra funktionsgerecht wählen", "Kürzere Bearbeitungszeit"],
+        ],
+      },
+    ],
+  },
+  "yuzey-islemleri-muhendislik": {
+    categoryLabel: "Engineering-Support",
+    title: "Leitfaden Oberflächenbehandlung",
+    metaTitle: "Leitfaden Oberflächenbehandlung | Eloxieren, Nitrieren, Pulverbeschichtung | Mas Technic",
+    metaDescription: "Leitfaden zur Wahl der Oberflächenbehandlung, vom Korrosionsschutz bis zur dekorativen Beschichtung: Eloxieren, Pulverbeschichtung, Vernickeln, Elektropolieren, Ra-Rauheitsleitfaden und Maßeinfluss der Beschichtung.",
+    description: "Vom Korrosionsschutz bis zur elektrischen Isolation, von dekorativer Optik bis zu tribologischen Eigenschaften: Wir unterstützen Sie bei der Wahl der Oberflächenbehandlung, die am besten zu Ihrer Anwendung passt.",
+    content: [
+      "Unsere Auswahlmatrix für Oberflächenbehandlungen: Eloxieren für Korrosionsschutz (Aluminium — Schutzschicht), Nitrieren für höhere Härte (Stahl — Oberflächenhärte), Pulverbeschichtung für dekorative Oberflächen (Metall — farbige Beschichtung) und KTL-Beschichtung (E-Coat) für elektrische Isolation (Aluminium — Isolation). Für jeden Bedarf bieten wir eine Lösung.",
+      "Allgemeiner Leitfaden zur Oberflächenrauheit (Ra): Ra 0,1-0,2µm Spiegelglanz (Optik, Lageranwendungen), Ra 0,4-0,8µm glänzende Oberfläche (Wellen, Kolben), Ra 1,6-3,2µm matte Oberfläche (allgemeiner Maschinenbau) und Ra 6,3-12,5µm raue Oberfläche (Strukturbauteile). Diese Bereiche sind Branchenrichtwerte; der für Ihr Teil erreichbare Wert hängt von Werkstoff, Geometrie und Bearbeitungsverfahren ab und wird im Angebot angegeben.",
+      "Schichtdicke und deren Toleranz werden durch die Spezifikation festgelegt — beim Eloxieren beispielsweise durch den Typ nach MIL-A-8625, beim Vernickeln durch die jeweilige Galvanik-Norm. Die Bearbeitungstoleranzen werden unter Berücksichtigung der Maßänderung nach der Beschichtung festgelegt.",
+      "Der Einfluss der Oberflächenbehandlung auf die Maße wird in der Bearbeitungsplanung berücksichtigt: Ein Teil der Eloxalschicht wächst nach außen (beim Schwefelsäure-Eloxieren etwa die Hälfte), eine Pulverbeschichtung trägt ihre eigene Dicke auf, während Strahlen und Elektropolieren Material von der Oberfläche abtragen. Aufmaße werden zusammen mit Spezifikation und Prozessparametern festgelegt.",
+    ],
+    features: [
+      "Auswahlmatrix Oberflächenbehandlung — das passende Verfahren für den Bedarf",
+      "Ra-Rauheitsleitfaden — von Spiegelglanz bis zur rauen Oberfläche",
+      "Kontrolle der Schichtdicke — Eloxieren, Pulverbeschichtung, Vernickeln",
+      "Analyse des Toleranzeinflusses — Berechnung der Maßänderung nach der Behandlung",
+      "Korrosionsanforderung — eine Salzsprühnebel-Anforderung fließt in die Beschichtungswahl ein",
+      "Farbe und Optik — Farbabgleich nach RAL/Pantone",
+    ],
+    technicalSpecs: [{ label: "Schichtdicke", value: "Laut Spezifikation" }],
+    faq: [
+      {
+        question: "Welche Oberflächenbehandlung passt zu meinem Teil?",
+        answer: "Das hängt von der Anwendung ab: Für Korrosionsschutz empfehlen wir Eloxieren oder Vernickeln, für höhere Härte Nitrieren, für die Optik Pulverbeschichtung oder Eloxieren und für elektrische Isolation KTL-Beschichtung (E-Coat). Unser Engineering-Team kann eine detaillierte Analyse durchführen.",
+      },
+      {
+        question: "Verändert die Oberflächenbehandlung die Maße?",
+        answer: "Ja. Eloxieren vergrößert die Maße, weil ein Teil der Schicht nach außen wächst; Strahlen und Elektropolieren verringern sie durch Materialabtrag. Aufmaße werden anhand von Spezifikation und Prozessparametern festgelegt und in den Bearbeitungstoleranzen berücksichtigt.",
+      },
+      {
+        question: "Können Sie sehr niedrige Ra-Werte erreichen?",
+        answer: "Die erreichbare Oberflächenrauheit hängt von Werkstoff, Geometrie und Bearbeitungsverfahren ab. Flächen, die Spiegelglanz erfordern, werden bei der Zeichnungsprüfung bewertet, und der Zielwert wird im Angebot angegeben.",
+      },
+    ],
+    comparisonTables: [
+      {
+        title: "Auswahlmatrix Oberflächenbehandlung",
+        description: "Wählen Sie die Oberflächenbehandlung, die am besten zu Ihrer Anwendung passt",
+        headers: ["Oberflächenbehandlung", "Geeignete Werkstoffe", "Hauptfunktion", "Typische Ra (µm)", "Kosten"],
+        rows: [
+          ["Eloxieren Typ II", "Aluminium, Titan", "Korrosionsbeständigkeit, Farbe", "0,8 – 1,6", "$$"],
+          ["Harteloxieren (Typ III)", "Aluminium", "Härte, Verschleißfestigkeit", "0,8 – 1,6", "$$$"],
+          ["Glasperlenstrahlen", "Metalle, Kunststoffe", "Matte Oberfläche, Entgraten", "1,6 – 3,2", "$"],
+          ["Vernickeln", "Stahl, Kupfer", "Verschleißfestigkeit, Leitfähigkeit", "0,4 – 0,8", "$$$"],
+          ["Pulverbeschichtung", "Alle Metalle", "Dekorativ, Außenbereich", "k. A.", "$$"],
+          ["Elektropolieren", "Edelstahl", "Glänzende Oberfläche, Hygiene", "0,1 – 0,4", "$$$"],
+          ["Nitrieren", "Stahl", "Oberflächenhärte", "Unverändert", "$$$$"],
+        ],
+      },
+      {
+        title: "Leitfaden Oberflächenrauheit (Ra)",
+        description: "Typische Ra-Bereiche je Anwendung (Branchenrichtwerte); der für Ihr Teil erreichbare Wert wird im Angebot angegeben.",
+        headers: ["Ra-Bereich (µm)", "Oberflächenbild", "Anwendung", "Bearbeitungsverfahren"],
+        rows: [
+          ["0,1 – 0,2", "Spiegelglanz", "Optik, Lagerflächen", "Läppen, Polieren"],
+          ["0,4 – 0,8", "Glänzende Oberfläche", "Wellen, Kolben, Dichtflächen", "Feinfräsen, Schleifen"],
+          ["1,6 – 3,2", "Matte Oberfläche", "Allgemeine Maschinenbauteile", "Standard-CNC-Zerspanung"],
+          ["6,3 – 12,5", "Raue Oberfläche", "Strukturbauteile, vor dem Schweißen", "Schruppen, Strahlen"],
+        ],
+      },
+      {
+        title: "Maßänderung nach der Behandlung",
+        description: "Einfluss der Oberflächenbehandlung auf die Maße; Aufmaße werden zusammen mit Spezifikation und Prozessparametern festgelegt.",
+        headers: ["Oberflächenbehandlung", "Maßänderung", "Planungshinweis"],
+        rows: [
+          ["Eloxieren Typ II", "Zunahme (Hälfte wächst nach außen)", "Die Hälfte der Schichtdicke dringt in den Werkstoff ein"],
+          ["Eloxieren Typ III", "Zunahme; Aufmaß laut Spezifikation", "Beschichtungsaufmaß im Bearbeitungsmaß vorsehen"],
+          ["Pulverbeschichtung", "Zunahme (um die Schichtdicke)", "Kritische Flächen abdecken"],
+          ["Strahlen", "Abnahme (Materialabtrag)", "Präzisionsflächen abdecken"],
+          ["Elektropolieren", "Abnahme (Materialabtrag)", "Material wird abgetragen, das Maß verringert sich"],
+        ],
+      },
+    ],
+  },
+  "dusuk-hacimli-uretim": {
+    categoryLabel: "Vom Prototyp zur Serie",
+    title: "Kleinserienfertigung",
+    metaTitle: "Kleinserienfertigung | 3D-Druck, Silikonabformung, CNC | Mas Technic",
+    metaDescription: "Schnelle Prototypen per 3D-Druck, Kleinserien per Silikonabformung, größere Lose mit Aluminium-Schnellwerkzeugen. FDM-, SLA-, SLS- und DMLS-Technologien.",
+    description: "Für geringe Stückzahlen bieten wir flexible Lösungen mit 3D-Druck, Silikonabformung, Aluminium-Schnellwerkzeugen und CNC-Zerspanung; das Verfahren richtet sich nach Stückzahl und Präzision.",
+    content: [
+      "In der Kleinserienfertigung wird das Verfahren nach Stückzahl, Zeit und Präzisionsanforderung gewählt: 3D-Druck eignet sich zur Konzeptvalidierung, Silikonabformung für kleine Kunststofflose, Aluminiumwerkzeuge für größere Lose und CNC-Zerspanung für Teile mit engen Toleranzen (CNC-Standardtoleranz ±0,01mm). Die Toleranz der übrigen Verfahren und die jeweilige Lieferzeit werden mit dem Angebot genannt.",
+      "Die Optionen der additiven Fertigung unterscheiden sich nach der Funktion des Teils: FDM (ABS, PLA, Nylon) für Form- und Passungsversuche, SLA (Harz) für feine Details und Oberflächen, SLS (PA12, TPU) für Funktionsteile ohne Stützstrukturen und DMLS für funktionale Metallprototypen.",
+      "Unser Silikonabformungsprozess umfasst 4 Stufen: 1) Urmodell — hergestellt per 3D-Druck oder CNC, 2) Silikonform — Vakuumabformung, 3) Gießen — PU-/Silikon-/EP-Guss, 4) Nachbearbeitung — Oberflächenbehandlung und Qualitätskontrolle. Die Gesamtlieferzeit wird vor allem von der Herstellung des Urmodells und der Gussmenge bestimmt; die Lieferzeit wird mit dem Angebot genannt.",
+      "Aluminiumwerkzeuge werden für kleine und mittlere Stückzahlen bevorzugt, weil sie sich schneller bearbeiten lassen als Stahlwerkzeuge. In Pilotserien für Druckguss und Spritzguss ermöglichen sie die Validierung der Konstruktion vor der Investition in Serienwerkzeuge.",
+    ],
+    features: [
+      "3D-Druck (FDM/SLA/SLS/DMLS) — Konzeptvalidierung und Rapid Prototyping",
+      "Silikonabformung — PU-/Silikon-/EP-Guss in Kleinserie",
+      "Aluminiumwerkzeuge — für Pilotfertigung und Konstruktionsvalidierung",
+      "CNC-Zerspanung — ±0,01mm Standardtoleranz",
+      "Metall-3D-Druck (DMLS) — Aluminium, Edelstahl und Titan",
+      "Funktionsprototyp — Erprobung im Serienwerkstoff",
+    ],
+    technicalSpecs: [
+      { label: "Mindestmenge", value: "1 Stück" },
+      { label: "Verfahren", value: "3D-Druck, Silikon, Al-Werkzeug, CNC" },
+      { label: "Lieferzeit", value: "Mit dem Angebot" },
+    ],
+    processSteps: ["Verfahrenswahl", "CAD-/Modellvorbereitung", "Herstellung des Urmodells", "Abformen/Drucken", "Nachbearbeitung & Oberfläche", "Qualitätskontrolle", "Verpackung & Lieferung"],
+    advantages: [
+      "4 verschiedene Verfahren für jeden Bedarf",
+      "Das Verfahren wird im Abgleich von Stückzahl, Toleranz und Lieferzeit gewählt",
+      "3D-Druck in Metall und Kunststoff",
+      "Geringe Werkzeugkosten mit Silikonformen",
+      "Pilotvalidierung vor der Serienfertigung",
+      "Erprobung unter realen Bedingungen mit einem Funktionsprototyp",
+    ],
+    faq: [
+      {
+        question: "Welches Verfahren eignet sich am besten für einen Prototyp?",
+        answer: "Für eine schnelle Konzeptvalidierung empfehlen wir 3D-Druck, für Teile mit einer Präzision von ±0,01mm CNC und für kleine Kunststofflose Silikonabformung. Die Lieferzeit wird mit dem Angebot genannt, nachdem Werkstoffbeschaffung, Anzahl der Arbeitsgänge und Kapazitätsplanung geprüft wurden.",
+      },
+      {
+        question: "Bieten Sie Metall-3D-Druck an?",
+        answer: "Ja. Wir fertigen Metallteile im 3D-Druck aus Aluminium, Edelstahl und Titan im DMLS-Verfahren (direktes Metall-Lasersintern); Teilegröße und erreichbare Toleranz werden in der technischen Prüfung bewertet.",
+      },
+      {
+        question: "Wie viele Teile ergibt eine Silikonform?",
+        answer: "Die Anzahl der Teile aus einer Silikonform hängt vom Gießwerkstoff und der Geometrie ab; die erwartete Standzeit der Form wird im Angebot angegeben.",
+      },
+      {
+        question: "Wie gelingt der Übergang von der Kleinserie zur Serienfertigung?",
+        answer: "Nach Prototyp und Pilotfertigung wird für die freigegebene Konstruktion eine Investition in Stahlwerkzeuge oder eine automatisierte CNC-Serienfertigung geplant. Den Übergang koordiniert unser Projektleiter.",
+      },
+    ],
+    comparisonTables: [
+      {
+        title: "Vergleich der Fertigungsverfahren (Kosten vs. Stückzahl)",
+        description: "Die Stückzahlbereiche sind allgemeine Richtwerte; die Standardtoleranz in der CNC-Zerspanung beträgt ±0,01mm, die Toleranz der übrigen Verfahren wird im Angebot angegeben.",
+        headers: ["Verfahren", "Stückzahlbereich", "Stückkosten", "Werkzeuginvestition"],
+        rows: [
+          ["3D-Druck (FDM/SLA)", "1 – 10", "$$$", "Keine"],
+          ["3D-Druck (SLS/DMLS)", "1 – 50", "$$$$", "Keine"],
+          ["CNC-Zerspanung", "1 – 100", "$$$", "Keine"],
+          ["Silikonabformung", "10 – 100", "$$", "Gering ($)"],
+          ["Al-Schnellwerkzeug", "100 – 1.000", "$", "Mittel ($$)"],
+          ["Stahlwerkzeug (Spritzguss)", "1.000+", "$", "Hoch ($$$$$)"],
+        ],
+      },
+    ],
+  },
+  "seri-imalat": {
+    categoryLabel: "Vom Prototyp zur Serie",
+    title: "Serienfertigung",
+    metaTitle: "Serienfertigung | Reproduzierbares Rüsten und Prüfplan | Mas Technic",
+    metaDescription: "In der Serienfertigung geht es nicht darum, ein Teil herzustellen, sondern darum, dass das hundertste Teil dem ersten gleicht: Standardrüsten, Prüfplan und Rückverfolgbarkeit je Los.",
+    description: "Mit Stahlwerkzeugen, Druckguss, automatisierter CNC-Fertigung und Montagelinien streben wir in der Großserienfertigung Gleichmäßigkeit und Effizienz an.",
+    content: [
+      "In der Serienfertigung wird das Verfahren nach Teilegeometrie und Toleranzziel gewählt. Die Standardtoleranz in der CNC-Serienzerspanung beträgt ±0,01mm. Bei gegossenen oder gespritzten Teilen werden drei Anforderungen getrennt behandelt: die Fertigungstoleranz des Werkzeugs selbst, die Toleranzklasse des Rohteils (gegossen bzw. gespritzt) und die Zeichnungstoleranz der anschließend bearbeiteten Flächen. Die Toleranzklasse des Rohteils wird im Angebot nach Verfahren und Werkstoff angegeben.",
+      "In der Serienfertigung wird das Rüsten nicht einmal erledigt und dann vergessen: Ein standardisiertes Rüstverfahren, feste Bezugsflächen und automatischer Werkzeugwechsel begrenzen die Streuung zwischen den Losen. Die Serienfertigung beginnt nicht vor der Erstteilfreigabe.",
+      "Fertigungsverfolgung, Bestands- und Kapazitätsplanung laufen über einen einzigen Datensatz; jederzeit ist erfasst, welches Los sich wo befindet und welche Prüfung es durchlaufen hat. Der Beschaffungsbedarf wird anhand dieses Datensatzes geplant, und der Auftragsstatus ist im Kundenportal einsehbar.",
+      "Die Gleichmäßigkeit innerhalb eines Loses wird durch planmäßig verankerte fertigungsbegleitende Prüfungen gesichert. Driftanfällige Maße — verschleißempfindliche Durchmesser, Maße nach der Wärmebehandlung — werden in einem eigenen Prüfschritt überwacht, und die Ergebnisse werden dokumentiert.",
+    ],
+    features: [
+      "CNC-Serienzerspanung — ±0,01mm Toleranz, feste Bezugsflächen",
+      "Druckguss — Rohteil- und Bearbeitungstoleranz werden getrennt bewertet",
+      "Spritzguss — Werkzeug, Spritzteil und bearbeitete Fläche werden getrennt bewertet",
+      "Automatischer Werkzeugwechsel — unterbrechungsfreie Bearbeitung bei großen Losen",
+      "Automatischer Palettenwechsel — Rüsten getrennt von der Fertigung",
+      "Fertigungsverfolgung — Losstatus wird dokumentiert",
+    ],
+    technicalSpecs: [
+      { label: "CNC-Serienzerspanung", value: "±0,01mm Toleranz" },
+      { label: "Druckguss", value: "Laut Angebot" },
+      { label: "Spritzguss", value: "Laut Angebot" },
+      { label: "Rüsten", value: "Standardverfahren" },
+      { label: "Prüfung", value: "Laut Prüfplan" },
+      { label: "Lieferung", value: "Nach Lieferplan" },
+    ],
+    processSteps: ["Losdatensatz", "Pilotfertigung", "Serienfreigabe", "Einrichtung der Automatisierung", "Serienanlauf", "SPC & Qualitätsverfolgung", "Terminierte Lieferung"],
+    advantages: [
+      "Gleichmäßigkeit zwischen den Losen durch ein standardisiertes Rüstverfahren",
+      "Der Losstatus wird während der gesamten Fertigung dokumentiert",
+      "Losgröße und Lieferrhythmus sind an einen Lieferplan gebunden",
+      "Driftanfällige Maße werden durch fertigungsbegleitende Prüfungen überwacht",
+      "Vollständige Rückverfolgbarkeit auf Losebene",
+      "Die Serienfertigung beginnt nicht vor der Erstteilfreigabe",
+    ],
+    faq: [
+      {
+        question: "Wie hoch ist die Mindestmenge für eine Serie?",
+        answer: "Einen einheitlichen Schwellenwert gibt es nicht; er hängt vom Verfahren ab. Bei werkzeuggebundenen Verfahren (Druckguss, Spritzguss) ergibt sich die Schwelle aus der Umlage der Werkzeugkosten auf die Teile; in der CNC-Serienzerspanung ist die Rüstzeit entscheidend. Wir legen sie in der Angebotsphase zusammen mit Teilegeometrie und Toleranzziel fest.",
+      },
+      {
+        question: "Lässt sich der Lieferplan abstimmen?",
+        answer: "Ja. Losgröße und Lieferrhythmus werden zusammen mit der Kapazitätsplanung vereinbart; periodische Lieferpläne sind möglich.",
+      },
+      {
+        question: "Wie sichern Sie die Gleichmäßigkeit in der Serienfertigung?",
+        answer: "Durch Erstteilfreigabe, ein standardisiertes Rüstverfahren und an den Prüfplan gebundene fertigungsbegleitende Prüfungen. Driftanfällige Maße werden in einem eigenen Schritt überwacht, und die Messergebnisse werden dokumentiert.",
+      },
+      {
+        question: "Wie wird die Maschine bei großen Losen beschickt?",
+        answer: "Automatischer Werkzeugwechsel und Stangenlader ermöglichen eine unterbrechungsfreie Bearbeitung großer Lose. Welche Methode zum Einsatz kommt, wird nach Teilegeometrie und Losgröße geplant.",
+      },
+    ],
+    comparisonTables: [
+      {
+        title: "Wahl des Serienfertigungsverfahrens",
+        description: "Verfahren, Rüsten und Prüfansatz nach Teilegeometrie und Toleranz",
+        headers: ["Fertigungsverfahren", "Typischer Einsatz", "Toleranz", "Rüsten", "Prüfansatz"],
+        rows: [
+          ["CNC-Serienzerspanung", "Metallteile mit engen Toleranzen", "±0,01mm", "Standardverfahren + fester Bezug", "Erstteil + fertigungsbegleitende Prüfung"],
+          ["Druckguss", "Komplexe Formen in großen Stückzahlen", "Laut Angebot; bearbeitete Flächen laut Zeichnung", "Werkzeug- und Gießparameter", "Sicht- + Maßprüfung"],
+          ["Spritzguss", "Kunststoffteile in großen Stückzahlen", "Laut Angebot; bearbeitete Flächen laut Zeichnung", "Werkzeug und Prozessfenster", "Erstteil + periodische Prüfung"],
+        ],
+      },
+    ],
+  },
+  "proje-yonetimi": {
+    categoryLabel: "Prozess & Betrieb",
+    title: "Projektmanagement",
+    metaTitle: "Projektmanagement | Agil & Phase-Gate | Echtzeit-Reporting | Mas Technic",
+    metaDescription: "Ein fünfstufiger Prozess vom Angebot bis zur Lieferung mit definierten Freigabepunkten. Jede Stufe liefert ein Ergebnis, und die nächste Stufe beginnt erst nach dessen Freigabe.",
+    description: "Mit einem eigenen Projektleiter, Echtzeit-Reporting und proaktiver Kommunikation begleiten wir Sie in jeder Phase Ihres Projekts. Kontrolliertes, transparentes Prozessmanagement vom Angebot bis zur Lieferung.",
+    content: [
+      "Die Methodik richtet sich nach der Projektstruktur: Ein stufenweiser Ansatz (Wasserfall) eignet sich für klassische Mechanikprojekte, ein Phase-Gate-Ansatz für den Übergang in die Serienfertigung und ein iterativer Ansatz für Projekte mit häufigen Revisionen.",
+      "Unser fünfstufiger Projektprozess: 1) Bewertung — Angebot und Freigabe, 2) DFM-Analyse — Bericht und bei Bedarf Konstruktionsänderung, 3) Prototyp — Musterteil, Messprotokoll und Musterfreigabe, 4) Fertigungsakte — Prüfplan und Dokumente zur Rückverfolgbarkeit, 5) Serienfertigung — Losbericht und periodische Überprüfung.",
+      "Unsere Kommunikations- und Berichtswege: Projektbesprechungen, Statusverfolgung im Kundenportal, Foto- und Videodokumentation kritischer Phasen, Übergabe der Fertigungsakte und ein Verfahren für das Management technischer Änderungen (ECO).",
+      "Jedem Projekt wird ein fester Ansprechpartner zugewiesen; Stufenergebnisse, Freigaben und Lieferdokumente laufen alle über diesen Ansprechpartner.",
+    ],
+    features: [
+      "Eigener Projektleiter — ein Ansprechpartner von Anfang bis Ende",
+      "5-stufiger Prozess — kontrollierter Weg von der Bewertung zur Serienfertigung",
+      "Agil/Scrum & Phase-Gate — Methodik passend zur Projektstruktur",
+      "Statusmeldungen — Dokumentation von Stufen und Freigaben",
+      "Fertigungsakte — Prüfplan und Nachweise zur Rückverfolgbarkeit",
+      "ECO-Management — Verfahren für technische Änderungen",
+    ],
+    technicalSpecs: [
+      { label: "Bewertung", value: "1-3 Werktage" },
+      { label: "DFM-Analyse", value: "Mit dem Angebot" },
+      { label: "Prototyp", value: "Mit dem Angebot" },
+      { label: "Fertigungsakte", value: "Nach Musterfreigabe" },
+      { label: "Reporting", value: "Je Stufe" },
+    ],
+    processSteps: ["Angebot & Bewertung", "DFM-Analyse", "Prototypenfertigung", "Test & Validierung", "Musterfreigabe", "Serienanlauf", "Kontinuierliche Verbesserung"],
+    advantages: [
+      "Ein einziger Ansprechpartner durch einen erfahrenen Projektleiter",
+      "Fortschrittsmeldungen je Stufe",
+      "Foto-/Videodokumentation kritischer Phasen",
+      "Kontrolliertes Änderungsmanagement über das ECO-Verfahren",
+      "Projektverfolgung über einen einzigen Ansprechpartner",
+      "Übergabe von Prüfplan und Nachweisen zur Rückverfolgbarkeit",
+    ],
+    faq: [
+      {
+        question: "Erhält jedes Projekt einen eigenen Projektleiter?",
+        answer: "Ja, jedem Projekt wird ein eigener Projektleiter zugewiesen, der vom Angebot bis zur Lieferung Ihr einziger Ansprechpartner ist.",
+      },
+      {
+        question: "Wie kann ich den Projektfortschritt verfolgen?",
+        answer: "Sie können jede Stufe über Projektbesprechungen, die Statusverfolgung im Kundenportal, Foto- und Videoaufnahmen kritischer Phasen sowie die Fertigungsakte verfolgen.",
+      },
+      {
+        question: "Was passiert, wenn eine Konstruktionsänderung nötig ist?",
+        answer: "Änderungen werden über unser ECO-Verfahren (Engineering Change Order) kontrolliert gesteuert. Die Revision wird mit Ihrer Freigabe umgesetzt, nachdem ihre Auswirkungen auf Kosten und Termine analysiert wurden.",
+      },
+    ],
+    comparisonTables: [
+      {
+        title: "Projektmanagement-Methoden im Vergleich",
+        description: "Die passende Methodik für die Projektstruktur wählen",
+        headers: ["Methodik", "Geeigneter Projekttyp", "Prozessflexibilität", "Reporting", "Lieferansatz"],
+        rows: [
+          ["Agil / Scrum", "Projekte mit häufigen Revisionen", "★★★★★", "Je Sprint", "Iterativ — kurze Zyklen"],
+          ["Wasserfall", "Klassische Mechanikprojekte", "★★☆☆☆", "Je Stufe", "Sequenziell — Phase-Gate-Freigabe"],
+          ["Phase-Gate", "Serienfertigungsprojekte", "★★★☆☆", "Gate-Review", "Kontrollierter Übergang — mit Freigabepunkten"],
+          ["Hybrid", "Komplexe Engineering-Projekte", "★★★★☆", "Wöchentlich + Sprint", "Flexibel — nach Projektbedarf"],
+        ],
+      },
+      {
+        title: "Projektstufen und Dauer",
+        headers: ["Stufe", "Dauer", "Ergebnis", "Kundenfreigabe", "Kommunikationsweg"],
+        rows: [
+          ["1. Bewertung & Angebot", "1-3 Werktage", "Detailliertes Angebot + Zeitplan", "Angebotsfreigabe", "E-Mail + Videokonferenz"],
+          ["2. DFM-Analyse", "Mit dem Angebot", "DFM-Bericht + CAD-Revision", "DFM-Freigabe", "Portal + Besprechung"],
+          ["3. Prototypenfertigung", "Mit dem Angebot", "Musterteil + Messprotokoll", "Musterfreigabe", "Foto/Video + Bericht"],
+          ["4. Fertigungsakte", "Nach Musterfreigabe", "Prüfplan + Nachweise zur Rückverfolgbarkeit", "Freigabe der Akte", "Portal + PDF-Übergabe"],
+          ["5. Serienfertigung", "Laufend", "Losbericht", "Periodische Überprüfung", "Portal + periodischer Bericht"],
+        ],
+      },
+    ],
+  },
+  "tedarik-zinciri": {
+    categoryLabel: "Prozess & Betrieb",
+    title: "Lieferkette",
+    metaTitle: "Lieferkettenmanagement | Dual Sourcing, Lagerstrategie | Mas Technic",
+    metaDescription: "Dual Sourcing für kritische Werkstoffe, Lieferzeiten nach Werkstoffklasse und Rückverfolgbarkeit je Los. Das Beschaffungsrisiko wird vor der Fertigungsplanung bewertet.",
+    description: "Die Lieferzeit eines Auftrags wird oft nicht an der Maschine bestimmt, sondern durch den Eingang des Werkstoffs. Deshalb bewerten wir das Beschaffungsrisiko bereits in der Angebotsphase, vor der Fertigungsplanung.",
+    content: [
+      "Die Werkstoffbeschaffung ist die größte Unsicherheit bei der Lieferzeit. Standard-Aluminium und Edelstahl sind schnell beschaffbar, während Titan und Nickelbasislegierungen auf Bestellung geliefert werden und ihre Lieferzeit die Fertigungszeit übersteigen kann. Deshalb wird der Werkstoffstatus mit dem Angebot geklärt.",
+      "Bei kritischen Werkstoffen achten wir darauf, nicht von einer einzigen Quelle abhängig zu sein. Eine freigegebene zweite Bezugsquelle verhindert einen Stillstand bei Lieferunterbrechungen; alternative Werkstoffe werden in der technischen Prüfung mitbewertet, sofern sie der Spezifikation entsprechen.",
+      "Die Lagerstrategie richtet sich nach der Werkstoffklasse: Für häufig verwendete Standardprofile und Bleche wird ein Sicherheitsbestand gehalten, Sonderlegierungen werden auftragsbezogen beschafft. Ziel ist ein bewusster Ausgleich zwischen Lagerkosten und Beschaffungsrisiko.",
+      "Jeder eingehende Werkstoff wird mit Los- und Chargennachweis erfasst. Tritt später in der Fertigung eine Abweichung auf, ist dieser Nachweis der einzig verlässliche Weg, das betroffene Los zu bestimmen; ein Werkstoffzeugnis wird auf Wunsch der Lieferdokumentation beigefügt.",
+    ],
+    features: [
+      "Dual Sourcing — ein freigegebener Zweitlieferant für kritische Werkstoffe",
+      "Lieferzeit nach Klasse — Planung nach Werkstoffgruppe",
+      "Sicherheitsbestand — für häufig verwendete Standardwerkstoffe",
+      "Alternativwerkstoff — in der technischen Prüfung, sofern spezifikationskonform",
+      "Los- und Chargennachweis — für jeden eingehenden Werkstoff",
+      "Werkstoffzeugnis — auf Wunsch in der Lieferdokumentation",
+    ],
+    technicalSpecs: [
+      { label: "Kritischer Werkstoff", value: "Zwei Bezugsquellen" },
+      { label: "Standard-Al / Edelstahl", value: "Kurze Lieferzeit" },
+      { label: "Titan", value: "Auf Bestellung" },
+      { label: "Nickelbasislegierung", value: "Auf Bestellung" },
+      { label: "Nachweis", value: "Los und Charge" },
+      { label: "Zeugnis", value: "Auf Wunsch" },
+    ],
+    processSteps: ["Werkstoffspezifikation prüfen", "Lieferzeit bewerten", "Bezugsquelle wählen", "Bestellung und Nachverfolgung", "Wareneingangserfassung (Los / Charge)", "Freigabe für die Fertigung"],
+    advantages: [
+      "Das Beschaffungsrisiko wird vor der Fertigungsplanung bewertet",
+      "Keine Abhängigkeit von einer einzigen Quelle bei kritischen Werkstoffen",
+      "Die Lieferzeit wird mit der tatsächlichen Beschaffungszeit des Werkstoffs angegeben",
+      "Alternativwerkstoffe werden nur bei Spezifikationskonformität vorgeschlagen",
+      "Eingehende Werkstoffe sind über Los- und Chargennachweis rückverfolgbar",
+      "Bei einer Abweichung lässt sich das betroffene Los anhand des Nachweises bestimmen",
+    ],
+    faq: [
+      {
+        question: "Wie lang ist Ihre Werkstoff-Lieferzeit?",
+        answer: "Sie hängt von der Werkstoffklasse ab: Standard-Aluminium und Edelstahl sind schnell beschaffbar; Titan und Nickelbasislegierungen werden auf Bestellung geliefert. Die tatsächliche Beschaffungszeit für Ihr Projekt nennen wir mit dem Angebot.",
+      },
+      {
+        question: "Wie wird das Risiko von Lieferunterbrechungen gesteuert?",
+        answer: "Für kritische Werkstoffe wird eine freigegebene zweite Bezugsquelle vorgehalten, für häufig verwendete Standardwerkstoffe ein Sicherheitsbestand, und spezifikationskonforme Alternativwerkstoffe werden vorab bewertet.",
+      },
+      {
+        question: "Kann ich ein Werkstoffzeugnis erhalten?",
+        answer: "Der Werkstoff wird über seinen Los- und Chargennachweis rückverfolgt. Wenn Sie ein Werkstoffzeugnis anfordern, wird es der Lieferdokumentation beigefügt.",
+      },
+      {
+        question: "Kann ich den Werkstoff selbst beistellen?",
+        answer: "Ja. In diesem Fall übernehmen wir von Ihnen den Nachweis der Spezifikationskonformität und den Losnachweis des Werkstoffs und planen die Wareneingangsprüfung entsprechend.",
+      },
+    ],
+    comparisonTables: [
+      {
+        title: "Beschaffungsansatz nach Werkstoffklasse",
+        description: "Die Beschaffungszeit wirkt sich direkt auf die Lieferzeit aus; die Strategie richtet sich nach der Klasse",
+        headers: ["Werkstoffgruppe", "Typische Verfügbarkeit", "Lagerstrategie", "Einfluss auf die Lieferzeit"],
+        rows: [
+          ["Standard-Aluminium", "Kurz", "Sicherheitsbestand", "Gering"],
+          ["Edelstahl", "Kurz – mittel", "Sicherheitsbestand", "Gering – mittel"],
+          ["Legierter Stahl", "Mittel", "Auf Bestellung", "Mittel"],
+          ["Titan", "Lang", "Auf Bestellung", "Hoch — laut Angebot"],
+          ["Nickelbasislegierung", "Lang", "Auf Bestellung", "Hoch — laut Angebot"],
+          ["Technischer Kunststoff", "Kurz – mittel", "Auf Bestellung", "Gering – mittel"],
+        ],
+      },
+      {
+        title: "Entscheidungen, die das Beschaffungsrisiko senken",
+        headers: ["Entscheidung", "Wann sie getroffen wird", "Was sie ändert"],
+        rows: [
+          ["Freigegebene zweite Bezugsquelle", "Bei kritischem Werkstoff", "Kein Stillstand bei Unterbrechung"],
+          ["Alternativwerkstoff", "Wenn die Spezifikation es zulässt", "Die Beschaffungszeit verkürzt sich"],
+          ["Sicherheitsbestand", "Bei häufig verwendetem Werkstoff", "Die Unsicherheit der Lieferzeit sinkt"],
+          ["Frühzeitige Bestellung", "Bei langer Beschaffungszeit", "Das Fertigungsfenster bleibt gesichert"],
+        ],
+      },
+    ],
+  },
+};

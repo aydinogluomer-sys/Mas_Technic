@@ -22,6 +22,7 @@ import { mergeText, type TextOverlay } from "./localize";
 type LocaleContent = EnContent;
 const BUNDLES: Partial<Record<PublicLocale, () => Promise<{ default: LocaleContent }>>> = {
   en: () => import("@/content/en"),
+  de: () => import("@/content/de"),
 };
 const cached = new Map<PublicLocale, LocaleContent>();
 const pending = new Map<PublicLocale, Promise<LocaleContent | null>>();
