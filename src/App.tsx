@@ -96,6 +96,7 @@ const CustomCursor = lazy(() =>
 const LOADER_TEXT = {
   tr: { label: "YÜKLENİYOR", detail: "Sayfa hazırlanıyor." },
   en: { label: "LOADING", detail: "Preparing the page." },
+  de: { label: "WIRD GELADEN", detail: "Die Seite wird vorbereitet." },
 } as const;
 
 /* A loader is a promise, not a destination: when the route's code or its
@@ -117,6 +118,13 @@ const LOADER_TIMEOUT_TEXT = {
     detail: "The page's files did not arrive in time. Reload the page; if it keeps happening, let us know.",
     offlineLabel: "NO CONNECTION",
     offlineDetail: "The browser reports no internet connection. Reload the page once you are back online.",
+  },
+  de: {
+    label: "LADEN VERZÖGERT",
+    title: "Die Seite konnte nicht geladen werden",
+    detail: "Die Dateien der Seite sind nicht rechtzeitig eingetroffen. Laden Sie die Seite neu; tritt der Fehler weiterhin auf, geben Sie uns bitte Bescheid.",
+    offlineLabel: "KEINE VERBINDUNG",
+    offlineDetail: "Der Browser meldet keine Internetverbindung. Laden Sie die Seite neu, sobald Sie wieder online sind.",
   },
 } as const;
 
