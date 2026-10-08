@@ -3,7 +3,7 @@
  *
  *   npx esbuild scripts/quality/locale-check.ts --bundle --platform=node --format=esm \
  *     --alias:@=./src --outfile=/tmp/locale-check.mjs --loader:.webp=empty --loader:.png=empty \
- *     --loader:.jpg=empty --loader:.svg=empty && node /tmp/locale-check.mjs [en|de] [section…]
+ *     --loader:.jpg=empty --loader:.svg=empty && node /tmp/locale-check.mjs [en|de|ru] [section…]
  *
  * The language defaults to `en`; naming sections (`services`, `categories`, …)
  * checks only those, for a bundle that is translated section by section.
@@ -15,6 +15,7 @@
  */
 import en from "@/content/en";
 import de from "@/content/de";
+import ru from "@/content/ru";
 import type { EnContent } from "@/content/en";
 import { servicePages } from "@/data/servicePages";
 import { categoryPages } from "@/data/categoryPages";
@@ -39,6 +40,12 @@ const LOCALES: Record<string, { bundle: EnContent; allow: RegExp; letters: RegEx
     dropped: { "services:kalite-kontrol": ["3", "3"], "blog:kalite-kontrol-cmm-olcum": ["3"],
       "cases:ince-cidarli-govde": ["3", "3"], "cases:titanyum-baglanti-parcasi": ["3"], "cases:hassas-mil": ["3"] },
   },
+  ru: {
+    bundle: ru, allow: /(Çiğli|İzmir|Ataşehir|Mas Technic|MAS TECHNIC)/g, letters: /[ğĞşŞıİçÇöÖüÜ]/,
+    /* The same ordinal as in German: „третьей стороной“ carries no digit. */
+    dropped: { "services:kalite-kontrol": ["3", "3"], "blog:kalite-kontrol-cmm-olcum": ["3"],
+      "cases:ince-cidarli-govde": ["3", "3"], "cases:titanyum-baglanti-parcasi": ["3"], "cases:hassas-mil": ["3"] },
+  },
 };
 const [locale = "en", ...sections] = process.argv.slice(2);
 const target = LOCALES[locale];
@@ -50,7 +57,9 @@ if (unknown.length) throw new Error(`unknown section(s): ${unknown.join(", ")} �
 
 type Problem = { record: string; path: string; issue: string };
 const problems: Problem[] = [];
-const nums = (s: string) => (s.match(/\d+(?:[.,]\d+)?/g) ?? []).map((n) => n.replace(",", "."));
+/* Russian groups thousands with a space ("10 000"); the source writes "10.000". */
+const grouped = (s: string) => s.replace(/\b\d{1,3}(?:[ \u00a0]\d{3})+\b/g, (m) => m.replace(/[ \u00a0]/g, "."));
+const nums = (s: string) => (grouped(s).match(/\d+(?:[.,]\d+)?/g) ?? []).map((n) => n.replace(",", "."));
 
 function walk(record: string, tr: unknown, ov: unknown, path: string, trNums: string[], enNums: string[]) {
   if (typeof tr === "string") {

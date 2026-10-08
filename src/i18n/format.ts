@@ -39,11 +39,11 @@ export function localDecimals(text: string, language: string | undefined): strin
   return DECIMAL_COMMA.has(base(language)) ? text.replace(/(\d)\.(\d)/g, "$1,$2") : text;
 }
 
-/* The inline `{ tr, en, de }` pairs (pilot modules, schema captions, category
+/* The inline `{ tr, en, de, ru }` pairs (pilot modules, schema captions, category
    matrix, journal modules): the reader's language where a pair carries it,
    Turkish otherwise. */
-export type PairLocale = "tr" | "en" | "de";
+export type PairLocale = "tr" | "en" | "de" | "ru";
 export function pairLocale(language: string | undefined): PairLocale {
   const locale = base(language);
-  return locale === "en" || locale === "de" ? locale : "tr";
+  return locale === "en" || locale === "de" || locale === "ru" ? locale : "tr";
 }
