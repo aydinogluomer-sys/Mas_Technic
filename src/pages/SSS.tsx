@@ -16,7 +16,7 @@ import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { servicePages as turkishServicePages, type ServicePageData } from "@/data/servicePages";
 import { useSiteData } from "@/i18n/data";
-import { joinList } from "@/i18n/format";
+import { joinList, localDecimals } from "@/i18n/format";
 import {
   CAD_UPLOAD_EXTENSIONS,
   CERTIFICATIONS,
@@ -268,7 +268,7 @@ export const SSS = () => {
     const vars = {
       formats: joinList(CAD_UPLOAD_EXTENSIONS.split(", ").map((ext) => ext.slice(1).toUpperCase()), i18n.language),
       response: t(QUOTE_RESPONSE_TIME),
-      tolerance: MINIMUM_TOLERANCE,
+      tolerance: localDecimals(MINIMUM_TOLERANCE, i18n.language),
       certifications: joinList(CERTIFICATIONS.map((certification) => certification.code), i18n.language),
       cmm: t(CMM_COVERAGE),
     };
@@ -383,7 +383,7 @@ export const SSS = () => {
         lede={t("Üretim, malzeme, tolerans, kalite ve teslimat başlıklarında sık sorulan sorular. Her yanıttan ilgili teknik sayfaya geçebilirsiniz.")}
         meta={[
           { label: t("Kapsam"), value: t("Üretim · Malzeme · Kalite · Teslimat") },
-          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Standart tolerans"), value: localDecimals(MINIMUM_TOLERANCE, i18n.language) },
           { label: t("Teklif dönüşü"), value: t(QUOTE_RESPONSE_TIME) },
         ]}
         actions={

@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSiteData } from "@/i18n/data";
-import { localDate } from "@/i18n/format";
+import { localDate, pairLocale } from "@/i18n/format";
 import {
   PageShell,
   ShellAction,
@@ -194,7 +194,7 @@ export const BlogDetail = () => {
 
   /* UX05 — the article's own module: drawing, decision table, sources and
      curated related records (posts + services). */
-  const lang = i18n.language === "en" ? "en" : "tr";
+  const lang = pairLocale(i18n.language);
   const journal = JOURNAL_MODULES[post.slug];
   const Drawing = JOURNAL_SCHEMAS[post.slug as keyof typeof JOURNAL_SCHEMAS];
   const related = journal

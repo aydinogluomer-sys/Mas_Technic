@@ -3,6 +3,7 @@ import { ShellSpecTable } from "@/components/shell";
 import { LegalDocument, type LegalClause } from "@/components/pages/LegalDocument";
 import { SALES_EMAIL } from "@/content/claims";
 import { COOKIES_EN } from "@/content/en/legal/cookies";
+import { COOKIES_DE } from "@/content/de/legal/cookies";
 import { useLocale } from "@/i18n/hooks";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -461,6 +462,6 @@ const COOKIES_TR = {
 };
 
 export const CerezPolitikasi = () => {
-  const text = useLocale() === "en" ? COOKIES_EN : COOKIES_TR;
+  const text = { en: COOKIES_EN, de: COOKIES_DE }[useLocale() as "en" | "de"] ?? COOKIES_TR;
   return <LegalDocument rail={{ no: "L3", label: "ÇEREZ" }} selfPath="/cerez-politikasi" {...text} />;
 };

@@ -12,6 +12,7 @@ import {
   ShellTitleBlock,
 } from "@/components/shell";
 import { useTranslation } from "react-i18next";
+import { pairLocale, localDecimals } from "@/i18n/format";
 import type { CategoryPageData } from "@/data/categoryPages";
 import type { ServicePageData } from "@/data/servicePages";
 import { useSiteData } from "@/i18n/data";
@@ -158,7 +159,7 @@ export const CategoryPage = () => {
     );
   }
 
-  const lang = i18n.language === "en" ? "en" : "tr";
+  const lang = pairLocale(i18n.language);
   const matrix = CATEGORY_MATRIX[`${category.prefix}/${category.slug}`] ?? [];
   const siblings = categoryPages.filter(
     (item) => item.prefix === prefix && item.slug !== category.slug,
@@ -183,7 +184,7 @@ export const CategoryPage = () => {
         lede={category.description}
         meta={[
           { label: t("Aile"), value: t(family.label) },
-          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Standart tolerans"), value: localDecimals(MINIMUM_TOLERANCE, i18n.language) },
           { label: t("Teklif dönüşü"), value: t(QUOTE_RESPONSE_TIME) },
         ]}
         actions={
@@ -273,7 +274,7 @@ export const CategoryPage = () => {
         body={t("Teknik resim veya 3B model gönderin; üretilebilirlik incelemesiyle birlikte fiyat çalışması yapalım.")}
         detail={[
           { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
-          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Standart tolerans"), value: localDecimals(MINIMUM_TOLERANCE, i18n.language) },
           { label: t("Alternatif"), value: t("Online teknik görüşme") },
         ]}
         secondary={{ label: t("İletişim"), to: "/iletisim" }}
