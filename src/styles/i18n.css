@@ -83,11 +83,24 @@
   .tl-menu-conversion .lang-switch--menu { order: 0; flex: 1 1 100%; justify-content: center; margin-right: 0; }
 }
 
-/* Chinese: a CJK face after the Latin families (loaded only for zh). */
+/* Chinese (L2): no CJK webfont (megabytes per weight); after the Latin
+   families the system's own Simplified Chinese face draws the Han text —
+   PingFang SC (Apple), Hiragino Sans GB, Microsoft YaHei (Windows), Noto
+   Sans SC (Android, Linux). */
 html[lang^="zh"] {
-  --tl-font-sans: "Space Grotesk", "Noto Sans SC", "Space Grotesk Fallback", system-ui, sans-serif;
-  --tl-font-serif: "Newsreader", "Noto Sans SC", "Newsreader Fallback", Georgia, serif;
-  --tl-font-mono: "IBM Plex Mono", "Noto Sans SC", "IBM Plex Mono Fallback", ui-monospace, monospace;
+  --tl-cjk: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC";
+  --tl-font-sans: "Space Grotesk", var(--tl-cjk), "Space Grotesk Fallback", system-ui, sans-serif;
+  --tl-font-serif: "Newsreader", var(--tl-cjk), "Newsreader Fallback", Georgia, serif;
+  --tl-font-mono: "IBM Plex Mono", var(--tl-cjk), "IBM Plex Mono Fallback", ui-monospace, monospace;
+}
+
+/* Russian (L2): Space Grotesk and Newsreader have no Cyrillic, so the page
+   reads IBM Plex Sans and Source Serif 4 throughout (the owner's choice; Latin
+   included, so a line never mixes two designs). IBM Plex Mono draws its own
+   Cyrillic. Self-hosted in fonts.css; no other page asks for these files. */
+html[lang="ru"] {
+  --tl-font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --tl-font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
 }
 
 /* The trigger keeps its size when a longer CTA label (RU, DE) widens the

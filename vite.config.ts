@@ -294,6 +294,12 @@ export default defineConfig(({ mode, command }) => ({
     dedupe: ["react", "react-dom", "react/jsx-runtime"],
   },
   build: {
+    /* L2: the Russian-only families (IBM Plex Sans, Source Serif 4) are
+       always separate files. Under the default 4 KiB limit their small
+       symbol subsets were inlined into the stylesheet every visitor blocks
+       on (+~6 KiB gz). Everything else keeps the default. */
+    assetsInlineLimit: (filePath: string) =>
+      /\/(ibm-plex-sans|source-serif-4)-[^/]*\.woff2$/.test(filePath) ? false : undefined,
     rollupOptions: {
       treeshake: {
         moduleSideEffects(id) {
