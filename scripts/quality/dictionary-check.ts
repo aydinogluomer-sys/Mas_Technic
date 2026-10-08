@@ -24,7 +24,11 @@ const TR_LETTERS = /[ğĞşŞıİ]/;
 const NUMBER_EXCEPTIONS: Record<string, string> = {
   "Akredite 3. taraf CMM (talebe bağlı)": "“3. taraf” is the ordinal of “third party”, not a value: German says “durch Dritte”",
   "Akredite 3. taraf CMM ölçümü, talebe bağlı": "same",
+  "Miktar en fazla 1.000.000 adet olabilir.": "Russian groups thousands with a space: 1 000 000",
 };
+/* Plural forms a language has beyond i18next's `_one` / `_other` (Russian:
+   `_few`, `_many`). Allowed only next to an English `_one` key. */
+const EXTRA_PLURALS = /_(zero|two|few|many)$/;
 
 const placeholders = (text: string) => (text.match(/\{\{[^}]+\}\}/g) ?? []).sort().join("|");
 const numbers = (text: string) => (text.match(/\d+(?:[.,]\d+)?/g) ?? []).map((n) => n.replace(",", ".")).sort().join("|");
@@ -43,7 +47,10 @@ for (const [key, english] of Object.entries(en)) {
   }
   if (TR_LETTERS.test(value.replace(ALLOW, ""))) problems.push(`turkish    ${key} → ${value}`);
 }
-const extra = Object.keys(dictionary).filter((key) => !(key in en));
+const extra = Object.keys(dictionary).filter((key) => !(key in en) && !(EXTRA_PLURALS.test(key) && key.replace(EXTRA_PLURALS, "_one") in en));
+for (const key of Object.keys(dictionary).filter((key) => EXTRA_PLURALS.test(key) && !extra.includes(key))) {
+  if (placeholders(dictionary[key]) !== placeholders(key)) problems.push(`placeholder ${key} → ${dictionary[key]}`);
+}
 for (const key of extra) problems.push(`extra key  ${key}`);
 
 console.log(`${locale}: ${Object.keys(en).length} reference keys, ${problems.length} problem(s)`);

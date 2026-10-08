@@ -128,17 +128,17 @@ html[lang="ru"] .shell-root .tl-hero-copy h1 { font-size: clamp(34px, 3.7vw, 64p
 .tl-menu-body > * { min-width: 0; }
 .tl-menu-conversion .lang-switch--menu { flex-wrap: wrap; justify-content: center; max-width: 100%; }
 
-/* German (L3): long compounds (Rückverfolgbarkeit, Werkstoffbibliothek) do
+/* German (L3) and Russian (L4): long words (Rückverfolgbarkeit, прослеживаемости) do
    not fit the narrow cells and the display sizes the Turkish and English copy
    was set for. German typesetting hyphenates them (short words stay whole);
    where the browser has no German hyphenation dictionary, a word that still
    does not fit breaks instead of running out of its box. Table cells need
    `anywhere`: `break-word` does not let a column shrink below a long word. */
-html[lang="de"] body {
+html:is([lang="de"], [lang="ru"]) body {
   hyphens: auto;
   hyphenate-limit-chars: 10 4 4;
   overflow-wrap: break-word;
 }
-html[lang="de"] :is(th, td) {
+html:is([lang="de"], [lang="ru"]) :is(th, td) {
   overflow-wrap: anywhere;
 }

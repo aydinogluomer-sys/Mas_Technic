@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import { LIVE_LOCALES, LOCALE_TABLE, PUBLIC_LOCALES, isPanelPath, localeFromPath, normalizeLocale, type PublicLocale } from "./locale";
+import { registerRailLabels } from "@/components/shell/rail-labels";
 
 /* ══════════════════════════════════════════════════════════════════════════
    LOCALISATION — TR · EN (L01; DE / RU / ZH dictionaries are kept on disk
@@ -87,7 +88,7 @@ void i18n
       : undefined,
   });
 
-const DICTIONARIES: Record<Exclude<LanguageCode, "tr">, () => Promise<{ default: Record<string, string> }>> = {
+const DICTIONARIES: Record<Exclude<LanguageCode, "tr">, () => Promise<{ default: Record<string, string>; rail?: Record<string, string> }>> = {
   en: () => import("./locales/en"),
   de: () => import("./locales/de"),
   ru: () => import("./locales/ru"),
@@ -122,7 +123,8 @@ export function isLanguageReady(language: PublicLocale): boolean {
 async function ensureDictionary(language: string) {
   const code = language.split("-")[0] as LanguageCode;
   if (code === "tr" || !(code in DICTIONARIES) || i18n.hasResourceBundle(code, "translation")) return;
-  const { default: dictionary } = await DICTIONARIES[code as Exclude<LanguageCode, "tr">]();
+  const { default: dictionary, rail } = await DICTIONARIES[code as Exclude<LanguageCode, "tr">]();
+  if (rail) registerRailLabels(code, rail);
   i18n.addResourceBundle(code, "translation", dictionary, true, true);
 }
 
