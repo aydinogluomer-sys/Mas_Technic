@@ -195,7 +195,7 @@ export const MalzemeKategori = () => {
           <div className="shell-prose">
             <p>{category.content.machining}</p>
             <p>
-              {t("Standart çalışma aralığımız {{value}}; ulaşılabilir tolerans parça geometrisi ve alaşım seçimiyle birlikte teknik incelemede belirlenir.", { value: MINIMUM_TOLERANCE })}
+              {t("Standart çalışma aralığımız {{value}}; ulaşılabilir tolerans parça geometrisi ve alaşım seçimiyle birlikte teknik incelemede belirlenir.", { value: n(MINIMUM_TOLERANCE) })}
             </p>
           </div>
         </div>
@@ -238,7 +238,7 @@ export const MalzemeKategori = () => {
         body={t("Teknik resim veya 3B model gönderin; alaşım seçimini üretilebilirlik incelemesiyle birlikte netleştirelim.")}
         detail={[
           { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
-          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Standart tolerans"), value: n(MINIMUM_TOLERANCE) },
           { label: t("Aile"), value: category.name },
         ]}
         secondary={{ label: t("İletişim"), to: "/iletisim" }}

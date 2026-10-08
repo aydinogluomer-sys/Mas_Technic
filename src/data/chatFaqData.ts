@@ -277,6 +277,10 @@ const QUESTION_FORM_WORDS = new Set([
   "veriyor", "veriyorsunuz", "yapıyor", "yapıyorsunuz", "var", "yok",
   // L01 — the same pattern words of the English matcher ("do you offer …")
   "you", "your", "does", "can", "the", "what", "which", "how", "are", "have",
+  // L3 — the same for German questions ("Haben Sie eine …", "Bieten Sie … an")
+  "haben", "sie", "ihr", "ihre", "ihren", "eine", "einen", "ein", "der", "die", "das", "den",
+  "ist", "sind", "gibt", "es", "wie", "was", "welche", "welcher", "welches", "kann", "können",
+  "bieten", "an", "wir", "ich",
 ]);
 
 // ── Basit TF-IDF benzeri skor hesaplama ──

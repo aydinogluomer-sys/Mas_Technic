@@ -170,7 +170,7 @@ export const Malzemeler = () => {
         lede={t("CNC işlemede sık kullanılan metaller, mühendislik plastikleri ve kompozitler için karşılaştırmalı teknik kayıt. Aileyi seçin, değerleri yan yana okuyun, seçtiğiniz malzemeyle teklif dosyası açın.")}
         meta={[
           { label: t("Kayıt türü"), value: t("Karşılaştırmalı teknik referans") },
-          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Standart tolerans"), value: localDecimals(MINIMUM_TOLERANCE, i18n.language) },
           { label: t("Teklif dönüşü"), value: t(QUOTE_RESPONSE_TIME) },
         ]}
         actions={
@@ -344,7 +344,7 @@ export const Malzemeler = () => {
         body={t("Parçanın işlevi, çalışma sıcaklığı ve ortamı belliyse alaşım seçimi teknik bir karardır. Teknik resminizi gönderin, seçeneği gerekçesiyle birlikte yazalım.")}
         detail={[
           { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
-          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Standart tolerans"), value: localDecimals(MINIMUM_TOLERANCE, i18n.language) },
           { label: t("Alternatif"), value: t("Online teknik görüşme") },
         ]}
         secondary={{ label: t("İletişim"), to: "/iletisim" }}

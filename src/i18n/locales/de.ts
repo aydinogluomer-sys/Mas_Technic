@@ -774,6 +774,7 @@ const dictionary: Record<string, string> = {
   "42CrMnMo4-4 / SAE 4140 (Ovako 6115) +QT (ıslah)": "42CrMnMo4-4 / SAE 4140 (Ovako 6115) +QT (vergütet)",
   "ASTM B265 minimumu, tavlanmış, 20 °C — tipik değer değil": "ASTM B265 Mindestwert, geglüht, 20 °C — kein typischer Wert",
   "Akma gerilmesi, 23 °C, ISO 527-2 — kopma değeri verilmemiş": "Streckspannung, 23 °C, ISO 527-2 — kein Bruchwert angegeben",
+  "98 (akma)": "98 (Streckspannung)",
   "Alt sınır (kaynak '> 1040' der), +QT, Ø25–60 mm": "Untergrenze (Quelle: „> 1040“), +QT, Ø25–60 mm",
   "Belirtilen aralık, +QT, Ø25–60 mm": "Angegebener Bereich, +QT, Ø25–60 mm",
   "C36000, yarı sert (H02)": "C36000, halbhart (H02)",

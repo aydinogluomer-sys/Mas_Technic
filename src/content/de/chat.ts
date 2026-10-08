@@ -1,4 +1,5 @@
 import type { ChatText } from "@/content/en/types";
+import { CAD_UPLOAD_EXTENSIONS } from "./cad";
 
 export const chat: Record<string, ChatText> = {
   "0": {
@@ -78,7 +79,7 @@ export const chat: Record<string, ChatText> = {
   },
   "15": {
     question: "Welche CAD-Dateiformate akzeptieren Sie?",
-    answer: "Formate, die Sie direkt im Angebotsprozess hochladen können: .step, .stp, .stl, .obj, .iges, .igs, .3mf. Für ein nicht aufgeführtes Format oder eine bemaßte technische Zeichnung können Sie die Datei an sales@mastechnic.com senden.",
+    answer: `Formate, die Sie direkt im Angebotsprozess hochladen können: ${CAD_UPLOAD_EXTENSIONS}. Für ein nicht aufgeführtes Format oder eine bemaßte technische Zeichnung können Sie die Datei an sales@mastechnic.com senden.`,
     keywords: ["datei", "format", "cad", "step", "iges", "stl", "obj", "3mf", "zeichnung", "3d", "modell"],
   },
   "16": {

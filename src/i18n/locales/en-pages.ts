@@ -158,6 +158,7 @@ const pages: Record<string, string> = {
   "42CrMnMo4-4 / SAE 4140 (Ovako 6115) +QT (ıslah)": "42CrMnMo4-4 / SAE 4140 (Ovako 6115) +QT (quenched and tempered)",
   "ASTM B265 minimumu, tavlanmış, 20 °C — tipik değer değil": "ASTM B265 minimum, annealed, 20 °C — not a typical value",
   "Akma gerilmesi, 23 °C, ISO 527-2 — kopma değeri verilmemiş": "Stress at yield, 23 °C, ISO 527-2 — no break value given",
+  "98 (akma)": "98 (yield)",
   "Alt sınır (kaynak '> 1040' der), +QT, Ø25–60 mm": "Lower bound (the source states '> 1040'), +QT, Ø25–60 mm",
   "Belirtilen aralık, +QT, Ø25–60 mm": "Specified range, +QT, Ø25–60 mm",
   "C36000, yarı sert (H02)": "C36000, half hard (H02)",
