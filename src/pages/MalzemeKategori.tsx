@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useSiteData } from "@/i18n/data";
+import { localDecimals } from "@/i18n/format";
 import {
   PageShell,
   ShellAction,
@@ -42,7 +43,9 @@ import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
 
 export const MalzemeKategori = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  /* A figure in the reader's decimal separator (`2,70` in German). */
+  const n = (value: string) => localDecimals(t(value), i18n.language);
   const { materialsData, materialCategories, findMaterialCategory } = useSiteData();
   const category = findMaterialCategory(slug || "");
 
@@ -118,7 +121,7 @@ export const MalzemeKategori = () => {
         eyebrow={`${category.code} · ${t("Malzeme ailesi")}`}
         title={category.heroTitle}
         lede={category.heroDescription}
-        meta={familyRanges(materials).map((row) => ({ label: t(row.label), value: t(row.value) }))}
+        meta={familyRanges(materials).map((row) => ({ label: t(row.label), value: n(row.value) }))}
         actions={
           <>
             <ShellAction to="/teklif-al" variant="primary">{t("Teklif Al")}</ShellAction>
@@ -160,10 +163,10 @@ export const MalzemeKategori = () => {
             rowKey={(_, index) => materials[index]?.id ?? String(index)}
             rows={materials.map((material) => [
               material.name,
-              t(figure(material, "density")),
-              t(figure(material, "tensileStrength")),
-              t(hardness(material)),
-              t(figure(material, "maxTemperature")),
+              n(figure(material, "density")),
+              n(figure(material, "tensileStrength")),
+              n(hardness(material)),
+              n(figure(material, "maxTemperature")),
               sourceDocuments(material).join(" · ") || "—",
             ])}
           />
@@ -192,7 +195,7 @@ export const MalzemeKategori = () => {
           <div className="shell-prose">
             <p>{category.content.machining}</p>
             <p>
-              {t("Standart çalışma aralığımız {{value}}; ulaşılabilir tolerans parça geometrisi ve alaşım seçimiyle birlikte teknik incelemede belirlenir.", { value: MINIMUM_TOLERANCE })}
+              {t("Standart çalışma aralığımız {{value}}; ulaşılabilir tolerans parça geometrisi ve alaşım seçimiyle birlikte teknik incelemede belirlenir.", { value: n(MINIMUM_TOLERANCE) })}
             </p>
           </div>
         </div>
@@ -235,7 +238,7 @@ export const MalzemeKategori = () => {
         body={t("Teknik resim veya 3B model gönderin; alaşım seçimini üretilebilirlik incelemesiyle birlikte netleştirelim.")}
         detail={[
           { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
-          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Standart tolerans"), value: n(MINIMUM_TOLERANCE) },
           { label: t("Aile"), value: category.name },
         ]}
         secondary={{ label: t("İletişim"), to: "/iletisim" }}

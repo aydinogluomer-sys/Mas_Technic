@@ -241,7 +241,7 @@ export function collectServiceFaqs(pages: readonly ServicePageData[] = servicePa
       // Soru ve cevaptan otomatik keyword çıkar
       const combined = `${f.question} ${f.answer}`.toLowerCase();
       const words = combined
-        .replace(/[^\wğüşöçıİĞÜŞÖÇ]/g, " ")
+        .replace(/[^\wğüşöçıİĞÜŞÖÇäÄß]/g, " ")
         .split(/\s+/)
         .filter((w) => w.length > 3);
       const uniqueWords = [...new Set(words)];
@@ -277,13 +277,17 @@ const QUESTION_FORM_WORDS = new Set([
   "veriyor", "veriyorsunuz", "yapıyor", "yapıyorsunuz", "var", "yok",
   // L01 — the same pattern words of the English matcher ("do you offer …")
   "you", "your", "does", "can", "the", "what", "which", "how", "are", "have",
+  // L3 — the same for German questions ("Haben Sie eine …", "Bieten Sie … an")
+  "haben", "sie", "ihr", "ihre", "ihren", "eine", "einen", "ein", "der", "die", "das", "den",
+  "ist", "sind", "gibt", "es", "wie", "was", "welche", "welcher", "welches", "kann", "können",
+  "bieten", "an", "wir", "ich",
 ]);
 
 // ── Basit TF-IDF benzeri skor hesaplama ──
 function normalize(text: string): string[] {
   const words = text
     .toLowerCase()
-    .replace(/[^\wğüşöçıİĞÜŞÖÇ]/g, " ")
+    .replace(/[^\wğüşöçıİĞÜŞÖÇäÄß]/g, " ")
     .split(/\s+/)
     .filter((w) => w.length > 2);
   const topical = words.filter((w) => !QUESTION_FORM_WORDS.has(w));

@@ -1,0 +1,58 @@
+import type { CaseText } from "@/content/en/types";
+
+export const cases: Record<string, CaseText> = {
+  "ince-cidarli-govde": {
+    title: "DÜNNWANDIGES GEHÄUSE",
+    challenge: "Bei dünnwandigen Gehäusen liegt die eigentliche Schwierigkeit nicht im Zerspanen, sondern in der Aufspannung: Kräfte und Wärme verschieben das Teil während der Bearbeitung, und das Maß stimmt auf der Maschine, aber nicht bei der Prüfung.",
+    material: "Aluminium 6061-T6 / 7075-T6",
+    process: ["DFM- und Aufspannanalyse", "5-Achs-Fräsen", "Zwischenprüfung", "Endprüfung"],
+    tolerance: "±0,01 mm",
+    inspection: "Akkreditierte KMG-Messung durch Dritte, auf Anfrage",
+    leadTime: "Die Lieferzeit wird nach Prüfung von Werkstoffbeschaffung, Anzahl der Arbeitsgänge und Kapazitätsplanung mit dem Angebot mitgeteilt.",
+    outcome: "Zerspanungsreihenfolge und Aufspannung werden auf die Wandstärke abgestimmt; kritische Maße werden nach dem Lösen aus der Vorrichtung erneut geprüft.",
+    controlPlan: [
+      { feature: "Kritischer Durchmesser", method: "Messung nach Prüfplan", record: "Messprotokoll" },
+      { feature: "Wandstärke", method: "Zwischenprüfung", record: "Arbeitsgangnachweis" },
+      { feature: "Ebenheit / Form", method: "Akkreditierte KMG-Messung durch Dritte (auf Anfrage)", record: "Messprotokoll" },
+    ],
+    gallery: [{ alt: "Metallgehäuse mit bearbeitetem Lagersitz und Befestigungsbohrungen auf einem Messtisch" }],
+    relatedCapability: { label: "5-ACHS-CNC-FRÄSEN" },
+    rfq: { label: "ANGEBOT FÜR DIESES TEIL ANFORDERN" },
+  },
+  "titanyum-baglanti-parcasi": {
+    title: "TITAN-VERBINDUNGSTEIL",
+    challenge: "Titan leitet die Wärme in die Schneide und verkürzt die Standzeit des Werkzeugs. Die Herausforderung ist nicht, ein Teil zu bearbeiten, sondern das hundertste Teil genauso zu fertigen wie das erste.",
+    material: "Ti-6Al-4V (Grade 5)",
+    process: ["Auswahl von Werkzeug und Schnittparametern", "5-Achs-Fräsen", "Standzeitüberwachung", "Endprüfung"],
+    tolerance: "±0,01 mm",
+    inspection: "Akkreditierte KMG-Messung durch Dritte, auf Anfrage",
+    leadTime: "Die Lieferzeit wird nach Prüfung von Werkstoffbeschaffung, Anzahl der Arbeitsgänge und Kapazitätsplanung mit dem Angebot mitgeteilt.",
+    outcome: "Schnittparameter und Werkzeugwechselintervall werden dokumentiert; die Streuung innerhalb der Charge wird durch Zwischenprüfungen überwacht.",
+    controlPlan: [
+      { feature: "Befestigungsbohrungen", method: "Messung nach Prüfplan", record: "Messprotokoll" },
+      { feature: "Standzeit", method: "Überwachung im Arbeitsgang", record: "Prozessnachweis" },
+      { feature: "Werkstoffidentität", method: "Chargen- / Schmelzenverfolgung", record: "Rückverfolgbarkeitsnachweis" },
+    ],
+    gallery: [{ alt: "Aufrecht stehendes Metall-Verbindungsteil mit polierter Oberfläche, bearbeitetem Schrägkanal und Bohrungen" }],
+    relatedCapability: { label: "TOLERANZ UND PRÄZISION" },
+    rfq: { label: "ANGEBOT FÜR DIESES TEIL ANFORDERN" },
+  },
+  "hassas-mil": {
+    title: "PRÄZISIONSWELLE",
+    challenge: "Bei langen Wellen reicht die Durchmessertoleranz allein nicht aus; Koaxialität und Rundlauf entscheiden, ob das Teil in der Baugruppe funktioniert.",
+    material: "42CrMo4 / 1.7225",
+    process: ["Drehen", "Maßprüfung nach der Wärmebehandlung", "Planung des Schleifaufmaßes", "Endprüfung"],
+    tolerance: "±0,01 mm",
+    inspection: "Akkreditierte KMG-Messung durch Dritte, auf Anfrage",
+    leadTime: "Die Lieferzeit wird nach Prüfung von Werkstoffbeschaffung, Anzahl der Arbeitsgänge und Kapazitätsplanung mit dem Angebot mitgeteilt.",
+    outcome: "Zentrier- und Spannbezüge bleiben über alle Arbeitsgänge erhalten; geometrische Merkmale werden vom selben Bezug aus geprüft.",
+    controlPlan: [
+      { feature: "Lagerdurchmesser", method: "Messung nach Prüfplan", record: "Messprotokoll" },
+      { feature: "Rundlauf / Koaxialität", method: "Prüfung vom Bezug aus", record: "Messprotokoll" },
+      { feature: "Maß nach dem Härten", method: "Zwischenprüfung", record: "Arbeitsgangnachweis" },
+    ],
+    gallery: [{ alt: "Metallwelle im Drehfutter, die unter Kühlschmierstoff mit einem Revolverwerkzeug gedreht wird" }],
+    relatedCapability: { label: "CNC-DREHEN" },
+    rfq: { label: "ANGEBOT FÜR DIESES TEIL ANFORDERN" },
+  },
+};

@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import { useSiteData } from "@/i18n/data";
+import { localDecimals } from "@/i18n/format";
 import {
   PageShell,
   ShellAction,
@@ -93,23 +94,27 @@ const MAX_COMPARE = 4;
 const comparisonRows = (
   t: TFunction,
   families: readonly MaterialCategoryPage[],
-): { label: string; read: (material: Material) => string }[] => [
+  language: string,
+): { label: string; read: (material: Material) => string }[] => {
+  const n = (value: string) => localDecimals(t(value), language);
+  return [
   { label: t("Aile"), read: (m) => familyName(m, families) },
   { label: t("Grade / temper"), read: (m) => m.gradeTemper ?? t("Belirtilmedi") },
   { label: t("Ürün formu"), read: (m) => (m.productForm ? t(m.productForm) : t("Belirtilmedi")) },
-  { label: t("Yoğunluk (g/cm³)"), read: (m) => t(figure(m, "density")) },
-  { label: t("Çekme mukavemeti (MPa)"), read: (m) => t(figure(m, "tensileStrength")) },
-  { label: t("Sertlik"), read: (m) => t(hardness(m)) },
-  { label: t("Maks. sıcaklık (°C)"), read: (m) => t(figure(m, "maxTemperature")) },
-  { label: t("Isı iletkenliği (W/m·K)"), read: (m) => t(figure(m, "thermalConductivity")) },
+  { label: t("Yoğunluk (g/cm³)"), read: (m) => n(figure(m, "density")) },
+  { label: t("Çekme mukavemeti (MPa)"), read: (m) => n(figure(m, "tensileStrength")) },
+  { label: t("Sertlik"), read: (m) => n(hardness(m)) },
+  { label: t("Maks. sıcaklık (°C)"), read: (m) => n(figure(m, "maxTemperature")) },
+  { label: t("Isı iletkenliği (W/m·K)"), read: (m) => n(figure(m, "thermalConductivity")) },
   { label: t("Değer koşulu"), read: (m) => m.propertyConditions },
   { label: t("Kaynak"), read: (m) => sourceDocuments(m).join(" · ") || t(UNVERIFIED_FIGURE) },
 ];
+};
 
 export const Malzemeler = () => {
   const { t, i18n } = useTranslation();
   const { materialCategories, materialsData } = useSiteData();
-  const COMPARISON_ROWS = comparisonRows(t, materialCategories);
+  const COMPARISON_ROWS = comparisonRows(t, materialCategories, i18n.language);
   usePageMeta({
     title: t("Malzemeler"),
     description: t("CNC işlemede kullanılan alüminyum, çelik, titanyum ve mühendislik plastikleri — teknik özellikler ve karşılaştırma."),
@@ -165,7 +170,7 @@ export const Malzemeler = () => {
         lede={t("CNC işlemede sık kullanılan metaller, mühendislik plastikleri ve kompozitler için karşılaştırmalı teknik kayıt. Aileyi seçin, değerleri yan yana okuyun, seçtiğiniz malzemeyle teklif dosyası açın.")}
         meta={[
           { label: t("Kayıt türü"), value: t("Karşılaştırmalı teknik referans") },
-          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Standart tolerans"), value: localDecimals(MINIMUM_TOLERANCE, i18n.language) },
           { label: t("Teklif dönüşü"), value: t(QUOTE_RESPONSE_TIME) },
         ]}
         actions={
@@ -339,7 +344,7 @@ export const Malzemeler = () => {
         body={t("Parçanın işlevi, çalışma sıcaklığı ve ortamı belliyse alaşım seçimi teknik bir karardır. Teknik resminizi gönderin, seçeneği gerekçesiyle birlikte yazalım.")}
         detail={[
           { label: t("Dönüş süresi"), value: t(QUOTE_RESPONSE_TIME) },
-          { label: t("Standart tolerans"), value: MINIMUM_TOLERANCE },
+          { label: t("Standart tolerans"), value: localDecimals(MINIMUM_TOLERANCE, i18n.language) },
           { label: t("Alternatif"), value: t("Online teknik görüşme") },
         ]}
         secondary={{ label: t("İletişim"), to: "/iletisim" }}

@@ -36,7 +36,8 @@ const LOCALES: Record<string, { bundle: EnContent; allow: RegExp; letters: RegEx
     bundle: de, allow: /(Çiğli|İzmir|Ataşehir|Mas Technic|MAS TECHNIC)/g, letters: /[ğĞşŞıİçÇ]/,
     /* Numbers a record may drop, with the reason: “3. taraf” is the ordinal
        of “third party”, not a value; German says “durch Dritte”. */
-    dropped: { "services:kalite-kontrol": ["3", "3"] },
+    dropped: { "services:kalite-kontrol": ["3", "3"], "blog:kalite-kontrol-cmm-olcum": ["3"],
+      "cases:ince-cidarli-govde": ["3", "3"], "cases:titanyum-baglanti-parcasi": ["3"], "cases:hassas-mil": ["3"] },
   },
 };
 const [locale = "en", ...sections] = process.argv.slice(2);

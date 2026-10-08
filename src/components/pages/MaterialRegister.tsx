@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSiteData } from "@/i18n/data";
+import { localDecimals } from "@/i18n/format";
 import { ShellAction, ShellTagRow } from "@/components/shell";
 import type { Material } from "@/data/materialsData";
 import type { SourcedProperty } from "@/data/materialsData";
@@ -77,11 +78,12 @@ export function MaterialRegister({
   maxSelected,
 }: MaterialRegisterProps) {
   const [openId, setOpenId] = useState<string | null>(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { materialCategories } = useSiteData();
   /* `figure()` / `hardness()` print `UNVERIFIED_FIGURE` (Turkish) for an
-     unsourced record; it is translated here, a number passes through. */
-  const f = (value: string) => t(value);
+     unsourced record; it is translated here, a number passes through with
+     the reader's decimal separator. */
+  const f = (value: string) => localDecimals(t(value), i18n.language);
 
   return (
     <figure className="shell-table shell-register">
