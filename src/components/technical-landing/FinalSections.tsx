@@ -374,7 +374,7 @@ export function RfqSection() {
         >
           {isUploading ? <Loader2 className="tl-spin" aria-hidden="true" /> : <UploadCloud aria-hidden="true" />}
           <span>
-            {isUploading ? `${t("YÜKLENİYOR")} · %${progress}` : t("ÇİZİM DOSYANIZI SÜRÜKLEYİN")}
+            {isUploading ? `${t("YÜKLENİYOR", { context: "upload" })} · %${progress}` : t("ÇİZİM DOSYANIZI SÜRÜKLEYİN")}
             <small>{fileName || t(CAD_FORMAT_HINT)}</small>
           </span>
         </button>
