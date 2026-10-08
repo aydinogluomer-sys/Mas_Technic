@@ -97,6 +97,7 @@ const LOADER_TEXT = {
   tr: { label: "YÜKLENİYOR", detail: "Sayfa hazırlanıyor." },
   en: { label: "LOADING", detail: "Preparing the page." },
   de: { label: "WIRD GELADEN", detail: "Die Seite wird vorbereitet." },
+  ru: { label: "ЗАГРУЗКА", detail: "Страница готовится." },
 } as const;
 
 /* A loader is a promise, not a destination: when the route's code or its
@@ -125,6 +126,13 @@ const LOADER_TIMEOUT_TEXT = {
     detail: "Die Dateien der Seite sind nicht rechtzeitig eingetroffen. Laden Sie die Seite neu; tritt der Fehler weiterhin auf, geben Sie uns bitte Bescheid.",
     offlineLabel: "KEINE VERBINDUNG",
     offlineDetail: "Der Browser meldet keine Internetverbindung. Laden Sie die Seite neu, sobald Sie wieder online sind.",
+  },
+  ru: {
+    label: "ЗАГРУЗКА ЗАДЕРЖАЛАСЬ",
+    title: "Не удалось загрузить страницу",
+    detail: "Файлы страницы не загрузились вовремя. Обновите страницу; если ошибка повторится, сообщите нам.",
+    offlineLabel: "НЕТ ПОДКЛЮЧЕНИЯ",
+    offlineDetail: "Браузер сообщает об отсутствии подключения к интернету. Обновите страницу, когда подключение восстановится.",
   },
 } as const;
 

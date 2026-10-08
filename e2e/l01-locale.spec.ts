@@ -65,6 +65,17 @@ test.describe("L01 locale helpers and content (pure)", () => {
     expect(german).toContain("OK — overlays complete, numbers identical");
   });
 
+  test("the German and Russian interface dictionaries cover every key with the same placeholders and numbers", () => {
+    const out = join(mkdtempSync(join(tmpdir(), "l3-")), "dictionary-check.mjs");
+    execFileSync("npx", [
+      "esbuild", "scripts/quality/dictionary-check.ts", "--bundle", "--platform=node", "--format=esm",
+      "--alias:@=./src", `--outfile=${out}`, "--log-level=error",
+    ], { stdio: "pipe" });
+    for (const locale of ["de", "ru"]) {
+      expect(execFileSync("node", [out, locale], { encoding: "utf8" })).toMatch(new RegExp(`^${locale}: \\d+ reference keys, 0 problem\\(s\\)`, "m"));
+    }
+  });
+
   test("locale paths map both ways and leave panel, files and externals alone", () => {
     expect(localizePath("/hizmetler/cnc-frezeleme", "en")).toBe("/en/hizmetler/cnc-frezeleme");
     expect(localizePath("/en/hizmetler/cnc-frezeleme", "tr")).toBe("/hizmetler/cnc-frezeleme");

@@ -36,6 +36,7 @@ const TITLES: Partial<Record<PublicLocale, string>> = {
   tr: "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
   en: "Mas Technic | High-Precision CNC Manufacturing & Machining",
   de: "Mas Technic | Hochpräzise CNC-Fertigung & Zerspanung",
+  ru: "Mas Technic | Высокоточное производство и механообработка с ЧПУ",
 };
 /** The home title; a language without its own yet reads the English one. */
 export const defaultTitle = (locale: PublicLocale): string => TITLES[locale] ?? (TITLES.en as string);
