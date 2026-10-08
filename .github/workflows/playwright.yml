@@ -83,7 +83,8 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Install system deps (cached browsers)
         if: steps.pw-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
+        # apt has hung for the whole job limit; see the script.
+        run: bash scripts/ci/install-deps.sh chromium
       - name: vercel.json matches the route table
         run: node scripts/vercel/generate-config.mjs --check
       # VITE_SITE_ENGLISH=live: the test build publishes the English surface
@@ -136,7 +137,8 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Install system deps (cached browsers)
         if: steps.pw-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
+        # apt has hung for the whole job limit; see the script.
+        run: bash scripts/ci/install-deps.sh chromium
       # `dist/` indirildigi icin webServer yalnizca `preview` calistirir;
       # derleme tekrar edilmez. Reduced-motion ve axe sozlesmeleri bu pakette:
       # e2e/landing/landing-reduced-motion.spec.ts ve landing-accessibility.spec.ts.
@@ -187,7 +189,8 @@ jobs:
         run: npx playwright install --with-deps webkit firefox
       - name: Install system deps (cached browsers)
         if: steps.pw-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps webkit firefox
+        # apt has hung for the whole job limit; see the script.
+        run: bash scripts/ci/install-deps.sh webkit firefox
       - name: Run smoke suite
         env:
           CI: "true"
@@ -232,7 +235,8 @@ jobs:
         run: npx playwright install --with-deps webkit firefox
       - name: Install system deps (cached browsers)
         if: steps.pw-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps webkit firefox
+        # apt has hung for the whole job limit; see the script.
+        run: bash scripts/ci/install-deps.sh webkit firefox
       - name: Run interop suite
         env:
           CI: "true"
@@ -290,7 +294,8 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Install system deps (cached browsers)
         if: steps.pw-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
+        # apt has hung for the whole job limit; see the script.
+        run: bash scripts/ci/install-deps.sh chromium
       - name: Run regression suite
         env:
           CI: "true"
@@ -364,7 +369,8 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Install system deps (cached browsers)
         if: steps.pw-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
+        # apt has hung for the whole job limit; see the script.
+        run: bash scripts/ci/install-deps.sh chromium
       - name: Run golden diff suite
         env:
           CI: "true"
