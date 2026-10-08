@@ -80,3 +80,24 @@ numbers, certifications or promises.
 - Brand names stay in Latin script: Inconel, Hastelloy, Delrin, Torlon, Ultem, Vespel, Noryl, Garolite; plastics abbreviations in Latin (PEEK, PBT, PTFE…) except ПВХ
 - City names in Cyrillic in ALL-CAPS headers (ИЗМИР); AI → ИИ; hesap → аккаунт
 - Plurals: Russian needs _one / _few / _many / _other (1 раздел · 2 раздела · 5 разделов); where a key has no plural pair, write the count so it reads with any number («до N моделей», «N шт.»)
+
+## Additions from the content pages (L4b–c)
+- Numbers: thousands grouped with a space (10 000 мм/с, 2 335); the checkers read «10 000» as the source's 10.000
+- Machining: стойкость инструмента · режимы резания · СОЖ · приводной инструмент · токарно-фрезерная обработка · автомат продольного точения / продольное точение · прутковый податчик · черновая / получистовая / чистовая обработка · отжим инструмента · вылет инструмента · сферическая фреза
+- Holes: ружейное сверление · развёртывание · хонингование · увод оси · квалитет
+- Moulds and casting: гнездо (многогнёздная) · горячеканальная система · литейный уклон · компенсация усадки · утяжины / коробление · литьё под давлением (metal) vs литьё пластмасс под давлением (plastics)
+- Surface: дробеструйная / пескоструйная обработка · виброгалтовка · твёрдое анодирование · наполнение (sealing) · конверсионный слой · порошковая окраска · катафорезное покрытие (E-Coat) · электрополирование · пассивация · солевой туман
+- Welding and NDT: TIG, MIG/MAG in Latin · контактная сварка · технологическая карта сварки (WPS) · НК (неразрушающий контроль) with RT/UT/PT/MT in Latin
+- Pipe fittings: отводы, тройники, переходы (not «редукторы», which means gearboxes) · фланцы приварные встык / плоские / заглушки
+- Records: протокол измерений · протокол партии · комплект документации на поставку · запись о партии и плавке · этап КП · «Указывается в КП»
+- Materials: удельная прочность · жаропрочность · наклёп · дисперсионное твердение · автоматная латунь · технически чистые марки · полиамид (Nylon) · оргстекло · ПВХ / ХПВХ; brands in Latin (Teflon, Kevlar, Monel, Radel) except «бакелит»
+- Oil & gas: устьевое оборудование · фонтанная арматура · противовыбросовые превенторы (BOP), never «ПВО»
+- Chat keywords may use common colloquial forms («нержавейка», «личный кабинет»)
+
+## Legal texts and inline pairs (L4d) — for the legal reviewer (O16)
+- Aydınlatma Metni → Уведомление о защите персональных данных (KVKK) · Gizlilik Politikası → Политика конфиденциальности · Çerez Politikası → Политика использования файлов cookie
+- madde (clause) → раздел (everywhere) · statute: «ст. 11 KVKK», «ст. 5/2-ç KVKK» (the Turkish clause letter ç is kept) · «Закон Турции № 6698 о защите персональных данных»
+- veri sorumlusu → оператор персональных данных (the Russian legal term; a reviewer may prefer «ответственный за обработку данных») · aktarım → передача · onay → согласие · anonim hâle getirme → обезличивание · başvuru → обращение
+- bilginiz dâhilinde → «с вашего ведома» (deliberately not «с вашего согласия»)
+- No GDPR / 152-ФЗ references and no rights, periods or claims beyond the Turkish governing text
+- Schema caption: «Условная конструкторская схема» · antet → основная надпись чертежа

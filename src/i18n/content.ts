@@ -23,6 +23,7 @@ type LocaleContent = EnContent;
 const BUNDLES: Partial<Record<PublicLocale, () => Promise<{ default: LocaleContent }>>> = {
   en: () => import("@/content/en"),
   de: () => import("@/content/de"),
+  ru: () => import("@/content/ru"),
 };
 const cached = new Map<PublicLocale, LocaleContent>();
 const pending = new Map<PublicLocale, Promise<LocaleContent | null>>();

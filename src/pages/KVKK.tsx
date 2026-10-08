@@ -3,6 +3,7 @@ import { LegalDocument, type LegalClause } from "@/components/pages/LegalDocumen
 import { PUBLIC_ADDRESS_LINES, SALES_EMAIL } from "@/content/claims";
 import { KVKK_EN } from "@/content/en/legal/kvkk";
 import { KVKK_DE } from "@/content/de/legal/kvkk";
+import { KVKK_RU } from "@/content/ru/legal/kvkk";
 import { useLocale } from "@/i18n/hooks";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -325,6 +326,6 @@ const KVKK_TR = {
 };
 
 export const KVKK = () => {
-  const text = { en: KVKK_EN, de: KVKK_DE }[useLocale() as "en" | "de"] ?? KVKK_TR;
+  const text = { en: KVKK_EN, de: KVKK_DE, ru: KVKK_RU }[useLocale() as "en" | "de" | "ru"] ?? KVKK_TR;
   return <LegalDocument rail={{ no: "L1", label: "KVKK" }} selfPath="/kvkk" {...text} />;
 };

@@ -63,6 +63,11 @@ test.describe("L01 locale helpers and content (pure)", () => {
     expect(german).toContain("services: 48/48 overlays");
     expect(german).toContain("materials: 87/87 overlays");
     expect(german).toContain("OK — overlays complete, numbers identical");
+    // L4: and the Russian bundle.
+    const russian = execFileSync("node", [out, "ru"], { encoding: "utf8" });
+    expect(russian).toContain("services: 48/48 overlays");
+    expect(russian).toContain("materials: 87/87 overlays");
+    expect(russian).toContain("OK — overlays complete, numbers identical");
   });
 
   test("the German and Russian interface dictionaries cover every key with the same placeholders and numbers", () => {

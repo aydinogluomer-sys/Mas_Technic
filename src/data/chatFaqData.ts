@@ -241,7 +241,7 @@ export function collectServiceFaqs(pages: readonly ServicePageData[] = servicePa
       // Soru ve cevaptan otomatik keyword çıkar
       const combined = `${f.question} ${f.answer}`.toLowerCase();
       const words = combined
-        .replace(/[^\wğüşöçıİĞÜŞÖÇäÄß]/g, " ")
+        .replace(/[^\wğüşöçıİĞÜŞÖÇäÄß\u0400-\u04FF]/g, " ")
         .split(/\s+/)
         .filter((w) => w.length > 3);
       const uniqueWords = [...new Set(words)];
@@ -281,13 +281,16 @@ const QUESTION_FORM_WORDS = new Set([
   "haben", "sie", "ihr", "ihre", "ihren", "eine", "einen", "ein", "der", "die", "das", "den",
   "ist", "sind", "gibt", "es", "wie", "was", "welche", "welcher", "welches", "kann", "können",
   "bieten", "an", "wir", "ich",
+  // L4 — and for Russian ("Есть ли у вас …", "Какие … вы предлагаете")
+  "вы", "вас", "ваш", "ваши", "у", "ли", "есть", "какие", "какой", "какая", "как", "что", "можно",
+  "мне", "мы", "я", "это", "на", "в", "и", "по", "для", "предлагаете", "делаете",
 ]);
 
 // ── Basit TF-IDF benzeri skor hesaplama ──
 function normalize(text: string): string[] {
   const words = text
     .toLowerCase()
-    .replace(/[^\wğüşöçıİĞÜŞÖÇäÄß]/g, " ")
+    .replace(/[^\wğüşöçıİĞÜŞÖÇäÄß\u0400-\u04FF]/g, " ")
     .split(/\s+/)
     .filter((w) => w.length > 2);
   const topical = words.filter((w) => !QUESTION_FORM_WORDS.has(w));
