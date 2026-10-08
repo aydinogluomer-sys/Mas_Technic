@@ -1,6 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import { isPanelPath, localeFromPath, normalizeLocale, type PublicLocale } from "./locale";
+import { LIVE_LOCALES, LOCALE_TABLE, PUBLIC_LOCALES, isPanelPath, localeFromPath, normalizeLocale, type PublicLocale } from "./locale";
 
 /* ══════════════════════════════════════════════════════════════════════════
    LOCALISATION — TR · EN (L01; DE / RU / ZH dictionaries are kept on disk
@@ -17,12 +17,10 @@ import { isPanelPath, localeFromPath, normalizeLocale, type PublicLocale } from 
    `src/content/claims.ts` and are interpolated (`{{value}}`), so every
    language states the same verified value.
    ══════════════════════════════════════════════════════════════════════════ */
-export const LANGUAGES = [
-  { code: "tr", label: "TR", name: "Türkçe" },
-  { code: "en", label: "EN", name: "English" },
-] as const;
+/** The languages a reader can choose: the published ones (L1 locale table). */
+export const LANGUAGES = LIVE_LOCALES.map((code) => ({ code, label: code.toUpperCase(), name: LOCALE_TABLE[code].name }));
 
-export type LanguageCode = (typeof LANGUAGES)[number]["code"];
+export type LanguageCode = PublicLocale;
 
 function syncDocument(language: string) {
   if (typeof document === "undefined") return;
@@ -60,7 +58,9 @@ void i18n
        language is chosen — see `loadLanguage`. */
     resources: { tr: { translation: {} } },
     partialBundledLanguages: true,
-    supportedLngs: LANGUAGES.map((language) => language.code),
+    /* Every routed language, published or not: an unpublished `/en` page is
+       still a working (noindexed) preview. */
+    supportedLngs: [...PUBLIC_LOCALES],
     nonExplicitSupportedLngs: true,
     fallbackLng: "tr",
     keySeparator: false,
@@ -89,13 +89,16 @@ void i18n
 
 const DICTIONARIES: Record<Exclude<LanguageCode, "tr">, () => Promise<{ default: Record<string, string> }>> = {
   en: () => import("./locales/en"),
+  de: () => import("./locales/de"),
+  ru: () => import("./locales/ru"),
+  zh: () => import("./locales/zh"),
 };
 
 /** Switch the rendered language WITHOUT remembering it — what a route change
     does. Waits for the dictionary, so no Turkish UI frame shows in between.
     PERF01: the English CONTENT bundle is no longer awaited here — only pages
     that read records need it, and they suspend on it themselves
-    (`useEnContent` in `./content`), so `/en` itself never downloads it. */
+    (`useLocaleContent` in `./content`), so `/en` itself never downloads it. */
 export async function applyLanguage(language: PublicLocale) {
   await ensureDictionary(language);
   /* `resolvedLanguage` too: on a direct `/en` load i18next starts in `en`

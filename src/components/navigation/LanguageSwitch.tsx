@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
-import { ENGLISH_LIVE } from "@/lib/site-config";
 import { useTranslation } from "react-i18next";
 import { ChevronDown } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LANGUAGES, loadLanguage, type LanguageCode } from "@/i18n";
-import { isPanelPath, normalizeLocale, switchLocalePath } from "@/i18n/locale";
+import { LOCALE_TABLE, isPanelPath, normalizeLocale, switchLocalePath } from "@/i18n/locale";
 
 /* L01: on a public route a language is an ADDRESS — choosing EN opens the same
    record under `/en`, choosing TR opens it without the prefix; the URL then
@@ -28,25 +27,32 @@ type LanguageSwitchProps = {
   variant?: "inline" | "dropdown";
 };
 
-/* TR · EN only (L01). See `useChooseLanguage` above for what a choice does. */
-/* C3 — the switch is the only entry point to the English surface, so it is
-   not rendered while English is unpublished (`ENGLISH_LIVE`). */
+/* The published languages only (L1 `LIVE_LOCALES`). See `useChooseLanguage`
+   above for what a choice does. C3 — the switch is the only entry point to
+   another language's surface, so it is not rendered while Turkish is the
+   only published one. */
 export function LanguageSwitch(props: LanguageSwitchProps) {
-  return ENGLISH_LIVE ? <LanguageSwitchControl {...props} /> : null;
+  return LANGUAGES.length > 1 ? <LanguageSwitchControl {...props} /> : null;
 }
 
 function LanguageSwitchControl({ className = "", variant = "inline" }: LanguageSwitchProps) {
   const { i18n, t } = useTranslation();
   const choose = useChooseLanguage();
-  const current = (i18n.language ?? "tr").split("-")[0] as LanguageCode;
+  const current = normalizeLocale(i18n.language);
+  /* The language on screen is always listed, so the control never marks a
+     wrong one active: an unpublished but routed language (an `/en` preview)
+     joins the list only while it is the page's own. */
+  const languages = LANGUAGES.some((language) => language.code === current)
+    ? LANGUAGES
+    : [...LANGUAGES, { code: current, label: current.toUpperCase(), name: LOCALE_TABLE[current].name }];
 
   if (variant === "dropdown") {
-    return <LanguageDropdown className={className} current={current} label={t("Dil seçimi")} />;
+    return <LanguageDropdown className={className} current={current} label={t("Dil seçimi")} languages={languages} />;
   }
 
   return (
     <div className={`lang-switch ${className}`.trim()} role="group" aria-label={t("Dil seçimi")}>
-      {LANGUAGES.map((language) => (
+      {languages.map((language) => (
         <button
           key={language.code}
           type="button"
@@ -65,7 +71,7 @@ function LanguageSwitchControl({ className = "", variant = "inline" }: LanguageS
 /* A listbox-button: the button names the current language, the list holds all
    five. Arrow keys move, Enter/Space choose, Escape and an outside click close
    and hand focus back to the button. */
-function LanguageDropdown({ className, current, label }: { className: string; current: LanguageCode; label: string }) {
+function LanguageDropdown({ className, current, label, languages }: { className: string; current: LanguageCode; label: string; languages: typeof LANGUAGES }) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -74,8 +80,8 @@ function LanguageDropdown({ className, current, label }: { className: string; cu
   /** Last pointer position seen over the list; reset on every open. */
   const pointerRef = useRef<{ x: number; y: number } | null>(null);
   const listId = useId();
-  const currentIndex = Math.max(0, LANGUAGES.findIndex((language) => language.code === current));
-  const currentLanguage = LANGUAGES[currentIndex];
+  const currentIndex = Math.max(0, languages.findIndex((language) => language.code === current));
+  const currentLanguage = languages[currentIndex];
 
   const close = useCallback((restoreFocus: boolean) => {
     setOpen(false);
@@ -84,9 +90,9 @@ function LanguageDropdown({ className, current, label }: { className: string; cu
 
   const chooseLanguage = useChooseLanguage();
   const choose = useCallback((index: number) => {
-    chooseLanguage(LANGUAGES[index].code);
+    chooseLanguage(languages[index].code);
     close(true);
-  }, [close, chooseLanguage]);
+  }, [close, chooseLanguage, languages]);
 
   useEffect(() => {
     if (!open) return;
@@ -108,7 +114,7 @@ function LanguageDropdown({ className, current, label }: { className: string; cu
   };
 
   const onListKey = (event: KeyboardEvent<HTMLUListElement>) => {
-    const last = LANGUAGES.length - 1;
+    const last = languages.length - 1;
     if (event.key === "ArrowDown") { event.preventDefault(); setActive((index) => (index >= last ? 0 : index + 1)); }
     else if (event.key === "ArrowUp") { event.preventDefault(); setActive((index) => (index <= 0 ? last : index - 1)); }
     else if (event.key === "Home") { event.preventDefault(); setActive(0); }
@@ -142,10 +148,10 @@ function LanguageDropdown({ className, current, label }: { className: string; cu
           role="listbox"
           tabIndex={-1}
           aria-label={label}
-          aria-activedescendant={`${listId}-${LANGUAGES[active].code}`}
+          aria-activedescendant={`${listId}-${languages[active].code}`}
           onKeyDown={onListKey}
         >
-          {LANGUAGES.map((language, index) => (
+          {languages.map((language, index) => (
             <li
               key={language.code}
               id={`${listId}-${language.code}`}

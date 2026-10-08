@@ -65,15 +65,24 @@ function normalizeOrigin(value) {
 
 /* The same build-time switches the app read (src/lib/site-config.ts). */
 const env = { ...loadEnv("production", root, "VITE_"), ...Object.fromEntries(Object.entries(process.env).filter(([k]) => k.startsWith("VITE_"))) };
-const ENGLISH_LIVE = env.VITE_SITE_ENGLISH === "live";
 const ORIGIN = normalizeOrigin(env.VITE_SITE_ORIGIN);
 const INDEXABLE = env.VITE_SITE_INDEXING === "public" && Boolean(ORIGIN);
 
 const table = await loadRouteTable();
 const publicRoutes = table.reportRoutes.filter((route) => route.access === "public");
-/* Unpublished English is not prerendered: /en paths then have no file and the
-   host answers 404 — the surface does not exist, rather than half-existing. */
-const paths = [...new Set(publicRoutes.flatMap((route) => [route.path, ENGLISH_LIVE ? route.enPath : null].filter(Boolean)))];
+/* L1 — the published languages besides Turkish (`VITE_SITE_LOCALES`, or the
+   older `VITE_SITE_ENGLISH=live`). An unpublished language is not
+   prerendered: its paths have no file and the host answers 404 — the surface
+   does not exist, rather than half-existing. A route with `enPath` has a twin
+   under every language prefix. */
+const LIVE = table.parseLiveLocales(env.VITE_SITE_LOCALES, env.VITE_SITE_ENGLISH).filter((code) => code !== "tr");
+const ENGLISH_LIVE = LIVE.includes("en");
+const twin = (path, code) => {
+  const { prefix } = table.LOCALE_TABLE[code];
+  return path === "/" ? prefix : `${prefix}${path}`;
+};
+const twins = (route) => (route.enPath ? LIVE.map((code) => [code, twin(route.path, code)]) : []);
+const paths = [...new Set(publicRoutes.flatMap((route) => [route.path, ...twins(route).map(([, path]) => path)]))];
 
 /* ── a static server over the untouched build (SPA fallback) ───────────── */
 const TYPES = {
@@ -232,14 +241,15 @@ if (INDEXABLE) {
   const xmlEscape = (value) => value.replace(/&/g, "&amp;").replace(/</g, "&lt;");
   const absolute = (path) => `${ORIGIN}${encodeURI(path === "/" ? "/" : path)}`;
   const entries = publicRoutes.map((route) => {
-    const alternates = ENGLISH_LIVE && route.enPath
+    const localized = twins(route);
+    const alternates = localized.length
       ? [
         `    <xhtml:link rel="alternate" hreflang="tr" href="${xmlEscape(absolute(route.path))}"/>`,
-        `    <xhtml:link rel="alternate" hreflang="en" href="${xmlEscape(absolute(route.enPath))}"/>`,
+        ...localized.map(([code, path]) => `    <xhtml:link rel="alternate" hreflang="${code}" href="${xmlEscape(absolute(path))}"/>`),
         `    <xhtml:link rel="alternate" hreflang="x-default" href="${xmlEscape(absolute(route.path))}"/>`,
       ]
       : [];
-    const urls = [route.path, ...(ENGLISH_LIVE && route.enPath ? [route.enPath] : [])];
+    const urls = [route.path, ...localized.map(([, path]) => path)];
     return urls.map((path) => [`  <url>`, `    <loc>${xmlEscape(absolute(path))}</loc>`, ...alternates, `  </url>`].join("\n")).join("\n");
   });
   writeFileSync(join(DIST, "sitemap.xml"), [

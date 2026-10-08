@@ -26,13 +26,22 @@
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { loadEnv } from "vite";
 import { loadRouteTable } from "../lib/route-table.mjs";
 
 const root = resolve(import.meta.dirname, "..", "..");
 const OUT = join(root, "vercel.json");
 
 const table = await loadRouteTable();
-const en = (path) => (path === "/" ? "/en" : `/en${path}`);
+/* L1 — the ROUTED language prefixes, read from the same build switches as the
+   app and the prerender (`VITE_SITE_LOCALES`, `VITE_SITE_ENGLISH`): English
+   always, DE / RU / ZH only when published. An unpublished prefix gets no rule
+   at all, so its auth paths stay real 404s instead of soft ones. Publishing a
+   language therefore regenerates this file with the flag set. */
+const env = { ...loadEnv("production", root, "VITE_"), ...Object.fromEntries(Object.entries(process.env).filter(([k]) => k.startsWith("VITE_"))) };
+const ROUTED = ["en", ...table.parseLiveLocales(env.VITE_SITE_LOCALES, env.VITE_SITE_ENGLISH).filter((code) => code !== "tr" && code !== "en")];
+const PREFIXES = ROUTED.map((code) => table.LOCALE_TABLE[code].prefix);
+const under = (prefix, path) => (path === "/" ? prefix || "/" : `${prefix}${path}`);
 
 /* A redirect source must match the path as requested. A browser sends a
    non-ASCII path percent-encoded, so both spellings are listed. */
@@ -45,14 +54,16 @@ const pairs = [
 const redirects = [
   ...pairs.flatMap(([from, to]) => [
     ...spellings(from).map((source) => ({ source, destination: to, permanent: true })),
-    ...spellings(en(from)).map((source) => ({ source, destination: en(to), permanent: true })),
+    ...PREFIXES.flatMap((prefix) =>
+      spellings(under(prefix, from)).map((source) => ({ source, destination: under(prefix, to), permanent: true }))),
   ]),
-  { source: "/cad-dashboard", destination: "/teklif-al", permanent: true },
+  // The app registers the alias under every routed prefix (App.tsx PUBLIC_PAGES).
+  ...["", ...PREFIXES].map((prefix) => ({ source: under(prefix, "/cad-dashboard"), destination: under(prefix, "/teklif-al"), permanent: true })),
 ];
 
 const SHELL_ROUTES = ["/admin", "/admin/:path*", "/musteri-paneli", "/musteri-paneli/:path*"];
 const AUTH_ROUTES = table.STATIC.filter((route) => route.access === "auth" && !route.path.startsWith("/admin"))
-  .flatMap((route) => [route.path, route.enPath].filter(Boolean));
+  .flatMap((route) => [route.path, ...(route.enPath ? PREFIXES.map((prefix) => under(prefix, route.path)) : [])]);
 /* The destination is the CLEAN path: with cleanUrls Vercel serves
    shell.html at /shell and does not resolve a rewrite to "/shell.html"
    (it answered 404 on the preview of 4 Oct 2026; serve-dist.mjs now

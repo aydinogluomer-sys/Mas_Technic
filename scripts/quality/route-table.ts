@@ -13,6 +13,7 @@ import { materialCategories } from "@/data/materialsData";
 import { blogPosts } from "@/data/blogData";
 import { caseStudies } from "@/content/caseStudies";
 import { DETAIL_FAMILIES } from "@/lib/detail-route";
+import { LOCALE_TABLE, parseLiveLocales } from "@/i18n/locale";
 
 export type Access = "public" | "auth" | "protected" | "redirect" | "not-found" | "dev-only";
 export interface RouteEntry {
@@ -95,5 +96,6 @@ const legacyRedirects = [
 const reportRoutes = [...STATIC, ...categories, ...details, ...materials, ...blog, ...profiles];
 
 export function buildRouteTable() {
-  return { STATIC, categories, details, materials, blog, profiles, wrongFamilyRedirects, legacyRedirects, reportRoutes };
+  /* L1: the build scripts read the app's locale table rather than keeping a copy. */
+  return { STATIC, categories, details, materials, blog, profiles, wrongFamilyRedirects, legacyRedirects, reportRoutes, LOCALE_TABLE, parseLiveLocales };
 }

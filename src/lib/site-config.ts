@@ -22,6 +22,7 @@
    ══════════════════════════════════════════════════════════════════════════ */
 
 import { normalizeOrigin } from "./site-origin";
+import { LIVE_LOCALES } from "@/i18n/locale";
 
 export { normalizeOrigin };
 
@@ -30,4 +31,5 @@ export const SITE_ORIGIN: string | null = normalizeOrigin(import.meta.env.VITE_S
 export const SITE_INDEXING: "public" | "preview" =
   import.meta.env.VITE_SITE_INDEXING === "public" && SITE_ORIGIN ? "public" : "preview";
 
-export const ENGLISH_LIVE: boolean = import.meta.env.VITE_SITE_ENGLISH === "live";
+/** English is published (`VITE_SITE_ENGLISH=live`, or `en` in `VITE_SITE_LOCALES`). */
+export const ENGLISH_LIVE: boolean = LIVE_LOCALES.includes("en");

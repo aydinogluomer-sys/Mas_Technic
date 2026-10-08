@@ -21,6 +21,10 @@ const REST = 0.01;
  * Progress runs 0 → 1 from the section's top meeting the viewport's bottom to
  * its bottom leaving the viewport's top, mapped to `-distance → distance` and
  * eased through `SPRING`. The loop runs only while the spring is moving.
+ * Positions are layout offsets (`offsetTop` / `offsetHeight`, whole pixels),
+ * as Framer's `useScroll` measured them: a fractional `getBoundingClientRect`
+ * aimed the travel 0.01 px elsewhere, enough to re-rasterise the picture
+ * (parity, Faz L1).
  *
  * `--reverse-distance` is published so the surrounding CSS can oversize the
  * content by the same amount; otherwise the travel would expose a gap.
@@ -42,8 +46,9 @@ export const ReverseScrollSection = ({
     if (motionDisabled || !target || !content) return;
 
     const goal = () => {
-      const rect = target.getBoundingClientRect();
-      const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+      let top = 0;
+      for (let node: HTMLElement | null = target; node; node = node.offsetParent as HTMLElement | null) top += node.offsetTop;
+      const progress = (window.scrollY + window.innerHeight - top) / (window.innerHeight + target.offsetHeight);
       return (Math.min(1, Math.max(0, progress)) * 2 - 1) * distance;
     };
     let y = goal();
