@@ -85,3 +85,12 @@ contain. Never add claims, numbers, certifications or promises.
 - The aerospace page keeps Erstmusterprüfung: its own process names an FAI report (CMM & FAI Report → KMG & EMPB). Series pages say Erstteil / Erstteilfreigabe.
 - karbon çelik → Kohlenstoffstahl, never „unlegierter Stahl“: the grades listed with it (4140, 4340) are low-alloy steels
 - eş eksenlilik → Koaxialität everywhere (◎ in the GD&T tables); Konzentrizität only where the source says eş merkezlilik
+
+## Additions from materials, blog, cases and chat (L3c)
+- Category link labels use the menu (dictionary) names, as English does: Robotik, Medizintechnik, Öl & Gas, Kleinserie (Küçük Seri) vs Kleinserienfertigung (Düşük Hacimli Üretim)
+- Materials: Kohlenstoffstähle / legierte Stähle · Werkzeugstahl · Formenstahl · Automatenmessing · Polyamid (for Nylon) · Glasfaser / Kohlefaser · PKD (PCD) · Wendeschneidplatten · Kühlschmierstoff · Standzeit · Kaltverfestigung · Dauerfestigkeit · Warmfestigkeit · lebensmitteltauglich
+- Machining: Kugelfräser · Abdrängung · Auskraglänge · Rundachsen · 3+2-Bearbeitung · Komplettbearbeitung (mill-turn) · Zeitspanvolumen · Allgemeintoleranzklasse · Eckenfreistich
+- Surface: Eloxieren / Harteloxieren · Passivieren · Pulverbeschichtung · Elektropolieren · Konversionsschicht · Gleitschleifen · Strahlen · WIG (TIG)
+- Measurement: Messschieber / Messschraube · Taster · KMG in Portalbauweise · Erstteilprüfung · Messprotokoll
+- Blog: categories Technik / Werkstoff / Engineering / Qualität / Leitfaden · "N Min. Lesezeit"
+- Dates are written the German way through Intl („15. Januar 2024“); decimal figures in tables use the comma (`localDecimals`)

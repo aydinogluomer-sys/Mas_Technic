@@ -241,7 +241,7 @@ export function collectServiceFaqs(pages: readonly ServicePageData[] = servicePa
       // Soru ve cevaptan otomatik keyword çıkar
       const combined = `${f.question} ${f.answer}`.toLowerCase();
       const words = combined
-        .replace(/[^\wğüşöçıİĞÜŞÖÇ]/g, " ")
+        .replace(/[^\wğüşöçıİĞÜŞÖÇäÄß]/g, " ")
         .split(/\s+/)
         .filter((w) => w.length > 3);
       const uniqueWords = [...new Set(words)];
@@ -283,7 +283,7 @@ const QUESTION_FORM_WORDS = new Set([
 function normalize(text: string): string[] {
   const words = text
     .toLowerCase()
-    .replace(/[^\wğüşöçıİĞÜŞÖÇ]/g, " ")
+    .replace(/[^\wğüşöçıİĞÜŞÖÇäÄß]/g, " ")
     .split(/\s+/)
     .filter((w) => w.length > 2);
   const topical = words.filter((w) => !QUESTION_FORM_WORDS.has(w));

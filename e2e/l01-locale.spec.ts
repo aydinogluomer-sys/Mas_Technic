@@ -58,9 +58,10 @@ test.describe("L01 locale helpers and content (pure)", () => {
     ], { stdio: "pipe" });
     const report = execFileSync("node", [out], { encoding: "utf8" });
     expect(report).toContain("OK — overlays complete, numbers identical");
-    // L3b: the German bundle's translated sections pass the same check.
-    const german = execFileSync("node", [out, "de", "services"], { encoding: "utf8" });
+    // L3: the German bundle passes the same check, every section.
+    const german = execFileSync("node", [out, "de"], { encoding: "utf8" });
     expect(german).toContain("services: 48/48 overlays");
+    expect(german).toContain("materials: 87/87 overlays");
     expect(german).toContain("OK — overlays complete, numbers identical");
   });
 
