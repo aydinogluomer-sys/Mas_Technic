@@ -81,11 +81,15 @@ export function applyPrivateRouteMeta() {
 
 /** One `og:locale:alternate` per other live language (one element while there is one, as before). */
 function setLocaleAlternates(locales: string[]) {
+  const existing = document.head.querySelectorAll('meta[property="og:locale:alternate"]');
   if (locales.length <= 1) {
+    /* Extras from a page with more alternates go; the first is updated in
+       place, so a two-language build's head keeps its order. */
+    existing.forEach((element, index) => { if (index > 0) element.remove(); });
     setMeta("property", "og:locale:alternate", locales[0] ?? null);
     return;
   }
-  document.head.querySelectorAll('meta[property="og:locale:alternate"]').forEach((element) => element.remove());
+  existing.forEach((element) => element.remove());
   for (const locale of locales) {
     const element = document.createElement("meta");
     element.setAttribute("property", "og:locale:alternate");

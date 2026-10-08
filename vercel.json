@@ -21,21 +21,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/cnc-frezeleme",
-      "destination": "/de/hizmetler/cnc-frezeleme",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/cnc-frezeleme",
-      "destination": "/ru/hizmetler/cnc-frezeleme",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/cnc-frezeleme",
-      "destination": "/zh/hizmetler/cnc-frezeleme",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/cnc-frezeleme",
       "destination": "/hizmetler/cnc-frezeleme",
       "permanent": true
@@ -43,21 +28,6 @@
     {
       "source": "/en/endustriyel/cnc-frezeleme",
       "destination": "/en/hizmetler/cnc-frezeleme",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/cnc-frezeleme",
-      "destination": "/de/hizmetler/cnc-frezeleme",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/cnc-frezeleme",
-      "destination": "/ru/hizmetler/cnc-frezeleme",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/cnc-frezeleme",
-      "destination": "/zh/hizmetler/cnc-frezeleme",
       "permanent": true
     },
     {
@@ -71,21 +41,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/cnc-tornalama",
-      "destination": "/de/hizmetler/cnc-tornalama",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/cnc-tornalama",
-      "destination": "/ru/hizmetler/cnc-tornalama",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/cnc-tornalama",
-      "destination": "/zh/hizmetler/cnc-tornalama",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/cnc-tornalama",
       "destination": "/hizmetler/cnc-tornalama",
       "permanent": true
@@ -93,21 +48,6 @@
     {
       "source": "/en/endustriyel/cnc-tornalama",
       "destination": "/en/hizmetler/cnc-tornalama",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/cnc-tornalama",
-      "destination": "/de/hizmetler/cnc-tornalama",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/cnc-tornalama",
-      "destination": "/ru/hizmetler/cnc-tornalama",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/cnc-tornalama",
-      "destination": "/zh/hizmetler/cnc-tornalama",
       "permanent": true
     },
     {
@@ -121,21 +61,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/hassas-mikro-isleme",
-      "destination": "/de/hizmetler/hassas-mikro-isleme",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/hassas-mikro-isleme",
-      "destination": "/ru/hizmetler/hassas-mikro-isleme",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/hassas-mikro-isleme",
-      "destination": "/zh/hizmetler/hassas-mikro-isleme",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/hassas-mikro-isleme",
       "destination": "/hizmetler/hassas-mikro-isleme",
       "permanent": true
@@ -143,21 +68,6 @@
     {
       "source": "/en/endustriyel/hassas-mikro-isleme",
       "destination": "/en/hizmetler/hassas-mikro-isleme",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/hassas-mikro-isleme",
-      "destination": "/de/hizmetler/hassas-mikro-isleme",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/hassas-mikro-isleme",
-      "destination": "/ru/hizmetler/hassas-mikro-isleme",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/hassas-mikro-isleme",
-      "destination": "/zh/hizmetler/hassas-mikro-isleme",
       "permanent": true
     },
     {
@@ -171,21 +81,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/derin-delik-raybalama",
-      "destination": "/de/hizmetler/derin-delik-raybalama",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/derin-delik-raybalama",
-      "destination": "/ru/hizmetler/derin-delik-raybalama",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/derin-delik-raybalama",
-      "destination": "/zh/hizmetler/derin-delik-raybalama",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/derin-delik-raybalama",
       "destination": "/hizmetler/derin-delik-raybalama",
       "permanent": true
@@ -193,21 +88,6 @@
     {
       "source": "/en/endustriyel/derin-delik-raybalama",
       "destination": "/en/hizmetler/derin-delik-raybalama",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/derin-delik-raybalama",
-      "destination": "/de/hizmetler/derin-delik-raybalama",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/derin-delik-raybalama",
-      "destination": "/ru/hizmetler/derin-delik-raybalama",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/derin-delik-raybalama",
-      "destination": "/zh/hizmetler/derin-delik-raybalama",
       "permanent": true
     },
     {
@@ -221,21 +101,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/enjeksiyon-kalibi",
-      "destination": "/de/hizmetler/enjeksiyon-kalibi",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/enjeksiyon-kalibi",
-      "destination": "/ru/hizmetler/enjeksiyon-kalibi",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/enjeksiyon-kalibi",
-      "destination": "/zh/hizmetler/enjeksiyon-kalibi",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/enjeksiyon-kalibi",
       "destination": "/hizmetler/enjeksiyon-kalibi",
       "permanent": true
@@ -243,21 +108,6 @@
     {
       "source": "/en/endustriyel/enjeksiyon-kalibi",
       "destination": "/en/hizmetler/enjeksiyon-kalibi",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/enjeksiyon-kalibi",
-      "destination": "/de/hizmetler/enjeksiyon-kalibi",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/enjeksiyon-kalibi",
-      "destination": "/ru/hizmetler/enjeksiyon-kalibi",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/enjeksiyon-kalibi",
-      "destination": "/zh/hizmetler/enjeksiyon-kalibi",
       "permanent": true
     },
     {
@@ -271,21 +121,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/basincli-dokum",
-      "destination": "/de/hizmetler/basincli-dokum",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/basincli-dokum",
-      "destination": "/ru/hizmetler/basincli-dokum",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/basincli-dokum",
-      "destination": "/zh/hizmetler/basincli-dokum",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/basincli-dokum",
       "destination": "/hizmetler/basincli-dokum",
       "permanent": true
@@ -293,21 +128,6 @@
     {
       "source": "/en/endustriyel/basincli-dokum",
       "destination": "/en/hizmetler/basincli-dokum",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/basincli-dokum",
-      "destination": "/de/hizmetler/basincli-dokum",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/basincli-dokum",
-      "destination": "/ru/hizmetler/basincli-dokum",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/basincli-dokum",
-      "destination": "/zh/hizmetler/basincli-dokum",
       "permanent": true
     },
     {
@@ -321,21 +141,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/silikon-kaliplama",
-      "destination": "/de/hizmetler/silikon-kaliplama",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/silikon-kaliplama",
-      "destination": "/ru/hizmetler/silikon-kaliplama",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/silikon-kaliplama",
-      "destination": "/zh/hizmetler/silikon-kaliplama",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/silikon-kaliplama",
       "destination": "/hizmetler/silikon-kaliplama",
       "permanent": true
@@ -343,21 +148,6 @@
     {
       "source": "/en/endustriyel/silikon-kaliplama",
       "destination": "/en/hizmetler/silikon-kaliplama",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/silikon-kaliplama",
-      "destination": "/de/hizmetler/silikon-kaliplama",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/silikon-kaliplama",
-      "destination": "/ru/hizmetler/silikon-kaliplama",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/silikon-kaliplama",
-      "destination": "/zh/hizmetler/silikon-kaliplama",
       "permanent": true
     },
     {
@@ -371,21 +161,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/fikstur-aparat-tasarimi",
-      "destination": "/de/hizmetler/fikstur-aparat-tasarimi",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/fikstur-aparat-tasarimi",
-      "destination": "/ru/hizmetler/fikstur-aparat-tasarimi",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/fikstur-aparat-tasarimi",
-      "destination": "/zh/hizmetler/fikstur-aparat-tasarimi",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/fikstur-aparat-tasarimi",
       "destination": "/hizmetler/fikstur-aparat-tasarimi",
       "permanent": true
@@ -393,21 +168,6 @@
     {
       "source": "/en/endustriyel/fikstur-aparat-tasarimi",
       "destination": "/en/hizmetler/fikstur-aparat-tasarimi",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/fikstur-aparat-tasarimi",
-      "destination": "/de/hizmetler/fikstur-aparat-tasarimi",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/fikstur-aparat-tasarimi",
-      "destination": "/ru/hizmetler/fikstur-aparat-tasarimi",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/fikstur-aparat-tasarimi",
-      "destination": "/zh/hizmetler/fikstur-aparat-tasarimi",
       "permanent": true
     },
     {
@@ -421,21 +181,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/mekanik-yuzey-islemleri",
-      "destination": "/de/hizmetler/mekanik-yuzey-islemleri",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/mekanik-yuzey-islemleri",
-      "destination": "/ru/hizmetler/mekanik-yuzey-islemleri",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/mekanik-yuzey-islemleri",
-      "destination": "/zh/hizmetler/mekanik-yuzey-islemleri",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/mekanik-yuzey-islemleri",
       "destination": "/hizmetler/mekanik-yuzey-islemleri",
       "permanent": true
@@ -443,21 +188,6 @@
     {
       "source": "/en/endustriyel/mekanik-yuzey-islemleri",
       "destination": "/en/hizmetler/mekanik-yuzey-islemleri",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/mekanik-yuzey-islemleri",
-      "destination": "/de/hizmetler/mekanik-yuzey-islemleri",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/mekanik-yuzey-islemleri",
-      "destination": "/ru/hizmetler/mekanik-yuzey-islemleri",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/mekanik-yuzey-islemleri",
-      "destination": "/zh/hizmetler/mekanik-yuzey-islemleri",
       "permanent": true
     },
     {
@@ -471,21 +201,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/anodizasyon",
-      "destination": "/de/hizmetler/anodizasyon",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/anodizasyon",
-      "destination": "/ru/hizmetler/anodizasyon",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/anodizasyon",
-      "destination": "/zh/hizmetler/anodizasyon",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/anodizasyon",
       "destination": "/hizmetler/anodizasyon",
       "permanent": true
@@ -493,21 +208,6 @@
     {
       "source": "/en/endustriyel/anodizasyon",
       "destination": "/en/hizmetler/anodizasyon",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/anodizasyon",
-      "destination": "/de/hizmetler/anodizasyon",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/anodizasyon",
-      "destination": "/ru/hizmetler/anodizasyon",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/anodizasyon",
-      "destination": "/zh/hizmetler/anodizasyon",
       "permanent": true
     },
     {
@@ -521,21 +221,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/kimyasal-islemler",
-      "destination": "/de/hizmetler/kimyasal-islemler",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/kimyasal-islemler",
-      "destination": "/ru/hizmetler/kimyasal-islemler",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/kimyasal-islemler",
-      "destination": "/zh/hizmetler/kimyasal-islemler",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/kimyasal-islemler",
       "destination": "/hizmetler/kimyasal-islemler",
       "permanent": true
@@ -543,21 +228,6 @@
     {
       "source": "/en/endustriyel/kimyasal-islemler",
       "destination": "/en/hizmetler/kimyasal-islemler",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/kimyasal-islemler",
-      "destination": "/de/hizmetler/kimyasal-islemler",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/kimyasal-islemler",
-      "destination": "/ru/hizmetler/kimyasal-islemler",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/kimyasal-islemler",
-      "destination": "/zh/hizmetler/kimyasal-islemler",
       "permanent": true
     },
     {
@@ -571,21 +241,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/boya-koruyucu-kaplamalar",
-      "destination": "/de/hizmetler/boya-koruyucu-kaplamalar",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/boya-koruyucu-kaplamalar",
-      "destination": "/ru/hizmetler/boya-koruyucu-kaplamalar",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/boya-koruyucu-kaplamalar",
-      "destination": "/zh/hizmetler/boya-koruyucu-kaplamalar",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/boya-koruyucu-kaplamalar",
       "destination": "/hizmetler/boya-koruyucu-kaplamalar",
       "permanent": true
@@ -593,21 +248,6 @@
     {
       "source": "/en/endustriyel/boya-koruyucu-kaplamalar",
       "destination": "/en/hizmetler/boya-koruyucu-kaplamalar",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/boya-koruyucu-kaplamalar",
-      "destination": "/de/hizmetler/boya-koruyucu-kaplamalar",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/boya-koruyucu-kaplamalar",
-      "destination": "/ru/hizmetler/boya-koruyucu-kaplamalar",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/boya-koruyucu-kaplamalar",
-      "destination": "/zh/hizmetler/boya-koruyucu-kaplamalar",
       "permanent": true
     },
     {
@@ -621,21 +261,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/lazer-kazima",
-      "destination": "/de/hizmetler/lazer-kazima",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/lazer-kazima",
-      "destination": "/ru/hizmetler/lazer-kazima",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/lazer-kazima",
-      "destination": "/zh/hizmetler/lazer-kazima",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/lazer-kazima",
       "destination": "/hizmetler/lazer-kazima",
       "permanent": true
@@ -643,21 +268,6 @@
     {
       "source": "/en/endustriyel/lazer-kazima",
       "destination": "/en/hizmetler/lazer-kazima",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/lazer-kazima",
-      "destination": "/de/hizmetler/lazer-kazima",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/lazer-kazima",
-      "destination": "/ru/hizmetler/lazer-kazima",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/lazer-kazima",
-      "destination": "/zh/hizmetler/lazer-kazima",
       "permanent": true
     },
     {
@@ -671,21 +281,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/tavlama",
-      "destination": "/de/hizmetler/tavlama",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/tavlama",
-      "destination": "/ru/hizmetler/tavlama",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/tavlama",
-      "destination": "/zh/hizmetler/tavlama",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/tavlama",
       "destination": "/hizmetler/tavlama",
       "permanent": true
@@ -693,21 +288,6 @@
     {
       "source": "/en/endustriyel/tavlama",
       "destination": "/en/hizmetler/tavlama",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/tavlama",
-      "destination": "/de/hizmetler/tavlama",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/tavlama",
-      "destination": "/ru/hizmetler/tavlama",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/tavlama",
-      "destination": "/zh/hizmetler/tavlama",
       "permanent": true
     },
     {
@@ -721,21 +301,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/qr-datamatrix-kodlari",
-      "destination": "/de/hizmetler/qr-datamatrix-kodlari",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/qr-datamatrix-kodlari",
-      "destination": "/ru/hizmetler/qr-datamatrix-kodlari",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/qr-datamatrix-kodlari",
-      "destination": "/zh/hizmetler/qr-datamatrix-kodlari",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/qr-datamatrix-kodlari",
       "destination": "/hizmetler/qr-datamatrix-kodlari",
       "permanent": true
@@ -743,21 +308,6 @@
     {
       "source": "/en/endustriyel/qr-datamatrix-kodlari",
       "destination": "/en/hizmetler/qr-datamatrix-kodlari",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/qr-datamatrix-kodlari",
-      "destination": "/de/hizmetler/qr-datamatrix-kodlari",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/qr-datamatrix-kodlari",
-      "destination": "/ru/hizmetler/qr-datamatrix-kodlari",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/qr-datamatrix-kodlari",
-      "destination": "/zh/hizmetler/qr-datamatrix-kodlari",
       "permanent": true
     },
     {
@@ -771,21 +321,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/logo-markalama",
-      "destination": "/de/hizmetler/logo-markalama",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/logo-markalama",
-      "destination": "/ru/hizmetler/logo-markalama",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/logo-markalama",
-      "destination": "/zh/hizmetler/logo-markalama",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/logo-markalama",
       "destination": "/hizmetler/logo-markalama",
       "permanent": true
@@ -793,21 +328,6 @@
     {
       "source": "/en/endustriyel/logo-markalama",
       "destination": "/en/hizmetler/logo-markalama",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/logo-markalama",
-      "destination": "/de/hizmetler/logo-markalama",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/logo-markalama",
-      "destination": "/ru/hizmetler/logo-markalama",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/logo-markalama",
-      "destination": "/zh/hizmetler/logo-markalama",
       "permanent": true
     },
     {
@@ -821,21 +341,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/insert-uygulama",
-      "destination": "/de/hizmetler/insert-uygulama",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/insert-uygulama",
-      "destination": "/ru/hizmetler/insert-uygulama",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/insert-uygulama",
-      "destination": "/zh/hizmetler/insert-uygulama",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/insert-uygulama",
       "destination": "/hizmetler/insert-uygulama",
       "permanent": true
@@ -843,21 +348,6 @@
     {
       "source": "/en/endustriyel/insert-uygulama",
       "destination": "/en/hizmetler/insert-uygulama",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/insert-uygulama",
-      "destination": "/de/hizmetler/insert-uygulama",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/insert-uygulama",
-      "destination": "/ru/hizmetler/insert-uygulama",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/insert-uygulama",
-      "destination": "/zh/hizmetler/insert-uygulama",
       "permanent": true
     },
     {
@@ -871,21 +361,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/mekanik-montaj",
-      "destination": "/de/hizmetler/mekanik-montaj",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/mekanik-montaj",
-      "destination": "/ru/hizmetler/mekanik-montaj",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/mekanik-montaj",
-      "destination": "/zh/hizmetler/mekanik-montaj",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/mekanik-montaj",
       "destination": "/hizmetler/mekanik-montaj",
       "permanent": true
@@ -893,21 +368,6 @@
     {
       "source": "/en/endustriyel/mekanik-montaj",
       "destination": "/en/hizmetler/mekanik-montaj",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/mekanik-montaj",
-      "destination": "/de/hizmetler/mekanik-montaj",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/mekanik-montaj",
-      "destination": "/ru/hizmetler/mekanik-montaj",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/mekanik-montaj",
-      "destination": "/zh/hizmetler/mekanik-montaj",
       "permanent": true
     },
     {
@@ -921,21 +381,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/kitting-paketleme",
-      "destination": "/de/hizmetler/kitting-paketleme",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/kitting-paketleme",
-      "destination": "/ru/hizmetler/kitting-paketleme",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/kitting-paketleme",
-      "destination": "/zh/hizmetler/kitting-paketleme",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/kitting-paketleme",
       "destination": "/hizmetler/kitting-paketleme",
       "permanent": true
@@ -943,21 +388,6 @@
     {
       "source": "/en/endustriyel/kitting-paketleme",
       "destination": "/en/hizmetler/kitting-paketleme",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/kitting-paketleme",
-      "destination": "/de/hizmetler/kitting-paketleme",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/kitting-paketleme",
-      "destination": "/ru/hizmetler/kitting-paketleme",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/kitting-paketleme",
-      "destination": "/zh/hizmetler/kitting-paketleme",
       "permanent": true
     },
     {
@@ -971,21 +401,6 @@
       "permanent": true
     },
     {
-      "source": "/de/kabiliyetler/kaynakli-imalat",
-      "destination": "/de/hizmetler/kaynakli-imalat",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/kaynakli-imalat",
-      "destination": "/ru/hizmetler/kaynakli-imalat",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/kaynakli-imalat",
-      "destination": "/zh/hizmetler/kaynakli-imalat",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/kaynakli-imalat",
       "destination": "/hizmetler/kaynakli-imalat",
       "permanent": true
@@ -993,21 +408,6 @@
     {
       "source": "/en/endustriyel/kaynakli-imalat",
       "destination": "/en/hizmetler/kaynakli-imalat",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/kaynakli-imalat",
-      "destination": "/de/hizmetler/kaynakli-imalat",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/kaynakli-imalat",
-      "destination": "/ru/hizmetler/kaynakli-imalat",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/kaynakli-imalat",
-      "destination": "/zh/hizmetler/kaynakli-imalat",
       "permanent": true
     },
     {
@@ -1021,21 +421,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/makine-parkuru",
-      "destination": "/de/kabiliyetler/makine-parkuru",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/makine-parkuru",
-      "destination": "/ru/kabiliyetler/makine-parkuru",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/makine-parkuru",
-      "destination": "/zh/kabiliyetler/makine-parkuru",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/makine-parkuru",
       "destination": "/kabiliyetler/makine-parkuru",
       "permanent": true
@@ -1043,21 +428,6 @@
     {
       "source": "/en/endustriyel/makine-parkuru",
       "destination": "/en/kabiliyetler/makine-parkuru",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/makine-parkuru",
-      "destination": "/de/kabiliyetler/makine-parkuru",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/makine-parkuru",
-      "destination": "/ru/kabiliyetler/makine-parkuru",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/makine-parkuru",
-      "destination": "/zh/kabiliyetler/makine-parkuru",
       "permanent": true
     },
     {
@@ -1071,21 +441,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/malzeme-kutuphanesi",
-      "destination": "/de/kabiliyetler/malzeme-kutuphanesi",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/malzeme-kutuphanesi",
-      "destination": "/ru/kabiliyetler/malzeme-kutuphanesi",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/malzeme-kutuphanesi",
-      "destination": "/zh/kabiliyetler/malzeme-kutuphanesi",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/malzeme-kutuphanesi",
       "destination": "/kabiliyetler/malzeme-kutuphanesi",
       "permanent": true
@@ -1093,21 +448,6 @@
     {
       "source": "/en/endustriyel/malzeme-kutuphanesi",
       "destination": "/en/kabiliyetler/malzeme-kutuphanesi",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/malzeme-kutuphanesi",
-      "destination": "/de/kabiliyetler/malzeme-kutuphanesi",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/malzeme-kutuphanesi",
-      "destination": "/ru/kabiliyetler/malzeme-kutuphanesi",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/malzeme-kutuphanesi",
-      "destination": "/zh/kabiliyetler/malzeme-kutuphanesi",
       "permanent": true
     },
     {
@@ -1121,21 +461,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/kalite-kontrol",
-      "destination": "/de/kabiliyetler/kalite-kontrol",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/kalite-kontrol",
-      "destination": "/ru/kabiliyetler/kalite-kontrol",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/kalite-kontrol",
-      "destination": "/zh/kabiliyetler/kalite-kontrol",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/kalite-kontrol",
       "destination": "/kabiliyetler/kalite-kontrol",
       "permanent": true
@@ -1143,21 +468,6 @@
     {
       "source": "/en/endustriyel/kalite-kontrol",
       "destination": "/en/kabiliyetler/kalite-kontrol",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/kalite-kontrol",
-      "destination": "/de/kabiliyetler/kalite-kontrol",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/kalite-kontrol",
-      "destination": "/ru/kabiliyetler/kalite-kontrol",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/kalite-kontrol",
-      "destination": "/zh/kabiliyetler/kalite-kontrol",
       "permanent": true
     },
     {
@@ -1171,21 +481,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/tolerans-hassasiyet",
-      "destination": "/de/kabiliyetler/tolerans-hassasiyet",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/tolerans-hassasiyet",
-      "destination": "/ru/kabiliyetler/tolerans-hassasiyet",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/tolerans-hassasiyet",
-      "destination": "/zh/kabiliyetler/tolerans-hassasiyet",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/tolerans-hassasiyet",
       "destination": "/kabiliyetler/tolerans-hassasiyet",
       "permanent": true
@@ -1193,21 +488,6 @@
     {
       "source": "/en/endustriyel/tolerans-hassasiyet",
       "destination": "/en/kabiliyetler/tolerans-hassasiyet",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/tolerans-hassasiyet",
-      "destination": "/de/kabiliyetler/tolerans-hassasiyet",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/tolerans-hassasiyet",
-      "destination": "/ru/kabiliyetler/tolerans-hassasiyet",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/tolerans-hassasiyet",
-      "destination": "/zh/kabiliyetler/tolerans-hassasiyet",
       "permanent": true
     },
     {
@@ -1221,21 +501,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/tasarim-rehberi-dfm",
-      "destination": "/de/kabiliyetler/tasarim-rehberi-dfm",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/tasarim-rehberi-dfm",
-      "destination": "/ru/kabiliyetler/tasarim-rehberi-dfm",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/tasarim-rehberi-dfm",
-      "destination": "/zh/kabiliyetler/tasarim-rehberi-dfm",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/tasarim-rehberi-dfm",
       "destination": "/kabiliyetler/tasarim-rehberi-dfm",
       "permanent": true
@@ -1243,21 +508,6 @@
     {
       "source": "/en/endustriyel/tasarim-rehberi-dfm",
       "destination": "/en/kabiliyetler/tasarim-rehberi-dfm",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/tasarim-rehberi-dfm",
-      "destination": "/de/kabiliyetler/tasarim-rehberi-dfm",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/tasarim-rehberi-dfm",
-      "destination": "/ru/kabiliyetler/tasarim-rehberi-dfm",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/tasarim-rehberi-dfm",
-      "destination": "/zh/kabiliyetler/tasarim-rehberi-dfm",
       "permanent": true
     },
     {
@@ -1271,21 +521,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/yuzey-islemleri-muhendislik",
-      "destination": "/de/kabiliyetler/yuzey-islemleri-muhendislik",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/yuzey-islemleri-muhendislik",
-      "destination": "/ru/kabiliyetler/yuzey-islemleri-muhendislik",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/yuzey-islemleri-muhendislik",
-      "destination": "/zh/kabiliyetler/yuzey-islemleri-muhendislik",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/yuzey-islemleri-muhendislik",
       "destination": "/kabiliyetler/yuzey-islemleri-muhendislik",
       "permanent": true
@@ -1293,21 +528,6 @@
     {
       "source": "/en/endustriyel/yuzey-islemleri-muhendislik",
       "destination": "/en/kabiliyetler/yuzey-islemleri-muhendislik",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/yuzey-islemleri-muhendislik",
-      "destination": "/de/kabiliyetler/yuzey-islemleri-muhendislik",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/yuzey-islemleri-muhendislik",
-      "destination": "/ru/kabiliyetler/yuzey-islemleri-muhendislik",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/yuzey-islemleri-muhendislik",
-      "destination": "/zh/kabiliyetler/yuzey-islemleri-muhendislik",
       "permanent": true
     },
     {
@@ -1321,21 +541,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/dusuk-hacimli-uretim",
-      "destination": "/de/kabiliyetler/dusuk-hacimli-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/dusuk-hacimli-uretim",
-      "destination": "/ru/kabiliyetler/dusuk-hacimli-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/dusuk-hacimli-uretim",
-      "destination": "/zh/kabiliyetler/dusuk-hacimli-uretim",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/dusuk-hacimli-uretim",
       "destination": "/kabiliyetler/dusuk-hacimli-uretim",
       "permanent": true
@@ -1343,21 +548,6 @@
     {
       "source": "/en/endustriyel/dusuk-hacimli-uretim",
       "destination": "/en/kabiliyetler/dusuk-hacimli-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/dusuk-hacimli-uretim",
-      "destination": "/de/kabiliyetler/dusuk-hacimli-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/dusuk-hacimli-uretim",
-      "destination": "/ru/kabiliyetler/dusuk-hacimli-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/dusuk-hacimli-uretim",
-      "destination": "/zh/kabiliyetler/dusuk-hacimli-uretim",
       "permanent": true
     },
     {
@@ -1371,21 +561,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/seri-imalat",
-      "destination": "/de/kabiliyetler/seri-imalat",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/seri-imalat",
-      "destination": "/ru/kabiliyetler/seri-imalat",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/seri-imalat",
-      "destination": "/zh/kabiliyetler/seri-imalat",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/seri-imalat",
       "destination": "/kabiliyetler/seri-imalat",
       "permanent": true
@@ -1393,21 +568,6 @@
     {
       "source": "/en/endustriyel/seri-imalat",
       "destination": "/en/kabiliyetler/seri-imalat",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/seri-imalat",
-      "destination": "/de/kabiliyetler/seri-imalat",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/seri-imalat",
-      "destination": "/ru/kabiliyetler/seri-imalat",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/seri-imalat",
-      "destination": "/zh/kabiliyetler/seri-imalat",
       "permanent": true
     },
     {
@@ -1421,21 +581,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/proje-yonetimi",
-      "destination": "/de/kabiliyetler/proje-yonetimi",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/proje-yonetimi",
-      "destination": "/ru/kabiliyetler/proje-yonetimi",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/proje-yonetimi",
-      "destination": "/zh/kabiliyetler/proje-yonetimi",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/proje-yonetimi",
       "destination": "/kabiliyetler/proje-yonetimi",
       "permanent": true
@@ -1443,21 +588,6 @@
     {
       "source": "/en/endustriyel/proje-yonetimi",
       "destination": "/en/kabiliyetler/proje-yonetimi",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/proje-yonetimi",
-      "destination": "/de/kabiliyetler/proje-yonetimi",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/proje-yonetimi",
-      "destination": "/ru/kabiliyetler/proje-yonetimi",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/proje-yonetimi",
-      "destination": "/zh/kabiliyetler/proje-yonetimi",
       "permanent": true
     },
     {
@@ -1471,21 +601,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/tedarik-zinciri",
-      "destination": "/de/kabiliyetler/tedarik-zinciri",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/tedarik-zinciri",
-      "destination": "/ru/kabiliyetler/tedarik-zinciri",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/tedarik-zinciri",
-      "destination": "/zh/kabiliyetler/tedarik-zinciri",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/tedarik-zinciri",
       "destination": "/kabiliyetler/tedarik-zinciri",
       "permanent": true
@@ -1493,21 +608,6 @@
     {
       "source": "/en/endustriyel/tedarik-zinciri",
       "destination": "/en/kabiliyetler/tedarik-zinciri",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/tedarik-zinciri",
-      "destination": "/de/kabiliyetler/tedarik-zinciri",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/tedarik-zinciri",
-      "destination": "/ru/kabiliyetler/tedarik-zinciri",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/tedarik-zinciri",
-      "destination": "/zh/kabiliyetler/tedarik-zinciri",
       "permanent": true
     },
     {
@@ -1521,21 +621,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/operasyonel-verimlilik",
-      "destination": "/de/kabiliyetler/operasyonel-verimlilik",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/operasyonel-verimlilik",
-      "destination": "/ru/kabiliyetler/operasyonel-verimlilik",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/operasyonel-verimlilik",
-      "destination": "/zh/kabiliyetler/operasyonel-verimlilik",
-      "permanent": true
-    },
-    {
       "source": "/endustriyel/operasyonel-verimlilik",
       "destination": "/kabiliyetler/operasyonel-verimlilik",
       "permanent": true
@@ -1543,21 +628,6 @@
     {
       "source": "/en/endustriyel/operasyonel-verimlilik",
       "destination": "/en/kabiliyetler/operasyonel-verimlilik",
-      "permanent": true
-    },
-    {
-      "source": "/de/endustriyel/operasyonel-verimlilik",
-      "destination": "/de/kabiliyetler/operasyonel-verimlilik",
-      "permanent": true
-    },
-    {
-      "source": "/ru/endustriyel/operasyonel-verimlilik",
-      "destination": "/ru/kabiliyetler/operasyonel-verimlilik",
-      "permanent": true
-    },
-    {
-      "source": "/zh/endustriyel/operasyonel-verimlilik",
-      "destination": "/zh/kabiliyetler/operasyonel-verimlilik",
       "permanent": true
     },
     {
@@ -1571,21 +641,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/havacilik-uzay",
-      "destination": "/de/endustriyel/havacilik-uzay",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/havacilik-uzay",
-      "destination": "/ru/endustriyel/havacilik-uzay",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/havacilik-uzay",
-      "destination": "/zh/endustriyel/havacilik-uzay",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/havacilik-uzay",
       "destination": "/endustriyel/havacilik-uzay",
       "permanent": true
@@ -1593,21 +648,6 @@
     {
       "source": "/en/kabiliyetler/havacilik-uzay",
       "destination": "/en/endustriyel/havacilik-uzay",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/havacilik-uzay",
-      "destination": "/de/endustriyel/havacilik-uzay",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/havacilik-uzay",
-      "destination": "/ru/endustriyel/havacilik-uzay",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/havacilik-uzay",
-      "destination": "/zh/endustriyel/havacilik-uzay",
       "permanent": true
     },
     {
@@ -1621,21 +661,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/savunma-sanayi",
-      "destination": "/de/endustriyel/savunma-sanayi",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/savunma-sanayi",
-      "destination": "/ru/endustriyel/savunma-sanayi",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/savunma-sanayi",
-      "destination": "/zh/endustriyel/savunma-sanayi",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/savunma-sanayi",
       "destination": "/endustriyel/savunma-sanayi",
       "permanent": true
@@ -1643,21 +668,6 @@
     {
       "source": "/en/kabiliyetler/savunma-sanayi",
       "destination": "/en/endustriyel/savunma-sanayi",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/savunma-sanayi",
-      "destination": "/de/endustriyel/savunma-sanayi",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/savunma-sanayi",
-      "destination": "/ru/endustriyel/savunma-sanayi",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/savunma-sanayi",
-      "destination": "/zh/endustriyel/savunma-sanayi",
       "permanent": true
     },
     {
@@ -1671,21 +681,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/robotik",
-      "destination": "/de/endustriyel/robotik",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/robotik",
-      "destination": "/ru/endustriyel/robotik",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/robotik",
-      "destination": "/zh/endustriyel/robotik",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/robotik",
       "destination": "/endustriyel/robotik",
       "permanent": true
@@ -1693,21 +688,6 @@
     {
       "source": "/en/kabiliyetler/robotik",
       "destination": "/en/endustriyel/robotik",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/robotik",
-      "destination": "/de/endustriyel/robotik",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/robotik",
-      "destination": "/ru/endustriyel/robotik",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/robotik",
-      "destination": "/zh/endustriyel/robotik",
       "permanent": true
     },
     {
@@ -1721,21 +701,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/otomotiv",
-      "destination": "/de/endustriyel/otomotiv",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/otomotiv",
-      "destination": "/ru/endustriyel/otomotiv",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/otomotiv",
-      "destination": "/zh/endustriyel/otomotiv",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/otomotiv",
       "destination": "/endustriyel/otomotiv",
       "permanent": true
@@ -1743,21 +708,6 @@
     {
       "source": "/en/kabiliyetler/otomotiv",
       "destination": "/en/endustriyel/otomotiv",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/otomotiv",
-      "destination": "/de/endustriyel/otomotiv",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/otomotiv",
-      "destination": "/ru/endustriyel/otomotiv",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/otomotiv",
-      "destination": "/zh/endustriyel/otomotiv",
       "permanent": true
     },
     {
@@ -1771,21 +721,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/medikal",
-      "destination": "/de/endustriyel/medikal",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/medikal",
-      "destination": "/ru/endustriyel/medikal",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/medikal",
-      "destination": "/zh/endustriyel/medikal",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/medikal",
       "destination": "/endustriyel/medikal",
       "permanent": true
@@ -1793,21 +728,6 @@
     {
       "source": "/en/kabiliyetler/medikal",
       "destination": "/en/endustriyel/medikal",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/medikal",
-      "destination": "/de/endustriyel/medikal",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/medikal",
-      "destination": "/ru/endustriyel/medikal",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/medikal",
-      "destination": "/zh/endustriyel/medikal",
       "permanent": true
     },
     {
@@ -1821,21 +741,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/yelken-yat-sistemleri",
-      "destination": "/de/endustriyel/yelken-yat-sistemleri",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/yelken-yat-sistemleri",
-      "destination": "/ru/endustriyel/yelken-yat-sistemleri",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/yelken-yat-sistemleri",
-      "destination": "/zh/endustriyel/yelken-yat-sistemleri",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/yelken-yat-sistemleri",
       "destination": "/endustriyel/yelken-yat-sistemleri",
       "permanent": true
@@ -1843,21 +748,6 @@
     {
       "source": "/en/kabiliyetler/yelken-yat-sistemleri",
       "destination": "/en/endustriyel/yelken-yat-sistemleri",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/yelken-yat-sistemleri",
-      "destination": "/de/endustriyel/yelken-yat-sistemleri",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/yelken-yat-sistemleri",
-      "destination": "/ru/endustriyel/yelken-yat-sistemleri",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/yelken-yat-sistemleri",
-      "destination": "/zh/endustriyel/yelken-yat-sistemleri",
       "permanent": true
     },
     {
@@ -1871,21 +761,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/hidrolik-pnomatik",
-      "destination": "/de/endustriyel/hidrolik-pnomatik",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/hidrolik-pnomatik",
-      "destination": "/ru/endustriyel/hidrolik-pnomatik",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/hidrolik-pnomatik",
-      "destination": "/zh/endustriyel/hidrolik-pnomatik",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/hidrolik-pnomatik",
       "destination": "/endustriyel/hidrolik-pnomatik",
       "permanent": true
@@ -1893,21 +768,6 @@
     {
       "source": "/en/kabiliyetler/hidrolik-pnomatik",
       "destination": "/en/endustriyel/hidrolik-pnomatik",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/hidrolik-pnomatik",
-      "destination": "/de/endustriyel/hidrolik-pnomatik",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/hidrolik-pnomatik",
-      "destination": "/ru/endustriyel/hidrolik-pnomatik",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/hidrolik-pnomatik",
-      "destination": "/zh/endustriyel/hidrolik-pnomatik",
       "permanent": true
     },
     {
@@ -1921,21 +781,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/boru-baglanti-parcalari",
-      "destination": "/de/endustriyel/boru-baglanti-parcalari",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/boru-baglanti-parcalari",
-      "destination": "/ru/endustriyel/boru-baglanti-parcalari",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/boru-baglanti-parcalari",
-      "destination": "/zh/endustriyel/boru-baglanti-parcalari",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/boru-baglanti-parcalari",
       "destination": "/endustriyel/boru-baglanti-parcalari",
       "permanent": true
@@ -1943,21 +788,6 @@
     {
       "source": "/en/kabiliyetler/boru-baglanti-parcalari",
       "destination": "/en/endustriyel/boru-baglanti-parcalari",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/boru-baglanti-parcalari",
-      "destination": "/de/endustriyel/boru-baglanti-parcalari",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/boru-baglanti-parcalari",
-      "destination": "/ru/endustriyel/boru-baglanti-parcalari",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/boru-baglanti-parcalari",
-      "destination": "/zh/endustriyel/boru-baglanti-parcalari",
       "permanent": true
     },
     {
@@ -1971,21 +801,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/iklim-teknolojileri",
-      "destination": "/de/endustriyel/iklim-teknolojileri",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/iklim-teknolojileri",
-      "destination": "/ru/endustriyel/iklim-teknolojileri",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/iklim-teknolojileri",
-      "destination": "/zh/endustriyel/iklim-teknolojileri",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/iklim-teknolojileri",
       "destination": "/endustriyel/iklim-teknolojileri",
       "permanent": true
@@ -1993,21 +808,6 @@
     {
       "source": "/en/kabiliyetler/iklim-teknolojileri",
       "destination": "/en/endustriyel/iklim-teknolojileri",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/iklim-teknolojileri",
-      "destination": "/de/endustriyel/iklim-teknolojileri",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/iklim-teknolojileri",
-      "destination": "/ru/endustriyel/iklim-teknolojileri",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/iklim-teknolojileri",
-      "destination": "/zh/endustriyel/iklim-teknolojileri",
       "permanent": true
     },
     {
@@ -2021,21 +821,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/prototip-uretim",
-      "destination": "/de/endustriyel/prototip-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/prototip-uretim",
-      "destination": "/ru/endustriyel/prototip-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/prototip-uretim",
-      "destination": "/zh/endustriyel/prototip-uretim",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/prototip-uretim",
       "destination": "/endustriyel/prototip-uretim",
       "permanent": true
@@ -2043,21 +828,6 @@
     {
       "source": "/en/kabiliyetler/prototip-uretim",
       "destination": "/en/endustriyel/prototip-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/prototip-uretim",
-      "destination": "/de/endustriyel/prototip-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/prototip-uretim",
-      "destination": "/ru/endustriyel/prototip-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/prototip-uretim",
-      "destination": "/zh/endustriyel/prototip-uretim",
       "permanent": true
     },
     {
@@ -2071,21 +841,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/kucuk-seri",
-      "destination": "/de/endustriyel/kucuk-seri",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/kucuk-seri",
-      "destination": "/ru/endustriyel/kucuk-seri",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/kucuk-seri",
-      "destination": "/zh/endustriyel/kucuk-seri",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/kucuk-seri",
       "destination": "/endustriyel/kucuk-seri",
       "permanent": true
@@ -2093,21 +848,6 @@
     {
       "source": "/en/kabiliyetler/kucuk-seri",
       "destination": "/en/endustriyel/kucuk-seri",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/kucuk-seri",
-      "destination": "/de/endustriyel/kucuk-seri",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/kucuk-seri",
-      "destination": "/ru/endustriyel/kucuk-seri",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/kucuk-seri",
-      "destination": "/zh/endustriyel/kucuk-seri",
       "permanent": true
     },
     {
@@ -2121,21 +861,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/seri-uretim",
-      "destination": "/de/endustriyel/seri-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/seri-uretim",
-      "destination": "/ru/endustriyel/seri-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/seri-uretim",
-      "destination": "/zh/endustriyel/seri-uretim",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/seri-uretim",
       "destination": "/endustriyel/seri-uretim",
       "permanent": true
@@ -2143,21 +868,6 @@
     {
       "source": "/en/kabiliyetler/seri-uretim",
       "destination": "/en/endustriyel/seri-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/seri-uretim",
-      "destination": "/de/endustriyel/seri-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/seri-uretim",
-      "destination": "/ru/endustriyel/seri-uretim",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/seri-uretim",
-      "destination": "/zh/endustriyel/seri-uretim",
       "permanent": true
     },
     {
@@ -2171,21 +881,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/ozel-projeler",
-      "destination": "/de/endustriyel/ozel-projeler",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/ozel-projeler",
-      "destination": "/ru/endustriyel/ozel-projeler",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/ozel-projeler",
-      "destination": "/zh/endustriyel/ozel-projeler",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/ozel-projeler",
       "destination": "/endustriyel/ozel-projeler",
       "permanent": true
@@ -2193,21 +888,6 @@
     {
       "source": "/en/kabiliyetler/ozel-projeler",
       "destination": "/en/endustriyel/ozel-projeler",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/ozel-projeler",
-      "destination": "/de/endustriyel/ozel-projeler",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/ozel-projeler",
-      "destination": "/ru/endustriyel/ozel-projeler",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/ozel-projeler",
-      "destination": "/zh/endustriyel/ozel-projeler",
       "permanent": true
     },
     {
@@ -2221,21 +901,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/yenilenebilir-enerji",
-      "destination": "/de/endustriyel/yenilenebilir-enerji",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/yenilenebilir-enerji",
-      "destination": "/ru/endustriyel/yenilenebilir-enerji",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/yenilenebilir-enerji",
-      "destination": "/zh/endustriyel/yenilenebilir-enerji",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/yenilenebilir-enerji",
       "destination": "/endustriyel/yenilenebilir-enerji",
       "permanent": true
@@ -2243,21 +908,6 @@
     {
       "source": "/en/kabiliyetler/yenilenebilir-enerji",
       "destination": "/en/endustriyel/yenilenebilir-enerji",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/yenilenebilir-enerji",
-      "destination": "/de/endustriyel/yenilenebilir-enerji",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/yenilenebilir-enerji",
-      "destination": "/ru/endustriyel/yenilenebilir-enerji",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/yenilenebilir-enerji",
-      "destination": "/zh/endustriyel/yenilenebilir-enerji",
       "permanent": true
     },
     {
@@ -2271,21 +921,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/petrol-gaz",
-      "destination": "/de/endustriyel/petrol-gaz",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/petrol-gaz",
-      "destination": "/ru/endustriyel/petrol-gaz",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/petrol-gaz",
-      "destination": "/zh/endustriyel/petrol-gaz",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/petrol-gaz",
       "destination": "/endustriyel/petrol-gaz",
       "permanent": true
@@ -2293,21 +928,6 @@
     {
       "source": "/en/kabiliyetler/petrol-gaz",
       "destination": "/en/endustriyel/petrol-gaz",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/petrol-gaz",
-      "destination": "/de/endustriyel/petrol-gaz",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/petrol-gaz",
-      "destination": "/ru/endustriyel/petrol-gaz",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/petrol-gaz",
-      "destination": "/zh/endustriyel/petrol-gaz",
       "permanent": true
     },
     {
@@ -2321,21 +941,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/guc-dagitim-sistemleri",
-      "destination": "/de/endustriyel/guc-dagitim-sistemleri",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/guc-dagitim-sistemleri",
-      "destination": "/ru/endustriyel/guc-dagitim-sistemleri",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/guc-dagitim-sistemleri",
-      "destination": "/zh/endustriyel/guc-dagitim-sistemleri",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/guc-dagitim-sistemleri",
       "destination": "/endustriyel/guc-dagitim-sistemleri",
       "permanent": true
@@ -2343,21 +948,6 @@
     {
       "source": "/en/kabiliyetler/guc-dagitim-sistemleri",
       "destination": "/en/endustriyel/guc-dagitim-sistemleri",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/guc-dagitim-sistemleri",
-      "destination": "/de/endustriyel/guc-dagitim-sistemleri",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/guc-dagitim-sistemleri",
-      "destination": "/ru/endustriyel/guc-dagitim-sistemleri",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/guc-dagitim-sistemleri",
-      "destination": "/zh/endustriyel/guc-dagitim-sistemleri",
       "permanent": true
     },
     {
@@ -2371,21 +961,6 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/madencilik-ekipmanlari",
-      "destination": "/de/endustriyel/madencilik-ekipmanlari",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/madencilik-ekipmanlari",
-      "destination": "/ru/endustriyel/madencilik-ekipmanlari",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/madencilik-ekipmanlari",
-      "destination": "/zh/endustriyel/madencilik-ekipmanlari",
-      "permanent": true
-    },
-    {
       "source": "/kabiliyetler/madencilik-ekipmanlari",
       "destination": "/endustriyel/madencilik-ekipmanlari",
       "permanent": true
@@ -2393,21 +968,6 @@
     {
       "source": "/en/kabiliyetler/madencilik-ekipmanlari",
       "destination": "/en/endustriyel/madencilik-ekipmanlari",
-      "permanent": true
-    },
-    {
-      "source": "/de/kabiliyetler/madencilik-ekipmanlari",
-      "destination": "/de/endustriyel/madencilik-ekipmanlari",
-      "permanent": true
-    },
-    {
-      "source": "/ru/kabiliyetler/madencilik-ekipmanlari",
-      "destination": "/ru/endustriyel/madencilik-ekipmanlari",
-      "permanent": true
-    },
-    {
-      "source": "/zh/kabiliyetler/madencilik-ekipmanlari",
-      "destination": "/zh/endustriyel/madencilik-ekipmanlari",
       "permanent": true
     },
     {
@@ -2431,38 +991,13 @@
       "permanent": true
     },
     {
-      "source": "/de/hizmetler/basinçli-dokum",
-      "destination": "/de/hizmetler/basincli-dokum",
-      "permanent": true
-    },
-    {
-      "source": "/de/hizmetler/basin%C3%A7li-dokum",
-      "destination": "/de/hizmetler/basincli-dokum",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/basinçli-dokum",
-      "destination": "/ru/hizmetler/basincli-dokum",
-      "permanent": true
-    },
-    {
-      "source": "/ru/hizmetler/basin%C3%A7li-dokum",
-      "destination": "/ru/hizmetler/basincli-dokum",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/basinçli-dokum",
-      "destination": "/zh/hizmetler/basincli-dokum",
-      "permanent": true
-    },
-    {
-      "source": "/zh/hizmetler/basin%C3%A7li-dokum",
-      "destination": "/zh/hizmetler/basincli-dokum",
-      "permanent": true
-    },
-    {
       "source": "/cad-dashboard",
       "destination": "/teklif-al",
+      "permanent": true
+    },
+    {
+      "source": "/en/cad-dashboard",
+      "destination": "/en/teklif-al",
       "permanent": true
     }
   ],
@@ -2492,18 +1027,6 @@
       "destination": "/shell"
     },
     {
-      "source": "/de/giris",
-      "destination": "/shell"
-    },
-    {
-      "source": "/ru/giris",
-      "destination": "/shell"
-    },
-    {
-      "source": "/zh/giris",
-      "destination": "/shell"
-    },
-    {
       "source": "/sifremi-unuttum",
       "destination": "/shell"
     },
@@ -2512,35 +1035,11 @@
       "destination": "/shell"
     },
     {
-      "source": "/de/sifremi-unuttum",
-      "destination": "/shell"
-    },
-    {
-      "source": "/ru/sifremi-unuttum",
-      "destination": "/shell"
-    },
-    {
-      "source": "/zh/sifremi-unuttum",
-      "destination": "/shell"
-    },
-    {
       "source": "/reset-password",
       "destination": "/shell"
     },
     {
       "source": "/en/reset-password",
-      "destination": "/shell"
-    },
-    {
-      "source": "/de/reset-password",
-      "destination": "/shell"
-    },
-    {
-      "source": "/ru/reset-password",
-      "destination": "/shell"
-    },
-    {
-      "source": "/zh/reset-password",
       "destination": "/shell"
     }
   ],

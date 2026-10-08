@@ -26,17 +26,22 @@
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { loadEnv } from "vite";
 import { loadRouteTable } from "../lib/route-table.mjs";
 
 const root = resolve(import.meta.dirname, "..", "..");
 const OUT = join(root, "vercel.json");
 
 const table = await loadRouteTable();
-/* L1 — every language prefix in the locale table, published or not: this file
-   is committed and must not depend on build flags. A rule under an
-   unpublished prefix only ever leads to that prefix's 404. */
-const PREFIXES = Object.values(table.LOCALE_TABLE).map(({ prefix }) => prefix).filter(Boolean);
-const under = (prefix, path) => (path === "/" ? prefix : `${prefix}${path}`);
+/* L1 — the ROUTED language prefixes, read from the same build switches as the
+   app and the prerender (`VITE_SITE_LOCALES`, `VITE_SITE_ENGLISH`): English
+   always, DE / RU / ZH only when published. An unpublished prefix gets no rule
+   at all, so its auth paths stay real 404s instead of soft ones. Publishing a
+   language therefore regenerates this file with the flag set. */
+const env = { ...loadEnv("production", root, "VITE_"), ...Object.fromEntries(Object.entries(process.env).filter(([k]) => k.startsWith("VITE_"))) };
+const ROUTED = ["en", ...table.parseLiveLocales(env.VITE_SITE_LOCALES, env.VITE_SITE_ENGLISH).filter((code) => code !== "tr" && code !== "en")];
+const PREFIXES = ROUTED.map((code) => table.LOCALE_TABLE[code].prefix);
+const under = (prefix, path) => (path === "/" ? prefix || "/" : `${prefix}${path}`);
 
 /* A redirect source must match the path as requested. A browser sends a
    non-ASCII path percent-encoded, so both spellings are listed. */
@@ -52,7 +57,8 @@ const redirects = [
     ...PREFIXES.flatMap((prefix) =>
       spellings(under(prefix, from)).map((source) => ({ source, destination: under(prefix, to), permanent: true }))),
   ]),
-  { source: "/cad-dashboard", destination: "/teklif-al", permanent: true },
+  // The app registers the alias under every routed prefix (App.tsx PUBLIC_PAGES).
+  ...["", ...PREFIXES].map((prefix) => ({ source: under(prefix, "/cad-dashboard"), destination: under(prefix, "/teklif-al"), permanent: true })),
 ];
 
 const SHELL_ROUTES = ["/admin", "/admin/:path*", "/musteri-paneli", "/musteri-paneli/:path*"];
