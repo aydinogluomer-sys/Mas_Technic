@@ -25,6 +25,9 @@ const NUMBER_EXCEPTIONS: Record<string, string> = {
   "Akredite 3. taraf CMM (talebe bağlı)": "“3. taraf” is the ordinal of “third party”, not a value: German says “durch Dritte”",
   "Akredite 3. taraf CMM ölçümü, talebe bağlı": "same",
   "Miktar en fazla 1.000.000 adet olabilir.": "Russian groups thousands with a space: 1 000 000",
+  "Ağustos 2026": "Chinese writes the month as a number: 2026 年 8 月",
+  "1560EN:4, Kasım 2022": "same (2022 年 11 月)",
+  "1561EN:4, Kasım 2022": "same",
 };
 /* Plural forms a language has beyond i18next's `_one` / `_other` (Russian:
    `_few`, `_many`). Allowed only next to an English `_one` key. */

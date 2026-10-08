@@ -98,6 +98,7 @@ const LOADER_TEXT = {
   en: { label: "LOADING", detail: "Preparing the page." },
   de: { label: "WIRD GELADEN", detail: "Die Seite wird vorbereitet." },
   ru: { label: "ЗАГРУЗКА", detail: "Страница готовится." },
+  zh: { label: "加载中", detail: "页面正在准备。" },
 } as const;
 
 /* A loader is a promise, not a destination: when the route's code or its
@@ -133,6 +134,13 @@ const LOADER_TIMEOUT_TEXT = {
     detail: "Файлы страницы не загрузились вовремя. Обновите страницу; если ошибка повторится, сообщите нам.",
     offlineLabel: "НЕТ ПОДКЛЮЧЕНИЯ",
     offlineDetail: "Браузер сообщает об отсутствии подключения к интернету. Обновите страницу, когда подключение восстановится.",
+  },
+  zh: {
+    label: "加载超时",
+    title: "页面无法加载",
+    detail: "页面文件未能及时加载。请刷新页面；如问题持续出现，请告知我们。",
+    offlineLabel: "无网络连接",
+    offlineDetail: "浏览器提示当前没有网络连接。网络恢复后请刷新页面。",
   },
 } as const;
 
