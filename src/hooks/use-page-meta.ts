@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { localeFromPath, type PublicLocale } from "@/i18n/locale";
+import { LIVE_LOCALES, LOCALE_TABLE, localeFromPath, type PublicLocale } from "@/i18n/locale";
 import { routeLinks } from "@/lib/route-links";
-import { ENGLISH_LIVE, SITE_INDEXING, SITE_ORIGIN } from "@/lib/site-config";
+import { SITE_INDEXING, SITE_ORIGIN } from "@/lib/site-config";
 
 /* ══════════════════════════════════════════════════════════════════════════
    ROUTE METADATA (SEO01)
@@ -32,12 +32,12 @@ interface PageMetaOptions {
   fullTitle?: boolean;
 }
 
-export const DEFAULT_TITLE: Record<PublicLocale, string> = {
+const TITLES: Partial<Record<PublicLocale, string>> = {
   tr: "Mas Technic | Yüksek Hassasiyetli CNC Üretim & Talaşlı İmalat",
   en: "Mas Technic | High-Precision CNC Manufacturing & Machining",
 };
-
-const OG_LOCALE: Record<PublicLocale, string> = { tr: "tr_TR", en: "en_GB" };
+/** The home title; a language without its own yet reads the English one. */
+export const defaultTitle = (locale: PublicLocale): string => TITLES[locale] ?? (TITLES.en as string);
 const INDEX_ROBOTS = "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 const NOINDEX_ROBOTS = "noindex, nofollow";
 
@@ -76,7 +76,22 @@ export function applyPrivateRouteMeta() {
   setMeta("name", "robots", NOINDEX_ROBOTS);
   setLink("canonical", null);
   setMeta("property", "og:url", null);
-  for (const lang of ["tr", "en", "x-default"]) setLink("alternate", null, lang);
+  for (const lang of [...Object.keys(LOCALE_TABLE), "x-default"]) setLink("alternate", null, lang);
+}
+
+/** One `og:locale:alternate` per other live language (one element while there is one, as before). */
+function setLocaleAlternates(locales: string[]) {
+  if (locales.length <= 1) {
+    setMeta("property", "og:locale:alternate", locales[0] ?? null);
+    return;
+  }
+  document.head.querySelectorAll('meta[property="og:locale:alternate"]').forEach((element) => element.remove());
+  for (const locale of locales) {
+    const element = document.createElement("meta");
+    element.setAttribute("property", "og:locale:alternate");
+    element.setAttribute("content", locale);
+    document.head.appendChild(element);
+  }
 }
 
 const usePageMeta = ({ title, description, noindex = false, fullTitle = false }: PageMetaOptions) => {
@@ -92,21 +107,21 @@ const usePageMeta = ({ title, description, noindex = false, fullTitle = false }:
     setMeta("property", "og:description", description ?? null);
     setMeta("name", "twitter:title", documentTitle);
     setMeta("name", "twitter:description", description ?? null);
-    setMeta("property", "og:locale", OG_LOCALE[locale]);
-    setMeta("property", "og:locale:alternate", ENGLISH_LIVE ? OG_LOCALE[locale === "tr" ? "en" : "tr"] : null);
-
-    /* C3 — while English is unpublished an /en page is never indexed and no
+    /* C3 — while a language is unpublished its pages are never indexed and no
        page advertises a language pair that does not ship. */
-    const unpublished = locale === "en" && !ENGLISH_LIVE;
+    const unpublished = !LIVE_LOCALES.includes(locale);
+    setMeta("property", "og:locale", LOCALE_TABLE[locale].ogLocale);
+    setLocaleAlternates(unpublished ? [] : LIVE_LOCALES.filter((code) => code !== locale).map((code) => LOCALE_TABLE[code].ogLocale));
     const indexable = SITE_INDEXING === "public" && !noindex && !unpublished;
     setMeta("name", "robots", indexable ? INDEX_ROBOTS : NOINDEX_ROBOTS);
 
     const links = SITE_ORIGIN && !noindex && !unpublished ? routeLinks(pathname, SITE_ORIGIN) : null;
-    const pairs = ENGLISH_LIVE ? links : null;
+    const pairs = LIVE_LOCALES.length > 1 ? links : null;
     setLink("canonical", links?.canonical ?? null);
     setMeta("property", "og:url", links?.canonical ?? null);
-    setLink("alternate", pairs?.tr ?? null, "tr");
-    setLink("alternate", pairs?.en ?? null, "en");
+    for (const code of Object.keys(LOCALE_TABLE) as PublicLocale[]) {
+      setLink("alternate", pairs && LIVE_LOCALES.includes(code) ? pairs[code] ?? null : null, code);
+    }
     setLink("alternate", pairs?.tr ?? null, "x-default");
   }, [title, description, noindex, fullTitle, pathname]);
 };

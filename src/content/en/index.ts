@@ -16,7 +16,7 @@ import { cases } from "./cases";
 import { chat } from "./chat";
 
 /* The English content bundle (L01). Loaded only on `/en` routes through
-   `loadEnContent()` in `src/i18n/content.ts`. Completeness and number
+   `loadLocaleContent()` in `src/i18n/content.ts`. Completeness and number
    identity: `scripts/quality/locale-check.ts`. */
 const en = {
   services: { ...part1, ...part2, ...part3, ...part4, ...part5, ...part6, ...part7, ...part8 } as Record<string, ServiceText>,

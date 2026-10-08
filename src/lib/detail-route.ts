@@ -18,10 +18,11 @@
  * A leading locale segment (e.g. `/en`) is parsed and carried through so the
  * same rule keeps the reader's locale once locale prefixes exist (L01).
  */
+import { PUBLIC_LOCALES } from "@/i18n/locale";
 export const DETAIL_FAMILIES = ["hizmetler", "kabiliyetler", "endustriyel"] as const;
 export type DetailFamily = (typeof DETAIL_FAMILIES)[number];
 
-const LOCALE_PREFIXES = ["en"] as const;
+const LOCALE_PREFIXES = PUBLIC_LOCALES.filter((code) => code !== "tr");
 
 export interface DetailPath {
   /** `""` for the default (TR) locale, otherwise e.g. `"/en"`. */

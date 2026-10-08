@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
-import { ENGLISH_LIVE } from "@/lib/site-config";
 import { useTranslation } from "react-i18next";
 import { ChevronDown } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -28,11 +27,12 @@ type LanguageSwitchProps = {
   variant?: "inline" | "dropdown";
 };
 
-/* TR · EN only (L01). See `useChooseLanguage` above for what a choice does. */
-/* C3 — the switch is the only entry point to the English surface, so it is
-   not rendered while English is unpublished (`ENGLISH_LIVE`). */
+/* The published languages only (L1 `LIVE_LOCALES`). See `useChooseLanguage`
+   above for what a choice does. C3 — the switch is the only entry point to
+   another language's surface, so it is not rendered while Turkish is the
+   only published one. */
 export function LanguageSwitch(props: LanguageSwitchProps) {
-  return ENGLISH_LIVE ? <LanguageSwitchControl {...props} /> : null;
+  return LANGUAGES.length > 1 ? <LanguageSwitchControl {...props} /> : null;
 }
 
 function LanguageSwitchControl({ className = "", variant = "inline" }: LanguageSwitchProps) {

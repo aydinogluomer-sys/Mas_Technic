@@ -32,7 +32,11 @@ const root = resolve(import.meta.dirname, "..", "..");
 const OUT = join(root, "vercel.json");
 
 const table = await loadRouteTable();
-const en = (path) => (path === "/" ? "/en" : `/en${path}`);
+/* L1 — every language prefix in the locale table, published or not: this file
+   is committed and must not depend on build flags. A rule under an
+   unpublished prefix only ever leads to that prefix's 404. */
+const PREFIXES = Object.values(table.LOCALE_TABLE).map(({ prefix }) => prefix).filter(Boolean);
+const under = (prefix, path) => (path === "/" ? prefix : `${prefix}${path}`);
 
 /* A redirect source must match the path as requested. A browser sends a
    non-ASCII path percent-encoded, so both spellings are listed. */
@@ -45,14 +49,15 @@ const pairs = [
 const redirects = [
   ...pairs.flatMap(([from, to]) => [
     ...spellings(from).map((source) => ({ source, destination: to, permanent: true })),
-    ...spellings(en(from)).map((source) => ({ source, destination: en(to), permanent: true })),
+    ...PREFIXES.flatMap((prefix) =>
+      spellings(under(prefix, from)).map((source) => ({ source, destination: under(prefix, to), permanent: true }))),
   ]),
   { source: "/cad-dashboard", destination: "/teklif-al", permanent: true },
 ];
 
 const SHELL_ROUTES = ["/admin", "/admin/:path*", "/musteri-paneli", "/musteri-paneli/:path*"];
 const AUTH_ROUTES = table.STATIC.filter((route) => route.access === "auth" && !route.path.startsWith("/admin"))
-  .flatMap((route) => [route.path, route.enPath].filter(Boolean));
+  .flatMap((route) => [route.path, ...(route.enPath ? PREFIXES.map((prefix) => under(prefix, route.path)) : [])]);
 /* The destination is the CLEAN path: with cleanUrls Vercel serves
    shell.html at /shell and does not resolve a rewrite to "/shell.html"
    (it answered 404 on the preview of 4 Oct 2026; serve-dist.mjs now

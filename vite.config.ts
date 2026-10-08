@@ -6,6 +6,7 @@ import { execSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { normalizeOrigin } from "./src/lib/site-origin";
+import { LOCALE_TABLE, parseLiveLocales } from "./src/i18n/locale";
 import { HERO_IMAGE_SIZES, HERO_IMAGE_WIDTHS, heroImageFile, heroSrcSet } from "./src/components/technical-landing/hero-image";
 
 /**
@@ -240,7 +241,10 @@ function siteMetaPlugin(mode: string, command: "build" | "serve"): Plugin {
     throw new Error("[mas-site-meta] VITE_SITE_INDEXING=public requires VITE_SITE_ORIGIN. A public build must state its origin.");
   }
   const indexable = rawIndexing === "public" && Boolean(origin);
-  const englishLive = (process.env.VITE_SITE_ENGLISH ?? env.VITE_SITE_ENGLISH) === "live";
+  const live = parseLiveLocales(
+    process.env.VITE_SITE_LOCALES ?? env.VITE_SITE_LOCALES,
+    process.env.VITE_SITE_ENGLISH ?? env.VITE_SITE_ENGLISH,
+  ).filter((code) => code !== "tr");
 
   return {
     name: "mas-site-meta",
@@ -261,10 +265,10 @@ function siteMetaPlugin(mode: string, command: "build" | "serve"): Plugin {
           tags: [
             { tag: "link", attrs: { rel: "canonical", href: `${origin}/` }, injectTo: "head" },
             { tag: "meta", attrs: { property: "og:url", content: `${origin}/` }, injectTo: "head" },
-            // Language pairs only when English ships (VITE_SITE_ENGLISH=live).
-            ...(englishLive ? [
+            // Language pairs only when another language ships (L1 `VITE_SITE_LOCALES`).
+            ...(live.length ? [
               { tag: "link", attrs: { rel: "alternate", hreflang: "tr", href: `${origin}/` }, injectTo: "head" as const },
-              { tag: "link", attrs: { rel: "alternate", hreflang: "en", href: `${origin}/en` }, injectTo: "head" as const },
+              ...live.map((code) => ({ tag: "link", attrs: { rel: "alternate", hreflang: code, href: `${origin}${LOCALE_TABLE[code].prefix}` }, injectTo: "head" as const })),
               { tag: "link", attrs: { rel: "alternate", hreflang: "x-default", href: `${origin}/` }, injectTo: "head" as const },
             ] : []),
           ],

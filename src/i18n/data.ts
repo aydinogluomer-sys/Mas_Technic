@@ -5,7 +5,7 @@ import { materialCategories, materialsData, type Material, type MaterialCategory
 import { servicePages, type ServicePageData } from "@/data/servicePages";
 import { caseStudies, type CaseStudy } from "@/content/caseStudies";
 import type { EnContent } from "@/content/en";
-import { useEnContent } from "./content";
+import { useLocaleContent } from "./content";
 import { mergeText, type TextOverlay } from "./localize";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -63,10 +63,12 @@ const TURKISH = build(
 
 const overlay = <T,>(base: T, text: unknown) => mergeText(base, text as TextOverlay<T> | undefined);
 
-let english: { bundle: EnContent; data: SiteData } | null = null;
+/* One built data set per language bundle (L1), kept while that bundle is. */
+const built = new WeakMap<EnContent, SiteData>();
 
-function englishData(en: EnContent): SiteData {
-  if (english?.bundle === en) return english.data;
+function localizedData(en: EnContent): SiteData {
+  const known = built.get(en);
+  if (known) return known;
   const services = servicePages.map((page) => overlay(page, en.services[page.slug]));
   const data = build(
     services,
@@ -77,11 +79,11 @@ function englishData(en: EnContent): SiteData {
     caseStudies.map((study) => overlay(study, en.cases[study.slug])),
     [...staticEntries.map((entry, index) => en.chat[String(index)] ?? entry), ...collectServiceFaqs(services)],
   );
-  english = { bundle: en, data };
+  built.set(en, data);
   return data;
 }
 
 export function useSiteData(): SiteData {
-  const en = useEnContent();
-  return en ? englishData(en) : TURKISH;
+  const bundle = useLocaleContent();
+  return bundle ? localizedData(bundle) : TURKISH;
 }

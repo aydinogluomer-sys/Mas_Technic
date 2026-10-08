@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, matchRoutes, useLocation } from "react-ro
 import { useTranslation } from "react-i18next";
 import { Navigate } from "@/i18n/LocaleLink";
 import { applyLanguage, isLanguageReady } from "@/i18n";
-import { isPanelPath, localeFromPath } from "@/i18n/locale";
+import { LOCALE_TABLE, PUBLIC_LOCALES, isPanelPath, localeFromPath, stripLocale } from "@/i18n/locale";
 import { applyPrivateRouteMeta } from "@/hooks/use-page-meta";
 import { PageTransition } from "@/components/PageTransition";
 import { ScrollToTop } from "@/components/ScrollToTop";
@@ -26,7 +26,7 @@ import { ChatLauncher } from "@/components/ChatLauncher";
 import { isHeroIntroActive } from "@/lib/hero-shell";
 import { lazyRoute, type PreloadableRoute } from "@/lib/lazy-route";
 import { registerRoutePreparer } from "@/lib/route-prepare";
-import { loadEnContent } from "@/i18n/content";
+import { loadLocaleContent } from "@/i18n/content";
 import { bootMark, errorMessage, reportBoot } from "@/lib/boot-trace";
 
 const Index = lazyRoute("Index", () => import("./pages/Index").then((m) => ({ default: m.Index })));
@@ -124,8 +124,12 @@ type Pending = "route" | "language";
 
 /** A public route's locale comes from its URL; panel routes have none. */
 const publicLocale = (pathname: string) => (isPanelPath(pathname) ? null : localeFromPath(pathname));
-/** Loader copy cannot wait for i18n: panels read Turkish. */
-const loaderLocale = (pathname: string) => publicLocale(pathname) ?? "tr";
+/** Loader copy cannot wait for i18n: panels read Turkish, and a language
+    whose loader copy is not written yet reads the English one (L1). */
+const loaderLocale = (pathname: string): keyof typeof LOADER_TEXT => {
+  const locale = publicLocale(pathname) ?? "tr";
+  return locale in LOADER_TEXT ? (locale as keyof typeof LOADER_TEXT) : "en";
+};
 
 /** True once a loader has been on screen for LOADER_TIMEOUT_MS. */
 function useStalled(pathname: string, pending: Pending) {
@@ -181,7 +185,7 @@ const PageLoader = ({ pending = "route" }: { pending?: Pending }) => {
  */
 const PublicRouteLoader = () => {
   const { pathname } = useLocation();
-  if (isHeroIntroActive() || pathname === "/" || pathname === "/en" || pathname === "/en/") return <SilentLoader />;
+  if (isHeroIntroActive() || stripLocale(pathname) === "/") return <SilentLoader />;
   return <PageLoader />;
 };
 
@@ -198,7 +202,7 @@ const SilentLoader = () => {
 
 // Page transition handled by PageTransition component
 
-const LOCALE_PREFIXES = ["", "/en"] as const;
+const LOCALE_PREFIXES = PUBLIC_LOCALES.map((code) => LOCALE_TABLE[code].prefix);
 
 /* The public route table, authored once with Turkish paths. */
 const PUBLIC_PAGES: { path: string; element: ReactNode }[] = [
@@ -244,13 +248,14 @@ async function prepareFirstRoute(pathname: string): Promise<"ready" | { error: u
   const match = matchRoutes(routes, pathname)?.at(-1);
   const element = match?.route.element as { type?: PreloadableRoute } | undefined;
   const locale = publicLocale(pathname);
-  /* Pages under /en read the English content bundle and suspend until it is
-     there; the /en landing reads none (PERF01), so it is not fetched for it. */
-  const needsEnContent = locale === "en" && !/^\/en\/?$/.test(pathname);
+  /* Pages under a language prefix read that language's content bundle and
+     suspend until it is there; its landing reads none (PERF01), so it is not
+     fetched for it. */
+  const needsContent = !!locale && locale !== "tr" && stripLocale(pathname) !== "/";
   const [route] = await Promise.all([
     element?.type?.preload?.() ?? Promise.resolve("ready" as const),
     locale && !isLanguageReady(locale) ? applyLanguage(locale).catch(() => undefined) : undefined,
-    needsEnContent ? loadEnContent().catch(() => undefined) : undefined,
+    needsContent ? loadLocaleContent(locale).catch(() => undefined) : undefined,
   ]);
   return route;
 }
@@ -351,7 +356,7 @@ const AnimatedRoutes = () => {
 const HEADERLESS = ["/giris", "/sifremi-unuttum", "/reset-password"];
 const reservesHeader = (pathname: string) => {
   if (isPanelPath(pathname)) return false;
-  const bare = pathname.replace(/^\/en(?=\/|$)/, "") || "/";
+  const bare = stripLocale(pathname);
   return !HEADERLESS.includes(bare);
 };
 

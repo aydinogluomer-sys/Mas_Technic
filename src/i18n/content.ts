@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import type { EnContent } from "@/content/en";
 import { useLocale } from "./hooks";
+import type { PublicLocale } from "./locale";
 import { mergeText, type TextOverlay } from "./localize";
 
 /* The English content bundle (`src/content/en`) is ONE lazily loaded chunk:
@@ -15,31 +16,46 @@ import { mergeText, type TextOverlay } from "./localize";
    loader up, and the page renders once with English text. An English
    address still never shows a Turkish body, not even for a frame. */
 
-let cached: EnContent | null = null;
-let pending: Promise<EnContent> | null = null;
+/* L1 — one bundle per language, each its own lazy chunk, all the same shape
+   (the English one is the reference). A language without a bundle yet reads
+   the Turkish records, exactly as Turkish does. */
+type LocaleContent = EnContent;
+const BUNDLES: Partial<Record<PublicLocale, () => Promise<{ default: LocaleContent }>>> = {
+  en: () => import("@/content/en"),
+};
+const cached = new Map<PublicLocale, LocaleContent>();
+const pending = new Map<PublicLocale, Promise<LocaleContent | null>>();
 
-export function loadEnContent(): Promise<EnContent> {
-  if (cached) return Promise.resolve(cached);
-  pending ??= import("@/content/en").then((module) => (cached = module.default));
-  return pending;
+export function loadLocaleContent(locale: PublicLocale): Promise<LocaleContent | null> {
+  const load = BUNDLES[locale];
+  if (!load) return Promise.resolve(null);
+  const ready = cached.get(locale);
+  if (ready) return Promise.resolve(ready);
+  if (!pending.has(locale)) {
+    pending.set(locale, load().then(({ default: bundle }) => {
+      cached.set(locale, bundle);
+      return bundle;
+    }));
+  }
+  return pending.get(locale) as Promise<LocaleContent | null>;
 }
 
-export const isEnContentLoaded = () => cached !== null;
-
-/** The English bundle on an `/en` route, else `null`. On `/en` before the
-    bundle has arrived it suspends (throws the load promise), so the caller
-    must render inside a Suspense boundary — every lazy route does. */
-export function useEnContent(): EnContent | null {
-  const english = useLocale() === "en";
-  if (!english) return null;
-  if (!cached) throw loadEnContent();
-  return cached;
+/** The active language's bundle, or `null` on a Turkish route (or a language
+    without one). Before the bundle has arrived it suspends (throws the load
+    promise), so the caller must render inside a Suspense boundary — every
+    lazy route does. */
+export function useLocaleContent(): LocaleContent | null {
+  const locale = useLocale();
+  if (!BUNDLES[locale]) return null;
+  const bundle = cached.get(locale);
+  if (!bundle) throw loadLocaleContent(locale);
+  return bundle;
 }
 
 /** `base` in the active locale: on `/en` the matching English overlay is laid
     over the Turkish record (`mergeText`); on a Turkish route `base` itself. */
 export function useLocalized<T>(base: T, pick: (en: EnContent) => TextOverlay<T> | undefined): T {
-  const en = useEnContent();
+  const en = useLocaleContent();
   // `pick` is an inline selector; the bundle and the base decide the result.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   return useMemo(() => (en ? mergeText(base, pick(en)) : base), [en, base]);
