@@ -1,8 +1,6 @@
-import { useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { Navigate } from "@/i18n/LocaleLink";
-import { useScroll, useTransform } from "framer-motion";
-import { motion } from "@/components/shell/motion";
 import {
   PageShell,
   ShellAction,
@@ -19,7 +17,7 @@ import {
 import { resolveDetailRoute } from "@/lib/detail-route";
 import { useTranslation } from "react-i18next";
 import { pairLocale, localDecimals } from "@/i18n/format";
-import { useSiteData } from "@/i18n/data";
+import { useServiceData } from "@/i18n/service-data";
 import { upper } from "@/i18n/upper";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
@@ -282,7 +280,7 @@ export const ServiceDetail = () => {
   const { pathname, search, hash } = useLocation();
   const prefersReduced = usePrefersReducedMotion();
   const { t, i18n } = useTranslation();
-  const { getPageBySlug, categoryPages } = useSiteData();
+  const { getPageBySlug, categoryPages } = useServiceData();
 
   /* R01 — family + slug, not slug alone. A known slug under the wrong family
      redirects to its canonical address; an unknown slug gets the not-found
@@ -311,16 +309,41 @@ export const ServiceDetail = () => {
   );
 
   const plateRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: plateRef,
-    offset: ["start end", "end start"],
-  });
+  const plateImageRef = useRef<HTMLImageElement>(null);
   /* ±60px, matching the plate frame's symmetric 60px overscan in `shell.css`,
      so the image covers the frame at BOTH ends of the travel. The hero this
      replaces translated a `h-full` image 0→120px inside `overflow:hidden` and
      exposed the box at the bottom of the range. Zero under reduced motion:
-     a scroll-linked transform is motion whatever drives it. */
-  const plateY = useTransform(scrollYProgress, [0, 1], prefersReduced ? [0, 0] : [-60, 60]);
+     a scroll-linked transform is motion whatever drives it. Progress runs from
+     the plate's top entering the viewport to its bottom leaving it. A scroll
+     listener rather than Framer's `useScroll`, so this route does not load
+     `vendor-framer` (JS budget, Faz 6). */
+  useLayoutEffect(() => {
+    const frame = plateRef.current;
+    const image = plateImageRef.current;
+    if (!frame || !image || prefersReduced) return;
+    let raf = 0;
+    const place = () => {
+      raf = 0;
+      const { top, height } = frame.getBoundingClientRect();
+      const progress = Math.min(1, Math.max(0, (window.innerHeight - top) / (window.innerHeight + height)));
+      image.style.translate = `0 ${-60 + 120 * progress}px`;
+    };
+    const schedule = () => { if (!raf) raf = requestAnimationFrame(place); };
+    place();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    // Layout above the plate can still settle (fonts, lazy media) without a scroll.
+    const layout = new ResizeObserver(schedule);
+    layout.observe(document.body);
+    return () => {
+      layout.disconnect();
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      image.style.translate = "";
+    };
+  }, [prefersReduced, pathname]);
 
   if (resolution.kind === "redirect") {
     return <Navigate to={`${resolution.to}${search}${hash}`} replace />;
@@ -485,7 +508,9 @@ export const ServiceDetail = () => {
                  the shared fallback, a mood plate with no sector content at
                  all — decorative under the Phase 10-3 rule either way.
                  `reports/10/alt-text.md` lists all 48 routes. */
-              <motion.img
+              <img
+                ref={plateImageRef}
+                data-settle
                 src={heroImage.src}
                 srcSet={heroImage.srcSet}
                 sizes={coverSizes(heroImage.width / heroImage.height, PLATE_IMAGE_HEIGHT, PLATE_FULL_WIDTHS)}
@@ -493,10 +518,7 @@ export const ServiceDetail = () => {
                 height={heroImage.height}
                 alt=""
                 loading="eager"
-                style={{ y: plateY, objectPosition: plateCrop }}
-                initial={{ scale: 1.08, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                style={{ objectPosition: plateCrop }}
               />
             ) : null}
           />

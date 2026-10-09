@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import type { EnContent } from "@/content/en";
+import type { EnCore } from "@/content/en/core";
 import { useLocale } from "./hooks";
 import type { PublicLocale } from "./locale";
 import { mergeText, type TextOverlay } from "./localize";
@@ -53,6 +54,43 @@ export function useLocaleContent(): LocaleContent | null {
   const bundle = cached.get(locale);
   if (!bundle) throw loadLocaleContent(locale);
   return bundle;
+}
+
+/* The services-and-categories part of each bundle, its own lazy chunk, for
+   the service and category pages (`useServiceData()`). Those pages read no
+   family, material, post, case or chat text, and on `/en` the full bundle put
+   them over the 320 KiB JS budget (Faz 6). When the full bundle is already
+   here its own `services` and `categories` are used. */
+const CORES: Partial<Record<PublicLocale, () => Promise<{ default: EnCore }>>> = {
+  en: () => import("@/content/en/core"),
+  de: () => import("@/content/de/core"),
+  ru: () => import("@/content/ru/core"),
+  zh: () => import("@/content/zh/core"),
+};
+const cachedCore = new Map<PublicLocale, EnCore>();
+const pendingCore = new Map<PublicLocale, Promise<EnCore>>();
+
+export function loadLocaleCore(locale: PublicLocale): Promise<EnCore | null> {
+  const load = CORES[locale];
+  if (!load) return Promise.resolve(null);
+  const ready = cached.get(locale) ?? cachedCore.get(locale);
+  if (ready) return Promise.resolve(ready);
+  if (!pendingCore.has(locale)) {
+    pendingCore.set(locale, load().then(({ default: part }) => {
+      cachedCore.set(locale, part);
+      return part;
+    }));
+  }
+  return pendingCore.get(locale) as Promise<EnCore>;
+}
+
+/** Like `useLocaleContent()`, for the services-and-categories part only. */
+export function useLocaleCore(): EnCore | null {
+  const locale = useLocale();
+  if (!CORES[locale]) return null;
+  const core = cached.get(locale) ?? cachedCore.get(locale);
+  if (!core) throw loadLocaleCore(locale);
+  return core;
 }
 
 /** `base` in the active locale: on `/en` the matching English overlay is laid
