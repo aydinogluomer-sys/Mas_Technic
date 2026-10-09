@@ -1,0 +1,835 @@
+{
+  "capturedAt": "2026-10-09T16:01:39.747Z",
+  "base": "http://127.0.0.1:4198",
+  "profile": {
+    "network": "Slow 4G (150 ms RTT, 1.6 Mbps down, 750 Kbps up)",
+    "cpuThrottling": "4x",
+    "runsPerCell": 5,
+    "coldContextPerRun": true
+  },
+  "scope": "A/B F0",
+  "results": [
+    {
+      "route": "/",
+      "width": 375,
+      "runs": 5,
+      "lcpMs": {
+        "median": 1656,
+        "p75": 1680
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "img.",
+      "lcpBreakdownP75": {
+        "ttfb": 8,
+        "imageEnd": 542,
+        "cssEnd": 1111,
+        "renderDelay": 575
+      },
+      "jsKiB10s": {
+        "median": 198.1,
+        "max": 198.1
+      },
+      "labTbtMs": {
+        "median": 869,
+        "p75": 871
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": true,
+      "blockedHosts": [],
+      "detail": [
+        {
+          "lcpMs": 1640,
+          "cls": 0.0002,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 14,
+            "imageEnd": 542,
+            "cssEnd": 1086,
+            "renderDelay": 554
+          },
+          "tbtMs": 869,
+          "jsKiB10s": 198.1,
+          "nav": {
+            "ttfb": 14,
+            "domContentLoaded": 1790,
+            "load": 3349
+          },
+          "wallMs": 10041,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1680,
+          "cls": 0,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 8,
+            "imageEnd": 535,
+            "cssEnd": 1086,
+            "renderDelay": 594
+          },
+          "tbtMs": 871,
+          "jsKiB10s": 198.1,
+          "nav": {
+            "ttfb": 8,
+            "domContentLoaded": 1783,
+            "load": 3361
+          },
+          "wallMs": 10036,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1692,
+          "cls": 0,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 7,
+            "imageEnd": 538,
+            "cssEnd": 1117,
+            "renderDelay": 575
+          },
+          "tbtMs": 864,
+          "jsKiB10s": 198.1,
+          "nav": {
+            "ttfb": 7,
+            "domContentLoaded": 1810,
+            "load": 3356
+          },
+          "wallMs": 10034,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1656,
+          "cls": 0.0002,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 6,
+            "imageEnd": 724,
+            "cssEnd": 1111,
+            "renderDelay": 545
+          },
+          "tbtMs": 973,
+          "jsKiB10s": 198.1,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1813,
+            "load": 3321
+          },
+          "wallMs": 10039,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1652,
+          "cls": 0,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 6,
+            "imageEnd": 530,
+            "cssEnd": 1110,
+            "renderDelay": 542
+          },
+          "tbtMs": 836,
+          "jsKiB10s": 198.1,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1753,
+            "load": 3372
+          },
+          "wallMs": 10036,
+          "blockedHosts": []
+        }
+      ]
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "runs": 5,
+      "lcpMs": {
+        "median": 1760,
+        "p75": 1764
+      },
+      "cls": {
+        "median": 0.014,
+        "p75": 0.014
+      },
+      "lcpElement": "img.",
+      "lcpBreakdownP75": {
+        "ttfb": 6,
+        "imageEnd": 903,
+        "cssEnd": 1089,
+        "renderDelay": 692
+      },
+      "jsKiB10s": {
+        "median": 248.5,
+        "max": 248.5
+      },
+      "labTbtMs": {
+        "median": 1330,
+        "p75": 1339
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": true,
+      "blockedHosts": [],
+      "detail": [
+        {
+          "lcpMs": 1784,
+          "cls": 0.0138,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 7,
+            "imageEnd": 903,
+            "cssEnd": 1082,
+            "renderDelay": 702
+          },
+          "tbtMs": 1330,
+          "jsKiB10s": 248.5,
+          "nav": {
+            "ttfb": 7,
+            "domContentLoaded": 1871,
+            "load": 3385
+          },
+          "wallMs": 10040,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1720,
+          "cls": 0.0138,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 6,
+            "imageEnd": 694,
+            "cssEnd": 1080,
+            "renderDelay": 640
+          },
+          "tbtMs": 1199,
+          "jsKiB10s": 248.5,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1829,
+            "load": 3353
+          },
+          "wallMs": 10040,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1760,
+          "cls": 0.0138,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 6,
+            "imageEnd": 920,
+            "cssEnd": 1114,
+            "renderDelay": 646
+          },
+          "tbtMs": 1380,
+          "jsKiB10s": 248.5,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1864,
+            "load": 3388
+          },
+          "wallMs": 10036,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1740,
+          "cls": 0.0138,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 5,
+            "imageEnd": 696,
+            "cssEnd": 1089,
+            "renderDelay": 651
+          },
+          "tbtMs": 1224,
+          "jsKiB10s": 248.5,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1835,
+            "load": 3348
+          },
+          "wallMs": 10043,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1764,
+          "cls": 0.0138,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 6,
+            "imageEnd": 692,
+            "cssEnd": 1072,
+            "renderDelay": 692
+          },
+          "tbtMs": 1339,
+          "jsKiB10s": 248.5,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1854,
+            "load": 3346
+          },
+          "wallMs": 10043,
+          "blockedHosts": []
+        }
+      ]
+    },
+    {
+      "route": "/en",
+      "width": 375,
+      "runs": 5,
+      "lcpMs": {
+        "median": 1640,
+        "p75": 1672
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "img.",
+      "lcpBreakdownP75": {
+        "ttfb": 7,
+        "imageEnd": 739,
+        "cssEnd": 1109,
+        "renderDelay": 582
+      },
+      "jsKiB10s": {
+        "median": 238.7,
+        "max": 238.7
+      },
+      "labTbtMs": {
+        "median": 1005,
+        "p75": 1039
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": true,
+      "blockedHosts": [],
+      "detail": [
+        {
+          "lcpMs": 1628,
+          "cls": 0.0003,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 7,
+            "imageEnd": 739,
+            "cssEnd": 1075,
+            "renderDelay": 553
+          },
+          "tbtMs": 882,
+          "jsKiB10s": 238.7,
+          "nav": {
+            "ttfb": 7,
+            "domContentLoaded": 1767,
+            "load": 2819
+          },
+          "wallMs": 10033,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1672,
+          "cls": 0.0003,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 7,
+            "imageEnd": 727,
+            "cssEnd": 1084,
+            "renderDelay": 588
+          },
+          "tbtMs": 1005,
+          "jsKiB10s": 238.7,
+          "nav": {
+            "ttfb": 7,
+            "domContentLoaded": 1838,
+            "load": 2809
+          },
+          "wallMs": 10041,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1692,
+          "cls": 0.0003,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 5,
+            "imageEnd": 724,
+            "cssEnd": 1110,
+            "renderDelay": 582
+          },
+          "tbtMs": 1072,
+          "jsKiB10s": 238.7,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1865,
+            "load": 2840
+          },
+          "wallMs": 10037,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1640,
+          "cls": 0.0003,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 6,
+            "imageEnd": 525,
+            "cssEnd": 1068,
+            "renderDelay": 572
+          },
+          "tbtMs": 1039,
+          "jsKiB10s": 238.7,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1787,
+            "load": 2849
+          },
+          "wallMs": 10037,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1640,
+          "cls": 0.0003,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 6,
+            "imageEnd": 744,
+            "cssEnd": 1109,
+            "renderDelay": 531
+          },
+          "tbtMs": 820,
+          "jsKiB10s": 238.7,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1774,
+            "load": 2809
+          },
+          "wallMs": 10036,
+          "blockedHosts": []
+        }
+      ]
+    },
+    {
+      "route": "/en",
+      "width": 1440,
+      "runs": 5,
+      "lcpMs": {
+        "median": 1744,
+        "p75": 1744
+      },
+      "cls": {
+        "median": 0.009,
+        "p75": 0.009
+      },
+      "lcpElement": "img.",
+      "lcpBreakdownP75": {
+        "ttfb": 7,
+        "imageEnd": 702,
+        "cssEnd": 1081,
+        "renderDelay": 663
+      },
+      "jsKiB10s": {
+        "median": 289.1,
+        "max": 289.1
+      },
+      "labTbtMs": {
+        "median": 1420,
+        "p75": 1470
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": true,
+      "blockedHosts": [],
+      "detail": [
+        {
+          "lcpMs": 1760,
+          "cls": 0.0094,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 6,
+            "imageEnd": 701,
+            "cssEnd": 1080,
+            "renderDelay": 680
+          },
+          "tbtMs": 1708,
+          "jsKiB10s": 289.1,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1895,
+            "load": 9985
+          },
+          "wallMs": 10141,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1744,
+          "cls": 0.0094,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 6,
+            "imageEnd": 702,
+            "cssEnd": 1081,
+            "renderDelay": 663
+          },
+          "tbtMs": 1356,
+          "jsKiB10s": 289.1,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1830,
+            "load": 2844
+          },
+          "wallMs": 10043,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1744,
+          "cls": 0.0094,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 5,
+            "imageEnd": 696,
+            "cssEnd": 1096,
+            "renderDelay": 648
+          },
+          "tbtMs": 1420,
+          "jsKiB10s": 289.1,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1862,
+            "load": 9992
+          },
+          "wallMs": 10137,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1728,
+          "cls": 0.0094,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 7,
+            "imageEnd": 695,
+            "cssEnd": 1073,
+            "renderDelay": 655
+          },
+          "tbtMs": 1470,
+          "jsKiB10s": 289.1,
+          "nav": {
+            "ttfb": 7,
+            "domContentLoaded": 1807,
+            "load": 9993
+          },
+          "wallMs": 10157,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1728,
+          "cls": 0.0094,
+          "lcpElement": "img.",
+          "lcpBreakdown": {
+            "ttfb": 10,
+            "imageEnd": 883,
+            "cssEnd": 1076,
+            "renderDelay": 652
+          },
+          "tbtMs": 1309,
+          "jsKiB10s": 289.1,
+          "nav": {
+            "ttfb": 10,
+            "domContentLoaded": 1848,
+            "load": 2862
+          },
+          "wallMs": 10043,
+          "blockedHosts": []
+        }
+      ]
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "width": 375,
+      "runs": 5,
+      "lcpMs": {
+        "median": 1592,
+        "p75": 1604
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "p.shell-lede",
+      "lcpBreakdownP75": {
+        "ttfb": 6,
+        "imageEnd": 0,
+        "cssEnd": 1118,
+        "renderDelay": 486
+      },
+      "jsKiB10s": {
+        "median": 291.6,
+        "max": 291.6
+      },
+      "labTbtMs": {
+        "median": 786,
+        "p75": 812
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": true,
+      "blockedHosts": [],
+      "detail": [
+        {
+          "lcpMs": 1680,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "lcpBreakdown": {
+            "ttfb": 6,
+            "imageEnd": 0,
+            "cssEnd": 1102,
+            "renderDelay": 578
+          },
+          "tbtMs": 961,
+          "jsKiB10s": 291.6,
+          "nav": {
+            "ttfb": 6,
+            "domContentLoaded": 1807,
+            "load": 3548
+          },
+          "wallMs": 10035,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1580,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "lcpBreakdown": {
+            "ttfb": 5,
+            "imageEnd": 0,
+            "cssEnd": 1115,
+            "renderDelay": 465
+          },
+          "tbtMs": 761,
+          "jsKiB10s": 291.6,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1748,
+            "load": 3455
+          },
+          "wallMs": 10036,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1592,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "lcpBreakdown": {
+            "ttfb": 5,
+            "imageEnd": 0,
+            "cssEnd": 1125,
+            "renderDelay": 467
+          },
+          "tbtMs": 812,
+          "jsKiB10s": 291.6,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1749,
+            "load": 3479
+          },
+          "wallMs": 10039,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1604,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "lcpBreakdown": {
+            "ttfb": 5,
+            "imageEnd": 0,
+            "cssEnd": 1118,
+            "renderDelay": 486
+          },
+          "tbtMs": 786,
+          "jsKiB10s": 291.6,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1782,
+            "load": 3483
+          },
+          "wallMs": 10038,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1556,
+          "cls": 0,
+          "lcpElement": "p.shell-lede",
+          "lcpBreakdown": {
+            "ttfb": 7,
+            "imageEnd": 0,
+            "cssEnd": 1107,
+            "renderDelay": 449
+          },
+          "tbtMs": 743,
+          "jsKiB10s": 291.6,
+          "nav": {
+            "ttfb": 7,
+            "domContentLoaded": 1713,
+            "load": 3436
+          },
+          "wallMs": 10040,
+          "blockedHosts": []
+        }
+      ]
+    },
+    {
+      "route": "/hizmetler/cnc-frezeleme",
+      "width": 1440,
+      "runs": 5,
+      "lcpMs": {
+        "median": 1636,
+        "p75": 1640
+      },
+      "cls": {
+        "median": 0,
+        "p75": 0
+      },
+      "lcpElement": "h1.",
+      "lcpBreakdownP75": {
+        "ttfb": 8,
+        "imageEnd": 0,
+        "cssEnd": 1112,
+        "renderDelay": 535
+      },
+      "jsKiB10s": {
+        "median": 342,
+        "max": 342
+      },
+      "labTbtMs": {
+        "median": 1148,
+        "p75": 1211
+      },
+      "targets": {
+        "lcpMs": 2500,
+        "cls": 0.1,
+        "jsKiB10s": 320
+      },
+      "passLab": false,
+      "blockedHosts": [],
+      "detail": [
+        {
+          "lcpMs": 1652,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "lcpBreakdown": {
+            "ttfb": 13,
+            "imageEnd": 0,
+            "cssEnd": 1106,
+            "renderDelay": 546
+          },
+          "tbtMs": 1211,
+          "jsKiB10s": 342,
+          "nav": {
+            "ttfb": 13,
+            "domContentLoaded": 1765,
+            "load": 3527
+          },
+          "wallMs": 10047,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1636,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "lcpBreakdown": {
+            "ttfb": 5,
+            "imageEnd": 0,
+            "cssEnd": 1112,
+            "renderDelay": 524
+          },
+          "tbtMs": 1148,
+          "jsKiB10s": 342,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1639,
+            "load": 3512
+          },
+          "wallMs": 10044,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1624,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "lcpBreakdown": {
+            "ttfb": 5,
+            "imageEnd": 0,
+            "cssEnd": 1101,
+            "renderDelay": 523
+          },
+          "tbtMs": 1231,
+          "jsKiB10s": 342,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1681,
+            "load": 3523
+          },
+          "wallMs": 10038,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1640,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "lcpBreakdown": {
+            "ttfb": 5,
+            "imageEnd": 0,
+            "cssEnd": 1118,
+            "renderDelay": 522
+          },
+          "tbtMs": 1115,
+          "jsKiB10s": 342,
+          "nav": {
+            "ttfb": 5,
+            "domContentLoaded": 1762,
+            "load": 3534
+          },
+          "wallMs": 10044,
+          "blockedHosts": []
+        },
+        {
+          "lcpMs": 1632,
+          "cls": 0,
+          "lcpElement": "h1.",
+          "lcpBreakdown": {
+            "ttfb": 8,
+            "imageEnd": 0,
+            "cssEnd": 1097,
+            "renderDelay": 535
+          },
+          "tbtMs": 1098,
+          "jsKiB10s": 342,
+          "nav": {
+            "ttfb": 8,
+            "domContentLoaded": 1747,
+            "load": 3504
+          },
+          "wallMs": 10050,
+          "blockedHosts": []
+        }
+      ]
+    }
+  ]
+}
