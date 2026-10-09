@@ -6,12 +6,13 @@
 
 | | Faz 0 | Faz 6 | Fark |
 |---|---|---|---|
-| `/` ilk JS (gz) | 162,7 KiB | 123,2 KiB | −39,5 KiB (−24 %) |
-| `/en` ilk JS (gz) | 203,0 KiB | 163,7 KiB | −39,3 KiB (−19 %) |
+| `/` ilk JS (gz) | 162,8 KiB | 123,4 KiB | −39,4 KiB (−24 %) |
+| `/en` ilk JS (gz) | 203,1 KiB | 163,9 KiB | −39,2 KiB (−19 %) |
 | Render-blocking CSS (gz, 3 dosya) | 57,8 KiB | 56,6 KiB | −1,2 KiB |
-| `--forbid vendor-framer,vendor-gsap` | (yoktu) | geçti | Framer ve GSAP `/` ile `/en` ilk grafiğinde yok |
+| Framer (`vendor-framer`) ilk grafikte | var | yok | Faz 2 |
+| GSAP (`vendor-gsap`) ilk grafikte | yok | yok | Faz 0'da da yoktu; `--forbid vendor-framer,vendor-gsap` geçti |
 
-Planın hedefi `/` için yaklaşık 117 KiB'ti. Ölçülen değer 123,2 KiB.
+Toplamlar raporların `jsTotalKiB.gz` alanından alındı. Planın hedefi `/` için yaklaşık 117 KiB'ti. Ölçülen değer 123,4 KiB.
 
 Kaynak dosyalar: `f0-bundle-report.json` ve `f6-bundle-report.json`.
 
@@ -24,7 +25,7 @@ Kaynak dosyalar: `f0-bundle-report.json` ve `f6-bundle-report.json`.
 | **Refactor edilebilir** | **35.718** | **31.111** | **−4.607 (−12,9 %)** |
 | Toplam `src/` | 66.645 | 79.703 | +13.058 |
 
-İçerik artışının tamamı Faz L'den geliyor: DE, RU ve ZH sözlükleri, içerik paketleri ve yasal metinler. Bunlar planın "içerik dosyaları kısaltılmaz, eklemek serbest" kuralına giriyor. Kodun sadeleşmesi refactor edilebilir kovada ölçülüyor.
+İçerik artışının 17.634 satırı Faz L'den geliyor: DE, RU ve ZH sözlükleri, içerik paketleri ve yasal metinler. Faz L'den hemen önce (`a382450`, PR #23 sonrası) içerik kovası 17.988 satırdı. Kalan 31 satır R1 ve sonrası işlerden geliyor (`detail-visuals.ts` +22, `technicalLandingData.ts` +9). Bunlar planın "içerik dosyaları kısaltılmaz, eklemek serbest" kuralına giriyor. Kodun sadeleşmesi refactor edilebilir kovada ölçülüyor.
 
 Plan tablosu 1a ile 1b için −8,5 ile −9,2 % tahmin etmişti. Ölçülen −12,9 % 1c olmadan geldi; Faz 1c atlandı.
 
@@ -44,15 +45,17 @@ Ayarlar Faz 0 ile aynı: yavaş 4G (150 ms, 1,6 Mbps), 4× CPU, rota ve genişli
 CLS iki build'de aynı: 375'te 0; 1440'ta `/` için 0,014, `/en` için 0,009.
 
 **Okuma:**
-- **10 saniyede yüklenen JS:** masaüstünde belirgin düştü; `/` @1440'ta −34 %. Planın masaüstü hedefi yaklaşık 122 KiB'ti, ölçülen 164,5 KiB. Kalan fark EN ve diğer dil yükleyicileri ile rota chunk'larından geliyor.
-- **JS bütçesi:** `/hizmetler/cnc-frezeleme` @1440 320 KiB bütçesinin altına indi (342 → 315). C4'ten beri tek aşım buydu.
+- **10 saniyede yüklenen JS:** masaüstünde belirgin düştü; `/` @1440'ta −34 %. Planın masaüstü hedefi yaklaşık 122 KiB'ti, ölçülen 164,5 KiB. Kalan farkın hangi chunk'lardan geldiği istek düzeyinde ölçülmedi.
+- **JS bütçesi (320 KiB):**
+  - `/hizmetler/cnc-frezeleme` @1440 bütçenin altına indi (342 → 315).
+  - İngilizce hizmet sayfası `/en/hizmetler/cnc-frezeleme` **hâlâ bütçenin üstünde**: 375'te 423,7, 1440'ta 429 KiB. C4'te 405,2 ve 455,5 KiB'ti. Kaynak: `f6-perf-lab-en-service.json`. C4 kaydındaki EN aşımları kapanmadı.
 - **LCP:** fark ±45 ms içinde. Bu, koşular arası gürültüden ayırt edilemiyor; LCP değişmedi denebilir.
 - **Lab TBT:** sonuç karışık. `/` @375 iki ayrı koşuda da yükseldi (Faz 6 ilk koşu 1094, A/B koşusu 1244; Faz 0 729 ve 871). `/en` @1440 ile hizmet sayfası @1440'ta düştü.
   - `/` için olası neden: taban `7eeae2c`, R1'den **önceki** ana sayfa. R1, kullanıcı kararıyla bandı, manifestoyu, süreç fotoğrafını ve ters kaydırma bölümünü geri getirdi. Yani karşılaştırılan iki `/` aynı sayfa değil.
   - Bu açıklama doğrulanmadı; profil alınmadı. Lab TBT INP değildir.
 - **Kritik CSS** (`f4-css-fonts.md`): yerelde `cssEnd − imageEnd` 375'te +345 ms. Karar Vercel ölçümüne bırakıldı.
 
-Kaynak dosyalar: `f6-perf-lab-local.json` (ilk koşu), `f6-perf-lab-ab-f0.json` ve `f6-perf-lab-ab-f6.json` (A/B).
+Kaynak dosyalar: `f6-perf-lab-local.json` (ilk koşu), `f6-perf-lab-ab-f0.json` ve `f6-perf-lab-ab-f6.json` (A/B), `f6-perf-lab-en-service.json` (İngilizce hizmet sayfası).
 
 ## Yapılmayanlar / sahibinde
 
