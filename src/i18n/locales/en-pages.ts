@@ -460,7 +460,10 @@ const pages: Record<string, string> = {
   "Kabiliyetler": "Capabilities",
   "KABİLİYET PROFİLİ": "CAPABILITY PROFILE",
   "Kaldır": "Remove",
-  "Kalite": "Grade",
+  /* Context keys: the same Turkish word means two things — the material
+     grade column and the upload state. `t(key, { context })` picks these; the
+     plain key keeps the generic meaning (quality, loading). */
+  "Kalite_grade": "Grade",
   "Kalite & Standartlar": "Quality & Standards",
   "Kalite belgeniz var mı?": "Do you hold a quality certificate?",
   "Kalite bir aşama değil, bir zincirdir. Aşağıdaki altı adımın her biri arkasında bir kayıt bırakır ve teslim dosyası bu kayıtlardan oluşur.": "Quality is not a stage but a chain. Each of the six steps below leaves a record behind, and the delivery file is made of these records.",
@@ -853,7 +856,7 @@ const pages: Record<string, string> = {
   "YÖNLENDİRME": "REDIRECT",
   "YÖNLENDİRME BAŞLAMADI": "REDIRECT DID NOT START",
   "YÖNTEM / CİHAZ": "METHOD / DEVICE",
-  "YÜKLENİYOR": "LOADING",
+  "YÜKLENİYOR_upload": "UPLOADING",
   "Yüzey bitişi": "Surface finish",
   "Yüzey durumu": "Surface condition",
   "Yüzey işleme hizmetiniz var mı?": "Do you offer surface treatment?",

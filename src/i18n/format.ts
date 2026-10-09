@@ -11,7 +11,10 @@ const AND: Record<SiteLocale, string> = { tr: "ve", en: "and", de: "und", ru: "�
 /* "A, B ve C" / "A, B and C" / "A, B und C" — a prose list in the reader's language. */
 export function joinList(parts: readonly string[], language: string | undefined): string {
   if (parts.length < 2) return parts.join("");
-  return `${parts.slice(0, -1).join(", ")} ${AND[base(language)]} ${parts[parts.length - 1]}`;
+  const locale = base(language);
+  /* Chinese: the enumeration comma and no spaces — "A、B和C". */
+  if (locale === "zh") return `${parts.slice(0, -1).join("、")}${AND.zh}${parts[parts.length - 1]}`;
+  return `${parts.slice(0, -1).join(", ")} ${AND[locale]} ${parts[parts.length - 1]}`;
 }
 
 const TURKISH_MONTHS = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];

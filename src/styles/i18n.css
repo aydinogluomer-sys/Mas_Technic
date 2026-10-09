@@ -142,3 +142,12 @@ html:is([lang="de"], [lang="ru"]) body {
 html:is([lang="de"], [lang="ru"]) :is(th, td) {
   overflow-wrap: anywhere;
 }
+
+/* Chinese (L5): Han text breaks between any two characters; `strict` keeps
+   closing punctuation (，。）) off the start of a line, and a long Latin code
+   inside a Chinese sentence (ISO 9001:2015, Ti6Al4V) may break rather than run
+   out of its box. */
+html[lang^="zh"] body {
+  line-break: strict;
+  overflow-wrap: anywhere;
+}

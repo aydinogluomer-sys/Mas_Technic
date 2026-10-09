@@ -615,7 +615,7 @@ const base: Record<string, string> = {
   "Yukarı çık": "Back to top",
   "YÜKLE": "UPLOAD",
   "YÜKLEME BAŞARISIZ": "UPLOAD FAILED",
-  "YÜKLENİYOR": "UPLOADING",
+  "YÜKLENİYOR": "LOADING",
   "Yüklenmedi": "Not uploaded",
   "Yüksek Teknoloji": "High technology",
   "Yüzey": "Surface",

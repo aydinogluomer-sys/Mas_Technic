@@ -639,7 +639,7 @@ export const ServiceDetail = () => {
           <div className="shell-span-full shell-stack grid-cols-[minmax(0,1fr)]" data-gap="sm">
             <ShellSpecTable
               caption={t("{{title}} — malzeme kaydı", { title: page.title })}
-              headers={[t("Malzeme"), t("Kalite"), t("Özellik")]}
+              headers={[t("Malzeme"), t("Kalite", { context: "grade" }), t("Özellik")]}
               numericFrom={99}
               rows={page.materials.map((material) => [
                 material.name,
