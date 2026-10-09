@@ -163,11 +163,12 @@ for (const motion of ["reduce", "no-preference"] as const) {
             await settled(page);
           }
           /* The menu CTA's 16px arrow (`.tl-menu-cta svg`) repaints 2-4 px
-             late at 375 with motion on, after every signal above is quiet; a
-             1.5 s pause was not enough under load (1b-i: 1 in 390 on main
-             and branch alike). Only that lane masks it — same fill on both
-             sides; the reduced lane and 1440 still compare the icon exactly. */
-          const flakyArrow = motion === "no-preference" && test.info().project.name === "parity-375";
+             late with motion on, after every signal above is quiet; a 1.5 s
+             pause was not enough under load (1b-i: 1 in 390 at 375; after
+             #38, 3 px at 1440 in 6 of 40 repeats, main against itself). The
+             motion lane masks it at both widths — same fill on both sides;
+             the reduced lane still compares the icon exactly. */
+          const flakyArrow = motion === "no-preference";
           await expect(page).toHaveScreenshot(`${base}-family-${index + 1}.png`, {
             ...SHOT,
             mask: flakyArrow ? [page.locator(".tl-menu-cta svg")] : [],
