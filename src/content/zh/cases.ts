@@ -1,0 +1,58 @@
+import type { CaseText } from "@/content/en/types";
+
+export const cases: Record<string, CaseText> = {
+  "ince-cidarli-govde": {
+    title: "薄壁壳体",
+    challenge: "薄壁壳体的真正难点不在切削，而在装夹：加工过程中切削力和热量会使零件发生位移，尺寸在机床上合格，到检验时却不合格。",
+    material: "6061-T6 / 7075-T6 铝合金",
+    process: ["可制造性设计（DFM）与装夹分析", "5 轴铣削", "过程检验", "最终检验"],
+    tolerance: "±0.01 mm",
+    inspection: "经认可的第三方三坐标测量，按需提供",
+    leadTime: "交期在审核材料供应、工序数量和产能计划后随报价一并告知。",
+    outcome: "根据壁厚规划切削顺序和装夹方式；零件从夹具上松开后再次检验关键尺寸。",
+    controlPlan: [
+      { feature: "关键直径", method: "按检验计划测量", record: "测量记录" },
+      { feature: "壁厚", method: "过程检验", record: "工序记录" },
+      { feature: "平面度 / 形状", method: "经认可的第三方三坐标测量（按需）", record: "测量报告" },
+    ],
+    gallery: [{ alt: "测量台上一件带有已加工轴承座和安装孔的金属壳体" }],
+    relatedCapability: { label: "5 轴 CNC 铣削" },
+    rfq: { label: "为此零件申请报价" },
+  },
+  "titanyum-baglanti-parcasi": {
+    title: "钛合金连接件",
+    challenge: "钛会将热量传入刀具，缩短刀具寿命。难点不在于加工出一个零件，而在于让第一百个零件与第一个完全一致。",
+    material: "Ti-6Al-4V（Grade 5）钛合金",
+    process: ["刀具与切削参数选择", "5 轴铣削", "刀具寿命监控", "最终检验"],
+    tolerance: "±0.01 mm",
+    inspection: "经认可的第三方三坐标测量，按需提供",
+    leadTime: "交期在审核材料供应、工序数量和产能计划后随报价一并告知。",
+    outcome: "切削参数和换刀间隔均记录在案；通过过程检验监控批内波动。",
+    controlPlan: [
+      { feature: "安装孔", method: "按检验计划测量", record: "测量记录" },
+      { feature: "刀具寿命", method: "过程监控", record: "过程记录" },
+      { feature: "材料标识", method: "批次 / 炉号追溯", record: "可追溯性记录" },
+    ],
+    gallery: [{ alt: "一件直立的金属连接件，表面经抛光，带有已加工的斜向通道和孔" }],
+    relatedCapability: { label: "公差与精度" },
+    rfq: { label: "为此零件申请报价" },
+  },
+  "hassas-mil": {
+    title: "精密轴",
+    challenge: "对于长轴，仅有直径公差是不够的；同轴度和跳动决定零件能否在装配中正常工作。",
+    material: "42CrMo4 / 1.7225 钢",
+    process: ["车削", "热处理后尺寸检验", "磨削余量规划", "最终检验"],
+    tolerance: "±0.01 mm",
+    inspection: "经认可的第三方三坐标测量，按需提供",
+    leadTime: "交期在审核材料供应、工序数量和产能计划后随报价一并告知。",
+    outcome: "中心孔与装夹基准在所有工序中保持不变；几何特征从同一基准进行检验。",
+    controlPlan: [
+      { feature: "轴承位直径", method: "按检验计划测量", record: "测量记录" },
+      { feature: "跳动 / 同轴度", method: "以基准检验", record: "测量记录" },
+      { feature: "淬火后尺寸", method: "过程检验", record: "工序记录" },
+    ],
+    gallery: [{ alt: "金属轴夹持在车床卡盘中，在冷却液下由转塔刀具进行车削" }],
+    relatedCapability: { label: "CNC 车削" },
+    rfq: { label: "为此零件申请报价" },
+  },
+};

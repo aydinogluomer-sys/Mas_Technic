@@ -68,6 +68,11 @@ test.describe("L01 locale helpers and content (pure)", () => {
     expect(russian).toContain("services: 48/48 overlays");
     expect(russian).toContain("materials: 87/87 overlays");
     expect(russian).toContain("OK — overlays complete, numbers identical");
+    // L5: and the Chinese bundle.
+    const chinese = execFileSync("node", [out, "zh"], { encoding: "utf8" });
+    expect(chinese).toContain("services: 48/48 overlays");
+    expect(chinese).toContain("materials: 87/87 overlays");
+    expect(chinese).toContain("OK — overlays complete, numbers identical");
   });
 
   test("the German, Russian and Chinese interface dictionaries cover every key with the same placeholders and numbers", () => {

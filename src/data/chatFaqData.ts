@@ -287,14 +287,30 @@ const QUESTION_FORM_WORDS = new Set([
 ]);
 
 // ── Basit TF-IDF benzeri skor hesaplama ──
+/* L5 — Chinese is written without spaces, so a run of Han characters is cut
+   into overlapping two-character pieces ("交货期" → 交货, 货期); a keyword such
+   as 交期 or 报价 then matches the way a word does. Text with no Han
+   characters takes exactly the path it took before. */
+const HAN_RUN = /[\u4e00-\u9fff]+/g;
+const QUESTION_FORM_BIGRAMS = new Set(["你们", "贵司", "是否", "可以", "能否", "哪些", "什么", "多少", "怎么", "如何", "有没", "没有", "请问", "我们", "提供"]);
+function hanBigrams(text: string): string[] {
+  const out: string[] = [];
+  for (const [run] of text.matchAll(HAN_RUN)) {
+    for (let i = 0; i + 2 <= run.length; i++) out.push(run.slice(i, i + 2));
+  }
+  return out;
+}
+
 function normalize(text: string): string[] {
-  const words = text
-    .toLowerCase()
+  const lowered = text.toLowerCase();
+  const words = lowered
     .replace(/[^\wğüşöçıİĞÜŞÖÇäÄß\u0400-\u04FF]/g, " ")
     .split(/\s+/)
     .filter((w) => w.length > 2);
-  const topical = words.filter((w) => !QUESTION_FORM_WORDS.has(w));
-  return topical.length > 0 ? topical : words;
+  const han = hanBigrams(lowered);
+  const all = han.length ? [...words, ...han] : words;
+  const topical = all.filter((w) => !QUESTION_FORM_WORDS.has(w) && !QUESTION_FORM_BIGRAMS.has(w));
+  return topical.length > 0 ? topical : all;
 }
 
 export interface MatchResult {
@@ -302,7 +318,27 @@ export interface MatchResult {
   score: number;
 }
 
+/* Chinese input: a keyword found inside the question is a strong signal (the
+   keywords are the words a buyer types: 报价, 交期, 证书); the bigram overlap
+   with the stored question ranks entries with the same number of hits. Two-
+   character bigrams that straddle words (们接, 受哪) would otherwise drown the
+   real ones, so the word-ratio score used for spaced languages does not fit. */
+function findHanMatch(userInput: string, entries: readonly FaqEntry[]): MatchResult | null {
+  const lowered = userInput.toLowerCase();
+  const inputPieces = new Set(normalize(userInput));
+  let best: MatchResult | null = null;
+  for (const entry of entries) {
+    const hits = entry.keywords.filter((k) => k.length >= 2 && lowered.includes(k.toLowerCase())).length;
+    const questionPieces = normalize(entry.question);
+    const overlap = questionPieces.filter((w) => inputPieces.has(w)).length / Math.max(questionPieces.length, 1);
+    const score = hits > 0 ? Math.min(1, 0.6 + 0.15 * (hits - 1) + 0.25 * overlap) : overlap;
+    if (score > (best?.score ?? 0)) best = { entry, score };
+  }
+  return best && best.score >= 0.6 ? best : null;
+}
+
 export function findBestFaqMatch(userInput: string, entries: readonly FaqEntry[] = allFaqEntries): MatchResult | null {
+  if (/[\u4e00-\u9fff]/.test(userInput)) return findHanMatch(userInput, entries);
   const inputWords = normalize(userInput);
   if (inputWords.length === 0) return null;
 

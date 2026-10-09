@@ -24,6 +24,7 @@ const BUNDLES: Partial<Record<PublicLocale, () => Promise<{ default: LocaleConte
   en: () => import("@/content/en"),
   de: () => import("@/content/de"),
   ru: () => import("@/content/ru"),
+  zh: () => import("@/content/zh"),
 };
 const cached = new Map<PublicLocale, LocaleContent>();
 const pending = new Map<PublicLocale, Promise<LocaleContent | null>>();

@@ -42,11 +42,11 @@ export function localDecimals(text: string, language: string | undefined): strin
   return DECIMAL_COMMA.has(base(language)) ? text.replace(/(\d)\.(\d)/g, "$1,$2") : text;
 }
 
-/* The inline `{ tr, en, de, ru }` pairs (pilot modules, schema captions, category
+/* The inline `{ tr, en, de, ru, zh }` pairs (pilot modules, schema captions, category
    matrix, journal modules): the reader's language where a pair carries it,
    Turkish otherwise. */
-export type PairLocale = "tr" | "en" | "de" | "ru";
+export type PairLocale = "tr" | "en" | "de" | "ru" | "zh";
 export function pairLocale(language: string | undefined): PairLocale {
   const locale = base(language);
-  return locale === "en" || locale === "de" || locale === "ru" ? locale : "tr";
+  return locale === "tr" ? "tr" : locale;
 }
