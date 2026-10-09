@@ -452,51 +452,8 @@
 .tl-menu-category-details li a[aria-current="page"],
 .tl-menu-category-landing[aria-current="page"] { color: var(--tl-bronze-light); }
 
-/* ── 05 · DIRECTORY: sections vs routes ───────────────────────────────────
-   The whole point of this block is that the two are NOT the same object.
-   Sections carry a `§` and the sheet's band number and are set in mono;
-   routes carry no number and are set in the interface face. */
-
-.tl-menu-directory-reveal { min-width: 0; }
-.tl-menu-directory {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--tl-s6);
-  border-top: var(--tl-rule-size) solid var(--tl-rule);
-  padding-top: var(--tl-s4);
-}
-.tl-menu-dir-col { min-width: 0; }
-.tl-menu-dir-title {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--tl-s3);
-  margin-bottom: var(--tl-s2);
-  color: var(--tl-on-dark-faint);
-  font: 500 12px/1 var(--tl-font-mono);
-  letter-spacing: .2em;
-}
-.tl-menu-dir-col ul { margin: 0; padding: 0; list-style: none; }
-/* Seven sections in one stack was the tallest object in the menu and pushed the
-   directory below the fold at 1440x900 (measured: 808px of content into a 692px
-   scroll field). Two sub-columns bring it to four rows without shrinking a
-   single 44px target. */
-[data-nav-sections] ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--tl-s4); }
-.tl-menu-dir-col li a {
-  display: flex;
-  min-width: 44px;
-  min-height: 44px;
-  align-items: center;
-  gap: var(--tl-s3);
-  border-top: var(--tl-rule-size) solid var(--tl-rule-soft);
-  color: var(--tl-on-dark-body);
-  text-decoration: none;
-  transition: color var(--tl-dur-micro) var(--tl-ease-out);
-}
-.tl-menu-dir-col li a:is(:hover, :focus-visible) { color: var(--tl-white); }
-.tl-menu-section-link { font: 500 12px/1.3 var(--tl-font-mono); letter-spacing: .06em; }
-.tl-menu-section-index { color: var(--tl-on-dark-faint); font-variant-numeric: tabular-nums; }
+/* ── 05 · DIRECTORY: sections vs routes ─────────────────────────────────── */
 .tl-menu-route-link { font-size: 14px; font-weight: 500; }
-.tl-menu-dir-col li a[aria-current] { color: var(--tl-bronze-light); }
 
 /* ── 06 · CONVERSION ──────────────────────────────────────────────────────*/
 
@@ -564,7 +521,6 @@
   .tl-menu-family-datum { left: 0; }
   .tl-menu-family { grid-template-columns: minmax(0, 1fr); align-content: center; padding-inline: var(--tl-s3); }
   .tl-menu-here { grid-column: 1; }
-  .tl-menu-directory { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--tl-s5); }
 }
 
 /* ── 09 · MOBILE — the same concept, adapted ──────────────────────────────
@@ -600,8 +556,6 @@
   .tl-menu-category-label { font-size: 15px; }
   .tl-menu-category-details { padding-left: 28px; }
   .tl-menu-category-details ul { grid-template-columns: minmax(0, 1fr); }
-  .tl-menu-directory { grid-template-columns: minmax(0, 1fr); gap: var(--tl-s4); }
-  [data-nav-sections] ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   /* The conversion block is the floor of the sheet and it must not eat the
      scroll field. Measured at 320x568: a single wrapping row of 44px legal

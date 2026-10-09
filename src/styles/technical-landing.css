@@ -266,7 +266,6 @@
 .tl-project-grid th{font-size:12px}
 .tl-project-grid th:first-child,.tl-project-grid td:first-child{width:36%}
 .tl-project-grid th:nth-child(2),.tl-project-grid td:nth-child(2){width:34%}
-.tl-project-grid td[data-result="pass"]{color:#316e5a;font-weight:700}
 .tl-project-featured th,.tl-project-featured td{height:30px}
 
 /* 08 — sektörler: 4 kart × 3 master sütun.
@@ -848,15 +847,6 @@
   .tl-root[data-motion="ready"] .tl-projects.tl-inview .tl-project-grid article::after{transform:scaleY(0)}
   .tl-root[data-motion="ready"] .tl-projects.tl-inview .tl-project-grid article:nth-child(2)::after{transition-delay:.12s}
   .tl-root[data-motion="ready"] .tl-projects.tl-inview .tl-project-grid article:nth-child(3)::after{transition-delay:.2s}
-
-  /* ── G4 VERIFY — 07 ölçüm tabloları ───────────────────────────────────
-     Sayfa basıldıktan SONRA "SONUÇ" sütunu yazılır. Kâğıdın kanıt olmasını
-     sağlayan hücre budur ve gelen son şey odur. */
-  .tl-root[data-motion="ready"] .tl-project-grid td[data-result="pass"]{
-    clip-path:inset(0 100% 0 0);transition:clip-path var(--tl-dur-short) var(--tl-ease-out)}
-  .tl-root[data-motion="ready"] .tl-projects.tl-inview .tl-project-grid td[data-result="pass"]{clip-path:inset(0);transition-delay:.5s}
-  .tl-root[data-motion="ready"] .tl-projects.tl-inview .tl-project-grid tr:nth-child(2) td[data-result="pass"]{transition-delay:calc(.5s + var(--tl-step))}
-  .tl-root[data-motion="ready"] .tl-projects.tl-inview .tl-project-grid tr:nth-child(3) td[data-result="pass"]{transition-delay:calc(.5s + var(--tl-step)*2)}
 
   /* ── G5 REVEAL — 08 SEKTÖRLER ─────────────────────────────────────────
      Aynı perde, aynı ölçek oturması. 05 ile kasıtlı olarak AYNI: ikisi de
