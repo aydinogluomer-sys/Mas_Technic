@@ -68,3 +68,17 @@ add claims, numbers, certifications or promises.
 - Title block: ÇİZEN → 制图 · ÇİZİM NO → 图号 · ADET → 数量 · PAFTA → 图幅
 - Formal "your company" → 贵司; sample person name → 张伟
 - Plurals: Chinese has one form; `_one` and `_other` carry the same text ({{count}} 个问题)
+
+## Content, legal texts and inline pairs (L5b–d)
+- Feature lines keep the half-width " — " that splits title and detail (the page splits on it); "——" is fine elsewhere in prose
+- Thousands may be written 10,000 (the checkers read it as the source's 10.000); decimals keep the point
+- Machining: 5 轴联动 · 走心式车削 / 走心机 · 动力刀具 · 车铣复合 · 刀具寿命 · 切削液 · 让刀 / 刀具挠曲 · 枪钻 · 铰削 · 珩磨 · 长径比
+- Moulds and casting: 型腔 · 热流道 · 模流分析 · 拔模斜度 · 收缩补偿 · 缩痕 / 翘曲 · 试模 · 毛坯件
+- Surface: 喷砂 · 振动光饰 · 拉丝 · 阳极氧化膜 · 封孔 · 钝化 · 磷化 · 转化膜 · 粉末喷涂 · 电泳涂装 · 电解抛光 · 盐雾试验 · 遮蔽
+- Welding and NDT: TIG / MIG/MAG 焊 · 焊接工艺规程（WPS） · 无损检测 with RT/UT/PT/MT in Latin
+- Pipes: 法兰（对焊 / 平焊 / 盲板） · 弯头 / 三通 / 异径管
+- Records: 测量记录 · 炉号记录 · 交付文件 · 首件确认 · 过程检验 · 最终检验 · 在报价中注明
+- Material records put the grade first (304 不锈钢, C360 黄铜, Grade 5 钛合金（Ti-6Al-4V）, AZ31B 镁合金); brands in Latin
+- Legal (for the legal reviewer, O16): clause references «第 NN 条» everywhere (this document's clauses and statute articles alike: KVKK 第 11 条, 第 5/2-ç 条, the Turkish clause letter kept); 数据控制者 · 个人数据 · 传输 · 保存 · 同意 · 匿名化处理; no GDPR / PIPL references and nothing beyond the Turkish governing text
+- Schema caption: «示意性工程图» (representative, not real data)
+- Chat: questions are matched through the keywords found inside the question plus two-character pieces of the question (Chinese has no spaces)

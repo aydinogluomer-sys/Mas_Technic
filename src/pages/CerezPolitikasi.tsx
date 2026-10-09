@@ -5,6 +5,7 @@ import { SALES_EMAIL } from "@/content/claims";
 import { COOKIES_EN } from "@/content/en/legal/cookies";
 import { COOKIES_DE } from "@/content/de/legal/cookies";
 import { COOKIES_RU } from "@/content/ru/legal/cookies";
+import { COOKIES_ZH } from "@/content/zh/legal/cookies";
 import { ROUTED_LOCALE_CODES, ROUTED_LOCALE_PREFIXES } from "@/i18n/locale";
 import { useLocale } from "@/i18n/hooks";
 
@@ -466,6 +467,6 @@ const COOKIES_TR = {
 };
 
 export const CerezPolitikasi = () => {
-  const text = { en: COOKIES_EN, de: COOKIES_DE, ru: COOKIES_RU }[useLocale() as "en" | "de" | "ru"] ?? COOKIES_TR;
+  const text = { en: COOKIES_EN, de: COOKIES_DE, ru: COOKIES_RU, zh: COOKIES_ZH }[useLocale() as "en" | "de" | "ru" | "zh"] ?? COOKIES_TR;
   return <LegalDocument rail={{ no: "L3", label: "ÇEREZ" }} selfPath="/cerez-politikasi" {...text} />;
 };

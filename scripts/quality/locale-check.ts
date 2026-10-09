@@ -3,7 +3,7 @@
  *
  *   npx esbuild scripts/quality/locale-check.ts --bundle --platform=node --format=esm \
  *     --alias:@=./src --outfile=/tmp/locale-check.mjs --loader:.webp=empty --loader:.png=empty \
- *     --loader:.jpg=empty --loader:.svg=empty && node /tmp/locale-check.mjs [en|de|ru] [section…]
+ *     --loader:.jpg=empty --loader:.svg=empty && node /tmp/locale-check.mjs [en|de|ru|zh] [section…]
  *
  * The language defaults to `en`; naming sections (`services`, `categories`, …)
  * checks only those, for a bundle that is translated section by section.
@@ -16,6 +16,7 @@
 import en from "@/content/en";
 import de from "@/content/de";
 import ru from "@/content/ru";
+import zh from "@/content/zh";
 import type { EnContent } from "@/content/en";
 import { servicePages } from "@/data/servicePages";
 import { categoryPages } from "@/data/categoryPages";
@@ -43,6 +44,11 @@ const LOCALES: Record<string, { bundle: EnContent; allow: RegExp; letters: RegEx
   ru: {
     bundle: ru, allow: /(Çiğli|İzmir|Ataşehir|Mas Technic|MAS TECHNIC)/g, letters: /[ğĞşŞıİçÇöÖüÜ]/,
     /* The same ordinal as in German: „третьей стороной“ carries no digit. */
+    dropped: { "services:kalite-kontrol": ["3", "3"], "blog:kalite-kontrol-cmm-olcum": ["3"],
+      "cases:ince-cidarli-govde": ["3", "3"], "cases:titanyum-baglanti-parcasi": ["3"], "cases:hassas-mil": ["3"] },
+  },  zh: {
+    bundle: zh, allow: /(Çiğli|İzmir|Ataşehir|Mas Technic|MAS TECHNIC)/g, letters: /[ğĞşŞıİçÇöÖüÜ]/,
+    /* The same ordinal: 第三方 carries no digit. */
     dropped: { "services:kalite-kontrol": ["3", "3"], "blog:kalite-kontrol-cmm-olcum": ["3"],
       "cases:ince-cidarli-govde": ["3", "3"], "cases:titanyum-baglanti-parcasi": ["3"], "cases:hassas-mil": ["3"] },
   },
