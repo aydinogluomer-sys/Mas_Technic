@@ -1,0 +1,40 @@
+--- a/supabase/functions/chat/index.ts
++++ b/supabase/functions/chat/index.ts
+@@ -6,10 +6,26 @@
+ };
+ 
+ const SYSTEM_PROMPT = `Sen MAS Technic'in AI asistanısın. CNC işleme, torna, freze, lazer kazıma, yüzey işlemleri ve özel imalat konularında yardımcı oluyorsun.
+-Türkçe yanıt ver. Kısa, net ve profesyonel ol.
+-Fiyat bilgisi verme — teklif almalarını öner (/teklif-al sayfası).
++{{LANGUAGE}} Kısa, net ve profesyonel ol.
++Fiyat bilgisi verme — teklif almalarını öner ({{RFQ_PATH}} sayfası).
+ MAS Technic hakkında: Hassas CNC imalat, prototipten seri üretime, havacılık-savunma-otomotiv-medikal sektörlerine hizmet veriyor.`;
+ 
++/* The site's routed languages (src/i18n/locale.ts LOCALE_TABLE). The client
++   sends `locale` with every request; anything else, or no value at all (an
++   older client), keeps the Turkish answer this function always gave. */
++const LOCALES: Record<string, { language: string; prefix: string }> = {
++  tr: { language: "Türkçe yanıt ver.", prefix: "" },
++  en: { language: "Yanıtı İngilizce (English) ver.", prefix: "/en" },
++  de: { language: "Yanıtı Almanca (Deutsch) ver.", prefix: "/de" },
++  ru: { language: "Yanıtı Rusça (русский) ver.", prefix: "/ru" },
++  zh: { language: "Yanıtı Basitleştirilmiş Çince (简体中文) ver.", prefix: "/zh" },
++};
++
++function systemPrompt(locale: unknown): string {
++  const entry = typeof locale === "string" && Object.hasOwn(LOCALES, locale) ? LOCALES[locale] : LOCALES.tr;
++  return SYSTEM_PROMPT.replace("{{LANGUAGE}}", entry.language).replace("{{RFQ_PATH}}", `${entry.prefix}/teklif-al`);
++}
++
+ /* Server-side bounds (polish run). The only limit used to be a client-side
+    localStorage counter, so any caller could post an unbounded history of any
+    size. These caps keep one request to a normal chat turn. */
+@@ -115,7 +131,7 @@
+       method: "POST",
+       headers: { "Content-Type": "application/json", "x-goog-api-key": GEMINI_KEY },
+       body: JSON.stringify({
+-        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
++        system_instruction: { parts: [{ text: systemPrompt(payload.locale) }] },
+         contents,
+         generationConfig: {
+           maxOutputTokens: 1024,
