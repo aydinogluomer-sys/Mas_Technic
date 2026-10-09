@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { Link } from "@/i18n/LocaleLink";
-import { useLocaleNavigate as useNavigate } from "@/i18n/hooks";
+import { useLocale, useLocaleNavigate as useNavigate } from "@/i18n/hooks";
+import { localizePath } from "@/i18n/locale";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { supabase } from "@/integrations/supabase/client";
 import { ShellAction, ShellNotice } from "@/components/shell";
@@ -103,7 +104,8 @@ const STALLED: SocialNotice = {
 const EMPTY = { email: "", password: "", fullName: "", company: "", phone: "", city: "" };
 
 export const Login = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const locale = useLocale();
   usePageMeta({ title: t("Giriş Yapın"), description: t("Hesabınıza giriş yaparak tekliflerinizi ve siparişlerinizi takip edin."), noindex: true });
   const [mode, setMode] = useState<Mode>("login");
   const [values, setValues] = useState(EMPTY);
@@ -219,7 +221,7 @@ export const Login = () => {
       password: values.password,
       options: {
         captchaToken,
-        emailRedirectTo: window.location.origin,
+        emailRedirectTo: window.location.origin + localizePath("/", locale),
         data: { full_name: values.fullName.trim() },
       },
     });
@@ -433,7 +435,7 @@ export const Login = () => {
             ref={captchaRef}
             sitekey={HCAPTCHA_SITE_KEY}
             theme="dark"
-            languageOverride={i18n.language === "en" ? "en" : "tr"}
+            languageOverride={locale === "zh" ? "zh-CN" : locale}
             onVerify={(token) => setCaptchaToken(token)}
             onExpire={() => setCaptchaToken(null)}
           />

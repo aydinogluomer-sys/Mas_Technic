@@ -44,7 +44,7 @@ const CHATBOT_SOURCE = resolve(HERE, "..", "src", "components", "ChatBot.tsx");
 const CONSENT_PROMPT_MARKER = "AI asistanı kullanmamı ister misiniz";
 const UNMATCHABLE_QUESTION = "zzzqqq wwwvvv xxxyyy";
 
-type OutboundBody = { messages?: { role?: string; content?: string; kind?: string }[] };
+type OutboundBody = { messages?: { role?: string; content?: string; kind?: string }[]; locale?: string };
 
 test.describe("09b-2 — the AI consent filter is keyed on state", () => {
   // Playwright requires the fixtures argument to be a destructuring pattern.
@@ -104,6 +104,9 @@ test.describe("09b-2 — the AI consent filter is keyed on state", () => {
 
     // "Evet" is consent, not conversation; it is not part of the payload.
     expect(messages.some((m) => (m.content ?? "").trim().toLowerCase() === "evet")).toBe(false);
+
+    // L6: the page language travels with the request so the function can answer in it.
+    expect(outbound[0].locale).toBe("tr");
   });
 
   test("no request is made when the reader declines", async ({ page }) => {

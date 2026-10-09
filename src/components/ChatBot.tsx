@@ -10,6 +10,8 @@ import { useSiteData } from "@/i18n/data";
 import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/integrations/supabase/env";
 import { useLocation } from "react-router-dom";
 import { Link } from "@/i18n/LocaleLink";
+import { useLocale } from "@/i18n/hooks";
+import type { PublicLocale } from "@/i18n/locale";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -142,9 +144,10 @@ function incrementAiUsage() {
 }
 
 async function streamChat({
-  messages, onDelta, onDone, onError,
+  messages, locale, onDelta, onDone, onError,
 }: {
   messages: Msg[];
+  locale: PublicLocale;
   onDelta: (t: string) => void;
   onDone: () => void;
   onError: (e: string) => void;
@@ -155,7 +158,7 @@ async function streamChat({
       "Content-Type": "application/json",
       Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
     },
-    body: JSON.stringify({ messages }),
+    body: JSON.stringify({ messages, locale }),
   });
 
   if (!resp.ok) {
@@ -217,6 +220,7 @@ export function ChatBot({ defaultOpen = false }: { defaultOpen?: boolean } = {})
   const { pathname } = useLocation();
   const reducedMotion = usePrefersReducedMotion();
   const { t } = useTranslation();
+  const locale = useLocale();
   const { faqEntries } = useSiteData();
   /* PERF01: `ChatLauncher` loads this module on the first click and mounts
      it already open, so that click opens the panel rather than a second
@@ -283,6 +287,7 @@ export function ChatBot({ defaultOpen = false }: { defaultOpen?: boolean } = {})
       try {
         await streamChat({
           messages: history,
+          locale,
           onDelta: upsert,
           onDone: () => setLoading(false),
           onError: (e) => {
@@ -295,7 +300,7 @@ export function ChatBot({ defaultOpen = false }: { defaultOpen?: boolean } = {})
         setLoading(false);
       }
     },
-    [addAssistantMsg, t]
+    [addAssistantMsg, locale, t]
   );
 
   const send = useCallback(

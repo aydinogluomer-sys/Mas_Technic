@@ -2,6 +2,8 @@ import { useTranslation } from "react-i18next";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useLocale } from "@/i18n/hooks";
+import { localizePath } from "@/i18n/locale";
 import { ShellAction, ShellNotice } from "@/components/shell";
 import { AuthLayout } from "@/components/auth/AuthLayout";
 import { AuthField } from "@/components/auth/AuthField";
@@ -34,6 +36,7 @@ import { forgotSchema, validateAuthForm, type AuthFieldErrors } from "@/componen
 
 export const ForgotPassword = () => {
   const { t } = useTranslation();
+  const locale = useLocale();
   usePageMeta({ title: t("Şifremi Unuttum"), description: t("Hesabınızın e-posta adresini girin, şifre sıfırlama bağlantısını oraya gönderelim."), noindex: true });
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState<AuthFieldErrors>({});
@@ -50,7 +53,7 @@ export const ForgotPassword = () => {
 
     const address = email.trim();
     const { error } = await supabase.auth.resetPasswordForEmail(address, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: window.location.origin + localizePath("/reset-password", locale),
     });
     setPending(false);
 
