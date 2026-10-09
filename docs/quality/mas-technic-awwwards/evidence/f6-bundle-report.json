@@ -1,0 +1,396 @@
+{
+  "capturedAt": "2026-10-09T15:48:31.469Z",
+  "dist": "dist",
+  "pages": [
+    {
+      "path": "/",
+      "entry": "index-0Daksf3E.js",
+      "routeChunk": "Index-BZoZUX6q.js",
+      "js": [
+        {
+          "file": "vendor-react-BtXpvAbk.js",
+          "rawKiB": 147.6,
+          "gzKiB": 46.3
+        },
+        {
+          "file": "index-0Daksf3E.js",
+          "rawKiB": 114.1,
+          "gzKiB": 40
+        },
+        {
+          "file": "PageShell-CLP67vLq.js",
+          "rawKiB": 39.2,
+          "gzKiB": 13.1
+        },
+        {
+          "file": "Index-BZoZUX6q.js",
+          "rawKiB": 33,
+          "gzKiB": 11.3
+        },
+        {
+          "file": "claims-CQh_gy2z.js",
+          "rawKiB": 5.7,
+          "gzKiB": 2.6
+        },
+        {
+          "file": "caseStudies-ZaB5RQcp.js",
+          "rawKiB": 3.6,
+          "gzKiB": 1.6
+        },
+        {
+          "file": "kit-nWb62Sze.js",
+          "rawKiB": 2.9,
+          "gzKiB": 1.2
+        },
+        {
+          "file": "JsonLdSchema-DsISVYiX.js",
+          "rawKiB": 2.8,
+          "gzKiB": 1.1
+        },
+        {
+          "file": "useCadHandoff-K-eT58t3.js",
+          "rawKiB": 1.6,
+          "gzKiB": 0.8
+        },
+        {
+          "file": "BlurImage-CSstZB09.js",
+          "rawKiB": 1.5,
+          "gzKiB": 0.8
+        },
+        {
+          "file": "vendor-runtime-D7HrI6pR.js",
+          "rawKiB": 1,
+          "gzKiB": 0.6
+        },
+        {
+          "file": "phone-Q16M0QMq.js",
+          "rawKiB": 1.2,
+          "gzKiB": 0.5
+        },
+        {
+          "file": "quality-documents-60Bmkx3e.js",
+          "rawKiB": 1,
+          "gzKiB": 0.5
+        },
+        {
+          "file": "scan-line-JpyVVaPA.js",
+          "rawKiB": 1.1,
+          "gzKiB": 0.4
+        },
+        {
+          "file": "cadFiles-CETfSgpN.js",
+          "rawKiB": 0.5,
+          "gzKiB": 0.4
+        },
+        {
+          "file": "shield-check-BksGSzYN.js",
+          "rawKiB": 0.5,
+          "gzKiB": 0.3
+        },
+        {
+          "file": "hero-tolerans-hassasiyet-1600-2Vh8kzLh.js",
+          "rawKiB": 0.7,
+          "gzKiB": 0.3
+        },
+        {
+          "file": "mail-Dwsp2Lo2.js",
+          "rawKiB": 0.6,
+          "gzKiB": 0.3
+        },
+        {
+          "file": "arrow-up-right-BO092LuE.js",
+          "rawKiB": 0.6,
+          "gzKiB": 0.3
+        },
+        {
+          "file": "loader-circle-CscxjCh7.js",
+          "rawKiB": 0.3,
+          "gzKiB": 0.3
+        },
+        {
+          "file": "safe-storage-DuiDTbq3.js",
+          "rawKiB": 0.3,
+          "gzKiB": 0.2
+        },
+        {
+          "file": "hero-cnc-frezeleme-960-DCXoQd7n.js",
+          "rawKiB": 0.1,
+          "gzKiB": 0.1
+        },
+        {
+          "file": "industry-medical-DOxk-Beg.js",
+          "rawKiB": 0.1,
+          "gzKiB": 0.1
+        },
+        {
+          "file": "hero-cnc-tornalama-CZRi36Fh.js",
+          "rawKiB": 0.1,
+          "gzKiB": 0.1
+        }
+      ],
+      "jsTotalKiB": {
+        "raw": 360.2,
+        "gz": 123.4
+      },
+      "css": [
+        {
+          "file": "index-oJd6KSrc.css",
+          "rawKiB": 115.8,
+          "gzKiB": 28.8
+        },
+        {
+          "file": "PageShell-DZ_NTKZw.css",
+          "rawKiB": 110.1,
+          "gzKiB": 18.7
+        },
+        {
+          "file": "Index-CMYBrtrb.css",
+          "rawKiB": 49.9,
+          "gzKiB": 9.1
+        }
+      ],
+      "cssTotalKiB": {
+        "raw": 275.8,
+        "gz": 56.6
+      },
+      "dynamicOnly": [
+        "AdminDashboard-Tg6GpqFR.js",
+        "AdminLogin-D0Uz8NcB.js",
+        "Blog-B_8LjQn1.js",
+        "BlogDetail-BpiKuPmm.js",
+        "CategoryPage-BntKMU4R.js",
+        "CerezPolitikasi-CBz-chYo.js",
+        "ChatBot-BemAhne0.js",
+        "CustomCursor-Dej38IAw.js",
+        "CustomerProtectedRoute-ibj_TfgF.js",
+        "ForgotPassword-64gIIlk4.js",
+        "GizlilikPolitikasi-D1Me9suZ.js",
+        "GlobalToasts-BYhL9xlL.js",
+        "Hakkimizda-CiU2ve5u.js",
+        "Iletisim-Dh4B06HJ.js",
+        "KVKK-DPALH7rE.js",
+        "KabiliyetProfilDetay-BFCaJVZJ.js",
+        "KabiliyetProfilleri-CJGE7Ps_.js",
+        "KaliteDosyasi-CgNSYioM.js",
+        "Login-C3TkLCES.js",
+        "MalzemeKategori-DbMuCIgk.js",
+        "Malzemeler--pDWLs-k.js",
+        "MusteriPaneli-jk7-Q-V7.js",
+        "NotFound-CUrnNu5k.js",
+        "ProtectedRoute-uWryhjwe.js",
+        "ResetPassword-DYBu3l8f.js",
+        "SSS-BmnWZHPN.js",
+        "ServiceDetail-LKPo9ovD.js",
+        "TeklifAl-C4Ac8OBo.js",
+        "cadUpload-6XJTkbkE.js",
+        "de-COl262yd.js",
+        "en-CL5wrMnD.js",
+        "index-BCBrtDTf.js",
+        "index-D5q2mRqo.js",
+        "index-Dxe-UaRD.js",
+        "index-Dzpzsa4T.js",
+        "index-k1E-Tr_A.js",
+        "lenis-faqbxiYg.js",
+        "ru-UpXiaCq6.js",
+        "zh-DwJZVm_C.js"
+      ]
+    },
+    {
+      "path": "/en",
+      "entry": "index-0Daksf3E.js",
+      "routeChunk": "Index-BZoZUX6q.js",
+      "js": [
+        {
+          "file": "vendor-react-BtXpvAbk.js",
+          "rawKiB": 147.6,
+          "gzKiB": 46.3
+        },
+        {
+          "file": "en-CL5wrMnD.js",
+          "rawKiB": 112.7,
+          "gzKiB": 40.5
+        },
+        {
+          "file": "index-0Daksf3E.js",
+          "rawKiB": 114.1,
+          "gzKiB": 40
+        },
+        {
+          "file": "PageShell-CLP67vLq.js",
+          "rawKiB": 39.2,
+          "gzKiB": 13.1
+        },
+        {
+          "file": "Index-BZoZUX6q.js",
+          "rawKiB": 33,
+          "gzKiB": 11.3
+        },
+        {
+          "file": "claims-CQh_gy2z.js",
+          "rawKiB": 5.7,
+          "gzKiB": 2.6
+        },
+        {
+          "file": "caseStudies-ZaB5RQcp.js",
+          "rawKiB": 3.6,
+          "gzKiB": 1.6
+        },
+        {
+          "file": "kit-nWb62Sze.js",
+          "rawKiB": 2.9,
+          "gzKiB": 1.2
+        },
+        {
+          "file": "JsonLdSchema-DsISVYiX.js",
+          "rawKiB": 2.8,
+          "gzKiB": 1.1
+        },
+        {
+          "file": "useCadHandoff-K-eT58t3.js",
+          "rawKiB": 1.6,
+          "gzKiB": 0.8
+        },
+        {
+          "file": "BlurImage-CSstZB09.js",
+          "rawKiB": 1.5,
+          "gzKiB": 0.8
+        },
+        {
+          "file": "vendor-runtime-D7HrI6pR.js",
+          "rawKiB": 1,
+          "gzKiB": 0.6
+        },
+        {
+          "file": "phone-Q16M0QMq.js",
+          "rawKiB": 1.2,
+          "gzKiB": 0.5
+        },
+        {
+          "file": "quality-documents-60Bmkx3e.js",
+          "rawKiB": 1,
+          "gzKiB": 0.5
+        },
+        {
+          "file": "scan-line-JpyVVaPA.js",
+          "rawKiB": 1.1,
+          "gzKiB": 0.4
+        },
+        {
+          "file": "cadFiles-CETfSgpN.js",
+          "rawKiB": 0.5,
+          "gzKiB": 0.4
+        },
+        {
+          "file": "shield-check-BksGSzYN.js",
+          "rawKiB": 0.5,
+          "gzKiB": 0.3
+        },
+        {
+          "file": "hero-tolerans-hassasiyet-1600-2Vh8kzLh.js",
+          "rawKiB": 0.7,
+          "gzKiB": 0.3
+        },
+        {
+          "file": "mail-Dwsp2Lo2.js",
+          "rawKiB": 0.6,
+          "gzKiB": 0.3
+        },
+        {
+          "file": "arrow-up-right-BO092LuE.js",
+          "rawKiB": 0.6,
+          "gzKiB": 0.3
+        },
+        {
+          "file": "loader-circle-CscxjCh7.js",
+          "rawKiB": 0.3,
+          "gzKiB": 0.3
+        },
+        {
+          "file": "safe-storage-DuiDTbq3.js",
+          "rawKiB": 0.3,
+          "gzKiB": 0.2
+        },
+        {
+          "file": "hero-cnc-frezeleme-960-DCXoQd7n.js",
+          "rawKiB": 0.1,
+          "gzKiB": 0.1
+        },
+        {
+          "file": "industry-medical-DOxk-Beg.js",
+          "rawKiB": 0.1,
+          "gzKiB": 0.1
+        },
+        {
+          "file": "hero-cnc-tornalama-CZRi36Fh.js",
+          "rawKiB": 0.1,
+          "gzKiB": 0.1
+        }
+      ],
+      "jsTotalKiB": {
+        "raw": 472.9,
+        "gz": 163.9
+      },
+      "css": [
+        {
+          "file": "index-oJd6KSrc.css",
+          "rawKiB": 115.8,
+          "gzKiB": 28.8
+        },
+        {
+          "file": "PageShell-DZ_NTKZw.css",
+          "rawKiB": 110.1,
+          "gzKiB": 18.7
+        },
+        {
+          "file": "Index-CMYBrtrb.css",
+          "rawKiB": 49.9,
+          "gzKiB": 9.1
+        }
+      ],
+      "cssTotalKiB": {
+        "raw": 275.8,
+        "gz": 56.6
+      },
+      "dynamicOnly": [
+        "AdminDashboard-Tg6GpqFR.js",
+        "AdminLogin-D0Uz8NcB.js",
+        "Blog-B_8LjQn1.js",
+        "BlogDetail-BpiKuPmm.js",
+        "CategoryPage-BntKMU4R.js",
+        "CerezPolitikasi-CBz-chYo.js",
+        "ChatBot-BemAhne0.js",
+        "CustomCursor-Dej38IAw.js",
+        "CustomerProtectedRoute-ibj_TfgF.js",
+        "ForgotPassword-64gIIlk4.js",
+        "GizlilikPolitikasi-D1Me9suZ.js",
+        "GlobalToasts-BYhL9xlL.js",
+        "Hakkimizda-CiU2ve5u.js",
+        "Iletisim-Dh4B06HJ.js",
+        "KVKK-DPALH7rE.js",
+        "KabiliyetProfilDetay-BFCaJVZJ.js",
+        "KabiliyetProfilleri-CJGE7Ps_.js",
+        "KaliteDosyasi-CgNSYioM.js",
+        "Login-C3TkLCES.js",
+        "MalzemeKategori-DbMuCIgk.js",
+        "Malzemeler--pDWLs-k.js",
+        "MusteriPaneli-jk7-Q-V7.js",
+        "NotFound-CUrnNu5k.js",
+        "ProtectedRoute-uWryhjwe.js",
+        "ResetPassword-DYBu3l8f.js",
+        "SSS-BmnWZHPN.js",
+        "ServiceDetail-LKPo9ovD.js",
+        "TeklifAl-C4Ac8OBo.js",
+        "cadUpload-6XJTkbkE.js",
+        "de-COl262yd.js",
+        "index-BCBrtDTf.js",
+        "index-D5q2mRqo.js",
+        "index-Dxe-UaRD.js",
+        "index-Dzpzsa4T.js",
+        "index-k1E-Tr_A.js",
+        "lenis-faqbxiYg.js",
+        "ru-UpXiaCq6.js",
+        "zh-DwJZVm_C.js"
+      ]
+    }
+  ]
+}

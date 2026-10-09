@@ -498,3 +498,19 @@ Birlikte güncellenenler:
 | critical-1280 + critical-375 + desktop-1280 | 503 geçti, 1 hata: `qa-p08-storage-disclosure`. Test dış ağa erişemedi ve kendi mesajında "ölçmedi" diyor; sandbox'ta ağ kapalı, CI'da doğrulanır |
 | typecheck, lint, build, motion guard, generate-config, claims-gate | geçti |
 | `package.json` / `package-lock.json` / `supabase/` | değişmedi |
+
+## Faz 6 — son ölçüm (9 Ekim 2026)
+
+Ölçülen build `main a37a09d`. Tüm sayılar ve A/B yöntemi `evidence/f6-final.md` içinde.
+
+| Ölçü | Faz 0 | Faz 6 | Kaynak |
+|---|---|---|---|
+| `src/` refactor edilebilir kova | 35.718 | 31.111 (−12,9 %) | `evidence/f6-line-report.json` |
+| `src/` içerik kovası (DE, RU, ZH eklendi) | 17.957 | 35.622 | aynı |
+| `/` ilk JS (gz) · `/en` | 162,7 · 203,0 KiB | 123,2 · 163,7 KiB | `evidence/f6-bundle-report.json` |
+| Render-blocking CSS (gz) | 57,8 KiB | 56,6 KiB | aynı |
+| Framer ve GSAP `/` ile `/en` ilk grafiğinde | var | yok (`--forbid` geçti) | aynı |
+| JS 10 sn, `/` @1440 (yerel A/B) | 248,5 KiB | 164,5 KiB | `evidence/f6-perf-lab-ab-*.json` |
+| LCP p75 (yerel A/B) | — | ±45 ms içinde, değişmedi | aynı |
+| Lab TBT p75 (yerel A/B) | — | karışık; `/` @375 yükseldi (taban R1 öncesi ana sayfa) | aynı |
+| Gerçek Vercel lab (`perf=true`), Lighthouse | — | **NOT_TESTED**, kullanıcı koşacak | — |

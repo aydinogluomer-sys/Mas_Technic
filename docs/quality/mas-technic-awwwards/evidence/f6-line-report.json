@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-10-09T15:48:31.545Z",
+  "files": 319,
+  "total": 79703,
+  "content": 35622,
+  "locked": 12970,
+  "refactorable": 31111,
+  "byExtension": {
+    "ts": 39711,
+    "tsx": 32689,
+    "css": 7303
+  }
+}
