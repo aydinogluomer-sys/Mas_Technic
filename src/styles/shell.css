@@ -74,17 +74,6 @@
    rail is 64px, and `rail-labels.ts` keeps longer words out. */
 .tl-band-index small { font-size: 10px; line-height: 1.35; letter-spacing: .02em; text-align: center; text-wrap: balance; max-width: 100%; overflow-wrap: normal; word-break: keep-all; }
 
-.tl-status-badge {
-  position: absolute;
-  z-index: 8;
-  top: var(--tl-s3);
-  right: var(--tl-s4);
-  border: 1px solid currentColor;
-  padding: 5px 7px;
-  font: 700 12px/1 var(--tl-font-mono);
-  letter-spacing: .08em;
-}
-
 @media (max-width: 1180px) {
   /* 56px rail: 9px keeps a ten-letter word (55px) inside it. */
   .tl-band-index small { font-size: 9px; letter-spacing: .02em; }
@@ -104,7 +93,6 @@
   .tl-band-index { padding-top: var(--tl-s2); gap: var(--tl-s1); }
   .tl-band-index span { width: 24px; height: 24px; font-size: 10px; }
   .tl-band-index small { display: none; }
-  .tl-status-badge { top: var(--tl-s2); right: var(--tl-s2); font-size: 12px; }
 }
 
 /* ── Root and sheet ───────────────────────────────────────────────────────*/
@@ -909,18 +897,6 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
    is the only large gesture, and it is an outline the way a sheet number is. */
 .shell-notfound { padding-block: var(--tl-s7) var(--tl-s8); }
 
-.shell-notfound-code {
-  margin: var(--tl-s4) 0 0;
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--tl-paper-rule-strong);
-  font-family: var(--tl-font-mono);
-  font-size: clamp(6rem, 16vw, 13rem);
-  font-weight: 500;
-  line-height: .85;
-  letter-spacing: -.05em;
-}
-.shell-root[data-shell-surface="graphite"] .shell-notfound-code { -webkit-text-stroke-color: var(--tl-rule); }
-
 .shell-notfound-title {
   max-width: 20ch;
   margin: var(--tl-s5) 0 0;
@@ -1155,21 +1131,6 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   line-height: 1.48;
   letter-spacing: -.01em;
 }
-
-/* A serif statement — the system's single expressive face, used for the
-   editorial claim a company page is actually FOR, and nowhere else. */
-.shell-statement {
-  max-width: 22ch;
-  margin: 0;
-  color: var(--sf-ink);
-  font-family: var(--tl-font-serif);
-  font-size: clamp(24px, 3.1vw, 44px);
-  font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -.02em;
-  text-wrap: balance;
-}
-.shell-statement em { color: var(--tl-bronze); font-style: italic; }
 
 /* A margin note: mono, narrow, on the note column. */
 .shell-note {
@@ -1766,14 +1727,6 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   background: var(--sf-invert);
 }
 .shell-segment-code { font-weight: 700; letter-spacing: .12em; }
-
-/* ── Five-step gauge ──────────────────────────────────────────────────────
-   Replaces a `rounded-full` progress bar. Discrete segments, because the
-   underlying value IS discrete (1–5); a continuous bar implied a resolution
-   the data does not have. */
-.shell-gauge { display: inline-flex; align-items: center; gap: 3px; vertical-align: middle; }
-.shell-gauge > span { width: 8px; height: 10px; border: var(--tl-rule-size) solid var(--sf-rule); }
-.shell-gauge > span[data-on] { border-color: var(--sf-accent); background: var(--sf-accent); }
 
 /* ── FAQ ──────────────────────────────────────────────────────────────────
    Native `<details>`, not the shadcn accordion. Three reasons, in order of

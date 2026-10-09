@@ -63,39 +63,6 @@
 .booking-card h2 em { color: var(--tl-bronze-ink); font-style: italic; }
 .booking-card-lede { max-width: 52ch; margin: 0; color: var(--tl-ink-muted); font-size: 16px; line-height: 1.55; }
 
-.booking-days {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr)) auto;
-  align-items: stretch;
-  border: var(--tl-rule-size) solid var(--tl-paper-control-rule);
-  padding: 0;
-  color: inherit;
-  background: none;
-  cursor: pointer;
-  text-align: left;
-}
-.booking-day {
-  display: grid;
-  gap: 6px;
-  border-right: var(--tl-rule-size) solid var(--tl-paper-rule-soft);
-  padding: var(--tl-s3);
-  transition: background .25s ease, color .25s ease;
-}
-.booking-day small { color: var(--tl-ink-soft); font: 600 12px/1 var(--tl-font-mono); letter-spacing: .12em; }
-.booking-day b { font: 500 clamp(20px, 1.8vw, 30px)/1 var(--tl-font-mono); font-variant-numeric: tabular-nums; }
-.booking-days-hint {
-  display: grid;
-  place-items: center;
-  padding-inline: var(--tl-s4);
-  color: var(--tl-ink-soft);
-  font: 600 12px/1 var(--tl-font-mono);
-  letter-spacing: .1em;
-  white-space: nowrap;
-}
-.booking-day:hover { color: var(--tl-paper); background: var(--tl-ink); }
-.booking-day:hover small { color: var(--tl-bronze-light); }
-.booking-days:focus-visible { outline: 2px solid var(--tl-ink); outline-offset: 3px; }
-
 .booking-steps {
   display: grid;
   margin: 0;
@@ -183,17 +150,6 @@ a.contact-line:is(:hover, :focus-visible) { color: var(--tl-bronze-light); }
 @media (max-width: 1180px) {
   .contact-head h1, .contact-lede { grid-column: 1 / -1; }
   .contact-grid { grid-template-columns: minmax(0, 1fr); }
-}
-@media (max-width: 767px) {
-  .booking-days { grid-template-columns: repeat(7, minmax(0, 1fr)); }
-  .booking-days-hint {
-    grid-column: 1 / -1;
-    justify-content: start;
-    border-top: var(--tl-rule-size) solid var(--tl-paper-rule-soft);
-    padding: var(--tl-s3);
-  }
-  .booking-day { padding: var(--tl-s2) 4px; justify-items: center; }
-  .booking-day b { font-size: 18px; }
 }
 
 /* ── The dialog: a full-height sheet on the right on desktop, full screen on
