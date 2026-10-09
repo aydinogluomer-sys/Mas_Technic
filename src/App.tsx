@@ -26,7 +26,8 @@ import { ChatLauncher } from "@/components/ChatLauncher";
 import { isHeroIntroActive } from "@/lib/hero-shell";
 import { lazyRoute, type PreloadableRoute } from "@/lib/lazy-route";
 import { registerRoutePreparer } from "@/lib/route-prepare";
-import { loadLocaleContent } from "@/i18n/content";
+import { loadLocaleContent, loadLocaleCore } from "@/i18n/content";
+import { useTheme } from "@/hooks/use-theme";
 import { bootMark, errorMessage, reportBoot } from "@/lib/boot-trace";
 
 const Index = lazyRoute("Index", () => import("./pages/Index").then((m) => ({ default: m.Index })));
@@ -78,6 +79,26 @@ const CustomerProtectedRoute = lazyRoute("CustomerProtectedRoute", () =>
 const GlobalToasts = lazy(() =>
   import("./components/GlobalToasts").then((m) => ({ default: m.GlobalToasts })),
 );
+
+/* Every public toast answers something the reader did (a CAD drop, a form
+   sent, a sign-in), so the toast layers and their chunks wait for the first
+   pointer, key, touch or file drag instead of loading on every page view
+   (JS budget, Faz 6). The listener is in the capture phase, so the layer
+   mounts before the action that may raise a toast has finished. Panels raise
+   toasts without one (realtime notifications, background fetch errors), so
+   they mount it at once. */
+const FIRST_INTERACTION = ["pointerdown", "keydown", "touchstart", "dragenter"] as const;
+
+function useFirstInteraction(): boolean {
+  const [happened, setHappened] = useState(false);
+  useEffect(() => {
+    if (happened) return;
+    const mark = () => setHappened(true);
+    FIRST_INTERACTION.forEach((type) => window.addEventListener(type, mark, { capture: true, once: true, passive: true }));
+    return () => FIRST_INTERACTION.forEach((type) => window.removeEventListener(type, mark, { capture: true }));
+  }, [happened]);
+  return happened;
+}
 
 const ChatBot = lazy(() => import("@/components/ChatBot").then((m) => ({ default: m.ChatBot })));
 const CustomCursor = lazy(() =>
@@ -266,6 +287,8 @@ const PUBLIC_PAGES: { path: string; element: ReactNode }[] = [
  * dictionary) so that render can commit the page itself. Resolves even on
  * failure — the normal loader and recovery path then takes over.
  */
+const SERVICE_FAMILY_PATH = /^\/(hizmetler|kabiliyetler|endustriyel)(\/|$)/;
+
 async function prepareFirstRoute(pathname: string): Promise<"ready" | { error: unknown }> {
   const routes = LOCALE_PREFIXES.flatMap((prefix) =>
     PUBLIC_PAGES.map(({ path, element }) => ({ path: path === "/" ? prefix || "/" : `${prefix}${path}`, element })));
@@ -274,12 +297,15 @@ async function prepareFirstRoute(pathname: string): Promise<"ready" | { error: u
   const locale = publicLocale(pathname);
   /* Pages under a language prefix read that language's content bundle and
      suspend until it is there; its landing reads none (PERF01), so it is not
-     fetched for it. */
-  const needsContent = !!locale && locale !== "tr" && stripLocale(pathname) !== "/";
+     fetched for it. Service and category pages read only the bundle's
+     services-and-categories part (`useServiceData()`), so they fetch that. */
+  const path = stripLocale(pathname);
+  const needsContent = !!locale && locale !== "tr" && path !== "/";
+  const load = SERVICE_FAMILY_PATH.test(path) ? loadLocaleCore : loadLocaleContent;
   const [route] = await Promise.all([
     element?.type?.preload?.() ?? Promise.resolve("ready" as const),
     locale && !isLanguageReady(locale) ? applyLanguage(locale).catch(() => undefined) : undefined,
-    needsContent ? loadLocaleContent(locale).catch(() => undefined) : undefined,
+    needsContent ? load(locale).catch(() => undefined) : undefined,
   ]);
   return route;
 }
@@ -435,6 +461,12 @@ const AppContent = () => {
     return location.pathname.startsWith("/admin") || location.pathname.startsWith("/musteri-paneli");
   }, [location.pathname]);
 
+  const toastsMounted = useFirstInteraction();
+  /* The theme used to be applied by the sonner Toaster's `useTheme()` as a
+     side effect of mounting it; the toasts now wait for an interaction, so
+     the shell applies it itself, at the same point in the load. */
+  useTheme();
+
   const content = (
     <>
       <a
@@ -456,18 +488,19 @@ const AppContent = () => {
           GlobalToasts — EVERY public route, `/` included. It was suppressed
             only on the landing, which meant a toast fired from the landing's
             band 13 RFQ hand-off had no surface to render into and was lost
-            silently. The component paints nothing until something calls it,
-            so there is no cost to mounting it everywhere and a real defect in
-            not doing so.
+            silently. It mounts on the first interaction
+            (`useFirstInteraction`), before any toast can be raised.
 
           ChatBot — every public route, the landing included (revision 4:
             the owner wants the launcher on `/` as well). It hides while a
             footer control has focus (`shell.css`).
 
           ScrollProgress — removed from every route. See the import block. */}
-      <Suspense fallback={null}>
-        <GlobalToasts />
-      </Suspense>
+      {(toastsMounted || isPanel) && (
+        <Suspense fallback={null}>
+          <GlobalToasts />
+        </Suspense>
+      )}
       <ChatEntry />
     </>
   );

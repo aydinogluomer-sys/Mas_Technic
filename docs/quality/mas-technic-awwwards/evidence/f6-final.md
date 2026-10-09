@@ -48,7 +48,7 @@ CLS iki build'de aynı: 375'te 0; 1440'ta `/` için 0,014, `/en` için 0,009.
 - **10 saniyede yüklenen JS:** masaüstünde belirgin düştü; `/` @1440'ta −34 %. Planın masaüstü hedefi yaklaşık 122 KiB'ti, ölçülen 164,5 KiB. Kalan farkın hangi chunk'lardan geldiği istek düzeyinde ölçülmedi.
 - **JS bütçesi (320 KiB):**
   - `/hizmetler/cnc-frezeleme` @1440 bütçenin altına indi (342 → 315).
-  - İngilizce hizmet sayfası `/en/hizmetler/cnc-frezeleme` **hâlâ bütçenin üstünde**: 375'te 423,7, 1440'ta 429 KiB. C4'te 405,2 ve 455,5 KiB'ti. Kaynak: `f6-perf-lab-en-service.json`. C4 kaydındaki EN aşımları kapanmadı.
+  - İngilizce hizmet sayfası `/en/hizmetler/cnc-frezeleme` Faz 6 ölçümünde bütçenin üstündeydi: 375'te 423,7, 1440'ta 429 KiB (C4'te 405,2 ve 455,5). Kaynak: `f6-perf-lab-en-service.json`. Bu aşım aşağıdaki "EN hizmet bütçesi" bölümünde kapatıldı.
 - **LCP:** fark ±45 ms içinde. Bu, koşular arası gürültüden ayırt edilemiyor; LCP değişmedi denebilir.
 - **Lab TBT:** sonuç karışık. `/` @375 iki ayrı koşuda da yükseldi (Faz 6 ilk koşu 1094, A/B koşusu 1244; Faz 0 729 ve 871). `/en` @1440 ile hizmet sayfası @1440'ta düştü.
   - `/` için olası neden: taban `7eeae2c`, R1'den **önceki** ana sayfa. R1, kullanıcı kararıyla bandı, manifestoyu, süreç fotoğrafını ve ters kaydırma bölümünü geri getirdi. Yani karşılaştırılan iki `/` aynı sayfa değil.
@@ -80,3 +80,40 @@ Kaynak dosyalar: `f6-perf-lab-local.json` (ilk koşu), `f6-perf-lab-ab-f0.json` 
 | 1c | — | atlandı (kullanıcı kararı) |
 
 Her PR'ın kapısında parity full uygulandı (`maxDiffPixels: 0`). PR #28'den beri çıkan tek fark, iki İngilizce PEEK sayfası: `en__malzemeler` ve `en__malzemeler__yuksek-performans-plastikler`. Bu fark #28'de bilerek yapılan içerik değişikliğinden geliyor ve yerel taban ondan eski.
+
+## EN hizmet bütçesi (Faz 6 sonrası)
+
+Ölçüm `perf-lab.mjs` ile yapıldı. Ayarlar yukarıdakiyle aynı: yavaş 4G, 4× CPU, 5 soğuk koşu, yerel, yalnız yön gösterir. Kaynak: `f6-perf-lab-budget.json`.
+
+| Rota @ genişlik | JS 10 sn önce → sonra (KiB) | LCP p75 (ms) |
+|---|---|---|
+| `/en/hizmetler/cnc-frezeleme` @375 | 423,7 → **294,5** | 1524 |
+| `/en/hizmetler/cnc-frezeleme` @1440 | 429 → **299,9** | 1588 |
+| `/hizmetler/cnc-frezeleme` @375 | 309,9 → 203,9 | 1552 |
+| `/hizmetler/cnc-frezeleme` @1440 | 315,3 → 209,3 | 1612 |
+| `/` @375 · @1440 | 159,1 · 164,5 → 131,2 · 136,5 | 1660 · 1788 |
+| `/en` @375 · @1440 | 199,9 · 205,3 → 172 · 177,4 | 1644 · 1720 |
+
+**Ne değişti:**
+1. **Hizmet sayfası parallax'ı framer'sız.** `ServiceDetail` yalnız hero görselinin ±60 px parallax'ı ve açılış animasyonu için `vendor-framer` (43 KiB gz) yüklüyordu.
+   - Parallax artık bir scroll/resize dinleyicisi ve `ResizeObserver` ile CSS `translate` özelliğine yazılıyor.
+   - Açılış animasyonu artık bir CSS keyframe (`shell-plate-settle`).
+   - Azaltılmış harekette ikisi de kapalı, önceki gibi.
+2. **Hizmet ve kategori sayfaları yalnız kendi verisini okuyor** (`useServiceData()`, `src/i18n/service-data.ts`).
+   - Her dilin içerik paketinden hizmet ve kategori kısmı ayrı bir parçaya ayrıldı (`src/content/<dil>/core.ts`). Tam paket bu parçayı içe aktarmaya devam ediyor.
+   - Bu sayfalar artık malzeme, blog, vaka ve sohbet modüllerini ve paketin geri kalanını indirmiyor.
+   - İlk açılışta önceden yüklenen parça da buna göre seçiliyor (`App.tsx`, `SERVICE_FAMILY_PATH`).
+3. **Toast katmanları ilk etkileşimde yükleniyor.** İlk etkileşim `pointerdown`, `keydown`, `touchstart` ya da `dragenter` olayı.
+   - Herkese açık sayfalardaki her toast bir kullanıcı eylemine yanıt.
+   - Sonner'ın `useTheme()` çağrısı mount anında temayı da uyguluyordu; bu iş artık uygulama kabuğunda, aynı noktada yapılıyor.
+
+**Parity (full, 390 test):** 325 geçti. Farklar:
+- **2 sayfa:** bilinen İngilizce PEEK farkı.
+- **63 hizmet sayfasının hero görseli:** 62'si 1440'ta, biri (`/hizmetler/lazer-kazima`) 375'te.
+  - Bütün fark kutuları görsel çerçevesinin içinde: en fazla 417 px yükseklik, çerçeve 420 px.
+  - Neden: main'deki taban, framer'ın JS ile sürdüğü açılış animasyonunu bitmeden yakalıyor (ölçek 1,0026). Parity'nin `rest` adımı yalnız WAAPI/CSS animasyonlarını sona sarabiliyor. CSS animasyonu bitmiş durumda yakalanıyor.
+  - Parallax değeri −51,35 px'e karşı −51,31 px.
+  - Görsel aynı dosyadan ve aynı konumda çiziliyor.
+- **Bu sırada bulunan iki fark kapatıldı:**
+  - Bitmiş animasyonun `fill: both` ile görseli ayrı katmanda tutması.
+  - Toast ertelemesiyle temanın ilk tıklamaya kayması.

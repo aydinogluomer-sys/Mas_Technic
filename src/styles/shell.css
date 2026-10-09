@@ -1436,6 +1436,18 @@ body:has(.tl-footer:focus-within) [data-chat-launcher],
   height: calc(100% + 120px);
   object-fit: cover;
 }
+/* The plate's entrance (`ServiceDetail.tsx`): a scale settle with a fade, off
+   under reduced motion. `scale` and `translate` are separate properties, so
+   the settle does not fight the scroll parallax written to `translate`. Fill
+   `backwards`, not `both`: the end state equals the base style, and a filling
+   finished animation keeps the image on its own layer, resampled differently. */
+@keyframes shell-plate-settle {
+  from { opacity: 0; scale: 1.08; }
+  to { opacity: 1; scale: 1; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .shell-plate-frame > img[data-settle] { animation: shell-plate-settle .9s var(--tl-ease-out) backwards; }
+}
 .shell-plate[data-size="reference"] .shell-plate-frame {
   height: clamp(180px, 36vw, var(--shell-reference-plate-h));
 }

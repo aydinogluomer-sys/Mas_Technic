@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { pairLocale, localDecimals } from "@/i18n/format";
 import type { CategoryPageData } from "@/data/categoryPages";
 import type { ServicePageData } from "@/data/servicePages";
-import { useSiteData } from "@/i18n/data";
+import { useServiceData } from "@/i18n/service-data";
 import { CATEGORY_MATRIX } from "@/content/category-matrix";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME, publishableSpecValues } from "@/content/claims";
@@ -87,7 +87,7 @@ function entryMeta(path: string, getPageBySlug: (slug: string) => ServicePageDat
 export const CategoryPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { t, i18n } = useTranslation();
-  const { categoryPages, getPageBySlug } = useSiteData();
+  const { categoryPages, getPageBySlug } = useServiceData();
   const pathname = stripLocale(useLocation().pathname);
   const prefix: CategoryPageData["prefix"] = pathname.startsWith("/hizmetler")
     ? "hizmetler"
