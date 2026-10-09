@@ -121,6 +121,7 @@ import heroTedarikZinciri960 from "@/assets/hero-tedarik-zinciri-960.webp";
 import heroSeriUretim from "@/assets/hero-seri-uretim.webp";
 import heroSeriUretim640 from "@/assets/hero-seri-uretim-640.webp";
 import heroSeriUretim960 from "@/assets/hero-seri-uretim-960.webp";
+import { FAMILY } from "@/components/pages/family";
 
 /* ══════════════════════════════════════════════════════════════════════════
    SERVICE · CAPABILITY · SECTOR DETAIL
@@ -262,12 +263,6 @@ const PLATE_FULL_WIDTHS = [
    own 200-of-318 window and the parallax decide what is seen. */
 /* IMG01: the measured 375 crops (Phase 10-2b) moved onto the manifest
    entries (`DetailVisual.crop`, `src/content/detail-visuals.ts`). */
-
-const FAMILY = {
-  hizmetler: { label: "Hizmetler", rail: { no: "03", label: "HİZMET" } },
-  kabiliyetler: { label: "Kabiliyetler", rail: { no: "04", label: "KABİLİYET" } },
-  endustriyel: { label: "Endüstriyel", rail: { no: "05", label: "SEKTÖR" } },
-} as const;
 
 /**
  * `features` are authored as `"Başlık — açıklama"` in `servicePages.ts`. The

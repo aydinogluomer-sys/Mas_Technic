@@ -19,6 +19,7 @@ import { useSiteData } from "@/i18n/data";
 import { CATEGORY_MATRIX } from "@/content/category-matrix";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME, publishableSpecValues } from "@/content/claims";
+import { FAMILY } from "@/components/pages/family";
 
 /* ══════════════════════════════════════════════════════════════════════════
    CATEGORY PAGE — THE SERVICES LISTING *AND* THE SECTORS LISTING
@@ -75,12 +76,6 @@ import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME, publishableSpecValues } from "@
    of the same family are one keystroke away now, which is what makes this a
    listing rather than a leaf.
    ══════════════════════════════════════════════════════════════════════════ */
-
-const FAMILY = {
-  hizmetler: { label: "Hizmetler", rail: { no: "03", label: "HİZMET" } },
-  kabiliyetler: { label: "Kabiliyetler", rail: { no: "04", label: "KABİLİYET" } },
-  endustriyel: { label: "Endüstriyel", rail: { no: "05", label: "SEKTÖR" } },
-} as const;
 
 /** Up to two PUBLISHABLE measured facts belonging to the entry itself. */
 function entryMeta(path: string, getPageBySlug: (slug: string) => ServicePageData | undefined): string[] {
