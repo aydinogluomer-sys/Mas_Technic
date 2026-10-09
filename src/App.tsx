@@ -84,7 +84,9 @@ const GlobalToasts = lazy(() =>
    sent, a sign-in), so the toast layers and their chunks wait for the first
    pointer, key, touch or file drag instead of loading on every page view
    (JS budget, Faz 6). The listener is in the capture phase, so the layer
-   mounts before the action that may raise a toast has finished. */
+   mounts before the action that may raise a toast has finished. Panels raise
+   toasts without one (realtime notifications, background fetch errors), so
+   they mount it at once. */
 const FIRST_INTERACTION = ["pointerdown", "keydown", "touchstart", "dragenter"] as const;
 
 function useFirstInteraction(): boolean {
@@ -494,7 +496,7 @@ const AppContent = () => {
             footer control has focus (`shell.css`).
 
           ScrollProgress — removed from every route. See the import block. */}
-      {toastsMounted && (
+      {(toastsMounted || isPanel) && (
         <Suspense fallback={null}>
           <GlobalToasts />
         </Suspense>
