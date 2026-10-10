@@ -515,4 +515,5 @@ Birlikte güncellenenler:
 | LCP p75 (yerel A/B) | — | ±45 ms içinde, değişmedi | aynı |
 | JS 10 sn bütçesi (320 KiB) | TR hizmet @1440 342; EN hizmet 423,7 / 429 | TR hizmet 203,9 / 209,3; **EN hizmet 294,5 / 299,9 (geçti)** | `evidence/f6-perf-lab-budget.json` |
 | Lab TBT p75 (yerel A/B) | — | karışık; `/` @375 yükseldi (taban R1 öncesi ana sayfa) | aynı |
-| Gerçek Vercel lab (`perf=true`), Lighthouse | — | **NOT_TESTED**, kullanıcı koşacak | — |
+| Gerçek Vercel lab (`perf=true`, 10 Ekim, build `main 59f3b45`, bu tablonun `a37a09d`'si değil) | — | LCP p75 1632–1800 ms, CLS 0, JS 10 sn 133–306 KiB (hepsi bütçe içinde, EN hizmet bütçe düzeltmesi dahil); kritik CSS kararı: uygulanmadı (site sahibi) | `evidence/f6-final.md` → Vercel preview (log özeti; ham JSON artifact'ta) |
+| Lighthouse (mobil) | — | **NOT_TESTED**, kullanıcı koşacak | — |
