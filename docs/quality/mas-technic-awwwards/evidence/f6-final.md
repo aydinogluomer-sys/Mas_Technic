@@ -53,7 +53,7 @@ CLS iki build'de aynı: 375'te 0; 1440'ta `/` için 0,014, `/en` için 0,009.
 - **Lab TBT:** sonuç karışık. `/` @375 iki ayrı koşuda da yükseldi (Faz 6 ilk koşu 1094, A/B koşusu 1244; Faz 0 729 ve 871). `/en` @1440 ile hizmet sayfası @1440'ta düştü.
   - `/` için olası neden: taban `7eeae2c`, R1'den **önceki** ana sayfa. R1, kullanıcı kararıyla bandı, manifestoyu, süreç fotoğrafını ve ters kaydırma bölümünü geri getirdi. Yani karşılaştırılan iki `/` aynı sayfa değil.
   - Bu açıklama doğrulanmadı; profil alınmadı. Lab TBT INP değildir.
-- **Kritik CSS** (`f4-css-fonts.md`): yerelde `cssEnd − imageEnd` 375'te +345 ms. Vercel ölçümünde koşul sağlandı, ama site sahibi kuralı uygulamadı (aşağıda).
+- **Kritik CSS** (`f4-css-fonts.md`): yerelde `cssEnd − imageEnd` 375'te +345 ms. Vercel ölçümünde de CSS görselden sonra bitiyor; site sahibi kuralı uygulamadı (aşağıda).
 
 Kaynak dosyalar: `f6-perf-lab-local.json` (ilk koşu), `f6-perf-lab-ab-f0.json` ve `f6-perf-lab-ab-f6.json` (A/B), `f6-perf-lab-en-service.json` (İngilizce hizmet sayfası).
 
@@ -124,7 +124,7 @@ Workflow koşusu: https://github.com/aydinogluomer-sys/Mas_Technic/actions/runs/
 - Commit `main 59f3b45`, EN açık.
 - Ortam: preview (HTTP/2, Vercel edge), GitHub runner Chromium.
 - Ayarlar: yavaş 4G, 4× CPU, rota başına 5 soğuk koşu.
-- Sayılar iş logundan alındı. Artifact (`preview-evidence-attempt-1`) bu oturumdan indirilemedi.
+- Sayılar iş logundaki özet satırlarından alındı. Ham kanıt (`perf-lab.json`: koşu başına değerler, engellenen host'lar; `release-check.json`; HAR dosyaları) artifact'ta duruyor: `preview-evidence-attempt-1`, 30 gün saklanıyor. Bu oturum artifact'ı indiremedi, o yüzden repoya alınmadı. Ham dosyalar eklenene kadar bu bölüm denetlenebilir kanıt değil, log özetidir.
 - Lab TBT INP değildir; INP ölçülmedi.
 
 | Rota @ genişlik | LCP p75 | CLS p75 | JS 10 sn | Lab TBT p75 | CSS bitişi / görsel bitişi p75 |
@@ -143,5 +143,7 @@ Workflow koşusu: https://github.com/aydinogluomer-sys/Mas_Technic/actions/runs/
 - **CLS:** her rotada 0.
 - **JS 10 sn:** her rota 320 KiB bütçesinin içinde. En dar rota EN hizmet sayfası: 300 / 306 KiB, yerel ölçümden yaklaşık 6 KiB yüksek.
 - **Yayın doğrulaması** (`verify-release.mjs`) hata vermeden geçti.
-- **Kritik CSS:** `cssEnd − imageEnd` 375'te `/` için +679 ms, `/en` için +630 ms. Plan kuralının koşulu sağlanıyor, ama site sahibi kuralı uygulamadı (`f4-css-fonts.md`).
+- **Kritik CSS:** CSS bitişi p75 ile görsel bitişi p75 arasındaki fark 375'te `/` için +679 ms, `/en` için +630 ms.
+  - Bu, kuralın istediği "koşu başına `cssEnd − imageEnd` farkının p75'i" değil. İki p75 farklı koşulardan gelebilir; koşu başına fark `perf-lab.json` olmadan hesaplanamadı.
+  - Site sahibi kuralı uygulamamaya karar verdi (`f4-css-fonts.md`); karar bu hesaba bağlı değil.
 - **Hâlâ ölçülmeyenler:** Lighthouse (mobil, 3 koşu), WebPageTest ve gerçek cihaz.
