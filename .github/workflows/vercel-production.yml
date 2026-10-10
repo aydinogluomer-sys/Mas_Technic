@@ -1,0 +1,158 @@
+name: Vercel production
+
+# Deploys every merge to main to PRODUCTION, after CI on that commit is green.
+# Same build as the preview workflow (vite + prerender with Chromium on the
+# runner), uploaded to Vercel as a prebuilt static site with `--prod`. The
+# Vercel project stays unlinked from Git (`vercel.json` git.deploymentEnabled
+# false), so this workflow is the only thing that publishes to production.
+#
+# Trigger: CI finishing on a push to main (a merge), or by hand (Actions →
+# Vercel production → Run workflow). A red CI run deploys nothing.
+#
+# Secrets: the same as vercel-preview.yml (VERCEL_TOKEN, VITE_SUPABASE_URL,
+# VITE_SUPABASE_PUBLISHABLE_KEY; optional VERCEL_AUTOMATION_BYPASS_SECRET for
+# the post-deploy check).
+#
+# Release flags come from repository VARIABLES (Settings → Secrets and
+# variables → Actions → Variables), not from this file:
+#   SITE_ORIGIN    — e.g. https://www.example.com (O10). Empty → no canonical.
+#   SITE_INDEXING  — `public` to allow indexing; needs SITE_ORIGIN, the build
+#                    fails without it. Empty → noindex + robots Disallow.
+#   SITE_ENGLISH   — `live` to publish /en (USER_INPUTS.md §B). Empty → off.
+#   SITE_LOCALES   — extra languages, e.g. `de,ru` (O16). Empty → none.
+# With none set, production is the same noindex, Turkish-only build as today.
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+# One production deploy at a time, in merge order; a newer merge waits
+# instead of cancelling the one in flight.
+concurrency:
+  group: vercel-production
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: "20"
+  VERCEL_SCOPE: omer-aydinoglu
+  VERCEL_PROJECT: mas-technic
+
+jobs:
+  production:
+    name: Vercel production deploy
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.event == 'push' && github.event.workflow_run.conclusion == 'success')
+    timeout-minutes: 40
+    runs-on: ubuntu-latest
+    steps:
+      - name: Required secrets are set
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          missing=""
+          [ -n "$VERCEL_TOKEN" ] || missing="$missing VERCEL_TOKEN"
+          [ -n "$VITE_SUPABASE_URL" ] || missing="$missing VITE_SUPABASE_URL"
+          [ -n "$VITE_SUPABASE_PUBLISHABLE_KEY" ] || missing="$missing VITE_SUPABASE_PUBLISHABLE_KEY"
+          if [ -n "$missing" ]; then echo "::error::Missing repository secrets:$missing"; exit 1; fi
+      # The commit CI tested, not whatever main points at by now.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Playwright Chromium
+        if: steps.pw-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+      - name: Install system deps (cached browsers)
+        if: steps.pw-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
+      - name: vercel.json matches the route table
+        run: node scripts/vercel/generate-config.mjs --check
+      - name: Build (vite + prerender)
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_SITE_ORIGIN: ${{ vars.SITE_ORIGIN }}
+          VITE_SITE_INDEXING: ${{ vars.SITE_INDEXING }}
+          VITE_SITE_ENGLISH: ${{ vars.SITE_ENGLISH }}
+          VITE_SITE_LOCALES: ${{ vars.SITE_LOCALES }}
+        run: npm run build
+      - name: Stage the prebuilt site
+        run: |
+          mkdir -p "$RUNNER_TEMP/$VERCEL_PROJECT"
+          cp -R dist/. "$RUNNER_TEMP/$VERCEL_PROJECT/"
+          node -e '
+            const fs = require("fs");
+            const config = JSON.parse(fs.readFileSync("vercel.json", "utf8"));
+            for (const key of ["installCommand", "buildCommand", "outputDirectory"]) delete config[key];
+            fs.writeFileSync(process.argv[1], JSON.stringify(config, null, 2));
+          ' "$RUNNER_TEMP/$VERCEL_PROJECT/vercel.json"
+      - name: Deploy production
+        id: deploy
+        working-directory: ${{ runner.temp }}/${{ env.VERCEL_PROJECT }}
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel() { npx --yes vercel@62 "$@" --scope "$VERCEL_SCOPE" --token "$VERCEL_TOKEN"; }
+          if ! vercel project inspect "$VERCEL_PROJECT" >/dev/null 2>&1; then
+            echo "::error::Vercel project '$VERCEL_PROJECT' not found in '$VERCEL_SCOPE'."
+            exit 1
+          fi
+          vercel link --yes --project "$VERCEL_PROJECT"
+          url=$(vercel deploy --yes --prod)
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          sha=$(git -C "$GITHUB_WORKSPACE" rev-parse --short HEAD)
+          {
+            echo "### Vercel production"
+            echo ""
+            echo "$url"
+            echo ""
+            echo "Commit \`$sha\` · indexing: ${{ vars.SITE_INDEXING || 'off (noindex)' }} · English: ${{ vars.SITE_ENGLISH || 'off' }} · extra locales: ${{ vars.SITE_LOCALES || 'none' }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+      # The deployment URL is protected like a preview; the check needs the
+      # bypass secret and is skipped with a notice without it.
+      - name: Verify the deployment against the build
+        env:
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: |
+          if [ -z "$VERCEL_AUTOMATION_BYPASS_SECRET" ]; then
+            echo "::notice::VERCEL_AUTOMATION_BYPASS_SECRET is not set; the deployment was not verified."
+            exit 0
+          fi
+          mkdir -p "$RUNNER_TEMP/evidence"
+          node scripts/quality/verify-release.mjs --base "${{ steps.deploy.outputs.url }}" --dist dist \
+            --out "$RUNNER_TEMP/evidence/release-check.json" > /dev/null && status=0 || status=$?
+          node -e '
+            const r = require(process.argv[1]);
+            const fails = r.findings.filter((f) => f.level === "fail");
+            const warns = r.findings.filter((f) => f.level === "warn");
+            const lines = ["", "### Release check (verify-release.mjs)", "",
+              `${r.filesChecked} files checked · ${fails.length} fail · ${warns.length} warn`, "",
+              ...r.findings.slice(0, 20).map((f) => `- ${f.level}: ${f.message}`)];
+            require("fs").appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join("\n") + "\n");
+            for (const f of fails.slice(0, 20)) console.log(`::error::${f.message}`);
+          ' "$RUNNER_TEMP/evidence/release-check.json"
+          exit $status
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-evidence-attempt-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/evidence
+          if-no-files-found: ignore
+          retention-days: 30
