@@ -60,3 +60,4 @@ Değişiklik yapılmadı.
 Plan kuralı: 375 p75'te `cssEnd > imageEnd + 300 ms` ise `/` ve `/en` için kritik CSS inline edilir.
 - Faz 0'ın yerel ölçümü bu koşulu sağlıyor (+573 ms). Ama yerel sunucu HTTP/1.1; `f0-baseline.md` kararı gerçek Vercel ölçümüne bırakıyor.
 - Varsayılan **yapılmaz** kalır. Karar Faz 6'daki preview `perf=true` ölçümüyle verilir.
+- **Karar (10 Ekim): yapılmadı.** Vercel preview ölçümü (`f6-final.md` → "Vercel preview") koşulu sağlıyor: 375'te `/` için +679 ms, `/en` için +630 ms. Yani LCP CSS'i bekliyor. Ama LCP p75 zaten 1732 ve 1648 ms, hedef 2,5 s. Site sahibi, iki HTML'i büyütmeye ve CLS riskini geri getirmeye değmediği için kuralı uygulamamaya karar verdi.

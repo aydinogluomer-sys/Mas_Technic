@@ -53,7 +53,7 @@ CLS iki build'de aynı: 375'te 0; 1440'ta `/` için 0,014, `/en` için 0,009.
 - **Lab TBT:** sonuç karışık. `/` @375 iki ayrı koşuda da yükseldi (Faz 6 ilk koşu 1094, A/B koşusu 1244; Faz 0 729 ve 871). `/en` @1440 ile hizmet sayfası @1440'ta düştü.
   - `/` için olası neden: taban `7eeae2c`, R1'den **önceki** ana sayfa. R1, kullanıcı kararıyla bandı, manifestoyu, süreç fotoğrafını ve ters kaydırma bölümünü geri getirdi. Yani karşılaştırılan iki `/` aynı sayfa değil.
   - Bu açıklama doğrulanmadı; profil alınmadı. Lab TBT INP değildir.
-- **Kritik CSS** (`f4-css-fonts.md`): yerelde `cssEnd − imageEnd` 375'te +345 ms. Karar Vercel ölçümüne bırakıldı.
+- **Kritik CSS** (`f4-css-fonts.md`): yerelde `cssEnd − imageEnd` 375'te +345 ms. Vercel ölçümünde koşul sağlandı, ama site sahibi kuralı uygulamadı (aşağıda).
 
 Kaynak dosyalar: `f6-perf-lab-local.json` (ilk koşu), `f6-perf-lab-ab-f0.json` ve `f6-perf-lab-ab-f6.json` (A/B), `f6-perf-lab-en-service.json` (İngilizce hizmet sayfası).
 
@@ -61,7 +61,7 @@ Kaynak dosyalar: `f6-perf-lab-local.json` (ilk koşu), `f6-perf-lab-ab-f0.json` 
 
 | Ölçüm | Durum |
 |---|---|
-| Vercel preview workflow `perf=true, english=true` (gerçek HTTP/2, CDN) | **NOT_TESTED**, kullanıcı koşacak. Kritik CSS kararı buna bağlı. |
+| Vercel preview workflow `perf=true, english=true` (gerçek HTTP/2, CDN) | **Ölçüldü**: 10 Ekim, aşağıdaki "Vercel preview" bölümü |
 | Chrome DevTools Lighthouse (mobil, 3 koşu, medyan) | **NOT_TESTED**, kullanıcı koşacak |
 | WebPageTest, gerçek iPhone Safari ve Android Chrome | **NOT_TESTED** (O14) |
 | INP | ölçülmedi |
@@ -117,3 +117,31 @@ Her PR'ın kapısında parity full uygulandı (`maxDiffPixels: 0`). PR #28'den b
 - **Bu sırada bulunan iki fark kapatıldı:**
   - Bitmiş animasyonun `fill: both` ile görseli ayrı katmanda tutması.
   - Toast ertelemesiyle temanın ilk tıklamaya kayması.
+
+## Vercel preview (10 Ekim)
+
+Workflow koşusu: https://github.com/aydinogluomer-sys/Mas_Technic/actions/runs/38026649673
+- Commit `main 59f3b45`, EN açık.
+- Ortam: preview (HTTP/2, Vercel edge), GitHub runner Chromium.
+- Ayarlar: yavaş 4G, 4× CPU, rota başına 5 soğuk koşu.
+- Sayılar iş logundan alındı. Artifact (`preview-evidence-attempt-1`) bu oturumdan indirilemedi.
+- Lab TBT INP değildir; INP ölçülmedi.
+
+| Rota @ genişlik | LCP p75 | CLS p75 | JS 10 sn | Lab TBT p75 | CSS bitişi / görsel bitişi p75 |
+|---|---|---|---|---|---|
+| `/` @375 | 1732 ms | 0 | 133,2 KiB | 624 ms | 1362 / 683 ms |
+| `/` @1440 | 1800 ms | 0 | 138,8 KiB | 805 ms | 1390 / 990 ms |
+| `/hizmetler/cnc-frezeleme` @375 | 1652 ms | 0 | 208,4 KiB | 365 ms | 1392 / — |
+| `/hizmetler/cnc-frezeleme` @1440 | 1716 ms | 0 | 213,9 KiB | 487 ms | 1398 / — |
+| `/en` @375 | 1648 ms | 0 | 174,3 KiB | 587 ms | 1341 / 711 ms |
+| `/en` @1440 | 1740 ms | 0 | 179,8 KiB | 666 ms | 1391 / 976 ms |
+| `/en/hizmetler/cnc-frezeleme` @375 | 1632 ms | 0 | 300,3 KiB | 365 ms | 1384 / — |
+| `/en/hizmetler/cnc-frezeleme` @1440 | 1692 ms | 0 | 305,9 KiB | 394 ms | 1412 / — |
+
+**Okuma:**
+- **LCP:** her rotada 2,5 s hedefinin altında; en yüksek değer 1800 ms.
+- **CLS:** her rotada 0.
+- **JS 10 sn:** her rota 320 KiB bütçesinin içinde. En dar rota EN hizmet sayfası: 300 / 306 KiB, yerel ölçümden yaklaşık 6 KiB yüksek.
+- **Yayın doğrulaması** (`verify-release.mjs`) hata vermeden geçti.
+- **Kritik CSS:** `cssEnd − imageEnd` 375'te `/` için +679 ms, `/en` için +630 ms. Plan kuralının koşulu sağlanıyor, ama site sahibi kuralı uygulamadı (`f4-css-fonts.md`).
+- **Hâlâ ölçülmeyenler:** Lighthouse (mobil, 3 koşu), WebPageTest ve gerçek cihaz.
