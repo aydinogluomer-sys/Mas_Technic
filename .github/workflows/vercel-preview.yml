@@ -2,8 +2,9 @@ name: Vercel preview
 
 # Builds the site the same way CI does (vite + prerender with Chromium) and
 # uploads the finished output to Vercel as a PREVIEW deployment. Never
-# production: no `--prod`, and the Vercel project is not linked to Git, so a
-# push to main deploys nothing by itself (release.md §2, option 1).
+# production: no `--prod`, and the Vercel project is not linked to Git.
+# Production is vercel-production.yml, after CI on a merge to main
+# (release.md §2, option 1).
 #
 # Needs repository secrets (Settings → Secrets and variables → Actions):
 #   VERCEL_TOKEN                   — a Vercel token for the team below
