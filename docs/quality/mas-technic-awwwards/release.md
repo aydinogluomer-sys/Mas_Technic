@@ -48,7 +48,7 @@ Host Vercel olarak seçildi. Yapılandırma repoda; canlı doğrulama Vercel eri
    **Production — `.github/workflows/vercel-production.yml` (10 Ekim, site sahibinin isteğiyle):**
    - **Tetik:** main'e her merge. Workflow, o commit'te CI başarıyla bitince çalışır (`workflow_run`); CI kırmızıysa hiçbir şey yayımlanmaz. Elle de çalıştırılabilir: Actions → Vercel production → Run workflow.
    - **Build:** preview'la aynı build, CI'ın test ettiği commit'ten alınır ve `vercel deploy --prod` ile yüklenir. Deploy'lar sırayla gider; yenisi çalışanı iptal etmez.
-   - **Yayın bayrakları** dosyada değil, repository **variables**'ta durur: `SITE_ORIGIN`, `SITE_INDEXING`, `SITE_ENGLISH`, `SITE_LOCALES`.
+   - **Yayın bayrakları** dosyada değil, GitHub variables'ta durur (`production` environment'ı ya da repository): `SITE_ORIGIN`, `SITE_INDEXING`, `SITE_ENGLISH`, `SITE_LOCALES`. Ek dil açılırsa `vercel.json` aynı bayraklarla deploy sırasında yeniden üretilir.
      - Hepsi boşken production bugünkü gibi `noindex`, yalnız Türkçe bir build'dir.
      - `SITE_INDEXING=public`, `SITE_ORIGIN` olmadan build'i bilerek düşürür.
    - **Doğrulama:** deploy sonrası `verify-release.mjs` bypass secret'ıyla koşar. Kanıt `production-evidence` artifact'ında (30 gün).
@@ -67,13 +67,15 @@ Gizli anahtar (service role, Gemini) Vercel'e konmaz; yalnız Supabase edge func
 
 ## 3. Yayın (rollout) — sahibin adımları
 
-1. PR'ı gözden geçirip merge edin (otomatik merge yok).
-2. Yayın bayraklarını GitHub repository variables'a girin: `SITE_ORIGIN`, `SITE_INDEXING`, `SITE_ENGLISH`, `SITE_LOCALES` (origin ve EN kararları O10 / §B). Vercel projesi Git'e bağlanmaz; production'ı `vercel-production.yml` yayımlar.
-3. Önce Preview deployment: `noindex`, `robots.txt Disallow`. Aşağıdakileri koşun:
-   `node scripts/quality/verify-release.mjs --base https://<preview-url> --dist dist --out release-check.json`
-   (aynı commit'ten, aynı env ile derlenmiş `dist` gerekir) ve §2 tablosundaki adresleri tarayıcıda deneyin.
-4. QA02 listesini (§5) test hesabıyla koşun.
-5. Production'a terfi (Promote); `verify-release.mjs`'i canlı origin'e karşı tekrar çalıştırın; `robots.txt`, `sitemap.xml`, bir derin rota, bir 404 ve bir yönlendirmeyi kontrol edin.
+Main'e her merge, CI yeşil bitince production'a gider (`vercel-production.yml`). Bu yüzden ayar ve doğrulama merge'den **önce** yapılır:
+
+1. **Yayın bayrakları:** `SITE_ORIGIN`, `SITE_INDEXING`, `SITE_ENGLISH`, `SITE_LOCALES` değerlerini GitHub'da `production` environment'ına girin (Settings → Environments → production → Variables). Origin ve EN kararları O10 / §B'de. Değişkenler deploy anında okunur; merge'den sonra girilen bir değer bir sonraki deploy'a kadar yayına çıkmaz. Hemen yansıması için Actions → Vercel production → Run workflow.
+2. **Production Supabase değerleri:** aynı environment'a `VITE_SUPABASE_URL` ve `VITE_SUPABASE_PUBLISHABLE_KEY` secret'larını girin. Bunlar repository secret'larının (preview/staging) yerine geçer. Girilmezse production da repository değerlerini kullanır.
+3. **Preview ve QA:** PR'ın preview'u (`noindex`, `robots.txt Disallow`) Vercel preview workflow'unda `verify-release.mjs` ile doğrulanır. §2 tablosundaki adresler tarayıcıda denenir ve QA02 listesi (§5) test hesabıyla koşulur.
+4. **Merge** (otomatik merge yok). CI yeşil bitince production deploy başlar ve deploy sonrası `verify-release.mjs` çalışır.
+5. **Canlı kontrol:** `robots.txt`, `sitemap.xml`, bir derin rota, bir 404 ve bir yönlendirme kontrol edilir.
+
+Vercel projesi Git'e bağlanmaz; production'ı yalnız `vercel-production.yml` yayımlar. Workflow yalnız main'in o anki en son commit'ini deploy eder: eski bir CI koşusunun yeniden çalıştırılması production'ı geri döndürmez.
 
 ## 4. Geri alma (rollback)
 

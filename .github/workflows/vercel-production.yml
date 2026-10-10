@@ -13,8 +13,12 @@ name: Vercel production
 # VITE_SUPABASE_PUBLISHABLE_KEY; optional VERCEL_AUTOMATION_BYPASS_SECRET for
 # the post-deploy check).
 #
-# Release flags come from repository VARIABLES (Settings → Secrets and
-# variables → Actions → Variables), not from this file:
+# The job runs in the `production` environment: its secrets and variables
+# (Settings → Environments → production) override the repository ones, so
+# the live Supabase pair can live there while previews keep staging values.
+#
+# Release flags come from VARIABLES (production environment or repository),
+# not from this file:
 #   SITE_ORIGIN    — e.g. https://www.example.com (O10). Empty → no canonical.
 #   SITE_INDEXING  — `public` to allow indexing; needs SITE_ORIGIN, the build
 #                    fails without it. Empty → noindex + robots Disallow.
@@ -48,6 +52,11 @@ jobs:
       (github.event.workflow_run.event == 'push' && github.event.workflow_run.conclusion == 'success')
     timeout-minutes: 40
     runs-on: ubuntu-latest
+    # Secrets and variables set on the `production` environment (Settings →
+    # Environments) take precedence over the repository ones of the same name,
+    # so production can use the live Supabase project while previews keep the
+    # staging values.
+    environment: production
     steps:
       - name: Required secrets are set
         env:
@@ -64,26 +73,43 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+      # Only main's current tip is deployed. A re-run of an older CI run (its
+      # head_sha is kept) or a run overtaken by a newer merge stops here
+      # instead of rolling production back; the newer commit, which contains
+      # it, deploys on its own run.
+      - name: Commit is main's current tip
+        id: tip
+        run: |
+          head=$(git rev-parse HEAD)
+          tip=$(git ls-remote origin refs/heads/main | cut -f1)
+          if [ "$head" = "$tip" ]; then echo "current=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          echo "current=false" >> "$GITHUB_OUTPUT"
+          echo "::notice::$head is no longer main's tip ($tip); not deploying it."
       - uses: actions/setup-node@v4
+        if: steps.tip.outputs.current == 'true'
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
       - run: npm ci
+        if: steps.tip.outputs.current == 'true'
       - name: Cache Playwright browsers
+        if: steps.tip.outputs.current == 'true'
         id: pw-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
           key: pw-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
       - name: Install Playwright Chromium
-        if: steps.pw-cache.outputs.cache-hit != 'true'
+        if: steps.tip.outputs.current == 'true' && steps.pw-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
       - name: Install system deps (cached browsers)
-        if: steps.pw-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
+        if: steps.tip.outputs.current == 'true' && steps.pw-cache.outputs.cache-hit == 'true'
+        run: bash scripts/ci/install-deps.sh chromium
       - name: vercel.json matches the route table
+        if: steps.tip.outputs.current == 'true'
         run: node scripts/vercel/generate-config.mjs --check
       - name: Build (vite + prerender)
+        if: steps.tip.outputs.current == 'true'
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
@@ -92,7 +118,17 @@ jobs:
           VITE_SITE_ENGLISH: ${{ vars.SITE_ENGLISH }}
           VITE_SITE_LOCALES: ${{ vars.SITE_LOCALES }}
         run: npm run build
+      # The committed vercel.json is the default (TR + EN) table; extra
+      # languages add their own redirects and rewrites, so the deployed config
+      # is generated with the same flags as the build.
+      - name: Routing config for these flags
+        if: steps.tip.outputs.current == 'true'
+        env:
+          VITE_SITE_ENGLISH: ${{ vars.SITE_ENGLISH }}
+          VITE_SITE_LOCALES: ${{ vars.SITE_LOCALES }}
+        run: node scripts/vercel/generate-config.mjs
       - name: Stage the prebuilt site
+        if: steps.tip.outputs.current == 'true'
         run: |
           mkdir -p "$RUNNER_TEMP/$VERCEL_PROJECT"
           cp -R dist/. "$RUNNER_TEMP/$VERCEL_PROJECT/"
@@ -103,6 +139,7 @@ jobs:
             fs.writeFileSync(process.argv[1], JSON.stringify(config, null, 2));
           ' "$RUNNER_TEMP/$VERCEL_PROJECT/vercel.json"
       - name: Deploy production
+        if: steps.tip.outputs.current == 'true'
         id: deploy
         working-directory: ${{ runner.temp }}/${{ env.VERCEL_PROJECT }}
         env:
@@ -127,6 +164,7 @@ jobs:
       # The deployment URL is protected like a preview; the check needs the
       # bypass secret and is skipped with a notice without it.
       - name: Verify the deployment against the build
+        if: steps.tip.outputs.current == 'true'
         env:
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: |
@@ -149,7 +187,7 @@ jobs:
           ' "$RUNNER_TEMP/evidence/release-check.json"
           exit $status
       - name: Upload evidence
-        if: always()
+        if: always() && steps.tip.outputs.current == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: production-evidence-attempt-${{ github.run_attempt }}
