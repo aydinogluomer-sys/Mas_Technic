@@ -31,6 +31,34 @@ test.describe("prose reveal on inner pages", () => {
     await expect.poll(() => far.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
   });
 
+  test("technical image plates reveal as the reader reaches them", async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 240 });
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await gotoAndSettle(page, "/hizmetler/cnc-frezeleme");
+    const plate = page.locator("figure.shell-plate").first();
+    await expect(plate).toBeAttached();
+    await expect(page.locator("html")).toHaveAttribute("data-prose-reveal", "on");
+    await expect.poll(() => plate.locator(".shell-plate-frame").evaluate((frame) =>
+      getComputedStyle(frame, "::after").transform,
+    )).toBe("matrix(1, 0, 0, 1, 0, 0)");
+
+    await plate.scrollIntoViewIfNeeded();
+    await expect(plate).toHaveAttribute("data-read", "");
+    await expect.poll(() => plate.locator(".shell-plate-frame").evaluate((frame) =>
+      getComputedStyle(frame, "::after").transform,
+    )).toBe("matrix(0, 0, 0, 1, 0, 0)");
+  });
+
+  test("image plates stay fully visible under reduced motion", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await gotoAndSettle(page, "/hizmetler/cnc-frezeleme");
+    const frame = page.locator("figure.shell-plate .shell-plate-frame").first();
+    await expect(frame).toBeAttached();
+    await expect.poll(() => frame.evaluate((element) =>
+      getComputedStyle(element, "::after").transform,
+    )).toBe("matrix(0, 0, 0, 1, 0, 0)");
+  });
+
   test("the landing is untouched", async ({ page }) => {
     await gotoAndSettle(page, "/");
     await expect(page.locator("html")).not.toHaveAttribute("data-prose-reveal", "on");

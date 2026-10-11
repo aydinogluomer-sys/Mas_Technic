@@ -54,12 +54,18 @@
   /* ── SURFACES ───────────────────────────────────────────────────────────
      Graphite/charcoal field, warm technical-paper evidence bands.
      ---------------------------------------------------------------------- */
-  --tl-void: #030506;
-  --tl-black: #070b0d;
-  --tl-panel: #0c1114;
-  --tl-panel-soft: rgba(10, 15, 18, .9);
-  --tl-header-surface: rgba(7, 11, 13, .98);
-  --tl-label-surface: rgba(6, 9, 11, .92);
+  /* Balanced graphite: preserve the industrial sheet while moving dark
+     surfaces away from near-black. Keep the text ladder intact; the faintest
+     graphite label remains above 4.5:1 on the panel surface. */
+  --tl-void: #171d1f;
+  --tl-black: #1d2426;
+  --tl-panel: #202729;
+  --tl-panel-soft: rgba(29, 36, 38, .96);
+  --tl-header-surface: rgba(29, 36, 38, .98);
+  --tl-label-surface: rgba(23, 29, 31, .96);
+  --tl-black-veil: rgba(29, 36, 38, .75);
+  --tl-void-veil: rgba(23, 29, 31, .97);
+  --tl-void-wash: rgba(23, 29, 31, .22);
   --tl-paper: #eee9de;
   --tl-paper-raised: #f6f2e8;
   --tl-paper-sunken: #fbf8f1;
@@ -123,7 +129,7 @@
      field fill, graphite transparent, paper-root field, and the paper BAND
      nested in a graphite root that falsified two 09a proposals:
 
-       --tl-control-rule        α .44   worst case 3.71:1  (graphite)
+       --tl-control-rule        α .44   worst case 3.53:1  (graphite)
        --tl-paper-control-rule  α .54   worst case 3.47:1  (paper band ground)
 
      Both clear 3:1 against BOTH adjacent colours, not merely the friendlier
@@ -148,7 +154,7 @@
      graphite and 4.31:1 on paper — both under the 4.5:1 floor for small text,
      and axe flagged exactly that on `.shell-eyebrow` in Phase 04. So small
      mono labels take the step that suits their ground:
-       graphite → `--tl-bronze-light`  9.9:1 on `--tl-black`
+       graphite → `--tl-bronze-light`  7.98:1 on `--tl-black`
        paper    → `--tl-bronze-ink`    6.2:1 on `--tl-paper-sunken` */
   --tl-bronze: #8a7359;
   --tl-bronze-light: #c9b699;
@@ -165,7 +171,7 @@
      at 1280 and 375.
 
      So stamp gets its ground-chosen step too, exactly as bronze did:
-       graphite → `--tl-stamp-light`  7.33:1 on `--tl-black`
+       graphite → `--tl-stamp-light`  5.85:1 on `--tl-black`
        paper    → `--tl-stamp`        6.93:1 on `--tl-paper-sunken`
 
      The light step is the SAME HUE, not a different red: `--tl-stamp` is
@@ -173,9 +179,9 @@
      chosen at that lightness and not higher on purpose — pushed to ~10:1 the
      red desaturates into pink and lands ΔE 14 from `--tl-bronze-light`, which
      is the colour the CAUTION label right beside it uses. At 66% it clears the
-     4.5:1 small-text floor by 63 % on the tightest graphite ground and stays
+     4.5:1 small-text floor by 25 % on the tightest graphite ground and stays
      ΔE 34 from bronze-light, so error and caution are still tellable apart at
-     9px. It sits between `--sf-faint` (5.89:1) and `--sf-meta` (8.44:1) in the
+     9px. It sits between `--sf-faint` (4.52:1) and `--sf-meta` (6.48:1) in the
      graphite label ladder, so it signals without out-shouting the title. */
   /* Polish run — the one warm signal (FAQ resource hover, interactive hints).
      `--tl-molten` is the legacy `--heat-molten` of `src/index.css`; on paper it

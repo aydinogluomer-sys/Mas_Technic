@@ -1,0 +1,37 @@
+/* Reference-fit polish. Loaded after the shared shell and the landing's own
+   stylesheet so the same motion and graphite palette apply to every public
+   route without changing the technical sheet's band composition. */
+
+/* A single datum-to-edge reveal for editorial image plates. The fill curtain
+   is inactive until prose/plate observation is live, so script failure and
+   reduced-motion users always see the whole image. */
+.shell-plate-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--sf-field);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .85s var(--tl-ease-out);
+  pointer-events: none;
+}
+html[data-prose-reveal="on"] .shell-plate:not([data-read]) .shell-plate-frame::after {
+  transform: scaleX(1);
+}
+
+.tl-part-stage::after {
+  background: linear-gradient(90deg, var(--tl-black), transparent 30%, transparent 84%, var(--tl-black-veil));
+}
+.tl-manifesto-body::after {
+  background: linear-gradient(90deg, var(--tl-void-veil) 0 42%, var(--tl-void-wash));
+}
+
+@media (max-width: 767px) {
+  .tl-manifesto-body::after {
+    background: linear-gradient(180deg, var(--tl-void-veil), var(--tl-void-wash));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell-plate-frame::after { transition-duration: 0s; }
+}
