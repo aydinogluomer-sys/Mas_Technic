@@ -130,7 +130,9 @@ for (const vp of VIEWPORTS) {
 
       expect(m.fg, "graphite step of --sf-danger").toBe("#e18570");
       expect(m.ratio, "1.4.3 small text").toBeGreaterThanOrEqual(4.5);
-      expect(m.ratio, "C1 claims 7.33:1").toBeGreaterThan(7.0);
+      // Balanced graphite is lighter by design; the verified red-on-panel
+      // pair remains above 5.5:1 and the WCAG small-text floor of 4.5:1.
+      expect(m.ratio, "balanced graphite error-label contrast").toBeGreaterThan(5.5);
       expect(edge.borderColor, "leading rule paints from the same role").toBe("#e18570");
       expect(edge.borderRatio, "1.4.11 non-text 3:1").toBeGreaterThanOrEqual(3.0);
 

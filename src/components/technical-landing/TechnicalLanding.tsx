@@ -6,6 +6,7 @@ import { MeasuredProjects, NexusEvidence, TechnicalProcess } from "./ProcessNexu
 import { FaqSection, MeasurementManifesto, QualityFile, ReferenceBand, RfqSection, TechnicalSectors } from "./FinalSections";
 import { MarqueeBand } from "./MarqueeBand";
 import "@/styles/technical-landing.css";
+import "@/styles/reference-polish.css";
 import { useTechnicalLandingMotion } from "@/hooks/useTechnicalLandingMotion";
 
 /**

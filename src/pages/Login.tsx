@@ -40,7 +40,8 @@ import { loginSchema, signupSchema, validateAuthForm, type AuthFieldErrors } fro
    leaves cannot be re-read, is not next to the control it is about, and is
    gone by the time a screen-reader user reaches it. Everything is
    `ShellNotice`/`.shell-form-error` now — the site's one inline message block,
-   already built in Phase 08 and measured by QA at 7.33:1 on graphite. No
+   already built in Phase 08 and measured by QA at 5.63:1 on the balanced
+   graphite panel. No
    fourth error idiom was introduced.
 
    ── THE SUBMIT BUTTON IS NO LONGER DISABLED ON A MISSING CAPTCHA ─────────

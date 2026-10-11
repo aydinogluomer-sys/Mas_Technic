@@ -26,6 +26,7 @@ export const PROSE_REVEAL_SELECTOR = [
   ".shell-doc-section-body p",
   ".shell-next-lede",
   ".shell-detail-lede",
+  ".shell-plate",
 ].join(", ");
 
 const FAILSAFE_MS = 3000;

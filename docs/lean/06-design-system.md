@@ -186,12 +186,15 @@ A hardcoded hex/rgb in a public stylesheet is a defect.
 
 | Token | Value | Role |
 |---|---|---|
-| `--tl-void` | `#030506` | page behind the sheet |
-| `--tl-black` | `#070b0d` | dark band field |
-| `--tl-panel` | `#0c1114` | marquee / recessed panel |
-| `--tl-panel-soft` | `rgba(10,15,18,.9)` | hero passport panel |
-| `--tl-header-surface` | `rgba(7,11,13,.98)` | header bar |
-| `--tl-label-surface` | `rgba(6,9,11,.92)` | measurement label / FCF chip |
+| `--tl-void` | `#171d1f` | page behind the sheet |
+| `--tl-black` | `#1d2426` | graphite band field |
+| `--tl-panel` | `#202729` | marquee / recessed panel |
+| `--tl-panel-soft` | `rgba(29,36,38,.96)` | hero passport panel |
+| `--tl-header-surface` | `rgba(29,36,38,.98)` | header bar |
+| `--tl-label-surface` | `rgba(23,29,31,.96)` | measurement label / FCF chip |
+| `--tl-black-veil` | `rgba(29,36,38,.75)` | hero image edge blend |
+| `--tl-void-veil` | `rgba(23,29,31,.97)` | manifesto image legibility veil |
+| `--tl-void-wash` | `rgba(23,29,31,.22)` | manifesto fade edge |
 | `--tl-paper` | `#eee9de` | warm evidence band |
 | `--tl-paper-raised` | `#f6f2e8` | certificate card |
 | `--tl-paper-sunken` | `#fbf8f1` | document inset inside a card |
