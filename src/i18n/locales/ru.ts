@@ -8,6 +8,7 @@
    native-speaker review is required before Russian is published (owner
    input O16). */
 const dictionary: Record<string, string> = {
+  "Bir ölçüyü seçin; çizimdeki karşılığını görün.": "Выберите размер, чтобы увидеть элемент на чертеже.",
   "Kurumsal": "О компании",
   "Sık Sorulan Sorular": "Частые вопросы",
   "Açılış": "Начало",

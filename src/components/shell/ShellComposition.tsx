@@ -347,6 +347,7 @@ export function ShellPlate({
     <figure className="shell-plate" data-size={size} style={style}>
       <div className="shell-plate-frame">
         {media}
+        <span className="inspection-trace" aria-hidden="true" />
         {(["tl", "tr", "bl", "br"] as const).map((corner) => (
           <span key={corner} className="shell-plate-tick" data-corner={corner} aria-hidden="true" />
         ))}

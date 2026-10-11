@@ -104,7 +104,7 @@ export const Iletisim = () => {
         <header className="contact-head">
           <ShellBreadcrumb trail={[{ label: "Ana sayfa", to: "/" }, { label: "İletişim" }]} />
           <p className="shell-eyebrow">{upper(t("İLETİŞİM · İZMİR · TEKLİF DÖNÜŞÜ {{time}}", { time: t(QUOTE_RESPONSE_TIME) }), lang)}</p>
-          <h1 id="shell-page-title">{t("Bize ulaşın")}</h1>
+          <h1 id="shell-page-title" className="inspection-title"><span>{t("Bize ulaşın")}</span></h1>
           <p className="contact-lede">
             {t("Geometriyi birlikte okumak için bir görüşme planlayın ya da doğrudan yazın. Teknik resminiz hazırsa en hızlı yol teklif dosyasıdır.")}
           </p>

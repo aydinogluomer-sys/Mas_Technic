@@ -2,6 +2,7 @@
 import pages from "./en-pages";
 
 const base: Record<string, string> = {
+  "Bir ölçüyü seçin; çizimdeki karşılığını görün.": "Select a dimension to see its feature in the drawing.",
   "Kurumsal": "Company",
   "Sık Sorulan Sorular": "Frequently asked questions",
   "Açılış": "Opening",

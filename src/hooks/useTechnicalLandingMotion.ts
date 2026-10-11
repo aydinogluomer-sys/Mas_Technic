@@ -1,4 +1,5 @@
 import { useEffect, type RefObject } from "react";
+import { usePrefersReducedMotion } from "./use-reduced-motion";
 
 /**
  * The landing's motion switchboard. It owns two class contracts, and the fact
@@ -29,20 +30,28 @@ import { useEffect, type RefObject } from "react";
  * intersection that will not come.
  */
 export function useTechnicalLandingMotion(rootRef: RefObject<HTMLElement>) {
+  const reduce = usePrefersReducedMotion();
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const bands = [...root.querySelectorAll<HTMLElement>(".tl-band")];
-    if (reduce) {
+    if (reduce || typeof IntersectionObserver === "undefined") {
       root.dataset.motion = "reduced";
       bands.forEach((band) => band.classList.add("tl-inview"));
       return;
     }
 
     root.dataset.motion = "ready";
+    let observed = false;
+    const failsafe = window.setTimeout(() => {
+      if (!observed) {
+        root.dataset.motion = "reduced";
+        bands.forEach((band) => band.classList.add("tl-inview"));
+      }
+    }, 1600);
 
     const entrance = new IntersectionObserver((entries) => {
+      observed = true;
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         (entry.target as HTMLElement).classList.add("tl-inview");
@@ -59,8 +68,9 @@ export function useTechnicalLandingMotion(rootRef: RefObject<HTMLElement>) {
     bands.forEach((band) => live.observe(band));
 
     return () => {
+      window.clearTimeout(failsafe);
       entrance.disconnect();
       live.disconnect();
     };
-  }, [rootRef]);
+  }, [rootRef, reduce]);
 }

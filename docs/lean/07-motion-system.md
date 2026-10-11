@@ -156,8 +156,10 @@ küçültür.
    ölçülür (`tl-draw-measure`), değerleri kilitlenir (`tl-label-lock-*`).
    Sayfanın tek anlamlı etkileşimi de buradadır: bir ölçünün üzerine gelmek o
    ölçünün kılavuz çizgisini ve pasaporttaki karşılığını birlikte aydınlatır,
-   kalanı geri çeker. Yeni sekme durağı açmaz — zaten görünen iki bilgiyi
-   ilişkilendirir, hiçbirini gizlemez.
+   kalanı geri çeker. Ölçü etiketleri artık native düğmelerdir: klavye/dokunma seçimi
+   kalıcıdır; tekrar seçim temizler. Basılı değerlerin tamamı okunur kalır,
+   kılavuz ve ortografik karşılık birlikte vurgulanır. Kısa seçim açıklaması
+   mevcut parça kartındadır (`gpt61-motion-execution.md`, R3).
 2. **09 MANİFESTO** — "Hassasiyet iddia edilmez. **Ölçülür.**" İddia
    canlandırılmaz, ölçülür: sözcüğün altında iki uzatma çizgisi dışarıdan
    içeriye kapanır, sonra sözcük harf aralığını toplayarak yerine oturur.

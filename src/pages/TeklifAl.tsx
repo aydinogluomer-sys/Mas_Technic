@@ -292,7 +292,7 @@ export const TeklifAl = () => {
           <p className="shell-eyebrow">{upper(t("TEKLİF · 3 ADIM · {{time}} DÖNÜŞ", { time: t(QUOTE_RESPONSE_TIME) }), i18n.language)}</p>
           {/* The heading string is a measured contract: `e2e/qa-p08-scroll-region
              -reach.spec.ts:207` reads it as this route's anti-404 surface. */}
-          <h1 id="shell-page-title">{t("Üretim Teklifi İsteyin")}</h1>
+          <h1 id="shell-page-title" className="inspection-title"><span>{t("Üretim Teklifi İsteyin")}</span></h1>
           {/* RFQ03: the contract's description, word for word, where this
               build can take what it promises. Without the attachment backend
               (O06) a PDF cannot be sent from the form, so the sentence says
