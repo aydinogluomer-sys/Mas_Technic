@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MessageCircle } from "lucide-react";
 import { useLocation } from "react-router-dom";
+import { stripLocale } from "@/i18n/locale";
 
 /* ══════════════════════════════════════════════════════════════════════════
    CHAT LAUNCHER — the button only (PERF01)
@@ -22,29 +23,41 @@ export function ChatLauncher({ onOpen, busy = false }: { onOpen: () => void; bus
   const [yieldToFooter, setYieldToFooter] = useState(false);
 
   /* The same rule `ChatBot` applies once loaded: below 768px the launcher
-     steps aside while the footer's conversion row is on screen. */
+     steps aside while the footer or NEXUS conversion row is on screen. */
   useEffect(() => {
-    // Observation enhances footer yielding; its absence must not crash the shell.
+    setYieldToFooter(false);
+    // Observation enhances CTA yielding; its absence must not crash the shell.
     if (typeof IntersectionObserver === "undefined") return;
-    let observer: IntersectionObserver | null = null;
+    const narrow = window.matchMedia("(max-width: 767px)");
+    const visible = new Set<Element>();
+    const observed = new Set<Element>();
+    const update = () => setYieldToFooter(narrow.matches && visible.size > 0);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) visible.add(entry.target);
+        else visible.delete(entry.target);
+      });
+      update();
+    });
     let tries = 0;
     let timer = 0;
     const attach = () => {
-      const target = document.querySelector(".shell-footer-actions");
-      if (!target) {
-        if (tries++ < 20) timer = window.setTimeout(attach, 250);
-        return;
-      }
-      observer = new IntersectionObserver(([entry]) => {
-        setYieldToFooter(entry.isIntersecting && window.innerWidth < 768);
+      document.querySelectorAll(".shell-footer-actions, .tl-nexus-cta").forEach((target) => {
+        if (!observed.has(target)) {
+          observed.add(target);
+          observer.observe(target);
+        }
       });
-      observer.observe(target);
+      const ready = document.querySelector(".shell-footer-actions") &&
+        (stripLocale(pathname) !== "/" || document.querySelector(".tl-nexus-cta"));
+      if (!ready && tries++ < 20) timer = window.setTimeout(attach, 250);
     };
-    setYieldToFooter(false);
     attach();
+    narrow.addEventListener("change", update);
     return () => {
       window.clearTimeout(timer);
-      observer?.disconnect();
+      observer.disconnect();
+      narrow.removeEventListener("change", update);
     };
   }, [pathname]);
 

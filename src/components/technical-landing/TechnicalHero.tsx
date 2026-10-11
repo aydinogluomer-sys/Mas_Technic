@@ -12,7 +12,6 @@ import { heroPartFacts } from "@/data/technicalLandingData";
 import { useTranslation } from "react-i18next";
 import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
 import { useState } from "react";
-import { useLocale } from "@/i18n/hooks";
 
 /**
  * Hero ölçümlendirmesi referanstaki teknik resim dilini izler:
@@ -23,17 +22,9 @@ import { useLocale } from "@/i18n/hooks";
  */
 const VIEW_W = 1000;
 const VIEW_H = 563;
-const INSPECTION_HINT = {
-  tr: "Bir ölçüyü seçin; çizimdeki karşılığını görün.",
-  en: "Select a dimension to see its feature in the drawing.",
-  de: "Wählen Sie ein Maß, um das Merkmal in der Zeichnung zu sehen.",
-  ru: "Выберите размер, чтобы увидеть элемент на чертеже.",
-  zh: "选择尺寸，查看图纸中的对应特征。",
-};
 
 export function TechnicalHero() {
   const { t } = useTranslation();
-  const locale = useLocale();
   const [dimension, setDimension] = useState<string | null>(null);
   const inspect = (key: string) => setDimension((current) => current === key ? null : key);
   return (
@@ -201,7 +192,7 @@ export function TechnicalHero() {
           </g>
         </svg>
         <p>{t("ŞEMATİK ÖN / YAN GÖRÜNÜŞ")}</p>
-        <p className="tl-inspection-hint">{t("Bir ölçüyü seçin; çizimdeki karşılığını görün.", { defaultValue: INSPECTION_HINT[locale] })}</p>
+        <p className="tl-inspection-hint">{t("Bir ölçüyü seçin; çizimdeki karşılığını görün.")}</p>
       </aside>
     </TechnicalSectionFrame>
   );

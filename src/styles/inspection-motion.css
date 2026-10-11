@@ -54,13 +54,6 @@
     transform-origin: top;
     pointer-events: none;
   }
-  .shell-root .tl-project-featured .tl-project-media { position: relative; }
-  .shell-root .tl-project-featured img[data-inspection-photo] {
-    position: absolute;
-    top: -36px;
-    left: 0;
-    height: calc(100% + 72px);
-  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -103,7 +96,8 @@
 }
 .shell-root .tl-hero button[data-dim]:focus-visible {
   outline: 2px solid var(--tl-bronze-light);
-  outline-offset: 4px;
+  /* The left measure stays registered near the clipped drawing boundary. */
+  outline-offset: -4px;
 }
 .shell-root .tl-hero button[data-dim][aria-pressed="true"] {
   border-color: var(--tl-bronze-light);

@@ -16,7 +16,7 @@ export function useInspectionMotion(rootRef: RefObject<HTMLElement>) {
 
     const bands = [...root.querySelectorAll<HTMLElement>(".tl-band")];
     const photos = [...root.querySelectorAll<HTMLImageElement>(
-      '.shell-plate:not([data-size="reference"]) .shell-plate-frame > img, [data-inspection-photo]',
+      '.shell-plate:not([data-size="reference"]) .shell-plate-frame > img',
     )];
     const active = new Set<HTMLImageElement>();
     const desktop = window.matchMedia("(min-width: 768px) and (hover: hover) and (pointer: fine)");

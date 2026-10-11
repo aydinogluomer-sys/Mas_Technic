@@ -1,4 +1,4 @@
-import { expect, test, type Locator } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 import { gotoAndSettle, landingReady, settleRendering } from "../helpers";
 
 async function translation(photo: Locator) {
@@ -6,6 +6,18 @@ async function translation(photo: Locator) {
     const translate = getComputedStyle(element).translate;
     return translate === "none" ? 0 : Number.parseFloat(translate.split(/\s+/)[1] ?? "0");
   });
+}
+
+async function openAboutFromFooter(page: Page) {
+  const group = page.locator(".shell-footer-disclosure").filter({
+    has: page.locator('a[href="/hakkimizda"]'),
+  });
+  const disclosure = group.locator("h2 > button");
+  if (await disclosure.isVisible()) {
+    if (await disclosure.getAttribute("aria-expanded") === "false") await disclosure.click();
+    await expect(disclosure).toHaveAttribute("aria-expanded", "true");
+    await group.locator('a[href="/hakkimizda"]').click();
+  } else await page.locator('.tl-footer nav a[href="/hakkimizda"]').first().click();
 }
 
 /* Runtime contracts: actual keyboard/touch selection and paired geometry,
@@ -54,9 +66,37 @@ test.describe("GPT-6.1 inspection motion", () => {
     if (testInfo.project.use.hasTouch) await bore.tap();
     else await bore.click();
     await expect(bore).toHaveAttribute("aria-pressed", "false");
+    if (testInfo.project.use.hasTouch) {
+      await page.setViewportSize({ width: 320, height: 812 });
+      await bore.focus();
+      await page.keyboard.press("Tab");
+      await expect(height).toBeFocused();
+      const perimeter = await height.evaluate((element) => {
+        const style = getComputedStyle(element);
+        const reach = Number.parseFloat(style.outlineWidth) + Number.parseFloat(style.outlineOffset);
+        const rect = element.getBoundingClientRect();
+        let visible = style.outlineStyle !== "none" && Number.parseFloat(style.outlineWidth) > 0;
+        const clippedBy: string[] = [];
+        for (let parent = element.parentElement; parent; parent = parent.parentElement) {
+          const parentStyle = getComputedStyle(parent);
+          const box = parent.getBoundingClientRect();
+          const clipsX = /hidden|clip|scroll|auto/.test(parentStyle.overflowX);
+          const clipsY = /hidden|clip|scroll|auto/.test(parentStyle.overflowY);
+          if ((clipsX && (rect.left - reach < box.left - 1 || rect.right + reach > box.right + 1)) ||
+              (clipsY && (rect.top - reach < box.top - 1 || rect.bottom + reach > box.bottom + 1))) {
+            visible = false;
+            clippedBy.push(parent.className);
+          }
+        }
+        return { visible, clippedBy };
+      });
+      expect(perimeter, "keyboard focus perimeter must fit all clipping ancestors at 320px").toEqual({ visible: true, clippedBy: [] });
+      await testInfo.attach("mobile-320-keyboard-focus-perimeter", { body: await page.screenshot(), contentType: "image/png" });
+    }
   });
 
   test("NEXUS keyboard step selection prints the intended document inside the same frame", async ({ page }, testInfo) => {
+    test.setTimeout(60_000);
     await gotoAndSettle(page, "/");
     const button = page.locator(".tl-nexus-rail button").nth(3);
     await button.scrollIntoViewIfNeeded();
@@ -71,6 +111,62 @@ test.describe("GPT-6.1 inspection motion", () => {
     await expect(page.locator(".tl-nexus-app")).toHaveCount(1);
     await page.waitForTimeout(600);
     await testInfo.attach("nexus-selected-measurement-step", { body: await page.locator("#nexus").screenshot(), contentType: "image/png" });
+    if (testInfo.project.use.hasTouch) {
+      const launcher = page.locator("[data-chat-launcher]");
+      const rfq = page.getByTestId("nexus-rfq");
+      const placeCtaAtLauncher = async () => {
+        await rfq.scrollIntoViewIfNeeded();
+        await page.evaluate(() => {
+          const arrow = document.querySelector(".tl-nexus-rfq svg")!.getBoundingClientRect();
+          const support = document.querySelector("[data-chat-launcher]")!.getBoundingClientRect();
+          window.scrollBy(0, arrow.top + arrow.height / 2 - support.top - support.height / 2);
+        });
+      };
+      const assertCtaHit = async () => {
+        expect(await rfq.evaluate((link) => {
+          const arrow = link.querySelector("svg")!.getBoundingClientRect();
+          return link.contains(document.elementFromPoint(arrow.right - 2, arrow.top + arrow.height / 2));
+        }), "the primary RFQ arrow must receive its own pointer hit").toBe(true);
+      };
+      await placeCtaAtLauncher();
+      await expect(launcher).toHaveAttribute("data-yield", "true");
+      await expect.poll(() => launcher.evaluate((el) => getComputedStyle(el).opacity)).toBe("0");
+      await expect.poll(() => launcher.evaluate((el) => getComputedStyle(el).pointerEvents)).toBe("none");
+      await assertCtaHit();
+      await testInfo.attach("mobile-nexus-rfq-unobscured", { body: await page.screenshot(), contentType: "image/png" });
+
+      // Crossing the breakpoint must release yielding without a new IO entry.
+      await page.setViewportSize({ width: 1280, height: 812 });
+      await expect(launcher).not.toHaveAttribute("data-yield", "true");
+      await expect.poll(() => launcher.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
+      await page.setViewportSize({ width: 375, height: 812 });
+      await placeCtaAtLauncher();
+      await expect(launcher).toHaveAttribute("data-yield", "true");
+
+      // Follow native sequential focus to support, then keep it focused while
+      // the NEXUS target intersects: yielding must never hide keyboard focus.
+      await page.getByTestId("nexus-login").focus();
+      for (let steps = 0; steps < 80 && !(await launcher.evaluate((el) => el === document.activeElement)); steps++) {
+        await page.keyboard.press("Tab");
+      }
+      await expect(launcher).toBeFocused();
+      await placeCtaAtLauncher();
+      await expect(launcher).toHaveAttribute("data-yield", "true");
+      await expect.poll(() => launcher.evaluate((el) => el.matches(":focus-visible"))).toBe(true);
+      await expect.poll(() => launcher.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
+      await page.keyboard.press("Enter");
+      const dialog = page.getByRole("dialog", { name: "MAS Technic sohbet asistanı" });
+      await expect(dialog).toBeVisible();
+      await dialog.getByRole("button", { name: "Sohbeti kapat" }).click();
+      await expect(dialog).toHaveCount(0);
+      await expect(launcher).toHaveAttribute("data-yield", "true");
+      await expect.poll(() => launcher.evaluate((el) => getComputedStyle(el).opacity)).toBe("0");
+      await assertCtaHit();
+      await testInfo.attach("mobile-nexus-rfq-loaded-chat-unobscured", { body: await page.screenshot(), contentType: "image/png" });
+      await page.locator("h1").scrollIntoViewIfNeeded();
+      await expect(launcher).not.toHaveAttribute("data-yield", "true");
+      await expect.poll(() => launcher.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
+    }
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.locator(".tl-nexus-rail button").nth(4).click();
     await expect(page.locator('#tl-nexus-step-sevkiyat h3')).toHaveText("SEVKİYAT");
@@ -124,7 +220,7 @@ test.describe("GPT-6.1 inspection motion", () => {
 
   test("client navigation masks the title during the route reveal and releases its ink at rest", async ({ page }, testInfo) => {
     await gotoAndSettle(page, "/");
-    await page.locator('.tl-footer a[href="/hakkimizda"]').first().click();
+    await openAboutFromFooter(page);
     await expect(page).toHaveURL(/\/hakkimizda$/);
     const title = page.locator("h1.inspection-title > span");
     await expect(title).toHaveText("Hakkımızda");
@@ -182,7 +278,7 @@ test.describe("GPT-6.1 inspection motion", () => {
     await gotoAndSettle(page, "/hizmetler/cnc-frezeleme");
     const readings: Array<{ active: number; detached: number }> = [];
     for (let cycle = 0; cycle < 3; cycle++) {
-      await page.locator('.tl-footer a[href="/hakkimizda"]').first().click();
+      await openAboutFromFooter(page);
       await expect(page.locator("h1")).toHaveText("Hakkımızda");
       await page.goBack();
       await expect(page.locator("h1")).toHaveText("CNC Frezeleme");
