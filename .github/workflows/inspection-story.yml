@@ -1,0 +1,80 @@
+name: Inspection story paired evidence
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+concurrency:
+  group: inspection-story-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  evidence:
+    name: Inspection evidence (${{ matrix.subject }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        subject: [baseline-v6, candidate]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preserve candidate evidence harness
+        run: cp e2e/landing/inspection-story-evidence.spec.ts /tmp/inspection-story-evidence.spec.ts
+      - name: Select frozen baseline
+        if: matrix.subject == 'baseline-v6'
+        uses: actions/checkout@v4
+        with:
+          ref: 4047bb262fbace0515af6f372398841b483d9ef9
+      - name: Restore identical harness
+        run: cp /tmp/inspection-story-evidence.spec.ts e2e/landing/inspection-story-evidence.spec.ts
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Cache Chromium
+        id: chromium-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - name: Install Chromium
+        if: steps.chromium-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+      - name: System dependencies
+        if: steps.chromium-cache.outputs.cache-hit == 'true'
+        run: bash scripts/ci/install-deps.sh chromium
+      - name: Source identity
+        run: |
+          mkdir -p inspection-evidence
+          git rev-parse HEAD > inspection-evidence/source-commit.txt
+          git rev-parse HEAD^{tree} > inspection-evidence/source-tree.txt
+      - name: Build and typecheck
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL || 'https://ci-placeholder.supabase.co' }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY || 'ci-placeholder-anon-key' }}
+          VITE_SITE_ENGLISH: live
+        run: npm run typecheck && npm run build
+      - name: Bundle evidence
+        run: node scripts/quality/bundle-report.mjs --out inspection-evidence/bundle.json
+      - name: Cold lab performance evidence
+        run: |
+          node scripts/quality/serve-gzip.mjs --port 4181 > /tmp/inspection-gzip.log 2>&1 &
+          inspection_server_pid=$!
+          trap 'kill "$inspection_server_pid" 2>/dev/null || true' EXIT
+          node scripts/quality/perf-lab.mjs --base http://127.0.0.1:4181 --routes /,/hizmetler/cnc-frezeleme --widths 390,1440 --runs 3 --out inspection-evidence/perf-lab.json --scope '${{ matrix.subject }}; paired inspection-story CI, software Chromium, cold 4x CPU/slow 4G; no field INP or physical-device FPS claim'
+      - name: Four viewport live captures
+        env:
+          CI: 'true'
+          PLAYWRIGHT_PREVIEW_ONLY: '1'
+          PLAYWRIGHT_RETRIES: '0'
+        run: npx playwright test e2e/landing/inspection-story-evidence.spec.ts --project=mobile-320 --project=mobile-390 --project=tablet-768 --project=desktop-1440 --reporter=html,json > inspection-evidence/playwright.json
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: inspection-story-${{ matrix.subject }}
+          path: |
+            inspection-evidence
+            playwright-report
+            test-results
+          retention-days: 14
