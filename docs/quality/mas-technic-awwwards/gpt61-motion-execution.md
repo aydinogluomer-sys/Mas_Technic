@@ -117,3 +117,26 @@ Corrected candidate checks after final F61-05 source/test edits:
 | `git diff --check` | Exit 0; no whitespace errors |
 
 Current scratch logs: `/tmp/gpt61-cycle1-typecheck.log`, `/tmp/gpt61-cycle1-lint.log`, `/tmp/gpt61-cycle1-build.log`, `/tmp/gpt61-cycle1-test-list.log`. No existing test, golden, threshold, workflow or configuration changed. Parent owns the corrected snapshot and CI rerun; no local browser/server installation, commit or push performed by this writer.
+
+## Correction cycle 2 — candidate `d36ae81732a5280cd033037daff1088464b846bd`, CI `38136276360`
+
+The corrected candidate was not released. Parent reports 198 critical passes, three skips and one failure: the strict 320px focus oracle correctly found the height control outside both `tl-part-frame` and `tl-part-stage` on every retry. Independent review of `/workspace/scratch/c49d41d5da0d/gpt61-cycle1-report/review/critical-375-screenshot.png` confirms the clipped left border and a bore label at the frame edge. Source inspection finds `polish.css:631` sets the measure labels to 14px type and 11px horizontal padding, overriding the lower-specificity mobile base rule. The percentage centers and `translate(-50%,-50%)` remain correct; insufficient border-box clearance caused the clipping. The previous inset-only correction was insufficient at 320px.
+
+| Finding | Evidence / disposition | Current status |
+| --- | --- | --- |
+| F61-04, reopened | Mobile-only padding-inline becomes 6px through `calc(var(--tl-s3) / 2)` for bore and height native controls. Centers, Y anchors, transforms, fonts, printed values, photo/SVG geometry and minimum 44px targets stay unchanged. The same perimeter oracle now checks both controls, plus full border-box clearance and target size; each produces focused PNG and geometry JSON. No deeper outline inset or oracle weakening. | IMPLEMENTED; current runtime pending |
+| F61-06 | Tablet-768 NEXUS test, job `114461271104`, and the landscape-844 suite used `hasTouch` as a narrow-width assumption despite the <=767px product yield contract. The touch journey now explicitly enters 375×812 before its first overlap alignment. Original-project selected-panel screenshot and all hit/focus/loaded-chat/breakpoint/recovery assertions remain. Product breakpoint and tablet behavior unchanged. | IMPLEMENTED; current runtime pending |
+
+Parent confirmed all cycle 1 jobs finished with only those two failure classes: desktop-1440 and short-desktop each 211 passes/159 skips, desktop-1280 331 passes/39 skips, and Firefox/WebKit smoke/interop 12/27 passes. These are historical results for `d36ae81732a5280cd033037daff1088464b846bd`; they do not substitute for corrected-candidate evidence.
+
+Independent QA approved both minimal corrections before the final candidate check. Only `inspection-motion.css`, the new focused spec and this execution report change in cycle 2.
+
+| Final cycle 2 command | Observed result |
+| --- | --- |
+| `npm run typecheck` | Exit 0; application, Node and E2E projects pass |
+| `npm run lint` | Exit 0; same two baseline `BlurImage.tsx` warnings |
+| `npm run build:vite` | Exit 0; built in 17.18s with retained baseline warnings |
+| `npx playwright test e2e/landing/gpt61-motion.spec.ts --project=critical-1280 --project=critical-375 --project=tablet-768 --list` | Exit 0; 21 tests discovered across three projects; discovery only |
+| `git diff --check` | Exit 0; no whitespace errors |
+
+Logs: `/tmp/gpt61-cycle2-typecheck.log`, `/tmp/gpt61-cycle2-lint.log`, `/tmp/gpt61-cycle2-build.log`, `/tmp/gpt61-cycle2-test-list.log`. Required corrected browser evidence, both focused 320px PNGs/geometry, independent closure and final release state remain NOT_VERIFIED. No local browser/server installation, commit, push or production deployment by this writer.

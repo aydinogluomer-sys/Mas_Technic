@@ -146,6 +146,11 @@
 .shell-root .tl-nexus-rail button { transition: background var(--tl-dur-micro) var(--tl-ease-out), color var(--tl-dur-micro) var(--tl-ease-out); }
 
 @media (max-width: 767px) {
+  /* Polish's 11px measure padding crowds the fixed drawing anchors at 320px.
+     Keep their centers, type and 44px targets; fit both complete border boxes. */
+  .shell-root .tl-hero button:is(.tl-measure-top, .tl-measure-left) {
+    padding-inline: calc(var(--tl-s3) / 2);
+  }
   /* Mobile enters one complete title, without line stagger or counter-drift. */
   html:not([data-first-view]) .shell-root.tl-root[data-motion="ready"] .tl-hero.tl-inview .inspection-line > span { animation: none; }
 }

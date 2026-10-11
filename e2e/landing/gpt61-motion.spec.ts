@@ -68,30 +68,44 @@ test.describe("GPT-6.1 inspection motion", () => {
     await expect(bore).toHaveAttribute("aria-pressed", "false");
     if (testInfo.project.use.hasTouch) {
       await page.setViewportSize({ width: 320, height: 812 });
-      await bore.focus();
+      await page.locator(".tl-part-frame .tl-image-link").focus();
       await page.keyboard.press("Tab");
-      await expect(height).toBeFocused();
-      const perimeter = await height.evaluate((element) => {
-        const style = getComputedStyle(element);
-        const reach = Number.parseFloat(style.outlineWidth) + Number.parseFloat(style.outlineOffset);
-        const rect = element.getBoundingClientRect();
-        let visible = style.outlineStyle !== "none" && Number.parseFloat(style.outlineWidth) > 0;
-        const clippedBy: string[] = [];
-        for (let parent = element.parentElement; parent; parent = parent.parentElement) {
-          const parentStyle = getComputedStyle(parent);
-          const box = parent.getBoundingClientRect();
-          const clipsX = /hidden|clip|scroll|auto/.test(parentStyle.overflowX);
-          const clipsY = /hidden|clip|scroll|auto/.test(parentStyle.overflowY);
-          if ((clipsX && (rect.left - reach < box.left - 1 || rect.right + reach > box.right + 1)) ||
-              (clipsY && (rect.top - reach < box.top - 1 || rect.bottom + reach > box.bottom + 1))) {
-            visible = false;
-            clippedBy.push(parent.className);
+      for (const [name, control] of [["bore", bore], ["height", height]] as const) {
+        await expect(control).toBeFocused();
+        const perimeter = await control.evaluate((element) => {
+          const style = getComputedStyle(element);
+          const reach = Number.parseFloat(style.outlineWidth) + Number.parseFloat(style.outlineOffset);
+          const rect = element.getBoundingClientRect();
+          let visible = style.outlineStyle !== "none" && Number.parseFloat(style.outlineWidth) > 0;
+          const clippedBy: string[] = [];
+          for (let parent = element.parentElement; parent; parent = parent.parentElement) {
+            const parentStyle = getComputedStyle(parent);
+            const box = parent.getBoundingClientRect();
+            const clipsX = /hidden|clip|scroll|auto/.test(parentStyle.overflowX);
+            const clipsY = /hidden|clip|scroll|auto/.test(parentStyle.overflowY);
+            if ((clipsX && (rect.left - reach < box.left - 1 || rect.right + reach > box.right + 1)) ||
+                (clipsY && (rect.top - reach < box.top - 1 || rect.bottom + reach > box.bottom + 1))) {
+              visible = false;
+              clippedBy.push(parent.className);
+            }
           }
-        }
-        return { visible, clippedBy };
-      });
-      expect(perimeter, "keyboard focus perimeter must fit all clipping ancestors at 320px").toEqual({ visible: true, clippedBy: [] });
-      await testInfo.attach("mobile-320-keyboard-focus-perimeter", { body: await page.screenshot(), contentType: "image/png" });
+          return { visible, clippedBy };
+        });
+        expect(perimeter, `${name} keyboard focus perimeter must fit all clipping ancestors at 320px`).toEqual({ visible: true, clippedBy: [] });
+        const geometry = await control.evaluate((element) => {
+          const target = element.getBoundingClientRect();
+          const frame = element.closest(".tl-part-frame")!.getBoundingClientRect();
+          return { width: target.width, height: target.height,
+            leftClearance: target.left - frame.left, rightClearance: frame.right - target.right };
+        });
+        expect(geometry.width).toBeGreaterThanOrEqual(44);
+        expect(geometry.height).toBeGreaterThanOrEqual(44);
+        expect(geometry.leftClearance).toBeGreaterThanOrEqual(0);
+        expect(geometry.rightClearance).toBeGreaterThanOrEqual(0);
+        await testInfo.attach(`mobile-320-${name}-target-geometry`, { body: JSON.stringify(geometry), contentType: "application/json" });
+        await testInfo.attach(`mobile-320-${name}-keyboard-focus-perimeter`, { body: await page.screenshot(), contentType: "image/png" });
+        if (name === "bore") await page.keyboard.press("Tab");
+      }
     }
   });
 
@@ -112,6 +126,8 @@ test.describe("GPT-6.1 inspection motion", () => {
     await page.waitForTimeout(600);
     await testInfo.attach("nexus-selected-measurement-step", { body: await page.locator("#nexus").screenshot(), contentType: "image/png" });
     if (testInfo.project.use.hasTouch) {
+      // Touch tablets also run this suite; yielding is a <=767px contract.
+      await page.setViewportSize({ width: 375, height: 812 });
       const launcher = page.locator("[data-chat-launcher]");
       const rfq = page.getByTestId("nexus-rfq");
       const placeCtaAtLauncher = async () => {
