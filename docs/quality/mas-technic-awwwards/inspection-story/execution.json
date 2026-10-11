@@ -779,7 +779,23 @@
       "requirement": "REQ-036",
       "state": "OPEN",
       "description": "Win32 goldens cannot serve as Linux baselines. Paired current captures required; no blind golden update."
+    },
+    {
+      "id": "QA-F06",
+      "requirement": "REQ-036",
+      "state": "FIXED",
+      "description": "Paired capture harness misplaced worker-scoped video/trace fixtures inside describe. Move unchanged options to top-level; no threshold/golden/assertion weakened. Runtime rerun pending."
     }
   ],
-  "execution_status": "IN_PROGRESS; no phase pass or award rating claimed"
+  "execution_status": "IN_PROGRESS; no phase pass or award rating claimed",
+  "phase_browser_runs": [
+    {
+      "candidate_commit": "902c1e5850cb6e6cd9b5e728b0ee3dc9c613eb70",
+      "run_id": 38147785543,
+      "baseline_build": "PASS; exact frozen 4047... source",
+      "lab_perf": "RECORDED; 3 cold runs per route/width; no field data",
+      "capture": "FAILED_DISCOVERY",
+      "finding": "Playwright video/trace worker fixtures cannot be set inside describe; 0 tests executed"
+    }
+  ]
 }

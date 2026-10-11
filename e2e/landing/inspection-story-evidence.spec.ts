@@ -13,8 +13,9 @@ const families = [
   "/blog", "/sss", "/iletisim", "/teklif-al", "/gizlilik-politikasi", "/en",
 ];
 
+test.use({ video: "on", trace: "on" });
+
 test.describe("Inspection story paired evidence", () => {
-  test.use({ video: "on", trace: "on" });
   test.beforeEach(async ({ context, page }) => {
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await context.route("**/*", route => {

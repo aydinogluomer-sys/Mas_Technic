@@ -23,3 +23,7 @@ Gogade (A-02/REQ-005): actual licensed font file, web embedding permission and g
 ## Phase closure
 
 No phase is verified yet. Moderate phases require the implementation evidence and independent acceptance key. A repeat finding twice requires root-cause classification; a third blind equivalent patch is forbidden. Source identities and dependent tests are refreshed after shared changes. Publication and a 7.0+ aesthetic claim are not derived from green technical tests.
+
+## P00 correction cycle 1
+
+CI paired baseline build and lab profile succeeded; capture discovery failed before any browser test ran because Playwright video/trace worker options were scoped inside describe. Corrected by moving identical options to file scope. No passing test count is attributed to this failed run. Current discovery and runtime rerun are required. Original build/test workflows remain intact.
