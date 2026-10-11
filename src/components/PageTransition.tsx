@@ -159,7 +159,9 @@ export const PageTransition = ({ children }: { children: ReactNode }) => {
           element, and a key here would remount the wrapper for a hash change
           too. `[data-route-transition]` therefore resolves to exactly 1 on
           every path, including mid-navigation. */}
-      <div className="relative min-h-screen" data-route-transition>
+      <div className="relative min-h-screen" data-route-transition style={{
+        ["--route-reveal-delay" as string]: navigated.current ? `${coverDuration + holdDuration}s` : "0s",
+      }}>
         {children}
       </div>
     </>

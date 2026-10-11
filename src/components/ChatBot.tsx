@@ -241,6 +241,7 @@ export function ChatBot({ defaultOpen = false }: { defaultOpen?: boolean } = {})
         if (tries++ < 20) timer = window.setTimeout(attach, 250);
         return;
       }
+      if (typeof IntersectionObserver === "undefined") return;
       observer = new IntersectionObserver(([entry]) => {
         setYieldToFooter(entry.isIntersecting && window.innerWidth < 768);
       });

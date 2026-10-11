@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MessageCircle } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 /* ══════════════════════════════════════════════════════════════════════════
    CHAT LAUNCHER — the button only (PERF01)
@@ -17,11 +18,14 @@ import { MessageCircle } from "lucide-react";
 
 export function ChatLauncher({ onOpen, busy = false }: { onOpen: () => void; busy?: boolean }) {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
   const [yieldToFooter, setYieldToFooter] = useState(false);
 
   /* The same rule `ChatBot` applies once loaded: below 768px the launcher
      steps aside while the footer's conversion row is on screen. */
   useEffect(() => {
+    // Observation enhances footer yielding; its absence must not crash the shell.
+    if (typeof IntersectionObserver === "undefined") return;
     let observer: IntersectionObserver | null = null;
     let tries = 0;
     let timer = 0;
@@ -36,12 +40,13 @@ export function ChatLauncher({ onOpen, busy = false }: { onOpen: () => void; bus
       });
       observer.observe(target);
     };
+    setYieldToFooter(false);
     attach();
     return () => {
       window.clearTimeout(timer);
       observer?.disconnect();
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <button

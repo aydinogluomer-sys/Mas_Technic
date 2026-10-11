@@ -1,4 +1,3 @@
-import { useLayoutEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { Navigate } from "@/i18n/LocaleLink";
 import {
@@ -20,7 +19,6 @@ import { pairLocale, localDecimals } from "@/i18n/format";
 import { useServiceData } from "@/i18n/service-data";
 import { upper } from "@/i18n/upper";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
-import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { DETAIL_VISUALS, SCHEMA_LABEL, type PhotoAsset } from "@/content/detail-visuals";
 import { PILOT_SCHEMAS, SECTOR_SCHEMAS } from "@/components/schemas/registry";
@@ -278,7 +276,6 @@ function splitFeature(feature: string) {
 
 export const ServiceDetail = () => {
   const { pathname, search, hash } = useLocation();
-  const prefersReduced = usePrefersReducedMotion();
   const { t, i18n } = useTranslation();
   const { getPageBySlug, categoryPages } = useServiceData();
 
@@ -308,42 +305,7 @@ export const ServiceDetail = () => {
         },
   );
 
-  const plateRef = useRef<HTMLDivElement>(null);
-  const plateImageRef = useRef<HTMLImageElement>(null);
-  /* ±60px, matching the plate frame's symmetric 60px overscan in `shell.css`,
-     so the image covers the frame at BOTH ends of the travel. The hero this
-     replaces translated a `h-full` image 0→120px inside `overflow:hidden` and
-     exposed the box at the bottom of the range. Zero under reduced motion:
-     a scroll-linked transform is motion whatever drives it. Progress runs from
-     the plate's top entering the viewport to its bottom leaving it. A scroll
-     listener rather than Framer's `useScroll`, so this route does not load
-     `vendor-framer` (JS budget, Faz 6). */
-  useLayoutEffect(() => {
-    const frame = plateRef.current;
-    const image = plateImageRef.current;
-    if (!frame || !image || prefersReduced) return;
-    let raf = 0;
-    const place = () => {
-      raf = 0;
-      const { top, height } = frame.getBoundingClientRect();
-      const progress = Math.min(1, Math.max(0, (window.innerHeight - top) / (window.innerHeight + height)));
-      image.style.translate = `0 ${-60 + 120 * progress}px`;
-    };
-    const schedule = () => { if (!raf) raf = requestAnimationFrame(place); };
-    place();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    // Layout above the plate can still settle (fonts, lazy media) without a scroll.
-    const layout = new ResizeObserver(schedule);
-    layout.observe(document.body);
-    return () => {
-      layout.disconnect();
-      cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      image.style.translate = "";
-    };
-  }, [prefersReduced, pathname]);
+  // ShellPlate photos share the intersection-gated inspection translation.
 
   if (resolution.kind === "redirect") {
     return <Navigate to={`${resolution.to}${search}${hash}`} replace />;
@@ -491,7 +453,7 @@ export const ServiceDetail = () => {
       )}
 
       <ShellSurfaceBand no={no()} label="TANIM" labelledBy="detay-tanim">
-        <div className="shell-span-full" ref={plateRef}>
+        <div className="shell-span-full">
           <ShellPlate
             plate={`${t("PLAKA")} · ${upper(page.title, i18n.language)}`}
             caption={plateCaption}
@@ -509,7 +471,6 @@ export const ServiceDetail = () => {
                  all — decorative under the Phase 10-3 rule either way.
                  `reports/10/alt-text.md` lists all 48 routes. */
               <img
-                ref={plateImageRef}
                 data-settle
                 src={heroImage.src}
                 srcSet={heroImage.srcSet}

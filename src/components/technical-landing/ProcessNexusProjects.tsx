@@ -207,6 +207,7 @@ export function MeasuredProjects() {
                   `/kabiliyet-profilleri/:slug`. */}
               <Link className="tl-project-media" to={`/kabiliyet-profilleri/${study.slug}`} aria-label={t(study.title)}>
                 <img
+                  data-inspection-photo={index === 0 ? "" : undefined}
                   src={figure.src}
                   srcSet={index === 0 ? figure.srcSet : undefined}
                   sizes={index === 0 ? FEATURED_SIZES : undefined}

@@ -6,11 +6,13 @@ import { useTranslation } from "react-i18next";
 import { railLabel } from "./rail-labels";
 import { useScrollableRegionAccess } from "./useScrollableRegionAccess";
 import { useProseReveal } from "@/hooks/useProseReveal";
+import { useInspectionMotion } from "@/hooks/useInspectionMotion";
 import "@/styles/shell.css";
 import "@/styles/polish.css";
 import "@/styles/polish-round2-surfaces.css";
 import "@/styles/polish-round2-landing.css";
 import "@/styles/reference-polish.css";
+import "@/styles/inspection-motion.css";
 
 /* ══════════════════════════════════════════════════════════════════════════
    THE GLOBAL PUBLIC PAGE SHELL
@@ -106,6 +108,7 @@ export function PageShell({
      stop and a name — see `useScrollableRegionAccess.ts`. */
   const sheetRef = useRef<HTMLDivElement>(null);
   useScrollableRegionAccess(sheetRef);
+  useInspectionMotion(sheetRef);
   /* Inner pages only: the landing (`layout="bands"`) owns its own motion. */
   useProseReveal(layout === "band");
 

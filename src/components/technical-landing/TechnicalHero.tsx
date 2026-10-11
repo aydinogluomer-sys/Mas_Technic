@@ -11,6 +11,8 @@ import { HERO_IMAGE_SIZES, heroSrcSet } from "./hero-image";
 import { heroPartFacts } from "@/data/technicalLandingData";
 import { useTranslation } from "react-i18next";
 import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
+import { useState } from "react";
+import { useLocale } from "@/i18n/hooks";
 
 /**
  * Hero ölçümlendirmesi referanstaki teknik resim dilini izler:
@@ -21,13 +23,23 @@ import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
  */
 const VIEW_W = 1000;
 const VIEW_H = 563;
+const INSPECTION_HINT = {
+  tr: "Bir ölçüyü seçin; çizimdeki karşılığını görün.",
+  en: "Select a dimension to see its feature in the drawing.",
+  de: "Wählen Sie ein Maß, um das Merkmal in der Zeichnung zu sehen.",
+  ru: "Выберите размер, чтобы увидеть элемент на чертеже.",
+  zh: "选择尺寸，查看图纸中的对应特征。",
+};
 
 export function TechnicalHero() {
   const { t } = useTranslation();
+  const locale = useLocale();
+  const [dimension, setDimension] = useState<string | null>(null);
+  const inspect = (key: string) => setDimension((current) => current === key ? null : key);
   return (
-    <TechnicalSectionFrame no="02" label="HERO" className="tl-hero" labelledBy="tl-hero-title">
+    <TechnicalSectionFrame no="02" label="HERO" className={`tl-hero${dimension ? ` tl-inspect--${dimension}` : ""}`} labelledBy="tl-hero-title">
       <div className="tl-hero-copy">
-        <h1 id="tl-hero-title" data-testid="technical-hero-title">{t("HAM GEOMETRİDEN")}<br />{t("DOĞRULANMIŞ")}<br />{t("HASSASİYETE")}</h1>
+        <h1 id="tl-hero-title" data-testid="technical-hero-title">{["HAM GEOMETRİDEN", "DOĞRULANMIŞ", "HASSASİYETE"].map((line, index) => <span className="inspection-line" key={line}><span>{t(line)}{index < 2 ? " " : ""}</span></span>)}</h1>
         <p>{t("MAS TECHNIC; CNC frezeleme, tornalama ve tamamlayıcı işlemler için parçanızı teknik resimden üretim ve kontrol planına taşır. Geometri ve tolerans gereksinimleri incelendikten sonra üretim teklifi hazırlanır.")}</p>
         <Link to="/teklif-al" data-testid="technical-hero-cta">
           {t("TEKLİF AL")}
@@ -119,25 +131,24 @@ export function TechnicalHero() {
             </g>
           </svg>
 
-          {/* `data-dim` yalnızca bağıntının anahtarıdır; hiçbir içeriği
-              gizlemez ve yeni bir sekme durağı açmaz. Bağıntı, zaten görünen
-              bilgileri BİRBİRİNE bağlayan bir zenginleştirmedir — işaretçisi
-              olmayan kullanıcı hiçbir şey kaybetmez. */}
+          {/* Native controls pair a selected printed dimension with its leader
+              and orthographic feature. Selection persists for keyboard/touch,
+              and selecting it again clears it. All values remain readable. */}
           {/* Every printed tolerance is the verified floor from
               `src/content/claims.ts` (§D ±0.01 mm). The hero used to carry
               ±0.005 in three places — twice the capability MAS TECHNIC has —
               and a surface-finish value (`Ra 0.4 µm`) that `USER_INPUTS.md`
               never supplies at all. The third leader now names a datum
               feature: drawing vocabulary, asserting nothing about capability. */}
-          <span className="tl-measure tl-measure-top" data-dim="bore">Ø 28.000 ±0.010</span>
-          <span className="tl-measure tl-measure-left" data-dim="height"><b>72.000</b><b>±0.010</b></span>
-          <span className="tl-measure tl-measure-finish" data-dim="finish">Ra 0.4 µm</span>
+          <button type="button" className="tl-measure tl-measure-top" data-dim="bore" aria-pressed={dimension === "bore"} aria-controls="tl-inspection-drawing" onClick={() => inspect("bore")}>Ø 28.000 ±0.010</button>
+          <button type="button" className="tl-measure tl-measure-left" data-dim="height" aria-pressed={dimension === "height"} aria-controls="tl-inspection-drawing" onClick={() => inspect("height")}><b>72.000</b><b>±0.010</b></button>
+          <button type="button" className="tl-measure tl-measure-finish" data-dim="finish" aria-pressed={dimension === "finish"} aria-controls="tl-inspection-drawing" onClick={() => inspect("finish")}>Ra 0.4 µm</button>
 
           {/* Tolerans çerçeveleri: referansta hücrelere bölünmüş kutular */}
           {/* U+2300 ⌀ IBM Plex Mono'da yok ve minik bir yedeğe düşüyordu;
               U+00D8 Ø hem grotesk hem yedek yüzlerde tam cap yüksekliğinde. */}
           <span className="tl-fcf tl-fcf-bottom" data-dim="perp" aria-hidden="true"><i>⊥</i><b>0.010</b><b>A</b></span>
-          <span className="tl-datum" data-dim="datum" aria-hidden="true">A</span>
+          <button type="button" className="tl-datum" data-dim="datum" aria-label="DATUM A" aria-pressed={dimension === "datum"} aria-controls="tl-inspection-drawing" onClick={() => inspect("datum")}>A</button>
         </div>
       </div>
 
@@ -151,7 +162,7 @@ export function TechnicalHero() {
         <p className="tl-pp-eyebrow">{t("ÖRNEK PARÇA — ÇİZİM OKUMASI")}</p>
         <h2>{t("PARÇA BİLGİSİ")}</h2>
         <dl>{heroPartFacts.map(([term, value]) => <div key={term}><dt>{t(term)}</dt><dd>{t(value)}</dd></div>)}</dl>
-        <svg className="tl-pp-drawing" viewBox="0 0 240 176" aria-hidden="true">
+        <svg id="tl-inspection-drawing" className="tl-pp-drawing" viewBox="0 0 240 176" aria-hidden="true">
           {/* FRONT VIEW (left) and RIGHT VIEW (right). Schematic, not to scale:
               §3 removed the 1:2 scale label. */}
           <g className="tl-pp-center">
@@ -190,6 +201,7 @@ export function TechnicalHero() {
           </g>
         </svg>
         <p>{t("ŞEMATİK ÖN / YAN GÖRÜNÜŞ")}</p>
+        <p className="tl-inspection-hint">{t("Bir ölçüyü seçin; çizimdeki karşılığını görün.", { defaultValue: INSPECTION_HINT[locale] })}</p>
       </aside>
     </TechnicalSectionFrame>
   );
