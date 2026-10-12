@@ -110,11 +110,11 @@
   white-space: nowrap;
   pointer-events: none;
 }
-.shell-root.tl-root .tl-hero .tl-print--bore { left: 58%; top: 7%; transform: translateX(-50%); }
+.shell-root.tl-root .tl-hero .tl-print--bore { left: 58%; top: 10%; transform: translateX(-50%); }
 .shell-root.tl-root .tl-hero .tl-print--height { left: 32.5%; top: 55%; transform: translate(-50%, -50%); }
 .shell-root.tl-root .tl-hero .tl-print--finish { left: 76.4%; top: 89%; transform: translate(-50%, -50%); }
 .shell-root.tl-root .tl-hero .tl-print--datum { left: 57.1%; top: 88%; transform: translate(-50%, -50%); }
-.shell-root.tl-root .tl-hero .tl-print--perp { left: 29%; top: 91%; transform: translate(-50%, -50%); }
+.shell-root.tl-root .tl-hero .tl-print--perp { left: 29%; top: 86%; transform: translate(-50%, -50%); }
 .shell-root.tl-root .tl-hero .tl-image-link:focus-visible { outline: 3px solid var(--tl-story-cyan-light); outline-offset: -6px; }
 .shell-root.tl-root .tl-hero .tl-part-controls { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: var(--tl-story-paper); }
 .shell-root.tl-root .tl-hero .tl-part-controls button[data-dim] {

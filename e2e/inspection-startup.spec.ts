@@ -27,6 +27,26 @@ test("a stalled decode cannot prevent bounded startup", async ({ page }) => {
   await expect(page.getByTestId("technical-hero-cta")).toHaveAttribute("href", "/teklif-al");
 });
 
+test("keyboard interaction accelerates a still-pending landing bootstrap", async ({ page }) => {
+  await page.addInitScript(() => { HTMLImageElement.prototype.decode = () => new Promise(() => undefined); });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await expect(page.locator("#inspection-startup")).toHaveCount(1);
+  await expect(page.locator("html")).not.toHaveAttribute("data-app-ready", "");
+  await page.keyboard.press("Shift");
+  await expect(page.locator("#inspection-startup")).toHaveCount(0, { timeout: 1000 });
+  await expect(page.locator("html")).toHaveAttribute("data-app-ready", "", { timeout: 15000 });
+});
+
+test("the first pre-adoption RFQ click keeps its native destination", async ({ page }) => {
+  await page.addInitScript(() => { HTMLImageElement.prototype.decode = () => new Promise(() => undefined); });
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await expect(page.locator("#inspection-startup")).toHaveCount(1);
+  await page.getByTestId("technical-hero-cta").click();
+  await expect(page).toHaveURL(/\/teklif-al$/);
+  await expect(page.locator("html")).toHaveAttribute("data-app-ready", "", { timeout: 15000 });
+  await expect(page.locator("main h1")).toBeVisible();
+});
+
 test("failed hero media still allows client startup and native RFQ navigation", async ({ page }) => {
   await page.route("**/*hero-manifold*", route => route.abort("failed"));
   await page.goto("/");
