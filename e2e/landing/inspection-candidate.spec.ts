@@ -59,6 +59,7 @@ test("all landing bands have readable resting contrast and retained claims", asy
   const bands = page.locator("main > .tl-band");
   await expect(bands).toHaveCount(12);
   for (const band of await bands.all()) { await band.scrollIntoViewIfNeeded(); await page.waitForTimeout(220); }
+  await expect.poll(() => page.locator(".tl-rfq-body > ol > li").evaluateAll(nodes => nodes.every(node => getComputedStyle(node).opacity === "1"))).toBe(true);
   expect(await page.locator(".tl-proof article").evaluateAll(nodes => nodes.every(node => getComputedStyle(node).opacity === "1"))).toBe(true);
   await expect(page.locator(".tl-proof article")).toHaveCount(6);
   const axe = await new AxeBuilder({ page }).analyze();
@@ -112,4 +113,20 @@ test("auth keeps its original shell and textual compact footer", async ({ page }
     await expect(page.locator(".shell-footer-compact img")).toHaveCount(0);
     await expect(page.locator(".shell-footer-compact")).toContainText("MAS TECHNIC");
   }
+});
+
+test("mobile hero RFQ arrow receives its own pointer while support remains keyboard-accessible", async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 568 });
+  await gotoAndSettle(page, "/"); await landingReady(page);
+  const cta = page.getByTestId("technical-hero-cta");
+  const launcher = page.locator("[data-chat-launcher]");
+  expect(await cta.evaluate(link => {
+    const rect = link.querySelector("svg")!.getBoundingClientRect();
+    return link.contains(document.elementFromPoint(rect.right - 2, rect.top + rect.height / 2));
+  }), "primary hero RFQ arrow must not be covered by support").toBe(true);
+  await launcher.focus();
+  await expect(launcher).toBeFocused();
+  await expect.poll(() => launcher.evaluate(node => getComputedStyle(node).opacity)).toBe("1");
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("dialog", { name: "MAS Technic sohbet asistanı" })).toBeVisible();
 });

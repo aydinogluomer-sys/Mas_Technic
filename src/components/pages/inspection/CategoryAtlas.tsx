@@ -49,7 +49,7 @@ export function CategoryAtlas({ entries, resolve }: { entries: Entry[]; resolve:
       </div>
       {entry && <div className="inspection-atlas-preview">
         <h3>{entry.label}</h3><p>{entry.description}</p>
-        {image && <ShellPlate size="reference" plate={entry.label} caption={visual?.subject[lang] ?? entry.label} media={<img src={image.src} srcSet={image.srcSet} sizes="(max-width: 767px) 100vw, 50vw" alt="" loading="lazy" />} />}
+        {image && <ShellPlate size="reference" plate={entry.label} caption={visual?.subject[lang] ?? entry.label} media={<img src={image.src} srcSet={image.srcSet} sizes="(max-width: 767px) 100vw, 50vw" alt="" loading="eager" />} />}
         {Drawing && visual?.kind === "schema" && <SchemaFigure drawing={Drawing} subject={visual.subject[lang]} />}
         {record?.technicalSpecs?.length ? <dl className="inspection-preview-specs">{record.technicalSpecs.slice(0, 3).map((item) => <div key={item.label}><dt>{item.label}</dt><dd>{item.value}</dd></div>)}</dl> : null}
         <ShellAction to={entry.path} variant="primary">{entry.label}</ShellAction>

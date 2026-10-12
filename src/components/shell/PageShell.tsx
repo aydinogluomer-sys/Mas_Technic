@@ -122,8 +122,8 @@ export function PageShell({
       data-testid={testId}
     >
       {navigation && <Header />}
-      <div ref={sheetRef} className="tl-sheet shell-sheet">
-        <main id="main-content" className="shell-main" data-shell-layout={layout} {...mainData}>
+      <div ref={sheetRef} className={`tl-sheet shell-sheet${publicBrand ? " shell-sheet--inspection" : ""}`}>
+        <main id="main-content" className={`shell-main${publicBrand ? " shell-main--inspection" : ""}`} data-shell-layout={layout} {...mainData}>
           {layout === "band" && (
             <div className="shell-rail" aria-hidden="true">
               <span>{rail?.no ?? "02"}</span>

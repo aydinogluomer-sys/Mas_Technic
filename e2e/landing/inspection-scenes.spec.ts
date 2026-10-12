@@ -11,6 +11,11 @@ test.beforeEach(async ({ context, page }) => {
 
 test("visible scenes change real media properties forward and backward, native scenes stay still", async ({ page }, info) => {
   await gotoAndSettle(page, "/"); await landingReady(page);
+  // Settle the source notes before comparing repeated geometry. Their lazy
+  // arrival is measured separately; unequal anchors cannot prove reversal.
+  await page.locator(".tl-sector-master-media").scrollIntoViewIfNeeded();
+  await expect(page.locator(".tl-sector-source")).toBeVisible();
+  await page.evaluate(async () => { await document.fonts.ready; });
   const fine = await page.evaluate(() => matchMedia("(min-width: 769px) and (hover: hover) and (pointer: fine)").matches);
   const scenes = [
     { anchor: ".tl-part-stage", node: ".tl-part-plane", property: "scale" },
@@ -27,11 +32,15 @@ test("visible scenes change real media properties forward and backward, native s
         if (lenis) lenis.scrollTo(y, { immediate: true, force: true }); else window.scrollTo(0, y);
       }, { selector: scene.anchor, fraction });
       await page.waitForTimeout(220);
-      return page.locator(scene.node).evaluate((node, property) => getComputedStyle(node).getPropertyValue(property), scene.property);
+      return page.locator(scene.node).evaluate((node, args) => ({
+        property: getComputedStyle(node).getPropertyValue(args.property),
+        anchorTop: document.querySelector(args.anchor)!.getBoundingClientRect().top,
+      }), { property: scene.property, anchor: scene.anchor });
     };
     const before = await place(.8), forward = await place(.15), backward = await place(.8);
-    if (fine) { expect(forward, scene.node).not.toBe(before); expect(backward, scene.node).toBe(before); }
-    else expect([before, forward, backward], scene.node).toEqual(["none", "none", "none"]);
+    expect(Math.abs(before.anchorTop - backward.anchorTop), "reversal compares the same measured anchor").toBeLessThanOrEqual(1);
+    if (fine) { expect(forward.property, scene.node).not.toBe(before.property); expect(backward.property, scene.node).toBe(before.property); }
+    else expect([before.property, forward.property, backward.property], scene.node).toEqual(["none", "none", "none"]);
     readings.push({ scene, before, forward, backward, fine });
     await info.attach(`motion-${scene.property}-${scene.anchor}`, { body: await page.screenshot(), contentType: "image/png" });
   }
@@ -42,11 +51,17 @@ test("visible scenes change real media properties forward and backward, native s
       const node = document.querySelector<HTMLElement>(".tl-marquee-viewport")!;
       const lenis = (window as Window & { __lenis?: { scrollTo: (y: number, options: object) => void } }).__lenis;
       if (lenis) lenis.scrollTo(scrollY + 85, { force: true, immediate: true }); else window.scrollBy(0, 85);
-      await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
-      const matrix = new DOMMatrix(getComputedStyle(node).transform);
-      return Math.atan(matrix.b) * 180 / Math.PI;
+      const samples = [];
+      for (let frame = 0; frame < 10; frame++) {
+        await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+        const style = getComputedStyle(node), matrix = new DOMMatrix(style.transform);
+        samples.push({ angle: Math.atan(matrix.b) * 180 / Math.PI, velocity: style.getPropertyValue("--inspection-velocity"), time: performance.now() });
+      }
+      return samples;
     });
-    expect(Math.abs(impulse)).toBeGreaterThan(.001); expect(Math.abs(impulse)).toBeLessThanOrEqual(.701);
+    expect(Math.max(...impulse.map(sample => Math.abs(sample.angle)))).toBeGreaterThan(.001);
+    expect(impulse.every(sample => Math.abs(sample.angle) <= .701)).toBe(true);
+    await info.attach("marquee-actual-frame-samples", { body: JSON.stringify(impulse), contentType: "application/json" });
     await expect.poll(() => page.locator(".tl-marquee-viewport").evaluate(node => {
       const matrix = new DOMMatrix(getComputedStyle(node).transform); return Math.abs(matrix.b);
     })).toBeLessThan(.00001);

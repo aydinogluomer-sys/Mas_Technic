@@ -1,3 +1,5 @@
+import { WorkflowDiptych } from "@/components/pages/inspection/WorkflowDiptych";
+import "@/styles/inspection-editorial.css";
 import {
   PageShell,
   ShellAction,
@@ -5,7 +7,6 @@ import {
   ShellIndexList,
   ShellNextStep,
   ShellPageHero,
-  ShellRun,
   ShellSurfaceBand,
   ShellTitleBlock,
 } from "@/components/shell";
@@ -112,7 +113,7 @@ export const Hakkimizda = () => {
   const measurementList = QUALITY_RESOURCES[1];
 
   return (
-    <PageShell surface="graphite" rail={{ no: "C1", label: "KURUMSAL" }}>
+    <PageShell surface="graphite" className="inspection-editorial inspection-company" rail={{ no: "C1", label: "KURUMSAL" }}>
       <JsonLdSchema type="about" />
 
       <ShellPageHero
@@ -135,12 +136,25 @@ export const Hakkimizda = () => {
         }
       />
 
-      {/* ── 02 — the mission, as prose and evidence rather than as cards ── */}
-      <ShellSurfaceBand no="02" label="YAKLAŞIM" labelledBy="hakkimizda-yaklasim">
+      {/* ── 02 — the approach as a sequence, on the evidence ground ── */}
+      <ShellSurfaceBand no="02" label="SÜREÇ" tone="paper" labelledBy="hakkimizda-surec">
+        <div className="shell-span-read">
+          <ShellTitleBlock
+            id="hakkimizda-surec"
+            index="02"
+            title={t("Bir iş nasıl ilerler")}
+            standfirst={t("Talepten teslim dosyasına altı adım. Sıralama işten işe değişmez; içeriği parçaya göre yazılır.")}
+          />
+        </div>
+        <WorkflowDiptych items={WORKFLOW.map((step) => ({ title: t(step.title), detail: t(step.detail, { cmm }) }))} />
+      </ShellSurfaceBand>
+
+      {/* ── 03 — the mission, as prose and evidence rather than as cards ── */}
+      <ShellSurfaceBand no="03" label="YAKLAŞIM" labelledBy="hakkimizda-yaklasim">
         <div className="shell-span-read shell-stack">
           <ShellTitleBlock
             id="hakkimizda-yaklasim"
-            index="02"
+            index="03"
             title={<>{t("Hassasiyeti iddia etmek kolay.")} <em>{t("Ölçmek")}</em> {t("zor.")}</>}
           />
           <div className="shell-prose" data-lead>
@@ -173,19 +187,6 @@ export const Hakkimizda = () => {
           </ShellEvidence>
 
         </div>
-      </ShellSurfaceBand>
-
-      {/* ── 03 — the approach as a sequence, on the evidence ground ── */}
-      <ShellSurfaceBand no="03" label="SÜREÇ" tone="paper" labelledBy="hakkimizda-surec">
-        <div className="shell-span-read">
-          <ShellTitleBlock
-            id="hakkimizda-surec"
-            index="03"
-            title={t("Bir iş nasıl ilerler")}
-            standfirst={t("Talepten teslim dosyasına altı adım. Sıralama işten işe değişmez; içeriği parçaya göre yazılır.")}
-          />
-        </div>
-        <ShellRun items={WORKFLOW.map((step) => ({ title: t(step.title), detail: t(step.detail, { cmm }) }))} ariaLabel={t("Üretim akışı")} />
       </ShellSurfaceBand>
 
       {/* ── 04 — scope, as a real index into the three route families ── */}

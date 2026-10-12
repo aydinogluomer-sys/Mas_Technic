@@ -23,7 +23,7 @@ export function TechnicalSectors() {
   useEffect(() => {
     const target = bodyRef.current;
     if (!target) return;
-    if (!("IntersectionObserver" in window)) { setNearViewport(true); return; }
+    if (typeof IntersectionObserver !== "function") { setNearViewport(true); return; }
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) { setNearViewport(true); observer.disconnect(); }
     }, { rootMargin: "320px 0px" });

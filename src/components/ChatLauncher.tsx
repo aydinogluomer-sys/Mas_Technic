@@ -42,14 +42,14 @@ export function ChatLauncher({ onOpen, busy = false }: { onOpen: () => void; bus
     let tries = 0;
     let timer = 0;
     const attach = () => {
-      document.querySelectorAll(".shell-footer-actions, .tl-nexus-cta").forEach((target) => {
+      document.querySelectorAll('.shell-footer-actions, .tl-nexus-cta, .shell-hero-actions, [data-testid="technical-hero-cta"]').forEach((target) => {
         if (!observed.has(target)) {
           observed.add(target);
           observer.observe(target);
         }
       });
       const ready = document.querySelector(".shell-footer-actions") &&
-        (stripLocale(pathname) !== "/" || document.querySelector(".tl-nexus-cta"));
+        (stripLocale(pathname) !== "/" || (document.querySelector(".tl-nexus-cta") && document.querySelector('[data-testid="technical-hero-cta"]')));
       if (!ready && tries++ < 20) timer = window.setTimeout(attach, 250);
     };
     attach();

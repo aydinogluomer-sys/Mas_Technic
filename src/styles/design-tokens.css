@@ -74,6 +74,8 @@
      scaled and re-metricated to the webfont's advance and vertical metrics,
      and the swap moves the text as little as the two designs allow. */
   --tl-font-sans: "Space Grotesk", "Space Grotesk Fallback", system-ui, sans-serif;
+  /* Shared inputs/notices keep the same treatment across public and auth. */
+  --tl-font-control: "Space Grotesk", "Space Grotesk Fallback", system-ui, sans-serif;
   --tl-font-serif: "Newsreader", "Newsreader Fallback", Georgia, "Times New Roman", serif;
   --tl-font-mono: "IBM Plex Mono", "IBM Plex Mono Fallback", ui-monospace, monospace;
 

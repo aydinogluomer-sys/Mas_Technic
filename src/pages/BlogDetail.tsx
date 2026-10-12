@@ -1,3 +1,4 @@
+import "@/styles/inspection-editorial.css";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -92,7 +93,7 @@ const SHARE_TARGETS = [
 const PLATE_DOC_WIDTHS = [
   ["(max-width: 767px)", "calc(100vw - 44px)"],
   ["(max-width: 1180px)", "calc(100vw - 60px)"],
-  [null, "min(calc((100vw - 66px) * 2 / 3 - 2px), 1021px)"],
+  [null, "min(calc(100vw - 66px), 1534px)"],
 ] as const;
 
 export const BlogDetail = () => {
@@ -117,7 +118,7 @@ export const BlogDetail = () => {
 
   if (!post) {
     return (
-      <PageShell surface="graphite" rail={{ no: "R2", label: "GÜNLÜK" }}>
+      <PageShell surface="graphite" className="inspection-editorial inspection-journal" rail={{ no: "R2", label: "GÜNLÜK" }}>
         <ShellPageHero
           no="01"
           label="GÜNLÜK"
@@ -170,7 +171,7 @@ export const BlogDetail = () => {
   };
 
   return (
-    <PageShell surface="graphite" rail={{ no: "R2", label: "YAZI" }}>
+    <PageShell surface="graphite" className="inspection-editorial inspection-journal" rail={{ no: "R2", label: "YAZI" }}>
       <JsonLdSchema
         type="article"
         name={post.title}
@@ -202,28 +203,27 @@ export const BlogDetail = () => {
       />
 
       <ShellSurfaceBand no="02" label="METİN" tone="paper" ariaLabel={t("{{title}} — yazı metni", { title: post.title })}>
+        <div className="shell-span-full inspection-journal-subject">
+          <ShellPlate
+            size="reference"
+            plate={`${t("PLAKA")} 01`}
+            caption={post.imageCaption}
+            media={plate ? (
+              <img
+                src={plate.src}
+                srcSet={plate.srcSet}
+                sizes={coverSizes(plate.width / plate.height, PLATE_IMAGE_HEIGHT, PLATE_DOC_WIDTHS)}
+                width={plate.width}
+                height={plate.height}
+                alt={post.imageAlt}
+              />
+            ) : (
+              <img src={post.image} alt={post.imageAlt} />
+            )}
+          />
+        </div>
         <div className="shell-doc">
           <div className="shell-doc-main">
-            <ShellPlate
-              plate={`${t("PLAKA")} 01`}
-              caption={post.imageCaption}
-              media={
-                /* The route's first picture: eager, no `fetchpriority` (Phase 12 owns LCP). */
-                plate ? (
-                  <img
-                    src={plate.src}
-                    srcSet={plate.srcSet}
-                    sizes={coverSizes(plate.width / plate.height, PLATE_IMAGE_HEIGHT, PLATE_DOC_WIDTHS)}
-                    width={plate.width}
-                    height={plate.height}
-                    alt={post.imageAlt}
-                  />
-                ) : (
-                  <img src={post.image} alt={post.imageAlt} />
-                )
-              }
-            />
-
             {post.sections.map((section, index) => (
               <ShellDocSection
                 key={section.id}

@@ -59,6 +59,13 @@
   background: var(--tl-story-paper);
   border-color: var(--tl-story-rule);
 }
+.shell-root.shell-inspection :is(.shell-field, .shell-notice) {
+  --tl-font-sans: var(--tl-font-control);
+  font-family: var(--tl-font-control);
+}
+.shell-root.shell-inspection :is(input, select, textarea) {
+  font-family: var(--tl-font-control);
+}
 .shell-inspection :is(h1, h2, h3, h4, h5, h6),
 .tl-inspection-menu .tl-menu-family-title {
   font-family: var(--tl-story-font-display);

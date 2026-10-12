@@ -4,6 +4,48 @@
 .inspection-detail--endustriyel .inspection-title { font-size: clamp(2.6rem, 5.8vw, 6.4rem); max-width: 17ch; }
 .inspection-category .inspection-title { max-width: 16ch; font-size: clamp(2.8rem, 6.2vw, 6.8rem); }
 .inspection-profile .inspection-title { max-width: 18ch; font-size: clamp(2.6rem, 5.6vw, 6rem); }
+/* The subject enters band 01 on the same master tracks as its title. */
+.shell-root .inspection-family-hero { overflow: visible; }
+.shell-root .inspection-family-hero .shell-hero-body {
+  min-height: 0;
+  align-items: start;
+  align-content: start;
+  padding-block: var(--tl-s6);
+}
+.shell-root .inspection-family-hero .shell-hero-copy {
+  grid-column: 1 / span 4;
+  align-self: start;
+  padding-inline-end: var(--tl-s5);
+  min-width: 0;
+}
+.shell-root .inspection-family-hero .inspection-title {
+  max-width: 16ch;
+  font-size: clamp(3.45rem, 4.8vw, 5rem);
+  line-height: .98;
+  overflow-wrap: anywhere;
+}
+.shell-root .inspection-family-hero .shell-hero-foot { padding-top: var(--tl-s5); }
+.shell-root .inspection-family-hero .shell-hero-actions { margin-top: var(--tl-s5); gap: var(--tl-s3); }
+.shell-root .inspection-family-hero .shell-hero-meta { margin: var(--tl-s5) 0 0; }
+.inspection-family-subject { grid-column: 5 / -1; min-width: 0; }
+.inspection-family-subject .inspection-detail-media { display: flex; flex-direction: column; }
+.inspection-family-subject .inspection-detail-media > * { width: 100%; padding-block: 0; }
+.inspection-family-subject .inspection-operation-schema { margin-top: var(--tl-s4); }
+.inspection-family-subject .shell-plate .shell-plate-frame { height: 320px; }
+/* Keep ShellPlate's symmetric image overscan: the photo hook travels inside it. */
+.inspection-family-subject .shell-schema-figure .shell-schema-frame { height: 170px; aspect-ratio: auto; }
+.inspection-family-hero--capability .inspection-operation-schema { order: -1; margin-top: 0; margin-bottom: var(--tl-s4); }
+.inspection-family-hero--capability .inspection-operation-schema .shell-schema-frame { height: 320px; }
+.inspection-family-hero--capability .inspection-operation-photo .shell-plate-frame { height: 170px; }
+.shell-root :is(.inspection-family-hero--turning, .inspection-family-hero--sector) .shell-hero-copy { grid-column: 1 / span 6; }
+:is(.inspection-family-hero--turning, .inspection-family-hero--sector) .inspection-family-subject { grid-column: 7 / -1; }
+.inspection-family-hero--category .inspection-family-subject { display: grid; grid-template-columns: subgrid; }
+.inspection-family-hero--category .inspection-atlas-index { grid-column: 1 / span 3; padding-inline-end: var(--tl-s4); }
+.inspection-family-hero--category .inspection-atlas-preview { grid-column: 4 / -1; padding-top: 0; }
+.inspection-family-hero--category .inspection-search { margin-top: 0; }
+.inspection-family-hero--category .inspection-search label { width: 100%; }
+.inspection-family-hero--category .inspection-catalogue-choices button { padding: var(--tl-s3); gap: var(--tl-s3); }
+.inspection-family-hero--category .inspection-catalogue-choices button strong { font-size: 1.05rem; }
 .inspection-detail-media,
 .inspection-atlas,
 .inspection-profile-control { display: grid; grid-template-columns: subgrid; gap: 0; align-items: start; }
@@ -55,8 +97,16 @@
 :is(.inspection-controls, .inspection-catalogue-choices, .inspection-local-index, .inspection-control-label) :focus-visible { outline: 2px solid var(--tl-story-cyan-ink); outline-offset: 3px; }
 @supports not (grid-template-columns: subgrid) {
   .inspection-detail-media, .inspection-atlas, .inspection-profile-control { grid-template-columns: repeat(var(--tl-cols), minmax(0, 1fr)); }
+  .inspection-family-hero--category .inspection-family-subject,
+  .inspection-family-hero--category .inspection-atlas { grid-template-columns: repeat(8, minmax(0, 1fr)); }
 }
 @media (min-width: 768px) and (max-width: 1180px) {
+  .shell-root .inspection-family-hero .shell-hero-copy { grid-column: 1 / span 3; }
+  .inspection-family-hero .inspection-family-subject { grid-column: 4 / -1; }
+  .shell-root .inspection-family-hero .inspection-title { font-size: clamp(2.8rem, 5vw, 3.6rem); }
+  .inspection-family-hero--category .inspection-atlas-index,
+  .inspection-family-hero--category .inspection-atlas-preview { grid-column: 1 / -1; }
+  .inspection-family-hero--category .inspection-atlas-index { padding-inline-end: 0; }
   .inspection-operation-photo,
   .inspection-detail--cnc-tornalama .inspection-operation-photo,
   .inspection-detail--endustriyel .inspection-operation-photo { grid-column: 1 / span 3; }
@@ -69,6 +119,15 @@
   .inspection-atlas-preview, .inspection-profile-record { grid-column: 4 / -1; }
 }
 @media (max-width: 767px) {
+  .shell-root .inspection-family-hero .shell-hero-body { padding-block: var(--tl-s5); row-gap: var(--tl-s5); }
+  .shell-root .inspection-family-hero .shell-hero-copy,
+  .inspection-family-hero .inspection-family-subject { grid-column: 1 / -1; padding-inline-end: 0; }
+  .shell-root .inspection-family-hero .inspection-title { font-size: clamp(2.4rem, 10vw, 3.8rem); }
+  .inspection-family-subject .shell-plate .shell-plate-frame { height: auto; aspect-ratio: 16 / 10; }
+  .inspection-family-subject .shell-schema-figure .shell-schema-frame { height: auto; aspect-ratio: 2 / 1; }
+  .inspection-family-hero--category .inspection-atlas-index,
+  .inspection-family-hero--category .inspection-atlas-preview { grid-column: 1 / -1; padding-inline-end: 0; }
+  .inspection-family-hero--category .inspection-atlas-preview { padding-top: var(--tl-s5); }
   .inspection-detail .inspection-detail-media > *,
   .inspection-atlas > *,
   .inspection-profile-control > * { grid-column: 1 / -1; grid-row: auto; }

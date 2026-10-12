@@ -25,8 +25,10 @@ import { SchemaFigure } from "@/components/schemas/SchemaFigure";
 import { PROFILE_SCHEMAS } from "@/components/schemas/registry";
 import { PROFILE_SUBJECTS } from "@/content/journal-modules";
 import { CMM_COVERAGE, QUOTE_RESPONSE_TIME } from "@/content/claims";
+import { FamilyHero } from "@/components/pages/inspection/FamilyHero";
 import { ProfileControl } from "@/components/pages/inspection/ProfileControl";
 import "@/styles/inspection-families.css";
+import "@/styles/inspection-atlas.css";
 import { publishMeasuredEvidence, withinLimits } from "@/content/measured-evidence";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -134,9 +136,11 @@ export const KabiliyetProfilDetay = () => {
 
   return (
     <PageShell surface="graphite" rail={{ no: "P1", label: "PROFİL" }} className="inspection-profile">
-      <ShellPageHero
+      <FamilyHero
         no="01"
         label="PROFİL"
+        composition="record"
+        subject={<ProfileControl key={study.slug} rows={study.controlPlan} drawing={ProfileDrawing} subject={PROFILE_SUBJECTS[study.slug]?.[lang] ?? study.title} />}
         crumb={
           <ShellBreadcrumb
             trail={[
@@ -213,7 +217,6 @@ export const KabiliyetProfilDetay = () => {
             standfirst={t("Hangi özelliğin hangi yöntemle doğrulandığı ve arkasında hangi kaydın kaldığı. Bu plan imalat başlamadan önce yazılır.")}
           />
         </div>
-        <ProfileControl key={study.slug} rows={study.controlPlan} drawing={ProfileDrawing} subject={PROFILE_SUBJECTS[study.slug]?.[lang] ?? study.title} />
         {/* THE SECOND INSTANCE OF R3-1, AND THE ONE NO TEST WAS LOOKING AT.
 
             Same defect and same fix as `ServiceDetail.tsx:423`, which carries

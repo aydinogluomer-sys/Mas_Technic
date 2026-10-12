@@ -14,6 +14,10 @@ import {
   ShellTagRow,
   ShellTitleBlock,
 } from "@/components/shell";
+import { FamilyHero } from "@/components/pages/inspection/FamilyHero";
+import { MaterialSpotlight } from "@/components/pages/inspection/MaterialSpotlight";
+import "@/styles/inspection-families.css";
+import "@/styles/inspection-atlas.css";
 import { familyRanges, figure, hardness, sourceDocuments } from "@/components/pages/material-figures";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME } from "@/content/claims";
@@ -106,9 +110,11 @@ export const MalzemeKategori = () => {
 
   return (
     <PageShell surface="graphite" rail={{ no: "R1", label: "MALZEME" }}>
-      <ShellPageHero
+      <FamilyHero
         no="01"
         label="MALZEME"
+        composition="record"
+        subject={<MaterialSpotlight key={category.slug} materials={materials} families={materialCategories} />}
         crumb={
           <ShellBreadcrumb
             trail={[

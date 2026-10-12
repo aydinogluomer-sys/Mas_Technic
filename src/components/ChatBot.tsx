@@ -246,14 +246,14 @@ export function ChatBot({ defaultOpen = false }: { defaultOpen?: boolean } = {})
     let tries = 0;
     let timer = 0;
     const attach = () => {
-      document.querySelectorAll(".shell-footer-actions, .tl-nexus-cta").forEach((target) => {
+      document.querySelectorAll('.shell-footer-actions, .tl-nexus-cta, .shell-hero-actions, [data-testid="technical-hero-cta"]').forEach((target) => {
         if (!observed.has(target)) {
           observed.add(target);
           observer.observe(target);
         }
       });
       const ready = document.querySelector(".shell-footer-actions") &&
-        (stripLocale(pathname) !== "/" || document.querySelector(".tl-nexus-cta"));
+        (stripLocale(pathname) !== "/" || (document.querySelector(".tl-nexus-cta") && document.querySelector('[data-testid="technical-hero-cta"]')));
       if (!ready && tries++ < 20) timer = window.setTimeout(attach, 250);
     };
     attach();
@@ -416,6 +416,7 @@ export function ChatBot({ defaultOpen = false }: { defaultOpen?: boolean } = {})
             transition={reducedMotion ? { duration: 0 } : { duration: 0.2 }}
             className="fixed z-50 flex h-[min(520px,calc(100dvh-7rem))] w-[380px] max-w-[calc(100vw-1.5rem)] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl md:max-h-[calc(100vh-4rem)]"
             style={{
+              height: "min(520px, calc(100dvh - var(--gnav-h, 64px) - var(--shell-safe-top, 0px) - 5.5rem - var(--shell-safe-bottom, 0px) - 1rem))",
               bottom: "calc(5.5rem + var(--shell-safe-bottom))",
               right: "max(0.75rem, var(--shell-safe-right))",
             }}

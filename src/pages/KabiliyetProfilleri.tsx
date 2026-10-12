@@ -5,10 +5,13 @@ import {
   ShellIndexList,
   ShellNextStep,
   ShellNotice,
-  ShellPageHero,
   ShellSurfaceBand,
   ShellTitleBlock,
 } from "@/components/shell";
+import { FamilyHero } from "@/components/pages/inspection/FamilyHero";
+import { ProfileSpotlight } from "@/components/pages/inspection/ProfileSpotlight";
+import "@/styles/inspection-families.css";
+import "@/styles/inspection-atlas.css";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { useTranslation } from "react-i18next";
 import { localDecimals } from "@/i18n/format";
@@ -63,9 +66,11 @@ export const KabiliyetProfilleri = () => {
 
   return (
     <PageShell surface="graphite" rail={{ no: "P1", label: "PROFİL" }}>
-      <ShellPageHero
+      <FamilyHero
         no="01"
         label="PROFİL"
+        composition="record"
+        subject={caseStudies[0] && <ProfileSpotlight study={caseStudies[0]} />}
         crumb={<ShellBreadcrumb trail={[{ label: "Ana sayfa", to: "/" }, { label: "Kabiliyet profilleri" }]} />}
         eyebrow={t("Üretim ve kontrol yaklaşımı")}
         title={t("Kabiliyet Profilleri")}

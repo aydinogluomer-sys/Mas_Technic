@@ -45,9 +45,8 @@ test.describe("GPT-6.1 inspection motion", () => {
     await page.mouse.move(2, 2);
     await expect.poll(() => page.locator(".tl-pp-dim").evaluate((el) => Number(getComputedStyle(el).opacity))).toBe(1);
     await expect.poll(() => page.locator(".tl-pp-bore").evaluate((el) => Number(getComputedStyle(el).opacity))).toBeLessThan(.5);
-    expect(await height.evaluate((el) => getComputedStyle(el).color)).toBe(
-      await page.locator(".tl-pp-dim").evaluate((el) => getComputedStyle(el).stroke),
-    );
+    await expect.poll(async () => (await height.evaluate((el) => getComputedStyle(el).color)) ===
+      (await page.locator(".tl-pp-dim").evaluate((el) => getComputedStyle(el).stroke))).toBe(true);
     await testInfo.attach("persistent-keyboard-dimension", { body: await page.screenshot(), contentType: "image/png" });
     await page.keyboard.press("Enter");
     await expect(height).toHaveAttribute("aria-pressed", "false");
@@ -179,7 +178,9 @@ test.describe("GPT-6.1 inspection motion", () => {
       await expect.poll(() => launcher.evaluate((el) => getComputedStyle(el).opacity)).toBe("0");
       await assertCtaHit();
       await testInfo.attach("mobile-nexus-rfq-loaded-chat-unobscured", { body: await page.screenshot(), contentType: "image/png" });
-      await page.locator("h1").scrollIntoViewIfNeeded();
+      // The hero CTA is also protected now; release support in a genuinely
+      // unprotected reading band, without weakening CTA pointer protection.
+      await page.locator(".tl-proof").scrollIntoViewIfNeeded();
       await expect(launcher).not.toHaveAttribute("data-yield", "true");
       await expect.poll(() => launcher.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
     }
@@ -234,20 +235,19 @@ test.describe("GPT-6.1 inspection motion", () => {
     expect(await translation(still)).toBe(0);
   });
 
-  test("client navigation masks the title during the route reveal and releases its ink at rest", async ({ page }, testInfo) => {
+  test("client navigation keeps quiet editorial titles readable immediately and at rest", async ({ page }, testInfo) => {
     await gotoAndSettle(page, "/");
     await openAboutFromFooter(page);
     await expect(page).toHaveURL(/\/hakkimizda$/);
     const title = page.locator("h1.inspection-title > span");
     await expect(title).toHaveText("Hakkımızda");
-    const timing = await title.evaluate((el) => {
+    const initial = await title.evaluate((el) => {
       const style = getComputedStyle(el);
-      return { name: style.animationName, delay: Number.parseFloat(style.animationDelay), duration: Number.parseFloat(style.animationDuration) };
+      return { name: style.animationName, opacity: Number(style.opacity), clip: style.clipPath, transform: style.transform };
     });
-    expect(timing.name).not.toBe("none");
-    expect(timing.delay).toBeGreaterThan(.5);
-    expect(timing.duration).toBeLessThan(1);
-    await page.waitForTimeout(1600);
+    expect(initial).toEqual({ name: "none", opacity: 1, clip: "none", transform: "none" });
+    await expect(page.locator("#hero-shell, [data-intro-active]")).toHaveCount(0);
+    await page.waitForTimeout(250);
     expect(await title.evaluate((el) => getComputedStyle(el).clipPath)).toBe("none");
     expect(await title.evaluate((el) => getComputedStyle(el).transform)).toBe("none");
     await expect(page.locator("h1")).toHaveCount(1);

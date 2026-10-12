@@ -117,6 +117,7 @@ import heroTedarikZinciri960 from "@/assets/hero-tedarik-zinciri-960.webp";
 import heroSeriUretim from "@/assets/hero-seri-uretim.webp";
 import heroSeriUretim640 from "@/assets/hero-seri-uretim-640.webp";
 import heroSeriUretim960 from "@/assets/hero-seri-uretim-960.webp";
+import { FamilyHero } from "@/components/pages/inspection/FamilyHero";
 import { StoryFocus } from "@/components/pages/inspection/StoryFocus";
 import "@/styles/inspection-families.css";
 import { FAMILY } from "@/components/pages/family";
@@ -407,7 +408,52 @@ export const ServiceDetail = () => {
         faq={page.faq}
       />
 
-      <ShellPageHero
+      <FamilyHero
+        composition={page.category === "kabiliyetler" ? "capability" : isSector ? "sector" : page.slug === "cnc-tornalama" ? "turning" : "operation"}
+        subject={
+          <div className="inspection-detail-media shell-span-full">
+          <div className="inspection-operation-photo">
+          <ShellPlate
+            size={page.category === "kabiliyetler" ? "reference" : undefined}
+            plate={`${t("PLAKA")} · ${upper(page.title, i18n.language)}`}
+            caption={plateCaption}
+            media={PlateSchema ? (
+              <div className="shell-schema-media"><PlateSchema /></div>
+            ) : heroImage ? (
+              /* PHASE 10-3 — `alt=""`, not `alt={page.title}`. The plate sits
+                 directly under the `<h1>` that carries `page.title`, and the
+                 figcaption prints it a second time in the plate designation;
+                 a third reading of the same words was the "title, twice"
+                 failure. What the picture shows is the page's own subject
+                 (the milling spindle under "CNC Frezeleme", the caliper under
+                 "Tolerans ve Hassasiyet") or, for the fifteen sector pages on
+                 the shared fallback, a mood plate with no sector content at
+                 all — decorative under the Phase 10-3 rule either way.
+                 `reports/10/alt-text.md` lists all 48 routes. */
+              <img
+                data-settle
+                src={heroImage.src}
+                srcSet={heroImage.srcSet}
+                sizes={coverSizes(heroImage.width / heroImage.height, PLATE_IMAGE_HEIGHT, PLATE_FULL_WIDTHS)}
+                width={heroImage.width}
+                height={heroImage.height}
+                alt=""
+                loading="eager"
+                style={{ objectPosition: plateCrop }}
+              />
+            ) : null}
+          />
+          </div>
+          {(PilotDrawing || (SchemaDrawing && !PlateSchema) || page.category === "kabiliyetler") && (
+            <div className="inspection-operation-schema">
+              {PilotDrawing && pilot ? <SchemaFigure drawing={PilotDrawing} subject={pilot.subject[lang]} />
+                : SchemaDrawing && visual?.kind === "schema" ? <SchemaFigure drawing={SchemaDrawing} subject={visual.subject[lang]} />
+                : <ShellSpecTable caption={t("Teknik kayıt")} headers={[t("Başlık"), t("Değer")]}
+                    rows={specs.map((spec) => [spec.label, spec.value])} />}
+            </div>
+          )}
+        </div>
+        }
         no={no()}
         label={family.rail.label}
         crumb={
@@ -445,48 +491,6 @@ export const ServiceDetail = () => {
           {page.materials?.length ? <a href="#detay-malzeme">{t("Malzeme")}</a> : null}
           {page.faq?.length ? <a href="#detay-sorular">{t("Sık sorulan sorular")}</a> : null}
         </nav>
-        <div className="inspection-detail-media shell-span-full">
-          <div className="inspection-operation-photo">
-          <ShellPlate
-            size={page.category === "kabiliyetler" ? "reference" : undefined}
-            plate={`${t("PLAKA")} · ${upper(page.title, i18n.language)}`}
-            caption={plateCaption}
-            media={PlateSchema ? (
-              <div className="shell-schema-media"><PlateSchema /></div>
-            ) : heroImage ? (
-              /* PHASE 10-3 — `alt=""`, not `alt={page.title}`. The plate sits
-                 directly under the `<h1>` that carries `page.title`, and the
-                 figcaption prints it a second time in the plate designation;
-                 a third reading of the same words was the "title, twice"
-                 failure. What the picture shows is the page's own subject
-                 (the milling spindle under "CNC Frezeleme", the caliper under
-                 "Tolerans ve Hassasiyet") or, for the fifteen sector pages on
-                 the shared fallback, a mood plate with no sector content at
-                 all — decorative under the Phase 10-3 rule either way.
-                 `reports/10/alt-text.md` lists all 48 routes. */
-              <img
-                data-settle
-                src={heroImage.src}
-                srcSet={heroImage.srcSet}
-                sizes={coverSizes(heroImage.width / heroImage.height, PLATE_IMAGE_HEIGHT, PLATE_FULL_WIDTHS)}
-                width={heroImage.width}
-                height={heroImage.height}
-                alt=""
-                loading="eager"
-                style={{ objectPosition: plateCrop }}
-              />
-            ) : null}
-          />
-          </div>
-          {(PilotDrawing || SchemaDrawing || page.category === "kabiliyetler") && (
-            <div className="inspection-operation-schema">
-              {PilotDrawing && pilot ? <SchemaFigure drawing={PilotDrawing} subject={pilot.subject[lang]} />
-                : SchemaDrawing && visual?.kind === "schema" ? <SchemaFigure drawing={SchemaDrawing} subject={visual.subject[lang]} />
-                : <ShellSpecTable caption={t("Teknik kayıt")} headers={[t("Başlık"), t("Değer")]}
-                    rows={specs.map((spec) => [spec.label, spec.value])} />}
-            </div>
-          )}
-        </div>
         {pilot && (
           <div className="shell-span-full">
             <StoryFocus title={pilot.title[lang]} items={[
