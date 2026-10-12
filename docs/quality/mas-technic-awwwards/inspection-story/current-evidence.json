@@ -1,0 +1,167 @@
+{
+  "tested_product_commit": "ea19160cf41063629d72ec07c9f0abe4fa9a6975",
+  "build_source_fingerprint": "c2a57d75794e1dc6674468a94485d1df9cac3b710192f52cfdc5c74488e1b321",
+  "dist_receipt": {
+    "product_commit": "ea19160cf41063629d72ec07c9f0abe4fa9a6975",
+    "build_source_fingerprint": "c2a57d75794e1dc6674468a94485d1df9cac3b710192f52cfdc5c74488e1b321",
+    "dist_tree_sha256": "1d6c697e21fe422a05a139b9a0d4a3fa9cac16ef2ea181f3d202c3ed54181d16",
+    "dist_files": 473,
+    "site_project_id": "appgprj_6acae0b913108191a516950fca972dc0"
+  },
+  "archive_matches_all_473_tested_dist_files": true,
+  "archive_extra": "platform .openai/hosting.json",
+  "publication": {
+    "deployment": {
+      "id": "appgdep_6accd12c6f388191afe649b6e5b44578",
+      "project_id": "appgprj_6acae0b913108191a516950fca972dc0",
+      "title": "MAS TECHNIC Motion Direction",
+      "version_id": "appgprj_6acae0b913108191a516950fca972dc0~appgver_df14dae7c3d08191a8db84353e676a94",
+      "type": "publish",
+      "status": "succeeded",
+      "url": "https://mas-technic-motion-direction-2026.livelypond2.chatgpt.site",
+      "has_mcp": false,
+      "screenshot_asset_pointer": null,
+      "provider_deployment_id": "site---6acae0b913108191a516950fca972dc0",
+      "failure_message": null,
+      "env_set_revision": 0,
+      "updated_at": "2026-10-12T12:23:32.383888+00:00"
+    },
+    "site": {
+      "id": "appgprj_6acae0b913108191a516950fca972dc0",
+      "version": 7,
+      "url": "https://mas-technic-motion-direction-2026.livelypond2.chatgpt.site",
+      "role": "owner",
+      "mode": "custom",
+      "users": [
+        {
+          "role": "owner"
+        }
+      ],
+      "groups": 0
+    },
+    "version": {
+      "id": "appgprj_6acae0b913108191a516950fca972dc0~appgver_df14dae7c3d08191a8db84353e676a94",
+      "project_id": "appgprj_6acae0b913108191a516950fca972dc0",
+      "version_number": 7,
+      "source": {
+        "commit_sha": "d4173e73be3982b6cba32cda57b1191cb348a9df"
+      },
+      "archive_storage": {
+        "archive_format": "tar",
+        "sediment_file_id": "file_00000000d900820a999393f00784a670",
+        "content_hash": "sha256:fbbd5a3b320b955d1347423821d6e0fba8e6ce0e7ae41b57b77ac2bd5a9d1c60",
+        "size_bytes": 44840960,
+        "file_count": 474
+      },
+      "screenshot_url": null,
+      "deployment_id": "appgdep_6accd12c6f388191afe649b6e5b44578"
+    }
+  },
+  "reports": {
+    "focused": {
+      "stats": {
+        "startTime": "2026-10-12T12:10:28.058Z",
+        "duration": 165129.38799999998,
+        "expected": 30,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "sha256": "4d2bed2a15a2b3e937dea8b3363f52bf15956f5f7337aac4154253c77ee76860"
+    },
+    "core": {
+      "stats": {
+        "startTime": "2026-10-12T12:10:28.048Z",
+        "duration": 119799.15599999999,
+        "expected": 45,
+        "skipped": 3,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "sha256": "302e35665f78b69595ac6a7a90a9a0b0ec4f2d42311d4709fc53584fc6657cb5"
+    },
+    "routes": {
+      "stats": {
+        "startTime": "2026-10-12T12:10:28.054Z",
+        "duration": 168456.576,
+        "expected": 16,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "sha256": "30d742159b6d475c3cc838ad51e01e225c962dbdf33d7282e5d042bf023ab30e"
+    },
+    "rfq": {
+      "stats": {
+        "startTime": "2026-10-12T12:10:28.029Z",
+        "duration": 53348.825,
+        "expected": 31,
+        "skipped": 3,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "sha256": "ae9fb9e0a2a53dfba829e129f0ceaed60623b598559f06d814b0a8076deebb62"
+    },
+    "paired": {
+      "stats": {
+        "startTime": "2026-10-12T12:10:28.091Z",
+        "duration": 180398.74800000002,
+        "expected": 8,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "sha256": "cf6608a4a11a929c0123bb451b3fac9fcd8750a124dff99e357421d6a20ced93"
+    },
+    "startup": {
+      "stats": {
+        "startTime": "2026-10-12T12:10:28.049Z",
+        "duration": 40567.29,
+        "expected": 15,
+        "skipped": 1,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "sha256": "dcc6cbf87910edd701543df72ac71b38f4e5bc05ef7b06dca340794996c35a75"
+    }
+  },
+  "passes": 145,
+  "conditional_skips": 7,
+  "unexpected": 0,
+  "flaky": 0,
+  "review_key": "QA-PRIVATE-CANDIDATE-ea19160-c2a57d7-20261012-CONDITIONAL",
+  "formal_release_status": "BLOCKED",
+  "before_baseline": {
+    "native_version": 6,
+    "source_commit": "1ac5de63d33cac914bae0344b9840e9bc8ab18b7",
+    "paired_passes": 8,
+    "vercel_current_bytes": "UNVERIFIED"
+  },
+  "limitations": [
+    "TBT worsened against native version 6; final four lab cells meet LCP/CLS/JS budgets only.",
+    "Licensed Gogade font files unavailable; genuine supplied logo used.",
+    "Matched production GLB/STEP/PBR/feature manifest and real CMM/probe evidence unavailable.",
+    "Physical GPU/FPS and field CWV/INP unmeasured; no guaranteed Awwwards score."
+  ],
+  "final_lab_cells": {
+    "order": [
+      "TR mobile",
+      "TR desktop",
+      "EN mobile",
+      "EN desktop"
+    ],
+    "lcp_p75_ms": [
+      1648,
+      1852,
+      1636,
+      1706
+    ],
+    "tbt_p75_ms": [
+      1330.5,
+      1825.5,
+      941.5,
+      1141.5
+    ],
+    "scope": "3 cold runs per cell, Slow4G/CPU4"
+  }
+}

@@ -826,7 +826,7 @@
       "description": "Paired capture harness misplaced worker-scoped video/trace fixtures inside describe. Move unchanged options to top-level; no threshold/golden/assertion weakened. Runtime rerun pending."
     }
   ],
-  "execution_status": "IN_PROGRESS; no phase pass or award rating claimed",
+  "execution_status": "BLOCKED",
   "phase_browser_runs": [
     {
       "candidate_commit": "902c1e5850cb6e6cd9b5e728b0ee3dc9c613eb70",
@@ -838,15 +838,20 @@
     }
   ],
   "candidate_scope": {
-    "source_commit": "ec9409f96280310d2e53a4733db16a4ae68be5f9",
-    "state": "IMPLEMENTED_NOT_RELEASE_VERIFIED",
-    "native_version": 6,
-    "last_checkpoint": "continuation-20261012.md",
-    "current_recovery": "Separate release worktree after scratch rollback; repeated current evidence is required.",
-    "working_changes": [
-      "material title fits actual column width",
-      "title whole-word geometry oracle"
-    ]
+    "tested_product_commit": "ea19160cf41063629d72ec07c9f0abe4fa9a6975",
+    "build_source_fingerprint": "c2a57d75794e1dc6674468a94485d1df9cac3b710192f52cfdc5c74488e1b321",
+    "formal_release_status": "BLOCKED",
+    "state": "OWNER_PRIVATE_REVIEW_CANDIDATE_PUBLISHED",
+    "native_version": 7,
+    "last_checkpoint": "current-evidence.json"
   },
-  "evidence_status": "Prior summary counts are historical after scratch rollback; do not reuse as current acceptance. Rebuild/retest archive required."
+  "evidence_status": "Prior summary counts are historical after scratch rollback; do not reuse as current acceptance. Rebuild/retest archive required.",
+  "current_evidence": {
+    "path": "current-evidence.json",
+    "passes": 145,
+    "conditional_skips": 7,
+    "unexpected": 0,
+    "publication_status": "succeeded",
+    "native_version": 7
+  }
 }
