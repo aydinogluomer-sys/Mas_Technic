@@ -1,5 +1,4 @@
-import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
-import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 interface ReverseScrollSectionProps {
   children: ReactNode;
@@ -7,28 +6,12 @@ interface ReverseScrollSectionProps {
   distance?: number;
 }
 
-/* The spring the travel follows, in the units Framer's `useSpring` took when
-   this section ran on it (Faz 2 dropped Framer from the landing's first load). */
 const SPRING = { stiffness: 120, damping: 28, mass: 0.35 };
 const SUBSTEP = 1 / 240;
 const REST = 0.01;
 
-/**
- * Keeps document scrolling native while moving its visual content in the
- * opposite direction. The bounded transform avoids trapping the user or
- * changing wheel/touch input semantics.
- *
- * Progress runs 0 → 1 from the section's top meeting the viewport's bottom to
- * its bottom leaving the viewport's top, mapped to `-distance → distance` and
- * eased through `SPRING`. The loop runs only while the spring is moving.
- * Positions are layout offsets (`offsetTop` / `offsetHeight`, whole pixels),
- * as Framer's `useScroll` measured them: a fractional `getBoundingClientRect`
- * aimed the travel 0.01 px elsewhere, enough to re-rasterise the picture
- * (parity, Faz L1).
- *
- * `--reverse-distance` is published so the surrounding CSS can oversize the
- * content by the same amount; otherwise the travel would expose a gap.
- */
+/** The fixed wrapper supplies layout geometry and overscan. Only its child
+ * owns the bounded spring transform, and only while visible on fine desktop. */
 export const ReverseScrollSection = ({
   children,
   className,
@@ -36,66 +19,114 @@ export const ReverseScrollSection = ({
 }: ReverseScrollSectionProps) => {
   const targetRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  // Mobilde de açık: efekt yalnızca transform kullanır ve düzeni değiştirmez,
-  // native scroll'a dokunmaz. Tek kapanma koşulu reduced-motion.
-  const motionDisabled = usePrefersReducedMotion();
+  const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
     const target = targetRef.current;
     const content = contentRef.current;
-    if (motionDisabled || !target || !content) return;
-
-    const goal = () => {
-      let top = 0;
-      for (let node: HTMLElement | null = target; node; node = node.offsetParent as HTMLElement | null) top += node.offsetTop;
-      const progress = (window.scrollY + window.innerHeight - top) / (window.innerHeight + target.offsetHeight);
-      return (Math.min(1, Math.max(0, progress)) * 2 - 1) * distance;
-    };
-    let y = goal();
+    if (!target || !content) return;
+    const desktop = window.matchMedia("(min-width: 769px) and (hover: hover) and (pointer: fine)");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let disposed = false;
+    let visible = false;
+    let listening = false;
+    let observer: IntersectionObserver | null = null;
+    let y = 0;
     let velocity = 0;
     let frame = 0;
     let last = 0;
-    const paint = () => { content.style.transform = `translateY(${y}px)`; };
+    const eligible = () => !disposed && !document.hidden && desktop.matches && !reduced.matches;
+    const read = () => {
+      const rect = target.getBoundingClientRect();
+      let top = 0;
+      for (let node: HTMLElement | null = target; node; node = node.offsetParent as HTMLElement | null) top += node.offsetTop;
+      const progress = (window.scrollY + window.innerHeight - top) / (window.innerHeight + target.offsetHeight);
+      return {
+        visible: rect.bottom > 0 && rect.top < window.innerHeight,
+        goal: (Math.min(1, Math.max(0, progress)) * 2 - 1) * distance,
+      };
+    };
+    const stop = () => {
+      cancelAnimationFrame(frame); frame = 0;
+      if (listening) {
+        window.removeEventListener("scroll", wake);
+        window.removeEventListener("resize", wake);
+        document.fonts?.removeEventListener("loadingdone", wake);
+        listening = false;
+      }
+      velocity = 0;
+      content.style.transform = "";
+      if (!disposed) setEnabled(false);
+    };
     const step = (now: number) => {
+      frame = 0;
+      if (!eligible() || !visible) { stop(); return; }
+      const reading = read();
+      if (!reading.visible) { stop(); return; }
       const dt = Math.min(0.064, (now - last) / 1000);
       last = now;
-      const to = goal();
       for (let t = 0; t < dt; t += SUBSTEP) {
         const h = Math.min(SUBSTEP, dt - t);
-        velocity += ((-SPRING.stiffness * (y - to) - SPRING.damping * velocity) / SPRING.mass) * h;
+        velocity += ((-SPRING.stiffness * (y - reading.goal) - SPRING.damping * velocity) / SPRING.mass) * h;
         y += velocity * h;
       }
-      if (Math.abs(velocity) < REST && Math.abs(y - to) < REST) {
-        y = to;
-        frame = 0;
-      } else {
-        frame = requestAnimationFrame(step);
-      }
-      paint();
+      if (Math.abs(velocity) < REST && Math.abs(y - reading.goal) < REST) y = reading.goal;
+      else frame = requestAnimationFrame(step);
+      content.style.transform = `translateY(${y}px)`;
     };
     const wake = () => {
-      if (frame) return;
+      if (frame || !eligible() || !visible) return;
       last = performance.now();
       frame = requestAnimationFrame(step);
     };
-
-    paint();
-    window.addEventListener("scroll", wake, { passive: true });
-    window.addEventListener("resize", wake);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", wake);
-      window.removeEventListener("resize", wake);
-      content.style.transform = "";
+    const resume = () => {
+      if (!eligible() || !visible || listening) return;
+      const reading = read();
+      if (!reading.visible) return;
+      y = reading.goal;
+      velocity = 0;
+      content.style.transform = `translateY(${y}px)`;
+      setEnabled(true);
+      window.addEventListener("scroll", wake, { passive: true });
+      window.addEventListener("resize", wake);
+      document.fonts?.addEventListener("loadingdone", wake);
+      listening = true;
     };
-  }, [distance, motionDisabled]);
+    const adapt = () => {
+      observer?.disconnect(); observer = null;
+      visible = false;
+      stop();
+      if (!eligible() || typeof IntersectionObserver === "undefined") return;
+      observer = new IntersectionObserver((entries) => {
+        if (!eligible()) return;
+        entries.forEach((entry) => {
+          if (entry.target !== target) return;
+          visible = entry.isIntersecting;
+          if (visible) resume(); else stop();
+        });
+      });
+      observer.observe(target);
+    };
+    desktop.addEventListener("change", adapt);
+    reduced.addEventListener("change", adapt);
+    document.addEventListener("visibilitychange", adapt);
+    adapt();
+    return () => {
+      disposed = true;
+      observer?.disconnect();
+      stop();
+      desktop.removeEventListener("change", adapt);
+      reduced.removeEventListener("change", adapt);
+      document.removeEventListener("visibilitychange", adapt);
+    };
+  }, [distance]);
 
   return (
     <div
       ref={targetRef}
       className={className}
       data-reverse-scroll
-      data-reverse-scroll-enabled={motionDisabled ? "false" : "true"}
+      data-reverse-scroll-enabled={enabled ? "true" : "false"}
       style={{ "--reverse-distance": `${distance}px` } as CSSProperties}
     >
       <div ref={contentRef} data-reverse-scroll-content>

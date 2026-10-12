@@ -117,6 +117,8 @@ import heroTedarikZinciri960 from "@/assets/hero-tedarik-zinciri-960.webp";
 import heroSeriUretim from "@/assets/hero-seri-uretim.webp";
 import heroSeriUretim640 from "@/assets/hero-seri-uretim-640.webp";
 import heroSeriUretim960 from "@/assets/hero-seri-uretim-960.webp";
+import { StoryFocus } from "@/components/pages/inspection/StoryFocus";
+import "@/styles/inspection-families.css";
 import { FAMILY } from "@/components/pages/family";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -396,7 +398,7 @@ export const ServiceDetail = () => {
   const no = () => String(++band).padStart(2, "0");
 
   return (
-    <PageShell surface="graphite" rail={family.rail}>
+    <PageShell surface="graphite" rail={family.rail} className={`inspection-detail inspection-detail--${page.category} inspection-detail--${page.slug}`}>
       <JsonLdSchema
         type="service"
         name={page.title}
@@ -435,26 +437,18 @@ export const ServiceDetail = () => {
         }
       />
 
-      {pilot && PilotDrawing && (
-        /* PAGE01 — one concrete problem → process → check, on seven pilots only. */
-        <ShellSurfaceBand no={no()} label="MODÜL" tone="paper" labelledBy="detay-modul">
-          <div className="shell-span-read">
-            <ShellTitleBlock id="detay-modul" title={pilot.title[lang]} />
-          </div>
-          <div className="shell-span-half">
-            <SchemaFigure drawing={PilotDrawing} subject={pilot.subject[lang]} />
-          </div>
-          <dl className="shell-span-half shell-module-steps">
-            <div><dt>{t("Problem")}</dt><dd>{pilot.problem[lang]}</dd></div>
-            <div><dt>{t("Proses")}</dt><dd>{pilot.process[lang]}</dd></div>
-            <div><dt>{t("Kontrol")}</dt><dd>{pilot.control[lang]}</dd></div>
-          </dl>
-        </ShellSurfaceBand>
-      )}
-
       <ShellSurfaceBand no={no()} label="TANIM" labelledBy="detay-tanim">
-        <div className="shell-span-full">
+        <nav className="inspection-local-index shell-span-full" aria-label={t("İÇİNDEKİLER")}>
+          <a href="#detay-tanim">{t("Kapsam")}</a>
+          {(page.features?.length || specs.length) ? <a href="#detay-kabiliyet">{t("Kabiliyet kaydı")}</a> : null}
+          {page.processSteps?.length ? <a href="#detay-surec">{t("Süreç akışı")}</a> : null}
+          {page.materials?.length ? <a href="#detay-malzeme">{t("Malzeme")}</a> : null}
+          {page.faq?.length ? <a href="#detay-sorular">{t("Sık sorulan sorular")}</a> : null}
+        </nav>
+        <div className="inspection-detail-media shell-span-full">
+          <div className="inspection-operation-photo">
           <ShellPlate
+            size={page.category === "kabiliyetler" ? "reference" : undefined}
             plate={`${t("PLAKA")} · ${upper(page.title, i18n.language)}`}
             caption={plateCaption}
             media={PlateSchema ? (
@@ -483,10 +477,35 @@ export const ServiceDetail = () => {
               />
             ) : null}
           />
-          {sectorPhoto && SchemaDrawing && visual?.kind === "schema" && (
-            <SchemaFigure drawing={SchemaDrawing} subject={visual.subject[lang]} />
+          </div>
+          {(PilotDrawing || SchemaDrawing || page.category === "kabiliyetler") && (
+            <div className="inspection-operation-schema">
+              {PilotDrawing && pilot ? <SchemaFigure drawing={PilotDrawing} subject={pilot.subject[lang]} />
+                : SchemaDrawing && visual?.kind === "schema" ? <SchemaFigure drawing={SchemaDrawing} subject={visual.subject[lang]} />
+                : <ShellSpecTable caption={t("Teknik kayıt")} headers={[t("Başlık"), t("Değer")]}
+                    rows={specs.map((spec) => [spec.label, spec.value])} />}
+            </div>
           )}
         </div>
+        {pilot && (
+          <div className="shell-span-full">
+            <StoryFocus title={pilot.title[lang]} items={[
+              { label: t("Problem"), body: pilot.problem[lang] },
+              { label: t("Proses"), body: pilot.process[lang] },
+              { label: t("Kontrol"), body: pilot.control[lang] },
+            ]} />
+          </div>
+        )}
+        {isSector && (
+          <div className="shell-span-full">
+            <StoryFocus title={page.title} items={[
+              { label: t("İhtiyaç"), body: page.content[0] ?? page.description },
+              { label: t("Proses"), body: (page.processSteps ?? []).join(" → ") || page.description },
+              { label: t("Teklif Al"), body: page.description },
+            ]} />
+            <ShellAction to="/teklif-al" variant="primary">{t("{{title}} için teklif", { title: page.title })}</ShellAction>
+          </div>
+        )}
 
         <div className="shell-span-read shell-stack">
           <ShellTitleBlock

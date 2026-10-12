@@ -266,3 +266,41 @@ Ayrıca bu makinenin gürültüsü geniştir: değişmeyen bir yapı üzerinde a
 dört geçiş `over32ms` = 16 / 19 / 34 / 34 verdi. Bir farkı ancak bu aralığı
 aşıyorsa **ve 1. geçiş 1. geçişle** karşılaştırılıyorsa ciddiye al. Her
 sürümün her geçişinde sabit kalan tek sayı `median` = 16.7ms'dir.
+
+## Inspection Story — DOM recovery runtime (P04/P06/P07)
+
+The current DOM layer defers Lenis and uses exactly one manual Lenis RAF
+(`autoRaf: false`), without importing GSAP. At 768 px and below, or with
+reduced motion, scrolling stays native. Live breakpoint/preference changes
+invalidate pending imports and destroy the engine. A hidden document cancels
+only the clock: the same engine and Header-owned `isStopped` state survive.
+Unmount cancels idle/input waits, invalidates pending imports and releases the
+engine.
+
+`useTechnicalLandingMotion` retains one-way `.tl-inview` and two-way
+`.tl-onscreen`. Its four scene consumers read `--inspection-progress` (0–1)
+and `--inspection-velocity` (clamped −2…2, zero after 160 ms without scroll).
+Scroll, resize and visibility observations coalesce a single read/write RAF
+batch over visible anchors: hero part frame/stage, process photo/self,
+manifesto body/self and marquee viewport/band. No scene uses a perpetual RAF.
+Native, paused, reduced and unavailable-IntersectionObserver paths expose the
+complete content and remove scene variables, observers and scroll listeners.
+The root advertises `data-inspection-motion="ready|native|paused"`.
+
+Only fine-pointer desktop with no motion preference consumes these variables:
+hero photo/leaders plane uses individual translate (−18…0 px) and scale
+(1…1.035), with fixed controls outside; process and manifesto aperture belongs
+to the ReverseScroll parent while its child remains the sole transform owner;
+the marquee viewport skews at most ±0.7°, while only the track owns the loop
+transform. Inner-page photo translation is ±36 px against a fixed frame;
+reference images, documents, text and controls never drift. Hidden, mobile,
+coarse, reduced, route and unmount cleanup resets offscreen photos as well.
+
+Proof values, labels and qualifier remain source-exact and visible on first
+paint. The only new entry motion is a finite aria-hidden SVG dimension rule.
+The capability lane uses the six existing source items; only the primary list
+has native destination links. Its duplicate is aria-hidden text with no focus
+stops. Hover pauses; keyboard focus exposes the complete static primary list.
+Mobile, coarse and reduced states always expose the static six-item list.
+Gogade remains blocked until licensed webfont files and glyph evidence exist;
+the current display role is a declared provisional source font, not Gogade.

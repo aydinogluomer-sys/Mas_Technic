@@ -36,6 +36,32 @@
   --tl-gap: 0px;
   --tl-rule-size: 1px;
 
+  /* Inspection Story roles: raw colour values stay in the central token file.
+     Public shells opt in; auth retains the existing palette and typography. */
+  --tl-story-paper: #F4F5F1;
+  --tl-story-white: #FFFFFF;
+  --tl-story-steel: #E0E6E7;
+  --tl-story-ink: #17242A;
+  --tl-story-body: #394B53;
+  --tl-story-meta: #56636A;
+  --tl-story-cyan: #078AA7;
+  --tl-story-cyan-ink: #006A80;
+  --tl-story-cyan-light: #63D3E5;
+  --tl-story-graphite: #1D272D;
+  --tl-story-panel: #26333A;
+  --tl-story-control-rule: #6B7A80;
+  --tl-story-rule: #BEC8CA;
+  --tl-story-dark-body: #E0E6E7;
+  --tl-story-dark-meta: #B5C2C7;
+  --tl-story-dark-rule: #6B7A80;
+  --tl-story-graphite-veil: rgba(29, 39, 45, .96);
+  --tl-story-graphite-wash: rgba(29, 39, 45, .22);
+  --tl-story-dark-hover: rgba(255, 255, 255, .07);
+  --tl-story-paper-hover: rgba(23, 36, 42, .04);
+  --tl-story-font-body: "IBM Plex Sans", system-ui, sans-serif;
+  /* Gogade remains blocked until its licensed webfont and glyphs are supplied. */
+  --tl-story-font-display: "Space Grotesk", "Space Grotesk Fallback", system-ui, sans-serif;
+
   /* ── TYPOGRAPHY ROLES ───────────────────────────────────────────────────
      Three faces, three jobs. A face is chosen by ROLE, never by variety.
        sans  — interface, body copy, editorial display headings

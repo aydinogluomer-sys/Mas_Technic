@@ -7,6 +7,10 @@ import type { Material } from "@/data/materialsData";
 import type { SourcedProperty } from "@/data/materialsData";
 import { familyName, figure, hardness, isSourced, propertySource, sourceDocuments, UNVERIFIED_FIGURE } from "./material-figures";
 
+import { MaterialControls } from "./inspection/MaterialControls";
+import { useMaterialView } from "./inspection/useMaterialView";
+import "@/styles/inspection-families.css";
+
 const SOURCE_ROWS: [SourcedProperty, string][] = [
   ["density", "Yoğunluk"],
   ["tensileStrength", "Çekme mukavemeti"],
@@ -84,6 +88,8 @@ export function MaterialRegister({
      unsourced record; it is translated here, a number passes through with
      the reader's decimal separator. */
   const f = (value: string) => localDecimals(t(value), i18n.language);
+  const view = useMaterialView(materials);
+  const limit = Math.min(4, maxSelected);
 
   return (
     <figure className="shell-table shell-register">
@@ -91,6 +97,7 @@ export function MaterialRegister({
         <span className="shell-table-caption">{caption}</span>
         {note && <span className="shell-table-note">{note}</span>}
       </figcaption>
+      <MaterialControls view={view} total={materials.length} selected={selected.length} limit={limit} />
       <div className="shell-table-scroll">
         <table aria-label={caption}>
           <thead>
@@ -106,7 +113,7 @@ export function MaterialRegister({
             </tr>
           </thead>
           <tbody>
-            {materials.map((material) => {
+            {view.rows.map((material) => {
               const isSelected = selected.includes(material.id);
               const isOpen = openId === material.id;
               const panelId = `material-detail-${material.id}`;
@@ -118,8 +125,8 @@ export function MaterialRegister({
                         className="shell-check"
                         type="checkbox"
                         checked={isSelected}
-                        disabled={!isSelected && selected.length >= maxSelected}
-                        onChange={() => onToggleSelect(material)}
+                        disabled={!isSelected && selected.length >= limit}
+                        onChange={() => { if (isSelected || selected.length < limit) onToggleSelect(material); }}
                         aria-label={t("{{name}} — karşılaştırmaya ekle", { name: material.name })}
                         aria-describedby="malzeme-compare-status"
                       />

@@ -1,0 +1,152 @@
+/* P02/P17 public paint only. Master geometry, motion and auth stay owned by
+   their existing stylesheets. Portal navigation opts in independently. */
+.shell-root.shell-inspection,
+.tl-header-band.tl-inspection-header,
+.tl-menu.tl-inspection-menu {
+  --tl-font-sans: var(--tl-story-font-body);
+  --tl-paper: var(--tl-story-paper);
+  --tl-paper-raised: var(--tl-story-white);
+  --tl-paper-sunken: var(--tl-story-paper);
+  --tl-void: var(--tl-story-paper);
+  --tl-black: var(--tl-story-white);
+  --tl-panel: var(--tl-story-steel);
+  --tl-panel-soft: var(--tl-story-steel);
+  --tl-header-surface: var(--tl-story-white);
+  --tl-white: var(--tl-story-ink);
+  --tl-ink: var(--tl-story-ink);
+  --tl-ink-muted: var(--tl-story-body);
+  --tl-ink-faint: var(--tl-story-meta);
+  --tl-ink-soft: var(--tl-story-meta);
+  --tl-muted: var(--tl-story-body);
+  --tl-on-dark-body: var(--tl-story-body);
+  --tl-on-dark-soft: var(--tl-story-body);
+  --tl-on-dark-meta: var(--tl-story-meta);
+  --tl-on-dark-faint: var(--tl-story-meta);
+  --tl-rule: var(--tl-story-rule);
+  --tl-rule-soft: var(--tl-story-rule);
+  --tl-label-rule: var(--tl-story-control-rule);
+  --tl-paper-rule: var(--tl-story-rule);
+  --tl-paper-rule-soft: var(--tl-story-rule);
+  --tl-paper-rule-strong: var(--tl-story-control-rule);
+  --tl-control-rule: var(--tl-story-control-rule);
+  --tl-paper-control-rule: var(--tl-story-control-rule);
+  --tl-bronze: var(--tl-story-cyan-ink);
+  --tl-bronze-ink: var(--tl-story-cyan-ink);
+  --tl-bronze-light: var(--tl-story-cyan-ink);
+  --tl-tint-hover: var(--tl-story-paper-hover);
+  --tl-tint-raise: var(--tl-story-steel);
+  --tl-fog: var(--tl-story-steel);
+  --sf-ink: var(--tl-story-ink);
+  --sf-body: var(--tl-story-body);
+  --sf-meta: var(--tl-story-meta);
+  --sf-faint: var(--tl-story-meta);
+  --sf-rule: var(--tl-story-rule);
+  --sf-rule-soft: var(--tl-story-rule);
+  --sf-control-rule: var(--tl-story-control-rule);
+  --sf-accent: var(--tl-story-cyan-ink);
+  --sf-ground: var(--tl-story-paper);
+  --sf-hover: var(--tl-story-paper-hover);
+  --sf-field: var(--tl-story-white);
+  --sf-invert: var(--tl-story-ink);
+  --sf-on-invert: var(--tl-story-white);
+  --sf-danger: var(--tl-stamp);
+  color: var(--tl-story-ink);
+  background: var(--tl-story-paper);
+  font-family: var(--tl-story-font-body);
+  color-scheme: light;
+}
+.shell-root.shell-inspection .shell-sheet {
+  background: var(--tl-story-paper);
+  border-color: var(--tl-story-rule);
+}
+.shell-inspection :is(h1, h2, h3, h4, h5, h6),
+.tl-inspection-menu .tl-menu-family-title {
+  font-family: var(--tl-story-font-display);
+}
+.tl-header-band.tl-inspection-header { background: var(--tl-story-white); }
+.tl-inspection-header .tl-brand-logo,
+.tl-inspection-menu .tl-brand-logo,
+.shell-inspection .shell-footer-compact .tl-brand-logo {
+  width: min(100%, 220px);
+}
+.tl-inspection-menu .tl-menu-brand { min-width: 0; }
+.tl-brand-logo {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1536 / 187;
+  object-fit: contain;
+  font: 400 12px/1.4 var(--tl-story-font-body);
+  letter-spacing: normal;
+  color: var(--tl-story-cyan-ink);
+}
+.tl-inspection-header .tl-quote-button {
+  color: var(--tl-story-white);
+  background: var(--tl-story-cyan-ink);
+}
+.tl-inspection-header .tl-quote-button:is(:hover, :focus-visible) {
+  background: var(--tl-story-ink);
+}
+.tl-inspection-header .tl-menu-trigger,
+.tl-inspection-menu .tl-menu-trigger { border-color: var(--tl-story-control-rule); }
+
+/* Paint the dark rails themselves: transparent white-copy rails over paper
+   were a real contrast failure, even when their adjacent media was dark. */
+.shell-inspection .tl-manifesto,
+.shell-inspection .tl-manifesto > .tl-band-index,
+.shell-inspection .tl-nexus > .tl-band-index,
+.shell-inspection .tl-nexus-rail {
+  --tl-white: var(--tl-story-white);
+  --tl-paper: var(--tl-story-white);
+  --tl-void: var(--tl-story-graphite);
+  --tl-black: var(--tl-story-graphite);
+  --tl-panel: var(--tl-story-panel);
+  --tl-on-dark-body: var(--tl-story-dark-body);
+  --tl-on-dark-meta: var(--tl-story-dark-meta);
+  --tl-on-dark-faint: var(--tl-story-dark-meta);
+  --tl-bronze-light: var(--tl-story-cyan-light);
+  --tl-rule: var(--tl-story-dark-rule);
+  --tl-tint-raise: var(--tl-story-dark-hover);
+  color: var(--tl-story-white);
+  background: var(--tl-story-graphite);
+}
+.shell-inspection .tl-manifesto-body {
+  background: var(--tl-story-graphite);
+  color: var(--tl-story-white);
+}
+.shell-inspection .tl-manifesto p { color: var(--tl-story-dark-body); }
+.shell-inspection .tl-manifesto-body::after {
+  background: linear-gradient(90deg, var(--tl-story-graphite-veil) 0 42%, var(--tl-story-graphite-wash));
+}
+.shell-inspection .tl-proof article span { color: var(--tl-story-body); }
+.shell-inspection .tl-proof-note { color: var(--tl-story-meta); background: var(--tl-story-paper); }
+
+/* The footer's previous literal light-copy colours need explicit paper roles. */
+.shell-root.shell-inspection .tl-footer,
+.shell-inspection .shell-footer-compact,
+.shell-inspection .tl-footer .tl-title-block {
+  color: var(--tl-story-ink);
+  background: var(--tl-story-white);
+}
+.shell-inspection .tl-footer address p,
+.shell-inspection .tl-footer nav a,
+.shell-inspection .tl-footer .tl-social a { color: var(--tl-story-body); }
+.shell-inspection .tl-footer :is(.tl-meta-run span, .tl-legal a),
+.shell-inspection .tl-footer > .tl-band-index { color: var(--tl-story-meta); }
+.shell-inspection .tl-footer nav a:is(:hover, :focus-visible) { color: var(--tl-story-cyan-ink); }
+.shell-inspection .tl-footer .tl-crosshair { stroke: var(--tl-story-meta); }
+.shell-inspection .tl-footer-body::before,
+.shell-inspection .tl-title-block::before { content: none; }
+.shell-inspection .pl-wordmark--brand .tl-brand-logo { width: 100%; }
+.shell-inspection .shell-footer-primary {
+  color: var(--tl-story-white);
+  background: var(--tl-story-cyan-ink);
+  border-color: var(--tl-story-cyan-ink);
+}
+.shell-inspection .shell-footer-secondary { color: var(--tl-story-ink); }
+.shell-inspection .shell-footer-compact-brand { min-width: 0; }
+@media (max-width: 767px) {
+  .shell-inspection .tl-manifesto-body::after {
+    background: linear-gradient(180deg, var(--tl-story-graphite-veil), var(--tl-story-graphite-wash));
+  }
+}

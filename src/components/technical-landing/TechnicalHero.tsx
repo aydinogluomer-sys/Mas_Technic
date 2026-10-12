@@ -13,145 +13,69 @@ import { useTranslation } from "react-i18next";
 import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
 import { useState } from "react";
 
-/**
- * Hero ölçümlendirmesi referanstaki teknik resim dilini izler:
- * her etiket parçaya bir kılavuz çizgiyle BAĞLIDIR ve çizgi ucu ya dolu
- * ok (ölçü/datum) ya da nokta (yüzey) ile biter. Kutular ve SVG aynı
- * koordinat uzayını paylaşır — kutu yüzdesi = viewBox koordinatı / 10,
- * böylece çizgiler her ekran genişliğinde etiketlere değmeye devam eder.
- */
-const VIEW_W = 1000;
-const VIEW_H = 563;
+import { Z } from "@/styles/z-index";
+import "@/styles/hero-inspection.css";
+
+const dimensions = [
+  { key: "bore", term: "ÖLÇÜLER", value: "Ø 28.000 ±0.010", className: "tl-measure tl-measure-top" },
+  { key: "height", term: "ÖLÇÜLER", value: "72.000 ±0.010", className: "tl-measure tl-measure-left" },
+  { key: "finish", term: "YÜZEY", value: heroPartFacts[2][1], className: "tl-measure tl-measure-finish" },
+  { key: "datum", term: "DATUM A", value: "A", className: "tl-datum" },
+] as const;
 
 export function TechnicalHero() {
   const { t } = useTranslation();
   const [dimension, setDimension] = useState<string | null>(null);
+  const selected = dimensions.find(({ key }) => key === dimension);
   const inspect = (key: string) => setDimension((current) => current === key ? null : key);
   return (
     <TechnicalSectionFrame no="02" label="HERO" className={`tl-hero${dimension ? ` tl-inspect--${dimension}` : ""}`} labelledBy="tl-hero-title">
       <div className="tl-hero-copy">
         <h1 id="tl-hero-title" data-testid="technical-hero-title">{["HAM GEOMETRİDEN", "DOĞRULANMIŞ", "HASSASİYETE"].map((line, index) => <span className="inspection-line" key={line}><span>{t(line)}{index < 2 ? " " : ""}</span></span>)}</h1>
+      </div>
+      <div className="tl-hero-support">
         <p>{t("MAS TECHNIC; CNC frezeleme, tornalama ve tamamlayıcı işlemler için parçanızı teknik resimden üretim ve kontrol planına taşır. Geometri ve tolerans gereksinimleri incelendikten sonra üretim teklifi hazırlanır.")}</p>
         <Link to="/teklif-al" data-testid="technical-hero-cta">
           {t("TEKLİF AL")}
           <svg viewBox="0 0 40 12" aria-hidden="true"><path d="M0 6h37M31 1l6 5-6 5" /></svg>
         </Link>
       </div>
-
       <div className="tl-part-stage" aria-label={t("Ölçülendirilmiş CNC manifold parçası çizimi")}>
-        {/* Çerçeve görselin en-boy oranını birebir taşır: parça kırpılmaz ve
-            ölçü etiketleri her ekran genişliğinde parçanın üstünde kalır. */}
         <div className="tl-part-frame">
-          {/* The size the screen needs, AVIF first (vite.config.ts preloads the
-              same candidate): 13 KB instead of 64 KB at 1440, 6.5 KB at 375. */}
-          <picture className="tl-part-picture">
-            <source
-              type="image/avif"
-              srcSet={heroSrcSet({ 480: heroPartAvif480, 800: heroPartAvif800, 1200: heroPartAvif1200, 1672: heroPartAvif })}
-              sizes={HERO_IMAGE_SIZES}
-            />
-            <img
-              src={heroPart}
-              srcSet={heroSrcSet({ 480: heroPart480, 800: heroPart800, 1200: heroPart1200, 1672: heroPart })}
-              sizes={HERO_IMAGE_SIZES}
-              alt={t("Koyu bir ölçüm masası üzerindeki hassas işlenmiş metal hidrolik manifold")}
-              width="1672"
-              height="941"
-              fetchPriority="high"
-            />
-          </picture>
-          {/* Revision 4: every picture leads somewhere — the sample part
-              opens the capability profiles, where parts like it are read. */}
-          <Link className="tl-image-link" to="/kabiliyet-profilleri" aria-label={t("Kabiliyet Profilleri")} />
-
-          {/* Fotoğrafın siyahı rgb(1,1,2), bandın zemini rgb(7,11,13) — arada
-              ton farkı olduğu için görsel bir dikdörtgen gibi duruyordu.
-              `lighten` her kanalı bant siyahına yükseltir, parçanın parlak
-              yüzeylerine hiç dokunmaz: dikiş kaybolur. */}
-          <div className="tl-part-blend" aria-hidden="true" />
-
-          {/* Referansta parça benekli bir granit ölçüm plakasının üzerinde
-              duruyor. Fotoğrafta o doku yok; plakayı burada üretiyoruz. */}
-          <div className="tl-part-ground" aria-hidden="true" />
-
-          <svg className="tl-dimension-lines" viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} aria-hidden="true">
-            <defs>
-              {/* markerUnits=userSpaceOnUse: uç boyutu çizgi kalınlığından
-                  bağımsız kalsın, non-scaling-stroke ile bozulmasın. */}
-              {/* Teknik resim oku: uzunluk/genişlik ~3:1 ve hafif içbükey
-                  yanaklar. refX uçta olduğu için ok, yolun bittiği noktaya —
-                  yani uzatma çizgisine — değer; referansta arada boşluk yok. */}
-              <marker id="tl-arrow" viewBox="0 0 18 7" refX="18" refY="3.5" markerWidth="18" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
-                <path d="M0 0.2 18 3.5 0 6.8 3.6 3.5Z" />
-              </marker>
-              <marker id="tl-dot" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto">
-                <circle cx="4" cy="4" r="2.7" />
-              </marker>
-            </defs>
-
-            {/* Koordinatlar fotoğraftaki parçanın ölçülmüş siluetine bağlı:
-                üst yüzey y≈124, alt oturma y≈496, sol kenar x≈465,
-                sağ kenar x≈810, yükseltilmiş göbek x≈655. */}
-            {/* Her kılavuz çizgisi ÖLÇTÜĞÜ etiketle aynı `tl-dim--*` adını
-                taşır. Ad, `technical-landing.css` içindeki bağıntı kuralının
-                dayanağı: bir ölçüye gelindiğinde o ölçünün çizgisi, kutusu ve
-                pasaporttaki karşılığı birlikte aydınlanır, geri kalanı geri
-                çekilir. Çizim okumanın kendisi budur — hangi sayı hangi
-                yüzeyi anlatıyor. */}
-            <g className="tl-dim-line">
-              {/* Ø 28.000 — kutu altından iner, üst yüzeyde ok ile biter */}
-              <path className="tl-dim--bore" d="M580 82V120" markerEnd="url(#tl-arrow)" />
-
-              {/* PROOF01 / §3: the Ø 0.010 position frame and its leader are
-                  gone. A position tolerance needs its datum references, and
-                  this sample carries none until a full CAD is verified. */}
-
-              {/* 72.000 — gerçek ölçü çizgisi: uzatma çizgileri + çift ok */}
-              <path className="tl-ext tl-dim--height" d="M285 124H480M285 496H500" />
-              <path className="tl-dim--height" d="M325 130V490" markerStart="url(#tl-arrow)" markerEnd="url(#tl-arrow)" />
-
-              {/* ⊥ 0.010 A — kutudan dirsekle parçanın alt oturma yüzeyine.
-                  Yol, 72.000 ölçü çizgisinin alt okunun altından geçer. */}
-              <path className="tl-dim--perp" d="M243 516H330L486 498" markerEnd="url(#tl-dot)" />
-
-              {/* Ra 0.4 µm — parçanın daraldığı alt hizada, kutudan sola nokta */}
-              <path className="tl-dim--finish" d="M764 501L716 478" markerEnd="url(#tl-dot)" />
-
-              {/* A datumu — kutudan yukarı, datum yüzeyinde ok ile biter */}
-              <path className="tl-dim--datum" d="M571 495V466" markerEnd="url(#tl-arrow)" />
-            </g>
-          </svg>
-
-          {/* Native controls pair a selected printed dimension with its leader
-              and orthographic feature. Selection persists for keyboard/touch,
-              and selecting it again clears it. All values remain readable. */}
-          {/* Every printed tolerance is the verified floor from
-              `src/content/claims.ts` (§D ±0.01 mm). The hero used to carry
-              ±0.005 in three places — twice the capability MAS TECHNIC has —
-              and a surface-finish value (`Ra 0.4 µm`) that `USER_INPUTS.md`
-              never supplies at all. The third leader now names a datum
-              feature: drawing vocabulary, asserting nothing about capability. */}
-          <button type="button" className="tl-measure tl-measure-top" data-dim="bore" aria-pressed={dimension === "bore"} aria-controls="tl-inspection-drawing" onClick={() => inspect("bore")}>Ø 28.000 ±0.010</button>
-          <button type="button" className="tl-measure tl-measure-left" data-dim="height" aria-pressed={dimension === "height"} aria-controls="tl-inspection-drawing" onClick={() => inspect("height")}><b>72.000</b><b>±0.010</b></button>
-          <button type="button" className="tl-measure tl-measure-finish" data-dim="finish" aria-pressed={dimension === "finish"} aria-controls="tl-inspection-drawing" onClick={() => inspect("finish")}>Ra 0.4 µm</button>
-
-          {/* Tolerans çerçeveleri: referansta hücrelere bölünmüş kutular */}
-          {/* U+2300 ⌀ IBM Plex Mono'da yok ve minik bir yedeğe düşüyordu;
-              U+00D8 Ø hem grotesk hem yedek yüzlerde tam cap yüksekliğinde. */}
-          <span className="tl-fcf tl-fcf-bottom" data-dim="perp" aria-hidden="true"><i>⊥</i><b>0.010</b><b>A</b></span>
-          <button type="button" className="tl-datum" data-dim="datum" aria-label="DATUM A" aria-pressed={dimension === "datum"} aria-controls="tl-inspection-drawing" onClick={() => inspect("datum")}>A</button>
+          <div className="tl-part-window">
+            {/* One coordinate plane keeps the genuine photograph and example drawing registered. */}
+            <div className="tl-part-plane">
+              <picture className="tl-part-picture">
+                <source type="image/avif" srcSet={heroSrcSet({ 480: heroPartAvif480, 800: heroPartAvif800, 1200: heroPartAvif1200, 1672: heroPartAvif })} sizes={HERO_IMAGE_SIZES} />
+                <img src={heroPart} srcSet={heroSrcSet({ 480: heroPart480, 800: heroPart800, 1200: heroPart1200, 1672: heroPart })} sizes={HERO_IMAGE_SIZES} alt={t("Koyu bir ölçüm masası üzerindeki hassas işlenmiş metal hidrolik manifold")} width="1672" height="941" fetchPriority="high" />
+              </picture>
+              <svg className="tl-dimension-lines" viewBox="0 0 1000 563" aria-hidden="true" style={{ zIndex: Z.content }}>
+                <defs>
+                  <marker id="tl-arrow" viewBox="0 0 18 7" refX="18" refY="3.5" markerWidth="18" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0.2 18 3.5 0 6.8 3.6 3.5Z" /></marker>
+                  <marker id="tl-dot" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><circle cx="4" cy="4" r="2.7" /></marker>
+                </defs>
+                <g className="tl-dim-line">
+                  <path className="tl-dim--bore" d="M580 82V120" markerEnd="url(#tl-arrow)" />
+                  <path className="tl-ext tl-dim--height" d="M285 124H480M285 496H500" />
+                  <path className="tl-dim--height" d="M325 130V490" markerStart="url(#tl-arrow)" markerEnd="url(#tl-arrow)" />
+                  <path className="tl-dim--perp" d="M243 516H330L486 498" markerEnd="url(#tl-dot)" />
+                  <path className="tl-dim--finish" d="M764 501L716 478" markerEnd="url(#tl-dot)" />
+                  <path className="tl-dim--datum" d="M571 495V466" markerEnd="url(#tl-arrow)" />
+                </g>
+              </svg>
+              {dimensions.map(({ key, value }) => <span key={key} className={`tl-part-label tl-print--${key}`} aria-hidden="true" style={{ zIndex: Z.ambientGlow }}>{t(value)}</span>)}
+              <span className="tl-part-label tl-print--perp" aria-hidden="true" style={{ zIndex: Z.ambientGlow }}>⊥ 0.010 A</span>
+            </div>
+          </div>
+          <Link className="tl-image-link" to="/kabiliyet-profilleri" aria-label={t("Kabiliyet Profilleri")} style={{ zIndex: Z.grain }} />
+        </div>
+        <div className="tl-part-controls">
+          {dimensions.map(({ key, term, value, className }) => <button key={key} type="button" className={className} data-dim={key} aria-label={`${t(term)}: ${t(value)}`} aria-pressed={dimension === key} aria-controls="tl-inspection-drawing" aria-describedby="tl-inspection-hint" onClick={() => inspect(key)}>{t(value)}</button>)}
         </div>
       </div>
-
-      {/* PART CARD — after the reference sheet: a title-block card that reads
-          the example part on the left (dimensions, tolerance, surface,
-          material, drawing number) above its own orthographic drawing. It is
-          captioned as an example, so no value in it reads as a record. The
-          four `tl-pp-*` groups are the hover-correlation keys the motion
-          grammar pins (e2e/landing/motion-grammar.spec.ts). */}
       <aside className="tl-part-passport" aria-label={t("Örnek parça bilgisi")}>
-        <p className="tl-pp-eyebrow">{t("ÖRNEK PARÇA — ÇİZİM OKUMASI")}</p>
-        <h2>{t("PARÇA BİLGİSİ")}</h2>
+        <div className="tl-pp-heading"><p className="tl-pp-eyebrow">{t("ÖRNEK PARÇA — ÇİZİM OKUMASI")}</p>
+        <h2>{t("PARÇA BİLGİSİ")}</h2></div>
         <dl>{heroPartFacts.map(([term, value]) => <div key={term}><dt>{t(term)}</dt><dd>{t(value)}</dd></div>)}</dl>
         <svg id="tl-inspection-drawing" className="tl-pp-drawing" viewBox="0 0 240 176" aria-hidden="true">
           {/* FRONT VIEW (left) and RIGHT VIEW (right). Schematic, not to scale:
@@ -191,8 +115,8 @@ export function TechnicalHero() {
             <text x="83" y="16" textAnchor="middle">Ø 28.000</text>
           </g>
         </svg>
-        <p>{t("ŞEMATİK ÖN / YAN GÖRÜNÜŞ")}</p>
-        <p className="tl-inspection-hint">{t("Bir ölçüyü seçin; çizimdeki karşılığını görün.")}</p>
+        <p className="tl-pp-caption">{t("ŞEMATİK ÖN / YAN GÖRÜNÜŞ")}</p>
+        <p className="tl-inspection-hint" id="tl-inspection-hint">{t("Bir ölçüyü seçin; çizimdeki karşılığını görün.")}<output aria-live="polite" aria-atomic="true">{selected ? ` ${t(selected.term)}: ${selected.value} — ${t("ŞEMATİK ÖN / YAN GÖRÜNÜŞ")}` : ""}</output></p>
       </aside>
     </TechnicalSectionFrame>
   );

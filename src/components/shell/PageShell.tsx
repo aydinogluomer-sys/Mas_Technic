@@ -13,6 +13,7 @@ import "@/styles/polish-round2-surfaces.css";
 import "@/styles/polish-round2-landing.css";
 import "@/styles/reference-polish.css";
 import "@/styles/inspection-motion.css";
+import "@/styles/inspection-story.css";
 
 /* ══════════════════════════════════════════════════════════════════════════
    THE GLOBAL PUBLIC PAGE SHELL
@@ -102,6 +103,7 @@ export function PageShell({
   mainData,
 }: PageShellProps) {
   const { i18n } = useTranslation();
+  const publicBrand = !className.split(/\s+/).includes("shell-auth");
   /* The shell spends a rail column, so the field it hands a page body is
      narrower than the body was written against and boxes that used to fit can
      overflow. Every scrollable region inside the sheet therefore gets a focus
@@ -115,7 +117,7 @@ export function PageShell({
   return (
     <div
       ref={rootRef}
-      className={`shell-root ${className}`.trim()}
+      className={`shell-root${publicBrand ? " shell-inspection" : ""} ${className}`.trim()}
       data-shell-surface={surface}
       data-testid={testId}
     >
@@ -130,7 +132,7 @@ export function PageShell({
           )}
           {children}
         </main>
-        {footer === "compact" ? <CompactFooter /> : footer && <SiteFooter no={footerNo} conversion={footerConversion} />}
+        {footer === "compact" ? <CompactFooter publicImageFooter={publicBrand} /> : footer && <SiteFooter no={footerNo} conversion={footerConversion} publicImageFooter={publicBrand} />}
       </div>
     </div>
   );

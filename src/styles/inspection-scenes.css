@@ -1,0 +1,25 @@
+/* Scene variables belong to stable DOM anchors. ReverseScroll owns only its
+   child transform; these media-only parents provide the aperture. */
+.shell-root .tl-part-frame > .tl-part-window > .tl-part-plane {
+  translate: none;
+  scale: none;
+}
+.shell-root .tl-process-photo > [data-reverse-scroll],
+.shell-root .tl-manifesto-body > [data-reverse-scroll] { clip-path: none; }
+.shell-root .tl-marquee-viewport { transform: none; }
+
+@media (min-width: 769px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .shell-root[data-inspection-motion="ready"] .tl-part-frame > .tl-part-window > .tl-part-plane {
+    translate: 0 calc(-18px + 18px * var(--inspection-progress, 1));
+    scale: calc(1 + .035 * var(--inspection-progress, 0));
+  }
+  .shell-root[data-inspection-motion="ready"] .tl-process-photo > [data-reverse-scroll] {
+    clip-path: inset(calc(14% * (1 - var(--inspection-progress, 1))) calc(10% * (1 - var(--inspection-progress, 1))));
+  }
+  .shell-root[data-inspection-motion="ready"] .tl-manifesto-body > [data-reverse-scroll] {
+    clip-path: polygon(0 0, calc(100% - 8% * (1 - var(--inspection-progress, 1))) 0, 100% 100%, calc(8% * (1 - var(--inspection-progress, 1))) 100%);
+  }
+  .shell-root[data-inspection-motion="ready"] .tl-marquee-viewport {
+    transform: skewY(calc(clamp(-2, var(--inspection-velocity, 0), 2) * .35deg));
+  }
+}

@@ -25,6 +25,8 @@ import { SchemaFigure } from "@/components/schemas/SchemaFigure";
 import { PROFILE_SCHEMAS } from "@/components/schemas/registry";
 import { PROFILE_SUBJECTS } from "@/content/journal-modules";
 import { CMM_COVERAGE, QUOTE_RESPONSE_TIME } from "@/content/claims";
+import { ProfileControl } from "@/components/pages/inspection/ProfileControl";
+import "@/styles/inspection-families.css";
 import { publishMeasuredEvidence, withinLimits } from "@/content/measured-evidence";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -92,7 +94,7 @@ export const KabiliyetProfilDetay = () => {
 
   if (!study) {
     return (
-      <PageShell surface="graphite" rail={{ no: "P1", label: "PROFİL" }}>
+      <PageShell surface="graphite" rail={{ no: "P1", label: "PROFİL" }} className="inspection-profile">
         <ShellPageHero
           no="01"
           label="PROFİL"
@@ -131,7 +133,7 @@ export const KabiliyetProfilDetay = () => {
   const others = caseStudies.filter((entry) => entry.slug !== study.slug);
 
   return (
-    <PageShell surface="graphite" rail={{ no: "P1", label: "PROFİL" }}>
+    <PageShell surface="graphite" rail={{ no: "P1", label: "PROFİL" }} className="inspection-profile">
       <ShellPageHero
         no="01"
         label="PROFİL"
@@ -211,6 +213,7 @@ export const KabiliyetProfilDetay = () => {
             standfirst={t("Hangi özelliğin hangi yöntemle doğrulandığı ve arkasında hangi kaydın kaldığı. Bu plan imalat başlamadan önce yazılır.")}
           />
         </div>
+        <ProfileControl key={study.slug} rows={study.controlPlan} drawing={ProfileDrawing} subject={PROFILE_SUBJECTS[study.slug]?.[lang] ?? study.title} />
         {/* THE SECOND INSTANCE OF R3-1, AND THE ONE NO TEST WAS LOOKING AT.
 
             Same defect and same fix as `ServiceDetail.tsx:423`, which carries

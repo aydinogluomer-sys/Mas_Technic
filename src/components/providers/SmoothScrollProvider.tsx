@@ -4,67 +4,102 @@ import type Lenis from "lenis";
 declare global {
   interface Window {
     __lenis?: Lenis;
+    __lenisMenuLock?: boolean;
   }
 }
 
-interface SmoothScrollProviderProps {
-  children: ReactNode;
-}
-
-const shouldDisable =
-  (import.meta.env.DEV && import.meta.env.VITE_DISABLE_LENIS === "true") || typeof window === "undefined";
-
-/* Lenis starts when the browser is first idle (at most 2 s after mount) or on
-   the first input, whichever comes first, so it never competes with the first
-   paint. It drives its own frame loop (`autoRaf`): nothing on the site reads
-   GSAP's ScrollTrigger, so the GSAP ticker it used to ride on was dead weight
-   in the desktop first load. */
 const START_EVENTS = ["wheel", "keydown", "pointerdown", "touchstart"] as const;
+const shouldDisable = (import.meta.env.DEV && import.meta.env.VITE_DISABLE_LENIS === "true")
+  || typeof window === "undefined";
 
-export const SmoothScrollProvider = ({ children }: SmoothScrollProviderProps) => {
+export const SmoothScrollProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (shouldDisable) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    // Mobilde Lenis başlatma — native scroll + scroll-snap aktif
-    if (window.matchMedia("(max-width: 768px)").matches) return;
-
-    let cancelled = false;
+    const desktop = window.matchMedia("(min-width: 769px)");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let disposed = false;
+    let generation = 0;
     let lenis: Lenis | null = null;
-    let idleHandle = 0;
-
-    const start = () => {
-      stopWaiting();
-      void import("lenis").then(({ default: LenisRuntime }) => {
-        if (cancelled) return;
-        lenis = new LenisRuntime({
-          lerp: 0.08,
-          duration: 1.4,
-          smoothWheel: true,
-          wheelMultiplier: 0.8,
-          touchMultiplier: 1.5,
-          autoRaf: true,
-        });
-        window.__lenis = lenis;
-      });
+    let importing = false;
+    let waiting = false;
+    let frame = 0;
+    let idle = 0;
+    const eligible = () => desktop.matches && !reduced.matches;
+    const canStart = () => eligible() && !window.__lenisMenuLock;
+    const stopClock = () => { cancelAnimationFrame(frame); frame = 0; };
+    const tick = (time: number) => {
+      frame = 0;
+      if (disposed || document.hidden || !eligible() || !lenis) return;
+      lenis.raf(time);
+      frame = requestAnimationFrame(tick);
+    };
+    const runClock = () => {
+      if (!frame && lenis && eligible() && !document.hidden) frame = requestAnimationFrame(tick);
     };
     const stopWaiting = () => {
+      waiting = false;
       START_EVENTS.forEach((type) => window.removeEventListener(type, start));
-      if (typeof window.cancelIdleCallback === "function") window.cancelIdleCallback(idleHandle);
-      else window.clearTimeout(idleHandle);
+      if (typeof window.cancelIdleCallback === "function") window.cancelIdleCallback(idle);
+      else window.clearTimeout(idle);
+      idle = 0;
     };
-
-    START_EVENTS.forEach((type) => window.addEventListener(type, start, { once: true, passive: true }));
-    idleHandle = typeof window.requestIdleCallback === "function"
-      ? window.requestIdleCallback(start, { timeout: 2000 })
-      : window.setTimeout(start, 2000);
-
-    return () => {
-      cancelled = true;
+    const start = () => {
       stopWaiting();
+      if (disposed || !canStart() || document.hidden || lenis || importing) return;
+      importing = true;
+      const ticket = generation;
+      void import("lenis").then(({ default: LenisRuntime }) => {
+        if (ticket !== generation || disposed) return;
+        importing = false;
+        if (!canStart() || document.hidden) return;
+        lenis = new LenisRuntime({
+          lerp: 0.08, duration: 1.4, smoothWheel: true,
+          wheelMultiplier: 0.8, touchMultiplier: 1.5, autoRaf: false,
+        });
+        window.__lenis = lenis;
+        runClock();
+      }).catch(() => { if (ticket === generation) importing = false; });
+    };
+    const waitToStart = () => {
+      if (waiting || importing || lenis || !canStart() || document.hidden) return;
+      waiting = true;
+      START_EVENTS.forEach((type) => window.addEventListener(type, start, { once: true, passive: true }));
+      idle = typeof window.requestIdleCallback === "function"
+        ? window.requestIdleCallback(start, { timeout: 2000 }) : window.setTimeout(start, 2000);
+    };
+    const reconcile = () => {
+      generation += 1;
+      importing = false;
+      stopWaiting();
+      stopClock();
+      if (!eligible()) {
+        lenis?.destroy();
+        if (window.__lenis === lenis) delete window.__lenis;
+        lenis = null;
+      } else if (!document.hidden) {
+        // Header owns stop/start. Visibility only parks the clock, preserving
+        // the exact engine and its menu-stopped state across a hidden tab.
+        if (lenis) runClock();
+        else waitToStart();
+      }
+    };
+    desktop.addEventListener("change", reconcile);
+    reduced.addEventListener("change", reconcile);
+    document.addEventListener("visibilitychange", reconcile);
+    window.addEventListener("mas:scroll-lock-change", reconcile);
+    waitToStart();
+    return () => {
+      disposed = true;
+      generation += 1;
+      stopWaiting();
+      stopClock();
+      desktop.removeEventListener("change", reconcile);
+      reduced.removeEventListener("change", reconcile);
+      document.removeEventListener("visibilitychange", reconcile);
+      window.removeEventListener("mas:scroll-lock-change", reconcile);
       lenis?.destroy();
       if (window.__lenis === lenis) delete window.__lenis;
     };
   }, []);
-
   return <>{children}</>;
 };

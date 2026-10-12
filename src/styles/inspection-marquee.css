@@ -1,0 +1,56 @@
+/* All six native destinations form the default list. Only the ready desktop
+   layer turns the same primary list plus inert copy into a display lane. */
+.shell-root .tl-marquee { color: var(--tl-story-ink); background: var(--tl-story-steel); }
+.shell-root .tl-marquee .tl-band-index { color: var(--tl-story-meta); border-color: var(--tl-story-control-rule); }
+.shell-root .tl-marquee-viewport { display: grid; grid-template-columns: subgrid; min-height: 180px; overflow: visible; }
+.shell-root .tl-marquee-track { display: grid; grid-template-columns: subgrid; grid-column: 1 / -1; width: auto; animation: none; transform: none; }
+.shell-root .tl-marquee-track .tl-marquee-primary { display: grid; grid-template-columns: subgrid; grid-column: 1 / -1; }
+.shell-root .tl-marquee-track .tl-marquee-duplicate { display: none; }
+.shell-root .tl-marquee-track li {
+  grid-column: span 4;
+  min-width: 0;
+  gap: var(--tl-s5);
+  padding: var(--tl-s4);
+  color: var(--tl-story-ink);
+  font: 600 clamp(22px, 2.2vw, 36px)/1.15 var(--tl-story-font-display);
+  letter-spacing: -.035em;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.shell-root .tl-marquee-track li::after { content: none; }
+.shell-root .tl-marquee-primary a { display: inline-flex; align-items: center; min-height: 44px; color: inherit; text-decoration: none; }
+.shell-root .tl-marquee-primary a:hover { color: var(--tl-story-cyan-ink); }
+.shell-root .tl-marquee-primary a:focus-visible { color: var(--tl-story-cyan-ink); outline: 2px solid var(--tl-story-cyan-ink); outline-offset: 4px; }
+
+@media (min-width: 769px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .shell-root[data-inspection-motion="ready"] .tl-marquee-viewport:not(:focus-within) {
+    display: flex;
+    min-height: clamp(150px, 13.5vw, 220px);
+    overflow: hidden;
+    padding-block: 24px;
+  }
+  .shell-root[data-inspection-motion="ready"] .tl-marquee-viewport:not(:focus-within) .tl-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: tl-marquee 34s linear infinite;
+    animation-play-state: paused;
+  }
+  .shell-root[data-inspection-motion="ready"] .tl-marquee.tl-onscreen .tl-marquee-viewport:not(:focus-within) .tl-marquee-track { animation-play-state: running; }
+  .shell-root[data-inspection-motion="ready"] .tl-marquee-viewport:not(:focus-within) .tl-marquee-track ul { display: flex; }
+  .shell-root[data-inspection-motion="ready"] .tl-marquee-viewport:not(:focus-within) .tl-marquee-track li {
+    font-size: clamp(40px, 5.4vw, 78px);
+    padding: 0 var(--tl-s6);
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+  .shell-root[data-inspection-motion="ready"] .tl-marquee-viewport:not(:focus-within) .tl-marquee-track li::after { content: "+"; color: var(--tl-story-cyan-ink); }
+  .shell-root[data-inspection-motion="ready"] .tl-marquee.tl-onscreen .tl-marquee-viewport:hover:not(:focus-within) .tl-marquee-track { animation-play-state: paused; }
+  .shell-root[data-inspection-motion="ready"] .tl-marquee-viewport:focus-within { transform: none; }
+}
+@media (max-width: 1180px) {
+  .shell-root .tl-marquee-track li { grid-column: span 2; }
+}
+@media (max-width: 767px) {
+  .shell-root .tl-marquee-viewport { min-height: 0; }
+  .shell-root .tl-marquee-track li { padding: var(--tl-s3); font-size: 22px; }
+}

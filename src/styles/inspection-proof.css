@@ -1,0 +1,35 @@
+.shell-root .tl-proof { color: var(--tl-story-ink); background: var(--tl-story-paper); }
+.shell-root .tl-proof .tl-band-index { color: var(--tl-story-meta); border-color: var(--tl-story-control-rule); }
+.shell-root.tl-root .tl-proof .tl-proof-grid article {
+  min-height: 196px;
+  padding: var(--tl-s5) var(--tl-s3);
+  gap: var(--tl-s3);
+  border-color: var(--tl-story-control-rule);
+  opacity: 1;
+  transform: none;
+  clip-path: none;
+  animation: none;
+  transition: none;
+}
+.shell-root .tl-proof article > svg:not(.tl-proof-dimension) { width: 26px; height: 26px; color: var(--tl-story-cyan-ink); }
+.shell-root .tl-proof article strong {
+  margin: 0;
+  color: var(--tl-story-ink);
+  font: 600 clamp(27px, 2.35vw, 44px)/1.12 var(--tl-font-sans);
+  letter-spacing: -.035em;
+  overflow-wrap: anywhere;
+}
+.shell-root .tl-proof article[data-proof-variant="verbal"] strong { font-size: clamp(17px, 1.55vw, 25px); letter-spacing: -.015em; }
+.shell-root .tl-proof article[data-proof-variant="certification"] strong { font-size: clamp(23px, 1.95vw, 34px); }
+.shell-root .tl-proof article span { margin: 0; color: var(--tl-story-body); font: 500 12px/1.5 var(--tl-font-mono); letter-spacing: .035em; }
+.shell-root .tl-proof article .tl-proof-dimension { width: min(100%, 160px); height: 12px; color: var(--tl-story-cyan-ink); fill: none; stroke: currentColor; stroke-width: 1; }
+.shell-root .tl-proof-note { color: var(--tl-story-body); border-color: var(--tl-story-control-rule); font: 400 14px/1.55 var(--tl-story-font-body); padding-block: var(--tl-s4); text-align: left; }
+@keyframes inspection-proof-rule { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@media (min-width: 769px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .shell-root[data-inspection-motion="ready"] .tl-proof.tl-inview .tl-proof-dimension path { stroke-dasharray: 1; animation: inspection-proof-rule var(--tl-dur-short) var(--tl-ease-out) both; }
+}
+@media (max-width: 767px) {
+  .shell-root.tl-root .tl-proof .tl-proof-grid article { min-height: 176px; }
+  .shell-root .tl-proof article strong { font-size: 28px; }
+  .shell-root .tl-proof article[data-proof-variant="verbal"] strong { font-size: 18px; }
+}

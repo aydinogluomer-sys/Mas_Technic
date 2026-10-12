@@ -94,7 +94,7 @@ test.describe("GPT-6.1 inspection motion", () => {
         expect(perimeter, `${name} keyboard focus perimeter must fit all clipping ancestors at 320px`).toEqual({ visible: true, clippedBy: [] });
         const geometry = await control.evaluate((element) => {
           const target = element.getBoundingClientRect();
-          const frame = element.closest(".tl-part-frame")!.getBoundingClientRect();
+          const frame = element.closest(".tl-part-controls")!.getBoundingClientRect();
           return { width: target.width, height: target.height,
             leftClearance: target.left - frame.left, rightClearance: frame.right - target.right };
         });
@@ -195,7 +195,7 @@ test.describe("GPT-6.1 inspection motion", () => {
     const frame = photo.locator("..");
     await frame.scrollIntoViewIfNeeded();
     await page.waitForTimeout(400);
-    const fine = await page.evaluate(() => matchMedia("(min-width: 768px) and (hover: hover) and (pointer: fine)").matches);
+    const fine = await page.evaluate(() => matchMedia("(min-width: 769px) and (hover: hover) and (pointer: fine)").matches);
     const titleBefore = await page.locator("h1").evaluate((el) => getComputedStyle(el).opacity);
     const before = await translation(photo);
     await page.evaluate(() => window.scrollBy(0, 160));
