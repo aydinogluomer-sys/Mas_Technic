@@ -1,3 +1,4 @@
+import brandLogo from "@/assets/mas-technic-logo.jpg";
 import { useTranslation } from "react-i18next";
 import { Link } from "@/i18n/LocaleLink";
 import { legalLinks } from "@/components/navigation/ia";
@@ -14,11 +15,13 @@ import { PUBLIC_PHONE, PUBLIC_PHONE_HREF, SALES_EMAIL, SALES_EMAIL_HREF } from "
    keeps the full `SiteFooter`.
    ══════════════════════════════════════════════════════════════════════════ */
 
-export function CompactFooter() {
+export function CompactFooter({ publicImageFooter = false }: { publicImageFooter?: boolean }) {
   const { t } = useTranslation();
   return (
     <footer className="shell-footer-compact" data-footer-variant="compact" aria-label={t("Site altbilgisi")}>
-      <p className="shell-footer-compact-brand">MAS TECHNIC</p>
+      <p className="shell-footer-compact-brand">
+        {publicImageFooter ? <img className="tl-brand-logo" src={brandLogo} width={1536} height={187} alt="MAS TECHNIC" /> : "MAS TECHNIC"}
+      </p>
       <p className="shell-footer-compact-contact">
         <a href={PUBLIC_PHONE_HREF}>{PUBLIC_PHONE}</a>
         <a href={SALES_EMAIL_HREF}>{SALES_EMAIL}</a>

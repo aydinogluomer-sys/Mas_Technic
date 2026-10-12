@@ -6,11 +6,14 @@ import { useTranslation } from "react-i18next";
 import { railLabel } from "./rail-labels";
 import { useScrollableRegionAccess } from "./useScrollableRegionAccess";
 import { useProseReveal } from "@/hooks/useProseReveal";
+import { useInspectionMotion } from "@/hooks/useInspectionMotion";
 import "@/styles/shell.css";
 import "@/styles/polish.css";
 import "@/styles/polish-round2-surfaces.css";
 import "@/styles/polish-round2-landing.css";
 import "@/styles/reference-polish.css";
+import "@/styles/inspection-motion.css";
+import "@/styles/inspection-story.css";
 
 /* ══════════════════════════════════════════════════════════════════════════
    THE GLOBAL PUBLIC PAGE SHELL
@@ -100,25 +103,27 @@ export function PageShell({
   mainData,
 }: PageShellProps) {
   const { i18n } = useTranslation();
+  const publicBrand = !className.split(/\s+/).includes("shell-auth");
   /* The shell spends a rail column, so the field it hands a page body is
      narrower than the body was written against and boxes that used to fit can
      overflow. Every scrollable region inside the sheet therefore gets a focus
      stop and a name — see `useScrollableRegionAccess.ts`. */
   const sheetRef = useRef<HTMLDivElement>(null);
   useScrollableRegionAccess(sheetRef);
+  useInspectionMotion(sheetRef);
   /* Inner pages only: the landing (`layout="bands"`) owns its own motion. */
   useProseReveal(layout === "band");
 
   return (
     <div
       ref={rootRef}
-      className={`shell-root ${className}`.trim()}
+      className={`shell-root${publicBrand ? " shell-inspection" : ""} ${className}`.trim()}
       data-shell-surface={surface}
       data-testid={testId}
     >
       {navigation && <Header />}
-      <div ref={sheetRef} className="tl-sheet shell-sheet">
-        <main id="main-content" className="shell-main" data-shell-layout={layout} {...mainData}>
+      <div ref={sheetRef} className={`tl-sheet shell-sheet${publicBrand ? " shell-sheet--inspection" : ""}`}>
+        <main id="main-content" className={`shell-main${publicBrand ? " shell-main--inspection" : ""}`} data-shell-layout={layout} {...mainData}>
           {layout === "band" && (
             <div className="shell-rail" aria-hidden="true">
               <span>{rail?.no ?? "02"}</span>
@@ -127,7 +132,7 @@ export function PageShell({
           )}
           {children}
         </main>
-        {footer === "compact" ? <CompactFooter /> : footer && <SiteFooter no={footerNo} conversion={footerConversion} />}
+        {footer === "compact" ? <CompactFooter publicImageFooter={publicBrand} /> : footer && <SiteFooter no={footerNo} conversion={footerConversion} publicImageFooter={publicBrand} />}
       </div>
     </div>
   );

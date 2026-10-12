@@ -547,10 +547,17 @@
    `src/components/Footer.tsx` — so the moment that file went, the rule
    vanished from `dist/` and the launcher stopped yielding. Verified by
    grepping the build output. Outside a Tailwind layer it cannot be pruned. */
-body:has(.tl-footer:focus-within) [data-chat-launcher],
-[data-chat-launcher][data-yield] {
+body:has(.tl-footer:focus-within) [data-chat-launcher]:not(:focus-visible),
+[data-chat-launcher][data-yield]:not(:focus-visible) {
   opacity: 0;
   pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  body:has(.tl-nexus-cta:focus-within) [data-chat-launcher]:not(:focus-visible) {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 
 @media (max-width: 1180px) {

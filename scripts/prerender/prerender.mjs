@@ -36,6 +36,7 @@ import { dirname, extname, join, normalize, relative, resolve, sep } from "node:
 import { chromium } from "playwright";
 import { loadEnv } from "vite";
 import { loadRouteTable } from "../lib/route-table.mjs";
+import { createLandingBootGate } from "./deferred-landing-boot.mjs";
 
 const root = resolve(import.meta.dirname, "..", "..");
 const distArg = process.argv.indexOf("--dist");
@@ -45,6 +46,7 @@ const TEMPLATE_PATH = join(DIST, "index.html");
 
 if (!existsSync(TEMPLATE_PATH)) throw new Error("[prerender] dist/index.html missing — run vite build first");
 const template = readFileSync(TEMPLATE_PATH, "utf8");
+const deferLandingBoot = createLandingBootGate(DIST);
 if (!template.includes('<div id="root"></div>')) {
   throw new Error("[prerender] dist/index.html is already prerendered (or its root changed); rebuild first");
 }
@@ -200,7 +202,8 @@ function compose({ html, lang, title, head, stylesheets = [] }) {
     .filter((href) => !out.includes(`href="${href}"`))
     .map((href) => `<link rel="stylesheet" crossorigin href="${href}">`);
   out = out.replace("</head>", `    ${[...styles, ...head].join("\n    ")}\n  </head>`);
-  return out.replace('<div id="root"></div>', `<div id="root" data-prerendered>${html}</div>`);
+  const document = out.replace('<div id="root"></div>', `<div id="root" data-prerendered>${html}</div>`);
+  return html.includes('data-testid="technical-hero-title"') ? deferLandingBoot(document) : document;
 }
 
 const outFile = (path) => (path === "/" ? join(DIST, "index.html") : join(DIST, `${path.slice(1)}.html`));

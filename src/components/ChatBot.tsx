@@ -11,7 +11,7 @@ import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/integrations/supabase/
 import { useLocation } from "react-router-dom";
 import { Link } from "@/i18n/LocaleLink";
 import { useLocale } from "@/i18n/hooks";
-import type { PublicLocale } from "@/i18n/locale";
+import { stripLocale, type PublicLocale } from "@/i18n/locale";
 import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -226,29 +226,43 @@ export function ChatBot({ defaultOpen = false }: { defaultOpen?: boolean } = {})
      it already open, so that click opens the panel rather than a second
      launcher. */
   const [open, setOpen] = useState(defaultOpen);
-  /* Below 768px the launcher sits over the lower part of the screen, which is
-     exactly where the footer's conversion buttons pass while scrolling. It
-     steps aside while that row is on screen (same as on footer focus), so it
-     never covers "Hemen Teklif Al" / "Bize Ulaşın". */
+  /* The closed launcher steps aside for mobile footer and NEXUS conversion
+     rows. This does not change the opened support panel. */
   const [yieldToFooter, setYieldToFooter] = useState(false);
   useEffect(() => {
-    let observer: IntersectionObserver | null = null;
+    setYieldToFooter(false);
+    if (typeof IntersectionObserver === "undefined") return;
+    const narrow = window.matchMedia("(max-width: 767px)");
+    const visible = new Set<Element>();
+    const observed = new Set<Element>();
+    const update = () => setYieldToFooter(narrow.matches && visible.size > 0);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) visible.add(entry.target);
+        else visible.delete(entry.target);
+      });
+      update();
+    });
     let tries = 0;
     let timer = 0;
     const attach = () => {
-      const target = document.querySelector(".shell-footer-actions");
-      if (!target) {
-        if (tries++ < 20) timer = window.setTimeout(attach, 250);
-        return;
-      }
-      observer = new IntersectionObserver(([entry]) => {
-        setYieldToFooter(entry.isIntersecting && window.innerWidth < 768);
+      document.querySelectorAll('.shell-footer-actions, .tl-nexus-cta, .shell-hero-actions, [data-testid="technical-hero-cta"]').forEach((target) => {
+        if (!observed.has(target)) {
+          observed.add(target);
+          observer.observe(target);
+        }
       });
-      observer.observe(target);
+      const ready = document.querySelector(".shell-footer-actions") &&
+        (stripLocale(pathname) !== "/" || (document.querySelector(".tl-nexus-cta") && document.querySelector('[data-testid="technical-hero-cta"]')));
+      if (!ready && tries++ < 20) timer = window.setTimeout(attach, 250);
     };
-    setYieldToFooter(false);
     attach();
-    return () => { window.clearTimeout(timer); observer?.disconnect(); };
+    narrow.addEventListener("change", update);
+    return () => {
+      window.clearTimeout(timer);
+      observer.disconnect();
+      narrow.removeEventListener("change", update);
+    };
   }, [pathname]);
   const [msgs, setMsgs] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -402,6 +416,7 @@ export function ChatBot({ defaultOpen = false }: { defaultOpen?: boolean } = {})
             transition={reducedMotion ? { duration: 0 } : { duration: 0.2 }}
             className="fixed z-50 flex h-[min(520px,calc(100dvh-7rem))] w-[380px] max-w-[calc(100vw-1.5rem)] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl md:max-h-[calc(100vh-4rem)]"
             style={{
+              height: "min(520px, calc(100dvh - var(--gnav-h, 64px) - var(--shell-safe-top, 0px) - 5.5rem - var(--shell-safe-bottom, 0px) - 1rem))",
               bottom: "calc(5.5rem + var(--shell-safe-bottom))",
               right: "max(0.75rem, var(--shell-safe-right))",
             }}

@@ -22,10 +22,10 @@
 
 ## Principle
 
-**Technical-editorial, not SaaS.** A graphite/charcoal field, warm technical
-paper for evidence, hairline rules, engineering-sheet precision, restrained
-bronze as the only editorial accent. Proof over claims, measurement over
-adjectives.
+**Technical-editorial.** The public Inspection Story uses light technical
+paper, cyan identity and explicitly painted graphite instrument/media planes.
+Hairline rules and engineering-sheet precision remain the page structure.
+The historical graphite/bronze defaults remain for excluded auth surfaces.
 
 Explicitly avoided: rounded card grids, glow/neon, glassmorphism, decorative
 gradients, pill clusters, random icon-card grids, stock-corporate composition.
@@ -99,7 +99,7 @@ master gap it is geometrically identical.
 
 #### Documented content-measured interiors
 
-These FOUR blocks divide internally on content, deliberately. In every case the
+These blocks divide internally on content, deliberately. In every case the
 block's own outer edges are on master axes and are measured by
 `scripts/grid-axis-probe.mjs` at 375/768/1280/1440/1600.
 
@@ -108,9 +108,8 @@ block's own outer edges are on master axes and are measured by
 | `.tl-nexus-kpis` | master 3 → 12 (desktop); full field on tablet/mobile | `repeat(4,1fr)` | Four KPI cells across nine master columns have no common master line. The KPI strip is one bordered instrument, not four page columns. |
 | `.tl-rfq-body > ol` | master 7 → 12 (desktop); full field below | `repeat(4,1fr)` | Four RFQ steps across five master columns have no common master line. The step list is a self-contained sequence inside the RFQ panel. |
 | `.tl-title-block` | full content field | `auto minmax(0,1fr) auto` | The social block and the legal block are text-measured end caps; the middle track is whatever remains. Forcing master tracks would either clip the text or strand it. |
-| `.tl-part-passport` (tablet only) | full content field, master 0 → 6 at 768 | `1fr 3fr 1fr`, with `dl` at `repeat(5,1fr)` | On tablet the passport becomes a horizontal data plate: title, spec table, drawing. Its three zones are proportioned to their content, not to the six master columns it spans. Desktop (`display:flex`, master 10 → 12) and mobile (`display:block`) have no such internal grid. |
 
-Adding a fifth entry is a design decision, not a formatting one: it must be
+Adding an entry is a design decision, not a formatting one: it must be
 justified here, and the block's outer edges must be added to the probe.
 
 ### Band composition
@@ -118,19 +117,39 @@ justified here, and the block's outer edges must be added to the probe.
 | Band | Composition |
 |---|---|
 | 01 Header | 3 / 6 / 3 — brand, context readout, actions (fixed global bar) |
-| 02 Hero | 4 / 6 / 2 |
+| 02 Hero | full-field title; support 4 / registered photo 8; full-field passport on master 3 / 6 / 3 |
 | 03 Proof | 6 cells × `span 2` |
 | 04 Marquee | 12 |
 | 05 Process | 4 / 8, then 4 steps × `span 3` |
-| 06 Nexus | 3 / 9 (header title 3, KPIs 9; app rail 3, table 9) |
-| 07 Projects | featured 6 / 6; secondaries `span 6`, each divided 2 / 4 |
-| 08 Sectors | 4 cards × `span 3` |
-| 09 Manifesto | 12; copy on a deliberate 7-column measure |
-| 10 Quality | 6 evidence cards × `span 2`; stamp on a real 11–12 span |
-| 11 References | 6 cells × `span 2` |
+| 06 Capability profiles | featured 6 / 6; secondaries `span 6`, each divided 2 / 4 |
+| 07 Sectors | selected editorial 4 / media 8; all thirteen native choices, desktop four per row |
+| 08 Manifesto | 12; copy on a deliberate 7-column measure |
+| 09 Quality | native four-document list 4 / selected actual PDF cover and metadata 8 |
+| 10 References | 6 cells × `span 2` |
+| 11 NEXUS | rail 3 / operation and source record 9; five native DEMO steps |
 | 12 FAQ | 7 / 5 on master lines; gutter is child padding |
 | 13 RFQ | 3 / 4 / 5 |
 | 14 Footer | 4 / 8; nav columns 4 × `span 2` |
+
+### Public typography and subject-first families
+
+Public prose uses `--tl-story-font-body` (IBM Plex Sans), data uses Plex Mono,
+and the interim display is the existing Space Grotesk. Gogade remains blocked
+until its actual licensed webfont and glyph evidence are supplied. Shared
+inputs, field wrappers and notices use `--tl-font-control` (the existing Space
+Grotesk treatment) consistently across public and auth. Public sheet/main
+elements declare `shell-sheet--inspection` / `shell-main--inspection`; auth
+retains its original classes and tokens. The typography census has no exemption.
+
+`FamilyHero` publishes master tracks: operation/capability/category/record
+copy 4 + subject 8, turning/sector 6 + 6, natural full-width stack on mobile.
+The eight-track record subject divides 4 + 4 for material source records or
+profile feature/method/record inspection. The twelve landing bands and NEXUS
+position remain separate from these public inner-page families.
+
+Moving service photographs retain `ShellPlate`'s symmetric overscan. A first
+band must not reset a moving image to `inset:0;height:100%`, which exposes its
+frame at negative counter-drift. Reference diagrams/photos stay stationary.
 
 Because spans are expressed in master columns, most bands reflow on their own:
 `span 2` cells go 6-per-row → 3-per-row → 2-per-row and `span 3` cells go

@@ -25,6 +25,10 @@ import { SchemaFigure } from "@/components/schemas/SchemaFigure";
 import { PROFILE_SCHEMAS } from "@/components/schemas/registry";
 import { PROFILE_SUBJECTS } from "@/content/journal-modules";
 import { CMM_COVERAGE, QUOTE_RESPONSE_TIME } from "@/content/claims";
+import { FamilyHero } from "@/components/pages/inspection/FamilyHero";
+import { ProfileControl } from "@/components/pages/inspection/ProfileControl";
+import "@/styles/inspection-families.css";
+import "@/styles/inspection-atlas.css";
 import { publishMeasuredEvidence, withinLimits } from "@/content/measured-evidence";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -92,7 +96,7 @@ export const KabiliyetProfilDetay = () => {
 
   if (!study) {
     return (
-      <PageShell surface="graphite" rail={{ no: "P1", label: "PROFİL" }}>
+      <PageShell surface="graphite" rail={{ no: "P1", label: "PROFİL" }} className="inspection-profile">
         <ShellPageHero
           no="01"
           label="PROFİL"
@@ -131,10 +135,12 @@ export const KabiliyetProfilDetay = () => {
   const others = caseStudies.filter((entry) => entry.slug !== study.slug);
 
   return (
-    <PageShell surface="graphite" rail={{ no: "P1", label: "PROFİL" }}>
-      <ShellPageHero
+    <PageShell surface="graphite" rail={{ no: "P1", label: "PROFİL" }} className="inspection-profile">
+      <FamilyHero
         no="01"
         label="PROFİL"
+        composition="record"
+        subject={<ProfileControl key={study.slug} rows={study.controlPlan} drawing={ProfileDrawing} subject={PROFILE_SUBJECTS[study.slug]?.[lang] ?? study.title} />}
         crumb={
           <ShellBreadcrumb
             trail={[

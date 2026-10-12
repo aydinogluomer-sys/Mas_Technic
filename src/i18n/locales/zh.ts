@@ -6,6 +6,7 @@
    native-speaker review is required before Chinese is published (owner
    input O16). */
 const dictionary: Record<string, string> = {
+  "Bir ölçüyü seçin; çizimdeki karşılığını görün.": "选择尺寸，查看图纸中的对应特征。",
   "Kurumsal": "公司",
   "Sık Sorulan Sorular": "常见问题",
   "Açılış": "开篇",

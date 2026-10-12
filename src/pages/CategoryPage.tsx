@@ -19,6 +19,9 @@ import { useServiceData } from "@/i18n/service-data";
 import { CATEGORY_MATRIX } from "@/content/category-matrix";
 import { usePageMeta } from "@/hooks/use-page-meta";
 import { MINIMUM_TOLERANCE, QUOTE_RESPONSE_TIME, publishableSpecValues } from "@/content/claims";
+import { FamilyHero } from "@/components/pages/inspection/FamilyHero";
+import { CategoryAtlas } from "@/components/pages/inspection/CategoryAtlas";
+import "@/styles/inspection-families.css";
 import { FAMILY } from "@/components/pages/family";
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -117,7 +120,7 @@ export const CategoryPage = () => {
        `ShellPageHero` is the same primitive the found branch uses, so the
        not-found body is a page of the same family rather than a fragment. */
     return (
-      <PageShell surface="graphite" rail={family.rail}>
+      <PageShell surface="graphite" rail={family.rail} className="inspection-category">
         <ShellPageHero
           no="01"
           label={family.rail.label}
@@ -161,8 +164,10 @@ export const CategoryPage = () => {
   );
 
   return (
-    <PageShell surface="graphite" rail={family.rail}>
-      <ShellPageHero
+    <PageShell surface="graphite" rail={family.rail} className="inspection-category">
+      <FamilyHero
+        composition="category"
+        subject={<CategoryAtlas key={`${category.prefix}/${category.slug}`} entries={category.links} resolve={getPageBySlug} />}
         no="01"
         label={family.rail.label}
         crumb={

@@ -7,6 +7,10 @@ import { FaqSection, MeasurementManifesto, QualityFile, ReferenceBand, RfqSectio
 import { MarqueeBand } from "./MarqueeBand";
 import "@/styles/technical-landing.css";
 import "@/styles/reference-polish.css";
+import "@/styles/hero-inspection.css";
+import "@/styles/inspection-scenes.css";
+import "@/styles/inspection-proof.css";
+import "@/styles/inspection-marquee.css";
 import { useTechnicalLandingMotion } from "@/hooks/useTechnicalLandingMotion";
 
 /**

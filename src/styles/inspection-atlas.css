@@ -1,0 +1,83 @@
+/* Material source records and profile controls occupy the eight subject tracks. */
+.shell-root .inspection-family-hero--record .shell-hero-copy { container-type: inline-size; }
+.shell-root .inspection-family-hero--record .inspection-title {
+  font-size: clamp(1.875rem, 14cqi, 4.375rem);
+  overflow-wrap: normal;
+}
+.inspection-family-hero--record .inspection-family-subject {
+  display: grid;
+  grid-template-columns: subgrid;
+}
+.inspection-material-spotlight,
+.inspection-profile-spotlight,
+.inspection-family-hero--record .inspection-profile-control {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  gap: 0;
+  align-items: start;
+  min-width: 0;
+}
+.inspection-material-identity,
+.inspection-profile-spotlight-media,
+.inspection-family-hero--record .inspection-profile-drawing {
+  grid-column: 1 / span 4;
+  min-width: 0;
+  padding-inline-end: var(--tl-s5);
+}
+.inspection-material-properties,
+.inspection-profile-spotlight-record,
+.inspection-family-hero--record .inspection-profile-record {
+  grid-column: 5 / -1;
+  min-width: 0;
+  padding-block: 0;
+}
+.inspection-material-identity .shell-eyebrow { margin-block: var(--tl-s5) var(--tl-s3); }
+.inspection-material-name {
+  font: 500 clamp(2rem, 3.8vw, 4rem)/1.05 var(--tl-story-font-display);
+  color: var(--tl-story-ink);
+  overflow-wrap: anywhere;
+  margin-bottom: var(--tl-s4);
+}
+.inspection-material-properties .inspection-preview-specs dd {
+  font: 500 clamp(1.2rem, 1.65vw, 1.8rem)/1.35 var(--tl-font-mono);
+}
+.inspection-material-source { padding-top: var(--tl-s4); }
+.inspection-material-source .shell-eyebrow { margin-block: var(--tl-s3) var(--tl-s2); }
+.inspection-material-source .shell-note,
+.inspection-preview-specs dd { overflow-wrap: anywhere; }
+.inspection-profile-spotlight-record h2 {
+  font: 500 clamp(1.5rem, 2.3vw, 2.5rem)/1.1 var(--tl-story-font-display);
+  margin-block: var(--tl-s3) var(--tl-s4);
+  overflow-wrap: anywhere;
+}
+.inspection-profile-spotlight-record .inspection-preview-specs { margin-block: var(--tl-s4); }
+.inspection-family-hero--record .inspection-profile-control .shell-schema-figure .shell-schema-frame {
+  height: auto;
+  aspect-ratio: 2 / 1;
+}
+.inspection-family-hero--record .inspection-profile-control .shell-table-note,
+.inspection-profile-spotlight-media .shell-table-note { margin-top: var(--tl-s4); }
+.inspection-family-hero--record .inspection-profile-record .inspection-focus-records { margin-top: var(--tl-s4); }
+@supports not (grid-template-columns: subgrid) {
+  .inspection-family-hero--record .inspection-family-subject,
+  .inspection-material-spotlight,
+  .inspection-profile-spotlight,
+  .inspection-family-hero--record .inspection-profile-control { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+}
+@media (min-width: 768px) and (max-width: 1180px) {
+  .inspection-material-spotlight > *,
+  .inspection-profile-spotlight > *,
+  .inspection-family-hero--record .inspection-profile-control > * { grid-column: 1 / -1; padding-inline-end: 0; }
+  .inspection-material-properties,
+  .inspection-profile-spotlight-record,
+  .inspection-family-hero--record .inspection-profile-record { padding-top: var(--tl-s5); }
+}
+@media (max-width: 767px) {
+  .inspection-material-spotlight > *,
+  .inspection-profile-spotlight > *,
+  .inspection-family-hero--record .inspection-profile-control > * { grid-column: 1 / -1; padding-inline-end: 0; }
+  .inspection-material-properties,
+  .inspection-profile-spotlight-record,
+  .inspection-family-hero--record .inspection-profile-record { padding-top: var(--tl-s5); }
+}

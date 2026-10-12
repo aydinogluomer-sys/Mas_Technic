@@ -1,3 +1,4 @@
+import "@/styles/inspection-editorial.css";
 import { useTranslation } from "react-i18next";
 import { Link } from "@/i18n/LocaleLink";
 import { useSiteData } from "@/i18n/data";
@@ -77,14 +78,14 @@ import { PLATE_IMAGE_HEIGHT, plateSources } from "@/components/blog/plate-source
 const PLATE_NOTE_WIDTHS = [
   ["(max-width: 767px)", "calc(100vw - 44px)"],
   ["(max-width: 1180px)", "calc(100vw - 60px)"],
-  [null, "min(calc((100vw - 66px) / 3 - 2px), 509px)"],
+  [null, "min(calc(100vw - 66px), 1534px)"],
 ] as const;
 const leadPlate = plateSources.get(turkishPosts[0].image);
 
 export const Blog = () => {
   const { t, i18n } = useTranslation();
   const { blogPosts } = useSiteData();
-  const [LEAD, ...REST] = blogPosts;
+  const [LEAD] = blogPosts;
   /** The categories the corpus actually contains, in first-appearance order. */
   const blogCategories = [...new Set(blogPosts.map((post) => post.category))];
   const date = (value: string) => localDate(value, i18n.language);
@@ -94,7 +95,7 @@ export const Blog = () => {
   });
 
   return (
-    <PageShell surface="graphite" rail={{ no: "R2", label: "GÜNLÜK" }}>
+    <PageShell surface="graphite" className="inspection-editorial inspection-journal" rail={{ no: "R2", label: "GÜNLÜK" }}>
       <JsonLdSchema
         type="blog"
         name={t("Mas Technic Teknik Günlük")}
@@ -116,7 +117,7 @@ export const Blog = () => {
       />
 
       {/* ── 02 — the lead, opened up ─────────────────────────────────────── */}
-      <ShellSurfaceBand no="02" label="BAŞYAZI" labelledBy="blog-lead">
+      <ShellSurfaceBand no="02" label="BAŞYAZI" labelledBy="blog-lead" className="inspection-journal-lead">
         <div className="shell-span-read shell-stack">
           <ShellTitleBlock
             id="blog-lead"
@@ -146,8 +147,9 @@ export const Blog = () => {
           </div>
         </div>
 
-        <div className="shell-span-note">
+        <div className="shell-span-full inspection-journal-lead-media">
           <ShellPlate
+            size="reference"
             plate={`${t("PLAKA")} 01`}
             caption={LEAD.imageCaption}
             media={
@@ -186,9 +188,9 @@ export const Blog = () => {
         <div className="shell-span-full">
           <ShellIndexList
             ariaLabel={t("Teknik günlük yazıları")}
-            items={REST.map((post, index) => ({
+            items={blogPosts.map((post, index) => ({
               to: `/blog/${post.slug}`,
-              index: String(index + 2).padStart(2, "0"),
+              index: String(index + 1).padStart(2, "0"),
               eyebrow: post.category,
               title: post.title,
               description: post.excerpt,

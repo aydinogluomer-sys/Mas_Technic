@@ -28,13 +28,13 @@ import { gotoAndSettle, landingReady } from "../helpers";
 const TOLERANCE_PX = 1;
 
 const PROBE_TARGETS = [
-  { band: "Hero", root: ".tl-hero", blocks: [".tl-hero-copy", ".tl-part-stage", ".tl-part-passport"] },
+  { band: "Hero", root: ".tl-hero", blocks: [".tl-hero-copy", ".tl-hero-support", ".tl-part-stage", ".tl-part-passport"] },
   { band: "Proof", root: ".tl-proof", blocks: [".tl-proof-grid", ".tl-proof-grid > article"] },
   { band: "Process", root: ".tl-process", blocks: [".tl-process-body", ".tl-process-intro", ".tl-process-body > figure", ".tl-process-body > ol", ".tl-process-body > ol > li"] },
   { band: "Nexus", root: ".tl-nexus", blocks: [".tl-nexus-body", ".tl-nexus-body > header > h2", ".tl-nexus-body > .tl-nexus-cta", ".tl-nexus-rail", ".tl-nexus-main"] },
   { band: "Projects", root: ".tl-projects", blocks: [".tl-projects-body", ".tl-project-grid", ".tl-project-grid > article"] },
-  { band: "Sectors", root: ".tl-sectors", blocks: [".tl-sectors-body", ".tl-sector-card"] },
-  { band: "Quality", root: ".tl-quality", blocks: [".tl-quality-body", ".tl-quality-strip", ".tl-quality-strip > .tl-cert"] },
+  { band: "Sectors", root: ".tl-sectors", blocks: [".tl-sectors-body", ".tl-sector-apparatus", ".tl-sector-editorial", ".tl-sector-master-media", ".tl-sector-selections", ".tl-sector-option"] },
+  { band: "Quality", root: ".tl-quality", blocks: [".tl-quality-body", ".tl-quality-desk", ".tl-quality-document-list", ".tl-quality-preview", ".tl-quality-system-scope > article"] },
   { band: "References", root: ".tl-references", blocks: [".tl-reference-grid", ".tl-reference-grid > li"] },
   { band: "FAQ", root: ".tl-faq-band", blocks: [".tl-faq-body", ".tl-faq-title", ".tl-faq", ".tl-resource"] },
   { band: "RFQ", root: ".tl-rfq", blocks: [".tl-rfq-body", ".tl-rfq-body > h2", ".tl-cad-drop", ".tl-rfq-body > ol"] },
@@ -97,7 +97,7 @@ test.describe("master grid axis contract", () => {
                A card that is not wholly inside its scroll port is cropped by
                the port (whose own edges are measured as the band body), so
                only the cards fully inside the port are held to the lines. */
-            const port = node.parentElement?.closest(".tl-sector-track");
+            const port = node.parentElement?.closest(".tl-sector-track, .tl-sector-selections");
             if (port) {
               const box = port.getBoundingClientRect();
               if (rect.right > box.right + 1 || rect.left < box.left - 1) return;

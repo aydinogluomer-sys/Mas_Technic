@@ -19,6 +19,7 @@ import { railLabel } from "@/components/shell/rail-labels";
 import { stripLocale } from "@/i18n/locale";
 import { upper } from "@/i18n/upper";
 import { LanguageSwitch } from "./navigation/LanguageSwitch";
+import brandLogo from "@/assets/mas-technic-logo.jpg";
 
 /* ══════════════════════════════════════════════════════════════════════════
    THE SITE'S ONE PUBLIC NAVIGATION
@@ -368,6 +369,9 @@ export const Header = () => {
     const scrollY = window.scrollY;
     const lenis = window.__lenis;
     const shouldRestartLenis = !!lenis && !lenis.isStopped;
+    const priorMenuLock = window.__lenisMenuLock;
+    window.__lenisMenuLock = true;
+    window.dispatchEvent(new Event("mas:scroll-lock-change"));
     const overflow = [document.body.style.overflow, document.documentElement.style.overflow];
     const background = [document.getElementById("root"), headerRef.current]
       .filter((node): node is HTMLElement => !!node);
@@ -421,10 +425,12 @@ export const Header = () => {
       });
       const restoreScroll = () => {
         window.scrollTo(0, scrollY);
-        lenis?.scrollTo(scrollY, { immediate: true, force: true });
+        if (lenis && window.__lenis === lenis) lenis.scrollTo(scrollY, { immediate: true, force: true });
       };
       restoreScroll();
-      if (shouldRestartLenis) lenis.start();
+      if (shouldRestartLenis && window.__lenis === lenis) lenis.start();
+      window.__lenisMenuLock = priorMenuLock;
+      window.dispatchEvent(new Event("mas:scroll-lock-change"));
       if (restoreFocus.current) window.requestAnimationFrame(restoreScroll);
       window.removeEventListener("keydown", keydown, true);
     };
@@ -520,12 +526,12 @@ export const Header = () => {
           ref={headerRef}
           id="main-header"
           data-fullscreen-header
-          className={`tl-header-band${modalActive ? " is-behind-modal" : ""}`}
+          className={`tl-header-band tl-inspection-header${modalActive ? " is-behind-modal" : ""}`}
         >
           <div className="tl-band-index" aria-hidden="true"><span>01</span><small>{railLabel("HEADER", i18n.language)}</small></div>
           <div className="tl-header">
             <Link className="tl-brand" to="/" aria-label={t("MAS Technic ana sayfa")}>
-              <strong>MAS <em>TECHNIC</em></strong>
+              <img className="tl-brand-logo" src={brandLogo} width={1536} height={187} alt="MAS TECHNIC" />
               <span>PRECISION CNC</span>
             </Link>
             <p className="tl-header-context" aria-hidden="true"><span>{context}</span></p>
@@ -578,7 +584,7 @@ export const Header = () => {
               aria-modal="true"
               aria-label={t("Ana menü")}
               data-fullscreen-menu
-              className="tl-menu"
+              className="tl-menu tl-inspection-menu"
               // The wipe is a CSS transition (navigation.css §03): in from
               // `@starting-style`, out on `data-phase="closing"`. Reduced
               // motion holds the open clip through the close too: the sheet
@@ -598,7 +604,7 @@ export const Header = () => {
                       className="tl-menu-brand"
                       aria-label={t("MAS Technic ana sayfa")}
                     >
-                      <strong>MAS <em>TECHNIC</em></strong>
+                      <img className="tl-brand-logo" src={brandLogo} width={1536} height={187} alt="MAS TECHNIC" />
                     </Link>
                     <p className="tl-menu-meta" aria-hidden="true">
                       <span>{t("NAVİGASYON")}</span>

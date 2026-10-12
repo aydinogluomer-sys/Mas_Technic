@@ -1,20 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "@/i18n/LocaleLink";
 import { useTranslation } from "react-i18next";
-import { ArrowDown, ArrowLeft, ArrowRight, Loader2, UploadCloud } from "lucide-react";
-import aerospace from "@/assets/industry-aerospace.webp";
-import defense from "@/assets/industry-defense.webp";
-import medical from "@/assets/industry-medical.webp";
-import hydraulic from "@/assets/industry-hydraulic.webp";
-import automotive from "@/assets/industry-automotive.webp";
-import robotics from "@/assets/industry-robotics.webp";
-import marine from "@/assets/industry-marine.webp";
-import piping from "@/assets/industry-piping.webp";
-import hvac from "@/assets/industry-hvac.webp";
-import renewable from "@/assets/industry-renewable.webp";
-import oilgas from "@/assets/industry-oilgas.webp";
-import power from "@/assets/industry-power.webp";
-import mining from "@/assets/industry-mining.webp";
+import { ArrowDown, Loader2, UploadCloud } from "lucide-react";
 import manifesto from "@/assets/hero-tolerans-hassasiyet.webp";
 import manifesto640 from "@/assets/hero-tolerans-hassasiyet-640.webp";
 import manifesto960 from "@/assets/hero-tolerans-hassasiyet-960.webp";
@@ -24,52 +11,14 @@ import manifestoPortrait640 from "@/assets/hero-tolerans-hassasiyet-portrait-640
 import { coverSizes, responsive } from "@/components/BlurImage";
 import { ReverseScrollSection } from "@/components/ReverseScrollSection";
 import {
-  qualityCertificates, referenceLogos,
+  referenceLogos,
   rfqSteps, technicalFaqs, technicalResources,
 } from "@/data/technicalLandingData";
 import { CAD_ACCEPT_ATTR, CAD_FORMAT_HINT, useCadHandoff } from "@/hooks/useCadHandoff";
-import { upper } from "@/i18n/upper";
-import { QUALITY_DOCUMENTS } from "@/content/quality-documents";
 import { TechnicalSectionFrame } from "./TechnicalSectionFrame";
-
-/* Intrinsic size per asset, measured from the file headers
-   (`reports/10/asset-inventory.md` §1; `industry-hydraulic` is the 10-2b
-   `crop=750:750:180:450`). One shared `1200×1200` literal was wrong for the
-   hydraulic card after that crop — the aspect (1:1) happened to stay exact,
-   which is why nothing moved, but the attribute is a statement about the
-   file and has to be true per file. */
-/* ROUND 2 — every sector, not four. The list is the Endüstriyel family's own
-   sector routes (`src/components/navigation/ia.ts`), minus the "Üretim
-   Çözümleri" group, which lists production modes rather than industries.
-   Every sector has its own photograph (1200×1200, one aspect for the whole
-   track). hvac, renewable and mining are cropped from their sources so no
-   staff, facility hall or branded machine survives (§I); a sector added
-   without an image still falls back to the typographic card. */
-type Sector = { title: string; href: string; image?: string; width?: number; height?: number };
-const sectors: Sector[] = [
-  { title: "HAVACILIK & UZAY", href: "/endustriyel/havacilik-uzay", image: aerospace, width: 1200, height: 1200 },
-  { title: "SAVUNMA SANAYİ", href: "/endustriyel/savunma-sanayi", image: defense, width: 1200, height: 1200 },
-  { title: "MEDİKAL", href: "/endustriyel/medikal", image: medical, width: 1200, height: 1200 },
-  { title: "HİDROLİK & PNÖMATİK", href: "/endustriyel/hidrolik-pnomatik", image: hydraulic, width: 750, height: 750 },
-  { title: "OTOMOTİV", href: "/endustriyel/otomotiv", image: automotive, width: 1200, height: 1200 },
-  { title: "ROBOTİK", href: "/endustriyel/robotik", image: robotics, width: 1200, height: 1200 },
-  { title: "YELKEN & YAT SİSTEMLERİ", href: "/endustriyel/yelken-yat-sistemleri", image: marine, width: 1200, height: 1200 },
-  { title: "BORU & BAĞLANTI PARÇALARI", href: "/endustriyel/boru-baglanti-parcalari", image: piping, width: 1200, height: 1200 },
-  { title: "İKLİM TEKNOLOJİLERİ", href: "/endustriyel/iklim-teknolojileri", image: hvac, width: 1200, height: 1200 },
-  { title: "YENİLENEBİLİR ENERJİ", href: "/endustriyel/yenilenebilir-enerji", image: renewable, width: 1200, height: 1200 },
-  { title: "PETROL & GAZ", href: "/endustriyel/petrol-gaz", image: oilgas, width: 1200, height: 1200 },
-  { title: "GÜÇ DAĞITIM SİSTEMLERİ", href: "/endustriyel/guc-dagitim-sistemleri", image: power, width: 1200, height: 1200 },
-  { title: "MADENCİLİK EKİPMANLARI", href: "/endustriyel/madencilik-ekipmanlari", image: mining, width: 1200, height: 1200 },
-];
 
 const DRAFT_RFQ_ID = "RFQ-DRAFT-LANDING";
 
-/* The manifesto picture carries a 640/960/1600 ladder. `.tl-manifesto-body` is
-   a full-band box, min-height 440px (520 on mobile), overscanned 72px top and
-   bottom by `ReverseScrollSection`, and the image is `object-fit: cover`, so
-   below ~1108px the HEIGHT decides the source width. Below 768px a portrait
-   cut of the same photograph (the caliper column) keeps the measuring idea
-   under the headline (PHASE 10-2b). */
 const manifestoImage = responsive(2400, 1343, manifesto, [manifesto640, 640], [manifesto960, 960], [manifesto1600, 1600]);
 const MANIFESTO_SIZES = coverSizes(2400 / 1343, "440px + 144px", [
   ["(max-width: 767px)", "calc(100vw - 42px)", "520px + 144px"],
@@ -78,118 +27,10 @@ const MANIFESTO_SIZES = coverSizes(2400 / 1343, "440px + 144px", [
 ]);
 const MANIFESTO_PORTRAIT_MEDIA = "(max-width: 767px)";
 const manifestoPortraitImage = responsive(800, 1342, manifestoPortrait, [manifestoPortrait640, 640]);
-/* Same cover rule, portrait aspect: max(band width, 664px × 0.596) = 396px at
-   375 — 640 at 1×, the 800 source at 2×. */
 const MANIFESTO_PORTRAIT_SIZES = coverSizes(800 / 1342, "520px + 144px", [[null, "calc(100vw - 42px)"]]);
 
-/* ══════════════════════════════════════════════════════════════════════════
-   WHAT THIS FILE NO LONGER DRAWS
+export { TechnicalSectors } from "./TechnicalSectors";
 
-   Four decorative devices were deleted in Phase 06, not restyled:
-
-     • a wet-signature SVG under each certificate       — a forged signature
-     • an embossed notary seal on the first certificate — a forged attestation
-     • a seeded-LCG "QR" under `RAPORU DOĞRULA` with
-       `DOĞRULAMA SERVİSİ HAZIRLANIYOR`                 — a verification
-                                                          destination that
-                                                          does not exist
-     • a `QUALITY ASSURED` circular stamp               — a self-issued seal
-                                                          with no issuing body
-
-   Each was decorative in intent and evidentiary in effect. `IMPLEMENTATION.md`
-   §13 names the fake verification destination explicitly; the other three are
-   the same failure with a different geometry. The band keeps its structure —
-   six cards on the paper ground — but every card now points at something that
-   exists.
-   ══════════════════════════════════════════════════════════════════════════ */
-
-/** 08 — Hizmet verilen sektörler. */
-export function TechnicalSectors() {
-  const { t } = useTranslation();
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [edge, setEdge] = useState({ start: true, end: false, first: 1, last: 4 });
-
-  /* Position is read back from the scroll port, so swipe, trackpad, keyboard
-     and the arrows all report the same state. */
-  const measure = useCallback(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const card = track.firstElementChild as HTMLElement | null;
-    const step = card?.getBoundingClientRect().width || 1;
-    const visible = Math.max(1, Math.round(track.clientWidth / step));
-    const first = Math.round(track.scrollLeft / step) + 1;
-    setEdge({
-      start: track.scrollLeft <= 1,
-      end: track.scrollLeft + track.clientWidth >= track.scrollWidth - 1,
-      first,
-      last: Math.min(sectors.length, first + visible - 1),
-    });
-  }, []);
-
-  useEffect(() => {
-    measure();
-    const track = trackRef.current;
-    if (!track) return;
-    track.addEventListener("scroll", measure, { passive: true });
-    window.addEventListener("resize", measure);
-    return () => {
-      track.removeEventListener("scroll", measure);
-      window.removeEventListener("resize", measure);
-    };
-  }, [measure]);
-
-  const page = (direction: 1 | -1) => {
-    const track = trackRef.current;
-    if (!track) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    track.scrollBy({ left: direction * track.clientWidth, behavior: reduce ? "auto" : "smooth" });
-  };
-
-  const pad = (value: number) => String(value).padStart(2, "0");
-
-  return (
-    <TechnicalSectionFrame no="07" id="sektorler" label="SEKTÖRLER" className="tl-sectors" ariaLabel={t("Çalıştığımız sektörler")}>
-      <div className="tl-sectors-body">
-        <div
-          ref={trackRef}
-          id="tl-sector-track"
-          className="tl-sector-track"
-          role="region"
-          aria-label={t("Sektör listesi — yatay kaydırılabilir")}
-          tabIndex={0}
-          data-lenis-prevent-horizontal
-        >
-          {sectors.map((sector, index) => (
-            <Link to={sector.href} key={sector.href} className="tl-sector-card" data-typographic={sector.image ? undefined : ""}>
-              {sector.image ? (
-                <img src={sector.image} alt="" width={sector.width} height={sector.height} loading="lazy" decoding="async" />
-              ) : (
-                <span className="tl-sector-no" aria-hidden="true">{pad(index + 1)}</span>
-              )}
-              <div><h3>{t(sector.title)}</h3></div>
-            </Link>
-          ))}
-        </div>
-        <div className="tl-sector-controls">
-          <p aria-live="polite">
-            <span>{pad(edge.first)}–{pad(edge.last)}</span> / {pad(sectors.length)} {t("SEKTÖR")}
-          </p>
-          <div>
-            <button type="button" onClick={() => page(-1)} disabled={edge.start} aria-controls="tl-sector-track" aria-label={t("Önceki sektörler")}>
-              <ArrowLeft aria-hidden="true" />
-            </button>
-            <button type="button" onClick={() => page(1)} disabled={edge.end} aria-controls="tl-sector-track" aria-label={t("Sonraki sektörler")}>
-              <ArrowRight aria-hidden="true" />
-            </button>
-          </div>
-        </div>
-      </div>
-    </TechnicalSectionFrame>
-  );
-}
-
-
-/** 08 — Manifesto (reference design, restored 5 Oct). */
 export function MeasurementManifesto() {
   const { t } = useTranslation();
   return (
@@ -204,8 +45,6 @@ export function MeasurementManifesto() {
               width={manifestoPortraitImage.width}
               height={manifestoPortraitImage.height}
             />
-            {/* `alt=""`: the picture is the band's ground under a headline whose
-                subject is measuring; a caliper on a pin is that sentence drawn. */}
             <img
               src={manifestoImage.src}
               srcSet={manifestoImage.srcSet}
@@ -228,52 +67,8 @@ export function MeasurementManifesto() {
   );
 }
 
-/** 10 — Kalite dosyası: sertifikalar, ölçüm raporu ve doğrulama. */
-export function QualityFile() {
-  const { t, i18n } = useTranslation();
-  /* Revision 4: the whole strip is set in capitals, language-aware (İ/ı). */
-  const caps = (text: string) => upper(t(text), i18n.language);
-  return (
-    <TechnicalSectionFrame no="09" id="kalite" label="KALİTE DOSYASI" className="tl-quality" labelledBy="tl-quality-title">
-      <div className="tl-quality-body">
-        <h2 id="tl-quality-title" className="tl-visually-hidden">{t("Kalite dosyası")}</h2>
-        {/* R1 — the reference's one wireframe for all six cards (code line,
-            title, subtitle, document frame, footer), filled with what exists:
-            the two management-system certificates and the four real PDFs.
-            A certificate has no file to show, so its frame carries the
-            standard's name as type, never a page that could pass for a scan
-            (O03); a document's frame is its real first page. */}
-        <div className="tl-quality-strip">
-          {qualityCertificates.map(({ code, name }, index) => (
-            <article className="tl-cert tl-cert--system" key={code}>
-              <p className="tl-cert-code" aria-hidden="true">Q-{String(index + 1).padStart(2, "0")}</p>
-              <h3>{caps(code)}</h3>
-              <p>{caps(name)}</p>
-              <div className="tl-cert-doc tl-cert-doc--name" aria-hidden="true"><span>{code}</span></div>
-              <p className="tl-cert-foot">{caps("YÖNETİM SİSTEMİ BELGESİ")}</p>
-            </article>
-          ))}
-          {QUALITY_DOCUMENTS.map((doc, index) => (
-            <article className="tl-cert tl-cert--doc" key={doc.href}>
-              <p className="tl-cert-code" aria-hidden="true">Q-{String(qualityCertificates.length + index + 1).padStart(2, "0")}</p>
-              <h3>{caps(doc.title)}</h3>
-              <p>{doc.docNo}</p>
-              <a href={doc.href} target="_blank" rel="noopener" className="tl-cert-doc tl-cert-thumb">
-                <img src={doc.thumb} width={doc.thumbWidth} height={doc.thumbHeight} alt="" loading="lazy" decoding="async" />
-                <span className="tl-visually-hidden">{t("{{title}} — PDF'i aç", { title: t(doc.title) })}</span>
-              </a>
-              <p className="tl-cert-foot">
-                {[t("Türkçe"), doc.revision ? `${t("Sürüm")} ${doc.revision}` : null, (/^\d/.test(doc.date) ? doc.date : t(doc.date)), doc.size].filter(Boolean).join(" · ")}
-              </p>
-            </article>
-          ))}
-        </div>
-      </div>
-    </TechnicalSectionFrame>
-  );
-}
+export { QualityFile } from "./QualityFile";
 
-/** 11 — Referans bandı. */
 export function ReferenceBand() {
   const { t } = useTranslation();
   return (
@@ -287,13 +82,10 @@ export function ReferenceBand() {
   );
 }
 
-/** 12 — SSS + kaynak dizini. */
 export function FaqSection() {
   const { t } = useTranslation();
   return (
     <TechnicalSectionFrame no="12" id="sss" label="SSS" className="tl-faq-band" labelledBy="tl-faq-title">
-      {/* Başlıklar 1. satırda, listeler 2. satırda: iki sütun referanstaki gibi
-          aynı hizadan başlar, başlık uzunluğu değişse bile hiza bozulmaz. */}
       <div className="tl-faq-body">
         <h2 id="tl-faq-title" className="tl-faq-title">{t("Üretime geçmeden önce,")}<br /><em>{t("kritik dört yanıt.")}</em></h2>
         <div className="tl-faq">
@@ -304,10 +96,6 @@ export function FaqSection() {
             </details>
           ))}
         </div>
-        {/* R1 — the reference's KAYNAKLAR column: the four real PDFs, served
-            from `public/belgeler/`; `scripts/claims-gate.mjs` re-measures every
-            printed size from disk. The anchor is the row (flex) because
-            `.tl-resource-list li` owns the row layout. */}
         <div className="tl-resource">
           <h3 className="tl-resource-title">{t("KAYNAKLAR")}</h3>
           <ul className="tl-resource-list">
@@ -329,7 +117,6 @@ export function FaqSection() {
   );
 }
 
-/** 13 — Teklif çağrısı. Dosya gerçekten sürükle-bırak ile alınır ve teklif formuna devredilir. */
 export function RfqSection() {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -387,14 +174,3 @@ export function RfqSection() {
     </TechnicalSectionFrame>
   );
 }
-
-/* 14 — the drawing title block MOVED to `src/components/shell/SiteFooter.tsx`.
-
-   It was the landing's footer and only the landing's. Phase 04 made it the
-   site's one footer, so it is mounted by `PageShell` on every public route —
-   including `/teklif-al`, which imported the old mega footer and never
-   rendered it. Its four link columns are derived from
-   `src/components/navigation/ia.ts` now instead of from
-   `technicalLandingData.footerColumns`, so the footer cannot drift from the
-   menu again; see `src/components/shell/footer-groups.ts` for what happened
-   to each of `footerColumns`' entries. */

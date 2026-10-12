@@ -1,0 +1,857 @@
+{
+  "spec_sha256": "870b9d38030ac352a7111a1b5d0e4fbb8ffecfd44a7763fbe74a5b654e3c7bfd",
+  "spec_authority": "user-approved 2026-10-11 implementation.md; immutable copy",
+  "scope_counts": {
+    "public": 95,
+    "auth": 4,
+    "protected": 2,
+    "redirect": 98
+  },
+  "source_baseline": {
+    "remote_candidate": "4047bb262fbace0515af6f372398841b483d9ef9",
+    "remote_merge_build": "5c2289b7a3f52dc38b5b8ea5a6fb35a8638d4c8f",
+    "tree": "9446e5f18719e24fa1c066e50eb527752bef5924",
+    "local_HEAD": "ec9409f96280310d2e53a4733db16a4ae68be5f9",
+    "local_working_tree_matches": false
+  },
+  "site_baseline": {
+    "url": "https://mas-technic-motion-direction-2026.livelypond2.chatgpt.site",
+    "project_id": "appgprj_6acae0b913108191a516950fca972dc0",
+    "version": 6,
+    "git_commit": "1ac5de63d33cac914bae0344b9840e9bc8ab18b7",
+    "audience": "owner-private, preserve"
+  },
+  "vercel_baseline": {
+    "url": "https://mas-technic.vercel.app/",
+    "status": "CURRENT_BUILD_ID_UNVERIFIED; external live fetch unavailable; not assumed same bytes"
+  },
+  "requirements": [
+    {
+      "id": "REQ-001",
+      "contract": "SEC-00/04: 12 bandın sayısı/sırası, ray ve grid korunur.",
+      "work_units": "P00, P24",
+      "evidence_required": "T01, eski/yeni bütün sayfa kayıtları",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-002",
+      "contract": "SEC-00/04: NEXUS konumu ve beş adımı korunur.",
+      "work_units": "P14",
+      "evidence_required": "T05, 5 durum görüntüsü",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-003",
+      "contract": "SEC-01/04: onaylı iddialar korunur; örnek sonuçlar gerçek gibi sunulmaz.",
+      "work_units": "P06, P09, P12, P13, P20",
+      "evidence_required": "T08, claims kaynağı eşlemesi",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-004",
+      "contract": "SEC-03: gönderilen logo kullanılır.",
+      "work_units": "P02, P17",
+      "evidence_required": "Logo varlık/hash ve görünür ekran",
+      "status": "IMPLEMENTED",
+      "implementation": [
+        "ec9409f96280310d2e53a4733db16a4ae68be5f9; scoped source candidate, full independent phase gate open"
+      ],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-005",
+      "contract": "SEC-03/07: Gogade gerçek dosya/lisans/glif ile display rolünde kullanılır.",
+      "work_units": "P02",
+      "evidence_required": "T02, font dosyası ve lisans kaydı",
+      "status": "BLOCKED",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null,
+      "blocker": "Actual licensed Gogade file/glyph evidence unavailable."
+    },
+    {
+      "id": "REQ-006",
+      "contract": "SEC-03: açık mühendislik paleti ve turkuaz marka görünür.",
+      "work_units": "P02",
+      "evidence_required": "T02, P24 karşılaştırması",
+      "status": "IMPLEMENTED",
+      "implementation": [
+        "ec9409f96280310d2e53a4733db16a4ae68be5f9; scoped source candidate, full independent phase gate open"
+      ],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-007",
+      "contract": "SEC-07: aynı parçaya ait geometri, materyal, poster ve feature manifest'i.",
+      "work_units": "P03",
+      "evidence_required": "T04, 5 render ve varlık envanteri",
+      "status": "BLOCKED",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null,
+      "blocker": "Matched STEP/GLB/PBR/feature manifest unavailable."
+    },
+    {
+      "id": "REQ-008",
+      "contract": "BAND-02: büyük, anlamlı geometri/kamera hero sahnesi.",
+      "work_units": "P05",
+      "evidence_required": "T03/T04, 5 progress karesi + video",
+      "status": "BLOCKED",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null,
+      "blocker": "Photo coordinate-plane candidate is not the required 3D geometry/camera scene."
+    },
+    {
+      "id": "REQ-009",
+      "contract": "BAND-02: 4 ölçü seçimi gerçek feature ve DOM açıklamasıyla eşleşir.",
+      "work_units": "P05",
+      "evidence_required": "T04, native kontrol testleri",
+      "status": "BLOCKED",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null,
+      "blocker": "Photo annotation controls are implemented; genuine model feature binding unavailable."
+    },
+    {
+      "id": "REQ-010",
+      "contract": "BAND-03: 6 kanıt okunur, içerik ve kaynaklar doğru.",
+      "work_units": "P06",
+      "evidence_required": "T02/T08, 320 px kontrolü",
+      "status": "IMPLEMENTED",
+      "implementation": [
+        "ec9409f96280310d2e53a4733db16a4ae68be5f9; scoped source candidate, full independent phase gate open"
+      ],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-011",
+      "contract": "BAND-04: sınırlı kinetik tipografi, statik erişim eşdeğeri.",
+      "work_units": "P07",
+      "evidence_required": "T03/T09, hızlı/ters scroll kaydı",
+      "status": "IMPLEMENTED",
+      "implementation": [
+        "ec9409f96280310d2e53a4733db16a4ae68be5f9; scoped source candidate, full independent phase gate open"
+      ],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-012",
+      "contract": "BAND-05: 4 adım ve kontrol modülü; genişleyen operasyon sahnesi.",
+      "work_units": "P08",
+      "evidence_required": "T03/T05, 4 durum ve medya hatası",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-013",
+      "contract": "BAND-06: asimetrik 3 profil, kontrol planı ve doğru örnek statüsü.",
+      "work_units": "P09",
+      "evidence_required": "T03/T08/T10",
+      "status": "IMPLEMENTED",
+      "implementation": [
+        "ec9409f96280310d2e53a4733db16a4ae68be5f9; scoped source candidate, full independent phase gate open"
+      ],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-014",
+      "contract": "BAND-07: bütün sektörler, doğru içerik ve ilgili RFQ/detail yolu.",
+      "work_units": "P10, P18",
+      "evidence_required": "T01/T05/T10",
+      "status": "IMPLEMENTED",
+      "implementation": [
+        "ec9409f96280310d2e53a4733db16a4ae68be5f9; scoped source candidate, full independent phase gate open"
+      ],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-015",
+      "contract": "BAND-08: prob–özellik–kayıt imza sahnesi.",
+      "work_units": "P11",
+      "evidence_required": "T03/T04/T08, 5 progress karesi",
+      "status": "BLOCKED",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null,
+      "blocker": "DOM/photo manifesto cannot satisfy genuine probe-feature-record signature scene without model and inspection dataset."
+    },
+    {
+      "id": "REQ-016",
+      "contract": "BAND-09: gerçek PDF önizleme ve çalışan dosya erişimi.",
+      "work_units": "P12",
+      "evidence_required": "T07/T08, dosya hash/boyut",
+      "status": "IMPLEMENTED",
+      "implementation": [
+        "ec9409f96280310d2e53a4733db16a4ae68be5f9; scoped source candidate, full independent phase gate open"
+      ],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-017",
+      "contract": "BAND-10: yalnız onaylı referanslar ve gerçek bağlam.",
+      "work_units": "P13",
+      "evidence_required": "T08, kaynak listesi",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-018",
+      "contract": "BAND-11: seçime bağlı 5 ayrı operasyon/doküman durumu.",
+      "work_units": "P14",
+      "evidence_required": "T05/T08/T09, 5 state videosu",
+      "status": "IMPLEMENTED",
+      "implementation": [
+        "ec9409f96280310d2e53a4733db16a4ae68be5f9; scoped source candidate, full independent phase gate open"
+      ],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-019",
+      "contract": "BAND-12 ve SSS: tam kaynaklar, düzgün accordion/arama varsa gerçek sonuç.",
+      "work_units": "P15, P21",
+      "evidence_required": "T05/T07/T09",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-020",
+      "contract": "BAND-13: 4 RFQ adımı ve dürüst dosya/CTA davranışı.",
+      "work_units": "P16",
+      "evidence_required": "T06/T08/T10",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-021",
+      "contract": "SEC-05: header/footer/menü/route geçişi marka ve odağı korur.",
+      "work_units": "P17",
+      "evidence_required": "T01/T09/T10",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-022",
+      "contract": "SEC-05: servisler konuya bağlı medya ve işlem anlatımı kullanır.",
+      "work_units": "P18",
+      "evidence_required": "T01/T03/T10; aile içi görsel kontrol",
+      "status": "IMPLEMENTED",
+      "implementation": [
+        "ec9409f96280310d2e53a4733db16a4ae68be5f9; scoped source candidate, full independent phase gate open"
+      ],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-023",
+      "contract": "SEC-05: kabiliyet, sektör, kategori aileleri birbirinden ayrışır.",
+      "work_units": "P18",
+      "evidence_required": "T01/T08/T10/T13",
+      "status": "IMPLEMENTED",
+      "implementation": [
+        "ec9409f96280310d2e53a4733db16a4ae68be5f9; scoped source candidate, full independent phase gate open"
+      ],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-024",
+      "contract": "SEC-05: malzeme atlası ve karşılaştırma yalnız mevcut doğrulanmış veriye bağlıdır.",
+      "work_units": "P19",
+      "evidence_required": "T05/T08/T10",
+      "status": "IMPLEMENTED",
+      "implementation": [
+        "ec9409f96280310d2e53a4733db16a4ae68be5f9; scoped source candidate, full independent phase gate open"
+      ],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-025",
+      "contract": "SEC-05: profil detayında geometri–kontrol–kayıt bağı.",
+      "work_units": "P19",
+      "evidence_required": "T04/T08/T10",
+      "status": "IMPLEMENTED",
+      "implementation": [
+        "ec9409f96280310d2e53a4733db16a4ae68be5f9; scoped source candidate, full independent phase gate open"
+      ],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-026",
+      "contract": "SEC-05: Hakkımızda gerçek tesis/ekip anlatısı.",
+      "work_units": "P20",
+      "evidence_required": "T08/T10/T13",
+      "status": "BLOCKED",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null,
+      "blocker": "Source workflow available; actual facility/team assets unavailable."
+    },
+    {
+      "id": "REQ-027",
+      "contract": "SEC-05: kalite detayında gerçek belge ve doğru kapsam.",
+      "work_units": "P20",
+      "evidence_required": "T07/T08/T10",
+      "status": "IMPLEMENTED",
+      "implementation": [
+        "ec9409f96280310d2e53a4733db16a4ae68be5f9; scoped source candidate, full independent phase gate open"
+      ],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-028",
+      "contract": "SEC-05: blog, iletişim, SSS ve legal tam ve kullanılabilir.",
+      "work_units": "P21",
+      "evidence_required": "T01/T05/T09/T10",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-029",
+      "contract": "SEC-05: RFQ viewer ve teklif adımları doğru dosya/birim/hata durumlarıyla çalışır.",
+      "work_units": "P22",
+      "evidence_required": "T06/T04/T11",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-030",
+      "contract": "SEC-08: tek motion clock, scoped cleanup, lazy Three sınırı.",
+      "work_units": "P04",
+      "evidence_required": "T03/T11/T12",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-031",
+      "contract": "SEC-06/08: HTML–WebGL hizası ve feature kimliği doğrudur.",
+      "work_units": "P04, P05, P11",
+      "evidence_required": "T04; resize/font/locale kayıtları",
+      "status": "BLOCKED",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null,
+      "blocker": "Native photo/SVG registration available; HTML-WebGL feature registration is not implemented."
+    },
+    {
+      "id": "REQ-032",
+      "contract": "SEC-08: ölçülen adaptive tier ve offscreen/hidden pause.",
+      "work_units": "P04, P23",
+      "evidence_required": "T03/T04/T11/T12",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-033",
+      "contract": "SEC-00/08: mobil, keyboard, reduced, no-WebGL eşdeğeri.",
+      "work_units": "P02, P04, P23",
+      "evidence_required": "T09/T10/T11",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-034",
+      "contract": "SEC-05: tüm canonical/locale/redirect/404 route sözleşmesi.",
+      "work_units": "P00, P23",
+      "evidence_required": "T01/T10",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-035",
+      "contract": "SEC-08: baseline'a karşı perf/bundle/CWV ve cihaz frame bütçesi.",
+      "work_units": "P00, P23",
+      "evidence_required": "T12, trace ve benchmark",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-036",
+      "contract": "SEC-11/12: eski–yeni görsel ve işlev regresyonu düzeltilir.",
+      "work_units": "P00, P24",
+      "evidence_required": "T10/T13, finding ledger",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-037",
+      "contract": "SEC-03/13: özgün art direction ve üç imza sahnesi bağımsız değerlendirilmeyi geçer.",
+      "work_units": "P01, P24",
+      "evidence_required": "T13, rubric ve açık bulgular",
+      "status": "BLOCKED",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null,
+      "blocker": "Three required signature scenes and current independent creative gate not complete."
+    },
+    {
+      "id": "REQ-038",
+      "contract": "SEC-00: mevcut kaynak ve özel backend sınırı korunur.",
+      "work_units": "P00–P25",
+      "evidence_required": "T14, scope/diff incelemesi",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-039",
+      "contract": "SEC-14: test–Git–build–deployment sürümü eşleşir.",
+      "work_units": "P25",
+      "evidence_required": "T14/T15, release manifest",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-040",
+      "contract": "SEC-14: teslim edilen ChatGPT linki yeni sürümün üç sahnesini gösterir.",
+      "work_units": "P25",
+      "evidence_required": "T15, canlı UI kayıtları",
+      "status": "BLOCKED",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null,
+      "blocker": "Native candidate publication pending and full three-scene requirement incomplete."
+    },
+    {
+      "id": "REQ-041",
+      "contract": "SEC-01/02: altı referans incelenir; gözlem/çıkarım/öneri ayrı kalır.",
+      "work_units": "P00, P01",
+      "evidence_required": "R-FLEXIS…R-BBB + kaynak kayıtları",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-042",
+      "contract": "SEC-07: varlık/font/kod kullanım hakları ve sürümleri kaydedilir.",
+      "work_units": "P02, P03, P25",
+      "evidence_required": "Varlık/bağımlılık envanteri",
+      "status": "BLOCKED",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null,
+      "blocker": "Gogade/model asset provenance unavailable."
+    },
+    {
+      "id": "REQ-043",
+      "contract": "SEC-07: eksik varlık belirli brief'le bildirilir; placeholder tamamlanmış sayılmaz.",
+      "work_units": "P03, P05, P11",
+      "evidence_required": "BLOCKED kaydı ve varlık kabulü",
+      "status": "IMPLEMENTED",
+      "implementation": [
+        "ec9409f96280310d2e53a4733db16a4ae68be5f9; scoped source candidate, full independent phase gate open"
+      ],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-044",
+      "contract": "SEC-05: bütün genel erişime açık sayfa aileleri kapsamda kalır.",
+      "work_units": "P00, P18–P23",
+      "evidence_required": "Route/aile coverage matrisi",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-045",
+      "contract": "SEC-12: başarısız faz durdurulur, kök neden sınıflanır, kapı zayıflatılmaz.",
+      "work_units": "Bütün fazlar",
+      "evidence_required": "Finding ledger ve tekrar test",
+      "status": "IN_PROGRESS",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null
+    },
+    {
+      "id": "REQ-046",
+      "contract": "SEC-03/07: sahne storyboard'ları ve render kompozisyonları koddan önce görünürdür.",
+      "work_units": "P01, P03",
+      "evidence_required": "Desktop/mobile storyboard ve render paketi",
+      "status": "BLOCKED",
+      "implementation": [],
+      "current_evidence": [],
+      "independent_review": null,
+      "blocker": "Previously reported concept renders are not current retained evidence; formal current concept gate remains incomplete."
+    }
+  ],
+  "phases": [
+    {
+      "id": "P00",
+      "status": "IN_PROGRESS",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P01",
+      "status": "IN_PROGRESS",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P02",
+      "status": "BLOCKED",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P03",
+      "status": "BLOCKED",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P04",
+      "status": "IN_PROGRESS",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P05",
+      "status": "BLOCKED",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P06",
+      "status": "IMPLEMENTED",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": "SOURCE-ec9409f-scoped-candidate",
+      "independent_key": null
+    },
+    {
+      "id": "P07",
+      "status": "IMPLEMENTED",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": "SOURCE-ec9409f-scoped-candidate",
+      "independent_key": null
+    },
+    {
+      "id": "P08",
+      "status": "IN_PROGRESS",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P09",
+      "status": "IMPLEMENTED",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": "SOURCE-ec9409f-scoped-candidate",
+      "independent_key": null
+    },
+    {
+      "id": "P10",
+      "status": "IMPLEMENTED",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": "SOURCE-ec9409f-scoped-candidate",
+      "independent_key": null
+    },
+    {
+      "id": "P11",
+      "status": "BLOCKED",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P12",
+      "status": "IMPLEMENTED",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": "SOURCE-ec9409f-scoped-candidate",
+      "independent_key": null
+    },
+    {
+      "id": "P13",
+      "status": "IN_PROGRESS",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P14",
+      "status": "IMPLEMENTED",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": "SOURCE-ec9409f-scoped-candidate",
+      "independent_key": null
+    },
+    {
+      "id": "P15",
+      "status": "IN_PROGRESS",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P16",
+      "status": "IN_PROGRESS",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P17",
+      "status": "IN_PROGRESS",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P18",
+      "status": "IMPLEMENTED",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": "SOURCE-ec9409f-scoped-candidate",
+      "independent_key": null
+    },
+    {
+      "id": "P19",
+      "status": "IMPLEMENTED",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": "SOURCE-ec9409f-scoped-candidate",
+      "independent_key": null
+    },
+    {
+      "id": "P20",
+      "status": "BLOCKED",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P21",
+      "status": "IN_PROGRESS",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P22",
+      "status": "IN_PROGRESS",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P23",
+      "status": "IN_PROGRESS",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P24",
+      "status": "IN_PROGRESS",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    },
+    {
+      "id": "P25",
+      "status": "BLOCKED",
+      "writer": "/root",
+      "risk": "Moderate",
+      "max_equivalent_patch_cycles": 2,
+      "third_cycle_requires": "root-cause adjudication or missing-input resolution; no blind patch",
+      "implementation_key": null,
+      "independent_key": null
+    }
+  ],
+  "findings": [
+    {
+      "id": "QA-F01",
+      "requirement": "REQ-038",
+      "state": "FIXED",
+      "description": "Source dist is older than native v6. Frozen working-tree tree matches v6 CI source; GitHub compare has no changed files. Current runtime capture pending."
+    },
+    {
+      "id": "QA-F02",
+      "requirement": "REQ-005",
+      "state": "OPEN",
+      "description": "No Gogade bytes/web licence available. Screenshot is not font evidence."
+    },
+    {
+      "id": "QA-F03",
+      "requirement": "REQ-007",
+      "state": "OPEN",
+      "description": "No matching hero STEP/GLB/PBR/probe model available. No cube or generic replacement."
+    },
+    {
+      "id": "QA-F04",
+      "requirement": "REQ-008",
+      "state": "OPEN",
+      "description": "Actual Lenis autoRaf differs from historical GSAP ticker documentation. Reconcile before adding shared runtime."
+    },
+    {
+      "id": "QA-F05",
+      "requirement": "REQ-036",
+      "state": "OPEN",
+      "description": "Win32 goldens cannot serve as Linux baselines. Paired current captures required; no blind golden update."
+    },
+    {
+      "id": "QA-F06",
+      "requirement": "REQ-036",
+      "state": "FIXED",
+      "description": "Paired capture harness misplaced worker-scoped video/trace fixtures inside describe. Move unchanged options to top-level; no threshold/golden/assertion weakened. Runtime rerun pending."
+    }
+  ],
+  "execution_status": "BLOCKED",
+  "phase_browser_runs": [
+    {
+      "candidate_commit": "902c1e5850cb6e6cd9b5e728b0ee3dc9c613eb70",
+      "run_id": 38147785543,
+      "baseline_build": "PASS; exact frozen 4047... source",
+      "lab_perf": "RECORDED; 3 cold runs per route/width; no field data",
+      "capture": "FAILED_DISCOVERY",
+      "finding": "Playwright video/trace worker fixtures cannot be set inside describe; 0 tests executed"
+    }
+  ],
+  "candidate_scope": {
+    "tested_product_commit": "ea19160cf41063629d72ec07c9f0abe4fa9a6975",
+    "build_source_fingerprint": "c2a57d75794e1dc6674468a94485d1df9cac3b710192f52cfdc5c74488e1b321",
+    "formal_release_status": "BLOCKED",
+    "state": "OWNER_PRIVATE_REVIEW_CANDIDATE_PUBLISHED",
+    "native_version": 7,
+    "last_checkpoint": "current-evidence.json"
+  },
+  "evidence_status": "Prior summary counts are historical after scratch rollback; do not reuse as current acceptance. Rebuild/retest archive required.",
+  "current_evidence": {
+    "path": "current-evidence.json",
+    "passes": 145,
+    "conditional_skips": 7,
+    "unexpected": 0,
+    "publication_status": "succeeded",
+    "native_version": 7
+  }
+}

@@ -5,6 +5,7 @@
    Machine-assisted; a native-speaker review is required before German is
    published (owner input O16). */
 const dictionary: Record<string, string> = {
+  "Bir ölçüyü seçin; çizimdeki karşılığını görün.": "Wählen Sie ein Maß, um das Merkmal in der Zeichnung zu sehen.",
   "Kurumsal": "Unternehmen",
   "Sık Sorulan Sorular": "Häufige Fragen",
   "Açılış": "Einstieg",

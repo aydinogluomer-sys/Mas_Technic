@@ -1,0 +1,41 @@
+name: Inspection browser runtime
+on:
+  pull_request:
+    paths: ['.github/workflows/inspection-browser-runtime.yml']
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - uses: actions/cache@v4
+        id: chromium-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - if: steps.chromium-cache.outputs.cache-hit != 'true'
+        run: npx playwright install chromium
+      - name: Export the exact CI test browser
+        run: |
+          python3 - <<'PY'
+          import pathlib, tarfile, json, hashlib
+          root = pathlib.Path.home() / '.cache/ms-playwright'
+          paths = sorted(root.glob('chromium_headless_shell-*')) + sorted(root.glob('ffmpeg-*'))
+          assert any(p.name.startswith('chromium_headless_shell-') for p in paths)
+          with tarfile.open('inspection-browser-runtime.tgz', 'w:gz') as archive:
+              for path in paths: archive.add(path, arcname=path.name)
+          archive = pathlib.Path('inspection-browser-runtime.tgz')
+          pathlib.Path('inspection-browser-runtime.json').write_text(json.dumps({'packageLockSha256': hashlib.sha256(pathlib.Path('package-lock.json').read_bytes()).hexdigest(), 'archiveSha256': hashlib.sha256(archive.read_bytes()).hexdigest(), 'browserDirectories': [p.name for p in paths], 'purpose': 'Reuse exact current CI Playwright browser for user-authorized focused tests; not a site asset or field performance evidence'}, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: inspection-browser-runtime
+          path: |
+            inspection-browser-runtime.tgz
+            inspection-browser-runtime.json
+          retention-days: 2

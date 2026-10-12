@@ -10,13 +10,16 @@ import {
   ShellEmpty,
   ShellNextStep,
   ShellNotice,
-  ShellPageHero,
   ShellPlate,
   ShellSpecTable,
   ShellSurfaceBand,
   ShellTitleBlock,
 } from "@/components/shell";
 import { JsonLdSchema } from "@/components/JsonLdSchema";
+import { FamilyHero } from "@/components/pages/inspection/FamilyHero";
+import { MaterialSpotlight } from "@/components/pages/inspection/MaterialSpotlight";
+import "@/styles/inspection-families.css";
+import "@/styles/inspection-atlas.css";
 import { MaterialRegister } from "@/components/pages/MaterialRegister";
 import { compareFigure, familyName, figure, hardness, sourceDocuments, UNVERIFIED_FIGURE } from "@/components/pages/material-figures";
 import type { Material, MaterialCategoryPage } from "@/data/materialsData";
@@ -162,9 +165,11 @@ export const Malzemeler = () => {
         description={t("CNC işleme için alüminyum, çelik, titanyum, pirinç, bakır ve mühendislik plastikleri. Teknik özellikler ve karşılaştırma.")}
       />
 
-      <ShellPageHero
+      <FamilyHero
         no="01"
         label="MALZEME"
+        composition="record"
+        subject={<MaterialSpotlight materials={materialsData} families={materialCategories} />}
         eyebrow={t("Teknik referans")}
         title={t("Malzeme kütüphanesi")}
         lede={t("CNC işlemede sık kullanılan metaller, mühendislik plastikleri ve kompozitler için karşılaştırmalı teknik kayıt. Aileyi seçin, değerleri yan yana okuyun, seçtiğiniz malzemeyle teklif dosyası açın.")}

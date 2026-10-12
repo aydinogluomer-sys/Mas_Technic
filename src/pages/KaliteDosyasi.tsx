@@ -1,3 +1,5 @@
+import { QualityDocumentDesk } from "@/components/pages/inspection/QualityDocumentDesk";
+import "@/styles/inspection-editorial.css";
 import { useTranslation } from "react-i18next";
 import {
   PageShell,
@@ -5,7 +7,6 @@ import {
   ShellBreadcrumb,
   ShellEvidence,
   ShellNextStep,
-  ShellNotice,
   ShellPageHero,
   ShellRun,
   ShellSpecTable,
@@ -130,7 +131,7 @@ export const KaliteDosyasi = () => {
   });
 
   return (
-    <PageShell surface="graphite" rail={{ no: "Q1", label: "KALİTE" }}>
+    <PageShell surface="graphite" className="inspection-editorial inspection-quality" rail={{ no: "Q1", label: "KALİTE" }}>
       <ShellPageHero
         no="01"
         label="KALİTE"
@@ -161,6 +162,7 @@ export const KaliteDosyasi = () => {
             standfirst={t("Dört doküman PDF olarak açılabilir ve indirilebilir. Görseller dokümanların gerçek ilk sayfasıdır; dokümanlar Türkçedir.")}
           />
         </div>
+        <QualityDocumentDesk subjects={DOCUMENT_SUBJECTS} />
         {/* UX03: each document shows its REAL first page, rendered from the
             same PDF, with what the document itself prints — number, date,
             revision, language — and the measured size. */}

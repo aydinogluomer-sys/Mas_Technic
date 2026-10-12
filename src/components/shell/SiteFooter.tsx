@@ -1,3 +1,4 @@
+import brandLogo from "@/assets/mas-technic-logo.jpg";
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArrowLeft, ArrowRight, ChevronDown, Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
@@ -169,7 +170,7 @@ function BackToTop() {
   );
 }
 
-export function SiteFooter({ no = "14", label = "FOOTER", conversion = true }: { no?: string; label?: string; conversion?: boolean }) {
+export function SiteFooter({ no = "14", label = "FOOTER", conversion = true, publicImageFooter = false }: { no?: string; label?: string; conversion?: boolean; publicImageFooter?: boolean }) {
   const { t } = useTranslation();
   return (
     <>
@@ -251,14 +252,16 @@ export function SiteFooter({ no = "14", label = "FOOTER", conversion = true }: {
             ))}
           </div>
 
-          {/* The wordmark, resolved: full measure, never cropped by a rule or
-              covered by a control. Each letter fills on hover. */}
-          <div className="pl-wordmark" aria-hidden="true">
-            <p>
-              {"MAS TECHNIC".split("").map((ch, i) => (
-                <span key={i} data-space={ch === " " || undefined}>{ch === " " ? " " : ch}</span>
-              ))}
-            </p>
+          {/* The public brand uses the supplied raster; the legacy text stays
+              available for callers that have not opted into the public skin. */}
+          <div className={`pl-wordmark${publicImageFooter ? " pl-wordmark--brand" : ""}`} aria-hidden="true">
+            {publicImageFooter ? <img className="tl-brand-logo" src={brandLogo} width={1536} height={187} alt="MAS TECHNIC" /> : (
+              <p>
+                {"MAS TECHNIC".split("").map((ch, i) => (
+                  <span key={i} data-space={ch === " " || undefined}>{ch === " " ? " " : ch}</span>
+                ))}
+              </p>
+            )}
           </div>
 
           <div className="tl-title-block">

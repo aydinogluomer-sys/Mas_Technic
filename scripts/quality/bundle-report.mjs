@@ -46,7 +46,9 @@ const closure = (roots) => {
 
 function report(htmlFile, path) {
   const html = readFileSync(join(DIST, htmlFile), "utf8");
-  const entry = html.match(/<script type="module"[^>]*src="\/assets\/([^"]+)"/)?.[1];
+  const moduleEntry = html.match(/<script type="module"[^>]*src="\/assets\/([^"]+)"/)?.[1];
+  const entry = html.match(/data-inspection-entry="\/assets\/([^"]+)"/)?.[1] ?? moduleEntry;
+  const bootstrap = html.match(/<script type="module"[^>]*src="\/assets\/([^"]+)"[^>]*data-inspection-entry=/)?.[1];
   const preloadList = [...(html.match(/\[\["modulepreload".*?\]\]/)?.[0]?.matchAll(/"\/assets\/([^"]+)"/g) ?? [])].map((m) => m[1]);
   const route = preloadList.find((file) => /^Index-/.test(file));
   const dictionary = path.startsWith("/en") ? preloadList.find((file) => /^en-[\w-]+\.js$/.test(file)) : undefined;
@@ -54,7 +56,7 @@ function report(htmlFile, path) {
   if (!entry || !route || (path.startsWith("/en") && !dictionary)) {
     throw new Error(`${htmlFile}: initial-graph root not found (entry ${entry}, route ${route}, dictionary ${dictionary})`);
   }
-  const js = [...closure([entry, route, dictionary].filter(Boolean))].map((file) => ({ file, ...size(file) })).sort((a, b) => b.gz - a.gz);
+  const js = [...closure([entry, route, dictionary, bootstrap].filter(Boolean))].map((file) => ({ file, ...size(file) })).sort((a, b) => b.gz - a.gz);
   const css = [...html.matchAll(/<link rel="stylesheet"[^>]*href="\/assets\/([^"]+\.css)"/g)].map((m) => ({ file: m[1], ...size(m[1]) }));
   const deferred = [...new Set(js.flatMap(({ file }) => dynamicImports(file)))].filter((file) => !js.some((j) => j.file === file)).sort();
   const total = (list) => ({ raw: kib(list.reduce((s, x) => s + x.raw, 0)), gz: kib(list.reduce((s, x) => s + x.gz, 0)) });

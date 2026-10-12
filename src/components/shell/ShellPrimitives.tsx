@@ -71,7 +71,7 @@ export function ShellPageHero({
         <div className="shell-hero-copy">
           {crumb}
           {eyebrow && <p className="shell-eyebrow">{eyebrow}</p>}
-          <h1 id="shell-page-title">{title}</h1>
+          <h1 id="shell-page-title" className="inspection-title"><span>{title}</span></h1>
         </div>
         <div className="shell-hero-datum" aria-hidden="true">
           <span>0.000</span>
