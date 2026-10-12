@@ -288,8 +288,11 @@ complete content and remove scene variables, observers and scroll listeners.
 The root advertises `data-inspection-motion="ready|native|paused"`.
 
 Only fine-pointer desktop with no motion preference consumes these variables:
-hero photo/leaders plane uses individual translate (−18…0 px) and scale
-(1…1.035), with fixed controls outside; process and manifesto aperture belongs
+hero photo/leaders plane uses individual translate (+8…0 px) and scale
+(1…1.035) from a top-center origin, with fixed controls outside. The positive
+pan reserves the printed annotations' aperture clearance at short fine-pointer
+viewports; the labels remain registered to their leaders and photograph.
+Process and manifesto aperture belongs
 to the ReverseScroll parent while its child remains the sole transform owner;
 the marquee viewport skews at most ±0.7°, while only the track owns the loop
 transform. Inner-page photo translation is ±36 px against a fixed frame;

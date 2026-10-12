@@ -10,7 +10,9 @@
 
 @media (min-width: 769px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   .shell-root[data-inspection-motion="ready"] .tl-part-frame > .tl-part-window > .tl-part-plane {
-    translate: 0 calc(-18px + 18px * var(--inspection-progress, 1));
+    /* Keep the annotation's finite aperture clearance throughout the pan. */
+    transform-origin: top center;
+    translate: 0 calc(8px * (1 - var(--inspection-progress, 1)));
     scale: calc(1 + .035 * var(--inspection-progress, 0));
   }
   .shell-root[data-inspection-motion="ready"] .tl-process-photo > [data-reverse-scroll] {
