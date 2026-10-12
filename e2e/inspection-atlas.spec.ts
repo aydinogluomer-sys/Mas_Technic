@@ -31,12 +31,29 @@ test("inner hero primary actions remain unobscured on mobile, including loaded s
   await expect(launcher).not.toHaveAttribute("data-yield", "true");
 });
 
-test("material and profile first-band inspectors preserve their complete source registers", async ({ page }, info) => {
+test("material and profile first-band controls retain register bands and keep title words whole", async ({ page }, info) => {
   for (const path of ["/malzemeler", "/malzemeler/aluminyum", "/kabiliyet-profilleri", "/kabiliyet-profilleri/ince-cidarli-govde"]) {
     await gotoAndSettle(page, path);
     await expect(page.locator(".inspection-family-hero--record")).toHaveCount(1);
     await expect(page.locator(".inspection-family-subject")).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+    const words = await page.locator("main h1").evaluate(title => {
+      const bounds = title.getBoundingClientRect(), walker = document.createTreeWalker(title, NodeFilter.SHOW_TEXT);
+      const result: { text: string; lines: number; inside: boolean }[] = [];
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        for (const match of (node.textContent ?? "").matchAll(/\S+/g)) {
+          const range = document.createRange();
+          range.setStart(node, match.index!); range.setEnd(node, match.index! + match[0].length);
+          const rects = [...range.getClientRects()].filter(rect => rect.width > 0);
+          result.push({ text: match[0], lines: new Set(rects.map(rect => Math.round(rect.top))).size,
+            inside: rects.every(rect => rect.left >= bounds.left - 1 && rect.right <= bounds.right + 1) });
+        }
+      }
+      return result;
+    });
+    expect(words.length).toBeGreaterThan(0);
+    expect(words.filter(word => word.lines !== 1 || !word.inside), "no split or clipped title word").toEqual([]);
     const choices = page.locator(".inspection-family-subject select");
     if (await choices.count()) {
       const select = choices.first(), options = select.locator("option");

@@ -1,4 +1,9 @@
 /* Material source records and profile controls occupy the eight subject tracks. */
+.shell-root .inspection-family-hero--record .shell-hero-copy { container-type: inline-size; }
+.shell-root .inspection-family-hero--record .inspection-title {
+  font-size: clamp(1.875rem, 14cqi, 4.375rem);
+  overflow-wrap: normal;
+}
 .inspection-family-hero--record .inspection-family-subject {
   display: grid;
   grid-template-columns: subgrid;
